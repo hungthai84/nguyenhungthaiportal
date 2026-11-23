@@ -3,14 +3,14 @@ import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } fro
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
-  'liquid-glass': { vi: 'Liquid Glass Sáng', en: 'Liquid Glass Light' },
-  'dark-liquid-glass': { vi: 'Liquid Glass Tối', en: 'Liquid Glass Dark' },
+  'liquid-glass': { vi: 'Liquid Glass Soft UI Sáng', en: 'Liquid Glass Soft UI Light' },
+  'dark-liquid-glass': { vi: 'Liquid Glass Soft UI Tối', en: 'Liquid Glass Soft UI Dark' },
   'multicolor-glass': { vi: 'Glass UI Đa Sắc', en: 'Multicolor Glass UI' },
   'dark-neon-glass': { vi: 'Glass UI Neon Tối', en: 'Dark Neon Glass UI' },
   'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Brown Leather Classic Edition' },
   'black-cowhide-leather': { vi: 'Da Bò Đen Chỉ Trắng', en: 'Black Leather White Stitch' },
   'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean Dark Blue' },
-  'light-deep-ocean': { vi: 'Đại Dương Sâu Thẳm Sáng', en: 'Deep Ocean Light Blue' },
+  'light-deep-ocean': { vi: 'Light Ocean Navy', en: 'Light Ocean Navy Glass UI' },
   'neumorphism-beyond': {
     vi: 'Nổi Khối Kính Mờ',
     en: 'Soft UI Glass Beyond',
@@ -26,6 +26,14 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
   'dark-frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối Tối',
     en: 'Dark Frost Ice Neu',
+  },
+  'flat-soft-ui': {
+    vi: 'Flat Soft UI Sáng',
+    en: 'Flat Soft UI Light',
+  },
+  'dark-flat-soft-ui': {
+    vi: 'Flat Soft UI Tối',
+    en: 'Flat Soft UI Dark',
   },
 };
 
@@ -46,12 +54,12 @@ export interface ThemeFamilyGroupMeta {
 export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets'>> = [
   {
     id: 'liquid-glass',
-    label: 'Liquid Glass',
-    labelEn: 'Liquid Glass',
+    label: 'Liquid Glass Soft UI',
+    labelEn: 'Liquid Glass Soft UI',
     description:
-      'Vật liệu kính quang học trong suốt có viền specular highlight sáng mảnh, tint thích ứng theo nền và tách bạch rõ vùng nội dung sáng/tối sắc nét.',
+      'Giao diện Liquid Glass Soft UI: vật liệu kính quang học trong suốt có viền specular highlight sáng mảnh, tint thích ứng theo nền và tách bạch rõ vùng nội dung sáng/tối sắc nét.',
     descriptionEn:
-      'Optical glass material with subtle specular rim highlights, adaptive tint, and clear separation between floating glass chrome and readable content cards.',
+      'Liquid Glass Soft UI: optical glass material with subtle specular rim highlights, adaptive tint, and clear separation between floating glass chrome and readable content cards.',
     icon: 'sparkles',
     defaultMode: 'liquid-glass',
     lightMode: 'liquid-glass',
@@ -73,14 +81,14 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'deep-ocean',
-    label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Deep Ocean',
+    label: 'Light Ocean Navy',
+    labelEn: 'Light Ocean Navy',
     description:
-      'Deep Ocean Sáng & Tối: giao diện thủy tinh đại dương với phiên bản sáng nắng biển aqua dịu mắt và phiên bản navy sâu thẳm.',
+      'Giao diện Light Ocean Navy – Bright Glass UI: nền sáng trắng xanh đại dương, thẻ kính mờ cao cấp, nhận diện Navy và điểm nhấn Cyan.',
     descriptionEn:
-      'Deep Ocean Light & Dark: sunlit coastal aqua crystal glass paired with deep abyssal navy.',
+      'Light Ocean Navy – Bright Glass UI: sunlit coastal bright glass canvas with navy branding and cyan accents.',
     icon: 'compass',
-    defaultMode: 'deep-ocean',
+    defaultMode: 'light-deep-ocean',
     lightMode: 'light-deep-ocean',
     darkMode: 'deep-ocean',
   },
@@ -124,6 +132,19 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     darkMode: 'dark-neon-glass',
     colorMode: 'multicolor-glass',
   },
+  {
+    id: 'flat-soft-ui',
+    label: 'Flat Soft UI',
+    labelEn: 'Flat Soft UI',
+    description:
+      'Giao diện Flat Soft UI hiện đại, phẳng thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế, độ tương phản cao và không gây mỏi mắt.',
+    descriptionEn:
+      'Modern Flat Soft UI with elegant flat planes, whisper-soft elevation, pristine matte surfaces, high-contrast readability, and zero glare.',
+    icon: 'layout',
+    defaultMode: 'flat-soft-ui',
+    lightMode: 'flat-soft-ui',
+    darkMode: 'dark-flat-soft-ui',
+  },
 ];
 
 /**
@@ -133,16 +154,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'liquid-glass',
     familyId: 'liquid-glass',
-    familyLabel: 'Liquid Glass',
-    familyLabelEn: 'Liquid Glass',
+    familyLabel: 'Liquid Glass Soft UI',
+    familyLabelEn: 'Liquid Glass Soft UI',
     mechanism: 'light',
     counterpartMode: 'dark-liquid-glass',
     cardClassName: 'card-liquid-glass',
-    name: 'Liquid Glass UI (Sáng)',
-    label: 'Liquid Glass UI (Sáng)',
-    shortBadge: 'Liquid Sáng',
-    tagLabel: 'Liquid Glass · Optical Light',
-    modeLabel: 'Liquid Glass Sáng',
+    name: 'Liquid Glass Soft UI (Sáng)',
+    label: 'Liquid Glass Soft UI (Sáng)',
+    shortBadge: 'Liquid Soft Sáng',
+    tagLabel: 'Liquid Glass Soft UI · Light',
+    modeLabel: 'Liquid Glass Soft UI Sáng',
     isDark: false,
     icon: 'sparkles',
     color: '#4F46E5',
@@ -177,16 +198,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'dark-liquid-glass',
     familyId: 'liquid-glass',
-    familyLabel: 'Liquid Glass',
-    familyLabelEn: 'Liquid Glass',
+    familyLabel: 'Liquid Glass Soft UI',
+    familyLabelEn: 'Liquid Glass Soft UI',
     mechanism: 'dark',
     counterpartMode: 'liquid-glass',
     cardClassName: 'card-dark-liquid-glass',
-    name: 'Liquid Glass UI (Tối)',
-    label: 'Liquid Glass UI (Tối)',
-    shortBadge: 'Liquid Tối',
-    tagLabel: 'Liquid Glass · iOS Clear Dark',
-    modeLabel: 'Liquid Glass Tối',
+    name: 'Liquid Glass Soft UI (Tối)',
+    label: 'Liquid Glass Soft UI (Tối)',
+    shortBadge: 'Liquid Soft Tối',
+    tagLabel: 'Liquid Glass Soft UI · Dark',
+    modeLabel: 'Liquid Glass Soft UI Tối',
     isDark: true,
     icon: 'moon',
     color: '#818CF8',
@@ -348,25 +369,25 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     mechanism: 'light',
     counterpartMode: 'deep-ocean',
     cardClassName: 'card-light-deep-ocean',
-    name: 'Đại Dương Sâu Thẳm Sáng',
-    label: 'Đại Dương Sâu Thẳm Sáng',
-    shortBadge: 'Đại Dương Sáng',
-    tagLabel: 'Deep Ocean Light · Aqua & Sky',
-    modeLabel: 'Deep Ocean Sáng',
+    name: 'Light Ocean Navy – Bright Glass UI',
+    label: 'Light Ocean Navy – Bright Glass UI',
+    shortBadge: 'Light Ocean Navy',
+    tagLabel: 'Light Ocean Navy · Bright Glass UI',
+    modeLabel: 'Light Ocean Navy',
     isDark: false,
     icon: 'sun',
-    color: '#0284C7',
-    desc: 'Phiên bản sáng phát triển từ Đại Dương Sâu Thẳm: nền biển xanh ngọc ban mai (#EAF6FD), lớp kính đại dương trong suốt 155deg, chữ navy sâu và điểm nhấn cyan/aqua đồng bộ.',
+    color: '#1951FC',
+    desc: 'Giao diện Ocean Navy Light – Glossy Liquid Glass UI: nền Ocean Navy sáng (#1951FC), card xanh kính nhiều lớp (#3781FC/#73BFFF), nhận diện Navy Deep (#03195B) và phản chiếu Glossy cao cấp.',
     cardSampleStyle: {
-      background: 'linear-gradient(155deg, rgba(244, 251, 255, 0.90) 0%, rgba(224, 244, 254, 0.84) 100%)',
-      borderRadius: '14px',
-      border: '1px solid rgba(14, 165, 233, 0.30)',
-      boxShadow: '0 14px 32px rgba(12, 74, 110, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92)',
-      color: '#082F49',
+      background: 'linear-gradient(145deg, rgba(115, 191, 255, 0.42), rgba(55, 129, 252, 0.30), rgba(203, 233, 253, 0.32))',
+      borderRadius: '18px',
+      border: '1px solid rgba(255, 255, 255, 0.55)',
+      boxShadow: '0 8px 24px rgba(3, 25, 91, 0.14), inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -2px 8px rgba(25, 81, 252, 0.12)',
+      color: '#03195B',
     },
     miniPreviewWrapStyle: {
-      background: 'linear-gradient(145deg, #F2FBFF 0%, #DCF1FD 100%)',
-      borderColor: 'rgba(14, 165, 233, 0.30)',
+      background: 'linear-gradient(145deg, rgba(115, 191, 255, 0.45) 0%, rgba(55, 129, 252, 0.30) 100%)',
+      borderColor: 'rgba(255, 255, 255, 0.60)',
     },
     miniTabStyle: {
       background: 'rgba(244, 251, 255, 0.92)',
@@ -650,6 +671,94 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#091229]/90 text-[#67E8F9] border-cyan-400/40',
     layerDepth: 0,
   },
+  {
+    id: 'flat-soft-ui',
+    familyId: 'flat-soft-ui',
+    familyLabel: 'Flat Soft UI',
+    familyLabelEn: 'Flat Soft UI',
+    mechanism: 'light',
+    counterpartMode: 'dark-flat-soft-ui',
+    cardClassName: 'card-flat-soft-ui',
+    name: 'Flat Soft UI (Sáng)',
+    label: 'Flat Soft UI (Sáng)',
+    shortBadge: 'Flat Sáng',
+    tagLabel: 'Flat Soft UI · Matte Porcelain',
+    modeLabel: 'Flat Soft UI Sáng',
+    isDark: false,
+    icon: 'layout',
+    color: '#4F46E5',
+    desc: 'Bề mặt sứ mờ siêu phẳng và tinh khiết (#FFFFFF), viền hairline mềm mại và bóng đổ khuếch tán đa tầng tạo độ nổi khối dịu êm.',
+    cardSampleStyle: {
+      background: 'rgba(255, 255, 255, 0.94)',
+      backdropFilter: 'none',
+      WebkitBackdropFilter: 'none',
+      borderRadius: '20px',
+      border: '1px solid rgba(226, 232, 240, 0.90)',
+      boxShadow:
+        '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 18px -2px rgba(15, 23, 42, 0.05), 0 16px 32px -8px rgba(15, 23, 42, 0.04)',
+      color: '#0F172A',
+    },
+    miniPreviewWrapStyle: {
+      background: '#F8FAFC',
+      borderColor: 'rgba(226, 232, 240, 0.90)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: '#FFFFFF',
+      color: '#0F172A',
+      borderColor: 'rgba(226, 232, 240, 0.90)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white text-[#4F46E5] border-slate-200 shadow-sm',
+    layerDepth: 0,
+  },
+  {
+    id: 'dark-flat-soft-ui',
+    familyId: 'flat-soft-ui',
+    familyLabel: 'Flat Soft UI',
+    familyLabelEn: 'Flat Soft UI',
+    mechanism: 'dark',
+    counterpartMode: 'flat-soft-ui',
+    cardClassName: 'card-dark-flat-soft-ui',
+    name: 'Flat Soft UI (Tối)',
+    label: 'Flat Soft UI (Tối)',
+    shortBadge: 'Flat Tối',
+    tagLabel: 'Flat Soft UI · Velvet Slate Dark',
+    modeLabel: 'Flat Soft UI Tối',
+    isDark: true,
+    icon: 'moon',
+    color: '#6366F1',
+    desc: 'Mặt slate tối nhung êm dịu (#131B2A) không gây chói mắt, viền hairline thanh mảnh và độ tương phản chữ hoàn hảo chuẩn WCAG AAA.',
+    cardSampleStyle: {
+      background: 'rgba(19, 27, 42, 0.94)',
+      backdropFilter: 'none',
+      WebkitBackdropFilter: 'none',
+      borderRadius: '20px',
+      border: '1px solid rgba(148, 163, 184, 0.16)',
+      boxShadow:
+        '0 4px 20px -2px rgba(0, 0, 0, 0.45), 0 10px 30px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+      color: '#F8FAFC',
+    },
+    miniPreviewWrapStyle: {
+      background: '#0B0F17',
+      borderColor: 'rgba(148, 163, 184, 0.20)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: '#161F30',
+      color: '#F8FAFC',
+      borderColor: 'rgba(148, 163, 184, 0.20)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#161F30] text-[#A5B4FC] border-slate-700/60 shadow-sm',
+    layerDepth: 0,
+  },
 ];
 
 export const VALID_CARD_STYLES: CardStyleMode[] = UNIFIED_INTERFACE_THEMES.map((theme) => theme.id);
@@ -684,11 +793,11 @@ export interface ThemeFamilyRegistryEntry {
 export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'liquid-glass': {
     familyId: 'liquid-glass',
-    label: 'Liquid Glass',
-    labelEn: 'Liquid Glass',
+    label: 'Liquid Glass Soft UI',
+    labelEn: 'Liquid Glass Soft UI',
     description:
-      'Vật liệu kính quang học trong suốt có viền specular highlight sáng mảnh, tint thích ứng theo nền.',
-    descriptionEn: 'Optical glass material with subtle specular rim highlights and adaptive tint.',
+      'Giao diện Liquid Glass Soft UI: vật liệu kính quang học trong suốt có viền specular highlight sáng mảnh, tint thích ứng theo nền.',
+    descriptionEn: 'Liquid Glass Soft UI: optical glass material with subtle specular rim highlights and adaptive tint.',
     icon: 'sparkles',
     light: CARD_STYLES_MAP['liquid-glass'],
     dark: CARD_STYLES_MAP['dark-liquid-glass'],
@@ -746,6 +855,18 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['multicolor-glass'],
     dark: CARD_STYLES_MAP['dark-neon-glass'],
     color: CARD_STYLES_MAP['multicolor-glass'],
+  },
+  'flat-soft-ui': {
+    familyId: 'flat-soft-ui',
+    label: 'Flat Soft UI',
+    labelEn: 'Flat Soft UI',
+    description:
+      'Flat Soft UI Sáng & Tối: phong cách phẳng thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế, độ tương phản cao và chống mỏi mắt.',
+    descriptionEn:
+      'Flat Soft UI Light & Dark: elegant flat planes, whisper-soft elevation, pristine matte surfaces, high contrast, and zero glare.',
+    icon: 'layout',
+    light: CARD_STYLES_MAP['flat-soft-ui'],
+    dark: CARD_STYLES_MAP['dark-flat-soft-ui'],
   },
 };
 

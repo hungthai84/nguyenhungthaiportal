@@ -23,10 +23,32 @@
   color: #f8fafc;
 }
 
+html[data-card-style="dark-neon-glass"] body {
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important;
+  color: #f8fafc;
+}
+
+html[data-card-style="dark-neon-glass"] #global-wallpaper-layer {
+  background-color: #0f0c29 !important;
+  background-image: var(--app-bg-gradient) !important;
+}
+
 html[data-card-style="dark-neon-glass"],
-html[data-card-style="dark-neon-glass"] body,
 html[data-theme="dark-neon-glass"] {
   color-scheme: dark;
+
+  /* Master Prompt Design Tokens - Liquid Glass Dark */
+  --liquid-page-bg: #101827;
+  --liquid-page-bg-secondary: #17243A;
+  --liquid-glass-surface: rgba(25, 39, 63, 0.62);
+  --liquid-glass-surface-strong: rgba(30, 46, 72, 0.86);
+  --liquid-glass-border: rgba(190, 215, 255, 0.22);
+  --liquid-text-primary: #F3F5FF;
+  --liquid-text-secondary: #AAB7CC;
+  --liquid-primary: #A783FF;
+  --liquid-secondary: #48D6D1;
+  --liquid-accent-pink: #D99DDB;
+  --liquid-accent-cyan: #79DDEC;
 
   --color-bg: #060916;
   --color-bg-soft: #0b1026;
@@ -54,23 +76,22 @@ html[data-theme="dark-neon-glass"] {
   --text-badge: #67e8f9;
   --text-highlight: #22d3ee;
 
-  --app-bg-base: #060916;
+  --app-bg-base: #0f0c29;
   --app-bg-gradient:
-    radial-gradient(at 14% 16%, rgba(34, 211, 238, 0.22) 0px, transparent 50%),
-    radial-gradient(at 86% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%),
-    radial-gradient(at 78% 84%, rgba(99, 102, 241, 0.20) 0px, transparent 52%),
-    radial-gradient(at 20% 82%, rgba(16, 185, 129, 0.14) 0px, transparent 50%),
-    linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%);
+    radial-gradient(circle at 25% 15%, rgba(255, 0, 255, 0.35) 0%, rgba(157, 0, 255, 0.20) 35%, transparent 60%),
+    radial-gradient(circle at 85% 75%, rgba(0, 255, 204, 0.30) 0%, rgba(0, 153, 255, 0.18) 35%, transparent 60%),
+    radial-gradient(circle at 20% 85%, rgba(255, 204, 0, 0.22) 0%, rgba(255, 102, 0, 0.14) 30%, transparent 55%),
+    linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
 
   --ambient-base-bg: var(--app-bg-gradient);
-  --ambient-glow-1: rgba(34, 211, 238, 0.24);
-  --ambient-glow-2: rgba(217, 70, 239, 0.20);
-  --ambient-glow-3: rgba(99, 102, 241, 0.20);
-  --ambient-glow-4: rgba(16, 185, 129, 0.14);
-  --ambient-wave-1: rgba(34, 211, 238, 0.18);
-  --ambient-wave-2: rgba(217, 70, 239, 0.16);
-  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 52%, rgba(2, 4, 12, 0.56) 100%);
-  --ambient-wallpaper-opacity: 0.88;
+  --ambient-glow-1: radial-gradient(circle at 30% 30%, #ff00ff 0%, #9d00ff 100%);
+  --ambient-glow-2: radial-gradient(circle at 30% 30%, #00ffcc 0%, #0099ff 100%);
+  --ambient-glow-3: radial-gradient(circle at 30% 30%, #ffcc00 0%, #ff6600 100%);
+  --ambient-glow-4: radial-gradient(circle at 50% 50%, #9d00ff 0%, #00ffcc 100%);
+  --ambient-wave-1: rgba(157, 0, 255, 0.24);
+  --ambient-wave-2: rgba(0, 255, 204, 0.22);
+  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 50%, rgba(15, 12, 41, 0.65) 100%);
+  --ambient-wallpaper-opacity: 0.92;
 
   /* Neon Dark Specular Rim & Inner Edge Bloom */
   --liquid-specular-rim: rgba(103, 232, 249, 0.42);
@@ -84,49 +105,14 @@ html[data-theme="dark-neon-glass"] {
     rgba(34, 211, 238, 0.12) 100%
   );
 
-  /* Translucent Dark Obsidian Neon Glass Surfaces */
-  --bg-main: linear-gradient(
-    140deg,
-    rgba(8, 13, 32, 0.54) 0%,
-    rgba(14, 14, 38, 0.50) 50%,
-    rgba(10, 12, 34, 0.56) 100%
-  );
-  --bg-header: linear-gradient(
-    135deg,
-    rgba(9, 15, 36, 0.64) 0%,
-    rgba(17, 14, 44, 0.58) 52%,
-    rgba(10, 18, 42, 0.64) 100%
-  );
-  --bg-footer: linear-gradient(
-    135deg,
-    rgba(9, 15, 36, 0.64) 0%,
-    rgba(17, 14, 44, 0.58) 52%,
-    rgba(10, 18, 42, 0.64) 100%
-  );
-  --bg-card: linear-gradient(
-    145deg,
-    rgba(11, 18, 42, 0.62) 0%,
-    rgba(18, 16, 46, 0.56) 52%,
-    rgba(12, 14, 38, 0.62) 100%
-  );
-  --bg-card-hover: linear-gradient(
-    145deg,
-    rgba(14, 24, 54, 0.74) 0%,
-    rgba(24, 18, 58, 0.68) 52%,
-    rgba(15, 20, 48, 0.74) 100%
-  );
-  --bg-subcard: linear-gradient(
-    145deg,
-    rgba(14, 22, 48, 0.64) 0%,
-    rgba(20, 18, 50, 0.56) 54%,
-    rgba(12, 18, 42, 0.62) 100%
-  );
-  --bg-subcard-hover: linear-gradient(
-    145deg,
-    rgba(18, 28, 60, 0.76) 0%,
-    rgba(28, 22, 66, 0.68) 54%,
-    rgba(16, 24, 54, 0.74) 100%
-  );
+  /* Translucent Dark Obsidian Neon Glass Surfaces (Neon Glassmorphism Specification) */
+  --bg-main: rgba(15, 12, 41, 0.50);
+  --bg-header: rgba(15, 12, 41, 0.60);
+  --bg-footer: rgba(15, 12, 41, 0.60);
+  --bg-card: rgba(15, 12, 41, 0.52);
+  --bg-card-hover: rgba(24, 18, 58, 0.68);
+  --bg-subcard: rgba(15, 12, 41, 0.60);
+  --bg-subcard-hover: rgba(28, 22, 66, 0.68);
   --bg-nested-card: rgba(14, 21, 46, 0.66);
   --bg-popup: linear-gradient(
     145deg,
@@ -137,6 +123,7 @@ html[data-theme="dark-neon-glass"] {
   --bg-dropdown: rgba(10, 16, 38, 0.92);
   --bg-tooltip: rgba(6, 10, 26, 0.96);
 
+  --bg-nav-button-opaque: #0F172A;
   --bg-nav-pill: linear-gradient(
     135deg,
     rgba(14, 24, 52, 0.66) 0%,
@@ -149,44 +136,36 @@ html[data-theme="dark-neon-glass"] {
     rgba(38, 24, 82, 0.74) 52%,
     rgba(18, 32, 68, 0.82) 100%
   );
-  --bg-button-primary: linear-gradient(135deg, #06b6d4 0%, #6366f1 50%, #d946ef 100%);
+  --bg-button-primary: linear-gradient(45deg, #9d00ff 0%, #ff00ff 100%);
   --bg-button-secondary: rgba(15, 23, 48, 0.68);
   --bg-button-hover: rgba(24, 36, 72, 0.84);
 
-  --bg-input: rgba(10, 16, 38, 0.72);
+  --bg-input: rgba(255, 255, 255, 0.10);
   --bg-badge: rgba(15, 25, 56, 0.78);
-  --bg-highlight: rgba(34, 211, 238, 0.16);
-  --bg-banner: rgba(10, 16, 38, 0.56);
+  --bg-highlight: rgba(0, 255, 204, 0.16);
+  --bg-banner: rgba(15, 12, 41, 0.52);
   --bg-banner-pill: rgba(14, 24, 52, 0.76);
   --bg-banner-input: rgba(12, 20, 46, 0.76);
   --bg-nested-badge: rgba(16, 26, 56, 0.82);
 
-  --border-color: rgba(34, 211, 238, 0.28);
-  --border-card: rgba(34, 211, 238, 0.30);
-  --border-subcard: rgba(168, 85, 247, 0.26);
-  --border-input: rgba(56, 189, 248, 0.34);
-  --border-popup: rgba(34, 211, 238, 0.38);
-  --border-banner-pill: rgba(56, 189, 248, 0.36);
-  --border-banner-input: rgba(56, 189, 248, 0.34);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-card: rgba(255, 255, 255, 0.12);
+  --border-subcard: rgba(157, 0, 255, 0.26);
+  --border-input: rgba(255, 255, 255, 0.20);
+  --border-popup: rgba(0, 255, 204, 0.38);
+  --border-banner-pill: rgba(0, 255, 204, 0.36);
+  --border-banner-input: rgba(0, 255, 204, 0.34);
 
-  --bg-blur: 24px;
-  --glass-blur: 24px;
-  --blur-subcard: 18px;
-  --blur-nav-pill: 18px;
-  --blur-modal: 28px;
+  --bg-blur: 12px;
+  --glass-blur: 12px;
+  --blur-subcard: 12px;
+  --blur-nav-pill: 14px;
+  --blur-modal: 16px;
   --glass-saturate: 185%;
   --card-border-width: 1px;
 
-  --shadow-card:
-    0 16px 38px -10px rgba(2, 6, 23, 0.72),
-    0 0 22px -6px rgba(34, 211, 238, 0.20),
-    0 0 24px -10px rgba(217, 70, 239, 0.16),
-    inset 0 1px 0 rgba(165, 243, 252, 0.20);
-  --shadow-card-hover:
-    0 20px 44px -10px rgba(2, 6, 23, 0.82),
-    0 0 28px -4px rgba(34, 211, 238, 0.30),
-    0 0 28px -6px rgba(217, 70, 239, 0.24),
-    inset 0 1px 0 rgba(165, 243, 252, 0.30);
+  --shadow-card: 0 8px 32px 0 rgba(31, 38, 135, 0.22);
+  --shadow-card-hover: 0 12px 36px 0 rgba(157, 0, 255, 0.32);
   --shadow-subcard:
     0 10px 26px -6px rgba(2, 6, 23, 0.60),
     0 0 16px -6px rgba(129, 140, 248, 0.18),
@@ -295,7 +274,6 @@ html[data-card-style="dark-neon-glass"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -328,7 +306,6 @@ html[data-card-style="dark-neon-glass"] :is(
   [data-section-card="true"],
   .bento-card,
   .glass-card,
-  .layered-card,
   .project-card,
   .education-card,
   .education-course-card,

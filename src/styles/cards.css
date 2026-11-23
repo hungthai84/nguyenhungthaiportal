@@ -98,10 +98,14 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   overflow: hidden !important;
 }
 
-#about-hero-video-container[data-video-bg-card="true"] {
+#about-hero-video-container[data-video-bg-card="true"],
+.home-screen-media-stage,
+[id^="home-main-content-"],
+[id^="home-main-content-"][data-media-card="video"] {
   background: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
 }
 
 #about-hero-video-container > div,
@@ -146,19 +150,7 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
 }
 
 #card-main-letter-content,
-#card-main-letter-content:hover,
-#horoscope-card-profile,
-#horoscope-card-profile:hover,
-#horoscope-card-management-style,
-#horoscope-card-management-style:hover,
-#horoscope-card-career-portrait,
-#horoscope-card-career-portrait:hover,
-#horoscope-card-five-elements,
-#horoscope-card-five-elements:hover,
-#horoscope-card-leadership-philosophy,
-#horoscope-card-leadership-philosophy:hover,
-#horoscope-card-work-synergy-check,
-#horoscope-card-work-synergy-check:hover {
+#card-main-letter-content:hover {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -168,6 +160,34 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
+  padding: 0 !important;
+}
+
+#horoscope-card-profile,
+#horoscope-card-management-style,
+#horoscope-card-career-portrait,
+#horoscope-card-five-elements,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-work-synergy-check {
+  background: var(--surface-primary-bg, var(--bg-main, #FFFFFF)) !important;
+  border: var(--surface-primary-border, 1px solid var(--border-color, #DCEAF4)) !important;
+  border-radius: 14px !important;
+  backdrop-filter: var(--surface-primary-backdrop, blur(var(--surface-primary-blur, 16px))) !important;
+  -webkit-backdrop-filter: var(--surface-primary-backdrop, blur(var(--surface-primary-blur, 16px))) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 10px 28px rgba(18, 59, 99, 0.06))) !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+}
+
+#horoscope-cards-track > .page-main-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   padding: 0 !important;
 }
 
@@ -200,14 +220,24 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 /* MEMORIES & IMAGE CARDS: 0PX PADDING FRAME, MEDIA FITS CLEANLY INSIDE CARD */
 #memories-page-container [id^="memory-card-"],
 .memory-photo-item,
+.pinterest-pin-card,
 [data-media-card="image"] {
   padding: 0px !important;
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--radius-card, 16px) !important;
   overflow: hidden !important;
 }
 
-.memory-photo-item > img.memory-crisp-img,
-[data-media-card="image"] > img {
+.memory-photo-item > img.memory-crisp-img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--radius-card, 16px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[data-media-card="image"]:not(.memory-photo-item) > img {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
@@ -598,15 +628,15 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  flex: 1 0 auto !important;
+  flex: 0 0 auto !important;
   margin: 0 !important;
   padding: 0px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  background: var(--surface-primary-bg, var(--bg-main)) !important;
-  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
-  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
@@ -614,14 +644,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   transform: none !important;
 }
 
-#about-intro-card-2-scroll-viewport {
+#about-intro-card-2-scroll-viewport,
+#about-intro-grid-2 {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  flex: 1 1 0% !important;
-  height: 100% !important;
-  min-height: 0 !important;
   margin: 0 !important;
   padding: 0px !important;
   gap: 15px !important;
@@ -810,12 +838,6 @@ html[data-card-style] #horoscope-card-work-synergy-check,
 #horoscope-main-card #horoscope-lookup-card,
 #horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]),
 #horoscope-main-card > div[data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]),
-#horoscope-cards-track .page-main-card #horoscope-card-profile,
-#horoscope-cards-track .page-main-card #horoscope-card-management-style,
-#horoscope-cards-track .page-main-card #horoscope-card-career-portrait,
-#horoscope-cards-track .page-main-card #horoscope-card-five-elements,
-#horoscope-cards-track .page-main-card #horoscope-card-leadership-philosophy,
-#horoscope-cards-track .page-main-card #horoscope-card-work-synergy-check,
 #horoscope-cards-track .page-main-card #horoscope-destiny-card,
 #horoscope-cards-track .page-main-card #horoscope-pillars-container,
 #horoscope-cards-track .page-main-card #horoscope-slide-3,
@@ -825,10 +847,10 @@ html[data-card-style] #horoscope-card-work-synergy-check,
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
+  height: 100% !important;
   max-height: none !important;
-  min-height: 0 !important;
-  flex: 1 0 auto !important;
+  min-height: 100% !important;
+  flex: 1 1 100% !important;
   flex-grow: 1 !important;
   flex-shrink: 0 !important;
   align-self: stretch !important;
@@ -844,6 +866,59 @@ html[data-card-style] #horoscope-card-work-synergy-check,
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
+}
+
+/* ========================================================================= */
+/* HOROSCOPE PAGE CONTAINER & BENTO CARDS SYNC WITH LETTERVIEW MAIN CARD     */
+/* Responsive Bento Auto-Fit Smart Whitespace System & Equal Height Stretch   */
+/* ========================================================================= */
+#horoscope-page-container .grid,
+#horoscope-page-container [class*="grid"] {
+  align-items: stretch !important;
+  grid-auto-flow: dense !important;
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
+}
+
+#horoscope-page-container .grid > *,
+#horoscope-page-container [class*="grid"] > * {
+  align-self: stretch !important;
+  min-height: 0;
+  box-sizing: border-box !important;
+}
+
+#horoscope-card-profile,
+#horoscope-card-management-style,
+#horoscope-card-career-portrait,
+#horoscope-card-five-elements,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-work-synergy-check {
+  height: 100% !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  flex: 1 1 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Thẻ 4. Kỹ Năng Ngũ Hành: view 3 cột 2 hàng */
+#horoscope-card-five-elements .five-elements-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 15px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 960px) {
+  #horoscope-card-five-elements .five-elements-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #horoscope-card-five-elements .five-elements-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
 }
 
 #horoscope-page-container [data-subcard="true"],
@@ -1118,24 +1193,210 @@ h3.card-title,
 
 /* ========================================================================= */
 /* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER VÀ FOOTER BÊN PHẢI     */
+/* (Xóa bỏ hiệu ứng trong suốt, hiển thị bề mặt đục nguyên bản theo theme)    */
 /* ========================================================================= */
 #app-header nav button.nav-pill,
 #header-btn-hungthai-avatar,
-#footer-lang-btn,
-#footer-appearance-btn,
-#footer-theme-mode-btn,
-#footer-wallpaper-btn,
-#footer-ai-btn,
+#footer-lang-btn:not([data-active="true"]):not([aria-current="page"]),
+#footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]),
+#footer-theme-mode-btn:not([data-active="true"]):not([aria-current="page"]),
+#footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]),
+#footer-ai-btn:not([data-active="true"]):not([aria-current="page"]),
+#footer-nav-capsule,
 .radial-contact-pill {
-  background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, #FFFFFF))) !important;
+  background: var(--bg-nav-button-opaque, var(--color-surface, #FFFFFF)) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(140%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
   color: var(--text-primary) !important;
   opacity: 1 !important;
+}
+
+/* ========================================================================= */
+/* NÚT BÊN PHẢI FOOTER: MẶC ĐỊNH & ĐẢO NGƯỢC KHI CHỌN                       */
+/* Mặc định: Icon trắng, khung nền màu, tiêu đề chữ màu                      */
+/* Khi chọn: Nút nền màu, tiêu đề trắng, khung nền trắng, icon chữ màu       */
+/* ========================================================================= */
+
+/* 1. MẶC ĐỊNH (DEFAULT / UNSELECTED) */
+/* Ngôn ngữ (#10B981) */
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) {
+  border-color: rgba(16, 185, 129, 0.45) !important;
+}
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #10B981 !important;
+  background: #10B981 !important;
+  border-radius: 9999px !important;
+}
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #10B981 !important;
+}
+html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Giao diện (#6366F1) */
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) {
+  border-color: rgba(99, 102, 241, 0.45) !important;
+}
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #6366F1 !important;
+  background: #6366F1 !important;
+  border-radius: 9999px !important;
+}
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #6366F1 !important;
+}
+html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Hình nền (#F43F5E) */
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) {
+  border-color: rgba(244, 63, 94, 0.45) !important;
+}
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #F43F5E !important;
+  background: #F43F5E !important;
+  border-radius: 9999px !important;
+}
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #F43F5E !important;
+}
+html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(244, 63, 94, 0.4) !important;
+}
+
+/* AI Hỗ trợ (#0EA5E9) */
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) {
+  border-color: rgba(14, 165, 233, 0.45) !important;
+}
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #0EA5E9 !important;
+  background: #0EA5E9 !important;
+  border-radius: 9999px !important;
+}
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #0EA5E9 !important;
+}
+html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(14, 165, 233, 0.4) !important;
+}
+
+/* 2. KHI CHỌN: ĐẢO NGƯỢC MÀU LẠI (SELECTED / ACTIVE - INVERTED) */
+/* Ngôn ngữ khi chọn */
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) {
+  background: #10B981 !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45) !important;
+}
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+}
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #10B981 !important;
+  stroke: #10B981 !important;
+}
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Giao diện khi chọn */
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) {
+  background: #6366F1 !important;
+  border-color: #6366F1 !important;
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45) !important;
+}
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+}
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #6366F1 !important;
+  stroke: #6366F1 !important;
+}
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Hình nền khi chọn */
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) {
+  background: #F43F5E !important;
+  border-color: #F43F5E !important;
+  box-shadow: 0 4px 18px rgba(244, 63, 94, 0.45) !important;
+}
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+}
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #F43F5E !important;
+  stroke: #F43F5E !important;
+}
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* AI Hỗ trợ khi chọn */
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) {
+  background: #0EA5E9 !important;
+  border-color: #0EA5E9 !important;
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.45) !important;
+}
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+}
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+  color: #0EA5E9 !important;
+  stroke: #0EA5E9 !important;
+}
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.4) !important;
 }
 
 #app-header nav button.nav-pill .nav-pill-sub,
@@ -1158,6 +1419,131 @@ h3.card-title,
 #footer-ai-btn .nav-pill-divider,
 .radial-contact-pill .radial-contact-divider {
   background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.55)) !important;
+}
+
+/* ========================================================================= */
+/* MENU ICON HOVER: KHÔNG PHÁT SÁNG NÚT / NO HOVER GLOW                      */
+/* ========================================================================= */
+#app-header nav button.nav-pill:hover:not(:active):not([data-btn-pressed="true"]),
+#header-btn-hungthai-avatar:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-lang-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-appearance-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-theme-mode-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-wallpaper-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-ai-btn:hover:not(:active):not([data-btn-pressed="true"]),
+.radial-contact-pill:hover:not(:active):not([data-btn-pressed="true"]) {
+  box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
+  border-color: var(--surface-interactive-border, var(--border-color)) !important;
+  transform: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+#app-header nav button.nav-pill::before,
+#app-header nav button.nav-pill::after,
+#header-btn-hungthai-avatar::before,
+#header-btn-hungthai-avatar::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+}
+
+/* ========================================================================= */
+/* HIỆU ỨNG NHẤN NÚT LÚN XUỐNG CHO MENU ICON VÀ CÁC NÚT FOOTER               */
+/* ========================================================================= */
+#app-header nav button.nav-pill,
+#header-btn-hungthai-avatar,
+#footer-lang-btn,
+#footer-appearance-btn,
+#footer-theme-mode-btn,
+#footer-wallpaper-btn,
+#footer-ai-btn,
+#footer-prev-btn,
+#footer-next-btn,
+.nav-arrow-btn,
+.radial-contact-pill,
+#app-footer button {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 180ms ease,
+              border-color 180ms ease !important;
+  will-change: transform, box-shadow;
+}
+
+#app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]),
+#header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
+#footer-lang-btn:is(:active, [data-btn-pressed="true"]),
+#footer-appearance-btn:is(:active, [data-btn-pressed="true"]),
+#footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]),
+#footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]),
+#footer-ai-btn:is(:active, [data-btn-pressed="true"]),
+#footer-prev-btn:is(:active, [data-btn-pressed="true"]),
+#footer-next-btn:is(:active, [data-btn-pressed="true"]),
+.nav-arrow-btn:is(:active, [data-btn-pressed="true"]),
+.radial-contact-pill:is(:active, [data-btn-pressed="true"]),
+#app-footer button:is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 3px, 0) scale3d(0.962, 0.962, 1) !important;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.32),
+              inset 0 1px 2px rgba(0, 0, 0, 0.20),
+              0 1px 2px rgba(0, 0, 0, 0.12) !important;
+  transition: transform 55ms cubic-bezier(0.2, 0.9, 0.3, 1),
+              box-shadow 55ms ease !important;
+}
+
+#app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#footer-lang-btn:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#footer-appearance-btn:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#footer-ai-btn:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge,
+#header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]) .nav-pill-icon-badge {
+  transform: scale(0.92) translate3d(0, 1px, 0) !important;
+  transition: transform 55ms cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+}
+
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :is(
+  #app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]),
+  #footer-lang-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-appearance-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-ai-btn:is(:active, [data-btn-pressed="true"]),
+  #header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
+  .radial-contact-pill:is(:active, [data-btn-pressed="true"])
+) {
+  transform: translate3d(0, 3px, 0) scale3d(0.965, 0.965, 1) !important;
+  box-shadow: inset 3.5px 3.5px 7px rgba(150, 175, 205, 0.55),
+              inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.70) !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) :is(
+  #app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]),
+  #footer-lang-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-appearance-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-ai-btn:is(:active, [data-btn-pressed="true"]),
+  #header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
+  .radial-contact-pill:is(:active, [data-btn-pressed="true"])
+) {
+  transform: translate3d(0, 2.5px, 0) scale3d(0.965, 0.965, 1) !important;
+  box-shadow: inset 0 4px 10px rgba(10, 4, 1, 0.85),
+              inset 0 -1px 0 rgba(245, 222, 179, 0.28) !important;
+}
+
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="light-deep-ocean"]) :is(
+  #app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]),
+  #footer-lang-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-appearance-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]),
+  #footer-ai-btn:is(:active, [data-btn-pressed="true"]),
+  #header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
+  .radial-contact-pill:is(:active, [data-btn-pressed="true"])
+) {
+  transform: translate3d(0, 3px, 0) scale3d(0.96, 0.96, 1) !important;
+  box-shadow: inset 0 2.5px 8px rgba(0, 0, 0, 0.42),
+              0 0 12px var(--nav-pill-accent, rgba(14, 165, 233, 0.35)) !important;
 }
 
 /* ========================================================================= */
@@ -1270,7 +1656,7 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* BANNER & BANNER CONTROLS THEME SYNCHRONIZATION (ALL PAGES)                */
+/* BANNER & BANNER CONTROLS: HIỆU ỨNG NỔI 3D NHƯ THẺ HỌC VẤN                 */
 /* ========================================================================= */
 .hero-banner,
 .banner-card,
@@ -1281,14 +1667,121 @@ h3.card-title,
 #ai-assistant-hero-banner,
 #pdf-hero-banner,
 [id$="-hero-banner"] {
-  background: var(--banner-transparent-bg, rgba(255, 255, 255, 0.10)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--banner-border, var(--border-color))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--banner-shadow, var(--shadow-card))) !important;
-  outline: var(--outline-card, var(--banner-outline, none));
-  outline-offset: var(--outline-offset-card, var(--banner-outline-offset, -6px));
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow:
+    var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))),
+    0 14px 34px -8px rgba(18, 59, 99, 0.16),
+    0 4px 14px -2px rgba(18, 59, 99, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  outline: var(--outline-card, none);
+  outline-offset: var(--outline-offset-card, -6px);
   padding: 15px !important;
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: linear-gradient(145deg, rgba(240, 249, 255, 0.90) 0%, rgba(224, 242, 254, 0.84) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.38) !important;
+  box-shadow:
+    0 14px 34px -8px rgba(2, 132, 199, 0.18),
+    0 4px 14px -2px rgba(18, 59, 99, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.40) !important;
+  backdrop-filter: blur(20px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(155%) !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"]) :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.88) 0%, rgba(10, 15, 29, 0.94) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow:
+    0 16px 38px -6px rgba(3, 9, 20, 0.70),
+    0 4px 14px rgba(2, 6, 23, 0.50),
+    inset 0 1px 0 rgba(125, 211, 252, 0.28),
+    inset 0 0 0 1px rgba(56, 189, 248, 0.18) !important;
+  backdrop-filter: blur(20px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(155%) !important;
+}
+
+html[data-card-style="neumorphism-beyond"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: linear-gradient(145deg, #EAEFF6 0%, #E1E8F2 100%) !important;
+  border: 1px solid rgba(196, 209, 226, 0.78) !important;
+  box-shadow:
+    0 8px 20px rgba(148, 163, 184, 0.24),
+    3px 5px 12px rgba(163, 177, 198, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+}
+
+:is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+):hover {
+  box-shadow:
+    var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))),
+    0 18px 40px -8px rgba(18, 59, 99, 0.22),
+    0 6px 16px -2px rgba(18, 59, 99, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45) !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+):hover {
+  box-shadow:
+    0 18px 40px -8px rgba(2, 132, 199, 0.22),
+    0 6px 16px -2px rgba(18, 59, 99, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45) !important;
 }
 
 .banner-control-pill {
@@ -1747,12 +2240,19 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
 }
 
 .project-detail-section-card {
-  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 24px) !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  background: var(--surface-primary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-primary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-primary-saturate, var(--glass-card-saturate, 134%))) !important;
+  border-radius: 14px !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  scroll-snap-align: start;
 }
 
 .project-detail-subcard,
@@ -1806,23 +2306,23 @@ article.project-card,
 [id^="project-card-"] {
   background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 24px) !important;
-  padding: 10px !important;
-  gap: 10px !important;
-  overflow: visible !important;
+  border-radius: var(--radius-card, 20px) !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
   box-sizing: border-box !important;
-  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card:hover,
 article.project-card:hover,
 #projects-grid article:hover,
 [id^="project-card-"]:hover {
-  transform: none;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
+  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
 }
 
 .project-card .project-card-banner,
@@ -1833,11 +2333,15 @@ article.project-card:hover,
   margin: 0 !important;
   padding: 0 !important;
   background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
-  border: 1px solid var(--border-image-card, var(--surface-tertiary-border, var(--border-color))) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-image-card, var(--surface-tertiary-border, var(--border-color))) !important;
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -1852,13 +2356,16 @@ article.project-card:hover,
   object-fit: cover !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: inherit !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .project-card-body,
 .project-card .project-card-body,
 #projects-grid article .project-card-body {
-  padding: 0 !important;
+  padding: 15px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
 }
@@ -2426,6 +2933,19 @@ button:focus-visible,
   line-height: 1.45 !important;
 }
 
+.pillar-gradient-card .pillar-body,
+#about-operating-pillars-card p,
+#about-core-values-card p {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+}
+
 /* Exempt #interview-answers-card subcards from 1-line clamp & forced 100% height so full answers render cleanly */
 #interview-answers-card :is([data-subcard="true"], .exp-detail-subcard) {
   height: auto !important;
@@ -2438,6 +2958,25 @@ button:focus-visible,
   justify-content: space-between !important;
   gap: 10px !important;
   padding: 10px 14px !important;
+}
+
+#el-p9-div-104 {
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+}
+
+#interview-answers-card,
+#interview-answers-card #interview-progress-card,
+#interview-answers-card #interview-asker-card,
+#interview-answers-card #interview-answerer-card,
+#interview-answers-card #interview-insights-card {
+  border-radius: 14px !important;
 }
 
 #interview-answers-card :is([data-subcard="true"], .exp-detail-subcard) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
@@ -2509,11 +3048,17 @@ button:focus-visible,
   padding-bottom: 6px;
 }
 
-.themed-image-card:hover,
-.memory-photo-item:hover {
+.themed-image-card:hover {
   transform: none;
   box-shadow: var(--shadow-image-card, var(--shadow-card)) !important;
   z-index: 2;
+}
+
+.memory-photo-item:hover,
+.pinterest-pin-card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+  box-shadow: 0 20px 38px -10px rgba(0, 0, 0, 0.4), 0 0 16px rgba(225, 29, 72, 0.25) !important;
+  z-index: 25 !important;
 }
 
 /* ========================================================================= */
@@ -3177,7 +3722,93 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 
 #education-courses-grid.education-responsive-grid {
   --card-min-width: 265px;
-  --card-padding: 10px;
+  --card-padding: 8px;
+}
+
+/* ========================================================================= */
+/* CSS-TRICKS OVERLAPPING CARDS DECK (EDUCATION VIEW)                      */
+/* Based on CodePen d13-cards / CSS-Tricks Cascading Deck                   */
+/* ========================================================================= */
+.education-css-tricks-deck {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  padding: 35px 50px 45px 50px !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  box-sizing: border-box !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+  perspective: 1200px;
+  gap: 0 !important;
+  row-gap: 0 !important;
+  column-gap: 0 !important;
+}
+
+.education-css-tricks-deck .education-course-card {
+  min-width: 300px !important;
+  max-width: 300px !important;
+  width: 300px !important;
+  height: 420px !important;
+  min-height: 420px !important;
+  max-height: 420px !important;
+  margin-left: -75px !important;
+  border-radius: 36px !important;
+  padding: 22px !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  box-shadow: -4px 6px 26px 2px rgba(0, 0, 0, 0.28) !important;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s ease,
+              opacity 0.35s ease,
+              z-index 0.35s ease !important;
+  cursor: pointer !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+}
+
+.education-css-tricks-deck .education-course-card:first-child {
+  margin-left: 0 !important;
+}
+
+/* HIỆU ỨNG TƯƠNG TÁC ĐẶC TRƯNG CSS-TRICKS:
+   1. Rê chuột vào card: nhấc thẻ lên translateY(-20px) và nổi lên z-index cao nhất
+   2. Toàn bộ các thẻ phía sau trượt sang phải translateX(80px) mở toang góc nhìn */
+@media (hover: hover) and (pointer: fine) {
+  html #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within),
+  html[data-card-style] #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within),
+  .education-css-tricks-deck .education-course-card:hover,
+  .education-css-tricks-deck .education-course-card:focus-within,
+  html .education-css-tricks-deck .education-course-card:hover,
+  html .education-css-tricks-deck .education-course-card:focus-within,
+  html[data-card-style] .education-css-tricks-deck .education-course-card:hover,
+  html[data-card-style] .education-css-tricks-deck .education-course-card:focus-within,
+  html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:hover,
+  html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:focus-within {
+    transform: translateY(-20px) !important;
+    z-index: 50 !important;
+    box-shadow: -8px 18px 36px 4px rgba(0, 0, 0, 0.45),
+                0 0 25px rgba(56, 189, 248, 0.35) !important;
+  }
+
+  html #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within) ~ .education-course-card,
+  html[data-card-style] #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within) ~ .education-course-card,
+  .education-css-tricks-deck .education-course-card:hover ~ .education-course-card,
+  .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card,
+  html .education-css-tricks-deck .education-course-card:hover ~ .education-course-card,
+  html .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card,
+  html[data-card-style] .education-css-tricks-deck .education-course-card:hover ~ .education-course-card,
+  html[data-card-style] .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card,
+  html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:hover ~ .education-course-card,
+  html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card {
+    transform: translateX(80px) !important;
+  }
 }
 
 #projects-grid.projects-responsive-grid {
@@ -3212,6 +3843,12 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
+/* Thẻ hệ thống: Chiều cao thẻ bằng đúng nội dung bên trong */
+#systems-page-container .systems-cards-grid {
+  grid-auto-rows: auto !important;
+  align-items: start !important;
+}
+
 .education-responsive-grid > *,
 .projects-responsive-grid > *,
 #projects-grid > *,
@@ -3223,6 +3860,13 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
+#systems-page-container .systems-cards-grid > *,
+#systems-page-container .system-card-tile {
+  height: auto !important;
+  min-height: fit-content !important;
+  align-self: start !important;
+}
+
 #projects-grid .project-card {
   container-type: inline-size;
   container-name: project-card;
@@ -3230,26 +3874,52 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  border-radius: var(--radius-card, 14px) !important;
-  padding: clamp(12px, 4.2cqi, 15px) !important;
-  gap: clamp(10px, 3.8cqi, 14px) !important;
+  border-radius: var(--radius-card, 18px) !important;
+  padding: 0 !important;
+  gap: 0 !important;
   overflow: hidden !important;
 }
 
 #projects-grid .project-card .project-card-banner {
-  border-radius: var(--radius-media, 14px) !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
   overflow: hidden !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-#education-courses-grid .education-course-card {
+#projects-grid .project-card .project-card-body {
+  padding: 15px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+#projects-grid [data-card-title],
+#projects-grid h3.card-title-synced,
+#projects-grid .card-header-sync h3 {
+  display: block !important;
+}
+
+html .page-main-card #education-courses-grid .education-course-card,
+html #education-courses-grid .education-course-card,
+#education-courses-grid .education-course-card,
+.education-course-card {
   background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   border-radius: var(--radius-card, 14px) !important;
-  padding: 10px !important;
-  gap: 10px !important;
+  padding: 8px !important;
+  gap: 8px !important;
   overflow: visible !important;
   box-sizing: border-box !important;
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
@@ -3395,10 +4065,27 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   container-name: service-card;
 }
 
-#services-page-container .services-cards-grid {
+#services-page-container .services-cards-grid,
+#services-cards-grid {
+  background: var(--surface-primary-bg, var(--surface-primary, rgba(255, 255, 255, 0.65))) !important;
+  backdrop-filter: var(--surface-primary-backdrop, blur(var(--surface-primary-blur, 16px))) !important;
+  -webkit-backdrop-filter: var(--surface-primary-backdrop, blur(var(--surface-primary-blur, 16px))) !important;
+  border: var(--surface-primary-border, 1px solid var(--border-color, rgba(255, 255, 255, 0.45))) !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, 0 8px 32px rgba(0, 0, 0, 0.08))) !important;
+  border-radius: 14px !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+}
+
+#services-page-container .services-cards-grid,
+#services-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)) !important;
-  grid-auto-rows: minmax(0, 1fr) !important;
+  grid-auto-rows: auto !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  align-items: stretch !important;
+  align-content: start !important;
   gap: clamp(12px, 1.4cqi, 18px) !important;
   row-gap: clamp(12px, 1.4cqi, 18px) !important;
   column-gap: clamp(12px, 1.4cqi, 18px) !important;
@@ -3413,16 +4100,18 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 /* Front Domain Card — Fluid Responsive Scaling */
-#services-page-container .domain-card {
+#services-page-container .domain-card,
+.service-card.domain-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: clamp(10px, 2.5cqi, 14px);
   min-width: 0;
   min-height: 0;
   height: 100%;
   width: 100%;
-  border-radius: var(--radius-card, 20px);
+  border-radius: 14px !important;
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.45));
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 23, 42, 0.06));
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-secondary-blur, 18px)) saturate(135%));
@@ -3433,8 +4122,9 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #services-page-container .domain-card .service-card-illustration {
-  width: clamp(60px, 23cqi, 100px);
-  height: clamp(60px, 23cqi, 100px);
+  width: clamp(75px, 25cqi, 110px);
+  height: auto !important;
+  align-self: stretch !important;
   flex-shrink: 0;
 }
 
@@ -3460,8 +4150,9 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #services-page-container .domain-card .service-desc-text {
-  font-size: clamp(0.75rem, 3.2cqi, 0.88rem);
-  line-height: 1.48;
+  font-size: clamp(0.78rem, 3.2cqi, 0.9rem);
+  line-height: 1.5;
+  flex: 1 1 auto;
 }
 
 @container service-card (max-width: 280px) {
@@ -3594,7 +4285,10 @@ html.dark #services-page-container .domain-card-sub {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: var(--radius-card, 20px);
+  height: 100% !important;
+  align-self: stretch !important;
+  box-sizing: border-box !important;
+  border-radius: var(--radius-card, 14px);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.45));
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 23, 42, 0.06));
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-secondary-blur, 18px)) saturate(135%));
@@ -4250,8 +4944,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 /* Cards, Sub-cards, Banners, Modals, Videos & Non-Circular Images -> 14px   */
 /* ========================================================================= */
 .page-main-card,
-[data-main-card="true"],
-[data-layer-level="1"]:not(#app-header):not(#app-footer) {
+[data-main-card="true"] {
   border-radius: 14px !important;
 }
 
@@ -4259,10 +4952,9 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 [data-element-type="card"]:not(.rounded-full):not([class*="rounded-full"]),
 .bento-card:not(.rounded-full):not([class*="rounded-full"]),
 .glass-card:not(.rounded-full):not([class*="rounded-full"]),
-.layered-card:not(.rounded-full):not([class*="rounded-full"]),
 .exp-bento-surface-card,
 .themed-image-card,
-.themed-image-frame,
+.themed-image-frame:not(.project-card-banner),
 .service-card,
 .project-card,
 .system-card-tile,
@@ -4328,3 +5020,341 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 #app-footer {
   border-radius: var(--radius-footer, 14px 14px 0 0) !important;
 }
+
+/* ========================================================================= */
+/* UNIFIED 1250PX MAX-WIDTH FOR HEADER, FOOTER & MAIN CARDS                 */
+/* ========================================================================= */
+#app-header,
+#app-footer,
+.page-main-card,
+[data-main-card="true"],
+#main-card-container,
+#pdf-page-container {
+  max-width: 1250px !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* DIVERSE MULTICOLOR BENTO CARD PALETTES (TRANG GIỚI THIỆU & BENTO CARDS)    */
+/* ========================================================================= */
+.bento-color-blue {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.78) 0%, rgba(219, 234, 254, 0.62) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.12) !important;
+}
+html.dark .bento-color-blue {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(30, 58, 138, 0.32) 100%) !important;
+  border-color: rgba(96, 165, 250, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(37, 99, 235, 0.24) !important;
+}
+
+.bento-color-emerald {
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.78) 0%, rgba(209, 250, 229, 0.62) 100%) !important;
+  border: 1px solid rgba(16, 185, 129, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.12) !important;
+}
+html.dark .bento-color-emerald {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(6, 78, 59, 0.32) 100%) !important;
+  border-color: rgba(52, 211, 153, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(16, 185, 129, 0.24) !important;
+}
+
+.bento-color-purple {
+  background: linear-gradient(135deg, rgba(245, 243, 255, 0.78) 0%, rgba(237, 233, 254, 0.62) 100%) !important;
+  border: 1px solid rgba(139, 92, 246, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(139, 92, 246, 0.12) !important;
+}
+html.dark .bento-color-purple {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(76, 29, 149, 0.32) 100%) !important;
+  border-color: rgba(167, 139, 250, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(139, 92, 246, 0.24) !important;
+}
+
+.bento-color-amber {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.78) 0%, rgba(253, 230, 138, 0.62) 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(245, 158, 11, 0.12) !important;
+}
+html.dark .bento-color-amber {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(120, 53, 15, 0.32) 100%) !important;
+  border-color: rgba(251, 191, 36, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(245, 158, 11, 0.24) !important;
+}
+
+.bento-color-rose {
+  background: linear-gradient(135deg, rgba(255, 241, 242, 0.78) 0%, rgba(255, 228, 230, 0.62) 100%) !important;
+  border: 1px solid rgba(244, 63, 94, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(244, 63, 94, 0.12) !important;
+}
+html.dark .bento-color-rose {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(136, 19, 55, 0.32) 100%) !important;
+  border-color: rgba(251, 113, 133, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(244, 63, 94, 0.24) !important;
+}
+
+.bento-color-cyan {
+  background: linear-gradient(135deg, rgba(236, 254, 255, 0.78) 0%, rgba(207, 250, 254, 0.62) 100%) !important;
+  border: 1px solid rgba(6, 182, 212, 0.38) !important;
+  box-shadow: 0 8px 24px -4px rgba(6, 182, 212, 0.12) !important;
+}
+html.dark .bento-color-cyan {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.78) 0%, rgba(19, 78, 74, 0.32) 100%) !important;
+  border-color: rgba(34, 211, 238, 0.36) !important;
+  box-shadow: 0 8px 28px -4px rgba(6, 182, 212, 0.24) !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emerald, .bento-color-purple, .bento-color-amber, .bento-color-rose, .bento-color-cyan) {
+  background: linear-gradient(145deg, rgba(102, 58, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1.5px solid #522e10 !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Thư ngỏ 2 và 3: Không tô màu nền sub-card & Logo tròn tràn viền trong suốt */
+#letter-card-2 .bento-view-card,
+#letter-card-3 .bento-view-card,
+#letter-slide-2-grid article,
+#letter-slide-3-grid article {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#letter-page-container .partner-logo-badge,
+#letter-card-2 .w-11.h-11,
+#letter-card-3 .w-11.h-11 {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+#letter-page-container .partner-logo-img,
+#letter-card-2 .w-11.h-11 img,
+#letter-card-3 .w-11.h-11 img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+}
+
+/* ========================================================================= */
+/* SUB-CARDS 3 TRỤ CỘT VẬN HÀNH & GIÁ TRỊ CỐT LÕI                           */
+/* Kích thước bằng nội dung bên trong card, các sub card bằng nhau         */
+/* ========================================================================= */
+#about-operating-pillars-card .grid,
+#about-core-values-card .grid {
+  display: grid !important;
+  align-items: stretch !important;
+  height: auto !important;
+}
+
+#about-operating-pillars-card .pillar-gradient-card,
+#about-core-values-card .pillar-gradient-card {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* CODEPEN GLASS UI: NỀN VÀ HIỆU ỨNG CARD SÁNG & TỐI (LIQUID GLASS SOFT UI)   */
+/* ========================================================================= */
+:root {
+  --glass-radius: 1.5rem;
+  --glass-border-thick: 1.5px;
+  --glass-blur: 7px;
+}
+
+html[data-card-style="liquid-glass"] {
+  --glass-border-color1: rgba(230, 230, 230, 0.4);
+  --glass-border-color2: rgba(230, 230, 230, 0.1);
+  --glass-color: rgba(255, 255, 255, 0.15);
+  --bg-card: rgba(255, 255, 255, 0.15);
+  --bg-blur: 7px;
+}
+
+html[data-card-style="dark-liquid-glass"] {
+  --glass-border-color1: rgba(48, 48, 48, 0.4);
+  --glass-border-color2: rgba(110, 110, 110, 0.1);
+  --glass-color: rgba(0, 0, 0, 0.15);
+  --bg-card: rgba(0, 0, 0, 0.15);
+  --bg-blur: 7px;
+}
+
+/* Nền và hiệu ứng viền gradient đa lớp của CodePen */
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) :is(
+  .glass,
+  .glass-card,
+  .bento-card,
+  .page-main-card
+):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer) {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-color, rgba(255, 255, 255, 0.15)) !important;
+  backdrop-filter: blur(var(--glass-blur, 7px)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 7px)) !important;
+}
+
+html[data-card-style="liquid-glass"] :is(
+  .glass,
+  .glass-card,
+  .bento-card,
+  .page-main-card
+):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--glass-border-thick, 1.5px) solid transparent;
+  background: linear-gradient(
+    45deg,
+    rgba(230, 230, 230, 0.1),
+    rgba(230, 230, 230, 0.4),
+    rgba(230, 230, 230, 0.1)
+  ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box;
+  mask-composite: exclude;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+html[data-card-style="dark-liquid-glass"] :is(
+  .glass,
+  .glass-card,
+  .bento-card,
+  .page-main-card
+):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--glass-border-thick, 1.5px) solid transparent;
+  background: linear-gradient(
+    45deg,
+    rgba(110, 110, 110, 0.1),
+    rgba(48, 48, 48, 0.4),
+    rgba(110, 110, 110, 0.1)
+  ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box;
+  mask-composite: exclude;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========================================================================= */
+/* LƯỚI THẺ HỆ THỐNG (#systems-cards-grid): NỀN GIỐNG THẺ CHÍNH & BO CONG 14PX */
+/* ========================================================================= */
+#systems-cards-grid,
+.systems-cards-grid {
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  border-radius: 14px !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+}
+
+/* THƯ NGỎ HÀNG 2: Card 2 và 3 chiếm đúng 50% / 1 cột của grid 2 cột, không phình 1168px */
+#letter-cards-row-2-3 {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#letter-cards-row-2-3 > #letter-card-2,
+#letter-cards-row-2-3 > #letter-card-3 {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 1 0% !important;
+  box-sizing: border-box !important;
+}
+
+/* THẺ DỰ ÁN: Ưu tiên cao nhất cho Elevation Shadow và Hover Lift */
+html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]) {
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
+  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
+}
+
+/* FOOTER NÚT BÊN PHẢI MẶC ĐỊNH: BẢO ĐẢM KHUNG TRÒN CÓ NỀN MÀU TIÊU ĐỀ TRÊN MỌI THEME SÁNG/TỐI (KỂ CẢ DARK-NEUMORPHISM-BEYOND) */
+html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge,
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent) !important;
+  background-color: var(--nav-pill-accent) !important;
+  border-radius: 9999px !important;
+}
+
+html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg),
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
+/* ========================================================================= */
+/* THẺ DỊCH VỤ (SERVICES CARDS): HÌNH ẢNH BÊN PHẢI & RESPONSIVE 3 -> 2 -> 1   */
+/* ========================================================================= */
+#services-page-container .services-cards-grid,
+#services-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+}
+
+@media (max-width: 1024px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Thẻ Dịch vụ: Hình ảnh bên phải khớp chiều cao 3 hàng bên trái, không hiệu ứng màu (no filter, no drop-shadow) */
+#services-page-container .domain-card .service-card-illustration {
+  align-self: stretch !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+#services-page-container .domain-card .service-img-pop {
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+#services-page-container .domain-card:hover .service-img-pop {
+  transform: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+
+

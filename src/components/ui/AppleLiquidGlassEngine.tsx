@@ -28,7 +28,6 @@ const LIQUID_GLASS_SURFACE_SELECTOR = [
   '.hero-banner',
   '[data-subcard="true"]',
   '.sub-card',
-  'button.nav-pill',
   '#footer-nav-capsule',
   '.banner-control-pill',
   '.video-play-btn',

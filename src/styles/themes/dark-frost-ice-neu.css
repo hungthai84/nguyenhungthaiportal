@@ -131,6 +131,7 @@ html[data-card-style="dark-frost-ice-neu"] body {
   --bg-table-head: rgba(31, 46, 70, 0.95);
 
   /* Nav Pills & Signature Luminous Gradient Controls */
+  --bg-nav-button-opaque: #1E2C42;
   --bg-nav-pill: linear-gradient(145deg, #21314A 0%, #172337 100%);
   --bg-nav-pill-hover: linear-gradient(145deg, #273A57 0%, #1C2B42 100%);
   --bg-button-primary: linear-gradient(135deg, #6E6AF6 0%, #965CE8 100%);
@@ -300,7 +301,6 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,

@@ -359,6 +359,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     toggleTrackLightClass: 'bg-[#6E6AF6] border-[#6E6AF6]',
     toggleThumbDarkClass: 'bg-[#F5FAFF] text-[#546B82]',
     toggleThumbLightClass: 'bg-[#F5FAFF] text-[#6E6AF6]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
       { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
       { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
@@ -384,11 +385,62 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     toggleTrackLightClass: 'bg-[#6E6AF6] border-[#8E8BFF]',
     toggleThumbDarkClass: 'bg-[#23344F] text-[#8E8BFF]',
     toggleThumbLightClass: 'bg-[#F1F8FF] text-[#141F31]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
       { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
       { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
       { label: 'Apricot', width: '54%', gradient: 'linear-gradient(90deg, #FDCB63, #FA8F60)' },
       { label: 'Rose', width: '91%', gradient: 'linear-gradient(90deg, #FF70A1, #F84D9C)' },
+    ],
+  },
+  'flat-soft-ui': {
+    radius: '16px',
+    activeRingColor: '#4F46E5',
+    activeBorderClass: 'border-[#4F46E5]',
+    idleBorderClass: 'border-slate-200 hover:border-indigo-400',
+    activeBadgeClass: 'bg-indigo-50 text-[#4F46E5] border-indigo-200 shadow-xs',
+    iconColor: '#4F46E5',
+    titleTextClass: 'text-[#0F172A]',
+    bodyTextClass: 'text-[#475569]',
+    accentTextClass: 'text-[#4F46E5]',
+    previewBorderClass: 'border-slate-200',
+    dividerClass: 'border-slate-200',
+    ctaIdleClass: 'bg-white text-[#4F46E5] hover:bg-slate-50 border border-slate-200 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#4F46E5] to-[#3B82F6] text-white shadow-xs border border-indigo-500',
+    toggleTrackDarkClass: 'bg-slate-900 border-slate-700',
+    toggleTrackLightClass: 'bg-indigo-50 border-indigo-200',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#6366F1] to-[#4F46E5] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] to-[#3B82F6] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Indigo', width: '88%', gradient: 'linear-gradient(90deg, #4F46E5, #6366F1)' },
+      { label: 'Blue', width: '76%', gradient: 'linear-gradient(90deg, #3B82F6, #60A5FA)' },
+      { label: 'Teal', width: '64%', gradient: 'linear-gradient(90deg, #0D9488, #2DD4BF)' },
+    ],
+  },
+  'dark-flat-soft-ui': {
+    radius: '16px',
+    activeRingColor: '#6366F1',
+    activeBorderClass: 'border-[#6366F1]',
+    idleBorderClass: 'border-slate-700/60 hover:border-indigo-400/60',
+    activeBadgeClass: 'bg-[#1E293B] text-[#A5B4FC] border-indigo-500/30 shadow-xs',
+    iconColor: '#818CF8',
+    titleTextClass: 'text-[#F8FAFC]',
+    bodyTextClass: 'text-[#CBD5E1]',
+    accentTextClass: 'text-[#818CF8]',
+    previewBorderClass: 'border-slate-700/60',
+    dividerClass: 'border-slate-800',
+    ctaIdleClass: 'bg-[#1E293B] text-[#CBD5E1] hover:text-white border border-slate-700/60 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#6366F1] to-[#4F46E5] text-white shadow-xs border border-indigo-400/50',
+    toggleTrackDarkClass: 'bg-[#0A0E17] border-slate-700/60',
+    toggleTrackLightClass: 'bg-[#6366F1] border-indigo-400',
+    toggleThumbDarkClass: 'bg-[#1E293B] text-[#A5B4FC]',
+    toggleThumbLightClass: 'bg-[#F8FAFC] text-[#0F172A]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Indigo', width: '92%', gradient: 'linear-gradient(90deg, #6366F1, #818CF8)' },
+      { label: 'Sky', width: '80%', gradient: 'linear-gradient(90deg, #38BDF8, #60A5FA)' },
+      { label: 'Mint', width: '68%', gradient: 'linear-gradient(90deg, #2DD4BF, #34D399)' },
     ],
   },
 };
@@ -587,7 +639,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         <div
           id="interface-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-element-name="Thẻ chính Trang Giao Diện"
           data-element-type="card"
           data-element-page="interface"
@@ -805,83 +856,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 )}
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 ml-auto">
-                <span className="banner-control-pill h-9 inline-flex items-center typo-badge font-semibold px-3 py-0 rounded-full border truncate max-w-full">
-                  {isEn
-                    ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
-                    : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
-                </span>
-                <button
-                  type="button"
-                  aria-expanded={isQuickThemeSectionOpen}
-                  aria-controls="el-p15-section-2"
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setIsQuickThemeSectionOpen((prev) => !prev);
-                  }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
-                  style={
-                    isQuickThemeSectionOpen
-                      ? {
-                          background: 'var(--bg-button-primary)',
-                          borderColor: 'transparent',
-                          color: '#FFFFFF',
-                        }
-                      : undefined
-                  }
-                >
-                  <WebIcon name="palette" className="w-3.5 h-3.5 shrink-0" />
-                  <span>
-                    {isQuickThemeSectionOpen
-                      ? isEn
-                        ? 'Hide Theme Names'
-                        : 'Ẩn tên giao diện'
-                      : isEn
-                        ? 'Theme Names'
-                        : 'Tên giao diện'}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  aria-expanded={isSandboxOpen}
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setIsSandboxOpen((prev) => !prev);
-                  }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
-                  style={
-                    isSandboxOpen
-                      ? {
-                          background: 'var(--bg-button-primary)',
-                          borderColor: 'transparent',
-                          color: '#FFFFFF',
-                        }
-                      : undefined
-                  }
-                >
-                  <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-                  <span>
-                    {isSandboxOpen
-                      ? isEn
-                        ? 'Hide Material Lab'
-                        : 'Ẩn phòng thử vật liệu'
-                      : isEn
-                        ? 'Material Lab'
-                        : 'Phòng thử vật liệu'}
-                  </span>
-                </button>
-                {!isDefaultConfig && (
-                  <button
-                    id="btn-interface-reset-default"
-                    type="button"
-                    onClick={handleResetDefault}
-                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
-                  >
-                    <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
-                    <span>{isEn ? 'Reset Default' : 'Khôi phục mặc định'}</span>
-                  </button>
-                )}
-              </div>
+
             </div>
           </section>
 
@@ -899,12 +874,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 {/* Chọn nhanh theo Tên giao diện */}
                 <section
                   id="el-p15-section-2"
-                  data-subcard="true"
-                  className="sub-card animate-fadeIn lg:col-span-12 flex flex-col justify-between gap-[12px] p-[15px] border min-w-0"
-                  style={{
-                    background: 'var(--bg-subcard)',
-                    borderColor: 'var(--border-subcard)',
-                  }}
+                  className="animate-fadeIn lg:col-span-12 flex flex-col justify-between gap-[12px] p-0 border-0 bg-transparent shadow-none min-w-0"
                 >
               <div className="flex items-center justify-between gap-2 pb-2 border-b min-w-0" style={{ borderColor: 'var(--border-subcard)' }}>
                 <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
@@ -1091,12 +1061,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 return (
                   <section
                     key={group.id}
-                    data-subcard="true"
-                    className="sub-card flex flex-col gap-[15px] p-[15px] border transition-all duration-300"
-                    style={{
-                      background: 'var(--bg-subcard)',
-                      borderColor: groupActive ? 'var(--color-primary)' : 'var(--border-subcard)',
-                    }}
+                    className="flex flex-col gap-[12px] p-0 border-0 bg-transparent shadow-none transition-all duration-300"
                   >
                     <div
                       className="flex items-center justify-between gap-2 flex-wrap pb-2.5 border-b"
@@ -1113,72 +1078,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             {isEn ? group.labelEn : group.label}
                           </h3>
                         </div>
-
-                        <div
-                          role="group"
-                          aria-label={`${isEn ? group.labelEn : group.label} ${isEn ? 'Light or Dark' : 'Sáng hoặc Tối'}`}
-                          className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
-                          style={{
-                            background: 'var(--bg-card)',
-                            borderColor: 'var(--border-subcard)',
-                          }}
-                        >
-                          {group.lightMode && (
-                            <button
-                              type="button"
-                              aria-pressed={cardStyle === group.lightMode}
-                              onClick={() => {
-                                const mode = group.lightMode!;
-                                const modeName = isEn
-                                  ? THEME_FOUR_WORD_NAMES[mode]?.en || group.labelEn
-                                  : THEME_FOUR_WORD_NAMES[mode]?.vi || group.label;
-                                handleSelectTheme(mode, modeName);
-                              }}
-                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                cardStyle === group.lightMode ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
-                              }`}
-                              style={
-                                cardStyle === group.lightMode
-                                  ? {
-                                      background: 'var(--bg-button-primary)',
-                                      color: 'var(--text-button-primary, #FFFFFF)',
-                                    }
-                                  : { color: 'var(--text-secondary)' }
-                              }
-                            >
-                              <WebIcon name="sun" className="w-3 h-3 shrink-0" />
-                              <span>{isEn ? 'Light' : 'Sáng'}</span>
-                            </button>
-                          )}
-
-                          {group.darkMode && (
-                            <button
-                              type="button"
-                              aria-pressed={cardStyle === group.darkMode}
-                              onClick={() => {
-                                const mode = group.darkMode!;
-                                const modeName = isEn
-                                  ? THEME_FOUR_WORD_NAMES[mode]?.en || group.labelEn
-                                  : THEME_FOUR_WORD_NAMES[mode]?.vi || group.label;
-                                handleSelectTheme(mode, modeName);
-                              }}
-                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                                cardStyle === group.darkMode ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
-                              }`}
-                              style={
-                                cardStyle === group.darkMode
-                                  ? {
-                                      background: 'var(--bg-button-primary)',
-                                      color: 'var(--text-button-primary, #FFFFFF)',
-                                    }
-                                  : { color: 'var(--text-secondary)' }
-                              }
-                            >
-                              <WebIcon name="moon" className="w-3 h-3 shrink-0" />
-                              <span>{isEn ? 'Dark' : 'Tối'}</span>
-                            </button>
-                          )}
-                        </div>
                       </div>
 
                       <span
@@ -1192,9 +1091,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         {group.presets.length} {isEn ? 'styles' : 'biến thể'}
                       </span>
                     </div>
-                    <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
-                      {isEn ? group.descriptionEn : group.description}
-                    </p>
 
                     <div className={gridColsClass}>
                       {group.presets.map((preset) => (

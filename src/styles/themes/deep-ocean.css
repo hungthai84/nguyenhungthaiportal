@@ -85,6 +85,7 @@ html[data-card-style="deep-ocean"] {
   --bg-input: rgba(11, 25, 52, 0.86);
   --bg-table: rgba(12, 26, 52, 0.78);
   --bg-table-head: rgba(18, 40, 78, 0.88);
+  --bg-nav-button-opaque: #0E2244;
   --bg-nav-pill: rgba(14, 34, 68, 0.56);
   --bg-nav-pill-hover: rgba(22, 52, 98, 0.78);
   --bg-button-primary: linear-gradient(135deg, #06B6D4 0%, #0284C7 100%);
@@ -185,7 +186,6 @@ html[data-card-style="deep-ocean"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,

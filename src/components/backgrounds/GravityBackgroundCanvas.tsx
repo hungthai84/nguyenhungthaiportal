@@ -193,7 +193,7 @@ export const GravityBackgroundCanvas: React.FC<GravityBackgroundCanvasProps> = (
   paletteId,
   pageIndex,
   slideIndex,
-  morphOnPageChange = true,
+  morphOnPageChange = false,
   isDark = false,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);

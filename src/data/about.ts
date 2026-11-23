@@ -357,7 +357,7 @@ export const ECOSYSTEM_BANNERS: EcosystemBannerItem[] = [
     id: 'contact',
     title: 'Liên Hệ',
     pageIndex: 13,
-    videoSrc: 'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    videoSrc: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4',
     badge: 'Kết Nối Trực Tiếp',
     desc: 'Hotline, Zalo, Email và đặt lịch phỏng vấn C-Level.',
     color: '#ef4444',

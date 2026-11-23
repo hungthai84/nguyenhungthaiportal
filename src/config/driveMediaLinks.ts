@@ -9,7 +9,7 @@ export const driveVideoUrl = (id: string): string =>
   `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
 
 export const DRIVE_BANNER_VIDEOS = {
-  contact: driveVideoUrl('1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP'), // Đặt lịch.mp4
+  contact: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4', // Đặt lịch.mp4
   horoscope: driveVideoUrl('1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4'), // Tử Vi.mp4
   interface: driveVideoUrl('1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx'), // Giao diện.mp4
   education: driveVideoUrl('1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav'), // Học vấn.mp4

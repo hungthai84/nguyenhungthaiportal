@@ -1121,24 +1121,22 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
           onClose();
         }}
         style={{
-          background: 'var(--bg-modal-backdrop)',
-          backdropFilter: 'blur(var(--blur-modal, 6px))',
-          WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+          background: 'var(--bg-main, #0f172a)',
         }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-[12px] sm:p-[18px] overflow-hidden"
+        className="fixed inset-0 z-[100] w-screen h-screen flex items-center justify-center p-0 m-0 overflow-hidden"
       >
-        {/* MODAL FULL CONTAINER: KÍCH THƯỚC BẰNG THẺ CHÍNH CHUẨN VỚI HIỆU ỨNG MỞ MƯỢT TỪ TỪ */}
+        {/* MODAL FULL CONTAINER: ẨN TOÀN BỘ CÁC PHẦN TỬ KHÁC, CHỈ HIỂN THỊ SƠ ĐỒ HỆ THỐNG */}
         <motion.div
           id="ecosystem-diagram-modal"
           role="dialog"
           aria-modal="true"
           aria-label="Sơ Đồ Liên Kết Hệ Sinh Thái 12 Phân Hệ PowerService"
-          initial={{ opacity: 0, scale: 0.92, y: 18 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 18 }}
-          transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           onClick={e => e.stopPropagation()}
-          className="theme-modal-card rounded-[14px] shadow-2xl flex flex-col relative z-50 text-left w-full h-full max-w-full max-h-full p-[12px] sm:p-[15px] overflow-hidden"
+          className="theme-modal-card rounded-none sm:rounded-[14px] shadow-2xl flex flex-col relative z-50 text-left w-full h-full max-w-full max-h-full p-[12px] sm:p-[15px] overflow-hidden"
           style={{ width: '100%', height: '100%', padding: '15px' }}
         >
           {/* Scoped Style Rules */}
@@ -1482,6 +1480,20 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                     <span>Ma Trận</span>
                   </>
                 )}
+              </button>
+
+              {/* Nút đóng X ở góc trên bên phải */}
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  onClose();
+                }}
+                title="Đóng sơ đồ hệ thống"
+                aria-label="Đóng sơ đồ hệ thống"
+                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-md ml-1"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
           </header>

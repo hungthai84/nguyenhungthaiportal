@@ -1697,8 +1697,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
-        style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] ${bentoSpan} ${
+        style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)', background: 'transparent', backgroundColor: 'transparent' }}
+        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-all duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] bg-transparent ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 scale-[1.01] z-10'
             : ''
@@ -1706,7 +1706,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       >
         {/* Subtle Brand Color Radial Tint */}
         <div
-          className="absolute inset-0 opacity-[0.06] dark:opacity-[0.12] pointer-events-none transition-opacity duration-200 group-hover/mcard:opacity-[0.11] dark:group-hover/mcard:opacity-[0.18]"
+          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06] pointer-events-none transition-opacity duration-200 group-hover/mcard:opacity-[0.08]"
           style={{
             background: `radial-gradient(circle at bottom right, ${item.color}, transparent 70%)`,
           }}
@@ -1715,11 +1715,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
         {/* 1. HEADER ZONE: Focal Point (Logo 1:1, Title, Role Metadata & Year) */}
         <div className="w-full flex items-start justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0 relative z-10 min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1 text-left">
-            <div className="w-11 h-11 aspect-square rounded-full overflow-hidden border border-[var(--border-subcard)] shrink-0 flex items-center justify-center bg-white dark:bg-slate-900 p-1 transition-transform duration-200 group-hover/mcard:scale-105">
+            <div className="w-11 h-11 aspect-square rounded-full overflow-hidden border-0 shrink-0 flex items-center justify-center bg-transparent p-0 shadow-none transition-transform duration-200 group-hover/mcard:scale-105">
               <img
                 src={item.logo}
                 alt={item.company}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover rounded-full"
                 referrerPolicy="no-referrer"
                 loading="lazy"
               />
@@ -1861,57 +1861,45 @@ export const LetterView: React.FC<LetterViewProps> = ({
         ['--about-card-w' as any]: `${letterCardWidth}px`,
         ['--about-side-inset' as any]: `${letterSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
     >
       <div
         id="letter-cards-track"
-        data-element-name="Track căn giữa Thư Ngỏ"
+        data-element-name="Track Thư Ngỏ Hàng Dọc"
         data-element-type="container"
         data-element-page="letter"
         data-element-parent="letter-page-container"
         style={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: 'column',
           alignItems: 'stretch',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          paddingLeft: `${letterSideInset}px`,
-          paddingRight: `${letterSideInset}px`,
-          height: '100%',
+          width: '100%',
+          maxWidth: '1250px',
+          height: 'auto',
           minHeight: '100%',
-          width: 'max-content',
           boxSizing: 'border-box',
         }}
-        className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+        className="w-full max-w-[1250px] mx-auto flex flex-col items-stretch gap-[15px] h-auto min-h-full box-border"
       >
       {/* ========================================================================= */}
-      {/* THƯ NGỎ MAIN CARD 1: VIDEO CARD, THÔNG ĐIỆP HỢP TÁC & GIÁ TRỊ CỐT LÕI     */}
+      {/* HÀNG DỌC 1: CARD THƯ NGỎ 1                                                */}
       {/* ========================================================================= */}
       <div
         id="letter-card-1"
         data-element-name="Thư ngỏ main card 1"
         data-element-type="card"
         data-main-card="true"
-        data-layer-level="1"
         data-element-page="letter"
         data-element-parent="letter-cards-track"
-        onClickCapture={(e) => {
-          if (currentSlide !== 0) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToLetterCard(0, true);
-          }
-        }}
-        title={currentSlide !== 0 ? 'Click để chuyển Thư ngỏ main card 1 ra chính giữa màn hình' : undefined}
         style={{
-          width: `${letterCardWidth}px`,
-          maxWidth: '1250px',
-          minWidth: `${letterCardWidth}px`,
-          flex: `0 0 ${letterCardWidth}px`,
-          height: '100%',
-          minHeight: '100%',
+          width: '100%',
+          maxWidth: '100%',
+          minWidth: '0px',
+          height: 'fit-content',
+          minHeight: 'auto',
           paddingTop: '15px',
           paddingRight: '15px',
           paddingBottom: '15px',
@@ -1919,12 +1907,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
+          borderRadius: 'var(--radius-main, 14px)',
         }}
-        className={cn(
-          'group/letter page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
-          currentSlide !== 0 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
+        className="group/letter page-main-card relative z-10 w-full max-w-full shrink-0 h-auto min-h-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] font-play text-left select-none box-border transition-opacity duration-300"
       >
                 <div
                   id="el-p1-div-85"
@@ -1955,7 +1940,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-media-card="video"
                       data-section-card="true"
-                      data-layer-level="2"
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
@@ -1993,7 +1977,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-name="Thẻ Bento Thông Điệp Hợp Tác"
                         data-element-type="card"
                         data-section-card="true"
-                        data-layer-level="2"
                         data-element-page="letter"
                         style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                         className={`bento-card glass-card flex-1 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
@@ -2050,7 +2033,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-name="Thẻ Bento Thương Hiệu Đồng Hành"
                         data-element-type="card"
                         data-section-card="true"
-                        data-layer-level="2"
                         data-element-page="letter"
                         style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                         className="partner-card bento-card glass-card shrink-0 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"
@@ -2088,13 +2070,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 title={item.company}
                               >
                                 <div
-                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-[99999px] bg-white dark:bg-slate-800 border border-[var(--border-subcard)] shadow-2xs group-hover/logo:scale-105 group-hover/logo:border-blue-500/50 transition-all duration-300 relative shrink-0"
-                                  style={{ borderRadius: '99999px' }}
+                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full bg-transparent border-0 shadow-none group-hover/logo:scale-105 transition-all duration-300 relative shrink-0 p-0 overflow-hidden"
+                                  style={{ borderRadius: '99999px', background: 'transparent', border: 'none', padding: '0px' }}
                                 >
                                   <img
                                     src={item.logo}
                                     alt={item.company}
-                                    className="partner-logo-img transition-transform duration-300"
+                                    className="partner-logo-img w-full h-full object-cover rounded-full transition-transform duration-300"
                                     referrerPolicy="no-referrer"
                                   />
                                 </div>
@@ -2113,7 +2095,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
-                      data-layer-level="2"
                       style={{ gap: '14px', padding: '15px', borderRadius: 'var(--radius-card, 16px)' }}
                       className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-[15px] gap-[14px] transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[16px] min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
@@ -2202,7 +2183,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-name="Thẻ Bento Danh Ngôn Phụng Sự"
                       data-element-type="card"
                       data-section-card="true"
-                      data-layer-level="2"
                       data-element-page="letter"
                       style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
                       className={`motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/quote w-full h-full min-w-0 ${
@@ -2244,153 +2224,99 @@ export const LetterView: React.FC<LetterViewProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* THƯ NGỎ MAIN CARD 2: HÀNH TRÌNH KHỞI ĐẦU SỰ NGHIỆP (2002 - 2011)          */}
+      {/* HÀNG DỌC 2: CARD THƯ NGỎ 2 VÀ CARD THƯ NGỎ 3 (HÀNG NGANG)                 */}
       {/* ========================================================================= */}
       <div
-        id="letter-card-2"
-        data-element-name="Thư ngỏ main card 2"
-        data-element-type="card"
-        data-main-card="true"
-        data-layer-level="1"
-        data-element-page="letter"
-        data-element-parent="letter-cards-track"
-        onClickCapture={(e) => {
-          if (currentSlide !== 1) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToLetterCard(1, true);
-          }
-        }}
-        title={currentSlide !== 1 ? 'Click để chuyển Thư ngỏ main card 2 ra chính giữa màn hình' : undefined}
-        style={{
-          width: `${letterCardWidth}px`,
-          maxWidth: '1250px',
-          minWidth: `${letterCardWidth}px`,
-          flex: `0 0 ${letterCardWidth}px`,
-          height: '100%',
-          minHeight: '100%',
-          paddingTop: '15px',
-          paddingRight: '15px',
-          paddingBottom: '15px',
-          paddingLeft: '15px',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
-        }}
-        className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
-          currentSlide !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
+        id="letter-cards-row-2-3"
+        data-element-name="Hàng ngang Card thư ngỏ 2 và 3"
+        className="w-full grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch"
+        style={{ gap: '15px', rowGap: '15px', columnGap: '15px', width: '100%' }}
       >
+        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) */}
         <div
-          id="letter-slide-2-grid"
-          data-element-name="Lưới nội dung Thư ngỏ main card 2"
-          data-element-parent="letter-card-2"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] p-0 items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          id="letter-card-2"
+          data-element-name="Thư ngỏ main card 2"
+          data-element-type="card"
+          data-main-card="true"
+          data-element-page="letter"
+          data-element-parent="letter-cards-row-2-3"
+          style={{
+            width: '100%',
+            maxWidth: '100%',
+            minWidth: '0px',
+            height: '100%',
+            padding: '15px',
+            gap: '15px',
+            borderRadius: 'var(--radius-main, 14px)',
+          }}
+          className="page-main-card relative z-10 w-full h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] glass-scrollbar font-play text-left select-none box-border"
         >
-          {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
-            renderCareerCard(item, 'min-w-0 col-span-1', false)
-          )}
+          <div
+            id="letter-slide-2-grid"
+            data-element-name="Lưới nội dung Thư ngỏ main card 2"
+            data-element-parent="letter-card-2"
+            className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] p-0 items-stretch bg-transparent box-border"
+            style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          >
+            {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
+              renderCareerCard(item, 'min-w-0 col-span-1', false)
+            )}
+          </div>
+        </div>
+
+        {/* Card 3: Quản trị quy mô lớn & Chuyển đổi số (2013 - 2023) */}
+        <div
+          id="letter-card-3"
+          data-element-name="Thư ngỏ main card 3"
+          data-element-type="card"
+          data-main-card="true"
+          data-element-page="letter"
+          data-element-parent="letter-cards-row-2-3"
+          style={{
+            width: '100%',
+            maxWidth: '100%',
+            minWidth: '0px',
+            height: '100%',
+            padding: '15px',
+            gap: '15px',
+            borderRadius: 'var(--radius-main, 14px)',
+          }}
+          className="page-main-card relative z-10 w-full h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] glass-scrollbar font-play text-left select-none box-border"
+        >
+          <div
+            id="letter-slide-3-grid"
+            data-element-name="Lưới nội dung Thư ngỏ main card 3"
+            data-element-parent="letter-card-3"
+            className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] p-0 items-stretch bg-transparent box-border"
+            style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          >
+            {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
+              renderCareerCard(item, 'min-w-0 col-span-1', false)
+            )}
+          </div>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* THƯ NGỎ MAIN CARD 3: QUẢN TRỊ QUY MÔ LỚN & CHUYỂN ĐỔI SỐ (2013 - 2023)    */}
-      {/* ========================================================================= */}
-      <div
-        id="letter-card-3"
-        data-element-name="Thư ngỏ main card 3"
-        data-element-type="card"
-        data-main-card="true"
-        data-layer-level="1"
-        data-element-page="letter"
-        data-element-parent="letter-cards-track"
-        onClickCapture={(e) => {
-          if (currentSlide !== 2) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToLetterCard(2, true);
-          }
-        }}
-        title={currentSlide !== 2 ? 'Click để chuyển Thư ngỏ main card 3 ra chính giữa màn hình' : undefined}
-        style={{
-          width: `${letterCardWidth}px`,
-          maxWidth: '1250px',
-          minWidth: `${letterCardWidth}px`,
-          flex: `0 0 ${letterCardWidth}px`,
-          height: '100%',
-          minHeight: '100%',
-          paddingTop: '15px',
-          paddingRight: '15px',
-          paddingBottom: '15px',
-          paddingLeft: '15px',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
-        }}
-        className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
-          currentSlide !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
-      >
-        <div
-          id="letter-slide-3-grid"
-          data-element-name="Lưới nội dung Thư ngỏ main card 3"
-          data-element-parent="letter-card-3"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 md:grid-rows-2 auto-rows-fr gap-[15px] p-0 items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
-        >
-          {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
-            renderCareerCard(item, 'min-w-0 col-span-1', false)
-          )}
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* THƯ NGỎ MAIN CARD 4: TRIẾT LÝ QUẢN TRỊ & TÂM THƯ ĐỒNG HÀNH                */}
+      {/* HÀNG DỌC 3: CARD THƯ NGỎ 4 (TRIẾT LÝ QUẢN TRỊ & TÂM THƯ ĐỒNG HÀNH)          */}
       {/* ========================================================================= */}
       <div
         id="letter-card-4"
         data-element-name="Thư ngỏ main card 4"
         data-element-type="card"
         data-main-card="true"
-        data-layer-level="1"
         data-element-page="letter"
         data-element-parent="letter-cards-track"
-        onClickCapture={(e) => {
-          if (currentSlide !== 3) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToLetterCard(3, true);
-          }
-        }}
-        title={currentSlide !== 3 ? 'Click để chuyển Thư ngỏ main card 4 ra chính giữa màn hình' : undefined}
         style={{
-          width: `${letterCardWidth}px`,
-          maxWidth: '1250px',
-          minWidth: `${letterCardWidth}px`,
-          flex: `0 0 ${letterCardWidth}px`,
-          height: '100%',
-          minHeight: '100%',
-          paddingTop: '15px',
-          paddingRight: '15px',
-          paddingBottom: '15px',
-          paddingLeft: '15px',
+          width: '100%',
+          maxWidth: '100%',
+          minWidth: '0px',
+          height: 'auto',
+          padding: '15px',
           gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
+          borderRadius: 'var(--radius-main, 14px)',
         }}
-        className={cn(
-          'page-main-card relative z-10 max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300',
-          currentSlide !== 3 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
+        className="page-main-card relative z-10 w-full max-w-full shrink-0 h-auto flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] font-play text-left select-none box-border"
       >
         <div
           id="letter-slide-4-bento-grid"
@@ -2399,14 +2325,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
           className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] p-0 items-stretch bg-transparent box-border"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
         >
-                    {/* BENTO CARD 1 (6/12 cols): TRIẾT LÝ QUẢN TRỊ & 3 NGUYÊN TẮC CỐT LÕI */}
+                    {/* BENTO CARD 1 (4/12 cols): TRIẾT LÝ QUẢN TRỊ */}
                     <div
-                      id="card-philosophy-gratitude"
+                      id="card-philosophy"
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
-                        activeTargetId === 'card-philosophy-gratitude'
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                        activeTargetId === 'card-philosophy-gratitude' || activeTargetId === 'card-philosophy'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
                       }`}
@@ -2415,77 +2341,108 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         <AnimatedCardTitle
                           iconName="sparkles"
                           title="Triết Lý Quản Trị"
-                          subtitle="Ba nguyên tắc cốt lõi kiến tạo hệ thống phát triển bền vững"
+                          subtitle="Kiến tạo hệ thống phát triển bền vững"
                           colorPreset="purple"
                         />
 
                         <p className="card-body-text typo-body leading-relaxed text-[var(--text-primary)] break-words [overflow-wrap:anywhere]">
                           Qua hơn hai thập kỷ làm việc trong nhiều lĩnh vực khác nhau, tôi nhận ra rằng chăm sóc khách hàng không chỉ là giải quyết vấn đề mà là xây dựng một hệ thống giúp doanh nghiệp phát triển bền vững.
                         </p>
+
+                        <p className="card-body-text typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
+                          Một dịch vụ xuất sắc bắt nguồn từ sự thấu hiểu sâu sắc hành trình khách hàng, chuẩn hóa các điểm chạm và tối ưu hóa năng suất vận hành toàn diện.
+                        </p>
                       </div>
 
-                      {/* Three Core Principles Bento Sub-Grid */}
                       <div
-                        className="flex flex-col gap-[15px] w-full min-w-0"
-                        style={{ gap: '15px' }}
+                        data-subcard="true"
+                        style={{ padding: '12px 15px', borderRadius: 'var(--radius-subcard, 16px)' }}
+                        className="sub-card letter-subcard w-full p-[15px] rounded-[var(--radius-subcard,16px)] flex items-center gap-2.5 min-w-0"
                       >
-                        <p className="card-tag typo-body-sm font-semibold text-[var(--text-secondary)] tracking-wide font-mono">
-                          Tôi luôn làm việc dựa trên ba nguyên tắc cốt lõi:
-                        </p>
-
-                        <div
-                          className="grid grid-cols-1 auto-rows-fr gap-[15px] w-full items-stretch min-w-0"
-                          style={{ gap: '15px' }}
-                        >
-                          {OPERATIONAL_PRINCIPLES_DATA.map((principle, idx) => {
-                            const iconName = idx === 0 ? 'layers' : idx === 1 ? 'users' : 'network';
-                            const principleColor = isDark
-                              ? (idx === 0 ? '#7DD3FC' : idx === 1 ? '#D8B4FE' : '#6EE7B7')
-                              : (idx === 0 ? '#1D4ED8' : idx === 1 ? '#7E22CE' : '#047857');
-                            return (
-                              <div
-                                key={principle.id}
-                                data-subcard="true"
-                                style={{ padding: '15px', borderRadius: 'var(--radius-subcard, 16px)' }}
-                                className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-between gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
-                              >
-                                <div className="flex items-center justify-between gap-2 min-w-0">
-                                  <div
-                                    className="subcard-header-sync flex items-center gap-2 font-semibold min-w-0"
-                                    style={{
-                                      color: principleColor,
-                                    }}
-                                  >
-                                    <WebIcon name={iconName} className="w-4 h-4 shrink-0" style={{ color: principleColor }} />
-                                    <h4
-                                      className="card-title subcard-title-synced typo-h4 font-play tracking-tight truncate"
-                                      data-subcard-title="true"
-                                      style={{ color: principleColor }}
-                                    >
-                                      {principle.titleVi}
-                                    </h4>
-                                  </div>
-                                  <span className="card-tag typo-label font-mono tabular-nums font-bold text-[var(--text-muted)] shrink-0">
-                                    0{idx + 1}
-                                  </span>
-                                </div>
-                                <p className="card-body-text typo-body text-[var(--text-secondary)] leading-relaxed break-words [overflow-wrap:anywhere]">
-                                  {principle.descVi}
-                                </p>
-                              </div>
-                            );
-                          })}
-                        </div>
+                        <WebIcon name="target" className="w-4 h-4 text-purple-600 dark:text-cyan-400 shrink-0" />
+                        <span className="typo-caption font-semibold text-purple-700 dark:text-cyan-300">
+                          Khách hàng là trung tâm • Vận hành bền vững
+                        </span>
                       </div>
                     </div>
 
-                    {/* BENTO CARD 2 (6/12 cols): TÂM THƯ ĐỒNG HÀNH, LỜI KẾT & CHỮ KÝ */}
+                    {/* BENTO CARD 2 (4/12 cols): BA NGUYÊN TẮC CỐT LÕI (TÁCH RIÊNG THEO YÊU CẦU) */}
+                    <div
+                      id="card-three-principles"
+                      data-element-type="card"
+                      data-section-card="true"
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                        activeTargetId === 'card-three-principles'
+                          ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
+                          : ''
+                      }`}
+                    >
+                      <div className="flex flex-col items-start text-left w-full gap-2.5 min-w-0">
+                        <AnimatedCardTitle
+                          iconName="layers"
+                          title="Nguyên Tắc Cốt Lõi"
+                          subtitle="Ba trụ cột vững chắc kiến tạo thành công"
+                          colorPreset="blue"
+                        />
+
+                        <p className="card-tag typo-body-sm font-semibold text-[var(--text-secondary)] tracking-wide font-mono">
+                          Tôi luôn làm việc dựa trên ba nguyên tắc cốt lõi:
+                        </p>
+                      </div>
+
+                      <div
+                        className="grid grid-cols-1 auto-rows-fr gap-[12px] w-full items-stretch min-w-0 flex-1 justify-between"
+                        style={{ gap: '12px' }}
+                      >
+                        {OPERATIONAL_PRINCIPLES_DATA.map((principle, idx) => {
+                          const iconName = idx === 0 ? 'layers' : idx === 1 ? 'users' : 'network';
+                          const principleColor = isDark
+                            ? (idx === 0 ? '#7DD3FC' : idx === 1 ? '#D8B4FE' : '#6EE7B7')
+                            : (idx === 0 ? '#1D4ED8' : idx === 1 ? '#7E22CE' : '#047857');
+                          return (
+                            <div
+                              key={principle.id}
+                              data-subcard="true"
+                              style={{ padding: '12px 15px', borderRadius: 'var(--radius-subcard, 16px)' }}
+                              className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-between gap-1 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
+                            >
+                              <div className="flex items-center justify-between gap-2 min-w-0">
+                                <div
+                                  className="subcard-header-sync flex items-center gap-2 font-semibold min-w-0"
+                                  style={{
+                                    color: principleColor,
+                                  }}
+                                >
+                                  <WebIcon name={iconName} className="w-4 h-4 shrink-0" style={{ color: principleColor }} />
+                                  <h4
+                                    className="card-title subcard-title-synced typo-h4 font-play tracking-tight truncate"
+                                    data-subcard-title="true"
+                                    style={{ color: principleColor }}
+                                  >
+                                    {principle.titleVi}
+                                  </h4>
+                                </div>
+                                <span className="card-tag typo-label font-mono tabular-nums font-bold text-[var(--text-muted)] shrink-0">
+                                  0{idx + 1}
+                                </span>
+                              </div>
+                              <p className="card-body-text typo-body-sm text-[var(--text-secondary)] leading-snug break-words [overflow-wrap:anywhere]">
+                                {principle.descVi}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* BENTO CARD 3 (4/12 cols): TÂM THƯ ĐỒNG HÀNH, LỜI KẾT & CHỮ KÝ */}
                     <div
                       id="bento-companion-letter"
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-6 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      className={`bento-view-card col-span-1 md:col-span-12 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-rose-500/70 dark:ring-cyan-400/70 shadow-[0_0_25px_rgba(244,63,94,0.18)]'
                           : ''

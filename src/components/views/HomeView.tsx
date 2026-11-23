@@ -21,6 +21,11 @@ export interface HomeViewProps {
   onShowNotification?: (msg: string) => void;
 }
 
+// Video 1 Trang chủ: Phong Thái Lãnh Đạo & Tầm Nhìn (Auto Play, Loop vòng lặp, mặc định Mute)
+export const HOME_VIDEO_1_ID = '1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp';
+export const HOME_VIDEO_1_SRC =
+  'https://cdn.scena.ai/project/10169/eae59f7007421658e611c298c206755ca060c878d07087694c06935208b9d8f9.mp4';
+
 export interface VideoScreenItem {
   id: 1;
   label: string;
@@ -82,17 +87,25 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const [activeVideoScreen, setActiveVideoScreen] = useState<1>(1);
 
-  // Đo kích thước khung nhìn & container để căn giữa 1 Main Card / màn hình và hé lộ thẻ kế bên (peek)
+  // Đo kích thước khung nhìn & container để căn giữa 1 Main Card / màn hình và đồng bộ chuẩn 100% bằng header
   const [viewportWidth, setViewportWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
   const [homeContainerWidth, setHomeContainerWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
+  const [exactHeaderWidth, setExactHeaderWidth] = useState<number>(0);
 
   useEffect(() => {
     const container = homeContainerRef.current;
     const updateWidths = () => {
+      const headerEl = document.getElementById('app-header');
+      if (headerEl) {
+        const w = headerEl.getBoundingClientRect().width;
+        if (w > 0) {
+          setExactHeaderWidth(w);
+        }
+      }
       if (typeof window !== 'undefined') {
         setViewportWidth(window.innerWidth);
       }
@@ -101,10 +114,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
       }
     };
     updateWidths();
+    const headerEl = document.getElementById('app-header');
     const ro =
       typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateWidths) : null;
-    if (ro && container) {
-      ro.observe(container);
+    if (ro) {
+      if (container) ro.observe(container);
+      if (headerEl) ro.observe(headerEl);
     }
     window.addEventListener('resize', updateWidths);
     return () => {
@@ -114,8 +129,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
   }, []);
 
   const peekReserve = viewportWidth <= 1023 ? 32 : 112;
-  const homeCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
-  const homeSideInset = Math.max(15, (homeContainerWidth - homeCardWidth) / 2);
+  const fallbackWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
+  const homeCardWidth = exactHeaderWidth > 0 ? exactHeaderWidth : fallbackWidth;
+  const homeSideInset = Math.max(0, (homeContainerWidth - homeCardWidth) / 2);
 
   const getCenteredScrollLeftForCard = useCallback(
     (screenId: 1) => {
@@ -313,7 +329,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           ['--about-card-w' as any]: `${homeCardWidth}px`,
           ['--about-side-inset' as any]: `${homeSideInset}px`,
         }}
-        className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-hidden overflow-y-hidden no-scrollbar select-none font-play rounded-none box-border"
+        className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-center p-0 gap-[15px] overflow-x-hidden overflow-y-hidden no-scrollbar select-none font-play rounded-none box-border"
       >
         <div
           id="home-cards-track"
@@ -325,17 +341,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'stretch',
+            justifyContent: 'center',
             gap: '15px',
             rowGap: '15px',
             columnGap: '15px',
-            paddingLeft: `${homeSideInset}px`,
-            paddingRight: `${homeSideInset}px`,
             height: '100%',
             minHeight: '100%',
-            width: 'max-content',
+            width: '100%',
             boxSizing: 'border-box',
           }}
-          className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+          className="page-cards-track flex flex-row items-stretch justify-center gap-[15px] h-full min-h-full box-border"
         >
           {VIDEO_SCREENS.map((screen) => {
             const isActive = activeVideoScreen === screen.id;
@@ -346,7 +361,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 key={screen.id}
                 id={`home-main-card-${screen.id}`}
                 data-main-card="true"
-                data-layer-level="1"
                 data-element-name={`Thẻ chính Trang chủ - ${screen.label}`}
                 data-element-type="card"
                 data-element-page="home"
@@ -386,7 +400,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   id={`home-main-content-${screen.id}`}
                   data-media-card="video"
                   data-section-card="true"
-                  data-layer-level="2"
                   data-element-name={`Khung video ${screen.label}`}
                   data-element-type="card"
                   data-element-page="home"
@@ -413,9 +426,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   >
                     {/* Dual-Layer Video chuẩn Video card Giới thiệu (dùng màu capsule riêng của Trang chủ) */}
                     <DualLayerVideoPlayer
-                      video1Id="1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp"
+                      video1Id={HOME_VIDEO_1_ID}
+                      video1Src={HOME_VIDEO_1_SRC}
                       video2Id=""
-                      video2Src="https://cdn.scena.ai/project/10169/0f6e39f01533134c70012f61be38d29126100c0300c9c0ea607adb305b5f7102.mp4"
+                      video2Src={HOME_VIDEO_1_SRC}
                       autoPlayVideo1={true}
                       muteVideo1={true}
                       loopVideo1={true}
@@ -423,14 +437,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       className="absolute inset-0 z-0 pointer-events-auto"
                     />
 
-                    {/* Lớp scrim chuyển sắc nhẹ bảo vệ độ tương phản chữ và điều khiển trên nền video */}
+                    {/* Viền vi khí hậu nhẹ trong suốt đảm bảo video luôn sáng rõ, sắc nét và tương phản cao */}
                     <div
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-0 z-10 rounded-[inherit]"
                       style={{
                         background: isDark
-                          ? 'linear-gradient(180deg, rgba(2,6,23,0.28) 0%, rgba(2,6,23,0.04) 28%, rgba(2,6,23,0.18) 65%, rgba(2,6,23,0.62) 100%)'
-                          : 'linear-gradient(180deg, rgba(15,23,42,0.16) 0%, rgba(15,23,42,0.02) 28%, rgba(15,23,42,0.12) 68%, rgba(15,23,42,0.44) 100%)',
+                          ? 'linear-gradient(180deg, transparent 75%, rgba(2,6,23,0.45) 100%)'
+                          : 'linear-gradient(180deg, transparent 80%, rgba(15,23,42,0.25) 100%)',
                       }}
                     />
 

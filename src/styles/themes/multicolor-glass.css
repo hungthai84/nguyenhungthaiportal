@@ -90,6 +90,7 @@ html[data-theme="multicolor-glass"] {
   --bg-dropdown: rgba(255, 255, 255, 0.96);
   --bg-tooltip: rgba(15, 23, 42, 0.92);
 
+  --bg-nav-button-opaque: #FFFFFF;
   --bg-nav-pill: rgba(255, 255, 255, 0.78);
   --bg-nav-pill-hover: rgba(255, 255, 255, 0.94);
   --bg-button-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 48%, #06b6d4 100%);
@@ -212,7 +213,6 @@ html[data-card-style="multicolor-glass"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -244,7 +244,6 @@ html[data-card-style="multicolor-glass"] :is(
   [data-section-card="true"],
   .bento-card,
   .glass-card,
-  .layered-card,
   .project-card,
   .education-card,
   .education-course-card,

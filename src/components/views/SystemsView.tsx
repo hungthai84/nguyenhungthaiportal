@@ -602,6 +602,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
   // Level 1 Full-Card Video (triggered by clicking image or Demo button)
   const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
+  const [hoveredCardVideoId, setHoveredCardVideoId] = useState<string | null>(null);
 
   // Level 2 Expanded Card Interactive Tools: Video Sound, Comparison Mode, QR Quick Access
   const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
@@ -1142,7 +1143,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           id="systems-main-card"
           ref={systemsMainRef}
           data-main-card="true"
-          data-layer-level="1"
           data-detail-open={expandedSystem || isCircleVideoPlaying ? 'true' : 'false'}
           data-detail-overlay={expandedSystem ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
@@ -1723,6 +1723,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     ? item.descEn || item.description
                     : item.descVi || item.description;
                   const isDemoActive = activeCardDemoId === item.id;
+                  const isHovered = hoveredCardVideoId === item.id;
                   const isPendingBi = item.id === 'bi' || !item.url;
 
                   return (
@@ -1732,8 +1733,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         cardRefs.current[item.id] = el;
                       }}
                       id={`systems-card-${item.id}`}
+                      data-element-name={`Thẻ hệ thống ${item.abbr}`}
                       data-element-type="card"
                       data-section-card="true"
+                      data-element-page="systems"
+                      data-element-parent="systems-cards-grid"
                       role="button"
                       tabIndex={0}
                       onClick={(e) => openExpandedSystem(item, e.currentTarget)}
@@ -1755,10 +1759,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           : isLight
                             ? meta.borderLight
                             : meta.borderDark,
+                        height: 'auto',
+                        minHeight: 'fit-content',
                       }}
-                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-[15px] box-border h-full w-full flex flex-col justify-between gap-2.5 text-left"
+                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-3 box-border w-full flex flex-col justify-center text-left overflow-hidden cursor-pointer"
                     >
-                      {/* Full-Card Video Overlay (Hiển thị lắp đầy thẻ và không hiển thị tiêu đề hay thành phần khác) */}
+                      {/* Full-Card Video Overlay khi Click: Hiển thị video lấp đầy thẻ và KHÔNG hiển thị tiêu đề hay các thành phần khác */}
                       {isDemoActive && item.videoUrl && (
                         <div
                           role="button"
@@ -1823,83 +1829,55 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               transform: 'translateZ(0) scale(1.01)',
                               backfaceVisibility: 'hidden',
                             }}
-                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
+                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp"
                           />
+                          <div className="absolute top-2.5 right-2.5 z-40 p-1.5 rounded-full bg-black/60 text-white/80 hover:text-white backdrop-blur-md transition-all">
+                            <Minimize2 className="w-3.5 h-3.5" />
+                          </div>
                         </div>
                       )}
 
-                      {/* Top Row: Nhóm phân hệ + Tác vụ Demo & Mở rộng */}
-                      <div
-                        className={cn(
-                          'relative z-10 flex items-center justify-between gap-2 min-w-0 transition-opacity duration-200',
-                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
-                        )}
-                      >
-                        <span
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border truncate max-w-[68%]"
-                          style={{
-                            backgroundColor: isLeatherTheme
-                              ? undefined
-                              : isLight
-                                ? meta.tintBgLight
-                                : meta.tintBgDark,
-                            borderColor: isLeatherTheme
-                              ? 'var(--border-subcard)'
-                              : isLight
-                                ? meta.borderLight
-                                : meta.borderDark,
-                            color: accentColor,
-                          }}
-                        >
-                          <span
-                            className={cn(
-                              'w-1.5 h-1.5 rounded-full shrink-0',
-                              isPendingBi ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'
-                            )}
+                      {/* Video lấp đầy thẻ khi rê chuột vào hình */}
+                      {isHovered && item.videoUrl && !isDemoActive && (
+                        <div className="absolute inset-0 z-0 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none transition-opacity duration-300">
+                          <video
+                            src={item.videoUrl}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp opacity-90"
                           />
-                          <span className="truncate">
-                            {isEn ? tech.ecosystemLabelEn : tech.ecosystemLabel}
-                          </span>
-                        </span>
-
-                        <div className="flex items-center gap-1 shrink-0">
-                          {item.videoUrl && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                SoundEngine.playTap();
-                                setActiveCardDemoId(isDemoActive ? null : item.id);
-                              }}
-                              title={isEn ? 'Play full-card video' : 'Phát video toàn thẻ'}
-                              aria-label={isEn ? `Play video ${item.abbr}` : `Phát video ${item.abbr}`}
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/85 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-primary)]/50 transition cursor-pointer"
-                            >
-                              <Play className="w-2.5 h-2.5 fill-current" />
-                              <span>Demo</span>
-                            </button>
-                          )}
-                          <span
-                            aria-hidden="true"
-                            className="w-7 h-7 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] group-hover:scale-105 flex items-center justify-center transition-all duration-200"
-                          >
-                            <Maximize2 className="w-3.5 h-3.5" />
-                          </span>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 backdrop-blur-[1px] rounded-[inherit]" />
                         </div>
-                      </div>
+                      )}
 
-                      {/* Middle Row: Tên viết tắt + Tên hệ thống + Mô tả nằm dưới tên hệ thống | Click vào hình để phát video lấp đầy thẻ */}
+                      {/* Nội dung thẻ hệ thống: 2 cột
+                          Bên trái:
+                            Hàng 1: Icon (không khung) & tên viết tắt
+                            Hàng 2: Tên viết đầy đủ
+                            Hàng 3: Tag phân hệ bên dưới trái
+                          Bên phải:
+                            Hình minh họa
+                      */}
                       <div
                         className={cn(
-                          'relative z-10 flex items-center justify-between gap-2.5 min-w-0 transition-opacity duration-200',
+                          'relative z-10 w-full flex flex-row items-stretch justify-between gap-3 min-w-0 transition-opacity duration-200',
                           isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                         )}
                       >
-                        <div className="flex-1 min-w-0 flex flex-col gap-1">
-                          <div className="card-header-sync flex items-center gap-1.5 min-w-0" style={{ color: accentColor }}>
-                            <WebIcon name={meta.iconName} className="w-4 h-4 shrink-0" style={{ color: accentColor }} />
+                        {/* Bên trái: Hàng 1 (Icon & tên viết tắt) + Hàng 2 (Tên viết đầy đủ) + Hàng 3 (Tag phân hệ bên dưới trái) */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-between gap-1.5 text-left py-0.5">
+                          {/* Hàng 1 : Icon & tên viết tắt */}
+                          <div className="flex items-center gap-2 min-w-0">
+                            <WebIcon
+                              name={meta.iconName}
+                              className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                              style={{ color: accentColor }}
+                            />
                             <h3
-                              className="typo-h4 card-title-synced font-play font-bold truncate m-0"
+                              className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
                               data-card-title="true"
                               style={{ color: accentColor }}
                             >
@@ -1907,24 +1885,53 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             </h3>
                           </div>
 
+                          {/* Hàng 2 : Tên viết đầy đủ */}
                           <p
-                            className="typo-body-sm font-bold leading-snug line-clamp-2 text-[var(--text-heading,var(--text-primary))] m-0 break-words"
+                            className="typo-body-sm font-semibold leading-snug line-clamp-2 text-[var(--text-heading,var(--text-primary))] m-0 break-words"
                             title={localizedTitle}
                           >
                             {localizedTitle}
                           </p>
 
-                          <p
-                            className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 m-0 break-words"
-                            title={localizedDesc}
-                          >
-                            {localizedDesc}
-                          </p>
+                          {/* Hàng 3 : Tag nhóm phân hệ bên dưới trái */}
+                          <div className="flex items-center pt-0.5 min-w-0">
+                            <span
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border truncate max-w-full shrink-0 opacity-85"
+                              style={{
+                                backgroundColor: isLeatherTheme
+                                  ? undefined
+                                  : isLight
+                                    ? meta.tintBgLight
+                                    : meta.tintBgDark,
+                                borderColor: isLeatherTheme
+                                  ? 'var(--border-subcard)'
+                                  : isLight
+                                    ? meta.borderLight
+                                    : meta.borderDark,
+                                color: accentColor,
+                              }}
+                            >
+                              <span
+                                className={cn(
+                                  'w-1.5 h-1.5 rounded-full shrink-0',
+                                  isPendingBi ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'
+                                )}
+                              />
+                              <span className="truncate">{isEn ? tech.ecosystemLabelEn : tech.ecosystemLabel}</span>
+                            </span>
+                          </div>
                         </div>
 
+                        {/* Bên phải: Kích thước hình ảnh bằng 3 hàng ở bên trái */}
                         <div
                           role={item.videoUrl ? 'button' : undefined}
                           tabIndex={item.videoUrl ? 0 : undefined}
+                          onMouseEnter={() => {
+                            if (item.videoUrl) setHoveredCardVideoId(item.id);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
+                          }}
                           onClick={(e) => {
                             if (!item.videoUrl) return;
                             e.stopPropagation();
@@ -1943,8 +1950,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           title={
                             item.videoUrl
                               ? isEn
-                                ? 'Click image to play full-card video'
-                                : 'Bấm vào hình để xem video toàn thẻ'
+                                ? 'Click image to play full-card video (hover to preview)'
+                                : 'Bấm vào hình để xem video toàn thẻ (rê chuột để xem video lấp đầy)'
                               : localizedTitle
                           }
                           aria-label={
@@ -1954,10 +1961,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 : `Xem video ${item.abbr}`
                               : localizedTitle
                           }
-                          style={{ borderRadius: 'var(--radius-card, 14px)' }}
+                          style={{ borderRadius: 'var(--radius-card, 10px)' }}
                           className={cn(
-                            'relative w-[132px] h-[132px] sm:w-[144px] sm:h-[144px] shrink-0 flex items-center justify-center overflow-hidden border-0 ring-0 shadow-none rounded-[14px]',
-                            item.videoUrl && 'cursor-pointer'
+                            'relative z-10 shrink-0 self-stretch w-[96px] sm:w-[110px] min-h-full flex items-center justify-center overflow-hidden rounded-[10px] transition-transform duration-300',
+                            item.videoUrl && 'cursor-pointer hover:scale-105 active:scale-95'
                           )}
                         >
                           <img
@@ -1968,7 +1975,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';
                             }}
-                            className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none border-0 ring-0 shadow-none transition-transform duration-300 hover:scale-[1.03]"
+                            className={cn(
+                              'w-full h-full max-h-full object-contain rounded-[inherit] select-none pointer-events-none transition-all duration-300',
+                              isHovered && item.videoUrl && 'opacity-0'
+                            )}
                           />
                         </div>
                       </div>
@@ -2404,144 +2414,152 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       );
                     })()}
 
-                    {/* Hàng 2: Lưới chi tiết 12 cột (Trái 7 cột: Video + Mô tả + Tính năng + Hệ thống liên thông | Phải 5 cột: Hạ tầng kỹ thuật & Luồng đồng bộ) */}
+                    {/* Hàng 2: Lưới chi tiết 12 cột (Trái 7 cột: 3 thẻ tách biệt | Phải 5 cột: Hạ tầng kỹ thuật & Luồng đồng bộ) */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start">
-                      {/* CỘT TRÁI (7/12) */}
-                      <div
-                        data-subcard="true"
-                        className="system-card-sub lg:col-span-7 rounded-2xl p-[15px] flex flex-col gap-3.5 h-fit min-w-0"
-                      >
-                        {/* Media Video / Illustration + Mô tả */}
-                        <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-start min-w-0">
-                          {(expandedSystem.videoUrl ||
-                            expandedMeta.illustrationSrc ||
-                            expandedSystem.imageUrl) && (
+                      {/* CỘT TRÁI (7/12): 3 THẺ TÁCH BIỆT (Tổng quan phân hệ, Tính năng trọng tâm, Hệ thống liên thông trực tiếp) */}
+                      <div className="lg:col-span-7 flex flex-col gap-[15px] h-fit min-w-0">
+                        {/* Thẻ 1: Tổng quan phân hệ (Media Video / Illustration + Mô tả) */}
+                        <div
+                          id="system-detail-overview-card"
+                          data-subcard="true"
+                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3.5 h-fit min-w-0"
+                        >
+                          {/* Media Video / Illustration + Mô tả */}
+                          <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-start min-w-0">
+                            {(expandedSystem.videoUrl ||
+                              expandedMeta.illustrationSrc ||
+                              expandedSystem.imageUrl) && (
+                              <div
+                                data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
+                                style={{
+                                  padding: '5px',
+                                  borderRadius: 'var(--radius-card, 14px)',
+                                }}
+                                className={cn(
+                                  'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0 p-[5px] box-border',
+                                  expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
+                                )}
+                              >
+                                {expandedSystem.videoUrl ? (
+                                  <>
+                                    <video
+                                      ref={expandedVideoRef}
+                                      src={expandedSystem.videoUrl}
+                                      poster={
+                                        expandedMeta.illustrationSrc ||
+                                        expandedSystem.imageUrl ||
+                                        undefined
+                                      }
+                                      autoPlay
+                                      loop
+                                      muted={isExpandedVideoMuted}
+                                      playsInline
+                                      preload="auto"
+                                      controls={false}
+                                      disablePictureInPicture
+                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                                      onLoadedMetadata={(e) => {
+                                        const v = e.currentTarget;
+                                        v.controls = false;
+                                        v.disablePictureInPicture = true;
+                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                      }}
+                                      onError={(e) => {
+                                        const v = e.currentTarget;
+                                        const m = v.src.match(/[?&]id=([^&#]+)/i);
+                                        if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
+                                          v.dataset.driveAltTried = m[1];
+                                          v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
+                                          v.play().catch(() => {});
+                                        }
+                                      }}
+                                      onEnded={(e) => {
+                                        const v = e.currentTarget;
+                                        v.currentTime = 0;
+                                        v.play().catch(() => {});
+                                      }}
+                                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none banner-video-sharp"
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const next = !isExpandedVideoMuted;
+                                        setIsExpandedVideoMuted(next);
+                                        saveMutedPref(next);
+                                        if (expandedVideoRef.current) {
+                                          expandedVideoRef.current.muted = next;
+                                        }
+                                      }}
+                                      aria-label={
+                                        isExpandedVideoMuted
+                                          ? isEn
+                                            ? 'Unmute demo video'
+                                            : 'Bật âm thanh'
+                                          : isEn
+                                            ? 'Mute demo video'
+                                            : 'Tắt âm thanh'
+                                      }
+                                      className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/65 hover:bg-black/85 text-white border border-white/25 flex items-center justify-center cursor-pointer backdrop-blur-sm"
+                                    >
+                                      {isExpandedVideoMuted ? (
+                                        <VolumeX className="w-3.5 h-3.5" />
+                                      ) : (
+                                        <Volume2 className="w-3.5 h-3.5 text-emerald-300" />
+                                      )}
+                                    </button>
+                                  </>
+                                ) : (
+                                  <img
+                                    src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
+                                    alt={expandedSystem.nameVi}
+                                    referrerPolicy="no-referrer"
+                                    className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
+                                  />
+                                )}
+                              </div>
+                            )}
+
                             <div
-                              data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
-                              style={{
-                                padding: '5px',
-                                borderRadius: 'var(--radius-card, 14px)',
-                              }}
                               className={cn(
-                                'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0 p-[5px] box-border',
-                                expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
+                                'flex flex-col justify-start gap-2 h-fit min-w-0',
+                                expandedSystem.videoUrl ||
+                                  expandedMeta.illustrationSrc ||
+                                  expandedSystem.imageUrl
+                                  ? 'md:col-span-7'
+                                  : 'md:col-span-12'
                               )}
                             >
-                              {expandedSystem.videoUrl ? (
-                                <>
-                                  <video
-                                    ref={expandedVideoRef}
-                                    src={expandedSystem.videoUrl}
-                                    poster={
-                                      expandedMeta.illustrationSrc ||
-                                      expandedSystem.imageUrl ||
-                                      undefined
-                                    }
-                                    autoPlay
-                                    loop
-                                    muted={isExpandedVideoMuted}
-                                    playsInline
-                                    preload="auto"
-                                    controls={false}
-                                    disablePictureInPicture
-                                    controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                    onLoadedMetadata={(e) => {
-                                      const v = e.currentTarget;
-                                      v.controls = false;
-                                      v.disablePictureInPicture = true;
-                                      (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                    }}
-                                    onError={(e) => {
-                                      const v = e.currentTarget;
-                                      const m = v.src.match(/[?&]id=([^&#]+)/i);
-                                      if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
-                                        v.dataset.driveAltTried = m[1];
-                                        v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
-                                        v.play().catch(() => {});
-                                      }
-                                    }}
-                                    onEnded={(e) => {
-                                      const v = e.currentTarget;
-                                      v.currentTime = 0;
-                                      v.play().catch(() => {});
-                                    }}
-                                    style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
-                                    className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none banner-video-sharp"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const next = !isExpandedVideoMuted;
-                                      setIsExpandedVideoMuted(next);
-                                      saveMutedPref(next);
-                                      if (expandedVideoRef.current) {
-                                        expandedVideoRef.current.muted = next;
-                                      }
-                                    }}
-                                    aria-label={
-                                      isExpandedVideoMuted
-                                        ? isEn
-                                          ? 'Unmute demo video'
-                                          : 'Bật âm thanh'
-                                        : isEn
-                                          ? 'Mute demo video'
-                                          : 'Tắt âm thanh'
-                                    }
-                                    className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/65 hover:bg-black/85 text-white border border-white/25 flex items-center justify-center cursor-pointer backdrop-blur-sm"
-                                  >
-                                    {isExpandedVideoMuted ? (
-                                      <VolumeX className="w-3.5 h-3.5" />
-                                    ) : (
-                                      <Volume2 className="w-3.5 h-3.5 text-emerald-300" />
-                                    )}
-                                  </button>
-                                </>
-                              ) : (
-                                <img
-                                  src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
-                                  alt={expandedSystem.nameVi}
-                                  referrerPolicy="no-referrer"
-                                  className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
-                                />
-                              )}
-                            </div>
-                          )}
+                              <div>
+                                <h3
+                                  className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 mb-1 flex items-center gap-2"
+                                  data-subcard-title="true"
+                                  style={{ color: expandedAccent }}
+                                >
+                                  <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                                  <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
+                                </h3>
+                                <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
+                                  {isEn
+                                    ? expandedSystem.descEn || expandedSystem.description
+                                    : expandedSystem.descVi || expandedSystem.description}
+                                </p>
+                              </div>
 
-                          <div
-                            className={cn(
-                              'flex flex-col justify-start gap-2 h-fit min-w-0',
-                              expandedSystem.videoUrl ||
-                                expandedMeta.illustrationSrc ||
-                                expandedSystem.imageUrl
-                                ? 'md:col-span-7'
-                                : 'md:col-span-12'
-                            )}
-                          >
-                            <div>
-                              <h3
-                                className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 mb-1 flex items-center gap-2"
-                                data-subcard-title="true"
-                                style={{ color: expandedAccent }}
-                              >
-                                <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                                <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
-                              </h3>
-                              <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                                {isEn
-                                  ? expandedSystem.descEn || expandedSystem.description
-                                  : expandedSystem.descVi || expandedSystem.description}
-                              </p>
-                            </div>
-
-                            <div className="text-[11px] font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
-                              {expandedSystem.fullName}
+                              <div className="text-[11px] font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
+                                {expandedSystem.fullName}
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Tính năng nổi bật */}
-                        <div className="pt-3 border-t border-[var(--border-subcard)]">
-                          <div className="subcard-header-sync flex items-center gap-2 mb-2.5" style={{ color: expandedAccent }}>
+                        {/* Thẻ 2: Tính năng trọng tâm */}
+                        <div
+                          id="system-detail-features-card"
+                          data-subcard="true"
+                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
+                        >
+                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
                             <Activity className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                             <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
                               {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
@@ -2567,9 +2585,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </ul>
                         </div>
 
-                        {/* Hệ thống liên thông (Proposal 4: Direct Inter-system Navigation) */}
-                        <div className="pt-3 border-t border-[var(--border-subcard)]">
-                          <div className="flex items-center justify-between gap-2 flex-wrap mb-2.5">
+                        {/* Thẻ 3: Hệ thống liên thông (Proposal 4: Direct Inter-system Navigation) */}
+                        <div
+                          id="system-detail-connections-card"
+                          data-subcard="true"
+                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
+                        >
+                          <div className="flex items-center justify-between gap-2 flex-wrap pb-2 border-b border-[var(--border-subcard)]">
                             <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
                               <Network className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                               <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">

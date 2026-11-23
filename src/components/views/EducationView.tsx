@@ -216,6 +216,26 @@ function renderCategoryIcon(category: string, className = 'w-3.5 h-3.5 shrink-0'
   return <WebIcon name={name} className={className} />;
 }
 
+// Phân tích tiêu đề khóa học để chọn icon đại diện tương ứng
+function getEducationIconByTitle(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes('web') || t.includes('lập trình') || t.includes('frontend')) return 'code';
+  if (t.includes('dữ liệu') || t.includes('data')) return 'chart';
+  if (t.includes('rủi ro') || t.includes('risk')) return 'shield';
+  if (t.includes('dự án') || t.includes('project') || t.includes('pmp')) return 'target';
+  if (t.includes('cấp cao') || t.includes('lãnh đạo')) return 'award';
+  if (t.includes('cấp trung')) return 'users';
+  if (t.includes('đào tạo') || t.includes('train')) return 'graduation';
+  if (t.includes('thuyết trình')) return 'presentation';
+  if (t.includes('phỏng vấn')) return 'message-square';
+  if (t.includes('tuyển dụng')) return 'user-plus';
+  if (t.includes('cử nhân') || t.includes('cntt') || t.includes('đại học')) return 'graduation';
+  if (t.includes('tổng đài') || t.includes('call') || t.includes('contact center')) return 'headset';
+  if (t.includes('mạng') || t.includes('ccna') || t.includes('network')) return 'network';
+  if (t.includes('máy chủ') || t.includes('mcsa') || t.includes('server')) return 'server';
+  return 'book';
+}
+
 export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) => {
   const { isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
@@ -232,8 +252,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  // Chế độ xem: cố định duy nhất 'grid'
-  const [viewMode] = useState<'grid'>('grid');
+  // Chế độ xem: 'grid' (Lưới chuẩn) hoặc 'css-tricks' (Cards - CSS-tricks Like Effect Hover/Focus)
+  const [viewMode, setViewMode] = useState<'grid' | 'css-tricks'>('css-tricks');
+  const [hoveredCourseId, setHoveredCourseId] = useState<string | null>(null);
   // Bộ lọc năm tốt nghiệp Timeline (2005 - 2026)
   const [maxYearFilter, setMaxYearFilter] = useState<number>(2026);
   const [exactYearFilter, setExactYearFilter] = useState<number | null>(null);
@@ -369,6 +390,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     setActiveCarouselIdx(0);
   };
 
+  const handleDeckWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (viewMode === 'css-tricks' && e.deltaY !== 0) {
+      e.currentTarget.scrollLeft += e.deltaY;
+    }
+  };
+
   // Tính toán tọa độ đa giác cho Biểu đồ Radar 6 trục
   const radarGeometry = useMemo(() => {
     const cx = 150;
@@ -440,7 +467,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       <div
         id="education-main-card"
         data-main-card="true"
-        data-layer-level="1"
         data-detail-open={selectedCourse ? 'true' : 'false'}
         data-element-name="Card học vấn"
         data-element-type="card"
@@ -581,6 +607,44 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               )}
             </AnimatePresence>
           </div>
+
+          {/* Nút chuyển chế độ xem: Lưới mặc định vs Thẻ CSS-Tricks (Hover/Focus Effect) */}
+          <div className="flex items-center gap-1 p-0.5 rounded-full bento-card glass-card border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/60">
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setViewMode('grid');
+              }}
+              className={cn(
+                'h-8 px-3 rounded-full typo-badge font-bold font-play flex items-center gap-1.5 transition-all cursor-pointer',
+                viewMode === 'grid'
+                  ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              )}
+              title={isEn ? 'Grid View' : 'Dạng lưới mặc định'}
+            >
+              <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Grid' : 'Lưới'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setViewMode('css-tricks');
+              }}
+              className={cn(
+                'h-8 px-3 rounded-full typo-badge font-bold font-play flex items-center gap-1.5 transition-all cursor-pointer',
+                viewMode === 'css-tricks'
+                  ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              )}
+              title={isEn ? 'Cards - CSS-tricks Like Effect (Hover/Focus)' : 'Thẻ CSS-Tricks (Hiệu ứng Hover/Focus)'}
+            >
+              <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
+              <span>CSS-Tricks</span>
+            </button>
+          </div>
         </div>
       </section>
       )}
@@ -629,16 +693,22 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           </button>
         </div>
       ) : (
-        /* CHẾ ĐỘ LƯỚI (GRID VIEW) - RESPONSIVE GRID TỰ ĐỘNG THÍCH ỨNG Ở MỌI KÍCH THƯỚC MÀN HÌNH */
+        /* CHẾ ĐỘ HIỂN THỊ: CSS-TRICKS (HOVER/FOCUS TRANSLATE DECK) HOẶC LƯỚI CHUẨN (GRID VIEW) */
         <div
           id="education-courses-grid"
-          className="education-responsive-grid card-grid w-full min-w-0 items-stretch"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+          onWheel={handleDeckWheel}
+          className={cn(
+            viewMode === 'css-tricks'
+              ? "education-css-tricks-deck cards w-full select-none"
+              : "education-responsive-grid card-grid w-full min-w-0 items-stretch"
+          )}
+          style={viewMode === 'grid' ? { gap: '15px', rowGap: '15px', columnGap: '15px' } : undefined}
         >
           {filteredCourses.map((course, idx) => {
             const localizedCourseTitle = t(course.title);
             const displayTitle = localizedCourseTitle;
             const cardColor = getCourseColor(course, idx);
+            const isCssTricks = viewMode === 'css-tricks';
 
             return (
               <motion.article
@@ -646,7 +716,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 key={course.id}
                 layoutId={`education-card-${course.id}`}
                 data-element-type="card"
-                data-section-card="true"
+                data-distinct-bg="true"
                 role="button"
                 tabIndex={0}
                 onClick={() => handleOpenDetail(course)}
@@ -656,82 +726,100 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className="education-course-card card-item bento-card glass-card layered-card group relative rounded-[14px] p-[10px] flex flex-col justify-between gap-[10px] border select-none transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer font-play min-w-0"
-                style={{
-                  borderColor: `${cardColor}45`,
-                  padding: '10px',
-                }}
+                className={cn(
+                  "education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px]",
+                  isCssTricks
+                    ? "rounded-[36px]"
+                    : "rounded-[14px] flex flex-col justify-between gap-[10px] border border-l-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
+                )}
+                style={
+                  {
+                    '--education-card-bg': isDark
+                      ? `linear-gradient(155deg, ${cardColor}38 0%, ${cardColor}18 42%, rgba(15, 23, 42, 0.95) 100%)`
+                      : `linear-gradient(155deg, ${cardColor}28 0%, ${cardColor}10 40%, rgba(255, 255, 255, 0.96) 100%)`,
+                    padding: '10px',
+                    borderLeft: 'none',
+                    borderLeftWidth: 0,
+                    borderColor: isDark
+                      ? 'rgba(56, 189, 248, 0.32)'
+                      : 'rgba(255, 255, 255, 0.85)',
+                    background: isDark
+                      ? `linear-gradient(155deg, ${cardColor}38 0%, ${cardColor}18 42%, rgba(15, 23, 42, 0.95) 100%)`
+                      : `linear-gradient(155deg, ${cardColor}28 0%, ${cardColor}10 40%, rgba(255, 255, 255, 0.96) 100%)`,
+                    boxShadow: isDark
+                      ? '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px -3px rgba(56, 189, 248, 0.15)'
+                      : '0 10px 25px -5px rgba(30, 58, 138, 0.08), 0 0 15px -3px rgba(56, 189, 248, 0.12)',
+                  } as React.CSSProperties
+                }
               >
-                {/* 1. Ảnh bìa banner tỷ lệ 16:10 nằm gọn trong card padding 0px */}
+
+                {/* 1. Ảnh bìa banner tỷ lệ với bo góc mềm mại & overlay format giống Bìa dạng view lưới */}
                 <div
                   data-media-card="image"
-                  style={{ borderRadius: 'var(--radius-card, 14px)', padding: '0px' }}
-                  className="education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img rounded-[var(--radius-card,14px)] m-0 p-0"
+                  style={{ borderRadius: isCssTricks ? '20px' : '12px', padding: '0px' }}
+                  className={cn(
+                    "education-card-banner themed-image-frame relative w-full overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img border border-[var(--border-subcard)] m-0 p-0 shadow-xs",
+                    isCssTricks ? "aspect-[16/10] mb-2.5 rounded-[20px]" : "aspect-[16/10] rounded-[12px]"
+                  )}
                 >
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    style={{ borderRadius: 'var(--radius-card, 14px)' }}
+                    style={{ borderRadius: isCssTricks ? '20px' : '12px' }}
                     className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
-                  {/* Hình thức ở góc trên bên trái ảnh */}
-                  <span
-                    title={`Hình thức: ${course.type}`}
-                    className="banner-control-pill absolute top-2.5 left-2.5 z-20 typo-badge px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold max-w-[54%] truncate"
-                  >
-                    <WebIcon name="book" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                    <span className="truncate">{course.type}</span>
-                  </span>
-                  {/* Năm hoàn thành ở góc trên bên phải ảnh */}
-                  <span
-                    className="education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
-                  >
-                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                    <span>Năm {course.year}</span>
-                  </span>
-                  {/* Đào tạo nằm bên dưới góc trái ảnh */}
-                  <span
-                    title={`Đào tạo: ${course.issuer}`}
-                    className="banner-control-pill absolute bottom-2.5 left-2.5 z-20 typo-badge px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold max-w-[calc(100%-20px)] truncate"
-                  >
-                    <WebIcon name="graduation-cap" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                    <span className="truncate">{course.issuer}</span>
-                  </span>
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
+                  <div className="absolute bottom-2 left-2.5 right-2.5 z-20 flex items-center justify-between gap-2 text-white">
+                    <span className="typo-badge font-semibold truncate drop-shadow-xs max-w-[62%]">
+                      {course.issuer}
+                    </span>
+                    <span className="typo-badge font-mono font-semibold shrink-0 tabular-nums drop-shadow-xs">
+                      Năm {course.year}
+                    </span>
+                  </div>
                 </div>
 
-                {/* 2. Thân Card: nội dung bên trong cách mép thẻ học vấn 10px */}
-                <div className="education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
-                  <div className="min-w-0">
-                    <div className="card-header-sync flex items-start gap-2 min-w-0" style={{ color: cardColor }}>
-                      <WebIcon name="award" className="w-4 h-4 shrink-0 mt-1" style={{ color: cardColor }} />
-                      <h3
-                        className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
-                        data-card-title="true"
-                        style={{ color: cardColor }}
-                        title={displayTitle}
-                      >
-                        {displayTitle}
-                      </h3>
-                    </div>
-                  </div>
+                {/* 3. card-heading (Bố cục CodePen): Tiêu đề in đậm kèm icon đại diện (Căn trái) */}
+                <div className="card-heading flex-1 flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full">
+                  <h3
+                    className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex items-start justify-start text-left gap-1.5 w-full"
+                    data-card-title="true"
+                    style={{ color: cardColor, textAlign: 'left' }}
+                    title={displayTitle}
+                  >
+                    <WebIcon
+                      name={getEducationIconByTitle(displayTitle)}
+                      className="w-4 h-4 shrink-0 mt-0.5"
+                      style={{ color: cardColor }}
+                    />
+                    <span className="text-left">{displayTitle}</span>
+                  </h3>
+
+                  {course.desc && (
+                    <p className="typo-caption leading-relaxed line-clamp-2 m-0 text-left text-[var(--text-secondary)] w-full">
+                      {course.desc}
+                    </p>
+                  )}
 
                   {course.result && (
                     <div
-                      className="mt-1 p-2.5 rounded-[14px] border flex items-start gap-2 transition-colors shadow-xs min-w-0"
+                      id={Number(course.id) === 1 ? 'el-p3-div-97' : `el-p3-div-result-${course.id}`}
+                      className="mt-1 px-2.5 py-1 rounded-[10px] border flex items-start gap-1.5 min-w-0 shadow-xs self-start text-left"
                       style={{
-                        backgroundColor: `${cardColor}10`,
-                        borderColor: `${cardColor}30`,
+                        backgroundColor: `${cardColor}12`,
+                        borderColor: `${cardColor}35`,
                       }}
                     >
-                      <WebIcon name="award" className="w-4 h-4 shrink-0 mt-0.5" style={{ color: cardColor }} />
-                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-2" style={{ color: cardColor }}>
+                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-1 m-0 text-xs text-left" style={{ color: cardColor }}>
                         {course.result}
                       </p>
                     </div>
                   )}
                 </div>
+
+                {/* 4. card-tags: Ẩn tag bên dưới thẻ học vấn theo yêu cầu */}
 
                 {/* Hiệu ứng nếp gấp góc giấy mời mở sách khi rê chuột */}
                 <span
@@ -742,7 +830,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     boxShadow: '-2px -2px 6px rgba(15, 23, 42, 0.14)',
                   }}
                 />
-
               </motion.article>
             );
           })}

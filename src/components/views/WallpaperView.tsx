@@ -528,7 +528,6 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         <div
           id="wallpaper-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-element-name="Thẻ chính Trang Hình Nền"
           data-element-type="card"
           data-element-page="wallpaper"

@@ -512,7 +512,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         <div
           id="projects-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-detail-open={selectedArticle ? 'true' : 'false'}
           data-detail-overlay="true"
           data-element-name="Thẻ chính Trang Dự Án"
@@ -741,7 +740,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
               const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
               const cardColor = getProjectCardColor(idx);
-              const highlightText = proj.star?.results?.[0] || proj.description;
               const progressPct = typeof proj.progressPercent === 'number' ? proj.progressPercent : 100;
 
               return (
@@ -764,17 +762,16 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card education-course-card card-item bento-card glass-card layered-card group relative h-full rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] border select-none transition-all duration-300 cursor-pointer font-play min-w-0"
+                  className="project-card card-item bento-card glass-card group relative h-full rounded-[18px] p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
                   style={{
                     borderColor: `${cardColor}45`,
-                    padding: '15px',
+                    padding: 0,
                   }}
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án 16:10 (padding 5px chuẩn thẻ media) */}
+                  {/* 1. Ảnh bìa thẻ Dự án: Lắp đầy phía trên */}
                   <div
                     data-media-card="image"
-                    style={{ borderRadius: 'var(--radius-card, 14px)', padding: '5px' }}
-                    className="project-card-banner education-card-banner themed-image-frame relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-[5px] box-border"
+                    className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0 box-border rounded-t-[inherit] rounded-b-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -790,13 +787,13 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                         }
                       }}
-                      className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-t-[inherit] rounded-b-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="absolute inset-0 pointer-events-none rounded-[inherit]"
+                      className="absolute inset-0 pointer-events-none rounded-t-[inherit]"
                       style={{
                         background:
-                          'linear-gradient(180deg, rgba(15, 23, 42, 0.34) 0%, rgba(15, 23, 42, 0.04) 42%, rgba(15, 23, 42, 0.82) 100%)',
+                          'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',
                       }}
                     />
                     <span
@@ -805,37 +802,35 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
                       <span className="truncate">{parentGroup.fourWordTitle}</span>
                     </span>
-                    {orderNumber && (
-                      <span
-                        className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
-                      >
-                        <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                        <span>Dự án {orderNumber}</span>
-                      </span>
-                    )}
-                    <div className="absolute bottom-2 left-2.5 right-2.5 z-10 flex items-center justify-between gap-2 pointer-events-none">
-                      <span className="inline-flex items-center gap-1 typo-caption font-semibold text-white/95 truncate drop-shadow-xs">
-                        <WebIcon name="briefcase" className="w-3 h-3 shrink-0 text-sky-300" />
-                        <span className="truncate">{proj.role}</span>
-                      </span>
-                      <span className="shrink-0 typo-badge font-mono font-semibold px-2 py-0.5 rounded-full bg-white/15 border border-white/20 text-white backdrop-blur-sm">
-                        {proj.phase}
-                      </span>
-                    </div>
+                    <span
+                      className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
+                    >
+                      <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                      <span>Giai đoạn</span>
+                    </span>
                   </div>
 
-                  {/* 2. Thân thẻ Dự án: Tiêu đề đồng đều 2 dòng · Vai trò/Giai đoạn · Phạm vi & Kết quả STAR */}
-                  <div className="project-card-body education-card-body flex-1 flex flex-col justify-between gap-2 min-w-0">
+                  {/* 2. Thân thẻ Dự án: Tiêu đề đồng đều · Số thứ tự, icon, tên dự án chạy hết dòng mới xuống dòng */}
+                  <div className="project-card-body flex-1 flex flex-col justify-between gap-3 p-[15px] min-w-0">
                     <div className="min-w-0 flex flex-col gap-1.5">
-                      <div className="card-header-sync flex items-start gap-2 min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
-                        <WebIcon name={getProjectIconByTitle(proj)} className="w-4 h-4 shrink-0 mt-1" style={{ color: cardColor }} />
+                      <div className="card-header-sync w-full min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
                         <h3
-                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex-1 min-w-0"
+                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 w-full min-w-0 text-left block"
                           data-card-title="true"
-                          style={{ color: cardColor }}
-                          title={cleanedTitle}
+                          style={{ color: cardColor, display: 'block' }}
+                          title={`${orderNumber ? `${orderNumber} · ` : ''}${cleanedTitle}`}
                         >
-                          {cleanedTitle}
+                          {orderNumber && (
+                            <span className="font-mono font-bold mr-1.5 opacity-90 inline">
+                              {orderNumber}
+                            </span>
+                          )}
+                          <WebIcon
+                            name={getProjectIconByTitle(proj)}
+                            className="w-4 h-4 inline align-[-2px] mr-1.5 shrink-0"
+                            style={{ color: cardColor }}
+                          />
+                          <span className="inline">{cleanedTitle}</span>
                         </h3>
                       </div>
 
@@ -845,23 +840,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </div>
 
                     <div className="flex flex-col gap-2 min-w-0 pt-0.5">
-                      {highlightText && (
-                        <div
-                          data-subcard="true"
-                          className="p-2.5 rounded-[14px] border flex items-start gap-1.5 transition-colors min-w-0"
-                          style={{
-                            backgroundColor: `${cardColor}10`,
-                            borderColor: `${cardColor}30`,
-                            borderRadius: 'var(--radius-subcard, 14px)',
-                          }}
-                        >
-                          <WebIcon name="award" className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: cardColor }} />
-                          <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-2 leading-snug" style={{ color: cardColor }}>
-                            {highlightText}
-                          </p>
-                        </div>
-                      )}
-
                       <div className="flex items-center justify-between gap-2.5 pt-1 border-t border-[var(--border-subcard)] min-w-0">
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                           <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">

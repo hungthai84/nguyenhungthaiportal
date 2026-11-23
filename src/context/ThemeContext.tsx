@@ -196,7 +196,7 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
+const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_light_ocean_navy_v1';
 const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v3';
 let didRunDefaultUiSeed = false;
 

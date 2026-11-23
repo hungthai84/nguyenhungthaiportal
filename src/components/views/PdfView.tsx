@@ -17,7 +17,6 @@ import {
 } from '@/data/skills';
 import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
-import { ExecutiveSummarySheet } from '@/components/views/ExecutiveSummarySheet';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 import { DRIVE_AVATARS, DRIVE_BANNER_VIDEOS } from '@/config/driveMediaLinks';
 
@@ -170,7 +169,6 @@ const PDF_OPEN_LETTER_PRINCIPLES = [
 
 export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigateTab }) => {
   const [isExporting, setIsExporting] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<'full' | 'executive'>('full');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handlePrintOrExport = (mode: 'print' | 'download') => {
@@ -198,7 +196,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       ref={containerRef}
       id="pdf-page-container"
       data-main-card="true"
-      data-layer-level="1"
       data-element-name="Trang Website CV Portfolio Landing Page"
       data-element-type="container"
       data-element-page="pdf"
@@ -302,47 +299,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           </div>
 
           <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">
-            {/* Chuyển đổi giữa CV Đầy đủ (9 phần) và Infographic 1 Trang */}
-            <div
-              role="tablist"
-              aria-label="Chế độ xem hồ sơ"
-              className="inline-flex items-center p-1 rounded-full border gap-1"
-              style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
-            >
-              <button
-                type="button"
-                role="tab"
-                aria-selected={viewMode === 'full'}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setViewMode('full');
-                }}
-                className={`px-3 py-1.5 rounded-full typo-badge cursor-pointer transition ${
-                  viewMode === 'full'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:opacity-80'
-                }`}
-              >
-                CV Đầy đủ (9 phần)
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={viewMode === 'executive'}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setViewMode('executive');
-                }}
-                className={`px-3 py-1.5 rounded-full typo-badge cursor-pointer transition ${
-                  viewMode === 'executive'
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:opacity-80'
-                }`}
-              >
-                Infographic 1 Trang
-              </button>
-            </div>
-
             <button
               type="button"
               onClick={() => handlePrintOrExport('download')}
@@ -374,8 +330,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           </div>
         </div>
 
-        {/* Mục lục điều hướng nhanh 9 phần (ẩn khi in hoặc khi xem Infographic 1 trang) */}
-        {viewMode === 'full' && (
+        {/* Mục lục điều hướng nhanh 9 phần */}
         <nav
           aria-label="Điều hướng nhanh các phần CV"
           className="no-print flex items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth pt-2 border-t border-[var(--border-subcard)]"
@@ -409,13 +364,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </button>
           ))}
         </nav>
-        )}
       </header>
 
-      {viewMode === 'executive' ? (
-        <ExecutiveSummarySheet onShowNotification={onShowNotification} />
-      ) : (
-        <>
       {/* PHẦN 01 – TỔNG QUAN NĂNG LỰC */}
       <section id="cv-section-01-home" className="w-full flex flex-col break-inside-avoid">
         <div
@@ -1312,8 +1262,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           <p className="mt-0.5 typo-label">Tài liệu xuất bản từ website Portfolio Nguyễn Hùng Thái</p>
         </div>
       </footer>
-        </>
-      )}
 
       {/* Back to Top Floating Button (Đặt trực tiếp trong #pdf-page-container) */}
       <button

@@ -40,7 +40,6 @@ export const MainCard = forwardRef<HTMLDivElement, MainCardProps>(
         data-element-type="card"
         data-element-page={pageId || 'global'}
         data-main-card="true"
-        data-layer-level="1"
         className={cn(
           'main-card page-main-card w-full min-w-0 h-full max-w-[1250px] mx-auto flex flex-col justify-start p-[15px] gap-[15px] font-play select-none text-left animate-fadeIn rounded-[var(--radius-main,20px)] box-border relative',
           !hasCustomScroll && 'overflow-y-auto no-scrollbar',

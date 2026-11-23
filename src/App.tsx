@@ -68,7 +68,7 @@ export default function App() {
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
     0: 1,
     1: 4,
-    2: 2,
+    2: 1,
     5: 1,
     10: 6,
   };
@@ -142,7 +142,16 @@ export default function App() {
       if (!el || typeof el.closest !== 'function') return null;
       const matched = el.closest(BTN_MATCH_SELECTOR) as HTMLElement | null;
       if (!matched) return null;
-      if (matched.matches(EXCLUDE_CARD_SELECTOR) || matched.hasAttribute('disabled')) {
+      if (matched.hasAttribute('disabled')) return null;
+      if (
+        matched.classList.contains('nav-pill') ||
+        matched.classList.contains('nav-arrow-btn') ||
+        Boolean(matched.closest('#app-header')) ||
+        Boolean(matched.closest('#app-footer'))
+      ) {
+        return matched;
+      }
+      if (matched.matches(EXCLUDE_CARD_SELECTOR)) {
         return null;
       }
       return matched;
@@ -679,12 +688,10 @@ export default function App() {
             aria-hidden="true"
             className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-300"
             style={{
-              ...(activeWallpaper.id?.startsWith('theme-bg-')
-                ? { opacity: 'var(--ambient-wallpaper-opacity, 0.86)' }
-                : undefined),
-              filter: 'blur(var(--wallpaper-bg-blur, 0px))',
-              WebkitFilter: 'blur(var(--wallpaper-bg-blur, 0px))',
-              transform: 'scale(var(--wallpaper-bg-scale, 1))',
+              opacity: 1,
+              filter: 'blur(0px)',
+              WebkitFilter: 'blur(0px)',
+              transform: 'scale(1)',
             }}
           >
             {activeWallpaper.type === 'video' ? (
@@ -743,7 +750,7 @@ export default function App() {
                 (() => {
                   const gConfig = activeWallpaper.gravityConfig;
                   const paletteId = gConfig?.paletteId || 'autoMorph';
-                  const morphOnPageChange = gConfig?.morphOnPageChange ?? true;
+                  const morphOnPageChange = false;
                   const activeSlide = pageSlides[currentTabIndex] ?? 0;
                   const resolvedStage = resolveGravityStage(
                     paletteId,
@@ -816,13 +823,13 @@ export default function App() {
           </div>
         )}
 
-        {/* Lớp điều chỉnh độ tối nền (Dim Scrim) theo thanh trượt Trang Hình nền */}
+        {/* Lớp điều chỉnh độ tối nền (Dim Scrim) theo thanh trượt Trang Hình nền (mặc định 0% mờ) */}
         <div
           id="global-wallpaper-dim-layer"
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none transition-colors duration-200"
           style={{
-            backgroundColor: 'rgba(4, 9, 20, var(--wallpaper-bg-dim, 0))',
+            backgroundColor: 'transparent',
           }}
         />
 
@@ -895,7 +902,7 @@ export default function App() {
         data-element-parent="website-root"
         style={{
           width: '100%',
-          maxWidth: currentTabIndex === 16 ? 'calc(var(--container-max-w, 1250px) + 30px)' : '100%',
+          maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
           flex: '1 1 0%',
           height:
             currentTabIndex === 16
@@ -908,7 +915,7 @@ export default function App() {
           marginBottom: '0px',
         }}
         className={`w-full ${
-          currentTabIndex === 16 ? 'max-w-[calc(var(--container-max-w,1250px)+30px)]' : 'max-w-full'
+          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
         } mx-auto my-0 min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <div

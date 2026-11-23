@@ -21,14 +21,14 @@
     <script>
       (function() {
         try {
-          var DEFAULT_THEME = 'neumorphism-beyond';
+          var DEFAULT_THEME = 'light-deep-ocean';
           var STYLE_KEY = 'hungthai_card_style_v2';
           var SCHEME_KEY = 'hungthai_color_scheme_mode_v1';
           var WALLPAPER_KEY = 'hungthai_active_wallpaper_v2';
           var WALLPAPER_MANUAL_KEY = 'hungthai_wallpaper_manual_v2';
           var OVERLAY_KEY = 'hungthai_wallpaper_overlay_v1';
           var ADAPTIVE_KEY = 'hungthai_adaptive_accent_v1';
-          var SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
+          var SEED_KEY = 'hungthai_default_ui_seed_v2026_light_ocean_navy_v1';
 
           if (localStorage.getItem(SEED_KEY) !== '1') {
             localStorage.removeItem(STYLE_KEY);
@@ -69,7 +69,9 @@
             'da-den': 'dark-liquid-glass',
             'da-bo': 'cowhide-leather',
             'mica-fluent': 'neumorphism-beyond',
-            'noi-khoi-kinh-mo': 'neumorphism-beyond'
+            'noi-khoi-kinh-mo': 'neumorphism-beyond',
+            'flat-soft': 'flat-soft-ui',
+            'dark-flat-soft': 'dark-flat-soft-ui'
           };
           var validStyles = [
             'liquid-glass',
@@ -81,7 +83,11 @@
             'deep-ocean',
             'light-deep-ocean',
             'neumorphism-beyond',
-            'dark-neumorphism-beyond'
+            'dark-neumorphism-beyond',
+            'frost-ice-neu',
+            'dark-frost-ice-neu',
+            'flat-soft-ui',
+            'dark-flat-soft-ui'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
@@ -93,7 +99,9 @@
             'dark-neon-glass',
             'black-cowhide-leather',
             'deep-ocean',
-            'dark-neumorphism-beyond'
+            'dark-neumorphism-beyond',
+            'dark-frost-ice-neu',
+            'dark-flat-soft-ui'
           ];
           var colorThemes = ['cowhide-leather', 'multicolor-glass'];
           var mechanism = colorThemes.indexOf(cardStyle) !== -1
@@ -134,8 +142,29 @@
       })();
     </script>
   </head>
-  <body class="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 p-0 selection:bg-indigo-500 selection:text-white bg-[#F8FAFC] dark:bg-[#0B1220] text-[#334155] dark:text-[#E2E8F0]">
+  <body class="h-screen w-screen overflow-hidden flex flex-col justify-between m-0 p-0 selection:bg-cyan-500 selection:text-white bg-[#F2F8FD] dark:bg-[#0B1220] text-[#173653] dark:text-[#E2E8F0]">
     <div id="root" class="w-full h-full flex flex-col overflow-hidden"></div>
+    <!-- Optical Liquid Glass Distortion Filter (Lucas Romero macOS effect) -->
+    <svg style="display: none" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="glass-distortion">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.01 0.01"
+            numOctaves="1"
+            seed="5"
+            result="turbulence"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="turbulence"
+            scale="-20"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
+        </filter>
+      </defs>
+    </svg>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

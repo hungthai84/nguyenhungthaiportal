@@ -190,7 +190,7 @@ export interface LanguageProficiencyItem {
 }
 
 export const STRENGTHS_DATA: SwotSkillItem[] = [
-  { id: 's-1', iconName: 'Target', labelVi: 'Trải nghiệm khách hàng toàn diện nhất', labelEn: 'Comprehensive Customer Experience', percent: 98, descVi: 'Xây dựng và tối ưu hóa trải nghiệm khách hàng toàn diện' },
+  { id: 's-1', iconName: 'Target', labelVi: 'Trải nghiệm kh toàn diện', labelEn: 'Comprehensive Customer Experience', percent: 98, descVi: 'Xây dựng và tối ưu hóa trải nghiệm khách hàng toàn diện' },
   { id: 's-2', iconName: 'Phone', labelVi: 'Vận hành CRM và Contact Center', labelEn: 'CRM & Contact Center Operations', percent: 96, descVi: 'Quản trị và vận hành hệ thống CRM & Contact Center đa kênh' },
   { id: 's-3', iconName: 'BarChart3', labelVi: 'Quản trị hiệu suất vận hành chuẩn', labelEn: 'Standard Performance Management', percent: 96, descVi: 'Thiết lập và theo dõi bộ chỉ số KPI/SLA vận hành' },
   { id: 's-4', iconName: 'Users', labelVi: 'Lãnh đạo và phát triển đội ngũ', labelEn: 'Team Leadership & Development', percent: 95, descVi: 'Lãnh đạo, đào tạo và phát triển đội ngũ quy mô lớn' },

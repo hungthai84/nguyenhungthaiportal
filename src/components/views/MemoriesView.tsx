@@ -154,7 +154,6 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         <div
           id="memories-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-element-name="Thẻ chính Trang Kỷ Niệm"
           data-element-type="card"
           data-element-page="memories"
@@ -424,16 +423,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 data-media-card="image"
                 style={{
                   animationDelay: `${(idx % 16) * 35}ms`,
-                  borderRadius: 'var(--radius-card, 14px)',
-                  minHeight: '250px',
+                  borderRadius: 'var(--radius-card, 16px)',
                   padding: '0px',
                   cursor: 'pointer',
                 }}
                 className={cn(
-                  'themed-image-card memory-photo-item break-inside-avoid mb-[15px] relative rounded-[14px] overflow-hidden block group transition-all duration-300 hover:-translate-y-1 p-0'
+                  'themed-image-card memory-photo-item pinterest-pin-card break-inside-avoid mb-[16px] relative rounded-[16px] overflow-hidden block group transition-all duration-300 p-0 shadow-sm border border-[var(--border-subcard)] hover:shadow-2xl'
                 )}
               >
-                {/* HÌNH ẢNH NẰM GỌN TRONG CARD VỚI PADDING 0PX */}
+                {/* HÌNH ẢNH PINTEREST GIỮ NGUYÊN TỶ LỆ TỰ NHIÊN (WATERFALL MASONRY) */}
                 <img
                   src={item.imageUrl}
                   alt={item.titleVi}
@@ -447,48 +445,59 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}
-                  style={{ borderRadius: 'var(--radius-card, 14px)' }}
-                  className="memory-crisp-img w-full h-auto min-h-[250px] max-h-[440px] object-cover block rounded-[inherit] transition-opacity duration-300"
+                  style={{ borderRadius: 'var(--radius-card, 16px)' }}
+                  className="memory-crisp-img w-full h-auto object-cover block rounded-[inherit] transition-all duration-300 group-hover:scale-[1.02]"
                 />
 
-                {/* LỚP PHỦ THEO GIAO DIỆN ĐANG CHỌN — CHỈ HIỆN KHI RÊ CHUỘT */}
+                {/* LỚP PHỦ PINTEREST THEO GIAO DIỆN — HIỆN TRƠN TRU KHI RÊ CHUỘT HOẶC FOCUS */}
                 <div
-                  style={{ inset: '0px', borderRadius: 'var(--radius-card, 14px)' }}
-                  className="themed-image-card-scrim absolute pointer-events-none z-10 rounded-[inherit] opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{ inset: '0px', borderRadius: 'var(--radius-card, 16px)' }}
+                  className="themed-image-card-scrim absolute pointer-events-none z-10 rounded-[inherit] bg-gradient-to-t from-black/85 via-black/30 to-black/15 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 
-                {/* TIÊU ĐỀ & CÁC ĐỐI TƯỢNG TRONG CARD (PADDING 15PX, CHỈ HIỆN KHI OVER MOUSE) */}
+                {/* NÚT LƯU GHIM / PIN IT THEO PHONG CÁCH PINTEREST (GÓC TRÊN BÊN PHẢI KHI RÊ CHUỘT) */}
+                <div className="absolute top-2.5 right-2.5 z-30 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-200">
+                  <span
+                    aria-label="Lưu ghim kỷ niệm"
+                    title="Lưu ghim kỷ niệm"
+                    className="w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform"
+                  >
+                    <WebIcon name="heart" className="w-4 h-4 fill-white text-white" />
+                  </span>
+                </div>
+
+                {/* TIÊU ĐỀ & CÁC ĐỐI TƯỢNG TRONG CARD PINTEREST (CHỈ HIỆN KHI OVER MOUSE) */}
                 <div
                   id={`memory-card-content-${item.id}`}
-                  style={{ padding: '15px' }}
-                  className="themed-image-card-overlay absolute inset-0 z-20 w-full h-full flex flex-col justify-between gap-2 p-[15px] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
+                  style={{ padding: '14px' }}
+                  className="themed-image-card-overlay absolute inset-0 z-20 w-full h-full flex flex-col justify-between gap-2 p-[14px] opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 >
-                  {/* Badge năm & tag */}
-                  <div className="relative z-10 flex items-center justify-between gap-1.5 pointer-events-none">
-                    <span className="themed-image-card-badge typo-badge font-mono tracking-wide px-2.5 py-0.5 rounded-full">
+                  {/* Badge năm & tag (Góc trên trái) */}
+                  <div className="relative z-10 flex items-center gap-1.5 pointer-events-none">
+                    <span className="themed-image-card-badge typo-badge font-mono tracking-wide px-2.5 py-0.5 rounded-full bg-black/50 text-white backdrop-blur-xs border border-white/20">
                       {item.tagVi}
                     </span>
-                    <span className="themed-image-card-badge typo-badge font-mono px-2.5 py-0.5 rounded-full">
+                    <span className="themed-image-card-badge typo-badge font-mono px-2.5 py-0.5 rounded-full bg-black/50 text-white backdrop-blur-xs border border-white/20">
                       {item.year}
                     </span>
                   </div>
 
-                  {/* Tiêu đề & chi tiết */}
-                  <div className="relative z-10 flex flex-col justify-end min-w-0">
-                    <span className="themed-image-card-kicker typo-label font-mono capitalize tracking-wide block">
+                  {/* Tiêu đề & chi tiết thông tin ảnh */}
+                  <div className="relative z-10 flex flex-col justify-end min-w-0 text-white">
+                    <span className="themed-image-card-kicker typo-label font-mono uppercase tracking-wider block text-rose-300 font-bold">
                       {item.companyId}
                     </span>
                     <h3
-                      className="themed-image-card-title typo-h4 card-header-sync card-title-synced break-words line-clamp-2 mt-0.5 flex items-center gap-1.5"
+                      className="themed-image-card-title typo-h4 card-header-sync card-title-synced break-words line-clamp-2 mt-0.5 flex items-center gap-1.5 text-white font-play font-bold"
                       data-card-title="true"
                     >
-                      <WebIcon name="image" className="w-4 h-4 shrink-0" />
+                      <WebIcon name="image" className="w-4 h-4 shrink-0 text-rose-400" />
                       <span>{formatCardTitle(item.titleVi)}</span>
                     </h3>
-                    <p className="themed-image-card-subtext typo-caption break-words mt-1 line-clamp-2">
+                    <p className="themed-image-card-subtext typo-caption break-words mt-1 line-clamp-2 text-slate-200">
                       {item.descVi}
                     </p>
-                    <div className="themed-image-card-divider themed-image-card-subtext flex items-center justify-between mt-2 pt-1.5 border-t typo-label font-mono">
+                    <div className="themed-image-card-divider flex items-center justify-between mt-2 pt-1.5 border-t border-white/20 typo-label font-mono text-slate-300">
                       <span className="flex items-center gap-1 truncate">
                         <WebIcon name="location" className="w-3 h-3 shrink-0" />
                         <span className="truncate">{item.locationVi}</span>

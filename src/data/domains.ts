@@ -14,10 +14,10 @@ export const DOMAINS_DATA: DomainData[] = [
     serviceCode: '6.1',
     title: 'Dịch vụ Viễn thông',
     titleEn: 'Telecommunications & Contact Center Operations',
-    subtitle: 'Quản trị Contact Center viễn thông 24/7/365, chuẩn hóa quy trình và trải nghiệm đa kênh.',
-    subtitleEn: '24/7/365 Telecom Contact Center governance, SOP standards, and omnichannel CX.',
+    subtitle: 'Quản lý tổng đài, vận hành trung tâm CSKH, xử lý sự cố và chuẩn hóa quy trình phục vụ khách hàng 24/7.',
+    subtitleEn: 'Call center management, 24/7 contact center operations, incident resolution, and customer service standardization.',
     coreCompetency:
-      'Năng lực quản trị, vận hành và chuẩn hóa hệ thống Contact Center viễn thông quy mô tập đoàn, đảm bảo tính liên tục 24/7/365 và tối ưu hóa trải nghiệm khách hàng đa kênh.',
+      'Quản lý tổng đài, vận hành trung tâm CSKH, xử lý sự cố và chuẩn hóa quy trình phục vụ khách hàng 24/7.',
     experienceAndScale:
       'Hơn 10 năm kinh nghiệm quản trị và vận hành chuyên sâu trong ngành viễn thông di động và viễn thông quốc tế (MobiFone, V247, LBC HTVC). Quản lý và điều hành trực tiếp từ 50–130+ nhân sự theo ca vận hành, hơn 100.000 cuộc gọi và giao dịch mỗi tháng.',
     operationalCapabilityLabel: 'Năng lực vận hành',
@@ -32,10 +32,10 @@ export const DOMAINS_DATA: DomainData[] = [
     typicalEntitiesLabel: 'Doanh nghiệp tiêu biểu',
     typicalEntitiesLine: 'MobiFone, Viễn Liên V247, LBC, HTVC.',
     professionalMessage:
-      'Năng lực quản trị, vận hành và chuẩn hóa hệ thống Contact Center viễn thông quy mô tập đoàn, đảm bảo tính liên tục 24/7/365 và tối ưu hóa trải nghiệm khách hàng đa kênh.',
+      'Quản lý tổng đài, vận hành trung tâm CSKH, xử lý sự cố và chuẩn hóa quy trình phục vụ khách hàng 24/7.',
     tag: 'Dịch vụ Viễn thông',
-    desc: 'Quản trị Contact Center viễn thông (MobiFone, V247, LBC HTVC) với 50–130+ nhân sự theo ca, >100.000 cuộc gọi/tháng, vận hành liên tục 24/7/365; duy trì SLA > 98%, CSAT 96,5%.',
-    descEn: 'Operating 24/7/365 Telecom Contact Centers, resolving international billing disputes, and maintaining >98% SLA.',
+    desc: 'Quản lý tổng đài, vận hành trung tâm CSKH, xử lý sự cố và chuẩn hóa quy trình phục vụ khách hàng 24/7.',
+    descEn: 'Call center management, 24/7 contact center operations, incident resolution, and customer service standardization.',
     color: 'cyan',
     icon: 'tower',
     customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
@@ -119,12 +119,12 @@ export const DOMAINS_DATA: DomainData[] = [
   {
     id: '02',
     serviceCode: '6.2',
-    title: 'Thương mại điện tử',
+    title: 'Thương mại Điện tử',
     titleEn: 'E-Commerce & Omnichannel Operations',
-    subtitle: 'Vận hành CSKH đa kênh thương mại điện tử, xử lý tranh chấp và kiểm soát rủi ro giao dịch.',
-    subtitleEn: 'Omnichannel e-commerce CS ops, dispute resolution, and transaction risk control.',
+    subtitle: 'Quản trị trải nghiệm đa kênh, hỗ trợ người mua và người bán, tối ưu hành trình khách hàng và chất lượng dịch vụ.',
+    subtitleEn: 'Omnichannel experience management, buyer and seller support, customer journey and service quality optimization.',
     coreCompetency:
-      'Quản trị dịch vụ đa kênh, trải nghiệm mua sắm trực tuyến và kiểm soát rủi ro giao dịch.',
+      'Quản trị trải nghiệm đa kênh, hỗ trợ người mua và người bán, tối ưu hành trình khách hàng và chất lượng dịch vụ.',
     experienceAndScale:
       'Quản trị hoạt động Chăm sóc Khách hàng và Fraud với đội ngũ trên 100 nhân sự, phục vụ hệ sinh thái người dùng quy mô lớn và đáp ứng nhu cầu hỗ trợ tăng cao trong các chiến dịch Mega-Sale.',
     operationalCapabilityLabel: 'Năng lực vận hành',
@@ -139,10 +139,10 @@ export const DOMAINS_DATA: DomainData[] = [
     typicalEntitiesLabel: 'Doanh nghiệp tiêu biểu',
     typicalEntitiesLine: 'Shopee, Finviet.',
     professionalMessage:
-      'Quản trị dịch vụ đa kênh, trải nghiệm mua sắm trực tuyến và kiểm soát rủi ro giao dịch. Quản trị hoạt động Chăm sóc Khách hàng và Fraud với đội ngũ trên 100 nhân sự, phục vụ hệ sinh thái người dùng quy mô lớn và đáp ứng nhu cầu hỗ trợ tăng cao trong các chiến dịch Mega-Sale.',
-    tag: 'Thương mại điện tử',
-    desc: 'Quản trị dịch vụ đa kênh, trải nghiệm mua sắm trực tuyến và kiểm soát rủi ro giao dịch (>100 nhân sự CSKH & Fraud tại Shopee, Finviet); giảm thời gian chờ Chat < 30 giây, nâng CSAT lên 96,5% và tiết kiệm 25% Cost-to-Serve.',
-    descEn: 'Building omnichannel CX for e-commerce platforms, order dispute resolution, fraud control, and Mega-Sale operations.',
+      'Quản trị trải nghiệm đa kênh, hỗ trợ người mua và người bán, tối ưu hành trình khách hàng và chất lượng dịch vụ.',
+    tag: 'Thương mại Điện tử',
+    desc: 'Quản trị trải nghiệm đa kênh, hỗ trợ người mua và người bán, tối ưu hành trình khách hàng và chất lượng dịch vụ.',
+    descEn: 'Omnichannel experience management, buyer and seller support, customer journey and service quality optimization.',
     color: 'orange',
     icon: 'shopping-cart',
     customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
@@ -215,106 +215,14 @@ export const DOMAINS_DATA: DomainData[] = [
     tools: ['Zendesk Omnichannel', 'Shopee Admin CRM', 'Live Chat Auto-Router', 'Chatbot phân loại tự động', 'Power BI Dashboard'],
   },
   {
-    id: '03',
-    serviceCode: '6.3',
-    title: 'Tài chính bảo hiểm',
-    titleEn: 'Insurance & Financial Quality Management',
-    subtitle: 'Quản trị chất lượng tư vấn bảo hiểm, bảo mật thông tin và tuân thủ chuẩn mực tài chính.',
-    subtitleEn: 'Insurance advisory quality, data security, and strict financial compliance ops.',
-    coreCompetency:
-      'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao.',
-    experienceAndScale:
-      'Quản lý đội ngũ 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center, phục vụ danh mục hợp đồng bảo hiểm quy mô lớn.',
-    operationalCapabilityLabel: 'Năng lực vận hành',
-    operationalCapability:
-      'Kiểm soát tính chính xác và minh bạch trong tư vấn hợp đồng; xử lý yêu cầu quyền lợi bảo hiểm, khiếu nại và các tình huống nhạy cảm; giám sát chất lượng tư vấn, bảo mật thông tin và duy trì hoạt động liên tục (Business Continuity Planning – BCP).',
-    keyResultsSummary:
-      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng; duy trì tỷ lệ giải quyết ngay lần liên hệ đầu tiên (FCR) trên 92%; cải thiện tỷ lệ duy trì hợp đồng (Retention) thêm 15% và bảo đảm SLA đạt 95%.',
-    techAndSystemsSummary:
-      'Prudential Life CRM trên nền tảng AS400, VideoCall, Voice Recording, QA Monitoring và quy trình BCP.',
-    typicalRolesLine:
-      'Call Center Project & Quality Manager | Quản trị Chất lượng và Trải nghiệm Khách hàng.',
-    typicalEntitiesLabel: 'Doanh nghiệp tiêu biểu',
-    typicalEntitiesLine: 'Prudential Vietnam.',
-    professionalMessage:
-      'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao. Quản lý đội ngũ 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center, phục vụ danh mục hợp đồng bảo hiểm quy mô lớn.',
-    tag: 'Tài chính bảo hiểm',
-    desc: 'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng tại Prudential Vietnam (12 nhân sự trực tiếp & >40 chuyên viên Call Center); rút ngắn 45% thời gian xử lý hợp đồng, FCR > 92%, Retention +15% và SLA 95%.',
-    descEn: 'Managing international-standard Call Centers, policy consultation, claims quality assurance, and BCP continuity.',
-    color: 'rose',
-    icon: 'shield-check',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
-    metrics: [
-      { label: 'Thời gian xử lý yêu cầu hợp đồng', value: 'Rút ngắn 45%' },
-      { label: 'Giải quyết ngay lần đầu (FCR)', value: 'Trên 92%' },
-      { label: 'Duy trì hợp đồng (Retention)', value: 'Tăng 15%' },
-      { label: 'Bảo đảm SLA', value: 'Đạt 95%' },
-    ],
-    experienceItems: [
-      'Năng lực chuyên môn: Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao.',
-      'Kinh nghiệm & quy mô: Quản lý đội ngũ 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.',
-      'Phục vụ danh mục hợp đồng bảo hiểm quy mô lớn với tiêu chuẩn tuân thủ và bảo mật nghiêm ngặt.',
-    ],
-    scaleAndScope: [
-      { label: 'Đội ngũ trực tiếp', content: 'Quản lý đội ngũ 12 nhân sự trực tiếp.' },
-      { label: 'Đội ngũ phối hợp', content: 'Phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.' },
-      { label: 'Danh mục phục vụ', content: 'Phục vụ danh mục hợp đồng bảo hiểm quy mô lớn.' },
-      { label: 'Tiêu chuẩn tuân thủ', content: 'Bảo mật thông tin và duy trì hoạt động liên tục (BCP).' },
-    ],
-    operationalChallenges: [
-      'Kiểm soát tính chính xác và minh bạch trong tư vấn hợp đồng.',
-      'Xử lý yêu cầu quyền lợi bảo hiểm, khiếu nại và các tình huống nhạy cảm.',
-      'Giám sát chất lượng tư vấn và bảo mật thông tin.',
-      'Duy trì hoạt động liên tục (Business Continuity Planning – BCP).',
-    ],
-    techSolutions: [
-      { name: 'Prudential Life CRM trên nền tảng AS400', desc: 'Quản lý danh mục hợp đồng bảo hiểm và dữ liệu khách hàng.' },
-      { name: 'VideoCall & Voice Recording', desc: 'Tư vấn trực tuyến và ghi âm phục vụ đối soát, kiểm định chất lượng.' },
-      { name: 'QA Monitoring & Quy trình BCP', desc: 'Giám sát chất lượng tư vấn và bảo đảm vận hành liên tục.' },
-    ],
-    operationalResults: [
-      { indicator: 'Thời gian xử lý yêu cầu hợp đồng', outcome: 'Rút ngắn 45%' },
-      { indicator: 'Giải quyết ngay lần liên hệ đầu tiên (FCR)', outcome: 'Trên 92%' },
-      { indicator: 'Tỷ lệ duy trì hợp đồng (Retention)', outcome: 'Cải thiện thêm 15%' },
-      { indicator: 'Cam kết chất lượng phục vụ (SLA)', outcome: 'Đạt 95%' },
-    ],
-    summaryNote:
-      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng; duy trì tỷ lệ giải quyết ngay lần liên hệ đầu tiên (FCR) trên 92%; cải thiện tỷ lệ duy trì hợp đồng (Retention) thêm 15% và bảo đảm SLA đạt 95%.',
-    rolesHeld: [
-      'Call Center Project & Quality Manager',
-      'Quản trị Chất lượng và Trải nghiệm Khách hàng',
-    ],
-    details: [
-      'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm trong môi trường tuân thủ cao.',
-      'Quản lý 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.',
-      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng, FCR > 92%, Retention +15%, SLA đạt 95%.',
-    ],
-    companies: ['Prudential Vietnam'],
-    companyLogos: [
-      {
-        name: 'Prudential Vietnam',
-        logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
-        url: 'https://www.prudential.com.vn',
-      },
-      {
-        name: 'Finviet',
-        logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-        url: 'https://finviet.com.vn',
-      },
-    ],
-    tools: ['Prudential Life CRM trên nền tảng AS400', 'VideoCall', 'Voice Recording', 'QA Monitoring', 'Quy trình BCP'],
-  },
-  {
     id: '04',
-    serviceCode: '6.4',
-    title: 'Thể thao điện tử',
+    serviceCode: '6.3',
+    title: 'Thể thao Điện tử',
     titleEn: 'Gaming & eSports Customer Support Operations',
-    subtitle: 'Điều hành Game Support quy mô lớn, bảo vệ tài khoản và gắn kết cộng đồng người chơi.',
-    subtitleEn: 'Large-scale Game Support operations, account protection, and player community CX.',
+    subtitle: 'Vận hành hệ thống hỗ trợ game thủ, quản lý cộng đồng, xử lý gian lận và phát triển dịch vụ cho nền tảng game trực tuyến.',
+    subtitleEn: 'Gaming support operations, community management, fraud prevention, and online game service development.',
     coreCompetency:
-      'Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản và vận hành dịch vụ quy mô lớn.',
+      'Vận hành hệ thống hỗ trợ game thủ, quản lý cộng đồng, xử lý gian lận và phát triển dịch vụ cho nền tảng game trực tuyến.',
     experienceAndScale:
       'Lãnh đạo và điều hành đội ngũ khoảng 130 nhân sự, bao gồm hơn 80 nhân sự Game Support, CSKH và Fraud; tổ chức xử lý trên 50.000 yêu cầu hỗ trợ mỗi ngày trong môi trường có lưu lượng tương tác cao.',
     operationalCapabilityLabel: 'Năng lực vận hành',
@@ -329,10 +237,10 @@ export const DOMAINS_DATA: DomainData[] = [
     typicalEntitiesLabel: 'Đơn vị, sản phẩm tiêu biểu',
     typicalEntitiesLine: 'Garena, VED, GCafe, Liên Quân Mobile, Liên Minh Huyền Thoại.',
     professionalMessage:
-      'Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản và vận hành dịch vụ quy mô lớn. Lãnh đạo và điều hành đội ngũ khoảng 130 nhân sự, bao gồm hơn 80 nhân sự Game Support, CSKH và Fraud; tổ chức xử lý trên 50.000 yêu cầu hỗ trợ mỗi ngày trong môi trường có lưu lượng tương tác cao.',
-    tag: 'Thể thao điện tử',
-    desc: 'Quản trị Game Support, cộng đồng người chơi, an toàn tài khoản tại Garena, VED, GCafe (~130 nhân sự, >50.000 yêu cầu/ngày); duy trì phản hồi Ticket/Chat < 30 giây, CSAT 96%, bảo vệ tài sản số và nâng cao Retention/LTV.',
-    descEn: 'Supporting millions of gamers, account security, virtual asset protection, and eSports community operations.',
+      'Vận hành hệ thống hỗ trợ game thủ, quản lý cộng đồng, xử lý gian lận và phát triển dịch vụ cho nền tảng game trực tuyến.',
+    tag: 'Thể thao Điện tử',
+    desc: 'Vận hành hệ thống hỗ trợ game thủ, quản lý cộng đồng, xử lý gian lận và phát triển dịch vụ cho nền tảng game trực tuyến.',
+    descEn: 'Gaming support operations, community management, fraud prevention, and online game service development.',
     color: 'indigo',
     icon: 'game',
     customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
@@ -405,14 +313,106 @@ export const DOMAINS_DATA: DomainData[] = [
     tools: ['Garena Customer Desk', 'Công cụ quản lý GCafe', 'AI Ticket Classifier', 'CS Academy LMS'],
   },
   {
+    id: '03',
+    serviceCode: '6.4',
+    title: 'Tài chính & Bảo hiểm',
+    titleEn: 'Insurance & Financial Quality Management',
+    subtitle: 'Quản trị dịch vụ tài chính, bảo hiểm; kiểm soát chất lượng, chuẩn hóa quy trình và xây dựng niềm tin khách hàng.',
+    subtitleEn: 'Financial and insurance service governance, quality control, process standardization, and trust building.',
+    coreCompetency:
+      'Quản trị dịch vụ tài chính, bảo hiểm; kiểm soát chất lượng, chuẩn hóa quy trình và xây dựng niềm tin khách hàng.',
+    experienceAndScale:
+      'Quản lý đội ngũ 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center, phục vụ danh mục hợp đồng bảo hiểm quy mô lớn.',
+    operationalCapabilityLabel: 'Năng lực vận hành',
+    operationalCapability:
+      'Kiểm soát tính chính xác và minh bạch trong tư vấn hợp đồng; xử lý yêu cầu quyền lợi bảo hiểm, khiếu nại và các tình huống nhạy cảm; giám sát chất lượng tư vấn, bảo mật thông tin và duy trì hoạt động liên tục (Business Continuity Planning – BCP).',
+    keyResultsSummary:
+      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng; duy trì tỷ lệ giải quyết ngay lần liên hệ đầu tiên (FCR) trên 92%; cải thiện tỷ lệ duy trì hợp đồng (Retention) thêm 15% và bảo đảm SLA đạt 95%.',
+    techAndSystemsSummary:
+      'Prudential Life CRM trên nền tảng AS400, VideoCall, Voice Recording, QA Monitoring và quy trình BCP.',
+    typicalRolesLine:
+      'Call Center Project & Quality Manager | Quản trị Chất lượng và Trải nghiệm Khách hàng.',
+    typicalEntitiesLabel: 'Doanh nghiệp tiêu biểu',
+    typicalEntitiesLine: 'Prudential Vietnam.',
+    professionalMessage:
+      'Quản trị dịch vụ tài chính, bảo hiểm; kiểm soát chất lượng, chuẩn hóa quy trình và xây dựng niềm tin khách hàng.',
+    tag: 'Tài chính & Bảo hiểm',
+    desc: 'Quản trị dịch vụ tài chính, bảo hiểm; kiểm soát chất lượng, chuẩn hóa quy trình và xây dựng niềm tin khách hàng.',
+    descEn: 'Financial and insurance service governance, quality control, process standardization, and trust building.',
+    color: 'rose',
+    icon: 'shield-check',
+    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
+    metrics: [
+      { label: 'Thời gian xử lý yêu cầu hợp đồng', value: 'Rút ngắn 45%' },
+      { label: 'Giải quyết ngay lần đầu (FCR)', value: 'Trên 92%' },
+      { label: 'Duy trì hợp đồng (Retention)', value: 'Tăng 15%' },
+      { label: 'Bảo đảm SLA', value: 'Đạt 95%' },
+    ],
+    experienceItems: [
+      'Năng lực chuyên môn: Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm và trải nghiệm khách hàng trong môi trường có yêu cầu tuân thủ cao.',
+      'Kinh nghiệm & quy mô: Quản lý đội ngũ 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.',
+      'Phục vụ danh mục hợp đồng bảo hiểm quy mô lớn với tiêu chuẩn tuân thủ và bảo mật nghiêm ngặt.',
+    ],
+    scaleAndScope: [
+      { label: 'Đội ngũ trực tiếp', content: 'Quản lý đội ngũ 12 nhân sự trực tiếp.' },
+      { label: 'Đội ngũ phối hợp', content: 'Phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.' },
+      { label: 'Danh mục phục vụ', content: 'Phục vụ danh mục hợp đồng bảo hiểm quy mô lớn.' },
+      { label: 'Tiêu chuẩn tuân thủ', content: 'Bảo mật thông tin và duy trì hoạt động liên tục (BCP).' },
+    ],
+    operationalChallenges: [
+      'Kiểm soát tính chính xác và minh bạch trong tư vấn hợp đồng.',
+      'Xử lý yêu cầu quyền lợi bảo hiểm, khiếu nại và các tình huống nhạy cảm.',
+      'Giám sát chất lượng tư vấn và bảo mật thông tin.',
+      'Duy trì hoạt động liên tục (Business Continuity Planning – BCP).',
+    ],
+    techSolutions: [
+      { name: 'Prudential Life CRM trên nền tảng AS400', desc: 'Quản lý danh mục hợp đồng bảo hiểm và dữ liệu khách hàng.' },
+      { name: 'VideoCall & Voice Recording', desc: 'Tư vấn trực tuyến và ghi âm phục vụ đối soát, kiểm định chất lượng.' },
+      { name: 'QA Monitoring & Quy trình BCP', desc: 'Giám sát chất lượng tư vấn và bảo đảm vận hành liên tục.' },
+    ],
+    operationalResults: [
+      { indicator: 'Thời gian xử lý yêu cầu hợp đồng', outcome: 'Rút ngắn 45%' },
+      { indicator: 'Giải quyết ngay lần liên hệ đầu tiên (FCR)', outcome: 'Trên 92%' },
+      { indicator: 'Tỷ lệ duy trì hợp đồng (Retention)', outcome: 'Cải thiện thêm 15%' },
+      { indicator: 'Cam kết chất lượng phục vụ (SLA)', outcome: 'Đạt 95%' },
+    ],
+    summaryNote:
+      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng; duy trì tỷ lệ giải quyết ngay lần liên hệ đầu tiên (FCR) trên 92%; cải thiện tỷ lệ duy trì hợp đồng (Retention) thêm 15% và bảo đảm SLA đạt 95%.',
+    rolesHeld: [
+      'Call Center Project & Quality Manager',
+      'Quản trị Chất lượng và Trải nghiệm Khách hàng',
+    ],
+    details: [
+      'Quản trị chất lượng dịch vụ tài chính, tư vấn bảo hiểm trong môi trường tuân thủ cao.',
+      'Quản lý 12 nhân sự trực tiếp và phối hợp vận hành hơn 40 chuyên viên tư vấn Call Center.',
+      'Rút ngắn 45% thời gian xử lý yêu cầu hợp đồng, FCR > 92%, Retention +15%, SLA đạt 95%.',
+    ],
+    companies: ['Prudential Vietnam'],
+    companyLogos: [
+      {
+        name: 'Prudential Vietnam',
+        logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+        fallbackLogo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+        url: 'https://www.prudential.com.vn',
+      },
+      {
+        name: 'Finviet',
+        logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+        fallbackLogo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+        url: 'https://finviet.com.vn',
+      },
+    ],
+    tools: ['Prudential Life CRM trên nền tảng AS400', 'VideoCall', 'Voice Recording', 'QA Monitoring', 'Quy trình BCP'],
+  },
+  {
     id: '05',
     serviceCode: '6.5',
-    title: 'Thanh toán điện tử',
+    title: 'Thanh toán Ví Điện tử',
     titleEn: 'Fintech, E-Wallets & Digital Payment Operations',
-    subtitle: 'Vận hành CSKH ví điện tử, tra soát dòng tiền, kiểm soát gian lận và tự động hóa RPA.',
-    subtitleEn: 'Fintech wallet support, cashflow reconciliation, fraud control, and RPA workflow.',
+    subtitle: 'Tối ưu vận hành dịch vụ thanh toán số, hỗ trợ giao dịch, xử lý khiếu nại và nâng cao trải nghiệm người dùng.',
+    subtitleEn: 'Digital payment service optimization, transaction support, dispute handling, and user experience enhancement.',
     coreCompetency:
-      'Quản trị dịch vụ tài chính số, tra soát giao dịch, kiểm soát rủi ro và tự động hóa vận hành.',
+      'Tối ưu vận hành dịch vụ thanh toán số, hỗ trợ giao dịch, xử lý khiếu nại và nâng cao trải nghiệm người dùng.',
     experienceAndScale:
       'Quản lý đội ngũ 60–120+ nhân sự nội bộ, đồng thời điều phối hoạt động BPO với quy mô trên 150 vị trí; phục vụ hệ sinh thái thanh toán điện tử có hàng triệu người dùng.',
     operationalCapabilityLabel: 'Năng lực vận hành',
@@ -427,10 +427,10 @@ export const DOMAINS_DATA: DomainData[] = [
     typicalEntitiesLabel: 'Doanh nghiệp tiêu biểu',
     typicalEntitiesLine: 'MoMo, ShopeePay, Ví ECO (Finviet).',
     professionalMessage:
-      'Quản trị dịch vụ tài chính số, tra soát giao dịch, kiểm soát rủi ro và tự động hóa vận hành. Quản lý đội ngũ 60–120+ nhân sự nội bộ, đồng thời điều phối hoạt động BPO với quy mô trên 150 vị trí; phục vụ hệ sinh thái thanh toán điện tử có hàng triệu người dùng.',
-    tag: 'Thanh toán điện tử',
-    desc: 'Quản trị dịch vụ tài chính số, tra soát giao dịch, kiểm soát rủi ro tại MoMo, ShopeePay, Ví ECO Finviet (60–120+ nhân sự nội bộ & >150 vị trí BPO); ứng dụng RPA rút ngắn hoàn tiền từ 48 giờ xuống ~90 giây, CSAT 98,2%, SLA BPO 98,6%.',
-    descEn: 'Real-time financial transaction support, Core Banking reconciliation, RPA refund automation, and BPO governance.',
+      'Tối ưu vận hành dịch vụ thanh toán số, hỗ trợ giao dịch, xử lý khiếu nại và nâng cao trải nghiệm người dùng.',
+    tag: 'Thanh toán Ví Điện tử',
+    desc: 'Tối ưu vận hành dịch vụ thanh toán số, hỗ trợ giao dịch, xử lý khiếu nại và nâng cao trải nghiệm người dùng.',
+    descEn: 'Digital payment service optimization, transaction support, dispute handling, and user experience enhancement.',
     color: 'purple',
     icon: 'credit-card',
     customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
@@ -505,12 +505,12 @@ export const DOMAINS_DATA: DomainData[] = [
   {
     id: '06',
     serviceCode: '6.6',
-    title: 'Xây dựng hệ thống',
+    title: 'Xây dựng Hệ thống',
     titleEn: 'Strategic CX Consulting & Contact Center System Architecture',
-    subtitle: 'Tư vấn chiến lược CX, thiết lập Contact Center và chuyển đổi số từ Cost sang Value Center.',
-    subtitleEn: 'CX strategy consulting, Contact Center setup, and Cost-to-Value transformation.',
+    subtitle: 'Thiết kế và phát triển CRM, Dashboard, KPI, SOP, AI Chatbot và tự động hóa nhằm tối ưu quản trị, nhân lực và hiệu quả vận hành.',
+    subtitleEn: 'Design and development of CRM, Dashboard, KPI, SOP, AI Chatbots, and automation to optimize management and efficiency.',
     coreCompetency:
-      'Tư vấn chiến lược CX, thiết kế mô hình vận hành, xây dựng Contact Center và chuyển đổi số hoạt động CSKH.',
+      'Thiết kế và phát triển CRM, Dashboard, KPI, SOP, AI Chatbot và tự động hóa nhằm tối ưu quản trị, nhân lực và hiệu quả vận hành.',
     experienceAndScale:
       'Hơn 22 năm tích lũy kinh nghiệm thực chiến, tham gia tư vấn, thiết lập và tối ưu mô hình Contact Center với quy mô từ 10 đến trên 150 vị trí vận hành, phù hợp với đặc thù và nguồn lực của từng doanh nghiệp.',
     operationalCapabilityLabel: 'Năng lực triển khai',
@@ -527,10 +527,10 @@ export const DOMAINS_DATA: DomainData[] = [
     typicalEntitiesLabel: 'Đơn vị, hệ sinh thái tiêu biểu',
     typicalEntitiesLine: 'Power Service và các doanh nghiệp đối tác.',
     professionalMessage:
-      'Tư vấn chiến lược CX, thiết kế mô hình vận hành, xây dựng Contact Center và chuyển đổi số hoạt động CSKH. Hơn 22 năm tích lũy kinh nghiệm thực chiến, tham gia tư vấn, thiết lập và tối ưu mô hình Contact Center với quy mô từ 10 đến trên 150 vị trí vận hành, phù hợp với đặc thù và nguồn lực của từng doanh nghiệp.',
-    tag: 'Xây dựng hệ thống',
-    desc: 'Tư vấn chiến lược CX, thiết kế mô hình vận hành, xây dựng Contact Center (10–150+ vị trí) và chuyển đổi số CSKH từ Cost Center thành Value Center; chuẩn hóa SOP/KPI, rút ngắn 65% thời gian Onboarding và cải thiện 40% hiệu suất vận hành.',
-    descEn: 'Designing Contact Center architecture (10 to 150+ seats), CRM/AI integration, SOP/KPI standardization, and operational transfer.',
+      'Thiết kế và phát triển CRM, Dashboard, KPI, SOP, AI Chatbot và tự động hóa nhằm tối ưu quản trị, nhân lực và hiệu quả vận hành.',
+    tag: 'Xây dựng Hệ thống',
+    desc: 'Thiết kế và phát triển CRM, Dashboard, KPI, SOP, AI Chatbot và tự động hóa nhằm tối ưu quản trị, nhân lực và hiệu quả vận hành.',
+    descEn: 'Design and development of CRM, Dashboard, KPI, SOP, AI Chatbots, and automation to optimize management and efficiency.',
     color: 'emerald',
     icon: 'settings',
     customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',

@@ -127,21 +127,18 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         {/* Dedicated Theme Wallpaper + Live Material Specimen */}
         <div
           style={{
-            borderRadius: preset.id.includes('glass') ? '20px' : 'var(--radius-subcard, 14px)',
+            borderRadius: '16px',
             backgroundImage: bgSpec?.imagePath
               ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
               : bgSpec?.fallbackGradient,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-          className={`relative overflow-hidden p-3 flex flex-col gap-2.5 border ${meta.previewBorderClass}`}
+          className="relative overflow-hidden p-2.5 flex flex-col gap-2 border border-white/25 dark:border-white/10 shadow-none"
         >
           <div
-            className="relative z-10 p-2.5 flex flex-col gap-2 border"
-            style={{
-              ...preset.miniPreviewWrapStyle,
-              borderRadius: preset.id.includes('glass') ? '16px' : '12px',
-            }}
+            className="relative z-10 p-2 flex flex-col gap-2 rounded-[12px] bg-black/20 dark:bg-black/35 backdrop-blur-xs"
+            style={preset.miniPreviewWrapStyle ? { ...preset.miniPreviewWrapStyle, border: 'none' } : undefined}
           >
             <div className="flex items-center justify-between gap-2">
               <span className={`typo-badge font-bold truncate ${meta.titleTextClass}`}>

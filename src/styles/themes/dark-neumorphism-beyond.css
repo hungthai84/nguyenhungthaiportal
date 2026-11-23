@@ -131,6 +131,7 @@ html[data-card-style="dark-neumorphism-beyond"] body {
   --bg-table-head: rgba(30, 40, 57, 0.95);
 
   /* Nav Pills & Multi-Color Interactive Controls */
+  --bg-nav-button-opaque: #1E2737;
   --bg-nav-pill: linear-gradient(145deg, rgba(30, 39, 55, 0.95) 0%, rgba(21, 28, 41, 0.92) 100%);
   --bg-nav-pill-hover: linear-gradient(145deg, #243044 0%, #1B2435 100%);
   --bg-button-primary: linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%);
@@ -296,7 +297,6 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,

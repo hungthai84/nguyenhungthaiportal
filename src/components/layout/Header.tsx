@@ -480,14 +480,13 @@ export const Header: React.FC<HeaderProps> = ({
     <header
       ref={headerRef}
       id="app-header"
-      data-layer-level="1"
       data-element-name="Thanh điều hướng Header chính"
       data-element-type="container"
       data-element-page="global"
       data-element-parent="website-root"
       onMouseLeave={handleHeaderMouseLeave}
       style={{
-        maxWidth: 'var(--container-max-w, 1250px)',
+        maxWidth: '1250px',
         width: 'var(--shared-frame-w, 100%)',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -573,8 +572,8 @@ export const Header: React.FC<HeaderProps> = ({
                   style={
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
-                      width: '162px',
-                      height: '46px',
+                      width: '170px',
+                      height: '48px',
                       paddingTop: '9px',
                       paddingRight: '12px',
                       paddingBottom: '9px',
@@ -598,7 +597,7 @@ export const Header: React.FC<HeaderProps> = ({
                   )}
                   {/* Round Circle Badge with Icon or Avatar */}
                   <div
-                    className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                    className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
                       backgroundColor: styleCfg.accentColor,
                     }}
@@ -616,7 +615,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ) : (
                       <WebIcon
                         name={page.icon || 'home'}
-                        className="nav-pill-icon-svg w-4 h-4 text-center block stroke-[2] shrink-0"
+                        className="nav-pill-icon-svg w-[18px] h-[18px] text-center block shrink-0"
                         style={{
                           color: '#ffffff',
                         }}
@@ -625,7 +624,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
@@ -710,8 +709,8 @@ export const Header: React.FC<HeaderProps> = ({
                   style={
                     {
                       '--nav-pill-accent': '#4F46E5',
-                      width: '162px',
-                      height: '46px',
+                      width: '170px',
+                      height: '48px',
                       paddingTop: '9px',
                       paddingRight: '12px',
                       paddingBottom: '9px',
@@ -734,7 +733,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </span>
                   )}
                   <div
-                    className="nav-pill-icon-badge relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                    className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
                     style={{
                       backgroundColor: '#4F46E5',
                     }}
@@ -749,7 +748,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-5 shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold' }}

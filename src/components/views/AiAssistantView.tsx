@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { ExternalLink } from 'lucide-react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { SiteTheme } from '@/types';
@@ -440,7 +441,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         <div
           id="ai-assistant-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-chat-expanded={isChatExpanded ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Trợ lý AI"
           data-element-type="card"
@@ -520,6 +520,22 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>
+        </div>
+
+        {/* Nút truy cập D-ID AI Agent Hỗ trợ */}
+        <div className="relative z-10 mt-auto pt-3 w-full">
+          <a
+            href="https://studio.d-id.com/agents/share?id=v2_agt_1tkm8qYc&utm_source=copy&key=WjI5dloyeGxMVzloZFhSb01ud3hNRGMzTkRnMk5qUTNPVGt4T1RZeU16QTJOVFk2UkVkNldUaDFXR3R3VEUxTGVWTlpObkp5VUU1UQ=="
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => SoundEngine.playTap()}
+            title={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
+            aria-label={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
+            className="inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full typo-button font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-[0_4px_16px_rgba(37,99,235,0.35)] border border-blue-300/40 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+          >
+            <ExternalLink className="w-3.5 h-3.5 text-white" />
+            <span className="truncate">{isEn ? 'AI Support Agent' : 'Mở AI Hỗ Trợ'}</span>
+          </a>
         </div>
       </section>
 

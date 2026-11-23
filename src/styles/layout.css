@@ -116,7 +116,48 @@
   scroll-behavior: auto !important;
 }
 
-#about-cards-track,
+#about-cards-track {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  max-width: 1250px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  overflow: hidden !important;
+}
+
+#about-intro-card-1 {
+  width: 100% !important;
+  max-width: 1250px !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+}
+
+#about-intro-card-1-scroll-viewport {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior-y: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
 .page-cards-track,
 [id$="-cards-track"] {
   display: flex;
@@ -153,14 +194,29 @@
   padding-right: max(15px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
 }
 
-/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size */
+/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size - Max 1250px */
 .page-main-card,
 [data-main-card="true"],
 #pdf-page-container {
   overflow-x: hidden !important;
-  max-width: 100% !important;
+  max-width: 1250px !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
+}
+
+.page-cards-track > .page-main-card,
+.page-cards-track > [data-main-card="true"],
+.main-card > .page-main-card,
+.main-card > [data-main-card="true"],
+#tab-content > .page-main-card,
+#tab-content > [data-main-card="true"],
+.tab-content-host > .page-main-card,
+.tab-content-host > [data-main-card="true"],
+#pdf-page-container {
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .page-main-card > *,
@@ -172,9 +228,8 @@
   box-sizing: border-box !important;
 }
 
-#about-cards-track,
-.page-cards-track,
-[id$="-cards-track"] {
+.page-cards-track:not(#about-cards-track),
+[id$="-cards-track"]:not(#about-cards-track) {
   width: max-content !important;
   max-width: none !important;
   flex: 0 0 auto !important;
@@ -283,9 +338,10 @@
   gap: 15px !important;
 }
 
-#app-header {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
-  max-width: var(--container-max-w, 1250px) !important;
+#app-header,
+#app-header-container > header {
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -294,9 +350,39 @@
   border-radius: var(--radius-header, 0 0 14px 14px) !important;
 }
 
-#app-footer {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
-  max-width: var(--container-max-w, 1250px) !important;
+#home-page-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+#home-cards-track {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#home-main-card,
+[id^="home-main-card-"],
+.home-screen-main-card {
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
+  flex: 0 0 var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+#app-footer,
+#el-p0-div-98 > footer {
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -499,21 +585,24 @@
   }
 }
 
-/* Ultra-wide (≥1920px & ≥2560px): giữ viewport full-width cho tất cả trang có track căn giữa, chỉ giữ 1250px cho PdfView */
+/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer, main card max-width 1250px và căn giữa */
 @media screen and (min-width: 1920px) {
   #global-content-viewport:has(#pdf-page-container) {
-    max-width: calc(var(--container-max-w, 1250px) + 30px);
+    max-width: 1250px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
 
   #app-header,
-  #app-footer {
-    max-width: var(--container-max-w, 1250px);
-    width: var(--shared-frame-w, 1250px);
-    margin-left: auto;
-    margin-right: auto;
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #pdf-page-container {
+    max-width: 1250px !important;
+    width: min(100%, 1250px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
@@ -533,35 +622,45 @@
 
 /* Project Detail Vertical TOC Banner (Equal height side-by-side at every viewport size) */
 #project-detail-layout {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 315px) !important;
+  grid-template-rows: repeat(10, 100%) !important;
+  grid-auto-rows: 100% !important;
+  align-items: start !important;
+  gap: 15px !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
+  scroll-snap-type: y mandatory;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  container-type: size;
 }
 
-#project-detail-content {
-  order: 1 !important;
-  flex: 1 1 auto !important;
+#project-detail-layout > [data-section-card="true"]:not(#project-detail-banner) {
+  grid-column: 1 !important;
+  width: 100% !important;
   min-width: 0 !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
-  overflow-y: auto !important;
+  scroll-snap-align: start;
 }
 
-#project-detail-banner {
-  order: 2 !important;
-  width: clamp(148px, 38%, 225px) !important;
-  min-width: 148px !important;
-  max-width: 225px !important;
-  flex: 0 0 clamp(148px, 38%, 225px) !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
-  align-self: stretch !important;
+#project-detail-layout #project-detail-banner {
+  grid-column: 2 !important;
+  grid-row: 1 / -1 !important;
+  position: sticky !important;
+  top: 0 !important;
+  height: 100cqh !important;
+  max-height: 100cqh !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  align-self: start !important;
   margin: 0 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -749,12 +848,20 @@
 }
 
 /* Horoscope Page Grid Stretch & Slide Cards 100% Height Sync with LetterView Main Card */
-#horoscope-page-container .grid {
+#horoscope-page-container .grid,
+#horoscope-page-container [class*="grid"] {
   align-items: stretch !important;
+  grid-auto-flow: dense !important;
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
 }
 
-#horoscope-page-container .grid > * {
-  align-self: stretch;
+#horoscope-page-container .grid > *,
+#horoscope-page-container [class*="grid"] > * {
+  align-self: stretch !important;
+  min-height: 0;
+  box-sizing: border-box !important;
 }
 
 #horoscope-card-profile,
@@ -776,18 +883,18 @@
 #horoscope-main-card #horoscope-card-career-portrait,
 #horoscope-main-card #horoscope-card-five-elements,
 #horoscope-main-card #horoscope-card-leadership-philosophy,
-#horoscope-main-card #horoscope-card-work-synergy-check,
+#horoscope-main-card #horoscope-card-work-synergy-check {
+  height: 100% !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  flex: 1 1 100% !important;
+  box-sizing: border-box !important;
+}
 #horoscope-main-card #horoscope-destiny-card,
 #horoscope-main-card #horoscope-pillars-container,
 #horoscope-main-card #horoscope-slide-3,
 #horoscope-main-card #horoscope-lookup-card,
 #horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]),
-#horoscope-cards-track .page-main-card #horoscope-card-profile,
-#horoscope-cards-track .page-main-card #horoscope-card-management-style,
-#horoscope-cards-track .page-main-card #horoscope-card-career-portrait,
-#horoscope-cards-track .page-main-card #horoscope-card-five-elements,
-#horoscope-cards-track .page-main-card #horoscope-card-leadership-philosophy,
-#horoscope-cards-track .page-main-card #horoscope-card-work-synergy-check,
 #horoscope-cards-track .page-main-card #horoscope-destiny-card,
 #horoscope-cards-track .page-main-card #horoscope-pillars-container,
 #horoscope-cards-track .page-main-card #horoscope-slide-3,

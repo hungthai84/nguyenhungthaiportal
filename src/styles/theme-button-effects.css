@@ -128,7 +128,6 @@
 
 /* Diagonal Specular Glint for Glass / Liquid / Prismatic / Bento Pills */
 :where(
-  button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
   .sys-bento-action-btn,
@@ -139,7 +138,6 @@
 }
 
 :where(
-  button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
   .sys-bento-action-btn,
@@ -174,7 +172,6 @@
     [data-card-style="dark-soft-indigo-fintech"],
     :not([data-card-style])
   ) :where(
-    button.nav-pill,
     .banner-control-pill,
     .edu-bento-action-btn,
     .sys-bento-action-btn,
@@ -379,7 +376,7 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0, 0) scale3d(0.955, 0.955, 1) !important;
+  transform: translate3d(0, 2.5px, 0) scale3d(0.96, 0.96, 1) !important;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -458,7 +455,7 @@ html[data-card-style="multicolor-glass"] :where(
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0, 0) scale3d(0.95, 0.95, 1) !important;
+  transform: translate3d(0, 2.5px, 0) scale3d(0.96, 0.96, 1) !important;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -620,7 +617,7 @@ html[data-card-style="deep-ocean"] :where(
 }
 
 /* ------------------------------------------------------------------------- */
-/* 6. LIGHT DEEP OCEAN (Đại Dương Sâu Sáng) — Crystal Sonar Rim & Buoyant Press */
+/* 6. LIGHT OCEAN NAVY – BRIGHT GLASS UI (MASTER PROMPT)                    */
 /* ------------------------------------------------------------------------- */
 html[data-card-style="light-deep-ocean"] :where(
   button,
@@ -636,14 +633,13 @@ html[data-card-style="light-deep-ocean"] :where(
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
   background: radial-gradient(
     96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(255, 255, 255, 0.76) 0%,
-    rgba(14, 165, 233, 0.18) 48%,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(35, 189, 224, 0.22) 48%,
     transparent 78%
   );
 }
 
 html[data-card-style="light-deep-ocean"] :where(
-  button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
   .sys-bento-action-btn,
@@ -653,8 +649,8 @@ html[data-card-style="light-deep-ocean"] :where(
   background: linear-gradient(
     110deg,
     transparent 20%,
-    rgba(255, 255, 255, 0.65) 45%,
-    rgba(56, 189, 248, 0.24) 55%,
+    rgba(255, 255, 255, 0.70) 45%,
+    rgba(35, 189, 224, 0.28) 55%,
     transparent 80%
   );
 }
@@ -673,11 +669,11 @@ html[data-card-style="light-deep-ocean"] :where(
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
     transform: translate3d(0, -1.5px, 0) !important;
-    border-color: rgba(2, 132, 199, 0.56) !important;
+    border-color: #A8DCEE !important;
     box-shadow:
-      0 10px 22px -4px rgba(2, 132, 199, 0.22),
-      0 4px 10px rgba(6, 182, 212, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+      0 10px 22px -4px rgba(22, 118, 173, 0.22),
+      0 4px 10px rgba(35, 189, 224, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
   }
 }
 
@@ -693,10 +689,12 @@ html[data-card-style="light-deep-ocean"] :where(
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0.5px, 0) scale3d(0.962, 0.962, 1) !important;
+  transform: translate3d(0, 0.5px, 0) scale3d(0.965, 0.965, 1) !important;
+  background-color: #123B63 !important;
+  color: #FFFFFF !important;
   box-shadow:
-    inset 0 2px 8px rgba(8, 47, 73, 0.24),
-    0 0 12px rgba(14, 165, 233, 0.22) !important;
+    inset 0 2px 8px rgba(18, 59, 99, 0.35),
+    0 0 12px rgba(35, 189, 224, 0.25) !important;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -743,7 +741,6 @@ html[data-card-style="dark-soft-indigo-fintech"] :where(
 }
 
 html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"]) :where(
-  button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
   .sys-bento-action-btn,
@@ -810,7 +807,7 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0, 0) scale3d(0.972, 0.972, 1) !important;
+  transform: translate3d(0, 2.5px, 0) scale3d(0.965, 0.965, 1) !important;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -857,7 +854,6 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
     [data-element-type="button"]
   )::before,
   :where(
-    button.nav-pill,
     .banner-control-pill,
     .edu-bento-action-btn,
     .sys-bento-action-btn,
@@ -867,3 +863,290 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
     display: none !important;
   }
 }
+
+/* ========================================================================= */
+/* MENU ICON / NAV PILL: REMOVE HOVER GLOW / SHINE / PHÁT SÁNG NÚT          */
+/* User Request: "Menu icon xóa hiệu ứng over mouse phát sáng nút"          */
+/* ========================================================================= */
+:is(
+  #app-header button,
+  #app-header a[role="button"],
+  #app-header .nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-header nav button.nav-pill,
+  .nav-pill-wrapper button,
+  button.nav-pill,
+  .nav-pill
+)::before,
+:is(
+  #app-header button,
+  #app-header a[role="button"],
+  #app-header .nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-header nav button.nav-pill,
+  .nav-pill-wrapper button,
+  button.nav-pill,
+  .nav-pill
+)::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Remove glowing box-shadow, luminous bloom, glowing text/filter on hover */
+  :is(
+    #app-header button,
+    #app-header a[role="button"],
+    #app-header .nav-pill,
+    #app-header #header-btn-hungthai-avatar,
+    #app-header nav button.nav-pill,
+    .nav-pill-wrapper button,
+    button.nav-pill,
+    .nav-pill
+  ):hover:not(:active):not([data-btn-pressed="true"]) {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* No glowing aura or light sweeps on hover pseudo-elements */
+  :is(
+    #app-header button,
+    #app-header a[role="button"],
+    #app-header .nav-pill,
+    #app-header #header-btn-hungthai-avatar,
+    #app-header nav button.nav-pill,
+    .nav-pill-wrapper button,
+    button.nav-pill,
+    .nav-pill
+  ):hover::before,
+  :is(
+    #app-header button,
+    #app-header a[role="button"],
+    #app-header .nav-pill,
+    #app-header #header-btn-hungthai-avatar,
+    #app-header nav button.nav-pill,
+    .nav-pill-wrapper button,
+    button.nav-pill,
+    .nav-pill
+  ):hover::after {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* Icon badge & icon svg inside menu pills stay crisp without hover glow */
+  :is(
+    #app-header button,
+    #app-header .nav-pill,
+    .nav-pill-wrapper button,
+    button.nav-pill,
+    .nav-pill
+  ):hover .nav-pill-icon-badge {
+    box-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  :is(
+    #app-header button,
+    #app-header .nav-pill,
+    .nav-pill-wrapper button,
+    button.nav-pill,
+    .nav-pill
+  ):hover .nav-pill-icon-svg {
+    filter: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FORCE OVERRIDES (LAST LOADED STYLESHEET IN APP)                  */
+/* ========================================================================= */
+
+/* 1. INTERVIEW BANNER QUOTE: CHÌM VÀO BANNER, KHÔNG ĐÓNG KHUNG, KHÔNG VIỀN  */
+html:root body :is(#interview-questions-card, [id$="-hero-banner"], .hero-banner) :is(.banner-quote, p.banner-quote, #interview-banner-quote) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.65), 0 0 2px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* 2. PROJECT CARDS: ELEVATION SHADOW & HOVER LIFT (ƯU TIÊN TUYỆT ĐỐI)       */
+html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]) {
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
+  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
+}
+
+/* 3. SERVICE CARDS: CHIỀU CAO TỰ NHIÊN TRÊN MOBILE, KHÔNG BỊ CO 34PX        */
+html:root body :is(#services-page-container, #services-cards-grid) :is(.service-card, .domain-card) {
+  height: auto !important;
+  min-height: fit-content !important;
+  align-self: auto !important;
+}
+
+/* 4. NÚT Ở FOOTER: KHUNG TRÒN NỀN MÀU GIỐNG MÀU TIÊU ĐỀ NÚT (ÁP DỤNG TOÀN BỘ WEBSITE) */
+html:root body #app-footer #footer-lang-btn .nav-pill-icon-badge,
+html:root[data-card-style] body #app-footer #footer-lang-btn .nav-pill-icon-badge,
+html:root[data-theme] body #app-footer #footer-lang-btn .nav-pill-icon-badge {
+  background: #10B981 !important;
+  background-color: #10B981 !important;
+  border-radius: 9999px !important;
+}
+html:root body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-card-style] body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-theme] body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #10B981 !important;
+}
+
+html:root body #app-footer #footer-appearance-btn .nav-pill-icon-badge,
+html:root[data-card-style] body #app-footer #footer-appearance-btn .nav-pill-icon-badge,
+html:root[data-theme] body #app-footer #footer-appearance-btn .nav-pill-icon-badge {
+  background: #6366F1 !important;
+  background-color: #6366F1 !important;
+  border-radius: 9999px !important;
+}
+html:root body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-card-style] body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-theme] body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #6366F1 !important;
+}
+
+html:root body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge,
+html:root[data-card-style] body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge,
+html:root[data-theme] body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge {
+  background: #F43F5E !important;
+  background-color: #F43F5E !important;
+  border-radius: 9999px !important;
+}
+html:root body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-card-style] body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-theme] body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #F43F5E !important;
+}
+
+html:root body #app-footer #footer-ai-btn .nav-pill-icon-badge,
+html:root[data-card-style] body #app-footer #footer-ai-btn .nav-pill-icon-badge,
+html:root[data-theme] body #app-footer #footer-ai-btn .nav-pill-icon-badge {
+  background: #0EA5E9 !important;
+  background-color: #0EA5E9 !important;
+  border-radius: 9999px !important;
+}
+html:root body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-card-style] body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
+html:root[data-theme] body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: #0EA5E9 !important;
+}
+
+html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
+html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
+html:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
+html:root[data-theme] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) {
+  background: var(--text-link, var(--color-primary)) !important;
+  background-color: var(--text-link, var(--color-primary)) !important;
+  color: #FFFFFF !important;
+  border-radius: 9999px !important;
+}
+html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) svg {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* ========================================================================= */
+/* 5. MENU ICON NÚT & FOOTER NÚT BÊN PHẢI: XÓA HIỆU ỨNG TRONG SUỐT CHO TOÀN BỘ GIAO DIỆN */
+/* ========================================================================= */
+html:root body :is(
+  #app-header nav button.nav-pill,
+  #app-header .nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  .nav-pill-wrapper button,
+  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
+  #app-footer button.nav-pill
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Nền đục 100% nguyên bản hoàn toàn không trong suốt cho theme sáng */
+html:root:not([data-card-style^="dark-"]):not([data-card-style="deep-ocean"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="cowhide-leather"]) body :is(
+  #app-header nav button.nav-pill,
+  #app-header .nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  .nav-pill-wrapper button,
+  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
+  #app-footer button.nav-pill
+):not([data-active="true"]):not([aria-current="page"]) {
+  background: var(--bg-nav-button-opaque, #FFFFFF) !important;
+  background-color: var(--bg-nav-button-opaque, #FFFFFF) !important;
+  background-image: none !important;
+}
+
+/* Nền đục 100% nguyên bản hoàn toàn không trong suốt cho theme tối & da bò */
+html:root:is([data-card-style^="dark-"], [data-card-style="deep-ocean"], [data-card-style="black-cowhide-leather"], [data-card-style="cowhide-leather"]) body :is(
+  #app-header nav button.nav-pill,
+  #app-header .nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  .nav-pill-wrapper button,
+  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
+  #app-footer button.nav-pill
+):not([data-active="true"]):not([aria-current="page"]) {
+  background: var(--bg-nav-button-opaque, #1E2737) !important;
+  background-color: var(--bg-nav-button-opaque, #1E2737) !important;
+  background-image: none !important;
+}
+
+/* ========================================================================= */
+/* 6. THẺ HỌC VẤN: PADDING 10PX, KHÔNG VIỀN TRÁI, NỀN RIÊNG, TIÊU ĐỀ CĂN TRÁI */
+/* ========================================================================= */
+html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) {
+  padding: 10px !important;
+  border-left: none !important;
+  border-left-width: 0 !important;
+}
+
+html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"])[data-distinct-bg="true"] {
+  background: var(--education-card-bg) !important;
+}
+
+html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) .card-heading {
+  text-align: left !important;
+  align-items: flex-start !important;
+}
+
+html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) :is(.card-title-synced, h3[data-card-title="true"]) {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) :is(.card-tags, .education-card-tags) {
+  display: none !important;
+}
+
+
+

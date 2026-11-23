@@ -18,7 +18,9 @@ export type CardStyleMode =
   | 'neumorphism-beyond'
   | 'dark-neumorphism-beyond'
   | 'frost-ice-neu'
-  | 'dark-frost-ice-neu';
+  | 'dark-frost-ice-neu'
+  | 'flat-soft-ui'
+  | 'dark-flat-soft-ui';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
@@ -26,7 +28,8 @@ export type ThemeFamilyId =
   | 'deep-ocean'
   | 'neumorphism-beyond'
   | 'frost-ice-neu'
-  | 'multicolor-glass';
+  | 'multicolor-glass'
+  | 'flat-soft-ui';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

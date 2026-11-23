@@ -29,9 +29,9 @@ const DRIVE_VIDEO_BANNER_SEED_LIST: RawDriveBannerLinkItem[] = [
   {
     pageKey: 'contact',
     fileName: 'Đặt lịch.mp4',
-    fileId: '1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP',
+    fileId: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4',
     matchedKeyword: 'Đặt lịch',
-    previewUrl: 'https://drive.google.com/file/d/1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4',
   },
   {
     pageKey: 'horoscope',
@@ -121,9 +121,9 @@ export const VIDEO_BANNER_CONFIG: Record<
   { videoId: string; title: string; previewUrl: string }
 > = {
   contact: {
-    videoId: '1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP',
+    videoId: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4',
     title: 'Video Banner Đặt lịch',
-    previewUrl: 'https://drive.google.com/file/d/1jzOyu3bEDn3_4q1mBM_x_Fa3hwZjD3jP/preview',
+    previewUrl: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4',
   },
   horoscope: {
     videoId: 'https://cdn.scena.ai/project/10223/93137f897eb5f97382f02d64e99ca0270133bea596646ca5f574e96e80aab770.mp4',

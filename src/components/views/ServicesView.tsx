@@ -71,8 +71,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
       { icon: 'trending-up', value: '-20%', valueEn: '-20%', label: 'Chi phí khiếu nại cước', labelEn: 'Dispute Handling Cost' },
       { icon: 'users', value: '< 3%', label: 'Tỷ lệ nghỉ việc nhân sự', labelEn: 'Staff Attrition Rate' },
     ],
-    tags: ['#ContactCenter', '#SLA98', '#24x7Ops', '#TelecomQA'],
-    tagsEn: ['#ContactCenter', '#SLA98', '#24x7Ops', '#TelecomQA'],
+    tags: ['#ContactCenter', '#VienThong', '#24x7Ops', '#QASOP'],
+    tagsEn: ['#ContactCenter', '#TelecomCX', '#24x7Ops', '#QASOP'],
   },
   '02': {
     shortTitle: 'TMĐT',
@@ -131,8 +131,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
       { icon: 'heart-handshake', value: '+15%', label: 'Cải thiện duy trì hợp đồng', labelEn: 'Policy Retention Gain' },
       { icon: 'award', value: '95%', label: 'Cam kết chất lượng (SLA)', labelEn: 'Service Level Agreement' },
     ],
-    tags: ['#FinanceQA', '#Compliance', '#FCR92', '#BCPContinuity'],
-    tagsEn: ['#FinanceQA', '#Compliance', '#FCR92', '#BCPContinuity'],
+    tags: ['#FinanceQA', '#Compliance', '#BaoHiem', '#RiskControl'],
+    tagsEn: ['#FinanceQA', '#Compliance', '#InsuranceCX', '#RiskControl'],
   },
   '04': {
     shortTitle: 'eSports',
@@ -161,11 +161,11 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
       { icon: 'clock', value: '< 30 giây', valueEn: '< 30s', label: 'Phản hồi đầu Ticket/Chat', labelEn: 'First Response Time' },
       { icon: 'smile', value: '96%', label: 'Chỉ số hài lòng người chơi', labelEn: 'Player CSAT Score' },
     ],
-    tags: ['#GameSupport', '#AccountSecurity', '#50kTickets', '#LTVRetention'],
-    tagsEn: ['#GameSupport', '#AccountSecurity', '#50kTickets', '#LTVRetention'],
+    tags: ['#GameSupport', '#AccountSecurity', '#CongDong', '#EsportsOps'],
+    tagsEn: ['#GameSupport', '#AccountSecurity', '#Community', '#EsportsOps'],
   },
   '05': {
-    shortTitle: 'Thanh toán',
+    shortTitle: 'Ví điện tử',
     shortTitleEn: 'Digital Payments',
     iconKey: 'wallet',
     accentLight: '#4338ca',
@@ -191,8 +191,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
       { icon: 'award', value: '98,6%', label: 'SLA BPO (>150 vị trí)', labelEn: 'BPO Operations SLA' },
       { icon: 'shield-check', value: '-35%', label: 'Giảm tỷ lệ sự cố vận hành', labelEn: 'Incident Reduction' },
     ],
-    tags: ['#FintechOps', '#RPAAutomation', '#CoreBanking', '#WarRoom'],
-    tagsEn: ['#FintechOps', '#RPAAutomation', '#CoreBanking', '#WarRoom'],
+    tags: ['#FintechOps', '#ViDienTu', '#ThanhToanSo', '#CoreBanking'],
+    tagsEn: ['#FintechOps', '#EWallet', '#DigitalPay', '#CoreBanking'],
   },
   '06': {
     shortTitle: 'Xây hệ thống',
@@ -324,6 +324,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [syncedCardHeight, setSyncedCardHeight] = useState<number | undefined>(undefined);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -334,6 +335,39 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const animTimerRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const syncHeights = () => {
+      const cards = Object.values(cardRefs.current).filter(Boolean) as HTMLDivElement[];
+      if (cards.length === 0) return;
+
+      let maxHeight = 0;
+      cards.forEach((card) => {
+        const prevH = card.style.height;
+        const prevMinH = card.style.minHeight;
+        card.style.height = 'auto';
+        card.style.minHeight = 'auto';
+        const h = card.getBoundingClientRect().height;
+        card.style.height = prevH;
+        card.style.minHeight = prevMinH;
+        if (h > maxHeight) {
+          maxHeight = h;
+        }
+      });
+
+      if (maxHeight > 0) {
+        setSyncedCardHeight(Math.ceil(maxHeight));
+      }
+    };
+
+    syncHeights();
+    const timer = setTimeout(syncHeights, 100);
+    window.addEventListener('resize', syncHeights);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', syncHeights);
+    };
+  }, [isEn, activeCategory]);
 
   const clearTimers = useCallback(() => {
     if (animTimerRef.current !== null) {
@@ -534,11 +568,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const filterCategories = [
     { id: 'ALL', label: isEn ? 'All 6 Domains' : 'Tất cả 6 lĩnh vực', icon: 'grid' },
     { id: '01', label: isEn ? 'Telecom Services' : 'Dịch vụ Viễn thông', icon: 'phone' },
-    { id: '02', label: isEn ? 'E-Commerce Ops' : 'Thương mại điện tử', icon: 'shopping-cart' },
-    { id: '03', label: isEn ? 'Finance & Insurance' : 'Tài chính bảo hiểm', icon: 'shield-check' },
-    { id: '04', label: isEn ? 'Esports & Gaming' : 'Thể thao điện tử', icon: 'gamepad-2' },
-    { id: '05', label: isEn ? 'Digital Payments' : 'Thanh toán điện tử', icon: 'credit-card' },
-    { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng hệ thống', icon: 'layers' },
+    { id: '02', label: isEn ? 'E-Commerce Ops' : 'Thương mại Điện tử', icon: 'shopping-cart' },
+    { id: '04', label: isEn ? 'Esports & Gaming' : 'Thể thao Điện tử', icon: 'gamepad-2' },
+    { id: '03', label: isEn ? 'Finance & Insurance' : 'Tài chính & Bảo hiểm', icon: 'shield-check' },
+    { id: '05', label: isEn ? 'Digital Payments' : 'Thanh toán Ví Điện tử', icon: 'credit-card' },
+    { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng Hệ thống', icon: 'layers' },
   ];
 
   const getAccentColor = (id: string) => {
@@ -591,7 +625,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
           id="service-main-card"
           ref={mainCardRef}
           data-main-card="true"
-          data-layer-level="1"
           data-detail-open={expandedDomain ? 'true' : 'false'}
           data-detail-overlay={expandedDomain ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dịch Vụ"
@@ -775,14 +808,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
             <div
               id="services-cards-wrapper"
               ref={cardsWrapperRef}
-              className="relative w-full lg:flex-1 lg:min-h-0 flex flex-col"
+              className="relative w-full flex flex-col"
               style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
             >
               {/* Lưới 6 Thẻ Lĩnh Vực (3 cột x 2 hàng Desktop / 2 cột Tablet / 1 cột Mobile) */}
               <div
                 id="services-cards-grid"
                 ref={cardsGridRef}
-                className={`services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full lg:flex-1 min-w-0 ${
+                data-main-card="true"
+                style={{
+                  borderRadius: '14px',
+                  boxSizing: 'border-box',
+                }}
+                className={`services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0 rounded-[14px] p-[15px] ${
                   isGridDimmed ? 'grid-dimmed' : ''
                 }`}
               >
@@ -794,8 +832,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     ? meta.shortTitleEn
                     : domain.title;
                   const summaryText = isEn
-                    ? domain.subtitleEn || domain.descEn
-                    : domain.coreCompetency || domain.subtitle;
+                    ? domain.descEn || domain.subtitleEn
+                    : domain.desc || domain.subtitle || domain.coreCompetency;
                   const driveServiceImg =
                     serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
                   const serviceImage =
@@ -821,6 +859,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         }
                       }}
                       style={{
+                        height: syncedCardHeight ? `${syncedCardHeight}px` : 'auto',
+                        minHeight: syncedCardHeight ? `${syncedCardHeight}px` : 'auto',
                         background: isLeatherTheme
                           ? undefined
                           : isLight
@@ -832,7 +872,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             ? meta.borderLight
                             : meta.borderDark,
                       }}
-                      className="service-card domain-card bento-card glass-card group relative rounded-[20px] box-border min-h-0 h-full w-full flex flex-col justify-between text-left"
+                      className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
                     >
                       {/* Góc trên phải: Nút chỉ dấu mở rộng toàn khung */}
                       <span
@@ -842,9 +882,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         <Maximize2 className="w-3.5 h-3.5" />
                       </span>
 
-                      {/* Tầng 1: Trái (Tiêu đề 2 dòng + Logo doanh nghiệp bên dưới) | Phải (Hình minh họa co giãn theo kích thước thẻ) */}
-                      <div className="service-card-top relative z-10 flex items-center justify-between gap-2.5 pt-0.5 pr-7 min-w-0">
-                        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+                      {/* Thân card: Trái là (Tiêu đề, Logo, Mô tả), Phải là Ảnh minh họa (chiều cao bằng tiêu đề + logo + mô tả cộng lại, không có hiệu ứng màu) */}
+                      <div className="service-card-body-row relative z-10 flex items-stretch gap-3 min-w-0 pr-7 flex-1">
+                        {/* Cột trái: Tiêu đề 2 dòng (hàng 1) + Logo đối tác (hàng 2) + Mô tả dịch vụ 4 hàng (hàng 3) */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-start gap-1.5">
                           <h3
                             className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 break-words"
                             data-card-title="true"
@@ -864,7 +905,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                 <div
                                   key={partner.name || pIdx}
                                   title={partner.name}
-                                  className="w-6 h-6 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
+                                  className="w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
                                 >
                                   <img
                                     src={partner.logo}
@@ -886,14 +927,18 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                               ))}
                             </div>
                           )}
+
+                          <p
+                            id={`service-card-desc-${domain.id}`}
+                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-relaxed text-[13px] sm:text-[13.5px] font-normal"
+                            title={summaryText}
+                          >
+                            {summaryText}
+                          </p>
                         </div>
 
-                        {/* Ảnh minh họa tách nền co giãn mượt theo kích thước thẻ */}
-                        <div className="service-card-illustration relative shrink-0 flex items-center justify-center">
-                          <div
-                            className="service-ambient-glow absolute inset-1 rounded-full blur-xl opacity-45 group-hover:opacity-75 transition-opacity duration-300 pointer-events-none"
-                            style={{ background: meta.gradient }}
-                          />
+                        {/* Ảnh minh họa bên phải có kích thước chiều cao bằng tiêu đề + logo + mô tả, không có hiệu ứng màu (no glow/filter) */}
+                        <div className="service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-[95px] sm:w-[110px]">
                           <img
                             src={serviceImage}
                             alt={cardTitle}
@@ -903,44 +948,16 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                 e.currentTarget.src = meta.fallbackIllustration;
                               }
                             }}
-                            className="service-img-pop relative z-10 w-full h-full object-contain drop-shadow-[0_10px_16px_rgba(15,23,42,0.22)] select-none pointer-events-none"
+                            className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
+                            style={{ filter: 'none', WebkitFilter: 'none' }}
                           />
                         </div>
                       </div>
 
-                      {/* Tầng 2: 2 Ô KPI Nổi Bật Co Giãn (.domain-card-sub) */}
-                      <div className="service-kpi-grid relative z-10 w-full">
-                        {meta.frontMetrics.map((m, mIdx) => (
-                          <div
-                            key={mIdx}
-                            className="domain-card-sub rounded-xl px-2.5 py-2 flex flex-col justify-center min-w-0"
-                          >
-                            <span
-                              className="service-kpi-val font-bold leading-tight truncate"
-                              style={{ color: accentColor }}
-                            >
-                              {isEn && m.valueEn ? m.valueEn : m.value}
-                            </span>
-                            <span className="service-kpi-lbl text-[var(--text-secondary)] truncate mt-0.5">
-                              {isEn ? m.labelEn : m.label}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Tầng 3: Tóm tắt giá trị cốt lõi co giãn theo chiều rộng thẻ */}
-                      <p
-                        id={`service-card-desc-${domain.id}`}
-                        className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-2 m-0"
-                        title={summaryText}
-                      >
-                        {summaryText}
-                      </p>
-
-                      {/* Tầng 4: Footer Hashtags */}
-                      <div className="service-divider relative z-10 pt-2 border-t border-[var(--border-subcard)] flex items-center justify-start gap-2 shrink-0 min-w-0">
-                        <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                          {tagsList.map((tag) => (
+                      {/* Tầng 3: Footer Hashtags & Action CTA */}
+                      <div className="service-divider relative z-10 pt-2.5 mt-auto border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap min-w-0 max-w-[70%]">
+                          {tagsList.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
                               className="text-[11px] font-semibold px-2 py-0.5 rounded-full border truncate max-w-full"
@@ -954,6 +971,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             </span>
                           ))}
                         </div>
+                        <span
+                          className="inline-flex items-center gap-1 text-[12px] font-bold font-play shrink-0 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"
+                          style={{ color: accentColor }}
+                        >
+                          <span>{isEn ? 'Details' : 'Chi tiết'}</span>
+                          <span aria-hidden="true" className="text-xs">→</span>
+                        </span>
                       </div>
                     </div>
                   );

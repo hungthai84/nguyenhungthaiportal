@@ -16,29 +16,33 @@
   --font-scale: 1;
   --layout-typo-factor: 1;
 
-  /* Unified Fluid Typography Target Matrix (16px Body + Portal-tuned clamp) */
-  --fs-display: clamp(32px, 3.2vw + 16px, 56px);
-  --fs-h1: clamp(26px, 2.2vw + 14px, 48px);
-  --fs-h2: clamp(22px, 1.5vw + 13px, 32px);
-  --fs-h3: clamp(19px, 0.9vw + 14px, 24px);
-  --fs-h4: clamp(17px, 0.6vw + 14px, 20px);
-  --fs-h5: clamp(16px, 0.4vw + 14px, 18px);
+  /* Unified Fluid Typography Target Matrix (Tối ưu theo môi trường và bố cục 1250px + Bento grid) */
+  --fs-display: clamp(26px, 2.2vw + 16px, 42px);
+  --fs-h1: clamp(22px, 1.4vw + 14px, 32px);
+  --fs-h2: clamp(19px, 1.1vw + 13px, 24px);
+  --fs-h3: clamp(16px, 0.75vw + 12px, 20px);
+  --fs-h4: clamp(14.5px, 0.5vw + 11.5px, 17px);
+  --fs-h5: clamp(13.5px, 0.35vw + 11px, 15.5px);
 
-  --fs-body-lg: clamp(17px, 0.25vw + 16px, 18px);
-  --fs-body: clamp(15.5px, 0.15vw + 15px, 16px);
-  --fs-body-sm: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-body-lg: clamp(15px, 0.3vw + 13.5px, 16.5px);
+  --fs-body: clamp(14px, 0.2vw + 13px, 15px);
+  --fs-body-sm: clamp(12.5px, 0.15vw + 12px, 13.5px);
 
   --fs-caption: 12px;
   --fs-label: 12px;
-  --fs-badge: 12px;
+  --fs-badge: 11.5px;
   --fs-overline: 10px;
-  --fs-button: clamp(13.5px, 0.2vw + 13px, 14px);
-  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
-  --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-button: clamp(13px, 0.15vw + 12.5px, 13.5px);
+  --fs-nav: clamp(13px, 0.15vw + 12.5px, 13.5px);
+  --fs-tab: clamp(13px, 0.15vw + 12.5px, 13.5px);
   --fs-input: 16px;
-  --fs-kpi: clamp(26px, 1.5vw + 18px, 36px);
-  --fs-quote: clamp(18px, 0.9vw + 13px, 24px);
-  --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
+  --fs-kpi: clamp(24px, 1.4vw + 16px, 32px);
+  --fs-quote: clamp(16px, 0.75vw + 13px, 21px);
+  --fs-popup-title: clamp(16px, 0.6vw + 14px, 19px);
+
+  /* Cấu hình hình nền mặc định: 0% mờ (opacity 100%), độ rõ nét 0px blur */
+  --wallpaper-bg-blur: 0px;
+  --wallpaper-bg-dim: 0;
 
   /* Semantic better-typography aliases */
   --font-display: var(--fs-display);
@@ -497,7 +501,7 @@
   --ambient-wave-3: rgba(169, 223, 222, 0.20);
   --ambient-wave-opacity: var(--app-bg-shape-opacity);
   --ambient-depth-veil: var(--app-bg-depth-veil);
-  --ambient-wallpaper-opacity: 0.52;
+  --ambient-wallpaper-opacity: 1;
   --ambient-blur-orb: var(--app-bg-blur);
   --ambient-blur-wave: 38px;
   --ambient-main-glow: 0 0 60px -10px rgba(118, 102, 216, 0.16), 0 0 100px -18px rgba(105, 201, 196, 0.14);
@@ -845,7 +849,7 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="d
   --ambient-wave-3: rgba(185, 130, 131, 0.10);
   --ambient-wave-opacity: var(--app-bg-shape-opacity);
   --ambient-depth-veil: var(--app-bg-depth-veil);
-  --ambient-wallpaper-opacity: 0.64;
+  --ambient-wallpaper-opacity: 1;
   --ambient-main-glow: 0 0 64px -10px rgba(181, 167, 244, 0.16), 0 0 110px -18px rgba(78, 158, 170, 0.14);
   --ambient-edge-border: rgba(225, 235, 255, 0.18);
   --ambient-inner-highlight: rgba(225, 235, 255, 0.20);
@@ -1029,6 +1033,296 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="d
     --surface-main-glass: #202A40;
     --surface-primary-bg: #202A40;
   }
+}
+
+/* ========================================================================= */
+/* LỚP 3: MÀU TOKEN RIÊNG BIỆT CHO TỪNG GIAO DIỆN (THEME COLOR TOKENS)       */
+/* ========================================================================= */
+
+/* 1. LIQUID GLASS UI (SÁNG) */
+html[data-card-style="liquid-glass"] {
+  --color-primary: #0284C7;
+  --color-secondary: #0EA5E9;
+  --color-accent: #4F46E5;
+  --color-focus-ring: #0284C7;
+  --color-bg: #F0F4FA;
+  --color-surface: rgba(255, 255, 255, 0.45);
+  --color-surface-elevated: rgba(255, 255, 255, 0.70);
+  --color-heading: #0F172A;
+  --color-text: #334155;
+  --color-text-secondary: #64748B;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #0284C7;
+  --bg-card: rgba(255, 255, 255, 0.55);
+  --bg-subcard: rgba(255, 255, 255, 0.65);
+  --border-card: rgba(255, 255, 255, 0.85);
+  --border-subcard: rgba(255, 255, 255, 0.75);
+  --nav-pill-accent: #0284C7;
+}
+
+/* 2. LIQUID GLASS UI (TỐI) */
+html[data-card-style="dark-liquid-glass"] {
+  --color-primary: #38BDF8;
+  --color-secondary: #818CF8;
+  --color-accent: #A78BFA;
+  --color-focus-ring: #38BDF8;
+  --color-bg: #0B1221;
+  --color-surface: rgba(15, 23, 42, 0.72);
+  --color-surface-elevated: rgba(30, 41, 59, 0.82);
+  --color-heading: #F8FAFC;
+  --color-text: #CBD5E1;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #38BDF8;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-subcard: rgba(30, 41, 59, 0.70);
+  --border-card: rgba(255, 255, 255, 0.16);
+  --border-subcard: rgba(255, 255, 255, 0.12);
+  --nav-pill-accent: #38BDF8;
+}
+
+/* 3. MULTICOLOR GLASS UI (SÁNG) */
+html[data-card-style="multicolor-glass"] {
+  --color-primary: #6366F1;
+  --color-secondary: #06B6D4;
+  --color-accent: #EC4899;
+  --color-focus-ring: #6366F1;
+  --color-bg: #EEF4FF;
+  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-surface-elevated: rgba(255, 255, 255, 0.95);
+  --color-heading: #0F172A;
+  --color-text: #334155;
+  --color-text-secondary: #64748B;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --bg-card: rgba(255, 255, 255, 0.90);
+  --bg-subcard: rgba(255, 255, 255, 0.95);
+  --border-card: rgba(255, 255, 255, 0.92);
+  --border-subcard: rgba(238, 242, 255, 0.90);
+  --nav-pill-accent: #6366F1;
+}
+
+/* 4. DARK NEON GLASS UI (TỐI) */
+html[data-card-style="dark-neon-glass"] {
+  --color-primary: #22D3EE;
+  --color-secondary: #E879F9;
+  --color-accent: #A855F7;
+  --color-focus-ring: #22D3EE;
+  --color-bg: #050814;
+  --color-surface: rgba(10, 16, 34, 0.84);
+  --color-surface-elevated: rgba(17, 24, 48, 0.92);
+  --color-heading: #FFFFFF;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-link: #22D3EE;
+  --bg-card: rgba(10, 16, 34, 0.86);
+  --bg-subcard: rgba(17, 24, 48, 0.88);
+  --border-card: rgba(34, 211, 238, 0.32);
+  --border-subcard: rgba(34, 211, 238, 0.20);
+  --nav-pill-accent: #22D3EE;
+}
+
+/* 5. COWHIDE LEATHER (DA BÒ CỔ ĐIỂN) */
+html[data-card-style="cowhide-leather"] {
+  --color-primary: #F5DEB3;
+  --color-secondary: #FBBF24;
+  --color-accent: #B45309;
+  --color-focus-ring: #F5DEB3;
+  --color-bg: #2B1709;
+  --color-surface: #653A17;
+  --color-surface-elevated: #7A4A20;
+  --color-heading: #FFFFFF;
+  --color-text: #F5DEB3;
+  --color-text-secondary: #E4E4E7;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F5DEB3;
+  --text-muted: #E4E4E7;
+  --text-link: #FBBF24;
+  --bg-card: #653A17;
+  --bg-subcard: #522E10;
+  --border-card: rgba(245, 222, 179, 0.52);
+  --border-subcard: rgba(245, 222, 179, 0.36);
+  --nav-pill-accent: #D97706;
+}
+
+/* 6. BLACK COWHIDE LEATHER (DA BÒ ĐEN CHỈ TRẮNG) */
+html[data-card-style="black-cowhide-leather"] {
+  --color-primary: #FFFFFF;
+  --color-secondary: #E4E4E7;
+  --color-accent: #D4D4D8;
+  --color-focus-ring: #FFFFFF;
+  --color-bg: #08090C;
+  --color-surface: #14171D;
+  --color-surface-elevated: #1D2028;
+  --color-heading: #FFFFFF;
+  --color-text: #E4E4E7;
+  --color-text-secondary: #A1A1AA;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E4E4E7;
+  --text-muted: #A1A1AA;
+  --text-link: #FFFFFF;
+  --bg-card: #14171D;
+  --bg-subcard: #1D2028;
+  --border-card: rgba(255, 255, 255, 0.72);
+  --border-subcard: rgba(255, 255, 255, 0.45);
+  --nav-pill-accent: #FFFFFF;
+}
+
+/* 7. DEEP OCEAN (ĐẠI DƯƠNG SÂU THẲM) */
+html[data-card-style="deep-ocean"] {
+  --color-primary: #38BDF8;
+  --color-secondary: #06B6D4;
+  --color-accent: #0284C7;
+  --color-focus-ring: #38BDF8;
+  --color-bg: #050B14;
+  --color-surface: rgba(13, 28, 56, 0.82);
+  --color-surface-elevated: rgba(18, 38, 74, 0.90);
+  --color-heading: #F0F8FF;
+  --color-text: #E2EEFA;
+  --color-text-secondary: #7B98B8;
+  --text-primary: #F0F8FF;
+  --text-secondary: #E2EEFA;
+  --text-muted: #7B98B8;
+  --text-link: #38BDF8;
+  --bg-card: rgba(13, 28, 56, 0.84);
+  --bg-subcard: rgba(18, 38, 74, 0.86);
+  --border-card: rgba(56, 189, 248, 0.32);
+  --border-subcard: rgba(56, 189, 248, 0.22);
+  --nav-pill-accent: #38BDF8;
+}
+
+/* 8. LIGHT OCEAN NAVY – BRIGHT GLASS UI (MASTER PROMPT) */
+html[data-card-style="light-deep-ocean"],
+[data-theme="light-deep-ocean"] {
+  --color-primary: #1676AD;
+  --color-secondary: #23BDE0;
+  --color-accent: #23BDE0;
+  --color-teal: #35C9B0;
+  --color-navy: #123B63;
+  --color-ocean: #1676AD;
+  --color-cyan: #23BDE0;
+  --color-focus-ring: #23BDE0;
+  --color-bg: #F2F8FD;
+  --color-bg-soft: #E8F3FB;
+  --color-bg-blue: #EAF5FC;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-heading: #123B63;
+  --color-text: #173653;
+  --color-text-secondary: #71869B;
+  --color-text-muted: #94A8B9;
+  --text-primary: #173653;
+  --text-heading: #123B63;
+  --text-secondary: #71869B;
+  --text-muted: #94A8B9;
+  --text-link: #1676AD;
+  --bg-card: #FFFFFF;
+  --bg-subcard: #EAF5FC;
+  --border-card: #DCEAF4;
+  --border-subcard: #DCEAF4;
+  --border-hover: #A8DCEE;
+  --nav-pill-accent: #1676AD;
+}
+
+/* 9. NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ SÁNG) */
+html[data-card-style="neumorphism-beyond"] {
+  --color-primary: #4973FF;
+  --color-secondary: #64B6FF;
+  --color-accent: #EE6AD2;
+  --color-focus-ring: #4973FF;
+  --color-bg: #EBF0F6;
+  --color-surface: rgba(235, 240, 247, 0.94);
+  --color-surface-elevated: rgba(242, 246, 252, 0.98);
+  --color-heading: #1E293B;
+  --color-text: #334155;
+  --color-text-secondary: #64748B;
+  --text-primary: #1E293B;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-link: #4973FF;
+  --bg-card: rgba(235, 240, 247, 0.95);
+  --bg-subcard: rgba(242, 246, 252, 0.98);
+  --border-card: rgba(196, 209, 226, 0.75);
+  --border-subcard: rgba(210, 222, 236, 0.70);
+  --nav-pill-accent: #4973FF;
+}
+
+/* 10. DARK NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ TỐI) */
+html[data-card-style="dark-neumorphism-beyond"] {
+  --color-primary: #60A5FA;
+  --color-secondary: #A78BFA;
+  --color-accent: #FB7185;
+  --color-focus-ring: #60A5FA;
+  --color-bg: #121722;
+  --color-surface: rgba(23, 30, 43, 0.92);
+  --color-surface-elevated: rgba(30, 39, 56, 0.96);
+  --color-heading: #F1F5F9;
+  --color-text: #CBD5E1;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #60A5FA;
+  --bg-card: rgba(23, 30, 43, 0.94);
+  --bg-subcard: rgba(30, 39, 56, 0.96);
+  --border-card: rgba(255, 255, 255, 0.14);
+  --border-subcard: rgba(255, 255, 255, 0.10);
+  --nav-pill-accent: #60A5FA;
+}
+
+/* 11. FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI SÁNG) */
+html[data-card-style="frost-ice-neu"] {
+  --color-primary: #6E6AF6;
+  --color-secondary: #4AB8F9;
+  --color-accent: #FA8F60;
+  --color-focus-ring: #6E6AF6;
+  --color-bg: #E6F1FB;
+  --color-surface: rgba(237, 245, 252, 0.95);
+  --color-surface-elevated: rgba(245, 250, 255, 0.98);
+  --color-heading: #1E3246;
+  --color-text: #25384B;
+  --color-text-secondary: #5C748C;
+  --text-primary: #1E3246;
+  --text-secondary: #25384B;
+  --text-muted: #5C748C;
+  --text-link: #6E6AF6;
+  --bg-card: rgba(237, 245, 252, 0.96);
+  --bg-subcard: rgba(245, 250, 255, 0.98);
+  --border-card: rgba(255, 255, 255, 0.88);
+  --border-subcard: rgba(255, 255, 255, 0.80);
+  --nav-pill-accent: #6E6AF6;
+}
+
+/* 12. DARK FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI TỐI) */
+html[data-card-style="dark-frost-ice-neu"] {
+  --color-primary: #818CF8;
+  --color-secondary: #38BDF8;
+  --color-accent: #F472B6;
+  --color-focus-ring: #818CF8;
+  --color-bg: #0F1826;
+  --color-surface: rgba(22, 34, 53, 0.92);
+  --color-surface-elevated: rgba(28, 43, 68, 0.96);
+  --color-heading: #F0F9FF;
+  --color-text: #E0F2FE;
+  --color-text-secondary: #8BA4C4;
+  --text-primary: #F0F9FF;
+  --text-secondary: #E0F2FE;
+  --text-muted: #8BA4C4;
+  --text-link: #818CF8;
+  --bg-card: rgba(22, 34, 53, 0.94);
+  --bg-subcard: rgba(28, 43, 68, 0.96);
+  --border-card: rgba(56, 189, 248, 0.28);
+  --border-subcard: rgba(56, 189, 248, 0.18);
+  --nav-pill-accent: #818CF8;
 }
 
 

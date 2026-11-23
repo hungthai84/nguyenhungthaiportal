@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -152,6 +152,7 @@
 @import "./styles/themes/dark-frost-ice-neu.css";
 @import "./styles/themes/multicolor-glass.css";
 @import "./styles/themes/dark-neon-glass.css";
+@import "./styles/themes/flat-soft-ui.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
 @import "./styles/education-bento.css";
@@ -720,11 +721,10 @@ html [id$="-page-root"]:hover {
   transform: none !important;
 }
 
-/* Main Cards (Level 01): Unified Static Layer Level 1 Elevation */
+/* Main Cards: Unified Static Level 1 Elevation */
 html:not([data-surface-depth="flat"]) :is(
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -741,7 +741,6 @@ html:not([data-surface-depth="flat"]) :is(
 html.dark:not([data-surface-depth="flat"]) :is(
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -752,7 +751,6 @@ html.dark:not([data-surface-depth="flat"]) :is(
 html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -767,7 +765,6 @@ html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
 html[data-surface-depth="flat"] :is(
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -1347,7 +1344,6 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
     [data-subcard="true"]:hover,
     .sub-card:hover,
     .bento-card:hover,
-    .layered-card:hover,
     .project-card:hover,
     .education-card:hover,
     .education-course-card:hover,
@@ -1372,7 +1368,6 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
     [data-subcard="true"]:hover,
     .sub-card:hover,
     .bento-card:hover,
-    .layered-card:hover,
     .project-card:hover,
     .education-card:hover,
     .education-course-card:hover,
@@ -1393,7 +1388,6 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
     [data-subcard="true"]:hover,
     .sub-card:hover,
     .bento-card:hover,
-    .layered-card:hover,
     .project-card:hover,
     .education-card:hover,
     .education-course-card:hover,
@@ -1931,7 +1925,6 @@ html[data-surface-depth="depth"] :is(
   [id^="letter-card-"],
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -3485,7 +3478,6 @@ button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-ripple
 html:root :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3498,7 +3490,6 @@ html:root :is(
 html[data-card-style] :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3547,7 +3538,6 @@ html[data-card-style] #app-footer {
 }
 
 html:root :is(
-  [data-layer-level="1"]:not(#app-header):not(#app-footer):not(#pdf-page-container),
   .page-main-card:not(#pdf-page-container),
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
@@ -3558,7 +3548,6 @@ html:root :is(
   [id^="letter-card-"]
 ),
 html[data-card-style] :is(
-  [data-layer-level="1"]:not(#app-header):not(#app-footer):not(#pdf-page-container),
   .page-main-card:not(#pdf-page-container),
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
@@ -3582,7 +3571,6 @@ html[data-card-style]:not([data-surface-depth="flat"]) #app-footer {
 }
 
 html:root:not([data-surface-depth="flat"]) :is(
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3593,7 +3581,6 @@ html:root:not([data-surface-depth="flat"]) :is(
   [id^="letter-card-"]
 ),
 html[data-card-style]:not([data-surface-depth="flat"]) :is(
-  [data-layer-level="1"]:not(#app-header):not(#app-footer),
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3609,7 +3596,6 @@ html[data-card-style]:not([data-surface-depth="flat"]) :is(
 html:root[data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3622,7 +3608,6 @@ html:root[data-surface-depth="flat"] :is(
 html[data-card-style][data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3639,7 +3624,6 @@ html[data-card-style][data-surface-depth="flat"] :is(
 html:root :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3652,7 +3636,6 @@ html:root :is(
 html[data-card-style] :is(
   #app-header,
   #app-footer,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3699,7 +3682,6 @@ html:root :is(
   #el-p0-div-98,
   #global-content-viewport,
   .tab-content-host,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3717,7 +3699,6 @@ html:root :is(
   #el-p0-div-98,
   #global-content-viewport,
   .tab-content-host,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3735,7 +3716,6 @@ html[data-card-style] :is(
   #el-p0-div-98,
   #global-content-viewport,
   .tab-content-host,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -3753,7 +3733,6 @@ html[data-card-style] :is(
   #el-p0-div-98,
   #global-content-viewport,
   .tab-content-host,
-  [data-layer-level="1"],
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
@@ -5126,7 +5105,6 @@ html[data-card-style] :is(
   [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
   .bento-card:not(.rounded-full):not([class*="rounded-full"]),
   .glass-card:not(.rounded-full):not([class*="rounded-full"]),
-  .layered-card:not(.rounded-full):not([class*="rounded-full"]),
   .sub-card:not(.rounded-full):not([class*="rounded-full"]),
   .nested-card:not(.rounded-full):not([class*="rounded-full"]),
   .banner-card,
@@ -5164,4 +5142,33 @@ html[data-card-style] :is(
 ) {
   border-radius: 14px !important;
 }
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDES: PROJECT CARDS ELEVATION SHADOW & HOVER LIFT     */
+/* ========================================================================= */
+html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]) {
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
+  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
+}
+
+/* ABSOLUTE FINAL OVERRIDES: FOOTER RIGHT BUTTONS DEFAULT BADGE COLOR */
+html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge,
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent) !important;
+  background-color: var(--nav-pill-accent) !important;
+  border-radius: 9999px !important;
+}
+
+html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg),
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+}
+
 

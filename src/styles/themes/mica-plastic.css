@@ -141,6 +141,7 @@ html[data-card-style="mica-plastic"] body {
   --bg-input: rgba(252, 254, 255, 0.90);
   --bg-table: rgba(248, 251, 255, 0.86);
   --bg-table-head: rgba(232, 241, 250, 0.90);
+  --bg-nav-button-opaque: #F8FAFC;
   --bg-nav-pill: linear-gradient(145deg, rgba(252, 254, 255, 0.80) 0%, rgba(235, 242, 250, 0.72) 100%);
   --bg-nav-pill-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 247, 254, 0.90) 100%);
   --bg-button-primary: linear-gradient(135deg, #0369a1 0%, #0284c7 52%, #0ea5e9 100%);

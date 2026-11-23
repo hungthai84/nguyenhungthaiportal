@@ -1317,16 +1317,6 @@ export function AboutView({
           return;
         }
       }
-
-      if (viewMode === 'slides' && !isPlayingIntro && !focusedBentoCard && !isQrModalOpen) {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          scrollToIntroCard(1, true);
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          scrollToIntroCard(2, true);
-        }
-      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -1336,7 +1326,6 @@ export function AboutView({
     focusedBentoCard,
     isQrModalOpen,
     handleCloseBentoFocus,
-    scrollToIntroCard,
     toggleHeroMediaMode,
   ]);
 
@@ -1769,7 +1758,7 @@ export function AboutView({
               <div
                 data-subcard="true"
                 data-accent="blue"
-                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+                className="pillar-gradient-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -1793,7 +1782,7 @@ export function AboutView({
               <div
                 data-subcard="true"
                 data-accent="rose"
-                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+                className="pillar-gradient-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -1817,7 +1806,7 @@ export function AboutView({
               <div
                 data-subcard="true"
                 data-accent="emerald"
-                className="pillar-gradient-card layered-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
+                className="pillar-gradient-card rounded-[14px] p-4 shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -1852,7 +1841,7 @@ export function AboutView({
           <div className="space-y-4 text-left">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Khối 1: Giá trị cốt lõi */}
-              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
+              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between">
                 <div>
                   <div className="subcard-header-sync flex items-center gap-2 text-amber-600 dark:text-amber-300 mb-2">
                     <WebIcon name="star" className="w-5 h-5 fill-current text-amber-600 dark:text-amber-300" />
@@ -1868,7 +1857,7 @@ export function AboutView({
               </div>
 
               {/* Khối 2: Triết lý tầm nhìn */}
-              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between layered-card">
+              <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="subcard-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-300">
@@ -1927,53 +1916,43 @@ export function AboutView({
         ['--about-card-w' as any]: `${aboutCardWidth}px`,
         ['--about-side-inset' as any]: `${aboutSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-x-hidden overflow-y-hidden no-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-0 font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-hidden z-10 box-border"
     >
       <div
         id="about-cards-track"
         style={{
           display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'stretch',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          paddingLeft: `${aboutSideInset}px`,
-          paddingRight: `${aboutSideInset}px`,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
           height: '100%',
           minHeight: '100%',
-          width: 'max-content',
+          maxHeight: '100%',
+          width: '100%',
+          maxWidth: '1250px',
+          margin: '0 auto',
           boxSizing: 'border-box',
+          padding: 0,
+          overflow: 'hidden',
         }}
-        className="page-cards-track flex flex-row items-stretch gap-[15px] h-full min-h-full box-border"
+        className="page-cards-track flex flex-col items-center justify-start h-full min-h-full max-h-full w-full max-w-[1250px] mx-auto box-border overflow-hidden"
       >
       {/* ========================================================================= */}
-      {/* CARD GIỚI THIỆU 1: CHỨA CARD VIDEO VÀ CARD THÔNG TIN CHI TIẾT             */}
+      {/* CARD GIỚI THIỆU CHÍNH (BENTO MULTICOLOR VIEW): NHẬP CARD 1 & 2 LÀM 1      */}
       {/* ========================================================================= */}
       <div
         id="about-intro-card-1"
         data-main-card="true"
-        data-layer-level="1"
-        data-element-name="Card giới thiệu 1"
+        data-element-name="Thẻ chính Trang Giới Thiệu Chuyên Gia"
         data-element-type="card"
         data-element-page="about"
         data-element-parent="about-page-container"
-        onClickCapture={(e) => {
-          if (activeIntroCard !== 1) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToIntroCard(1, true);
-          }
-        }}
-        title={activeIntroCard !== 1 ? 'Click để chuyển Card giới thiệu 1 ra chính giữa màn hình' : undefined}
         style={{
-          width: `${aboutCardWidth}px`,
+          width: '100%',
           maxWidth: '1250px',
-          minWidth: `${aboutCardWidth}px`,
-          flex: `0 0 ${aboutCardWidth}px`,
           height: '100%',
           minHeight: '100%',
+          maxHeight: '100%',
           paddingTop: '15px',
           paddingRight: '15px',
           paddingBottom: '15px',
@@ -1982,15 +1961,26 @@ export function AboutView({
           rowGap: '0px',
           columnGap: '0px',
           borderRadius: 'var(--radius-main, 14px)',
+          boxSizing: 'border-box',
+          margin: '0 auto',
+          overflow: 'hidden',
         }}
-        className={cn(
-          'page-main-card relative max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border transition-opacity duration-300',
-          activeIntroCard !== 1 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
+        className="page-main-card relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-card-1-scroll-viewport"
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          onWheel={(e) => {
+            const el = e.currentTarget;
+            if (el) {
+              el.scrollTop += e.deltaY;
+            }
+          }}
+          style={{
+            overscrollBehaviorY: 'contain',
+            WebkitOverflowScrolling: 'touch',
+            scrollBehavior: 'smooth',
+          }}
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
         <div
           id="about-intro-grid-1"
@@ -2000,12 +1990,11 @@ export function AboutView({
             rowGap: '15px',
             columnGap: '15px',
             borderRadius: '14px',
-            background: 'var(--surface-primary-bg, var(--bg-main))',
           }}
-          className="w-full flex-1 min-h-full grid grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] gap-[15px] p-0 rounded-[14px] overflow-hidden items-stretch box-border"
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-0 rounded-[14px] items-stretch box-border"
         >
             
-            {/* CARD 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (70% - Video 1 làm hình nền mặc định: tự động phát, tắt tiếng, vòng lặp) */}
+            {/* BENTO TILE 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (SAPPHIRE BLUE) */}
             <div
               id="about-hero-video-container"
               data-element-name="Card video chân dung chuyên gia"
@@ -2018,7 +2007,7 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 16px)',
                 padding: '0px',
               }}
-              className="bento-card glass-card col-span-1 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch h-full min-h-0 min-w-0 group/video p-0 text-left"
+              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[420px] lg:min-h-[480px] min-w-0 group/video p-0 text-left"
             >
                   <div
                     id="el-p2-div-87"
@@ -2477,7 +2466,7 @@ export function AboutView({
                   </div>
                   </div>
 
-            {/* CARD 2: CARD THÔNG TIN CHI TIẾT (30% - Chiều cao luôn bằng Card Video) */}
+            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (EMERALD MINT) */}
             <div
               id="about-personal-info-card-right"
               data-element-name="Card thông tin chi tiết"
@@ -2487,7 +2476,7 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card glass-card col-span-1 grid grid-cols-1 sm:grid-cols-6 auto-rows-max content-start items-start gap-2 sm:gap-2.5 self-stretch h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar"
+              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-6 auto-rows-max content-start items-start gap-2 sm:gap-2.5 self-stretch min-h-[420px] lg:min-h-[480px] min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
                   {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
                   <div className="col-span-full sm:col-span-6 w-full flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 min-w-0">
@@ -2676,64 +2665,31 @@ export function AboutView({
                 </div>
 
         </div>
-        </div>
-      </div>
 
-      {/* ========================================================================= */}
-      {/* CARD GIỚI THIỆU 2: GIỚI THIỆU BẢN THÂN, 3 TRỤ CỘT, GIÁ TRỊ & TRIẾT LÝ     */}
-      {/* ========================================================================= */}
-      <div
-        id="about-intro-card-2"
-        data-main-card="true"
-        data-layer-level="1"
-        data-element-name="Card giới thiệu 2"
-        data-element-type="card"
-        data-element-page="about"
-        data-element-parent="about-page-container"
-        onClickCapture={(e) => {
-          if (activeIntroCard !== 2) {
-            e.preventDefault();
-            e.stopPropagation();
-            SoundEngine.playTap();
-            scrollToIntroCard(2, true);
-          }
-        }}
-        title={activeIntroCard !== 2 ? 'Click để chuyển Card giới thiệu 2 ra chính giữa màn hình' : undefined}
-        style={{
-          width: `${aboutCardWidth}px`,
-          maxWidth: '1250px',
-          minWidth: `${aboutCardWidth}px`,
-          flex: `0 0 ${aboutCardWidth}px`,
-          height: '100%',
-          minHeight: '100%',
-          paddingTop: '15px',
-          paddingRight: '15px',
-          paddingBottom: '15px',
-          paddingLeft: '15px',
-          gap: '0px',
-          rowGap: '0px',
-          columnGap: '0px',
-        }}
-        className={cn(
-          'page-main-card relative max-w-[1250px] shrink-0 h-full min-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[14px] overflow-hidden box-border transition-opacity duration-300',
-          activeIntroCard !== 2 ? 'cursor-pointer opacity-90 hover:opacity-100' : 'opacity-100'
-        )}
-      >
+        {/* ========================================================================= */}
+        {/* BENTO GRID 2: GIỚI THIỆU BẢN THÂN, 3 TRỤ CỘT, GIÁ TRỊ & TRIẾT LÝ          */}
+        {/* ========================================================================= */}
         <div
-          id="about-intro-card-2-scroll-viewport"
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          id="about-intro-grid-2"
+          style={{
+            padding: '0px',
+            gap: '15px',
+            rowGap: '15px',
+            columnGap: '15px',
+          }}
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start box-border pb-4"
         >
-            {/* CARD 3: CARD GIỚI THIỆU BẢN THÂN (ABOUT ME) - CHIỀU CAO VỪA KHÍT NỘI DUNG */}
+            {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (PURPLE AMETHYST) */}
             <div
               id="about-career-goal-card"
               data-element-name="Card Giới Thiệu Bản Thân Chuyên Gia"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-intro-card-2"
+              data-element-parent="about-intro-card-1"
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-purple glass-card col-span-12 lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
@@ -2757,17 +2713,17 @@ export function AboutView({
               </div>
             </div>
 
-            {/* CARD 4: CARD 3 TRỤ CỘT VẬN HÀNH (3 OPERATING PILLARS) - CHIỀU CAO VỪA KHÍT NỘI DUNG */}
+            {/* BENTO TILE 4: CARD 3 TRỤ CỘT VẬN HÀNH (AMBER GOLD) */}
             <div
               id="about-operating-pillars-card"
               data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-intro-card-2"
+              data-element-parent="about-intro-card-1"
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-amber glass-card col-span-12 lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2780,7 +2736,7 @@ export function AboutView({
               </div>
 
               {/* 3 Pillars Grid - Sub-cards fit inner content height */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-start h-fit">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 items-stretch h-fit">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
                   data-subcard="true"
@@ -2788,18 +2744,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-1') &&
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-blue-600 dark:text-sky-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-blue-600 dark:text-sky-300">
                       <BarChart3 className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Hiệu quả vận hành</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Hiệu quả vận hành</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Tối ưu &amp; Kết quả</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Tối ưu &amp; Kết quả</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
                   </div>
@@ -2812,18 +2768,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-rose-600 dark:text-rose-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-rose-600 dark:text-rose-300">
                       <Heart className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Nhân văn con người</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Nhân văn con người</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Đồng cảm &amp; Thấu hiểu</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
                   </div>
@@ -2836,18 +2792,18 @@ export function AboutView({
                   onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                   onMouseLeave={() => setHoveredPillarOrValue(null)}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[14px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group',
                     isPillarHighlighted('pillar-3') &&
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-emerald-600 dark:text-emerald-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-emerald-600 dark:text-emerald-300">
                       <Leaf className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Bền vững dài hạn</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Bền vững dài hạn</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Giá trị &amp; Tin cậy</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Giá trị &amp; Tin cậy</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
                   </div>
@@ -2855,17 +2811,17 @@ export function AboutView({
               </div>
             </div>
 
-            {/* CARD 5: CARD GIÁ TRỊ CỐT LÕI (CORE VALUES) - THẺ ĐỘC LẬP */}
+            {/* BENTO TILE 5: CARD GIÁ TRỊ CỐT LÕI (ROSE CORAL) */}
             <div
               id="about-core-values-card"
               data-element-name="Card Giá Trị Cốt Lõi Vàng"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-intro-card-2"
+              data-element-parent="about-intro-card-1"
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-7 xl:col-span-7 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-rose glass-card col-span-12 lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2878,7 +2834,7 @@ export function AboutView({
               </div>
 
               {/* 3 Core Values Grid - Sub-cards fit inner content height */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[15px] items-start h-fit">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 items-stretch h-fit">
                 {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
@@ -2890,18 +2846,18 @@ export function AboutView({
                     showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-1') &&
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-amber-600 dark:text-amber-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-amber-600 dark:text-amber-300">
                       <Award className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Tận tâm trách nhiệm</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Tận tâm trách nhiệm</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Trách nhiệm &amp; Hết lòng</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
@@ -2918,18 +2874,18 @@ export function AboutView({
                     showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-2') &&
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-pink-600 dark:text-pink-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-pink-600 dark:text-pink-300">
                       <Clock className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Kịp thời nhanh nhạy</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Kịp thời nhanh nhạy</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Tốc độ &amp; Đúng lúc</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
@@ -2946,18 +2902,18 @@ export function AboutView({
                     showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm');
                   }}
                   className={cn(
-                    'pillar-gradient-card layered-card rounded-[12px] p-[15px] shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
+                    'pillar-gradient-card rounded-[14px] p-3 sm:p-3.5 shadow-md flex flex-col justify-start h-auto relative overflow-hidden transition-all duration-300 hover:shadow-xl text-left group cursor-pointer',
                     isValueHighlighted('val-3') &&
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
                   <div className="relative z-10 flex flex-col gap-1">
-                    <div className="pillar-heading flex items-center gap-2 text-purple-600 dark:text-purple-300">
+                    <div className="pillar-heading flex items-center gap-1.5 text-purple-600 dark:text-purple-300">
                       <HeartHandshake className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading typo-h5 font-play m-0">Đồng cảm chân thành</h5>
+                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Đồng cảm chân thành</h5>
                     </div>
-                    <span className="pillar-sub typo-label block">Lắng nghe &amp; Thấu cảm</span>
-                    <p className="pillar-body typo-body-sm m-0">
+                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
@@ -2965,24 +2921,24 @@ export function AboutView({
               </div>
             </div>
 
-            {/* CARD 6: CARD TRIẾT LÝ TẦM NHÌN (CÂU NÓI HAY / SIGNATURE QUOTE) */}
+            {/* BENTO TILE 6: CARD TRIẾT LÝ TẦM NHÌN & CÂU NÓI HAY (CYAN TEAL) */}
             <div
               id="about-philosophy-card"
               data-element-name="Card Triết Lý Tầm Nhìn CX 2026+"
               data-element-type="card"
               data-element-page="about"
-              data-element-parent="about-intro-card-2"
+              data-element-parent="about-intro-card-1"
               style={{
                 padding: '15px',
               }}
-              className="bento-card glass-card col-span-1 lg:col-span-5 xl:col-span-5 h-fit self-start flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-cyan glass-card col-span-12 lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
-                  <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
-                    <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
-                    <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
+                  <div className="card-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+                    <Target className="w-4.5 h-4.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
+                    <h3 className="typo-h3 card-title-synced font-play text-cyan-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                       {formatCardTitle('Triết lý tầm nhìn')}
                     </h3>
                   </div>
@@ -2992,14 +2948,15 @@ export function AboutView({
                 <div className="flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2.5">
                   <WebIcon
                     name="quote"
-                    className="w-6 h-6 text-blue-500/80 dark:text-cyan-400/80 shrink-0"
+                    className="w-6 h-6 text-cyan-500/80 dark:text-cyan-400/80 shrink-0"
                   />
-                  <blockquote className="typo-h5 font-play font-bold italic text-blue-700 dark:text-cyan-300 leading-snug text-balance m-0">
+                  <blockquote className="typo-h5 font-play font-bold italic text-cyan-700 dark:text-cyan-300 leading-snug text-balance m-0">
                     “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
                   </blockquote>
                 </div>
               </div>
             </div>
+        </div>
         </div>
       </div>
       </div>

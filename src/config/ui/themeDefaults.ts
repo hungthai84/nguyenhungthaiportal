@@ -8,8 +8,12 @@ import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_bey
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
+import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
+import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
+import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
+import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'neumorphism-beyond';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-deep-ocean';
 export const DEFAULT_LAYER_DEPTH = 100;
 
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
@@ -47,6 +51,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'dark-neumorphism-beyond': { cardOpacity: 92, blurIntensity: 14 },
   'frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
   'dark-frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
+  'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
+  'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -85,7 +91,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-cowhide-leather',
     label: 'Nền Chất liệu da (màu nâu)',
     themeMode: 'color',
-    imagePath: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
+    imagePath: cowhideLeatherWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
@@ -113,19 +119,18 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'light-deep-ocean': {
     id: 'light-deep-ocean',
     presetId: 'theme-bg-light-deep-ocean',
-    label: 'Nền Đại Dương Sâu Thẳm Sáng',
+    label: 'Nền Light Ocean Navy (#1951fc)',
     themeMode: 'light',
-    imagePath: lightDeepOceanWallpaper,
-    fallbackGradient:
-      'radial-gradient(circle at 20% 18%, rgba(6, 182, 212, 0.20) 0%, transparent 48%), radial-gradient(circle at 82% 82%, rgba(56, 189, 248, 0.22) 0%, transparent 52%), linear-gradient(155deg, #F2FBFF 0%, #E3F4FD 52%, #D4EEFC 100%)',
-    overlayBg: 'rgba(240, 250, 255, 0.12)',
+    imagePath: '',
+    fallbackGradient: '#1951fc',
+    overlayBg: 'rgba(25, 81, 252, 0.15)',
   },
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
-    presetId: 'custom-wp-1788112774646',
-    label: 'Hình nền #32',
+    presetId: 'theme-bg-neumorphism-beyond',
+    label: 'Nền Nổi Khối Kính Mờ (Sáng)',
     themeMode: 'light',
-    imagePath: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
+    imagePath: neumorphismBeyondWallpaper,
     fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
     overlayBg: 'transparent',
   },
@@ -143,7 +148,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-frost-ice-neu',
     label: 'Nền Băng Tuyết Nổi Khối (Sáng)',
     themeMode: 'light',
-    imagePath: '',
+    imagePath: frostIceNeuWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.92) 0%, transparent 48%), radial-gradient(circle at 86% 24%, rgba(168, 212, 248, 0.50) 0%, transparent 54%), radial-gradient(circle at 50% 88%, rgba(186, 218, 245, 0.45) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
     overlayBg: 'rgba(232, 243, 252, 0.12)',
@@ -153,7 +158,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-dark-frost-ice-neu',
     label: 'Nền Băng Tuyết Nổi Khối (Tối)',
     themeMode: 'dark',
-    imagePath: '',
+    imagePath: darkFrostIceNeuWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 18% 14%, rgba(110, 106, 246, 0.16) 0%, transparent 46%), radial-gradient(circle at 84% 22%, rgba(74, 184, 249, 0.14) 0%, transparent 50%), radial-gradient(circle at 74% 84%, rgba(255, 112, 161, 0.10) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
     overlayBg: 'rgba(12, 19, 32, 0.22)',
@@ -178,6 +183,26 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(at 16% 18%, rgba(34, 211, 238, 0.24) 0px, transparent 50%), radial-gradient(at 84% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(99, 102, 241, 0.20) 0px, transparent 52%), linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%)',
     overlayBg: 'rgba(5, 8, 20, 0.20)',
   },
+  'flat-soft-ui': {
+    id: 'flat-soft-ui',
+    presetId: 'theme-bg-flat-soft-ui',
+    label: 'Nền Flat Soft UI (Sáng)',
+    themeMode: 'light',
+    imagePath: glassFlatWallpaper,
+    fallbackGradient:
+      'radial-gradient(circle at 14% 16%, rgba(226, 232, 240, 0.55) 0%, transparent 48%), radial-gradient(circle at 86% 84%, rgba(241, 245, 249, 0.70) 0%, transparent 52%), linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%)',
+    overlayBg: 'rgba(248, 250, 252, 0.05)',
+  },
+  'dark-flat-soft-ui': {
+    id: 'dark-flat-soft-ui',
+    presetId: 'theme-bg-dark-flat-soft-ui',
+    label: 'Nền Flat Soft UI (Tối)',
+    themeMode: 'dark',
+    imagePath: darkNeonGlassWallpaper,
+    fallbackGradient:
+      'radial-gradient(circle at 16% 16%, rgba(30, 41, 59, 0.45) 0%, transparent 50%), radial-gradient(circle at 84% 84%, rgba(15, 23, 42, 0.65) 0%, transparent 52%), linear-gradient(135deg, #0A0E17 0%, #0F172A 50%, #060911 100%)',
+    overlayBg: 'rgba(10, 14, 23, 0.15)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
@@ -189,8 +214,10 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
-  'neumorphism-beyond': 'custom-wp-1788112774646',
+  'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
   'dark-neumorphism-beyond': THEME_BACKGROUNDS['dark-neumorphism-beyond'].presetId,
   'frost-ice-neu': THEME_BACKGROUNDS['frost-ice-neu'].presetId,
   'dark-frost-ice-neu': THEME_BACKGROUNDS['dark-frost-ice-neu'].presetId,
+  'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
+  'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
 };

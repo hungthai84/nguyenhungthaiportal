@@ -359,25 +359,22 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   }, [autoPlayVideo1, enforceVideoAttributes, loopVideo1, muteVideo1, showToast, tryStartVideo1]);
 
   const toggleVideoMute = useCallback(() => {
+    if (!isPlayingIntroRef.current) {
+      // Khi đang ở chế độ Video 1 nền lặp mà bấm loa bật tiếng -> Chuyển ngay sang phát video có âm thanh
+      handlePlayIntro();
+      return;
+    }
     const nextAudioOn = !isAudioOnRef.current;
     isAudioOnRef.current = nextAudioOn;
     setIsAudioOn(nextAudioOn);
 
-    if (isPlayingIntroRef.current) {
-      const v2 = video2Ref.current;
-      if (v2 && video2StageRef.current !== 'iframe') {
-        enforceVideoAttributes(v2, !nextAudioOn, true, true);
-        if (v2.paused) tryStartVideo2(v2, nextAudioOn);
-      }
-    } else {
-      const v1 = video1Ref.current;
-      if (v1 && video1StageRef.current !== 'iframe') {
-        enforceVideoAttributes(v1, !nextAudioOn, autoPlayVideo1, loopVideo1);
-        if (autoPlayVideo1 && v1.paused) tryStartVideo1(v1, nextAudioOn);
-      }
+    const v2 = video2Ref.current;
+    if (v2 && video2StageRef.current !== 'iframe') {
+      enforceVideoAttributes(v2, !nextAudioOn, true, true);
+      if (v2.paused) tryStartVideo2(v2, nextAudioOn);
     }
     showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
-  }, [autoPlayVideo1, enforceVideoAttributes, loopVideo1, showToast, tryStartVideo1, tryStartVideo2]);
+  }, [enforceVideoAttributes, handlePlayIntro, showToast, tryStartVideo2]);
 
   const sharedVideoStyle: React.CSSProperties = {
     position: 'absolute',

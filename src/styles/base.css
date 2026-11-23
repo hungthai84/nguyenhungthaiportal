@@ -106,9 +106,12 @@
   }
 
   /* Bold Vector Line & Font Icons Across All Themes & Interfaces */
-  html[data-card-style] svg.lucide:not([data-thin-stroke="true"]),
+  svg:not([data-thin-stroke="true"]),
+  svg:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
   svg.lucide:not([data-thin-stroke="true"]),
+  svg.lucide:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
   .web-icon:not([data-thin-stroke="true"]),
+  .web-icon:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
   .card-header-sync svg:not([data-thin-stroke="true"]),
   .subcard-header-sync svg:not([data-thin-stroke="true"]),
   .card-title svg:not([data-thin-stroke="true"]),
@@ -119,7 +122,7 @@
   .theme-modal-header svg:not([data-thin-stroke="true"]),
   .theme-modal-close svg:not([data-thin-stroke="true"]),
   .banner-control-pill svg:not([data-thin-stroke="true"]) {
-    stroke-width: 2.75 !important;
+    stroke-width: 2.85 !important;
   }
 
   i.fa,

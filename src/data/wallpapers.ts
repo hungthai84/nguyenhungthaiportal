@@ -8,6 +8,10 @@ import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_bey
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
+import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
+import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
+import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
+import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -38,7 +42,7 @@ export interface ThemeBackground {
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'liquid-glass': {
-    light: rainbowGlassWallpaper,
+    light: 'https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg',
     dark: rainbowGlassWallpaper,
   },
   'dark-liquid-glass': {
@@ -46,8 +50,8 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: darkRainbowGlassWallpaper,
   },
   'cowhide-leather': {
-    light: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
-    dark: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
+    light: cowhideLeatherWallpaper,
+    dark: cowhideLeatherWallpaper,
   },
   'black-cowhide-leather': {
     light: blackCowhideLeatherWallpaper,
@@ -70,18 +74,26 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: darkNeumorphismBeyondWallpaper,
   },
   'frost-ice-neu': {
-    light: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
-    dark: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    light: frostIceNeuWallpaper,
+    dark: frostIceNeuWallpaper,
   },
   'dark-frost-ice-neu': {
-    light: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
-    dark: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    light: darkFrostIceNeuWallpaper,
+    dark: darkFrostIceNeuWallpaper,
   },
   'multicolor-glass': {
     light: multicolorGlassWallpaper,
     dark: multicolorGlassWallpaper,
   },
   'dark-neon-glass': {
+    light: darkNeonGlassWallpaper,
+    dark: darkNeonGlassWallpaper,
+  },
+  'flat-soft-ui': {
+    light: glassFlatWallpaper,
+    dark: glassFlatWallpaper,
+  },
+  'dark-flat-soft-ui': {
     light: darkNeonGlassWallpaper,
     dark: darkNeonGlassWallpaper,
   },
@@ -211,6 +223,20 @@ export function getWallpaperThumbnailUrl(val: string): string {
  */
 export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
+    id: 'wallpaper-liquid-glass-flowers',
+    name: '🌸 Liquid Glass Flowers (macOS Tahoe)',
+    type: 'image',
+    value: 'https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg',
+    bg: "url('https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg') center/500px repeat",
+    previewStyle: {
+      backgroundImage: "url('https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1795393000000,
+  },
+  {
     id: 'wallpaper-official-gemini',
     name: '🌟 Hình nền chính thức (Vũ trụ Glass UI)',
     type: 'image',
@@ -236,7 +262,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     gravityConfig: {
       paletteId: 'autoMorph',
-      morphOnPageChange: true,
+      morphOnPageChange: false,
       swatchColor: '#2F69FF',
       secondaryColor: '#FFA6B3',
       previewSpheres: ['#2F69FF', '#E1FC03', '#FFA6B3', '#96E5FF'],
@@ -255,7 +281,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     gravityConfig: {
       paletteId: 'roseGold',
-      morphOnPageChange: true,
+      morphOnPageChange: false,
       swatchColor: '#2F69FF',
       secondaryColor: '#A8C1FF',
       previewSpheres: ['#0A33BF', '#2F69FF', '#A8C1FF', '#4D80FF'],
@@ -274,7 +300,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     gravityConfig: {
       paletteId: 'pinkBlush',
-      morphOnPageChange: true,
+      morphOnPageChange: false,
       swatchColor: '#FFA6B3',
       secondaryColor: '#FF4D6D',
       previewSpheres: ['#FF4D6D', '#FFA6B3', '#FFECEB', '#FFC5C2'],
@@ -293,7 +319,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     gravityConfig: {
       paletteId: 'voltLime',
-      morphOnPageChange: true,
+      morphOnPageChange: false,
       swatchColor: '#E1FC03',
       secondaryColor: '#B1E200',
       previewSpheres: ['#B1E200', '#E1FC03', '#EFFE69', '#DCFF32'],
@@ -312,7 +338,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     gravityConfig: {
       paletteId: 'arcticBlue',
-      morphOnPageChange: true,
+      morphOnPageChange: false,
       swatchColor: '#96E5FF',
       secondaryColor: '#2BA5FF',
       previewSpheres: ['#2BA5FF', '#96E5FF', '#C9F1FF', '#98E4FF'],
@@ -324,12 +350,12 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     id: 'theme-bg-cowhide-leather',
     name: '💼 Nền Da Bò Thủ Công (Theme Background)',
     type: 'image',
-    value: '/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg',
-    bg: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg') center/cover no-repeat",
+    value: cowhideLeatherWallpaper,
+    bg: `url('${cowhideLeatherWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
-      backgroundImage: "url('/backgrounds/themes/cowhide-leather/cowhide-leather-dark.jpg')",
+      backgroundImage: `url('${cowhideLeatherWallpaper}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -354,7 +380,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-liquid-glass',
-    name: '✨ Nền Liquid Glass UI Sáng (Giao diện riêng)',
+    name: '✨ Nền Liquid Glass Soft UI Sáng (Giao diện riêng)',
     type: 'image',
     value: rainbowGlassWallpaper,
     bg: `url('${rainbowGlassWallpaper}') center/cover no-repeat`,
@@ -370,7 +396,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-dark-liquid-glass',
-    name: '🌙 Nền Liquid Glass UI Tối (Giao diện riêng)',
+    name: '🌙 Nền Liquid Glass Soft UI Tối (Giao diện riêng)',
     type: 'image',
     value: darkRainbowGlassWallpaper,
     bg: `url('${darkRainbowGlassWallpaper}') center/cover no-repeat`,
@@ -402,16 +428,13 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-deep-ocean',
-    name: '🌊 Nền Đại Dương Sâu Thẳm Sáng (Giao diện riêng)',
-    type: 'image',
-    value: lightDeepOceanWallpaper,
-    bg: `url('${lightDeepOceanWallpaper}') center/cover no-repeat`,
+    name: '🌊 Nền Đại Dương Sâu Thẳm Sáng (#1951fc)',
+    type: 'css',
+    value: '#1951fc',
+    bg: '#1951fc',
     previewStyle: {
-      background:
-        'radial-gradient(circle at 20% 18%, rgba(6, 182, 212, 0.22) 0%, transparent 50%), linear-gradient(155deg, #F2FBFF 0%, #E3F4FD 52%, #D4EEFC 100%)',
-      backgroundImage: `url('${lightDeepOceanWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      background: '#1951fc',
+      backgroundColor: '#1951fc',
     },
     isCustom: false,
     createdAt: 1794300000021,
@@ -449,13 +472,15 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-frost-ice-neu',
     name: '❄️ Nền Băng Tuyết Nổi Khối Sáng (Giao diện riêng)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.92) 0%, transparent 48%), radial-gradient(circle at 86% 24%, rgba(168, 212, 248, 0.50) 0%, transparent 54%), radial-gradient(circle at 50% 88%, rgba(186, 218, 245, 0.45) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%);',
-    bg: 'linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+    type: 'image',
+    value: frostIceNeuWallpaper,
+    bg: `url('${frostIceNeuWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95) 0%, transparent 50%), radial-gradient(circle at 84% 78%, rgba(154, 200, 240, 0.55) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
+      backgroundImage: `url('${frostIceNeuWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000025,
@@ -463,16 +488,34 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-dark-frost-ice-neu',
     name: '🌌 Nền Băng Tuyết Nổi Khối Tối (Giao diện riêng)',
-    type: 'gradient',
-    value:
-      'background: radial-gradient(circle at 18% 14%, rgba(110, 106, 246, 0.16) 0%, transparent 46%), radial-gradient(circle at 84% 22%, rgba(74, 184, 249, 0.14) 0%, transparent 50%), radial-gradient(circle at 74% 84%, rgba(255, 112, 161, 0.10) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%);',
-    bg: 'linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+    type: 'image',
+    value: darkFrostIceNeuWallpaper,
+    bg: `url('${darkFrostIceNeuWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 20% 20%, rgba(110, 106, 246, 0.24) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(74, 184, 249, 0.22) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
+      backgroundImage: `url('${darkFrostIceNeuWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000026,
+  },
+  {
+    id: 'theme-bg-multicolor-glass',
+    name: '✨ Nền Glass UI Đa Sắc Hiện Đại (Giao diện riêng)',
+    type: 'image',
+    value: multicolorGlassWallpaper,
+    bg: `url('${multicolorGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(at 14% 16%, rgba(56, 189, 248, 0.34) 0px, transparent 50%), radial-gradient(at 86% 16%, rgba(192, 132, 252, 0.32) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 146, 60, 0.24) 0px, transparent 52%), linear-gradient(135deg, #edf6ff 0%, #f4eeff 50%, #fff0f7 100%)',
+      backgroundImage: `url('${multicolorGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000027,
   },
   {
     id: 'theme-bg-dark-neon-glass',
@@ -489,6 +532,38 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000023,
+  },
+  {
+    id: 'theme-bg-flat-soft-ui',
+    name: '🎨 Nền Flat Soft UI Sáng (Giao diện riêng)',
+    type: 'image',
+    value: glassFlatWallpaper,
+    bg: `url('${glassFlatWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(226, 232, 240, 0.55) 0%, transparent 48%), radial-gradient(circle at 86% 84%, rgba(241, 245, 249, 0.70) 0%, transparent 52%), linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%)',
+      backgroundImage: `url('${glassFlatWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000028,
+  },
+  {
+    id: 'theme-bg-dark-flat-soft-ui',
+    name: '🌌 Nền Flat Soft UI Tối (Giao diện riêng)',
+    type: 'image',
+    value: darkNeonGlassWallpaper,
+    bg: `url('${darkNeonGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 16% 16%, rgba(30, 41, 59, 0.45) 0%, transparent 50%), radial-gradient(circle at 84% 84%, rgba(15, 23, 42, 0.65) 0%, transparent 52%), linear-gradient(135deg, #0A0E17 0%, #0F172A 50%, #060911 100%)',
+      backgroundImage: `url('${darkNeonGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000029,
   },
 
   {

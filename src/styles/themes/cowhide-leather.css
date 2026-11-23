@@ -258,7 +258,6 @@ html[data-card-style="cowhide-leather"] :is(
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  [data-layer-level="1"],
   #home-main-card,
   [id$="-main-card"],
   #about-intro-card-1,
@@ -319,7 +318,7 @@ html[data-card-style="cowhide-leather"] #el-p0-div-16 [role="tab"][aria-selected
 }
 
 /* Outer Page Container Frame: 100% Transparent Canvas, 0px Radius & 1px Line Border */
-html[data-card-style="cowhide-leather"] .main-card:not(.page-main-card):not([data-main-card="true"]):not([data-layer-level="1"]):not(#pdf-page-container),
+html[data-card-style="cowhide-leather"] .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container),
 html[data-card-style="cowhide-leather"] [id$="-page-container"]:not(#pdf-page-container),
 html[data-card-style="cowhide-leather"] [id$="-page-root"] {
   background: transparent !important;

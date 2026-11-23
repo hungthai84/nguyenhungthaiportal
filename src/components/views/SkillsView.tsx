@@ -981,7 +981,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         <div
           id="skills-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-detail-open={selectedSwot ? 'true' : 'false'}
           data-detail-overlay="true"
           data-element-name="Thẻ chính Trang Kỹ Năng"

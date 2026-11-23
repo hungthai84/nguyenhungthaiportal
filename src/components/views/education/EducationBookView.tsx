@@ -267,7 +267,6 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                 borderColor: `${courseColor}38`,
               }}
             >
-              <WebIcon name="award" className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: courseColor }} />
               <p className="typo-caption font-semibold m-0 line-clamp-2 break-words" style={{ color: courseColor }}>
                 {course.result}
               </p>

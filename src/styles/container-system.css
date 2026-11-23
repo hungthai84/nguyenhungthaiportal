@@ -42,27 +42,26 @@ html #about-intro-card-1 {
 
 html #about-intro-grid-1 {
   display: grid !important;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
   width: 100% !important;
-  flex: 1 1 0% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  margin-top: auto !important;
-  margin-bottom: auto !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 460px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   padding: 0 !important;
   gap: var(--mc-gap, 15px) !important;
   row-gap: var(--mc-gap, 15px) !important;
   column-gap: var(--mc-gap, 15px) !important;
-  grid-template-rows: minmax(0, 1fr) !important;
   align-items: stretch !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
 }
 
 html #about-hero-video-container,
 html #about-personal-info-card-right {
   height: 100% !important;
-  min-height: 0 !important;
+  min-height: 460px !important;
   min-width: 0 !important;
   align-self: stretch !important;
   box-sizing: border-box !important;
@@ -244,6 +243,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #core-values-grid,
 #brands-bento-grid,
 #about-intro-card-2-scroll-viewport,
+#about-intro-grid-2,
 #services-main-content,
 #services-main-content .services-cards-grid,
 #interview-main-content,
@@ -251,32 +251,70 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #projects-page-container .grid,
 #skills-page-container .grid,
 #horoscope-page-container .grid {
-  gap: var(--mc-gap, 16px) !important;
-  row-gap: var(--mc-gap, 16px) !important;
-  column-gap: var(--mc-gap, 16px) !important;
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
+  grid-auto-flow: dense !important;
+  align-items: stretch !important;
 }
 
-/* Pinterest Masonry Layout for Experience Job Detail View */
-#experience-bento-grid.experience-masonry-grid {
-  display: block !important;
-  column-count: 1 !important;
-  column-gap: 15px !important;
-  width: 100% !important;
+/* ========================================================================= */
+/* HOROSCOPE RESPONSIVE BENTO AUTO-FIT SMART WHITESPACE SYSTEM               */
+/* ========================================================================= */
+#horoscope-page-container [class*="grid"] {
+  align-items: stretch !important;
+  grid-auto-flow: dense !important;
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
 }
 
-#experience-bento-grid.experience-masonry-grid > .experience-masonry-item {
-  break-inside: avoid !important;
-  -webkit-column-break-inside: avoid !important;
-  page-break-inside: avoid !important;
+#horoscope-page-container .grid > *,
+#horoscope-page-container [class*="grid"] > * {
+  align-self: stretch !important;
+  min-height: 0;
+  box-sizing: border-box !important;
+}
+
+#horoscope-card-profile,
+#horoscope-card-management-style,
+#horoscope-card-career-portrait,
+#horoscope-card-five-elements,
+#horoscope-card-leadership-philosophy,
+#horoscope-card-work-synergy-check {
+  height: 100% !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  flex: 1 1 100% !important;
+  box-sizing: border-box !important;
+}
+
+#horoscope-page-container [data-subcard="true"],
+#horoscope-page-container .sub-card,
+#horoscope-page-container .domain-card-sub {
+  padding: clamp(12px, 1.4cqi, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, 16px)) saturate(135%);
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 16px)) saturate(135%);
+}
+
+/* Layout for Experience Job Detail View (Row-based Pairing) */
+#experience-bento-grid {
   display: flex !important;
   flex-direction: column !important;
+  gap: 15px !important;
   width: 100% !important;
-  margin-bottom: 15px !important;
-  height: auto !important;
+  column-count: initial !important;
+}
+
+#experience-bento-grid .exp-bento-surface-card {
+  width: 100% !important;
+  min-height: fit-content !important;
 }
 
 /* Fluid inner card & subcard padding */
-.page-main-card [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-media-card="video"]):not(#about-hero-video-container):not(#bento-letter-video):not(#experience-hero-video-card):not(#experience-video-card-2026):not(#interview-questions-card):not([id^="home-main-content-"]):not(#experience-timeline-board):not(#experience-job-detail-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
+.page-main-card [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-media-card="video"]):not(#about-hero-video-container):not(#bento-letter-video):not(#experience-hero-video-card):not(#experience-video-card-2026):not(#interview-questions-card):not([id^="home-main-content-"]):not(#experience-timeline-board):not(#experience-job-detail-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.education-course-card):not([id^="education-card-"]):not(.project-card):not([id^="project-card-"]),
 .page-main-card .bento-view-card,
 .page-main-card .exp-bento-surface-card,
 .page-main-card .partner-card,
@@ -285,6 +323,66 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 .page-main-card #services-hero-banner {
   padding: var(--mc-card-pad, 16px) !important;
   gap: var(--mc-gap, 16px) !important;
+}
+
+/* Thẻ học vấn: padding từ nội dung bên trong đến mép thẻ học vấn là 8px */
+.page-main-card .education-course-card,
+.page-main-card #education-courses-grid .education-course-card,
+#education-courses-grid .education-course-card,
+.education-course-card {
+  padding: 8px !important;
+  gap: 8px !important;
+}
+
+/* Thẻ Dự án: Banner lắp đầy phía trên, không padding thẻ ngoài */
+.page-main-card #projects-grid .project-card,
+#projects-grid .project-card,
+#projects-grid article,
+.project-card,
+[id^="project-card-"] {
+  padding: 0px !important;
+  gap: 0px !important;
+  overflow: hidden !important;
+}
+
+#projects-grid .project-card .project-card-banner,
+#projects-grid article .project-card-banner,
+.project-card .project-card-banner {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  overflow: hidden !important;
+}
+
+#projects-grid .project-card .project-card-banner img,
+#projects-grid article .project-card-banner img,
+.project-card .project-card-banner img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-radius: 0 !important;
+  border-top-left-radius: inherit !important;
+  border-top-right-radius: inherit !important;
+}
+
+#projects-grid .project-card .project-card-body,
+#projects-grid article .project-card-body,
+.project-card .project-card-body {
+  padding: 15px !important;
+}
+
+#projects-grid [data-card-title="true"] {
+  display: block !important;
 }
 
 .page-main-card [data-subcard="true"],
@@ -452,7 +550,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid,
   #letter-slide-3-grid,
   #letter-slide-4-bento-grid,
-  #about-intro-card-2-scroll-viewport {
+  #about-intro-card-2-scroll-viewport,
+  #about-intro-grid-2 {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
@@ -465,23 +564,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid > *,
   #letter-slide-3-grid > *,
   #letter-slide-4-bento-grid > *,
-  #about-intro-card-2-scroll-viewport > * {
+  #about-intro-card-2-scroll-viewport > *,
+  #about-intro-grid-2 > * {
     grid-column: 1 / -1 !important;
   }
 
-  #experience-bento-grid.experience-masonry-grid {
-    column-count: 1 !important;
-  }
 
   /* About Card 1 luôn duy trì bố cục 2 cột song song trên mọi kích thước */
   html #about-intro-grid-1 {
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
-    grid-template-rows: minmax(0, 1fr) !important;
     gap: 10px !important;
     row-gap: 10px !important;
     column-gap: 10px !important;
-    min-height: 0 !important;
-    height: 100% !important;
+    min-height: 420px !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 
   html #about-intro-grid-1 > #about-hero-video-container,
@@ -516,15 +613,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
-  }
-
-  #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 280px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
     align-items: stretch !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 280px)), var(--card-max-width, 1fr))) !important;
+    grid-auto-rows: auto !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: start !important;
   }
 
   #projects-grid.projects-responsive-grid {
@@ -541,7 +643,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-profile,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
-  #horoscope-card-five-elements,
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   #horoscope-pillars-container,
@@ -607,12 +708,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: 1 / -1 !important;
   }
 
-  /* About Card 1 duy trì tỷ lệ 70% Video / 30% Thông tin chi tiết cùng 1 hàng */
+  /* About Card 1 duy trì tỷ lệ Video / Thông tin chi tiết cùng 1 hàng */
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
-    grid-template-rows: minmax(0, 1fr) !important;
-    min-height: 0 !important;
-    height: 100% !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
+    min-height: 440px !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 
   html #about-intro-grid-1 > #about-hero-video-container,
@@ -620,11 +721,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 1 / span 1 !important;
   }
 
-  #about-intro-card-2-scroll-viewport {
+  #about-intro-card-2-scroll-viewport,
+  #about-intro-grid-2 {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #about-intro-card-2-scroll-viewport > * {
+  #about-intro-card-2-scroll-viewport > *,
+  #about-intro-grid-2 > * {
     grid-column: 1 / -1 !important;
   }
 
@@ -643,23 +746,22 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   /* Services fluid responsive auto-fit grid */
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
-  }
-
-  /* Experience Detail: Pinterest Masonry 2-column Grid */
-  #experience-bento-grid.experience-masonry-grid {
-    column-count: 2 !important;
-    column-gap: 15px !important;
-  }
-
-  /* Systems auto-fit responsive columns based on available container width */
-  #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
     align-items: stretch !important;
+  }
+
+
+  /* Systems auto-fit responsive columns based on available container width */
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
+    grid-auto-rows: auto !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -678,7 +780,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-profile,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
-  #horoscope-card-five-elements,
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   #horoscope-pillars-container,
@@ -748,15 +849,16 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-card-2-scroll-viewport {
+  #about-intro-card-2-scroll-viewport,
+  #about-intro-grid-2 {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
-    grid-template-rows: minmax(0, 1fr) !important;
-    min-height: 0 !important;
-    height: 100% !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
+    min-height: 460px !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 
   #about-hero-video-container,
@@ -776,16 +878,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
-  }
-
-  #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
     align-items: stretch !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
+    grid-auto-rows: auto !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -800,11 +906,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
-  /* Experience Detail: Pinterest Masonry 2-column Grid */
-  #experience-bento-grid.experience-masonry-grid {
-    column-count: 2 !important;
-    column-gap: 15px !important;
-  }
 
   #horoscope-card-1-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
@@ -873,15 +974,16 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 6 / span 6 !important;
   }
 
-  #about-intro-card-2-scroll-viewport {
+  #about-intro-card-2-scroll-viewport,
+  #about-intro-grid-2 {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
-    grid-template-rows: minmax(0, 1fr) !important;
-    min-height: 0 !important;
-    height: 100% !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
+    min-height: 460px !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 
   #about-hero-video-container,
@@ -901,16 +1003,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) !important;
-    grid-auto-rows: minmax(0, 1fr) !important;
-  }
-
-  #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
     align-items: stretch !important;
+  }
+
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
+    grid-auto-rows: auto !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    align-content: start !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns on wide desktop */
@@ -925,11 +1031,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
-  /* Experience Detail: Pinterest Masonry 3-column Grid on Wide Desktop */
-  #experience-bento-grid.experience-masonry-grid {
-    column-count: 3 !important;
-    column-gap: 15px !important;
-  }
 
   #horoscope-card-1-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;

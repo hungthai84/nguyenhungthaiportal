@@ -124,7 +124,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
   const sectionCardStyle: React.CSSProperties = {
     padding: '15px',
-    borderRadius: 'var(--radius-card, 24px)',
+    borderRadius: '14px',
+    height: '100%',
+    minHeight: '100%',
+    maxHeight: '100%',
+    boxSizing: 'border-box',
+    overflowY: 'auto',
+    scrollSnapAlign: 'start',
   };
 
   // Theo dõi mục lục đang xem (Scroll-Spy mượt mà trên cả Desktop và Mobile, không chặn cuộn)
@@ -197,7 +203,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
     if (scroller) {
       const deltaTop = el.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
-      scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + deltaTop - 6), behavior: 'smooth' });
+      scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + deltaTop), behavior: 'smooth' });
     } else {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -212,18 +218,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   return (
     <div
       id="project-detail-layout"
-      ref={outerScrollRef}
-      className="w-full h-full flex-1 min-h-0 flex flex-row gap-[15px] p-0 box-border items-stretch relative overflow-hidden glass-scrollbar rounded-[inherit] text-left font-play"
+      ref={scrollContainerRef}
+      className="w-full h-full flex-1 min-h-0 p-0 box-border items-start relative glass-scrollbar rounded-[inherit] text-left font-play"
     >
-      {/* 1. KHỐI NỘI DUNG CHI TIẾT BÀI VIẾT DỰ ÁN BÊN TRÁI (Luôn cao bằng banner chi tiết dự án ở mọi kích thước) */}
-      <div
-        id="project-detail-content"
-        ref={scrollContainerRef}
-        className="order-1 flex-1 min-w-0 h-full min-h-full max-h-full overflow-y-auto scroll-smooth glass-scrollbar flex flex-col gap-[15px] text-left pb-1"
-      >
-        {spec && (
-          <>
-            {/* SECTION 01: SƠ ĐỒ TƯ DUY KIẾN TRÚC DỰ ÁN */}
+      {spec && (
+        <>
+          {/* SECTION 01: SƠ ĐỒ TƯ DUY KIẾN TRÚC DỰ ÁN */}
             <section
               id="sec-mindmap"
               data-section-card="true"
@@ -306,9 +306,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               </div>
 
               {/* Mind Map Body */}
-              <div className="relative z-10 flex flex-col gap-[15px]">
+              <div className="relative z-10 flex flex-col gap-[15px] flex-1 min-h-0 justify-between">
                 {mindmapMode === 'interactive' ? (
-                  <div className="flex flex-col gap-[15px]">
+                  <div className="flex flex-col gap-[15px] flex-1 min-h-0 justify-between">
                     {/* Connecting Visual Divider */}
                     <div className="hidden lg:flex items-center justify-center gap-4 typo-label font-mono font-bold text-[var(--text-muted)]">
                       <div
@@ -342,7 +342,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     </div>
 
                     {/* 4 Radiating Branches (2x2 Grid, Equal Height, 15px Gap & Padding) */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch flex-1 min-h-0">
                       {/* Branch 1: Bối cảnh & Thách thức */}
                       <div
                         id="projects-mindmap-branch-1"
@@ -588,9 +588,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   </div>
                 ) : (
                   /* Image mode view */
-                  <div className="space-y-2.5">
+                  <div className="space-y-2.5 flex-1 min-h-0 flex flex-col justify-between">
                     <div
-                      className="w-full h-72 sm:h-96 md:h-[440px] rounded-[14px] overflow-hidden bg-slate-950 border border-fuchsia-300/60 dark:border-fuchsia-500/30 relative group cursor-pointer shadow-md"
+                      className="w-full flex-1 min-h-[300px] rounded-[14px] overflow-hidden bg-slate-950 border border-fuchsia-300/60 dark:border-fuchsia-500/30 relative group cursor-pointer shadow-md"
                       onClick={() => onOpenMindmap(selectedArticle)}
                     >
                       <img
@@ -840,7 +840,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                             className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0"
                           />
                           <h5
-                            className="typo-h5 subcard-title-synced text-amber-600 dark:text-amber-400 tracking-wide m-0"
+                            className="typo-h5 subcard-title-synced text-amber-600 dark:text-amber-400 tracking-wide m-0 whitespace-nowrap min-w-0 pr-1"
                             data-subcard-title="true"
                           >
                             Dữ liệu đo lường
@@ -1847,7 +1847,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             </section>
           </>
         )}
-      </div>
 
       {/* 2. KHỐI BANNER DỌC MỤC LỤC BÊN PHẢI (Chiều cao 100% khớp thẻ bài viết ở mọi kích thước) */}
       {spec && (
@@ -1858,7 +1857,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           data-element-name="Banner dọc Mục lục dự án"
           data-element-type="banner-card"
           data-section-card="true"
-          className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-full max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
+          className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-0 max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
         >
           {/* Nội dung phân tách trực tiếp trên Mục lục dọc (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
           <div

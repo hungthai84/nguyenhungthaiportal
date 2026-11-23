@@ -151,7 +151,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
         <div
           id="contact-main-card"
           data-main-card="true"
-          data-layer-level="1"
           data-element-name="Thẻ chính Trang Liên Hệ"
           data-element-type="card"
           data-element-page="contact"

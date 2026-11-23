@@ -25,7 +25,7 @@ import { DEFAULT_DRIVE_BANNER_ASSIGNMENTS, type DriveBannerDefaultEntry } from '
 
 const DRIVE_PICKED_VIDEOS_STORAGE_KEY = 'hungthai_drive_banner_videos_v1';
 const DRIVE_BANNER_MAP_STORAGE_KEY = 'hungthai_drive_banner_map_v1';
-const DRIVE_BANNER_SEED_VERSION_KEY = 'hungthai_drive_banner_links_v2';
+const DRIVE_BANNER_SEED_VERSION_KEY = 'hungthai_drive_banner_links_v3';
 const DRIVE_SERVICE_MAP_STORAGE_KEY = 'hungthai_drive_service_map_v1';
 const DRIVE_SCAN_FOLDERS_STORAGE_KEY = 'hungthai_drive_scan_folders_v1';
 const DRIVE_SCAN_ASSETS_STORAGE_KEY = 'hungthai_drive_scan_assets_v1';

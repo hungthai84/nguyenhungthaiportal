@@ -294,7 +294,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
             <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
             <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
-              Hồ sơ năng lực &amp; CV Portfolio
+              Hồ sơ năng lực
             </h1>
           </div>
 
@@ -304,7 +304,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               onClick={() => handlePrintOrExport('download')}
               disabled={isExporting}
               style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
-              className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer disabled:opacity-60"
+              className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60"
               title="Tải tệp CV Portfolio dưới dạng PDF"
             >
               <WebIcon name="download" size={16} className="text-white" />
@@ -396,6 +396,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top rounded-[inherit]"
                 loading="eager"
+                decoding="async"
               />
             </div>
             <div className="mt-3">
@@ -820,6 +821,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                                 <img
                                   src={logoSrc}
                                   alt={partner.name}
+                                  loading="lazy"
+                                  decoding="async"
                                   referrerPolicy="no-referrer"
                                   className="w-full h-full object-cover rounded-full p-0"
                                   onError={(e) => {
@@ -906,7 +909,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       </span>
                       {m.logo && (
                         <div className="w-7 h-7 rounded-[8px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
-                          <img src={m.logo} alt={m.company} referrerPolicy="no-referrer" className="w-full h-full object-contain rounded-[inherit]" />
+                          <img src={m.logo} alt={m.company} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="w-full h-full object-contain rounded-[inherit]" />
                         </div>
                       )}
                     </div>

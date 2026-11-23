@@ -542,19 +542,19 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
         <div
           id="weather-widget-card"
           data-element-type="card"
-          data-section-card="true"
+          data-weather-card="true"
           onClick={handleCycleCard}
           title={
             isEn
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
           }
-          className="relative h-full max-h-[56px] px-2 py-0.5 rounded-[var(--radius-subcard,16px)] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none group overflow-hidden"
+          className="relative h-full max-h-[56px] px-2 py-0.5 rounded-[10px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer shadow-none overflow-hidden"
           style={{
             height: 'min(56px, 100%)',
             paddingLeft: '8px',
             paddingRight: '8px',
-            borderRadius: 'var(--radius-subcard, 16px)',
+            borderRadius: '10px',
             backgroundColor: 'transparent',
             background: 'transparent',
             backgroundImage: 'none',
@@ -562,6 +562,10 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             boxShadow: 'none',
             backdropFilter: 'none',
             WebkitBackdropFilter: 'none',
+            filter: 'none',
+            transition: 'none',
+            transform: 'none',
+            animation: 'none',
           }}
         >
           {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM */}
@@ -583,7 +587,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* 2. Ở GIỮA (CENTER): ICON THỜI TIẾT VÀ THÔNG TIN */}
           <div className="relative z-20 flex items-center gap-1.5 md:gap-2 shrink-0">
-            <div className="relative shrink-0 transition-transform duration-300 group-hover:scale-110">
+            <div className="relative shrink-0">
               {render3DWeatherIcon(cardCfg.condition, 'w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12')}
             </div>
             <div className="flex flex-col justify-center leading-tight text-left">

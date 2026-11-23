@@ -64,8 +64,8 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
     const supportsIO = typeof IntersectionObserver !== 'undefined';
     const containerRef = useRef<HTMLDivElement | null>(null);
     const videoElRef = useRef<HTMLVideoElement | null>(null);
-    const isInViewportRef = useRef<boolean>(!supportsIO || isDirectUrl);
-    const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO || isDirectUrl);
+    const isInViewportRef = useRef<boolean>(!supportsIO);
+    const [shouldLoad, setShouldLoad] = useState<boolean>(!supportsIO);
     const [stage, setStage] = useState<BannerStreamStage>('proxy');
     const [isReady, setIsReady] = useState<boolean>(false);
 
@@ -126,8 +126,8 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
     useEffect(() => {
       setStage('proxy');
       setIsReady(false);
-      setShouldLoad(isDirectUrl || isInViewportRef.current);
-    }, [videoId, isDirectUrl]);
+      setShouldLoad(isInViewportRef.current);
+    }, [videoId]);
 
     // Lazy load khi banner sắp xuất hiện trong viewport + tạm dừng khi cuộn ra ngoài
     useEffect(() => {
@@ -227,7 +227,7 @@ export const VideoBanner: React.FC<VideoBannerProps> = React.memo(
             loop={loop}
             muted={muted}
             playsInline
-            preload="auto"
+            preload="metadata"
             controls={false}
             disablePictureInPicture
             controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"

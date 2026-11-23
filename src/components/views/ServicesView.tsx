@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   Smartphone,
   ShoppingBag,
@@ -9,7 +9,6 @@ import {
   Gamepad2,
   Wallet,
   Cpu,
-  Maximize2,
   Minimize2,
   Users,
   Zap,
@@ -295,6 +294,7 @@ const getCardDomId = (id: string) => {
 export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { cardStyle, isDark: themeIsDark } = useTheme();
   const { language, t } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isDark =
@@ -324,7 +324,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [syncedCardHeight, setSyncedCardHeight] = useState<number | undefined>(undefined);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -335,39 +334,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const animTimerRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const syncHeights = () => {
-      const cards = Object.values(cardRefs.current).filter(Boolean) as HTMLDivElement[];
-      if (cards.length === 0) return;
-
-      let maxHeight = 0;
-      cards.forEach((card) => {
-        const prevH = card.style.height;
-        const prevMinH = card.style.minHeight;
-        card.style.height = 'auto';
-        card.style.minHeight = 'auto';
-        const h = card.getBoundingClientRect().height;
-        card.style.height = prevH;
-        card.style.minHeight = prevMinH;
-        if (h > maxHeight) {
-          maxHeight = h;
-        }
-      });
-
-      if (maxHeight > 0) {
-        setSyncedCardHeight(Math.ceil(maxHeight));
-      }
-    };
-
-    syncHeights();
-    const timer = setTimeout(syncHeights, 100);
-    window.addEventListener('resize', syncHeights);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', syncHeights);
-    };
-  }, [isEn, activeCategory]);
 
   const clearTimers = useCallback(() => {
     if (animTimerRef.current !== null) {
@@ -586,20 +552,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
     return isLight ? meta.accentLight : meta.accentDark;
   };
 
-  const renderTwoLineTitle = (title: string, iconKey: DomainIconKey, accentColor: string) => {
-    const words = title.trim().split(/\s+/);
-    const line1 = words.slice(0, 2).join(' ');
-    const line2 = words.slice(2).join(' ');
-    return (
-      <>
-        <span className="inline-flex items-center gap-1.5 flex-nowrap">
-          {renderDomainIcon(iconKey, 'w-[17px] h-[17px] shrink-0 stroke-[2.2]', accentColor)}
-          <span>{line1}</span>
-        </span>
-        {line2 ? <span className="block">{line2}</span> : null}
-      </>
-    );
-  };
 
   const expandedMeta = expandedDomain ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01'] : null;
   const expandedAccent = expandedDomain ? getAccentColor(expandedDomain.id) : '#0284c7';
@@ -688,7 +640,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     data-card-title="true"
                     style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                   >
-                    {isEn ? '6 Core Expertise Domains' : '6 Lĩnh Vực Chuyên Môn & Quản Trị'}
+                    {isEn ? 'Core expertise domains' : 'Lĩnh vực chuyên môn'}
                   </h1>
                 </div>
                 <p
@@ -716,7 +668,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       SoundEngine.playTap();
                       setIsFilterOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95 group"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play group"
                     title={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
                     aria-label={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
                     aria-expanded={isFilterOpen}
@@ -795,7 +747,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                   <button
                     type="button"
                     onClick={closeExpandedCard}
-                    className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play cursor-pointer transition"
                   >
                     <Minimize2 className="w-3.5 h-3.5" />
                     <span>{isEn ? 'Back to 6 Domains' : 'Quay lại 6 thẻ lĩnh vực'}</span>
@@ -804,27 +756,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               </div>
             </motion.div>
 
-            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC + THẺ MỞ RỘNG MORPH FLIP TỪ VỊ TRÍ GỐC */}
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC TRỰC TIẾP (ĐÃ XÓA KHUNG #services-cards-grid) */}
             <div
               id="services-cards-wrapper"
-              ref={cardsWrapperRef}
-              className="relative w-full flex flex-col"
+              ref={(el) => {
+                cardsWrapperRef.current = el;
+                cardsGridRef.current = el;
+              }}
+              className={`services-cards-grid relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full max-w-full min-w-0 ${
+                isGridDimmed ? 'grid-dimmed' : ''
+              }`}
               style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
             >
-              {/* Lưới 6 Thẻ Lĩnh Vực (3 cột x 2 hàng Desktop / 2 cột Tablet / 1 cột Mobile) */}
-              <div
-                id="services-cards-grid"
-                ref={cardsGridRef}
-                data-main-card="true"
-                style={{
-                  borderRadius: '14px',
-                  boxSizing: 'border-box',
-                }}
-                className={`services-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0 rounded-[14px] p-[15px] ${
-                  isGridDimmed ? 'grid-dimmed' : ''
-                }`}
-              >
-                {DOMAINS_DATA.map((domain) => {
+                {DOMAINS_DATA.map((domain, idx) => {
                   const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
                   const accentColor = getAccentColor(domain.id);
                   const cardTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
@@ -838,10 +782,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
                   const serviceImage =
                     driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
-                  const tagsList = (isEn ? meta.tagsEn : meta.tags).slice(0, 2);
 
                   return (
-                    <div
+                    <motion.div
                       key={domain.id}
                       ref={(el) => {
                         cardRefs.current[domain.id] = el;
@@ -851,6 +794,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       data-section-card="true"
                       role="button"
                       tabIndex={0}
+                      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.01 }}
+                      transition={{
+                        duration: prefersReducedMotion ? 0 : 0.55,
+                        delay: prefersReducedMotion ? 0 : idx * 0.075,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
                       onClick={(e) => openExpandedCard(domain, e.currentTarget)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -859,8 +810,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         }
                       }}
                       style={{
-                        height: syncedCardHeight ? `${syncedCardHeight}px` : 'auto',
-                        minHeight: syncedCardHeight ? `${syncedCardHeight}px` : 'auto',
+                        height: '100%',
                         background: isLeatherTheme
                           ? undefined
                           : isLight
@@ -874,74 +824,41 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       }}
                       className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
                     >
-                      {/* Góc trên phải: Nút chỉ dấu mở rộng toàn khung */}
-                      <span
-                        aria-hidden="true"
-                        className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] group-hover:scale-105 flex items-center justify-center transition-all duration-200"
-                      >
-                        <Maximize2 className="w-3.5 h-3.5" />
-                      </span>
-
-                      {/* Thân card: Trái là (Tiêu đề, Logo, Mô tả), Phải là Ảnh minh họa (chiều cao bằng tiêu đề + logo + mô tả cộng lại, không có hiệu ứng màu) */}
-                      <div className="service-card-body-row relative z-10 flex items-stretch gap-3 min-w-0 pr-7 flex-1">
-                        {/* Cột trái: Tiêu đề 2 dòng (hàng 1) + Logo đối tác (hàng 2) + Mô tả dịch vụ 4 hàng (hàng 3) */}
-                        <div className="flex-1 min-w-0 flex flex-col justify-start gap-1.5">
+                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải (Hàng 1 + Hàng 2: Hình dịch vụ) */}
+                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_124px] sm:grid-cols-[minmax(0,1fr)_168px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-stretch min-w-0 flex-1">
+                        {/* Bên trái - Hàng 1: Icon và Tiêu đề */}
+                        <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-start pt-0.5">
+                          {renderDomainIcon(
+                            meta.iconKey,
+                            'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
+                            accentColor
+                          )}
                           <h3
-                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 break-words"
+                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 truncate"
                             data-card-title="true"
                             style={{ color: accentColor }}
                             title={cardTitle}
                           >
-                            {renderTwoLineTitle(
-                              isEn ? shortCardTitle : domain.title,
-                              meta.iconKey,
-                              accentColor
-                            )}
+                            {isEn ? shortCardTitle : domain.title}
                           </h3>
-
-                          {(domain.companyLogos || []).length > 0 && (
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
-                                <div
-                                  key={partner.name || pIdx}
-                                  title={partner.name}
-                                  className="w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center shrink-0 shadow-xs"
-                                >
-                                  <img
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    referrerPolicy="no-referrer"
-                                    className="w-full h-full object-cover rounded-full"
-                                    onError={(e) => {
-                                      if (
-                                        partner.fallbackLogo &&
-                                        e.currentTarget.src !== partner.fallbackLogo
-                                      ) {
-                                        e.currentTarget.src = partner.fallbackLogo;
-                                      } else {
-                                        e.currentTarget.style.display = 'none';
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          <p
-                            id={`service-card-desc-${domain.id}`}
-                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-relaxed text-[13px] sm:text-[13.5px] font-normal"
-                            title={summaryText}
-                          >
-                            {summaryText}
-                          </p>
                         </div>
 
-                        {/* Ảnh minh họa bên phải có kích thước chiều cao bằng tiêu đề + logo + mô tả, không có hiệu ứng màu (no glow/filter) */}
-                        <div className="service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-[95px] sm:w-[110px]">
+                        {/* Bên trái - Hàng 2: Mô tả 3 hàng */}
+                        <p
+                          id={`service-card-desc-${domain.id}`}
+                          className="col-start-1 row-start-2 service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.5] text-[13px] sm:text-[13.5px] font-normal self-start"
+                          title={summaryText}
+                        >
+                          {summaryText}
+                        </p>
+
+                        {/* Bên phải - Hàng 1 + Hàng 2: Chứa hình dịch vụ phủ trọn 2 hàng */}
+                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-full min-h-[126px] sm:min-h-[146px]">
                           <img
                             src={serviceImage}
                             alt={cardTitle}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             onError={(e) => {
                               if (e.currentTarget.src !== meta.fallbackIllustration) {
@@ -954,35 +871,42 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         </div>
                       </div>
 
-                      {/* Tầng 3: Footer Hashtags & Action CTA */}
-                      <div className="service-divider relative z-10 pt-2.5 mt-auto border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 shrink-0 min-w-0">
-                        <div className="flex items-center gap-1.5 flex-wrap min-w-0 max-w-[70%]">
-                          {tagsList.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[11px] font-semibold px-2 py-0.5 rounded-full border truncate max-w-full"
-                              style={{
-                                backgroundColor: isLight ? meta.tintBgLight : meta.tintBgDark,
-                                borderColor: isLight ? meta.borderLight : meta.borderDark,
-                                color: isLight ? meta.pillTextLight : meta.pillTextDark,
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <span
-                          className="inline-flex items-center gap-1 text-[12px] font-bold font-play shrink-0 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"
-                          style={{ color: accentColor }}
-                        >
-                          <span>{isEn ? 'Details' : 'Chi tiết'}</span>
-                          <span aria-hidden="true" className="text-xs">→</span>
-                        </span>
+                      {/* Tầng Footer: Dải Logo doanh nghiệp tiêu biểu (tăng thêm 1/2 kích thước: 28px -> 42px) */}
+                      <div className="service-divider relative z-10 pt-2.5 mt-auto border-t border-[var(--border-subcard)] flex items-center justify-start gap-2.5 shrink-0 min-w-0">
+                        {(domain.companyLogos || []).length > 0 && (
+                          <div className="flex items-center gap-2.5 flex-wrap min-w-0">
+                            {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                              <div
+                                key={partner.name || pIdx}
+                                title={partner.name}
+                                className="w-[42px] h-[42px] rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center p-1 shrink-0 shadow-xs"
+                              >
+                                <img
+                                  src={partner.logo}
+                                  alt={partner.name}
+                                  loading="lazy"
+                                  decoding="async"
+                                  referrerPolicy="no-referrer"
+                                  className="w-full h-full object-contain rounded-full"
+                                  onError={(e) => {
+                                    if (
+                                      partner.fallbackLogo &&
+                                      e.currentTarget.src !== partner.fallbackLogo
+                                    ) {
+                                      e.currentTarget.src = partner.fallbackLogo;
+                                    } else {
+                                      e.currentTarget.style.display = 'none';
+                                    }
+                                  }}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
             </div>
           </div>
           </div>

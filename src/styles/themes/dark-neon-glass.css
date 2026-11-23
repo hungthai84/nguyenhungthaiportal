@@ -76,21 +76,21 @@ html[data-theme="dark-neon-glass"] {
   --text-badge: #67e8f9;
   --text-highlight: #22d3ee;
 
-  --app-bg-base: #0f0c29;
+  --app-bg-base: #050814;
   --app-bg-gradient:
-    radial-gradient(circle at 25% 15%, rgba(255, 0, 255, 0.35) 0%, rgba(157, 0, 255, 0.20) 35%, transparent 60%),
-    radial-gradient(circle at 85% 75%, rgba(0, 255, 204, 0.30) 0%, rgba(0, 153, 255, 0.18) 35%, transparent 60%),
-    radial-gradient(circle at 20% 85%, rgba(255, 204, 0, 0.22) 0%, rgba(255, 102, 0, 0.14) 30%, transparent 55%),
-    linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    radial-gradient(circle at 20% 16%, rgba(34, 211, 238, 0.24) 0%, rgba(14, 165, 233, 0.14) 36%, transparent 62%),
+    radial-gradient(circle at 84% 22%, rgba(232, 121, 249, 0.22) 0%, rgba(168, 85, 247, 0.16) 36%, transparent 60%),
+    radial-gradient(circle at 65% 84%, rgba(99, 102, 241, 0.20) 0%, rgba(168, 85, 247, 0.12) 34%, transparent 58%),
+    linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%);
 
   --ambient-base-bg: var(--app-bg-gradient);
-  --ambient-glow-1: radial-gradient(circle at 30% 30%, #ff00ff 0%, #9d00ff 100%);
-  --ambient-glow-2: radial-gradient(circle at 30% 30%, #00ffcc 0%, #0099ff 100%);
-  --ambient-glow-3: radial-gradient(circle at 30% 30%, #ffcc00 0%, #ff6600 100%);
-  --ambient-glow-4: radial-gradient(circle at 50% 50%, #9d00ff 0%, #00ffcc 100%);
-  --ambient-wave-1: rgba(157, 0, 255, 0.24);
-  --ambient-wave-2: rgba(0, 255, 204, 0.22);
-  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 50%, rgba(15, 12, 41, 0.65) 100%);
+  --ambient-glow-1: radial-gradient(circle at 30% 30%, #22d3ee 0%, #6366f1 100%);
+  --ambient-glow-2: radial-gradient(circle at 30% 30%, #e879f9 0%, #a855f7 100%);
+  --ambient-glow-3: radial-gradient(circle at 30% 30%, #34d399 0%, #06b6d4 100%);
+  --ambient-glow-4: radial-gradient(circle at 50% 50%, #a855f7 0%, #22d3ee 100%);
+  --ambient-wave-1: rgba(34, 211, 238, 0.22);
+  --ambient-wave-2: rgba(168, 85, 247, 0.22);
+  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 50%, rgba(5, 8, 20, 0.65) 100%);
   --ambient-wallpaper-opacity: 0.92;
 
   /* Neon Dark Specular Rim & Inner Edge Bloom */
@@ -106,13 +106,13 @@ html[data-theme="dark-neon-glass"] {
   );
 
   /* Translucent Dark Obsidian Neon Glass Surfaces (Neon Glassmorphism Specification) */
-  --bg-main: rgba(15, 12, 41, 0.50);
-  --bg-header: rgba(15, 12, 41, 0.60);
-  --bg-footer: rgba(15, 12, 41, 0.60);
-  --bg-card: rgba(15, 12, 41, 0.52);
-  --bg-card-hover: rgba(24, 18, 58, 0.68);
-  --bg-subcard: rgba(15, 12, 41, 0.60);
-  --bg-subcard-hover: rgba(28, 22, 66, 0.68);
+  --bg-main: rgba(9, 14, 34, 0.56);
+  --bg-header: rgba(9, 14, 34, 0.68);
+  --bg-footer: rgba(9, 14, 34, 0.68);
+  --bg-card: rgba(10, 16, 38, 0.62);
+  --bg-card-hover: rgba(18, 24, 58, 0.74);
+  --bg-subcard: rgba(14, 22, 48, 0.64);
+  --bg-subcard-hover: rgba(24, 30, 68, 0.74);
   --bg-nested-card: rgba(14, 21, 46, 0.66);
   --bg-popup: linear-gradient(
     145deg,
@@ -136,13 +136,13 @@ html[data-theme="dark-neon-glass"] {
     rgba(38, 24, 82, 0.74) 52%,
     rgba(18, 32, 68, 0.82) 100%
   );
-  --bg-button-primary: linear-gradient(45deg, #9d00ff 0%, #ff00ff 100%);
+  --bg-button-primary: linear-gradient(135deg, #06B6D4 0%, #6366F1 52%, #EC4899 100%);
   --bg-button-secondary: rgba(15, 23, 48, 0.68);
   --bg-button-hover: rgba(24, 36, 72, 0.84);
 
   --bg-input: rgba(255, 255, 255, 0.10);
   --bg-badge: rgba(15, 25, 56, 0.78);
-  --bg-highlight: rgba(0, 255, 204, 0.16);
+  --bg-highlight: rgba(34, 211, 238, 0.16);
   --bg-banner: rgba(15, 12, 41, 0.52);
   --bg-banner-pill: rgba(14, 24, 52, 0.76);
   --bg-banner-input: rgba(12, 20, 46, 0.76);

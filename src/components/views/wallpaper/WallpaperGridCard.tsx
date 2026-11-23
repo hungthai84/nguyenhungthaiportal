@@ -13,6 +13,7 @@ const FALLBACK_GRADIENT =
 const LazyWallpaperVideo: React.FC<{ src: string }> = React.memo(({ src }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [hasEnteredView, setHasEnteredView] = useState<boolean>(false);
   const [isInView, setIsInView] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
@@ -23,6 +24,7 @@ const LazyWallpaperVideo: React.FC<{ src: string }> = React.memo(({ src }) => {
   useEffect(() => {
     const el = containerRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
+      setHasEnteredView(true);
       setIsInView(true);
       return;
     }
@@ -30,6 +32,9 @@ const LazyWallpaperVideo: React.FC<{ src: string }> = React.memo(({ src }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.some((entry) => entry.isIntersecting);
+        if (visible) {
+          setHasEnteredView(true);
+        }
         setIsInView(visible);
         const video = videoRef.current;
         if (!video) return;
@@ -41,7 +46,7 @@ const LazyWallpaperVideo: React.FC<{ src: string }> = React.memo(({ src }) => {
           video.pause();
         }
       },
-      { rootMargin: '120px' }
+      { rootMargin: '150px' }
     );
 
     observer.observe(el);
@@ -61,52 +66,59 @@ const LazyWallpaperVideo: React.FC<{ src: string }> = React.memo(({ src }) => {
   }
 
   return (
-    <div ref={containerRef} className="w-full h-full rounded-[inherit] overflow-hidden">
-      <video
-        ref={videoRef}
-        src={src}
-        autoPlay={isInView}
-        loop
-        muted
-        playsInline
-        controls={false}
-        disablePictureInPicture
-        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-        preload={isInView ? 'auto' : 'metadata'}
-        aria-hidden="true"
-        tabIndex={-1}
-        onLoadedMetadata={(e) => {
-          const v = e.currentTarget;
-          v.defaultMuted = true;
-          v.muted = true;
-          v.loop = true;
-          v.controls = false;
-          v.disablePictureInPicture = true;
-          (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-        }}
-        onCanPlay={(e) => {
-          const v = e.currentTarget;
-          v.defaultMuted = true;
-          v.muted = true;
-          v.loop = true;
-          if (isInView && v.paused) {
+    <div
+      ref={containerRef}
+      data-video-lazy={hasEnteredView ? 'loaded' : 'pending'}
+      style={!hasEnteredView ? { background: FALLBACK_GRADIENT } : undefined}
+      className="w-full h-full rounded-[inherit] overflow-hidden"
+    >
+      {hasEnteredView && (
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay={isInView}
+          loop
+          muted
+          playsInline
+          controls={false}
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget;
+            v.defaultMuted = true;
+            v.muted = true;
+            v.loop = true;
+            v.controls = false;
+            v.disablePictureInPicture = true;
+            (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+          }}
+          onCanPlay={(e) => {
+            const v = e.currentTarget;
+            v.defaultMuted = true;
+            v.muted = true;
+            v.loop = true;
+            if (isInView && v.paused) {
+              v.play().catch(() => {});
+            }
+          }}
+          onEnded={(e) => {
+            if (!isInView) return;
+            const v = e.currentTarget;
+            v.currentTime = 0;
             v.play().catch(() => {});
-          }
-        }}
-        onEnded={(e) => {
-          if (!isInView) return;
-          const v = e.currentTarget;
-          v.currentTime = 0;
-          v.play().catch(() => {});
-        }}
-        onError={() => setHasError(true)}
-        style={{
-          objectFit: 'cover',
-          transform: 'translateZ(0) scale(1.005)',
-          backfaceVisibility: 'hidden',
-        }}
-        className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] block pointer-events-none select-none banner-video-sharp"
-      />
+          }}
+          onError={() => setHasError(true)}
+          style={{
+            objectFit: 'cover',
+            transform: 'translateZ(0) scale(1.005)',
+            backfaceVisibility: 'hidden',
+          }}
+          className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] block pointer-events-none select-none banner-video-sharp"
+        />
+      )}
     </div>
   );
 });

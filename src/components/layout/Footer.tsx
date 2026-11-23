@@ -35,7 +35,6 @@ export const Footer: React.FC<FooterProps> = ({
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
-  const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const themePopupRef = useRef<HTMLDivElement>(null);
@@ -44,22 +43,6 @@ export const Footer: React.FC<FooterProps> = ({
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const themeLastClickTimeRef = useRef<number>(0);
   const themeDblHandledRef = useRef<boolean>(false);
-
-  const triggerPillRipple = (key: string, e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX > 0 ? e.clientX - rect.left : rect.width / 2;
-    const y = e.clientY > 0 ? e.clientY - rect.top : rect.height / 2;
-    const rippleId = Date.now() + Math.random();
-    setPillRipples((prev) => ({ ...prev, [key]: { id: rippleId, x, y } }));
-    window.setTimeout(() => {
-      setPillRipples((prev) => {
-        if (prev[key]?.id !== rippleId) return prev;
-        const next = { ...prev };
-        delete next[key];
-        return next;
-      });
-    }, 620);
-  };
 
   useEffect(() => {
     setIsThemeMenuOpen(false);
@@ -510,7 +493,17 @@ export const Footer: React.FC<FooterProps> = ({
         borderTop: glassBorderVal,
         borderLeft: glassBorderVal,
         borderRight: glassBorderVal,
-        borderRadius: 'var(--radius-footer, 20px 20px 0 0)',
+        borderRadius: '14px 14px 0px 0px',
+        borderTopLeftRadius: '14px',
+        borderTopRightRadius: '14px',
+        borderBottomRightRadius: '0px',
+        borderBottomLeftRadius: '0px',
+        boxShadow: 'none',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+        filter: 'none',
+        transition: 'none',
+        animation: 'none',
       }}
       className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
     >
@@ -536,10 +529,10 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
       <div
-        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 transition-all duration-300 ease-out ${
+        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 ${
           hideCenterNavCapsule
-            ? 'opacity-0 pointer-events-none scale-90 -translate-y-1'
-            : 'opacity-100 pointer-events-auto scale-100 translate-y-0'
+            ? 'opacity-0 pointer-events-none'
+            : 'opacity-100 pointer-events-auto'
         }`}
       >
         <div
@@ -557,8 +550,8 @@ export const Footer: React.FC<FooterProps> = ({
             paddingLeft: '5px',
             paddingRight: '5px',
           }}
-          className={`theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border transition-all duration-200 group font-play font-bold ${
-            hideCenterNavCapsule ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100'
+          className={`theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold ${
+            hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
           {/* Prev Button */}
@@ -573,7 +566,7 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(-1);
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
+            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
             style={{
@@ -619,7 +612,7 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(1);
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 transition-all duration-200 border-0 ${
+            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
             style={{
@@ -655,13 +648,13 @@ export const Footer: React.FC<FooterProps> = ({
                 ref={langMenuRef}
                 onMouseEnter={() => handleRightBtnMouseEnter(0)}
                 style={getDeckItemStyle(0, isLangMenuOpen)}
-                className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+                className="relative pointer-events-auto shrink-0"
               >
                 <div
                   ref={(el) => {
                     rightPillWrapperRefs.current[0] = el;
                   }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
                   }}
@@ -674,8 +667,7 @@ export const Footer: React.FC<FooterProps> = ({
                     type="button"
                     data-active={isLangMenuOpen ? 'true' : 'false'}
                     onFocus={() => setFocusedRightBtn(0)}
-                    onClick={(e) => {
-                      triggerPillRipple('lang', e);
+                    onClick={() => {
                       SoundEngine.playTap();
                       setIsThemeMenuOpen(false);
                       setIsLangMenuOpen((prev) => !prev);
@@ -686,7 +678,7 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': '#10B981',
@@ -701,32 +693,20 @@ export const Footer: React.FC<FooterProps> = ({
                       } as React.CSSProperties
                     }
                   >
-                    <span className="nav-pill-ripple-layer" aria-hidden="true">
-                      {pillRipples['lang'] && (
-                        <span
-                          key={pillRipples['lang'].id}
-                          className="nav-pill-ripple-wave"
-                          style={{
-                            left: `${pillRipples['lang'].x}px`,
-                            top: `${pillRipples['lang'].y}px`,
-                          }}
-                        />
-                      )}
-                    </span>
                     <div
-                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
                       style={{
                         backgroundColor: '#10B981',
                       }}
                     >
                       <WebIcon name="languages" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
                         style={{ fontWeight: 'bold', color: isLangMenuOpen ? '#FFFFFF' : '#10B981' }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {activeLangTitle}
                       </span>
@@ -743,13 +723,13 @@ export const Footer: React.FC<FooterProps> = ({
                 ref={themeMenuRef}
                 onMouseEnter={() => handleRightBtnMouseEnter(1)}
                 style={getDeckItemStyle(1, isThemeMenuOpen)}
-                className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+                className="relative pointer-events-auto shrink-0"
               >
                 <div
                   ref={(el) => {
                     rightPillWrapperRefs.current[1] = el;
                   }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
                   style={{
                     width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
                   }}
@@ -777,7 +757,6 @@ export const Footer: React.FC<FooterProps> = ({
                       }
                       themeDblHandledRef.current = false;
                       themeLastClickTimeRef.current = now;
-                      triggerPillRipple('theme', e);
                       SoundEngine.playTap();
                       setIsThemeMenuOpen((prev) => !prev);
                     }}
@@ -797,7 +776,7 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Giao diện (${activeThemeConfig.shortBadge}) · Click 1 lần: Danh sách · Double-click: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': '#6366F1',
@@ -812,34 +791,22 @@ export const Footer: React.FC<FooterProps> = ({
                       } as React.CSSProperties
                     }
                   >
-                    <span className="nav-pill-ripple-layer" aria-hidden="true">
-                      {pillRipples['theme'] && (
-                        <span
-                          key={pillRipples['theme'].id}
-                          className="nav-pill-ripple-wave"
-                          style={{
-                            left: `${pillRipples['theme'].x}px`,
-                            top: `${pillRipples['theme'].y}px`,
-                          }}
-                        />
-                      )}
-                    </span>
                     <div
-                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
                       style={{
                         backgroundColor: '#6366F1',
                       }}
                     >
                       <WebIcon name="layers" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: currentTabIndex === 15 || isThemeMenuOpen ? '#FFFFFF' : '#6366F1',
                         }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {isEn ? 'Theme' : 'Giao Diện'}
                       </span>
@@ -855,13 +822,13 @@ export const Footer: React.FC<FooterProps> = ({
           <div
             onMouseEnter={() => handleRightBtnMouseEnter(2)}
             style={getDeckItemStyle(2)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+            className="relative pointer-events-auto shrink-0"
           >
             <div
               ref={(el) => {
                 rightPillWrapperRefs.current[2] = el;
               }}
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
               style={{
                 width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
               }}
@@ -880,7 +847,7 @@ export const Footer: React.FC<FooterProps> = ({
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#F43F5E',
@@ -895,34 +862,22 @@ export const Footer: React.FC<FooterProps> = ({
                   } as React.CSSProperties
                 }
               >
-                <span className="nav-pill-ripple-layer" aria-hidden="true">
-                  {pillRipples['wallpaper'] && (
-                    <span
-                      key={pillRipples['wallpaper'].id}
-                      className="nav-pill-ripple-wave"
-                      style={{
-                        left: `${pillRipples['wallpaper'].x}px`,
-                        top: `${pillRipples['wallpaper'].y}px`,
-                      }}
-                    />
-                  )}
-                </span>
                 <div
-                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
                   style={{
                     backgroundColor: '#F43F5E',
                   }}
                 >
                   <WebIcon name="image" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{
                       fontWeight: 'bold',
                       color: currentTabIndex === 14 ? '#FFFFFF' : '#F43F5E',
                     }}
-                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'Wallpaper' : 'Hình Nền'}
                   </span>
@@ -935,13 +890,13 @@ export const Footer: React.FC<FooterProps> = ({
           <div
             onMouseEnter={() => handleRightBtnMouseEnter(3)}
             style={getDeckItemStyle(3)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+            className="relative pointer-events-auto shrink-0"
           >
             <div
               ref={(el) => {
                 rightPillWrapperRefs.current[3] = el;
               }}
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
               style={{
                 width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
               }}
@@ -966,7 +921,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#0EA5E9',
@@ -981,34 +936,22 @@ export const Footer: React.FC<FooterProps> = ({
                   } as React.CSSProperties
                 }
               >
-                <span className="nav-pill-ripple-layer" aria-hidden="true">
-                  {pillRipples['ai'] && (
-                    <span
-                      key={pillRipples['ai'].id}
-                      className="nav-pill-ripple-wave"
-                      style={{
-                        left: `${pillRipples['ai'].x}px`,
-                        top: `${pillRipples['ai'].y}px`,
-                      }}
-                    />
-                  )}
-                </span>
                 <div
-                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
+                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
                   style={{
                     backgroundColor: '#0EA5E9',
                   }}
                 >
-                  <WebIcon name="bot" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0 transition-colors duration-200" />
+                  <WebIcon name="bot" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{
                       fontWeight: 'bold',
                       color: currentTabIndex === 13 ? '#FFFFFF' : '#0EA5E9',
                     }}
-                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
                   </span>

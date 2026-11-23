@@ -22,10 +22,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
-import {
-  WallpaperStudioControls,
-  SmartFilterCategory,
-} from './wallpaper/WallpaperStudioControls';
+import type { SmartFilterCategory } from './wallpaper/WallpaperStudioControls';
 import { WallpaperGridCard } from './wallpaper/WallpaperGridCard';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
@@ -500,13 +497,16 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     e.target.value = '';
   };
 
-  const filterCategories: Array<{ id: SmartFilterCategory; label: string; count: number }> = [
-    { id: 'all', label: isEn ? 'All Wallpapers' : 'Tất cả hình nền', count: filterCounts.all },
-    { id: 'video', label: isEn ? 'Motion Videos' : 'Video động', count: filterCounts.video },
-    { id: 'webgl', label: isEn ? 'WebGL 3D Effects' : 'Hiệu ứng WebGL', count: filterCounts.webgl },
-    { id: 'minimal', label: isEn ? 'Minimal Static' : 'Tĩnh tối giản', count: filterCounts.minimal },
-    { id: 'custom', label: isEn ? 'Personal Uploads' : 'Cá nhân tải lên', count: filterCounts.custom },
+  const filterCategories: Array<{ id: SmartFilterCategory; label: string; icon: string; count: number }> = [
+    { id: 'all', label: isEn ? 'All' : 'Tất cả', icon: 'grid', count: filterCounts.all },
+    { id: 'video', label: isEn ? 'Motion Video' : 'Video động', icon: 'video', count: filterCounts.video },
+    { id: 'webgl', label: isEn ? 'WebGL 3D' : 'Hiệu ứng WebGL', icon: 'sparkles', count: filterCounts.webgl },
+    { id: 'minimal', label: isEn ? 'Minimal Static' : 'Tĩnh tối giản', icon: 'image', count: filterCounts.minimal },
+    { id: 'custom', label: isEn ? 'Personal Uploads' : 'Cá nhân tải lên', icon: 'upload', count: filterCounts.custom },
   ];
+
+  const activeFilterCategory =
+    filterCategories.find((cat) => cat.id === filterType) || filterCategories[0];
 
   return (
     <div
@@ -542,8 +542,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         data-element-page="wallpaper"
         data-element-parent="wallpaper-main-card"
         data-section-card="true"
-        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
+        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
       >
         <div
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
@@ -571,7 +571,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 transform: 'none',
               }}
             >
-              Hình nền &amp; Giao diện
+              Thư viện hình nền
             </h1>
           </div>
           <p
@@ -587,19 +587,29 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           <div className="flex items-center gap-2 flex-wrap">
             <div className="relative inline-block text-left" ref={filterMenuRef}>
               <button
+                id="wallpaper-filter-trigger"
                 type="button"
                 onClick={() => {
                   SoundEngine.playTap();
                   setIsFilterDropdownOpen((prev) => !prev);
                 }}
-                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
                 title={isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}
                 aria-label="Bộ lọc hình nền"
                 aria-expanded={isFilterDropdownOpen}
                 aria-haspopup="listbox"
               >
-                <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
-                <span>{isEn ? 'Wallpaper Filter' : 'Bộ lọc hình nền'}</span>
+                <WebIcon name={filterType === 'all' ? 'sliders' : activeFilterCategory.icon} className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+                <span>
+                  {filterType === 'all'
+                    ? isEn
+                      ? 'Wallpaper Filter'
+                      : 'Bộ lọc hình nền'
+                    : `${isEn ? 'Filter' : 'Lọc'}: ${activeFilterCategory.label}`}
+                </span>
+                <span className="tabular-nums text-[11px] font-mono opacity-80">
+                  ({activeFilterCategory.count})
+                </span>
                 <WebIcon
                   name="chevron-down"
                   className={`w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0 ${
@@ -618,13 +628,14 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
                     role="listbox"
-                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[15.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
                     {filterCategories.map((cat) => {
                       const isActive = filterType === cat.id;
                       return (
                         <button
                           key={cat.id}
+                          id={`wallpaper-filter-option-${cat.id}`}
                           type="button"
                           role="option"
                           aria-selected={isActive}
@@ -634,12 +645,15 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                             setFilterType(cat.id as SmartFilterCategory);
                             setIsFilterDropdownOpen(false);
                           }}
-                          className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                          className="theme-dropdown-option w-full flex items-center justify-between gap-2.5 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
                         >
-                          <span className="truncate">{cat.label}</span>
+                          <span className="inline-flex items-center gap-2 min-w-0">
+                            <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0 opacity-85" />
+                            <span className="truncate">{cat.label}</span>
+                          </span>
                           <span className="inline-flex items-center gap-1.5 shrink-0">
-                            <span className="typo-badge font-mono opacity-75 tabular-nums">
-                              {cat.count}
+                            <span className="typo-badge font-mono opacity-80 tabular-nums">
+                              ({cat.count})
                             </span>
                             {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
                           </span>
@@ -940,13 +954,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         </section>
       )}
 
-      {/* THANH LỌC THÔNG MINH HÌNH NỀN */}
-      <WallpaperStudioControls
-        isEn={isEn}
-        filterType={filterType}
-        onChangeFilter={setFilterType}
-        filterCounts={filterCounts}
-      />
+      {/* Đã hợp nhất thanh lọc thông minh vào dropdown "Bộ lọc hình nền" trên banner */}
 
       {/* THANH TRẠNG THÁI KẾT QUẢ LỌC NHANH (CHỈ HIỆN KHI ĐANG LỌC HOẶC TÌM KIẾM) */}
       {(filterType !== 'all' || searchQuery.trim().length > 0) && filteredWallpapers.length > 0 && (

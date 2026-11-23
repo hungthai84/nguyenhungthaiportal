@@ -226,6 +226,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
             style={{ borderRadius: '14px' }}
             className="education-book-media-img w-full h-full object-cover object-center block rounded-[14px]"
             loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
             onError={handleDriveImageFallback}
           />
@@ -578,9 +579,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     const page4 = (
       <div
         key={`page4-${course.id}`}
-        className="flex size-full flex-col gap-2.5 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
+        className="flex size-full flex-col gap-2 p-3 sm:p-4 overflow-hidden text-left"
       >
-        <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
+        <div className={cn('flex items-center justify-between gap-2 pb-1.5 border-b shrink-0', paperDivider)}>
           <div className="flex items-center gap-1.5 min-w-0" style={{ color: courseColor }}>
             <WebIcon name="image" className="w-4 h-4 shrink-0" style={{ color: courseColor }} />
             <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: courseColor }}>
@@ -590,10 +591,10 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           <span className={cn('typo-badge font-mono tabular-nums shrink-0', inkMuted)}>04 / 04</span>
         </div>
 
-        <div className="flex-1 flex flex-col gap-2.5 min-h-0">
+        <div className="flex-1 min-h-0 grid grid-rows-2 gap-2">
           {/* Hình khóa học */}
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 text-purple-600 dark:text-purple-400">
+          <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
+            <div className="flex items-center justify-between gap-2 text-purple-600 dark:text-purple-400 shrink-0">
               <div className="flex items-center gap-1.5 min-w-0">
                 <WebIcon name="image" className="w-3.5 h-3.5 shrink-0" />
                 <span className="typo-caption font-semibold truncate">Hình ảnh khóa học</span>
@@ -624,7 +625,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               }
               style={{ borderRadius: '14px', padding: '0px' }}
               className={cn(
-                'education-book-media-rounded relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950/90 border cursor-zoom-in block p-0',
+                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[14px] overflow-hidden bg-slate-950/90 border cursor-zoom-in block p-0',
                 paperDivider
               )}
               title="Nhấn để phóng to hình ảnh khóa học"
@@ -635,6 +636,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                 style={{ borderRadius: '14px' }}
                 className="education-book-media-img w-full h-full object-cover object-top block rounded-[14px]"
                 loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 onError={handleDriveImageFallback}
               />
@@ -642,8 +644,8 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
 
           {/* Hình bằng cấp */}
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 text-rose-600 dark:text-rose-400">
+          <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
+            <div className="flex items-center justify-between gap-2 text-rose-600 dark:text-rose-400 shrink-0">
               <div className="flex items-center gap-1.5 min-w-0">
                 <WebIcon name="award" className="w-3.5 h-3.5 shrink-0" />
                 <span className="typo-caption font-semibold truncate">Hình ảnh bằng cấp</span>
@@ -674,7 +676,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               }
               style={{ borderRadius: '14px', padding: '0px' }}
               className={cn(
-                'education-book-media-rounded relative aspect-[16/9] w-full rounded-[14px] overflow-hidden bg-slate-950/90 border flex items-center justify-center p-0 cursor-zoom-in',
+                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[14px] overflow-hidden bg-slate-950/90 border cursor-zoom-in block p-0',
                 paperDivider
               )}
               title="Nhấn để phóng to hình ảnh bằng cấp"
@@ -683,8 +685,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                 src={course.certImg || course.image}
                 alt={`Hình bằng cấp ${formatCardTitle(course.title)}`}
                 style={{ borderRadius: '14px' }}
-                className="education-book-media-img w-full h-full object-contain block rounded-[14px]"
+                className="education-book-media-img w-full h-full object-cover object-center block rounded-[14px]"
                 loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 onError={handleDriveImageFallback}
               />

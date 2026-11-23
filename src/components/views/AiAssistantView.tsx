@@ -505,7 +505,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
               data-card-title="true"
             >
-              AI Hỗ Trợ • Trí Nhân
+              Trợ lý trí nhân
             </h1>
           </div>
           <p

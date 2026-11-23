@@ -1,8 +1,8 @@
 import { CardStyleMode, ThemeMechanismMode } from './theme.types';
-import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
+import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import lightDeepOceanWallpaper from '@/assets/images/light_deep_ocean_wallpaper_1795344399317.jpg';
+import wpLightDeepOcean from '@/assets/images/wp_light_deep_ocean_1795447885624.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
@@ -11,7 +11,8 @@ import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_
 import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
 import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
 import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
-import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
+import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
+import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-deep-ocean';
 export const DEFAULT_LAYER_DEPTH = 100;
@@ -71,7 +72,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-liquid-glass',
     label: 'Nền Liquid Glass UI (Sáng)',
     themeMode: 'light',
-    imagePath: rainbowGlassWallpaper,
+    imagePath: wpLiquidGlass,
     fallbackGradient:
       'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 14%, rgba(125, 211, 252, 0.30) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 207, 232, 0.28) 0px, transparent 52%), linear-gradient(135deg, #f3f6fd 0%, #e9eefb 50%, #edf2fc 100%)',
     overlayBg: 'rgba(243, 246, 253, 0.12)',
@@ -119,11 +120,12 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'light-deep-ocean': {
     id: 'light-deep-ocean',
     presetId: 'theme-bg-light-deep-ocean',
-    label: 'Nền Light Ocean Navy (#1951fc)',
+    label: 'Nền Ocean Navy Light – Glossy Liquid Glass',
     themeMode: 'light',
-    imagePath: '',
-    fallbackGradient: '#1951fc',
-    overlayBg: 'rgba(25, 81, 252, 0.15)',
+    imagePath: wpLightDeepOcean,
+    fallbackGradient:
+      'radial-gradient(ellipse at 15% 10%, rgba(115, 191, 255, 0.65), transparent 40%), radial-gradient(ellipse at 85% 85%, rgba(3, 25, 91, 0.30), transparent 45%), linear-gradient(135deg, #1951FC 0%, #3781FC 48%, #73BFFF 100%)',
+    overlayBg: 'rgba(25, 81, 252, 0.10)',
   },
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
@@ -188,7 +190,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-flat-soft-ui',
     label: 'Nền Flat Soft UI (Sáng)',
     themeMode: 'light',
-    imagePath: glassFlatWallpaper,
+    imagePath: wpFlatSoftUi,
     fallbackGradient:
       'radial-gradient(circle at 14% 16%, rgba(226, 232, 240, 0.55) 0%, transparent 48%), radial-gradient(circle at 86% 84%, rgba(241, 245, 249, 0.70) 0%, transparent 52%), linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%)',
     overlayBg: 'rgba(248, 250, 252, 0.05)',
@@ -198,7 +200,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-dark-flat-soft-ui',
     label: 'Nền Flat Soft UI (Tối)',
     themeMode: 'dark',
-    imagePath: darkNeonGlassWallpaper,
+    imagePath: wpDarkFlatSoftUi,
     fallbackGradient:
       'radial-gradient(circle at 16% 16%, rgba(30, 41, 59, 0.45) 0%, transparent 50%), radial-gradient(circle at 84% 84%, rgba(15, 23, 42, 0.65) 0%, transparent 52%), linear-gradient(135deg, #0A0E17 0%, #0F172A 50%, #060911 100%)',
     overlayBg: 'rgba(10, 14, 23, 0.15)',

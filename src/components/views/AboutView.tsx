@@ -1473,7 +1473,7 @@ export function AboutView({
                   onError={handleVideo2Error}
                     disablePictureInPicture
                     controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                    preload="auto"
+                    preload="metadata"
                     aria-hidden="true"
                     tabIndex={-1}
                     onLoadedMetadata={(e) => {
@@ -1544,6 +1544,8 @@ export function AboutView({
                   <img
                     src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                     alt="Nguyễn Hùng Thái"
+                    loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                     className="w-8 h-8 rounded-full object-cover"
                   />
@@ -2037,6 +2039,8 @@ export function AboutView({
                           src={ABOUT_VIDEO_1_POSTER_URL}
                           alt="Hình nền chân dung chuyên gia Nguyễn Hùng Thái"
                           loading="eager"
+                          decoding="async"
+                          fetchPriority="high"
                           referrerPolicy="no-referrer"
                           aria-hidden="true"
                           style={ABOUT_VIDEO_SHARED_STYLE}
@@ -2057,7 +2061,7 @@ export function AboutView({
                             loop
                             muted={!(!isPlayingIntro && isAudioOn)}
                             playsInline
-                            preload="auto"
+                            preload="metadata"
                             controls={false}
                             disablePictureInPicture
                             controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -2134,7 +2138,7 @@ export function AboutView({
                             loop
                             muted={!(isPlayingIntro && isAudioOn)}
                             playsInline
-                            preload="metadata"
+                            preload={isPlayingIntro ? 'metadata' : 'none'}
                             controls={false}
                             disablePictureInPicture
                             controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -2677,7 +2681,7 @@ export function AboutView({
             rowGap: '15px',
             columnGap: '15px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start content-start box-border pb-4"
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-[15px] items-start content-start box-border pb-4"
         >
             {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (PURPLE AMETHYST) */}
             <div
@@ -2689,7 +2693,7 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card bento-color-purple glass-card col-span-12 lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
@@ -2723,7 +2727,7 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card bento-color-amber glass-card col-span-12 lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-amber glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2821,7 +2825,7 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card bento-color-rose glass-card col-span-12 lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-rose glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2931,7 +2935,7 @@ export function AboutView({
               style={{
                 padding: '15px',
               }}
-              className="bento-card bento-color-cyan glass-card col-span-12 lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 flex flex-col justify-start gap-[15px]">
                 {/* Header */}
@@ -3051,6 +3055,8 @@ export function AboutView({
                 <img
                   src={qrDataUrl}
                   alt="Mã QR Danh thiếp Nguyễn Hùng Thái"
+                  loading="lazy"
+                  decoding="async"
                   className="w-44 h-44 object-contain"
                 />
               ) : (

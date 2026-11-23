@@ -471,7 +471,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   data-card-title="true"
                   style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
-                  {isVi ? "Kỹ năng cốt lõi (SWOT)" : "Core Skills (SWOT)"}
+                  {isVi ? "Kỹ năng cốt lõi" : "Core strategic skills"}
                 </h1>
               </div>
 
@@ -491,7 +491,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   id="skills-filter-toggle-btn"
                   type="button"
                   onClick={() => setIsFilterOpen((prev) => !prev)}
-                  className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
                   title={isVi ? "Bộ lọc kỹ năng" : "Skill Filter"}
                   aria-label="Bộ lọc kỹ năng"
                   aria-expanded={isFilterOpen}

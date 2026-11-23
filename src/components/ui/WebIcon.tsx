@@ -1,5 +1,6 @@
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
+import { MotionIcon, resolveMotionIconKey } from './MotionIcons';
 
 export interface WebIconProps {
   id?: string;
@@ -9,6 +10,8 @@ export interface WebIconProps {
   style?: React.CSSProperties;
   strokeWidth?: number;
   sparkle?: boolean;
+  animated?: boolean;
+  isActive?: boolean;
 }
 
 // Icon alias dictionary mapping custom or legacy FontAwesome/HugeIcons names directly to Lucide React icons
@@ -179,8 +182,24 @@ export const WebIcon: React.FC<WebIconProps> = ({
   className = 'w-4 h-4',
   style,
   strokeWidth = 2.85,
+  animated = false,
+  isActive = false,
 }) => {
   const normName = (name || '').toLowerCase().trim();
+
+  if (animated && resolveMotionIconKey(normName)) {
+    return (
+      <MotionIcon
+        id={id}
+        name={normName}
+        size={size}
+        className={className}
+        style={style}
+        strokeWidth={strokeWidth}
+        isActive={isActive}
+      />
+    );
+  }
 
   let IconComponent: any = null;
 

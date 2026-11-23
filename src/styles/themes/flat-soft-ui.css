@@ -448,20 +448,7 @@ html[data-card-style="dark-flat-soft-ui"] .nav-pill:hover {
   transform: translateY(-1px) !important;
 }
 
-/* Buttons active states: gentle tactile press */
-html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
-  #app-header nav button.nav-pill:is(:active, [data-btn-pressed="true"]),
-  #footer-lang-btn:is(:active, [data-btn-pressed="true"]),
-  #footer-appearance-btn:is(:active, [data-btn-pressed="true"]),
-  #footer-theme-mode-btn:is(:active, [data-btn-pressed="true"]),
-  #footer-wallpaper-btn:is(:active, [data-btn-pressed="true"]),
-  #footer-ai-btn:is(:active, [data-btn-pressed="true"]),
-  #header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
-  .radial-contact-pill:is(:active, [data-btn-pressed="true"])
-) {
-  transform: translate3d(0, 1.5px, 0) scale3d(0.97, 0.97, 1) !important;
-  transition: transform 60ms ease !important;
-}
+/* Active press-down sink effect removed per user request */
 
 /* Modals & Popups */
 html[data-card-style="flat-soft-ui"] :is([role="dialog"], .theme-popup, .banner-dropdown-menu) {

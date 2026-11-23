@@ -162,14 +162,17 @@
     [data-card-style="liquid-glass"],
     [data-card-style="dark-liquid-glass"],
     [data-card-style="multicolor-glass"],
+    [data-card-style="dark-neon-glass"],
     [data-card-style="deep-ocean"],
     [data-card-style="light-deep-ocean"],
     [data-card-style="neumorphism-beyond"],
+    [data-card-style="dark-neumorphism-beyond"],
     [data-card-style="frost-ice-neu"],
     [data-card-style="dark-frost-ice-neu"],
     [data-card-style="cowhide-leather"],
-    [data-card-style="soft-indigo-fintech"],
-    [data-card-style="dark-soft-indigo-fintech"],
+    [data-card-style="black-cowhide-leather"],
+    [data-card-style="flat-soft-ui"],
+    [data-card-style="dark-flat-soft-ui"],
     :not([data-card-style])
   ) :where(
     .banner-control-pill,
@@ -245,7 +248,10 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   }
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
+
+
+/* 1B. DARK NEUMORPHISM & DARK FROST ICE NEU */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -256,12 +262,54 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   .edu-bento-action-btn,
   .sys-bento-action-btn,
   [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 1px, 0) scale3d(0.975, 0.975, 1) !important;
-  box-shadow:
-    inset 3.5px 3.5px 7px rgba(163, 177, 198, 0.54),
-    inset -2.5px -2.5px 6px rgba(255, 255, 255, 0.62) !important;
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(96, 165, 250, 0.24) 0%,
+    rgba(167, 139, 250, 0.14) 48%,
+    transparent 78%
+  );
 }
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    112deg,
+    transparent 24%,
+    rgba(148, 189, 232, 0.24) 50%,
+    transparent 78%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(96, 165, 250, 0.56) !important;
+    box-shadow:
+      7px 9px 18px rgba(4, 7, 15, 0.72),
+      -4px -4px 12px rgba(44, 60, 88, 0.42),
+      inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
+  }
+}
+
+
 
 /* ------------------------------------------------------------------------- */
 /* 2. LIQUID GLASS (Sáng) & DARK LIQUID GLASS (Tối) — Optical Specular Sheen */
@@ -364,20 +412,7 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
   }
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 2.5px, 0) scale3d(0.96, 0.96, 1) !important;
-}
+
 
 /* ------------------------------------------------------------------------- */
 /* 3. MULTICOLOR GLASS — Prismatic Tri-Color Glow Lift & Elastic Frosted Press*/
@@ -443,7 +478,10 @@ html[data-card-style="multicolor-glass"] :where(
   }
 }
 
-html[data-card-style="multicolor-glass"] :where(
+
+
+/* 3B. DARK NEON GLASS — Cyan/Violet Cyber Rim & Press Shockwave */
+html[data-card-style="dark-neon-glass"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -454,12 +492,59 @@ html[data-card-style="multicolor-glass"] :where(
   .edu-bento-action-btn,
   .sys-bento-action-btn,
   [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 2.5px, 0) scale3d(0.96, 0.96, 1) !important;
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    105px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(34, 211, 238, 0.30) 0%,
+    rgba(168, 85, 247, 0.22) 48%,
+    rgba(236, 72, 153, 0.14) 70%,
+    transparent 84%
+  );
 }
 
+html[data-card-style="dark-neon-glass"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    115deg,
+    transparent 18%,
+    rgba(34, 211, 238, 0.34) 44%,
+    rgba(168, 85, 247, 0.30) 60%,
+    transparent 84%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="dark-neon-glass"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(34, 211, 238, 0.78) !important;
+    box-shadow:
+      0 10px 26px -4px rgba(34, 211, 238, 0.34),
+      0 4px 16px -4px rgba(168, 85, 247, 0.28),
+      inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
+  }
+}
+
+
+
 /* ------------------------------------------------------------------------- */
-/* 4. COWHIDE LEATHER (Da Bò Thuộc) — Burnished Gold Stitch & Leather Deboss */
+/* 4. COWHIDE LEATHER (Brown & Black) — Burnished Stitch & Leather Deboss    */
 /* ------------------------------------------------------------------------- */
 html[data-card-style="cowhide-leather"] :where(
   button,
@@ -519,7 +604,10 @@ html[data-card-style="cowhide-leather"] :where(
   }
 }
 
-html[data-card-style="cowhide-leather"] :where(
+
+
+/* 4B. BLACK COWHIDE LEATHER — Crisp White Stitch & Noir Leather Deboss */
+html[data-card-style="black-cowhide-leather"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -530,12 +618,54 @@ html[data-card-style="cowhide-leather"] :where(
   .edu-bento-action-btn,
   .sys-bento-action-btn,
   [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 1.5px, 0) scale3d(0.982, 0.982, 1) !important;
-  box-shadow:
-    inset 0 3px 8px rgba(10, 4, 1, 0.72),
-    inset 0 -1px 0 rgba(245, 222, 179, 0.26) !important;
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    90px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(212, 212, 216, 0.12) 50%,
+    transparent 80%
+  );
 }
+
+html[data-card-style="black-cowhide-leather"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.24) 50%,
+    transparent 75%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="black-cowhide-leather"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -1px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.84) !important;
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.68),
+      0 0 0 1px rgba(255, 255, 255, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  }
+}
+
+
 
 /* ------------------------------------------------------------------------- */
 /* 5. DEEP OCEAN (Đại Dương Sâu) — Bioluminescent Sonar Rim & Buoyant Press  */
@@ -598,26 +728,10 @@ html[data-card-style="deep-ocean"] :where(
   }
 }
 
-html[data-card-style="deep-ocean"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0.5px, 0) scale3d(0.962, 0.962, 1) !important;
-  box-shadow:
-    inset 0 2px 10px rgba(2, 12, 27, 0.74),
-    0 0 14px rgba(34, 211, 238, 0.32) !important;
-}
+
 
 /* ------------------------------------------------------------------------- */
-/* 6. LIGHT OCEAN NAVY – BRIGHT GLASS UI (MASTER PROMPT)                    */
+/* 6. OCEAN NAVY LIGHT – GLOSSY LIQUID GLASS UI (MASTER PROMPT)              */
 /* ------------------------------------------------------------------------- */
 html[data-card-style="light-deep-ocean"] :where(
   button,
@@ -634,7 +748,7 @@ html[data-card-style="light-deep-ocean"] :where(
   background: radial-gradient(
     96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
     rgba(255, 255, 255, 0.85) 0%,
-    rgba(35, 189, 224, 0.22) 48%,
+    rgba(115, 191, 255, 0.32) 48%,
     transparent 78%
   );
 }
@@ -649,8 +763,8 @@ html[data-card-style="light-deep-ocean"] :where(
   background: linear-gradient(
     110deg,
     transparent 20%,
-    rgba(255, 255, 255, 0.70) 45%,
-    rgba(35, 189, 224, 0.28) 55%,
+    rgba(255, 255, 255, 0.75) 45%,
+    rgba(115, 191, 255, 0.34) 55%,
     transparent 80%
   );
 }
@@ -669,38 +783,20 @@ html[data-card-style="light-deep-ocean"] :where(
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
     transform: translate3d(0, -1.5px, 0) !important;
-    border-color: #A8DCEE !important;
+    border-color: rgba(255, 255, 255, 0.88) !important;
     box-shadow:
-      0 10px 22px -4px rgba(22, 118, 173, 0.22),
-      0 4px 10px rgba(35, 189, 224, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+      0 10px 24px -4px rgba(25, 81, 252, 0.28),
+      0 4px 12px rgba(115, 191, 255, 0.22),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
   }
 }
 
-html[data-card-style="light-deep-ocean"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 0.5px, 0) scale3d(0.965, 0.965, 1) !important;
-  background-color: #123B63 !important;
-  color: #FFFFFF !important;
-  box-shadow:
-    inset 0 2px 8px rgba(18, 59, 99, 0.35),
-    0 0 12px rgba(35, 189, 224, 0.25) !important;
-}
+
 
 /* ------------------------------------------------------------------------- */
-/* 7. SOFT INDIGO FINTECH (Light & Dark) — Crisp FinTech Lift & Press        */
+/* 7. FLAT SOFT UI (Light & Dark) — Crisp Minimalist Lift & Tactile Press    */
 /* ------------------------------------------------------------------------- */
-html[data-card-style="soft-indigo-fintech"] :where(
+html[data-card-style="flat-soft-ui"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -714,13 +810,13 @@ html[data-card-style="soft-indigo-fintech"] :where(
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
   background: radial-gradient(
     92px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(94, 72, 232, 0.14) 0%,
-    rgba(165, 180, 252, 0.10) 48%,
+    rgba(79, 70, 229, 0.14) 0%,
+    rgba(59, 130, 246, 0.10) 48%,
     transparent 78%
   );
 }
 
-html[data-card-style="dark-soft-indigo-fintech"] :where(
+html[data-card-style="dark-flat-soft-ui"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -734,13 +830,13 @@ html[data-card-style="dark-soft-indigo-fintech"] :where(
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
   background: radial-gradient(
     96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(165, 180, 252, 0.24) 0%,
-    rgba(108, 76, 230, 0.14) 48%,
+    rgba(99, 102, 241, 0.24) 0%,
+    rgba(45, 212, 191, 0.14) 48%,
     transparent 78%
   );
 }
 
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"]) :where(
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :where(
   .banner-control-pill,
   .edu-bento-action-btn,
   .sys-bento-action-btn,
@@ -756,7 +852,7 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html[data-card-style="soft-indigo-fintech"] :where(
+  html[data-card-style="flat-soft-ui"] :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -768,14 +864,14 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
     .sys-bento-action-btn,
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(94, 72, 232, 0.54) !important;
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(79, 70, 229, 0.54) !important;
     box-shadow:
-      0 10px 22px -5px rgba(94, 72, 232, 0.26),
+      0 8px 20px -4px rgba(79, 70, 229, 0.22),
       inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
   }
 
-  html[data-card-style="dark-soft-indigo-fintech"] :where(
+  html[data-card-style="dark-flat-soft-ui"] :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -787,28 +883,16 @@ html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-ind
     .sys-bento-action-btn,
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(165, 180, 252, 0.58) !important;
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(99, 102, 241, 0.58) !important;
     box-shadow:
-      0 12px 24px -5px rgba(108, 76, 230, 0.42),
-      inset 0 1px 0 rgba(212, 222, 255, 0.30) !important;
+      0 10px 22px -4px rgba(0, 0, 0, 0.52),
+      0 0 16px -4px rgba(99, 102, 241, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
   }
 }
 
-html:is([data-card-style="soft-indigo-fintech"], [data-card-style="dark-soft-indigo-fintech"]) :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):active {
-  transform: translate3d(0, 2.5px, 0) scale3d(0.965, 0.965, 1) !important;
-}
+
 
 /* ------------------------------------------------------------------------- */
 /* 8. REDUCED MOTION SAFETY                                                  */
@@ -986,22 +1070,23 @@ html:root body :is(#interview-questions-card, [id$="-hero-banner"], .hero-banner
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(0, 0, 0, 0.65), 0 0 2px rgba(0, 0, 0, 0.95) !important;
 }
 
-/* 2. PROJECT CARDS: ELEVATION SHADOW & HOVER LIFT (ƯU TIÊN TUYỆT ĐỐI)       */
+/* 2. PROJECT CARDS: THEME-DRIVEN ELEVATION SHADOW & HOVER LIFT (ƯU TIÊN TUYỆT ĐỐI) */
 html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]) {
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease !important;
 }
 
 html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
-  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
+  transform: translate3d(0, -4px, 0) scale3d(1.01, 1.01, 1) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
+  box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
 }
 
-/* 3. SERVICE CARDS: CHIỀU CAO TỰ NHIÊN TRÊN MOBILE, KHÔNG BỊ CO 34PX        */
-html:root body :is(#services-page-container, #services-cards-grid) :is(.service-card, .domain-card) {
-  height: auto !important;
+/* 3. SERVICE CARDS: CHIỀU CAO ĐỒNG ĐỀU THEO HÀNG, KHÔNG BỊ CO 34PX */
+html:root body :is(#services-page-container, #services-cards-wrapper) :is(.service-card, .domain-card) {
+  height: 100% !important;
   min-height: fit-content !important;
-  align-self: auto !important;
+  align-self: stretch !important;
 }
 
 /* 4. NÚT Ở FOOTER: KHUNG TRÒN NỀN MÀU GIỐNG MÀU TIÊU ĐỀ NÚT (ÁP DỤNG TOÀN BỘ WEBSITE) */
@@ -1147,6 +1232,48 @@ html:root body :is(#education-courses-grid, #education-page-container) :is(.educ
 html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) :is(.card-tags, .education-card-tags) {
   display: none !important;
 }
+
+/* ========================================================================= */
+/* 7. #el-p0-div-98 (FOOTER CONTAINER): XÓA TOÀN BỘ HIỆU ỨNG Ở TẤT CẢ GIAO DIỆN */
+/* ========================================================================= */
+html:root body #el-p0-div-98,
+html:root[data-card-style] body #el-p0-div-98,
+html:root[data-theme] body #el-p0-div-98 {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+html:root body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-theme] body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root body #el-p0-div-98 :is(*, *:hover, *:active, *:focus, *:focus-visible, *:focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(*, *:hover, *:active, *:focus, *:focus-visible, *:focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+html:root body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 
 
 

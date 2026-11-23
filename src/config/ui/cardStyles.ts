@@ -166,7 +166,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     modeLabel: 'Liquid Glass Soft UI Sáng',
     isDark: false,
     icon: 'sparkles',
-    color: '#4F46E5',
+    color: '#0284C7',
     desc: 'Vật liệu kính quang học trong suốt có viền specular rim sáng mảnh, thanh điều hướng nổi tinh tế và vùng thẻ nội dung sáng rõ chuẩn WCAG AA.',
     cardSampleStyle: {
       background: 'rgba(255, 255, 255, 0.13)',
@@ -189,11 +189,11 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       borderColor: 'rgba(255, 255, 255, 0.36)',
     },
     miniBtnStyle: {
-      background: 'linear-gradient(135deg, #4F46E5 0%, #0EA5E9 100%)',
+      background: 'linear-gradient(135deg, #0284C7 0%, #4F46E5 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-white/85 text-[#4F46E5] border-white/90',
-    layerDepth: 0,
+    badgeColorClass: 'bg-sky-50/90 text-[#0284C7] border-sky-200/80',
+    layerDepth: 100,
   },
   {
     id: 'dark-liquid-glass',
@@ -387,19 +387,19 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     },
     miniPreviewWrapStyle: {
       background: 'linear-gradient(145deg, rgba(115, 191, 255, 0.45) 0%, rgba(55, 129, 252, 0.30) 100%)',
-      borderColor: 'rgba(255, 255, 255, 0.60)',
+      borderColor: 'rgba(255, 255, 255, 0.65)',
     },
     miniTabStyle: {
-      background: 'rgba(244, 251, 255, 0.92)',
-      color: '#082F49',
-      borderColor: 'rgba(14, 165, 233, 0.28)',
+      background: 'rgba(203, 233, 253, 0.88)',
+      color: '#03195B',
+      borderColor: 'rgba(255, 255, 255, 0.72)',
     },
     miniBtnStyle: {
-      background: 'linear-gradient(135deg, #0284C7 0%, #06B6D4 100%)',
+      background: 'linear-gradient(135deg, #1951FC 0%, #3781FC 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-sky-50 text-[#0284C7] border-sky-300/70',
-    layerDepth: 0,
+    badgeColorClass: 'bg-[#CBE9FD]/90 text-[#03195B] border-white/80',
+    layerDepth: 100,
   },
   {
     id: 'neumorphism-beyond',
@@ -444,7 +444,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#E5EBF3] text-[#4973FF] border-[#C4D1E2]',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'dark-neumorphism-beyond',
@@ -489,7 +489,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#1E2738] text-[#64B6FF] border-slate-600/50',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'frost-ice-neu',
@@ -534,7 +534,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#EEF6FD] text-[#6E6AF6] border-white/90',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'dark-frost-ice-neu',
@@ -579,7 +579,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#1B283D] text-[#A4A1FF] border-sky-300/25',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'multicolor-glass',
@@ -623,7 +623,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-white/75 text-[#4F46E5] border-white/85',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'dark-neon-glass',
@@ -669,7 +669,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#091229]/90 text-[#67E8F9] border-cyan-400/40',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'flat-soft-ui',
@@ -713,7 +713,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-white text-[#4F46E5] border-slate-200 shadow-sm',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'dark-flat-soft-ui',
@@ -757,7 +757,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#161F30] text-[#A5B4FC] border-slate-700/60 shadow-sm',
-    layerDepth: 0,
+    layerDepth: 100,
   },
 ];
 

@@ -15,49 +15,71 @@ export const LAYER_DEPTH_PRESETS: LayerDepthPresetItem[] = [
 ];
 
 export const THEME_LAYER_DEPTH_MAP: Record<CardStyleMode, number> = {
-  'liquid-glass': 0,
-  'dark-liquid-glass': 0,
-  'cowhide-leather': 0,
-  'black-cowhide-leather': 0,
-  'deep-ocean': 0,
-  'light-deep-ocean': 0,
-  'neumorphism-beyond': 0,
-  'dark-neumorphism-beyond': 0,
-  'frost-ice-neu': 0,
-  'dark-frost-ice-neu': 0,
-  'multicolor-glass': 0,
-  'dark-neon-glass': 0,
+  'liquid-glass': 100,
+  'dark-liquid-glass': 100,
+  'cowhide-leather': 100,
+  'black-cowhide-leather': 100,
+  'deep-ocean': 100,
+  'light-deep-ocean': 100,
+  'neumorphism-beyond': 100,
+  'dark-neumorphism-beyond': 100,
+  'frost-ice-neu': 100,
+  'dark-frost-ice-neu': 100,
+  'multicolor-glass': 100,
+  'dark-neon-glass': 100,
+  'flat-soft-ui': 100,
+  'dark-flat-soft-ui': 100,
 };
 
-export function getLayerDepthForTheme(_styleId: CardStyleMode): number {
-  return 0;
+export function getLayerDepthForTheme(styleId: CardStyleMode): number {
+  return THEME_LAYER_DEPTH_MAP[styleId] ?? 100;
 }
 
 export function clampLayerDepth(value: unknown): number {
   const num = typeof value === 'number' ? value : Number(value);
-  if (!Number.isFinite(num)) return 0;
+  if (!Number.isFinite(num)) return 100;
   return Math.max(0, Math.min(200, Math.round(num)));
 }
 
-export function applyLayerDepthCssVariables(_depthRaw: number, _cardStyle: CardStyleMode): void {
+export function applyLayerDepthCssVariables(depthRaw: number, _cardStyle: CardStyleMode): void {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
+  const depth = clampLayerDepth(depthRaw);
+  const surfaceMode = depth === 0 ? 'flat' : 'layered';
 
-  root.setAttribute('data-layer-depth', '0');
-  root.setAttribute('data-surface-depth', 'flat');
+  root.setAttribute('data-layer-depth', String(depth));
+  root.setAttribute('data-surface-depth', surfaceMode);
   if (document.body) {
-    document.body.setAttribute('data-layer-depth', '0');
-    document.body.setAttribute('data-surface-depth', 'flat');
+    document.body.setAttribute('data-layer-depth', String(depth));
+    document.body.setAttribute('data-surface-depth', surfaceMode);
   }
 
-  root.style.setProperty('--layer-depth-scale', '0.00');
-  root.style.setProperty('--layer-l1-shadow', 'none');
-  root.style.setProperty('--layer-l1-header-shadow', 'none');
-  root.style.setProperty('--layer-l1-footer-shadow', 'none');
-  root.style.setProperty('--layer-l2-shadow', 'none');
-  root.style.setProperty('--layer-l2-shadow-hover', 'none');
-  root.style.setProperty('--layer-l2-lift', '0px');
-  root.style.setProperty('--layer-l3-shadow', 'none');
-  root.style.setProperty('--layer-l3-shadow-hover', 'none');
-  root.style.setProperty('--layer-l3-lift', '0px');
+  if (depth === 0) {
+    root.style.setProperty('--layer-depth-scale', '0.00');
+    root.style.setProperty('--layer-l1-shadow', 'none');
+    root.style.setProperty('--layer-l1-header-shadow', 'none');
+    root.style.setProperty('--layer-l1-footer-shadow', 'none');
+    root.style.setProperty('--layer-l2-shadow', 'none');
+    root.style.setProperty('--layer-l2-shadow-hover', 'none');
+    root.style.setProperty('--layer-l2-lift', '0px');
+    root.style.setProperty('--layer-l3-shadow', 'none');
+    root.style.setProperty('--layer-l3-shadow-hover', 'none');
+    root.style.setProperty('--layer-l3-lift', '0px');
+    return;
+  }
+
+  const scale = depth / 100;
+  const l2Lift = (-3 * Math.min(scale, 1.5)).toFixed(2);
+  const l3Lift = (-1.5 * Math.min(scale, 1.5)).toFixed(2);
+
+  root.style.setProperty('--layer-depth-scale', scale.toFixed(2));
+  root.style.setProperty('--layer-l1-shadow', 'var(--surface-primary-shadow, var(--shadow-card))');
+  root.style.setProperty('--layer-l1-header-shadow', 'var(--surface-header-shadow, var(--shadow-card))');
+  root.style.setProperty('--layer-l1-footer-shadow', 'var(--surface-footer-shadow, var(--shadow-card))');
+  root.style.setProperty('--layer-l2-shadow', 'var(--surface-secondary-shadow, var(--shadow-card))');
+  root.style.setProperty('--layer-l2-shadow-hover', 'var(--shadow-card-hover, var(--surface-secondary-shadow, var(--shadow-card)))');
+  root.style.setProperty('--layer-l2-lift', `${l2Lift}px`);
+  root.style.setProperty('--layer-l3-shadow', 'var(--shadow-subcard, var(--surface-nested-shadow, var(--shadow-card)))');
+  root.style.setProperty('--layer-l3-shadow-hover', 'var(--shadow-subcard-hover, var(--shadow-card-hover))');
+  root.style.setProperty('--layer-l3-lift', `${l3Lift}px`);
 }

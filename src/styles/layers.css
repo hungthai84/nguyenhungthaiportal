@@ -1,10 +1,10 @@
 /* ========================================================================= */
-/* LAYER CARD EFFECTS DISABLED                                               */
-/* Preserves base card surface geometry without Level 1/2/3 depth shadows    */
+/* LAYERED SURFACE SYSTEM — MATERIAL-AUTHENTIC ELEVATION & CARD MOTION       */
+/* Restores Level 1/2/3 surface hierarchy, GPU hover lift, and theme glow    */
 /* ========================================================================= */
 
-/* Base surface styling for shell containers (without layer depth shadows) */
-:is(
+/* Level 1 Shell Surfaces (Header, Footer, Main Page Cards — stationary elevation) */
+html:not([data-card-style="light-deep-ocean"]) :is(
   #app-header,
   #app-footer,
   .page-main-card,
@@ -21,23 +21,36 @@
   color: var(--text-primary) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
-  filter: none !important;
-  text-shadow: none !important;
-  box-shadow: none !important;
-  transition: border-color 220ms ease !important;
-  animation: none !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--shadow-card))) !important;
+  transition: border-color 220ms ease, box-shadow 260ms ease, background 280ms ease !important;
   transform: none !important;
-  will-change: auto !important;
+}
+
+html:not([data-card-style="light-deep-ocean"]) :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+):is(:hover, :focus-within) {
+  transform: none !important;
 }
 
 #app-header {
   border-top: none !important;
-  border-radius: var(--radius-header, 0 0 20px 20px) !important;
+  border-radius: var(--radius-header, 0 0 18px 18px) !important;
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--shadow-card))) !important;
 }
 
 #app-footer {
   border-bottom: none !important;
-  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--shadow-card))) !important;
 }
 
 :is(
@@ -50,66 +63,150 @@
   #contact-main-card,
   [id^="letter-card-"]
 ):not(#app-header):not(#app-footer) {
-  border-radius: var(--radius-main, 20px) !important;
+  border-radius: var(--radius-main, 18px) !important;
 }
 
-/* Strip all card shadows & elevation transforms across all card levels */
-:is(
-  #app-header,
-  #app-footer,
-  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
-  #footer-nav-capsule,
-  .page-main-card,
-  [data-main-card="true"],
-  #about-intro-card-1,
-  #about-intro-card-2,
+/* Level 2 Section & Interactive Content Cards (smooth GPU lift + border highlight) */
+html:not([data-surface-depth="flat"]) :is(
   [data-section-card="true"],
   .bento-card,
-  [data-subcard="true"],
-  .sub-card,
-  .nested-card,
+  .glass-card,
   .exp-bento-surface-card,
-  .exp-bento-item-card,
-  .exp-detail-card,
-  .exp-detail-subcard,
   .education-card,
   .education-course-card,
-  .education-subcard,
   .project-card,
+  .service-card,
+  .domain-card,
+  .system-card-tile,
   .project-detail-section-card,
-  .project-detail-subcard,
+  .exp-detail-card,
   .home-hero-card
-),
-:is(
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-98 *) {
+  box-shadow: var(--layer-l2-shadow, var(--surface-secondary-shadow, var(--shadow-card)));
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    background-color 220ms ease !important;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Level 3 Nested Subcards */
+html:not([data-surface-depth="flat"]) :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .system-card-sub
+):not(#el-p0-div-98 *) {
+  box-shadow: var(--layer-l3-shadow, var(--shadow-subcard, 0 2px 8px rgba(15, 23, 42, 0.06)));
+  transition:
+    transform 210ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 230ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    background-color 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-surface-depth="flat"]) :is(
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .exp-bento-surface-card,
+    .education-card,
+    .education-course-card,
+    .project-card,
+    .service-card,
+    .domain-card,
+    .system-card-tile,
+    .home-hero-card
+  ):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(.static-container):not(#el-p0-div-98 *):hover {
+    transform: translate3d(0, var(--layer-l2-lift, -3px), 0) !important;
+    box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 16px 34px -8px rgba(15, 23, 42, 0.16))) !important;
+    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 42%, var(--border-card, rgba(148, 163, 184, 0.32))) !important;
+  }
+
+  html:not([data-surface-depth="flat"]) :is(
+    [data-subcard="true"],
+    .sub-card,
+    .nested-card,
+    .exp-bento-item-card,
+    .exp-detail-subcard,
+    .education-subcard,
+    .project-detail-subcard,
+    .system-card-sub
+  ):not(.static-container):not(#el-p0-div-98 *):hover {
+    transform: translate3d(0, var(--layer-l3-lift, -1.5px), 0) !important;
+    box-shadow: var(--layer-l3-shadow-hover, var(--shadow-subcard-hover, var(--shadow-card))) !important;
+    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 36%, var(--border-subcard, rgba(148, 163, 184, 0.28))) !important;
+  }
+
+  /* Material-authentic hover glow accents per theme family */
+  html[data-card-style="liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover,
+  html[data-card-style="dark-liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(56, 189, 248, 0.65) !important;
+  }
+
+  html[data-card-style="dark-neon-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(34, 211, 238, 0.72) !important;
+    box-shadow:
+      0 18px 40px -8px rgba(2, 6, 23, 0.84),
+      0 0 26px -4px rgba(34, 211, 238, 0.28),
+      0 0 24px -6px rgba(168, 85, 247, 0.24),
+      inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
+  }
+
+  html[data-card-style="multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(167, 139, 250, 0.74) !important;
+    box-shadow:
+      0 16px 36px -6px rgba(99, 102, 241, 0.22),
+      0 6px 18px -4px rgba(236, 72, 153, 0.16),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
+  }
+
+  html[data-card-style="cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: #b45309 !important;
+    outline-color: rgba(253, 230, 138, 0.85) !important;
+  }
+
+  html[data-card-style="black-cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(255, 255, 255, 0.52) !important;
+    outline-color: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  html[data-card-style="deep-ocean"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(56, 189, 248, 0.64) !important;
+    box-shadow:
+      0 18px 38px -8px rgba(2, 6, 23, 0.76),
+      0 0 24px -4px rgba(56, 189, 248, 0.28),
+      inset 0 1px 0 rgba(125, 211, 252, 0.30) !important;
+  }
+}
+
+/* Explicit Flat Mode Fallback when depth is 0% */
+html[data-surface-depth="flat"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
-  #about-intro-card-1,
-  #about-intro-card-2,
   [data-section-card="true"],
   .bento-card,
   [data-subcard="true"],
   .sub-card,
-  .nested-card,
-  .exp-bento-surface-card,
-  .exp-bento-item-card,
-  .exp-detail-card,
-  .exp-detail-subcard,
-  .education-card,
-  .education-course-card,
-  .education-subcard,
   .project-card,
-  .project-detail-section-card,
-  .project-detail-subcard
-):is(:hover, :active, :focus-within) {
+  .education-course-card,
+  .home-hero-card
+) {
   box-shadow: none !important;
   transform: none !important;
-  will-change: auto !important;
 }
 
 /* ========================================================================= */
-/* HOME HERO CARDS: 100% OPAQUE & SYNCHRONIZED PER ACTIVE THEME              */
+/* HOME HERO CARDS: MATERIAL-SYNCHRONIZED PER ACTIVE THEME                   */
 /* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
 /*  #home-achievements-card)                                                 */
 /* ========================================================================= */
@@ -209,13 +306,13 @@ html[data-card-style="light-deep-ocean"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(145deg, rgba(240, 249, 255, 0.90) 0%, rgba(224, 242, 254, 0.84) 100%) !important;
-  backdrop-filter: blur(20px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(155%) !important;
-  border: 1px solid rgba(56, 189, 248, 0.36) !important;
-  border-radius: var(--radius-card, 16px) !important;
-  color: #082F49 !important;
-  box-shadow: 0 14px 34px -8px rgba(2, 132, 199, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.94) !important;
+  background: linear-gradient(145deg, rgba(115, 191, 255, 0.42), rgba(55, 129, 252, 0.30), rgba(203, 233, 253, 0.32)) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: var(--radius-card, 18px) !important;
+  color: #03195B !important;
+  box-shadow: 0 8px 24px rgba(3, 25, 91, 0.14), inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -2px 8px rgba(25, 81, 252, 0.12) !important;
 }
 
 html[data-card-style="neumorphism-beyond"] :is(
@@ -316,6 +413,34 @@ html[data-card-style="dark-neon-glass"] :is(
     0 0 22px -6px rgba(34, 211, 238, 0.24),
     0 0 24px -8px rgba(217, 70, 239, 0.18),
     inset 0 1px 0 rgba(165, 243, 252, 0.22) !important;
+}
+
+html[data-card-style="flat-soft-ui"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(226, 232, 240, 0.92) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  color: #0F172A !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: #131B2A !important;
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  color: #F8FAFC !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 /* ========================================================================= */

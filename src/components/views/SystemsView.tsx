@@ -1171,12 +1171,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="banner-card hero-banner group w-full max-w-full min-h-[150px] h-auto lg:h-[184px] lg:min-h-[184px] lg:max-h-[184px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2.5 p-[15px] z-30 transition-all duration-300 box-border"
+            className="banner-card hero-banner group w-full max-w-full min-h-[150px] h-auto lg:h-[184px] lg:min-h-[184px] lg:max-h-[184px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2.5 p-[15px] z-30 transition-all duration-300 box-border"
             style={{
               padding: '15px',
               width: '100%',
               maxWidth: '100%',
-              borderRadius: 'var(--radius-banner, 24px)',
+              boxSizing: 'border-box',
+              borderRadius: 'var(--radius-banner, 14px)',
             }}
           >
             <div
@@ -1202,7 +1203,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   data-card-title="true"
                   style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
                 >
-                  {isEn ? '12 Enterprise Operating Systems' : 'Hệ sinh thái 12 Hệ thống Vận hành'}
+                  {isEn ? 'Enterprise operating systems' : 'Hệ thống vận hành'}
                 </h1>
               </div>
               <p
@@ -1234,7 +1235,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       SoundEngine.playTap();
                       setIsFilterDropdownOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
                     title={isEn ? 'System Filter' : 'Bộ lọc phân hệ'}
                     aria-label={isEn ? 'System Filter' : 'Bộ lọc phân hệ'}
                     aria-expanded={isFilterDropdownOpen}
@@ -1534,7 +1535,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     autoPlay
                     loop
                     playsInline
-                    preload="auto"
+                    preload="metadata"
                     muted={isIntroStageMuted}
                     onEnded={() => setIsCircleVideoPlaying(false)}
                     style={{
@@ -1544,7 +1545,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       height: '100%',
                       objectFit: 'cover',
                       objectPosition: '50% 18%',
-                      transform: 'translateZ(0) scale(1.02)',
+                      transform: 'translateZ(0)',
+                      backfaceVisibility: 'hidden',
+                      filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
                     }}
                     className="absolute inset-0 w-full h-full object-cover bg-black rounded-[inherit] banner-video-sharp"
                   />
@@ -1741,6 +1744,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       role="button"
                       tabIndex={0}
                       onClick={(e) => openExpandedSystem(item, e.currentTarget)}
+                      onMouseLeave={() => {
+                        setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
+                      }}
                       onKeyDown={(e) => {
                         if (e.target !== e.currentTarget) return;
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -1759,10 +1765,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           : isLight
                             ? meta.borderLight
                             : meta.borderDark,
-                        height: 'auto',
-                        minHeight: 'fit-content',
+                        height: '100%',
                       }}
-                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-3 box-border w-full flex flex-col justify-center text-left overflow-hidden cursor-pointer"
+                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-3.5 box-border w-full h-full flex flex-col justify-between text-left font-semibold overflow-hidden cursor-pointer"
                     >
                       {/* Full-Card Video Overlay khi Click: Hiển thị video lấp đầy thẻ và KHÔNG hiển thị tiêu đề hay các thành phần khác */}
                       {isDemoActive && item.videoUrl && (
@@ -1791,7 +1796,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             loop
                             muted
                             playsInline
-                            preload="auto"
+                            preload="metadata"
                             controls={false}
                             disablePictureInPicture
                             controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -1826,90 +1831,99 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               minWidth: '100%',
                               minHeight: '100%',
                               objectFit: 'cover',
-                              transform: 'translateZ(0) scale(1.01)',
+                              transform: 'translateZ(0)',
                               backfaceVisibility: 'hidden',
+                              filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
                             }}
                             className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp"
                           />
-                          <div className="absolute top-2.5 right-2.5 z-40 p-1.5 rounded-full bg-black/60 text-white/80 hover:text-white backdrop-blur-md transition-all">
+                          <div className="absolute top-2.5 right-2.5 z-40 p-1.5 rounded-full bg-black/60 text-white/85 hover:text-white transition-all">
                             <Minimize2 className="w-3.5 h-3.5" />
                           </div>
                         </div>
                       )}
 
-                      {/* Video lấp đầy thẻ khi rê chuột vào hình */}
+                      {/* Video sắc nét lấp đầy thẻ khi rê chuột vào hình: KHÔNG phủ mờ tối, KHÔNG hiển thị tiêu đề */}
                       {isHovered && item.videoUrl && !isDemoActive && (
-                        <div className="absolute inset-0 z-0 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none transition-opacity duration-300">
+                        <div className="absolute inset-0 z-20 w-full h-full rounded-[inherit] overflow-hidden bg-black pointer-events-none transition-opacity duration-200">
                           <video
                             src={item.videoUrl}
                             autoPlay
                             loop
                             muted
                             playsInline
-                            preload="auto"
-                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp opacity-90"
+                            preload="metadata"
+                            style={{
+                              position: 'absolute',
+                              inset: 0,
+                              width: '100%',
+                              height: '100%',
+                              minWidth: '100%',
+                              minHeight: '100%',
+                              objectFit: 'cover',
+                              transform: 'translateZ(0)',
+                              backfaceVisibility: 'hidden',
+                              filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
+                            }}
+                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp opacity-100"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 backdrop-blur-[1px] rounded-[inherit]" />
                         </div>
                       )}
 
-                      {/* Nội dung thẻ hệ thống: 2 cột
-                          Bên trái:
-                            Hàng 1: Icon (không khung) & tên viết tắt
-                            Hàng 2: Tên viết đầy đủ
-                            Hàng 3: Tag phân hệ bên dưới trái
-                          Bên phải:
-                            Hình minh họa
-                      */}
+                      {/* Nội dung thẻ hệ thống: ẩn hoàn toàn tiêu đề & văn bản khi đang phát video (cả hover và click) */}
                       <div
                         className={cn(
-                          'relative z-10 w-full flex flex-row items-stretch justify-between gap-3 min-w-0 transition-opacity duration-200',
+                          'relative z-10 w-full flex-1 flex flex-row items-stretch justify-between gap-3 min-w-0 transition-opacity duration-200',
                           isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                         )}
                       >
-                        {/* Bên trái: Hàng 1 (Icon & tên viết tắt) + Hàng 2 (Tên viết đầy đủ) + Hàng 3 (Tag phân hệ bên dưới trái) */}
-                        <div className="flex-1 min-w-0 flex flex-col justify-between gap-1.5 text-left py-0.5">
-                          {/* Hàng 1 : Icon & tên viết tắt */}
-                          <div className="flex items-center gap-2 min-w-0">
-                            <WebIcon
-                              name={meta.iconName}
-                              className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                        {/* Cột trái: Tiêu đề + Mô tả + Phân hệ */}
+                        <div
+                          className={cn(
+                            'flex-1 min-w-0 flex flex-col justify-between gap-2 text-left py-0.5 transition-opacity duration-200',
+                            (isDemoActive || isHovered) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                          )}
+                        >
+                          <div className="flex flex-col gap-1 min-w-0">
+                            {/* Tiêu đề chính: Icon + Mã viết tắt */}
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <WebIcon
+                                name={meta.iconName}
+                                className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                style={{ color: accentColor }}
+                              />
+                              <h3
+                                className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
+                                data-card-title="true"
+                                style={{ color: accentColor }}
+                              >
+                                {item.abbr}
+                              </h3>
+                            </div>
+
+                            {/* Tên đầy đủ của hệ thống — đồng bộ màu giống màu tiêu đề */}
+                            <p
+                              className="text-[13px] sm:text-[13.5px] font-semibold leading-snug line-clamp-2 m-0 break-words"
                               style={{ color: accentColor }}
-                            />
-                            <h3
-                              className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
-                              data-card-title="true"
-                              style={{ color: accentColor }}
+                              title={localizedTitle}
                             >
-                              {item.abbr}
-                            </h3>
+                              {localizedTitle}
+                            </p>
+
+                            {/* Mô tả chức năng hệ thống (~3 dòng ngắn gọn, font-semibold rõ nét trên nền tối) */}
+                            <p
+                              className="text-[12px] sm:text-[12.5px] font-semibold leading-[1.45] line-clamp-3 text-[var(--text-secondary)] m-0 break-words"
+                              title={localizedDesc}
+                            >
+                              {localizedDesc}
+                            </p>
                           </div>
 
-                          {/* Hàng 2 : Tên viết đầy đủ */}
-                          <p
-                            className="typo-body-sm font-semibold leading-snug line-clamp-2 text-[var(--text-heading,var(--text-primary))] m-0 break-words"
-                            title={localizedTitle}
-                          >
-                            {localizedTitle}
-                          </p>
-
-                          {/* Hàng 3 : Tag nhóm phân hệ bên dưới trái */}
-                          <div className="flex items-center pt-0.5 min-w-0">
+                          {/* Nhãn phân hệ gọn bên dưới trái */}
+                          <div className="flex items-center pt-1 min-w-0">
                             <span
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border truncate max-w-full shrink-0 opacity-85"
-                              style={{
-                                backgroundColor: isLeatherTheme
-                                  ? undefined
-                                  : isLight
-                                    ? meta.tintBgLight
-                                    : meta.tintBgDark,
-                                borderColor: isLeatherTheme
-                                  ? 'var(--border-subcard)'
-                                  : isLight
-                                    ? meta.borderLight
-                                    : meta.borderDark,
-                                color: accentColor,
-                              }}
+                              className="inline-flex items-center gap-1.5 text-[11px] font-semibold truncate max-w-full opacity-90"
+                              style={{ color: accentColor }}
                             >
                               <span
                                 className={cn(
@@ -1922,7 +1936,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </div>
                         </div>
 
-                        {/* Bên phải: Kích thước hình ảnh bằng 3 hàng ở bên trái */}
+                        {/* Cột phải: Hình minh họa nằm bên phải của Tiêu đề & Mô tả */}
                         <div
                           role={item.videoUrl ? 'button' : undefined}
                           tabIndex={item.videoUrl ? 0 : undefined}
@@ -1961,10 +1975,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 : `Xem video ${item.abbr}`
                               : localizedTitle
                           }
-                          style={{ borderRadius: 'var(--radius-card, 10px)' }}
+                          style={{ borderRadius: '14px' }}
                           className={cn(
-                            'relative z-10 shrink-0 self-stretch w-[96px] sm:w-[110px] min-h-full flex items-center justify-center overflow-hidden rounded-[10px] transition-transform duration-300',
-                            item.videoUrl && 'cursor-pointer hover:scale-105 active:scale-95'
+                            'relative z-10 shrink-0 self-stretch w-[108px] sm:w-[126px] min-h-[120px] flex items-center justify-center overflow-hidden rounded-[14px] transition-transform duration-300',
+                            item.videoUrl && 'cursor-pointer hover:scale-105'
                           )}
                         >
                           <img
@@ -1972,11 +1986,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             alt={localizedTitle}
                             referrerPolicy="no-referrer"
                             loading="lazy"
+                            decoding="async"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';
                             }}
                             className={cn(
-                              'w-full h-full max-h-full object-contain rounded-[inherit] select-none pointer-events-none transition-all duration-300',
+                              'w-full h-full max-h-full object-contain rounded-[14px] select-none pointer-events-none transition-all duration-300',
                               isHovered && item.videoUrl && 'opacity-0'
                             )}
                           />
@@ -2043,6 +2058,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         <img
                           src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                           alt={expandedSystem.nameVi}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none border-0 shadow-none"
                         />
@@ -2209,6 +2226,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             <img
                               src={qrDataUrl}
                               alt={`QR ${expandedSystem.abbr}`}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-contain"
                             />
                           ) : (
@@ -2454,7 +2473,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                       loop
                                       muted={isExpandedVideoMuted}
                                       playsInline
-                                      preload="auto"
+                                      preload="metadata"
                                       controls={false}
                                       disablePictureInPicture
                                       controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -2478,7 +2497,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                         v.currentTime = 0;
                                         v.play().catch(() => {});
                                       }}
-                                      style={{ objectFit: 'cover', transform: 'translateZ(0) scale(1.005)', backfaceVisibility: 'hidden' }}
+                                      style={{
+                                        objectFit: 'cover',
+                                        transform: 'translateZ(0)',
+                                        backfaceVisibility: 'hidden',
+                                        filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
+                                      }}
                                       className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none banner-video-sharp"
                                     />
                                     <button
@@ -2513,6 +2537,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                   <img
                                     src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                                     alt={expandedSystem.nameVi}
+                                    loading="lazy"
+                                    decoding="async"
                                     referrerPolicy="no-referrer"
                                     className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
                                   />

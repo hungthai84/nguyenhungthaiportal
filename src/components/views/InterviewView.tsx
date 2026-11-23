@@ -537,7 +537,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 loop
                 muted={!(!isPlayingVideo2 && isAudioOn)}
                 playsInline
-                preload="auto"
+                preload="metadata"
                 controls={false}
                 disablePictureInPicture
                 controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -614,7 +614,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 loop
                 muted={!(isPlayingVideo2 && isAudioOn)}
                 playsInline
-                preload="metadata"
+                preload={isPlayingVideo2 ? 'metadata' : 'none'}
                 controls={false}
                 disablePictureInPicture
                 controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"

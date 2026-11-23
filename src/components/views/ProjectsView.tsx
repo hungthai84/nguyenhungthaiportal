@@ -778,6 +778,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       alt={cleanedTitle}
                       title={bannerInfo.imageName}
                       loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         if (bannerInfo.fallbackUrl && e.currentTarget.src !== bannerInfo.fallbackUrl) {
@@ -815,9 +816,15 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     <div className="min-w-0 flex flex-col gap-1.5">
                       <div className="card-header-sync w-full min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
                         <h3
-                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 w-full min-w-0 text-left block"
+                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug m-0 p-0 w-full min-w-0 text-left block"
                           data-card-title="true"
-                          style={{ color: cardColor, display: 'block' }}
+                          style={{
+                            color: cardColor,
+                            display: 'block',
+                            textWrap: 'wrap',
+                            wordBreak: 'normal',
+                            overflowWrap: 'break-word',
+                          }}
                           title={`${orderNumber ? `${orderNumber} · ` : ''}${cleanedTitle}`}
                         >
                           {orderNumber && (
@@ -915,6 +922,9 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               <img
                 src={mindmapProject.mindmap || mindmapProject.image}
                 alt="Sơ đồ tư duy"
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
                 className="max-w-full max-h-[70vh] object-contain rounded-[inherit] shadow-lg"
               />
             </div>

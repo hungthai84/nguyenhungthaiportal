@@ -233,31 +233,31 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'light-deep-ocean': {
-    radius: '14px',
-    activeRingColor: '#0284C7',
-    activeBorderClass: 'border-[#0284C7]',
-    idleBorderClass: 'border-sky-300/65 hover:border-[#0284C7]/70',
-    activeBadgeClass: 'bg-[#0284C7] text-white border-[#0284C7]',
-    iconColor: '#0284C7',
-    titleTextClass: 'text-[#082F49]',
-    bodyTextClass: 'text-[#335C75]',
-    accentTextClass: 'text-[#0284C7]',
-    previewBorderClass: 'border-sky-300/60 border-solid',
-    dividerClass: 'border-sky-200/70 border-solid',
-    ctaIdleClass: 'bg-sky-50/90 text-[#082F49] hover:bg-white border border-sky-300/65',
-    ctaActiveClass: 'bg-gradient-to-r from-[#0284C7] to-[#06B6D4] text-white shadow-xs border border-[#0284C7]',
-    toggleTrackDarkClass: 'bg-[#0A1128] border-sky-500/40',
-    toggleTrackLightClass: 'bg-sky-100 border-sky-300',
-    toggleThumbDarkClass: 'bg-sky-400 text-slate-950',
-    toggleThumbLightClass: 'bg-[#0284C7] text-white',
+    radius: '18px',
+    activeRingColor: '#1951FC',
+    activeBorderClass: 'border-[#1951FC]',
+    idleBorderClass: 'border-white/65 hover:border-[#73BFFF]',
+    activeBadgeClass: 'bg-gradient-to-r from-[#1951FC] to-[#3781FC] text-white border-white/75',
+    iconColor: '#1951FC',
+    titleTextClass: 'text-[#03195B]',
+    bodyTextClass: 'text-[#082B70]',
+    accentTextClass: 'text-[#1951FC]',
+    previewBorderClass: 'border-white/70 border-solid',
+    dividerClass: 'border-[#73BFFF]/55 border-solid',
+    ctaIdleClass: 'bg-[#CBE9FD]/85 text-[#03195B] hover:bg-white border border-white/75',
+    ctaActiveClass: 'bg-gradient-to-r from-[#1951FC] via-[#3781FC] to-[#73BFFF] text-white shadow-xs border border-white/75',
+    toggleTrackDarkClass: 'bg-[#03195B] border-[#3781FC]/55',
+    toggleTrackLightClass: 'bg-[#CBE9FD] border-[#73BFFF]',
+    toggleThumbDarkClass: 'bg-[#73BFFF] text-[#03195B]',
+    toggleThumbLightClass: 'bg-[#1951FC] text-white',
     outlineStyle: (isActive) => ({
-      outline: isActive ? '2px solid #0284C7' : '1.5px solid rgba(2, 132, 199, 0.28)',
+      outline: isActive ? '2px solid rgba(255, 255, 255, 0.90)' : '1px solid rgba(255, 255, 255, 0.55)',
       outlineOffset: '-6px',
     }),
     demoVideoUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
     gradientBars: [
-      { label: 'O1', width: '92%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(2, 132, 199, 0.30)' },
-      { label: 'O2', width: '78%', gradient: 'linear-gradient(90deg, #06B6D4, #0EA5E9)', glow: '0 0 10px rgba(6, 182, 212, 0.28)' },
+      { label: 'Primary', width: '94%', gradient: 'linear-gradient(90deg, #1951FC, #3781FC)', glow: '0 0 10px rgba(25, 81, 252, 0.35)' },
+      { label: 'Sky Cyan', width: '80%', gradient: 'linear-gradient(90deg, #3781FC, #73BFFF)', glow: '0 0 10px rgba(115, 191, 255, 0.38)' },
     ],
   },
   'multicolor-glass': {
@@ -601,21 +601,28 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   }, [selectedFamilyFilter, selectedMechanismFilter]);
 
   const displayedThemesCount = UNIFIED_INTERFACE_THEMES.length;
-  const visibleThemesCount = useMemo(
-    () => visibleGroups.reduce((acc, g) => acc + g.presets.length, 0),
+  const visibleThemeEntries = useMemo(
+    () =>
+      visibleGroups.flatMap((group) =>
+        group.presets.map((preset) => ({
+          preset,
+          group,
+        }))
+      ),
     [visibleGroups]
   );
+  const visibleThemesCount = visibleThemeEntries.length;
 
   // Tự động đóng video preview nếu card đó bị ẩn bởi bộ lọc
   useEffect(() => {
     if (!activeVideoPreviewId) return;
-    const isStillVisible = visibleGroups.some((g) =>
-      g.presets.some((p) => p.id === activeVideoPreviewId)
+    const isStillVisible = visibleThemeEntries.some(
+      ({ preset }) => preset.id === activeVideoPreviewId
     );
     if (!isStillVisible) {
       setActiveVideoPreviewId(null);
     }
-  }, [activeVideoPreviewId, visibleGroups]);
+  }, [activeVideoPreviewId, visibleThemeEntries]);
 
   const isDefaultConfig = cardStyle === DEFAULT_CARD_STYLE;
 
@@ -670,7 +677,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
                   data-card-title="true"
                 >
-                  {isEn ? `Appearance Studio (${displayedThemesCount} Themes)` : `Kho ${displayedThemesCount} giao diện hệ thống`}
+                  {isEn ? 'Interface theme studio' : 'Cấu hình giao diện'}
                 </h1>
               </div>
               <p
@@ -700,7 +707,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       SoundEngine.playTap();
                       setIsFamilyFilterOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play"
                     title={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-label={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-expanded={isFamilyFilterOpen}
@@ -1023,8 +1030,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             )}
           </AnimatePresence>
 
-          {/* 2. Danh sách nhóm giao diện & thẻ xem trước tương tác kèm hình nền riêng từng giao diện */}
-          <div className="flex flex-col gap-[15px]">
+          {/* 2. Lưới thẻ Responsive Grid View Card cho toàn bộ giao diện */}
+          <div className="flex flex-col gap-[12px] min-w-0">
             {visibleThemesCount === 0 ? (
               <div
                 data-subcard="true"
@@ -1042,83 +1049,127 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     setSelectedFamilyFilter('all');
                     setSelectedMechanismFilter('all');
                   }}
-                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold text-white cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold text-white cursor-pointer whitespace-nowrap shrink-0"
                   style={{ background: 'var(--bg-button-primary)' }}
                 >
                   {isEn ? 'Show all themes' : 'Hiện tất cả giao diện'}
                 </button>
               </div>
             ) : (
-              visibleGroups.map((group) => {
-                const groupActive = group.presets.some((p) => p.id === cardStyle);
-                const gridColsClass =
-                  group.presets.length === 1
-                    ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
-                    : group.presets.length === 2
-                      ? 'grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch'
-                      : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch';
-
-                return (
-                  <section
-                    key={group.id}
-                    className="flex flex-col gap-[12px] p-0 border-0 bg-transparent shadow-none transition-all duration-300"
+              <>
+                <div
+                  className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b min-w-0"
+                  style={{ borderColor: 'var(--border-subcard)' }}
+                >
+                  <span
+                    className="typo-caption font-semibold tabular-nums"
+                    style={{ color: 'var(--text-muted)' }}
                   >
-                    <div
-                      className="flex items-center justify-between gap-2 flex-wrap pb-2.5 border-b"
-                      style={{ borderColor: 'var(--border-subcard)' }}
-                    >
-                      <div className="flex items-center gap-2.5 flex-wrap min-w-0">
-                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
-                          <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
-                          <h3
-                            className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                            data-card-title="true"
-                            style={{ color: 'var(--color-primary)' }}
-                          >
-                            {isEn ? group.labelEn : group.label}
-                          </h3>
-                        </div>
-                      </div>
+                    {isEn
+                      ? `${visibleThemesCount} of ${displayedThemesCount} themes`
+                      : `Hiển thị ${visibleThemesCount} / ${displayedThemesCount} giao diện`}
+                  </span>
+                  <span
+                    className="typo-caption font-semibold truncate max-w-full"
+                    style={{ color: 'var(--text-link, var(--color-primary))' }}
+                  >
+                    {isEn ? 'Active: ' : 'Đang bật: '}
+                    {t(activePreset.name)}
+                  </span>
+                </div>
 
-                      <span
-                        className="typo-badge px-2 py-0.5 rounded-full border font-semibold shrink-0"
+                <div
+                  id="interface-themes-groups"
+                  data-element-name="Danh sách nhóm thẻ giao diện"
+                  data-element-type="container"
+                  data-element-page="interface"
+                  className="flex flex-col gap-[16px] w-full max-w-full min-w-0"
+                >
+                  {visibleGroups.map((group) => {
+                    const isGroupActive = group.presets.some((p) => p.id === cardStyle);
+                    return (
+                      <section
+                        key={group.id}
+                        id={`interface-group-${group.id}`}
+                        data-element-name={`Nhóm giao diện ${group.label}`}
+                        data-element-type="card"
+                        data-subcard="true"
+                        className="sub-card rounded-[14px] border p-[14px] flex flex-col gap-[12px] w-full min-w-0"
                         style={{
-                          background: 'var(--bg-card)',
-                          borderColor: 'var(--border-subcard)',
-                          color: 'var(--text-muted)',
+                          background: 'var(--bg-subcard)',
+                          borderColor: isGroupActive
+                            ? 'var(--color-primary)'
+                            : 'var(--border-subcard)',
                         }}
                       >
-                        {group.presets.length} {isEn ? 'styles' : 'biến thể'}
-                      </span>
-                    </div>
+                        <div
+                          className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b min-w-0"
+                          style={{ borderColor: 'var(--border-subcard)' }}
+                        >
+                          <div
+                            className="card-header-sync flex items-center gap-2 min-w-0"
+                            style={{ color: 'var(--color-primary)' }}
+                          >
+                            <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
+                            <h2
+                              className="typo-h5 font-bold tracking-tight truncate card-title-synced m-0"
+                              data-card-title="true"
+                              style={{ color: 'var(--color-primary)' }}
+                            >
+                              {isEn ? group.labelEn : group.label}
+                            </h2>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {isGroupActive && (
+                              <span
+                                className="typo-badge font-semibold"
+                                style={{ color: 'var(--text-link, var(--color-primary))' }}
+                              >
+                                {isEn ? 'Active group' : 'Đang sử dụng'}
+                              </span>
+                            )}
+                            <span
+                              className="typo-caption font-semibold tabular-nums"
+                              style={{ color: 'var(--text-muted)' }}
+                            >
+                              {group.presets.length} {isEn ? 'themes' : 'giao diện'}
+                            </span>
+                          </div>
+                        </div>
 
-                    <div className={gridColsClass}>
-                      {group.presets.map((preset) => (
-                        <ThemePresetCard
-                          key={preset.id}
-                          preset={preset}
-                          groupIcon={group.icon}
-                          meta={THEME_VISUAL_META[preset.id]}
-                          bgSpec={THEME_BACKGROUNDS[preset.id]}
-                          sampleProps={presetSampleStyles[preset.id]}
-                          isActive={cardStyle === preset.id}
-                          isEn={isEn}
-                          isVideoVisible={
-                            activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
-                          }
-                          hasVideoFailed={Boolean(failedVideoIds[preset.id])}
-                          displayPresetName={t(preset.name)}
-                          displayShortBadge={t(preset.shortBadge)}
-                          displayDesc={t(preset.desc)}
-                          onSelectTheme={handleSelectTheme}
-                          onToggleVideo={handleToggleVideoPreview}
-                          onVideoError={handleVideoPreviewError}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                );
-              })
+                        <div
+                          id={`interface-group-grid-${group.id}`}
+                          className="interface-group-grid grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
+                        >
+                          {group.presets.map((preset) => (
+                            <ThemePresetCard
+                              key={preset.id}
+                              preset={preset}
+                              groupIcon={group.icon}
+                              groupLabel={isEn ? group.labelEn : group.label}
+                              meta={THEME_VISUAL_META[preset.id]}
+                              bgSpec={THEME_BACKGROUNDS[preset.id]}
+                              sampleProps={presetSampleStyles[preset.id]}
+                              isActive={cardStyle === preset.id}
+                              isEn={isEn}
+                              isVideoVisible={
+                                activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
+                              }
+                              hasVideoFailed={Boolean(failedVideoIds[preset.id])}
+                              displayPresetName={t(preset.name)}
+                              displayShortBadge={t(preset.shortBadge)}
+                              displayDesc={t(preset.desc)}
+                              onSelectTheme={handleSelectTheme}
+                              onToggleVideo={handleToggleVideoPreview}
+                              onVideoError={handleVideoPreviewError}
+                            />
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  })}
+                </div>
+              </>
             )}
           </div>
 
@@ -1190,7 +1241,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       SoundEngine.playGlassChime();
                       if (onShowNotification) onShowNotification(isEn ? '✓ Soft button clicked!' : '✓ Đã bấm nút Soft UI!');
                     }}
-                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all active:scale-[0.99]"
+                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all"
                     style={{
                       background: 'var(--bg-card)',
                       borderColor: 'var(--border-subcard)',

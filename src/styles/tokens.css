@@ -616,7 +616,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"] {
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;
@@ -1200,37 +1200,37 @@ html[data-card-style="deep-ocean"] {
   --nav-pill-accent: #38BDF8;
 }
 
-/* 8. LIGHT OCEAN NAVY – BRIGHT GLASS UI (MASTER PROMPT) */
+/* 8. LIGHT OCEAN NAVY – GLOSSY LIQUID GLASS UI (MASTER PROMPT) */
 html[data-card-style="light-deep-ocean"],
 [data-theme="light-deep-ocean"] {
-  --color-primary: #1676AD;
-  --color-secondary: #23BDE0;
-  --color-accent: #23BDE0;
+  --color-primary: #1951FC;
+  --color-secondary: #3781FC;
+  --color-accent: #73BFFF;
   --color-teal: #35C9B0;
-  --color-navy: #123B63;
-  --color-ocean: #1676AD;
-  --color-cyan: #23BDE0;
-  --color-focus-ring: #23BDE0;
-  --color-bg: #F2F8FD;
-  --color-bg-soft: #E8F3FB;
-  --color-bg-blue: #EAF5FC;
-  --color-surface: #FFFFFF;
-  --color-surface-elevated: #FFFFFF;
-  --color-heading: #123B63;
-  --color-text: #173653;
-  --color-text-secondary: #71869B;
-  --color-text-muted: #94A8B9;
-  --text-primary: #173653;
-  --text-heading: #123B63;
-  --text-secondary: #71869B;
-  --text-muted: #94A8B9;
-  --text-link: #1676AD;
-  --bg-card: #FFFFFF;
-  --bg-subcard: #EAF5FC;
-  --border-card: #DCEAF4;
-  --border-subcard: #DCEAF4;
-  --border-hover: #A8DCEE;
-  --nav-pill-accent: #1676AD;
+  --color-navy: #03195B;
+  --color-ocean: #0B2CB1;
+  --color-cyan: #73BFFF;
+  --color-focus-ring: #3781FC;
+  --color-bg: #1951FC;
+  --color-bg-soft: #3781FC;
+  --color-bg-blue: #CBE9FD;
+  --color-surface: rgba(115, 191, 255, 0.36);
+  --color-surface-elevated: rgba(203, 233, 253, 0.85);
+  --color-heading: #03195B;
+  --color-text: #082B70;
+  --color-text-secondary: #1E40AF;
+  --color-text-muted: #3B60A8;
+  --text-primary: #082B70;
+  --text-heading: #03195B;
+  --text-secondary: #1E40AF;
+  --text-muted: #3B60A8;
+  --text-link: #0B2CB1;
+  --bg-card: rgba(115, 191, 255, 0.38);
+  --bg-subcard: rgba(203, 233, 253, 0.56);
+  --border-card: rgba(255, 255, 255, 0.55);
+  --border-subcard: rgba(255, 255, 255, 0.50);
+  --border-hover: rgba(255, 255, 255, 0.88);
+  --nav-pill-accent: #1951FC;
 }
 
 /* 9. NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ SÁNG) */
@@ -1325,5 +1325,50 @@ html[data-card-style="dark-frost-ice-neu"] {
   --nav-pill-accent: #818CF8;
 }
 
+/* 13. FLAT SOFT UI (SÁNG · MATTE PORCELAIN + INDIGO & TEAL) */
+html[data-card-style="flat-soft-ui"],
+[data-theme="flat-soft-ui"] {
+  --color-primary: #4F46E5;
+  --color-secondary: #0D9488;
+  --color-accent: #3B82F6;
+  --color-focus-ring: #4F46E5;
+  --color-bg: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-heading: #0F172A;
+  --color-text: #334155;
+  --color-text-secondary: #475569;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --bg-card: #FFFFFF;
+  --bg-subcard: #F8FAFC;
+  --border-card: rgba(226, 232, 240, 0.90);
+  --border-subcard: rgba(226, 232, 240, 0.80);
+  --nav-pill-accent: #4F46E5;
+}
 
-
+/* 14. DARK FLAT SOFT UI (TỐI · VELVET SLATE + INDIGO & MINT) */
+html[data-card-style="dark-flat-soft-ui"],
+[data-theme="dark-flat-soft-ui"] {
+  --color-primary: #6366F1;
+  --color-secondary: #2DD4BF;
+  --color-accent: #818CF8;
+  --color-focus-ring: #6366F1;
+  --color-bg: #0A0E17;
+  --color-surface: #131B2A;
+  --color-surface-elevated: #162032;
+  --color-heading: #F8FAFC;
+  --color-text: #CBD5E1;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #818CF8;
+  --bg-card: #131B2A;
+  --bg-subcard: #162032;
+  --border-card: rgba(148, 163, 184, 0.16);
+  --border-subcard: rgba(148, 163, 184, 0.12);
+  --nav-pill-accent: #6366F1;
+}

@@ -596,6 +596,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       <img
                         src={selectedArticle.mindmap || selectedArticle.image}
                         alt={`Sơ đồ tư duy ${selectedArticle.code}`}
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-contain bg-slate-900 rounded-[14px]"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = selectedArticle.image;
@@ -687,6 +690,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     <img
                       src={selectedArticle.image}
                       alt={selectedArticle.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover rounded-[14px] opacity-90 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                       onError={(e) => {

@@ -194,7 +194,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
                     data-card-title="true"
                   >
-                    Liên Hệ • Kết Nối
+                    Thông tin liên hệ
                   </h1>
                 </div>
                 <p
@@ -278,6 +278,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                           <img
                             src={user.photoURL}
                             alt={user.displayName || 'User'}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             className="w-4 h-4 rounded-full object-cover"
                           />

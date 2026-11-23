@@ -273,6 +273,30 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const filterButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [matchedControlWidth, setMatchedControlWidth] = useState<number>(186);
+
+  useEffect(() => {
+    const syncControlSize = () => {
+      const btn = filterButtonRef.current;
+      if (!btn) return;
+      const w = Math.ceil(btn.getBoundingClientRect().width);
+      if (w > 0) {
+        setMatchedControlWidth(Math.max(w, 186));
+      }
+    };
+    syncControlSize();
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && filterButtonRef.current) {
+      ro = new ResizeObserver(syncControlSize);
+      ro.observe(filterButtonRef.current);
+    }
+    window.addEventListener('resize', syncControlSize);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', syncControlSize);
+    };
+  }, [activeCategory, isEn, selectedCourse]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -507,7 +531,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               data-card-title="true"
               style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
             >
-              Học vấn &amp; Bằng cấp
+              Học vấn bằng cấp
             </h1>
           </div>
           <p
@@ -521,12 +545,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
           <div className="relative inline-block text-left">
             <button
+              id="education-filter-toggle-btn"
+              ref={filterButtonRef}
               type="button"
               onClick={() => {
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+              style={{ minWidth: `${matchedControlWidth}px`, height: '36px' }}
+              className="banner-control-pill h-9 inline-flex items-center justify-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
@@ -608,8 +635,18 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </AnimatePresence>
           </div>
 
-          {/* Nút chuyển chế độ xem: Lưới mặc định vs Thẻ CSS-Tricks (Hover/Focus Effect) */}
-          <div className="flex items-center gap-1 p-0.5 rounded-full bento-card glass-card border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/60">
+          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước rộng × cao bằng chính xác nút Bộ lọc khóa học */}
+          <div
+            id="education-view-mode-switcher"
+            role="group"
+            aria-label={isEn ? 'View mode' : 'Dạng view'}
+            style={{
+              width: `${matchedControlWidth}px`,
+              minWidth: `${matchedControlWidth}px`,
+              height: '36px',
+            }}
+            className="banner-control-pill h-9 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
+          >
             <button
               type="button"
               onClick={() => {
@@ -617,7 +654,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 setViewMode('grid');
               }}
               className={cn(
-                'h-8 px-3 rounded-full typo-badge font-bold font-play flex items-center gap-1.5 transition-all cursor-pointer',
+                'flex-1 h-full px-2 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'grid'
                   ? 'bg-[var(--color-primary)] text-white shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -625,7 +662,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               title={isEn ? 'Grid View' : 'Dạng lưới mặc định'}
             >
               <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'Grid' : 'Lưới'}</span>
+              <span className="truncate">{isEn ? 'Grid' : 'Lưới'}</span>
             </button>
             <button
               type="button"
@@ -634,7 +671,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 setViewMode('css-tricks');
               }}
               className={cn(
-                'h-8 px-3 rounded-full typo-badge font-bold font-play flex items-center gap-1.5 transition-all cursor-pointer',
+                'flex-1 h-full px-2 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'css-tricks'
                   ? 'bg-[var(--color-primary)] text-white shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -642,7 +679,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               title={isEn ? 'Cards - CSS-tricks Like Effect (Hover/Focus)' : 'Thẻ CSS-Tricks (Hiệu ứng Hover/Focus)'}
             >
               <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-              <span>CSS-Tricks</span>
+              <span className="truncate">CSS-Tricks</span>
             </button>
           </div>
         </div>
@@ -768,6 +805,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     style={{ borderRadius: isCssTricks ? '20px' : '12px' }}
                     className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0"
                     loading="lazy"
+                    decoding="async"
                     referrerPolicy="no-referrer"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
@@ -984,6 +1022,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             <img
               src={lightboxImage}
               alt={lightboxTitle}
+              decoding="async"
               referrerPolicy="no-referrer"
               className="max-w-full max-h-[82vh] object-contain rounded-[var(--radius-card,14px)] shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/20 select-none pointer-events-auto"
               onClick={(e) => e.stopPropagation()}

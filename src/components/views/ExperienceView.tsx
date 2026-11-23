@@ -98,6 +98,8 @@ const CircularLogo: React.FC<{
       {!hasFailedAll ? (
         <img
           src={imgSrc}
+          loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
           onError={() => {
             if (imgSrc !== logo.fallback) {
@@ -380,15 +382,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [carouselSlideIdx, setCarouselSlideIdx] = useState<number>(0);
   const [isPhotoLightboxOpen, setIsPhotoLightboxOpen] = useState<boolean>(false);
 
-  // States cho Timeline bìa gấp 3D theo cấu trúc mẫu đính kèm
-  const [startIndex, setStartIndex] = useState<number>(0);
-  const [visibleCols, setVisibleCols] = useState<number>(3.333);
-  const isFolded = true;
-  const [hoveredCol, setHoveredCol] = useState<string | null>(null);
+  // States cho Timeline hiệu ứng xếp giấy Chromatic Folds
+  const [chosenFoldIdx, setChosenFoldIdx] = useState<number>(0);
+  const [hoveredFoldIdx, setHoveredFoldIdx] = useState<number | null>(null);
+  const [isMobileFoldView, setIsMobileFoldView] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-
   const boardRef = useRef<HTMLElement | null>(null);
+  const foldSwatchRefs = useRef<Array<HTMLDivElement | null>>([]);
   const detailCardRef = useRef<HTMLElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
   const dragStartYRef = useRef<number | null>(null);
@@ -686,49 +687,91 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     },
   ];
 
-  // Tự động điều chỉnh số cột hiển thị theo kích thước thực tế của khung (Desktop: 5, Tablet: 3, Mobile: 1)
+  // Tự động phát hiện chế độ Mobile (< 768px) để giữ trải nghiệm đọc rõ nét
   useEffect(() => {
-    const updateCols = () => {
+    const updateFoldMode = () => {
       const boardWidth = boardRef.current?.clientWidth || window.innerWidth;
-      if (boardWidth < 600) {
-        setVisibleCols(1);
-      } else if (boardWidth < 960) {
-        setVisibleCols(2);
-      } else {
-        // Tăng chiều ngang mỗi cột thêm 1/2 (từ 20% lên 30% bề ngang, tương đương 3.33 cột visible)
-        setVisibleCols(3.333);
-      }
+      setIsMobileFoldView(boardWidth < 768);
     };
-    updateCols();
+    updateFoldMode();
 
     let ro: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined' && boardRef.current) {
-      ro = new ResizeObserver(updateCols);
+      ro = new ResizeObserver(updateFoldMode);
       ro.observe(boardRef.current);
     }
-    window.addEventListener('resize', updateCols);
+    window.addEventListener('resize', updateFoldMode);
     return () => {
       if (ro) ro.disconnect();
-      window.removeEventListener('resize', updateCols);
+      window.removeEventListener('resize', updateFoldMode);
     };
   }, [showJobCard]);
 
-  const maxStartIndex = Math.max(0, Math.ceil(roadmapCards.length - visibleCols));
-
+  // Tính toán động góc nghiêng nếp gấp (--fold-angle) bằng ResizeObserver & transitionend đúng chuẩn Chromatic Folds
   useEffect(() => {
-    if (startIndex > maxStartIndex) {
-      setStartIndex(maxStartIndex);
+    if (showJobCard || isMobileFoldView) return;
+    const recalcEl = (el: HTMLElement) => {
+      const num = Number(el.dataset.num || '1');
+      const direction = num % 2 ? 1 : -1;
+      const angle =
+        direction *
+        Math.atan2(el.offsetHeight * 0.05, Math.max(1, el.offsetWidth)) *
+        (180 / Math.PI);
+      el.style.setProperty('--fold-angle', `${angle.toFixed(2)}deg`);
+    };
+
+    const recalcAll = () => {
+      foldSwatchRefs.current.forEach((node) => {
+        if (node) recalcEl(node);
+      });
+    };
+
+    recalcAll();
+    const timer = window.setTimeout(recalcAll, 700);
+
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      observer = new ResizeObserver((entries) => {
+        for (const { target } of entries) {
+          recalcEl(target as HTMLElement);
+        }
+      });
+      foldSwatchRefs.current.forEach((node) => {
+        if (node) observer!.observe(node);
+      });
     }
-  }, [maxStartIndex, startIndex]);
+
+    const handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.propertyName === 'flex' || e.propertyName === 'flex-grow') {
+        recalcAll();
+      }
+    };
+    foldSwatchRefs.current.forEach((node) => {
+      if (node) node.addEventListener('transitionend', handleTransitionEnd);
+    });
+
+    return () => {
+      window.clearTimeout(timer);
+      if (observer) observer.disconnect();
+      foldSwatchRefs.current.forEach((node) => {
+        if (node) node.removeEventListener('transitionend', handleTransitionEnd);
+      });
+    };
+  }, [showJobCard, isMobileFoldView, chosenFoldIdx, hoveredFoldIdx]);
+
+  const maxFoldIdx = roadmapCards.length - 1;
+  const activeFoldIdx = hoveredFoldIdx !== null ? hoveredFoldIdx : chosenFoldIdx;
 
   const handlePrev = () => {
     SoundEngine.playTap();
-    setStartIndex((prev) => Math.max(0, prev - 1));
+    setHoveredFoldIdx(null);
+    setChosenFoldIdx((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
     SoundEngine.playTap();
-    setStartIndex((prev) => Math.min(maxStartIndex, prev + 1));
+    setHoveredFoldIdx(null);
+    setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
   };
 
   const handleWheelScroll = (e: React.WheelEvent<HTMLElement>) => {
@@ -752,10 +795,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     if (now - lastWheelTimeRef.current < 260) return;
     lastWheelTimeRef.current = now;
 
+    setHoveredFoldIdx(null);
     if (dominantDelta > 0) {
-      setStartIndex((prev) => Math.min(maxStartIndex, prev + 1));
+      setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
     } else {
-      setStartIndex((prev) => Math.max(0, prev - 1));
+      setChosenFoldIdx((prev) => Math.max(0, prev - 1));
     }
   };
 
@@ -771,10 +815,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     const diffX = dragStartXRef.current - clientX;
     const diffY = dragStartYRef.current !== null ? dragStartYRef.current - clientY : 0;
     if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+      setHoveredFoldIdx(null);
       if (diffX > 0) {
-        setStartIndex((prev) => Math.min(maxStartIndex, prev + 1));
+        setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
       } else {
-        setStartIndex((prev) => Math.max(0, prev - 1));
+        setChosenFoldIdx((prev) => Math.max(0, prev - 1));
       }
     }
     dragStartXRef.current = null;
@@ -787,14 +832,18 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
-      if (e.key === 'ArrowLeft') setStartIndex((prev) => Math.max(0, prev - 1));
-      if (e.key === 'ArrowRight') setStartIndex((prev) => Math.min(maxStartIndex, prev + 1));
+      if (e.key === 'ArrowLeft') {
+        setHoveredFoldIdx(null);
+        setChosenFoldIdx((prev) => Math.max(0, prev - 1));
+      }
+      if (e.key === 'ArrowRight') {
+        setHoveredFoldIdx(null);
+        setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showJobCard, maxStartIndex]);
-
-  const translatePercent = (startIndex * 100) / visibleCols;
+  }, [showJobCard, maxFoldIdx]);
 
   const normalizedActiveKey = activeKey.startsWith('2013') || activeKey === '2014-airpay' ? '2013' : activeKey;
 
@@ -1000,7 +1049,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   }}
                   className="typo-h3 sm:typo-h2 md:typo-h1 card-title-synced font-bold tracking-[0.04em] leading-none m-0 whitespace-nowrap"
                 >
-                  Thời Gian Công Tác
+                  Thời gian công tác
                 </h1>
               </div>
               {/* Hàng 5 chấm tròn màu + gạch chân hồng */}
@@ -1022,12 +1071,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </header>
           </div>
 
-          {/* NÚT NỔI CHUYỂN ĐỔI QUA LẠI CÁC THẺ (KÍCH THƯỚC BẰNG NÚT TỚI/LÙI TRANG TỬ VI) */}
+          {/* NÚT NỔI CHUYỂN ĐỔI QUA LẠI CÁC NẾP GẤP */}
           <button
             type="button"
             onClick={handlePrev}
-            disabled={startIndex <= 0}
-            aria-label="Cuộn lùi sang trái"
+            disabled={chosenFoldIdx <= 0}
+            aria-label="Chuyển tới mốc trước"
             style={
               !isLeather
                 ? {
@@ -1038,7 +1087,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 : undefined
             }
             className={cn(
-              'absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-[35] w-11 h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
+              'absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
               isBlackLeather
                 ? 'bg-[#14171D]/95 text-white border-white/70 hover:bg-[#272B35]'
                 : isBrownLeather
@@ -1052,8 +1101,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <button
             type="button"
             onClick={handleNext}
-            disabled={startIndex >= maxStartIndex}
-            aria-label="Cuộn tới sang phải"
+            disabled={chosenFoldIdx >= maxFoldIdx}
+            aria-label="Chuyển tới mốc tiếp theo"
             style={
               !isLeather
                 ? {
@@ -1064,7 +1113,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 : undefined
             }
             className={cn(
-              'absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-[35] w-11 h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
+              'absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
               isBlackLeather
                 ? 'bg-[#14171D]/95 text-white border-white/70 hover:bg-[#272B35]'
                 : isBrownLeather
@@ -1075,158 +1124,371 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* KHUNG SLIDER HIỂN THỊ CÁC CỘT MỐC CÙNG LÚC */}
-          <div
-            className="relative w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden"
-            style={{ perspective: '2200px' }}
-          >
-            <div
-              className="flex w-full h-full flex-1 min-h-0 transition-transform duration-500 ease-out"
-              style={{
-                transform: `translateX(-${translatePercent}%)`,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              {roadmapCards.map((item, idx) => {
-                const isEven = idx % 2 === 0;
-                const isHovered = hoveredCol === item.key;
-                const foldAngle = isFolded
-                  ? visibleCols === 1
-                    ? 0
-                    : isHovered
-                      ? 0
+          {/* HIỆU ỨNG XẾP GIẤY CHROMATIC FOLDS (DESKTOP/TABLET) & SLIDER RÕ NÉT TRÊN MOBILE */}
+          {!isMobileFoldView ? (
+            <div className="exp-chromatic-stage">
+              <div
+                id="experience-chromatic-folds"
+                className="exp-chromatic-folds"
+                onMouseLeave={() => setHoveredFoldIdx(null)}
+              >
+                {roadmapCards.map((item, idx) => {
+                  const isEven = idx % 2 === 0;
+                  const isExpanded = activeFoldIdx === idx;
+                  const foldNum = String(idx + 1).padStart(2, '0');
+                  const milestoneData = EXPERIENCE_MILESTONES[item.key];
+                  const companyBanner = milestoneData?.bannerUrl || milestoneData?.memoryImg;
+
+                  const colBackground = isBlackLeather
+                    ? isEven
+                      ? 'linear-gradient(145deg, #21242C 0%, #111318 100%)'
+                      : 'linear-gradient(145deg, #191C22 0%, #0D0F14 100%)'
+                    : isBrownLeather
+                      ? item.colBgGradientLeather
                       : isEven
-                        ? -6
-                        : 6
-                  : 0;
-                const needsEdgeCompensation = foldAngle !== 0;
+                        ? 'var(--surface-secondary-bg, var(--bg-card))'
+                        : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
 
-                const milestoneData = EXPERIENCE_MILESTONES[item.key];
-                const companyBanner = milestoneData?.bannerUrl || item.bannerImage || milestoneData?.memoryImg;
-                const colBackground = isBlackLeather
-                  ? isEven
-                    ? 'linear-gradient(145deg, #21242C 0%, #111318 100%)'
-                    : 'linear-gradient(145deg, #191C22 0%, #0D0F14 100%)'
-                  : isBrownLeather
-                    ? item.colBgGradientLeather
-                    : isEven
-                      ? 'var(--surface-secondary-bg, var(--bg-card))'
-                      : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
+                  const resolvedAccent = isBlackLeather
+                    ? '#FFFFFF'
+                    : isBrownLeather
+                      ? '#FDE68A'
+                      : isDarkSurface
+                        ? item.darkAccentColor
+                        : item.accentColor;
 
-                const resolvedAccent = isBlackLeather
-                  ? '#FFFFFF'
-                  : isBrownLeather
-                    ? '#FDE68A'
-                    : isDarkSurface
-                      ? item.darkAccentColor
-                      : item.accentColor;
+                  const primaryTextColor = isBlackLeather
+                    ? '#FFFFFF'
+                    : isBrownLeather
+                      ? '#FFF8DC'
+                      : 'var(--text-primary)';
 
-                const primaryTextColor = isBlackLeather
-                  ? '#FFFFFF'
-                  : isBrownLeather
-                    ? '#FFF8DC'
-                    : 'var(--text-primary)';
+                  const secondaryTextColor = isBlackLeather
+                    ? '#E4E4E7'
+                    : isBrownLeather
+                      ? '#F5DEB3'
+                      : 'var(--text-secondary)';
 
-                const secondaryTextColor = isBlackLeather
-                  ? '#E4E4E7'
-                  : isBrownLeather
-                    ? '#F5DEB3'
-                    : 'var(--text-secondary)';
-
-                return (
-                  <div
-                    key={item.key}
-                    id={`milestone-card-${item.key}`}
-                    onMouseEnter={() => setHoveredCol(item.key)}
-                    onMouseLeave={() => setHoveredCol(null)}
-                    style={{
-                      flex: isHovered
-                        ? `0 0 calc(${100 / visibleCols}% * 1.15)`
-                        : `0 0 ${100 / visibleCols}%`,
-                      width: `${100 / visibleCols}%`,
-                      background: colBackground,
-                      borderRight: !isLeather
-                        ? '1px solid var(--border-subcard, var(--border-color))'
-                        : undefined,
-                      clipPath:
-                        isFolded && visibleCols > 1 && !isHovered
-                          ? isEven
-                            ? 'polygon(0 2.5%, 100% 0, 100% 97.5%, 0 100%)'
-                            : 'polygon(0 0, 100% 2.5%, 100% 100%, 0 97.5%)'
-                          : 'none',
-                      transform: `rotateY(${foldAngle}deg) ${
-                        isHovered ? 'translateZ(28px) translateY(-6px)' : 'translateZ(0px)'
-                      } ${needsEdgeCompensation ? 'scaleY(1.02) scaleX(1.015)' : ''}`,
-                      transformOrigin: isEven ? 'left center' : 'right center',
-                      zIndex: isHovered ? 60 : 15 + idx,
-                      boxShadow: isHovered
-                        ? '-20px 0 36px -4px rgba(15,23,42,0.42), 0 12px 24px rgba(0,0,0,0.25)'
-                        : '-16px 0 30px -4px rgba(15,23,42,0.28), -3px 0 8px rgba(0,0,0,0.14)',
-                    }}
-                    className="group relative h-full min-h-0 transition-all duration-500 ease-out flex flex-col"
-                  >
-                    {/* Gáy nếp gấp xếp giấy (mô phỏng cột phía sau xếp đè lên cột trước) */}
+                  return (
                     <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-y-0 left-0 w-3.5 z-[16] transition-opacity duration-300"
-                      style={{
-                        background: 'linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.06) 60%, transparent 100%)',
-                        borderLeft: isLeather
-                          ? '1px solid rgba(253, 230, 138, 0.25)'
-                          : '1px solid rgba(255, 255, 255, 0.35)',
+                      key={item.key}
+                      id={`milestone-card-${item.key}`}
+                      ref={(node) => {
+                        foldSwatchRefs.current[idx] = node;
                       }}
-                    />
+                      data-num={foldNum}
+                      data-expanded={isExpanded ? 'true' : 'false'}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${item.yearBadge} — ${item.shortName}`}
+                      aria-pressed={chosenFoldIdx === idx}
+                      onMouseEnter={() => setHoveredFoldIdx(idx)}
+                      onFocus={() => setChosenFoldIdx(idx)}
+                      onClick={() => {
+                        if (chosenFoldIdx !== idx) {
+                          SoundEngine.playTap();
+                          setChosenFoldIdx(idx);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.target !== e.currentTarget) return;
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          SoundEngine.playTap();
+                          if (chosenFoldIdx === idx) {
+                            handleOpenJobCard(item.key);
+                          } else {
+                            setChosenFoldIdx(idx);
+                          }
+                        }
+                      }}
+                      style={
+                        {
+                          '--fallback-i': idx + 1,
+                          '--fallback-n': roadmapCards.length,
+                          '--fold-color': item.accentColor,
+                          background: isExpanded ? colBackground : item.blockGradient,
+                        } as React.CSSProperties
+                      }
+                      className={cn(
+                        'exp-fold-swatch group',
+                        isExpanded && 'is-expanded'
+                      )}
+                    >
+                      {/* Lớp bóng đổ nếp gấp giấy Chromatic Folds */}
+                      <div aria-hidden="true" className="exp-fold-shading" />
 
-                    {/* Đường nếp gấp ánh sáng & bóng đổ Chromatic Folds tạo chiều sâu 3D */}
-                    {isFolded && visibleCols > 1 && (
-                      <div
-                        className="absolute inset-0 pointer-events-none z-[12] transition-opacity duration-300"
-                        style={{
-                          background: isLeather || isDarkSurface
-                            ? isEven
-                              ? 'linear-gradient(90deg, rgba(0,0,0,0.25) 0%, transparent 65%, rgba(255,255,255,0.14) 100%)'
-                              : 'linear-gradient(90deg, rgba(255,255,255,0.14) 0%, transparent 40%, rgba(0,0,0,0.18) 95%, rgba(0,0,0,0.30) 100%)'
-                            : isEven
-                              ? 'linear-gradient(90deg, rgba(0,0,0,0.20) 0%, transparent 65%, rgba(255,255,255,0.24) 100%)'
-                              : 'linear-gradient(90deg, rgba(255,255,255,0.22) 0%, transparent 40%, rgba(15,23,42,0.12) 95%, rgba(15,23,42,0.24) 100%)',
-                          opacity: isHovered ? 0.2 : 1,
-                        }}
-                      />
-                    )}
-
-                    {/* NỘI DUNG TỪNG CỘT MỐC (CỘT FULL CHIỀU CAO TOP ĐẾN BOT, NỘI DUNG NẰM CENTER THEO CHIỀU CAO) */}
-                    <div className="relative z-[20] w-full h-full flex-1 min-h-0 flex flex-col justify-center pt-[48px] sm:pt-[54px] pb-6 sm:pb-8 my-auto">
-                      {/* 1. KHỐI BANNER CÔNG TY LÀM NỀN PHÍA TRÊN NĂM */}
-                      <div className="relative w-full shrink-0 mb-2 overflow-hidden rounded-[8px] group/banner">
-                        {companyBanner && (
-                          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: SỐ THỨ TỰ + LOGO TRÒN + NHÃN XOAY 90 ĐỘ */}
+                      <div className="exp-fold-spine" aria-hidden={isExpanded}>
+                        <span className="exp-fold-num">{foldNum}</span>
+                        {item.logos[0] && (
+                          <div className="exp-fold-spine-logo">
                             <img
-                              src={companyBanner}
-                              alt={item.company || 'Company Banner'}
-                              className="w-full h-full object-cover object-center opacity-30 group-hover/banner:opacity-55 transition-opacity duration-300"
+                              src={item.logos[0].src}
+                              alt={item.logos[0].alt}
+                              className="w-full h-full object-contain rounded-full"
                               loading="lazy"
+                              decoding="async"
                               referrerPolicy="no-referrer"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-card)]/50 to-[var(--bg-card)]" />
                           </div>
                         )}
-                        {/* ICON LỊCH + NĂM */}
+                        <span className="exp-fold-spine-label">
+                          {item.key} · {item.companyLine2}
+                        </span>
+                      </div>
+
+                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP (NGHIÊNG ĐỒNG BỘ THEO NẾP GẤP GIẤY) */}
+                      <div className="exp-fold-sheet pt-3.5 pb-4">
+                        {/* 1. Banner công ty + Năm + Số nếp gấp */}
+                        <div className="relative w-full shrink-0 mb-2 px-4 overflow-hidden">
+                          <div className="relative w-full overflow-hidden rounded-[8px]">
+                            {companyBanner && (
+                              <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                                <img
+                                  src={companyBanner}
+                                  alt={item.shortName || item.companyLine1 || 'Company Banner'}
+                                  className="w-full h-full object-cover object-center opacity-30 transition-opacity duration-300"
+                                  loading="lazy"
+                                  decoding="async"
+                                  referrerPolicy="no-referrer"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-card)]/55 to-[var(--bg-card)]" />
+                              </div>
+                            )}
+                            <div
+                              style={{ color: primaryTextColor }}
+                              className="relative z-10 w-full h-7 shrink-0 flex items-center justify-between px-2 typo-h5 font-bold tracking-[0.03em] leading-none py-1"
+                            >
+                              <span className="inline-flex items-center gap-1.5">
+                                <Calendar className="w-[15px] h-[15px] shrink-0" strokeWidth={2.75} />
+                                <span className="drop-shadow-xs">{item.yearBadge}</span>
+                              </span>
+                              <span
+                                className="font-mono text-[11px] font-bold px-2 py-0.5 rounded-full"
+                                style={{
+                                  color: resolvedAccent,
+                                  background: 'var(--bg-subcard, rgba(255,255,255,0.22))',
+                                }}
+                              >
+                                {foldNum} / 0{roadmapCards.length}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 2. Dải màu thương hiệu & Logo tròn (Click logo mở chi tiết) */}
                         <div
-                          style={{
-                            color: primaryTextColor,
-                            transform: isFolded && visibleCols > 1 ? `skewY(${isEven ? '-1.5deg' : '1.5deg'})` : undefined,
-                          }}
-                          className="relative z-10 w-full h-7 shrink-0 flex items-center justify-center gap-1.5 typo-h5 font-bold tracking-[0.03em] leading-none py-1"
+                          style={{ background: item.blockGradient }}
+                          className="w-full h-[82px] lg:h-[92px] shrink-0 flex items-center justify-center px-3 shadow-[0_10px_20px_-4px_rgba(15,23,42,0.22)]"
                         >
-                          <Calendar className="w-[17px] h-[17px] shrink-0" strokeWidth={2.75} />
-                          <span className="drop-shadow-xs">{item.yearBadge}</span>
+                          <div className="flex items-center justify-center">
+                            {item.logos.map((logo, logoIdx) => (
+                              <CircularLogo
+                                key={logoIdx}
+                                logo={logo}
+                                isStacked={item.logos.length > 1}
+                                index={logoIdx}
+                                total={item.logos.length}
+                                companyName={item.shortName}
+                                onOpenDetail={() => handleOpenJobCard(item.key)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 3. Thông tin công ty, thời gian, vị trí, quản lý, mô tả & Xem chi tiết */}
+                        <div
+                          data-no-wheel-horizontal="true"
+                          className="exp-milestone-scroll flex-1 min-h-0 px-5 pt-3 pb-2 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
+                        >
+                          <h3
+                            style={{ color: primaryTextColor }}
+                            data-subcard-title="true"
+                            className={cn(
+                              'subcard-title-synced typo-h5 font-bold leading-[1.28] border-b pb-2 mb-2 break-words flex flex-col justify-center select-none',
+                              isBlackLeather
+                                ? 'border-white/30'
+                                : isBrownLeather
+                                  ? 'border-[#F5DEB3]/35'
+                                  : isDarkSurface
+                                    ? 'border-white/15'
+                                    : 'border-slate-300'
+                            )}
+                          >
+                            <span className="leading-tight flex items-center gap-1.5">
+                              <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                              <span>{item.companyLine1}</span>
+                            </span>
+                            <span className="block leading-tight">{item.companyLine2}</span>
+                          </h3>
+
+                          <div className="space-y-1.5 mb-2 typo-label font-normal">
+                            {milestoneData && (
+                              <div className="flex items-start gap-1.5 leading-[1.35]">
+                                <span
+                                  style={{ color: resolvedAccent }}
+                                  className="font-bold shrink-0 inline-flex items-center gap-1"
+                                >
+                                  <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
+                                  Thời gian:
+                                </span>
+                                <span style={{ color: primaryTextColor }} className="font-medium break-words">
+                                  {milestoneData.cardYearLabel} ({milestoneData.tenure})
+                                </span>
+                              </div>
+                            )}
+
+                            <div className="flex items-start gap-1.5 leading-[1.35]">
+                              <span
+                                style={{ color: resolvedAccent }}
+                                className="font-bold shrink-0 inline-flex items-center gap-1"
+                              >
+                                <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
+                                Vị trí:
+                              </span>
+                              <span style={{ color: primaryTextColor }} className="font-medium break-words">
+                                {item.roleSummary}
+                              </span>
+                            </div>
+
+                            <div className="flex items-start gap-1.5 leading-[1.35]">
+                              <span
+                                style={{ color: resolvedAccent }}
+                                className="font-bold shrink-0 inline-flex items-center gap-1"
+                              >
+                                <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
+                                Quản lý:
+                              </span>
+                              <span style={{ color: primaryTextColor }} className="font-medium break-words">
+                                {item.headcountLabel}
+                              </span>
+                            </div>
+                          </div>
+
+                          <p
+                            style={{ color: secondaryTextColor }}
+                            className="typo-caption font-normal leading-[1.45] break-words mb-2.5"
+                          >
+                            {item.description}
+                          </p>
+
+                          <div className="mt-auto pt-1 flex items-center">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                SoundEngine.playTap();
+                                handleOpenJobCard(item.key);
+                              }}
+                              style={
+                                !isLeather
+                                  ? {
+                                      color: resolvedAccent,
+                                      background: 'var(--bg-nav-pill, var(--bg-subcard))',
+                                      borderColor: 'var(--border-subcard, var(--border-color))',
+                                    }
+                                  : { color: resolvedAccent }
+                              }
+                              className={cn(
+                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border transition-all cursor-pointer active:scale-95',
+                                isBlackLeather
+                                  ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
+                                  : isBrownLeather
+                                    ? 'bg-[#522E10]/85 border-[#F5DEB3]/45 hover:bg-[#522E10]'
+                                    : ''
+                              )}
+                            >
+                              <span className="text-current">Xem chi tiết</span>
+                              <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            /* CHẾ ĐỘ MOBILE (< 768PX): TRƯỢT TỪNG TỜ XẾP GIẤY ĐẦY ĐỦ NỘI DUNG */
+            <div className="relative w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden">
+              <div
+                className="flex w-full h-full flex-1 min-h-0 transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateX(-${chosenFoldIdx * 100}%)`,
+                }}
+              >
+                {roadmapCards.map((item, idx) => {
+                  const isEven = idx % 2 === 0;
+                  const milestoneData = EXPERIENCE_MILESTONES[item.key];
+                  const companyBanner = milestoneData?.bannerUrl || milestoneData?.memoryImg;
+                  const colBackground = isBlackLeather
+                    ? isEven
+                      ? 'linear-gradient(145deg, #21242C 0%, #111318 100%)'
+                      : 'linear-gradient(145deg, #191C22 0%, #0D0F14 100%)'
+                    : isBrownLeather
+                      ? item.colBgGradientLeather
+                      : isEven
+                        ? 'var(--surface-secondary-bg, var(--bg-card))'
+                        : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
+                  const resolvedAccent = isBlackLeather
+                    ? '#FFFFFF'
+                    : isBrownLeather
+                      ? '#FDE68A'
+                      : isDarkSurface
+                        ? item.darkAccentColor
+                        : item.accentColor;
+                  const primaryTextColor = isBlackLeather
+                    ? '#FFFFFF'
+                    : isBrownLeather
+                      ? '#FFF8DC'
+                      : 'var(--text-primary)';
+                  const secondaryTextColor = isBlackLeather
+                    ? '#E4E4E7'
+                    : isBrownLeather
+                      ? '#F5DEB3'
+                      : 'var(--text-secondary)';
+
+                  return (
+                    <div
+                      key={item.key}
+                      id={`milestone-card-${item.key}`}
+                      style={{
+                        flex: '0 0 100%',
+                        width: '100%',
+                        background: colBackground,
+                      }}
+                      className="relative h-full min-h-0 flex flex-col pt-[58px] pb-9"
+                    >
+                      <div className="relative w-full shrink-0 mb-2 px-4 overflow-hidden">
+                        <div className="relative w-full overflow-hidden rounded-[8px]">
+                          {companyBanner && (
+                            <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                              <img
+                                src={companyBanner}
+                                alt={item.shortName || item.companyLine1 || 'Company Banner'}
+                                className="w-full h-full object-cover object-center opacity-30"
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-card)]/50 to-[var(--bg-card)]" />
+                            </div>
+                          )}
+                          <div
+                            style={{ color: primaryTextColor }}
+                            className="relative z-10 w-full h-7 flex items-center justify-center gap-1.5 typo-h5 font-bold"
+                          >
+                            <Calendar className="w-4 h-4 shrink-0" strokeWidth={2.75} />
+                            <span>{item.yearBadge}</span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* 2. KHỐI MÀU NGANG CHỨA LOGO TRÒN Ở GIỮA — CLICK LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC */}
                       <div
                         style={{ background: item.blockGradient }}
-                        className="w-full h-[88px] sm:h-[104px] lg:h-[114px] shrink-0 flex items-center justify-center px-3 shadow-[0_12px_22px_-2px_rgba(15,23,42,0.22)] transition-all duration-300"
+                        className="w-full h-[84px] shrink-0 flex items-center justify-center px-3 shadow-sm"
                       >
                         <div className="flex items-center justify-center">
                           {item.logos.map((logo, logoIdx) => (
@@ -1243,24 +1505,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                       </div>
 
-                      {/* 3. THÔNG TIN CÔNG TY, VỊ TRÍ, QUẢN LÝ & MÔ TẢ PHÍA DƯỚI (NẰM CENTER THEO CHIỀU CAO) */}
                       <div
                         data-no-wheel-horizontal="true"
-                        className="exp-milestone-scroll flex-initial min-h-0 px-[8%] sm:px-[10%] pt-3 sm:pt-4 pb-2 flex flex-col justify-center overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
+                        className="exp-milestone-scroll flex-1 min-h-0 px-6 pt-3 pb-2 flex flex-col overflow-y-auto no-scrollbar"
                       >
                         <h3
                           style={{ color: primaryTextColor }}
                           data-subcard-title="true"
-                          className={cn(
-                            'subcard-title-synced typo-h5 font-bold leading-[1.28] min-h-[2.6em] sm:min-h-[3.2em] border-b pb-2 mb-2.5 break-words flex flex-col justify-center select-none',
-                            isBlackLeather
-                              ? 'border-white/30'
-                              : isBrownLeather
-                                ? 'border-[#F5DEB3]/35'
-                                : isDarkSurface
-                                  ? 'border-white/15'
-                                  : 'border-slate-300'
-                          )}
+                          className="subcard-title-synced typo-h5 font-bold leading-[1.28] border-b border-slate-300/40 pb-2 mb-2"
                         >
                           <span className="leading-tight flex items-center gap-1.5">
                             <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
@@ -1268,15 +1520,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           </span>
                           <span className="block leading-tight">{item.companyLine2}</span>
                         </h3>
-
-                        {/* Thời gian công tác, Vị trí & Quản lý kèm icon (Dữ liệu thật từ EXPERIENCE_MILESTONES) */}
-                        <div className="space-y-1.5 mb-2.5 typo-label font-normal">
+                        <div className="space-y-1.5 mb-2 typo-label font-normal">
                           {milestoneData && (
                             <div className="flex items-start gap-1.5 leading-[1.35]">
-                              <span
-                                style={{ color: resolvedAccent }}
-                                className="font-bold shrink-0 inline-flex items-center gap-1"
-                              >
+                              <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
                                 <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
                                 Thời gian:
                               </span>
@@ -1285,12 +1532,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               </span>
                             </div>
                           )}
-
                           <div className="flex items-start gap-1.5 leading-[1.35]">
-                            <span
-                              style={{ color: resolvedAccent }}
-                              className="font-bold shrink-0 inline-flex items-center gap-1"
-                            >
+                            <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
                               <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
                               Vị trí:
                             </span>
@@ -1298,12 +1541,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               {item.roleSummary}
                             </span>
                           </div>
-
                           <div className="flex items-start gap-1.5 leading-[1.35]">
-                            <span
-                              style={{ color: resolvedAccent }}
-                              className="font-bold shrink-0 inline-flex items-center gap-1"
-                            >
+                            <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
                               <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
                               Quản lý:
                             </span>
@@ -1312,17 +1551,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             </span>
                           </div>
                         </div>
-
-                        {/* Mô tả chi tiết (Dữ liệu thật từ EXPERIENCE_MILESTONES) */}
-                        <p
-                          style={{ color: secondaryTextColor }}
-                          className="typo-caption font-normal leading-[1.45] break-words mb-2.5"
-                        >
+                        <p style={{ color: secondaryTextColor }} className="typo-caption font-normal leading-[1.45] break-words mb-2.5">
                           {item.description}
                         </p>
-
-
-
                         <div className="mt-auto pt-1 flex items-center">
                           <button
                             type="button"
@@ -1340,14 +1571,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   }
                                 : { color: resolvedAccent }
                             }
-                            className={cn(
-                              'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border transition-all cursor-pointer active:scale-95',
-                              isBlackLeather
-                                ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
-                                : isBrownLeather
-                                  ? 'bg-[#522E10]/85 border-[#F5DEB3]/45 hover:bg-[#522E10]'
-                                  : ''
-                            )}
+                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border transition-all cursor-pointer active:scale-95"
                           >
                             <span className="text-current">Xem chi tiết</span>
                             <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -1355,17 +1579,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* THANH CHẤM PHÂN TRANG NỔI PHÍA DƯỚI (GIẢM KÍCH THƯỚC XUỐNG 1/2) */}
+          {/* THANH CHỈ BÁO NẾP GẤP & PHÂN TRANG NỔI PHÍA DƯỚI */}
           <div
             id="experience-board-pagination"
-            className="absolute bottom-1.5 sm:bottom-2 left-1/2 -translate-x-1/2 z-[35] pointer-events-none flex items-center justify-center"
+            className="absolute bottom-2 left-4 right-4 z-[35] pointer-events-none flex items-center justify-between gap-2"
           >
+            <span
+              className="hidden sm:inline-flex items-center font-mono text-[10px] tracking-[0.14em] uppercase opacity-75"
+              style={{
+                color: isBlackLeather ? '#E4E4E7' : isBrownLeather ? '#F5DEB3' : 'var(--text-secondary)',
+              }}
+            >
+              RÊ CHUỘT ĐỂ MỞ NẾP GẤP ↗
+            </span>
+
             <div
               style={
                 !isLeather
@@ -1376,7 +1609,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   : undefined
               }
               className={cn(
-                'pointer-events-auto flex items-center gap-1 backdrop-blur-sm px-1.5 py-0.5 rounded-full shadow-sm border',
+                'pointer-events-auto mx-auto sm:mx-0 flex items-center gap-1.5 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm border',
                 isBlackLeather
                   ? 'bg-[#14171D]/92 border-white/55'
                   : isBrownLeather
@@ -1384,42 +1617,59 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     : ''
               )}
             >
-              {Array.from({ length: maxStartIndex + 1 }).map((_, idx) => (
+              {roadmapCards.map((card, idx) => (
                 <button
-                  key={idx}
+                  key={card.key}
                   type="button"
                   onClick={() => {
                     SoundEngine.playTap();
-                    setStartIndex(idx);
+                    setHoveredFoldIdx(null);
+                    setChosenFoldIdx(idx);
                   }}
-                  aria-label={`Chuyển tới trang ${idx + 1}`}
+                  aria-label={`Chọn mốc ${card.yearBadge}`}
+                  title={`${card.yearBadge} — ${card.shortName}`}
                   style={
                     !isLeather
                       ? {
                           background:
-                            startIndex === idx
-                              ? 'var(--color-primary, #0284C7)'
+                            activeFoldIdx === idx
+                              ? card.accentColor
                               : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
                         }
                       : undefined
                   }
                   className={cn(
-                    'h-1 rounded-full transition-all duration-300 cursor-pointer',
-                    startIndex === idx
+                    'h-1.5 rounded-full transition-all duration-300 cursor-pointer',
+                    activeFoldIdx === idx
                       ? isBlackLeather
-                        ? 'w-3.5 bg-white'
+                        ? 'w-5 bg-white'
                         : isBrownLeather
-                          ? 'w-3.5 bg-[#FDE68A]'
-                          : 'w-3.5'
+                          ? 'w-5 bg-[#FDE68A]'
+                          : 'w-5'
                       : isBlackLeather
-                        ? 'w-1 bg-white/40 hover:bg-white/80'
+                        ? 'w-1.5 bg-white/40 hover:bg-white/80'
                         : isBrownLeather
-                          ? 'w-1 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                          : 'w-1 hover:opacity-80'
+                          ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
+                          : 'w-1.5 hover:opacity-80'
                   )}
                 />
               ))}
             </div>
+
+            <span
+              aria-live="polite"
+              className="hidden sm:inline-flex items-center justify-center px-3 py-0.5 rounded-full border font-mono text-[10px] tracking-[0.12em] whitespace-nowrap"
+              style={{
+                borderColor: isBlackLeather
+                  ? 'rgba(255,255,255,0.35)'
+                  : isBrownLeather
+                    ? 'rgba(245,222,179,0.4)'
+                    : 'var(--border-color)',
+                color: isBlackLeather ? '#FFFFFF' : isBrownLeather ? '#FFF8DC' : 'var(--text-primary)',
+              }}
+            >
+              {String(activeFoldIdx + 1).padStart(2, '0')} / {String(roadmapCards.length).padStart(2, '0')} · {roadmapCards[activeFoldIdx]?.yearBadge}
+            </span>
           </div>
         </section>
       )}
@@ -1979,6 +2229,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <img
                           src={activeMilestone.bannerUrl}
                           alt={`Banner ${activeMilestone.company}`}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           onError={() => setBannerImgError(true)}
                           style={{ borderRadius: 'calc(var(--radius-banner, 14px) - 5px)' }}
@@ -2082,6 +2334,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                     <img
                                       src={logoItem.src}
                                       alt={logoItem.alt || activeMilestone.company}
+                                      loading="lazy"
+                                      decoding="async"
                                       referrerPolicy="no-referrer"
                                       onError={(e) => {
                                         const img = e.currentTarget as HTMLImageElement;
@@ -2427,6 +2681,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                     alt={photo.title || activeMilestone.company}
                                     referrerPolicy="no-referrer"
                                     loading="lazy"
+                                    decoding="async"
                                     onError={() =>
                                       setFailedPhotoSrcs((prev) => ({ ...prev, [photo.src]: true }))
                                     }
@@ -2948,6 +3203,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <img
                   src={curPhoto.src}
                   alt={curPhoto.title || activeMilestone.company}
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-contain rounded-[var(--radius-subcard,16px)]"
                 />

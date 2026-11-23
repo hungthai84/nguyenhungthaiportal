@@ -164,7 +164,7 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
               loop
               muted
               playsInline
-              preload="auto"
+              preload="metadata"
               controls={false}
               disablePictureInPicture
               controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
@@ -187,6 +187,7 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
             <img
               src={fallbackSrc}
               alt={isEn ? 'Animated AI Mascot' : 'Nhân vật Trợ lý AI'}
+              loading="lazy"
               draggable={false}
               decoding="async"
               onError={() => {

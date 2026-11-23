@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Dữ liệu 8 Quẻ Bát Quái cho cửa sổ Bát Quái Đồ
@@ -328,9 +329,11 @@ export function RightSummaryCard({ onOpenModal }: { onOpenModal: (modal: string)
 export function BookModal({
   activeModal,
   onClose,
+  isDark = false,
 }: {
   activeModal: string | null;
   onClose: () => void;
+  isDark?: boolean;
 }) {
   const [showKhauQuyet, setShowKhauQuyet] = useState(false);
 
@@ -349,12 +352,13 @@ export function BookModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeModal, onClose]);
 
-  if (!activeModal) return null;
+  if (!activeModal || typeof document === 'undefined') return null;
 
-  return (
-    <div className="nws-modal is-open" role="dialog" aria-modal="true">
-      <div className="nws-backdrop" onClick={onClose} />
-      <div className="nws-window">
+  return createPortal(
+    <div className={`tuvi-modal-root ${isDark ? 'dark-theme' : ''}`}>
+      <div className="nws-modal is-open" role="dialog" aria-modal="true">
+        <div className="nws-backdrop" onClick={onClose} />
+        <div className="nws-window">
         <button type="button" className="nws-close" onClick={onClose} aria-label="Đóng cửa sổ">
           ×
         </button>
@@ -479,23 +483,26 @@ export function BookModal({
             </p>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
 export interface TuViBookCardProps {
   isDark?: boolean;
+  fitToHeight?: boolean;
 }
 
 /**
  * Thành phần chính: Bìa Sách Tử Vi Đẩu Số - Âm Dương Bát Quái 3D
  */
-export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) {
+export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }: TuViBookCardProps) {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(fitToHeight ? 0.56 : 1);
   const [isDarkState, setIsDarkState] = useState(() => {
     if (typeof document === 'undefined') return false;
     return (
@@ -528,17 +535,25 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
   const audioCtxRef = useRef<AudioContext | null>(null);
   const natCardRef = useRef<HTMLDivElement>(null);
 
-  // Tự động co giãn sân khấu 840x620 khớp hoàn hảo theo độ rộng thẻ chứa (container)
+  // Tự động co giãn sân khấu 840x600 khớp hoàn hảo theo cả độ rộng & chiều cao thẻ chứa (container)
   useEffect(() => {
     const updateScale = () => {
       const baseWidth = 840;
-      const containerWidth = containerRef.current?.clientWidth || window.innerWidth - 20;
+      const baseHeight = 600;
+      const el = containerRef.current;
+      const containerWidth = el?.clientWidth || window.innerWidth - 20;
       const availableWidth = Math.min(containerWidth, window.innerWidth - 20);
-      if (availableWidth < baseWidth) {
-        setScale(Math.max(0.32, availableWidth / baseWidth));
-      } else {
-        setScale(1);
+      let nextScale = availableWidth < baseWidth ? availableWidth / baseWidth : 1;
+
+      if (fitToHeight && el) {
+        const containerHeight = el.clientHeight;
+        if (containerHeight > 80) {
+          const heightScale = Math.max(0.32, (containerHeight - 6) / baseHeight);
+          nextScale = Math.min(nextScale, heightScale);
+        }
       }
+
+      setScale(Math.max(0.32, Math.min(1, nextScale)));
     };
     updateScale();
     window.addEventListener('resize', updateScale);
@@ -553,7 +568,7 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
       window.removeEventListener('resize', updateScale);
       if (ro) ro.disconnect();
     };
-  }, []);
+  }, [fitToHeight]);
 
   // Đóng sách / tắt trạng thái active khi bấm ra ngoài khu vực sách
   useEffect(() => {
@@ -643,18 +658,31 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
   return (
     <div
       ref={containerRef}
-      className={`tuvi-app-root ${isDark ? 'dark-theme' : ''}`}
+      className={`tuvi-app-root ${isDark ? 'dark-theme' : ''} ${fitToHeight ? 'tuvi-fit-height' : ''}`}
+      style={
+        fitToHeight
+          ? {
+              height: '100%',
+              minHeight: 0,
+              flex: '1 1 0%',
+              padding: 0,
+              overflow: 'hidden',
+            }
+          : undefined
+      }
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
 
-        .tuvi-app-root, .tuvi-app-root * {
+        .tuvi-app-root, .tuvi-app-root *,
+        .tuvi-modal-root, .tuvi-modal-root * {
           box-sizing: border-box;
           font-family: 'Play', sans-serif;
         }
 
         /* ================= BIẾN MÀU GIAO DIỆN SÁNG (MẶC ĐỊNH) ================= */
-        .tuvi-app-root {
+        .tuvi-app-root,
+        .tuvi-modal-root {
           --bg-page: radial-gradient(circle at center, #fbf6ec 0%, #eadcc3 100%);
           --dot-gold: rgba(168, 121, 42, 0.12);
           --dot-red: rgba(168, 50, 40, 0.08);
@@ -689,7 +717,8 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
 
           width: 100%;
           min-height: auto;
-          overflow: visible;
+          overflow-x: clip;
+          overflow-y: visible;
           background: transparent;
           display: flex;
           flex-direction: column;
@@ -702,7 +731,8 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
         }
 
         /* ================= BIẾN MÀU GIAO DIỆN TỐI ================= */
-        .tuvi-app-root.dark-theme {
+        .tuvi-app-root.dark-theme,
+        .tuvi-modal-root.dark-theme {
           --bg-page: radial-gradient(circle at center, #14110e 0%, #070605 100%);
           --dot-gold: rgba(212, 168, 83, 0.06);
           --dot-red: rgba(180, 70, 50, 0.04);
@@ -753,6 +783,7 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
 
         .nat-stage {
           width: 100%;
+          overflow-x: clip;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -1382,10 +1413,17 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
           z-index: 10;
         }
         .nat-hint {
+          display: inline-block;
           margin-top: 4px;
-          font-size: 11px;
-          letter-spacing: 0.8px;
-          color: var(--nat-spento);
+          padding: 6px 14px;
+          border-radius: 9999px;
+          background: var(--btn-bg);
+          border: 1px solid var(--book-border);
+          font-size: 11.5px;
+          font-weight: 600;
+          letter-spacing: 0.4px;
+          color: var(--nat-chiaro);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         /* ================= MODAL CỔ THƯ ================= */
@@ -1700,7 +1738,7 @@ export default function TuViBookCard({ isDark: isDarkProp }: TuViBookCardProps) 
       </div>
 
       {/* ================= CỬA SỔ MODAL LUẬN GIẢI ================= */}
-      <BookModal activeModal={activeModal} onClose={() => setActiveModal(null)} />
+      <BookModal activeModal={activeModal} onClose={() => setActiveModal(null)} isDark={isDark} />
     </div>
   );
 }

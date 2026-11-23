@@ -606,6 +606,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <img
                         src={styleCfg.avatarGif}
                         alt={pageTitle}
+                        decoding="async"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover rounded-full"
                         onError={(e) => {
@@ -741,6 +742,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <img
                       src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Hùng Thái"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover rounded-full"
                       onError={(e) => {

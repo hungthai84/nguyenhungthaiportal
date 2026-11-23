@@ -413,7 +413,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
           <img
             src={`https://drive.google.com/thumbnail?id=${video1Id}&sz=w1600`}
             alt="Hình nền video"
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             referrerPolicy="no-referrer"
             aria-hidden="true"
             onError={() => setIsPosterError(true)}
@@ -431,7 +432,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             loop={loopVideo1}
             muted={!(!isPlayingIntro && isAudioOn)}
             playsInline
-            preload="auto"
+            preload="metadata"
             controls={false}
             disablePictureInPicture
             controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"

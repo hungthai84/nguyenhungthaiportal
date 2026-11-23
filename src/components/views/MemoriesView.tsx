@@ -436,6 +436,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   src={item.imageUrl}
                   alt={item.titleVi}
                   loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   onError={(e) => {
                     e.currentTarget.style.opacity = '0';
@@ -552,6 +553,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
               <img
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
+                decoding="async"
+                referrerPolicy="no-referrer"
                 className="w-full h-full object-contain rounded-[inherit] select-none"
               />
               <div
@@ -679,7 +682,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                       : 'border-transparent opacity-65 hover:opacity-100'
                   }`}
                 >
-                  <img src={thumb.imageUrl} alt={thumb.titleVi} className="w-full h-full object-cover rounded-[inherit]" />
+                  <img src={thumb.imageUrl} alt={thumb.titleVi} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="w-full h-full object-cover rounded-[inherit]" />
                 </button>
               ))}
             </div>

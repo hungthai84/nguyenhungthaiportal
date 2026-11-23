@@ -71,7 +71,7 @@ function getLegacyPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const LEGACY_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_neu_wp32_v2';
+const LEGACY_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_theme_sync_v3';
 let didRunLegacyUiSeed = false;
 
 function ensureLegacyDefaultUiSeedSync(): void {

@@ -70,7 +70,7 @@ export default function App() {
     1: 4,
     2: 1,
     5: 1,
-    10: 6,
+    10: 5,
   };
 
   const [pageSlides, setPageSlides] = useState<Record<number, number>>({
@@ -103,116 +103,8 @@ export default function App() {
 
   useGlobalHorizontalScroll();
 
-  // Phát âm thanh & hiệu ứng nút nhấn lún xuống khi bấm trên toàn ứng dụng
+  // Phát âm thanh click nhẹ khi bấm trên toàn ứng dụng (không tạo hiệu ứng lún nút)
   useEffect(() => {
-    const BTN_MATCH_SELECTOR = [
-      'button:not(:disabled)',
-      'a[role="button"]',
-      '[role="button"]',
-      '.nav-pill',
-      '.banner-control-pill',
-      '.banner-primary-cta',
-      '.theme-capsule-btn',
-      '.theme-prev-next-btn',
-      '.nav-arrow-btn',
-      '.radial-contact-pill',
-      '.education-skill-chip',
-      '.edu-bento-action-btn',
-      '.sys-bento-action-btn',
-      '.swot-control-pill',
-      '.theme-back-to-top-btn',
-      '.btn-pill',
-      '.btn-liquid-action',
-      '.project-card-btn-primary',
-      '.project-card-btn-secondary',
-      '.exp-bento-rect-btn',
-      '[data-element-type="button"]',
-    ].join(', ');
-
-    const EXCLUDE_CARD_SELECTOR =
-      '.nav-pill-wrapper, .u306-ic, .themed-image-card, [id^="wallpaper-card-"], .memory-photo-item, .project-card, .education-course-card, [data-section-card="true"], [data-subcard="true"]';
-
-    const pressTimers = new WeakMap<HTMLElement, number>();
-    const rippleTimers = new WeakMap<HTMLElement, number>();
-    const pressStartTimes = new WeakMap<HTMLElement, number>();
-    const activePressedSet = new Set<HTMLElement>();
-
-    const findPressableButton = (target: EventTarget | null): HTMLElement | null => {
-      const el = target as HTMLElement | null;
-      if (!el || typeof el.closest !== 'function') return null;
-      const matched = el.closest(BTN_MATCH_SELECTOR) as HTMLElement | null;
-      if (!matched) return null;
-      if (matched.hasAttribute('disabled')) return null;
-      if (
-        matched.classList.contains('nav-pill') ||
-        matched.classList.contains('nav-arrow-btn') ||
-        Boolean(matched.closest('#app-header')) ||
-        Boolean(matched.closest('#app-footer'))
-      ) {
-        return matched;
-      }
-      if (matched.matches(EXCLUDE_CARD_SELECTOR)) {
-        return null;
-      }
-      return matched;
-    };
-
-    const triggerPressDown = (btn: HTMLElement, clientX?: number, clientY?: number) => {
-      const prevPressTimer = pressTimers.get(btn);
-      if (prevPressTimer) window.clearTimeout(prevPressTimer);
-      const prevRippleTimer = rippleTimers.get(btn);
-      if (prevRippleTimer) window.clearTimeout(prevRippleTimer);
-
-      if (typeof clientX === 'number' && typeof clientY === 'number') {
-        const rect = btn.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-          btn.style.setProperty('--btn-mx', `${Math.round(clientX - rect.left)}px`);
-          btn.style.setProperty('--btn-my', `${Math.round(clientY - rect.top)}px`);
-        }
-      }
-
-      btn.setAttribute('data-btn-pressed', 'true');
-      btn.removeAttribute('data-btn-ripple');
-      void btn.offsetWidth;
-      btn.setAttribute('data-btn-ripple', 'true');
-      pressStartTimes.set(btn, performance.now());
-      activePressedSet.add(btn);
-
-      const rt = window.setTimeout(() => {
-        btn.removeAttribute('data-btn-ripple');
-      }, 420);
-      rippleTimers.set(btn, rt);
-    };
-
-    const releasePressedButtons = () => {
-      activePressedSet.forEach((btn) => {
-        const started = pressStartTimes.get(btn) || 0;
-        const elapsed = performance.now() - started;
-        const remaining = Math.max(0, 120 - elapsed);
-        const pt = window.setTimeout(() => {
-          btn.removeAttribute('data-btn-pressed');
-          activePressedSet.delete(btn);
-        }, remaining);
-        pressTimers.set(btn, pt);
-      });
-    };
-
-    const handleGlobalPointerDown = (e: PointerEvent) => {
-      if (e.button !== 0 && e.pointerType === 'mouse') return;
-      const btn = findPressableButton(e.target);
-      if (btn) {
-        triggerPressDown(btn, e.clientX, e.clientY);
-      }
-    };
-
-    const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const btn = findPressableButton(e.target);
-      if (btn) {
-        triggerPressDown(btn);
-      }
-    };
-
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -224,18 +116,8 @@ export default function App() {
       }
     };
 
-    document.addEventListener('pointerdown', handleGlobalPointerDown, true);
-    window.addEventListener('pointerup', releasePressedButtons, true);
-    window.addEventListener('pointercancel', releasePressedButtons, true);
-    document.addEventListener('keydown', handleGlobalKeyDown, true);
-    document.addEventListener('keyup', releasePressedButtons, true);
     document.addEventListener('click', handleGlobalClick, true);
     return () => {
-      document.removeEventListener('pointerdown', handleGlobalPointerDown, true);
-      window.removeEventListener('pointerup', releasePressedButtons, true);
-      window.removeEventListener('pointercancel', releasePressedButtons, true);
-      document.removeEventListener('keydown', handleGlobalKeyDown, true);
-      document.removeEventListener('keyup', releasePressedButtons, true);
       document.removeEventListener('click', handleGlobalClick, true);
     };
   }, []);
@@ -718,6 +600,7 @@ export default function App() {
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   controls={false}
                   disablePictureInPicture
                   controlsList="nodownload nofullscreen noremoteplayback"

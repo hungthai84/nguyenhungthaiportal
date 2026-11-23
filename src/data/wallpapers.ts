@@ -1,8 +1,8 @@
 import React from 'react';
-import rainbowGlassWallpaper from '@/assets/images/wallpaper_rainbow_glass_1795175771284.jpg';
+import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import lightDeepOceanWallpaper from '@/assets/images/light_deep_ocean_wallpaper_1795344399317.jpg';
+import wpLightDeepOcean from '@/assets/images/wp_light_deep_ocean_1795447885624.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
@@ -11,7 +11,8 @@ import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_
 import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
 import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
 import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
-import glassFlatWallpaper from '@/assets/images/wallpaper_glass_flat_1795175772146.jpg';
+import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
+import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
 export type WallpaperType = 'image' | 'video' | 'css' | 'gradient' | 'webgl';
 
@@ -42,11 +43,11 @@ export interface ThemeBackground {
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'liquid-glass': {
-    light: 'https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg',
-    dark: rainbowGlassWallpaper,
+    light: wpLiquidGlass,
+    dark: darkRainbowGlassWallpaper,
   },
   'dark-liquid-glass': {
-    light: darkRainbowGlassWallpaper,
+    light: wpLiquidGlass,
     dark: darkRainbowGlassWallpaper,
   },
   'cowhide-leather': {
@@ -58,11 +59,11 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: blackCowhideLeatherWallpaper,
   },
   'deep-ocean': {
-    light: lightDeepOceanWallpaper,
+    light: wpLightDeepOcean,
     dark: deepOceanWallpaper,
   },
   'light-deep-ocean': {
-    light: lightDeepOceanWallpaper,
+    light: wpLightDeepOcean,
     dark: deepOceanWallpaper,
   },
   'neumorphism-beyond': {
@@ -75,27 +76,27 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   },
   'frost-ice-neu': {
     light: frostIceNeuWallpaper,
-    dark: frostIceNeuWallpaper,
+    dark: darkFrostIceNeuWallpaper,
   },
   'dark-frost-ice-neu': {
-    light: darkFrostIceNeuWallpaper,
+    light: frostIceNeuWallpaper,
     dark: darkFrostIceNeuWallpaper,
   },
   'multicolor-glass': {
     light: multicolorGlassWallpaper,
-    dark: multicolorGlassWallpaper,
+    dark: darkNeonGlassWallpaper,
   },
   'dark-neon-glass': {
-    light: darkNeonGlassWallpaper,
+    light: multicolorGlassWallpaper,
     dark: darkNeonGlassWallpaper,
   },
   'flat-soft-ui': {
-    light: glassFlatWallpaper,
-    dark: glassFlatWallpaper,
+    light: wpFlatSoftUi,
+    dark: wpDarkFlatSoftUi,
   },
   'dark-flat-soft-ui': {
-    light: darkNeonGlassWallpaper,
-    dark: darkNeonGlassWallpaper,
+    light: wpFlatSoftUi,
+    dark: wpDarkFlatSoftUi,
   },
 };
 
@@ -224,12 +225,12 @@ export function getWallpaperThumbnailUrl(val: string): string {
 export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'wallpaper-liquid-glass-flowers',
-    name: '🌸 Liquid Glass Flowers (macOS Tahoe)',
+    name: '✨ Liquid Glass Optical Lens (macOS Clear)',
     type: 'image',
-    value: 'https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg',
-    bg: "url('https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg') center/500px repeat",
+    value: wpLiquidGlass,
+    bg: `url('${wpLiquidGlass}') center/cover no-repeat`,
     previewStyle: {
-      backgroundImage: "url('https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg')",
+      backgroundImage: `url('${wpLiquidGlass}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -382,12 +383,12 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     id: 'theme-bg-liquid-glass',
     name: '✨ Nền Liquid Glass Soft UI Sáng (Giao diện riêng)',
     type: 'image',
-    value: rainbowGlassWallpaper,
-    bg: `url('${rainbowGlassWallpaper}') center/cover no-repeat`,
+    value: wpLiquidGlass,
+    bg: `url('${wpLiquidGlass}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), linear-gradient(135deg, #f3f6fd 0%, #e9eefb 50%, #edf2fc 100%)',
-      backgroundImage: `url('${rainbowGlassWallpaper}')`,
+      backgroundImage: `url('${wpLiquidGlass}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -428,13 +429,16 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-light-deep-ocean',
-    name: '🌊 Nền Đại Dương Sâu Thẳm Sáng (#1951fc)',
-    type: 'css',
-    value: '#1951fc',
-    bg: '#1951fc',
+    name: '🌊 Nền Ocean Navy Light – Glossy Liquid Glass (Giao diện riêng)',
+    type: 'image',
+    value: wpLightDeepOcean,
+    bg: `url('${wpLightDeepOcean}') center/cover no-repeat`,
     previewStyle: {
-      background: '#1951fc',
-      backgroundColor: '#1951fc',
+      background:
+        'radial-gradient(ellipse at 15% 10%, rgba(115, 191, 255, 0.65), transparent 40%), linear-gradient(135deg, #1951FC 0%, #3781FC 48%, #73BFFF 100%)',
+      backgroundImage: `url('${wpLightDeepOcean}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000021,
@@ -537,12 +541,12 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     id: 'theme-bg-flat-soft-ui',
     name: '🎨 Nền Flat Soft UI Sáng (Giao diện riêng)',
     type: 'image',
-    value: glassFlatWallpaper,
-    bg: `url('${glassFlatWallpaper}') center/cover no-repeat`,
+    value: wpFlatSoftUi,
+    bg: `url('${wpFlatSoftUi}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 14% 16%, rgba(226, 232, 240, 0.55) 0%, transparent 48%), radial-gradient(circle at 86% 84%, rgba(241, 245, 249, 0.70) 0%, transparent 52%), linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%)',
-      backgroundImage: `url('${glassFlatWallpaper}')`,
+      backgroundImage: `url('${wpFlatSoftUi}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -553,12 +557,12 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     id: 'theme-bg-dark-flat-soft-ui',
     name: '🌌 Nền Flat Soft UI Tối (Giao diện riêng)',
     type: 'image',
-    value: darkNeonGlassWallpaper,
-    bg: `url('${darkNeonGlassWallpaper}') center/cover no-repeat`,
+    value: wpDarkFlatSoftUi,
+    bg: `url('${wpDarkFlatSoftUi}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 16% 16%, rgba(30, 41, 59, 0.45) 0%, transparent 50%), radial-gradient(circle at 84% 84%, rgba(15, 23, 42, 0.65) 0%, transparent 52%), linear-gradient(135deg, #0A0E17 0%, #0F172A 50%, #060911 100%)',
-      backgroundImage: `url('${darkNeonGlassWallpaper}')`,
+      backgroundImage: `url('${wpDarkFlatSoftUi}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },

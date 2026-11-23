@@ -71,10 +71,13 @@
 
 .liquid-glass-flowers-bg,
 html[data-card-style="liquid-glass"].liquid-glass-animated-flowers body {
-  background: url("https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/flowers.jpg")
-    center center;
-  background-size: 500px;
-  animation: moveBackground 60s linear infinite;
+  background:
+    radial-gradient(at 18% 18%, rgba(165, 180, 252, 0.36) 0px, transparent 50%),
+    radial-gradient(at 84% 16%, rgba(125, 211, 252, 0.32) 0px, transparent 48%),
+    radial-gradient(at 72% 84%, rgba(251, 207, 232, 0.28) 0px, transparent 52%),
+    linear-gradient(135deg, #f3f6fd 0%, #e9eefb 50%, #edf2fc 100%);
+  background-size: 140% 140%;
+  animation: moveBackground 45s ease-in-out infinite alternate;
 }
 
 @keyframes moveBackground {
@@ -189,21 +192,23 @@ html[data-card-style="liquid-glass"].liquid-glass-animated-flowers body {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.28);
   backdrop-filter: blur(18px) saturate(188%) contrast(108%);
   -webkit-backdrop-filter: blur(18px) saturate(188%) contrast(108%);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: url(#liquid-glass);
+  -webkit-backdrop-filter: url(#liquid-glass);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 14px;
   box-shadow:
     0 20px 70px rgba(0, 0, 0, 0.114),
     0 0 25px rgba(255, 255, 255, 0.029),
-    inset 0 1px 0.5px rgba(255, 255, 255, 0.446),
-    inset 0 2px 5px rgba(255, 255, 255, 0.167),
-    inset 1px 0 1px rgba(255, 255, 255, 0.115),
-    inset -1px 0 1px rgba(255, 255, 255, 0.101),
-    inset 0 -1px 0.5px rgba(255, 255, 255, 0.086),
-    inset 0 0 34px rgba(255, 255, 255, 0.046),
-    inset 0 -12px 22px rgba(0, 0, 0, 0.086);
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.55),
+    inset 0 2px 5px rgba(255, 255, 255, 0.24),
+    inset 1px 0 1px rgba(255, 255, 255, 0.16),
+    inset -1px 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0.5px rgba(255, 255, 255, 0.12),
+    inset 0 0 34px rgba(255, 255, 255, 0.06),
+    inset 0 -12px 22px rgba(0, 0, 0, 0.06);
 }
 
 html[data-card-style="dark-liquid-glass"] .liquid-glass,
@@ -369,22 +374,23 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --color-text: #202333;
   --color-text-secondary: #626779;
   --color-text-muted: #82889A;
-  --color-primary: #A56BFF;
-  --color-secondary: #62D9D1;
+  --color-primary: #0284C7;
+  --color-secondary: #0EA5E9;
+  --color-accent: #4F46E5;
 
-  --text-primary: #202333;
-  --text-secondary: #626779;
-  --text-muted: #82889A;
-  --text-heading: #202333;
-  --text-link: #A56BFF;
-  --text-accent: #A56BFF;
-  --text-input: #202333;
-  --text-placeholder: #82889A;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-heading: #0F172A;
+  --text-link: #0284C7;
+  --text-accent: #4F46E5;
+  --text-input: #0F172A;
+  --text-placeholder: #64748B;
   --text-on-dark: #FFFFFF;
   --text-button-primary: #FFFFFF;
-  --text-button-secondary: #202333;
-  --text-badge: #A56BFF;
-  --text-highlight: #A56BFF;
+  --text-button-secondary: #0F172A;
+  --text-badge: #0284C7;
+  --text-highlight: #0284C7;
 
   --app-bg-base: #eef2fb;
   --app-bg-gradient:
@@ -512,7 +518,7 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --radius-popup: 16px;
   --radius-widget: 18px;
   --radius-header: 0 0 18px 18px;
-  --radius-footer: 18px 18px 0 0;
+  --radius-footer: 14px 14px 0 0;
   --radius-button: 9999px;
   --radius-pill: 9999px;
   --radius-badge: 9999px;
@@ -1220,22 +1226,19 @@ html[data-card-style="dark-liquid-glass"] .video-play-btn--letter {
   padding: 8px 20px;
   font-weight: 600;
   color: #ffffff !important;
-  background: linear-gradient(135deg, #9065EB 0%, #7C3AED 100%);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 4px 14px rgba(144, 101, 235, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 48%, #4F46E5 100%);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.34), inset 0 1px 1px rgba(255, 255, 255, 0.65);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
 }
 .liquid-btn-primary:hover {
   transform: translateY(-2px);
-  filter: brightness(1.08);
-  box-shadow: 0 8px 22px rgba(144, 101, 235, 0.55), inset 0 1px 1.5px rgba(255, 255, 255, 0.8);
+  filter: brightness(1.06);
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.45), inset 0 1px 1.5px rgba(255, 255, 255, 0.85);
 }
-.liquid-btn-primary:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 8px rgba(144, 101, 235, 0.35);
-}
+
 
 .liquid-btn-secondary {
   display: inline-flex;
@@ -1257,9 +1260,7 @@ html[data-card-style="dark-liquid-glass"] .video-play-btn--letter {
   filter: brightness(1.06);
   box-shadow: 0 8px 20px rgba(85, 197, 197, 0.5);
 }
-.liquid-btn-secondary:active {
-  transform: scale(0.97);
-}
+
 
 .liquid-btn-ghost {
   display: inline-flex;
@@ -1416,21 +1417,77 @@ html[data-card-style="liquid-glass"] :is(
     inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5) !important;
 }
 
-/* Glass distortion lens layer on main cards */
-html[data-card-style="liquid-glass"] :is(
+/* Liquid Glass Soft UI (Sáng): Chromatic SVG Refraction Filter (#liquid-glass) on Card Backgrounds */
+html:is([data-card-style="liquid-glass"], [data-theme="liquid-glass"], :not([data-card-style])):not(.dark) :is(
+  .liquid-glass,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"],
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .system-card-tile,
+  .theme-preset-card,
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  .project-detail-section-card,
+  #services-expanded-card:not(.is-open),
+  #systems-expanded-card:not(.is-open),
+  [id^="system-expanded-card-"]:not(.is-open),
+  [data-subcard="true"],
+  .sub-card,
+  .pillar-gradient-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"]
+):not(.weather-card):not(#weather-card):not(#weather-widget-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card):not([data-multicolor-bento="true"]):not([data-bento-subtone]) {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(248, 250, 255, 0.30) 55%,
+    rgba(255, 255, 255, 0.36) 100%
+  ) !important;
+  backdrop-filter: url(#liquid-glass) !important;
+  -webkit-backdrop-filter: url(#liquid-glass) !important;
+  border-color: rgba(255, 255, 255, 0.48) !important;
+}
+
+/* Specular optical sheen overlay on Light Liquid Glass Soft UI cards (preserves crisp text legibility) */
+html:is([data-card-style="liquid-glass"], [data-theme="liquid-glass"], :not([data-card-style])):not(.dark) :is(
   .page-main-card,
   [data-main-card="true"],
   .glass-card,
-  .bento-card
+  .bento-card,
+  .service-card,
+  .project-card,
+  .system-card-tile,
+  .education-course-card,
+  .theme-preset-card,
+  [data-subcard="true"],
+  .sub-card
 ):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.weather-card):not(#weather-card):not(#weather-widget-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card)::before {
   content: "";
   position: absolute;
   z-index: 0;
   inset: 0;
   border-radius: inherit;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  filter: url(#glass-distortion);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  background:
+    radial-gradient(110% 70% at 0% 0%, rgba(255, 255, 255, 0.42) 0%, transparent 45%),
+    radial-gradient(90% 60% at 100% 0%, rgba(255, 255, 255, 0.24) 0%, transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.04) 36%, transparent 64%) !important;
   overflow: hidden;
   isolation: isolate;
   pointer-events: none;

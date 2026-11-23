@@ -54,10 +54,6 @@
 .ai-mascot-btn:hover {
   transform: none;
 }
-.ai-mascot-btn:is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale(0.95);
-  transition: transform 60ms ease;
-}
 .ai-mascot-motion-layer {
   transform-origin: 50% 92%;
   will-change: transform;
@@ -106,10 +102,6 @@
 }
 .plant-widget-btn:hover {
   transform: none;
-}
-.plant-widget-btn:is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale(0.96);
-  transition: transform 60ms ease;
 }
 .plant-canopy-breeze {
   transform-origin: 50% 85%;
@@ -174,21 +166,24 @@
   backface-visibility: hidden;
 }
 
-.motion-card:hover,
-.bento-card:hover,
-.glass-card:hover,
-[data-section-card="true"]:hover,
-[data-subcard="true"]:hover,
-.sub-card:hover,
-.exp-bento-surface-card:hover,
-.exp-detail-subcard:hover,
-.project-card:hover,
-.education-course-card:hover,
-.service-card:hover,
-.themed-image-card:hover,
-.memory-photo-item:hover {
-  transform: none !important;
-  animation-play-state: paused;
+@media (hover: hover) and (pointer: fine) {
+  :is(
+    .motion-card,
+    .bento-card,
+    .glass-card,
+    [data-section-card="true"],
+    [data-subcard="true"],
+    .sub-card,
+    .exp-bento-surface-card,
+    .exp-detail-subcard,
+    .project-card,
+    .education-course-card,
+    .service-card,
+    .themed-image-card,
+    .memory-photo-item
+  ):not(.page-main-card):not([data-main-card="true"]):not(.static-container):not(#el-p0-div-98 *):hover {
+    transform: translate3d(0, var(--layer-l2-lift, -3px), 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -200,23 +195,19 @@
   }
 }
 
-.motion-interactive,
-button,
-a,
-input,
-select,
-textarea {
+.motion-interactive:not(#el-p0-div-98 *),
+button:not(#el-p0-div-98 *),
+a:not(#el-p0-div-98 *),
+input:not(#el-p0-div-98 *),
+select:not(#el-p0-div-98 *),
+textarea:not(#el-p0-div-98 *) {
   transition: transform var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
               box-shadow var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
               background-color var(--motion-fast, 150ms) ease,
               color var(--motion-fast, 150ms) ease;
 }
 
-.motion-interactive:is(:active, [data-btn-pressed="true"]),
-button:not(:disabled):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale(var(--motion-scale-pressed, 0.958));
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease;
-}
+/* Active press-down sink removed per user request */
 
 /* Unified Global Typography Semantic Utility Classes with Anti-Overflow protection & Better-Typography Craft */
 .typo-display { font-size: var(--fs-display) !important; line-height: var(--lh-display, 1.16); font-weight: var(--fw-bold); font-family: var(--font-family-heading); letter-spacing: var(--ls-display, -0.025em); text-wrap: balance; overflow-wrap: break-word; word-break: break-word; }
@@ -409,37 +400,19 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-97:nth
   height: auto !important;
 }
 
-/* Focus Mode: #contact-main-card, #home-main-card & All Similar Main Cards (Padding 15px, Gap 15px at all screen sizes, Deep Shadow) */
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
-#contact-main-card,
-#home-main-card,
-.page-main-card,
-[data-main-card="true"],
-#about-intro-card-1,
-#about-intro-card-2 {
+html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) :is(
+  #contact-main-card,
+  #home-main-card,
+  .page-main-card,
+  [data-main-card="true"],
+  #about-intro-card-1,
+  #about-intro-card-2
+) {
   padding: 15px !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  box-shadow: none !important;
-}
-
-.dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p12-div-87:nth-of-type(1) > div#contact-page-container:nth-of-type(1) > div#contact-cards-track:nth-of-type(1) > div#contact-main-card:nth-of-type(1),
-.dark div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-87:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1) > div#home-main-card:nth-of-type(1),
-.dark #contact-main-card,
-.dark #home-main-card,
-.dark .page-main-card,
-.dark [data-main-card="true"],
-.dark #about-intro-card-1,
-.dark #about-intro-card-2,
-html[data-theme-mode="dark"] #contact-main-card,
-html[data-theme-mode="dark"] #home-main-card,
-html[data-theme-mode="dark"] .page-main-card,
-html[data-theme-mode="dark"] [data-main-card="true"],
-html[data-theme-mode="dark"] #about-intro-card-1,
-html[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: none !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--shadow-card))) !important;
 }
 
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
@@ -591,13 +564,19 @@ html #el-p1-div-85 #card-core-values-pursued {
 
 html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-auto-flow: column !important;
-  gap: clamp(6px, 0.9vw, 12px) !important;
-  row-gap: clamp(6px, 0.9vw, 12px) !important;
-  column-gap: clamp(6px, 0.9vw, 12px) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: clamp(8px, 1vw, 12px) !important;
+  row-gap: clamp(8px, 1vw, 12px) !important;
+  column-gap: clamp(8px, 1vw, 12px) !important;
   width: 100% !important;
   min-width: 0 !important;
+}
+
+@media (min-width: 768px) {
+  html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
 html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
@@ -610,9 +589,9 @@ html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
 
 /* Outer Page Containers: Max Full Width, 100% Transparent, 0px Radius, 1px Line Border & Padding 0px */
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p2-div-81:nth-of-type(1) > div#about-page-container:nth-of-type(1),
-html [id$="-page-container"]:not(#pdf-page-container),
-html[data-card-style] [id$="-page-container"]:not(#pdf-page-container),
-html.dark[data-card-style] [id$="-page-container"]:not(#pdf-page-container),
+html [id$="-page-container"]:not(#pdf-page-container):not(#letter-page-container):not(#horoscope-page-container),
+html[data-card-style] [id$="-page-container"]:not(#pdf-page-container):not(#letter-page-container):not(#horoscope-page-container),
+html.dark[data-card-style] [id$="-page-container"]:not(#pdf-page-container):not(#letter-page-container):not(#horoscope-page-container),
 html [id$="-page-root"],
 html[data-card-style] [id$="-page-root"],
 html.dark[data-card-style] [id$="-page-root"] {
@@ -650,22 +629,43 @@ html [id$="-page-container"]:not(#pdf-page-container)::after {
 }
 
 html #letter-page-container,
-html #about-page-container,
 html #horoscope-page-container,
 html[data-card-style] #letter-page-container,
-html[data-card-style] #about-page-container,
 html[data-card-style] #horoscope-page-container,
+html.dark[data-card-style] #letter-page-container,
+html.dark[data-card-style] #horoscope-page-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html #letter-page-container::-webkit-scrollbar,
+html #horoscope-page-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+html #about-page-container,
+html[data-card-style] #about-page-container,
 html [data-no-wheel-horizontal="true"] {
   overflow-x: hidden !important;
 }
 
 /* Centered Inner Main Cards (Level 01): Match #about-intro-card-1 Across All Website Pages */
-html .page-main-card,
-html[data-card-style] .page-main-card,
-html.dark[data-card-style] .page-main-card,
-html [data-main-card="true"]:not(#pdf-page-container),
-html[data-card-style] [data-main-card="true"]:not(#pdf-page-container),
-html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container),
+html .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html.dark[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
 html #about-intro-card-1,
 html #about-intro-card-2,
 html[data-card-style] #about-intro-card-1,
@@ -693,7 +693,134 @@ html.dark[data-card-style] #about-intro-card-2 {
   column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Vertical Scroll Tracks (Letter & Horoscope): Always Centered & Exact Width Match with #app-header */
+html #letter-cards-track,
+html #horoscope-cards-track,
+html[data-card-style] #letter-cards-track,
+html[data-card-style] #horoscope-cards-track,
+html.dark[data-card-style] #letter-cards-track,
+html.dark[data-card-style] #horoscope-cards-track {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  flex: 0 0 auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-top: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 16px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* Letter & Horoscope Full-Width Vertical Main Cards: Natural Content Height, Zero Inner Scroll Trap */
+html #letter-cards-track > :is(#letter-card-1, #letter-card-4),
+html[data-card-style] #letter-cards-track > :is(#letter-card-1, #letter-card-4),
+html #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4, #horoscope-card-5),
+html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4, #horoscope-card-5) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+/* Horoscope Main Card 1 (Banner + Hồ sơ Nguyễn Hùng Thái + 6. Luận giải lá số tử vi): Exact Height Match with Services Main Card */
+html #horoscope-cards-track > #horoscope-card-1,
+html[data-card-style] #horoscope-cards-track > #horoscope-card-1,
+html.dark[data-card-style] #horoscope-cards-track > #horoscope-card-1 {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: var(--horoscope-main-card-1-h, 100%) !important;
+  min-height: var(--horoscope-main-card-1-h, 100%) !important;
+  max-height: var(--horoscope-main-card-1-h, none) !important;
+  flex: 0 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  gap: 0px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1023px) {
+  html #horoscope-cards-track > #horoscope-card-1,
+  html[data-card-style] #horoscope-cards-track > #horoscope-card-1,
+  html.dark[data-card-style] #horoscope-cards-track > #horoscope-card-1 {
+    height: auto !important;
+    min-height: var(--horoscope-main-card-1-h, 0px) !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+/* Letter Row 2-3 & Horoscope Row 1 Side-by-Side Cards: Equal Row Height, Full Track Width */
+html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
+html[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+html #horoscope-row-1-horizontal > :is(#horoscope-card-profile, #horoscope-card-6),
+html[data-card-style] #horoscope-row-1-horizontal > :is(#horoscope-card-profile, #horoscope-card-6) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: none !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-sizing: border-box !important;
 }
 
@@ -721,8 +848,8 @@ html [id$="-page-root"]:hover {
   transform: none !important;
 }
 
-/* Main Cards: Unified Static Level 1 Elevation */
-html:not([data-surface-depth="flat"]) :is(
+/* Main Cards: Unified Static Level 1 Elevation across all themes */
+html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) :is(
   .page-main-card,
   [data-main-card="true"],
   #about-intro-card-1,
@@ -732,33 +859,9 @@ html:not([data-surface-depth="flat"]) :is(
   #letter-card-1,
   [id^="letter-card-"]
 ) {
-  box-shadow: none !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--shadow-card))) !important;
   transform: none !important;
-  animation: none !important;
-  transition: border-color 220ms ease !important;
-}
-
-html.dark:not([data-surface-depth="flat"]) :is(
-  .page-main-card,
-  [data-main-card="true"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card,
-  #home-main-card,
-  #letter-card-1,
-  [id^="letter-card-"]
-),
-html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
-  .page-main-card,
-  [data-main-card="true"],
-  #about-intro-card-1,
-  #about-intro-card-2,
-  #contact-main-card,
-  #home-main-card,
-  #letter-card-1,
-  [id^="letter-card-"]
-) {
-  box-shadow: none !important;
+  transition: border-color 220ms ease, box-shadow 260ms ease !important;
 }
 
 /* Explicit Flat Mode: Strip shadows when flat mode is actively selected */
@@ -843,35 +946,21 @@ html[data-surface-depth="flat"] :is(
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
-  html:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
-  html:not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
-  html:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
-  html:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
-  html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
-  html:not([data-surface-depth="flat"]) #contact-main-card:hover,
-  html:not([data-surface-depth="flat"]) #home-main-card:hover,
-  html:not([data-surface-depth="flat"]) #letter-card-1:hover,
-  html:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) .page-main-card:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"])[data-card-style] .page-main-card:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"])[data-card-style] [data-main-card="true"]:not(#pdf-page-container):hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) #about-intro-card-1:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"])[data-card-style] #about-intro-card-1:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) #about-intro-card-2:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) #contact-main-card:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) #home-main-card:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) #letter-card-1:hover,
+  html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
     border-color: var(--surface-primary-border) !important;
     transform: none !important;
-    box-shadow: none !important;
-  }
-
-  html.dark:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) .page-main-card:hover,
-  html.dark:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) [data-main-card="true"]:not(#pdf-page-container):hover,
-  html.dark:not([data-surface-depth="flat"]) #about-intro-card-1:hover,
-  html.dark:not([data-surface-depth="flat"]) #about-intro-card-2:hover,
-  html.dark:not([data-surface-depth="flat"]) #contact-main-card:hover,
-  html.dark:not([data-surface-depth="flat"]) #home-main-card:hover,
-  html.dark:not([data-surface-depth="flat"]) #letter-card-1:hover,
-  html.dark:not([data-surface-depth="flat"]) [id^="letter-card-"]:hover {
-    transform: none !important;
-    box-shadow: none !important;
+    box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--shadow-card))) !important;
   }
 
   html[data-surface-depth="flat"] .page-main-card:hover,
@@ -988,8 +1077,8 @@ html :is(
   .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([class*="rounded-[999px]"]),
   .bento-view-card,
-  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
-  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
+  [data-element-type="card"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-element-type="button"]):not(.page-main-card):not([data-main-card="true"]):not(.main-card),
   [data-multicolor-bento="true"],
   .exp-detail-card,
   .education-course-card,
@@ -2560,8 +2649,12 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.78) !important;
 }
 
-/* 100% Transparent background for Weather Card across all active themes */
-html :is(#weather-card, #weather-widget-card, .weather-card) {
+/* 100% Transparent background & 10px border-radius for Weather Card across all active themes */
+html :is(#weather-card, #weather-widget-card, .weather-card),
+html[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card),
+html.dark :is(#weather-card, #weather-widget-card, .weather-card),
+html.dark[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card) {
+  border-radius: 10px !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -2869,10 +2962,7 @@ html.dark button#header-btn-hungthai-avatar:hover {
   box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(225, 235, 255, 0.25);
 }
 
-button#header-btn-hungthai-avatar:is(:active, [data-btn-pressed="true"]),
-button.nav-pill:is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale(0.955);
-}
+/* Nav pill active sink removed per user request */
 
 /* ========================================================================= */
 /* MENU ICON DEFAULT TITLE COLOR = ICON COLOR                                */
@@ -3797,64 +3887,7 @@ html[data-card-style] :is(
     background-color 180ms ease !important;
 }
 
-html[data-card-style] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
-  box-shadow:
-    inset 0 3px 8px rgba(15, 23, 42, 0.26),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.35),
-    0 1px 2px rgba(15, 23, 42, 0.08) !important;
-  filter: brightness(0.96);
-  transition:
-    transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1),
-    box-shadow 60ms ease,
-    border-color 60ms ease,
-    filter 60ms ease,
-    background-color 60ms ease !important;
-}
-
-html[data-card-style] :is(
-  button.nav-pill,
-  .radial-contact-pill,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .project-card-btn-primary,
-  .project-card-btn-secondary
-):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge, svg) {
-  transform: translate3d(0, 1px, 0) scale(0.92);
-  transition: transform 60ms ease;
-}
+/* Global button press-down sink removed per user request */
 
 html[data-card-style] :is(
   button.nav-pill .nav-pill-icon-badge,
@@ -4726,12 +4759,12 @@ html[data-card-style="light-deep-ocean"] :is(
   main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):hover {
   transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(2, 132, 199, 0.56) !important;
+  border-color: rgba(255, 255, 255, 0.88) !important;
   box-shadow:
-    0 10px 22px -4px rgba(2, 132, 199, 0.22),
-    0 4px 10px rgba(6, 182, 212, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
-  filter: brightness(1.03);
+    0 10px 24px -4px rgba(25, 81, 252, 0.28),
+    0 4px 12px rgba(115, 191, 255, 0.22),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
+  filter: brightness(1.04);
 }
 
 html[data-card-style="light-deep-ocean"] :is(
@@ -4765,18 +4798,18 @@ html[data-card-style="light-deep-ocean"] :is(
   [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
   main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
+  transform: translate3d(0, 2.5px, 0) scale3d(0.955, 0.955, 1) !important;
   box-shadow:
-    0 2px 8px rgba(2, 132, 199, 0.18),
-    inset 0 3px 7px rgba(8, 47, 73, 0.22),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.75) !important;
+    0 2px 8px rgba(3, 25, 91, 0.22),
+    inset 0 3px 8px rgba(3, 25, 91, 0.26),
+    inset 0 -1px 0 rgba(203, 233, 253, 0.78) !important;
   filter: brightness(0.96);
   transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
 }
 
 html[data-card-style="light-deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
   transform: scale(1.06);
-  filter: drop-shadow(0 2px 6px rgba(2, 132, 199, 0.35));
+  filter: drop-shadow(0 2px 6px rgba(25, 81, 252, 0.38));
 }
 
 /* 8. Nổi khối kính mờ tối (dark-neumorphism-beyond): Nổi khối Soft UI tối chống chói + Bấm lún âm bản */
@@ -5001,6 +5034,146 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
 }
 
+/* 10. Flat Soft UI (flat-soft-ui & dark-flat-soft-ui): Phẳng hiện đại + Nhấn xúc giác gọn sắc nét */
+html[data-card-style="flat-soft-ui"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -1.5px, 0) !important;
+  border-color: rgba(79, 70, 229, 0.52) !important;
+  box-shadow:
+    0 8px 20px -4px rgba(79, 70, 229, 0.20),
+    0 2px 6px rgba(15, 23, 42, 0.06) !important;
+}
+
+html[data-card-style="flat-soft-ui"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
+  [data-element-type="button"],
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 2px, 0) scale3d(0.965, 0.965, 1) !important;
+  box-shadow:
+    inset 0 2px 5px rgba(15, 23, 42, 0.14),
+    0 1px 2px rgba(79, 70, 229, 0.12) !important;
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [data-element-type="button"],
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):hover {
+  transform: translate3d(0, -1.5px, 0) !important;
+  border-color: rgba(99, 102, 241, 0.56) !important;
+  box-shadow:
+    0 10px 22px -4px rgba(0, 0, 0, 0.52),
+    0 0 16px -4px rgba(99, 102, 241, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  a[role="button"],
+  [data-element-type="button"],
+  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
+  footer button:not(.no-theme-btn):not(:disabled),
+  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+):is(:active, [data-btn-pressed="true"]) {
+  transform: translate3d(0, 2px, 0) scale3d(0.965, 0.965, 1) !important;
+  box-shadow:
+    inset 0 3px 8px rgba(0, 0, 0, 0.72),
+    0 1px 2px rgba(99, 102, 241, 0.20) !important;
+  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+}
+
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
 html[data-card-style] :is(
   button.nav-pill,
@@ -5096,12 +5269,24 @@ html[data-theme] {
   --radius-input: 14px;
   --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
+  --shadow-card:
+    0 1px 2px rgb(15 23 42 / 0.075),
+    0 2px 4px rgb(15 23 42 / 0.075),
+    0 4px 8px rgb(15 23 42 / 0.075);
+  --shadow-card-glass:
+    0 1px 2px rgb(15 23 42 / 0.075),
+    0 2px 4px rgb(15 23 42 / 0.075),
+    0 4px 8px rgb(15 23 42 / 0.075);
+  --surface-secondary-shadow:
+    0 1px 2px rgb(15 23 42 / 0.075),
+    0 2px 4px rgb(15 23 42 / 0.075),
+    0 4px 8px rgb(15 23 42 / 0.075);
 }
 
 html[data-card-style] :is(
   .page-main-card,
   [data-main-card="true"],
-  [data-section-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-section-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
   [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
   .bento-card:not(.rounded-full):not([class*="rounded-full"]),
   .glass-card:not(.rounded-full):not([class*="rounded-full"]),
@@ -5147,13 +5332,14 @@ html[data-card-style] :is(
 /* ABSOLUTE FINAL OVERRIDES: PROJECT CARDS ELEVATION SHADOW & HOVER LIFT     */
 /* ========================================================================= */
 html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]) {
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease !important;
 }
 
 html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-  transform: translateY(-6px) scale3d(1.015, 1.015, 1) !important;
-  box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
+  transform: translate3d(0, -4px, 0) scale3d(1.01, 1.01, 1) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
+  box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
 }
 
 /* ABSOLUTE FINAL OVERRIDES: FOOTER RIGHT BUTTONS DEFAULT BADGE COLOR */
@@ -5170,5 +5356,503 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   stroke: #FFFFFF !important;
   fill: none !important;
 }
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDES: #el-p0-div-98 XÓA TOÀN BỘ HIỆU ỨNG MỌI GIAO DIỆN */
+/* ========================================================================= */
+html:root body #el-p0-div-98,
+html:root[data-card-style] body #el-p0-div-98,
+html:root[data-theme] body #el-p0-div-98,
+html:root body #el-p0-div-98:is(:hover, :active, :focus-within),
+html:root[data-card-style] body #el-p0-div-98:is(:hover, :active, :focus-within) {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+html:root body #el-p0-div-98 :is(
+  #app-footer,
+  #app-footer *,
+  #weather-widget-card,
+  #weather-widget-card *,
+  #footer-nav-capsule,
+  #footer-nav-capsule *,
+  #footer-prev-btn,
+  #footer-next-btn,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(
+  #app-footer,
+  #app-footer *,
+  #weather-widget-card,
+  #weather-widget-card *,
+  #footer-nav-capsule,
+  #footer-nav-capsule *,
+  #footer-prev-btn,
+  #footer-next-btn,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-theme] body #el-p0-div-98 :is(
+  #app-footer,
+  #app-footer *,
+  #weather-widget-card,
+  #weather-widget-card *,
+  #footer-nav-capsule,
+  #footer-nav-capsule *,
+  #footer-prev-btn,
+  #footer-next-btn,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(
+  #app-footer,
+  #app-footer *,
+  #weather-widget-card,
+  #weather-widget-card *,
+  #footer-nav-capsule,
+  #footer-nav-capsule *,
+  #footer-prev-btn,
+  #footer-next-btn,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is(:hover, :active, :focus, :focus-visible, :focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root body #el-p0-div-98 :is(
+  #app-footer,
+  #app-footer *,
+  #weather-widget-card,
+  #weather-widget-card *,
+  #footer-nav-capsule,
+  #footer-nav-capsule *,
+  #footer-prev-btn,
+  #footer-next-btn,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is(:hover, :active, :focus, :focus-visible, :focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+html:root body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+html:root[data-card-style] body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: REMOVE ALL BUTTON PRESS-DOWN / SINK EFFECTS      */
+/* User Request: "xóa hiệu ứng nút nhấn lún xuống"                           */
+/* ========================================================================= */
+html:root body :is(
+  button,
+  a[role="button"],
+  [role="button"],
+  .nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .video-play-btn,
+  .ai-mascot-btn,
+  .plant-widget-btn,
+  .motion-interactive,
+  [data-element-type="button"]
+):is(:active, [data-btn-pressed="true"]),
+html:root[data-card-style] body :is(
+  button,
+  a[role="button"],
+  [role="button"],
+  .nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .video-play-btn,
+  .ai-mascot-btn,
+  .plant-widget-btn,
+  .motion-interactive,
+  [data-element-type="button"]
+):is(:active, [data-btn-pressed="true"]) {
+  transform: none !important;
+  scale: 1 !important;
+  filter: none !important;
+}
+
+html:root body :is(
+  button,
+  .nav-pill,
+  .radial-contact-pill,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .project-card-btn-primary,
+  .project-card-btn-secondary
+):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge, svg),
+html:root[data-card-style] body :is(
+  button,
+  .nav-pill,
+  .radial-contact-pill,
+  .banner-control-pill,
+  .banner-primary-cta,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .project-card-btn-primary,
+  .project-card-btn-secondary
+):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge, svg) {
+  transform: none !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: HERO BANNER 1/3 HEIGHT ON RESIZE / SMALL SCREENS */
+/* User Request: "Khi kích thước thay đổi banner chiều cao sẽ giảm xuống 1/3"*/
+/* Desktop banner: ~184px-200px -> Compact resized banner: ~62px-68px (1/3)  */
+/* ========================================================================= */
+@media (max-width: 1023px) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) {
+    height: auto !important;
+    min-height: 62px !important;
+    max-height: 84px !important;
+    padding: 6px 12px !important;
+    gap: 4px !important;
+    row-gap: 4px !important;
+    column-gap: 8px !important;
+    justify-content: center !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner)::after {
+    display: none !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
+    font-size: clamp(13px, 3.5vw, 17px) !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
+    display: none !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-bottom-controls, #services-hero-banner-controls, #skills-hero-banner-filter-row, #projects-hero-banner-controls, #wallpaper-hero-banner-controls, #systems-hero-banner-controls, #horoscope-hero-banner-controls) {
+    margin-top: 0 !important;
+    gap: 5px !important;
+    row-gap: 3px !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
+    height: 26px !important;
+    min-height: 26px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+}
+
+@container main-card (max-width: 959px) {
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) {
+    height: auto !important;
+    min-height: 62px !important;
+    max-height: 84px !important;
+    padding: 6px 12px !important;
+    gap: 4px !important;
+    row-gap: 4px !important;
+    column-gap: 8px !important;
+    justify-content: center !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner)::after,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner)::after,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner)::after {
+    display: none !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) h1,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) h1,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) h1 {
+    font-size: clamp(14px, 2.2cqi, 18px) !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
+    display: none !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
+    height: 26px !important;
+    min-height: 26px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+  }
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: LETTER & HOROSCOPE VERTICAL SCROLLING            */
+/* ========================================================================= */
+html:root body #letter-page-container,
+html:root body #horoscope-page-container,
+html:root[data-card-style] body #letter-page-container,
+html:root[data-card-style] body #horoscope-page-container,
+html:root.dark[data-card-style] body #letter-page-container,
+html:root.dark[data-card-style] body #horoscope-page-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER IMAGE STRAIGHT BOTTOM EDGE   */
+/* User Request: "Thẻ dự án hình banner bên dưới không bo cong"              */
+/* ========================================================================= */
+html:root body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
+html:root[data-card-style] body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
+html:root.dark[data-card-style] body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
+html:root body #projects-page-container .project-card .project-card-banner,
+html:root[data-card-style] body #projects-page-container .project-card .project-card-banner,
+html:root body .project-card .project-card-banner[data-media-card="image"],
+html:root[data-card-style] body .project-card .project-card-banner[data-media-card="image"],
+html:root body .project-card .project-card-banner,
+html:root[data-card-style] body .project-card .project-card-banner,
+html:root body #projects-page-container .project-card .project-card-banner :is(img, video),
+html:root[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video),
+html:root body .project-card .project-card-banner :is(img, video),
+html:root[data-card-style] body .project-card .project-card-banner :is(img, video) {
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
+  -webkit-clip-path: inset(0 round 14px 14px 0px 0px) !important;
+  clip-path: inset(0 round 14px 14px 0px 0px) !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: FOOTER WEATHER CARD 10PX BORDER-RADIUS           */
+/* User Request: "Card thời tiết ở footer bo cong 10px ở tất cả giao diện"   */
+/* ========================================================================= */
+html:root body #app-footer #weather-widget-card,
+html:root[data-card-style] body #app-footer #weather-widget-card,
+html:root[data-card-style="liquid-glass"] body #app-footer #weather-widget-card,
+html:root.dark body #app-footer #weather-widget-card,
+html:root.dark[data-card-style] body #app-footer #weather-widget-card,
+html:root body #weather-widget-card[data-section-card="true"],
+html:root[data-card-style] body #weather-widget-card[data-section-card="true"],
+html:root body :is(#weather-widget-card, #weather-card, .weather-card),
+html:root[data-card-style] body :is(#weather-widget-card, #weather-card, .weather-card) {
+  border-radius: 10px !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: UNIFIED LAYERED CARD BOX-SHADOW                  */
+/* ========================================================================= */
+.card,
+html:root body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .sub-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [data-subcard="true"],
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
+html:root[data-card-style] body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .sub-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [data-subcard="true"],
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card) {
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.075),
+    0 2px 4px rgb(15 23 42 / 0.075),
+    0 4px 8px rgb(15 23 42 / 0.075) !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: FOOTER TOP-LEFT 14PX & TOP-RIGHT 14PX ONLY       */
+/* User Request: "Footer không bo cong chỉ bo cong góc trên phải 14px và     */
+/* góc trên trái 14px"                                                       */
+/* ========================================================================= */
+html:root body #app-footer,
+html:root[data-card-style] body #app-footer,
+html:root[data-theme] body #app-footer,
+html:root[data-card-style="liquid-glass"] body #app-footer,
+html:root[data-card-style="dark-liquid-glass"] body #app-footer,
+html:root[data-card-style="light-deep-ocean"] body #app-footer,
+html:root.dark body #app-footer,
+html:root.dark[data-card-style] body #app-footer,
+html:root.dark[data-theme] body #app-footer {
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
+}
+
+/* Education Banner Controls: Prevent global pill overrides from breaking synced width/height */
+html:root body #education-view-mode-switcher,
+html:root[data-card-style] body #education-view-mode-switcher {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  box-sizing: border-box !important;
+}
+html:root body #education-filter-toggle-btn,
+html:root[data-card-style] body #education-filter-toggle-btn {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: LIQUID GLASS SOFT UI (SÁNG) SVG #liquid-glass    */
+/* ========================================================================= */
+html:root[data-card-style="liquid-glass"]:not(.dark) body :is(
+  .liquid-glass,
+  .page-main-card,
+  [data-main-card="true"],
+  .bento-card,
+  .glass-card,
+  .sub-card,
+  [data-subcard="true"],
+  [data-section-card="true"],
+  .service-card,
+  .domain-card,
+  .project-card,
+  .system-card-tile,
+  .education-course-card,
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"]
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card):not([data-multicolor-bento="true"]):not([data-bento-subtone]) {
+  backdrop-filter: url(#liquid-glass) !important;
+  -webkit-backdrop-filter: url(#liquid-glass) !important;
+}
+
+
 
 

@@ -245,9 +245,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #about-intro-card-2-scroll-viewport,
 #about-intro-grid-2,
 #services-main-content,
+#services-main-content #services-cards-wrapper,
 #services-main-content .services-cards-grid,
 #interview-main-content,
 #systems-page-container .systems-cards-grid,
+#interface-page-container .interface-group-grid,
+#interface-page-container .interface-themes-grid,
 #projects-page-container .grid,
 #skills-page-container .grid,
 #horoscope-page-container .grid {
@@ -263,7 +266,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 /* ========================================================================= */
 #horoscope-page-container [class*="grid"] {
   align-items: stretch !important;
-  grid-auto-flow: dense !important;
   gap: var(--mc-gap, 15px) !important;
   row-gap: var(--mc-gap, 15px) !important;
   column-gap: var(--mc-gap, 15px) !important;
@@ -282,10 +284,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #horoscope-card-five-elements,
 #horoscope-card-leadership-philosophy,
 #horoscope-card-work-synergy-check {
-  height: 100% !important;
-  min-height: 100% !important;
+  height: auto;
+  min-height: 0;
   align-self: stretch !important;
-  flex: 1 1 100% !important;
   box-sizing: border-box !important;
 }
 
@@ -499,33 +500,19 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #core-values-grid {
   display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-auto-flow: column !important;
+  grid-auto-flow: row !important;
 }
 
 @container core-values-card (max-width: 579px) {
   #core-values-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-    column-gap: 6px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    column-gap: 10px !important;
   }
 
   #core-values-grid [id^="core-val-"] {
-    padding: 8px !important;
-    gap: 5px !important;
-  }
-
-  #core-values-grid [id^="core-val-"] .subcard-header-sync {
-    gap: 4px !important;
-  }
-
-  #core-values-grid [id^="core-val-"] h4 {
-    font-size: clamp(10.5px, 2cqi, 12.5px) !important;
-    line-height: 1.2 !important;
-  }
-
-  #core-values-grid [id^="core-val-"] p {
-    font-size: clamp(10px, 1.8cqi, 11.5px) !important;
-    line-height: 1.3 !important;
+    padding: 10px !important;
+    gap: 6px !important;
   }
 }
 
@@ -596,13 +583,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #core-values-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-    column-gap: 6px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    column-gap: 10px !important;
   }
 
   #core-values-grid [id^="core-val-"] {
-    padding: 8px !important;
+    padding: 10px !important;
     gap: 6px !important;
   }
 
@@ -611,9 +598,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
+  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-auto-rows: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
@@ -621,12 +612,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 280px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   #projects-grid.projects-responsive-grid {
@@ -635,10 +626,18 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
+  #interface-page-container .interface-group-grid,
+  #interface-themes-grid.interface-themes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
+  }
+
   #skills-languages-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
+  #horoscope-row-1-horizontal,
   #horoscope-card-1-grid,
   #horoscope-card-profile,
   #horoscope-card-management-style,
@@ -744,24 +743,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   /* Services fluid responsive auto-fit grid */
+  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 275px), 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
     align-items: stretch !important;
   }
 
-
-  /* Systems auto-fit responsive columns based on available container width */
+  /* Systems shrinks cleanly to 2 columns (2 cols x 3 rows) on medium/compact widths */
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -771,11 +773,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
+  /* Interface theme cards 2-column grid */
+  #interface-page-container .interface-group-grid,
+  #interface-themes-grid.interface-themes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
+  }
+
   #skills-languages-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
-  /* Horoscope multi-col cards drop smoothly to 1-2 cols below 960px */
+  /* Horoscope multi-col cards drop smoothly to 1 col below 960px */
+  #horoscope-row-1-horizontal,
   #horoscope-card-1-grid,
   #horoscope-card-profile,
   #horoscope-card-management-style,
@@ -839,14 +850,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #letter-slide-4-bento-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
   }
 
-  #card-philosophy-gratitude {
-    grid-column: span 6 / span 6 !important;
-  }
-
+  #card-philosophy,
+  #card-three-principles,
   #bento-companion-letter {
-    grid-column: span 6 / span 6 !important;
+    grid-column: span 4 / span 4 !important;
+    height: 100% !important;
   }
 
   #about-intro-card-2-scroll-viewport,
@@ -876,9 +887,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
+  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 295px), 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
@@ -886,12 +901,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -901,11 +916,23 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
+  /* Interface theme cards 2-column grid */
+  #interface-page-container .interface-group-grid,
+  #interface-themes-grid.interface-themes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
+  }
+
   #interview-main-content {
     grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
+  #horoscope-row-1-horizontal {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
 
   #horoscope-card-1-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
@@ -964,14 +991,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #letter-slide-4-bento-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
   }
 
-  #card-philosophy-gratitude {
-    grid-column: span 6 / span 6 !important;
-  }
-
+  #card-philosophy,
+  #card-three-principles,
   #bento-companion-letter {
-    grid-column: span 6 / span 6 !important;
+    grid-column: span 4 / span 4 !important;
+    height: 100% !important;
   }
 
   #about-intro-card-2-scroll-viewport,
@@ -1001,9 +1028,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
+  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 305px), 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
@@ -1011,12 +1042,12 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 305px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: auto !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   /* Projects auto-fit responsive columns on wide desktop */
@@ -1026,11 +1057,23 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
+  /* Interface theme cards 2-column grid on wide desktop */
+  #interface-page-container .interface-group-grid,
+  #interface-themes-grid.interface-themes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
+  }
+
   #interview-main-content {
     grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
+  #horoscope-row-1-horizontal {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
 
   #horoscope-card-1-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;

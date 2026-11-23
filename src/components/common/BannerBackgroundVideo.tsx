@@ -148,6 +148,7 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           src={poster}
           alt={alt}
           loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
           style={{
             position: 'absolute',
@@ -195,6 +196,8 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           id={id}
           src={poster}
           alt={alt}
+          loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
           style={{
             position: 'absolute',
@@ -228,7 +231,7 @@ export const BannerBackgroundVideo: React.FC<BannerBackgroundVideoProps> = ({
           controls={false}
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-          preload="auto"
+          preload="metadata"
           aria-hidden="true"
           tabIndex={-1}
           onLoadedMetadata={(e) => {

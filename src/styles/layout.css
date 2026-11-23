@@ -108,12 +108,23 @@
 }
 
 #home-page-container,
-#letter-page-container,
 #about-page-container,
-#horoscope-page-container,
 [data-no-wheel-horizontal="true"] {
   overflow-x: hidden !important;
   scroll-behavior: auto !important;
+}
+
+#letter-page-container,
+#horoscope-page-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  scroll-behavior: smooth !important;
 }
 
 #about-cards-track {
@@ -228,11 +239,44 @@
   box-sizing: border-box !important;
 }
 
-.page-cards-track:not(#about-cards-track),
-[id$="-cards-track"]:not(#about-cards-track) {
+.page-cards-track:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track),
+[id$="-cards-track"]:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track) {
   width: max-content !important;
   max-width: none !important;
   flex: 0 0 auto !important;
+}
+
+#horoscope-cards-track,
+#letter-cards-track {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  max-width: 1250px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 16px !important;
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+}
+
+#horoscope-cards-track > .page-main-card,
+#horoscope-cards-track > [data-main-card="true"],
+#horoscope-row-1-horizontal > [data-main-card="true"],
+#letter-cards-track > .page-main-card,
+#letter-cards-track > [data-main-card="true"],
+#letter-cards-row-2-3 > [data-main-card="true"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .page-main-card :is(.grid, .flex),
@@ -611,14 +655,7 @@
   overflow: visible !important;
 }
 
-@media (max-width: 430px) {
-  .hero-banner:not(#ai-assistant-vertical-banner):not(#experience-hero-banner):not(#contact-hero-banner):not(#interview-questions-card):not(#project-detail-banner) {
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 148px !important;
-    max-height: none !important;
-  }
-}
+/* Mobile (<430px) inherits the compact 1/3 height hero banner rules below */
 
 /* Project Detail Vertical TOC Banner (Equal height side-by-side at every viewport size) */
 #project-detail-layout {
@@ -755,25 +792,25 @@
   }
 }
 
-/* Tablet & Mobile (<1024px) Hero Banner Rules */
+/* Tablet & Mobile (<1024px) Hero Banner Rules — Compact 1/3 Height */
 @media (max-width: 1023px) {
   .hero-banner:not(#interview-questions-card):not(#project-detail-banner),
   .banner-card:not(#interview-questions-card):not(#project-detail-banner) {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    min-height: 150px !important;
-    max-height: none !important;
+    min-height: 62px !important;
+    max-height: 84px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    border-radius: var(--radius-banner, 16px) !important;
-    padding: 16px !important;
+    border-radius: var(--radius-banner, 14px) !important;
+    padding: 6px 12px !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
-    gap: 16px !important;
-    row-gap: 16px !important;
-    column-gap: 16px !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    row-gap: 4px !important;
+    column-gap: 8px !important;
   }
 
   #interview-questions-card,
@@ -784,7 +821,7 @@
     min-height: 0 !important;
     max-height: 100% !important;
     align-self: stretch !important;
-    border-radius: var(--radius-card, 16px) !important;
+    border-radius: var(--radius-card, 14px) !important;
     padding: 16px !important;
     display: flex !important;
     flex-direction: column !important;
@@ -796,41 +833,30 @@
   .hero-banner #services-hero-banner-header,
   .hero-banner #skills-hero-banner-header {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: 4px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
     width: 100% !important;
   }
 
   .hero-banner h1 {
-    font-size: var(--fs-h3) !important;
+    font-size: clamp(14px, 3.6vw, 18px) !important;
     font-weight: var(--fw-bold) !important;
-    line-height: var(--lh-heading) !important;
-    white-space: normal !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .hero-banner p.font-italianno,
   .hero-banner .banner-quote,
   .hero-banner p.font-handwriting {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-left: 0 !important;
-    text-align: left !important;
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
+    display: none !important;
   }
 
   .hero-banner::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(56, 189, 248, 0.95) 0%, rgba(99, 102, 241, 0.9) 50%, rgba(244, 63, 94, 0.8) 100%);
-    margin-top: 2px;
-    border-radius: 999px;
-    box-shadow: 0 1px 6px rgba(56, 189, 248, 0.6);
+    display: none !important;
   }
 
   .banner-bottom-controls,
@@ -842,16 +868,17 @@
   #horoscope-hero-banner-controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
+    row-gap: 4px;
     width: 100%;
   }
 }
 
-/* Horoscope Page Grid Stretch & Slide Cards 100% Height Sync with LetterView Main Card */
+/* Horoscope Page Grid Stretch & Clean Vertical Flow */
 #horoscope-page-container .grid,
 #horoscope-page-container [class*="grid"] {
   align-items: stretch !important;
-  grid-auto-flow: dense !important;
   gap: var(--mc-gap, 15px) !important;
   row-gap: var(--mc-gap, 15px) !important;
   column-gap: var(--mc-gap, 15px) !important;
@@ -865,50 +892,26 @@
 }
 
 #horoscope-card-profile,
-#horoscope-card-profile:hover,
-#horoscope-card-profile:focus-within,
 #horoscope-card-management-style,
-#horoscope-card-management-style:hover,
-#horoscope-card-management-style:focus-within,
 #horoscope-card-career-portrait,
-#horoscope-card-career-portrait:hover,
 #horoscope-card-five-elements,
-#horoscope-card-five-elements:hover,
 #horoscope-card-leadership-philosophy,
-#horoscope-card-leadership-philosophy:hover,
-#horoscope-card-work-synergy-check,
-#horoscope-card-work-synergy-check:hover,
-#horoscope-main-card #horoscope-card-profile,
-#horoscope-main-card #horoscope-card-management-style,
-#horoscope-main-card #horoscope-card-career-portrait,
-#horoscope-main-card #horoscope-card-five-elements,
-#horoscope-main-card #horoscope-card-leadership-philosophy,
-#horoscope-main-card #horoscope-card-work-synergy-check {
-  height: 100% !important;
-  min-height: 100% !important;
+#horoscope-card-work-synergy-check {
+  height: auto;
+  min-height: 0;
   align-self: stretch !important;
-  flex: 1 1 100% !important;
   box-sizing: border-box !important;
 }
+
 #horoscope-main-card #horoscope-destiny-card,
 #horoscope-main-card #horoscope-pillars-container,
 #horoscope-main-card #horoscope-slide-3,
-#horoscope-main-card #horoscope-lookup-card,
-#horoscope-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]),
-#horoscope-cards-track .page-main-card #horoscope-destiny-card,
-#horoscope-cards-track .page-main-card #horoscope-pillars-container,
-#horoscope-cards-track .page-main-card #horoscope-slide-3,
-#horoscope-cards-track .page-main-card #horoscope-lookup-card,
-#horoscope-cards-track .page-main-card > div[data-element-type="card"]:not(.page-main-card):not([data-main-card="true"]) {
+#horoscope-main-card #horoscope-lookup-card {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
-  max-height: none !important;
-  min-height: 100% !important;
-  flex: 1 0 auto !important;
-  flex-grow: 1 !important;
-  flex-shrink: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
   align-self: stretch !important;
   margin: 0 !important;
   padding: 0px !important;

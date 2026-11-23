@@ -6,6 +6,10 @@ import {
 } from '@/data/wallpapers';
 import { resolveGravityStage } from '@/config/gravityPalettes';
 import { DotGridWavesCanvas } from '@/components/ui/DotGridWavesCanvas';
+import {
+  AnimatedSceneWallpaper,
+  isAnimatedSceneWallpaper,
+} from '@/components/backgrounds/AnimatedSceneWallpaper';
 
 const GravityBackgroundCanvas = React.lazy(() =>
   import('@/components/backgrounds/GravityBackgroundCanvas').then((m) => ({
@@ -357,14 +361,18 @@ export const WallpaperStage: React.FC<WallpaperStageProps> = ({
                 })()
               )
             ) : wp.type === 'css' || wp.type === 'gradient' ? (
-              <div
-                className="w-full h-full"
-                style={
-                  wp.previewStyle && Object.keys(wp.previewStyle).length > 0
-                    ? wp.previewStyle
-                    : parseCssStringToStyle(wp.value || wp.bg || '')
-                }
-              />
+              isAnimatedSceneWallpaper(wp.id) ? (
+                <AnimatedSceneWallpaper id={wp.id} isDark={isDark} />
+              ) : (
+                <div
+                  className="w-full h-full"
+                  style={
+                    wp.previewStyle && Object.keys(wp.previewStyle).length > 0
+                      ? wp.previewStyle
+                      : parseCssStringToStyle(wp.value || wp.bg || '')
+                  }
+                />
+              )
             ) : (
               (() => {
                 const imgUrl = getCleanImageUrl(wp.value || wp.bg || '');

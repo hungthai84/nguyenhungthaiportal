@@ -81,14 +81,14 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         return {
           ...sampleProps,
           background:
-            'linear-gradient(145deg, rgba(248, 251, 255, 0.88), rgba(235, 244, 255, 0.82))',
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(248, 246, 247, 0.78) 52%, rgba(241, 231, 229, 0.72) 100%)',
         };
       }
       if (preset.id === 'dark-liquid-glass') {
         return {
           ...sampleProps,
           background:
-            'linear-gradient(145deg, rgba(15, 23, 42, 0.88), rgba(9, 15, 30, 0.90))',
+            'linear-gradient(145deg, rgba(26, 38, 62, 0.88) 0%, rgba(23, 31, 51, 0.90) 55%, rgba(16, 26, 43, 0.94) 100%)',
         };
       }
       if (preset.id === 'light-deep-ocean') {
@@ -113,14 +113,16 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       if (preset.id === 'liquid-glass') {
         return {
           ...preset.miniPreviewWrapStyle,
-          background: 'rgba(255, 255, 255, 0.78)',
+          background:
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.84) 0%, rgba(245, 221, 224, 0.28) 50%, rgba(169, 230, 231, 0.24) 100%)',
           border: 'none',
         };
       }
       if (preset.id === 'dark-liquid-glass') {
         return {
           ...preset.miniPreviewWrapStyle,
-          background: 'rgba(12, 19, 36, 0.74)',
+          background:
+            'linear-gradient(145deg, rgba(23, 31, 51, 0.86) 0%, rgba(16, 26, 43, 0.90) 100%)',
           border: 'none',
         };
       }
@@ -347,7 +349,11 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}
         >
           <span className={`typo-caption font-mono tabular-nums truncate ${meta.accentTextClass}`}>
-            {preset.id.includes('glass') ? '24px · blur(24px)' : meta.radius}
+            {preset.id === 'liquid-glass' || preset.id === 'dark-liquid-glass'
+              ? `${meta.radius} · blur(16px)`
+              : preset.id.includes('glass')
+                ? '24px · blur(24px)'
+                : meta.radius}
           </span>
 
           <button

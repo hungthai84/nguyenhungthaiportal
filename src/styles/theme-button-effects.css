@@ -326,10 +326,11 @@ html[data-card-style="liquid-glass"] :where(
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
   background: radial-gradient(
-    90px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(255, 255, 255, 0.72) 0%,
-    rgba(186, 230, 253, 0.24) 45%,
-    transparent 76%
+    94px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(207, 197, 233, 0.30) 44%,
+    rgba(169, 230, 231, 0.20) 68%,
+    transparent 82%
   );
 }
 
@@ -347,9 +348,9 @@ html[data-card-style="dark-liquid-glass"] :where(
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
   background: radial-gradient(
     96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(186, 230, 253, 0.30) 0%,
-    rgba(56, 189, 248, 0.14) 46%,
-    transparent 76%
+    rgba(181, 167, 244, 0.32) 0%,
+    rgba(103, 232, 249, 0.16) 48%,
+    transparent 78%
   );
 }
 
@@ -383,10 +384,10 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
     transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(255, 255, 255, 0.98) !important;
+    border-color: rgba(167, 139, 250, 0.62) !important;
     box-shadow:
-      0 12px 26px -6px rgba(79, 70, 229, 0.24),
-      0 4px 12px -2px rgba(14, 165, 233, 0.18),
+      0 12px 26px -6px rgba(109, 40, 217, 0.22),
+      0 4px 12px -2px rgba(8, 145, 178, 0.16),
       inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
   }
 
@@ -403,11 +404,11 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
     [data-element-type="button"]
   ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
     transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(125, 211, 252, 0.68) !important;
+    border-color: rgba(181, 167, 244, 0.64) !important;
     box-shadow:
-      0 14px 28px -6px rgba(2, 6, 23, 0.72),
-      0 0 20px rgba(56, 189, 248, 0.28),
-      inset 0 1px 0 rgba(226, 238, 255, 0.38) !important;
+      0 14px 28px -6px rgba(2, 6, 23, 0.74),
+      0 0 22px rgba(181, 167, 244, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
   }
 }
 
@@ -1032,7 +1033,7 @@ html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"])
     button.nav-pill,
     .nav-pill
   ):hover .nav-pill-icon-badge {
-    box-shadow: none !important;
+    box-shadow: var(--pill-badge-shadow, none) !important;
     filter: none !important;
     transform: none !important;
   }

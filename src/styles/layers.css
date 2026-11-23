@@ -146,9 +146,12 @@ html:not([data-surface-depth="flat"]) :is(
   }
 
   /* Material-authentic hover glow accents per theme family */
-  html[data-card-style="liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover,
+  html[data-card-style="liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(167, 139, 250, 0.62) !important;
+  }
+
   html[data-card-style="dark-liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
-    border-color: rgba(56, 189, 248, 0.65) !important;
+    border-color: rgba(181, 167, 244, 0.56) !important;
   }
 
   html[data-card-style="dark-neon-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
@@ -228,14 +231,14 @@ html:is([data-card-style="liquid-glass"], :not([data-card-style])) :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: rgba(255, 255, 255, 0.78) !important;
-  backdrop-filter: blur(20px) saturate(175%) contrast(106%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(175%) contrast(106%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  background: rgba(255, 255, 255, var(--card-alpha, 0.62)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.82) !important;
+  border-radius: var(--radius-card, 20px) !important;
   outline: none !important;
-  color: #0f172a !important;
-  box-shadow: var(--lg-clear-shadow) !important;
+  color: #1E293B !important;
+  box-shadow: var(--liquid-tier2-shadow, var(--lg-clear-shadow)) !important;
 }
 
 html[data-card-style="dark-liquid-glass"] :is(
@@ -245,14 +248,14 @@ html[data-card-style="dark-liquid-glass"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: rgba(15, 23, 42, 0.74) !important;
-  backdrop-filter: blur(20px) saturate(175%) contrast(106%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(175%) contrast(106%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  background: rgba(26, 38, 62, var(--card-alpha, 0.66)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: var(--radius-card, 20px) !important;
   outline: none !important;
-  color: #f8fafc !important;
-  box-shadow: var(--lg-clear-shadow) !important;
+  color: #F8FAFC !important;
+  box-shadow: var(--liquid-tier2-shadow, var(--lg-clear-shadow)) !important;
 }
 
 html[data-card-style="cowhide-leather"] :is(

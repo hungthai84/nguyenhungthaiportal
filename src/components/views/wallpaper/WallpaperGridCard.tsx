@@ -6,6 +6,10 @@ import {
   getWallpaperThumbnailUrl,
 } from '@/data/wallpapers';
 import { WebIcon } from '@/components/ui/WebIcon';
+import {
+  AnimatedSceneWallpaper,
+  isAnimatedSceneWallpaper,
+} from '@/components/backgrounds/AnimatedSceneWallpaper';
 
 const FALLBACK_GRADIENT =
   'linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #e11d48 100%)';
@@ -263,14 +267,22 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
               </div>
             </div>
           ) : wp.type === 'css' || wp.type === 'gradient' ? (
-            <div
-              className="w-full h-full"
-              style={
-                wp.previewStyle && Object.keys(wp.previewStyle).length > 0
-                  ? wp.previewStyle
-                  : parseCssStringToStyle(wp.value)
-              }
-            />
+            isAnimatedSceneWallpaper(wp.id) ? (
+              <AnimatedSceneWallpaper
+                id={wp.id}
+                compact
+                className="rounded-[inherit]"
+              />
+            ) : (
+              <div
+                className="w-full h-full"
+                style={
+                  wp.previewStyle && Object.keys(wp.previewStyle).length > 0
+                    ? wp.previewStyle
+                    : parseCssStringToStyle(wp.value)
+                }
+              />
+            )
           ) : (
             <img
               src={getWallpaperThumbnailUrl(wp.value || wp.bg || '')}

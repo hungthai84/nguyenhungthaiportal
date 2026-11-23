@@ -1204,65 +1204,24 @@ h3.card-title,
 #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]),
 #footer-nav-capsule,
 .radial-contact-pill:not([data-active="true"]):not([aria-current="page"]) {
-  background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, var(--color-surface, #FFFFFF)))) !important;
-  border-color: var(--surface-interactive-border, var(--border-color)) !important;
-  box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(150%) !important;
+  background: var(--pill-bg, var(--surface-interactive-bg, var(--bg-nav-pill, var(--color-surface, #FFFFFF)))) !important;
+  border-color: var(--pill-border, var(--surface-interactive-border, var(--border-color))) !important;
+  box-shadow: var(--pill-shadow, var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08)))) !important;
+  backdrop-filter: blur(var(--pill-blur, var(--surface-interactive-blur, var(--blur-nav-pill, 0px)))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--pill-blur, var(--surface-interactive-blur, var(--blur-nav-pill, 0px)))) saturate(150%) !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
-  color: var(--text-primary) !important;
+  color: var(--pill-text, var(--text-primary)) !important;
   opacity: 1 !important;
 }
 
 /* ========================================================================= */
-/* NÚT BÊN PHẢI FOOTER: MẶC ĐỊNH & ĐẢO NGƯỢC KHI CHỌN (DÙNG CSS VARIABLES)   */
+/* NÚT BÊN PHẢI FOOTER: MÀU ACCENT ĐẶC TRƯNG TỪNG NÚT                       */
 /* ========================================================================= */
 #footer-lang-btn { --nav-pill-accent: #10B981; }
 #footer-appearance-btn { --nav-pill-accent: #6366F1; }
 #footer-wallpaper-btn { --nav-pill-accent: #F43F5E; }
 #footer-ai-btn { --nav-pill-accent: #0EA5E9; }
-
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) {
-  border-color: color-mix(in srgb, var(--nav-pill-accent) 45%, var(--surface-interactive-border, transparent)) !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background: var(--nav-pill-accent) !important;
-  background-color: var(--nav-pill-accent) !important;
-  border-radius: 9999px !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: var(--nav-pill-accent) !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
-  background-color: color-mix(in srgb, var(--nav-pill-accent) 40%, transparent) !important;
-}
-
-/* Khi chọn: Đảo ngược theo --nav-pill-accent */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) {
-  background: var(--nav-pill-accent) !important;
-  border-color: var(--nav-pill-accent) !important;
-  box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--nav-pill-accent) 44%, transparent) !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
-  color: var(--nav-pill-accent) !important;
-  stroke: var(--nav-pill-accent) !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-title {
-  color: #FFFFFF !important;
-}
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.45) !important;
-}
 
 #app-header nav button.nav-pill .nav-pill-sub,
 #header-btn-hungthai-avatar .nav-pill-sub,
@@ -1283,7 +1242,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 #footer-wallpaper-btn .nav-pill-divider,
 #footer-ai-btn .nav-pill-divider,
 .radial-contact-pill .radial-contact-divider {
-  background-color: var(--divider-nav-pill, rgba(148, 163, 184, 0.55)) !important;
+  background-color: var(--pill-divider, var(--divider-nav-pill, rgba(148, 163, 184, 0.55))) !important;
 }
 
 /* ========================================================================= */
@@ -1484,7 +1443,7 @@ html[data-card-style="light-deep-ocean"] :is(
   -webkit-backdrop-filter: blur(20px) saturate(155%) !important;
 }
 
-html:is([data-card-style="deep-ocean"], [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"]) :is(
+html:is([data-card-style="deep-ocean"], [data-card-style="dark-neon-glass"]) :is(
   .hero-banner,
   .banner-card,
   [data-element-type="banner-card"],
@@ -4973,12 +4932,11 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 }
 
 /* ========================================================================= */
-/* GLOBAL UNIFIED 14PX BORDER-RADIUS ACROSS ALL THEMES                       */
-/* Cards, Sub-cards, Banners, Modals, Videos & Non-Circular Images -> 14px   */
+/* THEME-AWARE TIER RADII ACROSS ALL THEMES (DEFAULT 14PX, LIQUID GLASS 5-T) */
 /* ========================================================================= */
 .page-main-card,
 [data-main-card="true"] {
-  border-radius: 14px !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
@@ -4992,7 +4950,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 .project-card,
 .system-card-tile,
 .education-course-card {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
@@ -5004,7 +4962,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 .system-card-sub,
 .theme-modal-subcard,
 .theme-muted-surface:not(.rounded-full):not([class*="rounded-full"]) {
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 .banner-card,
@@ -5012,16 +4970,16 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 [id$="-hero-banner"],
 #project-detail-banner,
 #pdf-hero-banner {
-  border-radius: 14px !important;
+  border-radius: var(--radius-banner, 14px) !important;
 }
 
 .theme-modal-card,
 .theme-pip-player,
 .banner-dropdown-menu {
-  border-radius: 14px !important;
+  border-radius: var(--radius-modal, 14px) !important;
 }
 
-/* Videos & Non-Circular Images across the entire interface -> 14px */
+/* Videos & Non-Circular Images across the entire interface */
 #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
 .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
 .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
@@ -5031,18 +4989,18 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]):not(.project-card-banner img),
 [data-media-card="image"]:not(.project-card-banner),
 [data-media-card="video"] {
-  border-radius: 14px !important;
+  border-radius: var(--radius-image, 14px) !important;
 }
 
 .project-card .project-card-banner,
 .project-card .project-card-banner[data-media-card="image"],
 .project-card .project-card-banner :is(img, video),
 .project-card .project-card-banner .project-card-banner-scrim {
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
+  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
+  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
+  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
 }
 
 #education-book-view .education-book-media-rounded,
@@ -5220,94 +5178,6 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   box-sizing: border-box !important;
 }
 
-/* ========================================================================= */
-/* CODEPEN GLASS UI: NỀN VÀ HIỆU ỨNG CARD SÁNG & TỐI (LIQUID GLASS SOFT UI)   */
-/* ========================================================================= */
-:root {
-  --glass-radius: 1.5rem;
-  --glass-border-thick: 1.5px;
-  --glass-blur: 7px;
-}
-
-html[data-card-style="liquid-glass"] {
-  --glass-border-color1: rgba(230, 230, 230, 0.4);
-  --glass-border-color2: rgba(230, 230, 230, 0.1);
-  --glass-color: rgba(255, 255, 255, 0.15);
-  --bg-card: rgba(255, 255, 255, 0.15);
-  --bg-blur: 7px;
-}
-
-html[data-card-style="dark-liquid-glass"] {
-  --glass-border-color1: rgba(48, 48, 48, 0.4);
-  --glass-border-color2: rgba(110, 110, 110, 0.1);
-  --glass-color: rgba(0, 0, 0, 0.15);
-  --bg-card: rgba(0, 0, 0, 0.15);
-  --bg-blur: 7px;
-}
-
-/* Nền và hiệu ứng viền gradient đa lớp của CodePen */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) :is(
-  .glass,
-  .glass-card,
-  .bento-card,
-  .page-main-card
-):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer) {
-  position: relative;
-  isolation: isolate;
-  background: var(--glass-color, rgba(255, 255, 255, 0.15)) !important;
-  backdrop-filter: blur(var(--glass-blur, 7px)) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur, 7px)) !important;
-}
-
-html[data-card-style="liquid-glass"] :is(
-  .glass,
-  .glass-card,
-  .bento-card,
-  .page-main-card
-):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer)::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: var(--glass-border-thick, 1.5px) solid transparent;
-  background: linear-gradient(
-    45deg,
-    rgba(230, 230, 230, 0.1),
-    rgba(230, 230, 230, 0.4),
-    rgba(230, 230, 230, 0.1)
-  ) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box;
-  mask-composite: exclude;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-}
-
-html[data-card-style="dark-liquid-glass"] :is(
-  .glass,
-  .glass-card,
-  .bento-card,
-  .page-main-card
-):not(.banner-card):not([data-media-card="video"]):not(#app-header):not(#app-footer)::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: var(--glass-border-thick, 1.5px) solid transparent;
-  background: linear-gradient(
-    45deg,
-    rgba(110, 110, 110, 0.1),
-    rgba(48, 48, 48, 0.4),
-    rgba(110, 110, 110, 0.1)
-  ) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box;
-  mask-composite: exclude;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-}
 
 /* ========================================================================= */
 /* TRANG HỆ THỐNG: ĐỒNG NHẤT CHIỀU RỘNG BANNER VỚI LƯỚI THẺ & FONT-SEMIBOLD  */
@@ -5407,18 +5277,6 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
 }
 
-/* FOOTER NÚT BÊN PHẢI MẶC ĐỊNH: BẢO ĐẢM KHUNG TRÒN CÓ NỀN MÀU TIÊU ĐỀ TRÊN MỌI THEME (TRỪ DA BÒ GIỮ NÉT CỔ ĐIỂN) */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background: var(--nav-pill-accent) !important;
-  background-color: var(--nav-pill-accent) !important;
-  border-radius: 9999px !important;
-}
-
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
 
 /* ========================================================================= */
 /* THẺ DỊCH VỤ (SERVICES CARDS): FORMAT HỆ THỐNG & ẢNH LỚN GẤP ĐÔI           */

@@ -20,6 +20,10 @@ import {
 import { SoundEngine } from './components/ui/SoundEngine';
 import { resolveGravityStage } from './config/gravityPalettes';
 import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
+import {
+  AnimatedSceneWallpaper,
+  isAnimatedSceneWallpaper,
+} from './components/backgrounds/AnimatedSceneWallpaper';
 
 const MapModal = React.lazy(() =>
   import('./components/common/MapModal').then((m) => ({ default: m.MapModal }))
@@ -731,15 +735,23 @@ export default function App() {
                 })()
               )
             ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
-              <div
-                key={activeWallpaper.id}
-                className="w-full h-full transition-all duration-500"
-                style={
-                  activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
-                    ? activeWallpaper.previewStyle
-                    : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
-                }
-              />
+              isAnimatedSceneWallpaper(activeWallpaper.id) ? (
+                <AnimatedSceneWallpaper
+                  key={activeWallpaper.id}
+                  id={activeWallpaper.id}
+                  isDark={isDark}
+                />
+              ) : (
+                <div
+                  key={activeWallpaper.id}
+                  className="w-full h-full transition-all duration-500"
+                  style={
+                    activeWallpaper.previewStyle && Object.keys(activeWallpaper.previewStyle).length > 0
+                      ? activeWallpaper.previewStyle
+                      : parseCssStringToStyle(activeWallpaper.value || activeWallpaper.bg || '')
+                  }
+                />
+              )
             ) : (
               <div
                 key={activeWallpaper.id}

@@ -559,3 +559,494 @@ html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-layer-base,
   filter: none !important;
   -webkit-filter: none !important;
 }
+
+/* ========================================================================= */
+/* PRISM WAVE ANIMATED GRADIENT WALLPAPER (4-STOP GRADIENT + 3 WAVE LAYERS)  */
+/* ========================================================================= */
+.wp-prism-wave-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  background: linear-gradient(
+    315deg,
+    rgba(101, 0, 94, 1) 3%,
+    rgba(60, 132, 206, 1) 38%,
+    rgba(48, 238, 226, 1) 68%,
+    rgba(255, 25, 25, 1) 98%
+  );
+  background-size: 400% 400%;
+  animation: wpPrismGradient 15s ease infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wp-prism-wave-stage--compact {
+  font-size: 4.5px;
+}
+
+.wp-prism-wave-ribbon {
+  background: rgb(255 255 255 / 25%);
+  border-radius: 1000% 1000% 0 0;
+  position: absolute;
+  width: 200%;
+  height: 12em;
+  left: 0;
+  bottom: 0;
+  opacity: 0.8;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.wp-prism-wave-ribbon--1 {
+  bottom: 0;
+  opacity: 0.8;
+  animation: wpPrismWave 10s -3s linear infinite;
+}
+
+.wp-prism-wave-ribbon--2 {
+  bottom: -1.25em;
+  opacity: 0.8;
+  animation: wpPrismWave 18s linear reverse infinite;
+}
+
+.wp-prism-wave-ribbon--3 {
+  bottom: -2.5em;
+  opacity: 0.9;
+  animation: wpPrismWave 20s -1s reverse infinite;
+}
+
+@keyframes wpPrismGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes wpPrismWave {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  25% {
+    transform: translate3d(-25%, 0, 0);
+  }
+  50% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  75% {
+    transform: translate3d(-25%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wp-prism-wave-stage,
+  .wp-prism-wave-ribbon,
+  .wp-sky-bubble,
+  .wp-confetti-ball,
+  .wp-teal-violet-stage,
+  .wp-hsl-particle,
+  .wp-cloud-band,
+  .wp-liquid-blob {
+    animation: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* 2. SKY RISING BUBBLES WALLPAPER                                           */
+/* ========================================================================= */
+.wp-sky-bubbles-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #29b6f6 0%, #38bdf8 55%, #0284c7 100%);
+  --bubble-scale: 1;
+  --bubble-rise-y: -120vh;
+}
+
+.wp-sky-bubbles-stage--compact {
+  --bubble-scale: 0.34;
+  --bubble-rise-y: -260px;
+}
+
+.wp-sky-bubbles-track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wp-sky-bubble {
+  position: absolute;
+  bottom: calc(-100px * var(--bubble-scale));
+  border-radius: 9999px;
+  background: rgba(241, 241, 241, 0.55);
+  box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.65);
+  opacity: 0.52;
+  will-change: transform, opacity;
+  animation: wpSkyBubbleRise 10s infinite ease-in;
+}
+
+.wp-sky-bubble--1 { width: calc(40px * var(--bubble-scale)); height: calc(40px * var(--bubble-scale)); left: 10%; animation-duration: 8s; }
+.wp-sky-bubble--2 { width: calc(20px * var(--bubble-scale)); height: calc(20px * var(--bubble-scale)); left: 20%; animation-duration: 5s; animation-delay: 1s; }
+.wp-sky-bubble--3 { width: calc(50px * var(--bubble-scale)); height: calc(50px * var(--bubble-scale)); left: 35%; animation-duration: 7s; animation-delay: 2s; }
+.wp-sky-bubble--4 { width: calc(80px * var(--bubble-scale)); height: calc(80px * var(--bubble-scale)); left: 50%; animation-duration: 11s; animation-delay: 0s; }
+.wp-sky-bubble--5 { width: calc(35px * var(--bubble-scale)); height: calc(35px * var(--bubble-scale)); left: 55%; animation-duration: 6s; animation-delay: 1s; }
+.wp-sky-bubble--6 { width: calc(45px * var(--bubble-scale)); height: calc(45px * var(--bubble-scale)); left: 65%; animation-duration: 8s; animation-delay: 3s; }
+.wp-sky-bubble--7 { width: calc(90px * var(--bubble-scale)); height: calc(90px * var(--bubble-scale)); left: 70%; animation-duration: 12s; animation-delay: 2s; }
+.wp-sky-bubble--8 { width: calc(25px * var(--bubble-scale)); height: calc(25px * var(--bubble-scale)); left: 80%; animation-duration: 6s; animation-delay: 2s; }
+.wp-sky-bubble--9 { width: calc(15px * var(--bubble-scale)); height: calc(15px * var(--bubble-scale)); left: 70%; animation-duration: 5s; animation-delay: 1s; }
+.wp-sky-bubble--10 { width: calc(90px * var(--bubble-scale)); height: calc(90px * var(--bubble-scale)); left: 25%; animation-duration: 10s; animation-delay: 4s; }
+
+@keyframes wpSkyBubbleRise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.52;
+  }
+  50% {
+    transform: translate3d(calc(90px * var(--bubble-scale)), calc(var(--bubble-rise-y) * 0.5), 0);
+    opacity: 0.62;
+  }
+  100% {
+    transform: translate3d(calc(-160px * var(--bubble-scale)), var(--bubble-rise-y), 0);
+    opacity: 0.25;
+  }
+}
+
+/* ========================================================================= */
+/* 3. CONFETTI FLOATING BALLS WALLPAPER                                      */
+/* ========================================================================= */
+.wp-confetti-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.wp-confetti-stage--compact {
+  font-size: 8px;
+}
+
+.wp-confetti-ball {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.7;
+  pointer-events: none;
+  will-change: transform;
+  animation: wpConfettiFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes wpConfettiFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(var(--ball-scale, 1));
+  }
+  100% {
+    transform: translate3d(var(--ball-tx, 4rem), var(--ball-ty, 6rem), 0) scale(var(--ball-scale, 1));
+  }
+}
+
+/* ========================================================================= */
+/* 4. CYAN CANVAS X & O WALLPAPER                                            */
+/* ========================================================================= */
+.wp-cyan-xo-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #04bbd3;
+}
+
+/* ========================================================================= */
+/* 5. TEAL BLUE VIOLET AURORA WALLPAPER                                      */
+/* ========================================================================= */
+.wp-teal-violet-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(253deg, #0cc898, #1797d2, #864fe1);
+  background-size: 300% 300%;
+  animation: wpTealVioletFlow 25s ease infinite;
+}
+
+.wp-teal-violet-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.16) 0%, transparent 64%);
+  background-size: 28px 28px, 100% 100%;
+}
+
+@keyframes wpTealVioletFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ========================================================================= */
+/* 6. SOFT MINT FLOATING HSL PARTICLES WALLPAPER                             */
+/* ========================================================================= */
+.wp-hsl-particles-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.wp-hsl-particle {
+  position: absolute;
+  left: var(--px-start, 10%);
+  top: var(--py-start, 10%);
+  border-radius: 9999px;
+  pointer-events: none;
+  will-change: left, top;
+  animation: wpHslParticleDrift 36s ease-in-out infinite alternate;
+}
+
+@keyframes wpHslParticleDrift {
+  0% {
+    left: var(--px-start, 10%);
+    top: var(--py-start, 10%);
+  }
+  100% {
+    left: var(--px-end, 80%);
+    top: var(--py-end, 75%);
+  }
+}
+
+/* ========================================================================= */
+/* 7. MOUNTAIN & DRIFTING CLOUDS WALLPAPER                                   */
+/* ========================================================================= */
+.wp-mountain-layers-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #61b2d8 0%, #9fc3eb 48%, #f9a4f2 100%);
+  --cloud-scale: 1;
+}
+
+.wp-mountain-layers-stage--compact {
+  --cloud-scale: 0.35;
+}
+
+.wp-mountain-svg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 76%;
+  pointer-events: none;
+}
+
+.wp-mountain-svg--3 { z-index: 6; }
+.wp-mountain-svg--2 { z-index: 8; }
+.wp-mountain-svg--1 { z-index: 10; }
+
+.wp-cloud-band {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: calc(110px * var(--cloud-scale));
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-size: 36% 100%;
+  background-image:
+    radial-gradient(ellipse 65% 58% at 22% 68%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 52% 48% at 48% 58%, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 60% 54% at 78% 66%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 70%);
+  will-change: transform;
+}
+
+.wp-cloud-band--3 {
+  bottom: calc(230px * var(--cloud-scale));
+  z-index: 5;
+  opacity: 0.58;
+  animation: wpCloudSweep 120s ease-out infinite;
+}
+
+.wp-cloud-band--2 {
+  bottom: calc(115px * var(--cloud-scale));
+  z-index: 7;
+  opacity: 0.64;
+  animation: wpCloudSweep 60s ease-in infinite;
+}
+
+.wp-cloud-band--1 {
+  bottom: calc(20px * var(--cloud-scale));
+  z-index: 9;
+  opacity: 0.62;
+  animation: wpCloudSweep 120s ease-out infinite;
+}
+
+.wp-mountain-pastel-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(97, 178, 216, 0.28) 0%, rgba(249, 164, 242, 0.34) 100%);
+}
+
+@keyframes wpCloudSweep {
+  from {
+    transform: translate3d(0%, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ========================================================================= */
+/* 8. INTERACTIVE LIQUID GRADIENT BLOBS WALLPAPER                            */
+/* ========================================================================= */
+.wp-liquid-blobs-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(40deg, #dff9fb, #ffffff);
+  --blob-circle: 135%;
+}
+
+.wp-liquid-blobs-stage--dark {
+  background: linear-gradient(40deg, #0b1120, #1e1b4b);
+}
+
+.wp-liquid-blobs-stage--compact {
+  --blob-circle: 150%;
+}
+
+.wp-liquid-blobs-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wp-liquid-blob {
+  position: absolute;
+  width: var(--blob-circle);
+  height: var(--blob-circle);
+  top: calc(50% - var(--blob-circle) / 2);
+  left: calc(50% - var(--blob-circle) / 2);
+  mix-blend-mode: hard-light;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.wp-liquid-blobs-stage--dark .wp-liquid-blob {
+  mix-blend-mode: screen;
+}
+
+.wp-liquid-blob--1 {
+  background: radial-gradient(circle at center, rgba(104, 109, 224, 0.72) 0, rgba(104, 109, 224, 0) 52%);
+  animation: wpBlobVertical 30s ease infinite;
+}
+
+.wp-liquid-blob--2 {
+  background: radial-gradient(circle at center, rgba(126, 214, 223, 0.76) 0, rgba(126, 214, 223, 0) 52%);
+  transform-origin: calc(50% - 260px) center;
+  animation: wpBlobOrbit 20s reverse infinite;
+}
+
+.wp-liquid-blob--3 {
+  background: radial-gradient(circle at center, rgba(167, 243, 208, 0.7) 0, rgba(167, 243, 208, 0) 52%);
+  transform-origin: calc(50% + 260px) center;
+  animation: wpBlobOrbit 40s linear infinite;
+}
+
+.wp-liquid-blob--4 {
+  background: radial-gradient(circle at center, rgba(255, 121, 121, 0.64) 0, rgba(255, 121, 121, 0) 52%);
+  transform-origin: calc(50% - 160px) center;
+  animation: wpBlobHorizontal 40s ease infinite;
+  opacity: 0.75;
+}
+
+.wp-liquid-blob--5 {
+  background: radial-gradient(circle at center, rgba(149, 175, 192, 0.72) 0, rgba(149, 175, 192, 0) 52%);
+  transform-origin: calc(50% - 360px) calc(50% + 140px);
+  animation: wpBlobOrbit 22s ease infinite;
+}
+
+.wp-liquid-blob-interactive {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: -45%;
+  left: -45%;
+  background: radial-gradient(circle at center, rgba(140, 100, 255, 0.65) 0, rgba(140, 100, 255, 0) 50%);
+  mix-blend-mode: hard-light;
+  opacity: 0.7;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.wp-liquid-blobs-stage--dark .wp-liquid-blob-interactive {
+  mix-blend-mode: screen;
+}
+
+@keyframes wpBlobOrbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wpBlobVertical {
+  0% {
+    transform: translate3d(0, -28%, 0);
+  }
+  50% {
+    transform: translate3d(0, 28%, 0);
+  }
+  100% {
+    transform: translate3d(0, -28%, 0);
+  }
+}
+
+@keyframes wpBlobHorizontal {
+  0% {
+    transform: translate3d(-28%, -8%, 0);
+  }
+  50% {
+    transform: translate3d(28%, 8%, 0);
+  }
+  100% {
+    transform: translate3d(-28%, -8%, 0);
+  }
+}
+
+/* ========================================================================= */
+/* 9. COSMIC BOKEH & LIGHT BEAMS WALLPAPER                                   */
+/* ========================================================================= */
+.wp-cosmic-bokeh-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #090d00;
+}
+
+

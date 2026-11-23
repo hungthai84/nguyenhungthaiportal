@@ -74,8 +74,8 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     themeMode: 'light',
     imagePath: wpLiquidGlass,
     fallbackGradient:
-      'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), radial-gradient(at 86% 14%, rgba(125, 211, 252, 0.30) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 207, 232, 0.28) 0px, transparent 52%), linear-gradient(135deg, #f3f6fd 0%, #e9eefb 50%, #edf2fc 100%)',
-    overlayBg: 'rgba(243, 246, 253, 0.12)',
+      'radial-gradient(ellipse 68% 58% at 12% 14%, rgba(245, 221, 224, 0.90) 0px, transparent 58%), radial-gradient(ellipse 64% 56% at 88% 16%, rgba(169, 230, 231, 0.72) 0px, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 48%, rgba(207, 197, 233, 0.68) 0px, transparent 60%), radial-gradient(ellipse 66% 54% at 82% 86%, rgba(174, 191, 206, 0.65) 0px, transparent 56%), linear-gradient(135deg, #F8F6F7 0%, #F1E7E5 44%, #ECE7F6 74%, #E6F3F6 100%)',
+    overlayBg: 'rgba(248, 246, 247, 0.08)',
   },
   'dark-liquid-glass': {
     id: 'dark-liquid-glass',
@@ -84,8 +84,8 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     themeMode: 'dark',
     imagePath: darkRainbowGlassWallpaper,
     fallbackGradient:
-      'radial-gradient(at 14% 16%, rgba(99, 102, 241, 0.24) 0px, transparent 52%), radial-gradient(at 86% 14%, rgba(56, 189, 248, 0.20) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(168, 85, 247, 0.16) 0px, transparent 52%), linear-gradient(140deg, #0b1221 0%, #111b31 52%, #0e172a 100%)',
-    overlayBg: 'rgba(11, 18, 33, 0.18)',
+      'radial-gradient(ellipse 66% 56% at 14% 16%, rgba(152, 137, 238, 0.24) 0px, transparent 56%), radial-gradient(ellipse 64% 54% at 86% 14%, rgba(103, 232, 249, 0.16) 0px, transparent 52%), radial-gradient(ellipse 62% 56% at 76% 84%, rgba(181, 167, 244, 0.18) 0px, transparent 54%), linear-gradient(140deg, #101A2B 0%, #171F33 52%, #131B2E 100%)',
+    overlayBg: 'rgba(16, 26, 43, 0.16)',
   },
   'cowhide-leather': {
     id: 'cowhide-leather',

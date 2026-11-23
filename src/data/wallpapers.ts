@@ -252,6 +252,122 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794035600000,
   },
   {
+    id: 'css-prism-wave-flow',
+    name: 'Sóng Sắc Cầu Vồng',
+    type: 'css',
+    value:
+      'linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%)',
+    bg: 'linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%)',
+    previewStyle: {
+      background:
+        'linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%)',
+      backgroundSize: '400% 400%',
+    },
+    isCustom: false,
+    createdAt: 1795400000000,
+  },
+  {
+    id: 'css-sky-rising-bubbles',
+    name: 'Bong Bóng Bầu Trời',
+    type: 'css',
+    value: 'linear-gradient(180deg, #29b6f6 0%, #38bdf8 55%, #0284c7 100%)',
+    bg: 'linear-gradient(180deg, #29b6f6 0%, #38bdf8 55%, #0284c7 100%)',
+    previewStyle: {
+      background: 'linear-gradient(180deg, #29b6f6 0%, #38bdf8 55%, #0284c7 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000001,
+  },
+  {
+    id: 'css-cosmic-bokeh-beams',
+    name: 'Vũ Trụ Bokeh Ánh Sáng',
+    type: 'css',
+    value:
+      'radial-gradient(circle at 25% 20%, rgba(0, 150, 240, 0.72) 0%, rgba(40, 20, 105, 0.58) 45%, #090d00 100%)',
+    bg: 'radial-gradient(circle at 25% 20%, rgba(0, 150, 240, 0.72) 0%, rgba(40, 20, 105, 0.58) 45%, #090d00 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 25% 20%, rgba(0, 150, 240, 0.72) 0%, rgba(40, 20, 105, 0.58) 45%, #090d00 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000002,
+  },
+  {
+    id: 'css-interactive-liquid-blobs',
+    name: 'Chuyển Sắc Tương Tác',
+    type: 'css',
+    value:
+      'radial-gradient(circle at 30% 30%, rgba(104, 109, 224, 0.48) 0%, transparent 55%), radial-gradient(circle at 75% 65%, rgba(255, 121, 121, 0.42) 0%, transparent 55%), linear-gradient(40deg, #dff9fb, #ffffff)',
+    bg: 'linear-gradient(40deg, #dff9fb, #ffffff)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 30% 30%, rgba(104, 109, 224, 0.48) 0%, transparent 55%), radial-gradient(circle at 75% 65%, rgba(255, 121, 121, 0.42) 0%, transparent 55%), linear-gradient(40deg, #dff9fb, #ffffff)',
+    },
+    isCustom: false,
+    createdAt: 1795400000003,
+  },
+  {
+    id: 'css-mountain-cloud-layers',
+    name: 'Núi Mây Hoàng Hôn',
+    type: 'css',
+    value: 'linear-gradient(135deg, #61b2d8 0%, #9fc3eb 48%, #f9a4f2 100%)',
+    bg: 'linear-gradient(135deg, #61b2d8 0%, #9fc3eb 48%, #f9a4f2 100%)',
+    previewStyle: {
+      background: 'linear-gradient(135deg, #61b2d8 0%, #9fc3eb 48%, #f9a4f2 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000004,
+  },
+  {
+    id: 'css-pastel-hsl-particles',
+    name: 'Hạt Sáng Đa Sắc',
+    type: 'css',
+    value: 'linear-gradient(145deg, #ecf3f3 0%, #e2eef2 100%)',
+    bg: '#ecf3f3',
+    previewStyle: {
+      background: 'linear-gradient(145deg, #ecf3f3 0%, #e2eef2 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000005,
+  },
+  {
+    id: 'css-teal-violet-aurora',
+    name: 'Cực Quang Ngọc Tím',
+    type: 'css',
+    value: 'linear-gradient(253deg, #0cc898, #1797d2, #864fe1)',
+    bg: 'linear-gradient(253deg, #0cc898, #1797d2, #864fe1)',
+    previewStyle: {
+      background: 'linear-gradient(253deg, #0cc898, #1797d2, #864fe1)',
+      backgroundSize: '300% 300%',
+    },
+    isCustom: false,
+    createdAt: 1795400000006,
+  },
+  {
+    id: 'css-cyan-xo-motion',
+    name: 'Họa Tiết X & O',
+    type: 'css',
+    value: 'linear-gradient(145deg, #04bbd3 0%, #06a3ba 100%)',
+    bg: '#04bbd3',
+    previewStyle: {
+      background: 'linear-gradient(145deg, #04bbd3 0%, #06a3ba 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000007,
+  },
+  {
+    id: 'css-confetti-floating-balls',
+    name: 'Quả Cầu Sắc Màu',
+    type: 'css',
+    value: 'linear-gradient(145deg, #f8fafc 0%, #eef2ff 55%, #f0f9ff 100%)',
+    bg: 'linear-gradient(145deg, #f8fafc 0%, #eef2ff 55%, #f0f9ff 100%)',
+    previewStyle: {
+      background: 'linear-gradient(145deg, #f8fafc 0%, #eef2ff 55%, #f0f9ff 100%)',
+    },
+    isCustom: false,
+    createdAt: 1795400000008,
+  },
+  {
     id: 'gravity-auto-morph',
     name: 'Gravity 3D — Chuyển Sắc Theo Trang (Auto Morph)',
     type: 'webgl',

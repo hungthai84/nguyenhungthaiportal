@@ -3064,64 +3064,32 @@ button#header-btn-hungthai-avatar {
   align-items: center !important;
   gap: 8px !important;
   box-sizing: border-box !important;
-  background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
-  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
-  box-shadow: var(--surface-interactive-shadow, 0 6px 18px rgba(50, 40, 80, 0.08)), inset 0 1px 0 rgba(255, 255, 255, 0.60) !important;
-  backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 18px)) saturate(140%) !important;
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
+  background: var(--pill-bg, var(--bg-nav-pill, rgba(255, 255, 255, 0.24))) !important;
+  border-color: var(--pill-border, var(--surface-interactive-border, rgba(255, 255, 255, 0.56))) !important;
+  color: var(--pill-text, var(--text-primary)) !important;
+  box-shadow: var(--pill-shadow, var(--surface-interactive-shadow, 0 6px 18px rgba(50, 40, 80, 0.08))) !important;
+  backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
 }
 
-html.dark button#footer-ai-btn,
-html.dark #footer-lang-btn,
-html.dark #footer-appearance-btn,
-html.dark #footer-wallpaper-btn,
-html.dark #footer-theme-mode-btn,
-html.dark #app-header button.nav-pill,
-html.dark #app-footer button.nav-pill,
-html.dark button.nav-pill,
-html.dark button#header-btn-hungthai-avatar {
-  background-color: var(--bg-nav-pill, rgba(30, 39, 60, 0.20)) !important;
-  border-color: var(--surface-interactive-border, rgba(225, 235, 255, 0.18)) !important;
-  box-shadow: var(--surface-interactive-shadow, 0 6px 18px rgba(0, 0, 0, 0.30)), inset 0 1px 0 rgba(225, 235, 255, 0.16) !important;
+@media (hover: hover) and (pointer: fine) {
+  button#footer-ai-btn:hover,
+  #footer-lang-btn:hover,
+  #footer-appearance-btn:hover,
+  #footer-wallpaper-btn:hover,
+  #footer-theme-mode-btn:hover,
+  #app-header button.nav-pill:hover,
+  #app-footer button.nav-pill:hover,
+  button.nav-pill:hover,
+  button#header-btn-hungthai-avatar:hover {
+    background: var(--pill-bg-hover, var(--bg-nav-pill-hover, rgba(255, 255, 255, 0.42))) !important;
+    border-color: var(--pill-border-hover, var(--surface-interactive-border, rgba(255, 255, 255, 0.88))) !important;
+    box-shadow: var(--pill-shadow-hover, var(--surface-interactive-shadow, 0 10px 24px -4px rgba(50, 40, 80, 0.16))) !important;
+  }
 }
 
-/* Micro-interaction on hover & active (defers transform/shadow/border to per-theme rules) */
-button#footer-ai-btn:hover,
-#footer-lang-btn:hover,
-#footer-appearance-btn:hover,
-#footer-wallpaper-btn:hover,
-#footer-theme-mode-btn:hover,
-#app-header button.nav-pill:hover,
-#app-footer button.nav-pill:hover,
-button.nav-pill:hover,
-button#header-btn-hungthai-avatar:hover {
-  background-color: var(--bg-nav-pill-hover, var(--surface-interactive-bg, rgba(255, 255, 255, 0.34))) !important;
-  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.85));
-  box-shadow: var(--surface-interactive-shadow, 0 10px 24px -4px rgba(50, 40, 80, 0.16));
-}
-
-html.dark button#footer-ai-btn:hover,
-html.dark #footer-lang-btn:hover,
-html.dark #footer-appearance-btn:hover,
-html.dark #footer-wallpaper-btn:hover,
-html.dark #footer-theme-mode-btn:hover,
-html.dark #app-header button.nav-pill:hover,
-html.dark #app-footer button.nav-pill:hover,
-html.dark button.nav-pill:hover,
-html.dark button#header-btn-hungthai-avatar:hover {
-  background-color: var(--bg-nav-pill-hover, var(--surface-interactive-bg, rgba(38, 49, 75, 0.42))) !important;
-  border-color: var(--surface-interactive-border, rgba(181, 167, 244, 0.40));
-  box-shadow: var(--surface-interactive-shadow, 0 10px 24px -4px rgba(0, 0, 0, 0.45));
-}
-
-/* Nav pill active sink removed per user request */
-
-/* ========================================================================= */
-/* MENU ICON DEFAULT TITLE COLOR = ICON COLOR                                */
-/* & SELECTED PAGE = HOVER EFFECT + CHANGED ACCENT BACKGROUND COLOR          */
-/* ========================================================================= */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+:is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3130,9 +3098,44 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+) :is(.nav-pill-divider, .radial-contact-divider) {
+  background-color: var(--pill-divider, rgba(148, 163, 184, 0.36)) !important;
+}
+
+/* ========================================================================= */
+/* MENU ICON DEFAULT TITLE & BADGE = THEME-SYNCED + PER-PILL ACCENT          */
+/* & SELECTED PAGE = ACCENT GRADIENT FILL + WHITE TEXT & BADGE               */
+/* ========================================================================= */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="light-deep-ocean"]) :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
 ) .nav-pill-title {
   color: var(--nav-pill-accent, var(--text-primary)) !important;
+}
+
+html[data-card-style="light-deep-ocean"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+) .nav-pill-title {
+  color: var(--pill-title-color, #03195B) !important;
 }
 
 html.dark:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
@@ -3144,9 +3147,10 @@ html.dark:not([data-card-style="cowhide-leather"]):not([data-card-style="black-c
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
 ) .nav-pill-title,
-html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :is(
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"], [data-card-style="dark-flat-soft-ui"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3155,12 +3159,76 @@ html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
 ) .nav-pill-title {
   color: color-mix(in srgb, var(--nav-pill-accent, #ffffff) 82%, #ffffff) !important;
 }
 
-/* Active / Selected Page Pill: Hover lift + glow + changed button background color */
+/* Default pill icon badges synced per theme family (preserving Leather & Neumorphism/Frost styles) */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not(.dark) :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6D28D9)) 14%, rgba(255, 255, 255, 0.92)) !important;
+  border: 1px solid color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6D28D9)) 28%, rgba(255, 255, 255, 0.90)) !important;
+  box-shadow: var(--pill-badge-shadow, 0 2px 6px rgba(15, 23, 42, 0.08)) !important;
+}
+
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not(.dark) :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) :is(svg, .nav-pill-icon-svg) {
+  color: var(--nav-pill-accent, var(--color-primary, #6D28D9)) !important;
+  stroke: currentColor !important;
+}
+
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #B5A7F4)) 24%, rgba(23, 31, 51, 0.90)) !important;
+  border: 1px solid color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #B5A7F4)) 46%, rgba(255, 255, 255, 0.22)) !important;
+  box-shadow: var(--pill-badge-shadow, 0 3px 8px rgba(2, 6, 23, 0.44)) !important;
+}
+
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) :is(svg, .nav-pill-icon-svg) {
+  color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #B5A7F4)) 82%, #ffffff) !important;
+  stroke: currentColor !important;
+}
+
+/* Active / Selected Page Pill: Accent gradient fill + white title & badge */
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
@@ -3170,21 +3238,40 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
 ):is([aria-current="page"], [data-active="true"]) {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 88%, #ffffff) 0%,
-    var(--nav-pill-accent, #6366F1) 56%,
-    color-mix(in srgb, var(--nav-pill-accent, #6366F1) 82%, #0f172a) 100%
+    color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6366F1)) 88%, #ffffff) 0%,
+    var(--nav-pill-accent, var(--color-primary, #6366F1)) 56%,
+    color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6366F1)) 82%, #0f172a) 100%
   ) !important;
-  background-color: var(--nav-pill-accent, #6366F1) !important;
-  border-color: color-mix(in srgb, var(--nav-pill-accent, #6366F1) 68%, #ffffff) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #6366F1)) !important;
+  border-color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6366F1)) 68%, #ffffff) !important;
   transform: none !important;
   box-shadow:
-    0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6366F1) 46%, rgba(15, 23, 42, 0.24)),
+    0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6366F1)) 44%, rgba(15, 23, 42, 0.24)),
     inset 0 1px 0 rgba(255, 255, 255, 0.48) !important;
-  color: #ffffff !important;
+  color: var(--pill-active-text, #ffffff) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
+    #app-header button.nav-pill,
+    #app-footer button.nav-pill,
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    #footer-theme-mode-btn,
+    .radial-contact-pill
+  ):is([aria-current="page"], [data-active="true"]):hover {
+    filter: brightness(1.06);
+    transform: none !important;
+  }
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
@@ -3196,24 +3283,10 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
-  .radial-contact-pill
-):is([aria-current="page"], [data-active="true"]):hover {
-  filter: brightness(1.06);
-  transform: none !important;
-}
-
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
-  #app-header button.nav-pill,
-  #app-footer button.nav-pill,
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-title {
-  color: #ffffff !important;
+  color: var(--pill-active-text, #ffffff) !important;
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
@@ -3225,9 +3298,10 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
-):is([aria-current="page"], [data-active="true"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.52) !important;
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-divider, .radial-contact-divider) {
+  background-color: var(--pill-active-divider, rgba(255, 255, 255, 0.54)) !important;
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) :is(
@@ -3239,37 +3313,29 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
-):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: var(--pill-active-badge-bg, #ffffff) !important;
+  background-color: var(--pill-active-badge-bg, #ffffff) !important;
+  border-color: rgba(255, 255, 255, 0.92) !important;
   --tw-ring-color: rgba(255, 255, 255, 0.92) !important;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
-  #app-header button.nav-pill,
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
   #app-footer button.nav-pill,
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
+  button.nav-pill:not(#header-btn-hungthai-avatar),
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn,
+  #footer-theme-mode-btn,
   .radial-contact-pill
-):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
-  #app-header button.nav-pill,
-  #app-footer button.nav-pill,
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill
-):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
-  color: var(--nav-pill-accent, #4973FF) !important;
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) :is(svg, .nav-pill-icon-svg) {
+  color: var(--nav-pill-accent, var(--pill-active-badge-icon, #4973FF)) !important;
+  stroke: currentColor !important;
 }
 
 .radial-contact-pill {
@@ -3287,11 +3353,12 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   align-items: center !important;
   gap: 8px !important;
   box-sizing: border-box !important;
-  background-color: var(--surface-interactive-bg, var(--bg-nav-pill, rgba(255, 255, 255, 0.20))) !important;
-  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
-  box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 6px 18px rgba(50, 40, 80, 0.08))) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 18px))) saturate(140%) !important;
+  background: var(--pill-bg, var(--surface-interactive-bg, rgba(255, 255, 255, 0.24))) !important;
+  border-color: var(--pill-border, var(--surface-interactive-border, rgba(255, 255, 255, 0.56))) !important;
+  color: var(--pill-text, var(--text-primary)) !important;
+  box-shadow: var(--pill-shadow, var(--surface-interactive-shadow, 0 6px 18px rgba(50, 40, 80, 0.08))) !important;
+  backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
 }
 
 /* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH HOME PILL (KEEP AVATAR GIF) */
@@ -3341,10 +3408,32 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
   padding-left: 5px !important;
   padding-right: 5px !important;
   border-width: 1px !important;
+  border-style: solid !important;
   border-radius: var(--radius-button, 999px) !important;
-  background-color: var(--bg-nav-pill, rgba(255, 255, 255, 0.20)) !important;
-  border-color: var(--surface-interactive-border, rgba(255, 255, 255, 0.52)) !important;
+  background: var(--pill-bg, var(--bg-nav-pill, rgba(255, 255, 255, 0.24))) !important;
+  border-color: var(--pill-border, var(--surface-interactive-border, rgba(255, 255, 255, 0.56))) !important;
+  box-shadow: var(--pill-shadow, var(--elev-nav-capsule)) !important;
+  backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
   box-sizing: border-box !important;
+}
+
+#app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: var(--pill-arrow-bg, rgba(255, 255, 255, 0.72)) !important;
+  border-color: var(--pill-arrow-border, rgba(255, 255, 255, 0.85)) !important;
+  color: var(--pill-arrow-text, var(--color-primary, #4F46E5)) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover:not(:disabled) {
+    background: var(--pill-arrow-hover, #FFFFFF) !important;
+    border-color: var(--pill-border-hover, var(--pill-arrow-border)) !important;
+  }
+}
+
+#app-footer #footer-nav-capsule #footer-page-counter,
+#app-footer #footer-nav-capsule #footer-page-icon {
+  color: var(--pill-counter-color, var(--text-link, var(--color-primary))) !important;
 }
 
 #app-footer #footer-nav-capsule #footer-page-counter {
@@ -4064,1277 +4153,515 @@ html[data-card-style] :is(
   transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease, box-shadow 200ms ease;
 }
 
-/* 1. Nổi khối kính mờ (neumorphism-beyond): Nổi mềm Soft UI + Bấm lún xúc giác (Concave Press) */
-html[data-card-style="neumorphism-beyond"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(100, 182, 255, 0.72) !important;
-  box-shadow:
-    0 8px 18px rgba(148, 163, 184, 0.28),
-    3px 5px 12px rgba(163, 177, 198, 0.36),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-}
+@media (hover: hover) and (pointer: fine) {
+  /* 1. Nổi khối kính mờ (neumorphism-beyond) */
+  html[data-card-style="neumorphism-beyond"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(100, 182, 255, 0.72) !important;
+    box-shadow:
+      0 8px 18px rgba(148, 163, 184, 0.28),
+      3px 5px 12px rgba(163, 177, 198, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
 
-html[data-card-style="neumorphism-beyond"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
-  box-shadow:
-    inset 4px 4px 9px rgba(130, 148, 175, 0.58),
-    inset -3px -3px 7px rgba(255, 255, 255, 0.86),
-    0 1px 2px rgba(148, 163, 184, 0.14) !important;
-  filter: brightness(0.97);
-  transition:
-    transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1),
-    box-shadow 60ms ease,
-    filter 60ms ease !important;
-}
+  html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+  }
 
-html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.06);
-}
+  /* 2. Liquid Glass (Sáng & Tối): Hover thanh thoát đúng 180–240ms, không phóng đại/sink */
+  html[data-card-style="liquid-glass"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.96) !important;
+    box-shadow:
+      0 12px 26px -6px rgba(79, 70, 229, 0.22),
+      0 4px 12px -2px rgba(8, 145, 178, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+  }
 
-html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: translate3d(0, 1px, 0) scale(0.90);
-}
+  html[data-card-style="liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.05);
+  }
 
-/* 2. Liquid Glass (Sáng): Phản chiếu giọt nước quang học + Đàn hồi lò xo lỏng */
-html[data-card-style="liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 210ms cubic-bezier(0.34, 1.45, 0.64, 1),
-    box-shadow 210ms ease,
-    border-color 180ms ease,
-    filter 180ms ease,
-    background-color 180ms ease !important;
-}
+  html[data-card-style="dark-liquid-glass"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1px, 0) !important;
+    border-color: rgba(181, 167, 244, 0.54) !important;
+    box-shadow:
+      0 12px 26px -6px rgba(152, 137, 238, 0.28),
+      0 4px 12px -2px rgba(2, 6, 23, 0.44),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+  }
 
-html[data-card-style="liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
-  border-color: rgba(255, 255, 255, 0.96) !important;
-  box-shadow:
-    0 12px 26px -6px rgba(37, 99, 235, 0.24),
-    0 4px 12px -2px rgba(14, 165, 233, 0.16),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -1px 0 rgba(99, 102, 241, 0.16) !important;
-  filter: brightness(1.05);
-}
+  html[data-card-style="dark-liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.05);
+  }
 
-html[data-card-style="liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
-  box-shadow:
-    0 2px 6px rgba(37, 99, 235, 0.16),
-    inset 0 3px 7px rgba(30, 64, 175, 0.22),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.72) !important;
-  filter: brightness(0.96);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
+  /* 4. Multicolor Glass (Kính đa sắc) */
+  html[data-card-style="multicolor-glass"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.96) !important;
+    box-shadow:
+      0 10px 24px -4px rgba(168, 85, 247, 0.30),
+      0 4px 14px -4px rgba(6, 182, 212, 0.26),
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.94) !important;
+    filter: saturate(1.12) brightness(1.04);
+  }
 
-html[data-card-style="liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.08) rotate(-4deg);
-}
+  html[data-card-style="multicolor-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+  }
 
-html[data-card-style="liquid-glass"] :is(.banner-control-pill, .banner-primary-cta, .project-card-btn-primary):hover svg {
-  transform: scale(1.08);
-}
+  /* 4B. Dark Neon Glass (Glass UI Neon Tối) */
+  html[data-card-style="dark-neon-glass"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -2px, 0) !important;
+    border-color: rgba(103, 232, 249, 0.82) !important;
+    box-shadow:
+      0 10px 26px -4px rgba(34, 211, 238, 0.36),
+      0 4px 16px -4px rgba(217, 70, 239, 0.30),
+      inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
+    filter: saturate(1.12) brightness(1.05);
+  }
 
-/* 3. Dark Liquid Glass (Tối): Viền khúc xạ pha lê + Hào quang Cyan điện tử */
-html[data-card-style="dark-liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 210ms cubic-bezier(0.34, 1.45, 0.64, 1),
-    box-shadow 210ms ease,
-    border-color 180ms ease,
-    filter 180ms ease,
-    background-color 180ms ease !important;
-}
+  html[data-card-style="dark-neon-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
+  }
 
-html[data-card-style="dark-liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
-  border-color: rgba(125, 211, 252, 0.72) !important;
-  box-shadow:
-    0 10px 26px -4px rgba(14, 165, 233, 0.34),
-    0 0 14px rgba(99, 102, 241, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
-  filter: brightness(1.10);
-}
+  /* 5. Da bò cổ điển (cowhide-leather) */
+  html[data-card-style="cowhide-leather"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(253, 230, 138, 0.78) !important;
+    box-shadow:
+      0 8px 18px rgba(30, 14, 4, 0.46),
+      0 0 12px rgba(245, 158, 11, 0.16),
+      inset 0 1px 1px rgba(255, 232, 188, 0.36) !important;
+    filter: brightness(1.07);
+  }
 
-html[data-card-style="dark-liquid-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
-  box-shadow:
-    0 2px 8px rgba(2, 6, 23, 0.58),
-    inset 0 3px 9px rgba(2, 6, 23, 0.65),
-    inset 0 0 12px rgba(56, 189, 248, 0.30) !important;
-  filter: brightness(0.94);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
+  html[data-card-style="cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 5px rgba(253, 230, 138, 0.45));
+  }
 
-html[data-card-style="dark-liquid-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.08) rotate(-4deg);
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.55));
-}
+  /* 5b. Da bò đen chỉ trắng (black-cowhide-leather) */
+  html[data-card-style="black-cowhide-leather"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.86) !important;
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.65),
+      0 0 12px rgba(255, 255, 255, 0.16),
+      inset 0 1px 1px rgba(255, 255, 255, 0.30) !important;
+    filter: brightness(1.08);
+  }
 
-/* 4. Multicolor Glass (Kính đa sắc): Lăng kính chuyển sắc cầu vồng rực rỡ */
-html[data-card-style="multicolor-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
-  border-color: rgba(255, 255, 255, 0.96) !important;
-  box-shadow:
-    0 10px 24px -4px rgba(168, 85, 247, 0.30),
-    0 4px 14px -4px rgba(6, 182, 212, 0.26),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.94) !important;
-  filter: saturate(1.18) brightness(1.05);
-}
+  html[data-card-style="black-cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.50));
+  }
 
-html[data-card-style="multicolor-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
-  box-shadow:
-    0 2px 8px rgba(139, 92, 246, 0.22),
-    inset 0 3px 7px rgba(99, 102, 241, 0.28),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.72) !important;
-  filter: saturate(1.18) brightness(0.96);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
+  /* 6. Đại dương sâu (deep-ocean) */
+  html[data-card-style="deep-ocean"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(34, 211, 238, 0.74) !important;
+    box-shadow:
+      0 0 22px rgba(6, 182, 212, 0.36),
+      0 8px 18px rgba(2, 10, 24, 0.54),
+      inset 0 1px 0 rgba(165, 243, 252, 0.30) !important;
+    filter: brightness(1.06);
+  }
 
-html[data-card-style="multicolor-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.1) rotate(5deg);
-}
+  html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
+  }
 
-/* 4B. Dark Neon Glass (Glass UI Neon Tối): Bùng sáng viền Cyan-Magenta điện tử */
-html[data-card-style="dark-neon-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2.5px, 0) scale(1.02) !important;
-  border-color: rgba(103, 232, 249, 0.82) !important;
-  box-shadow:
-    0 10px 26px -4px rgba(34, 211, 238, 0.36),
-    0 4px 16px -4px rgba(217, 70, 239, 0.30),
-    inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
-  filter: saturate(1.16) brightness(1.06);
-}
+  /* 7. Đại dương sâu thẳm sáng (light-deep-ocean) */
+  html[data-card-style="light-deep-ocean"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(255, 255, 255, 0.88) !important;
+    box-shadow:
+      0 10px 24px -4px rgba(25, 81, 252, 0.28),
+      0 4px 12px rgba(115, 191, 255, 0.22),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
+    filter: brightness(1.04);
+  }
 
-html[data-card-style="dark-neon-glass"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.95, 0.95, 1) !important;
-  box-shadow:
-    0 2px 10px rgba(217, 70, 239, 0.28),
-    inset 0 3px 9px rgba(2, 6, 23, 0.75),
-    inset 0 0 10px rgba(34, 211, 238, 0.30) !important;
-  filter: saturate(1.18) brightness(0.95);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
+  html[data-card-style="light-deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+    filter: drop-shadow(0 2px 6px rgba(25, 81, 252, 0.38));
+  }
 
-html[data-card-style="dark-neon-glass"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.1) rotate(-4deg);
-  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
-}
+  /* 8. Nổi khối kính mờ tối (dark-neumorphism-beyond) */
+  html[data-card-style="dark-neumorphism-beyond"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(100, 182, 255, 0.48) !important;
+    box-shadow:
+      6px 8px 18px rgba(4, 7, 15, 0.68),
+      -3px -3px 10px rgba(42, 54, 76, 0.42),
+      inset 0 1px 0 rgba(148, 163, 184, 0.18) !important;
+  }
 
-/* 5. Da bò cổ điển (cowhide-leather): Ánh đồng đốt thủ công + Dập nổi chìm da thật */
-html[data-card-style="cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 170ms cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 180ms ease,
-    border-color 170ms ease,
-    filter 170ms ease,
-    background-color 170ms ease !important;
-}
+  html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+    transform: scale(1.06);
+  }
 
-html[data-card-style="cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -1.5px, 0) !important;
-  border-color: rgba(253, 230, 138, 0.78) !important;
-  box-shadow:
-    0 8px 18px rgba(30, 14, 4, 0.46),
-    0 0 12px rgba(245, 158, 11, 0.16),
-    inset 0 1px 1px rgba(255, 232, 188, 0.36) !important;
-  filter: brightness(1.07);
-}
+  /* 9. Băng tuyết nổi khối (frost-ice-neu & dark-frost-ice-neu) */
+  html[data-card-style="frost-ice-neu"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(110, 106, 246, 0.44) !important;
+    box-shadow:
+      7px 9px 18px rgba(154, 187, 220, 0.40),
+      -5px -5px 14px rgba(255, 255, 255, 0.98),
+      inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+  }
 
-html[data-card-style="cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.958, 0.958, 1) !important;
-  box-shadow:
-    inset 0 4px 10px rgba(18, 8, 2, 0.78),
-    inset 0 -1px 0 rgba(245, 222, 179, 0.22),
-    0 1px 2px rgba(18, 8, 2, 0.30) !important;
-  filter: brightness(0.93);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
+  html[data-card-style="dark-frost-ice-neu"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(142, 139, 255, 0.48) !important;
+    box-shadow:
+      7px 9px 18px rgba(4, 9, 18, 0.72),
+      -4px -4px 12px rgba(46, 70, 108, 0.40),
+      inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
+  }
 
-html[data-card-style="cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.06);
-  filter: drop-shadow(0 0 5px rgba(253, 230, 138, 0.45));
-}
+  /* 10. Flat Soft UI (flat-soft-ui & dark-flat-soft-ui) */
+  html[data-card-style="flat-soft-ui"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(79, 70, 229, 0.52) !important;
+    box-shadow:
+      0 8px 20px -4px rgba(79, 70, 229, 0.20),
+      0 2px 6px rgba(15, 23, 42, 0.06) !important;
+  }
 
-/* 5b. Da bò đen chỉ trắng (black-cowhide-leather): Viền chỉ trắng sắc nét + Dập nổi da đen */
-html[data-card-style="black-cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 170ms cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 180ms ease,
-    border-color 170ms ease,
-    filter 170ms ease,
-    background-color 170ms ease !important;
-}
-
-html[data-card-style="black-cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -1.5px, 0) !important;
-  border-color: rgba(255, 255, 255, 0.86) !important;
-  box-shadow:
-    0 8px 18px rgba(0, 0, 0, 0.65),
-    0 0 12px rgba(255, 255, 255, 0.16),
-    inset 0 1px 1px rgba(255, 255, 255, 0.30) !important;
-  filter: brightness(1.08);
-}
-
-html[data-card-style="black-cowhide-leather"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.958, 0.958, 1) !important;
-  box-shadow:
-    inset 0 4px 10px rgba(0, 0, 0, 0.88),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.22),
-    0 1px 2px rgba(0, 0, 0, 0.40) !important;
-  filter: brightness(0.93);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
-
-html[data-card-style="black-cowhide-leather"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.06);
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.50));
-}
-
-/* 6. Đại dương sâu (deep-ocean): Sóng lam phát quang sinh học êm ái dưới đáy biển */
-html[data-card-style="deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 230ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 240ms ease,
-    border-color 210ms ease,
-    filter 210ms ease,
-    background-color 210ms ease !important;
-}
-
-html[data-card-style="deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(34, 211, 238, 0.74) !important;
-  box-shadow:
-    0 0 22px rgba(6, 182, 212, 0.36),
-    0 8px 18px rgba(2, 10, 24, 0.54),
-    inset 0 1px 0 rgba(165, 243, 252, 0.30) !important;
-  filter: brightness(1.08);
-}
-
-html[data-card-style="deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
-  box-shadow:
-    0 0 10px rgba(34, 211, 238, 0.42),
-    inset 0 3px 9px rgba(2, 10, 24, 0.72),
-    inset 0 -1px 0 rgba(125, 211, 252, 0.22) !important;
-  filter: brightness(0.94);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
-
-html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.07);
-  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
-}
-
-/* 7. Đại dương sâu thẳm sáng (light-deep-ocean): Sóng ngọc lam trong vắt + Phản quang mặt biển sáng */
-html[data-card-style="light-deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-) {
-  transition:
-    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 230ms ease,
-    border-color 200ms ease,
-    filter 200ms ease,
-    background-color 200ms ease !important;
-}
-
-html[data-card-style="light-deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(255, 255, 255, 0.88) !important;
-  box-shadow:
-    0 10px 24px -4px rgba(25, 81, 252, 0.28),
-    0 4px 12px rgba(115, 191, 255, 0.22),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
-  filter: brightness(1.04);
-}
-
-html[data-card-style="light-deep-ocean"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2.5px, 0) scale3d(0.955, 0.955, 1) !important;
-  box-shadow:
-    0 2px 8px rgba(3, 25, 91, 0.22),
-    inset 0 3px 8px rgba(3, 25, 91, 0.26),
-    inset 0 -1px 0 rgba(203, 233, 253, 0.78) !important;
-  filter: brightness(0.96);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
-
-html[data-card-style="light-deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.06);
-  filter: drop-shadow(0 2px 6px rgba(25, 81, 252, 0.38));
-}
-
-/* 8. Nổi khối kính mờ tối (dark-neumorphism-beyond): Nổi khối Soft UI tối chống chói + Bấm lún âm bản */
-html[data-card-style="dark-neumorphism-beyond"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(100, 182, 255, 0.48) !important;
-  box-shadow:
-    6px 8px 18px rgba(4, 7, 15, 0.68),
-    -3px -3px 10px rgba(42, 54, 76, 0.42),
-    inset 0 1px 0 rgba(148, 163, 184, 0.18) !important;
-}
-
-html[data-card-style="dark-neumorphism-beyond"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1) !important;
-  box-shadow:
-    inset 4px 4px 10px rgba(3, 6, 12, 0.85),
-    inset -2.5px -2.5px 7px rgba(54, 69, 94, 0.42),
-    0 1px 2px rgba(0, 0, 0, 0.25) !important;
-  filter: brightness(0.94);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease, filter 60ms ease !important;
-}
-
-html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: scale(1.06);
-}
-
-html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):is(:active, [data-btn-pressed="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-  transform: translate3d(0, 1px, 0) scale(0.90);
-}
-
-/* 9. Băng tuyết nổi khối (frost-ice-neu & dark-frost-ice-neu): Frost Clay Soft Extrusion + Recessed Press */
-html[data-card-style="frost-ice-neu"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(110, 106, 246, 0.44) !important;
-  box-shadow:
-    7px 9px 18px rgba(154, 187, 220, 0.40),
-    -5px -5px 14px rgba(255, 255, 255, 0.98),
-    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
-}
-
-html[data-card-style="frost-ice-neu"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2px, 0) scale3d(0.96, 0.96, 1) !important;
-  box-shadow:
-    inset 4px 4px 9px rgba(154, 187, 220, 0.56),
-    inset -3px -3px 8px rgba(255, 255, 255, 0.92) !important;
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -2px, 0) !important;
-  border-color: rgba(142, 139, 255, 0.48) !important;
-  box-shadow:
-    7px 9px 18px rgba(4, 9, 18, 0.72),
-    -4px -4px 12px rgba(46, 70, 108, 0.40),
-    inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2px, 0) scale3d(0.96, 0.96, 1) !important;
-  box-shadow:
-    inset 4px 4px 10px rgba(3, 7, 15, 0.85),
-    inset -3px -3px 7px rgba(48, 72, 108, 0.38) !important;
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
-}
-
-/* 10. Flat Soft UI (flat-soft-ui & dark-flat-soft-ui): Phẳng hiện đại + Nhấn xúc giác gọn sắc nét */
-html[data-card-style="flat-soft-ui"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -1.5px, 0) !important;
-  border-color: rgba(79, 70, 229, 0.52) !important;
-  box-shadow:
-    0 8px 20px -4px rgba(79, 70, 229, 0.20),
-    0 2px 6px rgba(15, 23, 42, 0.06) !important;
-}
-
-html[data-card-style="flat-soft-ui"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2px, 0) scale3d(0.965, 0.965, 1) !important;
-  box-shadow:
-    inset 0 2px 5px rgba(15, 23, 42, 0.14),
-    0 1px 2px rgba(79, 70, 229, 0.12) !important;
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
-}
-
-html[data-card-style="dark-flat-soft-ui"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):hover {
-  transform: translate3d(0, -1.5px, 0) !important;
-  border-color: rgba(99, 102, 241, 0.56) !important;
-  box-shadow:
-    0 10px 22px -4px rgba(0, 0, 0, 0.52),
-    0 0 16px -4px rgba(99, 102, 241, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-}
-
-html[data-card-style="dark-flat-soft-ui"] :is(
-  button.nav-pill,
-  button#header-btn-hungthai-avatar,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  .radial-contact-pill,
-  .theme-capsule-btn,
-  .theme-prev-next-btn,
-  .nav-arrow-btn,
-  .banner-control-pill,
-  .banner-primary-cta,
-  .swot-control-pill,
-  .theme-back-to-top-btn,
-  .btn-pill,
-  .btn-liquid-action,
-  .project-card-btn-primary,
-  .project-card-btn-secondary,
-  .exp-bento-rect-btn,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  a[role="button"],
-  [data-element-type="button"],
-  header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
-  footer button:not(.no-theme-btn):not(:disabled),
-  [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2px, 0) scale3d(0.965, 0.965, 1) !important;
-  box-shadow:
-    inset 0 3px 8px rgba(0, 0, 0, 0.72),
-    0 1px 2px rgba(99, 102, 241, 0.20) !important;
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+  html[data-card-style="dark-flat-soft-ui"] :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .banner-primary-cta,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .btn-pill,
+    .btn-liquid-action,
+    .project-card-btn-primary,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [data-element-type="button"],
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  ):hover {
+    transform: translate3d(0, -1.5px, 0) !important;
+    border-color: rgba(99, 102, 241, 0.56) !important;
+    box-shadow:
+      0 10px 22px -4px rgba(0, 0, 0, 0.52),
+      0 0 16px -4px rgba(99, 102, 241, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  }
 }
 
 /* Focus ring khả dụng chuẩn Accessibility cho mọi giao diện */
@@ -5414,24 +4741,9 @@ html[data-card-style] :is(
 }
 
 /* ========================================================================= */
-/* FINAL GLOBAL 14PX BORDER-RADIUS ENFORCEMENT ACROSS ALL THEMES             */
+/* TOKEN-DRIVEN 5-TIER BORDER-RADIUS ACROSS ALL THEMES                       */
 /* ========================================================================= */
-html,
-html[data-card-style],
-html[data-theme] {
-  --radius-main: 14px;
-  --radius-card: 14px;
-  --radius-subcard: 14px;
-  --radius-banner: 14px;
-  --radius-media: 14px;
-  --radius-video: 14px;
-  --radius-image: 14px;
-  --radius-modal: 14px;
-  --radius-popup: 14px;
-  --radius-widget: 14px;
-  --radius-input: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+html:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]) {
   --shadow-card:
     0 1px 2px rgb(15 23 42 / 0.075),
     0 2px 4px rgb(15 23 42 / 0.075),
@@ -5448,35 +4760,55 @@ html[data-theme] {
 
 html[data-card-style] :is(
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]
+) {
+  border-radius: var(--radius-main, 14px) !important;
+}
+
+html[data-card-style] :is(
   [data-section-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
-  [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
   .bento-card:not(.rounded-full):not([class*="rounded-full"]),
   .glass-card:not(.rounded-full):not([class*="rounded-full"]),
-  .sub-card:not(.rounded-full):not([class*="rounded-full"]),
-  .nested-card:not(.rounded-full):not([class*="rounded-full"]),
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
   .service-card,
   .project-card,
   .system-card-tile,
   .education-course-card,
   .exp-bento-surface-card,
+  .themed-image-card,
+  .themed-image-frame,
+  [data-media-card="image"],
+  [data-media-card="video"]
+) {
+  border-radius: var(--radius-card, 14px) !important;
+}
+
+html[data-card-style] :is(
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  .project-detail-banner-media
+) {
+  border-radius: var(--radius-banner, 14px) !important;
+}
+
+html[data-card-style] :is(
+  [data-subcard="true"]:not(.rounded-full):not([class*="rounded-full"]),
+  .sub-card:not(.rounded-full):not([class*="rounded-full"]),
+  .nested-card:not(.rounded-full):not([class*="rounded-full"]),
   .exp-bento-item-card,
   .exp-detail-subcard,
   .skill-swot-subcard,
   .system-card-sub,
-  .themed-image-card,
-  .themed-image-frame,
-  .theme-modal-card,
-  .theme-modal-subcard,
-  .theme-pip-player,
-  .project-detail-banner-media,
-  [data-media-card="image"],
-  [data-media-card="video"]
+  .theme-modal-subcard
 ) {
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 14px) !important;
+}
+
+html[data-card-style] :is(
+  .theme-modal-card,
+  .theme-pip-player
+) {
+  border-radius: var(--radius-modal, 14px) !important;
 }
 
 html[data-card-style] :is(
@@ -5488,7 +4820,7 @@ html[data-card-style] :is(
   .project-detail-banner-media video,
   .project-detail-banner-media img
 ) {
-  border-radius: 14px !important;
+  border-radius: var(--radius-image, 14px) !important;
 }
 
 /* ========================================================================= */
@@ -5499,25 +4831,12 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease !important;
 }
 
-html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-  transform: translate3d(0, -4px, 0) scale3d(1.01, 1.01, 1) !important;
-  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
-  box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
-}
-
-/* ABSOLUTE FINAL OVERRIDES: FOOTER RIGHT BUTTONS DEFAULT BADGE COLOR */
-html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge,
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
-  background: var(--nav-pill-accent) !important;
-  background-color: var(--nav-pill-accent) !important;
-  border-radius: 9999px !important;
-}
-
-html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg),
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
+@media (hover: hover) and (pointer: fine) {
+  html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+    transform: translate3d(0, -4px, 0) !important;
+    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
+    box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
+  }
 }
 
 /* ========================================================================= */
@@ -5766,14 +5085,13 @@ html:root.dark[data-card-style] body #horoscope-page-container {
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER TOP-ONLY 14PX RADIUS         */
-/* Chỉ bo cong góc trên trái 14px & góc trên phải 14px, cạnh dưới phẳng 0px   */
+/* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER TOP-ONLY TOKEN RADIUS        */
 /* ========================================================================= */
 html:root body #projects-page-container #projects-grid .project-card,
 html:root[data-card-style] body #projects-page-container #projects-grid .project-card,
 html:root body #projects-grid .project-card,
 html:root[data-card-style] body #projects-grid .project-card {
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 html:root body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
@@ -5787,26 +5105,26 @@ html:root body .project-card .project-card-banner,
 html:root[data-card-style] body .project-card .project-card-banner {
   width: calc(100% - 4px) !important;
   margin: 2px 2px 0 2px !important;
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
+  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
+  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
-  -webkit-clip-path: inset(0 round 12px 12px 0px 0px) !important;
-  clip-path: inset(0 round 12px 12px 0px 0px) !important;
+  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
+  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
+  clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
 }
 
 html:root body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
 html:root[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
 html:root body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
 html:root[data-card-style] body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim) {
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
+  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
+  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
-  -webkit-clip-path: inset(0 round 12px 12px 0px 0px) !important;
-  clip-path: inset(0 round 12px 12px 0px 0px) !important;
+  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
+  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
+  clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
 }
 
 /* ========================================================================= */
@@ -5865,36 +5183,8 @@ html:root[data-card-style] body #education-filter-toggle-btn {
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: LIQUID GLASS SOFT UI (SÁNG) SVG #liquid-glass    */
+/* FINAL OVERRIDE: HOME PAGE — KEEP STAGE MEDIA CRISP, SYNC PILLS & CAPSULES */
 /* ========================================================================= */
-html:root[data-card-style="liquid-glass"]:not(.dark) body :is(
-  .liquid-glass,
-  .page-main-card,
-  [data-main-card="true"],
-  .bento-card,
-  .glass-card,
-  .sub-card,
-  [data-subcard="true"],
-  [data-section-card="true"],
-  .service-card,
-  .domain-card,
-  .project-card,
-  .system-card-tile,
-  .education-course-card,
-  .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"]
-):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card):not([data-multicolor-bento="true"]):not([data-bento-subtone]):not(.home-screen-main-card):not([id^="home-main-card-"]) {
-  backdrop-filter: url(#liquid-glass) !important;
-  -webkit-backdrop-filter: url(#liquid-glass) !important;
-}
-
-/* ========================================================================= */
-/* FINAL OVERRIDE: HOME PAGE — REMOVE ALL BLUR & BUTTON BLUR EFFECTS         */
-/* ========================================================================= */
-html:root body #home-page-container,
-html:root[data-card-style] body #home-page-container,
 html:root body #home-page-container :is(
   .home-screen-main-card,
   [id^="home-main-card-"],
@@ -5905,28 +5195,12 @@ html:root body #home-page-container :is(
   [data-section-card="true"],
   [data-media-card="video"],
   video,
-  img,
-  button,
-  .theme-video-capsule,
-  .video-play-btn,
-  .video-play-btn--home,
-  .video-play-btn__sound,
-  #el-p0-div-16,
-  #el-p0-div-16 [role="tab"],
-  .theme-screen-switcher-dock
+  img
 ) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   -webkit-filter: none !important;
-  --vp-backdrop: none !important;
-  --surface-primary-blur: 0px !important;
-  --surface-secondary-blur: 0px !important;
-  --surface-interactive-blur: 0px !important;
-  --glass-blur: 0px !important;
-  --glass-card-blur: 0px !important;
-  --blur-nav-pill: 0px !important;
-  --lg-clear-backdrop: none !important;
 }
 
 html:root body #home-page-container :is(
@@ -5972,35 +5246,23 @@ html:root[data-card-style] body #home-page-container :is(
   box-shadow: none !important;
 }
 
-/* Theme-synchronized Home capsule & video switcher buttons across all 14 themes */
-html:root body #home-page-container .video-play-btn--home,
-html:root[data-card-style] body #home-page-container .video-play-btn--home,
+/* Theme-synchronized Home screen switcher dock (#el-p0-div-16) across all 14 themes */
 html:root body #home-page-container #el-p0-div-16,
 html:root[data-card-style] body #home-page-container #el-p0-div-16 {
-  --vp-backdrop: blur(var(--surface-interactive-blur, 14px)) !important;
-  --vp-bg: var(--surface-interactive-bg, var(--bg-nav-button-opaque, #ffffff)) !important;
-  --vp-bg-hover: var(--bg-nav-pill-hover, var(--bg-button-secondary, #f8fafc)) !important;
-  --vp-shadow-ambient: var(--surface-interactive-shadow, 0 2px 6px rgba(15, 23, 42, 0.14)) !important;
-  --vp-shadow-hover: var(--surface-interactive-shadow, 0 3px 8px rgba(15, 23, 42, 0.2)) !important;
-  background: var(--surface-interactive-bg, var(--bg-nav-button-opaque, #ffffff)) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--surface-interactive-border, rgba(148, 163, 184, 0.45)) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, 14px)) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, 14px)) saturate(150%) !important;
-  box-shadow: var(--surface-interactive-shadow, 0 2px 6px rgba(15, 23, 42, 0.14)) !important;
+  background: var(--pill-bg, var(--surface-interactive-bg, rgba(255, 255, 255, 0.72))) !important;
+  color: var(--pill-text, var(--text-primary)) !important;
+  border: 1px solid var(--pill-border, var(--surface-interactive-border, rgba(148, 163, 184, 0.45))) !important;
+  backdrop-filter: blur(var(--pill-blur, var(--surface-interactive-blur, 14px))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--pill-blur, var(--surface-interactive-blur, 14px))) saturate(150%) !important;
+  box-shadow: var(--pill-shadow, var(--surface-interactive-shadow, 0 8px 20px -6px rgba(15, 23, 42, 0.14))) !important;
 }
 
-html:root body #home-page-container .video-play-btn--home:hover,
-html:root body #home-page-container .video-play-btn--home:focus-visible,
-html:root[data-card-style] body #home-page-container .video-play-btn--home:hover,
-html:root[data-card-style] body #home-page-container .video-play-btn--home:focus-visible {
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2) !important;
-}
-
-html:root body #home-page-container .video-play-btn--home::before,
-html:root[data-card-style] body #home-page-container .video-play-btn--home::before {
-  display: none !important;
-  content: none !important;
+html:root body #home-page-container #el-p0-div-16 [role="tab"][aria-selected="true"],
+html:root[data-card-style] body #home-page-container #el-p0-div-16 [role="tab"][aria-selected="true"] {
+  background: var(--pill-active-bg, var(--color-primary, #6D28D9)) !important;
+  color: var(--pill-active-text, #FFFFFF) !important;
+  border-color: var(--pill-active-border, transparent) !important;
+  box-shadow: var(--pill-active-shadow, 0 4px 12px rgba(79, 70, 229, 0.28)) !important;
 }
 
 /* ========================================================================= */
@@ -6196,6 +5458,26 @@ html:root[data-card-style] body :is(
   --elev-subcard-l1-hover: 0 14px 28px -6px rgba(15, 23, 42, 0.14), 0 5px 12px -3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.68);
 }
 
+/* Premium Liquid Glass UI (Light) */
+html[data-card-style="liquid-glass"] {
+  --elev-pill-rest: 0 8px 20px -6px rgba(79, 70, 229, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --elev-pill-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --elev-pill-active: 0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 40%, rgba(30, 41, 59, 0.18)), inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  --elev-nav-capsule: 0 10px 26px -6px rgba(79, 70, 229, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --elev-nav-btn-rest: 0 4px 12px -2px rgba(79, 70, 229, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  --elev-nav-btn-hover: 0 8px 18px -3px rgba(109, 40, 217, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --elev-nav-btn-active: 0 4px 12px -2px rgba(79, 70, 229, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  --elev-shell-header: 0 18px 44px -12px rgba(79, 70, 229, 0.14), 0 6px 18px -4px rgba(15, 23, 42, 0.06), inset 0 1.5px 0 rgba(255, 255, 255, 0.94);
+  --elev-shell-footer: 0 -18px 42px -12px rgba(79, 70, 229, 0.13), 0 -6px 16px -4px rgba(15, 23, 42, 0.05), inset 0 1.5px 0 rgba(255, 255, 255, 0.94);
+  --elev-main-card: 0 28px 64px -16px rgba(79, 70, 229, 0.16), 0 10px 28px -8px rgba(15, 23, 42, 0.08), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
+  --elev-banner-card: 0 18px 40px -12px rgba(79, 70, 229, 0.15), 0 6px 18px -6px rgba(8, 145, 178, 0.10), inset 0 1.5px 0 rgba(255, 255, 255, 0.94);
+  --elev-banner-card-hover: 0 24px 50px -12px rgba(109, 40, 217, 0.22), 0 8px 22px -6px rgba(8, 145, 178, 0.14), inset 0 1.5px 0 rgba(255, 255, 255, 0.98);
+  --elev-card-l2: 0 14px 32px -10px rgba(79, 70, 229, 0.12), 0 4px 12px -4px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --elev-card-l2-hover: 0 20px 42px -10px rgba(109, 40, 217, 0.18), 0 6px 16px -4px rgba(8, 145, 178, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --elev-subcard-l1: 0 8px 20px -6px rgba(79, 70, 229, 0.09), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --elev-subcard-l1-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.14), 0 4px 10px -2px rgba(8, 145, 178, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
 /* Multicolor Glass */
 html[data-card-style="multicolor-glass"] {
   --elev-shell-header: 0 22px 48px -12px rgba(79, 70, 229, 0.18), 0 8px 22px -6px rgba(236, 72, 153, 0.11), inset 0 1.5px 0 rgba(255, 255, 255, 0.94), inset 0 -1px 0 rgba(255, 255, 255, 0.70);
@@ -6280,6 +5562,26 @@ html[data-card-style="cowhide-leather"] {
   --elev-card-l2-hover: 0 22px 46px -8px rgba(0, 0, 0, 0.58), 0 8px 20px -4px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.13);
   --elev-subcard-l1: 0 8px 20px -5px rgba(0, 0, 0, 0.36), 0 2px 6px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --elev-subcard-l1-hover: 0 14px 28px -5px rgba(0, 0, 0, 0.48), 0 5px 12px -2px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+/* Premium Liquid Glass UI (Dark) */
+html[data-card-style="dark-liquid-glass"] {
+  --elev-pill-rest: 0 8px 22px -6px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-pill-hover: 0 12px 28px -6px rgba(152, 137, 238, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --elev-pill-active: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #9889EE) 42%, rgba(2, 6, 23, 0.62)), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  --elev-nav-capsule: 0 10px 26px -6px rgba(2, 6, 23, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-nav-btn-rest: 0 4px 12px -2px rgba(2, 6, 23, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-nav-btn-hover: 0 8px 18px -2px rgba(152, 137, 238, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --elev-nav-btn-active: 0 4px 12px -2px rgba(2, 6, 23, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-shell-header: 0 22px 48px -12px rgba(2, 6, 23, 0.68), 0 0 24px -6px rgba(152, 137, 238, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --elev-shell-footer: 0 -20px 46px -12px rgba(2, 6, 23, 0.66), 0 0 24px -6px rgba(152, 137, 238, 0.14), inset 0 1.5px 0 rgba(255, 255, 255, 0.18);
+  --elev-main-card: 0 32px 70px -14px rgba(2, 6, 23, 0.72), 0 0 28px -6px rgba(152, 137, 238, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.18);
+  --elev-banner-card: 0 18px 42px -10px rgba(2, 6, 23, 0.58), 0 0 20px -6px rgba(181, 167, 244, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-banner-card-hover: 0 24px 52px -10px rgba(2, 6, 23, 0.68), 0 0 26px -4px rgba(181, 167, 244, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --elev-card-l2: 0 14px 34px -8px rgba(2, 6, 23, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --elev-card-l2-hover: 0 20px 44px -8px rgba(2, 6, 23, 0.62), 0 0 20px -6px rgba(181, 167, 244, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.20);
+  --elev-subcard-l1: 0 8px 20px -6px rgba(2, 6, 23, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --elev-subcard-l1-hover: 0 12px 26px -6px rgba(2, 6, 23, 0.52), 0 0 14px -4px rgba(181, 167, 244, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* Cowhide Leather & Black Cowhide Leather Floating Elevation */

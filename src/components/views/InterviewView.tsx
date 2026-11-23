@@ -808,7 +808,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               id="interview-play-video-capsule"
               style={{ borderRadius: '999px' }}
               className={cn(
-                'theme-video-capsule video-play-btn video-play-btn--about ml-auto max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto select-none shrink-0',
+                'theme-video-capsule video-play-btn video-play-btn--interview ml-auto max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto select-none shrink-0',
                 isPlayingVideo2 ? 'is-playing' : ''
               )}
             >

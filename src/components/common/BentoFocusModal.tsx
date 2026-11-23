@@ -102,8 +102,8 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="px-5 py-2 rounded-full text-white typo-button hover:opacity-90 cursor-pointer"
+            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+            className="px-5 py-2 rounded-full typo-button hover:opacity-90 cursor-pointer"
           >
             Đóng
           </button>

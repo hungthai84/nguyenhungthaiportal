@@ -303,11 +303,11 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               type="button"
               onClick={() => handlePrintOrExport('download')}
               disabled={isExporting}
-              style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
+              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
               className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60"
               title="Tải tệp CV Portfolio dưới dạng PDF"
             >
-              <WebIcon name="download" size={16} className="text-white" />
+              <WebIcon name="download" size={16} />
               <span>Tải PDF</span>
             </button>
 

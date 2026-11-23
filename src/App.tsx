@@ -1,37 +1,14 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { MapModal } from './components/common/MapModal';
-import { BentoFocusModal } from './components/common/BentoFocusModal';
-import { MilestoneModal } from './components/common/MilestoneModal';
-import { XRayInspector } from './components/common/XRayInspector';
 import { PullCord } from './components/ui/PullCord';
 import { PottedPlantWidget } from './components/ui/PottedPlantWidget';
 import { AiMascotWidget } from './components/ui/AiMascotWidget';
-
 import { HomeView } from './components/views/HomeView';
-import { LetterView } from './components/views/LetterView';
-import { AboutView } from './components/views/AboutView';
-import { EducationView } from './components/views/EducationView';
-import { ServicesView } from './components/views/ServicesView';
-import { ExperienceView } from './components/views/ExperienceView';
-import { SkillsView } from './components/views/SkillsView';
-import { ProjectsView } from './components/views/ProjectsView';
-import { SystemsView } from './components/views/SystemsView';
-import { InterviewView } from './components/views/InterviewView';
-import { HoroscopeView } from './components/views/HoroscopeView';
-import { MemoriesView } from './components/views/MemoriesView';
-import { AiAssistantView } from './components/views/AiAssistantView';
-import { WallpaperView } from './components/views/WallpaperView';
-import { ContactView } from './components/views/ContactView';
-import { InterfaceView } from './components/views/InterfaceView';
-import { PdfView } from './components/views/PdfView';
-import { Modal } from './components/ui/Modal';
-import { useBannerVideo } from './context/BannerVideoContext';
 
 import { MapLocation } from './data/aboutData';
 import { ExperienceMilestone } from './data/experience';
-import { TABS_DATA, PAGE_NEON_COLORS } from './data/tabs';
+import { TABS_DATA } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
 import { usePeripheralClearance } from './hooks/usePeripheralClearance';
@@ -41,16 +18,79 @@ import {
   evaluateOverallLayoutTypography,
 } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
-import {
-  GravityBackgroundCanvas,
-  resolveGravityStage,
-} from './components/backgrounds/GravityBackgroundCanvas';
+import { resolveGravityStage } from './config/gravityPalettes';
 import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
+
+const MapModal = React.lazy(() =>
+  import('./components/common/MapModal').then((m) => ({ default: m.MapModal }))
+);
+const BentoFocusModal = React.lazy(() =>
+  import('./components/common/BentoFocusModal').then((m) => ({ default: m.BentoFocusModal }))
+);
+const MilestoneModal = React.lazy(() =>
+  import('./components/common/MilestoneModal').then((m) => ({ default: m.MilestoneModal }))
+);
+const XRayInspector = React.lazy(() =>
+  import('./components/common/XRayInspector').then((m) => ({ default: m.XRayInspector }))
+);
+const GravityBackgroundCanvas = React.lazy(() =>
+  import('./components/backgrounds/GravityBackgroundCanvas').then((m) => ({
+    default: m.GravityBackgroundCanvas,
+  }))
+);
+
+const LetterView = React.lazy(() =>
+  import('./components/views/LetterView').then((m) => ({ default: m.LetterView }))
+);
+const AboutView = React.lazy(() =>
+  import('./components/views/AboutView').then((m) => ({ default: m.AboutView }))
+);
+const EducationView = React.lazy(() =>
+  import('./components/views/EducationView').then((m) => ({ default: m.EducationView }))
+);
+const ServicesView = React.lazy(() =>
+  import('./components/views/ServicesView').then((m) => ({ default: m.ServicesView }))
+);
+const ExperienceView = React.lazy(() =>
+  import('./components/views/ExperienceView').then((m) => ({ default: m.ExperienceView }))
+);
+const SkillsView = React.lazy(() =>
+  import('./components/views/SkillsView').then((m) => ({ default: m.SkillsView }))
+);
+const ProjectsView = React.lazy(() =>
+  import('./components/views/ProjectsView').then((m) => ({ default: m.ProjectsView }))
+);
+const SystemsView = React.lazy(() =>
+  import('./components/views/SystemsView').then((m) => ({ default: m.SystemsView }))
+);
+const InterviewView = React.lazy(() =>
+  import('./components/views/InterviewView').then((m) => ({ default: m.InterviewView }))
+);
+const HoroscopeView = React.lazy(() =>
+  import('./components/views/HoroscopeView').then((m) => ({ default: m.HoroscopeView }))
+);
+const MemoriesView = React.lazy(() =>
+  import('./components/views/MemoriesView').then((m) => ({ default: m.MemoriesView }))
+);
+const AiAssistantView = React.lazy(() =>
+  import('./components/views/AiAssistantView').then((m) => ({ default: m.AiAssistantView }))
+);
+const WallpaperView = React.lazy(() =>
+  import('./components/views/WallpaperView').then((m) => ({ default: m.WallpaperView }))
+);
+const ContactView = React.lazy(() =>
+  import('./components/views/ContactView').then((m) => ({ default: m.ContactView }))
+);
+const InterfaceView = React.lazy(() =>
+  import('./components/views/InterfaceView').then((m) => ({ default: m.InterfaceView }))
+);
+const PdfView = React.lazy(() =>
+  import('./components/views/PdfView').then((m) => ({ default: m.PdfView }))
+);
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
   const peripheralClearance = usePeripheralClearance(currentTabIndex !== 16);
-  const { isStudioModalOpen, closeStudioModal, studioInitialPage } = useBannerVideo();
 
   const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
   const [bentoFocusKey, setBentoFocusKey] = useState<string | null>(null);
@@ -66,7 +106,7 @@ export default function App() {
   // Thứ tự trang theo Menu Icon trên Header (0..11, PDF 16, Hùng Thái 12) rồi tới các trang tiện ích Footer (15, 14, 13)
   const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
-    0: 1,
+    0: 3,
     1: 4,
     2: 1,
     5: 1,
@@ -361,12 +401,24 @@ export default function App() {
       });
     };
 
+    let idRafId: number | null = null;
+    const scheduleAssignMissingIds = () => {
+      if (idRafId !== null) cancelAnimationFrame(idRafId);
+      idRafId = requestAnimationFrame(() => {
+        idRafId = null;
+        assignMissingIds();
+      });
+    };
+
     assignMissingIds();
     const observer = new MutationObserver(() => {
-      assignMissingIds();
+      scheduleAssignMissingIds();
     });
     observer.observe(rootEl, { childList: true, subtree: true });
-    return () => observer.disconnect();
+    return () => {
+      if (idRafId !== null) cancelAnimationFrame(idRafId);
+      observer.disconnect();
+    };
   }, [currentTabIndex]);
 
   const showNotification = useCallback((_msg: string) => {}, []);
@@ -665,13 +717,15 @@ export default function App() {
                           transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
                         }}
                       />
-                      <GravityBackgroundCanvas
-                        paletteId={paletteId}
-                        pageIndex={currentTabIndex}
-                        slideIndex={activeSlide}
-                        morphOnPageChange={morphOnPageChange}
-                        isDark={isDark}
-                      />
+                      <Suspense fallback={null}>
+                        <GravityBackgroundCanvas
+                          paletteId={paletteId}
+                          pageIndex={currentTabIndex}
+                          slideIndex={activeSlide}
+                          morphOnPageChange={morphOnPageChange}
+                          isDark={isDark}
+                        />
+                      </Suspense>
                     </div>
                   );
                 })()
@@ -818,7 +872,15 @@ export default function App() {
           key={`page-view-${currentTabIndex}`}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
-          {renderActiveView()}
+          <Suspense
+            fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+              </div>
+            }
+          >
+            {renderActiveView()}
+          </Suspense>
         </div>
       </main>
 
@@ -871,10 +933,18 @@ export default function App() {
 
 
       {/* MODALS & INSPECTOR */}
-      <MapModal location={mapLocation} onClose={() => setMapLocation(null)} />
-      <BentoFocusModal cardKey={bentoFocusKey} onClose={() => setBentoFocusKey(null)} />
-      <MilestoneModal item={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
-      <XRayInspector onShowNotification={showNotification} />
+      <Suspense fallback={null}>
+        {mapLocation && (
+          <MapModal location={mapLocation} onClose={() => setMapLocation(null)} />
+        )}
+        {bentoFocusKey && (
+          <BentoFocusModal cardKey={bentoFocusKey} onClose={() => setBentoFocusKey(null)} />
+        )}
+        {selectedMilestone && (
+          <MilestoneModal item={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
+        )}
+        <XRayInspector onShowNotification={showNotification} />
+      </Suspense>
     </div>
   );
 }

@@ -76,7 +76,9 @@ html.dark[data-card-style="cowhide-leather"] {
   --bg-subcard-hover: rgba(61, 33, 11, 0.72);
   --bg-nested-card: rgba(62, 34, 12, 0.90);
   --bg-button-primary: linear-gradient(135deg, #D97706 0%, #92400E 100%);
+  --text-button-primary: #FFFFFF;
   --bg-button-secondary: rgba(62, 34, 12, 0.90);
+  --text-button-secondary: #FFFFFF;
   --bg-popup: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
   --bg-modal: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
   --bg-modal-backdrop: rgba(24, 11, 4, 0.72);

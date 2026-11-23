@@ -278,7 +278,6 @@
 
 #horoscope-cards-track > .page-main-card,
 #horoscope-cards-track > [data-main-card="true"],
-#horoscope-row-1-horizontal > [data-main-card="true"],
 #letter-cards-track > .page-main-card,
 #letter-cards-track > [data-main-card="true"] {
   width: 100% !important;
@@ -405,19 +404,18 @@
 
 #home-page-container {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   align-items: stretch !important;
   width: 100% !important;
 }
 
 #home-cards-track {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   align-items: stretch !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
+  width: max-content !important;
+  max-width: none !important;
+  margin: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -427,8 +425,8 @@
   width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
   max-width: 1250px !important;
   flex: 0 0 var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   box-sizing: border-box !important;
 }
 

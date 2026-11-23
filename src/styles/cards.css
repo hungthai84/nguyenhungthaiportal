@@ -4090,14 +4090,17 @@ html #education-courses-grid .education-course-card,
 }
 
 #services-page-container .domain-card .service-card-body-row {
-  grid-template-columns: minmax(0, 1fr) clamp(172px, 52cqi, 232px) !important;
+  grid-template-columns: minmax(0, 1fr) clamp(58px, 18cqi, 76px) !important;
+  align-items: center !important;
 }
 
 #services-page-container .domain-card .service-card-illustration {
-  width: 100% !important;
-  min-height: 292px !important;
-  height: 100% !important;
-  align-self: stretch !important;
+  width: clamp(58px, 18cqi, 76px) !important;
+  height: clamp(82px, 24cqi, 96px) !important;
+  min-height: 82px !important;
+  max-height: 98px !important;
+  align-self: center !important;
+  justify-self: end !important;
   flex-shrink: 0;
 }
 
@@ -4128,7 +4131,7 @@ html #education-courses-grid .education-course-card,
   flex: 0 1 auto;
 }
 
-@container service-card (max-width: 330px) {
+@container service-card (max-width: 300px) {
   #services-page-container .domain-card .service-card-body-row {
     display: flex !important;
     flex-direction: column !important;
@@ -4137,9 +4140,10 @@ html #education-courses-grid .education-course-card,
   }
 
   #services-page-container .domain-card .service-card-illustration {
-    width: min(100%, 260px) !important;
-    height: 240px !important;
-    min-height: 240px !important;
+    width: 72px !important;
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 84px !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -4147,6 +4151,27 @@ html #education-courses-grid .education-course-card,
   #services-page-container .domain-card .service-kpi-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Hiệu ứng loang màu nền lan ra từ từ khắp thẻ Dịch vụ khi di chuột qua */
+#services-page-container .domain-card .service-card-hover-flood {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  clip-path: circle(0% at var(--hover-x, 50%) var(--hover-y, 50%));
+  transition:
+    clip-path 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease;
+  will-change: clip-path, opacity;
+}
+
+#services-page-container .domain-card:hover .service-card-hover-flood,
+#services-page-container .domain-card:focus-visible .service-card-hover-flood {
+  opacity: 1;
+  clip-path: circle(165% at var(--hover-x, 50%) var(--hover-y, 50%));
 }
 
 #services-page-container .domain-card:hover {
@@ -4160,7 +4185,7 @@ html #education-courses-grid .education-course-card,
 }
 
 #services-page-container .domain-card:hover .service-img-pop {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 /* Subcard metric tiles inside domain card & expanded card */
@@ -4191,44 +4216,45 @@ html.dark #services-page-container .domain-card-sub {
 }
 
 #services-page-container #services-expanded-card.is-open {
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55)) !important;
+  box-shadow: var(--lg-clear-shadow, 0 24px 52px -14px rgba(15, 23, 42, 0.22)) !important;
+  border-radius: 14px !important;
 }
 
 #services-page-container #services-expanded-card.is-animating {
   transition:
-    top 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    left 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.58s ease;
+    top 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.82s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.82s ease;
 }
 
 #services-page-container #services-expanded-card .expanded-detail-content {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.32s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.38s ease, transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0s;
 }
 
 #services-page-container #services-expanded-card.is-open .expanded-detail-content {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.2s;
+  transition-delay: 0.3s;
 }
 
 #services-page-container #services-expanded-card.is-closing .expanded-detail-content {
   opacity: 0;
   transform: translateY(8px);
   transition-delay: 0s;
-  transition-duration: 0.16s;
+  transition-duration: 0.18s;
 }
 
 @media (prefers-reduced-motion: reduce) {
   #services-page-container .services-cards-grid,
   #services-page-container .domain-card,
+  #services-page-container .domain-card .service-card-hover-flood,
   #services-page-container .domain-card .service-img-pop,
   #services-page-container #services-expanded-card,
   #services-page-container #services-expanded-card.is-animating,
@@ -5466,14 +5492,17 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   }
 }
 
-/* Thẻ Dịch vụ: Hình ảnh bên phải gấp đôi kích thước, không hiệu ứng màu (no filter, no drop-shadow) */
+/* Thẻ Dịch vụ: Thu nhỏ kích thước hình ảnh xuống gấp 3, giữ nguyên màu gốc (no filter, no drop-shadow) */
 #services-page-container .domain-card .service-card-illustration {
-  align-self: stretch !important;
+  align-self: center !important;
+  justify-self: end !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  height: 100% !important;
-  min-height: 292px !important;
+  width: clamp(58px, 18cqi, 76px) !important;
+  height: clamp(82px, 24cqi, 96px) !important;
+  min-height: 82px !important;
+  max-height: 98px !important;
 }
 
 #services-page-container .domain-card .service-img-pop {
@@ -5487,7 +5516,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 }
 
 #services-page-container .domain-card:hover .service-img-pop {
-  transform: scale(1.04) !important;
+  transform: scale(1.06) !important;
   filter: none !important;
   -webkit-filter: none !important;
 }
@@ -5541,6 +5570,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   padding: 0 !important;
   overflow: hidden;
   box-sizing: border-box;
+  perspective: 1800px;
 }
 
 #experience-timeline-board .exp-chromatic-folds {
@@ -5553,6 +5583,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   isolation: isolate;
   transform: none;
   transform-origin: center center;
+  transform-style: preserve-3d;
 }
 
 #experience-timeline-board .exp-fold-swatch {
@@ -5571,8 +5602,14 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   overflow: hidden;
   cursor: pointer;
   clip-path: none;
-  transition: flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
-  will-change: flex;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transition:
+    flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.56s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease,
+    filter 0.3s ease;
+  will-change: flex, transform, opacity;
 }
 
 #experience-timeline-board .exp-fold-swatch:last-child {
@@ -5596,20 +5633,45 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   z-index: 25;
 }
 
+@keyframes expAccordionUnfold8Cols {
+  0% {
+    transform: perspective(1500px) rotateY(-14deg) scaleX(0.92);
+    box-shadow: inset 24px 0 36px rgba(15, 23, 42, 0.16), inset -24px 0 36px rgba(255, 255, 255, 0.22);
+  }
+  45% {
+    transform: perspective(1500px) rotateY(4deg) scaleX(0.985);
+    box-shadow: inset 8px 0 18px rgba(15, 23, 42, 0.08), inset -8px 0 18px rgba(255, 255, 255, 0.14);
+  }
+  100% {
+    transform: perspective(1500px) rotateY(0deg) scaleX(1);
+    box-shadow: none;
+  }
+}
+
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch {
-  transition: flex 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease !important;
+  transition:
+    flex 0.54s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.54s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.42s ease !important;
   pointer-events: none;
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch:not(.is-unfolding) {
   flex: 0.0001 1 0% !important;
   min-width: 0 !important;
-  opacity: 0.08 !important;
+  opacity: 0.04 !important;
+  transform: perspective(1200px) scaleX(0.08) rotateY(44deg) !important;
+}
+
+#experience-timeline-board[data-unfolding="true"] .exp-fold-swatch:nth-child(even):not(.is-unfolding) {
+  transform: perspective(1200px) scaleX(0.08) rotateY(-44deg) !important;
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch.is-unfolding {
-  flex: 1 1 100% !important;
-  z-index: 32 !important;
+  flex: 8 1 100% !important;
+  width: 100% !important;
+  z-index: 36 !important;
+  animation: expAccordionUnfold8Cols 0.54s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch.is-unfolding .exp-fold-shading {
@@ -5755,18 +5817,20 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 
 @keyframes expDetailUnfoldIn {
   0% {
-    opacity: 0;
-    transform: scaleX(0.95) scaleY(0.985);
+    opacity: 0.25;
+    transform: perspective(1800px) scaleX(0.84) scaleY(0.96) rotateX(2.5deg);
   }
   100% {
     opacity: 1;
-    transform: scaleX(1) scaleY(1);
+    transform: perspective(1800px) scaleX(1) scaleY(1) rotateX(0deg);
   }
 }
 
 #experience-job-detail-card.exp-detail-unfold-in {
+  width: 100% !important;
+  max-width: 100% !important;
   transform-origin: center center;
-  animation: expDetailUnfoldIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: expDetailUnfoldIn 0.46s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (max-width: 1120px) {

@@ -249,8 +249,8 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
             <button
               type="button"
               onClick={() => onConfirmDraftAction('replace')}
-              style={{ background: 'var(--bg-button-primary)' }}
-              className="px-3 py-1 rounded-full typo-badge text-white font-semibold cursor-pointer transition hover:opacity-90"
+              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+              className="px-3 py-1 rounded-full typo-badge font-semibold cursor-pointer transition hover:opacity-90"
             >
               {isEn ? 'Replace text' : 'Thay thế'}
             </button>

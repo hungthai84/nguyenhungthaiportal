@@ -241,10 +241,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     role="tab"
                     aria-selected={activeMode === 'calendar'}
                     onClick={() => setActiveMode('calendar')}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors ${
-                      activeMode === 'calendar' ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white' : ''
-                    }`}
-                    style={activeMode !== 'calendar' ? { color: 'var(--text-muted)' } : undefined}
+                    className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors"
+                    style={
+                      activeMode === 'calendar'
+                        ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                        : { color: 'var(--text-muted)' }
+                    }
                   >
                     <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
                     <span>{isEn ? 'Book Appointment' : 'Đặt lịch hẹn'}</span>
@@ -255,10 +257,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     role="tab"
                     aria-selected={activeMode === 'message'}
                     onClick={() => setActiveMode('message')}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors ${
-                      activeMode === 'message' ? 'bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] text-white' : ''
-                    }`}
-                    style={activeMode !== 'message' ? { color: 'var(--text-muted)' } : undefined}
+                    className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-label font-bold cursor-pointer transition-colors"
+                    style={
+                      activeMode === 'message'
+                        ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                        : { color: 'var(--text-muted)' }
+                    }
                   >
                     <WebIcon name="messages-square" className="w-3.5 h-3.5 shrink-0" />
                     <span>{isEn ? 'Direct Inquiry' : 'Gửi lời nhắn trực tiếp'}</span>
@@ -292,7 +296,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                         type="button"
                         disabled={isSigningIn}
                         onClick={() => void signInWithGoogle()}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-label font-bold text-white bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] cursor-pointer disabled:opacity-60"
+                        style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-label font-bold cursor-pointer disabled:opacity-60 shadow-sm hover:opacity-95 transition"
                       >
                         <WebIcon name="log-in" className="w-3.5 h-3.5" />
                         <span>{isSigningIn ? (isEn ? 'Signing in...' : 'Đang đăng nhập...') : isEn ? 'Sign in with Google' : 'Đăng nhập Google'}</span>

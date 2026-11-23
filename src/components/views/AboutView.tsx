@@ -1664,7 +1664,7 @@ export function AboutView({
                 }}
                 style={
                   activeMapTab === 'tam_tru'
-                    ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
                     : undefined
                 }
                 className={cn(
@@ -1685,7 +1685,7 @@ export function AboutView({
                 }}
                 style={
                   activeMapTab === 'cu_tru'
-                    ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
                     : undefined
                 }
                 className={cn(
@@ -1714,7 +1714,7 @@ export function AboutView({
               />
 
               {/* Red Pin Badge in Modal Map */}
-              <div className="absolute top-3 left-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white shadow-md text-xs">
+              <div className="absolute top-3 left-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white shadow-md typo-caption">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
@@ -1730,7 +1730,7 @@ export function AboutView({
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-[14px] bg-[var(--bg-subcard)] border border-[var(--border-subcard)] typo-caption">
               <div className="flex items-center gap-2 text-[var(--text-primary)]">
-                <span className="text-red-500 font-bold text-base">📍</span>
+                <span className="text-red-500 font-bold typo-h4">📍</span>
                 <div>
                   <div className="font-semibold text-[var(--text-primary)]">
                     {activeMapTab === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
@@ -2299,7 +2299,7 @@ export function AboutView({
                               setActiveHeroMapType('tam_tru');
                               setActiveMapTab('tam_tru');
                             }}
-                            className={`px-3 py-1 rounded-full text-xs font-semibold font-play transition-all flex items-center gap-1.5 ${
+                            className={`px-3 py-1 rounded-full typo-badge font-semibold font-play transition-all flex items-center gap-1.5 ${
                               activeHeroMapType === 'tam_tru'
                                 ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-xs'
                                 : 'text-slate-300 hover:text-white'
@@ -2315,7 +2315,7 @@ export function AboutView({
                               setActiveHeroMapType('cu_tru');
                               setActiveMapTab('cu_tru');
                             }}
-                            className={`px-3 py-1 rounded-full text-xs font-semibold font-play transition-all flex items-center gap-1.5 ${
+                            className={`px-3 py-1 rounded-full typo-badge font-semibold font-play transition-all flex items-center gap-1.5 ${
                               activeHeroMapType === 'cu_tru'
                                 ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs'
                                 : 'text-slate-300 hover:text-white'
@@ -2330,7 +2330,7 @@ export function AboutView({
                         <button
                           type="button"
                           onClick={() => setActiveHeroMedia('video')}
-                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white active:scale-95 transition-all cursor-pointer flex items-center gap-1 text-xs"
+                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white active:scale-95 transition-all cursor-pointer flex items-center gap-1 typo-badge"
                           title="Quay lại xem Video chân dung"
                         >
                           <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -2342,19 +2342,19 @@ export function AboutView({
                       <div className="relative z-20 m-2.5 sm:m-3 p-3 rounded-[14px] bg-white/95 dark:bg-slate-950/85 backdrop-blur-md border border-slate-200/80 dark:border-white/20 text-slate-900 dark:text-white flex flex-col gap-2 pointer-events-auto">
                         <div className="flex items-start gap-2.5">
                           {/* Red Pin Badge */}
-                          <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 text-red-600 dark:text-red-400 text-base">
+                          <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 text-red-600 dark:text-red-400 typo-h4">
                             📍
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-sm text-cyan-700 dark:text-cyan-300">
+                              <span className="font-bold typo-body-sm text-cyan-700 dark:text-cyan-300">
                                 {activeHeroMapType === 'tam_tru' ? 'Tạm trú hiện tại' : 'Cư trú quê quán'}
                               </span>
                               <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 typo-badge font-mono">
                                 Đã ghim đỏ trên Map
                               </span>
                             </div>
-                            <p className="text-xs text-slate-800 dark:text-slate-100 font-medium mt-0.5 leading-snug">
+                            <p className="typo-caption text-slate-800 dark:text-slate-100 font-medium mt-0.5 leading-snug">
                               {activeHeroMapType === 'tam_tru'
                                 ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
                                 : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}
@@ -2362,7 +2362,7 @@ export function AboutView({
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10 text-xs">
+                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10 typo-caption">
                           <a
                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                               activeHeroMapType === 'tam_tru'
@@ -2774,10 +2774,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-blue-600 dark:text-sky-300">
                       <BarChart3 className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Hiệu quả vận hành</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Hiệu quả vận hành</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Tối ưu &amp; Kết quả</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Tối ưu &amp; Kết quả</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                     </p>
                   </div>
@@ -2798,10 +2798,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-rose-600 dark:text-rose-300">
                       <Heart className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Nhân văn con người</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Nhân văn con người</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Đồng cảm &amp; Thấu hiểu</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Đồng cảm &amp; Thấu hiểu</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                     </p>
                   </div>
@@ -2822,10 +2822,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-emerald-600 dark:text-emerald-300">
                       <Leaf className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Bền vững dài hạn</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Bền vững dài hạn</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Giá trị &amp; Tin cậy</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Giá trị &amp; Tin cậy</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                     </p>
                   </div>
@@ -2876,10 +2876,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-amber-600 dark:text-amber-300">
                       <Award className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Tận tâm trách nhiệm</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Tận tâm trách nhiệm</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Trách nhiệm &amp; Hết lòng</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Trách nhiệm &amp; Hết lòng</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần phụng sự cao nhất.
                     </p>
                   </div>
@@ -2904,10 +2904,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-pink-600 dark:text-pink-300">
                       <Clock className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Kịp thời nhanh nhạy</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Kịp thời nhanh nhạy</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Tốc độ &amp; Đúng lúc</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Tốc độ &amp; Đúng lúc</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng mắc.
                     </p>
                   </div>
@@ -2932,10 +2932,10 @@ export function AboutView({
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-purple-600 dark:text-purple-300">
                       <HeartHandshake className="w-4 h-4 shrink-0" />
-                      <h5 className="pillar-heading text-xs sm:text-[13px] font-bold font-play m-0 leading-tight">Đồng cảm chân thành</h5>
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Đồng cảm chân thành</h5>
                     </div>
-                    <span className="pillar-sub text-[11px] font-semibold opacity-90 block">Lắng nghe &amp; Thấu cảm</span>
-                    <p className="pillar-body text-[11.5px] leading-relaxed m-0 text-[var(--text-secondary)]">
+                    <span className="pillar-sub typo-badge font-semibold opacity-90 block">Lắng nghe &amp; Thấu cảm</span>
+                    <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
                       Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng khách hàng.
                     </p>
                   </div>
@@ -3040,10 +3040,15 @@ export function AboutView({
                 SoundEngine.playTap();
                 setQrMode('vcard');
               }}
-              className={cn(
-                'px-3.5 py-1.5 rounded-full text-xs font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+              style={
                 qrMode === 'vcard'
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm'
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                  : undefined
+              }
+              className={cn(
+                'px-3.5 py-1.5 rounded-full typo-button font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+                qrMode === 'vcard'
+                  ? 'shadow-sm'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
             >
@@ -3055,10 +3060,15 @@ export function AboutView({
                 SoundEngine.playTap();
                 setQrMode('url');
               }}
-              className={cn(
-                'px-3.5 py-1.5 rounded-full text-xs font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+              style={
                 qrMode === 'url'
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm'
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                  : undefined
+              }
+              className={cn(
+                'px-3.5 py-1.5 rounded-full typo-button font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
+                qrMode === 'url'
+                  ? 'shadow-sm'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
             >
@@ -3078,23 +3088,23 @@ export function AboutView({
                   className="w-44 h-44 object-contain"
                 />
               ) : (
-                <div className="w-44 h-44 flex items-center justify-center text-xs text-slate-500">
+                <div className="w-44 h-44 flex items-center justify-center typo-caption text-slate-600">
                   Đang tạo mã QR...
                 </div>
               )}
-              <span className="mt-2 text-[11px] font-mono text-slate-600">
+              <span className="mt-2 typo-badge font-mono text-slate-700">
                 {qrMode === 'vcard' ? 'vCard 3.0 · Quét để lưu' : 'URL Hồ sơ chuyên gia'}
               </span>
             </div>
 
             {/* Tóm tắt thông tin danh thiếp */}
             <div className="sm:col-span-7 flex flex-col justify-between gap-3">
-              <div className="space-y-1.5 text-sm">
-                <div className="font-bold text-base text-[var(--text-primary)]">Nguyễn Hùng Thái</div>
-                <div className="text-xs text-[var(--text-secondary)]">
+              <div className="space-y-1.5 typo-body-sm">
+                <div className="typo-h4 font-bold text-[var(--text-primary)]">Nguyễn Hùng Thái</div>
+                <div className="typo-caption text-[var(--text-secondary)]">
                   Head of CX &amp; CS Operations · 22+ Năm thực chiến
                 </div>
-                <div className="pt-2 border-t border-[var(--border-subcard)] space-y-1 text-xs text-[var(--text-secondary)]">
+                <div className="pt-2 border-t border-[var(--border-subcard)] space-y-1 typo-caption text-[var(--text-secondary)]">
                   <div>Điện thoại: <strong className="text-[var(--text-primary)] tabular-nums">+84 0909097882</strong></div>
                   <div>Hộp thư: <strong className="text-[var(--text-primary)]">hungthai84@gmail.com</strong></div>
                   <div>Tạm trú: <strong className="text-[var(--text-primary)]">P. Tân Phú (Q7), TP. Hồ Chí Minh</strong></div>
@@ -3106,7 +3116,8 @@ export function AboutView({
                 <button
                   type="button"
                   onClick={handleDownloadVcf}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-semibold cursor-pointer shadow-sm hover:opacity-95 active:scale-95 transition whitespace-nowrap"
+                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer shadow-sm hover:opacity-95 active:scale-95 transition whitespace-nowrap"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Tải file .vcf</span>
@@ -3114,7 +3125,7 @@ export function AboutView({
                 <button
                   type="button"
                   onClick={handleCopyFullVCard}
-                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold cursor-pointer active:scale-95 transition whitespace-nowrap"
+                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer active:scale-95 transition whitespace-nowrap"
                 >
                   {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép text'}</span>

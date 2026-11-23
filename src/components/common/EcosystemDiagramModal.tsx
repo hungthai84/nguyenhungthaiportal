@@ -1283,6 +1283,51 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: #FFFFFF !important;
             }
 
+            /* Dark Glass, Dark Neon, Deep Ocean & Dark Flat/Neu Themes inside Ecosystem Diagram Modal */
+            html:is(
+              [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-neon-glass"],
+              [data-card-style="deep-ocean"],
+              [data-card-style="dark-neumorphism-beyond"],
+              [data-card-style="dark-frost-ice-neu"],
+              [data-card-style="dark-flat-soft-ui"]
+            ) #ecosystem-diagram-modal .glass-flat,
+            html:is(
+              [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-neon-glass"],
+              [data-card-style="deep-ocean"],
+              [data-card-style="dark-neumorphism-beyond"],
+              [data-card-style="dark-frost-ice-neu"],
+              [data-card-style="dark-flat-soft-ui"]
+            ) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+              background: var(--surface-secondary-bg, var(--bg-card)) !important;
+              border: 1px solid var(--surface-secondary-border, var(--border-card)) !important;
+              box-shadow: var(--shadow-card) !important;
+              color: var(--text-primary) !important;
+            }
+            html:is(
+              [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-neon-glass"],
+              [data-card-style="deep-ocean"],
+              [data-card-style="dark-neumorphism-beyond"],
+              [data-card-style="dark-frost-ice-neu"],
+              [data-card-style="dark-flat-soft-ui"]
+            ) #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
+              color: var(--text-primary) !important;
+            }
+            html:is(
+              [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-neon-glass"],
+              [data-card-style="deep-ocean"],
+              [data-card-style="dark-neumorphism-beyond"],
+              [data-card-style="dark-frost-ice-neu"],
+              [data-card-style="dark-flat-soft-ui"]
+            ) #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
+              background-color: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
+              border-color: var(--surface-tertiary-border, var(--border-subcard)) !important;
+              color: var(--text-primary) !important;
+            }
+
           `}</style>
 
           {/* TOP HEADER */}
@@ -1346,7 +1391,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           onClick={() => setShowHubLines(prev => !prev)}
                           style={
                             showHubLines
-                              ? { background: 'var(--bg-button-primary)', color: '#FFFFFF' }
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                               : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
                           }
                           className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
@@ -1359,7 +1404,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                           onClick={() => setShowInterSystemLines(prev => !prev)}
                           style={
                             showInterSystemLines
-                              ? { background: 'var(--bg-button-primary)', color: '#FFFFFF' }
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                               : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
                           }
                           className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
@@ -1462,10 +1507,14 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               <button
                 type="button"
                 onClick={() => setViewMode(prev => (prev === 'diagram' ? 'matrix' : 'diagram'))}
-                style={viewMode === 'matrix' ? { background: 'var(--bg-button-primary)' } : undefined}
+                style={
+                  viewMode === 'matrix'
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                    : undefined
+                }
                 className={`px-2.5 py-1 rounded-full typo-label font-bold shadow-xs transition-all flex items-center gap-1 cursor-pointer ${
                   viewMode === 'matrix'
-                    ? 'text-white border border-transparent'
+                    ? 'border border-transparent'
                     : 'banner-control-pill'
                 }`}
               >
@@ -1934,8 +1983,8 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                       href={selectedSystem.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ background: 'var(--bg-button-primary)' }}
-                      className="px-3 py-1.5 rounded-full text-white font-bold typo-button transition cursor-pointer hover:opacity-90 flex items-center gap-1"
+                      style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                      className="px-3 py-1.5 rounded-full font-bold typo-button transition cursor-pointer hover:opacity-90 flex items-center gap-1"
                     >
                       <span>Mở website</span>
                       <ExternalLink className="w-3.5 h-3.5" />

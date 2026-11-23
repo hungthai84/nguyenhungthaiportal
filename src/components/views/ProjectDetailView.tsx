@@ -264,12 +264,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     onClick={() => setMindmapMode('interactive')}
                     className={`px-2.5 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
                       mindmapMode === 'interactive'
-                        ? 'text-white border-transparent shadow-xs'
+                        ? 'border-transparent shadow-xs'
                         : 'project-detail-chip border-[var(--border-subcard)] text-[var(--text-secondary)] hover:opacity-90'
                     }`}
                     style={
                       mindmapMode === 'interactive'
-                        ? { background: 'var(--bg-button-primary)' }
+                        ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                         : undefined
                     }
                   >
@@ -281,12 +281,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                     onClick={() => setMindmapMode('image')}
                     className={`px-2.5 py-1 rounded-full typo-badge font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
                       mindmapMode === 'image'
-                        ? 'text-white border-transparent shadow-xs'
+                        ? 'border-transparent shadow-xs'
                         : 'project-detail-chip border-[var(--border-subcard)] text-[var(--text-secondary)] hover:opacity-90'
                     }`}
                     style={
                       mindmapMode === 'image'
-                        ? { background: 'var(--bg-button-primary)' }
+                        ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                         : undefined
                     }
                   >

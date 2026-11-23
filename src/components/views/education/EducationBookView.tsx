@@ -754,7 +754,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           onClose();
         }}
         style={{ position: 'absolute', top: '12px', right: '12px' }}
-        className="no-theme-btn absolute top-3 right-3 z-40 w-9 h-9 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/90 hover:bg-[var(--bg-button-primary)] hover:text-white text-[var(--text-primary)] backdrop-blur-md flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95 shadow-sm"
+        className="no-theme-btn absolute top-3 right-3 z-40 w-9 h-9 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/90 hover:bg-[var(--bg-button-primary)] hover:text-[var(--text-button-primary,#FFFFFF)] text-[var(--text-primary)] backdrop-blur-md flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95 shadow-sm"
         title={isEn ? 'Close book (Esc)' : 'Đóng sách (Esc)'}
         aria-label={isEn ? 'Close book' : 'Đóng sách'}
       >

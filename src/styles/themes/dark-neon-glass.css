@@ -71,7 +71,7 @@ html[data-theme="dark-neon-glass"] {
   --text-input: #f8fafc;
   --text-placeholder: #94a3b8;
   --text-on-dark: #ffffff;
-  --text-button-primary: #06101f;
+  --text-button-primary: #FFFFFF;
   --text-button-secondary: #f8fafc;
   --text-badge: #67e8f9;
   --text-highlight: #22d3ee;
@@ -136,7 +136,7 @@ html[data-theme="dark-neon-glass"] {
     rgba(38, 24, 82, 0.74) 52%,
     rgba(18, 32, 68, 0.82) 100%
   );
-  --bg-button-primary: linear-gradient(135deg, #06B6D4 0%, #6366F1 52%, #EC4899 100%);
+  --bg-button-primary: linear-gradient(135deg, #0369A1 0%, #4F46E5 52%, #DB2777 100%);
   --bg-button-secondary: rgba(15, 23, 48, 0.68);
   --bg-button-hover: rgba(24, 36, 72, 0.84);
 

@@ -841,11 +841,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           setSelectedMechanismFilter(item.id);
                         }}
                         className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap ${
-                          active ? 'text-white shadow-xs' : 'opacity-80 hover:opacity-100'
+                          active ? 'shadow-xs' : 'opacity-80 hover:opacity-100'
                         }`}
                         style={
                           active
-                            ? { background: 'var(--bg-button-primary)' }
+                            ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                             : { color: 'var(--text-primary)' }
                         }
                       >
@@ -1058,8 +1058,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     setSelectedFamilyFilter('all');
                     setSelectedMechanismFilter('all');
                   }}
-                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold text-white cursor-pointer whitespace-nowrap shrink-0"
-                  style={{ background: 'var(--bg-button-primary)' }}
+                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap shrink-0"
+                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
                 >
                   {isEn ? 'Show all themes' : 'Hiện tất cả giao diện'}
                 </button>

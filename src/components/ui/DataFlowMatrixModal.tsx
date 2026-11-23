@@ -94,8 +94,8 @@ export const DataFlowMatrixModal: React.FC<DataFlowMatrixModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              style={{ background: 'var(--bg-button-primary)' }}
-              className="px-4 py-1.5 rounded-full text-white typo-button transition cursor-pointer hover:opacity-90"
+              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+              className="px-4 py-1.5 rounded-full typo-button transition cursor-pointer hover:opacity-90"
             >
               Đóng Ma Trận
             </button>

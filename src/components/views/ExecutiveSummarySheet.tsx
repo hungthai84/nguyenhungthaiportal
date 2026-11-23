@@ -565,10 +565,10 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             type="button"
             onClick={handleExportInfographicPng}
             disabled={isGeneratingPng}
-            style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
+            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
             className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 rounded-full typo-button cursor-pointer transition active:scale-95 disabled:opacity-60"
           >
-            <WebIcon name="download" size={16} className="text-white" />
+            <WebIcon name="download" size={16} />
             <span>{isGeneratingPng ? 'Đang xuất ảnh PNG...' : 'Tải ảnh Infographic PNG'}</span>
           </button>
             </div>

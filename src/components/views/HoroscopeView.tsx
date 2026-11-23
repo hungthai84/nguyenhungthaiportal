@@ -299,8 +299,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     activeCardIndexRef.current = activeCardIndex;
   }, [activeCardIndex]);
 
-  // Vertical scroll container state for Card tử vi 1..5
+  // Vertical & Top Horizontal scroll container state for Card tử vi 1..5
   const horoscopeContainerRef = useRef<HTMLDivElement>(null);
+  const horoscopeTopRowRef = useRef<HTMLDivElement>(null);
   const [mainCard1Height, setMainCard1Height] = useState<number | null>(null);
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
@@ -346,53 +347,81 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       setActiveCardIndex(clamped);
 
       const container = horoscopeContainerRef.current;
+      const topRow = horoscopeTopRowRef.current;
       if (!container) return;
 
-      const targetId =
-        clamped === 0
-          ? 'horoscope-card-1'
-          : `horoscope-card-${clamped + 1}`;
+      const behavior: ScrollBehavior = smooth ? 'smooth' : 'auto';
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      isProgrammaticScrollRef.current = true;
 
-      const cardEl = document.getElementById(targetId);
-      if (cardEl) {
-        if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
-        isProgrammaticScrollRef.current = true;
-        const containerRect = container.getBoundingClientRect();
-        const cardRect = cardEl.getBoundingClientRect();
-        const targetScrollTop = Math.max(0, container.scrollTop + (cardRect.top - containerRect.top) - 15);
+      if (clamped === 0 || clamped === 4) {
         if (smooth) {
-          container.scrollTo({
-            top: targetScrollTop,
-            behavior: 'smooth',
-          });
+          container.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          container.scrollTop = targetScrollTop;
+          container.scrollTop = 0;
         }
-        scrollTimeoutRef.current = window.setTimeout(() => {
-          isProgrammaticScrollRef.current = false;
-          evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
-        }, smooth ? 560 : 60);
+        if (topRow) {
+          const targetLeft =
+            clamped === 0 ? 0 : Math.max(0, topRow.scrollWidth - topRow.clientWidth);
+          if (smooth) {
+            topRow.scrollTo({ left: targetLeft, behavior });
+          } else {
+            topRow.scrollLeft = targetLeft;
+          }
+        }
+      } else {
+        const targetId = `horoscope-card-${clamped + 1}`;
+        const cardEl = document.getElementById(targetId);
+        if (cardEl) {
+          const containerRect = container.getBoundingClientRect();
+          const cardRect = cardEl.getBoundingClientRect();
+          const targetScrollTop = Math.max(
+            0,
+            container.scrollTop + (cardRect.top - containerRect.top) - 15
+          );
+          if (smooth) {
+            container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+          } else {
+            container.scrollTop = targetScrollTop;
+          }
+        }
       }
+
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isProgrammaticScrollRef.current = false;
+        evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
+      }, smooth ? 560 : 60);
     },
     []
   );
 
-  const handleHoroscopeContainerScroll = useCallback(() => {
+  const syncActiveHoroscopeIndex = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
     const container = horoscopeContainerRef.current;
     if (!container) return;
+    const topRow = horoscopeTopRowRef.current;
     const containerTop = container.getBoundingClientRect().top;
-    const cardTargets = [
-      'horoscope-card-1',
-      'horoscope-card-2',
-      'horoscope-card-3',
-      'horoscope-card-4',
-      'horoscope-card-5',
+
+    // If user is in the top horizontal row (Card 1 & Card 5)
+    if (topRow && container.scrollTop < Math.max(120, topRow.offsetHeight * 0.45)) {
+      const maxHorizontalScroll = Math.max(1, topRow.scrollWidth - topRow.clientWidth);
+      const nextIdx = topRow.scrollLeft > maxHorizontalScroll * 0.42 ? 4 : 0;
+      if (nextIdx !== activeCardIndexRef.current) {
+        activeCardIndexRef.current = nextIdx;
+        setActiveCardIndex(nextIdx);
+      }
+      return;
+    }
+
+    const verticalTargets: Array<{ id: string; idx: number }> = [
+      { id: 'horoscope-card-2', idx: 1 },
+      { id: 'horoscope-card-3', idx: 2 },
+      { id: 'horoscope-card-4', idx: 3 },
     ];
     let nextIdx = activeCardIndexRef.current;
     let minDiff = Infinity;
-    cardTargets.forEach((targetId, idx) => {
-      const el = document.getElementById(targetId);
+    verticalTargets.forEach(({ id, idx }) => {
+      const el = document.getElementById(id);
       if (el) {
         const diff = Math.abs(el.getBoundingClientRect().top - containerTop - 20);
         if (diff < minDiff) {
@@ -406,6 +435,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       setActiveCardIndex(nextIdx);
     }
   }, []);
+
+  const handleHoroscopeContainerScroll = syncActiveHoroscopeIndex;
 
   // Horoscope Commentary MP3 Audio State
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
@@ -1196,223 +1227,278 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   // =========================================================================
   const renderCard1HoSoTuViContent = () => (
     <>
-          <div className="w-full flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
-            <div className="card-header-sync flex items-center gap-2 min-w-0 text-purple-600 dark:text-purple-400">
-              <Compass className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
-              <h4
-                className="typo-h4 card-title-synced text-purple-600 dark:text-purple-400 tracking-wide font-play min-w-0 truncate"
+      <div className="w-full flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
+        <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-purple-600 dark:text-purple-400">
+          <img
+            src={HOROSCOPE_AVATAR_IMAGE_URL}
+            alt="Nguyễn Hùng Thái"
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+            className="w-7 h-7 rounded-[10px] object-cover border border-purple-500/30 shrink-0"
+          />
+          <Compass className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
+          <h4
+            className="typo-h4 card-title-synced text-purple-600 dark:text-purple-400 tracking-wide font-play min-w-0 truncate"
+            data-card-title="true"
+          >
+            Hồ sơ Nguyễn Hùng Thái
+          </h4>
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
+          <span className="typo-badge px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20">
+            Giáp Tý 1984
+          </span>
+          <span className="typo-badge px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 hidden sm:inline-flex">
+            Dương Nam · Hải Trung Kim
+          </span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              SoundEngine.playTap();
+              scrollToHoroscopeCard(4, true);
+            }}
+            className="typo-badge px-2.5 py-0.5 rounded-full bg-indigo-500/12 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 hover:bg-indigo-500/20 transition-colors cursor-pointer"
+            title="Chuyển ngang sang 5. Kiểm Tra Tương Hợp Công Việc"
+          >
+            5. Tương hợp →
+          </button>
+        </div>
+      </div>
+
+      {/* Bento 6-Column Asymmetric Sub-Grid inside Profile Bento */}
+      <div className="grid grid-cols-1 sm:grid-cols-6 items-stretch gap-2.5 w-full min-w-0 flex-1 min-h-0">
+        {/* Bento Tile 1 (3/6): Ngày sinh dương lịch */}
+        <div
+          style={level2InnerCardStyle}
+          className="sm:col-span-3 w-full min-w-0 flex flex-col justify-between gap-1.5"
+        >
+          <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
+            <Calendar className="w-4 h-4 shrink-0" />
+            <h5
+              className="typo-label card-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0"
+              data-card-title="true"
+            >
+              Ngày sinh dương lịch
+            </h5>
+          </div>
+          <div className="min-w-0 flex flex-col gap-0.5">
+            <div className="typo-h4 text-[var(--text-primary)] font-bold break-words">22/06/1984</div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
+            </div>
+          </div>
+        </div>
+
+        {/* Bento Tile 2 (3/6): Ngày sinh âm lịch */}
+        <div
+          style={level2InnerCardStyle}
+          className="sm:col-span-3 w-full min-w-0 flex flex-col justify-between gap-1.5"
+        >
+          <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
+            <Moon className="w-4 h-4 shrink-0" />
+            <h5
+              className="typo-label card-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0"
+              data-card-title="true"
+            >
+              Ngày sinh âm lịch
+            </h5>
+          </div>
+          <div className="min-w-0 flex flex-col gap-0.5">
+            <div className="typo-h4 text-[var(--text-primary)] font-bold break-words">24/05/1984</div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (Năm Giáp Tý 1984)
+            </div>
+          </div>
+        </div>
+
+        {/* Bento Tile 3 (2/6): Giờ sinh can chi */}
+        <div
+          style={level2InnerCardStyle}
+          className="sm:col-span-2 w-full min-w-0 flex flex-col justify-between gap-1.5"
+        >
+          <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
+            <Clock className="w-4 h-4 shrink-0" />
+            <h5
+              className="typo-label card-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0"
+              data-card-title="true"
+            >
+              Giờ sinh can chi
+            </h5>
+          </div>
+          <div className="min-w-0 flex flex-col gap-0.5">
+            <div className="typo-h5 text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (Thiên Can: Quý, Địa Chi: Dậu)
+            </div>
+          </div>
+        </div>
+
+        {/* Bento Tile 4 (2/6): Năm sinh nạp âm */}
+        <div
+          style={level2InnerCardStyle}
+          className="sm:col-span-2 w-full min-w-0 flex flex-col justify-between gap-1.5"
+        >
+          <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
+            <ShieldCheck className="w-4 h-4 shrink-0" />
+            <h5
+              className="typo-label card-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0"
+              data-card-title="true"
+            >
+              Năm sinh nạp âm
+            </h5>
+          </div>
+          <div className="min-w-0 flex flex-col gap-0.5">
+            <div className="typo-h5 text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (Vàng Ròng Đáy Biển Sâu)
+            </div>
+          </div>
+        </div>
+
+        {/* Bento Tile 5 (2/6): Cục vận hàm số */}
+        <div
+          style={level2InnerCardStyle}
+          className="sm:col-span-2 w-full min-w-0 flex flex-col justify-between gap-1.5"
+        >
+          <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
+            <Hash className="w-4 h-4 shrink-0" />
+            <h5
+              className="typo-label card-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0"
+              data-card-title="true"
+            >
+              Cục vận hàm số
+            </h5>
+          </div>
+          <div className="min-w-0 flex flex-col gap-0.5">
+            <div className="typo-h5 text-rose-700 dark:text-rose-300 break-words">Kim Tứ Cục (Số 4)</div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (Khởi Đại Vận Năm 4 Tuổi)
+            </div>
+          </div>
+        </div>
+
+        {/* Bento Tile 6 (Wide Featured Interactive Compass Card - 6/6) */}
+        <div
+          style={level2InnerCardStyle}
+          role="button"
+          tabIndex={0}
+          onClick={spinCompass}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              spinCompass();
+            }
+          }}
+          title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
+          className="sm:col-span-6 w-full min-w-0 flex flex-col justify-between gap-2 cursor-pointer hover:border-cyan-400/60 transition-all group relative overflow-hidden select-none"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+            <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
+              <span
+                className="inline-flex items-center justify-center shrink-0 transition-transform duration-700 ease-out"
+                style={{
+                  transform: `rotate(${activeLuckyDirection.degree}deg)`,
+                }}
+              >
+                <Compass
+                  className={`w-4 h-4 transition-transform duration-500 ${
+                    isCompassSpinning ? 'animate-spin' : 'group-hover:rotate-45'
+                  }`}
+                />
+              </span>
+              <h5
+                className="typo-label card-title-synced font-play font-semibold tracking-wide text-cyan-600 dark:text-cyan-400 whitespace-normal break-words m-0"
                 data-card-title="true"
               >
-                Hồ sơ Nguyễn Hùng Thái
-              </h4>
-            </div>
-            <span className="typo-badge px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 shrink-0">
-              Giáp Tý 1984
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch gap-2.5 w-full min-w-0 flex-1 min-h-0">
-            <div
-              style={level2InnerCardStyle}
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5"
-            >
-              <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
-                <Calendar className="w-4 h-4 shrink-0" />
-                <h5
-                  className="typo-label card-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0"
-                  data-card-title="true"
-                >
-                  Ngày sinh dương lịch
-                </h5>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-[var(--text-primary)] break-words">22/06/1984</div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={level2InnerCardStyle}
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5"
-            >
-              <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
-                <Moon className="w-4 h-4 shrink-0" />
-                <h5
-                  className="typo-label card-title-synced font-play font-semibold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0"
-                  data-card-title="true"
-                >
-                  Ngày sinh âm lịch
-                </h5>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-[var(--text-primary)] break-words">24/05/1984</div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (Năm Giáp Tý 1984)
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={level2InnerCardStyle}
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5"
-            >
-              <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-amber-600 dark:text-amber-400">
-                <Clock className="w-4 h-4 shrink-0" />
-                <h5
-                  className="typo-label card-title-synced font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0"
-                  data-card-title="true"
-                >
-                  Giờ sinh can chi
-                </h5>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (Thiên Can: Quý, Địa Chi: Dậu)
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={level2InnerCardStyle}
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5"
-            >
-              <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-emerald-600 dark:text-emerald-400">
-                <ShieldCheck className="w-4 h-4 shrink-0" />
-                <h5
-                  className="typo-label card-title-synced font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0"
-                  data-card-title="true"
-                >
-                  Năm sinh nạp âm
-                </h5>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (Vàng Ròng Đáy Biển Sâu)
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={level2InnerCardStyle}
-              role="button"
-              tabIndex={0}
-              onClick={spinCompass}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  spinCompass();
-                }
-              }}
-              title="Bấm để xoay la bàn bát quái (4 hướng cát khí: Tây Bắc, Tây Nam, Đông Bắc, Tây)"
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5 cursor-pointer hover:border-cyan-400/60 transition-all group relative overflow-hidden select-none"
-            >
-              <div className="flex items-center justify-between gap-1.5 min-w-0">
-                <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-cyan-600 dark:text-cyan-400">
-                  <span
-                    className="inline-flex items-center justify-center shrink-0 transition-transform duration-700 ease-out"
-                    style={{
-                      transform: `rotate(${activeLuckyDirection.degree}deg)`,
-                    }}
-                  >
-                    <Compass
-                      className={`w-4 h-4 transition-transform duration-500 ${
-                        isCompassSpinning ? 'animate-spin' : 'group-hover:rotate-45'
-                      }`}
-                    />
-                  </span>
-                  <h5
-                    className="typo-label card-title-synced font-play font-semibold tracking-wide text-cyan-600 dark:text-cyan-400 whitespace-normal break-words m-0"
-                    data-card-title="true"
-                  >
-                    Cung mệnh la bàn
-                  </h5>
-                </div>
-                <span className="typo-badge px-1.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
-                  {activeLuckyDirection.degree}°
-                </span>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-cyan-700 dark:text-cyan-300 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
-                  <span>Đoài Kim (Hành Kim)</span>
-                  <span className="typo-caption opacity-80">
-                    · {activeLuckyDirection.direction} ({activeLuckyDirection.starName})
-                  </span>
-                </div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (Tây Tứ Mệnh • Hướng {activeLuckyDirection.direction} - {activeLuckyDirection.elementBadge})
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={level2InnerCardStyle}
-              className="w-full min-w-0 flex flex-col justify-start gap-2.5"
-            >
-              <div className="card-header-sync flex items-center gap-1.5 min-w-0 text-rose-600 dark:text-rose-400">
-                <Hash className="w-4 h-4 shrink-0" />
-                <h5
-                  className="typo-label card-title-synced font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0"
-                  data-card-title="true"
-                >
-                  Cục vận hàm số
-                </h5>
-              </div>
-              <div className="min-w-0 flex flex-col gap-0.5">
-                <div className="typo-h5 text-rose-700 dark:text-rose-300 break-words">Kim Tứ Cục (Số 4)</div>
-                <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                  (Khởi Đại Vận Năm 4 Tuổi)
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Câu nói hay tổng hợp từ triết lý lãnh đạo chuyển ra card 1 tử vi */}
-          <div
-            id="horoscope-card5-leadership-quote"
-            style={{
-              ...level2CardStyle,
-              padding: '10px 12px',
-            }}
-            className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 min-w-0 shrink-0 border-t border-[var(--border-subcard)]"
-          >
-            <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
-              <div className="w-8 h-8 rounded-[10px] bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <blockquote
-                className="typo-h4 font-handwriting font-quote not-italic font-semibold text-[var(--text-primary)] leading-snug m-0 break-words"
-                style={{
-                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-                  fontWeight: 600,
-                  fontStyle: 'normal',
-                }}
-              >
-                &ldquo;{LEADERSHIP_PHILOSOPHY_QUOTES[leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length]}&rdquo;
-              </blockquote>
-            </div>
-            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-              <button
-                id="horoscope-generate-leadership-quote-btn"
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setLeadershipQuoteIndex((prev) => (prev + 1) % LEADERSHIP_PHILOSOPHY_QUOTES.length);
-                }}
-                className="banner-control-pill px-3 py-1 rounded-full typo-badge font-bold inline-flex items-center gap-1.5 cursor-pointer"
-                title="Tạo câu nói hay khác từ Triết Lý Lãnh Đạo"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
-                <span>Tạo câu nói mới</span>
-              </button>
-              <span className="typo-badge px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 whitespace-nowrap font-mono tabular-nums">
-                {(leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length) + 1}/{LEADERSHIP_PHILOSOPHY_QUOTES.length}
+                Cung mệnh la bàn
+              </h5>
+              <span className="typo-badge px-1.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0 tabular-nums">
+                {activeLuckyDirection.degree}°
               </span>
             </div>
+
+            <div className="flex flex-wrap items-center gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
+              {COMPASS_LUCKY_DIRECTIONS.map((dir, dIdx) => {
+                const isSelectedDir = dIdx === compassLuckyIdx;
+                return (
+                  <button
+                    key={dir.direction}
+                    type="button"
+                    onClick={() => selectCompassDirection(dIdx)}
+                    className={cn(
+                      'px-2 py-0.5 rounded-full typo-badge border transition-all cursor-pointer',
+                      isSelectedDir
+                        ? 'bg-[var(--bg-button-primary)] text-[var(--text-button-primary,#FFFFFF)] border-transparent font-bold'
+                        : 'bg-[var(--bg-subcard)] text-[var(--text-secondary)] border-[var(--border-subcard)] hover:text-[var(--text-primary)]'
+                    )}
+                  >
+                    {dir.direction}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          <div className="min-w-0 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+            <div className="typo-h5 text-cyan-700 dark:text-cyan-300 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+              <span>Đoài Kim (Hành Kim)</span>
+              <span className="typo-caption opacity-85">
+                · {activeLuckyDirection.direction} ({activeLuckyDirection.starName})
+              </span>
+            </div>
+            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+              (Tây Tứ Mệnh • {activeLuckyDirection.elementBadge}: {activeLuckyDirection.meaning})
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bento Quote Banner Card: Câu nói hay tổng hợp từ triết lý lãnh đạo */}
+      <div
+        id="horoscope-card5-leadership-quote"
+        style={{
+          ...level2CardStyle,
+          padding: '10px 12px',
+        }}
+        className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 min-w-0 shrink-0 border-t border-[var(--border-subcard)]"
+      >
+        <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+          <div className="w-8 h-8 rounded-[10px] bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <blockquote
+            className="typo-h4 font-handwriting font-quote not-italic font-semibold text-[var(--text-primary)] leading-snug m-0 break-words"
+            style={{
+              fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+              fontWeight: 600,
+              fontStyle: 'normal',
+            }}
+          >
+            &ldquo;{LEADERSHIP_PHILOSOPHY_QUOTES[leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length]}&rdquo;
+          </blockquote>
+        </div>
+        <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+          <button
+            id="horoscope-generate-leadership-quote-btn"
+            type="button"
+            onClick={() => {
+              SoundEngine.playTap();
+              setLeadershipQuoteIndex((prev) => (prev + 1) % LEADERSHIP_PHILOSOPHY_QUOTES.length);
+            }}
+            className="banner-control-pill px-3 py-1 rounded-full typo-badge font-bold inline-flex items-center gap-1.5 cursor-pointer"
+            title="Tạo câu nói hay khác từ Triết Lý Lãnh Đạo"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span>Tạo câu nói mới</span>
+          </button>
+          <span className="typo-badge px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/25 whitespace-nowrap font-mono tabular-nums">
+            {(leadershipQuoteIndex % LEADERSHIP_PHILOSOPHY_QUOTES.length) + 1}/{LEADERSHIP_PHILOSOPHY_QUOTES.length}
+          </span>
+        </div>
+      </div>
     </>
   );
 
@@ -1870,8 +1956,24 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         data-element-type="card"
         data-main-card="true"
         data-element-page="horoscope"
-        style={horoscopeStackedCardStyle}
-        className="bento-card glass-card w-full max-w-full grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch gap-[15px] [grid-auto-flow:dense] p-[15px] rounded-[14px] box-border"
+        data-element-parent="horoscope-row-1-5-horizontal"
+        onClick={() => {
+          const topRow = horoscopeTopRowRef.current;
+          if (topRow && topRow.scrollLeft < Math.max(24, (topRow.scrollWidth - topRow.clientWidth) * 0.25)) {
+            scrollToHoroscopeCard(4, true);
+          }
+        }}
+        style={
+          {
+            ...horoscopeMainCardStyle,
+            padding: '15px',
+            height: mainCard1Height ? `${mainCard1Height}px` : '100%',
+            minHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
+            maxHeight: mainCard1Height ? `${mainCard1Height}px` : undefined,
+            '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
+          } as React.CSSProperties
+        }
+        className="page-main-card bento-card glass-card shrink-0 snap-start grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch content-start gap-[15px] [grid-auto-flow:dense] p-[15px] rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
       >
         <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-[var(--border-subcard)]">
           <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1884,7 +1986,21 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </h3>
           </div>
 
-          {/* Bộ chuyển đổi 2 chế độ tra cứu: 12 Con Giáp & 4 Khối Phòng Ban */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                SoundEngine.playTap();
+                scrollToHoroscopeCard(0, true);
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors cursor-pointer"
+              title="Quay lại Thẻ Tử Vi 1"
+            >
+              <span>← Hồ sơ & Luận giải</span>
+            </button>
+
+            {/* Bộ chuyển đổi 2 chế độ tra cứu: 12 Con Giáp & 4 Khối Phòng Ban */}
           <div
             role="tablist"
             aria-label="Chế độ kiểm tra tương hợp công việc"
@@ -1903,11 +2019,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 setSynergyCheckTab('zodiac');
               }}
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer ${
-                synergyCheckTab === 'zodiac' ? 'text-white shadow-xs' : 'hover:opacity-90'
+                synergyCheckTab === 'zodiac' ? 'shadow-xs' : 'hover:opacity-90'
               }`}
               style={
                 synergyCheckTab === 'zodiac'
-                  ? { background: 'var(--bg-button-primary)' }
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                   : { color: 'var(--text-secondary)' }
               }
             >
@@ -1923,17 +2039,18 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 setSynergyCheckTab('department');
               }}
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer ${
-                synergyCheckTab === 'department' ? 'text-white shadow-xs' : 'hover:opacity-90'
+                synergyCheckTab === 'department' ? 'shadow-xs' : 'hover:opacity-90'
               }`}
               style={
                 synergyCheckTab === 'department'
-                  ? { background: 'var(--bg-button-primary)' }
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                   : { color: 'var(--text-secondary)' }
               }
             >
               <Building2 className="w-3.5 h-3.5 shrink-0" />
               <span>Tương hợp 4 Phòng ban</span>
             </button>
+          </div>
           </div>
         </div>
 
@@ -1976,7 +2093,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   <button
                     type="button"
                     onClick={handleYearSearch}
-                    style={{ background: 'var(--bg-button-primary)', color: '#FFFFFF' }}
+                    style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
                     className="absolute right-1 px-4 py-1.5 rounded-[12px] typo-button flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
                   >
                     <Search className="w-3.5 h-3.5" />
@@ -2000,7 +2117,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                           style={{
                             borderRadius: 'var(--radius-subcard, 14px)',
                             ...(isSel
-                              ? { background: 'var(--bg-button-primary)', color: '#FFFFFF', borderColor: 'transparent' }
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
                               : {
                                   background: 'var(--bg-card)',
                                   color: 'var(--text-primary)',
@@ -2322,6 +2439,91 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         className="main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 box-border"
       >
+        {/* HÀNG NGANG TRÊN CÙNG: MAIN CARD TỬ VI 1 + CARD 5 KIỂM TRA TƯƠNG HỢP (NHÔ MỘT PHẦN BÊN PHẢI) */}
+        <div
+          ref={horoscopeTopRowRef}
+          id="horoscope-row-1-5-horizontal"
+          data-element-name="Hàng ngang Tử Vi 1 và Kiểm Tra Tương Hợp 5"
+          data-element-type="container"
+          data-element-page="horoscope"
+          data-element-parent="horoscope-page-container"
+          onScroll={syncActiveHoroscopeIndex}
+          className="w-full max-w-full flex flex-row flex-nowrap items-stretch gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
+        >
+          {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (CHIỀU CAO BẰNG THẺ CHÍNH DỊCH VỤ) */}
+          <section
+            id="horoscope-card-1"
+            data-element-name="Thẻ main chính tử vi 1"
+            data-element-type="card"
+            data-main-card="true"
+            data-element-page="horoscope"
+            data-element-parent="horoscope-row-1-5-horizontal"
+            onClick={() => {
+              const topRow = horoscopeTopRowRef.current;
+              if (topRow && topRow.scrollLeft > 40) {
+                scrollToHoroscopeCard(0, true);
+              }
+            }}
+            style={
+              {
+                ...horoscopeMainCardStyle,
+                padding: '15px',
+                gap: '0px',
+                height: mainCard1Height ? `${mainCard1Height}px` : '100%',
+                minHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
+                maxHeight: mainCard1Height ? `${mainCard1Height}px` : undefined,
+                '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
+              } as React.CSSProperties
+            }
+            className="page-main-card shrink-0 snap-start relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border"
+          >
+            <div
+              id="horoscope-card-1-viewport"
+              className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[12px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+            >
+              {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
+              {renderHeroBanner()}
+
+              {/* BỐ CỤC BENTO 12 CỘT: HỒ SƠ NGUYỄN HÙNG THÁI (7/12) & 6. LUẬN GIẢI LÁ SỐ TỬ VI (5/12) */}
+              <div
+                id="horoscope-row-1-horizontal"
+                className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[12px] items-stretch"
+              >
+                {/* Bento Left (7/12): Thẻ Hồ sơ Nguyễn Hùng Thái */}
+                <div
+                  id="horoscope-card-profile"
+                  data-element-name="Thẻ Hồ sơ Nguyễn Hùng Thái"
+                  data-element-type="card"
+                  data-subcard="true"
+                  data-element-page="horoscope"
+                  data-element-parent="horoscope-card-1"
+                  style={level2CardStyle}
+                  className="lg:col-span-7 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2.5 p-3 rounded-[14px] overflow-hidden box-border"
+                >
+                  {renderCard1HoSoTuViContent()}
+                </div>
+
+                {/* Bento Right (5/12): Thẻ 6. Luận giải lá số tử vi */}
+                <div
+                  id="horoscope-card-6"
+                  data-element-name="Card tử vi 6"
+                  data-element-type="card"
+                  data-subcard="true"
+                  data-element-page="horoscope"
+                  data-element-parent="horoscope-card-1"
+                  style={level2CardStyle}
+                  className="lg:col-span-5 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-hidden box-border"
+                >
+                  {renderCard6LuanGiaiContent()}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* MAIN CARD TỬ VI 5: KIỂM TRA TƯƠNG HỢP CÔNG VIỆC (XẾP NGANG BÊN PHẢI CARD 1 VÀ NHÔ MỘT PHẦN) */}
+          {renderCard5KiemTraCongViec()}
+        </div>
+
         <div
           id="horoscope-cards-track"
           data-element-name="Track căn giữa Tử Vi"
@@ -2344,70 +2546,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           }}
           className="page-cards-track flex flex-col items-stretch gap-[15px] mx-auto box-border"
         >
-          {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (CHIỀU CAO BẰNG THẺ CHÍNH DỊCH VỤ) */}
-          <section
-            id="horoscope-card-1"
-            data-element-name="Thẻ main chính tử vi 1"
-            data-element-type="card"
-            data-main-card="true"
-            data-element-page="horoscope"
-            data-element-parent="horoscope-cards-track"
-            style={
-              {
-                ...horoscopeStackedCardStyle,
-                padding: '15px',
-                gap: '0px',
-                height: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                minHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                maxHeight: mainCard1Height ? `${mainCard1Height}px` : undefined,
-                '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
-              } as React.CSSProperties
-            }
-            className="page-main-card relative w-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border"
-          >
-            <div
-              id="horoscope-card-1-viewport"
-              className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[12px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
-            >
-              {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
-              {renderHeroBanner()}
-
-              {/* HÀNG 1: HỒ SƠ NGUYỄN HÙNG THÁI & 6. LUẬN GIẢI LÁ SỐ TỬ VI */}
-              <div
-                id="horoscope-row-1-horizontal"
-                className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-[12px] items-stretch"
-              >
-                {/* Thẻ Hồ sơ Nguyễn Hùng Thái */}
-                <div
-                  id="horoscope-card-profile"
-                  data-element-name="Thẻ Hồ sơ Nguyễn Hùng Thái"
-                  data-element-type="card"
-                  data-subcard="true"
-                  data-element-page="horoscope"
-                  data-element-parent="horoscope-card-1"
-                  style={level2CardStyle}
-                  className="sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2.5 p-3 rounded-[14px] overflow-hidden box-border"
-                >
-                  {renderCard1HoSoTuViContent()}
-                </div>
-
-                {/* Thẻ 6. Luận giải lá số tử vi */}
-                <div
-                  id="horoscope-card-6"
-                  data-element-name="Card tử vi 6"
-                  data-element-type="card"
-                  data-subcard="true"
-                  data-element-page="horoscope"
-                  data-element-parent="horoscope-card-1"
-                  style={level2CardStyle}
-                  className="sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-hidden box-border"
-                >
-                  {renderCard6LuanGiaiContent()}
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* MAIN CARD TỬ VI 2: PHONG CÁCH QUẢN TRỊ */}
           {renderCard2PhongCachQuanTri()}
 
@@ -2416,9 +2554,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
           {/* MAIN CARD TỬ VI 4: KỸ NĂNG NGŨ HÀNH */}
           {renderCard4KyNangNguHanh()}
-
-          {/* MAIN CARD TỬ VI 5: KIỂM TRA TƯƠNG HỢP CÔNG VIỆC */}
-          {renderCard5KiemTraCongViec()}
         </div>
       </div>
 

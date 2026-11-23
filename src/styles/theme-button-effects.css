@@ -172,8 +172,7 @@
     [data-card-style="cowhide-leather"],
     [data-card-style="black-cowhide-leather"],
     [data-card-style="flat-soft-ui"],
-    [data-card-style="dark-flat-soft-ui"],
-    :not([data-card-style])
+    [data-card-style="dark-flat-soft-ui"]
   ) :where(
     .banner-control-pill,
     .edu-bento-action-btn,
@@ -189,7 +188,7 @@
 /* ------------------------------------------------------------------------- */
 /* 1. NEUMORPHISM & BEYOND (Nổi Khối Kính Mờ — Matte Soft UI Tactile Press)  */
 /* ------------------------------------------------------------------------- */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -209,7 +208,7 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   );
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -227,7 +226,7 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], :not([data-card-style])) :where(
+  html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -1150,14 +1149,13 @@ html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer
 html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
 html:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
 html:root[data-theme] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) {
-  background: var(--text-link, var(--color-primary)) !important;
-  background-color: var(--text-link, var(--color-primary)) !important;
-  color: #FFFFFF !important;
+  background: var(--bg-button-primary, var(--text-link, var(--color-primary))) !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   border-radius: 9999px !important;
 }
 html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) svg {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
+  stroke: currentColor !important;
 }
 
 /* ========================================================================= */

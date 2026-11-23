@@ -441,7 +441,7 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --bg-nav-button-opaque: #FFFFFF;
   --bg-nav-pill: rgba(255, 255, 255, 0.35);
   --bg-nav-pill-hover: rgba(255, 255, 255, 0.60);
-  --bg-button-primary: var(--liquid-grad-purple-lavender);
+  --bg-button-primary: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
   --bg-button-secondary: var(--liquid-grad-cyan-mint);
   --bg-button-hover: rgba(255, 255, 255, 0.65);
 
@@ -689,8 +689,8 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --bg-nav-button-opaque: #1E2737;
   --bg-nav-pill: rgba(38, 51, 74, 0.45);
   --bg-nav-pill-hover: rgba(38, 51, 74, 0.70);
-  --bg-button-primary: var(--liquid-grad-purple-lavender);
-  --bg-button-secondary: var(--liquid-grad-cyan-mint);
+  --bg-button-primary: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+  --bg-button-secondary: linear-gradient(135deg, #0F766E 0%, #0E7490 100%);
   --bg-button-hover: rgba(38, 51, 74, 0.75);
 
   --bg-input: rgba(26, 36, 56, 0.65);

@@ -879,8 +879,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 <button
                   id="wallpaper-add-submit-btn"
                   type="submit"
-                  style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-5 py-2 rounded-full typo-button text-white shadow-md hover:brightness-110 transition cursor-pointer"
+                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                  className="px-5 py-2 rounded-full typo-button shadow-md hover:brightness-110 transition cursor-pointer"
                 >
                   Thêm & Áp Dụng Ngay
                 </button>
@@ -918,8 +918,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                       id="wallpaper-json-export-file-btn"
                       type="button"
                       onClick={handleExportJson}
-                      style={{ background: 'var(--bg-button-primary)' }}
-                      className="px-3.5 py-1.5 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                      className="px-3.5 py-1.5 rounded-full typo-button hover:brightness-110 transition cursor-pointer flex items-center gap-1.5 shadow-2xs"
                     >
                       <WebIcon name="download" className="w-3.5 h-3.5" />
                       <span>Xuất File JSON</span>
@@ -943,8 +943,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   type="button"
                   onClick={() => importFromJsonString(jsonText)}
                   disabled={!jsonText.trim()}
-                  style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-4 py-1.5 rounded-full typo-button disabled:opacity-40 text-white hover:brightness-110 transition cursor-pointer"
+                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                  className="px-4 py-1.5 rounded-full typo-button disabled:opacity-40 hover:brightness-110 transition cursor-pointer"
                 >
                   Nhập Dữ Liệu Từ Ô JSON
                 </button>
@@ -1007,8 +1007,8 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   SoundEngine.playPop();
                   setIsAddModalOpen(true);
                 }}
-                style={{ background: 'var(--bg-button-primary)' }}
-                className="px-5 py-2 rounded-full typo-button hover:brightness-110 text-white transition cursor-pointer shadow-sm"
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="px-5 py-2 rounded-full typo-button hover:brightness-110 transition cursor-pointer shadow-sm"
               >
                 {isEn ? 'Add Personal Wallpaper' : 'Thêm hình nền cá nhân'}
               </button>
@@ -1020,11 +1020,15 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 setFilterType('all');
                 setSearchQuery('');
               }}
-              style={filterType === 'custom' ? undefined : { background: 'var(--bg-button-primary)' }}
+              style={
+                filterType === 'custom'
+                  ? undefined
+                  : { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+              }
               className={`px-5 py-2 rounded-full typo-button transition cursor-pointer shadow-sm ${
                 filterType === 'custom'
                   ? 'border border-[var(--border-subcard)] text-[var(--text-primary)]'
-                  : 'hover:brightness-110 text-white'
+                  : 'hover:brightness-110'
               }`}
             >
               Xem lại tất cả hình nền

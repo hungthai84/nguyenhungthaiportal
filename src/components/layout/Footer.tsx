@@ -568,11 +568,11 @@ export const Footer: React.FC<FooterProps> = ({
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
             style={{
-              backgroundColor: 'var(--text-link, var(--color-primary))',
-              color: '#FFFFFF',
+              background: 'var(--bg-button-primary, var(--text-link, var(--color-primary)))',
+              color: 'var(--text-button-primary, #FFFFFF)',
             }}
           >
-            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[18px] h-[18px] text-white" />
+            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[18px] h-[18px]" />
           </button>
 
           {/* Page Number with Active Page Icon */}
@@ -614,11 +614,11 @@ export const Footer: React.FC<FooterProps> = ({
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
             style={{
-              backgroundColor: 'var(--text-link, var(--color-primary))',
-              color: '#FFFFFF',
+              background: 'var(--bg-button-primary, var(--text-link, var(--color-primary)))',
+              color: 'var(--text-button-primary, #FFFFFF)',
             }}
           >
-            <WebIcon name="chevron-right" strokeWidth={2.85} className="w-[18px] h-[18px] text-white" />
+            <WebIcon name="chevron-right" strokeWidth={2.85} className="w-[18px] h-[18px]" />
           </button>
         </div>
       </div>
@@ -703,7 +703,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
-                        style={{ fontWeight: 'bold', color: isLangMenuOpen ? '#FFFFFF' : '#10B981' }}
+                        style={{ fontWeight: 'bold', color: isLangMenuOpen ? 'var(--text-button-primary, #FFFFFF)' : '#10B981' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {activeLangTitle}
@@ -802,7 +802,7 @@ export const Footer: React.FC<FooterProps> = ({
                       <span
                         style={{
                           fontWeight: 'bold',
-                          color: currentTabIndex === 15 || isThemeMenuOpen ? '#FFFFFF' : '#6366F1',
+                          color: currentTabIndex === 15 || isThemeMenuOpen ? 'var(--text-button-primary, #FFFFFF)' : '#6366F1',
                         }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
@@ -873,7 +873,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <span
                     style={{
                       fontWeight: 'bold',
-                      color: currentTabIndex === 14 ? '#FFFFFF' : '#F43F5E',
+                      color: currentTabIndex === 14 ? 'var(--text-button-primary, #FFFFFF)' : '#F43F5E',
                     }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
@@ -947,7 +947,7 @@ export const Footer: React.FC<FooterProps> = ({
                   <span
                     style={{
                       fontWeight: 'bold',
-                      color: currentTabIndex === 13 ? '#FFFFFF' : '#0EA5E9',
+                      color: currentTabIndex === 13 ? 'var(--text-button-primary, #FFFFFF)' : '#0EA5E9',
                     }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
@@ -1035,10 +1035,10 @@ export const Footer: React.FC<FooterProps> = ({
                       isEn ? '✓ Downloading CV Resume file...' : '✓ Đang tải xuống file Hồ sơ CV...'
                     );
                   }}
-                  style={{ background: 'var(--bg-button-primary)' }}
-                  className="px-5 py-2.5 rounded-full hover:opacity-90 text-white font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
+                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                  className="px-5 py-2.5 rounded-full hover:opacity-90 font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
                 >
-                  <WebIcon name="file-text" className="w-4 h-4 text-white" />
+                  <WebIcon name="file-text" className="w-4 h-4" />
                   <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>
                 </a>
               </div>

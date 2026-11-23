@@ -94,8 +94,8 @@ export const MapModal: React.FC<MapModalProps> = ({ location, onClose }) => {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ background: 'var(--bg-button-primary)' }}
-              className="px-3.5 py-1.5 rounded-full text-white typo-button shadow-md whitespace-nowrap hover:opacity-90"
+              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+              className="px-3.5 py-1.5 rounded-full typo-button shadow-md whitespace-nowrap hover:opacity-90"
             >
               Mở Google Maps
             </a>

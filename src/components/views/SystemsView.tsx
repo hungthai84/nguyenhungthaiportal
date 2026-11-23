@@ -1455,15 +1455,18 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             ? { background: '#E11D48', borderColor: 'rgba(255,255,255,0.75)' }
                             : {
                                 background: 'var(--bg-button-primary)',
+                                color: 'var(--text-button-primary, #FFFFFF)',
                                 borderColor: 'rgba(255,255,255,0.72)',
                               }
                         }
-                        className="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-white border shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110"
+                        className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center border shadow-md backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 ${
+                          isCircleVideoPlaying ? 'text-white' : ''
+                        }`}
                       >
                         <WebIcon
                           name={isCircleVideoPlaying ? 'cancel' : 'play'}
                           className={cn(
-                            'w-3.5 h-3.5 text-white',
+                            'w-3.5 h-3.5',
                             !isCircleVideoPlaying && 'ml-0.5'
                           )}
                         />
@@ -1579,8 +1582,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   setActiveCategory('all');
                   setSearchQuery('');
                 }}
-                style={{ background: 'var(--bg-button-primary)' }}
-                className="mt-4 px-5 py-2 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer shadow-sm"
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="mt-4 px-5 py-2 rounded-full typo-button hover:opacity-90 transition cursor-pointer shadow-sm"
               >
                 {isEn ? 'Show All 12 Systems' : 'Xem lại tất cả 12 hệ thống'}
               </button>
@@ -1903,7 +1906,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                             {/* Tên đầy đủ của hệ thống — đồng bộ màu giống màu tiêu đề */}
                             <p
-                              className="text-[13px] sm:text-[13.5px] font-semibold leading-snug line-clamp-2 m-0 break-words"
+                              className="typo-body-sm font-semibold leading-snug line-clamp-2 m-0 break-words"
                               style={{ color: accentColor }}
                               title={localizedTitle}
                             >
@@ -1912,7 +1915,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                             {/* Mô tả chức năng hệ thống (~3 dòng ngắn gọn, font-semibold rõ nét trên nền tối) */}
                             <p
-                              className="text-[12px] sm:text-[12.5px] font-semibold leading-[1.45] line-clamp-3 text-[var(--text-secondary)] m-0 break-words"
+                              className="typo-caption font-semibold leading-[1.45] line-clamp-3 text-[var(--text-secondary)] m-0 break-words"
                               title={localizedDesc}
                             >
                               {localizedDesc}
@@ -1922,7 +1925,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           {/* Nhãn phân hệ gọn bên dưới trái */}
                           <div className="flex items-center pt-1 min-w-0">
                             <span
-                              className="inline-flex items-center gap-1.5 text-[11px] font-semibold truncate max-w-full opacity-90"
+                              className="inline-flex items-center gap-1.5 typo-badge font-semibold truncate max-w-full opacity-90"
                               style={{ color: accentColor }}
                             >
                               <span
@@ -2262,7 +2265,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 : 'Cổng BI Dashboard đang hoàn thiện tích hợp API; mã QR liên kết tới trang Hệ sinh thái.'}
                           </p>
                           <div className="flex flex-wrap items-center gap-2">
-                            <code className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subcard)] text-[12px] text-[var(--text-primary)] truncate max-w-full">
+                            <code className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subcard)] typo-caption font-mono text-[var(--text-primary)] truncate max-w-full">
                               {expandedSystem.url || 'https://powerservice.one (Systems Hub)'}
                             </code>
                             <button
@@ -2335,7 +2338,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                       setCompareTargetId(cand.id);
                                     }}
                                     className={cn(
-                                      'px-2.5 py-0.5 rounded-full text-[11px] font-bold border transition cursor-pointer',
+                                      'px-2.5 py-0.5 rounded-full typo-badge font-bold border transition cursor-pointer',
                                       isTarget
                                         ? 'text-white border-transparent shadow-xs'
                                         : 'bg-[var(--bg-card)]/80 border-[var(--border-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -2394,7 +2397,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 <button
                                   type="button"
                                   onClick={() => switchExpandedSystem(compareTargetSystem)}
-                                  className="text-[11px] font-bold text-[var(--color-primary)] hover:underline cursor-pointer shrink-0"
+                                  className="typo-badge font-bold text-[var(--color-primary)] hover:underline cursor-pointer shrink-0"
                                 >
                                   {isEn ? 'Switch →' : 'Mở thẻ này →'}
                                 </button>
@@ -2421,7 +2424,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 {isEn ? 'Real-Time Data Bridge:' : 'Cơ chế đồng bộ dữ liệu trực tiếp:'}{' '}
                                 <span style={{ color: expandedAccent }}>{pairFlow.protocol}</span>
                               </span>
-                              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
+                              <span className="px-2 py-0.5 rounded-full typo-badge font-mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
                                 Latency ~{pairFlow.latency}
                               </span>
                             </div>
@@ -2572,7 +2575,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 </p>
                               </div>
 
-                              <div className="text-[11px] font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
+                              <div className="typo-badge font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
                                 {expandedSystem.fullName}
                               </div>
                             </div>
@@ -2599,7 +2602,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                   className="flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] leading-relaxed"
                                 >
                                   <span
-                                    className="w-5 h-5 rounded-full text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs"
+                                    className="w-5 h-5 rounded-full text-white typo-badge font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs"
                                     style={{ background: expandedMeta.gradient }}
                                   >
                                     {fIdx + 1}
@@ -2688,7 +2691,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     <button
                                       type="button"
                                       onClick={() => switchExpandedSystem(connTarget)}
-                                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold text-white cursor-pointer hover:brightness-110 transition"
+                                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold text-white cursor-pointer hover:brightness-110 transition"
                                       style={{
                                         background:
                                           SYSTEM_DESIGN_MAP[connTarget.id]?.gradient ||

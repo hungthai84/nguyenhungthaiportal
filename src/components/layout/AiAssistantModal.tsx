@@ -142,10 +142,14 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                style={m.sender === 'user' ? { background: 'var(--bg-button-primary)' } : undefined}
+                style={
+                  m.sender === 'user'
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                    : undefined
+                }
                 className={`max-w-[85%] p-3 rounded-[var(--radius-subcard,16px)] leading-relaxed shadow-xs ${
                   m.sender === 'user'
-                    ? 'text-white rounded-br-none font-medium'
+                    ? 'rounded-br-none font-medium'
                     : 'theme-modal-subcard rounded-bl-none'
                 }`}
               >
@@ -193,8 +197,8 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
           />
           <button
             type="submit"
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="px-4 py-2 rounded-full text-white typo-button shadow-md cursor-pointer transition hover:opacity-90 flex items-center gap-1 shrink-0"
+            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+            className="px-4 py-2 rounded-full typo-button shadow-md cursor-pointer transition hover:opacity-90 flex items-center gap-1 shrink-0"
           >
             <span>Gửi</span>
             <i className="fa-solid fa-paper-plane typo-label"></i>

@@ -66,7 +66,7 @@ export const WallpaperStudioControls: React.FC<WallpaperStudioControlsProps> = (
                 }}
                 style={
                   active
-                    ? { background: 'var(--bg-button-primary)', color: '#ffffff' }
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                     : undefined
                 }
                 className={`h-8 px-3 rounded-[10px] typo-nav font-play inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-all cursor-pointer ${
@@ -78,8 +78,8 @@ export const WallpaperStudioControls: React.FC<WallpaperStudioControlsProps> = (
                 <WebIcon name={tab.icon} className="w-3.5 h-3.5 shrink-0" />
                 <span>{tab.label}</span>
                 <span
-                  className={`tabular-nums text-[11px] opacity-80 ${
-                    active ? 'text-white/90' : 'text-[var(--text-muted)]'
+                  className={`tabular-nums typo-badge opacity-85 ${
+                    active ? 'text-current' : 'text-[var(--text-muted)]'
                   }`}
                 >
                   ({tab.count})

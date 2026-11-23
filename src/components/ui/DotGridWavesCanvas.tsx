@@ -19,27 +19,37 @@ export const DotGridWavesCanvas: React.FC<DotGridWavesCanvasProps> = ({ isDark }
     const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let W = container.offsetWidth || window.innerWidth;
     let H = container.offsetHeight || window.innerHeight;
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
     const GAP = 22;
+    let dots: [number, number][] = [];
+
+    const rebuildDots = () => {
+      dots = [];
+      for (let y = GAP; y < H + GAP; y += GAP) {
+        for (let x = GAP; x < W + GAP; x += GAP) {
+          dots.push([x, y]);
+        }
+      }
+    };
 
     const resize = () => {
       if (!container || !canvas) return;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
       W = container.offsetWidth || window.innerWidth;
       H = container.offsetHeight || window.innerHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      cx.scale(dpr, dpr);
+      canvas.width = Math.max(1, Math.floor(W * dpr));
+      canvas.height = Math.max(1, Math.floor(H * dpr));
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      rebuildDots();
     };
 
     resize();
-    window.addEventListener('resize', resize);
-
-    const dots: [number, number][] = [];
-    for (let y = GAP; y < H + GAP; y += GAP) {
-      for (let x = GAP; x < W + GAP; x += GAP) {
-        dots.push([x, y]);
+    const handleWindowResize = () => {
+      resize();
+      if (rm) {
+        draw(performance.now());
       }
-    }
+    };
+    window.addEventListener('resize', handleWindowResize);
 
     let waves: Array<{ x: number; y: number; t: number; a: number }> = [];
     let lastAdd = 0;
@@ -137,7 +147,7 @@ export const DotGridWavesCanvas: React.FC<DotGridWavesCanvasProps> = ({ isDark }
     run();
 
     return () => {
-      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', handleWindowResize);
       if (observer) observer.disconnect();
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       canvas.removeEventListener('pointermove', handlePointerMove);

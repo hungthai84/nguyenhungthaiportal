@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { motion, AnimatePresence } from 'motion/react';
-import { PROJECTS_DATA, getProjectCloudinaryBanner } from '@/data/projects';
+import { PROJECTS_DATA } from '@/data/projects';
+import { getProjectCloudinaryBanner } from '@/utils/projectBanner';
 import { ProjectData, SiteTheme } from '@/types';
 import { Modal } from '@/components/ui/Modal';
 import { cn } from '@/lib/utils';
@@ -722,8 +723,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   setActiveCategory('all');
                   setSearchQuery('');
                 }}
-                style={{ background: 'var(--bg-button-primary)' }}
-                className="px-4 py-1.5 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer"
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer"
               >
                 Hiển thị tất cả {PROJECTS_DATA.length} dự án
               </button>
@@ -935,8 +936,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 href={mindmapProject.mindmap || mindmapProject.image}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ background: 'var(--bg-button-primary)' }}
-                className="px-3.5 py-1.5 rounded-full text-white font-bold typo-button hover:opacity-90 transition inline-flex items-center gap-1.5"
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="px-3.5 py-1.5 rounded-full font-bold typo-button hover:opacity-90 transition inline-flex items-center gap-1.5"
               >
                 <span>Mở ảnh gốc trong tab mới</span>
                 <WebIcon name="external-link" className="w-3.5 h-3.5" />

@@ -854,7 +854,7 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
       </div>
 
       {showFooterNav && (
-        <div className="mt-3 flex items-center gap-3 text-xs">
+        <div className="mt-3 flex items-center gap-3 typo-caption">
           <NavButton
             disabled={spread === 0}
             isDark={isDark}

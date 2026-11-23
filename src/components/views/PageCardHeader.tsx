@@ -95,12 +95,12 @@ export const PageCardHeader: React.FC<PageCardHeaderProps> = ({
           {pageNumber && (
             <>
               <span
-                className="font-mono tabular-nums font-bold text-xs sm:text-sm shrink-0 select-none"
+                className="font-mono tabular-nums font-bold typo-body-sm shrink-0 select-none"
                 style={{ color: accentColor }}
               >
                 {pageNumber}
               </span>
-              <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 select-none">
+              <span aria-hidden="true" className="text-[var(--text-muted)] typo-caption shrink-0 select-none">
                 ·
               </span>
             </>
@@ -115,7 +115,7 @@ export const PageCardHeader: React.FC<PageCardHeaderProps> = ({
           </h1>
           {resolvedPartLabel && (
             <>
-              <span aria-hidden="true" className="text-[var(--text-muted)] text-xs shrink-0 hidden sm:inline select-none">
+              <span aria-hidden="true" className="text-[var(--text-muted)] typo-caption shrink-0 hidden sm:inline select-none">
                 ·
               </span>
               <span className="typo-caption font-medium text-[var(--text-muted)] shrink-0 hidden sm:inline truncate">

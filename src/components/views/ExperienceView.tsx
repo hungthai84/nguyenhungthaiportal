@@ -471,12 +471,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     }
 
     setUnfoldingFoldIdx(matchedIdx);
+    const unfoldDurationMs = isMobileFoldView ? 260 : 540;
     unfoldTimerRef.current = window.setTimeout(() => {
       setUnfoldingFoldIdx(null);
       setShowJobCard(true);
       unfoldTimerRef.current = null;
       showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
-    }, 360);
+    }, unfoldDurationMs);
   };
 
   // Giữ nguyên 100% dữ liệu 8 cột mốc từ website, áp dụng hệ màu & bố cục từ mẫu đính kèm
@@ -1223,7 +1224,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
                           <span>{item.key === '2026' ? '2026+' : item.key}</span>
                           {milestoneData?.tenure && (
-                            <span className="text-[10px] font-semibold opacity-90">
+                            <span className="typo-badge font-semibold opacity-90">
                               {milestoneData.tenure}
                             </span>
                           )}
@@ -1275,13 +1276,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               <Calendar className="w-[16px] h-[16px] shrink-0" strokeWidth={2.5} />
                               <span>{item.yearBadge}</span>
                               {milestoneData?.tenure && (
-                                <span className="text-xs font-semibold opacity-90">
+                                <span className="typo-caption font-semibold opacity-90">
                                   · {milestoneData.tenure}
                                 </span>
                               )}
                             </span>
                             {milestoneData?.tag && (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/20 text-white">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full typo-badge font-semibold bg-white/20 text-white">
                                 {milestoneData.tag}
                               </span>
                             )}
@@ -1314,7 +1315,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   index={logoIdx}
                                   total={item.logos.length}
                                   companyName={item.shortName}
-                                  onOpenDetail={() => handleOpenJobCard(item.key)}
+                                  onOpenDetail={() => handleOpenJobCard(item.key, idx)}
                                 />
                               ))}
                             </div>
@@ -1400,7 +1401,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   : { color: resolvedAccent }
                               }
                               className={cn(
-                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border transition-all cursor-pointer active:scale-95',
+                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer active:scale-95',
                                 isBlackLeather
                                   ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
                                   : isBrownLeather
@@ -1489,13 +1490,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             <Calendar className="w-4 h-4 shrink-0" strokeWidth={2.5} />
                             <span>{item.yearBadge}</span>
                             {milestoneData?.tenure && (
-                              <span className="text-xs font-semibold opacity-90">
+                              <span className="typo-caption font-semibold opacity-90">
                                 · {milestoneData.tenure}
                               </span>
                             )}
                           </span>
                           {milestoneData?.tag && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/20 text-white">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full typo-badge font-semibold bg-white/20 text-white">
                               {milestoneData.tag}
                             </span>
                           )}
@@ -1516,7 +1517,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 index={logoIdx}
                                 total={item.logos.length}
                                 companyName={item.shortName}
-                                onOpenDetail={() => handleOpenJobCard(item.key)}
+                                onOpenDetail={() => handleOpenJobCard(item.key, idx)}
                               />
                             ))}
                           </div>
@@ -1572,7 +1573,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             onClick={(e) => {
                               e.stopPropagation();
                               SoundEngine.playTap();
-                              handleOpenJobCard(item.key);
+                              handleOpenJobCard(item.key, idx);
                             }}
                             style={
                               !isLeather
@@ -1583,7 +1584,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   }
                                 : { color: resolvedAccent }
                             }
-                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] text-xs font-bold border transition-all cursor-pointer active:scale-95"
+                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer active:scale-95"
                           >
                             <span className="text-current">Xem chi tiết</span>
                             <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -1603,12 +1604,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             className="absolute bottom-2 left-4 right-4 z-[35] pointer-events-none flex items-center justify-between gap-2"
           >
             <span
-              className="hidden sm:inline-flex items-center font-mono text-[10px] tracking-[0.14em] uppercase opacity-75"
+              className="hidden sm:inline-flex items-center font-mono typo-overline tracking-[0.06em] opacity-80"
               style={{
                 color: isBlackLeather ? '#E4E4E7' : isBrownLeather ? '#F5DEB3' : 'var(--text-secondary)',
               }}
             >
-              RÊ CHUỘT ĐỂ MỞ NẾP GẤP ↗
+              Rê chuột để mở nếp gấp ↗
             </span>
 
             <div
@@ -1670,7 +1671,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
             <span
               aria-live="polite"
-              className="hidden sm:inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full border text-[11px] font-bold tracking-[0.04em] whitespace-nowrap"
+              className="hidden sm:inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full border typo-badge font-bold tracking-[0.04em] whitespace-nowrap"
               style={{
                 borderColor: isBlackLeather
                   ? 'rgba(255,255,255,0.35)'
@@ -2280,7 +2281,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <div className="flex flex-wrap items-center justify-between gap-2 w-full">
                           <div
                             className={cn(
-                              'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border max-w-full w-fit',
+                              'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border max-w-full w-fit',
                               isDarkCardText
                                 ? 'bg-rose-500/20 text-rose-200 border-rose-400/30'
                                 : 'bg-rose-50/90 text-rose-700 border-rose-200/90'
@@ -2408,13 +2409,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       >
                         <div className={cn('subcard-header-sync flex items-center gap-2', isDarkCardText ? 'text-orange-300' : 'text-orange-600')}>
                           <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                          <p className="subcard-title-synced text-xs font-semibold tracking-wide" data-subcard-title="true">
+                          <p className="subcard-title-synced typo-label font-semibold tracking-wide" data-subcard-title="true">
                             Chức vụ đảm nhiệm
                           </p>
                         </div>
                         <p
                           className={cn(
-                            'font-bold text-sm sm:text-base leading-snug break-words',
+                            'typo-h4 font-bold leading-snug break-words',
                             isDarkCardText ? 'text-white' : 'text-slate-900'
                           )}
                         >
@@ -2434,13 +2435,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       >
                         <div className={cn('subcard-header-sync flex items-center gap-2', isDarkCardText ? 'text-sky-400' : 'text-blue-600')}>
                           <Users className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-                          <p className="subcard-title-synced text-xs font-semibold tracking-wide" data-subcard-title="true">
+                          <p className="subcard-title-synced typo-label font-semibold tracking-wide" data-subcard-title="true">
                             Quy mô vận hành
                           </p>
                         </div>
                         <p
                           className={cn(
-                            'font-bold text-sm sm:text-base leading-snug break-words',
+                            'typo-h4 font-bold leading-snug break-words',
                             isDarkCardText ? 'text-white' : 'text-slate-900'
                           )}
                         >
@@ -2462,7 +2463,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h2
                             className={cn(
-                              'card-header-sync card-title-synced text-sm sm:text-base font-bold flex items-center gap-1.5',
+                              'card-header-sync card-title-synced typo-h4 font-bold flex items-center gap-1.5',
                               isDarkCardText ? 'text-amber-400' : 'text-orange-700'
                             )}
                             data-card-title="true"
@@ -2474,7 +2475,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             type="button"
                             onClick={navigateToServices}
                             className={cn(
-                              'px-2 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
+                              'px-2 py-0.5 rounded-full typo-badge font-semibold border flex items-center gap-1 cursor-pointer transition-colors shrink-0',
                               isDarkCardText
                                 ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500/30'
                                 : 'bg-white/95 border-orange-300 text-orange-800 hover:bg-orange-100'
@@ -2496,7 +2497,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 onClick={navigateToServices}
                                 title={`${serviceName} — Click để xem chi tiết dịch vụ`}
                                 className={cn(
-                                  'exp-bento-light-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border text-xs font-semibold leading-snug transition-colors cursor-pointer',
+                                  'exp-bento-light-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] border typo-label font-semibold leading-snug transition-colors cursor-pointer',
                                   chipClass
                                 )}
                               >
@@ -2528,7 +2529,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <h2
                       className={cn(
-                        'card-header-sync card-title-synced text-base sm:text-lg font-bold flex items-center gap-2',
+                        'card-header-sync card-title-synced typo-h3 font-bold flex items-center gap-2',
                         isDarkCardText ? 'text-rose-300' : 'text-rose-700'
                       )}
                       data-card-title="true"
@@ -2538,7 +2539,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </h2>
                     <span
                       className={cn(
-                        'exp-bento-light-chip text-xs sm:text-sm font-semibold px-3 py-1 rounded-full border self-start sm:self-auto',
+                        'exp-bento-light-chip typo-caption font-semibold px-3 py-1 rounded-full border self-start sm:self-auto',
                         isDarkCardText
                           ? 'bg-rose-500/15 border-rose-400/30 text-rose-200'
                           : 'bg-white/85 border-rose-200/90 text-rose-700'
@@ -2552,7 +2553,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <p
                       data-bento-subtone="pink"
                       className={cn(
-                        'exp-bento-item-card text-sm sm:text-base leading-relaxed p-[15px] rounded-[var(--radius-subcard,16px)] border break-words bg-gradient-to-r',
+                        'exp-bento-item-card typo-body-sm leading-relaxed p-[15px] rounded-[var(--radius-subcard,16px)] border break-words bg-gradient-to-r',
                         isDarkCardText
                           ? 'from-rose-950/48 to-slate-900/72 border-rose-400/25 text-slate-200'
                           : 'from-white/90 to-rose-50/82 border-rose-200/80 text-slate-800'
@@ -2578,7 +2579,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           >
                             <h3
                               className={cn(
-                                'subcard-header-sync subcard-title-synced font-bold text-base flex items-center gap-1.5',
+                                'subcard-header-sync subcard-title-synced font-bold typo-h4 flex items-center gap-1.5',
                                 colStyle.iconColor
                               )}
                               data-subcard-title="true"
@@ -2588,7 +2589,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             </h3>
                             <p
                               className={cn(
-                                'text-sm sm:text-base leading-relaxed break-words',
+                                'typo-body-sm leading-relaxed break-words',
                                 isDarkCardText ? 'text-slate-300' : 'text-slate-700'
                               )}
                             >
@@ -2602,7 +2603,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                   <div className="flex items-start sm:items-center gap-[15px] bg-gradient-to-r from-rose-600 to-pink-600 text-white p-[15px] rounded-[var(--radius-subcard,16px)] shadow-sm">
                     <Gauge className="w-5 h-5 text-amber-300 shrink-0 mt-0.5 sm:mt-0" />
-                    <p className="text-sm sm:text-base font-medium leading-snug text-white break-words exp-bento-preserve-color">
+                    <p className="typo-body-sm font-medium leading-snug text-white break-words exp-bento-preserve-color">
                       {philosophyText}
                     </p>
                   </div>
@@ -2623,7 +2624,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
                         <h2
                           className={cn(
-                            'card-header-sync card-title-synced text-base sm:text-lg font-bold flex items-center gap-2',
+                            'card-header-sync card-title-synced typo-h4 font-bold flex items-center gap-2',
                             isDarkCardText ? 'text-amber-400' : 'text-amber-700'
                           )}
                           data-card-title="true"
@@ -2640,7 +2641,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               setIsPhotoLightboxOpen(true);
                             }}
                             className={cn(
-                              'text-xs flex items-center gap-1 shrink-0 cursor-pointer transition-colors font-semibold px-2.5 py-1 rounded-full border',
+                              'typo-badge flex items-center gap-1 shrink-0 cursor-pointer transition-colors font-semibold px-2.5 py-1 rounded-full border',
                               isDarkCardText
                                 ? 'bg-amber-500/15 border-amber-400/30 text-amber-200 hover:bg-amber-500/30'
                                 : 'bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100'
@@ -2730,13 +2731,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                         isDarkCardText ? 'text-amber-400' : 'text-amber-600'
                                       )}
                                     />
-                                    <span className="text-xs font-semibold text-center truncate max-w-full">
+                                    <span className="typo-caption font-semibold text-center truncate max-w-full">
                                       {photo.title || activeMilestone.company}
                                     </span>
                                   </div>
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between gap-2 p-2.5">
-                                  <span className="text-xs font-semibold text-white truncate exp-bento-preserve-color">
+                                  <span className="typo-caption font-semibold text-white truncate exp-bento-preserve-color">
                                     {photo.title || `Kỷ niệm #${pIdx + 1}`}
                                   </span>
                                   <ZoomIn className="w-3.5 h-3.5 text-amber-300 shrink-0" />
@@ -2758,7 +2759,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   : 'bg-white/75 border-slate-200/80 text-slate-700'
                           )}
                         >
-                          <span className="text-sm">
+                          <span className="typo-body-sm">
                             Chưa có hình ảnh kỷ niệm cho cột mốc này.
                           </span>
                         </div>
@@ -2783,7 +2784,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div className="flex items-center justify-between gap-2">
                       <h2
                         className={cn(
-                          'card-header-sync card-title-synced text-base sm:text-lg font-bold flex items-center gap-2',
+                          'card-header-sync card-title-synced typo-h4 font-bold flex items-center gap-2',
                           isDarkCardText ? 'text-purple-300' : 'text-purple-700'
                         )}
                         data-card-title="true"
@@ -2793,7 +2794,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </h2>
                       <span
                         className={cn(
-                          'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
+                          'exp-bento-light-chip typo-badge font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
                           isDarkCardText
                             ? 'bg-purple-500/20 text-purple-200 border-purple-400/30'
                             : 'bg-purple-100/90 text-purple-800 border-purple-200/80'
@@ -2805,7 +2806,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                     <ul
                       className={cn(
-                        'flex flex-col gap-[15px] text-sm sm:text-base',
+                        'flex flex-col gap-[15px] typo-body-sm',
                         isDarkCardText ? 'text-slate-100' : 'text-slate-800'
                       )}
                     >
@@ -2823,7 +2824,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           >
                             <span
                               className={cn(
-                                'w-6 h-6 rounded-full font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-sm tabular-nums exp-bento-preserve-color',
+                                'w-6 h-6 rounded-full font-bold typo-badge flex items-center justify-center shrink-0 mt-0.5 shadow-sm tabular-nums exp-bento-preserve-color',
                                 taskPalette.badge
                               )}
                             >
@@ -2853,7 +2854,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h2
                         className={cn(
-                          'card-header-sync card-title-synced text-base sm:text-lg font-bold flex items-center gap-2',
+                          'card-header-sync card-title-synced typo-h4 font-bold flex items-center gap-2',
                           isDarkCardText ? 'text-orange-300' : 'text-orange-700'
                         )}
                         data-card-title="true"
@@ -2866,7 +2867,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         type="button"
                         onClick={() => navigateToProjects()}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
+                          'px-3 py-1.5 rounded-full typo-badge font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
                           isDarkCardText
                             ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500 hover:text-white'
                             : 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-600 hover:text-white hover:border-orange-600'
@@ -2911,7 +2912,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               <h3
                                 data-subcard-title="true"
                                 className={cn(
-                                  'subcard-title-synced font-bold text-sm sm:text-base transition-colors leading-snug break-words min-w-0',
+                                  'subcard-title-synced font-bold typo-h5 transition-colors leading-snug break-words min-w-0',
                                   isDarkCardText ? 'text-white' : 'text-slate-900',
                                   palette.titleHover
                                 )}
@@ -2960,7 +2961,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     >
                       <ShieldCheck className="w-6 h-6 shrink-0" />
                       <h2
-                        className="card-title-synced text-base sm:text-lg font-bold"
+                        className="card-title-synced typo-h4 font-bold"
                         data-card-title="true"
                       >
                         Cam kết chất lượng
@@ -3004,7 +3005,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             <CmtIcon className={cn('w-5 h-5 shrink-0 mt-0.5', cmtIconColor)} />
                             <p
                               className={cn(
-                                'text-sm sm:text-base font-medium leading-snug break-words min-w-0 flex-1',
+                                'typo-body-sm font-medium leading-snug break-words min-w-0 flex-1',
                                 isDarkSurface || isLeather
                                   ? 'text-white'
                                   : 'text-slate-800'
@@ -3036,7 +3037,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       <div className="flex flex-wrap items-center justify-between gap-2 relative z-10">
                         <h2
                           className={cn(
-                            'card-header-sync card-title-synced text-base sm:text-lg font-bold flex items-center gap-2',
+                            'card-header-sync card-title-synced typo-h4 font-bold flex items-center gap-2',
                             isDarkCardText ? 'text-emerald-300' : 'text-emerald-700'
                           )}
                           data-card-title="true"
@@ -3047,7 +3048,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
                             className={cn(
-                              'exp-bento-light-chip text-xs font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
+                              'exp-bento-light-chip typo-badge font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums border',
                               isDarkCardText
                                 ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30'
                                 : 'bg-emerald-100/90 text-emerald-800 border-emerald-200/80'
@@ -3135,7 +3136,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                               <p
                                 className={cn(
-                                  'text-sm sm:text-base font-semibold leading-snug break-words',
+                                  'typo-h5 font-semibold leading-snug break-words',
                                   isDarkCardText ? 'text-slate-100' : 'text-slate-800'
                                 )}
                               >

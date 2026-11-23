@@ -217,8 +217,8 @@ export const WeatherForecastModal: React.FC<WeatherForecastModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="px-4 py-1.5 rounded-full text-white typo-button hover:opacity-90 transition cursor-pointer ml-auto"
+            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+            className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer ml-auto"
           >
             {isEn ? 'Close' : 'Đóng'}
           </button>

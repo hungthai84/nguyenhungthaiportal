@@ -161,8 +161,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         height: `${morphRect.height}px`,
         borderRadius:
           animPhase === 'open'
-            ? 'var(--radius-main, 30px)'
-            : 'var(--radius-card, 20px)',
+            ? '14px'
+            : 'var(--radius-card, 14px)',
         zIndex: 50,
       }}
     >
@@ -475,7 +475,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
                 >
                   <span
-                    className="inline-flex items-center justify-center w-5 h-5 rounded-md text-[11px] font-bold tabular-nums shrink-0 mt-0.5"
+                    className="inline-flex items-center justify-center w-5 h-5 rounded-md typo-badge font-bold tabular-nums shrink-0 mt-0.5"
                     style={{
                       backgroundColor: isLeatherTheme
                         ? 'rgba(253, 230, 138, 0.16)'
@@ -753,7 +753,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                 {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
                   <span
                     key={tag}
-                    className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border"
+                    className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
                     style={{
                       backgroundColor: isLeatherTheme
                         ? 'rgba(253, 230, 138, 0.14)'

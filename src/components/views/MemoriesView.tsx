@@ -394,8 +394,8 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
             <button
               type="button"
               onClick={handleResetFilters}
-              style={{ background: 'var(--bg-button-primary)' }}
-              className="px-4 py-2 rounded-full text-white typo-button shadow hover:brightness-110 transition-all flex items-center gap-1.5 cursor-pointer"
+              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+              className="px-4 py-2 rounded-full typo-button shadow hover:brightness-110 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <span>↻ Đặt lại bộ lọc</span>
             </button>

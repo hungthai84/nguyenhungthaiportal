@@ -125,10 +125,14 @@ export const TechStackExplorerModal: React.FC<TechStackExplorerModalProps> = ({
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                style={active ? { background: 'var(--bg-button-primary)' } : undefined}
+                style={
+                  active
+                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                    : undefined
+                }
                 className={`px-3.5 py-1.5 rounded-full typo-button transition-all cursor-pointer border ${
                   active
-                    ? 'text-white border-transparent shadow-sm'
+                    ? 'border-transparent shadow-sm'
                     : 'theme-modal-subcard hover:opacity-85'
                 }`}
               >

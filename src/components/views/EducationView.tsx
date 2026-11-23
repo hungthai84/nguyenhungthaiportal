@@ -737,8 +737,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           <button
             type="button"
             onClick={handleResetFilters}
-            style={{ background: 'var(--bg-button-primary)' }}
-            className="px-4 py-1.5 rounded-full typo-button text-white hover:opacity-90 transition cursor-pointer"
+            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+            className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer"
           >
             Hiển thị tất cả 14 chứng chỉ
           </button>
@@ -864,7 +864,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                         borderColor: `${cardColor}35`,
                       }}
                     >
-                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-1 m-0 text-xs text-left" style={{ color: cardColor }}>
+                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-1 m-0 text-left" style={{ color: cardColor }}>
                         {course.result}
                       </p>
                     </div>

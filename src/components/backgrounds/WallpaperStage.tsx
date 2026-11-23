@@ -1,14 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import {
   WallpaperPreset,
   getCleanImageUrl,
   parseCssStringToStyle,
 } from '@/data/wallpapers';
-import {
-  GravityBackgroundCanvas,
-  resolveGravityStage,
-} from '@/components/backgrounds/GravityBackgroundCanvas';
+import { resolveGravityStage } from '@/config/gravityPalettes';
 import { DotGridWavesCanvas } from '@/components/ui/DotGridWavesCanvas';
+
+const GravityBackgroundCanvas = React.lazy(() =>
+  import('@/components/backgrounds/GravityBackgroundCanvas').then((m) => ({
+    default: m.GravityBackgroundCanvas,
+  }))
+);
 
 const CROSSFADE_DURATION_MS = 400;
 const PARALLAX_MAX_X = 14;
@@ -340,13 +343,15 @@ export const WallpaperStage: React.FC<WallpaperStageProps> = ({
                           transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
                         }}
                       />
-                      <GravityBackgroundCanvas
-                        paletteId={paletteId}
-                        pageIndex={currentTabIndex}
-                        slideIndex={activeSlide}
-                        morphOnPageChange={morphOnPageChange}
-                        isDark={isDark}
-                      />
+                      <Suspense fallback={null}>
+                        <GravityBackgroundCanvas
+                          paletteId={paletteId}
+                          pageIndex={currentTabIndex}
+                          slideIndex={activeSlide}
+                          morphOnPageChange={morphOnPageChange}
+                          isDark={isDark}
+                        />
+                      </Suspense>
                     </div>
                   );
                 })()

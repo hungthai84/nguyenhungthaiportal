@@ -103,8 +103,7 @@ html[data-card-style="black-cowhide-leather"] .edu-bento-tile {
 }
 
 html[data-card-style="neumorphism-beyond"] .edu-bento-tile,
-html[data-card-style="frost-ice-neu"] .edu-bento-tile,
-html:not([data-card-style]) .edu-bento-tile {
+html[data-card-style="frost-ice-neu"] .edu-bento-tile {
   border-color: rgba(196, 209, 226, 0.78) !important;
   box-shadow:
     0 6px 16px rgba(148, 163, 184, 0.20),
@@ -120,8 +119,7 @@ html:not([data-card-style]) .edu-bento-tile {
   }
 
   html[data-card-style="neumorphism-beyond"] .edu-bento-tile:hover,
-  html[data-card-style="frost-ice-neu"] .edu-bento-tile:hover,
-  html:not([data-card-style]) .edu-bento-tile:hover {
+  html[data-card-style="frost-ice-neu"] .edu-bento-tile:hover {
     border-color: rgba(100, 182, 255, 0.64) !important;
     box-shadow:
       0 10px 22px rgba(148, 163, 184, 0.25),

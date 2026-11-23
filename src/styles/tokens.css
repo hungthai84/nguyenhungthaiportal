@@ -28,17 +28,17 @@
   --fs-body: clamp(14px, 0.2vw + 13px, 15px);
   --fs-body-sm: clamp(12.5px, 0.15vw + 12px, 13.5px);
 
-  --fs-caption: 12px;
-  --fs-label: 12px;
-  --fs-badge: 11.5px;
+  --fs-caption: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-label: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-badge: clamp(11.5px, 0.15vw + 11px, 12px);
   --fs-overline: 10px;
-  --fs-button: clamp(13px, 0.15vw + 12.5px, 13.5px);
-  --fs-nav: clamp(13px, 0.15vw + 12.5px, 13.5px);
-  --fs-tab: clamp(13px, 0.15vw + 12.5px, 13.5px);
+  --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
+  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
   --fs-input: 16px;
-  --fs-kpi: clamp(24px, 1.4vw + 16px, 32px);
+  --fs-kpi: clamp(24px, 1.5vw + 18px, 36px);
   --fs-quote: clamp(16px, 0.75vw + 13px, 21px);
-  --fs-popup-title: clamp(16px, 0.6vw + 14px, 19px);
+  --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
 
   /* Cấu hình hình nền mặc định: 0% mờ (opacity 100%), độ rõ nét 0px blur */
   --wallpaper-bg-blur: 0px;

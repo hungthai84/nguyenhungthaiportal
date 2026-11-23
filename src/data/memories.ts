@@ -1,24 +1,6 @@
-export interface MemoryPhoto {
-  id: string | number;
-  companyId?: string;
-  category?: string;
-  titleVi: string;
-  year: string;
-  locationVi: string;
-  tagVi: string;
-  imageUrl: string;
-  descVi: string;
-  quoteVi?: string;
-  teamSize?: string;
-  // Backward compatibility fields
-  title?: string;
-  company?: string;
-  location?: string;
-  team?: string;
-  tag?: string;
-  img?: string;
-  desc?: string;
-}
+import type { MemoryPhoto } from '@/types';
+
+export type { MemoryPhoto };
 
 export const MEMORIES_DATA: MemoryPhoto[] = [
   // Finviet (2023 - 2024)

@@ -350,15 +350,20 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   useEffect(() => clearTimers, [clearTimers]);
 
   const computeTargetBounds = useCallback(() => {
-    const hostEl = mainCardRef.current || cardsWrapperRef.current;
-    if (!hostEl) return null;
+    const wrapperEl = cardsWrapperRef.current;
+    const gridEl = cardsGridRef.current;
+    const targetEl = gridEl || wrapperEl;
+    if (!targetEl) return null;
+
+    const width = targetEl.offsetWidth || targetEl.clientWidth;
+    const height = targetEl.offsetHeight || targetEl.clientHeight;
 
     return {
-      top: hostEl.scrollTop || 0,
+      top: 0,
       left: 0,
-      width: hostEl.clientWidth,
-      height: hostEl.clientHeight,
-      needsWrapperMinHeight: undefined,
+      width,
+      height,
+      needsWrapperMinHeight: height,
     };
   }, []);
 
@@ -367,7 +372,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       clearTimers();
       SoundEngine.playTap();
 
-      const hostEl = mainCardRef.current || cardsWrapperRef.current;
+      const hostEl = cardsWrapperRef.current || mainCardRef.current;
       const originEl = explicitCardEl || cardRefs.current[domain.id];
       const targetBounds = computeTargetBounds();
 
@@ -387,7 +392,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
             width: targetBounds.width,
             height: targetBounds.height,
           });
-          setWrapperMinHeight(undefined);
+          setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
         }
         setAnimPhase('open');
         setIsGridDimmed(true);
@@ -396,12 +401,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
       const hostRect = hostEl.getBoundingClientRect();
       const cardRect = originEl.getBoundingClientRect();
-      const scrollTop = hostEl.scrollTop || 0;
 
-      setWrapperMinHeight(undefined);
+      setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
       setAnimPhase('entering');
       setMorphRect({
-        top: scrollTop + (cardRect.top - hostRect.top),
+        top: cardRect.top - hostRect.top,
         left: cardRect.left - hostRect.left,
         width: cardRect.width,
         height: cardRect.height,
@@ -435,7 +439,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const hostEl = mainCardRef.current || cardsWrapperRef.current;
+    const hostEl = cardsWrapperRef.current || mainCardRef.current;
     const targetId = originDomainId || expandedDomain.id;
     const originEl = cardRefs.current[targetId];
 
@@ -453,11 +457,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
     const hostRect = hostEl.getBoundingClientRect();
     const cardRect = originEl.getBoundingClientRect();
-    const scrollTop = hostEl.scrollTop || 0;
 
     setAnimPhase('closing');
     setMorphRect({
-      top: scrollTop + (cardRect.top - hostRect.top),
+      top: cardRect.top - hostRect.top,
       left: cardRect.left - hostRect.left,
       width: cardRect.width,
       height: cardRect.height,
@@ -469,7 +472,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       setAnimPhase('idle');
       setMorphRect(null);
       setWrapperMinHeight(undefined);
-    }, 580);
+    }, 820);
   }, [expandedDomain, animPhase, clearTimers, originDomainId]);
 
   const switchExpandedDomain = useCallback(
@@ -485,9 +488,9 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
     []
   );
 
-  // Sync expanded bounds dynamically on container resize
+  // Sync expanded bounds dynamically on 6-card grid resize
   useEffect(() => {
-    const hostEl = mainCardRef.current || cardsWrapperRef.current;
+    const hostEl = cardsGridRef.current || cardsWrapperRef.current;
     if (!hostEl || typeof ResizeObserver === 'undefined') return;
 
     const observer = new ResizeObserver(() => {
@@ -500,7 +503,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
         width: bounds.width,
         height: bounds.height,
       });
-      setWrapperMinHeight(undefined);
+      setWrapperMinHeight(bounds.needsWrapperMinHeight);
     });
 
     observer.observe(hostEl);
@@ -787,6 +790,21 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                   const serviceImage =
                     driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
 
+                  const hoverFloodBg = isLeatherTheme
+                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.24) 0%, rgba(180, 118, 44, 0.16) 55%, rgba(120, 72, 24, 0.1) 100%)'
+                    : isLight
+                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 28%, transparent) 0%, ${meta.tintBgLight} 58%, color-mix(in srgb, ${accentColor} 16%, rgba(255,255,255,0.88)) 100%)`
+                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 32%, transparent) 0%, ${meta.tintBgDark} 60%, color-mix(in srgb, ${accentColor} 20%, rgba(15,23,42,0.9)) 100%)`;
+
+                  const updateHoverOrigin = (e: React.MouseEvent<HTMLDivElement>) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    if (!rect.width || !rect.height) return;
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
+                    e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
+                  };
+
                   return (
                     <motion.div
                       key={domain.id}
@@ -806,6 +824,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         delay: prefersReducedMotion ? 0 : idx * 0.075,
                         ease: [0.22, 1, 0.36, 1],
                       }}
+                      onMouseEnter={updateHoverOrigin}
+                      onMouseMove={updateHoverOrigin}
                       onClick={(e) => openExpandedCard(domain, e.currentTarget)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -828,8 +848,15 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       }}
                       className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
                     >
-                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải (Hàng 1 + Hàng 2: Hình dịch vụ phóng to gấp đôi kích thước) */}
-                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_172px] sm:grid-cols-[minmax(0,1fr)_216px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-stretch min-w-0 flex-1">
+                      {/* Lớp nền loang màu lan ra từ từ khắp thẻ khi rê chuột */}
+                      <span
+                        aria-hidden="true"
+                        className="service-card-hover-flood"
+                        style={{ background: hoverFloodBg }}
+                      />
+
+                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải: Hình dịch vụ thu nhỏ gấp 3 */}
+                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_60px] sm:grid-cols-[minmax(0,1fr)_74px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-center min-w-0 flex-1">
                         {/* Bên trái - Hàng 1: Icon và Tiêu đề */}
                         <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-start pt-0.5">
                           {renderDomainIcon(
@@ -850,14 +877,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         {/* Bên trái - Hàng 2: Mô tả 3 hàng */}
                         <p
                           id={`service-card-desc-${domain.id}`}
-                          className="col-start-1 row-start-2 service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.5] text-[13px] sm:text-[13.5px] font-normal self-start"
+                          className="col-start-1 row-start-2 service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.5] typo-body-sm font-normal self-start"
                           title={summaryText}
                         >
                           {summaryText}
                         </p>
 
-                        {/* Bên phải - Hàng 1 + Hàng 2: Chứa hình dịch vụ tăng gấp đôi kích thước */}
-                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-full min-h-[252px] sm:min-h-[292px]">
+                        {/* Bên phải - Hàng 1 + Hàng 2: Hình dịch vụ thu nhỏ kích thước gấp 3 */}
+                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-center justify-self-end w-[60px] sm:w-[74px] h-[84px] sm:h-[96px] min-h-[84px] sm:min-h-[96px] max-h-[98px]">
                           <img
                             src={serviceImage}
                             alt={cardTitle}
@@ -916,32 +943,32 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                   );
                 })}
               </div>
+
+              {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (TĂNG KÍCH THƯỚC TỪ TỪ BẰNG ĐÚNG 6 THẺ CỘNG LẠI) */}
+              {expandedDomain && expandedMeta && morphRect && (
+                <ServiceExpandedDetail
+                  expandedDomain={expandedDomain}
+                  expandedMeta={expandedMeta}
+                  expandedAccent={expandedAccent}
+                  allDomains={DOMAINS_DATA}
+                  domainMetaMap={DOMAIN_UI_META}
+                  serviceAssignments={serviceAssignments}
+                  animPhase={animPhase}
+                  morphRect={morphRect}
+                  isEn={isEn}
+                  isLight={isLight}
+                  isLeatherTheme={isLeatherTheme}
+                  expandedCardRef={expandedCardRef}
+                  expandedBodyRef={expandedBodyRef}
+                  onClose={closeExpandedCard}
+                  onSwitchDomain={switchExpandedDomain}
+                  renderDomainIcon={renderDomainIcon}
+                  renderKpiIcon={renderKpiIcon}
+                />
+              )}
             </div>
           </div>
           </div>
-
-          {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (PHÓNG TO TỪ ĐÚNG THẺ GỐC PHỦ TOÀN BỘ THẺ CHÍNH) */}
-          {expandedDomain && expandedMeta && morphRect && (
-            <ServiceExpandedDetail
-              expandedDomain={expandedDomain}
-              expandedMeta={expandedMeta}
-              expandedAccent={expandedAccent}
-              allDomains={DOMAINS_DATA}
-              domainMetaMap={DOMAIN_UI_META}
-              serviceAssignments={serviceAssignments}
-              animPhase={animPhase}
-              morphRect={morphRect}
-              isEn={isEn}
-              isLight={isLight}
-              isLeatherTheme={isLeatherTheme}
-              expandedCardRef={expandedCardRef}
-              expandedBodyRef={expandedBodyRef}
-              onClose={closeExpandedCard}
-              onSwitchDomain={switchExpandedDomain}
-              renderDomainIcon={renderDomainIcon}
-              renderKpiIcon={renderKpiIcon}
-            />
-          )}
         </div>
       </div>
     </div>

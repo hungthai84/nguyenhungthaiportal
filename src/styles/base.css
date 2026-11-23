@@ -532,4 +532,30 @@
   }
 }
 
+/* Crisp Zero-Blur Wallpaper Safeguard Across All Viewport Sizes */
+html[data-has-wallpaper="true"],
+html[data-has-wallpaper="true"] body {
+  --wallpaper-bg-blur: 0px;
+  --wallpaper-bg-dim: 0;
+  --app-bg-blur: 0px;
+  --ambient-blur-orb: 0px;
+  --ambient-blur-wave: 0px;
+}
 
+html[data-has-wallpaper="true"] #global-wallpaper-layer,
+#global-wallpaper-layer[data-has-wallpaper="true"],
+html[data-has-wallpaper="true"] #global-wallpaper-layer :is(img, video, iframe, canvas, div),
+#global-wallpaper-layer[data-has-wallpaper="true"] :is(img, video, iframe, canvas, div) {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-layer-base, .ambient-layer-glow, .ambient-layer-abstract, .ambient-layer-depth, .ambient-layer-transition, .ambient-orb, .ambient-wave),
+#global-wallpaper-layer[data-has-wallpaper="true"] :is(.ambient-layer-base, .ambient-layer-glow, .ambient-layer-abstract, .ambient-layer-depth, .ambient-layer-transition, .ambient-orb, .ambient-wave) {
+  display: none !important;
+  opacity: 0 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}

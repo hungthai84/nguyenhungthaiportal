@@ -385,15 +385,31 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   // States cho Timeline hiệu ứng xếp giấy Chromatic Folds
   const [chosenFoldIdx, setChosenFoldIdx] = useState<number>(0);
   const [hoveredFoldIdx, setHoveredFoldIdx] = useState<number | null>(null);
+  const [unfoldingFoldIdx, setUnfoldingFoldIdx] = useState<number | null>(null);
   const [isMobileFoldView, setIsMobileFoldView] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const boardRef = useRef<HTMLElement | null>(null);
-  const foldSwatchRefs = useRef<Array<HTMLDivElement | null>>([]);
   const detailCardRef = useRef<HTMLElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
   const dragStartYRef = useRef<number | null>(null);
+  const didDragRef = useRef<boolean>(false);
   const lastWheelTimeRef = useRef<number>(0);
+  const unfoldTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (unfoldTimerRef.current !== null) {
+        window.clearTimeout(unfoldTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showJobCard) {
+      setUnfoldingFoldIdx(null);
+    }
+  }, [showJobCard]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -424,10 +440,41 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     }
   }, [activeKey, showJobCard]);
 
-  const handleOpenJobCard = (key: string) => {
+  const handleOpenJobCard = (key: string, idxOverride?: number) => {
+    if (unfoldTimerRef.current !== null) {
+      window.clearTimeout(unfoldTimerRef.current);
+      unfoldTimerRef.current = null;
+    }
+
+    const matchedIdx =
+      typeof idxOverride === 'number'
+        ? idxOverride
+        : roadmapCards.findIndex((c) => c.key === key || (key === '2014' && c.key === '2013'));
+
+    if (matchedIdx >= 0) {
+      setChosenFoldIdx(matchedIdx);
+    }
+    setHoveredFoldIdx(null);
     setActiveKey(key);
-    setShowJobCard(true);
-    showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || matchedIdx < 0) {
+      setUnfoldingFoldIdx(null);
+      setShowJobCard(true);
+      showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
+      return;
+    }
+
+    setUnfoldingFoldIdx(matchedIdx);
+    unfoldTimerRef.current = window.setTimeout(() => {
+      setUnfoldingFoldIdx(null);
+      setShowJobCard(true);
+      unfoldTimerRef.current = null;
+      showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
+    }, 360);
   };
 
   // Giữ nguyên 100% dữ liệu 8 cột mốc từ website, áp dụng hệ màu & bố cục từ mẫu đính kèm
@@ -707,58 +754,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     };
   }, [showJobCard]);
 
-  // Tính toán động góc nghiêng nếp gấp (--fold-angle) bằng ResizeObserver & transitionend đúng chuẩn Chromatic Folds
-  useEffect(() => {
-    if (showJobCard || isMobileFoldView) return;
-    const recalcEl = (el: HTMLElement) => {
-      const num = Number(el.dataset.num || '1');
-      const direction = num % 2 ? 1 : -1;
-      const angle =
-        direction *
-        Math.atan2(el.offsetHeight * 0.05, Math.max(1, el.offsetWidth)) *
-        (180 / Math.PI);
-      el.style.setProperty('--fold-angle', `${angle.toFixed(2)}deg`);
-    };
-
-    const recalcAll = () => {
-      foldSwatchRefs.current.forEach((node) => {
-        if (node) recalcEl(node);
-      });
-    };
-
-    recalcAll();
-    const timer = window.setTimeout(recalcAll, 700);
-
-    let observer: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      observer = new ResizeObserver((entries) => {
-        for (const { target } of entries) {
-          recalcEl(target as HTMLElement);
-        }
-      });
-      foldSwatchRefs.current.forEach((node) => {
-        if (node) observer!.observe(node);
-      });
-    }
-
-    const handleTransitionEnd = (e: TransitionEvent) => {
-      if (e.propertyName === 'flex' || e.propertyName === 'flex-grow') {
-        recalcAll();
-      }
-    };
-    foldSwatchRefs.current.forEach((node) => {
-      if (node) node.addEventListener('transitionend', handleTransitionEnd);
-    });
-
-    return () => {
-      window.clearTimeout(timer);
-      if (observer) observer.disconnect();
-      foldSwatchRefs.current.forEach((node) => {
-        if (node) node.removeEventListener('transitionend', handleTransitionEnd);
-      });
-    };
-  }, [showJobCard, isMobileFoldView, chosenFoldIdx, hoveredFoldIdx]);
-
   const maxFoldIdx = roadmapCards.length - 1;
   const activeFoldIdx = hoveredFoldIdx !== null ? hoveredFoldIdx : chosenFoldIdx;
 
@@ -804,6 +799,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   };
 
   const handlePointerDown = (clientX: number, clientY: number, target: EventTarget | null) => {
+    didDragRef.current = false;
     if ((target as HTMLElement | null)?.closest('button')) return;
     dragStartXRef.current = clientX;
     dragStartYRef.current = clientY;
@@ -814,6 +810,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     if (dragStartXRef.current === null) return;
     const diffX = dragStartXRef.current - clientX;
     const diffY = dragStartYRef.current !== null ? dragStartYRef.current - clientY : 0;
+    if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
+      didDragRef.current = true;
+    }
     if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
       setHoveredFoldIdx(null);
       if (diffX > 0) {
@@ -874,20 +873,21 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,30px)] w-full h-full',
-            showJobCard ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto overflow-x-hidden'
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,30px)] w-full h-full overflow-hidden',
+            'p-0 gap-0'
           )}
           style={{
-            padding: showJobCard ? '0px' : '15px',
+            padding: '0px',
             borderRadius: 'var(--radius-main, 30px)',
-            gap: showJobCard ? '0px' : '15px',
+            gap: '0px',
           }}
         >
-      {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH VỚI ĐỆM 15PX) */}
+      {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
       {!showJobCard && (
         <section
           ref={boardRef}
           id="experience-timeline-board"
+          data-unfolding={unfoldingFoldIdx !== null ? 'true' : 'false'}
           data-element-name="Bảng Timeline Hành trình sự nghiệp"
           data-element-type="section"
           data-element-page="experience"
@@ -906,28 +906,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             isBlackLeather
               ? {
                   background: 'linear-gradient(145deg, #1E2128 0%, #101217 100%)',
-                  border: '2px solid #090A0E',
+                  border: 'none',
                   outline: '1.5px dashed rgba(255, 255, 255, 0.72)',
                   outlineOffset: '-7px',
-                  borderRadius: 'var(--radius-card, 14px)',
+                  borderRadius: 'inherit',
                 }
               : isBrownLeather
                 ? {
                     background: 'linear-gradient(145deg, #653A17 0%, #4A280E 100%)',
+                    border: 'none',
                     outline: '1.5px dashed rgba(245, 222, 179, 0.52)',
                     outlineOffset: '-7px',
-                    borderRadius: 'var(--radius-card, 14px)',
+                    borderRadius: 'inherit',
                   }
                 : {
-                    background: 'var(--surface-secondary-bg, var(--bg-card))',
-                    border: 'var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-color))',
-                    backdropFilter: 'blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%))',
-                    WebkitBackdropFilter: 'blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%))',
-                    borderRadius: 'var(--radius-card, 14px)',
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: 'inherit',
                   }
           }
           className={cn(
-            'group/board relative w-full min-h-[420px] lg:min-h-[430px] flex-1 rounded-[var(--radius-card,14px)] overflow-hidden select-none flex flex-col box-border z-[1]',
+            'group/board relative w-full h-full min-h-0 flex-1 rounded-[inherit] overflow-hidden select-none flex flex-col box-border z-[1]',
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
         >
@@ -1018,10 +1017,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </svg>
           </div>
 
-          {/* HEADER NỔI TRÊN CÙNG (Floating Top-Left): Cột năm kéo dài full chiều cao từ top xuống bot */}
+          {/* HEADER TRÊN CÙNG DẠNG NỔI KHÔNG CHIẾM KHÔNG GIAN: GIẤY XẾP LẤP ĐẦY 100% CHIỀU CAO & CHIỀU RỘNG THẺ CHÍNH */}
           <div
             id="experience-board-header"
-            className="absolute top-0 left-0 right-0 z-[30] pointer-events-none flex items-center justify-between gap-2 px-[18px] sm:px-[24px] lg:px-[2.8%] pt-[12px] sm:pt-[14px]"
+            className="absolute top-0 left-0 right-0 z-[35] pointer-events-none flex items-center justify-between gap-2 px-[18px] sm:px-[24px] lg:px-[2.4%] pt-[12px] pb-[6px]"
           >
             {/* Tiêu đề Icon + 4 chữ "Thời Gian Công Tác" cùng 1 hàng + 5 chấm màu + gạch chân hồng */}
             <header className="min-w-0 pointer-events-auto">
@@ -1053,7 +1052,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </h1>
               </div>
               {/* Hàng 5 chấm tròn màu + gạch chân hồng */}
-              <div className="flex items-center gap-[6px] mt-2">
+              <div className="flex items-center gap-[6px] mt-1.5">
                 <span className="w-[8px] h-[8px] rounded-full bg-[#F8C605]" />
                 <span className="w-[8px] h-[8px] rounded-full bg-[#EE2A7B]" />
                 <span className="w-[8px] h-[8px] rounded-full bg-[#00AEEF]" />
@@ -1134,7 +1133,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               >
                 {roadmapCards.map((item, idx) => {
                   const isEven = idx % 2 === 0;
-                  const isExpanded = activeFoldIdx === idx;
+                  const isUnfolding = unfoldingFoldIdx === idx;
+                  const isExpanded = unfoldingFoldIdx !== null ? isUnfolding : activeFoldIdx === idx;
                   const foldNum = String(idx + 1).padStart(2, '0');
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
                   const companyBanner = milestoneData?.bannerUrl || milestoneData?.memoryImg;
@@ -1173,33 +1173,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       key={item.key}
                       id={`milestone-card-${item.key}`}
-                      ref={(node) => {
-                        foldSwatchRefs.current[idx] = node;
-                      }}
                       data-num={foldNum}
                       data-expanded={isExpanded ? 'true' : 'false'}
+                      data-unfolding={isUnfolding ? 'true' : 'false'}
                       role="button"
                       tabIndex={0}
                       aria-label={`${item.yearBadge} — ${item.shortName}`}
                       aria-pressed={chosenFoldIdx === idx}
-                      onMouseEnter={() => setHoveredFoldIdx(idx)}
-                      onFocus={() => setChosenFoldIdx(idx)}
+                      onMouseEnter={() => {
+                        if (unfoldingFoldIdx === null) setHoveredFoldIdx(idx);
+                      }}
+                      onFocus={() => {
+                        if (unfoldingFoldIdx === null) setChosenFoldIdx(idx);
+                      }}
                       onClick={() => {
-                        if (chosenFoldIdx !== idx) {
-                          SoundEngine.playTap();
-                          setChosenFoldIdx(idx);
-                        }
+                        if (didDragRef.current || unfoldingFoldIdx !== null) return;
+                        SoundEngine.playTap();
+                        handleOpenJobCard(item.key, idx);
                       }}
                       onKeyDown={(e) => {
                         if (e.target !== e.currentTarget) return;
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           SoundEngine.playTap();
-                          if (chosenFoldIdx === idx) {
-                            handleOpenJobCard(item.key);
-                          } else {
-                            setChosenFoldIdx(idx);
-                          }
+                          handleOpenJobCard(item.key, idx);
                         }
                       }}
                       style={
@@ -1212,7 +1209,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       }
                       className={cn(
                         'exp-fold-swatch group',
-                        isExpanded && 'is-expanded'
+                        isExpanded && 'is-expanded',
+                        isUnfolding && 'is-unfolding'
                       )}
                     >
                       {/* Lớp bóng đổ nếp gấp giấy Chromatic Folds */}
@@ -1238,10 +1236,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </span>
                       </div>
 
-                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP (NGHIÊNG ĐỒNG BỘ THEO NẾP GẤP GIẤY) */}
-                      <div className="exp-fold-sheet pt-3.5 pb-4">
+                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP (LẤP ĐẦY FULL CHIỀU CAO & CHIỀU RỘNG CARD) */}
+                      <div className="exp-fold-sheet pt-[66px] sm:pt-[72px] pb-0">
                         {/* 1. Banner công ty + Năm + Số nếp gấp */}
-                        <div className="relative w-full shrink-0 mb-2 px-4 overflow-hidden">
+                        <div className="relative w-full shrink-0 mb-2 px-11 sm:px-14 overflow-hidden">
                           <div className="relative w-full overflow-hidden rounded-[8px]">
                             {companyBanner && (
                               <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
@@ -1280,7 +1278,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {/* 2. Dải màu thương hiệu & Logo tròn (Click logo mở chi tiết) */}
                         <div
                           style={{ background: item.blockGradient }}
-                          className="w-full h-[82px] lg:h-[92px] shrink-0 flex items-center justify-center px-3 shadow-[0_10px_20px_-4px_rgba(15,23,42,0.22)]"
+                          className="w-full h-[88px] lg:h-[98px] shrink-0 flex items-center justify-center px-3 shadow-[0_10px_20px_-4px_rgba(15,23,42,0.22)]"
                         >
                           <div className="flex items-center justify-center">
                             {item.logos.map((logo, logoIdx) => (
@@ -1300,7 +1298,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {/* 3. Thông tin công ty, thời gian, vị trí, quản lý, mô tả & Xem chi tiết */}
                         <div
                           data-no-wheel-horizontal="true"
-                          className="exp-milestone-scroll flex-1 min-h-0 px-5 pt-3 pb-2 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
+                          className="exp-milestone-scroll flex-1 min-h-0 px-11 sm:px-14 pt-3.5 pb-10 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
                         >
                           <h3
                             style={{ color: primaryTextColor }}
@@ -1379,7 +1377,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 SoundEngine.playTap();
-                                handleOpenJobCard(item.key);
+                                handleOpenJobCard(item.key, idx);
                               }}
                               style={
                                 !isLeather
@@ -1454,14 +1452,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       key={item.key}
                       id={`milestone-card-${item.key}`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        if (didDragRef.current || unfoldingFoldIdx !== null) return;
+                        SoundEngine.playTap();
+                        handleOpenJobCard(item.key, idx);
+                      }}
                       style={{
                         flex: '0 0 100%',
                         width: '100%',
                         background: colBackground,
                       }}
-                      className="relative h-full min-h-0 flex flex-col pt-[58px] pb-9"
+                      className={cn(
+                        'relative h-full min-h-0 flex flex-col pt-[64px] pb-10 cursor-pointer transition-transform duration-300',
+                        unfoldingFoldIdx === idx && 'scale-[1.015]'
+                      )}
                     >
-                      <div className="relative w-full shrink-0 mb-2 px-4 overflow-hidden">
+                      <div className="relative w-full shrink-0 mb-2 px-11 overflow-hidden">
                         <div className="relative w-full overflow-hidden rounded-[8px]">
                           {companyBanner && (
                             <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
@@ -1507,7 +1515,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                       <div
                         data-no-wheel-horizontal="true"
-                        className="exp-milestone-scroll flex-1 min-h-0 px-6 pt-3 pb-2 flex flex-col overflow-y-auto no-scrollbar"
+                        className="exp-milestone-scroll flex-1 min-h-0 px-12 pt-3 pb-2 flex flex-col overflow-y-auto no-scrollbar"
                       >
                         <h3
                           style={{ color: primaryTextColor }}
@@ -2146,7 +2154,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               data-element-page="experience"
               data-element-parent="experience-main-card"
               data-section-card="true"
-              className="bento-card glass-card flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-main,30px)] border-0 block w-full min-w-0 p-[15px] animate-fadeIn font-play box-border"
+              className="bento-card glass-card exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-main,30px)] border-0 block w-full min-w-0 p-[15px] font-play box-border"
               style={{ padding: '15px', borderRadius: 'var(--radius-main, 30px)' }}
             >
             {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Nút đóng ở góc trên bên phải */}

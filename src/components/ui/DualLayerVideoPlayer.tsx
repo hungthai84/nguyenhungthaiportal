@@ -20,7 +20,7 @@ export interface DualLayerVideoPlayerProps {
 
 type StreamStage = 'custom' | 'proxy' | 'uc' | 'alt' | 'iframe';
 
-const DEFAULT_VIDEO_1_ID = '1-XpJWJEyTq4PYh902i7FQbWYnpO17PvM';
+const DEFAULT_VIDEO_1_ID = '1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp';
 const DEFAULT_VIDEO_2_ID = '1YBxLU_NyWM8T3WAjOvtjSz0iP_6m1aB5';
 
 const normalizeMediaSrc = (src?: string): string | undefined => {
@@ -48,6 +48,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   const { showToast } = useToast();
   const video1Ref = useRef<HTMLVideoElement | null>(null);
   const video2Ref = useRef<HTMLVideoElement | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const isInViewportRef = useRef<boolean>(true);
 
   const resolvedVideo1Src = normalizeMediaSrc(video1Src);
   const resolvedVideo2Src = normalizeMediaSrc(video2Src);
@@ -66,6 +68,35 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   const [isVideo2Ready, setIsVideo2Ready] = useState<boolean>(false);
   const [isAudioOn, setIsAudioOn] = useState<boolean>(!muteVideo1);
   const [isPosterError, setIsPosterError] = useState<boolean>(false);
+
+  // Intersection Observer to pause video when scrolled out of viewport and resume when entering viewport
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        isInViewportRef.current = isVisible;
+        const v1 = video1Ref.current;
+        const v2 = video2Ref.current;
+
+        if (isVisible) {
+          if (!isPlayingIntroRef.current && v1 && v1.paused) {
+            tryStartVideo1(v1, isAudioOnRef.current);
+          } else if (isPlayingIntroRef.current && v2 && v2.paused) {
+            tryStartVideo2(v2, isAudioOnRef.current);
+          }
+        } else {
+          if (v1 && !v1.paused) v1.pause();
+          if (v2 && !v2.paused) v2.pause();
+        }
+      },
+      { rootMargin: '200px', threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const getVideo1StreamUrl = useCallback(
     (stage: StreamStage, id: string): string => {
@@ -396,6 +427,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
 
   return (
     <div
+      ref={rootRef}
       className={cn(
         !hasPositionClass && 'relative',
         'w-full h-full min-w-full min-h-full overflow-hidden rounded-[inherit] flex items-center justify-center',

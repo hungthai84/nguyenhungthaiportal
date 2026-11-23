@@ -24,6 +24,7 @@ import {
 import { WebIcon } from '@/components/ui/WebIcon';
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
+import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
@@ -595,7 +596,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
             data-element-parent="service-main-card"
             className="w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0"
           >
-            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC */}
+            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC (ĐỒNG BỘ FORMAT BỐ CỤC NHƯ HỆ THỐNG) */}
             <motion.div
               id="services-hero-banner"
               data-element-type="section"
@@ -603,13 +604,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="banner-card hero-banner group w-full max-w-full min-h-[140px] h-auto lg:h-[164px] lg:min-h-[164px] lg:max-h-[164px] mx-auto rounded-[14px] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-[15px] p-[15px] z-30 box-border transition-all duration-300"
+              className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
               style={{
                 padding: '15px',
-                gap: '15px',
                 width: '100%',
                 maxWidth: '100%',
-                borderRadius: 'var(--radius-banner, 24px)',
+                borderRadius: 'var(--radius-banner, 14px)',
                 boxSizing: 'border-box',
               }}
             >
@@ -658,7 +658,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
               {/* Bộ lọc & nút thao tác nhanh */}
               <div
-                className="relative z-30 flex flex-wrap items-center justify-between mt-auto pt-0 gap-2.5"
+                id="services-hero-banner-controls"
+                className="relative z-30 flex flex-wrap items-center justify-between mt-auto pt-0 gap-2.5 w-full"
                 ref={filterMenuRef}
               >
                 <div className="relative inline-flex items-center gap-2 flex-wrap text-left">
@@ -756,18 +757,21 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               </div>
             </motion.div>
 
-            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC TRỰC TIẾP (ĐÃ XÓA KHUNG #services-cards-grid) */}
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC (BỐ CỤC FORMAT GIỐNG TRANG HỆ THỐNG) */}
             <div
               id="services-cards-wrapper"
-              ref={(el) => {
-                cardsWrapperRef.current = el;
-                cardsGridRef.current = el;
-              }}
-              className={`services-cards-grid relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full max-w-full min-w-0 ${
-                isGridDimmed ? 'grid-dimmed' : ''
-              }`}
+              ref={cardsWrapperRef}
+              className="relative w-full flex flex-col"
               style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
             >
+              <div
+                id="services-cards-grid"
+                ref={cardsGridRef}
+                className={cn(
+                  'services-cards-grid card-grid w-full min-w-0',
+                  isGridDimmed && 'grid-dimmed'
+                )}
+              >
                 {DOMAINS_DATA.map((domain, idx) => {
                   const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
                   const accentColor = getAccentColor(domain.id);
@@ -824,8 +828,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       }}
                       className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
                     >
-                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải (Hàng 1 + Hàng 2: Hình dịch vụ) */}
-                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_124px] sm:grid-cols-[minmax(0,1fr)_168px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-stretch min-w-0 flex-1">
+                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải (Hàng 1 + Hàng 2: Hình dịch vụ phóng to gấp đôi kích thước) */}
+                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_172px] sm:grid-cols-[minmax(0,1fr)_216px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-stretch min-w-0 flex-1">
                         {/* Bên trái - Hàng 1: Icon và Tiêu đề */}
                         <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-start pt-0.5">
                           {renderDomainIcon(
@@ -852,8 +856,8 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           {summaryText}
                         </p>
 
-                        {/* Bên phải - Hàng 1 + Hàng 2: Chứa hình dịch vụ phủ trọn 2 hàng */}
-                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-full min-h-[126px] sm:min-h-[146px]">
+                        {/* Bên phải - Hàng 1 + Hàng 2: Chứa hình dịch vụ tăng gấp đôi kích thước */}
+                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-stretch w-full min-h-[252px] sm:min-h-[292px]">
                           <img
                             src={serviceImage}
                             alt={cardTitle}
@@ -907,6 +911,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     </motion.div>
                   );
                 })}
+              </div>
             </div>
           </div>
           </div>

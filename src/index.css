@@ -726,9 +726,9 @@ html.dark[data-card-style] #horoscope-cards-track {
   box-sizing: border-box !important;
 }
 
-/* Letter & Horoscope Full-Width Vertical Main Cards: Natural Content Height, Zero Inner Scroll Trap */
-html #letter-cards-track > :is(#letter-card-1, #letter-card-4),
-html[data-card-style] #letter-cards-track > :is(#letter-card-1, #letter-card-4),
+/* Letter Card 1 stays natural auto height; Card 4 matches Card 1 dimensions; Horoscope Cards 2..5 stay natural height */
+html #letter-cards-track > #letter-card-1,
+html[data-card-style] #letter-cards-track > #letter-card-1,
 html #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4, #horoscope-card-5),
 html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4, #horoscope-card-5) {
   width: 100% !important;
@@ -738,6 +738,28 @@ html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope
   min-height: 0 !important;
   flex: 0 0 auto !important;
   overflow: visible !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+html #letter-cards-track > #letter-card-4,
+html[data-card-style] #letter-cards-track > #letter-card-4 {
+  width: var(--letter-card-1-w, 100%) !important;
+  min-width: var(--letter-card-1-w, 100%) !important;
+  max-width: var(--letter-card-1-w, 100%) !important;
+  height: var(--letter-card-1-h, auto) !important;
+  min-height: var(--letter-card-1-h, 0px) !important;
+  max-height: var(--letter-card-1-h, none) !important;
+  flex: 0 0 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   margin: 0 !important;
   padding: 15px !important;
   gap: 15px !important;
@@ -783,16 +805,34 @@ html.dark[data-card-style] #horoscope-cards-track > #horoscope-card-1 {
   }
 }
 
-/* Letter Row 2-3 & Horoscope Row 1 Side-by-Side Cards: Equal Row Height, Full Track Width */
-html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
-html[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
+/* Letter Row 2-3 Horizontal Row (15px gap) & Equal Dimensions to Card 1 */
+html #letter-cards-row-2-3,
+html[data-card-style] #letter-cards-row-2-3 {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  flex: none !important;
-  overflow: visible !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
+html[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
+  width: var(--letter-card-1-w, 100%) !important;
+  min-width: var(--letter-card-1-w, 100%) !important;
+  max-width: var(--letter-card-1-w, 100%) !important;
+  height: var(--letter-card-1-h, auto) !important;
+  min-height: var(--letter-card-1-h, 0px) !important;
+  max-height: var(--letter-card-1-h, none) !important;
+  flex: 0 0 var(--letter-card-1-w, 100%) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   margin: 0 !important;
   padding: 15px !important;
   gap: 15px !important;
@@ -1301,6 +1341,23 @@ html.dark[data-card-style] #about-intro-card-2 {
   column-gap: 16px !important;
   transition: box-shadow 260ms ease, border-color 240ms ease, outline-color 240ms ease, background 260ms ease, color 260ms ease !important;
   box-sizing: border-box !important;
+}
+
+/* Experience Main Card: Giữ 0px padding và 0px gap ở mọi theme/mode để giấy xếp lấp đầy 100% */
+html:root body #experience-main-card,
+html:root[data-card-style] body #experience-main-card,
+html.dark:root[data-card-style] body #experience-main-card,
+html:root body #experience-main-card[data-main-card="true"],
+html:root[data-card-style] body #experience-main-card[data-main-card="true"],
+html.dark:root[data-card-style] body #experience-main-card[data-main-card="true"] {
+  padding: 0px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
 }
 
 html:not([data-surface-depth="flat"]) .page-main-card,
@@ -2459,9 +2516,6 @@ html[data-card-style] .project-detail-banner-media iframe,
 html :is(
   .hero-banner,
   .banner-card,
-  #home-main-content,
-  [id^="home-main-content-"],
-  .home-screen-media-stage,
   #project-detail-banner,
   #contact-hero-banner,
   #ai-assistant-hero-banner,
@@ -2485,11 +2539,11 @@ html :is(
   -webkit-backdrop-filter: none !important;
 }
 
-html.dark :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
-html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #home-main-content, [id^="home-main-content-"], .home-screen-media-stage, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+html.dark :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style*="dark"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
+html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
   background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
@@ -2649,20 +2703,23 @@ html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-deta
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.78) !important;
 }
 
-/* 100% Transparent background & 10px border-radius for Weather Card across all active themes */
+/* Classic Weather Card styling with 10px border-radius across all active themes */
 html :is(#weather-card, #weather-widget-card, .weather-card),
 html[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card),
 html.dark :is(#weather-card, #weather-widget-card, .weather-card),
 html.dark[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card) {
   border-radius: 10px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: var(--bg-subcard, var(--surface-secondary-bg, var(--bg-nav-pill))) !important;
+  border: 1px solid var(--border-subcard, var(--surface-secondary-border, var(--border-color))) !important;
+  box-shadow: var(--elev-subcard-l1, var(--shadow-subcard, 0 2px 8px rgba(15, 23, 42, 0.08))) !important;
+}
+
+html :is(#weather-card, #weather-widget-card, .weather-card):hover,
+html[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card):hover,
+html.dark :is(#weather-card, #weather-widget-card, .weather-card):hover,
+html.dark[data-card-style] :is(#weather-card, #weather-widget-card, .weather-card):hover {
+  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 38%, var(--border-subcard, var(--border-color))) !important;
+  box-shadow: var(--elev-subcard-l1-hover, var(--shadow-subcard-hover, 0 6px 16px rgba(15, 23, 42, 0.12))) !important;
 }
 
 /* ========================================================================= */
@@ -5358,7 +5415,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDES: #el-p0-div-98 XÓA TOÀN BỘ HIỆU ỨNG MỌI GIAO DIỆN */
+/* FOOTER WRAPPER #el-p0-div-98: KHÔNG BLUR TRONG SUỐT, GIỮ ELEVATION ĐỘC LẬP */
 /* ========================================================================= */
 html:root body #el-p0-div-98,
 html:root[data-card-style] body #el-p0-div-98,
@@ -5371,105 +5428,36 @@ html:root[data-card-style] body #el-p0-div-98:is(:hover, :active, :focus-within)
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   transform: none !important;
-  transition: none !important;
   animation: none !important;
-  will-change: auto !important;
 }
 
 html:root body #el-p0-div-98 :is(
   #app-footer,
-  #app-footer *,
-  #weather-widget-card,
-  #weather-widget-card *,
-  #footer-nav-capsule,
-  #footer-nav-capsule *,
-  #footer-prev-btn,
-  #footer-next-btn,
   #footer-lang-btn,
   #footer-appearance-btn,
-  #footer-theme-mode-btn,
   #footer-wallpaper-btn,
+  #footer-theme-mode-btn,
   #footer-ai-btn
-):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+),
 html:root[data-card-style] body #el-p0-div-98 :is(
   #app-footer,
-  #app-footer *,
-  #weather-widget-card,
-  #weather-widget-card *,
-  #footer-nav-capsule,
-  #footer-nav-capsule *,
-  #footer-prev-btn,
-  #footer-next-btn,
   #footer-lang-btn,
   #footer-appearance-btn,
-  #footer-theme-mode-btn,
   #footer-wallpaper-btn,
+  #footer-theme-mode-btn,
   #footer-ai-btn
-):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
+),
 html:root[data-theme] body #el-p0-div-98 :is(
   #app-footer,
-  #app-footer *,
-  #weather-widget-card,
-  #weather-widget-card *,
-  #footer-nav-capsule,
-  #footer-nav-capsule *,
-  #footer-prev-btn,
-  #footer-next-btn,
   #footer-lang-btn,
   #footer-appearance-btn,
-  #footer-theme-mode-btn,
   #footer-wallpaper-btn,
-  #footer-ai-btn
-):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-card-style] body #el-p0-div-98 :is(
-  #app-footer,
-  #app-footer *,
-  #weather-widget-card,
-  #weather-widget-card *,
-  #footer-nav-capsule,
-  #footer-nav-capsule *,
-  #footer-prev-btn,
-  #footer-next-btn,
-  #footer-lang-btn,
-  #footer-appearance-btn,
   #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
   #footer-ai-btn
-):is(:hover, :active, :focus, :focus-visible, :focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root body #el-p0-div-98 :is(
-  #app-footer,
-  #app-footer *,
-  #weather-widget-card,
-  #weather-widget-card *,
-  #footer-nav-capsule,
-  #footer-nav-capsule *,
-  #footer-prev-btn,
-  #footer-next-btn,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-theme-mode-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn
-):is(:hover, :active, :focus, :focus-visible, :focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
-  box-shadow: none !important;
-  text-shadow: none !important;
+) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-  will-change: auto !important;
-}
-
-html:root body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-card-style] body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
-  display: none !important;
-  content: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  animation: none !important;
-  transform: none !important;
 }
 
 /* ========================================================================= */
@@ -5581,7 +5569,7 @@ html:root[data-card-style] body :is(
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) {
     height: auto !important;
     min-height: 62px !important;
-    max-height: 84px !important;
+    max-height: none !important;
     padding: 6px 12px !important;
     gap: 4px !important;
     row-gap: 4px !important;
@@ -5603,23 +5591,26 @@ html:root[data-card-style] body :is(
     display: none !important;
   }
 
-  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-bottom-controls, #services-hero-banner-controls, #skills-hero-banner-filter-row, #projects-hero-banner-controls, #wallpaper-hero-banner-controls, #systems-hero-banner-controls, #horoscope-hero-banner-controls) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-bottom-controls, #services-hero-banner-controls, #skills-hero-banner-filter-row, #education-hero-banner-filter-row, #projects-hero-banner-controls, #wallpaper-hero-banner-controls, #systems-hero-banner-controls, #horoscope-hero-banner-controls) {
     margin-top: 0 !important;
     gap: 5px !important;
     row-gap: 3px !important;
     align-items: center !important;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
   }
 
-  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
-    height: 26px !important;
-    min-height: 26px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-    font-size: 11px !important;
-    line-height: 1 !important;
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
+    height: auto !important;
+    min-height: 28px !important;
+    max-height: none !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+    font-size: clamp(13px, 3.5vw, 17px) !important;
+    font-weight: var(--fw-semibold, 600) !important;
+    line-height: 1.2 !important;
     white-space: nowrap !important;
   }
 }
@@ -5630,7 +5621,7 @@ html:root[data-card-style] body :is(
   [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) {
     height: auto !important;
     min-height: 62px !important;
-    max-height: 84px !important;
+    max-height: none !important;
     padding: 6px 12px !important;
     gap: 4px !important;
     row-gap: 4px !important;
@@ -5658,17 +5649,20 @@ html:root[data-card-style] body :is(
     display: none !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill, .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
-    height: 26px !important;
-    min-height: 26px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-    font-size: 11px !important;
-    line-height: 1 !important;
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
+    height: auto !important;
+    min-height: 28px !important;
+    max-height: none !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+    font-size: clamp(14px, 2.2cqi, 18px) !important;
+    font-weight: var(--fw-semibold, 600) !important;
+    line-height: 1.2 !important;
   }
 }
 
@@ -5746,49 +5740,7 @@ html:root[data-card-style] body :is(#weather-widget-card, #weather-card, .weathe
   border-radius: 10px !important;
 }
 
-/* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: UNIFIED LAYERED CARD BOX-SHADOW                  */
-/* ========================================================================= */
-.card,
-html:root body :is(
-  .card,
-  .bento-card,
-  .glass-card,
-  .sub-card,
-  .service-card,
-  .domain-card,
-  .project-card,
-  [id^="project-card-"],
-  .system-card-tile,
-  .education-course-card,
-  .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [data-subcard="true"],
-  [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card),
-html:root[data-card-style] body :is(
-  .card,
-  .bento-card,
-  .glass-card,
-  .sub-card,
-  .service-card,
-  .domain-card,
-  .project-card,
-  [id^="project-card-"],
-  .system-card-tile,
-  .education-course-card,
-  .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [data-subcard="true"],
-  [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card) {
-  box-shadow:
-    0 1px 2px rgb(15 23 42 / 0.075),
-    0 2px 4px rgb(15 23 42 / 0.075),
-    0 4px 8px rgb(15 23 42 / 0.075) !important;
-}
+/* Card Elevation Hierarchy is defined at the end of this stylesheet */
 
 /* ========================================================================= */
 /* ABSOLUTE FINAL OVERRIDE: FOOTER TOP-LEFT 14PX & TOP-RIGHT 14PX ONLY       */
@@ -5811,19 +5763,19 @@ html:root.dark[data-theme] body #app-footer {
   border-radius: 14px 14px 0px 0px !important;
 }
 
-/* Education Banner Controls: Prevent global pill overrides from breaking synced width/height */
+/* Education Banner Controls: Sync width cleanly while allowing title-matched height */
 html:root body #education-view-mode-switcher,
 html:root[data-card-style] body #education-view-mode-switcher {
-  height: 36px !important;
-  min-height: 36px !important;
-  max-height: 36px !important;
+  height: auto !important;
+  min-height: 38px !important;
+  max-height: none !important;
   box-sizing: border-box !important;
 }
 html:root body #education-filter-toggle-btn,
 html:root[data-card-style] body #education-filter-toggle-btn {
-  height: 36px !important;
-  min-height: 36px !important;
-  max-height: 36px !important;
+  height: auto !important;
+  min-height: 38px !important;
+  max-height: none !important;
   box-sizing: border-box !important;
 }
 
@@ -5848,11 +5800,787 @@ html:root[data-card-style="liquid-glass"]:not(.dark) body :is(
   .banner-card,
   .hero-banner,
   [id$="-hero-banner"]
-):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card):not([data-multicolor-bento="true"]):not([data-bento-subtone]) {
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-media-card="video"]):not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#experience-job-detail-card):not([data-multicolor-bento="true"]):not([data-bento-subtone]):not(.home-screen-main-card):not([id^="home-main-card-"]) {
   backdrop-filter: url(#liquid-glass) !important;
   -webkit-backdrop-filter: url(#liquid-glass) !important;
 }
 
+/* ========================================================================= */
+/* FINAL OVERRIDE: HOME PAGE — REMOVE ALL BLUR & BUTTON BLUR EFFECTS         */
+/* ========================================================================= */
+html:root body #home-page-container,
+html:root[data-card-style] body #home-page-container,
+html:root body #home-page-container :is(
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"],
+  [data-media-card="video"],
+  video,
+  img,
+  button,
+  .theme-video-capsule,
+  .video-play-btn,
+  .video-play-btn--home,
+  .video-play-btn__sound,
+  #el-p0-div-16,
+  #el-p0-div-16 [role="tab"],
+  .theme-screen-switcher-dock
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  --vp-backdrop: none !important;
+  --surface-primary-blur: 0px !important;
+  --surface-secondary-blur: 0px !important;
+  --surface-interactive-blur: 0px !important;
+  --glass-blur: 0px !important;
+  --glass-card-blur: 0px !important;
+  --blur-nav-pill: 0px !important;
+  --lg-clear-backdrop: none !important;
+}
 
+html:root body #home-page-container :is(
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+)::before,
+html:root body #home-page-container :is(
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+)::after,
+html:root[data-card-style] body #home-page-container :is(
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+)::before,
+html:root[data-card-style] body #home-page-container :is(
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+)::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
 
+/* Crisp non-blurred Home capsule & switcher buttons across all themes */
+html:root body #home-page-container .video-play-btn--home,
+html:root[data-card-style] body #home-page-container .video-play-btn--home,
+html:root body #home-page-container #el-p0-div-16,
+html:root[data-card-style] body #home-page-container #el-p0-div-16 {
+  --vp-backdrop: none !important;
+  --vp-bg: #ffffff !important;
+  --vp-bg-hover: #f8fafc !important;
+  --vp-shadow-ambient: 0 2px 6px rgba(15, 23, 42, 0.14) !important;
+  --vp-shadow-hover: 0 3px 8px rgba(15, 23, 42, 0.2) !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(148, 163, 184, 0.45) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14) !important;
+}
+
+html:root.dark body #home-page-container .video-play-btn--home,
+html:root.dark[data-card-style] body #home-page-container .video-play-btn--home,
+html:root[data-card-style*="dark"] body #home-page-container .video-play-btn--home,
+html:root[data-card-style="deep-ocean"] body #home-page-container .video-play-btn--home,
+html:root.dark body #home-page-container #el-p0-div-16,
+html:root.dark[data-card-style] body #home-page-container #el-p0-div-16,
+html:root[data-card-style*="dark"] body #home-page-container #el-p0-div-16,
+html:root[data-card-style="deep-ocean"] body #home-page-container #el-p0-div-16 {
+  --vp-backdrop: none !important;
+  --vp-bg: #0f172a !important;
+  --vp-bg-hover: #1e293b !important;
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 2px 6px rgba(2, 6, 23, 0.45) !important;
+}
+
+html:root body #home-page-container .video-play-btn--home:hover,
+html:root body #home-page-container .video-play-btn--home:focus-visible,
+html:root[data-card-style] body #home-page-container .video-play-btn--home:hover,
+html:root[data-card-style] body #home-page-container .video-play-btn--home:focus-visible {
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2) !important;
+}
+
+html:root body #home-page-container .video-play-btn--home::before,
+html:root[data-card-style] body #home-page-container .video-play-btn--home::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* ========================================================================= */
+/* FINAL OVERRIDE: BANNER FILTER CONTROLS = TITLE FONT & SIZE                */
+/* ========================================================================= */
+html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
+  .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+  .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+  .banner-primary-cta,
+  .banner-primary-cta span:not(.banner-count-pill),
+  .swot-control-pill,
+  .swot-control-pill span:not(.banner-count-pill),
+  #education-filter-toggle-btn,
+  #education-filter-toggle-btn span:not(.banner-count-pill),
+  #education-view-mode-switcher button,
+  #education-view-mode-switcher button span,
+  .banner-search-input,
+  .banner-search-input::placeholder
+) {
+  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+  font-size: var(--fs-h3, 20px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: 1.25 !important;
+}
+
+html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
+  .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+  .banner-primary-cta,
+  .swot-control-pill,
+  #education-filter-toggle-btn,
+  #education-view-mode-switcher,
+  .banner-search-input
+) {
+  height: auto !important;
+  min-height: 38px !important;
+  max-height: none !important;
+}
+
+html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) .banner-count-pill {
+  font-size: 0.78em !important;
+  line-height: 1.15 !important;
+}
+
+@media (max-width: 1023px) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    .banner-primary-cta,
+    .banner-primary-cta span:not(.banner-count-pill),
+    .swot-control-pill,
+    .swot-control-pill span:not(.banner-count-pill),
+    #education-filter-toggle-btn,
+    #education-filter-toggle-btn span:not(.banner-count-pill),
+    #education-view-mode-switcher button,
+    #education-view-mode-switcher button span,
+    .banner-search-input,
+    .banner-search-input::placeholder
+  ) {
+    font-size: clamp(13px, 3.5vw, 17px) !important;
+    line-height: 1.2 !important;
+  }
+
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-primary-cta,
+    .swot-control-pill,
+    #education-filter-toggle-btn,
+    #education-view-mode-switcher,
+    .banner-search-input
+  ) {
+    height: auto !important;
+    min-height: 28px !important;
+    max-height: none !important;
+  }
+}
+
+@container main-card (max-width: 959px) {
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    .banner-primary-cta,
+    .banner-primary-cta span:not(.banner-count-pill),
+    .swot-control-pill,
+    .swot-control-pill span:not(.banner-count-pill),
+    #education-filter-toggle-btn,
+    #education-filter-toggle-btn span:not(.banner-count-pill),
+    #education-view-mode-switcher button,
+    #education-view-mode-switcher button span,
+    .banner-search-input,
+    .banner-search-input::placeholder
+  ),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    .banner-primary-cta,
+    .banner-primary-cta span:not(.banner-count-pill),
+    .swot-control-pill,
+    .swot-control-pill span:not(.banner-count-pill),
+    #education-filter-toggle-btn,
+    #education-filter-toggle-btn span:not(.banner-count-pill),
+    #education-view-mode-switcher button,
+    #education-view-mode-switcher button span,
+    .banner-search-input,
+    .banner-search-input::placeholder
+  ),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    .banner-primary-cta,
+    .banner-primary-cta span:not(.banner-count-pill),
+    .swot-control-pill,
+    .swot-control-pill span:not(.banner-count-pill),
+    #education-filter-toggle-btn,
+    #education-filter-toggle-btn span:not(.banner-count-pill),
+    #education-view-mode-switcher button,
+    #education-view-mode-switcher button span,
+    .banner-search-input,
+    .banner-search-input::placeholder
+  ) {
+    font-size: clamp(14px, 2.2cqi, 18px) !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(
+    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+    .banner-primary-cta,
+    .swot-control-pill,
+    #education-filter-toggle-btn,
+    #education-view-mode-switcher,
+    .banner-search-input
+  ) {
+    height: auto !important;
+    min-height: 28px !important;
+    max-height: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* FINAL OVERRIDE: UNIFIED HERO BANNER SIZE PARITY ACROSS ALL PAGES          */
+/* Projects · Education · Skills · Memories · Wallpaper · Interface ·        */
+/* Services · Systems                                                        */
+/* ========================================================================= */
+html:root body :is(
+  #projects-hero-banner,
+  #education-hero-banner,
+  #skills-hero-banner,
+  #memories-hero-banner,
+  #wallpaper-hero-banner,
+  #interface-hero-banner,
+  #services-hero-banner,
+  #systems-hero-banner
+),
+html:root[data-card-style] body :is(
+  #projects-hero-banner,
+  #education-hero-banner,
+  #skills-hero-banner,
+  #memories-hero-banner,
+  #wallpaper-hero-banner,
+  #interface-hero-banner,
+  #services-hero-banner,
+  #systems-hero-banner
+) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  border-radius: var(--radius-banner, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 1024px) {
+  html:root body :is(
+    #projects-hero-banner,
+    #education-hero-banner,
+    #skills-hero-banner,
+    #memories-hero-banner,
+    #wallpaper-hero-banner,
+    #interface-hero-banner,
+    #services-hero-banner,
+    #systems-hero-banner
+  ),
+  html:root[data-card-style] body :is(
+    #projects-hero-banner,
+    #education-hero-banner,
+    #skills-hero-banner,
+    #memories-hero-banner,
+    #wallpaper-hero-banner,
+    #interface-hero-banner,
+    #services-hero-banner,
+    #systems-hero-banner
+  ) {
+    min-height: 200px !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 15px !important;
+    gap: 8px !important;
+    row-gap: 8px !important;
+    column-gap: 8px !important;
+  }
+
+  @container main-card (max-width: 959px) {
+    html:root body :is(
+      #projects-hero-banner,
+      #education-hero-banner,
+      #skills-hero-banner,
+      #memories-hero-banner,
+      #wallpaper-hero-banner,
+      #interface-hero-banner,
+      #services-hero-banner,
+      #systems-hero-banner
+    ),
+    html:root[data-card-style] body :is(
+      #projects-hero-banner,
+      #education-hero-banner,
+      #skills-hero-banner,
+      #memories-hero-banner,
+      #wallpaper-hero-banner,
+      #interface-hero-banner,
+      #services-hero-banner,
+      #systems-hero-banner
+    ) {
+      height: auto !important;
+      min-height: 62px !important;
+      max-height: none !important;
+      padding: 6px 12px !important;
+      gap: 4px !important;
+      row-gap: 4px !important;
+      column-gap: 8px !important;
+      justify-content: center !important;
+    }
+  }
+}
+
+/* ========================================================================= */
+/* LAYERED ELEVATION HIERARCHY (ĐỔ BÓNG PHÂN TẦNG)                           */
+/* Header icons · Footer right buttons · Page nav controls · Card Depth Tiers */
+/* ========================================================================= */
+:root {
+  --elev-pill-rest: -5px 2px 12px rgba(15, 23, 42, 0.13), 0 4px 10px -2px rgba(15, 23, 42, 0.11), 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --elev-pill-hover: -6px 6px 18px rgba(15, 23, 42, 0.18), 0 10px 22px -4px rgba(15, 23, 42, 0.15), 0 2px 6px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --elev-pill-active: -6px 8px 22px rgba(15, 23, 42, 0.22), 0 12px 26px -6px rgba(15, 23, 42, 0.19), 0 3px 8px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.30);
+
+  --elev-nav-capsule: 0 10px 26px -6px rgba(15, 23, 42, 0.16), 0 4px 10px -2px rgba(15, 23, 42, 0.11), 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.70);
+  --elev-nav-btn-rest: 0 4px 10px -1px rgba(15, 23, 42, 0.20), 0 2px 4px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --elev-nav-btn-hover: 0 8px 18px -2px rgba(15, 23, 42, 0.26), 0 3px 6px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  --elev-nav-btn-active: 0 2px 5px rgba(15, 23, 42, 0.18), inset 0 1px 2px rgba(15, 23, 42, 0.15);
+
+  --elev-shell-header: 0 14px 34px -10px rgba(15, 23, 42, 0.16), 0 6px 14px -4px rgba(15, 23, 42, 0.09), 0 1px 3px rgba(15, 23, 42, 0.06);
+  --elev-shell-footer: 0 -12px 30px -10px rgba(15, 23, 42, 0.15), 0 -4px 12px -4px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.60);
+  --elev-main-card: 0 22px 50px -14px rgba(15, 23, 42, 0.18), 0 10px 22px -6px rgba(15, 23, 42, 0.11), 0 2px 6px rgba(15, 23, 42, 0.06);
+  --elev-card-l2: 0 10px 24px -6px rgba(15, 23, 42, 0.13), 0 4px 10px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+  --elev-card-l2-hover: 0 18px 38px -8px rgba(15, 23, 42, 0.19), 0 8px 16px -4px rgba(15, 23, 42, 0.11), 0 2px 6px rgba(15, 23, 42, 0.06);
+  --elev-subcard-l1: 0 3px 8px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+  --elev-subcard-l1-hover: 0 8px 18px -4px rgba(15, 23, 42, 0.13), 0 3px 8px -2px rgba(15, 23, 42, 0.07);
+}
+
+html.dark,
+html[data-card-style^="dark-"],
+html[data-card-style="deep-ocean"],
+html[data-card-style="black-cowhide-leather"],
+html[data-card-style="cowhide-leather"] {
+  --elev-pill-rest: -5px 3px 14px rgba(0, 0, 0, 0.45), 0 4px 10px -2px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --elev-pill-hover: -6px 7px 20px rgba(0, 0, 0, 0.56), 0 10px 24px -4px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-pill-active: -6px 9px 24px rgba(0, 0, 0, 0.62), 0 14px 28px -6px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  --elev-nav-capsule: 0 12px 28px -6px rgba(0, 0, 0, 0.50), 0 4px 12px -2px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --elev-nav-btn-rest: 0 5px 12px -1px rgba(0, 0, 0, 0.45), 0 2px 5px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --elev-nav-btn-hover: 0 9px 20px -2px rgba(0, 0, 0, 0.56), 0 4px 8px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  --elev-nav-btn-active: 0 2px 6px rgba(0, 0, 0, 0.44), inset 0 1px 2px rgba(0, 0, 0, 0.35);
+
+  --elev-shell-header: 0 16px 38px -10px rgba(0, 0, 0, 0.54), 0 6px 16px -4px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --elev-shell-footer: 0 -14px 34px -10px rgba(0, 0, 0, 0.52), 0 -4px 14px -4px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --elev-main-card: 0 24px 56px -12px rgba(0, 0, 0, 0.56), 0 10px 24px -6px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --elev-card-l2: 0 12px 28px -6px rgba(0, 0, 0, 0.45), 0 4px 12px -2px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --elev-card-l2-hover: 0 20px 42px -8px rgba(0, 0, 0, 0.56), 0 8px 18px -4px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --elev-subcard-l1: 0 4px 10px -2px rgba(0, 0, 0, 0.32), 0 1px 3px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --elev-subcard-l1-hover: 0 10px 22px -4px rgba(0, 0, 0, 0.44), 0 4px 10px -2px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+/* 1. Header Menu Icons & Footer Right-Side Button Group (Layered Stack Elevation) */
+html:not([data-surface-depth="flat"]):root body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+) {
+  box-shadow: var(--elev-pill-rest) !important;
+  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease, border-color 180ms ease !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+):is(:hover, :focus-visible),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+):is(:hover, :focus-visible) {
+  box-shadow: var(--elev-pill-hover) !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  box-shadow: var(--elev-pill-active) !important;
+}
+
+/* 2. Page Navigation Capsule & Previous/Next Arrow Controls */
+html:not([data-surface-depth="flat"]):root body :is(#footer-nav-capsule, .theme-capsule-btn),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-nav-capsule, .theme-capsule-btn) {
+  box-shadow: var(--elev-nav-capsule) !important;
+  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn) {
+  box-shadow: var(--elev-nav-btn-rest) !important;
+  transition: box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn):is(:hover, :focus-visible),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn):is(:hover, :focus-visible) {
+  box-shadow: var(--elev-nav-btn-hover) !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn):active,
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn):active {
+  box-shadow: var(--elev-nav-btn-active) !important;
+}
+
+/* 3. Shell Tier: Header & Footer Bars */
+html:not([data-surface-depth="flat"]):root body #app-header,
+html:not([data-surface-depth="flat"]):root[data-card-style] body #app-header {
+  box-shadow: var(--elev-shell-header) !important;
+}
+
+html:not([data-surface-depth="flat"]):root body #app-footer,
+html:not([data-surface-depth="flat"]):root[data-card-style] body #app-footer {
+  box-shadow: var(--elev-shell-footer) !important;
+}
+
+/* 4. Card Hierarchy Tier 4: Main Page Cards */
+html:not([data-surface-depth="flat"]):root body :is(
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #experience-main-card
+),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #experience-main-card
+) {
+  box-shadow: var(--elev-main-card) !important;
+}
+
+/* Keep Horoscope outer wrapper transparent & shadowless so inner L2 Bento cards carry depth cleanly */
+html:root body #horoscope-cards-track > .page-main-card,
+html:root[data-card-style] body #horoscope-cards-track > .page-main-card {
+  box-shadow: none !important;
+}
+
+/* 5. Card Hierarchy Tier 2 -> Tier 3 Hover: Section, Bento, Service, Domain, Project, System, Education, Theme & Banner Cards */
+html:not([data-surface-depth="flat"]):root body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  [id^="education-card-"],
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  [id^="education-card-"],
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card) {
+  box-shadow: var(--elev-card-l2) !important;
+  transition: box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  [id^="education-card-"],
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card):hover,
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .card,
+  .bento-card,
+  .glass-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .system-card-tile,
+  .education-course-card,
+  [id^="education-card-"],
+  .theme-preset-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #horoscope-card-profile,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card):hover {
+  box-shadow: var(--elev-card-l2-hover) !important;
+}
+
+/* 6. Card Hierarchy Tier 1 -> Tier 2 Hover: Nested Sub-cards */
+html:not([data-surface-depth="flat"]):root body :is(
+  .sub-card,
+  [data-subcard="true"],
+  .nested-card,
+  .about-info-subcard,
+  .pillar-gradient-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .system-card-sub
+):not(#app-header):not(#app-footer):not(#weather-widget-card),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .sub-card,
+  [data-subcard="true"],
+  .nested-card,
+  .about-info-subcard,
+  .pillar-gradient-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .system-card-sub
+):not(#app-header):not(#app-footer):not(#weather-widget-card) {
+  box-shadow: var(--elev-subcard-l1) !important;
+  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+html:not([data-surface-depth="flat"]):root body :is(
+  .sub-card,
+  [data-subcard="true"],
+  .nested-card,
+  .about-info-subcard,
+  .pillar-gradient-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .system-card-sub
+):not(#app-header):not(#app-footer):not(#weather-widget-card):hover,
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .sub-card,
+  [data-subcard="true"],
+  .nested-card,
+  .about-info-subcard,
+  .pillar-gradient-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .system-card-sub
+):not(#app-header):not(#app-footer):not(#weather-widget-card):hover {
+  box-shadow: var(--elev-subcard-l1-hover) !important;
+}
+
+/* 7. Flat Surface Depth Fallback */
+html[data-surface-depth="flat"] body :is(
+  #app-header,
+  #app-footer,
+  #weather-widget-card,
+  #app-header nav button.nav-pill,
+  #app-header #header-btn-hungthai-avatar,
+  #app-footer #footer-lang-btn,
+  #app-footer #footer-appearance-btn,
+  #app-footer #footer-wallpaper-btn,
+  #app-footer #footer-ai-btn,
+  #footer-nav-capsule,
+  #footer-prev-btn,
+  #footer-next-btn,
+  .nav-arrow-btn,
+  .page-main-card,
+  .card,
+  .bento-card,
+  .glass-card,
+  .sub-card,
+  [data-subcard="true"],
+  [data-section-card="true"]
+) {
+  box-shadow: none !important;
+}
+
+/* ========================================================================= */
+/* WALLPAPER CLARITY LOCK: 0% BLUR & ZERO HAZE ACROSS ALL SCREEN SIZES       */
+/* Applies whenever a wallpaper is active (image, video, css, webgl)         */
+/* ========================================================================= */
+@media all {
+  html[data-has-wallpaper="true"],
+  html[data-has-wallpaper="true"][data-card-style],
+  html.dark[data-has-wallpaper="true"][data-card-style] {
+    --wallpaper-bg-blur: 0px !important;
+    --wallpaper-bg-dim: 0 !important;
+    --app-bg-blur: 0px !important;
+    --ambient-blur-orb: 0px !important;
+    --ambient-blur-wave: 0px !important;
+  }
+
+  html[data-has-wallpaper="true"] #global-wallpaper-layer,
+  html[data-has-wallpaper="true"][data-card-style] #global-wallpaper-layer,
+  #global-wallpaper-layer[data-has-wallpaper="true"],
+  html[data-has-wallpaper="true"] #global-wallpaper-layer :is(img, video, iframe, canvas, div),
+  #global-wallpaper-layer[data-has-wallpaper="true"] :is(img, video, iframe, canvas, div),
+  #global-wallpaper-dim-layer {
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html[data-has-wallpaper="true"] #global-wallpaper-layer :is(
+    .ambient-layer-base,
+    .ambient-layer-glow,
+    .ambient-layer-abstract,
+    .ambient-layer-depth,
+    .ambient-layer-transition,
+    .ambient-orb,
+    .ambient-wave
+  ),
+  #global-wallpaper-layer[data-has-wallpaper="true"] :is(
+    .ambient-layer-base,
+    .ambient-layer-glow,
+    .ambient-layer-abstract,
+    .ambient-layer-depth,
+    .ambient-layer-transition,
+    .ambient-orb,
+    .ambient-wave
+  ) {
+    display: none !important;
+    opacity: 0 !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
+
+@media (max-width: 1023px), (max-width: 767px), (max-width: 639px) {
+  html[data-has-wallpaper="true"] #global-wallpaper-layer,
+  #global-wallpaper-layer[data-has-wallpaper="true"],
+  html[data-has-wallpaper="true"] #global-wallpaper-layer :is(img, video, iframe, canvas, div),
+  #global-wallpaper-layer[data-has-wallpaper="true"] :is(img, video, iframe, canvas, div) {
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-orb, .ambient-wave),
+  #global-wallpaper-layer[data-has-wallpaper="true"] :is(.ambient-orb, .ambient-wave) {
+    display: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
 

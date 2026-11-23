@@ -904,6 +904,34 @@ export function AboutView({
     [enforceVideoAttributes, showToast]
   );
 
+  // Intersection Observer to pause video when scrolled out of viewport and resume when entering viewport
+  useEffect(() => {
+    const el = document.getElementById('about-hero-video-container');
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        const v1 = video1Ref.current;
+        const v2 = video2Ref.current;
+
+        if (isVisible) {
+          if (!isPlayingIntroRef.current && v1 && v1.paused) {
+            tryStartVideo1(v1, isAudioOnRef.current);
+          } else if (isPlayingIntroRef.current && v2 && v2.paused) {
+            tryStartVideo2(v2, isAudioOnRef.current);
+          }
+        } else {
+          if (v1 && !v1.paused) v1.pause();
+          if (v2 && !v2.paused) v2.pause();
+        }
+      },
+      { rootMargin: '200px', threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [tryStartVideo1, tryStartVideo2]);
+
   const loadVideo1 = useCallback(
     (stage: AboutStreamStage) => {
       video1StageRef.current = stage;
@@ -1955,10 +1983,10 @@ export function AboutView({
           height: '100%',
           minHeight: '100%',
           maxHeight: '100%',
-          paddingTop: '15px',
-          paddingRight: '15px',
-          paddingBottom: '15px',
-          paddingLeft: '15px',
+          paddingTop: '12px',
+          paddingRight: '12px',
+          paddingBottom: '12px',
+          paddingLeft: '12px',
           gap: '0px',
           rowGap: '0px',
           columnGap: '0px',
@@ -1967,7 +1995,7 @@ export function AboutView({
           margin: '0 auto',
           overflow: 'hidden',
         }}
-        className="page-main-card relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border mx-auto opacity-100"
+        className="page-main-card relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-3 gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-card-1-scroll-viewport"
@@ -1982,18 +2010,18 @@ export function AboutView({
             WebkitOverflowScrolling: 'touch',
             scrollBehavior: 'smooth',
           }}
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-3 overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
         <div
           id="about-intro-grid-1"
           style={{
             padding: '0px',
-            gap: '15px',
-            rowGap: '15px',
-            columnGap: '15px',
+            gap: '12px',
+            rowGap: '12px',
+            columnGap: '12px',
             borderRadius: '14px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-[15px] p-0 rounded-[14px] items-stretch box-border"
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-3 p-0 rounded-[14px] items-stretch box-border"
         >
             
             {/* BENTO TILE 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (SAPPHIRE BLUE) */}
@@ -2009,7 +2037,7 @@ export function AboutView({
                 borderRadius: 'var(--radius-card, 16px)',
                 padding: '0px',
               }}
-              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[420px] lg:min-h-[480px] min-w-0 group/video p-0 text-left"
+              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[240px] sm:min-h-[300px] lg:min-h-0 h-full min-w-0 group/video p-0 text-left"
             >
                   <div
                     id="el-p2-div-87"
@@ -2480,7 +2508,7 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-6 auto-rows-max content-start items-start gap-2 sm:gap-2.5 self-stretch min-h-[420px] lg:min-h-[480px] min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar"
+              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-6 content-stretch items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-3 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
                   {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
                   <div className="col-span-full sm:col-span-6 w-full flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 min-w-0">
@@ -2643,7 +2671,7 @@ export function AboutView({
                       }}
                       title={`${item.label}: ${item.value}`}
                       className={cn(
-                        'about-info-subcard h-fit w-full flex flex-col justify-start gap-1.5 p-2.5 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                        'about-info-subcard h-full w-full flex flex-col justify-center gap-1 p-2 sm:px-2.5 sm:py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
                         item.colSpan,
                         item.bgCls
                       )}
@@ -2677,11 +2705,11 @@ export function AboutView({
           id="about-intro-grid-2"
           style={{
             padding: '0px',
-            gap: '15px',
-            rowGap: '15px',
-            columnGap: '15px',
+            gap: '12px',
+            rowGap: '12px',
+            columnGap: '12px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-[15px] items-start content-start box-border pb-4"
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-3 items-stretch content-start box-border"
         >
             {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (PURPLE AMETHYST) */}
             <div
@@ -2691,13 +2719,13 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                padding: '15px',
+                padding: '14px',
               }}
-              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-[14px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-start gap-[15px]">
+              <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                     <User className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
                     <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
@@ -2706,14 +2734,16 @@ export function AboutView({
                   </div>
                 </div>
 
-                {/* Body Text: Giữ nguyên 100% dữ liệu */}
-                <p className="typo-body text-[var(--text-secondary)] m-0">
-                  Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                  <strong className="font-semibold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
-                  Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
-                  khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
-                  nghiệm vượt trên cả sự mong đợi.
-                </p>
+                {/* Body Text: Giữ nguyên 100% dữ liệu, căn cân đối theo chiều cao Bento */}
+                <div className="flex-1 flex items-center">
+                  <p className="typo-body text-[var(--text-secondary)] m-0 leading-relaxed">
+                    Một chuyên gia dịch vụ khách hàng với hơn{' '}
+                    <strong className="font-semibold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
+                    Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
+                    khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
+                    nghiệm vượt trên cả sự mong đợi.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -2725,9 +2755,9 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                padding: '15px',
+                padding: '14px',
               }}
-              className="bento-card bento-color-amber glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[14px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-amber glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-[14px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2739,8 +2769,8 @@ export function AboutView({
                 </div>
               </div>
 
-              {/* 3 Pillars Grid - Sub-cards fit inner content height */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 items-stretch h-fit">
+              {/* 3 Pillars Grid - Sub-cards stretch evenly */}
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch">
                 {/* Pillar 1: Hiệu Quả */}
                 <div
                   data-subcard="true"
@@ -2823,9 +2853,9 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                padding: '15px',
+                padding: '14px',
               }}
-              className="bento-card bento-color-rose glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-rose glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[16px] p-[14px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2837,8 +2867,8 @@ export function AboutView({
                 </div>
               </div>
 
-              {/* 3 Core Values Grid - Sub-cards fit inner content height */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 items-stretch h-fit">
+              {/* 3 Core Values Grid - Sub-cards stretch evenly */}
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-stretch">
                 {/* Core Value 1: Tận tâm trách nhiệm */}
                 <div
                   data-subcard="true"
@@ -2933,13 +2963,13 @@ export function AboutView({
               data-element-page="about"
               data-element-parent="about-intro-card-1"
               style={{
-                padding: '15px',
+                padding: '14px',
               }}
-              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-start gap-[15px] text-left rounded-[16px] p-[15px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[16px] p-[14px] overflow-hidden group select-none relative"
             >
-              <div className="relative z-10 flex flex-col justify-start gap-[15px]">
+              <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
                     <Target className="w-4.5 h-4.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
                     <h3 className="typo-h3 card-title-synced font-play text-cyan-600 dark:text-cyan-400 leading-tight" data-card-title="true">
@@ -2948,8 +2978,8 @@ export function AboutView({
                   </div>
                 </div>
 
-                {/* Bố cục Câu Nói Hay (Editorial Signature Quote) */}
-                <div className="flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2.5">
+                {/* Bố cục Câu Nói Hay (Editorial Signature Quote) căn giữa tối ưu khoảng trắng */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2">
                   <WebIcon
                     name="quote"
                     className="w-6 h-6 text-cyan-500/80 dark:text-cyan-400/80 shrink-0"

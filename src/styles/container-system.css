@@ -22,37 +22,33 @@
   column-gap: 16px !important;
 }
 
-/* Card giới thiệu 1 luôn giữ đúng khoảng cách xung quanh và duy trì bố cục 2 cột responsive ở mọi kích thước */
+/* Card giới thiệu 1 luôn giữ đúng khoảng cách xung quanh và co giản Bento view tối ưu khoảng trắng */
 html #about-intro-card-1 {
   container-type: inline-size;
   container-name: main-card;
-  padding: var(--main-card-padding, 20px) !important;
-  padding-top: var(--main-card-padding, 20px) !important;
-  padding-right: var(--main-card-padding, 20px) !important;
-  padding-bottom: var(--main-card-padding, 20px) !important;
-  padding-left: var(--main-card-padding, 20px) !important;
-  gap: 16px !important;
-  row-gap: 16px !important;
-  column-gap: 16px !important;
+  padding: clamp(10px, 1.2cqi, 14px) !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
   align-items: stretch !important;
 }
 
 html #about-intro-grid-1 {
   display: grid !important;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
+  grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr) !important;
   width: 100% !important;
   flex: 0 0 auto !important;
   height: auto !important;
-  min-height: 460px !important;
+  min-height: clamp(275px, 41vh, 400px) !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 0 !important;
-  gap: var(--mc-gap, 15px) !important;
-  row-gap: var(--mc-gap, 15px) !important;
-  column-gap: var(--mc-gap, 15px) !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
   align-items: stretch !important;
   overflow: visible !important;
   box-sizing: border-box !important;
@@ -61,7 +57,7 @@ html #about-intro-grid-1 {
 html #about-hero-video-container,
 html #about-personal-info-card-right {
   height: 100% !important;
-  min-height: 460px !important;
+  min-height: clamp(275px, 41vh, 400px) !important;
   min-width: 0 !important;
   align-self: stretch !important;
   box-sizing: border-box !important;
@@ -70,16 +66,24 @@ html #about-personal-info-card-right {
 html #about-personal-info-card-right {
   container-type: inline-size;
   container-name: about-info-panel;
+  grid-template-rows: auto repeat(4, minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  align-items: stretch !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
 
-/* Detail View Occupancy: Khi mở chi tiết dự án / lĩnh vực / hệ thống / học vấn / kỹ năng / kinh nghiệm -> lấp đầy 100% thẻ chính */
+/* Detail View Occupancy & Experience Chromatic Folds Full Fill: lấp đầy 100% thẻ chính */
+html #experience-main-card,
 html #experience-main-card[data-detail-open="true"],
 html .page-main-card[data-detail-open="true"]:not([data-detail-overlay="true"]),
 html [data-main-card="true"][data-detail-open="true"]:not([data-detail-overlay="true"]) {
   position: relative !important;
   padding: 0 !important;
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
   gap: 0 !important;
   row-gap: 0 !important;
   column-gap: 0 !important;
@@ -96,6 +100,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 @container about-info-panel (max-width: 319px) {
   #about-personal-info-card-right {
     grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto !important;
     grid-auto-rows: max-content !important;
     align-content: start !important;
     align-items: start !important;
@@ -245,7 +250,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #about-intro-card-2-scroll-viewport,
 #about-intro-grid-2,
 #services-main-content,
-#services-main-content #services-cards-wrapper,
 #services-main-content .services-cards-grid,
 #interview-main-content,
 #systems-page-container .systems-cards-grid,
@@ -320,8 +324,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 .page-main-card .exp-bento-surface-card,
 .page-main-card .partner-card,
 .page-main-card .motto-card,
-.page-main-card #interview-answers-card,
-.page-main-card #services-hero-banner {
+.page-main-card #interview-answers-card {
   padding: var(--mc-card-pad, 16px) !important;
   gap: var(--mc-gap, 16px) !important;
 }
@@ -557,13 +560,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
 
-  /* About Card 1 luôn duy trì bố cục 2 cột song song trên mọi kích thước */
+  /* About Card 1 co giản linh hoạt theo kích thước hẹp, giữ mật độ tối ưu */
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) !important;
     gap: 10px !important;
     row-gap: 10px !important;
     column-gap: 10px !important;
-    min-height: 420px !important;
+    min-height: clamp(230px, 34vh, 330px) !important;
     height: auto !important;
     flex: 0 0 auto !important;
   }
@@ -571,6 +574,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   html #about-intro-grid-1 > #about-hero-video-container,
   html #about-intro-grid-1 > #about-personal-info-card-right {
     grid-column: span 1 / span 1 !important;
+    min-height: clamp(230px, 34vh, 330px) !important;
   }
 
   #bento-letter-video {
@@ -598,9 +602,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -707,10 +710,10 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: 1 / -1 !important;
   }
 
-  /* About Card 1 duy trì tỷ lệ Video / Thông tin chi tiết cùng 1 hàng */
+  /* About Card 1 duy trì tỷ lệ Video / Thông tin chi tiết co giản cân đối */
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
-    min-height: 440px !important;
+    grid-template-columns: minmax(0, 1.32fr) minmax(0, 1fr) !important;
+    min-height: clamp(260px, 38vh, 370px) !important;
     height: auto !important;
     flex: 0 0 auto !important;
   }
@@ -718,6 +721,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   html #about-intro-grid-1 > #about-hero-video-container,
   html #about-intro-grid-1 > #about-personal-info-card-right {
     grid-column: span 1 / span 1 !important;
+    min-height: clamp(260px, 38vh, 370px) !important;
   }
 
   #about-intro-card-2-scroll-viewport,
@@ -742,10 +746,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services fluid responsive auto-fit grid */
-  #services-main-content #services-cards-wrapper,
+  /* Services shrinks cleanly to 2 columns (2 cols x 3 rows) matching Systems */
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 275px), 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -866,8 +869,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
-    min-height: 460px !important;
+    grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr) !important;
+    min-height: clamp(275px, 41vh, 400px) !important;
     height: auto !important;
     flex: 0 0 auto !important;
   }
@@ -875,6 +878,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #about-hero-video-container,
   #about-personal-info-card-right {
     grid-column: span 1 / span 1 !important;
+    min-height: clamp(275px, 41vh, 400px) !important;
   }
 
   #about-career-goal-card,
@@ -887,9 +891,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
-  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 295px), 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1007,8 +1010,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   html #about-intro-grid-1 {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
-    min-height: 460px !important;
+    grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr) !important;
+    min-height: clamp(275px, 41vh, 400px) !important;
     height: auto !important;
     flex: 0 0 auto !important;
   }
@@ -1016,6 +1019,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #about-hero-video-container,
   #about-personal-info-card-right {
     grid-column: span 1 / span 1 !important;
+    min-height: clamp(275px, 41vh, 400px) !important;
   }
 
   #about-career-goal-card,
@@ -1028,9 +1032,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
-  #services-main-content #services-cards-wrapper,
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 305px), 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     width: 100% !important;
     max-width: 100% !important;

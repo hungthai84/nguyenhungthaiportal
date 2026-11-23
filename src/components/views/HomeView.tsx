@@ -391,8 +391,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   borderRadius: 'var(--radius-main, 30px)',
                 }}
                 className={cn(
-                  'page-main-card home-screen-main-card relative shrink-0 h-full min-h-full flex flex-col justify-between overflow-hidden select-none font-play box-border transition-opacity duration-300',
-                  !isActive ? 'cursor-pointer opacity-80 hover:opacity-100' : 'opacity-100'
+                  'page-main-card home-screen-main-card relative shrink-0 h-full min-h-full flex flex-col justify-between overflow-hidden select-none font-play box-border',
+                  !isActive ? 'cursor-pointer opacity-100' : 'opacity-100'
                 )}
               >
                 {/* Khung Video & Nội dung bên trong Main Card của màn hình (Định dạng chuẩn Video card Giới thiệu) */}
@@ -435,17 +435,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       loopVideo1={true}
                       capsuleVariant="home"
                       className="absolute inset-0 z-0 pointer-events-auto"
-                    />
-
-                    {/* Viền vi khí hậu nhẹ trong suốt đảm bảo video luôn sáng rõ, sắc nét và tương phản cao */}
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 z-10 rounded-[inherit]"
-                      style={{
-                        background: isDark
-                          ? 'linear-gradient(180deg, transparent 75%, rgba(2,6,23,0.45) 100%)'
-                          : 'linear-gradient(180deg, transparent 80%, rgba(15,23,42,0.25) 100%)',
-                      }}
                     />
 
                     {/* Lớp nội dung nhãn top màn hình */}

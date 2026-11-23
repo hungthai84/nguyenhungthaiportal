@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
+import { driveImageUrl } from '@/config/driveMediaLinks';
 
 export interface AiMascotWidgetProps {
   visible: boolean;
@@ -11,13 +13,12 @@ export interface AiMascotWidgetProps {
   onOpenAiAssistant: () => void;
 }
 
-const TRANSPARENT_VIDEO_SRC = '/assets/widgets/ai-mascot-transparent.webm';
+const MASCOT_GIF_FILE_ID = '14ScbYnvrwlUqj8NtPZcIrAbmVcH991BD';
 
-const POSE_FRAMES = [
+const MASCOT_IMAGE_SOURCES = [
+  driveImageUrl(MASCOT_GIF_FILE_ID),
+  `https://drive.google.com/thumbnail?id=${MASCOT_GIF_FILE_ID}&sz=w1000`,
   '/assets/widgets/ai-mascot-welcome.png',
-  '/assets/widgets/ai-mascot-wave.png',
-  '/assets/widgets/ai-mascot-jump.png',
-  '/assets/widgets/ai-mascot-wave.png',
 ];
 
 function usePrefersReducedMotion(): boolean {
@@ -51,37 +52,21 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
   const { language } = useLanguage();
   const isEn = language === 'en';
   const prefersReducedMotion = usePrefersReducedMotion();
-  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const [videoFailed, setVideoFailed] = useState(false);
-  const [useAnimatedWebp, setUseAnimatedWebp] = useState(true);
-  const [poseIdx, setPoseIdx] = useState(0);
-  const [webpFailed, setWebpFailed] = useState(false);
-  const [pngFailed, setPngFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const [srcIndex, setSrcIndex] = useState(0);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [allImagesFailed, setAllImagesFailed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Ensure transparent mascot video stays autoplaying smoothly when visible
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v || !visible || prefersReducedMotion || videoFailed) return;
-    v.defaultMuted = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    v.controls = false;
-    if (v.paused) {
-      v.play().catch(() => {});
-    }
-  }, [visible, prefersReducedMotion, videoFailed]);
+  const currentSrc = MASCOT_IMAGE_SOURCES[srcIndex];
 
-  // Subtle pose cycle fallback only if both transparent video and animated webp fail
   useEffect(() => {
-    if (!visible || prefersReducedMotion || !videoFailed || (useAnimatedWebp && !webpFailed)) return;
-    const interval = window.setInterval(() => {
-      setPoseIdx((prev) => (prev + 1) % POSE_FRAMES.length);
-    }, 1800);
-    return () => window.clearInterval(interval);
-  }, [visible, prefersReducedMotion, videoFailed, useAnimatedWebp, webpFailed]);
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      setIsImageLoaded(true);
+    }
+  }, [currentSrc, visible]);
 
   if (!visible || widthPx <= 0) {
     return null;
@@ -90,13 +75,6 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
   const label = isEn
     ? 'Tri Nhan AI Assistant — Click to open AI Assistant'
     : 'Trợ lý AI Trí Nhân — Nhấn để mở Trợ lý AI';
-
-  const fallbackSrc =
-    prefersReducedMotion
-      ? '/assets/widgets/ai-mascot-welcome.png'
-      : useAnimatedWebp && !webpFailed
-        ? '/assets/widgets/ai-mascot-loop.webp'
-        : POSE_FRAMES[poseIdx];
 
   return (
     <div
@@ -145,7 +123,7 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
           {isEn ? 'Ask AI Assistant' : 'Hỏi Trợ lý AI'}
         </span>
 
-        {/* Video xóa nền (VP9 alpha transparent WebM) */}
+        {/* Hình GIF Trợ lý AI từ Google Drive */}
         <span
           className={`block w-full pointer-events-none select-none bg-transparent ${
             prefersReducedMotion ? '' : 'ai-mascot-motion-layer'
@@ -156,55 +134,45 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
             background: 'transparent',
           }}
         >
-          {!prefersReducedMotion && !videoFailed ? (
-            <video
-              ref={videoRef}
-              src={TRANSPARENT_VIDEO_SRC}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              controls={false}
-              disablePictureInPicture
-              controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-              poster="/assets/widgets/ai-mascot-welcome.png"
-              aria-hidden="true"
-              tabIndex={-1}
-              onLoadedData={(e) => {
-                const v = e.currentTarget;
-                v.defaultMuted = true;
-                v.muted = true;
-                v.loop = true;
-                v.controls = false;
-                if (v.paused) v.play().catch(() => {});
+          {!allImagesFailed ? (
+            <motion.img
+              ref={imgRef}
+              src={currentSrc}
+              alt={isEn ? 'Animated AI Mascot' : 'Nhân vật Trợ lý AI'}
+              draggable={false}
+              decoding="async"
+              referrerPolicy="no-referrer"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 6, scale: 0.97 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1 }
+                  : {
+                      opacity: isImageLoaded ? 1 : 0,
+                      y: isImageLoaded ? 0 : 6,
+                      scale: isImageLoaded ? 1 : 0.97,
+                    }
+              }
+              transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+              onLoad={() => setIsImageLoaded(true)}
+              onError={() => {
+                setIsImageLoaded(false);
+                if (srcIndex < MASCOT_IMAGE_SOURCES.length - 1) {
+                  setSrcIndex((prev) => prev + 1);
+                } else {
+                  setAllImagesFailed(true);
+                }
               }}
-              onError={() => setVideoFailed(true)}
               style={{ background: 'transparent' }}
               className="w-full h-full object-contain block pointer-events-none select-none bg-transparent"
             />
-          ) : !pngFailed ? (
-            <img
-              src={fallbackSrc}
-              alt={isEn ? 'Animated AI Mascot' : 'Nhân vật Trợ lý AI'}
-              loading="lazy"
-              draggable={false}
-              decoding="async"
-              onError={() => {
-                if (useAnimatedWebp && !webpFailed) {
-                  setWebpFailed(true);
-                  setUseAnimatedWebp(false);
-                } else {
-                  setPngFailed(true);
-                }
-              }}
-              className="w-full h-full object-contain block pointer-events-none select-none"
-            />
           ) : (
-            <svg
+            <motion.svg
               viewBox="0 0 120 120"
               className="w-full h-full block pointer-events-none"
               aria-hidden="true"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 6, scale: 0.97 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <circle cx="32" cy="34" r="18" fill="#eef4fb" stroke="#7dd3fc" strokeWidth="3" />
               <circle cx="88" cy="34" r="18" fill="#eef4fb" stroke="#7dd3fc" strokeWidth="3" />
@@ -213,7 +181,7 @@ export const AiMascotWidget: React.FC<AiMascotWidgetProps> = ({
               <circle cx="70" cy="54" r="6" fill="#06b6d4" />
               <rect x="44" y="84" width="32" height="24" rx="12" fill="#f1f5f9" stroke="#7dd3fc" strokeWidth="2" />
               <circle cx="60" cy="95" r="6" fill="#22d3ee" />
-            </svg>
+            </motion.svg>
           )}
         </span>
       </button>

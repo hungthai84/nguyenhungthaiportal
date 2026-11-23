@@ -764,9 +764,15 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card,
-#experience-main-card,
 #ai-assistant-main-card {
   padding: var(--main-card-padding, 20px) !important;
+}
+
+#experience-main-card {
+  padding: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
 }
 
 #home-main-card,
@@ -778,9 +784,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   position: relative !important;
 }
 
-/* WEATHER CARD & HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT & MAX FULL SIZE */
-#weather-card,
-.weather-card,
+/* HOROSCOPE SLIDE CONTAINERS 100% TRANSPARENT & MAX FULL SIZE */
 #el-p10-div-114,
 #el-p10-div-170 {
   background-color: transparent !important;
@@ -930,21 +934,26 @@ html[data-card-style] #horoscope-card-work-synergy-check,
 html[data-card-style] #weather-widget-card,
 html.dark #weather-widget-card,
 html.dark[data-card-style] #weather-widget-card {
-  height: 64px !important;
-  padding-left: 8px !important;
-  padding-right: 8px !important;
+  height: 50px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
   border-radius: 10px !important;
-  background-color: transparent !important;
-  background: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: var(--bg-subcard, var(--surface-secondary-bg, var(--bg-nav-pill))) !important;
+  border: 1px solid var(--border-subcard, var(--surface-secondary-border, var(--border-color))) !important;
+  box-shadow: var(--elev-subcard-l1, var(--shadow-subcard, 0 2px 8px rgba(15, 23, 42, 0.08))) !important;
+  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#weather-widget-card:hover,
+html[data-card-style] #weather-widget-card:hover,
+html.dark #weather-widget-card:hover,
+html.dark[data-card-style] #weather-widget-card:hover {
+  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 38%, var(--border-subcard, var(--border-color))) !important;
+  box-shadow: var(--elev-subcard-l1-hover, var(--shadow-subcard-hover, 0 6px 16px rgba(15, 23, 42, 0.12))) !important;
 }
 
 /* BUTTON & HOME SCREEN SWITCHER DOCK BORDER RADIUS 999PX FORMAT */
-button,
+button:not(#weather-widget-card):not([data-weather-card="true"]),
 [data-element-type="button"],
 .btn-pill,
 .theme-capsule-btn,
@@ -1723,11 +1732,15 @@ html[data-card-style="light-deep-ocean"] :is(
 .banner-card .banner-primary-cta,
 .hero-banner .banner-search-input,
 .banner-card .banner-search-input {
-  height: 36px !important;
-  min-height: 36px !important;
-  max-height: 36px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  height: auto !important;
+  min-height: 38px !important;
+  max-height: none !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+  font-size: var(--fs-h3, 20px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: 1.25 !important;
   box-sizing: border-box !important;
 }
 
@@ -1735,27 +1748,27 @@ html[data-card-style="light-deep-ocean"] :is(
   background: var(--bg-banner-input, var(--bg-input)) !important;
   color: var(--text-banner-input, var(--text-primary)) !important;
   border-color: var(--border-banner-input, var(--border-color)) !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  font-family: var(--font-family-body, 'Play', sans-serif) !important;
-  font-size: var(--fs-button, 14px) !important;
-  font-weight: var(--fw-bold, 700) !important;
-  line-height: var(--lh-button, 1.35) !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+  font-size: var(--fs-h3, 20px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: 1.25 !important;
   letter-spacing: 0.01em !important;
 }
 
 .banner-search-input::placeholder {
-  font-family: var(--font-family-body, 'Play', sans-serif) !important;
-  font-size: var(--fs-button, 14px) !important;
-  font-weight: var(--fw-bold, 700) !important;
-  line-height: var(--lh-button, 1.35) !important;
+  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+  font-size: var(--fs-h3, 20px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: 1.25 !important;
   opacity: 0.78;
 }
 
 @media (max-width: 767px) {
   .banner-search-input,
   .banner-search-input::placeholder {
-    font-size: var(--fs-button, 14px) !important;
+    font-size: clamp(13px, 3.5vw, 17px) !important;
   }
 }
 
@@ -3977,7 +3990,7 @@ html #education-courses-grid .education-course-card,
 /* SERVICES VIEW: DOMAIN CARDS & FLIP MORPH EXPANSION SYSTEM                 */
 /* ========================================================================= */
 #services-page-container #services-hero-banner {
-  padding: clamp(12px, 1.5cqi, 18px) !important;
+  padding: 15px !important;
   box-sizing: border-box !important;
 }
 
@@ -3989,10 +4002,26 @@ html #education-courses-grid .education-course-card,
   container-name: service-card;
 }
 
-#services-page-container #services-cards-wrapper,
-#services-page-container .services-cards-grid {
+#services-page-container #services-cards-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Lưới Dịch vụ: Bố cục 3 cột mặc định, thu nhỏ chuyển 2 cột giống Hệ thống */
+#services-page-container .services-cards-grid,
+#services-cards-grid.services-cards-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 305px), 1fr)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   grid-auto-rows: 1fr !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -4012,7 +4041,21 @@ html #education-courses-grid .education-course-card,
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
 }
 
-#services-page-container #services-cards-wrapper.grid-dimmed,
+@media (max-width: 959px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid.services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+#services-page-container .services-cards-grid > * {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+
 #services-page-container .services-cards-grid.grid-dimmed {
   opacity: 0.12 !important;
   transform: scale(0.96) !important;
@@ -4043,10 +4086,14 @@ html #education-courses-grid .education-course-card,
   cursor: pointer;
 }
 
+#services-page-container .domain-card .service-card-body-row {
+  grid-template-columns: minmax(0, 1fr) clamp(172px, 52cqi, 232px) !important;
+}
+
 #services-page-container .domain-card .service-card-illustration {
-  width: clamp(132px, 43cqi, 180px) !important;
-  min-height: 165px !important;
-  height: auto !important;
+  width: 100% !important;
+  min-height: 292px !important;
+  height: 100% !important;
   align-self: stretch !important;
   flex-shrink: 0;
 }
@@ -4078,17 +4125,20 @@ html #education-courses-grid .education-course-card,
   flex: 0 1 auto;
 }
 
-@container service-card (max-width: 280px) {
+@container service-card (max-width: 330px) {
   #services-page-container .domain-card .service-card-body-row {
-    flex-direction: column-reverse !important;
-    align-items: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
     gap: 10px !important;
   }
 
   #services-page-container .domain-card .service-card-illustration {
-    width: min(100%, 160px) !important;
-    height: 150px !important;
-    min-height: 150px !important;
+    width: min(100%, 260px) !important;
+    height: 240px !important;
+    min-height: 240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   #services-page-container .domain-card .service-kpi-grid {
@@ -5317,19 +5367,33 @@ html[data-card-style="dark-liquid-glass"] :is(
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 2 và 3 chiếm đúng 50% / 1 cột của grid 2 cột, không phình 1168px */
+/* THƯ NGỎ HÀNG 2: Card 2 và 3 xếp ngang cách nhau 15px, kích thước bằng Card 1 */
 #letter-cards-row-2-3 {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   width: 100% !important;
   max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   box-sizing: border-box !important;
 }
 
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  flex: 1 1 0% !important;
+  width: var(--letter-card-1-w, 100%) !important;
+  min-width: var(--letter-card-1-w, 100%) !important;
+  max-width: var(--letter-card-1-w, 100%) !important;
+  height: var(--letter-card-1-h, auto) !important;
+  min-height: var(--letter-card-1-h, 0px) !important;
+  max-height: var(--letter-card-1-h, none) !important;
+  flex: 0 0 var(--letter-card-1-w, 100%) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   box-sizing: border-box !important;
 }
 
@@ -5363,12 +5427,20 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 }
 
 /* ========================================================================= */
-/* THẺ DỊCH VỤ (SERVICES CARDS): AUTO-FIT TRONG THẺ CHÍNH & ẢNH LỚN GẤP 3    */
+/* THẺ DỊCH VỤ (SERVICES CARDS): FORMAT HỆ THỐNG & ẢNH LỚN GẤP ĐÔI           */
 /* ========================================================================= */
-#services-page-container #services-cards-wrapper,
-#services-page-container .services-cards-grid {
+#services-page-container #services-cards-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+#services-page-container .services-cards-grid,
+#services-cards-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 305px), 1fr)) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   grid-auto-rows: 1fr !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -5379,14 +5451,21 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   column-gap: 15px !important;
 }
 
-/* Thẻ Dịch vụ: Hình ảnh bên phải lớn (~3x diện tích), không hiệu ứng màu (no filter, no drop-shadow) */
+@media (max-width: 959px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Thẻ Dịch vụ: Hình ảnh bên phải gấp đôi kích thước, không hiệu ứng màu (no filter, no drop-shadow) */
 #services-page-container .domain-card .service-card-illustration {
   align-self: stretch !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   height: 100% !important;
-  min-height: 165px !important;
+  min-height: 292px !important;
 }
 
 #services-page-container .domain-card .service-img-pop {
@@ -5441,16 +5520,17 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 /* EXPERIENCE VIEW: CHROMATIC FOLDS (HIỆU ỨNG XẾP GIẤY ACCORDION 8 CỘT MỐC)  */
 /* ========================================================================= */
 #experience-timeline-board .exp-chromatic-stage {
-  --accordion-angle: -3deg;
+  --accordion-angle: 0deg;
   --fold-label-angle: 90deg;
   position: relative;
-  flex: 1 1 auto;
+  flex: 1 1 0%;
   min-height: 0;
   width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 58px 46px 40px;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0 !important;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -5459,10 +5539,11 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   display: flex;
   width: 100%;
   height: 100%;
-  min-height: 330px;
-  max-height: 540px;
+  flex: 1 1 0%;
+  min-height: 0;
+  max-height: none;
   isolation: isolate;
-  transform: rotate(var(--accordion-angle));
+  transform: none;
   transform-origin: center center;
 }
 
@@ -5473,19 +5554,25 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   z-index: calc(var(--n) - var(--i));
   flex: 1 1 0%;
   min-width: 0;
+  height: 100%;
+  min-height: 0;
   margin-right: -1px;
   padding: 0;
   border: 0;
   border-radius: 0 !important;
   overflow: hidden;
   cursor: pointer;
-  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+  clip-path: none;
   transition: flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
   will-change: flex;
 }
 
+#experience-timeline-board .exp-fold-swatch:last-child {
+  margin-right: 0;
+}
+
 #experience-timeline-board .exp-fold-swatch:nth-child(even) {
-  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+  clip-path: none;
 }
 
 @supports (width: calc(sibling-index() * 1px)) {
@@ -5497,8 +5584,28 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 
 #experience-timeline-board .exp-fold-swatch.is-expanded,
 #experience-timeline-board .exp-fold-swatch:focus-visible {
-  flex: 5.2 1 0%;
+  flex: 6.2 1 0%;
   z-index: 25;
+}
+
+#experience-timeline-board[data-unfolding="true"] .exp-fold-swatch {
+  transition: flex 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease !important;
+  pointer-events: none;
+}
+
+#experience-timeline-board[data-unfolding="true"] .exp-fold-swatch:not(.is-unfolding) {
+  flex: 0.0001 1 0% !important;
+  min-width: 0 !important;
+  opacity: 0.08 !important;
+}
+
+#experience-timeline-board[data-unfolding="true"] .exp-fold-swatch.is-unfolding {
+  flex: 1 1 100% !important;
+  z-index: 32 !important;
+}
+
+#experience-timeline-board[data-unfolding="true"] .exp-fold-swatch.is-unfolding .exp-fold-shading {
+  opacity: 0 !important;
 }
 
 #experience-timeline-board .exp-fold-swatch:focus-visible {
@@ -5535,7 +5642,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   opacity: 0.28;
 }
 
-/* Mặt gáy gấp gọn (hiển thị số thứ tự nghiêng theo --fold-angle + logo + tên công ty xoay 90deg) */
+/* Mặt gáy gấp gọn (bỏ hiệu ứng nghiêng, giữ thẳng đứng gọn gàng) */
 #experience-timeline-board .exp-fold-spine {
   position: absolute;
   inset: 0;
@@ -5555,23 +5662,23 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 
 #experience-timeline-board .exp-fold-num {
   position: absolute;
-  top: 22px;
+  top: 68px;
   left: 50%;
   font-family: "Courier New", Courier, monospace;
   font-size: 18px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.92);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
-  transform: translateX(-50%) skewY(var(--fold-angle, 4deg));
+  transform: translateX(-50%);
   line-height: 1;
   white-space: nowrap;
 }
 
 #experience-timeline-board .exp-fold-spine-logo {
   position: absolute;
-  top: 56px;
+  top: 102px;
   left: 50%;
-  transform: translateX(-50%) skewY(var(--fold-angle, 4deg));
+  transform: translateX(-50%);
   width: 34px;
   height: 34px;
   border-radius: 9999px;
@@ -5597,22 +5704,22 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
   white-space: nowrap;
   transform-origin: center;
-  transform: translate(-50%, -50%) skewY(var(--fold-angle, 4deg)) rotate(var(--fold-label-angle));
+  transform: translate(-50%, -50%) rotate(var(--fold-label-angle));
 }
 
-/* Mặt mở rộng chứa 100% dữ liệu thật của cột mốc — nghiêng đồng bộ theo nếp gấp giấy */
+/* Mặt mở rộng chứa 100% dữ liệu thật của cột mốc (thẳng đứng, bỏ hiệu ứng nghiêng) */
 #experience-timeline-board .exp-fold-sheet {
   position: relative;
-  top: 2.5%;
+  top: 0;
   z-index: 14;
   width: 100%;
-  height: 95%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   opacity: 0;
   pointer-events: none;
   transform-origin: center center;
-  transform: skewY(var(--fold-angle, 3deg));
+  transform: none;
   transition: opacity 0.32s ease 0.08s, transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform, opacity;
 }
@@ -5620,18 +5727,38 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-sheet {
   opacity: 1;
   pointer-events: auto;
-  transform: skewY(var(--fold-angle, 3deg));
+  transform: none;
+}
+
+@keyframes expDetailUnfoldIn {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.95) scaleY(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1) scaleY(1);
+  }
+}
+
+#experience-job-detail-card.exp-detail-unfold-in {
+  transform-origin: center center;
+  animation: expDetailUnfoldIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (max-width: 1120px) {
   #experience-timeline-board .exp-chromatic-stage {
-    padding: 56px 34px 38px;
+    padding: 0 !important;
   }
   #experience-timeline-board .exp-fold-spine-label {
     font-size: 12px;
   }
   #experience-timeline-board .exp-fold-num {
+    top: 64px;
     font-size: 15px;
+  }
+  #experience-timeline-board .exp-fold-spine-logo {
+    top: 96px;
   }
 }
 
@@ -5639,7 +5766,9 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   #experience-timeline-board .exp-fold-swatch,
   #experience-timeline-board .exp-fold-shading,
   #experience-timeline-board .exp-fold-spine,
-  #experience-timeline-board .exp-fold-sheet {
+  #experience-timeline-board .exp-fold-sheet,
+  #experience-job-detail-card.exp-detail-unfold-in {
     transition: none !important;
+    animation: none !important;
   }
 }

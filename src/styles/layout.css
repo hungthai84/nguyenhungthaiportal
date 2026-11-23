@@ -3,11 +3,11 @@
 /* ========================================================================= */
 
 #website-root {
-  --shell-section-gap: 10px;
+  --shell-section-gap: 15px;
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 10px);
+  gap: var(--shell-section-gap, 15px);
 }
 
 #website-root:has(#pdf-page-container) {
@@ -16,9 +16,9 @@
 
 #app-header-container,
 #el-p0-div-98 {
-  flex: 0 0 10% !important;
-  height: 10% !important;
-  max-height: 10% !important;
+  flex: 0 0 12% !important;
+  height: 12% !important;
+  max-height: 12% !important;
   min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -270,8 +270,7 @@
 #horoscope-cards-track > [data-main-card="true"],
 #horoscope-row-1-horizontal > [data-main-card="true"],
 #letter-cards-track > .page-main-card,
-#letter-cards-track > [data-main-card="true"],
-#letter-cards-row-2-3 > [data-main-card="true"] {
+#letter-cards-track > [data-main-card="true"] {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -744,17 +743,19 @@
 
 /* Desktop & Laptop (≥1024px) Hero Banner Rules */
 @media (min-width: 1024px) {
-  .hero-banner:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner),
-  .banner-card:not(#projects-hero-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner) {
+  .hero-banner:not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner),
+  .banner-card:not(#contact-hero-banner):not(#ai-assistant-hero-banner):not(#interview-questions-card):not(#project-detail-banner),
+  #projects-hero-banner {
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
     min-height: 200px !important;
     max-height: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-radius: var(--radius-banner, 16px) !important;
-    padding: 16px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: var(--radius-banner, 14px) !important;
+    padding: 15px !important;
+    box-sizing: border-box !important;
   }
 
   #interview-main-content {
@@ -776,18 +777,6 @@
     max-height: 100% !important;
     align-self: stretch !important;
     border-radius: var(--radius-card, 16px) !important;
-    padding: 16px !important;
-  }
-
-  #projects-hero-banner {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 200px !important;
-    height: auto !important;
-    max-height: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-radius: var(--radius-banner, 16px) !important;
     padding: 16px !important;
   }
 }

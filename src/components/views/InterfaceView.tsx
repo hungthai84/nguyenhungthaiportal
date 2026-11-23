@@ -1083,7 +1083,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   data-element-name="Danh sách nhóm thẻ giao diện"
                   data-element-type="container"
                   data-element-page="interface"
-                  className="flex flex-col gap-[16px] w-full max-w-full min-w-0"
+                  className="interface-themes-groups grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
                 >
                   {visibleGroups.map((group) => {
                     const isGroupActive = group.presets.some((p) => p.id === cardStyle);
@@ -1094,7 +1094,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         data-element-name={`Nhóm giao diện ${group.label}`}
                         data-element-type="card"
                         data-subcard="true"
-                        className="sub-card rounded-[14px] border p-[14px] flex flex-col gap-[12px] w-full min-w-0"
+                        className="interface-group-card sub-card rounded-[14px] border p-[14px] flex flex-col gap-[12px] w-full h-full min-w-0"
                         style={{
                           background: 'var(--bg-subcard)',
                           borderColor: isGroupActive
@@ -1139,7 +1139,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                         <div
                           id={`interface-group-grid-${group.id}`}
-                          className="interface-group-grid grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
+                          className="interface-group-grid flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
                         >
                           {group.presets.map((preset) => (
                             <ThemePresetCard

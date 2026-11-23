@@ -498,11 +498,9 @@ export const Footer: React.FC<FooterProps> = ({
         borderTopRightRadius: '14px',
         borderBottomRightRadius: '0px',
         borderBottomLeftRadius: '0px',
-        boxShadow: 'none',
         backdropFilter: 'none',
         WebkitBackdropFilter: 'none',
         filter: 'none',
-        transition: 'none',
         animation: 'none',
       }}
       className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"

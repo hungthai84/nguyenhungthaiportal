@@ -982,7 +982,7 @@ html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"])
 }
 
 @media (hover: hover) and (pointer: fine) {
-  /* Remove glowing box-shadow, luminous bloom, glowing text/filter on hover */
+  /* Remove glowing luminous bloom, glowing text/filter and hover jump, preserving Elevation depth */
   :is(
     #app-header button,
     #app-header a[role="button"],
@@ -993,7 +993,6 @@ html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"])
     button.nav-pill,
     .nav-pill
   ):hover:not(:active):not([data-btn-pressed="true"]) {
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
     text-shadow: none !important;
     filter: none !important;
     transform: none !important;
@@ -1234,7 +1233,7 @@ html:root body :is(#education-courses-grid, #education-page-container) :is(.educ
 }
 
 /* ========================================================================= */
-/* 7. #el-p0-div-98 (FOOTER CONTAINER): XÓA TOÀN BỘ HIỆU ỨNG Ở TẤT CẢ GIAO DIỆN */
+/* 7. #el-p0-div-98 (FOOTER WRAPPER): KHÔNG BLUR, GIỮ NGUYÊN ELEVATION ĐỘC LẬP */
 /* ========================================================================= */
 html:root body #el-p0-div-98,
 html:root[data-card-style] body #el-p0-div-98,
@@ -1245,33 +1244,15 @@ html:root[data-theme] body #el-p0-div-98 {
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   transform: none !important;
-  transition: none !important;
   animation: none !important;
-  will-change: auto !important;
 }
 
-html:root body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-card-style] body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-theme] body #el-p0-div-98 :is(*, *::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root body #el-p0-div-98 :is(*, *:hover, *:active, *:focus, *:focus-visible, *:focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-card-style] body #el-p0-div-98 :is(*, *:hover, *:active, *:focus, *:focus-visible, *:focus-within, [data-btn-pressed="true"], [data-btn-ripple="true"], [data-active="true"], [aria-current="page"]):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
-  box-shadow: none !important;
-  text-shadow: none !important;
+html:root body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
+html:root[data-card-style] body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
+html:root[data-theme] body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn) {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-  will-change: auto !important;
-}
-
-html:root body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *),
-html:root[data-card-style] body #el-p0-div-98 :is(*::before, *::after):not(#footer-lang-popup):not(#footer-lang-popup *):not(#footer-theme-popup):not(#footer-theme-popup *):not([role="dialog"]):not([role="dialog"] *):not(.theme-modal-card):not(.theme-modal-card *) {
-  display: none !important;
-  content: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
 }
 
 

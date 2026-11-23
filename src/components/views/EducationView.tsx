@@ -346,6 +346,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const handleOpenDetail = (course: EducationCourse) => {
     SoundEngine.playBookOpen();
     setSelectedCourse(course);
+    document.getElementById('education-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('education-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -496,12 +497,23 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-type="card"
         data-element-page="education"
         data-element-parent="education-cards-track"
+        className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+      >
+      <div
+        id="education-main-scroll-viewport"
         className={cn(
-          'page-main-card flex flex-col justify-start rounded-[var(--radius-main,30px)] overflow-x-hidden glass-scrollbar box-border',
-          selectedCourse ? 'p-0 gap-0 overflow-hidden' : 'p-[15px] gap-[15px] overflow-y-auto'
+          'main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
+          selectedCourse ? 'overflow-hidden' : 'overflow-y-auto'
         )}
       >
-      {/* Banner trang Học Vấn (Format đồng bộ chuẩn banner Hình Nền h-200px desktop, responsive mobile) */}
+      <div
+        id="education-main-wrapper"
+        className={cn(
+          'w-full flex-grow flex flex-col gap-[15px] justify-start',
+          selectedCourse && 'h-full flex-1 min-h-0 gap-0'
+        )}
+      >
+      {/* Banner trang Học Vấn (Kích thước đồng bộ chuẩn banner Kỹ năng) */}
       {!selectedCourse && (
         <section
           id="education-hero-banner"
@@ -513,6 +525,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
         >
         <div
+          id="education-hero-banner-bg"
           className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
           <VideoBanner
@@ -523,10 +536,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+        <div id="education-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
             <h1
+              id="education-hero-banner-title"
               className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
               data-card-title="true"
               style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
@@ -535,14 +549,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </h1>
           </div>
           <p
-            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-bold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[60%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 700, fontStyle: 'normal' }}
+            id="education-hero-banner-quote"
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
           </p>
         </div>
 
-        <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
+        <div id="education-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
           <div className="relative inline-block text-left">
             <button
               id="education-filter-toggle-btn"
@@ -552,8 +567,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              style={{ minWidth: `${matchedControlWidth}px`, height: '36px' }}
-              className="banner-control-pill h-9 inline-flex items-center justify-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
+              style={{ minWidth: `${matchedControlWidth}px` }}
+              className="banner-control-pill h-auto min-h-9 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
@@ -635,7 +650,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </AnimatePresence>
           </div>
 
-          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước rộng × cao bằng chính xác nút Bộ lọc khóa học */}
+          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước rộng × cao bằng nút Bộ lọc khóa học */}
           <div
             id="education-view-mode-switcher"
             role="group"
@@ -643,9 +658,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             style={{
               width: `${matchedControlWidth}px`,
               minWidth: `${matchedControlWidth}px`,
-              height: '36px',
             }}
-            className="banner-control-pill h-9 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
+            className="banner-control-pill h-auto min-h-9 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
           >
             <button
               type="button"
@@ -875,6 +889,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       )}
         </>
       )}
+      </div>
+      </div>
       </div>
       </div>
 

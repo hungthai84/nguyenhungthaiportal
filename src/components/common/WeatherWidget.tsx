@@ -177,8 +177,13 @@ const formatLocalizedDateInfo = (date: Date, lang: Language = 'vi') => {
     lang === 'en'
       ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
       : ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const shortDays =
+    lang === 'en'
+      ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      : ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
   const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayName = days[date.getDay()];
+  const shortDayName = shortDays[date.getDay()];
   const dd = String(date.getDate()).padStart(2, '0');
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const yyyy = date.getFullYear();
@@ -187,7 +192,20 @@ const formatLocalizedDateInfo = (date: Date, lang: Language = 'vi') => {
   const ss = String(date.getSeconds()).padStart(2, '0');
   return {
     dayName,
-    shortDate: lang === 'en' ? `${dayName}, ${monthsEn[date.getMonth()]} ${dd}, ${yyyy}` : `${dayName}, ${dd}/${mm}/${yyyy}`,
+    shortDayName,
+    dd,
+    mm,
+    yyyy,
+    compactDate:
+      lang === 'en' ? `${monthsEn[date.getMonth()]} ${dd}, ${yyyy}` : `${dd}/${mm}/${yyyy}`,
+    fullMonthDate:
+      lang === 'en'
+        ? `${monthsEn[date.getMonth()]} ${dd}, ${yyyy}`
+        : `Ngày ${dd} Tháng ${mm}, ${yyyy}`,
+    shortDate:
+      lang === 'en'
+        ? `${dayName}, ${monthsEn[date.getMonth()]} ${dd}, ${yyyy}`
+        : `${dayName}, ${dd}/${mm}/${yyyy}`,
     fullDateHeader:
       lang === 'en'
         ? `${dayName}, ${monthsEn[date.getMonth()]} ${date.getDate()}, ${yyyy}`
@@ -408,11 +426,24 @@ const DEFAULT_PRESET: WeatherPreset = {
   location: 'Hồ Chí Minh',
 };
 
+const resolveTimezoneCityName = (): string => {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz.includes('Ho_Chi_Minh') || tz.includes('Saigon')) return 'Hồ Chí Minh';
+    if (tz.includes('Hanoi')) return 'Hà Nội';
+    const cityPart = tz.split('/').pop();
+    if (cityPart) return cityPart.replace(/_/g, ' ');
+  } catch {
+    // Fallback below
+  }
+  return 'Hồ Chí Minh';
+};
+
 export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   currentPreset = DEFAULT_PRESET,
   onCycle,
   onShowNotification,
-  currentTheme,
+  currentTheme: _currentTheme,
 }) => {
   const { showToast } = useToast();
   const { language } = useLanguage();
@@ -448,11 +479,29 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
       );
     }
 
-    const fetchFromCoords = async (lat: number, lon: number, locName: string) => {
+    const fetchFromCoords = async (lat: number, lon: number, fallbackName: string, shouldReverseGeocode = false) => {
       try {
+        let locName = fallbackName;
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
-        const res = await fetch(url);
-        const data = await res.json();
+        const weatherPromise = fetch(url).then((r) => r.json());
+
+        const geoPromise = shouldReverseGeocode
+          ? fetch(
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${isEn ? 'en' : 'vi'}`,
+              { signal: AbortSignal.timeout(3000) }
+            )
+              .then((r) => (r.ok ? r.json() : null))
+              .catch(() => null)
+          : Promise.resolve(null);
+
+        const [data, geoData] = await Promise.all([weatherPromise, geoPromise]);
+        if (geoData) {
+          const detected = geoData.city || geoData.locality || geoData.principalSubdivision;
+          if (typeof detected === 'string' && detected.trim().length > 0) {
+            locName = detected.replace(/^Thành phố\s+/i, '').trim();
+          }
+        }
+
         const tempVal = Math.round(data.current?.temperature_2m ?? 34);
         const code = data.current?.weather_code ?? 0;
 
@@ -492,8 +541,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           SoundEngine.playWeatherFeedback(condition);
           const condDisplay = isEn ? condition : conditionVi;
           const msg = isEn
-            ? `Live weather synced: ${tempVal}°C • ${condDisplay}`
-            : `Đã đồng bộ thời tiết thực: ${tempVal}°C • ${condDisplay}`;
+            ? `Live weather synced (${locName}): ${tempVal}°C • ${condDisplay}`
+            : `Đã đồng bộ thời tiết (${locName}): ${tempVal}°C • ${condDisplay}`;
           showToast(msg);
           onShowNotification?.(msg);
         }
@@ -506,14 +555,15 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
       }
     };
 
+    const tzCity = resolveTimezoneCityName();
     if (typeof window !== 'undefined' && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => fetchFromCoords(pos.coords.latitude, pos.coords.longitude, 'Hồ Chí Minh'),
-        () => fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh'),
+        (pos) => fetchFromCoords(pos.coords.latitude, pos.coords.longitude, tzCity, true),
+        () => fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh', false),
         { timeout: 5000 }
       );
     } else {
-      fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh');
+      fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh', false);
     }
   };
 
@@ -523,57 +573,47 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   const dateInfo = formatLocalizedDateInfo(now, language);
   const displayTemp = activePreset.temp || cardCfg.defaultTemp;
   const displayLabel = isEn ? cardCfg.condition : cardCfg.labelVi;
+  const rawLocation = activePreset.location || 'Hồ Chí Minh';
   const displayLocation =
-    isEn && (!activePreset.location || activePreset.location === 'Hồ Chí Minh')
-      ? 'Ho Chi Minh City'
-      : activePreset.location || 'Hồ Chí Minh';
+    isEn && rawLocation === 'Hồ Chí Minh' ? 'Ho Chi Minh City' : rawLocation;
 
-  const handleCycleCard = () => {
-    setManualOverride(null);
-    setLiveWeather(null);
+  const handleOpenForecastModal = () => {
     onCycle?.();
     SoundEngine.playWeatherFeedback(activePreset.condition);
+    setIsForecastOpen(true);
   };
 
   return (
     <>
       <div className="flex items-center gap-1.5 shrink-0 select-none">
-        {/* THẺ THỜI TIẾT FOOTER: BÊN TRÁI ĐỒNG HỒ HH:MM (24H) · GIỮA ICON VÀ THÔNG TIN THỜI TIẾT KHU VỰC · BÊN PHẢI THỨ NGÀY THÁNG NĂM */}
-        <div
+        {/* THẺ THỜI TIẾT FOOTER (PHIÊN BẢN CŨ): ĐỒNG HỒ HH:MM · ICON + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC · THỨ, NGÀY THÁNG NĂM */}
+        <button
           id="weather-widget-card"
+          type="button"
           data-element-type="card"
           data-weather-card="true"
-          onClick={handleCycleCard}
+          onClick={handleOpenForecastModal}
+          aria-label={
+            isEn
+              ? `Weather ${displayLabel} ${displayTemp}°C in ${displayLocation}, ${dateInfo.fullDateHeader} at ${dateInfo.timeStr}. Click to open forecast`
+              : `Thời tiết ${displayLabel} ${displayTemp}°C tại ${displayLocation}, ${dateInfo.fullDateHeader}, ${dateInfo.timeStr}. Nhấn để mở dự báo thời tiết`
+          }
           title={
             isEn
-              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
-              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.shortDate}`
+              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
+              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-full max-h-[56px] px-2 py-0.5 rounded-[10px] border-0 bg-transparent flex items-center justify-between gap-2 md:gap-2.5 lg:gap-3.5 cursor-pointer shadow-none overflow-hidden"
+          className="relative h-[50px] px-2.5 lg:px-3.5 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-3 cursor-pointer overflow-hidden text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
           style={{
-            height: 'min(56px, 100%)',
-            paddingLeft: '8px',
-            paddingRight: '8px',
             borderRadius: '10px',
-            backgroundColor: 'transparent',
-            background: 'transparent',
-            backgroundImage: 'none',
-            border: 'none',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            WebkitBackdropFilter: 'none',
-            filter: 'none',
-            transition: 'none',
-            transform: 'none',
-            animation: 'none',
           }}
         >
-          {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM */}
+          {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM (24H) */}
           <div className="relative z-20 flex flex-col items-start justify-center shrink-0">
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-heading, var(--text-primary))' }}
-              className="typo-h3 font-mono font-bold leading-none tracking-tight tabular-nums"
+              className="text-[16px] lg:text-[18px] font-mono font-bold leading-none tracking-tight tabular-nums"
             >
               {dateInfo.timeStr}
             </span>
@@ -581,62 +621,82 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 1 */}
           <div
-            className="relative z-10 w-[1px] h-7 rounded-full shrink-0"
-            style={{ backgroundColor: 'var(--divider-nav-pill)' }}
+            className="relative z-10 w-[1px] h-7 rounded-full shrink-0 opacity-70"
+            style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
+            aria-hidden="true"
           />
 
-          {/* 2. Ở GIỮA (CENTER): ICON THỜI TIẾT VÀ THÔNG TIN */}
-          <div className="relative z-20 flex items-center gap-1.5 md:gap-2 shrink-0">
-            <div className="relative shrink-0">
-              {render3DWeatherIcon(cardCfg.condition, 'w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12')}
+          {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC */}
+          <div className="relative z-20 flex items-center gap-1.5 lg:gap-2 shrink-0 min-w-0">
+            <div className="relative shrink-0 flex items-center justify-center">
+              {render3DWeatherIcon(cardCfg.condition, 'w-8 h-8 lg:w-9 lg:h-9')}
             </div>
-            <div className="flex flex-col justify-center leading-tight text-left">
-              <span
-                suppressHydrationWarning
-                style={{ color: 'var(--text-primary)' }}
-                className="typo-h4 font-bold leading-none tracking-tight font-play"
+            <div className="flex flex-col justify-center leading-tight text-left min-w-0">
+              <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+                <span
+                  suppressHydrationWarning
+                  style={{ color: 'var(--text-primary)' }}
+                  className="text-[13px] lg:text-[14px] font-bold leading-none tracking-tight font-play tabular-nums"
+                >
+                  {displayTemp}°C
+                </span>
+                <span
+                  suppressHydrationWarning
+                  style={{ color: 'var(--accent-sky, var(--text-link, var(--color-primary)))' }}
+                  className="hidden sm:inline text-[11px] lg:text-[12px] font-bold font-play leading-none whitespace-nowrap"
+                >
+                  {displayLabel}
+                </span>
+              </div>
+              <div
+                className="flex items-center gap-1 mt-0.5 min-w-0"
+                style={{ color: 'var(--text-secondary)' }}
               >
-                {displayTemp}°C
-              </span>
-              <span
-                suppressHydrationWarning
-                style={{ color: 'var(--accent-sky, var(--color-primary))' }}
-                className="typo-label font-play whitespace-nowrap mt-0.5"
-              >
-                {displayLabel}
-              </span>
+                <WebIcon
+                  name="map-pin"
+                  className="w-3 h-3 shrink-0"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
+                />
+                <span
+                  suppressHydrationWarning
+                  className="text-[10.5px] lg:text-[11px] font-medium font-play leading-none truncate max-w-[92px] sm:max-w-[110px] lg:max-w-[140px]"
+                >
+                  {displayLocation}
+                </span>
+              </div>
             </div>
           </div>
 
           {/* VÁCH NGĂN 2 */}
           <div
-            className="hidden sm:block relative z-10 w-[1px] h-7 rounded-full shrink-0"
-            style={{ backgroundColor: 'var(--divider-nav-pill)' }}
+            className="relative z-10 w-[1px] h-7 rounded-full shrink-0 opacity-70"
+            style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
+            aria-hidden="true"
           />
 
-          {/* 3. BÊN PHẢI: THỨ (CENTER), NGÀY, THÁNG, NĂM */}
-          <div className="hidden sm:flex relative z-10 items-center justify-center shrink-0 text-center leading-tight">
-            <div className="flex flex-col items-center justify-center gap-1 text-center">
-              <span
-                suppressHydrationWarning
-                style={{ color: 'var(--text-primary)' }}
-                className="w-full text-center typo-h5 font-bold font-play whitespace-nowrap leading-none tracking-tight"
-              >
-                {dateInfo.dayName}
-              </span>
-              <span
-                suppressHydrationWarning
-                style={{ color: 'var(--text-secondary)' }}
-                className="text-center typo-caption font-bold whitespace-nowrap font-mono leading-none"
-              >
-                {String(now.getDate()).padStart(2, '0')}/{String(now.getMonth() + 1).padStart(2, '0')}/{now.getFullYear()}
-              </span>
-            </div>
+          {/* 3. BÊN PHẢI: THỨ, NGÀY THÁNG NĂM */}
+          <div className="relative z-20 flex flex-col items-start justify-center gap-0.5 shrink-0 text-left leading-tight">
+            <span
+              suppressHydrationWarning
+              style={{ color: 'var(--text-primary)' }}
+              className="text-[11.5px] lg:text-[12.5px] font-bold font-play whitespace-nowrap leading-none tracking-tight"
+            >
+              <span className="md:inline xl:inline hidden sm:inline">{dateInfo.dayName}</span>
+              <span className="inline sm:hidden">{dateInfo.shortDayName}</span>
+            </span>
+            <span
+              suppressHydrationWarning
+              style={{ color: 'var(--text-secondary)' }}
+              className="text-[10.5px] lg:text-[11px] font-semibold whitespace-nowrap font-play leading-none tabular-nums"
+            >
+              <span className="xl:hidden">{dateInfo.compactDate}</span>
+              <span className="hidden xl:inline">{dateInfo.fullMonthDate}</span>
+            </span>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* MODAL BẢNG DỰ BÁO THỜI TIẾT 6 THẺ 3D GIỐNG HÌNH ĐÍNH KÈM 100% */}
+      {/* MODAL BẢNG DỰ BÁO THỜI TIẾT 6 THẺ 3D */}
       {isForecastOpen && (
         <Modal
           isOpen={isForecastOpen}
@@ -645,42 +705,93 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           icon={<WebIcon name="sun" className="w-5 h-5 text-amber-500" />}
           maxWidth="4xl"
         >
-          <div
-            className="theme-modal-subcard p-5 sm:p-8 rounded-[14px] font-play select-none"
-          >
-            <div className="text-center mb-7">
-              <h2 className="typo-h2 font-bold tracking-wide inline-flex items-center justify-center gap-2" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+          <div className="theme-modal-subcard p-5 sm:p-8 rounded-[14px] font-play select-none">
+            <div className="flex flex-col items-center text-center mb-6 gap-2">
+              <h2
+                className="typo-h2 font-bold tracking-wide inline-flex items-center justify-center gap-2"
+                style={{ color: 'var(--text-heading, var(--text-primary))' }}
+              >
                 <WebIcon name="sun" className="w-5 h-5 text-amber-500 shrink-0" />
                 <span>{isEn ? 'Weather Forecast' : 'Dự Báo Thời Tiết'}</span>
               </h2>
-              <p className="typo-body-sm font-medium mt-1" style={{ color: 'var(--text-secondary)' }} suppressHydrationWarning>
-                {dateInfo.fullDateHeader} • <span className="font-mono font-bold">{dateInfo.timeStr24Full}</span>
-              </p>
+              <div
+                className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 typo-body-sm font-medium"
+                style={{ color: 'var(--text-secondary)' }}
+                suppressHydrationWarning
+              >
+                <span className="inline-flex items-center gap-1 font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  <WebIcon name="map-pin" className="w-4 h-4 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                  <span>{displayLocation}</span>
+                </span>
+                <span aria-hidden="true">·</span>
+                <span>{dateInfo.fullDateHeader}</span>
+                <span aria-hidden="true">·</span>
+                <span className="font-mono font-bold tabular-nums">{dateInfo.timeStr24Full}</span>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => handleFetchGeoWeather(e, false)}
+                disabled={isLoadingGeo}
+                className="mt-1 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[999px] text-xs font-semibold cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-60 border"
+                style={{
+                  backgroundColor: 'var(--bg-nav-pill, var(--bg-subcard))',
+                  borderColor: 'var(--border-subcard, var(--border-color))',
+                  color: 'var(--text-link, var(--color-primary))',
+                }}
+              >
+                <WebIcon
+                  name="refresh-cw"
+                  className={`w-3.5 h-3.5 shrink-0 ${isLoadingGeo ? 'animate-spin' : ''}`}
+                />
+                <span>
+                  {isLoadingGeo
+                    ? isEn
+                      ? 'Syncing live location...'
+                      : 'Đang đồng bộ vị trí...'
+                    : isEn
+                    ? 'Sync Live Regional Weather'
+                    : 'Cập nhật thời tiết khu vực thực tế'}
+                </span>
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 max-w-3xl mx-auto">
               {Object.values(WEATHER_CARD_STYLES).map((cfg) => {
                 const isSelected = cardCfg.condition === cfg.condition;
+                const selectedCondDisplay = isEn ? cfg.condition : cfg.labelVi;
                 return (
                   <div
                     key={cfg.condition}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => {
                       SoundEngine.playWeatherFeedback(cfg.condition);
                       setManualOverride({
                         temp: cfg.defaultTemp,
                         condition: cfg.condition,
                         conditionVi: cfg.labelVi,
-                        badge: 'Hồ Chí Minh',
-                        location: 'Hồ Chí Minh',
+                        badge: rawLocation,
+                        location: rawLocation,
                       });
+                      onShowNotification?.(
+                        isEn
+                          ? `Weather switched to ${selectedCondDisplay} (${cfg.defaultTemp}°C)`
+                          : `Đã đổi thẻ thời tiết sang ${selectedCondDisplay} (${cfg.defaultTemp}°C)`
+                      );
                       setIsForecastOpen(false);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        e.currentTarget.click();
+                      }
                     }}
                     style={{
                       background: cfg.cardGradient,
                       borderColor: cfg.borderGlow,
                       boxShadow: `0 14px 30px -6px ${cfg.shadowColor}, inset 0 1.5px 2px rgba(255,255,255,0.7)`,
                     }}
-                    className={`relative h-[128px] sm:h-[136px] rounded-[14px] border px-6 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] ${
+                    className={`relative h-[128px] sm:h-[136px] rounded-[14px] border px-6 py-4 flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                       isSelected ? 'ring-4 ring-white shadow-2xl' : ''
                     }`}
                   >
@@ -708,11 +819,11 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                         </span>
                         <span className="typo-h4 font-bold text-white/95 -translate-y-2">°C</span>
                         <span className="typo-h3 font-bold text-white ml-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                          {isEn ? cfg.condition : cfg.labelVi}
+                          {selectedCondDisplay}
                         </span>
                       </div>
                       <div className="typo-caption font-medium text-white/95 mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
-                        {isEn ? 'Ho Chi Minh City' : 'Hồ Chí Minh'} • {dateInfo.timeStr}
+                        {displayLocation} • {dateInfo.timeStr}
                       </div>
                       <div className="typo-caption font-medium text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)]">
                         {dateInfo.shortDate}

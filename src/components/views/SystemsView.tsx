@@ -1171,7 +1171,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="banner-card hero-banner group w-full max-w-full min-h-[150px] h-auto lg:h-[184px] lg:min-h-[184px] lg:max-h-[184px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2.5 p-[15px] z-30 transition-all duration-300 box-border"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
             style={{
               padding: '15px',
               width: '100%',

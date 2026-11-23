@@ -543,9 +543,18 @@ export default function App() {
       className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
+      {(() => {
+        const hasActiveWallpaper = !(
+          activeWallpaper?.id === 'none' ||
+          (!activeWallpaper?.value &&
+            !activeWallpaper?.bg &&
+            (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
+        );
+        return (
       <div
         id="global-wallpaper-layer"
         data-theme-card-style={cardStyle}
+        data-has-wallpaper={hasActiveWallpaper ? 'true' : 'false'}
         data-element-name="Lớp nền hình nền động toàn website"
         data-element-type="media"
         data-element-page="global"
@@ -553,26 +562,27 @@ export default function App() {
         className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
         style={{
           backgroundColor: 'var(--app-bg-base, var(--color-bg))',
-          backgroundImage: 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback, var(--bg-main))))',
+          backgroundImage: hasActiveWallpaper
+            ? 'none'
+            : 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback, var(--bg-main))))',
+          filter: 'none',
+          WebkitFilter: 'none',
+          backdropFilter: 'none',
         }}
       >
-        {/* Lớp 1 – Base Background: Gradient chuyển sắc đa màu thống nhất */}
-        <div aria-hidden="true" className="ambient-layer-base" />
+        {/* Lớp 1 – Base Background: Chỉ hiển thị khi chưa đặt hình nền */}
+        {!hasActiveWallpaper && <div aria-hidden="true" className="ambient-layer-base" />}
 
-        {/* Active Theme Texture / Custom Wallpaper (harmonized with Ambient Layers & Live Preview) */}
-        {!(
-          activeWallpaper?.id === 'none' ||
-          (!activeWallpaper?.value &&
-            !activeWallpaper?.bg &&
-            (!activeWallpaper?.previewStyle || Object.keys(activeWallpaper.previewStyle).length === 0))
-        ) && (
+        {/* Active Theme Texture / Custom Wallpaper (0% blur, sắc nét ở mọi kích thước) */}
+        {hasActiveWallpaper && (
           <div
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full pointer-events-none transition-all duration-300"
+            className="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-300"
             style={{
               opacity: 1,
-              filter: 'blur(0px)',
-              WebkitFilter: 'blur(0px)',
+              filter: 'none',
+              WebkitFilter: 'none',
+              backdropFilter: 'none',
               transform: 'scale(1)',
             }}
           >
@@ -696,6 +706,11 @@ export default function App() {
                     decoding="async"
                     onLoad={() => setLoadedWallpaperUrl(activeImageUrl)}
                     onError={() => setLoadedWallpaperUrl('')}
+                    style={{
+                      filter: 'none',
+                      WebkitFilter: 'none',
+                      backdropFilter: 'none',
+                    }}
                     className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
                       loadedWallpaperUrl === activeImageUrl ? 'opacity-100' : 'opacity-0'
                     }`}
@@ -706,44 +721,42 @@ export default function App() {
           </div>
         )}
 
-        {/* Lớp điều chỉnh độ tối nền (Dim Scrim) theo thanh trượt Trang Hình nền (mặc định 0% mờ) */}
+        {/* Lớp điều chỉnh độ tối nền (Dim Scrim) — luôn giữ trong suốt 0% mờ */}
         <div
           id="global-wallpaper-dim-layer"
           aria-hidden="true"
-          className="absolute inset-0 pointer-events-none transition-colors duration-200"
+          className="absolute inset-0 pointer-events-none"
           style={{
             backgroundColor: 'transparent',
+            filter: 'none',
+            WebkitFilter: 'none',
+            backdropFilter: 'none',
           }}
         />
 
-        {/* Lớp 2 – Ambient Glow: Quầng sáng mềm khuếch tán phía sau nội dung */}
-        <div
-          aria-hidden="true"
-          className="ambient-layer-glow"
-          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
-        >
-          <span className="ambient-orb ambient-orb--1" />
-          <span className="ambient-orb ambient-orb--2" />
-          <span className="ambient-orb ambient-orb--3" />
-          <span className="ambient-orb ambient-orb--4" />
-        </div>
+        {/* Các lớp Ambient Glow / Abstract Wave / Depth / Transition chỉ dùng khi không đặt hình nền */}
+        {!hasActiveWallpaper && (
+          <>
+            <div aria-hidden="true" className="ambient-layer-glow">
+              <span className="ambient-orb ambient-orb--1" />
+              <span className="ambient-orb ambient-orb--2" />
+              <span className="ambient-orb ambient-orb--3" />
+              <span className="ambient-orb ambient-orb--4" />
+            </div>
 
-        {/* Lớp 3 – Abstract Background: Dải sóng màu mềm mại bằng thuần CSS */}
-        <div
-          aria-hidden="true"
-          className="ambient-layer-abstract"
-          style={activeWallpaper?.type === 'webgl' ? { opacity: 0.22 } : undefined}
-        >
-          <span className="ambient-wave ambient-wave--1" />
-          <span className="ambient-wave ambient-wave--2" />
-        </div>
+            <div aria-hidden="true" className="ambient-layer-abstract">
+              <span className="ambient-wave ambient-wave--1" />
+              <span className="ambient-wave ambient-wave--2" />
+            </div>
 
-        {/* Lớp 4 – Atmospheric Depth: Tạo chiều sâu phân tách nền và bề mặt nổi */}
-        <div aria-hidden="true" className="ambient-layer-depth" />
+            <div aria-hidden="true" className="ambient-layer-depth" />
 
-        {/* Lớp 5 – Background Transition: Đồng bộ chuyển tiếp mượt mà khi đổi Route/Theme */}
-        <div aria-hidden="true" className="ambient-layer-transition" />
+            <div aria-hidden="true" className="ambient-layer-transition" />
+          </>
+        )}
       </div>
+        );
+      })()}
 
       {/* ĐÈN KÉO DÂY (PULL CORD) Ở GÓC TRÊN BÊN TRÁI HEADER — TỰ ẨN KHI KHÔNG ĐỦ CHỖ TRỐNG */}
       {currentTabIndex !== 16 && (
@@ -753,14 +766,14 @@ export default function App() {
         />
       )}
 
-      {/* HEADER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: 12% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 10%',
-            height: '10%',
-            maxHeight: '10%',
+            flex: '0 0 12%',
+            height: '12%',
+            maxHeight: '12%',
             minHeight: 0,
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
@@ -790,7 +803,7 @@ export default function App() {
           height:
             currentTabIndex === 16
               ? '100%'
-              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
+              : 'calc(76% - (var(--shell-section-gap, 15px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -809,7 +822,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: 12% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -817,9 +830,9 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 10%',
-            height: '10%',
-            maxHeight: '10%',
+            flex: '0 0 12%',
+            height: '12%',
+            maxHeight: '12%',
             minHeight: 0,
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"

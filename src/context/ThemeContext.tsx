@@ -548,12 +548,19 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       };
     }
 
-    if (
+    const hasWallpaper = !(
       activeWpToRender.id === 'none' ||
       (!activeWpToRender.value &&
         !activeWpToRender.bg &&
         (!activeWpToRender.previewStyle || Object.keys(activeWpToRender.previewStyle).length === 0))
-    ) {
+    );
+    root.setAttribute('data-has-wallpaper', hasWallpaper ? 'true' : 'false');
+    if (document.body) {
+      document.body.setAttribute('data-has-wallpaper', hasWallpaper ? 'true' : 'false');
+    }
+    applyWallpaperOverlayCssVariables(DEFAULT_WALLPAPER_OVERLAY);
+
+    if (!hasWallpaper) {
       root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.background = 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback)))';
     } else if (activeWpToRender.type === 'image') {

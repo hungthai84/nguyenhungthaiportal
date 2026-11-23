@@ -217,7 +217,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <button
                 type="button"
                 onClick={() => onSwitchDomain(prevDomain)}
-                className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-primary)] inline-flex items-center justify-center transition cursor-pointer active:scale-95"
+                className="nav-arrow-btn theme-prev-next-btn w-8 h-8 rounded-full border inline-flex items-center justify-center transition cursor-pointer"
                 title={isEn ? 'Previous domain' : 'Lĩnh vực trước'}
                 aria-label={isEn ? 'Previous domain' : 'Lĩnh vực trước'}
               >
@@ -226,7 +226,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <button
                 type="button"
                 onClick={() => onSwitchDomain(nextDomain)}
-                className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-card)]/80 hover:bg-[var(--bg-subcard)] text-[var(--text-primary)] inline-flex items-center justify-center transition cursor-pointer active:scale-95"
+                className="nav-arrow-btn theme-prev-next-btn w-8 h-8 rounded-full border inline-flex items-center justify-center transition cursor-pointer"
                 title={isEn ? 'Next domain' : 'Lĩnh vực tiếp theo'}
                 aria-label={isEn ? 'Next domain' : 'Lĩnh vực tiếp theo'}
               >
@@ -238,7 +238,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 active:scale-95 shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 shadow-sm"
             style={{ background: expandedMeta.gradient }}
             aria-label={isEn ? 'Minimize domain details' : 'Thu nhỏ chi tiết lĩnh vực'}
           >

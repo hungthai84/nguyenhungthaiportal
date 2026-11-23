@@ -808,7 +808,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               id="interview-play-video-capsule"
               style={{ borderRadius: '999px' }}
               className={cn(
-                'theme-video-capsule video-play-btn video-play-btn--about ml-auto max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none shrink-0',
+                'theme-video-capsule video-play-btn video-play-btn--about ml-auto max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto select-none shrink-0',
                 isPlayingVideo2 ? 'is-playing' : ''
               )}
             >
@@ -821,7 +821,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                   toggleAudio();
                 }}
                 className={cn(
-                  'video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90',
+                  'video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer',
                   isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
                 )}
                 title={isAudioOn ? 'Tắt tiếng video' : 'Bật âm thanh video'}
@@ -854,7 +854,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     paddingRight: '10px',
                     borderRadius: '999px',
                   }}
-                  className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                  className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer font-play"
                   title="Bấm để chuyển sang Video 2 phỏng vấn và mở âm thanh"
                 >
                   <span className="flex items-center justify-center">
@@ -877,7 +877,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                     paddingRight: '10px',
                     borderRadius: '999px',
                   }}
-                  className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                  className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer font-play"
                   title="Bấm để hủy video và quay về Video 1"
                 >
                   <span className="flex items-center justify-center">
@@ -1012,7 +1012,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               type="button"
               disabled={currentQIdx === 0}
               onClick={() => selectQuestion(currentQIdx - 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border active:scale-95 whitespace-nowrap shrink-0"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border whitespace-nowrap shrink-0"
             >
               <span>‹ Trước</span>
             </button>
@@ -1021,7 +1021,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               type="button"
               onClick={() => selectQuestion(currentQIdx)}
               title="Phát lại câu hỏi hiện tại"
-              className="typo-button text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-subcard)] inline-flex items-center justify-center gap-1 cursor-pointer min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all active:scale-95 whitespace-nowrap shrink-0"
+              className="typo-button text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-subcard)] inline-flex items-center justify-center gap-1 cursor-pointer min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3 rounded-full transition-all whitespace-nowrap shrink-0"
             >
               <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
               <span>Lại</span>
@@ -1031,7 +1031,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               type="button"
               disabled={currentQIdx === INTERVIEW_QUESTIONS.length - 1}
               onClick={() => selectQuestion(currentQIdx + 1)}
-              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border active:scale-95 whitespace-nowrap shrink-0"
+              className="theme-prev-next-btn typo-button disabled:opacity-35 disabled:pointer-events-none cursor-pointer inline-flex items-center justify-center gap-1 transition-all min-h-[34px] sm:min-h-[36px] py-1 sm:py-1.5 px-2 sm:px-3.5 rounded-full border whitespace-nowrap shrink-0"
             >
               <span>Tiếp ›</span>
             </button>

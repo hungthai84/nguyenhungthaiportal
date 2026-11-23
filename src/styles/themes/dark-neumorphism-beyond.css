@@ -233,9 +233,12 @@ html[data-card-style="dark-neumorphism-beyond"] body {
   --banner-transparent-bg: rgba(24, 32, 46, 0.91);
   --banner-border: rgba(148, 163, 184, 0.18);
   --bg-banner-pill: #1E2738;
+  --border-banner-pill: rgba(148, 163, 184, 0.20);
   --text-banner-pill: #93C5FD;
   --bg-banner-cta: linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%);
   --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: linear-gradient(145deg, rgba(30, 39, 55, 0.95) 0%, rgba(21, 28, 41, 0.92) 100%);
+  --border-nav-arrow: rgba(148, 163, 184, 0.22);
 
   --text-header-title: #F1F5F9;
   --text-header-sub: #94A3B8;
@@ -588,7 +591,16 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(
   color: var(--nav-pill-accent, #64B6FF) !important;
 }
 
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: var(--surface-interactive-bg) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
+  color: var(--text-link, var(--color-primary, #64B6FF)) !important;
+}
+
+html:root[data-card-style="dark-neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  background: var(--surface-interactive-hover) !important;
+}
+
 html:root[data-card-style="dark-neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
   color: var(--text-link, var(--color-primary, #64B6FF)) !important;
 }

@@ -101,7 +101,7 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               type="button"
               onClick={() => setIsAvatarZoomed(!isAvatarZoomed)}
               title="Bấm để phóng to/thu nhỏ hình Avatar AI gấp đôi (2x)"
-              className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0 cursor-pointer transition-transform duration-300 active:scale-95 focus:outline-none"
+              className="w-9 h-9 rounded-full bg-purple-950/80 text-white overflow-hidden ring-2 ring-purple-400 shrink-0 cursor-pointer transition-transform duration-300 focus:outline-none"
             >
               <img
                 src="https://lh3.googleusercontent.com/d/1gY_ln5UNMGbqeLu5Sh6AQF-7Ymu7tIxJ"

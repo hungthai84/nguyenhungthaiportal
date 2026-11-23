@@ -17,6 +17,7 @@ interface ContactPillItem {
   pillBg: string; // TailWind class for pill background
   pillBorder: string; // TailWind class for pill border
   textColor: string; // TailWind class for text
+  accentColor: string;
   href?: string;
   isExternal?: boolean;
   action?: () => void;
@@ -158,6 +159,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-indigo-50/95 dark:bg-indigo-950/80',
       pillBorder: 'border-indigo-400/80 dark:border-indigo-500/80',
       textColor: 'text-indigo-950 dark:text-indigo-100',
+      accentColor: '#4F46E5',
       action: () => {
         onSelectTab(12);
         onShowNotification?.(
@@ -176,6 +178,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-rose-50/95 dark:bg-rose-950/80',
       pillBorder: 'border-rose-400/80 dark:border-rose-500/80',
       textColor: 'text-rose-950 dark:text-rose-100',
+      accentColor: '#E11D48',
       href: 'mailto:hungthai84@gmail.com',
     },
     {
@@ -189,6 +192,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-sky-50/95 dark:bg-sky-950/80',
       pillBorder: 'border-sky-400/80 dark:border-sky-500/80',
       textColor: 'text-sky-950 dark:text-sky-100',
+      accentColor: '#0284C7',
       href: 'tel:+840909097882',
     },
     {
@@ -202,6 +206,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-emerald-50/95 dark:bg-emerald-950/80',
       pillBorder: 'border-emerald-400/80 dark:border-emerald-500/80',
       textColor: 'text-emerald-950 dark:text-emerald-100',
+      accentColor: '#059669',
       href: 'https://zalo.me/0909097882',
       isExternal: true,
     },
@@ -216,6 +221,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-amber-50/95 dark:bg-amber-950/80',
       pillBorder: 'border-amber-400/80 dark:border-amber-500/80',
       textColor: 'text-amber-950 dark:text-amber-100',
+      accentColor: '#EA580C',
       href: 'https://nguyenhungthai.powerservice.one/',
       isExternal: true,
     },
@@ -230,6 +236,7 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
       pillBg: 'bg-blue-50/95 dark:bg-blue-950/80',
       pillBorder: 'border-blue-400/80 dark:border-blue-500/80',
       textColor: 'text-blue-950 dark:text-blue-100',
+      accentColor: '#0A66C2',
       href: 'https://www.linkedin.com/in/hungthai84/',
       isExternal: true,
     },
@@ -271,25 +278,26 @@ export const RadialContactMenu: React.FC<RadialContactMenuProps> = ({
                 {/* Inner Pill */}
                 <div
                   className="radial-contact-pill relative z-10 inline-flex items-center w-full h-full rounded-[999px] gap-[6px] cursor-pointer border transition-colors duration-200"
-                  style={{
-                    paddingTop: '8px',
-                    paddingRight: '10px',
-                    paddingBottom: '8px',
-                    paddingLeft: '10px',
-                    fontWeight: 'normal',
-                    borderWidth: '1px',
-                  }}
+                  style={
+                    {
+                      '--nav-pill-accent': item.accentColor,
+                      paddingTop: '8px',
+                      paddingRight: '10px',
+                      paddingBottom: '8px',
+                      paddingLeft: '10px',
+                      fontWeight: 'normal',
+                      borderWidth: '1px',
+                    } as React.CSSProperties
+                  }
                 >
-                  <div
-                    className={`radial-contact-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs ${item.circleBg} leading-none p-0 overflow-hidden typo-badge`}
-                  >
-                    <WebIcon name={item.iconName} className="w-3.5 h-3.5 text-white m-auto" />
+                  <div className="radial-contact-icon-badge nav-pill-icon-badge w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs leading-none p-0 overflow-hidden typo-badge ring-1 ring-white/30 transition-colors duration-200">
+                    <WebIcon name={item.iconName} className="nav-pill-icon-svg w-3.5 h-3.5 m-auto" />
                   </div>
-                  <div className="radial-contact-divider w-[1.5px] h-4 shrink-0 rounded-[999px]" />
+                  <div className="radial-contact-divider nav-pill-divider w-[1.5px] h-4 shrink-0 rounded-[999px] transition-colors duration-200" />
                   <div className="flex flex-col text-left justify-center leading-none flex-1 min-w-0">
                     <span
                       style={{ fontWeight: 'bold' }}
-                      className="radial-contact-title typo-nav leading-tight font-play truncate"
+                      className="radial-contact-title nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200"
                     >
                       {item.title}
                     </span>

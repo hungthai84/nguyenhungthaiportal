@@ -321,7 +321,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
                 }
               }}
-              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer shrink-0"
               title="Trở về Trang chủ"
             >
               <WebIcon name="arrow-left" size={15} />
@@ -1275,7 +1275,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
           if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
-        className="theme-back-to-top-btn theme-back-to-top-icon no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer pointer-events-auto"
+        className="theme-back-to-top-btn theme-back-to-top-icon no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer pointer-events-auto"
         title="Lên đầu trang"
         aria-label="Lên đầu trang"
       >

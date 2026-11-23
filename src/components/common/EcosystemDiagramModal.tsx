@@ -1540,7 +1540,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                 }}
                 title="Đóng sơ đồ hệ thống"
                 aria-label="Đóng sơ đồ hệ thống"
-                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-md ml-1"
+                className="theme-modal-close w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer hover:scale-105 shadow-md ml-1"
               >
                 <X className="w-4 h-4" />
               </button>

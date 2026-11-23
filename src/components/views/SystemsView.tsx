@@ -1307,10 +1307,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     SoundEngine.playTechChimeExpand();
                     setIsEcosystemDiagramOpen(true);
                   }}
-                  className="banner-primary-cta h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.42)] border border-blue-300/40 backdrop-blur-md transition-all cursor-pointer typo-button font-play active:scale-95"
+                  className="banner-primary-cta h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-play"
                   title={isEn ? 'System Architecture Diagram' : 'Mở Sơ đồ liên kết hệ thống'}
                 >
-                  <WebIcon name="git-merge" className="w-3.5 h-3.5 text-white shrink-0" />
+                  <WebIcon name="git-merge" className="w-3.5 h-3.5 text-current shrink-0" />
                   <span>{isEn ? 'Architecture' : 'Sơ đồ hệ thống'}</span>
                 </button>
 
@@ -1323,7 +1323,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     setIsCircleVideoPlaying(false);
                     setViewMode((prev) => (prev === 'grid' ? 'matrix' : 'grid'));
                   }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play active:scale-95"
+                  className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play"
                   title={
                     viewMode === 'grid'
                       ? isEn
@@ -1351,7 +1351,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   <button
                     type="button"
                     onClick={closeExpandedSystem}
-                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
+                    className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition"
                   >
                     <Minimize2 className="w-3.5 h-3.5" />
                     <span>{isEn ? 'Back to 12 Systems' : 'Quay lại 12 thẻ'}</span>
@@ -1420,7 +1420,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         : 'Xem video giới thiệu hệ thống'
                   }
                   className={cn(
-                    'video-play-btn video-play-btn--systems relative shrink-0 w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group active:scale-95',
+                    'video-play-btn video-play-btn--systems relative shrink-0 w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full aspect-square p-0.5 flex items-center justify-center cursor-pointer transition-all duration-300 group',
                     isCircleVideoPlaying ? 'is-playing ring-4 ring-[var(--color-primary)]/45' : ''
                   )}
                 >
@@ -1522,7 +1522,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       type="button"
                       onClick={handleCloseIntroVideo}
                       title="Đóng video và hiện lại 12 thẻ hệ thống"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600/90 hover:bg-rose-500 backdrop-blur-md border border-white/20 text-white typo-button font-play transition cursor-pointer shadow-md active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-600/90 hover:bg-rose-500 backdrop-blur-md border border-white/20 text-white typo-button font-play transition cursor-pointer shadow-md"
                     >
                       <WebIcon name="cancel" className="w-3.5 h-3.5" />
                       <span>{isEn ? 'Close Video' : 'Đóng video'}</span>
@@ -1732,6 +1732,21 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   const isHovered = hoveredCardVideoId === item.id;
                   const isPendingBi = item.id === 'bi' || !item.url;
 
+                  const hoverFloodBg = isLeatherTheme
+                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.30) 0%, rgba(217, 145, 58, 0.22) 52%, rgba(120, 72, 24, 0.14) 100%)'
+                    : isLight
+                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 38%, transparent) 0%, color-mix(in srgb, ${accentColor} 22%, ${meta.tintBgLight}) 55%, color-mix(in srgb, ${accentColor} 18%, rgba(255,255,255,0.92)) 100%)`
+                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 42%, transparent) 0%, color-mix(in srgb, ${accentColor} 24%, ${meta.tintBgDark}) 58%, color-mix(in srgb, ${accentColor} 22%, rgba(15,23,42,0.92)) 100%)`;
+
+                  const updateHoverOrigin = (e: React.MouseEvent<HTMLElement>) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    if (!rect.width || !rect.height) return;
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
+                    e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
+                  };
+
                   return (
                     <article
                       key={item.id}
@@ -1747,6 +1762,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       role="button"
                       tabIndex={0}
                       onClick={(e) => openExpandedSystem(item, e.currentTarget)}
+                      onMouseEnter={updateHoverOrigin}
+                      onMouseMove={updateHoverOrigin}
                       onMouseLeave={() => {
                         setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
                       }}
@@ -1769,9 +1786,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             ? meta.borderLight
                             : meta.borderDark,
                         height: '100%',
+                        ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
                       }}
                       className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-3.5 box-border w-full h-full flex flex-col justify-between text-left font-semibold overflow-hidden cursor-pointer"
                     >
+                      {/* Lớp Color Reveal lan màu dần khắp thẻ Hệ thống khi di chuột / focus */}
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'system-card-hover-flood',
+                          (isHovered || isDemoActive) && item.videoUrl && 'opacity-0'
+                        )}
+                        style={{ background: hoverFloodBg }}
+                      />
                       {/* Full-Card Video Overlay khi Click: Hiển thị video lấp đầy thẻ và KHÔNG hiển thị tiêu đề hay các thành phần khác */}
                       {isDemoActive && item.videoUrl && (
                         <div
@@ -2090,7 +2117,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         <button
                           type="button"
                           onClick={(e) => handleOpenExternalUrl(e, expandedSystem.url)}
-                          className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition active:scale-95"
+                          className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition"
                           title={expandedSystem.url}
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -2103,7 +2130,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       <button
                         type="button"
                         onClick={closeExpandedSystem}
-                        className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 active:scale-95 shadow-sm"
+                        className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 shadow-sm"
                         style={{ background: expandedMeta.gradient }}
                         aria-label={isEn ? 'Minimize details' : 'Thu nhỏ chi tiết hệ thống'}
                       >
@@ -2813,7 +2840,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 SoundEngine.playTechChimeExpand();
                                 setIsEcosystemDiagramOpen(true);
                               }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold text-white shadow-sm cursor-pointer hover:brightness-110 transition active:scale-95"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold text-white shadow-sm cursor-pointer hover:brightness-110 transition"
                               style={{ background: expandedMeta.gradient }}
                             >
                               <WebIcon name="git-merge" className="w-3.5 h-3.5 text-white" />

@@ -235,9 +235,12 @@ html[data-card-style="neumorphism-beyond"] body {
   --banner-transparent-bg: rgba(233, 239, 246, 0.91);
   --banner-border: rgba(196, 209, 226, 0.74);
   --bg-banner-pill: #E8EEF6;
+  --border-banner-pill: rgba(196, 209, 226, 0.78);
   --text-banner-pill: #3D66F0;
   --bg-banner-cta: linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%);
   --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: linear-gradient(145deg, rgba(237, 242, 248, 0.95) 0%, rgba(226, 233, 242, 0.90) 100%);
+  --border-nav-arrow: rgba(196, 209, 226, 0.78);
 
   --text-header-title: #162033;
   --text-header-sub: #475569;
@@ -592,7 +595,16 @@ html:root[data-card-style="neumorphism-beyond"] #app-footer :is(
   color: var(--nav-pill-accent, #4973FF) !important;
 }
 
-html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: var(--surface-interactive-bg) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
+  color: var(--text-link, var(--color-primary, #3D66F0)) !important;
+}
+
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  background: var(--surface-interactive-hover) !important;
+}
+
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
   color: var(--text-link, var(--color-primary, #3D66F0)) !important;
 }

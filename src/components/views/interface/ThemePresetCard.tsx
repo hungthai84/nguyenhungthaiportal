@@ -148,7 +148,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
               }
             : {}),
         }}
-        className={`theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out border min-w-0 overflow-hidden hover:-translate-y-0.5 active:scale-[0.99] ${preset.cardClassName} ${
+        className={`theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out border min-w-0 overflow-hidden hover:-translate-y-0.5 ${preset.cardClassName} ${
           isActive ? meta.activeBorderClass : meta.idleBorderClass
         }`}
       >

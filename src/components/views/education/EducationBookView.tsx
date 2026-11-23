@@ -167,25 +167,23 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     bookHandleRef.current?.go(clickX >= rect.width / 2 ? 1 : -1);
   };
 
-  // Bảng màu nội bộ cho giấy sách để luôn đạt tương phản chuẩn WCAG ở cả sáng và tối
-  const inkPrimary = isDark ? 'text-slate-100' : 'text-zinc-900';
-  const inkSecondary = isDark ? 'text-slate-300' : 'text-zinc-600';
-  const inkMuted = isDark ? 'text-slate-400' : 'text-zinc-500';
-  const paperBox = isDark
-    ? 'bg-white/[0.04] border-white/10'
-    : 'bg-black/[0.025] border-black/10';
-  const paperDivider = isDark ? 'border-white/10' : 'border-black/10';
+  // Đồng bộ bảng màu nội bộ sách học vấn theo giao diện (Theme) đang chọn
+  const inkPrimary = 'text-[var(--text-primary)]';
+  const inkSecondary = 'text-[var(--text-secondary)]';
+  const inkMuted = 'text-[var(--text-muted)]';
+  const themeAccent = 'var(--text-link, var(--color-primary))';
+  const paperBox = 'theme-modal-subcard';
+  const paperDivider = 'border-[var(--border-subcard)]';
 
   const bookPages = useMemo<React.ReactNode[]>(() => {
     // ================= PAGE 0: BÌA SÁCH (THẺ HỌC VẤN) =================
     const coverPage = (
       <div
         key={`cover-${course.id}`}
-        className="relative flex size-full flex-col justify-between gap-2.5 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
+        className="education-book-cover relative flex size-full flex-col justify-between gap-2.5 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
         style={{
-          background: isDark
-            ? `linear-gradient(155deg, ${courseColor}26 0%, #171d2b 45%, #111622 100%)`
-            : `linear-gradient(155deg, ${courseColor}16 0%, #fbfaf7 46%, #f5f2ea 100%)`,
+          background:
+            'linear-gradient(155deg, color-mix(in srgb, var(--text-link, var(--color-primary)) 14%, transparent) 0%, transparent 60%)',
         }}
       >
         {/* Dải gáy bìa sách tạo chiều sâu */}
@@ -193,7 +191,8 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 left-0 w-2.5"
           style={{
-            background: `linear-gradient(90deg, ${courseColor}55 0%, ${courseColor}18 70%, transparent 100%)`,
+            background:
+              'linear-gradient(90deg, color-mix(in srgb, var(--text-link, var(--color-primary)) 36%, transparent) 0%, color-mix(in srgb, var(--text-link, var(--color-primary)) 12%, transparent) 70%, transparent 100%)',
           }}
         />
 
@@ -201,7 +200,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         <div className="relative z-10 flex items-center justify-between gap-2 flex-wrap pl-1">
           <span
             className="inline-flex items-center gap-1.5 typo-badge font-semibold"
-            style={{ color: courseColor }}
+            style={{ color: themeAccent }}
           >
             <WebIcon name="book" className="w-3.5 h-3.5 shrink-0" />
             <span>{isEn ? 'Education Monograph' : 'Bìa sách · Thẻ học vấn'}</span>
@@ -244,14 +243,14 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         {/* Tiêu đề, mô tả & kết quả */}
         <div className="relative z-10 flex flex-col gap-1.5 pl-1 min-w-0">
           <div className="flex items-center gap-1.5 typo-caption font-medium">
-            <span style={{ color: courseColor }}>{course.type}</span>
+            <span style={{ color: themeAccent }}>{course.type}</span>
             <span aria-hidden="true" className={inkMuted}>·</span>
             <span className={inkMuted}>{categoryLabel}</span>
           </div>
 
           <h3
             className="typo-h3 font-play font-bold leading-snug break-words m-0"
-            style={{ color: courseColor }}
+            style={{ color: themeAccent }}
           >
             {formatCardTitle(course.title)}
           </h3>
@@ -264,11 +263,14 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
             <div
               className="mt-1 px-2.5 py-2 rounded-[10px] border flex items-start gap-2 min-w-0"
               style={{
-                backgroundColor: `${courseColor}12`,
-                borderColor: `${courseColor}38`,
+                background: 'var(--bg-badge, var(--bg-subcard))',
+                borderColor: 'var(--border-badge, var(--border-subcard))',
               }}
             >
-              <p className="typo-caption font-semibold m-0 line-clamp-2 break-words" style={{ color: courseColor }}>
+              <p
+                className="typo-caption font-semibold m-0 line-clamp-2 break-words"
+                style={{ color: 'var(--text-badge, var(--text-link, var(--color-primary)))' }}
+              >
                 {course.result}
               </p>
             </div>
@@ -287,8 +289,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               SoundEngine.playTap();
               bookHandleRef.current?.goToPage(1);
             }}
-            className="px-3 py-1.5 rounded-full typo-badge font-semibold text-white inline-flex items-center gap-1.5 hover:opacity-95 active:scale-95 transition-all cursor-pointer shrink-0"
-            style={{ background: courseColor }}
+            className="banner-primary-cta px-3 py-1.5 rounded-full typo-badge font-semibold inline-flex items-center gap-1.5 hover:opacity-95 transition-all cursor-pointer shrink-0"
+            style={{
+              background: 'var(--bg-button-primary)',
+              color: 'var(--text-button-primary, #FFFFFF)',
+            }}
           >
             <span>{isEn ? 'Open' : 'Mở sách'}</span>
             <WebIcon name="arrow-right" className="w-3.5 h-3.5" />
@@ -304,9 +309,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
       >
         <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: courseColor }}>
-            <WebIcon name="book-open" className="w-4 h-4 shrink-0" style={{ color: courseColor }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: courseColor }}>
+          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
+            <WebIcon name="book-open" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
               {isEn ? 'Page 1 · Course Description' : 'Trang 1 · Mô tả khóa học'}
             </h3>
           </div>
@@ -323,7 +328,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
           {course.orientation && course.orientation !== course.desc && (
             <div className={cn('pt-2 border-t flex flex-col gap-0.5', paperDivider)}>
-              <span className="typo-caption font-semibold" style={{ color: courseColor }}>
+              <span className="typo-caption font-semibold" style={{ color: themeAccent }}>
                 Định hướng đào tạo
               </span>
               <p className={cn('typo-caption leading-relaxed m-0 break-words', inkSecondary)}>
@@ -334,7 +339,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
           {course.focus && (
             <div className={cn('pt-2 border-t flex flex-col gap-0.5', paperDivider)}>
-              <span className="typo-caption font-semibold" style={{ color: courseColor }}>
+              <span className="typo-caption font-semibold" style={{ color: themeAccent }}>
                 Trọng tâm chuyên môn
               </span>
               <p className={cn('typo-caption leading-relaxed m-0 break-words', inkSecondary)}>
@@ -347,7 +352,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         {/* Bảng thông tin chuẩn */}
         <div className="grid grid-cols-2 gap-2 min-w-0 mt-auto">
           <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1 text-sky-600 dark:text-sky-400">
+            <div className="flex items-center gap-1" style={{ color: 'var(--accent-sky, var(--text-link))' }}>
               <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
               <span className="typo-caption font-semibold truncate">Năm học &amp; Mã</span>
             </div>
@@ -356,7 +361,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                 Năm {course.year}
               </span>
               {course.code && (
-                <span className="typo-caption font-mono text-sky-600 dark:text-sky-300">
+                <span className="typo-caption font-mono" style={{ color: 'var(--text-link)' }}>
                   · {course.code}
                 </span>
               )}
@@ -364,7 +369,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
 
           <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400">
+            <div className="flex items-center gap-1" style={{ color: 'var(--accent-indigo, var(--text-link))' }}>
               <WebIcon name="building-2" className="w-3.5 h-3.5 shrink-0" />
               <span className="typo-caption font-semibold truncate">Đơn vị đào tạo</span>
             </div>
@@ -374,7 +379,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
 
           <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1 text-teal-600 dark:text-teal-400">
+            <div className="flex items-center gap-1" style={{ color: 'var(--accent-teal, var(--text-link))' }}>
               <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
               <span className="typo-caption font-semibold truncate">Hình thức đào tạo</span>
             </div>
@@ -384,7 +389,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
 
           <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
+            <div className="flex items-center gap-1" style={{ color: 'var(--accent-amber, var(--text-link))' }}>
               <WebIcon name="tag" className="w-3.5 h-3.5 shrink-0" />
               <span className="typo-caption font-semibold truncate">Nhóm lĩnh vực</span>
             </div>
@@ -403,9 +408,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
       >
         <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: courseColor }}>
-            <WebIcon name="list-filter" className="w-4 h-4 shrink-0" style={{ color: courseColor }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: courseColor }}>
+          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
+            <WebIcon name="list-filter" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
               {isEn ? 'Page 2 · Curriculum' : 'Trang 2 · Danh mục khóa học'}
             </h3>
           </div>
@@ -425,8 +430,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                   className={cn('w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[10px] border min-w-0', paperBox)}
                 >
                   <span
-                    className="w-6 h-6 rounded-full flex items-center justify-center typo-badge font-mono font-bold shrink-0 text-white"
-                    style={{ background: courseColor }}
+                    className="w-6 h-6 rounded-full flex items-center justify-center typo-badge font-mono font-bold shrink-0"
+                    style={{
+                      background: 'var(--bg-button-primary)',
+                      color: 'var(--text-button-primary, #FFFFFF)',
+                    }}
                   >
                     {idx + 1}
                   </span>
@@ -445,7 +453,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
         {/* Từ khóa kỹ năng đầu ra */}
         <div className={cn('pt-2 border-t flex flex-col gap-2 min-w-0 mt-auto', paperDivider)}>
-          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+          <div className="flex items-center gap-1.5" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
             <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
             <span className="typo-caption font-semibold">
               Từ khóa kỹ năng (Nhấn để xem trên Ma trận SWOT)
@@ -460,12 +468,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                   type="button"
                   onClick={() => onNavigateSkillToSwot(skill)}
                   title={isEn ? `View ${skill} in Core Skills SWOT` : `Xem kỹ năng "${skill}" trong Ma trận Kỹ năng SWOT`}
-                  className={cn(
-                    'inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-caption font-semibold border cursor-pointer transition-all active:scale-95',
-                    isDark
-                      ? 'bg-emerald-500/15 border-emerald-400/30 text-emerald-300 hover:bg-emerald-500/25'
-                      : 'bg-emerald-500/10 border-emerald-600/25 text-emerald-700 hover:bg-emerald-500/20'
-                  )}
+                  style={{
+                    background: 'var(--bg-badge, var(--bg-button-secondary))',
+                    borderColor: 'var(--border-badge, var(--border-subcard))',
+                    color: 'var(--text-badge, var(--text-link))',
+                  }}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-caption font-semibold border cursor-pointer transition-all hover:opacity-90"
                 >
                   <WebIcon name={getSkillTagIcon(skill)} className="w-3 h-3 shrink-0" />
                   <span>{skill}</span>
@@ -489,9 +497,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
       >
         <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: courseColor }}>
-            <WebIcon name="trophy" className="w-4 h-4 shrink-0" style={{ color: courseColor }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: courseColor }}>
+          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
+            <WebIcon name="trophy" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
               {isEn ? 'Page 3 · Outcomes' : 'Trang 3 · Kết quả đạt được'}
             </h3>
           </div>
@@ -502,11 +510,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         <div
           className="p-3 rounded-[10px] border flex flex-col gap-1.5"
           style={{
-            backgroundColor: `${courseColor}14`,
-            borderColor: `${courseColor}40`,
+            background: 'var(--bg-badge, var(--bg-subcard))',
+            borderColor: 'var(--border-badge, var(--border-subcard))',
           }}
         >
-          <div className="flex items-center gap-1.5" style={{ color: courseColor }}>
+          <div className="flex items-center gap-1.5" style={{ color: themeAccent }}>
             <WebIcon name="shield-check" className="w-4 h-4 shrink-0" />
             <span className="typo-body-sm font-bold">Chứng nhận đánh giá</span>
           </div>
@@ -517,7 +525,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
         {/* Ứng dụng thực tiễn */}
         <div className={cn('p-3 rounded-[10px] border flex flex-col gap-1.5', paperBox)}>
-          <div className="flex items-center gap-1.5 text-teal-600 dark:text-teal-400">
+          <div className="flex items-center gap-1.5" style={{ color: 'var(--accent-teal, var(--text-link))' }}>
             <WebIcon name="target" className="w-4 h-4 shrink-0" />
             <span className="typo-body-sm font-bold">Ứng dụng thực tiễn</span>
           </div>
@@ -530,14 +538,18 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         {verifyInfo && (
           <div className={cn('p-3 rounded-[10px] border flex flex-col gap-2.5 mt-auto', paperBox)}>
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <div className="flex items-center gap-1.5" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
                 <WebIcon name="check-circle-02" className="w-4 h-4 shrink-0" />
                 <span className="typo-body-sm font-bold">Xác thực chứng chỉ</span>
               </div>
               <button
                 type="button"
                 onClick={(e) => onOpenVerifyModal(course, e)}
-                className="px-2.5 py-1 rounded-full typo-caption font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition inline-flex items-center gap-1 cursor-pointer"
+                style={{
+                  background: 'var(--bg-button-primary)',
+                  color: 'var(--text-button-primary, #FFFFFF)',
+                }}
+                className="px-2.5 py-1 rounded-full typo-caption font-semibold hover:opacity-90 transition inline-flex items-center gap-1 cursor-pointer"
               >
                 <WebIcon name="shield-check" className="w-3 h-3" />
                 <span>Tra cứu số</span>
@@ -565,7 +577,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               </div>
               <div className="min-w-0">
                 <span className={cn('block', inkMuted)}>Trạng thái</span>
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                <span className="font-semibold" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
                   {verifyInfo.status}
                 </span>
               </div>
@@ -582,9 +594,9 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         className="flex size-full flex-col gap-2 p-3 sm:p-4 overflow-hidden text-left"
       >
         <div className={cn('flex items-center justify-between gap-2 pb-1.5 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: courseColor }}>
-            <WebIcon name="image" className="w-4 h-4 shrink-0" style={{ color: courseColor }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: courseColor }}>
+          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
+            <WebIcon name="image" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
               {isEn ? 'Page 4 · Photos & Certificate' : 'Trang 4 · Hình khóa học & Bằng cấp'}
             </h3>
           </div>
@@ -594,7 +606,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         <div className="flex-1 min-h-0 grid grid-rows-2 gap-2">
           {/* Hình khóa học */}
           <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 text-purple-600 dark:text-purple-400 shrink-0">
+            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: 'var(--accent-purple, var(--text-link))' }}>
               <div className="flex items-center gap-1.5 min-w-0">
                 <WebIcon name="image" className="w-3.5 h-3.5 shrink-0" />
                 <span className="typo-caption font-semibold truncate">Hình ảnh khóa học</span>
@@ -645,7 +657,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
           {/* Hình bằng cấp */}
           <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 text-rose-600 dark:text-rose-400 shrink-0">
+            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: 'var(--accent-rose, var(--text-link))' }}>
               <div className="flex items-center gap-1.5 min-w-0">
                 <WebIcon name="award" className="w-3.5 h-3.5 shrink-0" />
                 <span className="typo-caption font-semibold truncate">Hình ảnh bằng cấp</span>
@@ -703,7 +715,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
             <button
               type="button"
               onClick={(e) => onOpenVerifyModal(course, e)}
-              className="px-2.5 py-1 rounded-full typo-caption font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition inline-flex items-center gap-1 cursor-pointer shrink-0"
+              style={{
+                background: 'var(--bg-button-primary)',
+                color: 'var(--text-button-primary, #FFFFFF)',
+              }}
+              className="px-2.5 py-1 rounded-full typo-caption font-semibold hover:opacity-90 transition inline-flex items-center gap-1 cursor-pointer shrink-0"
             >
               <WebIcon name="shield-check" className="w-3 h-3" />
               <span>Kiểm tra trực tuyến</span>
@@ -717,18 +733,17 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
   }, [
     categoryLabel,
     course,
-    courseColor,
     getSkillTagIcon,
     inkMuted,
     inkPrimary,
     inkSecondary,
-    isDark,
     isEn,
     onNavigateSkillToSwot,
     onOpenLightbox,
     onOpenVerifyModal,
     paperBox,
     paperDivider,
+    themeAccent,
     verifyInfo,
   ]);
 
@@ -754,7 +769,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           onClose();
         }}
         style={{ position: 'absolute', top: '12px', right: '12px' }}
-        className="no-theme-btn absolute top-3 right-3 z-40 w-9 h-9 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/90 hover:bg-[var(--bg-button-primary)] hover:text-[var(--text-button-primary,#FFFFFF)] text-[var(--text-primary)] backdrop-blur-md flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95 shadow-sm"
+        className="theme-modal-close nav-arrow-btn absolute top-3 right-3 z-40 w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all cursor-pointer shadow-sm"
         title={isEn ? 'Close book (Esc)' : 'Đóng sách (Esc)'}
         aria-label={isEn ? 'Close book' : 'Đóng sách'}
       >

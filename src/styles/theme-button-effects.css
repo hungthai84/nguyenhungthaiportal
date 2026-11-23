@@ -1087,125 +1087,10 @@ html:root body :is(#services-page-container, #services-cards-wrapper) :is(.servi
   align-self: stretch !important;
 }
 
-/* 4. NÚT Ở FOOTER: KHUNG TRÒN NỀN MÀU GIỐNG MÀU TIÊU ĐỀ NÚT (ÁP DỤNG TOÀN BỘ WEBSITE) */
-html:root body #app-footer #footer-lang-btn .nav-pill-icon-badge,
-html:root[data-card-style] body #app-footer #footer-lang-btn .nav-pill-icon-badge,
-html:root[data-theme] body #app-footer #footer-lang-btn .nav-pill-icon-badge {
-  background: #10B981 !important;
-  background-color: #10B981 !important;
-  border-radius: 9999px !important;
-}
-html:root body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-card-style] body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-theme] body #app-footer #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #10B981 !important;
-}
-
-html:root body #app-footer #footer-appearance-btn .nav-pill-icon-badge,
-html:root[data-card-style] body #app-footer #footer-appearance-btn .nav-pill-icon-badge,
-html:root[data-theme] body #app-footer #footer-appearance-btn .nav-pill-icon-badge {
-  background: #6366F1 !important;
-  background-color: #6366F1 !important;
-  border-radius: 9999px !important;
-}
-html:root body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-card-style] body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-theme] body #app-footer #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #6366F1 !important;
-}
-
-html:root body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge,
-html:root[data-card-style] body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge,
-html:root[data-theme] body #app-footer #footer-wallpaper-btn .nav-pill-icon-badge {
-  background: #F43F5E !important;
-  background-color: #F43F5E !important;
-  border-radius: 9999px !important;
-}
-html:root body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-card-style] body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-theme] body #app-footer #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #F43F5E !important;
-}
-
-html:root body #app-footer #footer-ai-btn .nav-pill-icon-badge,
-html:root[data-card-style] body #app-footer #footer-ai-btn .nav-pill-icon-badge,
-html:root[data-theme] body #app-footer #footer-ai-btn .nav-pill-icon-badge {
-  background: #0EA5E9 !important;
-  background-color: #0EA5E9 !important;
-  border-radius: 9999px !important;
-}
-html:root body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-card-style] body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title,
-html:root[data-theme] body #app-footer #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #0EA5E9 !important;
-}
-
-html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
-
-html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
-html:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn),
-html:root[data-theme] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) {
-  background: var(--bg-button-primary, var(--text-link, var(--color-primary))) !important;
-  color: var(--text-button-primary, #FFFFFF) !important;
-  border-radius: 9999px !important;
-}
-html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn) svg {
-  color: var(--text-button-primary, #FFFFFF) !important;
-  stroke: currentColor !important;
-}
-
 /* ========================================================================= */
-/* 5. MENU ICON NÚT & FOOTER NÚT BÊN PHẢI: XÓA HIỆU ỨNG TRONG SUỐT CHO TOÀN BỘ GIAO DIỆN */
+/* 4. THẺ HỌC VẤN: PADDING 10PX, KHÔNG VIỀN TRÁI, NỀN RIÊNG, TIÊU ĐỀ CĂN TRÁI */
 /* ========================================================================= */
-html:root body :is(
-  #app-header nav button.nav-pill,
-  #app-header .nav-pill,
-  #app-header #header-btn-hungthai-avatar,
-  .nav-pill-wrapper button,
-  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
-  #app-footer button.nav-pill
-) {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  opacity: 1 !important;
-}
-
-/* Nền đục 100% nguyên bản hoàn toàn không trong suốt cho theme sáng */
-html:root:not([data-card-style^="dark-"]):not([data-card-style="deep-ocean"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="cowhide-leather"]) body :is(
-  #app-header nav button.nav-pill,
-  #app-header .nav-pill,
-  #app-header #header-btn-hungthai-avatar,
-  .nav-pill-wrapper button,
-  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
-  #app-footer button.nav-pill
-):not([data-active="true"]):not([aria-current="page"]) {
-  background: var(--bg-nav-button-opaque, #FFFFFF) !important;
-  background-color: var(--bg-nav-button-opaque, #FFFFFF) !important;
-  background-image: none !important;
-}
-
-/* Nền đục 100% nguyên bản hoàn toàn không trong suốt cho theme tối & da bò */
-html:root:is([data-card-style^="dark-"], [data-card-style="deep-ocean"], [data-card-style="black-cowhide-leather"], [data-card-style="cowhide-leather"]) body :is(
-  #app-header nav button.nav-pill,
-  #app-header .nav-pill,
-  #app-header #header-btn-hungthai-avatar,
-  .nav-pill-wrapper button,
-  #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
-  #app-footer button.nav-pill
-):not([data-active="true"]):not([aria-current="page"]) {
-  background: var(--bg-nav-button-opaque, #1E2737) !important;
-  background-color: var(--bg-nav-button-opaque, #1E2737) !important;
-  background-image: none !important;
-}
-
-/* ========================================================================= */
-/* 6. THẺ HỌC VẤN: PADDING 10PX, KHÔNG VIỀN TRÁI, NỀN RIÊNG, TIÊU ĐỀ CĂN TRÁI */
-/* ========================================================================= */
-html:root body :is(#education-courses-grid, #education-page-container) :is(.education-course-card, [id^="education-card-"]) {
+html:root body :is(#education-courses-grid:not(.education-css-tricks-deck), #education-page-container .education-responsive-grid) :is(.education-course-card, [id^="education-card-"]) {
   padding: 10px !important;
   border-left: none !important;
   border-left-width: 0 !important;
@@ -1231,7 +1116,7 @@ html:root body :is(#education-courses-grid, #education-page-container) :is(.educ
 }
 
 /* ========================================================================= */
-/* 7. #el-p0-div-98 (FOOTER WRAPPER): KHÔNG BLUR, GIỮ NGUYÊN ELEVATION ĐỘC LẬP */
+/* 5. #el-p0-div-98 (FOOTER WRAPPER): KHÔNG BLUR, GIỮ NGUYÊN ELEVATION ĐỘC LẬP */
 /* ========================================================================= */
 html:root body #el-p0-div-98,
 html:root[data-card-style] body #el-p0-div-98,
@@ -1243,14 +1128,6 @@ html:root[data-theme] body #el-p0-div-98 {
   filter: none !important;
   transform: none !important;
   animation: none !important;
-}
-
-html:root body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
-html:root[data-card-style] body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn),
-html:root[data-theme] body #el-p0-div-98 :is(#app-footer, #footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-theme-mode-btn, #footer-ai-btn) {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
 }
 
 

@@ -1030,27 +1030,19 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
 }
 
 .theme-capsule-btn:not(#footer-nav-capsule):not(.video-play-btn):is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 3px, 0) scale3d(0.955, 0.955, 1);
-  transition: transform 60ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 60ms ease !important;
+  transform: none;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn,
 #app-footer #footer-nav-capsule #footer-next-btn {
   min-width: 34px;
   min-height: 34px;
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease, box-shadow 180ms ease;
+  transition: background-color 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:hover,
 #app-footer #footer-nav-capsule #footer-next-btn:hover {
   transform: none;
-}
-
-#app-footer #footer-nav-capsule #footer-prev-btn:is(:active, [data-btn-pressed="true"]),
-#app-footer #footer-nav-capsule #footer-next-btn:is(:active, [data-btn-pressed="true"]) {
-  transform: translate3d(0, 2.5px, 0) scale3d(0.91, 0.91, 1) !important;
-  box-shadow: inset 0 2.5px 6px rgba(15, 23, 42, 0.26) !important;
-  transition: transform 55ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 55ms ease !important;
 }
 
 /* GLOBAL CARD TITLE H3 FORMAT */
@@ -1201,8 +1193,7 @@ h3.card-title,
 
 
 /* ========================================================================= */
-/* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER VÀ FOOTER BÊN PHẢI     */
-/* (Xóa bỏ hiệu ứng trong suốt, hiển thị bề mặt đục nguyên bản theo theme)    */
+/* NỀN & CHẤT LIỆU THEO GIAO DIỆN CHO NÚT MENU HEADER, RADIAL MENU & FOOTER  */
 /* ========================================================================= */
 #app-header nav button.nav-pill,
 #header-btn-hungthai-avatar,
@@ -1212,12 +1203,12 @@ h3.card-title,
 #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]),
 #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]),
 #footer-nav-capsule,
-.radial-contact-pill {
-  background: var(--bg-nav-button-opaque, var(--color-surface, #FFFFFF)) !important;
+.radial-contact-pill:not([data-active="true"]):not([aria-current="page"]) {
+  background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-nav-button-opaque, var(--color-surface, #FFFFFF)))) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 0px))) saturate(150%) !important;
   outline: var(--outline-nav-pill, none);
   outline-offset: var(--outline-offset-nav-pill, 0px);
   color: var(--text-primary) !important;
@@ -1225,187 +1216,52 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* NÚT BÊN PHẢI FOOTER: MẶC ĐỊNH & ĐẢO NGƯỢC KHI CHỌN                       */
-/* Mặc định: Icon trắng, khung nền màu, tiêu đề chữ màu                      */
-/* Khi chọn: Nút nền màu, tiêu đề trắng, khung nền trắng, icon chữ màu       */
+/* NÚT BÊN PHẢI FOOTER: MẶC ĐỊNH & ĐẢO NGƯỢC KHI CHỌN (DÙNG CSS VARIABLES)   */
 /* ========================================================================= */
+#footer-lang-btn { --nav-pill-accent: #10B981; }
+#footer-appearance-btn { --nav-pill-accent: #6366F1; }
+#footer-wallpaper-btn { --nav-pill-accent: #F43F5E; }
+#footer-ai-btn { --nav-pill-accent: #0EA5E9; }
 
-/* 1. MẶC ĐỊNH (DEFAULT / UNSELECTED) */
-/* Ngôn ngữ (#10B981) */
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) {
-  border-color: rgba(16, 185, 129, 0.45) !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) {
+  border-color: color-mix(in srgb, var(--nav-pill-accent) 45%, var(--surface-interactive-border, transparent)) !important;
 }
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #10B981 !important;
-  background: #10B981 !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent) !important;
+  background-color: var(--nav-pill-accent) !important;
   border-radius: 9999px !important;
 }
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
   color: #FFFFFF !important;
   stroke: #FFFFFF !important;
   fill: none !important;
 }
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #10B981 !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
+  color: var(--nav-pill-accent) !important;
 }
-html #footer-lang-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(16, 185, 129, 0.4) !important;
-}
-
-/* Giao diện (#6366F1) */
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) {
-  border-color: rgba(99, 102, 241, 0.45) !important;
-}
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #6366F1 !important;
-  background: #6366F1 !important;
-  border-radius: 9999px !important;
-}
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #6366F1 !important;
-}
-html #footer-appearance-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(99, 102, 241, 0.4) !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
+  background-color: color-mix(in srgb, var(--nav-pill-accent) 40%, transparent) !important;
 }
 
-/* Hình nền (#F43F5E) */
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) {
-  border-color: rgba(244, 63, 94, 0.45) !important;
+/* Khi chọn: Đảo ngược theo --nav-pill-accent */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) {
+  background: var(--nav-pill-accent) !important;
+  border-color: var(--nav-pill-accent) !important;
+  box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--nav-pill-accent) 44%, transparent) !important;
 }
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #F43F5E !important;
-  background: #F43F5E !important;
-  border-radius: 9999px !important;
-}
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #F43F5E !important;
-}
-html #footer-wallpaper-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(244, 63, 94, 0.4) !important;
-}
-
-/* AI Hỗ trợ (#0EA5E9) */
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) {
-  border-color: rgba(14, 165, 233, 0.45) !important;
-}
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #0EA5E9 !important;
-  background: #0EA5E9 !important;
-  border-radius: 9999px !important;
-}
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
-  fill: none !important;
-}
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-title {
-  color: #0EA5E9 !important;
-}
-html #footer-ai-btn:not([data-active="true"]):not([aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(14, 165, 233, 0.4) !important;
-}
-
-/* 2. KHI CHỌN: ĐẢO NGƯỢC MÀU LẠI (SELECTED / ACTIVE - INVERTED) */
-/* Ngôn ngữ khi chọn */
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) {
-  background: #10B981 !important;
-  border-color: #10B981 !important;
-  box-shadow: none !important;
-}
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
   background-color: #FFFFFF !important;
   background: #FFFFFF !important;
 }
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #10B981 !important;
-  stroke: #10B981 !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: var(--nav-pill-accent) !important;
+  stroke: var(--nav-pill-accent) !important;
 }
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-title {
   color: #FFFFFF !important;
 }
-html #footer-lang-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-/* Giao diện khi chọn */
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) {
-  background: #6366F1 !important;
-  border-color: #6366F1 !important;
-  box-shadow: none !important;
-}
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-}
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #6366F1 !important;
-  stroke: #6366F1 !important;
-}
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
-  color: #FFFFFF !important;
-}
-html #footer-appearance-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-/* Hình nền khi chọn */
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) {
-  background: #F43F5E !important;
-  border-color: #F43F5E !important;
-  box-shadow: none !important;
-}
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-}
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #F43F5E !important;
-  stroke: #F43F5E !important;
-}
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
-  color: #FFFFFF !important;
-}
-html #footer-wallpaper-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-/* AI Hỗ trợ khi chọn */
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) {
-  background: #0EA5E9 !important;
-  border-color: #0EA5E9 !important;
-  box-shadow: none !important;
-}
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge {
-  background-color: #FFFFFF !important;
-  background: #FFFFFF !important;
-}
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge svg,
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-icon-badge .nav-pill-icon-svg {
-  color: #0EA5E9 !important;
-  stroke: #0EA5E9 !important;
-}
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-title {
-  color: #FFFFFF !important;
-}
-html #footer-ai-btn:is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.4) !important;
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):is([data-active="true"], [aria-current="page"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 #app-header nav button.nav-pill .nav-pill-sub,
@@ -1807,9 +1663,9 @@ html[data-card-style="light-deep-ocean"] :is(
 
 #footer-nav-capsule #footer-prev-btn,
 #footer-nav-capsule #footer-next-btn {
-  background: var(--text-link, var(--color-primary)) !important;
+  background: var(--bg-button-primary, var(--text-link, var(--color-primary))) !important;
   border: none !important;
-  color: #FFFFFF !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
   box-shadow: none !important;
   outline: none !important;
 }
@@ -1821,6 +1677,12 @@ html[data-card-style="light-deep-ocean"] :is(
   background: var(--bg-button-primary) !important;
   color: var(--text-button-primary, #FFFFFF) !important;
   border-color: transparent !important;
+}
+
+:is(.nav-arrow-btn, .theme-prev-next-btn, .banner-control-pill, .banner-primary-cta):disabled {
+  opacity: 0.42 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
 }
 
 .theme-back-to-top-btn {
@@ -2258,8 +2120,26 @@ article.project-card:hover,
 
 .project-card .project-card-banner,
 .project-card > div:first-child,
-#projects-grid article > div:first-child,
-.themed-image-frame {
+#projects-grid article > div:first-child {
+  width: calc(100% - 4px) !important;
+  margin: 2px 2px 0 2px !important;
+  padding: 0 !important;
+  background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-image-card, var(--surface-tertiary-border, var(--border-color))) !important;
+  box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
+  outline: var(--outline-image-card, none);
+  outline-offset: var(--outline-offset-image-card, 0px);
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 12px 12px 0px 0px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.themed-image-frame:not(.project-card-banner) {
   width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -2280,8 +2160,21 @@ article.project-card:hover,
 
 .project-card .project-card-banner img,
 .project-card > div:first-child img,
-#projects-grid article > div:first-child img,
-.themed-image-frame img {
+#projects-grid article > div:first-child img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 12px 12px 0px 0px !important;
+}
+
+.themed-image-frame:not(.project-card-banner) img {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
@@ -3658,14 +3551,15 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 .education-css-tricks-deck {
   display: flex !important;
   flex-direction: row !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   justify-content: flex-start !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
-  overflow-y: visible !important;
-  padding: 35px 50px 45px 50px !important;
+  overflow-y: hidden !important;
+  padding: 20px 84px 20px 10px !important;
   width: 100% !important;
-  min-width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
   box-sizing: border-box !important;
   scroll-behavior: smooth !important;
   -webkit-overflow-scrolling: touch !important;
@@ -3676,18 +3570,19 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 .education-css-tricks-deck .education-course-card {
-  min-width: 300px !important;
-  max-width: 300px !important;
-  width: 300px !important;
-  height: 420px !important;
-  min-height: 420px !important;
-  max-height: 420px !important;
-  margin-left: -75px !important;
-  border-radius: 36px !important;
-  padding: 22px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
+  width: 280px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: flex-start !important;
+  margin-left: -60px !important;
+  border-radius: 24px !important;
+  padding: 12px !important;
   flex-shrink: 0 !important;
   position: relative !important;
-  box-shadow: -4px 6px 26px 2px rgba(0, 0, 0, 0.28) !important;
+  box-shadow: -4px 6px 26px 2px rgba(0, 0, 0, 0.24) !important;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 0.35s ease,
               opacity 0.35s ease,
@@ -3695,17 +3590,22 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   cursor: pointer !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: space-between !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
   box-sizing: border-box !important;
+}
+
+.education-css-tricks-deck .education-course-card .card-heading {
+  flex: none !important;
 }
 
 .education-css-tricks-deck .education-course-card:first-child {
   margin-left: 0 !important;
 }
 
-/* HIỆU ỨNG TƯƠNG TÁC ĐẶC TRƯNG CSS-TRICKS:
-   1. Rê chuột vào card: nhấc thẻ lên translateY(-20px) và nổi lên z-index cao nhất
-   2. Toàn bộ các thẻ phía sau trượt sang phải translateX(80px) mở toang góc nhìn */
+/* HIỆU ỨNG TƯƠNG TÁC XẾP CHỒNG:
+   1. Rê chuột vào card: nhấc thẻ lên translateY(-14px) và nổi lên z-index cao nhất
+   2. Toàn bộ các thẻ phía sau trượt sang phải translateX(68px) nằm gọn trong thẻ chính */
 @media (hover: hover) and (pointer: fine) {
   html #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within),
   html[data-card-style] #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within),
@@ -3717,10 +3617,10 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   html[data-card-style] .education-css-tricks-deck .education-course-card:focus-within,
   html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:hover,
   html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:focus-within {
-    transform: translateY(-20px) !important;
+    transform: translateY(-14px) !important;
     z-index: 50 !important;
-    box-shadow: -8px 18px 36px 4px rgba(0, 0, 0, 0.45),
-                0 0 25px rgba(56, 189, 248, 0.35) !important;
+    box-shadow: -8px 16px 30px 2px rgba(0, 0, 0, 0.36),
+                0 0 20px rgba(56, 189, 248, 0.28) !important;
   }
 
   html #education-courses-grid.education-css-tricks-deck [id^="education-card-"]:is(:hover, :focus, :focus-within) ~ .education-course-card,
@@ -3733,7 +3633,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   html[data-card-style] .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card,
   html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:hover ~ .education-course-card,
   html:not(#__nonexistent) .education-css-tricks-deck .education-course-card:focus-within ~ .education-course-card {
-    transform: translateX(80px) !important;
+    transform: translateX(68px) !important;
   }
 }
 
@@ -3815,16 +3715,16 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #projects-grid .project-card .project-card-banner {
-  border-top-left-radius: 14px !important;
-  border-top-right-radius: 14px !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: 14px 14px 0px 0px !important;
+  border-radius: 12px 12px 0px 0px !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
   overflow: hidden !important;
-  width: 100% !important;
-  margin: 0 !important;
+  width: calc(100% - 4px) !important;
+  margin: 2px 2px 0 2px !important;
   padding: 0 !important;
 }
 
@@ -4153,7 +4053,7 @@ html #education-courses-grid .education-course-card,
   }
 }
 
-/* Hiệu ứng loang màu nền lan ra từ từ khắp thẻ Dịch vụ khi di chuột qua */
+/* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Dịch vụ từ vị trí trỏ chuột / focus */
 #services-page-container .domain-card .service-card-hover-flood {
   position: absolute;
   inset: 0;
@@ -4162,9 +4062,12 @@ html #education-courses-grid .education-course-card,
   pointer-events: none;
   opacity: 0;
   clip-path: circle(0% at var(--hover-x, 50%) var(--hover-y, 50%));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--reveal-accent, #6366f1) 38%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
   transition:
-    clip-path 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.55s ease;
+    clip-path 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.42s ease;
   will-change: clip-path, opacity;
 }
 
@@ -4176,7 +4079,10 @@ html #education-courses-grid .education-course-card,
 
 #services-page-container .domain-card:hover {
   transform: translateY(-4px) !important;
-  box-shadow: 0 20px 38px -12px rgba(79, 70, 229, 0.22), 0 0 0 1px rgba(129, 140, 248, 0.28) !important;
+  border-color: color-mix(in srgb, var(--reveal-accent, #6366f1) 52%, transparent) !important;
+  box-shadow:
+    0 22px 42px -12px color-mix(in srgb, var(--reveal-accent, #4f46e5) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--reveal-accent, #818cf8) 32%, transparent) !important;
 }
 
 #services-page-container .domain-card .service-img-pop {
@@ -4317,9 +4223,36 @@ html.dark #services-page-container .domain-card-sub {
   }
 }
 
+/* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Hệ thống từ vị trí trỏ chuột / focus */
+#systems-page-container .system-card-tile .system-card-hover-flood {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  clip-path: circle(0% at var(--hover-x, 50%) var(--hover-y, 50%));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--reveal-accent, #6366f1) 38%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  transition:
+    clip-path 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.42s ease;
+  will-change: clip-path, opacity;
+}
+
+#systems-page-container .system-card-tile:hover .system-card-hover-flood,
+#systems-page-container .system-card-tile:focus-visible .system-card-hover-flood {
+  opacity: 1;
+  clip-path: circle(165% at var(--hover-x, 50%) var(--hover-y, 50%));
+}
+
 #systems-page-container .system-card-tile:hover {
   transform: translateY(-4px) !important;
-  box-shadow: 0 18px 36px -12px rgba(79, 70, 229, 0.22), 0 0 0 1px rgba(129, 140, 248, 0.28) !important;
+  border-color: color-mix(in srgb, var(--reveal-accent, #6366f1) 52%, transparent) !important;
+  box-shadow:
+    0 20px 40px -12px color-mix(in srgb, var(--reveal-accent, #4f46e5) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--reveal-accent, #818cf8) 32%, transparent) !important;
 }
 
 #systems-page-container .system-card-tile .system-img-pop {
@@ -4395,6 +4328,7 @@ html.dark #systems-page-container .system-card-sub {
 @media (prefers-reduced-motion: reduce) {
   #systems-page-container .systems-cards-grid,
   #systems-page-container .system-card-tile,
+  #systems-page-container .system-card-tile .system-card-hover-flood,
   #systems-page-container .system-card-tile .system-img-pop,
   #systems-page-container #systems-expanded-card,
   #systems-page-container #systems-expanded-card.is-animating,
@@ -5104,11 +5038,11 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 .project-card .project-card-banner[data-media-card="image"],
 .project-card .project-card-banner :is(img, video),
 .project-card .project-card-banner .project-card-banner-scrim {
-  border-top-left-radius: 14px !important;
-  border-top-right-radius: 14px !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: 14px 14px 0px 0px !important;
+  border-radius: 12px 12px 0px 0px !important;
 }
 
 #education-book-view .education-book-media-rounded,
@@ -5116,6 +5050,22 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   border-radius: 14px !important;
   -webkit-clip-path: inset(0 round 14px) !important;
   clip-path: inset(0 round 14px) !important;
+}
+
+/* Sách học vấn: đồng bộ 100% bề mặt, viền, blur và độ sâu theo Theme đang chọn */
+#education-book-view .education-book-paper {
+  background: var(--bg-modal, var(--bg-card)) !important;
+  border: var(--card-border-width, 1px) solid var(--border-modal, var(--border-card, var(--border-color))) !important;
+  box-shadow: var(--shadow-modal, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--blur-modal, var(--blur-card, 16px))) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(var(--blur-modal, var(--blur-card, 16px))) saturate(170%) !important;
+  outline: var(--outline-subcard, none);
+  outline-offset: -6px;
+  color: var(--text-primary) !important;
+}
+
+#education-book-view .education-book-paper--back {
+  background: var(--bg-subcard, var(--bg-modal, var(--bg-card))) !important;
 }
 
 .project-detail-banner-media,
@@ -5399,33 +5349,45 @@ html[data-card-style="dark-liquid-glass"] :is(
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 2 và 3 trượt ngang trọn khung 100%, không lộ mép Card 3, chiều cao bằng Card 1 */
+/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 15px, nhô mép phải & cuộn ngang mượt, chiều cao bằng Card 1 */
 #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: stretch !important;
-  gap: 0px !important;
-  row-gap: 0px !important;
-  column-gap: 0px !important;
+  justify-content: flex-start !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   width: 100% !important;
   max-width: 100% !important;
-  overflow-x: hidden !important;
+  padding-left: max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2)) !important;
+  padding-right: max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2)) !important;
+  overflow-x: auto !important;
   overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   box-sizing: border-box !important;
+}
+
+#letter-cards-row-2-3::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
 }
 
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
+  width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  min-width: 0 !important;
+  max-width: var(--container-max-w, 1250px) !important;
   height: var(--letter-card-1-h, auto) !important;
   min-height: var(--letter-card-1-h, 0px) !important;
   max-height: var(--letter-card-1-h, none) !important;
-  flex: 0 0 100% !important;
-  scroll-snap-align: start;
+  flex: 0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  scroll-snap-align: center;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   box-sizing: border-box !important;
@@ -5445,16 +5407,14 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   box-shadow: 0 24px 48px -10px rgba(15, 23, 42, 0.24), 0 10px 20px -4px rgba(15, 23, 42, 0.12), 0 0 20px -2px rgba(56, 189, 248, 0.35) !important;
 }
 
-/* FOOTER NÚT BÊN PHẢI MẶC ĐỊNH: BẢO ĐẢM KHUNG TRÒN CÓ NỀN MÀU TIÊU ĐỀ TRÊN MỌI THEME SÁNG/TỐI (KỂ CẢ DARK-NEUMORPHISM-BEYOND) */
-html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge,
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+/* FOOTER NÚT BÊN PHẢI MẶC ĐỊNH: BẢO ĐẢM KHUNG TRÒN CÓ NỀN MÀU TIÊU ĐỀ TRÊN MỌI THEME (TRỪ DA BÒ GIỮ NÉT CỔ ĐIỂN) */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge {
   background: var(--nav-pill-accent) !important;
   background-color: var(--nav-pill-accent) !important;
   border-radius: 9999px !important;
 }
 
-html body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg),
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn):not([data-active="true"]):not([aria-current="page"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
   color: #FFFFFF !important;
   stroke: #FFFFFF !important;
   fill: none !important;

@@ -437,10 +437,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       const row = letterCardsRow23Ref.current;
       if (!row) return;
       if (currentSlideRef.current === 2) {
-        const card3El = document.getElementById('letter-card-3');
-        if (card3El) {
-          row.scrollLeft = card3El.offsetLeft;
-        }
+        row.scrollLeft = Math.max(0, row.scrollWidth - row.clientWidth);
       } else {
         row.scrollLeft = 0;
       }
@@ -515,7 +512,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
       const row = letterCardsRow23Ref.current;
       if (row && (clamped === 1 || clamped === 2)) {
-        const targetLeft = clamped === 1 ? 0 : cardEl.offsetLeft;
+        const targetLeft = clamped === 1 ? 0 : Math.max(0, row.scrollWidth - row.clientWidth);
         if (smooth) {
           row.scrollTo({ left: targetLeft, behavior: 'smooth' });
         } else {
@@ -555,6 +552,19 @@ export const LetterView: React.FC<LetterViewProps> = ({
         }
       }
     }
+    if (nextSlide !== currentSlideRef.current) {
+      setSlideDirection(nextSlide > currentSlideRef.current ? 'next' : 'prev');
+      currentSlideRef.current = nextSlide;
+      setCurrentSlide(nextSlide);
+    }
+  }, []);
+
+  const handleRow23HorizontalScroll = useCallback(() => {
+    if (isProgrammaticScrollRef.current) return;
+    const row = letterCardsRow23Ref.current;
+    if (!row) return;
+    const maxHorizontalScroll = Math.max(1, row.scrollWidth - row.clientWidth);
+    const nextSlide = row.scrollLeft > maxHorizontalScroll * 0.42 ? 2 : 1;
     if (nextSlide !== currentSlideRef.current) {
       setSlideDirection(nextSlide > currentSlideRef.current ? 'next' : 'prev');
       currentSlideRef.current = nextSlide;
@@ -1875,12 +1885,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'stretch',
+          alignItems: 'center',
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          width: 'var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px))',
-          maxWidth: '1250px',
+          width: '100%',
+          maxWidth: '100%',
           height: 'auto',
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -1895,7 +1905,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
               } as React.CSSProperties)
             : {}),
         }}
-        className="flex flex-col items-stretch gap-[15px] mx-auto h-auto box-border"
+        className="flex flex-col items-center gap-[15px] w-full max-w-full mx-auto h-auto box-border"
       >
       {/* ========================================================================= */}
       {/* HÀNG DỌC 1: CARD THƯ NGỎ 1                                                */}
@@ -1909,8 +1919,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-page="letter"
         data-element-parent="letter-cards-track"
         style={{
-          width: '100%',
-          maxWidth: '100%',
+          width: 'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+          maxWidth: 'var(--container-max-w, 1250px)',
           minWidth: '0px',
           height: 'fit-content',
           minHeight: 'auto',
@@ -2241,13 +2251,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* HÀNG DỌC 2: CARD THƯ NGỎ 2 VÀ CARD THƯ NGỎ 3 (CHUYỂN SLIDE TRỌN KHUNG 100%) */}
+      {/* HÀNG DỌC 2: CARD THƯ NGỎ 2 VÀ CARD THƯ NGỎ 3 NẰM NGANG BÊN PHẢI (NHÔ MÉP) */}
       {/* ========================================================================= */}
       <div
         id="letter-cards-row-2-3"
         ref={letterCardsRow23Ref}
-        data-no-wheel-horizontal="true"
         data-element-name="Hàng ngang Card thư ngỏ 2 và 3"
+        onScroll={handleRow23HorizontalScroll}
         onTouchStart={(e) => {
           if (e.touches.length !== 1) return;
           row23TouchStartXRef.current = e.touches[0].clientX;
@@ -2269,22 +2279,28 @@ export const LetterView: React.FC<LetterViewProps> = ({
             }
           }
         }}
-        className="w-full flex flex-row flex-nowrap gap-0 items-stretch overflow-x-hidden overflow-y-hidden no-scrollbar"
+        className="w-full max-w-full flex flex-row flex-nowrap gap-[15px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
         style={{
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
-          gap: '0px',
-          rowGap: '0px',
-          columnGap: '0px',
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
           width: '100%',
           maxWidth: '100%',
-          overflowX: 'hidden',
+          paddingLeft:
+            'max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2))',
+          paddingRight:
+            'max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2))',
+          overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
         }}
       >
-        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) — Trọn khung 100% không lộ mép Card 3 */}
+        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) */}
         <div
           id="letter-card-2"
           data-element-name="Thư ngỏ main card 2"
@@ -2292,20 +2308,28 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-main-card="true"
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
+          onClick={() => {
+            const row = letterCardsRow23Ref.current;
+            if (row && row.scrollLeft > 40) {
+              scrollToLetterCard(1, true);
+            }
+          }}
           style={{
-            width: '100%',
-            minWidth: '100%',
-            maxWidth: '100%',
+            width:
+              'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+            minWidth: '0px',
+            maxWidth: 'var(--container-max-w, 1250px)',
             height: 'var(--letter-card-1-h, auto)',
             minHeight: 'var(--letter-card-1-h, 0px)',
             maxHeight: 'var(--letter-card-1-h, none)',
-            flex: '0 0 100%',
-            scrollSnapAlign: 'start',
+            flex:
+              '0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+            scrollSnapAlign: 'center',
             padding: '15px',
             gap: '15px',
             borderRadius: 'var(--radius-main, 14px)',
           }}
-          className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+          className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
           <div
             id="letter-slide-2-grid"
@@ -2320,7 +2344,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           </div>
         </div>
 
-        {/* Card 3: Quản trị quy mô lớn & Chuyển đổi số (2013 - 2023) — Trọn khung 100% */}
+        {/* Card 3: Quản trị quy mô lớn & Chuyển đổi số (2013 - 2023) — Nằm bên phải Card 2 */}
         <div
           id="letter-card-3"
           data-element-name="Thư ngỏ main card 3"
@@ -2328,20 +2352,28 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-main-card="true"
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
+          onClick={() => {
+            const row = letterCardsRow23Ref.current;
+            if (row && row.scrollLeft < 40) {
+              scrollToLetterCard(2, true);
+            }
+          }}
           style={{
-            width: '100%',
-            minWidth: '100%',
-            maxWidth: '100%',
+            width:
+              'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+            minWidth: '0px',
+            maxWidth: 'var(--container-max-w, 1250px)',
             height: 'var(--letter-card-1-h, auto)',
             minHeight: 'var(--letter-card-1-h, 0px)',
             maxHeight: 'var(--letter-card-1-h, none)',
-            flex: '0 0 100%',
-            scrollSnapAlign: 'start',
+            flex:
+              '0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+            scrollSnapAlign: 'center',
             padding: '15px',
             gap: '15px',
             borderRadius: 'var(--radius-main, 14px)',
           }}
-          className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+          className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
           <div
             id="letter-slide-3-grid"
@@ -2368,9 +2400,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-page="letter"
         data-element-parent="letter-cards-track"
         style={{
-          width: '100%',
-          minWidth: '100%',
-          maxWidth: '100%',
+          width:
+            'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+          minWidth: '0px',
+          maxWidth: 'var(--container-max-w, 1250px)',
           height: 'var(--letter-card-1-h, auto)',
           minHeight: 'var(--letter-card-1-h, 0px)',
           maxHeight: 'var(--letter-card-1-h, none)',

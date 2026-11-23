@@ -93,6 +93,8 @@ html[data-theme="multicolor-glass"] {
   --bg-nav-button-opaque: #FFFFFF;
   --bg-nav-pill: rgba(255, 255, 255, 0.78);
   --bg-nav-pill-hover: rgba(255, 255, 255, 0.94);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.88);
+  --border-nav-arrow: rgba(255, 255, 255, 0.90);
   --bg-button-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 48%, #06b6d4 100%);
   --bg-button-secondary: rgba(255, 255, 255, 0.82);
   --bg-button-hover: rgba(255, 255, 255, 0.96);
@@ -102,6 +104,8 @@ html[data-theme="multicolor-glass"] {
   --bg-highlight: rgba(99, 102, 241, 0.14);
   --bg-banner: rgba(255, 255, 255, 0.92);
   --bg-banner-pill: rgba(255, 255, 255, 0.92);
+  --bg-banner-cta: linear-gradient(135deg, #6366f1 0%, #8b5cf6 48%, #06b6d4 100%);
+  --text-banner-cta: #ffffff;
   --bg-banner-input: rgba(255, 255, 255, 0.94);
   --bg-nested-badge: rgba(255, 255, 255, 0.92);
 

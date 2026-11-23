@@ -29,7 +29,7 @@ export const GlassmorphicIconFrame: React.FC<GlassmorphicIconFrameProps> = ({
       className={cn(
         'relative flex items-center justify-center shrink-0 border border-[var(--border-subcard)] transition-all duration-300 shadow-sm',
         sizeClasses[size],
-        springBounce && 'hover:scale-110 active:scale-95',
+        springBounce && 'hover:scale-110',
         className
       )}
       style={{

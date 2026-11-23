@@ -3,7 +3,8 @@ import { motion, useReducedMotion } from 'motion/react';
 import {
   ICON_VARIANTS,
   SPRING_DECK,
-  useIconInteractionTrigger,
+  SPRING_STANDARD,
+  useIconAnimationControls,
 } from './iconMotionPresets';
 
 export interface MotionIconProps {
@@ -15,14 +16,19 @@ export interface MotionIconProps {
   style?: React.CSSProperties;
   strokeWidth?: number;
   isActive?: boolean;
+  isHovered?: boolean;
+  duration?: number;
+  hoverTrigger?: boolean;
   disableAncestorTrigger?: boolean;
   'aria-hidden'?: boolean;
 }
 
 export const SUPPORTED_MOTION_ICONS = [
   'activity',
+  'alarm-clock',
   'alert-circle',
   'alert-triangle',
+  'anchor',
   'archive',
   'arrow-down',
   'arrow-left',
@@ -34,6 +40,7 @@ export const SUPPORTED_MOTION_ICONS = [
   'bar-chart-3',
   'bell',
   'bell-ring',
+  'bluetooth',
   'book',
   'book-open',
   'bookmark',
@@ -41,11 +48,14 @@ export const SUPPORTED_MOTION_ICONS = [
   'boxes',
   'brain',
   'briefcase',
+  'briefcase-business',
   'building-2',
   'calendar',
   'calendar-check',
+  'calendar-days',
   'camera',
   'car',
+  'chart-no-axes-combined',
   'check',
   'check-circle',
   'chevron-down',
@@ -56,14 +66,18 @@ export const SUPPORTED_MOTION_ICONS = [
   'circle-help',
   'clipboard',
   'clock',
+  'cloud',
+  'code',
   'coins',
   'compass',
   'contact',
   'contact-2',
+  'contact-round',
   'copy',
   'corner-down-left',
   'cpu',
   'credit-card',
+  'crown',
   'database',
   'dollar-sign',
   'download',
@@ -72,13 +86,16 @@ export const SUPPORTED_MOTION_ICONS = [
   'external-link',
   'eye',
   'eye-off',
+  'file',
   'file-text',
   'filter',
+  'flag',
   'flame',
   'folder',
   'folder-kanban',
   'gamepad-2',
   'gauge',
+  'gem',
   'gift',
   'git-branch',
   'git-merge',
@@ -89,14 +106,19 @@ export const SUPPORTED_MOTION_ICONS = [
   'headphones',
   'heart',
   'heart-handshake',
+  'history',
   'home',
   'id-card',
   'image',
+  'images',
   'key-round',
   'landmark',
   'languages',
+  'laptop',
   'layers',
+  'layout',
   'leaf',
+  'lightbulb',
   'line-chart',
   'link',
   'linkedin',
@@ -107,8 +129,10 @@ export const SUPPORTED_MOTION_ICONS = [
   'log-in',
   'log-out',
   'mail',
+  'map',
   'map-pin',
   'maximize-2',
+  'menu',
   'message-square',
   'messages-square',
   'mic',
@@ -116,6 +140,7 @@ export const SUPPORTED_MOTION_ICONS = [
   'minus',
   'monitor',
   'moon',
+  'more-horizontal',
   'move',
   'navigation',
   'network',
@@ -123,6 +148,7 @@ export const SUPPORTED_MOTION_ICONS = [
   'pause',
   'phone',
   'phone-call',
+  'pie-chart',
   'pin',
   'pin-off',
   'play',
@@ -135,17 +161,21 @@ export const SUPPORTED_MOTION_ICONS = [
   'rocket',
   'rotate-ccw',
   'rotate-cw',
+  'route',
+  'save',
   'scale',
   'search',
   'send',
   'server',
   'settings',
+  'settings-2',
   'share-2',
   'shield',
   'shield-alert',
   'shield-check',
   'shopping-bag',
   'shopping-cart',
+  'signal',
   'skip-back',
   'skip-forward',
   'sliders',
@@ -160,10 +190,14 @@ export const SUPPORTED_MOTION_ICONS = [
   'table',
   'tag',
   'target',
+  'terminal',
+  'timer',
   'trash-2',
+  'trending-down',
   'trending-up',
   'trophy',
   'tv',
+  'unlock',
   'upload',
   'user',
   'user-check',
@@ -171,10 +205,12 @@ export const SUPPORTED_MOTION_ICONS = [
   'user-plus',
   'user-round',
   'users',
+  'users-round',
   'video',
   'volume-2',
   'volume-x',
   'wallet',
+  'wifi',
   'workflow',
   'wrench',
   'x',
@@ -186,10 +222,14 @@ export type SupportedMotionIconName = (typeof SUPPORTED_MOTION_ICONS)[number];
 
 const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   activity: 'activity',
+  'alarm-clock': 'alarm-clock',
+  alarmclock: 'alarm-clock',
   'alert-circle': 'alert-circle',
   alertcircle: 'alert-circle',
   'alert-triangle': 'alert-triangle',
   alerttriangle: 'alert-triangle',
+  alert: 'alert-triangle',
+  anchor: 'anchor',
   archive: 'archive',
   'arrow-down': 'arrow-down',
   arrowdown: 'arrow-down',
@@ -208,9 +248,15 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   barchart3: 'bar-chart-3',
   'bar-chart': 'bar-chart-3',
   'bar-chart-3': 'bar-chart-3',
+  'chart-no-axes-combined': 'chart-no-axes-combined',
+  chartnoaxescombined: 'chart-no-axes-combined',
+  'pie-chart': 'pie-chart',
+  piechart: 'pie-chart',
+  'fa-chart-pie': 'pie-chart',
   bell: 'bell',
   'bell-ring': 'bell-ring',
   bellring: 'bell-ring',
+  bluetooth: 'bluetooth',
   book: 'book',
   'book-open': 'book-open',
   bookopen: 'book-open',
@@ -223,11 +269,15 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   'brain-circuit': 'brain',
   'fa-brain': 'brain',
   briefcase: 'briefcase',
+  'briefcase-business': 'briefcase-business',
+  briefcasebusiness: 'briefcase-business',
   'fa-business-time': 'briefcase',
   building: 'building-2',
   'building-2': 'building-2',
   building2: 'building-2',
   calendar: 'calendar',
+  'calendar-days': 'calendar-days',
+  calendardays: 'calendar-days',
   'calendar-check': 'calendar-check',
   'fa-calendar-check': 'calendar-check',
   camera: 'camera',
@@ -251,16 +301,23 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   help: 'circle-help',
   clipboard: 'clipboard',
   clock: 'clock',
+  cloud: 'cloud',
+  code: 'code',
   coins: 'coins',
   compass: 'compass',
   'fa-compass': 'compass',
   contact: 'contact',
   contact2: 'contact-2',
   'contact-2': 'contact-2',
+  'contact-round': 'contact-round',
+  contactround: 'contact-round',
   copy: 'copy',
   'corner-down-left': 'corner-down-left',
   cpu: 'cpu',
+  'fa-microchip': 'cpu',
   'credit-card': 'credit-card',
+  crown: 'crown',
+  'fa-crown': 'crown',
   database: 'database',
   'dollar-sign': 'dollar-sign',
   dollarsign: 'dollar-sign',
@@ -274,9 +331,12 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   externallink: 'external-link',
   eye: 'eye',
   'eye-off': 'eye-off',
+  file: 'file',
   'file-text': 'file-text',
   'fa-file-text': 'file-text',
+  'fa-file-lines': 'file-text',
   filter: 'filter',
+  flag: 'flag',
   flame: 'flame',
   folder: 'folder',
   'folder-kanban': 'folder-kanban',
@@ -286,6 +346,7 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   'gamepad-2': 'gamepad-2',
   gamepad2: 'gamepad-2',
   gauge: 'gauge',
+  gem: 'gem',
   gift: 'gift',
   'git-branch': 'git-branch',
   gitbranch: 'git-branch',
@@ -299,27 +360,33 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   grid: 'grid',
   'layout-grid': 'grid',
   layoutgrid: 'grid',
+  layout: 'layout',
   hash: 'hash',
   headphones: 'headphones',
   headset: 'headphones',
+  'fa-headset': 'headphones',
   heart: 'heart',
   'heart-handshake': 'heart-handshake',
   hearthandshake: 'heart-handshake',
   'customer-support': 'heart-handshake',
   'fa-hand-holding-heart': 'heart-handshake',
+  history: 'history',
   home: 'home',
   house: 'home',
   'fa-house-chimney': 'home',
   'id-card': 'id-card',
   image: 'image',
+  images: 'images',
   'fa-image': 'image',
   'key-round': 'key-round',
   keyround: 'key-round',
   landmark: 'landmark',
   languages: 'languages',
   'fa-language': 'languages',
+  laptop: 'laptop',
   layers: 'layers',
   leaf: 'leaf',
+  lightbulb: 'lightbulb',
   'line-chart': 'line-chart',
   linechart: 'line-chart',
   link: 'link',
@@ -330,20 +397,26 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   listchecks: 'list-checks',
   'list-filter': 'list-filter',
   lock: 'lock',
+  unlock: 'unlock',
   'log-in': 'log-in',
   'log-out': 'log-out',
   mail: 'mail',
   envelope: 'mail',
   'fa-envelope': 'mail',
   'fa-envelope-open-text': 'mail',
+  map: 'map',
   location: 'map-pin',
   'map-pin': 'map-pin',
   mappin: 'map-pin',
   maximize: 'maximize-2',
   'maximize-2': 'maximize-2',
   maximize2: 'maximize-2',
+  menu: 'menu',
+  'more-horizontal': 'more-horizontal',
+  morehorizontal: 'more-horizontal',
   'message-square': 'message-square',
   messagesquare: 'message-square',
+  chat: 'message-square',
   'fa-comment-dots': 'message-square',
   'messages-square': 'messages-square',
   mic: 'mic',
@@ -357,6 +430,7 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   move: 'move',
   navigation: 'navigation',
   network: 'network',
+  'fa-network-wired': 'network',
   palette: 'palette',
   'fa-palette': 'palette',
   pause: 'pause',
@@ -371,6 +445,7 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   plus: 'plus',
   presentation: 'presentation',
   slides: 'presentation',
+  'fa-chalkboard-user': 'presentation',
   'qr-code': 'qr-code',
   qrcode: 'qr-code',
   quote: 'quote',
@@ -379,28 +454,37 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   refresh: 'refresh-cw',
   'refresh-cw': 'refresh-cw',
   refreshcw: 'refresh-cw',
+  'fa-arrows-rotate': 'refresh-cw',
   rocket: 'rocket',
   'rotate-ccw': 'rotate-ccw',
   rotateccw: 'rotate-ccw',
   'rotate-cw': 'rotate-cw',
   rotatecw: 'rotate-cw',
+  route: 'route',
+  save: 'save',
   scale: 'scale',
+  'fa-scale-balanced': 'scale',
   search: 'search',
   send: 'send',
   server: 'server',
   'fa-server': 'server',
   settings: 'settings',
+  cog: 'settings',
+  'settings-2': 'settings-2',
+  settings2: 'settings-2',
   share: 'share-2',
   'share-2': 'share-2',
   shield: 'shield',
   'shield-alert': 'shield-alert',
   shieldalert: 'shield-alert',
+  'fa-shield-exclamation': 'shield-alert',
   'shield-check': 'shield-check',
   shieldcheck: 'shield-check',
   'shopping-bag': 'shopping-bag',
   shoppingbag: 'shopping-bag',
   'shopping-cart': 'shopping-cart',
   shoppingcart: 'shopping-cart',
+  signal: 'signal',
   backward: 'skip-back',
   'skip-back': 'skip-back',
   forward: 'skip-forward',
@@ -420,10 +504,15 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   table: 'table',
   tag: 'tag',
   target: 'target',
+  terminal: 'terminal',
+  timer: 'timer',
   'trash-2': 'trash-2',
   trending: 'trending-up',
   'trending-up': 'trending-up',
   trendingup: 'trending-up',
+  'trending-down': 'trending-down',
+  trendingdown: 'trending-down',
+  'trend-down': 'trending-down',
   trophy: 'trophy',
   tv: 'tv',
   upload: 'upload',
@@ -437,6 +526,8 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   'user-round': 'user-round',
   'fa-address-card': 'user-round',
   users: 'users',
+  'users-round': 'users-round',
+  usersround: 'users-round',
   'user-group': 'users',
   'fa-address-book': 'user-check',
   video: 'video',
@@ -449,6 +540,7 @@ const MOTION_ALIAS_MAP: Record<string, SupportedMotionIconName> = {
   'volume-x': 'volume-x',
   'volume-off': 'volume-x',
   wallet: 'wallet',
+  wifi: 'wifi',
   workflow: 'workflow',
   wrench: 'wrench',
   x: 'x',
@@ -483,6 +575,9 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
   style,
   strokeWidth = 2.85,
   isActive = false,
+  isHovered,
+  duration,
+  hoverTrigger = true,
   disableAncestorTrigger = false,
   'aria-hidden': ariaHidden,
 }) => {
@@ -490,8 +585,10 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
   const prefersReducedMotion = useReducedMotion();
   const key = resolveMotionIconKey(name);
 
-  const animateState = useIconInteractionTrigger(svgRef, {
+  const { controls } = useIconAnimationControls(svgRef, {
     isActive,
+    isHovered,
+    hoverTrigger,
     disableAncestorTrigger,
     prefersReducedMotion,
   });
@@ -503,6 +600,11 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
   const mergedStyle: React.CSSProperties | undefined = color
     ? { color, ...style }
     : style;
+
+  const baseTransition =
+    typeof duration === 'number'
+      ? { ...SPRING_STANDARD, duration }
+      : SPRING_DECK;
 
   const svgProps: React.ComponentProps<typeof motion.svg> & {
     'data-thin-stroke'?: string;
@@ -518,9 +620,9 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
     'data-thin-stroke': isCustomStroke ? 'true' : undefined,
     'aria-hidden': ariaHidden,
     initial: 'idle',
-    animate: animateState,
-    whileTap: prefersReducedMotion ? undefined : { scale: 0.92 },
-    transition: SPRING_DECK,
+    animate: controls,
+    whileTap: prefersReducedMotion ? undefined : { scale: 0.94 },
+    transition: baseTransition,
     ...ICON_SVG_BASE,
   };
 
@@ -916,9 +1018,13 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
         <motion.svg {...svgProps}>
           <motion.path
             d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-            variants={ICON_VARIANTS.mailFrameLift}
+            variants={ICON_VARIANTS.homeRoofLift}
           />
-          <motion.path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" variants={ICON_VARIANTS.pathDraw} />
+          <motion.path
+            d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+            variants={ICON_VARIANTS.homeDoorOpen}
+            style={{ originY: '21px' }}
+          />
         </motion.svg>
       );
 
@@ -2193,6 +2299,319 @@ const MotionIconInner: React.FC<MotionIconProps> = ({
         <motion.svg {...svgProps}>
           <motion.path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" variants={ICON_VARIANTS.layersTop} />
           <rect x="2" y="6" width="14" height="12" rx="2" />
+        </motion.svg>
+      );
+
+    case 'code':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.polyline points="16 18 22 12 16 6" variants={ICON_VARIANTS.codeTagRight} />
+          <motion.polyline points="8 6 2 12 8 18" variants={ICON_VARIANTS.codeTagLeft} />
+        </motion.svg>
+      );
+
+    case 'terminal':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.polyline points="4 17 10 11 4 5" variants={ICON_VARIANTS.codeTagRight} />
+          <motion.line x1="12" x2="20" y1="19" y2="19" variants={ICON_VARIANTS.docLine1} />
+        </motion.svg>
+      );
+
+    case 'anchor':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.g variants={ICON_VARIANTS.anchorSway} style={{ originX: '12px', originY: '5px' }}>
+            <circle cx="12" cy="5" r="3" />
+            <line x1="12" x2="12" y1="22" y2="8" />
+            <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+          </motion.g>
+        </motion.svg>
+      );
+
+    case 'gem':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.g variants={ICON_VARIANTS.gemFacetSparkle} style={{ originX: '12px', originY: '12px' }}>
+            <path d="M6 3h12l4 6-10 13L2 9Z" />
+            <motion.path d="M11 3 8 9l4 13 4-13-3-6" variants={ICON_VARIANTS.pathDraw} />
+            <path d="M2 9h20" />
+          </motion.g>
+        </motion.svg>
+      );
+
+    case 'crown':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.g variants={ICON_VARIANTS.crownTilt} style={{ originX: '12px', originY: '18px' }}>
+            <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
+            <path d="M5 21h14" />
+          </motion.g>
+        </motion.svg>
+      );
+
+    case 'settings-2':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M20 7h-9" />
+          <path d="M14 17H5" />
+          <motion.circle cx="17" cy="17" r="3" variants={ICON_VARIANTS.sliderLeft} />
+          <motion.circle cx="7" cy="7" r="3" variants={ICON_VARIANTS.sliderRight} />
+        </motion.svg>
+      );
+
+    case 'pie-chart':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+          <motion.path d="M22 12A10 10 0 0 0 12 2v10z" variants={ICON_VARIANTS.pieSlicePop} />
+        </motion.svg>
+      );
+
+    case 'chart-no-axes-combined':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M12 16v5" variants={ICON_VARIANTS.bar2Grow} style={{ originY: '21px' }} />
+          <motion.path d="M16 14v7" variants={ICON_VARIANTS.bar3Grow} style={{ originY: '21px' }} />
+          <motion.path d="M20 10v11" variants={ICON_VARIANTS.bar3Grow} style={{ originY: '21px' }} />
+          <motion.path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" variants={ICON_VARIANTS.pathDraw} />
+          <motion.path d="M4 18v3" variants={ICON_VARIANTS.bar1Grow} style={{ originY: '21px' }} />
+          <motion.path d="M8 14v7" variants={ICON_VARIANTS.bar2Grow} style={{ originY: '21px' }} />
+        </motion.svg>
+      );
+
+    case 'trending-down':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.polyline points="22 17 13.5 8.5 8.5 13.5 2 7" variants={ICON_VARIANTS.pathDraw} />
+          <motion.polyline points="16 17 22 17 22 11" variants={ICON_VARIANTS.slideRight} />
+        </motion.svg>
+      );
+
+    case 'signal':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M2 20h.01" />
+          <motion.path d="M7 20v-4" variants={ICON_VARIANTS.signalBar1} style={{ originY: '20px' }} />
+          <motion.path d="M12 20v-8" variants={ICON_VARIANTS.signalBar2} style={{ originY: '20px' }} />
+          <motion.path d="M17 20V8" variants={ICON_VARIANTS.signalBar2} style={{ originY: '20px' }} />
+          <motion.path d="M22 4v16" variants={ICON_VARIANTS.signalBar3} style={{ originY: '20px' }} />
+        </motion.svg>
+      );
+
+    case 'wifi':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M12 20h.01" />
+          <motion.path d="M8.5 16.429a5 5 0 0 1 7 0" variants={ICON_VARIANTS.signalBar1} style={{ originX: '12px', originY: '18px' }} />
+          <motion.path d="M5 12.859a10 10 0 0 1 14 0" variants={ICON_VARIANTS.signalBar2} style={{ originX: '12px', originY: '18px' }} />
+          <motion.path d="M2 8.82a15 15 0 0 1 20 0" variants={ICON_VARIANTS.signalBar3} style={{ originX: '12px', originY: '18px' }} />
+        </motion.svg>
+      );
+
+    case 'bluetooth':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="m7 7 10 10-5 5V2l5 5L7 17" variants={ICON_VARIANTS.pathDraw} />
+        </motion.svg>
+      );
+
+    case 'cloud':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" variants={ICON_VARIANTS.layersTop} />
+        </motion.svg>
+      );
+
+    case 'unlock':
+      return (
+        <motion.svg {...svgProps}>
+          <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+          <motion.path d="M7 11V7a5 5 0 0 1 9.9-1" variants={ICON_VARIANTS.lockShackleLift} />
+        </motion.svg>
+      );
+
+    case 'save':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+          <motion.path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" variants={ICON_VARIANTS.docLine1} />
+          <motion.path d="M7 3v4a1 1 0 0 0 1 1h7" variants={ICON_VARIANTS.downloadArrow} />
+        </motion.svg>
+      );
+
+    case 'file':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" variants={ICON_VARIANTS.layersTop} />
+          <motion.path d="M14 2v4a2 2 0 0 0 2 2h4" variants={ICON_VARIANTS.pathDraw} />
+        </motion.svg>
+      );
+
+    case 'layout':
+      return (
+        <motion.svg {...svgProps}>
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <motion.path d="M3 9h18" variants={ICON_VARIANTS.docLine1} />
+          <motion.path d="M9 21V9" variants={ICON_VARIANTS.docLine2} />
+        </motion.svg>
+      );
+
+    case 'menu':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.line x1="4" x2="20" y1="6" y2="6" variants={ICON_VARIANTS.docLine1} />
+          <motion.line x1="4" x2="20" y1="12" y2="12" variants={ICON_VARIANTS.docLine2} />
+          <motion.line x1="4" x2="20" y1="18" y2="18" variants={ICON_VARIANTS.docLine3} />
+        </motion.svg>
+      );
+
+    case 'more-horizontal':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.circle cx="12" cy="12" r="1" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '12px', originY: '12px' }} />
+          <motion.circle cx="19" cy="12" r="1" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '19px', originY: '12px' }} />
+          <motion.circle cx="5" cy="12" r="1" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '5px', originY: '12px' }} />
+        </motion.svg>
+      );
+
+    case 'images':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M18 22H4a2 2 0 0 1-2-2V6" variants={ICON_VARIANTS.layersMid} />
+          <path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" />
+          <circle cx="12" cy="8" r="2" />
+          <motion.rect width="16" height="16" x="6" y="2" rx="2" variants={ICON_VARIANTS.layersTop} />
+        </motion.svg>
+      );
+
+    case 'briefcase-business':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M12 12h.01" />
+          <motion.path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" variants={ICON_VARIANTS.briefcaseHandle} />
+          <motion.path d="M22 13a18.15 18.15 0 0 1-20 0" variants={ICON_VARIANTS.pathDraw} />
+          <rect width="20" height="14" x="2" y="6" rx="2" />
+        </motion.svg>
+      );
+
+    case 'contact-round':
+      return (
+        <motion.svg {...svgProps}>
+          <path d="M16 2v2" />
+          <path d="M17.915 22a6 6 0 0 0-12 0" />
+          <motion.circle cx="12" cy="12" r="4" variants={ICON_VARIANTS.userHeadNod} />
+          <path d="M8 2v2" />
+          <rect width="18" height="18" x="3" y="4" rx="2" />
+        </motion.svg>
+      );
+
+    case 'users-round':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M18 21a8 8 0 0 0-16 0" variants={ICON_VARIANTS.pathDraw} />
+          <motion.circle cx="10" cy="8" r="5" variants={ICON_VARIANTS.userHeadNod} />
+          <motion.path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" variants={ICON_VARIANTS.userSecondarySlide} />
+        </motion.svg>
+      );
+
+    case 'calendar-days':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M8 2v4" variants={ICON_VARIANTS.calendarRing} />
+          <motion.path d="M16 2v4" variants={ICON_VARIANTS.calendarRing} />
+          <rect width="18" height="18" x="3" y="4" rx="2" />
+          <path d="M3 10h18" />
+          <motion.path d="M8 14h.01" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '8px', originY: '14px' }} />
+          <motion.path d="M12 14h.01" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '12px', originY: '14px' }} />
+          <motion.path d="M16 14h.01" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '16px', originY: '14px' }} />
+          <motion.path d="M8 18h.01" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '8px', originY: '18px' }} />
+          <motion.path d="M12 18h.01" variants={ICON_VARIANTS.calendarDatePop} style={{ originX: '12px', originY: '18px' }} />
+        </motion.svg>
+      );
+
+    case 'timer':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.line x1="10" x2="14" y1="2" y2="2" variants={ICON_VARIANTS.calendarRing} />
+          <motion.line x1="12" x2="15" y1="14" y2="11" variants={ICON_VARIANTS.clockMinuteSweep} style={{ originX: '12px', originY: '14px' }} />
+          <circle cx="12" cy="14" r="8" />
+        </motion.svg>
+      );
+
+    case 'history':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.g variants={ICON_VARIANTS.spinCCW} style={{ originX: '12px', originY: '12px' }}>
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </motion.g>
+          <motion.path d="M12 7v5l4 2" variants={ICON_VARIANTS.clockMinuteSweep} style={{ originX: '12px', originY: '12px' }} />
+        </motion.svg>
+      );
+
+    case 'alarm-clock':
+      return (
+        <motion.svg {...svgProps}>
+          <circle cx="12" cy="13" r="8" />
+          <motion.path d="M12 9v4l2 2" variants={ICON_VARIANTS.clockMinuteSweep} style={{ originX: '12px', originY: '13px' }} />
+          <motion.path d="M5 3 2 6" variants={ICON_VARIANTS.bellBody} style={{ originX: '5px', originY: '6px' }} />
+          <motion.path d="m22 6-3-3" variants={ICON_VARIANTS.bellBody} style={{ originX: '19px', originY: '6px' }} />
+          <path d="M6.38 18.7 4 21" />
+          <path d="M17.64 18.67 20 21" />
+        </motion.svg>
+      );
+
+    case 'laptop':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16" variants={ICON_VARIANTS.layersTop} />
+        </motion.svg>
+      );
+
+    case 'lightbulb':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path
+            d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+            variants={ICON_VARIANTS.bulbGlow}
+            style={{ originX: '12px', originY: '9px' }}
+          />
+          <path d="M9 18h6" />
+          <path d="M10 22h4" />
+        </motion.svg>
+      );
+
+    case 'flag':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path
+            d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
+            variants={ICON_VARIANTS.flagWave}
+            style={{ originX: '4px', originY: '9px' }}
+          />
+          <line x1="4" x2="4" y1="22" y2="15" />
+        </motion.svg>
+      );
+
+    case 'map':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.path
+            d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+            variants={ICON_VARIANTS.layersTop}
+          />
+          <motion.path d="M15 5.764v15" variants={ICON_VARIANTS.docLine1} />
+          <motion.path d="M9 3.236v15" variants={ICON_VARIANTS.docLine2} />
+        </motion.svg>
+      );
+
+    case 'route':
+      return (
+        <motion.svg {...svgProps}>
+          <motion.circle cx="6" cy="19" r="3" variants={ICON_VARIANTS.circleSettle} style={{ originX: '6px', originY: '19px' }} />
+          <motion.path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" variants={ICON_VARIANTS.pathDraw} />
+          <motion.circle cx="18" cy="5" r="3" variants={ICON_VARIANTS.circleSettle} style={{ originX: '18px', originY: '5px' }} />
         </motion.svg>
       );
 

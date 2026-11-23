@@ -126,6 +126,14 @@ html.dark[data-card-style="black-cowhide-leather"] {
     inset 0 -1px 0 rgba(255, 255, 255, 0.12);
 
   --bg-nav-pill: linear-gradient(145deg, #242730 0%, #12141A 52%, #1A1D24 100%);
+  --bg-nav-arrow: linear-gradient(145deg, #242730 0%, #12141A 55%, #1A1D24 100%);
+  --border-nav-arrow: #08090C;
+  --text-nav-arrow: #FFFFFF;
+  --bg-banner-pill: linear-gradient(145deg, #242730 0%, #12141A 55%, #1A1D24 100%);
+  --border-banner-pill: #08090C;
+  --text-banner-pill: #FFFFFF;
+  --bg-banner-cta: linear-gradient(135deg, #2D313D 0%, #14171F 100%);
+  --text-banner-cta: #FFFFFF;
   --shadow-nav-pill: 0 8px 18px rgba(0, 0, 0, 0.56),
     inset 0 1.5px 3px rgba(255, 255, 255, 0.13),
     inset 0 -2px 4px rgba(0, 0, 0, 0.72);

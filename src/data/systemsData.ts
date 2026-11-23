@@ -1,20 +1,20 @@
 import React from "react";
-import { 
-  Server, 
-  Database, 
-  Network, 
-  Cpu, 
-  ShieldCheck, 
-  Layers, 
-  LayoutGrid, 
-  MessageSquare, 
-  Bot, 
-  Headphones, 
-  LineChart, 
-  Coins, 
-  Workflow, 
-  Globe 
-} from "lucide-react";
+import { createAnimatedIcon } from "@/components/ui/MotionIcons";
+
+const Server = createAnimatedIcon("server");
+const Database = createAnimatedIcon("database");
+const Network = createAnimatedIcon("network");
+const Cpu = createAnimatedIcon("cpu");
+const ShieldCheck = createAnimatedIcon("shield-check");
+const Layers = createAnimatedIcon("layers");
+const LayoutGrid = createAnimatedIcon("grid");
+const MessageSquare = createAnimatedIcon("message-square");
+const Bot = createAnimatedIcon("bot");
+const Headphones = createAnimatedIcon("headphones");
+const LineChart = createAnimatedIcon("line-chart");
+const Coins = createAnimatedIcon("coins");
+const Workflow = createAnimatedIcon("workflow");
+const Globe = createAnimatedIcon("globe");
 
 export interface PowerSystemItem {
   id: string;

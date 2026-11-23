@@ -498,7 +498,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             if (screen.id > 1) handleSelectScreen((screen.id - 1) as HomeScreenId);
           }}
           aria-label={isEn ? 'Previous home screen' : 'Màn hình Trang chủ trước'}
-          className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 text-[var(--text-primary)] inline-flex items-center justify-center transition hover:scale-105 active:scale-95 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+          className="nav-arrow-btn theme-prev-next-btn w-8 h-8 rounded-full border inline-flex items-center justify-center transition hover:scale-105 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
         >
           <WebIcon name="chevron-left" className="w-4 h-4" />
         </button>
@@ -510,7 +510,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             if (screen.id < 3) handleSelectScreen((screen.id + 1) as HomeScreenId);
           }}
           aria-label={isEn ? 'Next home screen' : 'Màn hình Trang chủ tiếp theo'}
-          className="w-8 h-8 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 text-[var(--text-primary)] inline-flex items-center justify-center transition hover:scale-105 active:scale-95 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
+          className="nav-arrow-btn theme-prev-next-btn w-8 h-8 rounded-full border inline-flex items-center justify-center transition hover:scale-105 disabled:opacity-35 disabled:cursor-not-allowed cursor-pointer"
         >
           <WebIcon name="chevron-right" className="w-4 h-4" />
         </button>
@@ -679,7 +679,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                               background: 'var(--bg-button-primary, linear-gradient(135deg, #3B66F5, #2563EB))',
                               color: 'var(--text-button-primary, #FFFFFF)',
                             }}
-                            className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] font-bold typo-button shadow-[0_10px_24px_rgba(37,99,235,0.28)] hover:brightness-105 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                            className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] font-bold typo-button shadow-[0_10px_24px_rgba(37,99,235,0.28)] hover:brightness-105 hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
                           >
                             <WebIcon name="user-round" className="w-4 h-4 shrink-0" />
                             <span>{isEn ? 'Explore Profile' : 'Hồ Sơ Năng Lực'}</span>
@@ -699,7 +699,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                                 : 'rgba(255, 255, 255, 0.98)',
                               color: 'var(--text-heading, var(--text-primary))',
                             }}
-                            className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] border font-bold typo-button shadow-[0_8px_20px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                            className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] border font-bold typo-button shadow-[0_8px_20px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
                           >
                             <WebIcon
                               name="mail"
@@ -721,7 +721,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                               borderColor: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(14, 165, 233, 0.28)',
                               color: 'var(--text-link, var(--color-primary))',
                             }}
-                            className="min-h-[44px] px-4 py-2.5 rounded-[14px] border font-bold typo-button hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 inline-flex items-center gap-1.5 cursor-pointer"
+                            className="min-h-[44px] px-4 py-2.5 rounded-[14px] border font-bold typo-button hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-1.5 cursor-pointer"
                           >
                             <span>{isEn ? 'Screen 2' : 'Màn hình 2'}</span>
                             <WebIcon name="arrow-right" className="w-4 h-4 shrink-0" />
@@ -734,7 +734,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         >
                           {contactSocialLinks.map((item) => {
                             const sharedClasses =
-                              'w-9 h-9 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer border';
+                              'w-9 h-9 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 cursor-pointer border';
                             const sharedStyle: React.CSSProperties = {
                               background: isDark
                                 ? 'rgba(255, 255, 255, 0.08)'
@@ -921,7 +921,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                                 : 'rgba(255, 255, 255, 1)',
                               color: 'var(--text-link, var(--color-primary))',
                             }}
-                            className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border shadow-lg typo-badge font-bold hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                            className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border shadow-lg typo-badge font-bold hover:scale-105 transition-all duration-200 cursor-pointer"
                           >
                             <WebIcon
                               name={showCircleVideo ? 'image' : 'play'}
@@ -1368,7 +1368,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       className={`group relative h-1.5 sm:h-[6px] rounded-full transition-all duration-300 cursor-pointer focus:outline-none select-none ${
                         isActive
                           ? 'w-5 sm:w-6 scale-105 bg-[var(--color-primary,#0284c7)]'
-                          : 'w-2.5 sm:w-3 bg-slate-400/55 hover:w-3.5 hover:bg-slate-400/80 active:scale-95'
+                          : 'w-2.5 sm:w-3 bg-slate-400/55 hover:w-3.5 hover:bg-slate-400/80'
                       }`}
                     />
                   );

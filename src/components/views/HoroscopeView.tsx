@@ -2565,7 +2565,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         onClick={handlePrevHoroscopeCard}
         title={`${language === 'en' ? 'Previous card' : 'Lùi thẻ'} (${((activeCardIndex - 1 + 5) % 5) + 1}/5: ${t(HOROSCOPE_SLIDES[(activeCardIndex - 1 + 5) % 5].label)})`}
         aria-label={language === 'en' ? 'Previous card' : 'Lùi thẻ'}
-        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed left-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed left-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer group pointer-events-auto"
       >
         <WebIcon
           name="chevron-left"
@@ -2581,7 +2581,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         onClick={handleNextHoroscopeCard}
         title={`${language === 'en' ? 'Next card' : 'Tới thẻ'} (${((activeCardIndex + 1) % 5) + 1}/5: ${t(HOROSCOPE_SLIDES[(activeCardIndex + 1) % 5].label)})`}
         aria-label={language === 'en' ? 'Next card' : 'Tới thẻ'}
-        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed right-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 transition-all duration-300 shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] cursor-pointer group pointer-events-auto"
+        className="nav-arrow-btn theme-prev-next-btn hidden lg:flex fixed right-3.5 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full aspect-square items-center justify-center opacity-70 hover:!opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer group pointer-events-auto"
       >
         <WebIcon
           name="chevron-right"

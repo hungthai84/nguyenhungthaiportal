@@ -498,9 +498,6 @@ export const Footer: React.FC<FooterProps> = ({
         borderTopRightRadius: '14px',
         borderBottomRightRadius: '0px',
         borderBottomLeftRadius: '0px',
-        backdropFilter: 'none',
-        WebkitBackdropFilter: 'none',
-        filter: 'none',
         animation: 'none',
       }}
       className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
@@ -567,10 +564,6 @@ export const Footer: React.FC<FooterProps> = ({
             className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
-            style={{
-              background: 'var(--bg-button-primary, var(--text-link, var(--color-primary)))',
-              color: 'var(--text-button-primary, #FFFFFF)',
-            }}
           >
             <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[18px] h-[18px]" />
           </button>
@@ -613,10 +606,6 @@ export const Footer: React.FC<FooterProps> = ({
             className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
-            style={{
-              background: 'var(--bg-button-primary, var(--text-link, var(--color-primary)))',
-              color: 'var(--text-button-primary, #FFFFFF)',
-            }}
           >
             <WebIcon name="chevron-right" strokeWidth={2.85} className="w-[18px] h-[18px]" />
           </button>
@@ -691,19 +680,14 @@ export const Footer: React.FC<FooterProps> = ({
                       } as React.CSSProperties
                     }
                   >
-                    <div
-                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
-                      style={{
-                        backgroundColor: '#10B981',
-                      }}
-                    >
-                      <WebIcon name="languages" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                      <WebIcon name="languages" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
                     </div>
                     <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
-                        style={{ fontWeight: 'bold', color: isLangMenuOpen ? 'var(--text-button-primary, #FFFFFF)' : '#10B981' }}
+                        style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {activeLangTitle}
@@ -789,21 +773,13 @@ export const Footer: React.FC<FooterProps> = ({
                       } as React.CSSProperties
                     }
                   >
-                    <div
-                      className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
-                      style={{
-                        backgroundColor: '#6366F1',
-                      }}
-                    >
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                      <WebIcon name="layers" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
                     </div>
                     <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
-                        style={{
-                          fontWeight: 'bold',
-                          color: currentTabIndex === 15 || isThemeMenuOpen ? 'var(--text-button-primary, #FFFFFF)' : '#6366F1',
-                        }}
+                        style={{ fontWeight: 'bold' }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {isEn ? 'Theme' : 'Giao Diện'}
@@ -860,21 +836,13 @@ export const Footer: React.FC<FooterProps> = ({
                   } as React.CSSProperties
                 }
               >
-                <div
-                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
-                  style={{
-                    backgroundColor: '#F43F5E',
-                  }}
-                >
-                  <WebIcon name="image" className="nav-pill-icon-svg w-[18px] h-[18px] text-white shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="image" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: currentTabIndex === 14 ? 'var(--text-button-primary, #FFFFFF)' : '#F43F5E',
-                    }}
+                    style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'Wallpaper' : 'Hình Nền'}
@@ -934,21 +902,13 @@ export const Footer: React.FC<FooterProps> = ({
                   } as React.CSSProperties
                 }
               >
-                <div
-                  className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden"
-                  style={{
-                    backgroundColor: '#0EA5E9',
-                  }}
-                >
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
                   <WebIcon name="bot" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: currentTabIndex === 13 ? 'var(--text-button-primary, #FFFFFF)' : '#0EA5E9',
-                    }}
+                    style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
@@ -1012,11 +972,22 @@ export const Footer: React.FC<FooterProps> = ({
               </p>
               <div className="theme-modal-subcard p-4 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
+                  <span
+                    className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold border"
+                    style={{
+                      background: 'var(--bg-badge)',
+                      borderColor: 'var(--border-badge)',
+                      color: 'var(--text-badge, var(--text-link, var(--color-primary)))',
+                    }}
+                  >
                     {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
                   </span>
                   <h4 className="typo-h4 font-bold flex items-center gap-2">
-                    <WebIcon name="award" className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-400" />
+                    <WebIcon
+                      name="award"
+                      className="w-4 h-4 shrink-0"
+                      style={{ color: 'var(--text-link, var(--color-primary))' }}
+                    />
                     <span>{isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}</span>
                   </h4>
                   <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
@@ -1049,8 +1020,14 @@ export const Footer: React.FC<FooterProps> = ({
                   <span className="typo-label font-bold opacity-80">
                     {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}
                   </span>
-                  <span className="typo-badge font-bold text-[#047857] dark:text-[#6EE7B7] flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-[#047857] dark:bg-[#6EE7B7]"></span>
+                  <span
+                    className="typo-badge font-bold flex items-center gap-1"
+                    style={{ color: 'var(--semantic-success, #047857)' }}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: 'var(--semantic-success, #047857)' }}
+                    />
                     {isEn ? 'Verified' : 'Đã xác thực'}
                   </span>
                 </div>

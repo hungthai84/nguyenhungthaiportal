@@ -2330,7 +2330,7 @@ export function AboutView({
                         <button
                           type="button"
                           onClick={() => setActiveHeroMedia('video')}
-                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white active:scale-95 transition-all cursor-pointer flex items-center gap-1 typo-badge"
+                          className="theme-modal-close p-2 rounded-full shadow-lg bg-slate-950/80 backdrop-blur-md border border-white/20 text-white transition-all cursor-pointer flex items-center gap-1 typo-badge"
                           title="Quay lại xem Video chân dung"
                         >
                           <WebIcon name="cancel" className="w-3.5 h-3.5" />
@@ -2400,7 +2400,7 @@ export function AboutView({
                     <div 
                       id="el-p2-div-103"
                       style={{ borderRadius: '999px' }}
-                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 z-30 max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto active:scale-98 select-none`}
+                      className={`theme-video-capsule video-play-btn video-play-btn--about ${isPlayingIntro ? 'is-playing' : ''} absolute bottom-2 right-2 sm:bottom-3.5 sm:right-3.5 z-30 max-w-[calc(100%-16px)] inline-flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-3 py-1 sm:py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-300 cursor-pointer pointer-events-auto select-none`}
                     >
                       {/* Speaker / Sound Toggle Button — mặc định tắt ở Video 1, mặc định mở ở Video 2 */}
                       <button
@@ -2410,7 +2410,7 @@ export function AboutView({
                           e.stopPropagation();
                           toggleVideoMute();
                         }}
-                        className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-90 ${
+                        className={`video-play-btn__sound w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer ${
                           isAudioOn
                             ? 'text-current shadow-xs'
                             : 'is-muted text-white shadow-md'
@@ -2446,7 +2446,7 @@ export function AboutView({
                             paddingRight: '10px',
                             borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer font-play"
                           title="Bấm để phát video thuyết minh chân dung chuyên gia"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -2470,7 +2470,7 @@ export function AboutView({
                             paddingRight: '10px',
                             borderRadius: '999px',
                           }}
-                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer active:scale-95 font-play"
+                          className="inline-flex items-center justify-center gap-2 pr-2 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide transition-all duration-200 cursor-pointer font-play"
                           title="Bấm để hủy video và quay về Video 1"
                         >
                           <span id="el-p2-span-36" className="flex items-center justify-center">
@@ -3117,7 +3117,7 @@ export function AboutView({
                   type="button"
                   onClick={handleDownloadVcf}
                   style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer shadow-sm hover:opacity-95 active:scale-95 transition whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer shadow-sm hover:opacity-95 transition whitespace-nowrap"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Tải file .vcf</span>
@@ -3125,7 +3125,7 @@ export function AboutView({
                 <button
                   type="button"
                   onClick={handleCopyFullVCard}
-                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer active:scale-95 transition whitespace-nowrap"
+                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer transition whitespace-nowrap"
                 >
                   {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép text'}</span>

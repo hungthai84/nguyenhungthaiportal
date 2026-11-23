@@ -250,7 +250,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
               title="Bộ lọc kỷ niệm"
               aria-label="Bộ lọc kỷ niệm"
               aria-expanded={isFilterDropdownOpen}
@@ -342,7 +342,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
             <button
               type="button"
               onClick={handleResetFilters}
-              className="banner-control-pill px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer shadow-xs active:scale-95"
+              className="banner-control-pill px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer shadow-xs"
             >
               ✕ Đặt lại
             </button>
@@ -461,7 +461,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   <span
                     aria-label="Lưu ghim kỷ niệm"
                     title="Lưu ghim kỷ niệm"
-                    className="w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform"
+                    className="w-8 h-8 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                   >
                     <WebIcon name="heart" className="w-4 h-4 fill-white text-white" />
                   </span>
@@ -575,7 +575,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   )
                 }
                 title="Ảnh trước (Mũi tên trái)"
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#111827]/80 hover:bg-emerald-600 text-white transition-all border border-white/20 shadow-lg hover:scale-110 active:scale-95 cursor-pointer z-20"
+                className="nav-arrow-btn theme-prev-next-btn absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all shadow-lg hover:scale-110 cursor-pointer z-20"
               >
                 <WebIcon name="chevron-left" className="w-5 h-5 stroke-[2.5]" />
               </button>
@@ -589,7 +589,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   )
                 }
                 title="Ảnh tiếp theo (Mũi tên phải)"
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#111827]/80 hover:bg-emerald-600 text-white transition-all border border-white/20 shadow-lg hover:scale-110 active:scale-95 cursor-pointer z-20"
+                className="nav-arrow-btn theme-prev-next-btn absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all shadow-lg hover:scale-110 cursor-pointer z-20"
               >
                 <WebIcon name="chevron-right" className="w-5 h-5 stroke-[2.5]" />
               </button>

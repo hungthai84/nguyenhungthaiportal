@@ -94,7 +94,7 @@ const CircularLogo: React.FC<{
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
+        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -1082,14 +1082,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             style={
               !isLeather
                 ? {
-                    background: 'var(--bg-nav-pill, var(--bg-card))',
-                    color: 'var(--text-primary)',
-                    borderColor: 'var(--border-color)',
+                    background: 'var(--bg-nav-arrow, var(--bg-nav-pill, var(--bg-card)))',
+                    color: 'var(--text-nav-arrow, var(--text-primary))',
+                    borderColor: 'var(--border-nav-arrow, var(--border-color))',
                   }
                 : undefined
             }
             className={cn(
-              'absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
+              'nav-arrow-btn theme-prev-next-btn absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110',
               isBlackLeather
                 ? 'bg-[#14171D]/95 text-white border-white/70 hover:bg-[#272B35]'
                 : isBrownLeather
@@ -1108,14 +1108,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             style={
               !isLeather
                 ? {
-                    background: 'var(--bg-nav-pill, var(--bg-card))',
-                    color: 'var(--text-primary)',
-                    borderColor: 'var(--border-color)',
+                    background: 'var(--bg-nav-arrow, var(--bg-nav-pill, var(--bg-card)))',
+                    color: 'var(--text-nav-arrow, var(--text-primary))',
+                    borderColor: 'var(--border-nav-arrow, var(--border-color))',
                   }
                 : undefined
             }
             className={cn(
-              'absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border shadow-[0_8px_22px_rgba(15,23,42,0.18)] hover:shadow-[0_10px_28px_rgba(56,189,248,0.35)] flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-90',
+              'nav-arrow-btn theme-prev-next-btn absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110',
               isBlackLeather
                 ? 'bg-[#14171D]/95 text-white border-white/70 hover:bg-[#272B35]'
                 : isBrownLeather
@@ -1401,7 +1401,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   : { color: resolvedAccent }
                               }
                               className={cn(
-                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer active:scale-95',
+                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer',
                                 isBlackLeather
                                   ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
                                   : isBrownLeather
@@ -1584,7 +1584,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   }
                                 : { color: resolvedAccent }
                             }
-                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer active:scale-95"
+                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer"
                           >
                             <span className="text-current">Xem chi tiết</span>
                             <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -2184,7 +2184,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 title="Đóng chi tiết công việc (hoặc nhấn phím Esc)"
                 aria-label="Đóng chi tiết công việc"
                 className={cn(
-                  'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 border backdrop-blur-md shrink-0',
+                  'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 border backdrop-blur-md shrink-0',
                   isBlackLeather
                     ? 'bg-[#14171D] border-white/65 text-white hover:bg-[#232731]'
                     : isBrownLeather
@@ -2867,7 +2867,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         type="button"
                         onClick={() => navigateToProjects()}
                         className={cn(
-                          'px-3 py-1.5 rounded-full typo-badge font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0 active:scale-95',
+                          'px-3 py-1.5 rounded-full typo-badge font-bold border transition-all flex items-center gap-1 cursor-pointer shrink-0',
                           isDarkCardText
                             ? 'bg-orange-500/15 border-orange-400/30 text-orange-200 hover:bg-orange-500 hover:text-white'
                             : 'bg-orange-50 border-orange-200 text-orange-800 hover:bg-orange-600 hover:text-white hover:border-orange-600'

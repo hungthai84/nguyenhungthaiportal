@@ -157,9 +157,13 @@ html[data-card-style="deep-ocean"] {
   --banner-transparent-bg: rgba(10, 24, 52, 0.72);
   --banner-border: rgba(56, 189, 248, 0.34);
   --bg-banner-pill: rgba(14, 38, 76, 0.84);
+  --border-banner-pill: rgba(56, 189, 248, 0.34);
   --text-banner-pill: #7DD3FC;
   --bg-banner-cta: linear-gradient(135deg, #06B6D4 0%, #0284C7 100%);
   --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: rgba(14, 34, 68, 0.72);
+  --border-nav-arrow: rgba(56, 189, 248, 0.36);
+  --text-nav-arrow: #7DD3FC;
 
   --pillar-blue: #38BDF8;
   --pillar-cyan: #22D3EE;

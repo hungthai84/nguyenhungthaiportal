@@ -866,10 +866,7 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
           </NavButton>
           <span
             aria-live="polite"
-            className={cn(
-              'min-w-24 text-center tabular-nums font-medium',
-              isDark ? 'text-slate-300' : 'text-slate-600'
-            )}
+            className="min-w-24 text-center tabular-nums font-medium text-[var(--text-secondary)]"
           >
             {displayFirst === displayLast
               ? `${displayFirst}`
@@ -909,21 +906,15 @@ function Paper({
   return (
     <div
       className={cn(
-        '@container absolute top-0 h-full w-1/2 origin-top-left overflow-hidden',
-        isDark
-          ? back
-            ? 'bg-[#131823] text-slate-100 ring-1 ring-white/12'
-            : 'bg-[#1a2030] text-slate-100 ring-1 ring-white/12'
-          : back
-            ? 'bg-[#f1efe9] text-zinc-900 ring-1 ring-black/8'
-            : 'bg-[#fbfaf7] text-zinc-900 ring-1 ring-black/8',
+        '@container education-book-paper glass-card absolute top-0 h-full w-1/2 origin-top-left overflow-hidden text-[var(--text-primary)]',
+        back ? 'education-book-paper--back' : 'education-book-paper--front',
         side === 'left'
-          ? 'left-0 rounded-l-[12px] shadow-[inset_-1px_0_0_rgb(0_0_0/0.07)]'
-          : 'left-1/2 rounded-r-[12px] shadow-[inset_1px_0_0_rgb(0_0_0/0.07)]'
+          ? 'left-0 rounded-l-[14px] rounded-r-none shadow-[inset_-1px_0_0_var(--border-subcard,rgba(148,163,184,0.22))]'
+          : 'left-1/2 rounded-r-[14px] rounded-l-none shadow-[inset_1px_0_0_var(--border-subcard,rgba(148,163,184,0.22))]'
       )}
       style={{
         ...style,
-        borderColor: accentColor ? `${accentColor}30` : undefined,
+        borderColor: accentColor ? `var(--border-modal, ${accentColor}38)` : undefined,
       }}
     >
       {/* The back of a page reads the right way round once it's folded over. */}
@@ -935,7 +926,7 @@ function Paper({
         aria-hidden="true"
         className={cn(
           'pointer-events-none absolute inset-y-0 w-[8%] to-transparent',
-          isDark ? 'from-black/45' : 'from-black/[0.08]',
+          isDark ? 'from-black/40' : 'from-black/[0.08]',
           side === 'left' ? 'right-0 bg-gradient-to-l' : 'left-0 bg-gradient-to-r'
         )}
       />
@@ -947,7 +938,6 @@ function NavButton({
   children,
   label,
   disabled,
-  isDark,
   onClick,
   onKeyDown,
 }: {
@@ -962,12 +952,7 @@ function NavButton({
     <button
       aria-disabled={disabled || undefined}
       aria-label={label}
-      className={cn(
-        'flex size-8 items-center justify-center rounded-full ring-1 transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50 cursor-pointer',
-        isDark
-          ? 'text-slate-200 ring-white/15 hover:bg-white/10 hover:text-white aria-disabled:cursor-default aria-disabled:text-slate-600 aria-disabled:hover:bg-transparent'
-          : 'text-slate-700 ring-black/12 hover:bg-slate-100 hover:text-slate-950 aria-disabled:cursor-default aria-disabled:text-slate-300 aria-disabled:hover:bg-transparent'
-      )}
+      className="nav-arrow-btn flex size-8 items-center justify-center rounded-full transition-colors duration-150 ease-out cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none"
       onClick={disabled ? undefined : onClick}
       onKeyDown={onKeyDown}
       type="button"

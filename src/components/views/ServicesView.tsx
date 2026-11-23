@@ -791,10 +791,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                     driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
 
                   const hoverFloodBg = isLeatherTheme
-                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.24) 0%, rgba(180, 118, 44, 0.16) 55%, rgba(120, 72, 24, 0.1) 100%)'
+                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.30) 0%, rgba(217, 145, 58, 0.22) 52%, rgba(120, 72, 24, 0.14) 100%)'
                     : isLight
-                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 28%, transparent) 0%, ${meta.tintBgLight} 58%, color-mix(in srgb, ${accentColor} 16%, rgba(255,255,255,0.88)) 100%)`
-                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 32%, transparent) 0%, ${meta.tintBgDark} 60%, color-mix(in srgb, ${accentColor} 20%, rgba(15,23,42,0.9)) 100%)`;
+                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 38%, transparent) 0%, color-mix(in srgb, ${accentColor} 22%, ${meta.tintBgLight}) 55%, color-mix(in srgb, ${accentColor} 18%, rgba(255,255,255,0.92)) 100%)`
+                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 42%, transparent) 0%, color-mix(in srgb, ${accentColor} 24%, ${meta.tintBgDark}) 58%, color-mix(in srgb, ${accentColor} 22%, rgba(15,23,42,0.92)) 100%)`;
 
                   const updateHoverOrigin = (e: React.MouseEvent<HTMLDivElement>) => {
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -845,10 +845,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           : isLight
                             ? meta.borderLight
                             : meta.borderDark,
+                        ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
                       }}
                       className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
                     >
-                      {/* Lớp nền loang màu lan ra từ từ khắp thẻ khi rê chuột */}
+                      {/* Lớp Color Reveal lan màu dần khắp thẻ theo vị trí trỏ chuột */}
                       <span
                         aria-hidden="true"
                         className="service-card-hover-flood"

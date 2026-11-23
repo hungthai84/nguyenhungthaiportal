@@ -45,7 +45,7 @@ export const SampleQuestionButton: React.FC<SampleQuestionButtonProps> = ({
             }
           : undefined
       }
-      className={`theme-ai-cat-btn box-border h-[44px] px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
+      className={`theme-ai-cat-btn box-border h-[44px] px-2.5 sm:px-3.5 rounded-full typo-button border shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/70 shrink-0 whitespace-nowrap ${
         isOpen ? 'shadow-md' : 'hover:shadow-md'
       } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
     >

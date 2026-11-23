@@ -124,6 +124,8 @@ html[data-theme="dark-neon-glass"] {
   --bg-tooltip: rgba(6, 10, 26, 0.96);
 
   --bg-nav-button-opaque: #0F172A;
+  --bg-nav-arrow: rgba(14, 24, 52, 0.74);
+  --border-nav-arrow: rgba(34, 211, 238, 0.36);
   --bg-nav-pill: linear-gradient(
     135deg,
     rgba(14, 24, 52, 0.66) 0%,
@@ -145,6 +147,8 @@ html[data-theme="dark-neon-glass"] {
   --bg-highlight: rgba(34, 211, 238, 0.16);
   --bg-banner: rgba(15, 12, 41, 0.52);
   --bg-banner-pill: rgba(14, 24, 52, 0.76);
+  --bg-banner-cta: linear-gradient(135deg, #0369A1 0%, #4F46E5 52%, #DB2777 100%);
+  --text-banner-cta: #ffffff;
   --bg-banner-input: rgba(12, 20, 46, 0.76);
   --bg-nested-badge: rgba(16, 26, 56, 0.82);
 

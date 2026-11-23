@@ -596,12 +596,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </span>
                   )}
                   {/* Round Circle Badge with Icon or Avatar */}
-                  <div
-                    className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
-                    style={{
-                      backgroundColor: styleCfg.accentColor,
-                    }}
-                  >
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200">
                     {styleCfg.avatarGif ? (
                       <img
                         src={styleCfg.avatarGif}
@@ -617,9 +612,6 @@ export const Header: React.FC<HeaderProps> = ({
                       <WebIcon
                         name={page.icon || 'home'}
                         className="nav-pill-icon-svg w-[18px] h-[18px] text-center block shrink-0"
-                        style={{
-                          color: '#ffffff',
-                        }}
                       />
                     )}
                   </div>
@@ -733,12 +725,7 @@ export const Header: React.FC<HeaderProps> = ({
                       />
                     </span>
                   )}
-                  <div
-                    className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200"
-                    style={{
-                      backgroundColor: '#4F46E5',
-                    }}
-                  >
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200">
                     <img
                       src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Hùng Thái"

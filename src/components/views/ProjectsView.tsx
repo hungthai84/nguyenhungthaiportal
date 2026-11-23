@@ -537,7 +537,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   SoundEngine.playTap();
                   onReturnToOrigin();
                 }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-colors duration-200 active:scale-95 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
                 title="Quay lại trang đang xem"
               >
                 <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
@@ -598,7 +598,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-h3 font-bold font-play active:scale-95 group"
+                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-h3 font-bold font-play group"
                   title="Bộ lọc dự án"
                   aria-label="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
@@ -770,10 +770,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     borderRadius: '14px',
                   }}
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án: Chỉ bo cong góc trên trái & phải 14px, cạnh dưới phẳng */}
+                  {/* 1. Ảnh bìa thẻ Dự án: Cách mép thẻ dự án 2px, bo góc trên đồng tâm 12px, cạnh dưới phẳng */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0 box-border rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
+                    className="project-card-banner relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -790,10 +790,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                         }
                       }}
-                      className="w-full h-full object-cover object-center rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none"
+                      className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none"
                       style={{
                         background:
                           'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',
@@ -887,7 +887,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               onClick={handleCloseDetail}
               title="Đóng bài viết"
               aria-label="Đóng bài viết chi tiết dự án"
-              className="theme-modal-close absolute top-3 right-3 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 shrink-0"
+              className="theme-modal-close absolute top-3 right-3 z-50 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer shadow-lg transition-all duration-200 hover:scale-105 shrink-0"
             >
               <WebIcon name="x" className="w-4 h-4" />
             </button>

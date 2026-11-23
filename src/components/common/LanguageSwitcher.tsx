@@ -106,7 +106,7 @@ export const LanguageSwitcher: React.FC = () => {
               </div>
             </div>
             {languageMode === 'auto' && (
-              <WebIcon name="check" className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />
+              <WebIcon name="check" className="w-4 h-4 text-current shrink-0 stroke-[2.5]" />
             )}
           </button>
 
@@ -124,7 +124,7 @@ export const LanguageSwitcher: React.FC = () => {
               <span className="typo-body-sm font-bold truncate">Tiếng Việt</span>
             </div>
             {languageMode === 'vi' && (
-              <WebIcon name="check" className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />
+              <WebIcon name="check" className="w-4 h-4 text-current shrink-0 stroke-[2.5]" />
             )}
           </button>
 
@@ -142,7 +142,7 @@ export const LanguageSwitcher: React.FC = () => {
               <span className="typo-body-sm font-bold truncate">English</span>
             </div>
             {languageMode === 'en' && (
-              <WebIcon name="check" className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />
+              <WebIcon name="check" className="w-4 h-4 text-current shrink-0 stroke-[2.5]" />
             )}
           </button>
         </div>

@@ -638,9 +638,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             onClick={() => SoundEngine.playTap()}
             title={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
             aria-label={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
-            className="inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full typo-button font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-[0_4px_16px_rgba(37,99,235,0.35)] border border-blue-300/40 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
+            className="banner-primary-cta inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full typo-button font-bold transition-all cursor-pointer"
           >
-            <WebIcon name="external-link" className="w-3.5 h-3.5 text-white" />
+            <WebIcon name="external-link" className="w-3.5 h-3.5 text-current" />
             <span className="truncate">{isEn ? 'AI Support Agent' : 'Mở AI Hỗ Trợ'}</span>
           </a>
         </div>
@@ -1090,7 +1090,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   minHeight: `${chatControlHeight}px`,
                   maxHeight: `${chatControlHeight}px`,
                 }}
-                className="box-border px-3 sm:px-5 rounded-full typo-button shadow-md cursor-pointer transition hover:opacity-90 active:scale-95 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
+                className="box-border px-3 sm:px-5 rounded-full typo-button shadow-md cursor-pointer transition hover:opacity-90 disabled:opacity-55 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shrink-0 border border-white/20"
               >
                 <span>{isEn ? 'Chat' : 'Trao đổi'}</span>
                 <WebIcon name="send" className="w-3.5 h-3.5" />

@@ -571,7 +571,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                   const allIds = QUADRANTS.flatMap((q) => q.data.map((d) => d.id));
                   setExpandedSkillIds((prev) => (prev.size > 0 ? new Set() : new Set(allIds)));
                 }}
-                className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-bold font-play active:scale-95"
+                className="banner-control-pill swot-control-pill h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-bold font-play"
                 title={expandedSkillIds.size > 0 ? (isVi ? "Thu gọn tất cả mô tả" : "Collapse all details") : (isVi ? "Mở rộng tất cả mô tả" : "Expand all details")}
               >
                 <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
@@ -741,7 +741,6 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                               }}
                               className={cn(
                                 "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[var(--radius-subcard,16px)] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
-                                !isExpanded && "active:scale-[0.995]",
                                 highlightedSkillId === item.id && "ring-2 ring-cyan-500 scale-[1.01]"
                               )}
                               title={

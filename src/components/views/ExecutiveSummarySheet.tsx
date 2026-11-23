@@ -555,7 +555,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
           <button
             type="button"
             onClick={handleCopySummaryText}
-            className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button cursor-pointer transition active:scale-95"
+            className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button cursor-pointer transition"
           >
             <WebIcon name="copy" size={15} />
             <span>Sao chép Zalo / LinkedIn</span>
@@ -566,7 +566,7 @@ export const ExecutiveSummarySheet: React.FC<ExecutiveSummarySheetProps> = ({
             onClick={handleExportInfographicPng}
             disabled={isGeneratingPng}
             style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-            className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 rounded-full typo-button cursor-pointer transition active:scale-95 disabled:opacity-60"
+            className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 rounded-full typo-button cursor-pointer transition disabled:opacity-60"
           >
             <WebIcon name="download" size={16} />
             <span>{isGeneratingPng ? 'Đang xuất ảnh PNG...' : 'Tải ảnh Infographic PNG'}</span>

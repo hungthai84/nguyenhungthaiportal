@@ -146,11 +146,19 @@ html[data-card-style="flat-soft-ui"] {
   --bg-nav-button-opaque: #FFFFFF;
   --bg-nav-pill: #FFFFFF;
   --bg-nav-pill-hover: #F8FAFC;
+  --bg-nav-arrow: #FFFFFF;
+  --border-nav-arrow: rgba(203, 213, 225, 0.90);
+  --text-nav-arrow: #0F172A;
   --bg-button-primary: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
   --bg-button-secondary: #F1F5F9;
   --bg-button-hover: #E2E8F0;
   --bg-badge: #EEF2FF;
   --bg-highlight: rgba(79, 70, 229, 0.08);
+  --bg-banner-pill: #FFFFFF;
+  --border-banner-pill: rgba(203, 213, 225, 0.90);
+  --text-banner-pill: #0F172A;
+  --bg-banner-cta: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+  --text-banner-cta: #FFFFFF;
 
   /* Borders & Shadows */
   --color-border: rgba(226, 232, 240, 0.90);
@@ -203,7 +211,9 @@ html[data-card-style="flat-soft-ui"] {
   --surface-interactive-border: rgba(226, 232, 240, 0.90);
 
   /* Radii & Layout */
-  --radius-main: 18px;
+  --radius-main: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --radius-card: 16px;
   --radius-subcard: 12px;
   --radius-banner: 16px;
@@ -304,11 +314,19 @@ html[data-card-style="dark-flat-soft-ui"] {
   --bg-nav-button-opaque: #162032;
   --bg-nav-pill: #162032;
   --bg-nav-pill-hover: #1E293B;
+  --bg-nav-arrow: #162032;
+  --border-nav-arrow: rgba(148, 163, 184, 0.22);
+  --text-nav-arrow: #F8FAFC;
   --bg-button-primary: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
   --bg-button-secondary: #1E293B;
   --bg-button-hover: #26354D;
   --bg-badge: rgba(99, 102, 241, 0.16);
   --bg-highlight: rgba(99, 102, 241, 0.14);
+  --bg-banner-pill: #162032;
+  --border-banner-pill: rgba(148, 163, 184, 0.22);
+  --text-banner-pill: #F8FAFC;
+  --bg-banner-cta: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --text-banner-cta: #FFFFFF;
 
   /* Borders & Shadows */
   --color-border: rgba(148, 163, 184, 0.16);
@@ -362,7 +380,9 @@ html[data-card-style="dark-flat-soft-ui"] {
   --surface-interactive-border: rgba(148, 163, 184, 0.16);
 
   /* Radii & Layout */
-  --radius-main: 18px;
+  --radius-main: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
   --radius-card: 16px;
   --radius-subcard: 12px;
   --radius-banner: 16px;
@@ -397,14 +417,14 @@ html[data-card-style="flat-soft-ui"] :is(.page-main-card, [data-main-card="true"
   background: var(--surface-primary-bg, #FFFFFF) !important;
   border: 1px solid var(--surface-primary-border, rgba(226, 232, 240, 0.90)) !important;
   box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
-  border-radius: var(--radius-main, 18px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(.page-main-card, [data-main-card="true"]) {
   background: var(--surface-primary-bg, #131B2A) !important;
   border: 1px solid var(--surface-primary-border, rgba(148, 163, 184, 0.16)) !important;
   box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
-  border-radius: var(--radius-main, 18px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 /* Level 2: Section Cards, Bento Cards & Banner Cards */
@@ -493,7 +513,6 @@ html[data-card-style="flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([d
 html[data-card-style="flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
   background: #F8FAFC !important;
   border-color: rgba(203, 213, 225, 1) !important;
-  transform: translateY(-1px) !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) {
@@ -506,7 +525,6 @@ html[data-card-style="dark-flat-soft-ui"] .nav-pill:not([aria-current="page"]):n
 html[data-card-style="dark-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
   background: #1E293B !important;
   border-color: rgba(148, 163, 184, 0.30) !important;
-  transform: translateY(-1px) !important;
 }
 
 html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .nav-pill:is([aria-current="page"], [data-active="true"]) {

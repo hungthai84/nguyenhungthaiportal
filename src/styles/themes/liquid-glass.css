@@ -441,6 +441,8 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --bg-nav-button-opaque: #FFFFFF;
   --bg-nav-pill: rgba(255, 255, 255, 0.35);
   --bg-nav-pill-hover: rgba(255, 255, 255, 0.60);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.44);
+  --border-nav-arrow: rgba(255, 255, 255, 0.58);
   --bg-button-primary: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
   --bg-button-secondary: var(--liquid-grad-cyan-mint);
   --bg-button-hover: rgba(255, 255, 255, 0.65);
@@ -449,6 +451,10 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --bg-badge: rgba(255, 255, 255, 0.40);
   --bg-highlight: rgba(165, 107, 255, 0.16);
   --bg-banner: var(--liquid-tier3-bg);
+  --bg-banner-pill: rgba(255, 255, 255, 0.46);
+  --border-banner-pill: rgba(255, 255, 255, 0.60);
+  --bg-banner-cta: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+  --text-banner-cta: #ffffff;
 
   --border-color: rgba(255, 255, 255, 0.45);
   --border-card: rgba(255, 255, 255, 0.50);
@@ -509,15 +515,15 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --surface-interactive-shadow: var(--shadow-nav-pill);
   --surface-interactive-blur: 16px;
 
-  /* Master Prompt Liquid Glass Radius: 16–22px (standard: 18px), button capsule */
-  --radius-main: 18px;
+  /* Unified Level-1 Shell Radius: 14px */
+  --radius-main: 14px;
   --radius-card: 18px;
   --radius-subcard: 14px;
   --radius-banner: 20px;
   --radius-modal: 20px;
   --radius-popup: 16px;
   --radius-widget: 18px;
-  --radius-header: 0 0 18px 18px;
+  --radius-header: 0 0 14px 14px;
   --radius-footer: 14px 14px 0 0;
   --radius-button: 9999px;
   --radius-pill: 9999px;
@@ -689,6 +695,8 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --bg-nav-button-opaque: #1E2737;
   --bg-nav-pill: rgba(38, 51, 74, 0.45);
   --bg-nav-pill-hover: rgba(38, 51, 74, 0.70);
+  --bg-nav-arrow: rgba(38, 51, 74, 0.56);
+  --border-nav-arrow: rgba(184, 185, 255, 0.28);
   --bg-button-primary: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
   --bg-button-secondary: linear-gradient(135deg, #0F766E 0%, #0E7490 100%);
   --bg-button-hover: rgba(38, 51, 74, 0.75);
@@ -697,6 +705,10 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --bg-badge: rgba(38, 51, 74, 0.50);
   --bg-highlight: rgba(98, 217, 209, 0.18);
   --bg-banner: var(--liquid-tier3-bg);
+  --bg-banner-pill: rgba(38, 51, 74, 0.54);
+  --border-banner-pill: rgba(184, 185, 255, 0.30);
+  --bg-banner-cta: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+  --text-banner-cta: #ffffff;
 
   --border-color: rgba(184, 185, 255, 0.25);
   --border-card: rgba(184, 185, 255, 0.25);

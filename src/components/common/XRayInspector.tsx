@@ -711,7 +711,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
                         : 'Sao chép nhận dạng đối tượng'
                     }
                     aria-label="Sao chép nhận dạng đối tượng"
-                    className="w-6 h-6 rounded-full bg-cyan-500 hover:bg-cyan-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                    className="w-6 h-6 rounded-full bg-cyan-500 hover:bg-cyan-400 text-white flex items-center justify-center transition-transform hover:scale-110 cursor-pointer shrink-0"
                   >
                     <WebIcon name="cpu" className="w-3.5 h-3.5" />
                   </button>
@@ -726,7 +726,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
                         : 'Sao chép hiệu ứng đối tượng'
                     }
                     aria-label="Sao chép hiệu ứng đối tượng"
-                    className="w-6 h-6 rounded-full bg-purple-500 hover:bg-purple-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                    className="w-6 h-6 rounded-full bg-purple-500 hover:bg-purple-400 text-white flex items-center justify-center transition-transform hover:scale-110 cursor-pointer shrink-0"
                   >
                     <WebIcon name="sparkles" className="w-3.5 h-3.5" />
                   </button>
@@ -741,7 +741,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
                         : 'Sao chép thông tin cấu hình đối tượng'
                     }
                     aria-label="Sao chép thông tin cấu hình đối tượng"
-                    className="w-6 h-6 rounded-full bg-amber-500 hover:bg-amber-400 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer shrink-0"
+                    className="w-6 h-6 rounded-full bg-amber-500 hover:bg-amber-400 text-white flex items-center justify-center transition-transform hover:scale-110 cursor-pointer shrink-0"
                   >
                     <WebIcon name="settings" className="w-3.5 h-3.5" />
                   </button>

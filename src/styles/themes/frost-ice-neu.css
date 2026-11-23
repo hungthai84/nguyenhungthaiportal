@@ -233,9 +233,12 @@ html[data-card-style="frost-ice-neu"] body {
   --banner-transparent-bg: rgba(241, 248, 254, 0.94);
   --banner-border: rgba(255, 255, 255, 0.86);
   --bg-banner-pill: #EDF5FC;
+  --border-banner-pill: rgba(255, 255, 255, 0.86);
   --text-banner-pill: #6E6AF6;
   --bg-banner-cta: linear-gradient(135deg, #6E6AF6 0%, #965CE8 100%);
   --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: linear-gradient(145deg, #F4FAFF 0%, #E5F0FA 100%);
+  --border-nav-arrow: rgba(255, 255, 255, 0.86);
 
   --text-header-title: #1E3246;
   --text-header-sub: #5C748C;
@@ -597,7 +600,16 @@ html:root[data-card-style="frost-ice-neu"] #app-footer :is(
   color: var(--nav-pill-accent, #7B61FF) !important;
 }
 
-html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: var(--surface-interactive-bg) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
+  color: var(--text-link, #6E6AF6) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  background: var(--surface-interactive-hover) !important;
+}
+
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
   color: var(--text-link, #6E6AF6) !important;
 }

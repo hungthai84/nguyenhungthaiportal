@@ -620,7 +620,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             toggleVideoMute();
           }}
           className={cn(
-            'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+            'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
             isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
           )}
           title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
@@ -647,7 +647,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
               handlePlayIntro();
             }}
             style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
             title="Bấm để phát video"
           >
             <span className="flex items-center justify-center">
@@ -665,7 +665,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
               handleCancelIntro();
             }}
             style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
             title="Bấm để hủy phát video"
           >
             <span className="flex items-center justify-center">

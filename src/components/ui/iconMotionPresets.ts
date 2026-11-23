@@ -1,8 +1,29 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import { type Variants } from 'motion/react';
+import { useAnimation, type Variants } from 'motion/react';
 
 export const DECK_EASE = [0.22, 1, 0.36, 1] as const;
 export const TACTILE_EASE = [0.4, 0, 0.2, 1] as const;
+
+export const SPRING_MICRO = {
+  type: 'spring' as const,
+  stiffness: 420,
+  damping: 26,
+  mass: 0.65,
+};
+
+export const SPRING_STANDARD = {
+  type: 'spring' as const,
+  stiffness: 320,
+  damping: 22,
+  mass: 0.8,
+};
+
+export const SPRING_EXPRESSIVE = {
+  type: 'spring' as const,
+  stiffness: 260,
+  damping: 17,
+  mass: 0.9,
+};
 
 export const SPRING_DECK = {
   type: 'spring' as const,
@@ -20,18 +41,26 @@ export const SPRING_SOFT = {
 
 export interface IconTriggerOptions {
   isActive?: boolean;
+  isHovered?: boolean;
+  hoverTrigger?: boolean;
   disableAncestorTrigger?: boolean;
   prefersReducedMotion: boolean | null;
 }
 
 /**
- * Coordinates interactive icon animation triggers across mouse hover,
- * keyboard focus (:focus-visible / focusin), and mobile touch tap
- * for both direct icon interaction and parent buttons/cards/navigation items.
+ * Coordinates interactive icon animation triggers across pointer hover,
+ * external isHovered state, keyboard focus (:focus-visible / focusin),
+ * and mobile touch tap bursts for direct icons and parent interactive triggers.
+ * Intentionally avoids continuous active-tab looping so icons rest calmly.
  */
 export function useIconInteractionTrigger(
   svgRef: RefObject<SVGSVGElement | null>,
-  { isActive = false, disableAncestorTrigger = false, prefersReducedMotion }: IconTriggerOptions
+  {
+    isHovered: externalHovered,
+    hoverTrigger = true,
+    disableAncestorTrigger = false,
+    prefersReducedMotion,
+  }: IconTriggerOptions
 ): 'idle' | 'hover' {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -39,7 +68,7 @@ export function useIconInteractionTrigger(
   const tapTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || !hoverTrigger) {
       setIsHovered(false);
       setIsFocused(false);
       setIsTapBurst(false);
@@ -108,7 +137,7 @@ export function useIconInteractionTrigger(
         tapTimerRef.current = window.setTimeout(() => {
           setIsTapBurst(false);
           tapTimerRef.current = null;
-        }, 760);
+        }, 720);
       }
     };
 
@@ -129,28 +158,47 @@ export function useIconInteractionTrigger(
         tapTimerRef.current = null;
       }
     };
-  }, [svgRef, disableAncestorTrigger, prefersReducedMotion]);
+  }, [svgRef, hoverTrigger, disableAncestorTrigger, prefersReducedMotion]);
 
   if (prefersReducedMotion) return 'idle';
-  return isHovered || isFocused || isTapBurst || isActive ? 'hover' : 'idle';
+  if (typeof externalHovered === 'boolean') {
+    return externalHovered || isHovered || isFocused || isTapBurst ? 'hover' : 'idle';
+  }
+  return isHovered || isFocused || isTapBurst ? 'hover' : 'idle';
+}
+
+/**
+ * Imperative Motion AnimationControls driver (Calendar1 pattern)
+ * synchronizing hover/focus/tap states to `controls.start('hover' | 'idle')`.
+ */
+export function useIconAnimationControls(
+  svgRef: RefObject<SVGSVGElement | null>,
+  options: IconTriggerOptions
+): { controls: ReturnType<typeof useAnimation>; animateState: 'idle' | 'hover' } {
+  const controls = useAnimation();
+  const animateState = useIconInteractionTrigger(svgRef, options);
+
+  useEffect(() => {
+    controls.start(animateState);
+  }, [controls, animateState]);
+
+  return { controls, animateState };
 }
 
 /**
  * Semantic SVG animation presets decoupled from icon path geometry.
- * Every preset enforces a calm resting `idle` state and a purposeful `hover` state
- * lasting 0.4s - 1.2s with fluid easing.
+ * Every preset enforces a calm resting `idle` state and a finite, purposeful `hover`
+ * sequence lasting 0.4s - 0.9s with spring/deck easing (zero infinite loops).
  */
 export const ICON_VARIANTS = {
-  // 1. Bell: pendulum ring + lagged clapper swing (loops softly while hovered)
+  // 1. Bell: finite pendulum ring + lagged clapper swing
   bellBody: {
     idle: { rotate: 0 },
     hover: {
-      rotate: [0, -14, 14, -10, 7, -3, 0],
+      rotate: [0, -15, 15, -10, 6, -3, 0],
       transition: {
-        duration: 0.85,
+        duration: 0.78,
         ease: 'easeInOut',
-        repeat: Infinity,
-        repeatDelay: 0.45,
       },
     },
   } satisfies Variants,
@@ -158,26 +206,22 @@ export const ICON_VARIANTS = {
   bellClapper: {
     idle: { x: 0 },
     hover: {
-      x: [0, 1.7, -1.7, 1.2, -0.8, 0],
+      x: [0, 1.8, -1.8, 1.3, -0.8, 0],
       transition: {
-        duration: 0.85,
+        duration: 0.78,
         ease: 'easeInOut',
-        repeat: Infinity,
-        repeatDelay: 0.45,
       },
     },
   } satisfies Variants,
 
-  // 2. Heart: rhythmic lub-dub heartbeat (loops gently while hovered)
+  // 2. Heart: finite rhythmic lub-dub heartbeat
   heartBeat: {
     idle: { scale: 1 },
     hover: {
-      scale: [1, 1.18, 0.97, 1.14, 1],
+      scale: [1, 1.18, 0.96, 1.13, 1],
       transition: {
-        duration: 0.82,
+        duration: 0.72,
         ease: 'easeInOut',
-        repeat: Infinity,
-        repeatDelay: 0.35,
       },
     },
   } satisfies Variants,
@@ -187,7 +231,7 @@ export const ICON_VARIANTS = {
     hover: {
       scale: [1, 1.1, 0.98, 1.07, 1],
       transition: {
-        duration: 0.78,
+        duration: 0.74,
         ease: DECK_EASE,
       },
     },
@@ -348,9 +392,8 @@ export const ICON_VARIANTS = {
     hover: {
       rotate: 180,
       transition: {
-        duration: 1.15,
-        ease: 'linear',
-        repeat: Infinity,
+        duration: 0.72,
+        ease: DECK_EASE,
       },
     },
   } satisfies Variants,
@@ -401,17 +444,15 @@ export const ICON_VARIANTS = {
     },
   } satisfies Variants,
 
-  // 11. Rocket: thrust hover + subtle flickering exhaust trail while hovered
+  // 11. Rocket: crisp liftoff thrust + exhaust flare
   rocketFloat: {
     idle: { x: 0, y: 0 },
     hover: {
-      x: [0, 1.8, 1.1, 2.0, 1.1],
-      y: [0, -1.8, -1.1, -2.0, -1.1],
+      x: [0, 2.2, 1.1, 0],
+      y: [0, -2.2, -1.1, 0],
       transition: {
-        duration: 0.9,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatType: 'mirror',
+        duration: 0.72,
+        ease: DECK_EASE,
       },
     },
   } satisfies Variants,
@@ -419,12 +460,11 @@ export const ICON_VARIANTS = {
   rocketTrail: {
     idle: { pathLength: 1, opacity: 1 },
     hover: {
-      pathLength: [0.5, 1, 0.65, 1],
-      opacity: [0.45, 1, 0.6, 1],
+      pathLength: [0.35, 1, 0.72, 1],
+      opacity: [0.45, 1, 0.7, 1],
       transition: {
-        duration: 0.56,
+        duration: 0.72,
         ease: 'easeInOut',
-        repeat: Infinity,
       },
     },
   } satisfies Variants,
@@ -442,13 +482,11 @@ export const ICON_VARIANTS = {
   sparkleMain: {
     idle: { scale: 1, rotate: 0 },
     hover: {
-      scale: [1, 1.12, 0.96, 1.08, 1],
-      rotate: [0, 10, -5, 0],
+      scale: [1, 1.14, 0.96, 1.08, 1],
+      rotate: [0, 12, -6, 0],
       transition: {
-        duration: 0.95,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatDelay: 0.35,
+        duration: 0.78,
+        ease: DECK_EASE,
       },
     },
   } satisfies Variants,
@@ -457,12 +495,10 @@ export const ICON_VARIANTS = {
     idle: { scale: 1, opacity: 1 },
     hover: {
       scale: [1, 0.45, 1.25, 1],
-      opacity: [1, 0.3, 1],
+      opacity: [1, 0.35, 1],
       transition: {
-        duration: 0.82,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatDelay: 0.42,
+        duration: 0.72,
+        ease: DECK_EASE,
       },
     },
   } satisfies Variants,
@@ -489,18 +525,18 @@ export const ICON_VARIANTS = {
   soundWaveInner: {
     idle: { scale: 1, opacity: 1 },
     hover: {
-      scale: [0.88, 1.08, 0.95, 1],
-      opacity: [0.45, 1, 0.65, 1],
-      transition: { duration: 0.75, ease: 'easeInOut', repeat: Infinity },
+      scale: [0.86, 1.1, 0.96, 1],
+      opacity: [0.45, 1, 0.72, 1],
+      transition: { duration: 0.65, ease: DECK_EASE },
     },
   } satisfies Variants,
 
   soundWaveOuter: {
     idle: { scale: 1, opacity: 1 },
     hover: {
-      scale: [0.85, 1.12, 0.92, 1],
-      opacity: [0.25, 1, 0.45, 1],
-      transition: { duration: 0.75, delay: 0.14, ease: 'easeInOut', repeat: Infinity },
+      scale: [0.82, 1.14, 0.94, 1],
+      opacity: [0.3, 1, 0.58, 1],
+      transition: { duration: 0.68, delay: 0.1, ease: DECK_EASE },
     },
   } satisfies Variants,
 
@@ -629,16 +665,16 @@ export const ICON_VARIANTS = {
   serverLedA: {
     idle: { opacity: 1 },
     hover: {
-      opacity: [1, 0.2, 1],
-      transition: { duration: 0.55, repeat: Infinity, repeatDelay: 0.15 },
+      opacity: [1, 0.2, 1, 0.35, 1],
+      transition: { duration: 0.68, ease: 'easeInOut' },
     },
   } satisfies Variants,
 
   serverLedB: {
     idle: { opacity: 1 },
     hover: {
-      opacity: [0.3, 1, 0.3],
-      transition: { duration: 0.55, repeat: Infinity, repeatDelay: 0.15 },
+      opacity: [0.35, 1, 0.25, 1],
+      transition: { duration: 0.68, ease: 'easeInOut' },
     },
   } satisfies Variants,
 
@@ -788,9 +824,9 @@ export const ICON_VARIANTS = {
   flameFlicker: {
     idle: { scaleY: 1, rotate: 0 },
     hover: {
-      scaleY: [1, 1.08, 0.95, 1.06, 1],
+      scaleY: [1, 1.1, 0.94, 1.06, 1],
       rotate: [0, -4, 4, -2, 0],
-      transition: { duration: 0.85, ease: 'easeInOut', repeat: Infinity },
+      transition: { duration: 0.72, ease: 'easeInOut' },
     },
   } satisfies Variants,
 
@@ -888,6 +924,129 @@ export const ICON_VARIANTS = {
     hover: {
       scale: [1, 1.06, 1],
       transition: { duration: 0.55, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  // 20. Extended Bespoke Icon Choreographies (Home, Code, Anchor, Gem, Crown, Charts, Signals, Idea, Flag)
+  homeRoofLift: {
+    idle: { y: 0 },
+    hover: {
+      y: [0, -1.5, 0],
+      transition: { duration: 0.58, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  homeDoorOpen: {
+    idle: { scaleY: 1, pathLength: 1 },
+    hover: {
+      pathLength: [0.25, 1],
+      scaleY: [0.88, 1.04, 1],
+      transition: { duration: 0.62, delay: 0.06, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  codeTagLeft: {
+    idle: { x: 0 },
+    hover: {
+      x: [0, -2.2, 0],
+      transition: { duration: 0.55, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  codeTagRight: {
+    idle: { x: 0 },
+    hover: {
+      x: [0, 2.2, 0],
+      transition: { duration: 0.55, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  codeSlash: {
+    idle: { pathLength: 1, opacity: 1 },
+    hover: {
+      pathLength: [0, 1],
+      opacity: [0.35, 1],
+      transition: { duration: 0.52, delay: 0.08, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  anchorSway: {
+    idle: { rotate: 0, y: 0 },
+    hover: {
+      rotate: [0, -10, 10, -5, 0],
+      y: [0, 1.2, 0],
+      transition: { duration: 0.76, ease: 'easeInOut' },
+    },
+  } satisfies Variants,
+
+  gemFacetSparkle: {
+    idle: { scale: 1, rotate: 0 },
+    hover: {
+      scale: [1, 1.1, 0.97, 1],
+      rotate: [0, -6, 6, 0],
+      transition: { duration: 0.68, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  crownTilt: {
+    idle: { y: 0, rotate: 0 },
+    hover: {
+      y: [0, -1.8, 0],
+      rotate: [0, -6, 5, 0],
+      transition: { duration: 0.65, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  pieSlicePop: {
+    idle: { x: 0, y: 0 },
+    hover: {
+      x: [0, 1.8, 0],
+      y: [0, -1.8, 0],
+      transition: { duration: 0.58, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  signalBar1: {
+    idle: { scaleY: 1, opacity: 1 },
+    hover: {
+      scaleY: [0.4, 1.1, 1],
+      opacity: [0.45, 1],
+      transition: { duration: 0.45, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  signalBar2: {
+    idle: { scaleY: 1, opacity: 1 },
+    hover: {
+      scaleY: [0.4, 1.1, 1],
+      opacity: [0.45, 1],
+      transition: { duration: 0.45, delay: 0.09, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  signalBar3: {
+    idle: { scaleY: 1, opacity: 1 },
+    hover: {
+      scaleY: [0.4, 1.1, 1],
+      opacity: [0.45, 1],
+      transition: { duration: 0.45, delay: 0.18, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  bulbGlow: {
+    idle: { scale: 1, opacity: 1 },
+    hover: {
+      scale: [1, 1.1, 1],
+      opacity: [1, 0.65, 1],
+      transition: { duration: 0.62, ease: DECK_EASE },
+    },
+  } satisfies Variants,
+
+  flagWave: {
+    idle: { skewX: 0 },
+    hover: {
+      skewX: [0, -8, 6, 0],
+      transition: { duration: 0.65, ease: 'easeInOut' },
     },
   } satisfies Variants,
 } as const;

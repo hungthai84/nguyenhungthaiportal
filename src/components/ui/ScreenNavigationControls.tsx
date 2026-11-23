@@ -51,7 +51,7 @@ export const ScreenNavigationControls: React.FC<ScreenNavigationControlsProps> =
         <button
           type="button"
           onClick={handlePrevClick}
-          className={`nav-arrow-btn absolute ${leftOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
+          className={`nav-arrow-btn absolute ${leftOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer z-40 group pointer-events-auto`}
           title={previousTitle}
           aria-label={previousTitle}
         >
@@ -71,7 +71,7 @@ export const ScreenNavigationControls: React.FC<ScreenNavigationControlsProps> =
         <button
           type="button"
           onClick={handleNextClick}
-          className={`nav-arrow-btn absolute ${rightOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer z-40 group pointer-events-auto`}
+          className={`nav-arrow-btn absolute ${rightOffsetClass} ${topOffsetClass} w-[42px] h-[42px] sm:w-12 sm:h-12 rounded-[999px] aspect-square flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer z-40 group pointer-events-auto`}
           title={nextTitle}
           aria-label={nextTitle}
         >

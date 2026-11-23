@@ -233,9 +233,12 @@ html[data-card-style="dark-frost-ice-neu"] body {
   --banner-transparent-bg: rgba(26, 39, 59, 0.93);
   --banner-border: rgba(148, 197, 248, 0.18);
   --bg-banner-pill: #1C2A41;
+  --border-banner-pill: rgba(148, 197, 248, 0.22);
   --text-banner-pill: #A9C9FF;
   --bg-banner-cta: linear-gradient(135deg, #6E6AF6 0%, #965CE8 100%);
   --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: linear-gradient(145deg, #21314A 0%, #172337 100%);
+  --border-nav-arrow: rgba(148, 197, 248, 0.22);
 
   --text-header-title: #F1F8FF;
   --text-header-sub: #A4BCD4;
@@ -580,7 +583,16 @@ html:root[data-card-style="dark-frost-ice-neu"] #app-footer :is(
   color: var(--nav-pill-accent, #8B7BFF) !important;
 }
 
-html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: var(--surface-interactive-bg) !important;
+  border: 1px solid var(--surface-interactive-border) !important;
+  color: var(--text-link, #70C4FA) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  background: var(--surface-interactive-hover) !important;
+}
+
 html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
   color: var(--text-link, #70C4FA) !important;
 }

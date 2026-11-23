@@ -177,7 +177,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
               setSearchTerm('');
               setViewStep('categories');
             }}
-            className="px-3 py-1.5 rounded-full typo-badge font-semibold flex items-center gap-1.5 border cursor-pointer shrink-0 transition hover:opacity-85 active:scale-95"
+            className="px-3 py-1.5 rounded-full typo-badge font-semibold flex items-center gap-1.5 border cursor-pointer shrink-0 transition hover:opacity-85"
             style={{
               background: 'var(--bg-button-secondary, var(--bg-subcard))',
               borderColor: 'var(--border-subcard, var(--border-color))',
@@ -303,7 +303,7 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
                     borderRadius: 'var(--radius-subcard, 16px)',
                     ...(isSelected ? { borderColor: `${catColor}90` } : {}),
                   }}
-                  className="theme-modal-subcard w-full h-full p-[15px] !rounded-[var(--radius-subcard,16px)] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.99] group min-w-0"
+                  className="theme-modal-subcard w-full h-full p-[15px] !rounded-[var(--radius-subcard,16px)] text-left flex items-center gap-3 min-h-[78px] cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md group min-w-0"
                 >
                   <WebIcon name={cat.icon} className="w-[18px] h-[18px] shrink-0" style={{ color: catColor }} />
                   <h4

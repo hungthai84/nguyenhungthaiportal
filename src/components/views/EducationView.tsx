@@ -274,7 +274,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [matchedControlWidth, setMatchedControlWidth] = useState<number>(186);
+  const [matchedControlWidth, setMatchedControlWidth] = useState<number>(216);
 
   useEffect(() => {
     const syncControlSize = () => {
@@ -282,7 +282,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       if (!btn) return;
       const w = Math.ceil(btn.getBoundingClientRect().width);
       if (w > 0) {
-        setMatchedControlWidth(Math.max(w, 186));
+        setMatchedControlWidth(Math.max(w, 216));
       }
     };
     syncControlSize();
@@ -650,13 +650,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </AnimatePresence>
           </div>
 
-          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước rộng × cao bằng nút Bộ lọc khóa học */}
+          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước cùng nút Bộ lọc khóa học */}
           <div
             id="education-view-mode-switcher"
             role="group"
             aria-label={isEn ? 'View mode' : 'Dạng view'}
             style={{
-              width: `${matchedControlWidth}px`,
               minWidth: `${matchedControlWidth}px`,
             }}
             className="banner-control-pill h-auto min-h-9 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
@@ -667,16 +666,24 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setViewMode('grid');
               }}
-              className={cn(
-                'flex-1 h-full px-2 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+              style={
                 viewMode === 'grid'
-                  ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                  ? {
+                      background: 'var(--bg-button-primary)',
+                      color: 'var(--text-button-primary, #FFFFFF)',
+                    }
+                  : undefined
+              }
+              className={cn(
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                viewMode === 'grid'
+                  ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
-              title={isEn ? 'Grid View' : 'Dạng lưới mặc định'}
+              title={isEn ? 'Grid View' : 'Dạng lưới'}
             >
               <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{isEn ? 'Grid' : 'Lưới'}</span>
+              <span className="whitespace-nowrap">{isEn ? 'Grid' : 'Dạng lưới'}</span>
             </button>
             <button
               type="button"
@@ -684,16 +691,24 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setViewMode('css-tricks');
               }}
-              className={cn(
-                'flex-1 h-full px-2 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+              style={
                 viewMode === 'css-tricks'
-                  ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                  ? {
+                      background: 'var(--bg-button-primary)',
+                      color: 'var(--text-button-primary, #FFFFFF)',
+                    }
+                  : undefined
+              }
+              className={cn(
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                viewMode === 'css-tricks'
+                  ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
-              title={isEn ? 'Cards - CSS-tricks Like Effect (Hover/Focus)' : 'Thẻ CSS-Tricks (Hiệu ứng Hover/Focus)'}
+              title={isEn ? 'Stacked View' : 'Dạng xếp chồng'}
             >
-              <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">CSS-Tricks</span>
+              <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
+              <span className="whitespace-nowrap">{isEn ? 'Stacked' : 'Xếp chồng'}</span>
             </button>
           </div>
         </div>
@@ -778,17 +793,17 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   }
                 }}
                 className={cn(
-                  "education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px]",
+                  "education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px] flex flex-col gap-[10px]",
                   isCssTricks
-                    ? "rounded-[36px]"
-                    : "rounded-[14px] flex flex-col justify-between gap-[10px] border border-l-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
+                    ? "rounded-[24px] justify-start h-auto self-start"
+                    : "rounded-[14px] justify-between border border-l-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
                 )}
                 style={
                   {
                     '--education-card-bg': isDark
                       ? `linear-gradient(155deg, ${cardColor}38 0%, ${cardColor}18 42%, rgba(15, 23, 42, 0.95) 100%)`
                       : `linear-gradient(155deg, ${cardColor}28 0%, ${cardColor}10 40%, rgba(255, 255, 255, 0.96) 100%)`,
-                    padding: '10px',
+                    padding: isCssTricks ? '12px' : '10px',
                     borderLeft: 'none',
                     borderLeftWidth: 0,
                     borderColor: isDark
@@ -807,16 +822,16 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 {/* 1. Ảnh bìa banner tỷ lệ với bo góc mềm mại & overlay format giống Bìa dạng view lưới */}
                 <div
                   data-media-card="image"
-                  style={{ borderRadius: isCssTricks ? '20px' : '12px', padding: '0px' }}
+                  style={{ borderRadius: isCssTricks ? '14px' : '12px', padding: '0px' }}
                   className={cn(
                     "education-card-banner themed-image-frame relative w-full overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img border border-[var(--border-subcard)] m-0 p-0 shadow-xs",
-                    isCssTricks ? "aspect-[16/10] mb-2.5 rounded-[20px]" : "aspect-[16/10] rounded-[12px]"
+                    isCssTricks ? "aspect-[16/10] rounded-[14px]" : "aspect-[16/10] rounded-[12px]"
                   )}
                 >
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    style={{ borderRadius: isCssTricks ? '20px' : '12px' }}
+                    style={{ borderRadius: isCssTricks ? '14px' : '12px' }}
                     className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0"
                     loading="lazy"
                     decoding="async"
@@ -834,7 +849,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 </div>
 
                 {/* 3. card-heading (Bố cục CodePen): Tiêu đề in đậm kèm icon đại diện (Căn trái) */}
-                <div className="card-heading flex-1 flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full">
+                <div className={cn(
+                  "card-heading flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full",
+                  isCssTricks ? "flex-none" : "flex-1"
+                )}>
                   <h3
                     className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex items-start justify-start text-left gap-1.5 w-full"
                     data-card-title="true"

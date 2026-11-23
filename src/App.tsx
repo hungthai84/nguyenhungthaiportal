@@ -766,14 +766,14 @@ export default function App() {
         />
       )}
 
-      {/* HEADER: 12% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 12%',
-            height: '12%',
-            maxHeight: '12%',
+            flex: '0 0 10%',
+            height: '10%',
+            maxHeight: '10%',
             minHeight: 0,
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
@@ -803,7 +803,7 @@ export default function App() {
           height:
             currentTabIndex === 16
               ? '100%'
-              : 'calc(76% - (var(--shell-section-gap, 15px) * 2))',
+              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -822,7 +822,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER: 12% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -830,9 +830,9 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 12%',
-            height: '12%',
-            maxHeight: '12%',
+            flex: '0 0 10%',
+            height: '10%',
+            maxHeight: '10%',
             minHeight: 0,
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"

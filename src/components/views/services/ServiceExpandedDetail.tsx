@@ -1,22 +1,22 @@
 'use client';
 
 import React from 'react';
-import {
-  Award,
-  Building2,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  Layers,
-  Minimize2,
-  Sparkles,
-  Tag,
-  TrendingUp,
-  UserCheck,
-  Wrench,
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+
+const Award = createAnimatedIcon('award');
+const Building2 = createAnimatedIcon('building-2');
+const CheckCircle2 = createAnimatedIcon('check-circle');
+const ChevronLeft = createAnimatedIcon('chevron-left');
+const ChevronRight = createAnimatedIcon('chevron-right');
+const ExternalLink = createAnimatedIcon('external-link');
+const Layers = createAnimatedIcon('layers');
+const Minimize2 = createAnimatedIcon('minimize-2');
+const Sparkles = createAnimatedIcon('sparkles');
+const Tag = createAnimatedIcon('tag');
+const TrendingUp = createAnimatedIcon('trending-up');
+const UserCheck = createAnimatedIcon('user-check');
+const Wrench = createAnimatedIcon('wrench');
 import { DomainData } from '@/types';
 import { ServiceAssignmentsMap } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
@@ -662,14 +662,20 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   {(expandedDomain.companyLogos || []).map((partner, pIdx) => {
                     const content = (
                       <>
-                        <div className="w-7 h-7 rounded-full overflow-hidden bg-white shrink-0 flex items-center justify-center p-0.5 border border-black/5">
+                        <div
+                          className="w-7 h-7 rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0"
+                          style={{
+                            background: 'var(--surface-secondary-bg, var(--bg-card))',
+                            border: 'none',
+                          }}
+                        >
                           <img
                             src={partner.logo}
                             alt={partner.name}
                             loading="lazy"
                             decoding="async"
                             referrerPolicy="no-referrer"
-                            className="w-full h-full object-contain rounded-full"
+                            className="w-full h-full object-cover rounded-full"
                             onError={(e) => {
                               if (
                                 partner.fallbackLogo &&

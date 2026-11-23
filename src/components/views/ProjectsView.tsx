@@ -597,7 +597,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play active:scale-95 group"
+                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-h3 font-bold font-play active:scale-95 group"
                   title="Bộ lọc dự án"
                   aria-label="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
@@ -606,7 +606,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
                   <span>Bộ lọc dự án</span>
                   {activeCategory !== 'all' && (
-                    <span className="banner-count-pill px-1.5 py-0.2 rounded-full border typo-badge font-mono font-bold">
+                    <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-h3 font-play font-bold">
                       {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
                     </span>
                   )}
@@ -651,7 +651,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                               setIsFilterDropdownOpen(false);
                             }}
                             className={cn(
-                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-h3 font-bold font-play transition-all cursor-pointer text-left',
                               isSelected ? 'shadow-xs font-bold' : ''
                             )}
                           >
@@ -690,7 +690,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-h3 font-bold font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -762,16 +762,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card card-item bento-card glass-card group relative h-full rounded-[18px] p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
+                  className="project-card card-item bento-card glass-card group relative h-full rounded-[14px] p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
                   style={{
                     borderColor: `${cardColor}45`,
                     padding: 0,
+                    borderRadius: '14px',
                   }}
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án: Lắp đầy phía trên */}
+                  {/* 1. Ảnh bìa thẻ Dự án: Chỉ bo cong góc trên trái & phải 14px, cạnh dưới phẳng */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0 box-border rounded-t-[inherit] rounded-b-none border-0 border-b border-[var(--border-subcard)]"
+                    className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img m-0 p-0 box-border rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -788,10 +789,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                         }
                       }}
-                      className="w-full h-full object-cover object-center rounded-t-[inherit] rounded-b-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="absolute inset-0 pointer-events-none rounded-t-[inherit]"
+                      className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-tl-[14px] rounded-tr-[14px] rounded-bl-none rounded-br-none"
                       style={{
                         background:
                           'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',

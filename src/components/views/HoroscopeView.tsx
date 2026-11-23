@@ -1,35 +1,35 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import {
-  Compass,
-  Sparkles,
-  Calendar,
-  Moon,
-  Clock,
-  ShieldCheck,
-  Hash,
-  Briefcase,
-  Target,
-  Layers,
-  Award,
-  Users,
-  Search,
-  Check,
-  CheckCircle2,
-  Settings,
-  Droplet,
-  Sprout,
-  Flame,
-  Landmark,
-  AlertTriangle,
-  Play,
-  Pause,
-  Cpu,
-  Heart,
-  Building2,
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+
+const Compass = createAnimatedIcon('compass');
+const Sparkles = createAnimatedIcon('sparkles');
+const Calendar = createAnimatedIcon('calendar');
+const Moon = createAnimatedIcon('moon');
+const Clock = createAnimatedIcon('clock');
+const ShieldCheck = createAnimatedIcon('shield-check');
+const Hash = createAnimatedIcon('hash');
+const Briefcase = createAnimatedIcon('briefcase');
+const Target = createAnimatedIcon('target');
+const Layers = createAnimatedIcon('layers');
+const Award = createAnimatedIcon('award');
+const Users = createAnimatedIcon('users');
+const Search = createAnimatedIcon('search');
+const Check = createAnimatedIcon('check');
+const CheckCircle2 = createAnimatedIcon('check-circle');
+const Settings = createAnimatedIcon('settings');
+const Droplet = createAnimatedIcon('droplet');
+const Sprout = createAnimatedIcon('sprout');
+const Flame = createAnimatedIcon('flame');
+const Landmark = createAnimatedIcon('landmark');
+const AlertTriangle = createAnimatedIcon('alert-triangle');
+const Play = createAnimatedIcon('play');
+const Pause = createAnimatedIcon('pause');
+const Cpu = createAnimatedIcon('cpu');
+const Heart = createAnimatedIcon('heart');
+const Building2 = createAnimatedIcon('building-2');
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';

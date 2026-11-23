@@ -28,16 +28,35 @@
           var WALLPAPER_MANUAL_KEY = 'hungthai_wallpaper_manual_v2';
           var OVERLAY_KEY = 'hungthai_wallpaper_overlay_v1';
           var ADAPTIVE_KEY = 'hungthai_adaptive_accent_v1';
-          var SEED_KEY = 'hungthai_default_ui_seed_v2026_light_ocean_navy_v1';
+          var SEED_KEY = 'hungthai_default_ui_seed_v2026_default_view_v2';
 
           if (localStorage.getItem(SEED_KEY) !== '1') {
-            localStorage.removeItem(STYLE_KEY);
-            localStorage.removeItem('hungthai_card_style');
-            localStorage.removeItem(SCHEME_KEY);
-            localStorage.removeItem(WALLPAPER_MANUAL_KEY);
-            localStorage.removeItem(WALLPAPER_KEY);
-            localStorage.removeItem(OVERLAY_KEY);
-            localStorage.removeItem(ADAPTIVE_KEY);
+            var keysToClear = [
+              STYLE_KEY,
+              'hungthai_card_style',
+              'hungthai_card_style_manual',
+              'hungthai_last_dark_style',
+              'hungthai_last_light_style',
+              SCHEME_KEY,
+              'theme_mode',
+              WALLPAPER_MANUAL_KEY,
+              WALLPAPER_KEY,
+              'theme_wallpaper',
+              OVERLAY_KEY,
+              ADAPTIVE_KEY,
+              'hungthai_auto_time_theme_v1',
+              'hungthai_glass_customization_v1',
+              'hungthai_surface_depth_v1',
+              'hungthai_layer_depth_v1',
+              'hungthai_interface_ui_prefs_v1',
+              'hungthai_about_view_mode',
+              'hungthai_bento_palette',
+              'hungthai_letter_active_slide',
+              'hungthai_font_scale_v1'
+            ];
+            for (var i = 0; i < keysToClear.length; i++) {
+              localStorage.removeItem(keysToClear[i]);
+            }
             localStorage.setItem(SEED_KEY, '1');
           }
 

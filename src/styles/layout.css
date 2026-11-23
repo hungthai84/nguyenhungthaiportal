@@ -3,11 +3,11 @@
 /* ========================================================================= */
 
 #website-root {
-  --shell-section-gap: 15px;
+  --shell-section-gap: 10px;
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 15px);
+  gap: var(--shell-section-gap, 10px);
 }
 
 #website-root:has(#pdf-page-container) {
@@ -16,9 +16,9 @@
 
 #app-header-container,
 #el-p0-div-98 {
-  flex: 0 0 12% !important;
-  height: 12% !important;
-  max-height: 12% !important;
+  flex: 0 0 10% !important;
+  height: 10% !important;
+  max-height: 10% !important;
   min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -28,6 +28,7 @@
   width: 100%;
   max-width: 100%;
   flex: 1 1 0% !important;
+  height: calc(80% - (var(--shell-section-gap, 10px) * 2));
   margin-left: auto;
   margin-right: auto;
   margin-top: 0 !important;
@@ -39,6 +40,7 @@
 
 @media screen {
   #global-content-viewport:has(#pdf-page-container) {
+    height: 100% !important;
     max-width: calc(var(--container-max-w, 1250px) + 30px) !important;
     padding: 15px !important;
     box-sizing: border-box !important;
@@ -49,11 +51,19 @@
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button#header-btn-hungthai-avatar,
-  #app-footer #footer-nav-capsule {
+  #app-footer #footer-nav-capsule,
+  #app-footer #weather-widget-card {
     height: 36px !important;
     min-height: 36px !important;
     padding-top: 4px !important;
     padding-bottom: 4px !important;
+  }
+
+  #app-footer #footer-prev-btn,
+  #app-footer #footer-next-btn {
+    min-width: 28px !important;
+    min-height: 28px !important;
+    height: 28px !important;
   }
 }
 

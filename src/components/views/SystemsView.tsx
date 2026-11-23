@@ -4,30 +4,30 @@ import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import QRCode from 'qrcode';
 import { motion, AnimatePresence } from 'motion/react';
-import {
-  Maximize2,
-  Minimize2,
-  Play,
-  Square,
-  QrCode,
-  ArrowLeftRight,
-  ExternalLink,
-  Copy,
-  Check,
-  Cpu,
-  ShieldCheck,
-  Activity,
-  Users,
-  Database,
-  Network,
-  Volume2,
-  VolumeX,
-  Table,
-  LayoutGrid,
-  ArrowRight,
-  Server,
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+
+const Maximize2 = createAnimatedIcon('maximize-2');
+const Minimize2 = createAnimatedIcon('minimize-2');
+const Play = createAnimatedIcon('play');
+const Square = createAnimatedIcon('square');
+const QrCode = createAnimatedIcon('qr-code');
+const ArrowLeftRight = createAnimatedIcon('arrow-left-right');
+const ExternalLink = createAnimatedIcon('external-link');
+const Copy = createAnimatedIcon('copy');
+const Check = createAnimatedIcon('check');
+const Cpu = createAnimatedIcon('cpu');
+const ShieldCheck = createAnimatedIcon('shield-check');
+const Activity = createAnimatedIcon('activity');
+const Users = createAnimatedIcon('users');
+const Database = createAnimatedIcon('database');
+const Network = createAnimatedIcon('network');
+const Volume2 = createAnimatedIcon('volume-2');
+const VolumeX = createAnimatedIcon('volume-x');
+const Table = createAnimatedIcon('table');
+const LayoutGrid = createAnimatedIcon('grid');
+const ArrowRight = createAnimatedIcon('arrow-right');
+const Server = createAnimatedIcon('server');
 import { SYSTEMS_DATA } from '@/data/systems';
 import { SystemData, SiteTheme } from '@/types';
 import { useToast } from '@/components/ui/Toast';

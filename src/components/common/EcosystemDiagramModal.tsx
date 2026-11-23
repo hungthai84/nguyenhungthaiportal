@@ -1,40 +1,40 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import {
-  Filter,
-  SlidersHorizontal,
-  RefreshCw,
-  Activity,
-  RotateCcw,
-  Table,
-  LayoutGrid,
-  Users,
-  UserCheck,
-  Headset,
-  Award,
-  ShoppingCart,
-  Sparkles,
-  GraduationCap,
-  ShieldCheck,
-  Layers,
-  KeyRound,
-  GitMerge,
-  Bot,
-  Gauge,
-  Lock,
-  ExternalLink,
-  LineChart,
-  Cpu,
-  Boxes,
-  UserCog,
-  GitBranch,
-  Target,
-  X,
-  CheckCircle,
-  Copy,
-  Move
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+
+const Filter = createAnimatedIcon('filter');
+const SlidersHorizontal = createAnimatedIcon('sliders');
+const RefreshCw = createAnimatedIcon('refresh-cw');
+const Activity = createAnimatedIcon('activity');
+const RotateCcw = createAnimatedIcon('rotate-ccw');
+const Table = createAnimatedIcon('table');
+const LayoutGrid = createAnimatedIcon('grid');
+const Users = createAnimatedIcon('users');
+const UserCheck = createAnimatedIcon('user-check');
+const Headset = createAnimatedIcon('headphones');
+const Award = createAnimatedIcon('award');
+const ShoppingCart = createAnimatedIcon('shopping-cart');
+const Sparkles = createAnimatedIcon('sparkles');
+const GraduationCap = createAnimatedIcon('graduation-cap');
+const ShieldCheck = createAnimatedIcon('shield-check');
+const Layers = createAnimatedIcon('layers');
+const KeyRound = createAnimatedIcon('key-round');
+const GitMerge = createAnimatedIcon('git-merge');
+const Bot = createAnimatedIcon('bot');
+const Gauge = createAnimatedIcon('gauge');
+const Lock = createAnimatedIcon('lock');
+const ExternalLink = createAnimatedIcon('external-link');
+const LineChart = createAnimatedIcon('line-chart');
+const Cpu = createAnimatedIcon('cpu');
+const Boxes = createAnimatedIcon('boxes');
+const UserCog = createAnimatedIcon('user-cog');
+const GitBranch = createAnimatedIcon('git-branch');
+const Target = createAnimatedIcon('target');
+const X = createAnimatedIcon('x');
+const CheckCircle = createAnimatedIcon('check-circle');
+const Copy = createAnimatedIcon('copy');
+const Move = createAnimatedIcon('move');
 
 export interface EcosystemDiagramModalProps {
   isOpen: boolean;

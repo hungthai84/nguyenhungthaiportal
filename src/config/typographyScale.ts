@@ -296,7 +296,7 @@ export function evaluateOverallLayoutTypography(
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
 
   let containerWidth = Math.min(1250, vw);
-  let containerHeight = Math.max(360, vh * 0.76);
+  let containerHeight = Math.max(360, vh * 0.80);
   let maxGridCols = 1;
   let minColWidth = containerWidth;
   let subcardCount = 0;

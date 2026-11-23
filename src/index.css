@@ -751,9 +751,9 @@ html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope
 
 html #letter-cards-track > #letter-card-4,
 html[data-card-style] #letter-cards-track > #letter-card-4 {
-  width: var(--letter-card-1-w, 100%) !important;
-  min-width: var(--letter-card-1-w, 100%) !important;
-  max-width: var(--letter-card-1-w, 100%) !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
   height: var(--letter-card-1-h, auto) !important;
   min-height: var(--letter-card-1-h, 0px) !important;
   max-height: var(--letter-card-1-h, none) !important;
@@ -805,32 +805,34 @@ html.dark[data-card-style] #horoscope-cards-track > #horoscope-card-1 {
   }
 }
 
-/* Letter Row 2-3 Horizontal Row (15px gap) & Equal Dimensions to Card 1 */
+/* Letter Row 2-3 Horizontal Row (strict 100% viewport slide, zero peeking of Card 3) */
 html #letter-cards-row-2-3,
 html[data-card-style] #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: stretch !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
   width: 100% !important;
   max-width: 100% !important;
-  overflow-x: auto !important;
+  overflow-x: hidden !important;
   overflow-y: hidden !important;
+  scroll-snap-type: x mandatory;
   box-sizing: border-box !important;
 }
 
 html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
 html[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
-  width: var(--letter-card-1-w, 100%) !important;
-  min-width: var(--letter-card-1-w, 100%) !important;
-  max-width: var(--letter-card-1-w, 100%) !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
   height: var(--letter-card-1-h, auto) !important;
   min-height: var(--letter-card-1-h, 0px) !important;
   max-height: var(--letter-card-1-h, none) !important;
-  flex: 0 0 var(--letter-card-1-w, 100%) !important;
+  flex: 0 0 100% !important;
+  scroll-snap-align: start;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 !important;
@@ -1238,19 +1240,6 @@ div#el-p0-div-98 {
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   border: none !important;
-}
-
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-9:nth-of-type(2),
-div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-102:nth-of-type(3) {
-  border-radius: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-  border: 2px dashed var(--text-primary, rgba(148, 163, 184, 0.75)) !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p0-div-81:nth-of-type(1) > div#home-page-container:nth-of-type(1) > div#home-cards-track:nth-of-type(1),
@@ -3360,7 +3349,6 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="light-deep-ocean"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"], [data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
-  #projects-grid .project-card .project-card-banner,
   .hero-banner .project-detail-banner-media,
   .hero-banner .project-detail-banner-media :is(img, video),
   .hero-banner .project-detail-banner-scrim,
@@ -5616,9 +5604,7 @@ html:root[data-card-style] body :is(
 }
 
 @container main-card (max-width: 959px) {
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) {
     height: auto !important;
     min-height: 62px !important;
     max-height: none !important;
@@ -5629,29 +5615,21 @@ html:root[data-card-style] body :is(
     justify-content: center !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner)::after,
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner)::after,
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner)::after {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner)::after {
     display: none !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) h1,
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner) h1,
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) h1 {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
     font-size: clamp(14px, 2.2cqi, 18px) !important;
     line-height: 1.2 !important;
     margin: 0 !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
     display: none !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
     height: auto !important;
     min-height: 28px !important;
     max-height: none !important;
@@ -5661,7 +5639,7 @@ html:root[data-card-style] body :is(
     padding-right: 10px !important;
     font-family: var(--font-family-heading, 'Play', sans-serif) !important;
     font-size: clamp(14px, 2.2cqi, 18px) !important;
-    font-weight: var(--fw-semibold, 600) !important;
+    font-weight: var(--fw-bold, 700) !important;
     line-height: 1.2 !important;
   }
 }
@@ -5699,9 +5677,16 @@ html:root.dark[data-card-style] body #horoscope-page-container {
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER IMAGE STRAIGHT BOTTOM EDGE   */
-/* User Request: "Thẻ dự án hình banner bên dưới không bo cong"              */
+/* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER TOP-ONLY 14PX RADIUS         */
+/* Chỉ bo cong góc trên trái 14px & góc trên phải 14px, cạnh dưới phẳng 0px   */
 /* ========================================================================= */
+html:root body #projects-page-container #projects-grid .project-card,
+html:root[data-card-style] body #projects-page-container #projects-grid .project-card,
+html:root body #projects-grid .project-card,
+html:root[data-card-style] body #projects-grid .project-card {
+  border-radius: 14px !important;
+}
+
 html:root body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
 html:root[data-card-style] body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
 html:root.dark[data-card-style] body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
@@ -5711,10 +5696,10 @@ html:root body .project-card .project-card-banner[data-media-card="image"],
 html:root[data-card-style] body .project-card .project-card-banner[data-media-card="image"],
 html:root body .project-card .project-card-banner,
 html:root[data-card-style] body .project-card .project-card-banner,
-html:root body #projects-page-container .project-card .project-card-banner :is(img, video),
-html:root[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video),
-html:root body .project-card .project-card-banner :is(img, video),
-html:root[data-card-style] body .project-card .project-card-banner :is(img, video) {
+html:root body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
+html:root[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
+html:root body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
+html:root[data-card-style] body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim) {
   border-top-left-radius: 14px !important;
   border-top-right-radius: 14px !important;
   border-bottom-left-radius: 0px !important;
@@ -5943,6 +5928,9 @@ html:root[data-card-style] body #home-page-container .video-play-btn--home::befo
 html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
   .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
   .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+  #projects-filter-toggle-btn span.banner-count-pill,
+  #projects-filter-listbox button,
+  #projects-filter-listbox button span,
   .banner-primary-cta,
   .banner-primary-cta span:not(.banner-count-pill),
   .swot-control-pill,
@@ -5956,7 +5944,7 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
 ) {
   font-family: var(--font-family-heading, 'Play', sans-serif) !important;
   font-size: var(--fs-h3, 20px) !important;
-  font-weight: var(--fw-semibold, 600) !important;
+  font-weight: var(--fw-bold, 700) !important;
   line-height: 1.25 !important;
 }
 
@@ -5978,10 +5966,18 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
   line-height: 1.15 !important;
 }
 
+html:root body #projects-hero-banner #projects-filter-toggle-btn .banner-count-pill {
+  font-size: inherit !important;
+  line-height: 1.2 !important;
+}
+
 @media (max-width: 1023px) {
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
     .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
     .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    #projects-filter-toggle-btn span.banner-count-pill,
+    #projects-filter-listbox button,
+    #projects-filter-listbox button span,
     .banner-primary-cta,
     .banner-primary-cta span:not(.banner-count-pill),
     .swot-control-pill,
@@ -6012,37 +6008,12 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
 }
 
 @container main-card (max-width: 959px) {
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
     .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
     .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
-    .banner-primary-cta,
-    .banner-primary-cta span:not(.banner-count-pill),
-    .swot-control-pill,
-    .swot-control-pill span:not(.banner-count-pill),
-    #education-filter-toggle-btn,
-    #education-filter-toggle-btn span:not(.banner-count-pill),
-    #education-view-mode-switcher button,
-    #education-view-mode-switcher button span,
-    .banner-search-input,
-    .banner-search-input::placeholder
-  ),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner) :is(
-    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
-    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
-    .banner-primary-cta,
-    .banner-primary-cta span:not(.banner-count-pill),
-    .swot-control-pill,
-    .swot-control-pill span:not(.banner-count-pill),
-    #education-filter-toggle-btn,
-    #education-filter-toggle-btn span:not(.banner-count-pill),
-    #education-view-mode-switcher button,
-    #education-view-mode-switcher button span,
-    .banner-search-input,
-    .banner-search-input::placeholder
-  ),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) :is(
-    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
-    .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
+    #projects-filter-toggle-btn span.banner-count-pill,
+    #projects-filter-listbox button,
+    #projects-filter-listbox button span,
     .banner-primary-cta,
     .banner-primary-cta span:not(.banner-count-pill),
     .swot-control-pill,
@@ -6058,7 +6029,7 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
     line-height: 1.2 !important;
   }
 
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) :is(
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
     .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
     .banner-primary-cta,
     .swot-control-pill,
@@ -6169,49 +6140,151 @@ html:root[data-card-style] body :is(
 }
 
 /* ========================================================================= */
-/* LAYERED ELEVATION HIERARCHY (ĐỔ BÓNG PHÂN TẦNG)                           */
-/* Header icons · Footer right buttons · Page nav controls · Card Depth Tiers */
+/* LAYERED SOFT ELEVATION HIERARCHY (ĐỔ BÓNG MỀM PHÂN TẦNG CHO MỌI THEME)    */
+/* Main Card · Banner Card · Section/Bento/Grid Card · Sub-card · Nav Pills  */
 /* ========================================================================= */
 :root {
-  --elev-pill-rest: -5px 2px 12px rgba(15, 23, 42, 0.13), 0 4px 10px -2px rgba(15, 23, 42, 0.11), 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --elev-pill-hover: -6px 6px 18px rgba(15, 23, 42, 0.18), 0 10px 22px -4px rgba(15, 23, 42, 0.15), 0 2px 6px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --elev-pill-active: -6px 8px 22px rgba(15, 23, 42, 0.22), 0 12px 26px -6px rgba(15, 23, 42, 0.19), 0 3px 8px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  --elev-pill-rest: -4px 4px 14px rgba(15, 23, 42, 0.11), 0 4px 12px -2px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --elev-pill-hover: -5px 8px 20px rgba(15, 23, 42, 0.16), 0 10px 24px -4px rgba(15, 23, 42, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --elev-pill-active: -4px 10px 24px rgba(15, 23, 42, 0.20), 0 12px 26px -6px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.34);
 
-  --elev-nav-capsule: 0 10px 26px -6px rgba(15, 23, 42, 0.16), 0 4px 10px -2px rgba(15, 23, 42, 0.11), 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.70);
-  --elev-nav-btn-rest: 0 4px 10px -1px rgba(15, 23, 42, 0.20), 0 2px 4px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  --elev-nav-btn-hover: 0 8px 18px -2px rgba(15, 23, 42, 0.26), 0 3px 6px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  --elev-nav-btn-active: 0 2px 5px rgba(15, 23, 42, 0.18), inset 0 1px 2px rgba(15, 23, 42, 0.15);
+  --elev-nav-capsule: 0 12px 28px -6px rgba(15, 23, 42, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  --elev-nav-btn-rest: 0 5px 14px -2px rgba(15, 23, 42, 0.18), 0 2px 5px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --elev-nav-btn-hover: 0 10px 22px -3px rgba(15, 23, 42, 0.24), 0 4px 8px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  --elev-nav-btn-active: 0 2px 6px rgba(15, 23, 42, 0.16), inset 0 1px 2px rgba(15, 23, 42, 0.14);
 
-  --elev-shell-header: 0 14px 34px -10px rgba(15, 23, 42, 0.16), 0 6px 14px -4px rgba(15, 23, 42, 0.09), 0 1px 3px rgba(15, 23, 42, 0.06);
-  --elev-shell-footer: 0 -12px 30px -10px rgba(15, 23, 42, 0.15), 0 -4px 12px -4px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.60);
-  --elev-main-card: 0 22px 50px -14px rgba(15, 23, 42, 0.18), 0 10px 22px -6px rgba(15, 23, 42, 0.11), 0 2px 6px rgba(15, 23, 42, 0.06);
-  --elev-card-l2: 0 10px 24px -6px rgba(15, 23, 42, 0.13), 0 4px 10px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --elev-card-l2-hover: 0 18px 38px -8px rgba(15, 23, 42, 0.19), 0 8px 16px -4px rgba(15, 23, 42, 0.11), 0 2px 6px rgba(15, 23, 42, 0.06);
-  --elev-subcard-l1: 0 3px 8px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --elev-subcard-l1-hover: 0 8px 18px -4px rgba(15, 23, 42, 0.13), 0 3px 8px -2px rgba(15, 23, 42, 0.07);
+  --elev-shell-header: 0 16px 38px -12px rgba(15, 23, 42, 0.14), 0 6px 16px -4px rgba(15, 23, 42, 0.08), inset 0 -1px 0 rgba(255, 255, 255, 0.48);
+  --elev-shell-footer: 0 -14px 36px -12px rgba(15, 23, 42, 0.13), 0 -4px 14px -4px rgba(15, 23, 42, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  --elev-main-card: 0 26px 58px -16px rgba(15, 23, 42, 0.16), 0 12px 26px -8px rgba(15, 23, 42, 0.09), 0 3px 8px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --elev-banner-card: 0 18px 42px -12px rgba(15, 23, 42, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.10), 0 2px 6px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.64);
+  --elev-banner-card-hover: 0 24px 52px -12px rgba(15, 23, 42, 0.23), 0 10px 24px -6px rgba(15, 23, 42, 0.13), 0 3px 8px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  --elev-card-l2: 0 14px 34px -10px rgba(15, 23, 42, 0.13), 0 6px 14px -4px rgba(15, 23, 42, 0.07), 0 2px 5px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --elev-card-l2-hover: 0 22px 46px -10px rgba(15, 23, 42, 0.19), 0 10px 20px -6px rgba(15, 23, 42, 0.10), 0 3px 8px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --elev-subcard-l1: 0 8px 20px -6px rgba(15, 23, 42, 0.09), 0 3px 8px -2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  --elev-subcard-l1-hover: 0 14px 28px -6px rgba(15, 23, 42, 0.14), 0 5px 12px -3px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.68);
 }
 
+/* Multicolor Glass */
+html[data-card-style="multicolor-glass"] {
+  --elev-main-card: 0 28px 62px -16px rgba(79, 70, 229, 0.15), 0 12px 28px -8px rgba(236, 72, 153, 0.10), inset 0 1.5px 0 rgba(255, 255, 255, 0.92);
+  --elev-banner-card: 0 20px 44px -12px rgba(79, 70, 229, 0.18), 0 8px 20px -6px rgba(6, 182, 212, 0.12), inset 0 1.5px 0 rgba(255, 255, 255, 0.88);
+  --elev-banner-card-hover: 0 26px 54px -12px rgba(79, 70, 229, 0.24), 0 10px 24px -6px rgba(236, 72, 153, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
+  --elev-card-l2: 0 14px 34px -8px rgba(79, 70, 229, 0.13), 0 6px 16px -4px rgba(14, 165, 233, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --elev-card-l2-hover: 0 22px 46px -8px rgba(79, 70, 229, 0.20), 0 8px 20px -4px rgba(236, 72, 153, 0.14), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
+  --elev-subcard-l1: 0 8px 22px -6px rgba(79, 70, 229, 0.10), 0 3px 8px -2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --elev-subcard-l1-hover: 0 14px 30px -6px rgba(79, 70, 229, 0.16), 0 5px 12px -3px rgba(6, 182, 212, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+/* Light Deep Ocean */
+html[data-card-style="light-deep-ocean"] {
+  --elev-main-card: 0 26px 56px -14px rgba(3, 25, 91, 0.18), 0 10px 24px -6px rgba(25, 81, 252, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --elev-banner-card: 0 18px 40px -10px rgba(3, 25, 91, 0.20), 0 6px 18px -4px rgba(25, 81, 252, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --elev-banner-card-hover: 0 24px 50px -10px rgba(3, 25, 91, 0.26), 0 10px 22px -4px rgba(25, 81, 252, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  --elev-card-l2: 0 14px 32px -8px rgba(3, 25, 91, 0.14), 0 4px 12px -2px rgba(25, 81, 252, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  --elev-card-l2-hover: 0 22px 44px -8px rgba(3, 25, 91, 0.20), 0 8px 18px -4px rgba(25, 81, 252, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  --elev-subcard-l1: 0 8px 18px -5px rgba(3, 25, 91, 0.10), 0 2px 6px -1px rgba(25, 81, 252, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --elev-subcard-l1-hover: 0 13px 26px -5px rgba(3, 25, 91, 0.15), 0 4px 10px -2px rgba(25, 81, 252, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+/* Neumorphism Beyond (Light) */
+html[data-card-style="neumorphism-beyond"] {
+  --elev-main-card: 12px 14px 32px rgba(148, 163, 184, 0.34), -8px -8px 22px rgba(255, 255, 255, 0.88), 0 18px 42px -12px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.70);
+  --elev-banner-card: 10px 12px 28px rgba(148, 163, 184, 0.32), -6px -6px 18px rgba(255, 255, 255, 0.84), 0 14px 34px -10px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --elev-banner-card-hover: 14px 16px 36px rgba(148, 163, 184, 0.38), -8px -8px 22px rgba(255, 255, 255, 0.92), 0 20px 44px -10px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+  --elev-card-l2: 8px 10px 24px rgba(148, 163, 184, 0.28), -6px -6px 16px rgba(255, 255, 255, 0.86), 0 10px 24px -8px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --elev-card-l2-hover: 12px 14px 32px rgba(148, 163, 184, 0.36), -8px -8px 20px rgba(255, 255, 255, 0.94), 0 16px 34px -8px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --elev-subcard-l1: 5px 6px 14px rgba(148, 163, 184, 0.22), -4px -4px 12px rgba(255, 255, 255, 0.80), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --elev-subcard-l1-hover: 8px 10px 20px rgba(148, 163, 184, 0.28), -5px -5px 14px rgba(255, 255, 255, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+/* Frost Ice Neu (Light) */
+html[data-card-style="frost-ice-neu"] {
+  --elev-main-card: 12px 14px 34px rgba(148, 184, 218, 0.36), -8px -8px 22px rgba(255, 255, 255, 0.96), 0 18px 42px -12px rgba(37, 56, 75, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --elev-banner-card: 10px 12px 30px rgba(148, 184, 218, 0.34), -7px -7px 18px rgba(255, 255, 255, 0.92), 0 14px 34px -10px rgba(37, 56, 75, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  --elev-banner-card-hover: 14px 16px 38px rgba(148, 184, 218, 0.42), -9px -9px 22px rgba(255, 255, 255, 0.98), 0 20px 44px -10px rgba(37, 56, 75, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --elev-card-l2: 9px 11px 26px rgba(148, 184, 218, 0.32), -6px -6px 16px rgba(255, 255, 255, 0.94), 0 10px 24px -8px rgba(37, 56, 75, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --elev-card-l2-hover: 13px 15px 34px rgba(148, 184, 218, 0.40), -8px -8px 20px rgba(255, 255, 255, 0.98), 0 16px 34px -8px rgba(37, 56, 75, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --elev-subcard-l1: 6px 7px 16px rgba(148, 184, 218, 0.25), -4px -4px 12px rgba(255, 255, 255, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --elev-subcard-l1-hover: 9px 11px 22px rgba(148, 184, 218, 0.34), -6px -6px 16px rgba(255, 255, 255, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+/* Flat Soft UI (Light) */
+html[data-card-style="flat-soft-ui"] {
+  --elev-main-card: 0 22px 50px -14px rgba(15, 23, 42, 0.12), 0 8px 20px -6px rgba(15, 23, 42, 0.06);
+  --elev-banner-card: 0 16px 36px -10px rgba(15, 23, 42, 0.14), 0 6px 16px -4px rgba(15, 23, 42, 0.07);
+  --elev-banner-card-hover: 0 22px 46px -10px rgba(15, 23, 42, 0.19), 0 8px 20px -4px rgba(15, 23, 42, 0.10);
+  --elev-card-l2: 0 12px 28px -8px rgba(15, 23, 42, 0.10), 0 4px 12px -3px rgba(15, 23, 42, 0.06);
+  --elev-card-l2-hover: 0 18px 40px -8px rgba(15, 23, 42, 0.15), 0 8px 18px -4px rgba(15, 23, 42, 0.09);
+  --elev-subcard-l1: 0 6px 16px -4px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --elev-subcard-l1-hover: 0 12px 24px -5px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+}
+
+/* Dark Themes Baseline */
 html.dark,
 html[data-card-style^="dark-"],
 html[data-card-style="deep-ocean"],
 html[data-card-style="black-cowhide-leather"],
 html[data-card-style="cowhide-leather"] {
-  --elev-pill-rest: -5px 3px 14px rgba(0, 0, 0, 0.45), 0 4px 10px -2px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.10);
-  --elev-pill-hover: -6px 7px 20px rgba(0, 0, 0, 0.56), 0 10px 24px -4px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  --elev-pill-active: -6px 9px 24px rgba(0, 0, 0, 0.62), 0 14px 28px -6px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --elev-pill-rest: -4px 4px 14px rgba(0, 0, 0, 0.44), 0 4px 12px -2px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --elev-pill-hover: -5px 8px 20px rgba(0, 0, 0, 0.56), 0 10px 24px -4px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-pill-active: -4px 10px 24px rgba(0, 0, 0, 0.62), 0 14px 28px -6px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 
   --elev-nav-capsule: 0 12px 28px -6px rgba(0, 0, 0, 0.50), 0 4px 12px -2px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   --elev-nav-btn-rest: 0 5px 12px -1px rgba(0, 0, 0, 0.45), 0 2px 5px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.24);
   --elev-nav-btn-hover: 0 9px 20px -2px rgba(0, 0, 0, 0.56), 0 4px 8px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.32);
   --elev-nav-btn-active: 0 2px 6px rgba(0, 0, 0, 0.44), inset 0 1px 2px rgba(0, 0, 0, 0.35);
 
-  --elev-shell-header: 0 16px 38px -10px rgba(0, 0, 0, 0.54), 0 6px 16px -4px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --elev-shell-footer: 0 -14px 34px -10px rgba(0, 0, 0, 0.52), 0 -4px 14px -4px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  --elev-main-card: 0 24px 56px -12px rgba(0, 0, 0, 0.56), 0 10px 24px -6px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --elev-card-l2: 0 12px 28px -6px rgba(0, 0, 0, 0.45), 0 4px 12px -2px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  --elev-card-l2-hover: 0 20px 42px -8px rgba(0, 0, 0, 0.56), 0 8px 18px -4px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  --elev-subcard-l1: 0 4px 10px -2px rgba(0, 0, 0, 0.32), 0 1px 3px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --elev-subcard-l1-hover: 0 10px 22px -4px rgba(0, 0, 0, 0.44), 0 4px 10px -2px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --elev-shell-header: 0 18px 42px -10px rgba(0, 0, 0, 0.54), 0 6px 16px -4px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --elev-shell-footer: 0 -16px 38px -10px rgba(0, 0, 0, 0.52), 0 -4px 14px -4px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
+  --elev-main-card: 0 28px 60px -14px rgba(0, 0, 0, 0.58), 0 12px 26px -6px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --elev-banner-card: 0 20px 44px -10px rgba(0, 0, 0, 0.54), 0 8px 18px -4px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  --elev-banner-card-hover: 0 26px 56px -10px rgba(0, 0, 0, 0.64), 0 10px 24px -4px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --elev-card-l2: 0 14px 34px -8px rgba(0, 0, 0, 0.48), 0 5px 14px -2px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --elev-card-l2-hover: 0 22px 46px -8px rgba(0, 0, 0, 0.58), 0 8px 20px -4px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.13);
+  --elev-subcard-l1: 0 8px 20px -5px rgba(0, 0, 0, 0.36), 0 2px 6px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --elev-subcard-l1-hover: 0 14px 28px -5px rgba(0, 0, 0, 0.48), 0 5px 12px -2px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+/* Dark Neon Glass */
+html[data-card-style="dark-neon-glass"] {
+  --elev-main-card: 0 28px 62px -12px rgba(2, 6, 23, 0.78), 0 0 26px -8px rgba(34, 211, 238, 0.16), inset 0 1px 0 rgba(165, 243, 252, 0.18);
+  --elev-banner-card: 0 20px 46px -10px rgba(2, 6, 23, 0.74), 0 0 24px -6px rgba(34, 211, 238, 0.20), 0 0 24px -10px rgba(217, 70, 239, 0.14), inset 0 1px 0 rgba(165, 243, 252, 0.22);
+  --elev-banner-card-hover: 0 26px 56px -10px rgba(2, 6, 23, 0.84), 0 0 32px -4px rgba(34, 211, 238, 0.28), 0 0 28px -8px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(165, 243, 252, 0.32);
+  --elev-card-l2: 0 16px 38px -8px rgba(2, 6, 23, 0.72), 0 0 20px -6px rgba(34, 211, 238, 0.16), inset 0 1px 0 rgba(165, 243, 252, 0.16);
+  --elev-card-l2-hover: 0 22px 48px -8px rgba(2, 6, 23, 0.82), 0 0 28px -4px rgba(34, 211, 238, 0.28), 0 0 24px -6px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(165, 243, 252, 0.30);
+}
+
+/* Deep Ocean */
+html[data-card-style="deep-ocean"] {
+  --elev-main-card: 0 28px 60px -12px rgba(2, 6, 23, 0.76), 0 0 24px -8px rgba(56, 189, 248, 0.14), inset 0 1px 0 rgba(125, 211, 252, 0.16);
+  --elev-banner-card: 0 20px 44px -10px rgba(2, 6, 23, 0.72), 0 0 22px -6px rgba(56, 189, 248, 0.18), inset 0 1px 0 rgba(125, 211, 252, 0.20);
+  --elev-banner-card-hover: 0 26px 54px -10px rgba(2, 6, 23, 0.82), 0 0 28px -4px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(125, 211, 252, 0.30);
+  --elev-card-l2: 0 16px 36px -8px rgba(2, 6, 23, 0.66), 0 0 18px -6px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(125, 211, 252, 0.18);
+  --elev-card-l2-hover: 0 22px 46px -8px rgba(2, 6, 23, 0.78), 0 0 24px -4px rgba(56, 189, 248, 0.26), inset 0 1px 0 rgba(125, 211, 252, 0.28);
+}
+
+/* Dark Neumorphism Beyond */
+html[data-card-style="dark-neumorphism-beyond"] {
+  --elev-main-card: 12px 14px 34px rgba(4, 7, 15, 0.72), -6px -6px 18px rgba(42, 54, 78, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.11);
+  --elev-banner-card: 10px 12px 28px rgba(4, 7, 15, 0.68), -5px -5px 14px rgba(42, 54, 78, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.13);
+  --elev-banner-card-hover: 14px 16px 36px rgba(4, 7, 15, 0.78), -6px -6px 18px rgba(51, 65, 92, 0.40), inset 0 1px 0 rgba(148, 163, 184, 0.18);
+  --elev-card-l2: 9px 11px 26px rgba(4, 7, 15, 0.65), -5px -5px 14px rgba(40, 51, 72, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.12);
+  --elev-card-l2-hover: 13px 15px 34px rgba(4, 7, 15, 0.76), -6px -6px 18px rgba(51, 65, 92, 0.42), inset 0 1px 0 rgba(148, 163, 184, 0.18);
+  --elev-subcard-l1: 6px 7px 16px rgba(4, 7, 15, 0.54), -3px -3px 10px rgba(40, 51, 72, 0.26), inset 0 1px 0 rgba(148, 163, 184, 0.08);
+  --elev-subcard-l1-hover: 9px 11px 22px rgba(4, 7, 15, 0.66), -4px -4px 12px rgba(48, 62, 88, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.14);
+}
+
+/* Dark Frost Ice Neu */
+html[data-card-style="dark-frost-ice-neu"] {
+  --elev-main-card: 12px 14px 34px rgba(4, 9, 18, 0.72), -6px -6px 18px rgba(46, 70, 108, 0.28), inset 0 1px 0 rgba(186, 218, 250, 0.12);
+  --elev-banner-card: 10px 12px 28px rgba(4, 9, 18, 0.68), -5px -5px 15px rgba(46, 70, 108, 0.30), inset 0 1px 0 rgba(186, 218, 250, 0.14);
+  --elev-banner-card-hover: 14px 16px 36px rgba(4, 9, 18, 0.78), -6px -6px 18px rgba(56, 86, 132, 0.36), inset 0 1px 0 rgba(186, 218, 250, 0.20);
+  --elev-card-l2: 9px 11px 26px rgba(4, 9, 18, 0.66), -5px -5px 15px rgba(44, 67, 102, 0.30), inset 0 1px 0 rgba(186, 218, 250, 0.12);
+  --elev-card-l2-hover: 13px 15px 34px rgba(4, 9, 18, 0.76), -6px -6px 18px rgba(56, 86, 132, 0.38), inset 0 1px 0 rgba(186, 218, 250, 0.18);
+  --elev-subcard-l1: 6px 7px 16px rgba(4, 9, 18, 0.56), -3px -3px 10px rgba(44, 67, 102, 0.24), inset 0 1px 0 rgba(186, 218, 250, 0.09);
+  --elev-subcard-l1-hover: 9px 11px 22px rgba(4, 9, 18, 0.68), -4px -4px 13px rgba(54, 82, 126, 0.32), inset 0 1px 0 rgba(186, 218, 250, 0.15);
 }
 
 /* 1. Header Menu Icons & Footer Right-Side Button Group (Layered Stack Elevation) */
@@ -6307,127 +6380,205 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body #app-footer {
   box-shadow: var(--elev-shell-footer) !important;
 }
 
-/* 4. Card Hierarchy Tier 4: Main Page Cards */
+/* 4. Card Hierarchy Tier 4: Main Page Cards (All Pages & All Themes) */
 html:not([data-surface-depth="flat"]):root body :is(
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
-  #experience-main-card
+  #experience-main-card,
+  #contact-main-card,
+  #horoscope-cards-track > .page-main-card
 ),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
-  #experience-main-card
+  #experience-main-card,
+  #contact-main-card,
+  #horoscope-cards-track > .page-main-card
 ) {
   box-shadow: var(--elev-main-card) !important;
 }
 
-/* Keep Horoscope outer wrapper transparent & shadowless so inner L2 Bento cards carry depth cleanly */
-html:root body #horoscope-cards-track > .page-main-card,
-html:root[data-card-style] body #horoscope-cards-track > .page-main-card {
-  box-shadow: none !important;
+/* 5A. Dedicated Soft Elevation for ALL Banner Cards across ALL Pages & Themes */
+html:not([data-surface-depth="flat"]):root body :is(
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #project-detail-banner,
+  #experience-banner-card,
+  #interview-questions-card,
+  #experience-timeline-board .exp-fold-swatch
+),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #project-detail-banner,
+  #experience-banner-card,
+  #interview-questions-card,
+  #experience-timeline-board .exp-fold-swatch
+) {
+  box-shadow: var(--elev-banner-card) !important;
+  transition: box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
 
-/* 5. Card Hierarchy Tier 2 -> Tier 3 Hover: Section, Bento, Service, Domain, Project, System, Education, Theme & Banner Cards */
 html:not([data-surface-depth="flat"]):root body :is(
-  .card,
-  .bento-card,
-  .glass-card,
-  .service-card,
-  .domain-card,
-  .project-card,
-  [id^="project-card-"],
-  .system-card-tile,
-  .education-course-card,
-  [id^="education-card-"],
-  .theme-preset-card,
   .banner-card,
   .hero-banner,
   [id$="-hero-banner"],
-  #horoscope-card-profile,
-  #horoscope-card-management-style,
-  #horoscope-card-career-portrait,
-  #horoscope-card-five-elements,
-  #horoscope-card-leadership-philosophy,
-  #horoscope-card-work-synergy-check,
-  [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card),
+  #project-detail-banner,
+  #experience-banner-card,
+  #interview-questions-card,
+  #experience-timeline-board .exp-fold-swatch
+):hover,
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
+  #project-detail-banner,
+  #experience-banner-card,
+  #interview-questions-card,
+  #experience-timeline-board .exp-fold-swatch
+):hover {
+  box-shadow: var(--elev-banner-card-hover) !important;
+}
+
+/* 5B. Card Hierarchy Tier 2 -> Tier 3 Hover: All Content, Hero Split, Bento, Service, Domain, Project, System, Education & Theme Cards */
+html:not([data-surface-depth="flat"]):root body :is(
+  .home-split-hero-card,
+  [id^="home-hero-stage-"],
   .card,
   .bento-card,
+  .bento-view-card,
   .glass-card,
+  .partner-card,
+  .motto-card,
   .service-card,
   .domain-card,
   .project-card,
   [id^="project-card-"],
+  .project-detail-section-card,
   .system-card-tile,
+  .education-card,
   .education-course-card,
   [id^="education-card-"],
   .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  #interview-answers-card,
+  .theme-muted-surface,
   #horoscope-card-profile,
+  #horoscope-card-6,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
   #horoscope-card-five-elements,
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card) {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .home-split-hero-card,
+  [id^="home-hero-stage-"],
+  .card,
+  .bento-card,
+  .bento-view-card,
+  .glass-card,
+  .partner-card,
+  .motto-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  [id^="project-card-"],
+  .project-detail-section-card,
+  .system-card-tile,
+  .education-card,
+  .education-course-card,
+  [id^="education-card-"],
+  .theme-preset-card,
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  #interview-answers-card,
+  .theme-muted-surface,
+  #horoscope-card-profile,
+  #horoscope-card-6,
+  #horoscope-card-management-style,
+  #horoscope-card-career-portrait,
+  #horoscope-card-five-elements,
+  #horoscope-card-leadership-philosophy,
+  #horoscope-card-work-synergy-check,
+  [data-section-card="true"]
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)) {
   box-shadow: var(--elev-card-l2) !important;
   transition: box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
 
 html:not([data-surface-depth="flat"]):root body :is(
+  .home-split-hero-card,
+  [id^="home-hero-stage-"],
   .card,
   .bento-card,
+  .bento-view-card,
   .glass-card,
+  .partner-card,
+  .motto-card,
   .service-card,
   .domain-card,
   .project-card,
   [id^="project-card-"],
+  .project-detail-section-card,
   .system-card-tile,
+  .education-card,
   .education-course-card,
   [id^="education-card-"],
   .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  #interview-answers-card,
+  .theme-muted-surface,
   #horoscope-card-profile,
+  #horoscope-card-6,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
   #horoscope-card-five-elements,
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card):hover,
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover,
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
+  .home-split-hero-card,
+  [id^="home-hero-stage-"],
   .card,
   .bento-card,
+  .bento-view-card,
   .glass-card,
+  .partner-card,
+  .motto-card,
   .service-card,
   .domain-card,
   .project-card,
   [id^="project-card-"],
+  .project-detail-section-card,
   .system-card-tile,
+  .education-card,
   .education-course-card,
   [id^="education-card-"],
   .theme-preset-card,
-  .banner-card,
-  .hero-banner,
-  [id$="-hero-banner"],
+  .exp-bento-surface-card,
+  .exp-detail-card,
+  #interview-answers-card,
+  .theme-muted-surface,
   #horoscope-card-profile,
+  #horoscope-card-6,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
   #horoscope-card-five-elements,
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not([data-subcard="true"]):not(.sub-card):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#experience-job-detail-card):hover {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover {
   box-shadow: var(--elev-card-l2-hover) !important;
 }
 
@@ -6442,8 +6593,11 @@ html:not([data-surface-depth="flat"]):root body :is(
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard,
-  .system-card-sub
-):not(#app-header):not(#app-footer):not(#weather-widget-card),
+  .system-card-sub,
+  .skill-swot-subcard,
+  .domain-card-sub,
+  .letter-subcard
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#horoscope-card-profile):not(#horoscope-card-6),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .sub-card,
   [data-subcard="true"],
@@ -6454,8 +6608,11 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard,
-  .system-card-sub
-):not(#app-header):not(#app-footer):not(#weather-widget-card) {
+  .system-card-sub,
+  .skill-swot-subcard,
+  .domain-card-sub,
+  .letter-subcard
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#horoscope-card-profile):not(#horoscope-card-6) {
   box-shadow: var(--elev-subcard-l1) !important;
   transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
@@ -6470,8 +6627,11 @@ html:not([data-surface-depth="flat"]):root body :is(
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard,
-  .system-card-sub
-):not(#app-header):not(#app-footer):not(#weather-widget-card):hover,
+  .system-card-sub,
+  .skill-swot-subcard,
+  .domain-card-sub,
+  .letter-subcard
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#horoscope-card-profile):not(#horoscope-card-6):hover,
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .sub-card,
   [data-subcard="true"],
@@ -6482,8 +6642,11 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard,
-  .system-card-sub
-):not(#app-header):not(#app-footer):not(#weather-widget-card):hover {
+  .system-card-sub,
+  .skill-swot-subcard,
+  .domain-card-sub,
+  .letter-subcard
+):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#horoscope-card-profile):not(#horoscope-card-6):hover {
   box-shadow: var(--elev-subcard-l1-hover) !important;
 }
 
@@ -6503,6 +6666,9 @@ html[data-surface-depth="flat"] body :is(
   #footer-next-btn,
   .nav-arrow-btn,
   .page-main-card,
+  .banner-card,
+  .hero-banner,
+  [id$="-hero-banner"],
   .card,
   .bento-card,
   .glass-card,

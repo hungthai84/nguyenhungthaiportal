@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ExternalLink } from 'lucide-react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { SiteTheme } from '@/types';
@@ -533,7 +532,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             aria-label={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
             className="inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full typo-button font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-[0_4px_16px_rgba(37,99,235,0.35)] border border-blue-300/40 backdrop-blur-md transition-all active:scale-95 cursor-pointer"
           >
-            <ExternalLink className="w-3.5 h-3.5 text-white" />
+            <WebIcon name="external-link" className="w-3.5 h-3.5 text-white" />
             <span className="truncate">{isEn ? 'AI Support Agent' : 'Mở AI Hỗ Trợ'}</span>
           </a>
         </div>

@@ -1,43 +1,43 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Calendar,
-  Building2,
-  Briefcase,
-  Users,
-  ChevronLeft,
-  ChevronRight,
-  Layers,
-  Trophy,
-  ShoppingBag,
-  Wallet,
-  Monitor,
-  Cpu,
-  BookOpen,
-  Sparkles,
-  Network,
-  Headphones,
-  Gauge,
-  ShieldCheck,
-  Flame,
-  Lock,
-  ListChecks,
-  FolderKanban,
-  Camera,
-  ZoomIn,
-  ArrowLeft,
-  MapPin,
-  PhoneCall,
-  Tv,
-  ArrowUpRight,
-  TrendingUp,
-  CheckCircle2,
-  ArrowLeftRight,
-  ChevronDown,
-  ChevronUp,
-  X,
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
+
+const Calendar = createAnimatedIcon('calendar');
+const Building2 = createAnimatedIcon('building-2');
+const Briefcase = createAnimatedIcon('briefcase');
+const Users = createAnimatedIcon('users');
+const ChevronLeft = createAnimatedIcon('chevron-left');
+const ChevronRight = createAnimatedIcon('chevron-right');
+const Layers = createAnimatedIcon('layers');
+const Trophy = createAnimatedIcon('trophy');
+const ShoppingBag = createAnimatedIcon('shopping-bag');
+const Wallet = createAnimatedIcon('wallet');
+const Monitor = createAnimatedIcon('monitor');
+const Cpu = createAnimatedIcon('cpu');
+const BookOpen = createAnimatedIcon('book-open');
+const Sparkles = createAnimatedIcon('sparkles');
+const Network = createAnimatedIcon('network');
+const Headphones = createAnimatedIcon('headphones');
+const Gauge = createAnimatedIcon('gauge');
+const ShieldCheck = createAnimatedIcon('shield-check');
+const Flame = createAnimatedIcon('flame');
+const Lock = createAnimatedIcon('lock');
+const ListChecks = createAnimatedIcon('list-checks');
+const FolderKanban = createAnimatedIcon('folder-kanban');
+const Camera = createAnimatedIcon('camera');
+const ZoomIn = createAnimatedIcon('zoom-in');
+const ArrowLeft = createAnimatedIcon('arrow-left');
+const MapPin = createAnimatedIcon('map-pin');
+const PhoneCall = createAnimatedIcon('phone-call');
+const Tv = createAnimatedIcon('tv');
+const ArrowUpRight = createAnimatedIcon('arrow-up-right');
+const TrendingUp = createAnimatedIcon('trending-up');
+const CheckCircle2 = createAnimatedIcon('check-circle');
+const ArrowLeftRight = createAnimatedIcon('arrow-left-right');
+const ChevronDown = createAnimatedIcon('chevron-down');
+const ChevronUp = createAnimatedIcon('chevron-up');
+const X = createAnimatedIcon('x');
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { PROJECTS_DATA } from '@/data/projects';
 import { DOMAINS_DATA } from '@/data/domains';
@@ -68,8 +68,10 @@ const CircularLogo: React.FC<{
 
   const sizeClass =
     total >= 4
-      ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]'
-      : 'w-[50px] h-[50px]';
+      ? 'w-[30px] h-[30px] sm:w-[34px] sm:h-[34px]'
+      : total > 1
+        ? 'w-[38px] h-[38px] sm:w-[40px] sm:h-[40px]'
+        : 'w-[46px] h-[46px]';
 
   const initials = logo.alt.replace(/^Logo\s+/i, '').trim().slice(0, 4) || 'Logo';
 
@@ -82,17 +84,17 @@ const CircularLogo: React.FC<{
         onOpenDetail();
       }}
       style={{
-        marginInlineStart: isStacked && index > 0 ? '-12px' : '0px',
+        marginTop: isStacked && index > 0 ? (total >= 4 ? '-10px' : '-12px') : '0px',
         zIndex: total - index,
-        background: 'var(--surface-secondary-bg, rgba(255, 255, 255, 0.78))',
-        border: '1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.80))',
-        boxShadow: 'var(--shadow-subcard, 0 8px 20px -4px rgba(15, 23, 42, 0.22))',
+        background: 'var(--surface-secondary-bg, var(--bg-card))',
+        border: 'none',
+        boxShadow: 'var(--shadow-subcard, 0 6px 14px -4px rgba(15, 23, 42, 0.22))',
       }}
       title={`${logo.alt} — Nhấn vào logo để xem chi tiết công việc tại ${companyName}`}
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'aspect-square rounded-full p-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:-translate-y-1 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
+        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 active:scale-95 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -482,9 +484,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     {
       key: '2003',
       yearBadge: 'Năm 2003',
-      companyLine1: 'Tổng công ty',
-      companyLine2: 'Viễn thông Mobifone',
-      shortName: 'Tổng công ty Viễn thông Mobifone',
+      companyLine1: 'Công ty',
+      companyLine2: 'Viễn thông MobiFone',
+      shortName: 'Công ty Viễn thông MobiFone',
       roleSummary: 'Nhân viên CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2003']?.cardDescription || '',
@@ -511,8 +513,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       key: '2007',
       yearBadge: 'Năm 2007',
       companyLine1: 'Công ty',
-      companyLine2: 'Viễn liên V247',
-      shortName: 'Công ty Viễn liên V247',
+      companyLine2: 'Viễn Liên V247',
+      shortName: 'Công ty Viễn Liên V247',
       roleSummary: 'Giám sát CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2007']?.cardDescription || '',
@@ -580,11 +582,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
       productSummary: 'Shopee · Garena · AirPay · GCafe',
       products: [
-        { name: 'VED', logo: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ' },
+        { name: 'VED', logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL' },
         { name: 'Garena', logo: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7' },
-        { name: 'Shopee', logo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP' },
-        { name: 'AirPay', logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC' },
         { name: 'GCafe', logo: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj' },
+        { name: 'ShopeePay', logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC' },
+        { name: 'Shopee', logo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP' },
       ],
       logos: [
         {
@@ -624,8 +626,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       key: '2016',
       yearBadge: 'Năm 2016',
       companyLine1: 'Công ty BNNT',
-      companyLine2: 'Prudentinal VN',
-      shortName: 'Công ty BNNT Prudentinal VN',
+      companyLine2: 'Prudential VN',
+      shortName: 'Công ty BNNT Prudential VN',
       roleSummary: 'Trưởng Phòng CallCenter',
       headcountLabel: '12 NS + 40 Tư vấn',
       description: EXPERIENCE_MILESTONES['2016']?.cardDescription || '',
@@ -709,7 +711,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       yearBadge: 'Năm 2026+',
       companyLine1: 'Sẵn sàng',
       companyLine2: 'Cho thử thách mới',
-      shortName: 'Sẵn sàng cho thử thách mới',
+      shortName: 'Sẵn sàng Cho thử thách mới',
       roleSummary: 'Trưởng phòng / GĐ CX',
       headcountLabel: '100–150+ Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
@@ -1137,7 +1139,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   const isExpanded = unfoldingFoldIdx !== null ? isUnfolding : activeFoldIdx === idx;
                   const foldNum = String(idx + 1).padStart(2, '0');
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
-                  const companyBanner = milestoneData?.bannerUrl || milestoneData?.memoryImg;
 
                   const colBackground = isBlackLeather
                     ? isEven
@@ -1216,95 +1217,85 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* Lớp bóng đổ nếp gấp giấy Chromatic Folds */}
                       <div aria-hidden="true" className="exp-fold-shading" />
 
-                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: SỐ THỨ TỰ + LOGO TRÒN + NHÃN XOAY 90 ĐỘ */}
+                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: ICON LỊCH + NĂM & SỐ NĂM -> CỤM LOGO XẾP DỌC -> TÊN CÔNG TY DỌC */}
                       <div className="exp-fold-spine" aria-hidden={isExpanded}>
-                        <span className="exp-fold-num">{foldNum}</span>
-                        {item.logos[0] && (
-                          <div className="exp-fold-spine-logo">
-                            <img
-                              src={item.logos[0].src}
-                              alt={item.logos[0].alt}
-                              className="w-full h-full object-contain rounded-full"
-                              loading="lazy"
-                              decoding="async"
-                              referrerPolicy="no-referrer"
-                            />
-                          </div>
-                        )}
-                        <span className="exp-fold-spine-label">
-                          {item.key} · {item.companyLine2}
-                        </span>
-                      </div>
-
-                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP (LẤP ĐẦY FULL CHIỀU CAO & CHIỀU RỘNG CARD) */}
-                      <div className="exp-fold-sheet pt-[66px] sm:pt-[72px] pb-0">
-                        {/* 1. Banner công ty + Năm + Số nếp gấp */}
-                        <div className="relative w-full shrink-0 mb-2 px-11 sm:px-14 overflow-hidden">
-                          <div className="relative w-full overflow-hidden rounded-[8px]">
-                            {companyBanner && (
-                              <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+                        <div className="exp-fold-num">
+                          <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+                          <span>{item.key === '2026' ? '2026+' : item.key}</span>
+                          {milestoneData?.tenure && (
+                            <span className="text-[10px] font-semibold opacity-90">
+                              {milestoneData.tenure}
+                            </span>
+                          )}
+                        </div>
+                        {item.logos.length > 0 && (
+                          <div className="exp-fold-spine-logo-stack">
+                            {item.logos.map((spineLogo, sIdx) => (
+                              <div
+                                key={`${spineLogo.src}-${sIdx}`}
+                                className="exp-fold-spine-logo"
+                                style={{
+                                  marginTop:
+                                    sIdx > 0
+                                      ? item.logos.length >= 4
+                                        ? '-9px'
+                                        : '-8px'
+                                      : '0px',
+                                  zIndex: item.logos.length - sIdx,
+                                  width: item.logos.length >= 4 ? '28px' : undefined,
+                                  height: item.logos.length >= 4 ? '28px' : undefined,
+                                }}
+                              >
                                 <img
-                                  src={companyBanner}
-                                  alt={item.shortName || item.companyLine1 || 'Company Banner'}
-                                  className="w-full h-full object-cover object-center opacity-30 transition-opacity duration-300"
+                                  src={spineLogo.src}
+                                  alt={spineLogo.alt}
+                                  className="w-full h-full object-cover rounded-full"
                                   loading="lazy"
                                   decoding="async"
                                   referrerPolicy="no-referrer"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-card)]/55 to-[var(--bg-card)]" />
                               </div>
-                            )}
-                            <div
-                              style={{ color: primaryTextColor }}
-                              className="relative z-10 w-full h-7 shrink-0 flex items-center justify-between px-2 typo-h5 font-bold tracking-[0.03em] leading-none py-1"
-                            >
-                              <span className="inline-flex items-center gap-1.5">
-                                <Calendar className="w-[15px] h-[15px] shrink-0" strokeWidth={2.75} />
-                                <span className="drop-shadow-xs">{item.yearBadge}</span>
-                              </span>
-                              <span
-                                className="font-mono text-[11px] font-bold px-2 py-0.5 rounded-full"
-                                style={{
-                                  color: resolvedAccent,
-                                  background: 'var(--bg-subcard, rgba(255,255,255,0.22))',
-                                }}
-                              >
-                                {foldNum} / 0{roadmapCards.length}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* 2. Dải màu thương hiệu & Logo tròn (Click logo mở chi tiết) */}
-                        <div
-                          style={{ background: item.blockGradient }}
-                          className="w-full h-[88px] lg:h-[98px] shrink-0 flex items-center justify-center px-3 shadow-[0_10px_20px_-4px_rgba(15,23,42,0.22)]"
-                        >
-                          <div className="flex items-center justify-center">
-                            {item.logos.map((logo, logoIdx) => (
-                              <CircularLogo
-                                key={logoIdx}
-                                logo={logo}
-                                isStacked={item.logos.length > 1}
-                                index={logoIdx}
-                                total={item.logos.length}
-                                companyName={item.shortName}
-                                onOpenDetail={() => handleOpenJobCard(item.key)}
-                              />
                             ))}
                           </div>
+                        )}
+                        <span className="exp-fold-spine-label">
+                          {item.shortName}
+                        </span>
+                      </div>
+
+                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP: KHUNG MÀU THAY BANNER -> LOGO TRƯỚC TÊN CÔNG TY */}
+                      <div className="exp-fold-sheet pt-[66px] sm:pt-[72px] pb-0">
+                        {/* 1. Khung màu thương hiệu thay thế banner công ty: Icon Lịch + Năm + Số năm + Ngành */}
+                        <div className="relative w-full shrink-0 mb-2.5 px-11 sm:px-14 overflow-hidden">
+                          <div
+                            style={{ background: item.blockGradient }}
+                            className="relative w-full rounded-[14px] px-4 py-3 text-white shadow-[0_8px_18px_-4px_rgba(15,23,42,0.22)] flex flex-wrap items-center justify-between gap-2"
+                          >
+                            <span className="inline-flex items-center gap-2 typo-h5 font-bold tracking-[0.02em] leading-none">
+                              <Calendar className="w-[16px] h-[16px] shrink-0" strokeWidth={2.5} />
+                              <span>{item.yearBadge}</span>
+                              {milestoneData?.tenure && (
+                                <span className="text-xs font-semibold opacity-90">
+                                  · {milestoneData.tenure}
+                                </span>
+                              )}
+                            </span>
+                            {milestoneData?.tag && (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/20 text-white">
+                                {milestoneData.tag}
+                              </span>
+                            )}
+                          </div>
                         </div>
 
-                        {/* 3. Thông tin công ty, thời gian, vị trí, quản lý, mô tả & Xem chi tiết */}
+                        {/* 2. Thông tin công ty (Logo xếp chồng dọc chuyển xuống trước tên công ty), thời gian, vị trí, quản lý, mô tả */}
                         <div
                           data-no-wheel-horizontal="true"
-                          className="exp-milestone-scroll flex-1 min-h-0 px-11 sm:px-14 pt-3.5 pb-10 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
+                          className="exp-milestone-scroll flex-1 min-h-0 px-11 sm:px-14 pt-1 pb-10 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
                         >
-                          <h3
-                            style={{ color: primaryTextColor }}
-                            data-subcard-title="true"
+                          <div
                             className={cn(
-                              'subcard-title-synced typo-h5 font-bold leading-[1.28] border-b pb-2 mb-2 break-words flex flex-col justify-center select-none',
+                              'flex items-center gap-3.5 border-b pb-3 mb-2.5 min-w-0',
                               isBlackLeather
                                 ? 'border-white/30'
                                 : isBrownLeather
@@ -1314,12 +1305,32 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                     : 'border-slate-300'
                             )}
                           >
-                            <span className="leading-tight flex items-center gap-1.5">
-                              <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
-                              <span>{item.companyLine1}</span>
-                            </span>
-                            <span className="block leading-tight">{item.companyLine2}</span>
-                          </h3>
+                            <div className="flex flex-col items-center justify-center shrink-0">
+                              {item.logos.map((logo, logoIdx) => (
+                                <CircularLogo
+                                  key={logoIdx}
+                                  logo={logo}
+                                  isStacked={item.logos.length > 1}
+                                  index={logoIdx}
+                                  total={item.logos.length}
+                                  companyName={item.shortName}
+                                  onOpenDetail={() => handleOpenJobCard(item.key)}
+                                />
+                              ))}
+                            </div>
+
+                            <h3
+                              style={{ color: primaryTextColor }}
+                              data-subcard-title="true"
+                              className="subcard-title-synced typo-h5 font-bold leading-[1.28] break-words flex flex-col justify-center min-w-0 flex-1 select-none"
+                            >
+                              <span className="leading-tight flex items-center gap-1.5">
+                                <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                                <span>{item.companyLine1}</span>
+                              </span>
+                              <span className="block leading-tight">{item.companyLine2}</span>
+                            </h3>
+                          </div>
 
                           <div className="space-y-1.5 mb-2 typo-label font-normal">
                             {milestoneData && (
@@ -1420,7 +1431,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 {roadmapCards.map((item, idx) => {
                   const isEven = idx % 2 === 0;
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
-                  const companyBanner = milestoneData?.bannerUrl || milestoneData?.memoryImg;
                   const colBackground = isBlackLeather
                     ? isEven
                       ? 'linear-gradient(145deg, #21242C 0%, #111318 100%)'
@@ -1469,65 +1479,59 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         unfoldingFoldIdx === idx && 'scale-[1.015]'
                       )}
                     >
-                      <div className="relative w-full shrink-0 mb-2 px-11 overflow-hidden">
-                        <div className="relative w-full overflow-hidden rounded-[8px]">
-                          {companyBanner && (
-                            <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-                              <img
-                                src={companyBanner}
-                                alt={item.shortName || item.companyLine1 || 'Company Banner'}
-                                className="w-full h-full object-cover object-center opacity-30"
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--bg-card)]/50 to-[var(--bg-card)]" />
-                            </div>
-                          )}
-                          <div
-                            style={{ color: primaryTextColor }}
-                            className="relative z-10 w-full h-7 flex items-center justify-center gap-1.5 typo-h5 font-bold"
-                          >
-                            <Calendar className="w-4 h-4 shrink-0" strokeWidth={2.75} />
+                      {/* Khung màu thương hiệu thay thế banner công ty trên Mobile */}
+                      <div className="relative w-full shrink-0 mb-2.5 px-11 overflow-hidden">
+                        <div
+                          style={{ background: item.blockGradient }}
+                          className="w-full rounded-[14px] px-4 py-2.5 text-white shadow-sm flex items-center justify-between gap-2"
+                        >
+                          <span className="inline-flex items-center gap-1.5 typo-h5 font-bold">
+                            <Calendar className="w-4 h-4 shrink-0" strokeWidth={2.5} />
                             <span>{item.yearBadge}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        style={{ background: item.blockGradient }}
-                        className="w-full h-[84px] shrink-0 flex items-center justify-center px-3 shadow-sm"
-                      >
-                        <div className="flex items-center justify-center">
-                          {item.logos.map((logo, logoIdx) => (
-                            <CircularLogo
-                              key={logoIdx}
-                              logo={logo}
-                              isStacked={item.logos.length > 1}
-                              index={logoIdx}
-                              total={item.logos.length}
-                              companyName={item.shortName}
-                              onOpenDetail={() => handleOpenJobCard(item.key)}
-                            />
-                          ))}
+                            {milestoneData?.tenure && (
+                              <span className="text-xs font-semibold opacity-90">
+                                · {milestoneData.tenure}
+                              </span>
+                            )}
+                          </span>
+                          {milestoneData?.tag && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/20 text-white">
+                              {milestoneData.tag}
+                            </span>
+                          )}
                         </div>
                       </div>
 
                       <div
                         data-no-wheel-horizontal="true"
-                        className="exp-milestone-scroll flex-1 min-h-0 px-12 pt-3 pb-2 flex flex-col overflow-y-auto no-scrollbar"
+                        className="exp-milestone-scroll flex-1 min-h-0 px-12 pt-1 pb-2 flex flex-col overflow-y-auto no-scrollbar"
                       >
-                        <h3
-                          style={{ color: primaryTextColor }}
-                          data-subcard-title="true"
-                          className="subcard-title-synced typo-h5 font-bold leading-[1.28] border-b border-slate-300/40 pb-2 mb-2"
-                        >
-                          <span className="leading-tight flex items-center gap-1.5">
-                            <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
-                            <span>{item.companyLine1}</span>
-                          </span>
-                          <span className="block leading-tight">{item.companyLine2}</span>
-                        </h3>
+                        <div className="flex items-center gap-3 border-b border-slate-300/40 pb-2.5 mb-2 min-w-0">
+                          <div className="flex flex-col items-center justify-center shrink-0">
+                            {item.logos.map((logo, logoIdx) => (
+                              <CircularLogo
+                                key={logoIdx}
+                                logo={logo}
+                                isStacked={item.logos.length > 1}
+                                index={logoIdx}
+                                total={item.logos.length}
+                                companyName={item.shortName}
+                                onOpenDetail={() => handleOpenJobCard(item.key)}
+                              />
+                            ))}
+                          </div>
+                          <h3
+                            style={{ color: primaryTextColor }}
+                            data-subcard-title="true"
+                            className="subcard-title-synced typo-h5 font-bold leading-[1.28] min-w-0 flex-1"
+                          >
+                            <span className="leading-tight flex items-center gap-1.5">
+                              <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                              <span>{item.companyLine1}</span>
+                            </span>
+                            <span className="block leading-tight">{item.companyLine2}</span>
+                          </h3>
+                        </div>
                         <div className="space-y-1.5 mb-2 typo-label font-normal">
                           {milestoneData && (
                             <div className="flex items-start gap-1.5 leading-[1.35]">
@@ -1666,7 +1670,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
             <span
               aria-live="polite"
-              className="hidden sm:inline-flex items-center justify-center px-3 py-0.5 rounded-full border font-mono text-[10px] tracking-[0.12em] whitespace-nowrap"
+              className="hidden sm:inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full border text-[11px] font-bold tracking-[0.04em] whitespace-nowrap"
               style={{
                 borderColor: isBlackLeather
                   ? 'rgba(255,255,255,0.35)'
@@ -1676,7 +1680,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 color: isBlackLeather ? '#FFFFFF' : isBrownLeather ? '#FFF8DC' : 'var(--text-primary)',
               }}
             >
-              {String(activeFoldIdx + 1).padStart(2, '0')} / {String(roadmapCards.length).padStart(2, '0')} · {roadmapCards[activeFoldIdx]?.yearBadge}
+              <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+              <span>
+                {roadmapCards[activeFoldIdx]?.yearBadge}
+                {EXPERIENCE_MILESTONES[roadmapCards[activeFoldIdx]?.key]?.tenure
+                  ? ` · ${EXPERIENCE_MILESTONES[roadmapCards[activeFoldIdx]?.key]?.tenure}`
+                  : ''}
+              </span>
             </span>
           </div>
         </section>
@@ -2321,22 +2331,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           const useCompactLogo = inlineLogos.length >= 4;
                           return (
                             <div className="flex flex-wrap items-center gap-[15px] min-w-0 w-full">
-                              <div className="flex items-center shrink-0">
+                              <div className="flex flex-col items-center justify-center shrink-0">
                                 {inlineLogos.map((logoItem, logoIdx) => (
                                   <div
                                     key={`${logoItem.src}-${logoIdx}`}
                                     style={{
                                       zIndex: inlineLogos.length - logoIdx,
-                                      marginInlineStart: logoIdx > 0 ? '-12px' : '0px',
-                                      background: 'var(--surface-secondary-bg, rgba(255, 255, 255, 0.78))',
-                                      border: '1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.80))',
-                                      boxShadow: 'var(--shadow-subcard, 0 8px 20px -4px rgba(15, 23, 42, 0.22))',
+                                      marginTop:
+                                        logoIdx > 0
+                                          ? useCompactLogo
+                                            ? '-10px'
+                                            : '-12px'
+                                          : '0px',
+                                      background: 'var(--surface-secondary-bg, var(--bg-card))',
+                                      border: 'none',
+                                      boxShadow: 'var(--shadow-subcard, 0 6px 16px -4px rgba(15, 23, 42, 0.22))',
                                     }}
                                     className={cn(
-                                      'relative rounded-full overflow-hidden p-0 ring-0 outline-none flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110 hover:-translate-y-1',
+                                      'relative rounded-full overflow-hidden p-0 border-0 ring-0 outline-none flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30',
                                       useCompactLogo
-                                        ? 'w-[40px] h-[40px] sm:w-[44px] sm:h-[44px]'
-                                        : 'w-[48px] h-[48px]'
+                                        ? 'w-[30px] h-[30px] sm:w-[34px] sm:h-[34px]'
+                                        : 'w-[46px] h-[46px]'
                                     )}
                                   >
                                     <img

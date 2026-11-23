@@ -2269,10 +2269,11 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -2287,10 +2288,11 @@ article.project-card:hover,
   object-fit: cover !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
 }
 
 .project-card-body,
@@ -3806,17 +3808,18 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  border-radius: var(--radius-card, 18px) !important;
+  border-radius: 14px !important;
   padding: 0 !important;
   gap: 0 !important;
   overflow: hidden !important;
 }
 
 #projects-grid .project-card .project-card-banner {
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
   overflow: hidden !important;
@@ -5073,10 +5076,13 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 
 .project-card .project-card-banner,
 .project-card .project-card-banner[data-media-card="image"],
-.project-card .project-card-banner :is(img, video) {
-  border-radius: 14px 14px 0px 0px !important;
+.project-card .project-card-banner :is(img, video),
+.project-card .project-card-banner .project-card-banner-scrim {
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
 }
 
 #education-book-view .education-book-media-rounded,
@@ -5202,8 +5208,8 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 #letter-page-container .partner-logo-badge,
 #letter-card-2 .w-11.h-11,
 #letter-card-3 .w-11.h-11 {
-  background: transparent !important;
-  background-color: transparent !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  background-color: var(--surface-secondary-bg, var(--bg-card)) !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
@@ -5367,31 +5373,33 @@ html[data-card-style="dark-liquid-glass"] :is(
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 2 và 3 xếp ngang cách nhau 15px, kích thước bằng Card 1 */
+/* THƯ NGỎ HÀNG 2: Card 2 và 3 trượt ngang trọn khung 100%, không lộ mép Card 3, chiều cao bằng Card 1 */
 #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: stretch !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
   width: 100% !important;
   max-width: 100% !important;
-  overflow-x: auto !important;
+  overflow-x: hidden !important;
   overflow-y: hidden !important;
+  scroll-snap-type: x mandatory;
   box-sizing: border-box !important;
 }
 
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
-  width: var(--letter-card-1-w, 100%) !important;
-  min-width: var(--letter-card-1-w, 100%) !important;
-  max-width: var(--letter-card-1-w, 100%) !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
   height: var(--letter-card-1-h, auto) !important;
   min-height: var(--letter-card-1-h, 0px) !important;
   max-height: var(--letter-card-1-h, none) !important;
-  flex: 0 0 var(--letter-card-1-w, 100%) !important;
+  flex: 0 0 100% !important;
+  scroll-snap-align: start;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   box-sizing: border-box !important;
@@ -5642,7 +5650,7 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   opacity: 0.28;
 }
 
-/* Mặt gáy gấp gọn (bỏ hiệu ứng nghiêng, giữ thẳng đứng gọn gàng) */
+/* Mặt gáy gấp gọn: Cột dọc gọn gàng (Lịch/Năm/Số năm -> Cụm logo xếp dọc -> Tên công ty dọc) */
 #experience-timeline-board .exp-fold-spine {
   position: absolute;
   inset: 0;
@@ -5651,8 +5659,11 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding: 64px 4px 36px;
+  gap: 8px;
   pointer-events: none;
   transition: opacity 0.28s ease;
+  overflow: hidden;
 }
 
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-spine {
@@ -5661,50 +5672,62 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
 }
 
 #experience-timeline-board .exp-fold-num {
-  position: absolute;
-  top: 68px;
-  left: 50%;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.96);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
-  transform: translateX(-50%);
-  line-height: 1;
+  line-height: 1.15;
+  text-align: center;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#experience-timeline-board .exp-fold-spine-logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
 }
 
 #experience-timeline-board .exp-fold-spine-logo {
-  position: absolute;
-  top: 102px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 34px;
-  height: 34px;
+  position: relative;
+  width: 32px;
+  height: 32px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  background: var(--surface-secondary-bg, var(--bg-card));
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 3px;
+  padding: 0;
+  flex-shrink: 0;
 }
 
 #experience-timeline-board .exp-fold-spine-label {
-  position: absolute;
-  top: 66%;
-  left: 50%;
-  font-size: 14px;
+  flex: 1 1 0%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: #ffffff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
   white-space: nowrap;
-  transform-origin: center;
-  transform: translate(-50%, -50%) rotate(var(--fold-label-angle));
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Mặt mở rộng chứa 100% dữ liệu thật của cột mốc (thẳng đứng, bỏ hiệu ứng nghiêng) */
@@ -5750,15 +5773,19 @@ html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(#footer-lan
   #experience-timeline-board .exp-chromatic-stage {
     padding: 0 !important;
   }
+  #experience-timeline-board .exp-fold-spine {
+    padding: 58px 2px 32px;
+    gap: 6px;
+  }
   #experience-timeline-board .exp-fold-spine-label {
-    font-size: 12px;
+    font-size: 11px;
   }
   #experience-timeline-board .exp-fold-num {
-    top: 64px;
-    font-size: 15px;
+    font-size: 10px;
   }
   #experience-timeline-board .exp-fold-spine-logo {
-    top: 96px;
+    width: 26px;
+    height: 26px;
   }
 }
 

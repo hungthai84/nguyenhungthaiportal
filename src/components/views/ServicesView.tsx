@@ -2,26 +2,26 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import {
-  Smartphone,
-  ShoppingBag,
-  ShieldCheck,
-  Gamepad2,
-  Wallet,
-  Cpu,
-  Minimize2,
-  Users,
-  Zap,
-  Clock,
-  Smile,
-  TrendingUp,
-  Activity,
-  Layers,
-  Award,
-  HeartHandshake,
-  RotateCcw,
-} from 'lucide-react';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+
+const Smartphone = createAnimatedIcon('smartphone');
+const ShoppingBag = createAnimatedIcon('shopping-bag');
+const ShieldCheck = createAnimatedIcon('shield-check');
+const Gamepad2 = createAnimatedIcon('gamepad-2');
+const Wallet = createAnimatedIcon('wallet');
+const Cpu = createAnimatedIcon('cpu');
+const Minimize2 = createAnimatedIcon('minimize-2');
+const Users = createAnimatedIcon('users');
+const Zap = createAnimatedIcon('zap');
+const Clock = createAnimatedIcon('clock');
+const Smile = createAnimatedIcon('smile');
+const TrendingUp = createAnimatedIcon('trending-up');
+const Activity = createAnimatedIcon('activity');
+const Layers = createAnimatedIcon('layers');
+const Award = createAnimatedIcon('award');
+const HeartHandshake = createAnimatedIcon('heart-handshake');
+const RotateCcw = createAnimatedIcon('rotate-ccw');
 import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
 import { DomainData, SiteTheme } from '@/types';
 import { cn } from '@/lib/utils';
@@ -883,7 +883,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                               <div
                                 key={partner.name || pIdx}
                                 title={partner.name}
-                                className="w-[42px] h-[42px] rounded-full overflow-hidden bg-white dark:bg-slate-800 border border-[var(--border-subcard)] flex items-center justify-center p-1 shrink-0 shadow-xs"
+                                style={{
+                                  background: 'var(--surface-secondary-bg, var(--bg-card))',
+                                  border: 'none',
+                                }}
+                                className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
                               >
                                 <img
                                   src={partner.logo}
@@ -891,7 +895,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                   loading="lazy"
                                   decoding="async"
                                   referrerPolicy="no-referrer"
-                                  className="w-full h-full object-contain rounded-full"
+                                  className="w-full h-full object-cover rounded-full"
                                   onError={(e) => {
                                     if (
                                       partner.fallbackLogo &&

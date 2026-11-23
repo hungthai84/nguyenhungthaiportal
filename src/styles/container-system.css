@@ -357,10 +357,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   padding: 0 !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
   overflow: hidden !important;
 }
 
@@ -370,13 +371,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  border-radius: 0 !important;
-  border-top-left-radius: inherit !important;
-  border-top-right-radius: inherit !important;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: 14px 14px 0px 0px !important;
 }
 
 #projects-grid .project-card .project-card-body,

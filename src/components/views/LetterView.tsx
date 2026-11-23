@@ -433,6 +433,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
   useEffect(() => {
     const el = letterCard1Ref.current;
     if (!el) return;
+    const syncHorizontalRowPosition = () => {
+      const row = letterCardsRow23Ref.current;
+      if (!row) return;
+      if (currentSlideRef.current === 2) {
+        const card3El = document.getElementById('letter-card-3');
+        if (card3El) {
+          row.scrollLeft = card3El.offsetLeft;
+        }
+      } else {
+        row.scrollLeft = 0;
+      }
+    };
     const measureCard1 = () => {
       const rect = el.getBoundingClientRect();
       const width = Math.round(rect.width);
@@ -441,6 +453,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       setCard1Size((prev) =>
         prev && prev.width === width && prev.height === height ? prev : { width, height }
       );
+      requestAnimationFrame(syncHorizontalRowPosition);
     };
     measureCard1();
     let ro: ResizeObserver | null = null;
@@ -454,6 +467,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
       window.removeEventListener('resize', measureCard1);
     };
   }, []);
+
+  const row23TouchStartXRef = useRef<number | null>(null);
+  const row23TouchStartYRef = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
@@ -497,16 +513,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
         container.scrollTop = targetTop;
       }
 
-      if (clamped === 1 || clamped === 2) {
-        const row = letterCardsRow23Ref.current;
-        if (row) {
-          const targetLeft = clamped === 1 ? 0 : cardEl.offsetLeft;
-          if (smooth) {
-            row.scrollTo({ left: targetLeft, behavior: 'smooth' });
-          } else {
-            row.scrollLeft = targetLeft;
-          }
+      const row = letterCardsRow23Ref.current;
+      if (row && (clamped === 1 || clamped === 2)) {
+        const targetLeft = clamped === 1 ? 0 : cardEl.offsetLeft;
+        if (smooth) {
+          row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        } else {
+          row.scrollLeft = targetLeft;
         }
+      } else if (row && clamped === 0) {
+        row.scrollLeft = 0;
       }
 
       scrollTimeoutRef.current = window.setTimeout(() => {
@@ -1697,7 +1713,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
         {/* 1. HEADER ZONE: Focal Point (Logo 1:1, Title, Role Metadata & Year) */}
         <div className="w-full flex items-start justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0 relative z-10 min-w-0">
           <div className="flex items-center gap-3 min-w-0 flex-1 text-left">
-            <div className="w-11 h-11 aspect-square rounded-full overflow-hidden border-0 shrink-0 flex items-center justify-center bg-transparent p-0 shadow-none transition-transform duration-200 group-hover/mcard:scale-105">
+            <div
+              style={{
+                background: 'var(--surface-secondary-bg, var(--bg-card))',
+                border: 'none',
+              }}
+              className="w-11 h-11 aspect-square rounded-full overflow-hidden border-0 shrink-0 flex items-center justify-center p-0 shadow-none transition-transform duration-200 group-hover/mcard:scale-105"
+            >
               <img
                 src={item.logo}
                 alt={item.company}
@@ -2062,8 +2084,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 title={item.company}
                               >
                                 <div
-                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full bg-transparent border-0 shadow-none group-hover/logo:scale-105 transition-all duration-300 relative shrink-0 p-0 overflow-hidden"
-                                  style={{ borderRadius: '99999px', background: 'transparent', border: 'none', padding: '0px' }}
+                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full border-0 shadow-none group-hover/logo:scale-105 transition-all duration-300 relative shrink-0 p-0 overflow-hidden"
+                                  style={{
+                                    borderRadius: '9999px',
+                                    background: 'var(--surface-secondary-bg, var(--bg-card))',
+                                    border: 'none',
+                                    padding: '0px',
+                                  }}
                                 >
                                   <img
                                     src={item.logo}
@@ -2214,28 +2241,50 @@ export const LetterView: React.FC<LetterViewProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* HÀNG DỌC 2: CARD THƯ NGỎ 2 VÀ CARD THƯ NGỎ 3 (XẾP NGANG CÁCH NHAU 15PX)    */}
+      {/* HÀNG DỌC 2: CARD THƯ NGỎ 2 VÀ CARD THƯ NGỎ 3 (CHUYỂN SLIDE TRỌN KHUNG 100%) */}
       {/* ========================================================================= */}
       <div
         id="letter-cards-row-2-3"
         ref={letterCardsRow23Ref}
-        onScroll={handleLetterContainerScroll}
+        data-no-wheel-horizontal="true"
         data-element-name="Hàng ngang Card thư ngỏ 2 và 3"
-        className="w-full flex flex-row flex-nowrap gap-[15px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar"
+        onTouchStart={(e) => {
+          if (e.touches.length !== 1) return;
+          row23TouchStartXRef.current = e.touches[0].clientX;
+          row23TouchStartYRef.current = e.touches[0].clientY;
+        }}
+        onTouchEnd={(e) => {
+          const startX = row23TouchStartXRef.current;
+          const startY = row23TouchStartYRef.current;
+          row23TouchStartXRef.current = null;
+          row23TouchStartYRef.current = null;
+          if (startX === null || startY === null || e.changedTouches.length === 0) return;
+          const dx = e.changedTouches[0].clientX - startX;
+          const dy = e.changedTouches[0].clientY - startY;
+          if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+            if (dx < 0) {
+              scrollToLetterCard(2, true);
+            } else {
+              scrollToLetterCard(1, true);
+            }
+          }
+        }}
+        className="w-full flex flex-row flex-nowrap gap-0 items-stretch overflow-x-hidden overflow-y-hidden no-scrollbar"
         style={{
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
+          gap: '0px',
+          rowGap: '0px',
+          columnGap: '0px',
           width: '100%',
           maxWidth: '100%',
-          overflowX: 'auto',
+          overflowX: 'hidden',
           overflowY: 'hidden',
+          scrollSnapType: 'x mandatory',
         }}
       >
-        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) — Kích thước bằng Card 1 */}
+        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) — Trọn khung 100% không lộ mép Card 3 */}
         <div
           id="letter-card-2"
           data-element-name="Thư ngỏ main card 2"
@@ -2244,13 +2293,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
           style={{
-            width: 'var(--letter-card-1-w, 100%)',
-            minWidth: 'var(--letter-card-1-w, 100%)',
-            maxWidth: 'var(--letter-card-1-w, 100%)',
+            width: '100%',
+            minWidth: '100%',
+            maxWidth: '100%',
             height: 'var(--letter-card-1-h, auto)',
             minHeight: 'var(--letter-card-1-h, 0px)',
             maxHeight: 'var(--letter-card-1-h, none)',
-            flex: '0 0 var(--letter-card-1-w, 100%)',
+            flex: '0 0 100%',
+            scrollSnapAlign: 'start',
             padding: '15px',
             gap: '15px',
             borderRadius: 'var(--radius-main, 14px)',
@@ -2270,7 +2320,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           </div>
         </div>
 
-        {/* Card 3: Quản trị quy mô lớn & Chuyển đổi số (2013 - 2023) — Kích thước bằng Card 1 */}
+        {/* Card 3: Quản trị quy mô lớn & Chuyển đổi số (2013 - 2023) — Trọn khung 100% */}
         <div
           id="letter-card-3"
           data-element-name="Thư ngỏ main card 3"
@@ -2279,13 +2329,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
           style={{
-            width: 'var(--letter-card-1-w, 100%)',
-            minWidth: 'var(--letter-card-1-w, 100%)',
-            maxWidth: 'var(--letter-card-1-w, 100%)',
+            width: '100%',
+            minWidth: '100%',
+            maxWidth: '100%',
             height: 'var(--letter-card-1-h, auto)',
             minHeight: 'var(--letter-card-1-h, 0px)',
             maxHeight: 'var(--letter-card-1-h, none)',
-            flex: '0 0 var(--letter-card-1-w, 100%)',
+            flex: '0 0 100%',
+            scrollSnapAlign: 'start',
             padding: '15px',
             gap: '15px',
             borderRadius: 'var(--radius-main, 14px)',
@@ -2317,9 +2368,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-page="letter"
         data-element-parent="letter-cards-track"
         style={{
-          width: 'var(--letter-card-1-w, 100%)',
-          minWidth: 'var(--letter-card-1-w, 100%)',
-          maxWidth: 'var(--letter-card-1-w, 100%)',
+          width: '100%',
+          minWidth: '100%',
+          maxWidth: '100%',
           height: 'var(--letter-card-1-h, auto)',
           minHeight: 'var(--letter-card-1-h, 0px)',
           maxHeight: 'var(--letter-card-1-h, none)',
@@ -2536,7 +2587,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         <div
           role="region"
           aria-label="Điều khiển thuyết trình tự động"
-          className="theme-popup fixed bottom-[calc(12%+14px)] left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
+          className="theme-popup fixed bottom-[calc(10%+14px)] left-1/2 -translate-x-1/2 z-50 px-3 py-2 sm:px-4 sm:py-2.5 rounded-[14px] sm:rounded-full flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-center gap-2 sm:gap-3 max-w-[95vw] animate-slide-up select-none font-play"
         >
           {/* Nhãn trạng thái Slide & Cue */}
           <div className="flex items-center gap-2 shrink-0">

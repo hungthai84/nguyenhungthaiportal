@@ -196,7 +196,7 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_light_ocean_navy_v1';
+const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_default_view_v2';
 const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v3';
 let didRunDefaultUiSeed = false;
 
@@ -205,14 +205,32 @@ function ensureDefaultUiSeedSync(): void {
   didRunDefaultUiSeed = true;
   try {
     if (localStorage.getItem(DEFAULT_UI_SEED_KEY) !== '1') {
-      localStorage.removeItem(CARD_STYLE_STORAGE_KEY);
-      localStorage.removeItem(COLOR_SCHEME_MODE_STORAGE_KEY);
-      localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
-      localStorage.removeItem(ACTIVE_WALLPAPER_STORAGE_KEY);
-      localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
-      localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
-      localStorage.removeItem(LAYER_DEPTH_STORAGE_KEY);
-      localStorage.removeItem(SURFACE_DEPTH_STORAGE_KEY);
+      const keysToClear = [
+        CARD_STYLE_STORAGE_KEY,
+        'hungthai_card_style',
+        'hungthai_card_style_manual',
+        'hungthai_last_dark_style',
+        'hungthai_last_light_style',
+        COLOR_SCHEME_MODE_STORAGE_KEY,
+        'theme_mode',
+        WALLPAPER_MANUAL_STORAGE_KEY,
+        ACTIVE_WALLPAPER_STORAGE_KEY,
+        'theme_wallpaper',
+        WALLPAPER_OVERLAY_STORAGE_KEY,
+        ADAPTIVE_ACCENT_STORAGE_KEY,
+        AUTO_TIME_THEME_STORAGE_KEY,
+        GLASS_CUSTOMIZATION_STORAGE_KEY,
+        LAYER_DEPTH_STORAGE_KEY,
+        SURFACE_DEPTH_STORAGE_KEY,
+        'hungthai_interface_ui_prefs_v1',
+        'hungthai_about_view_mode',
+        'hungthai_bento_palette',
+        'hungthai_letter_active_slide',
+        'hungthai_font_scale_v1',
+      ];
+      for (const key of keysToClear) {
+        localStorage.removeItem(key);
+      }
       localStorage.setItem(DEFAULT_UI_SEED_KEY, '1');
     }
     if (localStorage.getItem(DEFAULT_OVERLAY_RESET_SEED_KEY) !== '1') {

@@ -4,35 +4,23 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 // Icons migrated to WebIcon (Hugeicons)
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
+  <WebIcon name="linkedin" className={className || 'w-4 h-4'} strokeWidth={2.75} />
 );
 import { motion } from 'motion/react';
 import QRCode from 'qrcode';
-import {
-  Copy,
-  Check,
-  QrCode,
-  Download,
-} from 'lucide-react';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
+
+const Copy = createAnimatedIcon('copy');
+const Check = createAnimatedIcon('check');
+const QrCode = createAnimatedIcon('qr-code');
+const Download = createAnimatedIcon('download');
 
 const Sparkles = ({ className, style }: { className?: string; style?: React.CSSProperties }) => <WebIcon name="sparkles" className={className} style={style} />;
 const ChevronLeft = ({ className }: { className?: string }) => <WebIcon name="chevron-left" className={className} />;

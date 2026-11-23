@@ -449,6 +449,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const {
     cardStyle,
     setCardStyle,
+    resetGlassSettings,
+    setAutoTimeTheme,
     isDark,
   } = useTheme();
   const { language, t } = useLanguage();
@@ -563,10 +565,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const handleResetDefault = () => {
     const defaultCfg = getCardStyleConfig(DEFAULT_CARD_STYLE);
     SoundEngine.playGlassChime();
+    setAutoTimeTheme(false);
+    resetGlassSettings(DEFAULT_CARD_STYLE);
     setCardStyle(DEFAULT_CARD_STYLE);
     setSelectedFamilyFilter('all');
     setSelectedMechanismFilter('all');
     setIsFamilyFilterOpen(false);
+    setIsSandboxOpen(false);
+    setIsQuickThemeSectionOpen(false);
+    setSandboxQuery('');
+    setActiveVideoPreviewId(null);
+    setNeuSliders([68, 38, 92, 54, 82, 70]);
     if (onShowNotification) {
       onShowNotification(
         isEn

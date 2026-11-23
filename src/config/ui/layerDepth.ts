@@ -45,7 +45,7 @@ export function applyLayerDepthCssVariables(depthRaw: number, _cardStyle: CardSt
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
   const depth = clampLayerDepth(depthRaw);
-  const surfaceMode = depth === 0 ? 'flat' : 'layered';
+  const surfaceMode = depth === 0 ? 'flat' : 'depth';
 
   root.setAttribute('data-layer-depth', String(depth));
   root.setAttribute('data-surface-depth', surfaceMode);

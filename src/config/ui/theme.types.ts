@@ -6,6 +6,8 @@ export type ColorSchemeMode = 'light' | 'dark' | 'system';
 
 export type SurfaceDepthMode = 'flat' | 'depth';
 
+export type WaveMotionMode = 'off' | 'gentle' | 'normal' | 'vivid';
+
 export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'

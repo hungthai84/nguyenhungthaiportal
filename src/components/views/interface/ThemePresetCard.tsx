@@ -119,11 +119,11 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       if (preset.id === 'mica-fluent') {
         return {
           ...sampleProps,
-          background:
-            'linear-gradient(145deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%)',
-          backdropFilter: 'blur(11px)',
-          WebkitBackdropFilter: 'blur(11px)',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
+          background: 'rgba(255, 255, 255, 0.30)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.35)',
+          boxShadow: '0px 4px 7px 2px rgba(0, 0, 0, 0.09)',
           color: '#1C0708',
         };
       }
@@ -323,7 +323,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       isMatteNeu ? 'border-0' : 'border'
                     }`}
                   >
-                    {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
+                    {isEn ? 'Header · Tab' : 'Tiêu đề · Thẻ mẫu'}
                   </span>
                   <span
                     style={preset.miniBtnStyle}
@@ -334,12 +334,40 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  {meta.gradientBars.slice(0, 2).map((bar) => (
+                  {meta.gradientBars.slice(0, 2).map((bar) => {
+                    const barLabelViMap: Record<string, string> = {
+                      Purple: 'Tím',
+                      Lavender: 'Oải hương',
+                      Cyan: 'Lục lam',
+                      Rose: 'Hồng phấn',
+                      'Neon Cyan': 'Lam sáng',
+                      'Neon Violet': 'Tím sáng',
+                      'Neon Mint': 'Bạc hà',
+                      B1: 'Sắc 1',
+                      B2: 'Sắc 2',
+                      Grain: 'Vân gỗ',
+                      Walnut: 'Óc chó',
+                      O1: 'Sắc 1',
+                      O2: 'Sắc 2',
+                      Primary: 'Chính',
+                      'Sky Cyan': 'Lam trời',
+                      Indigo: 'Chàm',
+                      Sky: 'Xanh trời',
+                      Blue: 'Xanh lam',
+                      Pink: 'Hồng',
+                      Mint: 'Bạc hà',
+                      Inset: 'Nhấn lõm',
+                      Teal: 'Ngọc lam',
+                      Terracotta: 'Đất nung',
+                      Espresso: 'Cà phê',
+                    };
+                    const localizedBarLabel = isEn ? bar.label : barLabelViMap[bar.label] || bar.label;
+                    return (
                     <div key={bar.label} className="flex items-center gap-2">
                       <span
-                        className={`w-12 shrink-0 typo-badge font-mono truncate ${meta.accentTextClass}`}
+                        className={`w-16 shrink-0 typo-badge font-mono truncate ${meta.accentTextClass}`}
                       >
-                        {bar.label}
+                        {localizedBarLabel}
                       </span>
                       <div
                         className="flex-1 h-2 rounded-full overflow-hidden"
@@ -368,7 +396,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                         />
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -384,7 +413,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
             {lightModeId && darkModeId && (
               <div
                 role="group"
-                aria-label="Light / Dark mode tab"
+                aria-label={isEn ? 'Light / Dark mode tab' : 'Chuyển chế độ Sáng hoặc Tối'}
                 className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
               >
                 <button

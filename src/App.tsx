@@ -484,6 +484,7 @@ export default function App() {
         return (
           <HomeView
             currentTheme={activeTheme}
+            slideIndex={pageSlides[0] ?? 0}
             onShowNotification={showNotification}
             onNavigateContact={() => handleSelectTabWithSound(12)}
             onNavigatePage={handleSelectTabWithSound}
@@ -577,6 +578,7 @@ export default function App() {
         return (
           <HomeView
             currentTheme={activeTheme}
+            slideIndex={pageSlides[0] ?? 0}
             onShowNotification={showNotification}
             onNavigateContact={() => handleSelectTabWithSound(12)}
             onNavigatePage={handleSelectTabWithSound}
@@ -596,15 +598,16 @@ export default function App() {
         padding: '0px',
         gap: '0px',
         width: '100%',
-        height: '100dvh',
-        minHeight: '100vh',
-        maxHeight: '100dvh',
+        height: 'auto',
+        minHeight: '100dvh',
+        maxHeight: 'none',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'visible',
         position: 'relative',
       }}
-      className="w-full h-full overflow-hidden flex flex-col items-center m-0 p-0 select-text relative"
+      className="w-full min-h-screen overflow-x-hidden flex flex-col items-center m-0 p-0 select-text relative"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       {(() => {
@@ -821,6 +824,7 @@ export default function App() {
             <div aria-hidden="true" className="ambient-layer-abstract">
               <span className="ambient-wave ambient-wave--1" />
               <span className="ambient-wave ambient-wave--2" />
+              <span className="ambient-wave ambient-wave--3" />
             </div>
 
             <div aria-hidden="true" className="ambient-layer-depth" />
@@ -885,9 +889,9 @@ export default function App() {
         style={{
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: currentTabIndex === 16 ? '1250px' : 'var(--main-card-target-w, 1000px)',
-          flex: currentTabIndex === 16 ? '1 1 100%' : '1 1 auto',
-          height: '100%',
-          minHeight: 0,
+          flex: '0 0 auto',
+          height: currentTabIndex === 16 ? 'auto' : 'calc(100dvh - 104px)',
+          minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '520px',
           minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',

@@ -840,7 +840,7 @@ export const PullCord: React.FC<PullCordProps> = ({
       data-element-type="widget"
       data-pull-cord-mode={activeMechanism}
       data-pull-cord-theme={cardStyle}
-      className="fixed top-0 z-[60] pointer-events-none select-none"
+      className="absolute top-0 z-[60] pointer-events-none select-none"
       style={{
         left: leftOffsetPx !== undefined ? `${leftOffsetPx}px` : undefined,
         width: '124px',

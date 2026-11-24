@@ -498,7 +498,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-mica-fluent',
-    name: '🪟 Nền Mica Fluent Kính Ấm (Theme Background)',
+    name: '🪟 Nền Frosted Mica Effect (Theme Background)',
     type: 'image',
     value: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     bg: "url('https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg') center/cover no-repeat",

@@ -20,6 +20,7 @@ import {
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
+import type { WaveMotionMode } from '@/config/ui/theme.types';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
 import type { SmartFilterCategory } from './wallpaper/WallpaperStudioControls';
@@ -40,7 +41,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
   onShowNotification,
   onClose,
 }) => {
-  const { cardStyle } = useTheme();
+  const { cardStyle, waveMotion, setWaveMotion } = useTheme();
   const { language, t } = useLanguage();
   const { user, cloudWallpapers, saveCloudWallpaper, deleteCloudWallpaper } = useFirebase();
   const isEn = language === 'en';
@@ -664,6 +665,61 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Điều khiển hiệu ứng sóng nền */}
+            <div
+              id="wallpaper-wave-motion-group"
+              role="group"
+              aria-label={isEn ? 'Ambient wave motion' : 'Chuyển động sóng nền'}
+              className="banner-control-pill h-9 inline-flex items-center gap-0.5 px-1.5 rounded-full shrink-0"
+            >
+              <span className="inline-flex items-center gap-1 pl-1.5 pr-1 typo-badge font-semibold text-[var(--text-secondary)] whitespace-nowrap">
+                <WebIcon name="waves" className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+                <span className="hidden md:inline">{isEn ? 'Wave' : 'Sóng nền'}</span>
+              </span>
+              {(
+                [
+                  { id: 'off', labelVi: 'Tắt', labelEn: 'Off' },
+                  { id: 'gentle', labelVi: 'Nhẹ', labelEn: 'Gentle' },
+                  { id: 'normal', labelVi: 'Chuẩn', labelEn: 'Normal' },
+                  { id: 'vivid', labelVi: 'Mạnh', labelEn: 'Vivid' },
+                ] as Array<{ id: WaveMotionMode; labelVi: string; labelEn: string }>
+              ).map((opt) => {
+                const active = waveMotion === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    id={`wallpaper-wave-btn-${opt.id}`}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setWaveMotion(opt.id);
+                      onShowNotification?.(
+                        isEn
+                          ? `✓ Wave motion: ${opt.labelEn}`
+                          : `✓ Sóng nền: ${opt.labelVi}`
+                      );
+                    }}
+                    style={
+                      active
+                        ? {
+                            background: 'var(--bg-button-primary)',
+                            color: 'var(--text-button-primary, #FFFFFF)',
+                          }
+                        : undefined
+                    }
+                    className={`h-7 px-2.5 rounded-full typo-badge font-semibold whitespace-nowrap cursor-pointer transition-all ${
+                      active
+                        ? 'shadow-2xs'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    }`}
+                  >
+                    {isEn ? opt.labelEn : opt.labelVi}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Tìm kiếm + Dạng thẻ + Thêm hình */}
@@ -681,7 +737,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                   setSearchQuery(e.target.value);
                 }}
                 placeholder={isEn ? 'Search wallpaper, video, css...' : 'Tìm hình nền, video, css...'}
-                className="banner-search-input h-9 w-full pl-8 pr-8 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-8 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
               />
               {searchQuery && (
                 <button

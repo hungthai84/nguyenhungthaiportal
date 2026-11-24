@@ -415,12 +415,12 @@ export const Header: React.FC<HeaderProps> = ({
   }, [currentPage, viewportWidth, uniformPillWidth, isCompactMobile]);
 
 
-  const exposedWidth = isSmallScreen ? 50 : 52;
+  const exposedWidth = isSmallScreen ? 44 : 46;
   const overlapPx = uniformPillWidth
     ? Math.max(0, uniformPillWidth - exposedWidth)
     : isSmallScreen
-      ? 106
-      : 110;
+      ? 92
+      : 96;
 
   const selectedNavIndex = useMemo(() => {
     if (isRadialMenuOpen || currentPage === 12) {
@@ -450,7 +450,6 @@ export const Header: React.FC<HeaderProps> = ({
     <header
       ref={headerRef}
       id="app-header"
-      data-floating-surface="header"
       data-element-name="Thanh điều hướng Header chính"
       data-element-type="container"
       data-element-page="global"
@@ -549,23 +548,23 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
-                      width: '170px',
-                      height: '48px',
-                      paddingTop: '9px',
-                      paddingRight: '12px',
-                      paddingBottom: '9px',
-                      paddingLeft: '12px',
+                      width: '154px',
+                      height: '42px',
+                      paddingTop: '6px',
+                      paddingRight: '10px',
+                      paddingBottom: '6px',
+                      paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     {styleCfg.avatarGif ? (
                       <img
                         src={styleCfg.avatarGif}
@@ -581,13 +580,13 @@ export const Header: React.FC<HeaderProps> = ({
                       <WebIcon
                         name={page.icon || 'home'}
                         isActive={isSelected}
-                        className="nav-pill-icon-svg w-[18px] h-[18px] text-center block shrink-0"
+                        className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
                       />
                     )}
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
@@ -667,22 +666,22 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': '#4F46E5',
-                      width: '170px',
-                      height: '48px',
-                      paddingTop: '9px',
-                      paddingRight: '12px',
-                      paddingBottom: '9px',
-                      paddingLeft: '12px',
+                      width: '154px',
+                      height: '42px',
+                      paddingTop: '6px',
+                      paddingRight: '10px',
+                      paddingBottom: '6px',
+                      paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     <img
                       src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Hùng Thái"
@@ -694,7 +693,7 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold' }}

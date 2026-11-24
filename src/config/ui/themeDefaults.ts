@@ -1,4 +1,4 @@
-import { CardStyleMode, ThemeMechanismMode } from './theme.types';
+import { CardStyleMode, ThemeMechanismMode, WaveMotionMode } from './theme.types';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
@@ -14,6 +14,7 @@ import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_CORNER_RADIUS = 14;
+export const DEFAULT_WAVE_MOTION: WaveMotionMode = 'normal';
 export const MIN_CORNER_RADIUS = 0;
 export const MAX_CORNER_RADIUS = 28;
 
@@ -31,6 +32,7 @@ export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const GLOBAL_CORNER_RADIUS_STORAGE_KEY = 'hungthai_global_corner_radius_v1';
+export const WAVE_MOTION_STORAGE_KEY = 'hungthai_wave_motion_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
@@ -41,6 +43,7 @@ export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 export const GLOBAL_CORNER_RADIUS_SYNC_EVENT = 'hungthai:global-corner-radius-changed';
+export const WAVE_MOTION_SYNC_EVENT = 'hungthai:wave-motion-changed';
 
 export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
   style === 'frost-ice-neu' || style === 'dark-frost-ice-neu';
@@ -63,7 +66,7 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'dark-frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
-  'mica-fluent': { cardOpacity: 48, blurIntensity: 12 },
+  'mica-fluent': { cardOpacity: 30, blurIntensity: 20 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -216,7 +219,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'mica-fluent': {
     id: 'mica-fluent',
     presetId: 'theme-bg-mica-fluent',
-    label: 'Nền Mica Fluent Kính Ấm',
+    label: 'Nền Frosted Mica Effect Kính Mờ',
     themeMode: 'light',
     imagePath: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     fallbackGradient:

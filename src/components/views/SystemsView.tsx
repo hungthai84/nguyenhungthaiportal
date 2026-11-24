@@ -1406,7 +1406,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     }}
                     placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
                     aria-label={isEn ? 'Search systems' : 'Tìm kiếm hệ thống'}
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button

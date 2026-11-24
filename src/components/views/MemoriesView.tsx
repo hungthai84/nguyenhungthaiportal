@@ -361,7 +361,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kỷ niệm, địa điểm, năm..."
                 aria-label="Tìm kiếm ảnh kỷ niệm"
-                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-button font-bold font-play focus:outline-none"
+                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
               />
               {searchQuery && (
                 <button

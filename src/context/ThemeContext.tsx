@@ -18,10 +18,13 @@ import {
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
   DEFAULT_CORNER_RADIUS,
+  DEFAULT_WAVE_MOTION,
   MIN_CORNER_RADIUS,
   MAX_CORNER_RADIUS,
   GLOBAL_CORNER_RADIUS_STORAGE_KEY,
   GLOBAL_CORNER_RADIUS_SYNC_EVENT,
+  WAVE_MOTION_STORAGE_KEY,
+  WAVE_MOTION_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
@@ -42,6 +45,7 @@ import {
   GlassCustomization,
   SurfaceDepthMode,
   WallpaperOverlaySettings,
+  WaveMotionMode,
 } from '../config/ui/theme.types';
 import {
   analyzeWallpaperColors,
@@ -241,6 +245,8 @@ export interface ThemeContextType {
   cornerRadius: number;
   setCornerRadius: (radius: number) => void;
   resetCornerRadius: () => void;
+  waveMotion: WaveMotionMode;
+  setWaveMotion: (mode: WaveMotionMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -419,6 +425,39 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [cornerRadius, setCornerRadiusState] = useState<number>(() => readInitialCornerRadius());
 
+  const [waveMotion, setWaveMotionState] = useState<WaveMotionMode>(() => {
+    if (typeof window === 'undefined') return DEFAULT_WAVE_MOTION;
+    try {
+      const saved = localStorage.getItem(WAVE_MOTION_STORAGE_KEY);
+      if (saved === 'off' || saved === 'gentle' || saved === 'normal' || saved === 'vivid') {
+        return saved;
+      }
+    } catch {
+      // ignore
+    }
+    return DEFAULT_WAVE_MOTION;
+  });
+
+  const setWaveMotion = useCallback((mode: WaveMotionMode) => {
+    const valid: WaveMotionMode =
+      mode === 'off' || mode === 'gentle' || mode === 'normal' || mode === 'vivid'
+        ? mode
+        : DEFAULT_WAVE_MOTION;
+    setWaveMotionState(valid);
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-wave-motion', valid);
+      if (document.body) {
+        document.body.setAttribute('data-wave-motion', valid);
+      }
+    }
+    try {
+      localStorage.setItem(WAVE_MOTION_STORAGE_KEY, valid);
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(WAVE_MOTION_SYNC_EVENT, { detail: valid }));
+  }, []);
+
   const setCornerRadius = useCallback((rawRadius: number) => {
     const clamped = clampCornerRadius(rawRadius);
     setCornerRadiusState(clamped);
@@ -574,6 +613,14 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [cornerRadius, cardStyle]);
 
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute('data-wave-motion', waveMotion);
+    if (document.body) {
+      document.body.setAttribute('data-wave-motion', waveMotion);
+    }
+  }, [waveMotion]);
+
+  useEffect(() => {
     try {
       localStorage.removeItem('hungthai_font_scale_v1');
     } catch {
@@ -627,12 +674,19 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setCornerRadiusState((prev) => (prev === clamped ? prev : clamped));
       }
     };
+    const handleWaveMotionSync = (e: Event) => {
+      const detail = (e as CustomEvent<WaveMotionMode>).detail;
+      if (detail === 'off' || detail === 'gentle' || detail === 'normal' || detail === 'vivid') {
+        setWaveMotionState((prev) => (prev === detail ? prev : detail));
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     window.addEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
     window.addEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
+    window.addEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
@@ -640,6 +694,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
       window.removeEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
       window.removeEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
+      window.removeEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
     };
   }, []);
 
@@ -1001,6 +1056,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         cornerRadius,
         setCornerRadius,
         resetCornerRadius,
+        waveMotion,
+        setWaveMotion,
       }}
     >
       {children}

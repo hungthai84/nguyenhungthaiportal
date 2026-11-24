@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS_DATA } from '@/data/projects';
@@ -250,15 +250,34 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'grid' | 'slider'>('slider');
   const [selectedGroup, setSelectedGroup] = useState<ProjectCardGroup | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<ProjectData | null>(null);
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
   const [activeSection, setActiveSection] = useState<string>('sec-mindmap');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
-  const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(0);
+  const [hoveredSlotIdx, setHoveredSlotIdx] = useState<number | null>(null);
+  const [disableTrackTransition, setDisableTrackTransition] = useState<boolean>(false);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [slideWidth, setSlideWidth] = useState<number>(0);
+  const [dragDeltaX, setDragDeltaX] = useState<number>(0);
+  const [isDraggingTrack, setIsDraggingTrack] = useState<boolean>(false);
 
+  const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wrpRef = useRef<HTMLDivElement>(null);
+  const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const dragStartXRef = useRef<number | null>(null);
+  const dragDeltaXRef = useRef<number>(0);
+  const didDragRef = useRef<boolean>(false);
+  const wheelCooldownRef = useRef<number>(0);
+  const wheelAccumRef = useRef<number>(0);
+  const snapTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -473,6 +492,209 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     });
   }, [activeCategory, searchQuery]);
 
+  const totalProjects = filteredProjects.length;
+  const useLoopClones = totalProjects >= 3;
+  const clonePad = useLoopClones ? 3 : 0;
+
+  const extendedSlides = useMemo(() => {
+    if (totalProjects === 0) return [];
+    if (!useLoopClones) {
+      return filteredProjects.map((proj, idx) => ({
+        proj,
+        origIdx: idx,
+        slotKey: `real-${proj.id}`,
+        isClone: false,
+      }));
+    }
+    const pre3Idx = (totalProjects - 3 + totalProjects) % totalProjects;
+    const pre2Idx = totalProjects - 2;
+    const pre1Idx = totalProjects - 1;
+    const post2Idx = 2 % totalProjects;
+    return [
+      {
+        proj: filteredProjects[pre3Idx],
+        origIdx: pre3Idx,
+        slotKey: `clone-pre-3-${filteredProjects[pre3Idx].id}`,
+        isClone: true,
+      },
+      {
+        proj: filteredProjects[pre2Idx],
+        origIdx: pre2Idx,
+        slotKey: `clone-pre-2-${filteredProjects[pre2Idx].id}`,
+        isClone: true,
+      },
+      {
+        proj: filteredProjects[pre1Idx],
+        origIdx: pre1Idx,
+        slotKey: `clone-pre-1-${filteredProjects[pre1Idx].id}`,
+        isClone: true,
+      },
+      ...filteredProjects.map((proj, idx) => ({
+        proj,
+        origIdx: idx,
+        slotKey: `real-${proj.id}`,
+        isClone: false,
+      })),
+      {
+        proj: filteredProjects[0],
+        origIdx: 0,
+        slotKey: `clone-post-0-${filteredProjects[0].id}`,
+        isClone: true,
+      },
+      {
+        proj: filteredProjects[1],
+        origIdx: 1,
+        slotKey: `clone-post-1-${filteredProjects[1].id}`,
+        isClone: true,
+      },
+      {
+        proj: filteredProjects[post2Idx],
+        origIdx: post2Idx,
+        slotKey: `clone-post-2-${filteredProjects[post2Idx].id}`,
+        isClone: true,
+      },
+    ];
+  }, [filteredProjects, totalProjects, useLoopClones]);
+
+  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(() => (useLoopClones ? 3 : 0));
+
+  useEffect(() => {
+    if (snapTimerRef.current !== null) {
+      window.clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+    setActiveCarouselIdx(0);
+    setVisualTrackIdx(totalProjects >= 3 ? 3 : 0);
+    setHoveredSlotIdx(null);
+    setDisableTrackTransition(true);
+    const rafId = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setDisableTrackTransition(false));
+    });
+    return () => window.cancelAnimationFrame(rafId);
+  }, [activeCategory, searchQuery, totalProjects]);
+
+  const isSliderMode =
+    !selectedGroup &&
+    !selectedArticle &&
+    viewMode === 'slider' &&
+    filteredProjects.length > 0;
+
+  const measureSliderGeometry = useCallback(() => {
+    if (!isSliderMode) return;
+    const containerEl = containerRef.current;
+    const firstSlideEl = slotSlideRefs.current[0];
+    if (containerEl) {
+      const cw = containerEl.clientWidth;
+      if (cw > 0) setContainerWidth(cw);
+    }
+    if (firstSlideEl) {
+      const sw = firstSlideEl.offsetWidth;
+      if (sw > 0) setSlideWidth(sw);
+    }
+  }, [isSliderMode]);
+
+  useEffect(() => {
+    if (!isSliderMode) return;
+    measureSliderGeometry();
+    const containerEl = containerRef.current;
+    const firstSlideEl = slotSlideRefs.current[0];
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(() => measureSliderGeometry());
+      if (containerEl) ro.observe(containerEl);
+      if (firstSlideEl) ro.observe(firstSlideEl);
+    }
+    window.addEventListener('resize', measureSliderGeometry);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', measureSliderGeometry);
+    };
+  }, [isSliderMode, extendedSlides.length, measureSliderGeometry]);
+
+  const baseTrackX = useMemo(() => {
+    if (containerWidth <= 0 || slideWidth <= 0) return 0;
+    return containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
+  }, [containerWidth, slideWidth, visualTrackIdx]);
+
+  const currentTrackX = baseTrackX + dragDeltaX;
+
+  const activeHighlightSlotIdx =
+    hoveredSlotIdx !== null ? hoveredSlotIdx : visualTrackIdx;
+
+  const syncItemBg = useCallback(() => {
+    if (!isSliderMode) return;
+    const bgEl = bgRef.current;
+    const wrpEl = wrpRef.current;
+    const slideEl = slotSlideRefs.current[activeHighlightSlotIdx];
+    const itemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    if (!bgEl || !wrpEl || !slideEl || !itemEl) return;
+
+    const x = wrpEl.offsetLeft + currentTrackX + slideEl.offsetLeft + itemEl.offsetLeft;
+    const y = wrpEl.offsetTop + slideEl.offsetTop + itemEl.offsetTop;
+    const w = itemEl.offsetWidth;
+    const h = itemEl.offsetHeight;
+
+    if (w > 0 && h > 0) {
+      bgEl.style.width = `${w}px`;
+      bgEl.style.height = `${h}px`;
+      bgEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      bgEl.classList.add('active');
+    }
+  }, [isSliderMode, activeHighlightSlotIdx, currentTrackX]);
+
+  useEffect(() => {
+    syncItemBg();
+  }, [syncItemBg, extendedSlides.length, containerWidth, slideWidth]);
+
+  useEffect(() => {
+    if (!isSliderMode) return;
+    const activeItemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    const containerEl = containerRef.current;
+    const wrpEl = wrpRef.current;
+    if ((!activeItemEl && !containerEl && !wrpEl) || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => {
+      window.requestAnimationFrame(() => syncItemBg());
+    });
+    if (activeItemEl) ro.observe(activeItemEl);
+    if (containerEl) ro.observe(containerEl);
+    if (wrpEl) ro.observe(wrpEl);
+    return () => ro.disconnect();
+  }, [isSliderMode, activeHighlightSlotIdx, syncItemBg]);
+
+  const scheduleLoopSnapIfNeeded = useCallback(
+    (targetTrackIdx: number) => {
+      if (!useLoopClones) return;
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+        snapTimerRef.current = null;
+      }
+      if (targetTrackIdx < clonePad || targetTrackIdx >= clonePad + totalProjects) {
+        const canonicalTrackIdx =
+          targetTrackIdx < clonePad
+            ? targetTrackIdx + totalProjects
+            : targetTrackIdx - totalProjects;
+        snapTimerRef.current = window.setTimeout(() => {
+          setDisableTrackTransition(true);
+          setVisualTrackIdx(canonicalTrackIdx);
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              setDisableTrackTransition(false);
+            });
+          });
+        }, 430);
+      }
+    },
+    [useLoopClones, clonePad, totalProjects]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleOpenGroup = (group: ProjectCardGroup, initialProject?: ProjectData) => {
     SoundEngine.playTap();
     setSelectedGroup(group);
@@ -492,6 +714,197 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     setIsBannerMuted(next);
     video.muted = next;
   };
+
+  const handlePrevCarousel = useCallback(() => {
+    if (totalProjects <= 1) return;
+    SoundEngine.playTap();
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalProjects - 1);
+    const nextOrig = currentOrig > 0 ? currentOrig - 1 : totalProjects - 1;
+    setActiveCarouselIdx(nextOrig);
+
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalProjects
+        : visualTrackIdx >= clonePad + totalProjects
+          ? visualTrackIdx - totalProjects
+          : visualTrackIdx;
+    const nextTrack = Math.max(0, baseTrack - 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, scheduleLoopSnapIfNeeded, totalProjects, useLoopClones, visualTrackIdx]);
+
+  const handleNextCarousel = useCallback(() => {
+    if (totalProjects <= 1) return;
+    SoundEngine.playTap();
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalProjects - 1);
+    const nextOrig = currentOrig < totalProjects - 1 ? currentOrig + 1 : 0;
+    setActiveCarouselIdx(nextOrig);
+
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalProjects
+        : visualTrackIdx >= clonePad + totalProjects
+          ? visualTrackIdx - totalProjects
+          : visualTrackIdx;
+    const nextTrack = Math.min(extendedSlides.length - 1, baseTrack + 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, extendedSlides.length, scheduleLoopSnapIfNeeded, totalProjects, useLoopClones, visualTrackIdx]);
+
+  const handleSelectBullet = useCallback(
+    (origIdx: number) => {
+      SoundEngine.playTap();
+      setHoveredSlotIdx(null);
+      setActiveCarouselIdx(origIdx);
+      setVisualTrackIdx(useLoopClones ? origIdx + clonePad : origIdx);
+    },
+    [clonePad, useLoopClones]
+  );
+
+  useEffect(() => {
+    if (!isSliderMode || mindmapProject || isFilterDropdownOpen) return;
+    const onArrowKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrevCarousel();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNextCarousel();
+      }
+    };
+    window.addEventListener('keydown', onArrowKey);
+    return () => window.removeEventListener('keydown', onArrowKey);
+  }, [isSliderMode, mindmapProject, isFilterDropdownOpen, handlePrevCarousel, handleNextCarousel]);
+
+  useEffect(() => {
+    if (!isSliderMode) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const onNativeWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || totalProjects <= 1) return;
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+      if (absX < 0.5 && absY < 0.5) return;
+
+      const delta = absX >= absY ? e.deltaX : e.deltaY;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const now = Date.now();
+      if (now - wheelCooldownRef.current < 240) return;
+
+      wheelAccumRef.current += delta;
+      if (Math.abs(wheelAccumRef.current) >= 20) {
+        wheelCooldownRef.current = now;
+        const dir = wheelAccumRef.current;
+        wheelAccumRef.current = 0;
+        if (dir > 0) {
+          handleNextCarousel();
+        } else {
+          handlePrevCarousel();
+        }
+      }
+    };
+
+    el.addEventListener('wheel', onNativeWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', onNativeWheel);
+    };
+  }, [isSliderMode, totalProjects, handleNextCarousel, handlePrevCarousel]);
+
+  const finishSliderDrag = useCallback(() => {
+    if (dragStartXRef.current === null) return;
+    const dx = dragDeltaXRef.current;
+    dragStartXRef.current = null;
+    dragDeltaXRef.current = 0;
+    setIsDraggingTrack(false);
+    setDragDeltaX(0);
+    if (dx <= -42) {
+      handleNextCarousel();
+    } else if (dx >= 42) {
+      handlePrevCarousel();
+    }
+    window.setTimeout(() => {
+      didDragRef.current = false;
+    }, 60);
+  }, [handleNextCarousel, handlePrevCarousel]);
+
+  useEffect(() => {
+    if (!isDraggingTrack) return;
+
+    const handleWindowPointerMove = (e: PointerEvent) => {
+      if (dragStartXRef.current === null) return;
+      const dx = e.clientX - dragStartXRef.current;
+      if (Math.abs(dx) > 6) {
+        didDragRef.current = true;
+      }
+      dragDeltaXRef.current = dx;
+      setDragDeltaX(dx);
+    };
+
+    const handleWindowPointerEnd = () => {
+      finishSliderDrag();
+    };
+
+    window.addEventListener('pointermove', handleWindowPointerMove);
+    window.addEventListener('pointerup', handleWindowPointerEnd);
+    window.addEventListener('pointercancel', handleWindowPointerEnd);
+    return () => {
+      window.removeEventListener('pointermove', handleWindowPointerMove);
+      window.removeEventListener('pointerup', handleWindowPointerEnd);
+      window.removeEventListener('pointercancel', handleWindowPointerEnd);
+    };
+  }, [isDraggingTrack, finishSliderDrag]);
+
+  const handleSliderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 || totalProjects <= 1) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('.news-slider-arrow, .news-slider-bullet')) return;
+    dragStartXRef.current = e.clientX;
+    dragDeltaXRef.current = 0;
+    didDragRef.current = false;
+    setIsDraggingTrack(true);
+    setDragDeltaX(0);
+  };
+
+  const safeCarouselIndex = filteredProjects.length > 0 ? Math.min(activeCarouselIdx, filteredProjects.length - 1) : 0;
 
   return (
     <div
@@ -515,6 +928,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-main-card="true"
           data-detail-open={selectedArticle ? 'true' : 'false'}
           data-detail-overlay="true"
+          data-slider-mode={isSliderMode ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dự Án"
           data-element-type="card"
           data-element-page="projects"
@@ -523,7 +937,18 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         >
           <div
             id="projects-main-scroll-viewport"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+            className={cn(
+              'main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
+              selectedGroup || selectedArticle || isSliderMode ? 'overflow-hidden' : 'overflow-y-auto'
+            )}
+          >
+          <div
+            id="projects-main-wrapper"
+            className={cn(
+              'w-full max-w-full min-w-0 flex-1 flex flex-col gap-[15px] justify-start box-border',
+              (selectedGroup || selectedArticle) && 'h-full flex-1 min-h-0 gap-0',
+              isSliderMode && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
+            )}
           >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
       {!selectedGroup && !selectedArticle ? (
@@ -679,19 +1104,78 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 </AnimatePresence>
               </div>
 
-              <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end ml-auto max-w-full sm:max-w-[300px]">
-                <div className="relative flex-1 sm:w-52">
+              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-end ml-auto max-w-full">
+                <div
+                  id="projects-view-mode-switcher"
+                  role="group"
+                  aria-label="Dạng view dự án"
+                  className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setViewMode('grid');
+                    }}
+                    style={
+                      viewMode === 'grid'
+                        ? {
+                            background: 'var(--bg-button-primary)',
+                            color: 'var(--text-button-primary, #FFFFFF)',
+                          }
+                        : undefined
+                    }
+                    className={cn(
+                      'h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                      viewMode === 'grid'
+                        ? 'shadow-xs'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    )}
+                    title="Dạng lưới"
+                  >
+                    <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
+                    <span className="whitespace-nowrap">Dạng lưới</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setViewMode('slider');
+                    }}
+                    style={
+                      viewMode === 'slider'
+                        ? {
+                            background: 'var(--bg-button-primary)',
+                            color: 'var(--text-button-primary, #FFFFFF)',
+                          }
+                        : undefined
+                    }
+                    className={cn(
+                      'h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                      viewMode === 'slider'
+                        ? 'shadow-xs'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    )}
+                    title="Slider Card"
+                  >
+                    <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
+                    <span className="whitespace-nowrap">Slider Card</span>
+                  </button>
+                </div>
+
+                <div className="relative flex-1 sm:w-52 sm:flex-initial min-w-[160px]">
                   <WebIcon
                     name="search"
                     className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
                   />
                   <input
+                    id="projects-search-input"
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-h3 font-bold font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button
@@ -708,7 +1192,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             </div>
           </section>
 
-          {/* NỘI DUNG CHÍNH: RESPONSIVE CARD GRID ĐỒNG BỘ HOÀN TOÀN VỚI VIEW THẺ HỌC VẤN */}
+          {/* NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC SLIDER CARD (CODEPEN NEWS SLIDER LAYOUT + EFFECT, KHÔNG ĐỔI DATA) */}
           {filteredProjects.length === 0 ? (
             <div
               className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
@@ -728,6 +1212,182 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               >
                 Hiển thị tất cả {PROJECTS_DATA.length} dự án
               </button>
+            </div>
+          ) : viewMode === 'slider' ? (
+            <div
+              className="news-slider-wrapper-container relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
+              onMouseLeave={() => setHoveredSlotIdx(null)}
+            >
+              <div className="news-slider-bg" aria-hidden="true">
+                <img
+                  src="https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1537132206/news-slider/background.webp"
+                  alt=""
+                />
+              </div>
+
+              <div ref={containerRef} className="news-slider-container">
+                <div
+                  className={cn('news-slider-stage', isDraggingTrack && 'is-dragging')}
+                  onPointerDown={handleSliderPointerDown}
+                  onDragStart={(e) => e.preventDefault()}
+                >
+                  <div ref={bgRef} className="news-item-bg" aria-hidden="true" />
+
+                  <div
+                    ref={wrpRef}
+                    style={{
+                      transform: `translate3d(${currentTrackX}px, 0, 0)`,
+                      transition:
+                        disableTrackTransition || isDraggingTrack
+                          ? 'none'
+                          : 'transform 0.43s cubic-bezier(0.22, 1, 0.36, 1)',
+                    }}
+                    className="news-slider-wrp"
+                  >
+                    {extendedSlides.map((slideItem, slotIdx) => {
+                      const { proj, origIdx, slotKey } = slideItem;
+                      const parentGroup = getParentGroupForProject(proj);
+                      const bannerInfo = getProjectCloudinaryBanner(proj);
+                      const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
+                      const orderNumber =
+                        proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || '';
+                      const isActiveCenter = slotIdx === visualTrackIdx;
+                      const isPrevSlide = slotIdx === visualTrackIdx - 1;
+                      const isNextSlide = slotIdx === visualTrackIdx + 1;
+                      const isPeekSlide = Math.abs(slotIdx - visualTrackIdx) === 2;
+                      const isHighlighted =
+                        hoveredSlotIdx !== null
+                          ? slotIdx === hoveredSlotIdx
+                          : isActiveCenter;
+
+                      return (
+                        <div
+                          key={slotKey}
+                          ref={(el) => {
+                            slotSlideRefs.current[slotIdx] = el;
+                          }}
+                          className={cn(
+                            'news-slider-slide',
+                            isActiveCenter && 'active-slide swiper-slide-active',
+                            isPrevSlide && 'swiper-slide-prev',
+                            isNextSlide && 'swiper-slide-next',
+                            isPeekSlide && 'swiper-slide-peek'
+                          )}
+                        >
+                          <div
+                            ref={(el) => {
+                              slotItemRefs.current[slotIdx] = el;
+                            }}
+                            role="button"
+                            tabIndex={isPrevSlide || isActiveCenter || isNextSlide ? 0 : -1}
+                            onMouseEnter={() => {
+                              if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                                setHoveredSlotIdx(slotIdx);
+                              }
+                            }}
+                            onMouseLeave={() => {
+                              if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                                setHoveredSlotIdx((prev) => (prev === slotIdx ? null : prev));
+                              }
+                            }}
+                            onClick={() => {
+                              if (didDragRef.current) return;
+                              setActiveCarouselIdx(origIdx);
+                              if (useLoopClones) {
+                                setVisualTrackIdx(origIdx + clonePad);
+                              } else {
+                                setVisualTrackIdx(origIdx);
+                              }
+                              handleOpenGroup(parentGroup, proj);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                setActiveCarouselIdx(origIdx);
+                                handleOpenGroup(parentGroup, proj);
+                              }
+                            }}
+                            className={cn('news-card-item', isHighlighted && 'active')}
+                          >
+                            <div className="news-card-date">
+                              <span className="news-card-date-title">{orderNumber}</span>
+                              <span className="news-card-date-txt">{parentGroup.fourWordTitle}</span>
+                            </div>
+                            <div className="news-card-title" title={cleanedTitle}>
+                              {cleanedTitle}
+                            </div>
+                            <p className="news-card-txt" title={proj.description}>
+                              {proj.description}
+                            </p>
+                            <div className="news-card-img">
+                              <img
+                                src={bannerInfo.primaryUrl}
+                                alt={cleanedTitle}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                draggable={false}
+                                onError={(e) => {
+                                  if (
+                                    bannerInfo.fallbackUrl &&
+                                    e.currentTarget.src !== bannerInfo.fallbackUrl
+                                  ) {
+                                    e.currentTarget.src = bannerInfo.fallbackUrl;
+                                  } else {
+                                    e.currentTarget.src =
+                                      'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handlePrevCarousel}
+                    disabled={totalProjects <= 1}
+                    className="news-slider-arrow news-slider-prev absolute no-theme-btn"
+                    aria-label="Dự án trước"
+                  >
+                    <span className="icon-font">
+                      <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                        <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z" />
+                      </svg>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNextCarousel}
+                    disabled={totalProjects <= 1}
+                    className="news-slider-arrow news-slider-next absolute no-theme-btn"
+                    aria-label="Dự án tiếp theo"
+                  >
+                    <span className="icon-font">
+                      <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                        <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.696z" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+
+                <div className="news-slider-ctr">
+                  <div className="news-slider-pagination">
+                    {filteredProjects.map((proj, idx) => (
+                      <button
+                        key={proj.id}
+                        type="button"
+                        onClick={() => handleSelectBullet(idx)}
+                        className={cn('news-slider-bullet', idx === safeCarouselIndex && 'active-bullet')}
+                        aria-label={`Slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
           <div
@@ -905,6 +1565,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       )}
           </div>
         </div>
+      </div>
       </div>
 
       {/* Mindmap Lightbox Modal */}

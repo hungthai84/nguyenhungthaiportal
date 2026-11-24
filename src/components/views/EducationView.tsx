@@ -897,6 +897,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     mainSection === 'education' &&
     viewMode === 'css-tricks' &&
     filteredCourses.length > 0;
+  const isBookshelfMode =
+    !selectedCourse &&
+    mainSection === 'education' &&
+    viewMode === 'bookshelf' &&
+    filteredCourses.length > 0;
 
   return (
     <div
@@ -923,6 +928,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-main-card="true"
         data-detail-open={selectedCourse ? 'true' : 'false'}
         data-slider-mode={isSliderMode ? 'true' : 'false'}
+        data-bookshelf-mode={isBookshelfMode ? 'true' : 'false'}
         data-element-name="Card học vấn"
         data-element-type="card"
         data-element-page="education"
@@ -933,7 +939,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         id="education-main-scroll-viewport"
         className={cn(
           'main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
-          selectedCourse || isSliderMode ? 'overflow-hidden' : 'overflow-y-auto'
+          selectedCourse || isSliderMode || isBookshelfMode ? 'overflow-hidden' : 'overflow-y-auto'
         )}
       >
       <div
@@ -941,7 +947,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         className={cn(
           'w-full max-w-full min-w-0 flex-1 flex flex-col gap-[15px] justify-start box-border',
           selectedCourse && 'h-full flex-1 min-h-0 gap-0',
-          isSliderMode && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
+          (isSliderMode || isBookshelfMode) && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
         )}
       >
       {/* Banner trang Học Vấn (Kích thước đồng bộ chuẩn banner Kỹ năng) */}

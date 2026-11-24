@@ -192,10 +192,10 @@ html:not([data-surface-depth="flat"]) :is(
   }
 
   html[data-card-style="mica-fluent"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
-    border-color: rgba(255, 255, 255, 0.42) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
   }
 
   html[data-card-style="cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
@@ -446,13 +446,15 @@ html[data-card-style="mica-fluent"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
-  backdrop-filter: blur(11px) !important;
-  -webkit-backdrop-filter: blur(11px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  background-image: none !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: var(--radius-card, 14px) !important;
   color: #1C0708 !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
 }
 
 html[data-card-style="flat-soft-ui"] :is(
@@ -505,16 +507,109 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   }
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], :not([data-card-style])) .ambient-wave--1 {
-  will-change: transform;
-  backface-visibility: hidden;
-  animation: opticalLensDriftA 28s ease-in-out infinite alternate;
+@keyframes opticalLensDriftC {
+  0% {
+    transform: rotate(-3deg) translate3d(-1.5%, 1%, 0) scale3d(1, 1, 1);
+  }
+  100% {
+    transform: rotate(-1.5deg) translate3d(2%, -2%, 0) scale3d(1.035, 1.035, 1);
+  }
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="multicolor-glass"], [data-card-style="dark-neon-glass"], :not([data-card-style])) .ambient-wave--2 {
+@keyframes mainCardSubtleFloat {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+/* Wave Motion Intensity Controls (Tắt / Nhẹ / Chuẩn / Sống động) */
+html[data-wave-motion="off"] {
+  --wave-motion-opacity-mult: 0.25;
+  --wave-animation-play-state: paused;
+  --wave-drift-duration-1: 28s;
+  --wave-drift-duration-2: 32s;
+  --wave-drift-duration-3: 24s;
+  --prism-gradient-duration: 15s;
+  --prism-wave-duration-1: 10s;
+  --prism-wave-duration-2: 18s;
+  --prism-wave-duration-3: 20s;
+}
+
+html[data-wave-motion="gentle"] {
+  --wave-motion-opacity-mult: 0.72;
+  --wave-animation-play-state: running;
+  --wave-drift-duration-1: 38s;
+  --wave-drift-duration-2: 44s;
+  --wave-drift-duration-3: 34s;
+  --prism-gradient-duration: 24s;
+  --prism-wave-duration-1: 16s;
+  --prism-wave-duration-2: 28s;
+  --prism-wave-duration-3: 32s;
+}
+
+html[data-wave-motion="normal"],
+html:not([data-wave-motion]) {
+  --wave-motion-opacity-mult: 1;
+  --wave-animation-play-state: running;
+  --wave-drift-duration-1: 28s;
+  --wave-drift-duration-2: 32s;
+  --wave-drift-duration-3: 24s;
+  --prism-gradient-duration: 15s;
+  --prism-wave-duration-1: 10s;
+  --prism-wave-duration-2: 18s;
+  --prism-wave-duration-3: 20s;
+}
+
+html[data-wave-motion="vivid"] {
+  --wave-motion-opacity-mult: 1.25;
+  --wave-animation-play-state: running;
+  --wave-drift-duration-1: 16s;
+  --wave-drift-duration-2: 19s;
+  --wave-drift-duration-3: 14s;
+  --prism-gradient-duration: 8s;
+  --prism-wave-duration-1: 6s;
+  --prism-wave-duration-2: 10s;
+  --prism-wave-duration-3: 12s;
+}
+
+html .ambient-wave--1 {
   will-change: transform;
   backface-visibility: hidden;
-  animation: opticalLensDriftB 32s ease-in-out infinite alternate;
+  animation: opticalLensDriftA var(--wave-drift-duration-1, 28s) ease-in-out infinite alternate;
+  animation-play-state: var(--wave-animation-play-state, running);
+}
+
+html .ambient-wave--2 {
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: opticalLensDriftB var(--wave-drift-duration-2, 32s) ease-in-out infinite alternate;
+  animation-play-state: var(--wave-animation-play-state, running);
+}
+
+html .ambient-wave--3 {
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: opticalLensDriftC var(--wave-drift-duration-3, 24s) ease-in-out infinite alternate;
+  animation-play-state: var(--wave-animation-play-state, running);
+}
+
+html[data-wave-motion="off"] .ambient-wave--1,
+html[data-wave-motion="off"] .ambient-wave--2,
+html[data-wave-motion="off"] .ambient-wave--3,
+html[data-wave-motion="off"] .ambient-orb {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Subtle GPU-composited floating strictly for inner cards inside .page-main-card (never Header, Footer, or Page Track) */
+html:not([data-surface-depth="flat"]):not([data-wave-motion="off"]) .page-main-card :is(
+  [data-subcard="true"],
+  .sub-card
+):not(.home-hero-card):not(#app-header *):not(#app-footer *):not(:hover):not(:focus-within) {
+  animation: mainCardSubtleFloat 6.5s ease-in-out infinite alternate;
 }
 
 /* Reduced Motion Safety */
@@ -529,10 +624,12 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
   .home-hero-card {
     transition: box-shadow 180ms ease, border-color 180ms ease, background 180ms ease !important;
     transform: none !important;
+    animation: none !important;
   }
 
   .ambient-wave--1,
   .ambient-wave--2,
+  .ambient-wave--3,
   .ambient-orb {
     animation: none !important;
     will-change: auto !important;

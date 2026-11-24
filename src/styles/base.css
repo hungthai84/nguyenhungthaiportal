@@ -22,10 +22,12 @@
     background-color: var(--app-bg-base, var(--color-bg));
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
     scroll-behavior: smooth;
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
     user-select: text !important;
@@ -65,10 +67,12 @@
     background: transparent;
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    overflow: hidden;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: visible;
     user-select: text !important;
     -webkit-user-select: text !important;
   }
@@ -428,7 +432,7 @@
   position: absolute;
   inset: -12%;
   pointer-events: none;
-  opacity: var(--app-bg-shape-opacity, var(--ambient-wave-opacity, 0.65));
+  opacity: calc(var(--app-bg-shape-opacity, var(--ambient-wave-opacity, 0.65)) * var(--wave-motion-opacity-mult, 1));
   overflow: hidden;
   transition: opacity 420ms ease;
 }
@@ -439,7 +443,7 @@
   filter: blur(var(--ambient-blur-wave, 38px));
   -webkit-filter: blur(var(--ambient-blur-wave, 38px));
   pointer-events: none;
-  transition: background 450ms ease;
+  transition: background 450ms ease, opacity 420ms ease;
 }
 
 .ambient-wave--1 {
@@ -468,6 +472,22 @@
     transparent 0%,
     var(--ambient-wave-3) 30%,
     var(--ambient-wave-1) 66%,
+    transparent 100%
+  );
+}
+
+.ambient-wave--3 {
+  width: 118vw;
+  height: 36vh;
+  top: 38%;
+  left: -9vw;
+  transform: rotate(-3deg);
+  opacity: 0.78;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    var(--ambient-wave-2) 32%,
+    var(--ambient-wave-3) 68%,
     transparent 100%
   );
 }
@@ -577,7 +597,8 @@ html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-layer-base,
     rgba(255, 25, 25, 1) 98%
   );
   background-size: 400% 400%;
-  animation: wpPrismGradient 15s ease infinite;
+  animation: wpPrismGradient var(--prism-gradient-duration, 15s) ease infinite;
+  animation-play-state: var(--wave-animation-play-state, running);
   transform: translate3d(0, 0, 0);
 }
 
@@ -597,24 +618,28 @@ html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-layer-base,
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   will-change: transform;
+  animation-play-state: var(--wave-animation-play-state, running);
 }
 
 .wp-prism-wave-ribbon--1 {
   bottom: 0;
   opacity: 0.8;
-  animation: wpPrismWave 10s -3s linear infinite;
+  animation: wpPrismWave var(--prism-wave-duration-1, 10s) -3s linear infinite;
+  animation-play-state: var(--wave-animation-play-state, running);
 }
 
 .wp-prism-wave-ribbon--2 {
   bottom: -1.25em;
   opacity: 0.8;
-  animation: wpPrismWave 18s linear reverse infinite;
+  animation: wpPrismWave var(--prism-wave-duration-2, 18s) linear reverse infinite;
+  animation-play-state: var(--wave-animation-play-state, running);
 }
 
 .wp-prism-wave-ribbon--3 {
   bottom: -2.5em;
   opacity: 0.9;
-  animation: wpPrismWave 20s -1s reverse infinite;
+  animation: wpPrismWave var(--prism-wave-duration-3, 20s) -1s reverse infinite;
+  animation-play-state: var(--wave-animation-play-state, running);
 }
 
 @keyframes wpPrismGradient {

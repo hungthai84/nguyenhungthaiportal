@@ -1,7 +1,7 @@
 /* ========================================================================= */
-/* THEME SYSTEM: MICA FLUENT (KÍNH MICA PHẲNG · TACTILE ACRYLIC & WARM INK)  */
-/* Light Tactile Glass · Linear White Gradient (0.60 → 0.30) · Blur 11px→16px*/
-/* 1px Frosted Rim · Deep Wide Drop Shadow · Espresso Ink (#1C0708)          */
+/* THEME SYSTEM: FROSTED MICA EFFECT (CODEPEN FROSTED GLASS + MICA FLUENT)   */
+/* Background: rgba(255, 255, 255, 0.30) · Backdrop Blur: 20px               */
+/* Soft Elevation: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) · Espresso Ink #1C0708 */
 /* Accent Crimson-Orange (#E84118 → #C23616) · Warm Cream Scrim              */
 /* ========================================================================= */
 
@@ -9,26 +9,21 @@
   position: relative;
   overflow: hidden;
 
-  /* Nền Gradient trắng trong suốt */
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.60) 0%,
-    rgba(255, 255, 255, 0.30) 100%
-  );
+  /* Hiệu ứng Frosted Glass từ CodePen */
+  background-color: rgba(255, 255, 255, 0.30);
 
-  /* Hiệu ứng kính mờ */
-  -webkit-backdrop-filter: blur(0.65em);
-  backdrop-filter: blur(0.65em);
+  /* Hiệu ứng kính mờ 20px */
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 
-  /* Viền kính */
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  /* Viền kính mỏng tinh tế */
+  border: 1px solid rgba(255, 255, 255, 0.35);
 
   /* Bo góc */
-  border-radius: 1rem;
+  border-radius: 1.5rem;
 
-  /* Bóng đổ */
-  box-shadow: 0 25px 50px -12px
-    rgba(0, 0, 0, 0.50);
+  /* Bóng đổ Frosted Card */
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
 
   /* Chuyển động */
   transition:
@@ -42,11 +37,10 @@
 .card-mica-fluent:hover {
   transform: translateY(-4px);
 
-  -webkit-backdrop-filter: blur(1em);
-  backdrop-filter: blur(1em);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
 
-  box-shadow: 0 25px 50px -12px
-    rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
 }
 
 html[data-card-style="mica-fluent"],
@@ -56,8 +50,8 @@ html[data-theme="mica-fluent"] {
 
   --color-bg: #d7c7b5;
   --color-bg-soft: #e6d8ca;
-  --color-surface: rgba(255, 255, 255, 0.52);
-  --color-surface-elevated: hsla(0, 0%, 98%, 0.84);
+  --color-surface: rgba(255, 255, 255, 0.30);
+  --color-surface-elevated: rgba(255, 255, 255, 0.42);
 
   --color-heading: #1c0708;
   --color-text: #1c0708;
@@ -99,107 +93,103 @@ html[data-theme="mica-fluent"] {
   --app-bg-depth-veil: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
   --ambient-wallpaper-opacity: 0.96;
 
-  /* Mica Fluent Tactile Rim & Soft Translucent Layering */
-  --liquid-specular-rim: rgba(255, 255, 255, 0.45);
-  --liquid-rim-soft: rgba(255, 255, 255, 0.25);
-  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.55);
-  --liquid-specular-sheen: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.60) 0%,
-    rgba(255, 255, 255, 0.30) 100%
-  );
+  /* Frosted Mica Rim & Frosted Glass Layering */
+  --liquid-specular-rim: rgba(255, 255, 255, 0.48);
+  --liquid-rim-soft: rgba(255, 255, 255, 0.30);
+  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  --liquid-specular-sheen: rgba(255, 255, 255, 0.30);
 
-  --bg-main: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
-  --bg-header: linear-gradient(180deg, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.36) 100%);
-  --bg-footer: linear-gradient(180deg, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.36) 100%);
-  --bg-card: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
-  --bg-card-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.38) 100%);
-  --bg-subcard: hsla(0, 0%, 98%, 0.78);
-  --bg-subcard-hover: hsla(0, 0%, 98%, 0.90);
-  --bg-nested-card: hsla(0, 0%, 98%, 0.84);
-  --bg-popup: hsla(0, 0%, 98%, 0.92);
-  --bg-dropdown: hsla(0, 0%, 98%, 0.94);
+  --bg-main: rgba(255, 255, 255, 0.30);
+  --bg-header: rgba(255, 255, 255, 0.30);
+  --bg-footer: rgba(255, 255, 255, 0.30);
+  --bg-card: rgba(255, 255, 255, 0.30);
+  --bg-card-hover: rgba(255, 255, 255, 0.40);
+  --bg-subcard: rgba(255, 255, 255, 0.30);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.42);
+  --bg-nested-card: rgba(255, 255, 255, 0.36);
+  --bg-popup: rgba(255, 255, 255, 0.72);
+  --bg-dropdown: rgba(255, 255, 255, 0.78);
   --bg-tooltip: rgba(28, 7, 8, 0.94);
 
   --bg-nav-button-opaque: #fafafa;
-  --bg-nav-pill: hsla(0, 0%, 98%, 0.72);
-  --bg-nav-pill-hover: hsla(0, 0%, 99%, 0.88);
-  --bg-nav-arrow: hsla(0, 0%, 98%, 0.82);
+  --bg-nav-pill: rgba(255, 255, 255, 0.36);
+  --bg-nav-pill-hover: rgba(255, 255, 255, 0.54);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.45);
   --border-nav-arrow: rgba(255, 255, 255, 0.45);
   --bg-button-primary: #e84118;
-  --bg-button-secondary: hsla(0, 0%, 96%, 0.85);
-  --bg-button-hover: hsla(0, 0%, 99%, 0.92);
+  --bg-button-secondary: rgba(255, 255, 255, 0.45);
+  --bg-button-hover: rgba(255, 255, 255, 0.62);
 
-  --bg-input: hsla(0, 0%, 98%, 0.82);
-  --bg-badge: hsla(0, 0%, 96%, 0.85);
+  --bg-input: rgba(255, 255, 255, 0.48);
+  --bg-badge: rgba(255, 255, 255, 0.48);
   --bg-highlight: rgba(232, 65, 24, 0.12);
-  --bg-banner: rgba(255, 255, 255, 0.42);
-  --bg-banner-pill: hsla(0, 0%, 98%, 0.84);
+  --bg-banner: rgba(255, 255, 255, 0.30);
+  --bg-banner-pill: rgba(255, 255, 255, 0.52);
   --bg-banner-cta: #e84118;
   --text-banner-cta: #fdfdfd;
-  --bg-banner-input: hsla(0, 0%, 98%, 0.88);
-  --bg-nested-badge: hsla(0, 0%, 96%, 0.85);
+  --bg-banner-input: rgba(255, 255, 255, 0.56);
+  --bg-nested-badge: rgba(255, 255, 255, 0.48);
 
-  --border-color: rgba(255, 255, 255, 0.25);
-  --border-card: rgba(255, 255, 255, 0.25);
-  --border-subcard: rgba(255, 255, 255, 0.45);
+  --border-color: rgba(255, 255, 255, 0.35);
+  --border-card: rgba(255, 255, 255, 0.35);
+  --border-subcard: rgba(255, 255, 255, 0.38);
   --border-input: rgba(28, 7, 8, 0.16);
   --border-popup: rgba(255, 255, 255, 0.55);
   --border-banner-pill: rgba(255, 255, 255, 0.45);
   --border-banner-input: rgba(255, 255, 255, 0.50);
 
-  --bg-blur: 11px;
-  --glass-blur: 11px;
-  --blur-subcard: 12px;
-  --blur-nav-pill: 12px;
-  --blur-modal: 16px;
+  --bg-blur: 20px;
+  --glass-blur: 20px;
+  --blur-subcard: 20px;
+  --blur-nav-pill: 20px;
+  --blur-modal: 20px;
   --glass-saturate: 100%;
   --card-border-width: 1px;
 
-  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
-  --shadow-card-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
-  --shadow-subcard: 0 12px 28px -8px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --shadow-subcard-hover: 0 18px 36px -10px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --shadow-nav-pill: 0 8px 20px -6px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --shadow-button: 0 10px 24px -6px rgba(232, 65, 24, 0.40);
-  --shadow-popup: 0 25px 50px -12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --shadow-card: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-card-hover: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
+  --shadow-subcard: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-subcard-hover: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
+  --shadow-nav-pill: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-button: 0px 4px 10px 1px rgba(232, 65, 24, 0.28);
+  --shadow-popup: 0px 8px 20px 2px rgba(0, 0, 0, 0.14);
 
   /* Surface Layer Tokens */
-  --surface-primary-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
-  --surface-primary-border: rgba(255, 255, 255, 0.25);
-  --surface-primary-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
-  --surface-header-shadow: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
-  --surface-footer-shadow: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
-  --shadow-header: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
-  --shadow-main-card: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
-  --shadow-footer: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
-  --surface-primary-blur: 11px;
+  --surface-primary-bg: rgba(255, 255, 255, 0.30);
+  --surface-primary-border: rgba(255, 255, 255, 0.35);
+  --surface-primary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-header-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-footer-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-header: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-main-card: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --shadow-footer: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-primary-blur: 20px;
   --surface-primary-saturate: 100%;
 
-  --surface-secondary-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
-  --surface-secondary-border: rgba(255, 255, 255, 0.25);
-  --surface-secondary-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
-  --surface-secondary-blur: 11px;
+  --surface-secondary-bg: rgba(255, 255, 255, 0.30);
+  --surface-secondary-border: rgba(255, 255, 255, 0.35);
+  --surface-secondary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-secondary-blur: 20px;
   --surface-secondary-saturate: 100%;
 
-  --surface-tertiary-bg: hsla(0, 0%, 98%, 0.78);
-  --surface-tertiary-border: rgba(255, 255, 255, 0.45);
-  --surface-tertiary-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.18);
-  --surface-tertiary-blur: 12px;
+  --surface-tertiary-bg: rgba(255, 255, 255, 0.30);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.38);
+  --surface-tertiary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-tertiary-blur: 20px;
   --surface-tertiary-saturate: 100%;
 
-  --surface-nested-bg: hsla(0, 0%, 98%, 0.84);
-  --surface-nested-border: rgba(255, 255, 255, 0.50);
-  --surface-nested-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --surface-nested-blur: 12px;
+  --surface-nested-bg: rgba(255, 255, 255, 0.34);
+  --surface-nested-border: rgba(255, 255, 255, 0.42);
+  --surface-nested-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-nested-blur: 20px;
   --surface-nested-saturate: 100%;
 
-  --surface-interactive-bg: hsla(0, 0%, 98%, 0.74);
-  --surface-interactive-hover: hsla(0, 0%, 99%, 0.90);
+  --surface-interactive-bg: rgba(255, 255, 255, 0.36);
+  --surface-interactive-hover: rgba(255, 255, 255, 0.54);
   --surface-interactive-active: #e84118;
   --surface-interactive-border: rgba(255, 255, 255, 0.45);
-  --surface-interactive-shadow: var(--shadow-nav-pill);
-  --surface-interactive-blur: 12px;
+  --surface-interactive-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
+  --surface-interactive-blur: 20px;
 
   --radius-main: 14px;
   --radius-primary-surface: var(--radius-main, 14px);
@@ -230,30 +220,35 @@ html[data-theme="mica-fluent"] {
 }
 
 /* ------------------------------------------------------------------------- */
-/* 1. SHELL, HEADER, FOOTER & LEVEL 1 SURFACES                               */
+/* 1. SHELL, HEADER, FOOTER & LEVEL 1 SURFACES (FROSTED MICA EFFECT)         */
 /* ------------------------------------------------------------------------- */
 html[data-card-style="mica-fluent"] :is(
   #app-header,
+  #app-header-container > header,
   #app-footer,
+  #el-p0-div-98 > footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
+  [id^="home-main-card-"],
   [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
-  [id^="letter-card-"]
+  [id^="letter-card-"],
+  [id^="horoscope-card-"]
 ) {
-  background: var(--surface-primary-bg) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: var(--layer-l1-shadow, 0 25px 50px -12px rgba(0, 0, 0, 0.50)) !important;
-  backdrop-filter: blur(11px) !important;
-  -webkit-backdrop-filter: blur(11px) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
   color: #1c0708 !important;
 }
 
 /* ------------------------------------------------------------------------- */
-/* 2. MICA FLUENT CONTENT CARDS (LINEAR WHITE ACRYLIC + DEEP ELEVATION)      */
+/* 2. FROSTED MICA CONTENT CARDS (rgba(255,255,255,0.30) + blur(20px))       */
 /* ------------------------------------------------------------------------- */
 html[data-card-style="mica-fluent"] :is(
   [data-section-card="true"],
@@ -268,11 +263,12 @@ html[data-card-style="mica-fluent"] :is(
   .domain-card,
   .service-card
 ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]) {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
-  backdrop-filter: blur(11px) !important;
-  -webkit-backdrop-filter: blur(11px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
   color: #1c0708 !important;
   transition:
     transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -295,14 +291,15 @@ html[data-card-style="mica-fluent"] :is(
     .domain-card,
     .service-card
   ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]):hover {
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border-color: rgba(255, 255, 255, 0.42) !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+    background: rgba(255, 255, 255, 0.38) !important;
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+    border-color: rgba(255, 255, 255, 0.48) !important;
+    box-shadow: 0px 8px 16px 2px rgba(0, 0, 0, 0.14) !important;
   }
 }
 
-/* Subcards & Expanded Frosted Panels (hsla(0,0%,98%,0.78)) */
+/* Subcards & Expanded Frosted Panels */
 html[data-card-style="mica-fluent"] :is(
   [data-subcard="true"],
   .sub-card,
@@ -317,15 +314,16 @@ html[data-card-style="mica-fluent"] :is(
   #experience-job-detail-card,
   .swot-quadrant-card
 ) {
-  background: hsla(0, 0%, 98%, 0.78) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.68) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
   color: #1c0708 !important;
 }
 
-/* Banner Cards: Sharp Background Media + Mica Shell + Readable Contrast Plates */
+/* Banner Cards: Sharp Background Media + Frosted Mica Shell */
 html[data-card-style="mica-fluent"] :is(
   .hero-banner,
   .banner-card,
@@ -338,11 +336,12 @@ html[data-card-style="mica-fluent"] :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.28) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
-  backdrop-filter: blur(11px) !important;
-  -webkit-backdrop-filter: blur(11px) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
   color: #1c0708 !important;
 }
 

@@ -24,14 +24,55 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
 }) => {
   const [sel, setSel] = useState<number>(0);
   const [open, setOpen] = useState<number>(0);
+  const [shelfSize, setShelfSize] = useState<{ width: number; height: number }>({ width: 760, height: 320 });
   const shelfRef = useRef<HTMLElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
   const sel0Ref = useRef<number>(0);
+  const wheelCooldownRef = useRef<number>(0);
 
   const total = courses.length || 1;
-  const lastIdx = total - 1;
-  const currentCourse = courses[sel] || courses[0];
+  const lastIdx = Math.max(0, total - 1);
+  const safeSel = Math.min(sel, lastIdx);
+  const currentCourse = courses[safeSel] || courses[0];
   const displayTitle = formatCardTitle(currentCourse?.title || '');
+
+  useEffect(() => {
+    if (sel > lastIdx) {
+      setSel(0);
+      setOpen(0);
+    }
+  }, [sel, lastIdx]);
+
+  // Measure shelf dimensions to keep 3D books cleanly bounded within 25px card inset
+  useEffect(() => {
+    const el = shelfRef.current;
+    if (!el) return;
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setShelfSize({ width: rect.width, height: rect.height });
+      }
+    };
+    measure();
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(measure);
+      ro.observe(el);
+    }
+    window.addEventListener('resize', measure);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
+
+  const bookSize = Math.round(
+    Math.max(84, Math.min(186, shelfSize.height * 0.62, shelfSize.width * 0.24))
+  );
+  const firstGap = Math.round(bookSize * 0.86);
+  const sideStep = Math.max(20, Math.round(bookSize * 0.22));
+  const openShift = Math.round(bookSize * 0.22);
+  const maxHalfReach = Math.max(80, shelfSize.width / 2 - bookSize * 0.32);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -75,18 +116,44 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open, lastIdx, currentCourse, onSelectCourse]);
 
+  // Native wheel browsing on bookshelf
+  useEffect(() => {
+    const el = shelfRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (open === 1 || total <= 1) return;
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+      const delta = absX >= absY ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) < 4) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const now = Date.now();
+      if (now - wheelCooldownRef.current < 160) return;
+      wheelCooldownRef.current = now;
+      if (delta > 0) {
+        setSel((prev) => Math.min(lastIdx, prev + 1));
+      } else {
+        setSel((prev) => Math.max(0, prev - 1));
+      }
+      SoundEngine.playTap?.();
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [open, total, lastIdx]);
+
   const handleDragStart = (clientX: number) => {
     if (open === 1) return;
     dragStartXRef.current = clientX;
-    sel0Ref.current = sel;
+    sel0Ref.current = safeSel;
   };
 
   const handleDragMove = (clientX: number) => {
     if (dragStartXRef.current === null || open === 1) return;
     const deltaX = clientX - dragStartXRef.current;
-    const step = Math.round(-deltaX / 70);
+    const step = Math.round(-deltaX / 64);
     const newSel = Math.max(0, Math.min(lastIdx, sel0Ref.current + step));
-    if (newSel !== sel) {
+    if (newSel !== safeSel) {
       setSel(newSel);
     }
   };
@@ -98,37 +165,36 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   return (
     <div
       id="education-disc-bookshelf-view"
-      className="disc-library w-full min-w-0 flex flex-col items-center justify-between font-play"
+      className="disc-library w-full min-w-0 flex-1 min-h-0 h-full max-h-full flex flex-col items-center justify-between font-play box-border"
       style={{
-        '--disc-sel': sel,
+        '--disc-sel': safeSel,
         '--disc-open': open,
         '--last': lastIdx,
+        '--W': `${bookSize}px`,
+        '--H': `${bookSize}px`,
       } as React.CSSProperties}
     >
       {/* Background Backdrops */}
       <div className="disc-backdrops" aria-hidden="true">
-        {courses.map((course, idx) => {
-          const d = idx - sel;
-          return (
-            <div
-              key={course.id}
-              style={{
-                '--bg-img': `url('${course.image}')`,
-                opacity: idx === sel ? 1 : 0,
-              } as React.CSSProperties}
-            />
-          );
-        })}
+        {courses.map((course, idx) => (
+          <div
+            key={course.id}
+            style={{
+              '--bg-img': `url('${course.image}')`,
+              opacity: idx === safeSel ? 1 : 0,
+            } as React.CSSProperties}
+          />
+        ))}
       </div>
 
       {/* Top Bar */}
-      <header className="disc-top w-full flex items-center justify-between px-2">
+      <header className="disc-top w-full flex items-center justify-between">
         <p className="disc-brand flex items-center gap-2">
           <i aria-hidden="true" />
           <span>{isEn ? '3D Interactive Bookshelf' : 'Kệ Sách 3D Tương Tác'}</span>
         </p>
         <p className="disc-count">
-          <b>{sel + 1}</b> / {courses.length}
+          <b>{safeSel + 1}</b> / {courses.length}
         </p>
       </header>
 
@@ -137,7 +203,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         ref={shelfRef}
         tabIndex={0}
         aria-label="Education 3D Bookshelf. Use left and right arrows to browse, Enter to open book, Escape to close."
-        className="disc-shelf relative flex items-center justify-center w-full my-auto"
+        className="disc-shelf relative flex items-center justify-center w-full flex-1 min-h-0"
         onMouseDown={(e) => handleDragStart(e.clientX)}
         onMouseMove={(e) => handleDragMove(e.clientX)}
         onMouseUp={handleDragEnd}
@@ -148,19 +214,18 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       >
         <ol className="disc-cases">
           {courses.map((course, idx) => {
-            const d = idx - sel;
+            const d = idx - safeSel;
             const ad = Math.abs(d);
             const L = d < 0 ? 1 : 0;
             const R = d > 0 ? 1 : 0;
             const C = d === 0 ? 1 : 0;
-            const cardColor = getCourseColor(course, idx);
             const courseTitle = formatCardTitle(course.title);
 
-            // Compute transform x offset
             const x =
-              R * (140 * 0.52 + 70 + (d - 1) * 140 * 0.3) -
-              L * (140 * 0.5 + 60 + (ad - 1) * 30) +
-              C * open * 140 * 0.24;
+              R * (firstGap + (d - 1) * sideStep) -
+              L * (firstGap + (ad - 1) * sideStep) +
+              C * open * openShift;
+            const isWithinBounds = C === 1 || Math.abs(x) <= maxHalfReach;
 
             return (
               <li
@@ -172,8 +237,10 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                   '--disc-L': L,
                   '--disc-R': R,
                   '--disc-C': C,
+                  '--disc-vis': isWithinBounds ? 1 : 0,
                   '--x': `${x}px`,
                   zIndex: C ? 10 : 10 - ad,
+                  pointerEvents: isWithinBounds ? 'auto' : 'none',
                 } as React.CSSProperties}
                 onClick={() => {
                   if (open === 0) {
@@ -194,8 +261,8 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                 <div className="disc-box" aria-hidden="true">
                   <div className="disc-cover">
                     <div className="disc-out">
-                      {idx === sel && open === 1 && <div className="disc-glint" />}
-                      <img src={course.image} alt="" loading={idx === sel ? 'eager' : 'lazy'} />
+                      {idx === safeSel && open === 1 && <div className="disc-glint" />}
+                      <img src={course.image} alt="" loading={idx === safeSel ? 'eager' : 'lazy'} />
                       <i className="disc-hinge" />
                       <p className="disc-art">
                         <b>{courseTitle}</b>
@@ -227,7 +294,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                   <div className="disc-tray">
                     <div className="disc-item-disc">
                       <img src={course.image} alt="" />
-                      <i style={idx === sel && open === 1 ? { animation: 'discSpin 5s linear infinite' } : undefined} />
+                      <i style={idx === safeSel && open === 1 ? { animation: 'discSpin 5s linear infinite' } : undefined} />
                     </div>
                   </div>
                 </div>
@@ -240,16 +307,17 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         <div className="disc-mirror" aria-hidden="true">
           <ol className="disc-cases reflect">
             {courses.map((course, idx) => {
-              const d = idx - sel;
+              const d = idx - safeSel;
               const ad = Math.abs(d);
               const L = d < 0 ? 1 : 0;
               const R = d > 0 ? 1 : 0;
               const C = d === 0 ? 1 : 0;
               const courseTitle = formatCardTitle(course.title);
               const x =
-                R * (140 * 0.52 + 70 + (d - 1) * 140 * 0.3) -
-                L * (140 * 0.5 + 60 + (ad - 1) * 30) +
-                C * open * 140 * 0.24;
+                R * (firstGap + (d - 1) * sideStep) -
+                L * (firstGap + (ad - 1) * sideStep) +
+                C * open * openShift;
+              const isWithinBounds = C === 1 || Math.abs(x) <= maxHalfReach;
 
               return (
                 <li
@@ -261,6 +329,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                     '--disc-L': L,
                     '--disc-R': R,
                     '--disc-C': C,
+                    '--disc-vis': isWithinBounds ? 1 : 0,
                     '--x': `${x}px`,
                   } as React.CSSProperties}
                 >

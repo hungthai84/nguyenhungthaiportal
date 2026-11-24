@@ -235,12 +235,12 @@ export const Footer: React.FC<FooterProps> = ({
       focusedRightBtn !== null ||
       openUtilityIndex !== null);
 
-  const exposedRightWidth = viewportWidth < 768 ? 46 : viewportWidth < 1024 ? 38 : 52;
+  const exposedRightWidth = viewportWidth < 768 ? 40 : viewportWidth < 1024 ? 36 : 46;
   const overlapRightPx = uniformRightWidth
     ? Math.max(0, uniformRightWidth - exposedRightWidth)
     : viewportWidth >= 1280
-      ? 110
-      : 102;
+      ? 96
+      : 88;
   const handleRightBtnMouseEnter = (index: number) => {
     setHoveredRightBtn(index);
     if (index === 0) SoundEngine.playPageSpecificSound(12);
@@ -502,7 +502,6 @@ export const Footer: React.FC<FooterProps> = ({
   const footerElement = (
     <footer
       id="app-footer"
-      data-floating-surface="footer"
       data-element-name="Thanh điều hướng Footer chính"
       data-element-type="card"
       data-element-page="global"
@@ -525,7 +524,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderBottomRightRadius: '0px',
         borderRadius: 'var(--radius-global, 14px) var(--radius-global, 14px) 0 0',
       }}
-      className="mx-auto h-auto min-h-0 py-[5px] flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-0 p-[10px] flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
@@ -562,13 +561,13 @@ export const Footer: React.FC<FooterProps> = ({
           data-element-type="button"
           style={{
             borderRadius: '999px',
-            width: '178px',
-            height: '48px',
-            minHeight: '48px',
-            paddingTop: '5px',
-            paddingBottom: '5px',
-            paddingLeft: '5px',
-            paddingRight: '5px',
+            width: '166px',
+            height: '42px',
+            minHeight: '42px',
+            paddingTop: '4px',
+            paddingBottom: '4px',
+            paddingLeft: '4px',
+            paddingRight: '4px',
           }}
           className={`theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold ${
             hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -586,11 +585,11 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(-1);
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+            className={`theme-prev-next-btn min-w-[32px] min-h-[32px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[18px] h-[18px]" />
+            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-4 h-4" />
           </button>
 
           {/* Page Number with Active Page Icon */}
@@ -599,7 +598,7 @@ export const Footer: React.FC<FooterProps> = ({
               id="footer-page-icon"
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
               strokeWidth={2.85}
-              className="w-[18px] h-[18px] shrink-0"
+              className="w-4 h-4 shrink-0"
               style={{ color: 'var(--text-link, var(--color-primary))' }}
             />
             <span
@@ -628,11 +627,11 @@ export const Footer: React.FC<FooterProps> = ({
               onNavigate(1);
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn min-w-[38px] min-h-[38px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+            className={`theme-prev-next-btn min-w-[32px] min-h-[32px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-right" strokeWidth={2.85} className="w-[18px] h-[18px]" />
+            <WebIcon name="chevron-right" strokeWidth={2.85} className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -690,25 +689,25 @@ export const Footer: React.FC<FooterProps> = ({
                         : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                     }
                     aria-expanded={isLangMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': '#10B981',
-                        width: '170px',
-                        height: '48px',
-                        paddingTop: '9px',
-                        paddingBottom: '9px',
-                        paddingLeft: '12px',
-                        paddingRight: '12px',
+                        width: '154px',
+                        height: '42px',
+                        paddingTop: '6px',
+                        paddingBottom: '6px',
+                        paddingLeft: '10px',
+                        paddingRight: '10px',
                         fontWeight: 'normal',
                         borderWidth: '1px',
                       } as React.CSSProperties
                     }
                   >
-                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="languages" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                      <WebIcon name="languages" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         data-no-translate="true"
@@ -780,28 +779,28 @@ export const Footer: React.FC<FooterProps> = ({
                     title={
                       isEn
                         ? `Theme (${t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
-                        : `Giao diện (${activeThemeConfig.shortBadge}) · Click 1 lần: Danh sách · Double-click: Mở trang Giao diện`
+                        : `Giao diện (${THEME_FOUR_WORD_NAMES[cardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': '#6366F1',
-                        width: '170px',
-                        height: '48px',
-                        paddingTop: '9px',
-                        paddingBottom: '9px',
-                        paddingLeft: '12px',
-                        paddingRight: '12px',
+                        width: '154px',
+                        height: '42px',
+                        paddingTop: '6px',
+                        paddingBottom: '6px',
+                        paddingLeft: '10px',
+                        paddingRight: '10px',
                         fontWeight: 'normal',
                         borderWidth: '1px',
                       } as React.CSSProperties
                     }
                   >
-                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                      <WebIcon name="layers" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{ fontWeight: 'bold' }}
@@ -846,25 +845,25 @@ export const Footer: React.FC<FooterProps> = ({
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#F43F5E',
-                    width: '170px',
-                    height: '48px',
-                    paddingTop: '9px',
-                    paddingBottom: '9px',
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
+                    width: '154px',
+                    height: '42px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="image" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="image" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{ fontWeight: 'bold' }}
@@ -912,25 +911,25 @@ export const Footer: React.FC<FooterProps> = ({
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#0EA5E9',
-                    width: '170px',
-                    height: '48px',
-                    paddingTop: '9px',
-                    paddingBottom: '9px',
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
+                    width: '154px',
+                    height: '42px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="bot" className="nav-pill-icon-svg w-[18px] h-[18px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="bot" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{ fontWeight: 'bold' }}

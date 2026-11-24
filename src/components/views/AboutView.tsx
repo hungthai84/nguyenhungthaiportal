@@ -2886,11 +2886,15 @@ export function AboutView({
                           </div>
 
                           {/* Form liên hệ nhanh có xác thực Email & Độ dài Số điện thoại */}
-                          <form
+                          <motion.form
                             id="about-contact-quick-form"
                             noValidate
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: '-40px' }}
+                            transition={{ duration: 0.45, ease: 'easeOut' }}
                             onSubmit={handleContactFormSubmit}
-                            className="w-full flex flex-col gap-2 p-2.5 rounded-[14px] bg-[var(--bg-subcard)] box-border"
+                            className="w-full max-w-full min-w-0 flex flex-col gap-2.5 sm:gap-3 p-3 sm:p-3.5 my-1 rounded-[14px] bg-[var(--bg-subcard)] box-border overflow-hidden items-stretch justify-center"
                           >
                             <div className="flex items-center justify-between gap-2">
                               <span className="typo-label font-bold text-[var(--text-primary)]">
@@ -3013,7 +3017,8 @@ export function AboutView({
                                 Gửi liên hệ
                               </button>
                             </div>
-                          </form>
+                          </motion.form>
+
                         </motion.div>
                       )}
                     </AnimatePresence>

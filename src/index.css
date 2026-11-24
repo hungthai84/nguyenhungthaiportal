@@ -1030,7 +1030,6 @@ html [id$="-page-root"]:hover {
 
 /* Unified Level 1 Primary Floating Surfaces (Header, Main Card, Footer) */
 html:not([data-surface-depth="flat"]) :is(
-  #app-header,
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
@@ -1585,9 +1584,10 @@ html[data-card-style="black-cowhide-leather"] [data-main-card="true"],
 html[data-card-style="black-cowhide-leather"] #about-intro-card-1,
 html[data-card-style="black-cowhide-leather"] #about-intro-card-2,
 html[data-card-style="black-cowhide-leather"] #pdf-page-container {
-  outline: 1.5px dashed rgba(255, 255, 255, 0.78) !important;
-  outline-offset: -6px !important;
-  color: #FFFFFF !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.24) !important;
+  outline-offset: -5px !important;
+  color: #FFFBF4 !important;
 }
 
 @media print {
@@ -2292,9 +2292,9 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, [data-el
 }
 
 html[data-card-style="black-cowhide-leather"] :is(.hero-banner, .banner-card, [data-element-type="banner-card"], [id$="-hero-banner"], #interview-questions-card, #project-detail-banner) {
-  border: 2px solid #08090C !important;
-  outline: 1.5px dashed rgba(255, 255, 255, 0.80) !important;
-  outline-offset: -7px !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.28) !important;
+  outline-offset: -5px !important;
 }
 
 /* Per-page banner card hover media zoom (without hover border/outline glow) */
@@ -4904,7 +4904,7 @@ html:root[data-card-style] body :is(
     flex-wrap: wrap !important;
   }
 
-  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
     height: auto !important;
     min-height: 28px !important;
     max-height: none !important;
@@ -4946,7 +4946,7 @@ html:root[data-card-style] body :is(
     display: none !important;
   }
 
-  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill, .banner-search-input) {
+  html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
     height: auto !important;
     min-height: 28px !important;
     max-height: none !important;
@@ -4998,13 +4998,14 @@ html:root body #horoscope-page-container,
 html:root[data-card-style] body #horoscope-page-container,
 html:root.dark[data-card-style] body #horoscope-page-container {
   display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  justify-content: center !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
   width: 100% !important;
   max-width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
+  flex: 1 1 0% !important;
   max-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -5013,9 +5014,14 @@ html:root.dark[data-card-style] body #horoscope-page-container {
   box-shadow: none !important;
   border-radius: 0px !important;
   overflow-x: hidden !important;
-  overflow-y: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
+  container-type: size !important;
+  container-name: horoscope-viewport !important;
 }
 
 /* ========================================================================= */
@@ -5177,17 +5183,30 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
   #education-filter-toggle-btn span:not(.banner-count-pill),
   #education-view-mode-switcher button,
   #education-view-mode-switcher button span,
-  .banner-search-input,
-  .banner-search-input::placeholder,
-  [id$="-search-btn"],
-  [id$="-search-btn"] span,
-  [id$="-search-clear-btn"],
-  [id$="-search-clear-btn"] span
+  #projects-view-mode-switcher button,
+  #projects-view-mode-switcher button span
 ) {
   font-family: var(--font-family-heading, 'Play', sans-serif) !important;
   font-size: 16px !important;
   font-weight: 600 !important;
   line-height: 22.5623px !important;
+}
+
+/* Search inputs & search buttons follow body text typography */
+html:root body :is(
+  .banner-search-input,
+  .banner-search-input::placeholder,
+  [id$="-search-btn"],
+  [id$="-search-btn"] span,
+  [id$="-search-clear-btn"],
+  [id$="-search-clear-btn"] span,
+  #horoscope-lookup-search-btn,
+  #horoscope-lookup-search-btn span
+) {
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-body, 15px) !important;
+  font-weight: 400 !important;
+  line-height: var(--lh-body, 1.55) !important;
 }
 
 html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
@@ -5196,6 +5215,7 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
   .swot-control-pill,
   #education-filter-toggle-btn,
   #education-view-mode-switcher,
+  #projects-view-mode-switcher,
   .banner-search-input
 ) {
   height: auto !important;
@@ -5221,6 +5241,7 @@ html:root body #projects-hero-banner #projects-filter-toggle-btn .banner-count-p
     .swot-control-pill,
     #education-filter-toggle-btn,
     #education-view-mode-switcher,
+    #projects-view-mode-switcher,
     .banner-search-input
   ) {
     height: auto !important;
@@ -5624,7 +5645,6 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-pre
 
 /* 3 & 4. Unified Level-1 Floating Surface System: Header, Main Card & Footer */
 html:not([data-surface-depth="flat"]):root body :is(
-  #app-header,
   #app-footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
@@ -5639,7 +5659,6 @@ html:not([data-surface-depth="flat"]):root body :is(
   #horoscope-cards-track [data-main-card="true"]
 ),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
-  #app-header,
   #app-footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
@@ -6053,8 +6072,17 @@ html[data-surface-depth="flat"] body :is(
 /* ========================================================================= */
 /* CODEPEN NEWS SLIDER STYLES & ANIMATED BACKGROUND CARD (.item-bg)          */
 /* ========================================================================= */
+#projects-main-card {
+  container-type: inline-size;
+  container-name: projects-main;
+}
+
 #education-main-card[data-slider-mode="true"] #education-main-scroll-viewport,
-#education-main-card[data-slider-mode="true"] #education-main-wrapper {
+#education-main-card[data-slider-mode="true"] #education-main-wrapper,
+#education-main-card[data-bookshelf-mode="true"] #education-main-scroll-viewport,
+#education-main-card[data-bookshelf-mode="true"] #education-main-wrapper,
+#projects-main-card[data-slider-mode="true"] #projects-main-scroll-viewport,
+#projects-main-card[data-slider-mode="true"] #projects-main-wrapper {
   height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
@@ -6439,7 +6467,67 @@ html[data-surface-depth="flat"] body :is(
   }
 }
 
+@container projects-main (min-width: 720px) and (max-width: 959px) {
+  .news-slider-slide,
+  .news-item-bg {
+    width: clamp(205px, 28cqi, 256px);
+  }
+}
+
 @container education-main (max-width: 719px) {
+  .news-slider-wrapper-container {
+    min-height: 0;
+    padding: clamp(8px, 2cqh, 14px) 0px clamp(8px, 2cqh, 14px);
+  }
+  .news-slider-slide,
+  .news-item-bg {
+    width: clamp(220px, calc(100cqi - 76px), 292px);
+    max-width: calc(100cqi - 56px);
+  }
+  .news-slider-slide.swiper-slide-prev,
+  .news-slider-slide.swiper-slide-next {
+    opacity: 0.78;
+    pointer-events: auto;
+  }
+  .news-slider-slide.swiper-slide-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .news-card-item {
+    padding: clamp(10px, 2.5cqh, 18px) 16px;
+  }
+  .news-slider-ctr {
+    gap: 8px;
+    margin-top: 0;
+  }
+  .news-slider-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+  .news-slider-container .news-slider-arrow {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: clamp(34px, 8cqh, 40px);
+    height: clamp(34px, 8cqh, 40px);
+  }
+  .news-slider-arrow.news-slider-prev {
+    left: 6px;
+  }
+  .news-slider-arrow.news-slider-next {
+    right: 6px;
+  }
+  .news-slider-arrow:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.08) !important;
+  }
+  .news-slider-bullet.active-bullet {
+    width: 34px;
+  }
+}
+
+@container projects-main (max-width: 719px) {
   .news-slider-wrapper-container {
     min-height: 0;
     padding: clamp(8px, 2cqh, 14px) 0px clamp(8px, 2cqh, 14px);
@@ -6559,10 +6647,24 @@ html[data-surface-depth="flat"] body :is(
 /* ========================================================================= */
 
 #website-root {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: center !important;
   gap: 0px !important;
   row-gap: 0px !important;
   padding-block: 0px !important;
   padding-inline: 0px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 /* ĐỒNG BỘ CHIỀU NGANG HEADER, MAIN CARD, FOOTER Ở MỌI KÍCH THƯỚC VÀ MỌI GIAO DIỆN */
@@ -6570,8 +6672,8 @@ html:root body #app-header-container,
 html:root body #app-header,
 html:root body #app-header-container > header,
 html:root body #global-content-viewport:not(:has(#pdf-page-container)),
-html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card),
-html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]),
+html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root body #about-intro-card-1,
 html:root body #about-intro-card-2,
 html:root body #experience-main-card,
@@ -6583,8 +6685,8 @@ html:root[data-card-style] body #app-header-container,
 html:root[data-card-style] body #app-header,
 html:root[data-card-style] body #app-header-container > header,
 html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)),
-html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card),
-html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root[data-card-style] body #about-intro-card-1,
 html:root[data-card-style] body #about-intro-card-2,
 html:root[data-card-style] body #experience-main-card,
@@ -6606,9 +6708,12 @@ html:root[data-card-style] body :is(#app-header-container, #app-header, #global-
   margin-bottom: 0px !important;
 }
 
-/* HEADER & FOOTER PADDING TOP 5PX, PADDING BOT 5PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
+/* HEADER & FOOTER PADDING TOP 5PX, PADDING BOT 5PX — KHÔNG GHIM CỐ ĐỊNH */
 html:root body :is(#app-header-container, #el-p0-div-98),
 html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98) {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
   flex: 0 0 auto !important;
   height: auto !important;
   max-height: none !important;
@@ -6617,8 +6722,16 @@ html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98) {
   overflow: visible !important;
 }
 
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3) > footer#app-footer:nth-of-type(1) {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
 html:root body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer),
 html:root[data-card-style] body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer) {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
   height: auto !important;
   min-height: 0 !important;
   padding-top: 5px !important;
@@ -6662,9 +6775,10 @@ html.dark:root[data-card-style] body :is(#app-header, #app-header:hover, #app-he
 /* KHU VỰC CHÍNH GIỮA: PADDING TOP 10PX, PADDING BOT 10PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
 html:root body #global-content-viewport,
 html:root[data-card-style] body #global-content-viewport {
-  flex: 1 1 0% !important;
-  height: 100% !important;
-  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  height: calc(100dvh - 104px) !important;
+  min-height: 520px !important;
+  max-height: none !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   padding-left: 0px !important;
@@ -6674,6 +6788,8 @@ html:root[data-card-style] body #global-content-viewport {
 
 html:root body #global-content-viewport:has(#pdf-page-container),
 html:root[data-card-style] body #global-content-viewport:has(#pdf-page-container) {
+  height: auto !important;
+  min-height: calc(100dvh - 30px) !important;
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
@@ -6705,10 +6821,10 @@ html:root[data-card-style] body :is(
 }
 
 /* MAIN CARD: CHIỀU CAO MAX FULL VÀ KHÔNG BO CONG (0PX) */
-html:root body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header) {
+html:root body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not([id^="horoscope-card-"]):not(#app-footer):not(#app-header),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not([id^="horoscope-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not([id^="horoscope-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not([id^="horoscope-card-"]):not(#app-footer):not(#app-header) {
   height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
@@ -6747,12 +6863,16 @@ html:root[data-card-style] body :is(
 }
 
 /* ========================================================================= */
-/* LETTER TRACK STRICT CONTAINMENT: NO LATERAL PROTRUSION OR TRANSITION SHIFT */
+/* LETTER & HOROSCOPE TRACK STRICT CONTAINMENT: VERTICAL 100CQH CARDS        */
 /* ========================================================================= */
 html:root body #letter-page-shell,
 html:root[data-card-style] body #letter-page-shell,
+html:root body #horoscope-page-shell,
+html:root[data-card-style] body #horoscope-page-shell,
 html:root body #letter-page-container #letter-cards-track,
-html:root[data-card-style] body #letter-page-container #letter-cards-track {
+html:root[data-card-style] body #letter-page-container #letter-cards-track,
+html:root body #horoscope-page-container #horoscope-cards-track,
+html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -6771,14 +6891,23 @@ html:root[data-card-style] body #letter-cards-track > #letter-card-1,
 html:root body #letter-cards-track > #letter-cards-row-2-3,
 html:root[data-card-style] body #letter-cards-track > #letter-cards-row-2-3,
 html:root body #letter-cards-track > #letter-card-4,
-html:root[data-card-style] body #letter-cards-track > #letter-card-4 {
+html:root[data-card-style] body #letter-cards-track > #letter-card-4,
+html:root body #horoscope-page-container #horoscope-cards-track > *,
+html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track > *,
+html:root body #horoscope-cards-track > [id^="horoscope-card-"],
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"] {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 100% !important;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
   flex: 0 0 auto !important;
   box-sizing: border-box !important;
+}
+
+html:root body #horoscope-cards-track > [id^="horoscope-card-"],
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"] {
+  height: 100cqh !important;
+  min-height: 100cqh !important;
+  max-height: 100cqh !important;
 }
 
 html:root body #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
@@ -6834,6 +6963,84 @@ html.dark:root[data-card-style] body #experience-main-card #experience-timeline-
   margin-right: 0px !important;
   margin-left: 0px !important;
   border-radius: 0px !important;
+}
+
+/* ========================================================================= */
+/* ABSOLUTE FINAL OVERRIDE: HEADER WITHOUT LAYER CHROME OR FLOAT EFFECT      */
+/* (Frosted Mica Effect explicitly applies frosted glass surface to Header)  */
+/* ========================================================================= */
+html:root:not([data-card-style="mica-fluent"]) body #app-header-container,
+html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container,
+html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container,
+html:root:not([data-card-style="mica-fluent"]) body #app-header,
+html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header,
+html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header,
+html:root:not([data-card-style="mica-fluent"]) body #app-header:hover,
+html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:hover,
+html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:hover,
+html:root:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
+html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
+html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
+html:root:not([data-card-style="mica-fluent"]) body #app-header-container > header,
+html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container > header,
+html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container > header {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header) {
+  background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper),
+html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper),
+html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper):hover,
+html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper):hover {
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Responsive Golden Ratio Typography Adjustments */
+@media (max-width: 1199px) {
+  :root {
+    --fs-display: 38px;
+    --fs-h1: 30px;
+    --fs-h2: 23px;
+    --fs-h3: 18.5px;
+    --fs-h4: 15.5px;
+    --fs-body-lg: 16.5px;
+    --fs-body: 15px;
+    --fs-body-sm: 13.5px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fs-display: 32px;
+    --fs-h1: 26px;
+    --fs-h2: 21px;
+    --fs-h3: 17px;
+    --fs-h4: 14.5px;
+    --fs-body-lg: 15.5px;
+    --fs-body: 14px;
+    --fs-body-sm: 12.5px;
+  }
 }
 
 /* End of index.css */

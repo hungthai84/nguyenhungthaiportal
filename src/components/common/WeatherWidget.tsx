@@ -603,7 +603,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-[50px] px-2.5 lg:px-3.5 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+          className="relative h-[42px] px-2.5 lg:px-3 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-2.5 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
           style={{
             borderRadius: '10px',
           }}
@@ -621,7 +621,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 1 */}
           <div
-            className="relative z-10 w-[1px] h-7 rounded-full shrink-0 opacity-70"
+            className="relative z-10 w-[1px] h-6 rounded-full shrink-0 opacity-70"
             style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
             aria-hidden="true"
           />
@@ -629,7 +629,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC */}
           <div className="relative z-20 flex items-center gap-1.5 lg:gap-2 shrink-0 min-w-0">
             <div className="relative shrink-0 flex items-center justify-center">
-              {render3DWeatherIcon(cardCfg.condition, 'w-8 h-8 lg:w-9 lg:h-9')}
+              {render3DWeatherIcon(cardCfg.condition, 'w-7 h-7 lg:w-8 lg:h-8')}
             </div>
             <div className="flex flex-col justify-center leading-tight text-left min-w-0">
               <div className="flex items-baseline gap-1.5 whitespace-nowrap">

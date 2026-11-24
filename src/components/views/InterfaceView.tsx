@@ -545,7 +545,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     activeRingColor: '#E84118',
     activeBorderClass: 'border-[#E84118]',
     idleBorderClass: 'border-white/25 hover:border-[#E84118]/65',
-    activeBadgeClass: 'bg-[#FFF3F0] text-[#C23616] border-[#E84118]/35 shadow-xs backdrop-blur-[11px]',
+    activeBadgeClass: 'bg-[#FFF3F0] text-[#C23616] border-[#E84118]/35 shadow-xs backdrop-blur-[20px]',
     iconColor: '#E84118',
     titleTextClass: 'text-[#1C0708]',
     bodyTextClass: 'text-[#3F292B]',
@@ -700,8 +700,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       setCardStyle(targetStyle);
       onShowNotification?.(
         isEn
-          ? `✓ Switched to Standard theme: ${t(targetCfg.name)}`
-          : `✓ Đã chuyển sang giao diện Chuẩn: ${targetCfg.name}`
+          ? `✓ Switched to Standard theme: ${THEME_FOUR_WORD_NAMES[targetStyle]?.en || t(targetCfg.name)}`
+          : `✓ Đã chuyển sang giao diện Chuẩn: ${THEME_FOUR_WORD_NAMES[targetStyle]?.vi || targetCfg.name}`
       );
     } else {
       try {
@@ -715,8 +715,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       setCardStyle(targetNeuStyle);
       onShowNotification?.(
         isEn
-          ? `✓ Switched to Neumorphism theme: ${t(targetCfg.name)}`
-          : `✓ Đã chuyển sang giao diện Neumorphism: ${targetCfg.name}`
+          ? `✓ Switched to Neumorphism theme: ${THEME_FOUR_WORD_NAMES[targetNeuStyle]?.en || t(targetCfg.name)}`
+          : `✓ Đã chuyển sang giao diện Nổi khối: ${THEME_FOUR_WORD_NAMES[targetNeuStyle]?.vi || targetCfg.name}`
       );
     }
   }, [cardStyle, isDark, isEn, onShowNotification, setCardStyle, t]);
@@ -798,8 +798,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     if (onShowNotification) {
       onShowNotification(
         isEn
-          ? `✓ Restored & saved default interface: ${t(defaultCfg.name)}`
-          : `✓ Đã khôi phục & lưu mặc định: ${defaultCfg.name}`
+          ? `✓ Restored & saved default interface: ${THEME_FOUR_WORD_NAMES[DEFAULT_CARD_STYLE]?.en || t(defaultCfg.name)}`
+          : `✓ Đã khôi phục & lưu mặc định: ${THEME_FOUR_WORD_NAMES[DEFAULT_CARD_STYLE]?.vi || defaultCfg.name}`
       );
     }
   };
@@ -1125,8 +1125,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ? 'Switch to Standard visual theme'
                         : 'Switch to Neumorphism visual theme'
                       : isNeumorphismActive
-                        ? 'Chuyển về giao diện Chuẩn (Standard)'
-                        : 'Chuyển sang giao diện Neumorphism'
+                        ? 'Chuyển về giao diện Chuẩn'
+                        : 'Chuyển sang giao diện Nổi khối'
                   }
                 >
                   <WebIcon
@@ -1139,7 +1139,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         ? 'Theme: Neumorphism'
                         : 'Theme: Standard'
                       : isNeumorphismActive
-                        ? 'Chế độ: Neumorphism'
+                        ? 'Chế độ: Nổi khối'
                         : 'Chế độ: Chuẩn'}
                   </span>
                 </button>
@@ -1155,10 +1155,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
                     isNeumorphismActive ? 'border-0' : 'border'
                   }`}
-                  title={isEn ? 'Toggle Neumorphism UI Kit' : 'Bật/tắt bộ mẫu Neumorphism UI Kit'}
+                  title={isEn ? 'Toggle Neumorphism UI Kit' : 'Bật/tắt bộ mẫu giao diện'}
                 >
                   <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? 'UI Kit' : 'UI Kit'}</span>
+                  <span>{isEn ? 'UI Kit' : 'Bộ mẫu'}</span>
                 </button>
               </div>
             </div>
@@ -1549,7 +1549,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     style={{ color: 'var(--text-link, var(--color-primary))' }}
                   >
                     {isEn ? 'Active: ' : 'Đang bật: '}
-                    {t(activePreset.name)}
+                    {isEn
+                      ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
+                      : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
                   </span>
                 </div>
 
@@ -1588,9 +1590,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
                         }
                         hasVideoFailed={Boolean(failedVideoIds[preset.id])}
-                        displayPresetName={t(preset.name)}
-                        displayShortBadge={t(preset.shortBadge)}
-                        displayDesc={t(preset.desc)}
+                        displayPresetName={
+                          isEn
+                            ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
+                            : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name
+                        }
+                        displayShortBadge={isEn ? t(preset.shortBadge) : preset.shortBadge}
+                        displayDesc={isEn ? t(preset.desc) : preset.desc}
                         lightModeId={lightId}
                         darkModeId={darkId}
                         currentVariant={currentVariant}
@@ -1626,7 +1632,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     data-card-title="true"
                     style={{ color: 'var(--color-primary)' }}
                   >
-                    {isEn ? 'Neumorphism UI Kit (Borderless Soft UI)' : 'Neumorphism UI Kit (Soft UI Không Viền)'}
+                    {isEn ? 'Neumorphism UI Kit (Borderless Soft UI)' : 'Bộ Mẫu Nổi Khối (Không Viền)'}
                   </h4>
                 </div>
                 <button
@@ -1635,7 +1641,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     SoundEngine.playTap();
                     setIsSandboxOpen(false);
                   }}
-                  aria-label={isEn ? 'Close UI Kit' : 'Đóng UI Kit'}
+                  aria-label={isEn ? 'Close UI Kit' : 'Đóng bộ mẫu'}
                   className="neu-kit-btn w-8 h-8 rounded-full border-0 flex items-center justify-center cursor-pointer shrink-0"
                   style={{
                     background: 'var(--bg-card)',
@@ -1648,7 +1654,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
                 {isEn
                   ? 'Zero CSS borders across all interactive controls—depth is sculpted purely with dual outset and inset box-shadows.'
-                  : 'Loại bỏ hoàn toàn viền CSS ở mọi thành phần tương tác—độ nổi khối và nhấn lõm được tạo thuần bằng cặp bóng đổ outset/inset.'}
+                  : 'Loại bỏ hoàn toàn viền ở mọi thành phần tương tác — độ nổi khối và nhấn lõm được tạo thuần bằng cặp bóng đổ kép.'}
               </p>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-center pt-1">
@@ -1687,7 +1693,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     onClick={() => {
                       SoundEngine.playGlassChime();
                       setNeuKitPressed((prev) => ({ ...prev, mainBtn: !prev.mainBtn }));
-                      onShowNotification?.(isEn ? '✓ Soft UI button toggled!' : '✓ Đã chuyển trạng thái nút Soft UI!');
+                      onShowNotification?.(isEn ? '✓ Soft UI button toggled!' : '✓ Đã chuyển trạng thái nút nổi khối!');
                     }}
                     className="neu-kit-btn w-full py-3 px-6 rounded-[999px] border-0 typo-button font-bold text-center cursor-pointer"
                     style={{
@@ -1695,7 +1701,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       color: neuKitPressed.mainBtn ? 'var(--color-primary)' : 'var(--text-primary)',
                     }}
                   >
-                    {neuKitPressed.mainBtn ? (isEn ? 'Pressed (Inset)' : 'Đang nhấn (Inset)') : 'Button'}
+                    {neuKitPressed.mainBtn
+                      ? isEn
+                        ? 'Pressed (Inset)'
+                        : 'Đang nhấn (Lõm)'
+                      : isEn
+                        ? 'Button'
+                        : 'Nút bấm'}
                   </button>
 
                   <div className="flex items-center gap-3">
@@ -1706,7 +1718,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       onClick={() => {
                         SoundEngine.playTap();
                         setNeuKitPressed((prev) => ({ ...prev, heart: !prev.heart }));
-                        onShowNotification?.('♥ Liked');
+                        onShowNotification?.(isEn ? '♥ Liked' : '♥ Đã thích');
                       }}
                       className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
@@ -1722,7 +1734,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       onClick={() => {
                         SoundEngine.playTap();
                         setNeuKitPressed((prev) => ({ ...prev, comment: !prev.comment }));
-                        onShowNotification?.('💬 Chat toggled');
+                        onShowNotification?.(isEn ? '💬 Chat toggled' : '💬 Đã bật trò chuyện');
                       }}
                       className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
@@ -1738,7 +1750,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       onClick={() => {
                         SoundEngine.playTap();
                         setNeuKitPressed((prev) => ({ ...prev, bookmark: !prev.bookmark }));
-                        onShowNotification?.('📌 Saved');
+                        onShowNotification?.(isEn ? '📌 Saved' : '📌 Đã lưu');
                       }}
                       className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
@@ -1756,7 +1768,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       onClick={() => {
                         SoundEngine.playTap();
                         setNeuKitPressed((prev) => ({ ...prev, share: !prev.share }));
-                        onShowNotification?.('🔗 Shared');
+                        onShowNotification?.(isEn ? '🔗 Shared' : '🔗 Đã chia sẻ');
                       }}
                       className="neu-kit-btn flex-1 py-2.5 px-5 rounded-[999px] border-0 flex items-center justify-center gap-2 typo-label font-bold cursor-pointer"
                       style={{
@@ -1765,7 +1777,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       }}
                     >
                       <WebIcon name="share-2" className="w-4 h-4" />
-                      <span>Share</span>
+                      <span>{isEn ? 'Share' : 'Chia sẻ'}</span>
                     </button>
                     <button
                       type="button"
@@ -1773,7 +1785,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       onClick={() => {
                         SoundEngine.playTap();
                         setNeuSliders((prev) => prev.map((v) => (v >= 90 ? 30 : Math.min(95, v + 10))));
-                        onShowNotification?.('➕ Action added');
+                        onShowNotification?.(isEn ? '➕ Action added' : '➕ Đã tăng thanh trượt');
                       }}
                       className="neu-kit-btn w-11 h-11 rounded-full border-0 flex items-center justify-center cursor-pointer shrink-0"
                       style={{
@@ -1793,12 +1805,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   }}
                 >
                   {[
-                    { label: 'Sky', color: 'linear-gradient(180deg, #64B6FF 0%, #4FA4FA 100%)' },
-                    { label: 'Blue', color: 'linear-gradient(180deg, #4973FF 0%, #3760EE 100%)' },
-                    { label: 'Indigo', color: 'linear-gradient(180deg, #445CE6 0%, #344AD4 100%)' },
-                    { label: 'Pink', color: 'linear-gradient(180deg, #EE6AD2 0%, #DE54C2 100%)' },
-                    { label: 'Cyan', color: 'linear-gradient(180deg, #2AD8E6 0%, #18C2D2 100%)' },
-                    { label: 'Mint', color: 'linear-gradient(180deg, #52E0A8 0%, #3ACF94 100%)' },
+                    { label: isEn ? 'Sky' : 'Xanh trời', color: 'linear-gradient(180deg, #64B6FF 0%, #4FA4FA 100%)' },
+                    { label: isEn ? 'Blue' : 'Xanh dương', color: 'linear-gradient(180deg, #4973FF 0%, #3760EE 100%)' },
+                    { label: isEn ? 'Indigo' : 'Chàm', color: 'linear-gradient(180deg, #445CE6 0%, #344AD4 100%)' },
+                    { label: isEn ? 'Pink' : 'Hồng', color: 'linear-gradient(180deg, #EE6AD2 0%, #DE54C2 100%)' },
+                    { label: isEn ? 'Cyan' : 'Lục lam', color: 'linear-gradient(180deg, #2AD8E6 0%, #18C2D2 100%)' },
+                    { label: isEn ? 'Mint' : 'Bạc hà', color: 'linear-gradient(180deg, #52E0A8 0%, #3ACF94 100%)' },
                   ].map((bar, idx) => {
                     const val = neuSliders[idx] || 60;
                     return (
@@ -1806,7 +1818,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         <div
                           role="slider"
                           tabIndex={0}
-                          aria-label={`${bar.label} level`}
+                          aria-label={isEn ? `${bar.label} level` : `Mức ${bar.label}`}
                           aria-valuemin={10}
                           aria-valuemax={95}
                           aria-valuenow={val}

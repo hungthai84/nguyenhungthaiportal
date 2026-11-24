@@ -3,8 +3,6 @@ import { MotionConfig } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { PullCord } from './components/ui/PullCord';
-import { PottedPlantWidget } from './components/ui/PottedPlantWidget';
-import { AiMascotWidget } from './components/ui/AiMascotWidget';
 import { HomeView } from './components/views/HomeView';
 
 import { MapLocation } from './data/aboutData';
@@ -958,25 +956,6 @@ export default function App() {
           />
         </div>
       )}
-
-      {/* CHẬU CÂY BÊN TRÁI FOOTER & NHÂN VẬT AI BÊN PHẢI FOOTER — TỰ ẨN KHI KHÔNG ĐỦ CHỖ TRỐNG */}
-      {currentTabIndex !== 16 && (
-        <>
-          <PottedPlantWidget
-            visible={peripheralClearance.showLeftPlant}
-            widthPx={peripheralClearance.plantWidthPx}
-            isDark={isDark}
-            onShowNotification={showNotification}
-          />
-          <AiMascotWidget
-            visible={peripheralClearance.showRightMascot}
-            widthPx={peripheralClearance.mascotWidthPx}
-            isDark={isDark}
-            onOpenAiAssistant={() => handleSelectTabWithSound(13)}
-          />
-        </>
-      )}
-
 
       {/* MODALS & INSPECTOR */}
       <Suspense fallback={null}>

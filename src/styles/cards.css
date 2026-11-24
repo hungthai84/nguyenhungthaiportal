@@ -1574,7 +1574,7 @@ html[data-card-style="light-deep-ocean"] :is(
 @media (max-width: 767px) {
   .banner-search-input,
   .banner-search-input::placeholder {
-    font-size: clamp(13px, 3.5vw, 17px) !important;
+    font-size: var(--fs-h3, 20px) !important;
   }
 }
 
@@ -2080,7 +2080,11 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-radius: var(--radius-image, 14px) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -2109,7 +2113,11 @@ article.project-card:hover,
   object-fit: cover !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: var(--radius-image, 14px) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
 }
 
 .themed-image-frame:not(.project-card-banner) img {
@@ -2711,17 +2719,6 @@ button:focus-visible,
   justify-content: space-between !important;
   gap: 10px !important;
   padding: 10px 14px !important;
-}
-
-#el-p9-div-104 {
-  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
-  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  padding: 12px !important;
-  box-sizing: border-box !important;
 }
 
 #interview-answers-card,
@@ -3470,12 +3467,13 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 
 #education-main-card {
   container-type: inline-size;
-  container-name: education-main;
+  container-name: main-card education-main;
 }
 
 #education-courses-grid.education-responsive-grid {
-  --card-min-width: 265px;
+  --card-min-width: 245px;
   --card-padding: 8px;
+  max-width: 100% !important;
 }
 
 /* ========================================================================= */
@@ -3603,12 +3601,12 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
-/* Thẻ hệ thống: Mặc định 3 cột 2 hàng, thu nhỏ chuyển 2 cột 3 hàng */
+/* Thẻ hệ thống: Mặc định 3 cột, thu nhỏ chuyển 2 cột hoặc 1 cột, chiều cao thẻ bằng nội dung */
 #systems-page-container .systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: 1fr !important;
-  align-items: stretch !important;
+  grid-auto-rows: auto !important;
+  align-items: start !important;
 }
 
 @media (max-width: 959px) {
@@ -3617,10 +3615,15 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   }
 }
 
+@media (max-width: 599px) {
+  #systems-page-container .systems-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
 .education-responsive-grid > *,
 .projects-responsive-grid > *,
-#projects-grid > *,
-#systems-page-container .systems-cards-grid > * {
+#projects-grid > * {
   min-width: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -3630,9 +3633,13 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 
 #systems-page-container .systems-cards-grid > *,
 #systems-page-container .system-card-tile {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
   height: auto !important;
-  min-height: fit-content !important;
+  min-height: 0 !important;
   align-self: start !important;
+  box-sizing: border-box !important;
 }
 
 #projects-grid .project-card {
@@ -3649,7 +3656,11 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #projects-grid .project-card .project-card-banner {
-  border-radius: var(--radius-image, 14px) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
   overflow: hidden !important;
@@ -3690,7 +3701,9 @@ html #education-courses-grid .education-course-card,
   border-radius: var(--radius-card, 14px) !important;
   padding: 8px !important;
   gap: 8px !important;
-  overflow: visible !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -3813,8 +3826,8 @@ html #education-courses-grid .education-course-card,
 }
 
 #services-page-container .service-card.domain-card {
-  padding: clamp(12px, 3.8cqi, 18px) !important;
-  gap: clamp(8px, 2.4cqi, 14px) !important;
+  padding: 16px !important;
+  gap: 12px !important;
   box-sizing: border-box !important;
   container-type: inline-size;
   container-name: service-card;
@@ -3835,18 +3848,18 @@ html #education-courses-grid .education-course-card,
   box-sizing: border-box !important;
 }
 
-/* Lưới Dịch vụ: Bố cục 3 cột mặc định, thu nhỏ chuyển 2 cột giống Hệ thống */
+/* Lưới Dịch vụ: Mặc định 3 cột, thu nhỏ chuyển 2 cột hoặc 1 cột, chiều cao thẻ bằng nội dung */
 #services-page-container .services-cards-grid,
 #services-cards-grid.services-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: 1fr !important;
+  grid-auto-rows: auto !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   height: auto !important;
   flex: 0 0 auto !important;
-  align-items: stretch !important;
+  align-items: start !important;
   align-content: start !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -3866,11 +3879,20 @@ html #education-courses-grid .education-course-card,
   }
 }
 
+@media (max-width: 599px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid.services-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
 #services-page-container .services-cards-grid > * {
   min-width: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
   box-sizing: border-box !important;
 }
 
@@ -3881,17 +3903,18 @@ html #education-courses-grid .education-course-card,
   pointer-events: none !important;
 }
 
-/* Front Domain Card — Fluid Responsive Scaling */
+/* Front Domain Card — 100% Default Scale & 70%/30% Split */
 #services-page-container .domain-card,
 .service-card.domain-card {
   position: relative;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: space-between !important;
-  gap: clamp(10px, 2.5cqi, 14px);
+  justify-content: flex-start !important;
+  gap: 12px;
   min-width: 0;
   min-height: 0;
-  height: 100%;
+  height: auto !important;
+  align-self: start !important;
   width: 100%;
   max-width: 100%;
   border-radius: 14px !important;
@@ -3906,16 +3929,20 @@ html #education-courses-grid .education-course-card,
 
 #services-page-container .domain-card .service-card-split-grid {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-  grid-template-rows: auto 1fr auto !important;
-  column-gap: 0px !important;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+  grid-template-rows: auto auto auto !important;
+  column-gap: 12px !important;
   row-gap: 8px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
 
-#services-page-container .domain-card .service-card-illustration {
+#services-page-container .domain-card .service-card-illustration,
+#services-page-container .domain-card .service-card-image-slot {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
+  height: 100% !important;
   min-height: 0 !important;
   max-height: none !important;
   align-self: stretch !important;
@@ -3923,28 +3950,28 @@ html #education-courses-grid .education-course-card,
 }
 
 #services-page-container .domain-card .service-title-text {
-  font-size: clamp(0.88rem, 4.1cqi, 1.08rem) !important;
-  line-height: 1.28 !important;
+  font-size: var(--fs-h4, 17px) !important;
+  line-height: 1.32 !important;
 }
 
 #services-page-container .domain-card .service-kpi-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(6px, 2.2cqi, 10px);
+  gap: 8px;
 }
 
 #services-page-container .domain-card .service-kpi-val {
-  font-size: clamp(0.78rem, 3.6cqi, 0.96rem);
+  font-size: var(--fs-h5, 15.5px);
   line-height: 1.25;
 }
 
 #services-page-container .domain-card .service-kpi-lbl {
-  font-size: clamp(0.66rem, 2.8cqi, 0.76rem);
+  font-size: var(--fs-caption, 12px);
   line-height: 1.25;
 }
 
 #services-page-container .domain-card .service-desc-text {
-  font-size: clamp(0.76rem, 3cqi, 0.875rem);
+  font-size: var(--fs-body-sm, 13.5px);
   line-height: 1.45;
   flex: 0 1 auto;
 }
@@ -4096,9 +4123,11 @@ html.dark #services-page-container .domain-card-sub {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100% !important;
-  align-self: stretch !important;
+  justify-content: flex-start;
+  padding: 16px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
   box-sizing: border-box !important;
   border-radius: var(--radius-card, 14px);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.45));
@@ -4113,20 +4142,20 @@ html.dark #services-page-container .domain-card-sub {
 #systems-page-container .system-card-tile .system-card-split-grid {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-  grid-template-rows: auto auto 1fr !important;
-  column-gap: 0px !important;
+  grid-template-rows: auto auto auto !important;
+  column-gap: 12px !important;
   row-gap: 8px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
 
-@container system-card (max-width: 270px) {
-  #systems-page-container .system-card-tile {
-    padding: 10px !important;
-  }
-  #systems-page-container .system-card-tile .system-card-image-slot {
-    height: 46px !important;
-  }
+#systems-page-container .system-card-tile .system-card-image-slot {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
 }
 
 /* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Hệ thống từ vị trí trỏ chuột / focus */
@@ -4943,7 +4972,11 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 .project-card .project-card-banner[data-media-card="image"],
 .project-card .project-card-banner :is(img, video),
 .project-card .project-card-banner .project-card-banner-scrim {
-  border-radius: var(--radius-image, 14px) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
 }
 
 #education-book-view .education-book-media-rounded,
@@ -5402,7 +5435,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 
 #experience-timeline-board .exp-fold-swatch.is-expanded,
 #experience-timeline-board .exp-fold-swatch:focus-visible {
-  flex: 6.2 1 0%;
+  flex: 7.2 1 0%;
   z-index: 25;
 }
 
@@ -5485,7 +5518,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   opacity: 0.28;
 }
 
-/* Mặt gáy gấp gọn: Cột dọc gọn gàng (Lịch/Năm/Số năm -> Cụm logo xếp dọc -> Tên công ty dọc) */
+/* Mặt gáy gấp gọn: Chia 3 phần (Top -> Center 1 căn bot / Center 2 căn top -> Bottom) */
 #experience-timeline-board .exp-fold-spine {
   position: absolute;
   inset: 0;
@@ -5493,9 +5526,9 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 64px 4px 36px;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 62px 4px 38px;
+  gap: 6px;
   pointer-events: none;
   transition: opacity 0.28s ease;
   overflow: hidden;
@@ -5504,6 +5537,15 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-spine {
   opacity: 0;
   visibility: hidden;
+}
+
+#experience-timeline-board .exp-fold-spine-top {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 #experience-timeline-board .exp-fold-num {
@@ -5523,11 +5565,42 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   flex-shrink: 0;
 }
 
-#experience-timeline-board .exp-fold-spine-logo-stack {
+#experience-timeline-board .exp-fold-spine-center {
+  flex: 1 1 0%;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+#experience-timeline-board .exp-fold-spine-center-1 {
+  flex: 0.85 1 0%;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#experience-timeline-board .exp-fold-spine-center-2 {
+  flex: 1.15 1 0%;
+  min-height: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  overflow: hidden;
+}
+
+#experience-timeline-board .exp-fold-spine-logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   flex-shrink: 0;
 }
 
@@ -5548,11 +5621,10 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 }
 
 #experience-timeline-board .exp-fold-spine-label {
-  flex: 1 1 0%;
+  display: block;
+  flex: 0 1 auto;
+  max-height: 100%;
   min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-size: 12.5px;
@@ -5563,6 +5635,26 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: left;
+}
+
+#experience-timeline-board .exp-fold-spine-bottom {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#experience-timeline-board .exp-fold-tenure {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* Mặt mở rộng chứa 100% dữ liệu thật của cột mốc (thẳng đứng, bỏ hiệu ứng nghiêng) */
@@ -5611,13 +5703,14 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
     padding: 0 !important;
   }
   #experience-timeline-board .exp-fold-spine {
-    padding: 58px 2px 32px;
-    gap: 6px;
+    padding: 58px 2px 34px;
+    gap: 5px;
   }
   #experience-timeline-board .exp-fold-spine-label {
     font-size: 11px;
   }
-  #experience-timeline-board .exp-fold-num {
+  #experience-timeline-board .exp-fold-num,
+  #experience-timeline-board .exp-fold-tenure {
     font-size: 10px;
   }
   #experience-timeline-board .exp-fold-spine-logo {

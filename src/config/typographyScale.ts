@@ -23,9 +23,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-display',
     className: 'typo-display',
     desktop: '42px',
-    tablet: '32px',
-    mobile: '26px',
-    fluidClamp: 'clamp(26px, 2.2vw + 16px, 42px)',
+    tablet: '42px',
+    mobile: '42px',
+    fluidClamp: '42px',
     lineHeight: '1.18',
     letterSpacing: '-0.024em',
     fontWeight: 700,
@@ -36,9 +36,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h1',
     className: 'typo-h1',
     desktop: '32px',
-    tablet: '26px',
-    mobile: '22px',
-    fluidClamp: 'clamp(22px, 1.4vw + 14px, 32px)',
+    tablet: '32px',
+    mobile: '32px',
+    fluidClamp: '32px',
     lineHeight: '1.24',
     letterSpacing: '-0.02em',
     fontWeight: 700,
@@ -49,9 +49,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h2',
     className: 'typo-h2',
     desktop: '24px',
-    tablet: '22px',
-    mobile: '19px',
-    fluidClamp: 'clamp(19px, 1.1vw + 13px, 24px)',
+    tablet: '24px',
+    mobile: '24px',
+    fluidClamp: '24px',
     lineHeight: '1.28',
     letterSpacing: '-0.016em',
     fontWeight: 700,
@@ -62,9 +62,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h3',
     className: 'typo-h3',
     desktop: '20px',
-    tablet: '18px',
-    mobile: '16px',
-    fluidClamp: 'clamp(16px, 0.75vw + 12px, 20px)',
+    tablet: '20px',
+    mobile: '20px',
+    fluidClamp: '20px',
     lineHeight: '1.3',
     letterSpacing: '-0.01em',
     fontWeight: 600,
@@ -75,9 +75,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h4',
     className: 'typo-h4',
     desktop: '17px',
-    tablet: '16px',
-    mobile: '14.5px',
-    fluidClamp: 'clamp(14.5px, 0.5vw + 11.5px, 17px)',
+    tablet: '17px',
+    mobile: '17px',
+    fluidClamp: '17px',
     lineHeight: '1.32',
     letterSpacing: '-0.005em',
     fontWeight: 600,
@@ -88,9 +88,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h5',
     className: 'typo-h5',
     desktop: '15.5px',
-    tablet: '14.5px',
-    mobile: '13.5px',
-    fluidClamp: 'clamp(13.5px, 0.35vw + 11px, 15.5px)',
+    tablet: '15.5px',
+    mobile: '15.5px',
+    fluidClamp: '15.5px',
     lineHeight: '1.35',
     letterSpacing: '-0.005em',
     fontWeight: 600,
@@ -101,9 +101,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-body-lg',
     className: 'typo-body-lg',
     desktop: '16.5px',
-    tablet: '15.5px',
-    mobile: '15px',
-    fluidClamp: 'clamp(15px, 0.3vw + 13.5px, 16.5px)',
+    tablet: '16.5px',
+    mobile: '16.5px',
+    fluidClamp: '16.5px',
     lineHeight: '1.6',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -114,9 +114,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-body',
     className: 'typo-body',
     desktop: '15px',
-    tablet: '14.5px',
-    mobile: '14px',
-    fluidClamp: 'clamp(14px, 0.2vw + 13px, 15px)',
+    tablet: '15px',
+    mobile: '15px',
+    fluidClamp: '15px',
     lineHeight: '1.6',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -127,9 +127,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-body-sm',
     className: 'typo-body-sm',
     desktop: '13.5px',
-    tablet: '13px',
-    mobile: '12.5px',
-    fluidClamp: 'clamp(12.5px, 0.15vw + 12px, 13.5px)',
+    tablet: '13.5px',
+    mobile: '13.5px',
+    fluidClamp: '13.5px',
     lineHeight: '1.55',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -141,8 +141,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-caption',
     desktop: '12px',
     tablet: '12px',
-    mobile: '11.5px',
-    fluidClamp: 'clamp(11.5px, 0.15vw + 11px, 12px)',
+    mobile: '12px',
+    fluidClamp: '12px',
     lineHeight: '1.4',
     letterSpacing: '0.01em',
     fontWeight: 400,
@@ -153,8 +153,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-label',
     desktop: '12px',
     tablet: '12px',
-    mobile: '11.5px',
-    fluidClamp: 'clamp(11.5px, 0.15vw + 11px, 12px)',
+    mobile: '12px',
+    fluidClamp: '12px',
     lineHeight: '1.38',
     letterSpacing: '0.025em',
     fontWeight: 600,
@@ -165,8 +165,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-badge',
     desktop: '12px',
     tablet: '12px',
-    mobile: '11.5px',
-    fluidClamp: 'clamp(11.5px, 0.15vw + 11px, 12px)',
+    mobile: '12px',
+    fluidClamp: '12px',
     lineHeight: '1.38',
     letterSpacing: '0.025em',
     fontWeight: 600,
@@ -178,7 +178,7 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     desktop: '10px',
     tablet: '10px',
     mobile: '10px',
-    fluidClamp: 'clamp(10px, 0.1vw + 9.5px, 10px)',
+    fluidClamp: '10px',
     lineHeight: '1.35',
     letterSpacing: '0.03em',
     fontWeight: 600,
@@ -189,8 +189,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-button',
     desktop: '14px',
     tablet: '14px',
-    mobile: '13px',
-    fluidClamp: 'clamp(13px, 0.2vw + 12.5px, 14px)',
+    mobile: '14px',
+    fluidClamp: '14px',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 700,
@@ -201,8 +201,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-nav',
     desktop: '14px',
     tablet: '14px',
-    mobile: '13.5px',
-    fluidClamp: 'clamp(13.5px, 0.15vw + 13px, 14px)',
+    mobile: '14px',
+    fluidClamp: '14px',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 600,
@@ -213,8 +213,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-tab',
     desktop: '14px',
     tablet: '14px',
-    mobile: '13.5px',
-    fluidClamp: 'clamp(13.5px, 0.15vw + 13px, 14px)',
+    mobile: '14px',
+    fluidClamp: '14px',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 600,
@@ -225,7 +225,6 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-input',
     desktop: '16px',
     tablet: '16px',
-    // Mobile minimum 16px to prevent iOS Safari automatic zoom-in on focus
     mobile: '16px',
     fluidClamp: '16px',
     lineHeight: '1.45',
@@ -237,9 +236,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-kpi',
     className: 'typo-kpi',
     desktop: '36px',
-    tablet: '30px',
-    mobile: '24px',
-    fluidClamp: 'clamp(24px, 1.5vw + 18px, 36px)',
+    tablet: '36px',
+    mobile: '36px',
+    fluidClamp: '36px',
     lineHeight: '1.18',
     letterSpacing: '-0.02em',
     fontWeight: 700,
@@ -249,9 +248,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-popup-title',
     className: 'typo-popup-title',
     desktop: '20px',
-    tablet: '19px',
-    mobile: '17px',
-    fluidClamp: 'clamp(17px, 0.7vw + 15px, 20px)',
+    tablet: '20px',
+    mobile: '20px',
+    fluidClamp: '20px',
     lineHeight: '1.28',
     letterSpacing: '-0.015em',
     fontWeight: 700,
@@ -277,17 +276,9 @@ export interface LayoutTypographyEvaluation {
   optimalChMeasure: string;
 }
 
-const clampNum = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
-
-const lerpFactor = (val: number, inMin: number, inMax: number, outMin: number, outMax: number) => {
-  if (inMax <= inMin) return outMin;
-  const t = clampNum((val - inMin) / (inMax - inMin), 0, 1);
-  return outMin + t * (outMax - outMin);
-};
-
 /**
- * Đánh giá bố cục tổng thể (kích thước Main Card đang hiển thị, chiều rộng từng cột lưới,
- * bố cục chia đôi/sidebar, và mật độ sub-card) để tự động suy ra hệ số kích thước chữ tương ứng.
+ * Giữ nguyên tỷ lệ bố cục & cỡ chữ ở mức chuẩn mặc định 100% (1:1).
+ * Không tự động phóng to hay thu nhỏ nội dung khi thay đổi kích thước khung.
  */
 export function evaluateOverallLayoutTypography(
   targetEl?: HTMLElement | null
@@ -295,8 +286,8 @@ export function evaluateOverallLayoutTypography(
   const vw = typeof window !== 'undefined' ? window.innerWidth : VIEWPORT_DESKTOP_REF;
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
 
-  let containerWidth = Math.min(1250, vw);
-  let containerHeight = Math.max(360, vh * 0.80);
+  let containerWidth = Math.min(1380, vw);
+  let containerHeight = Math.max(360, vh * 0.8);
   let maxGridCols = 1;
   let minColWidth = containerWidth;
   let subcardCount = 0;
@@ -313,15 +304,13 @@ export function evaluateOverallLayoutTypography(
     if (allMainCards.length === 1) {
       activeMainCard = allMainCards[0];
     } else if (allMainCards.length > 1) {
-      // Với các trang có nhiều Main Card nằm ngang (Thư ngỏ, Giới thiệu, Tử vi),
-      // chọn Main Card đang nằm gần tâm ngang màn hình nhất để đánh giá chính xác.
-      const viewportCenterX = vw / 2;
+      const viewportCenterY = vh / 2;
       let bestDist = Infinity;
       for (const card of allMainCards) {
         const r = card.getBoundingClientRect();
         if (r.width <= 0 || r.height <= 0) continue;
-        const cardCenterX = r.left + r.width / 2;
-        const dist = Math.abs(cardCenterX - viewportCenterX);
+        const cardCenterY = r.top + r.height / 2;
+        const dist = Math.abs(cardCenterY - viewportCenterY);
         if (dist < bestDist) {
           bestDist = dist;
           activeMainCard = card;
@@ -339,7 +328,6 @@ export function evaluateOverallLayoutTypography(
       if (rect.height > 0) containerHeight = rect.height;
       minColWidth = containerWidth;
 
-      // Kiểm tra các bố cục chia đôi (Project Detail + Sidebar Banner, Interview Video 70% + Detail 30%, Contact/AI Sidebar)
       const splitContainer = activeMainCard.querySelector<HTMLElement>(
         '#project-detail-layout, #interview-main-content, #about-intro-grid-1'
       );
@@ -360,7 +348,7 @@ export function evaluateOverallLayoutTypography(
           if (trackCount > 1) {
             const gRect = g.getBoundingClientRect();
             const gWidth = gRect.width > 0 ? gRect.width : containerWidth;
-            const colGap = parseFloat(style.columnGap || '15') || 15;
+            const colGap = parseFloat(style.columnGap || '16') || 16;
             const effectiveColW = (gWidth - colGap * (trackCount - 1)) / trackCount;
             if (trackCount > maxGridCols) maxGridCols = trackCount;
             if (effectiveColW > 80 && effectiveColW < minColWidth) {
@@ -377,77 +365,17 @@ export function evaluateOverallLayoutTypography(
     }
   }
 
-  // 1. Đánh giá liên tục theo bề rộng thực tế của Main Card (320px -> 1250px)
-  let widthFactor = 1;
-  if (containerWidth < 420) {
-    widthFactor = lerpFactor(containerWidth, 300, 420, 0.89, 0.94);
-  } else if (containerWidth < 768) {
-    widthFactor = lerpFactor(containerWidth, 420, 768, 0.94, 0.985);
-  } else if (containerWidth < 1120) {
-    widthFactor = lerpFactor(containerWidth, 768, 1120, 0.985, 1.015);
-  } else {
-    widthFactor = lerpFactor(containerWidth, 1120, 1250, 1.015, 1.035);
-  }
-
-  // 2. Đánh giá theo chiều cao khả dụng (đặc biệt màn laptop thấp <= 720px hoặc mobile landscape)
-  let heightFactor = 1;
-  if (containerHeight < 460) {
-    heightFactor = lerpFactor(containerHeight, 320, 460, 0.88, 0.93);
-  } else if (containerHeight < 640) {
-    heightFactor = lerpFactor(containerHeight, 460, 640, 0.93, 0.985);
-  } else if (containerHeight < 780) {
-    heightFactor = lerpFactor(containerHeight, 640, 780, 0.985, 1.01);
-  } else {
-    heightFactor = 1.025;
-  }
-
-  // 3. Hệ số mật độ theo bề rộng thực tế mỗi cột & số lượng subcard trong trang
-  let colDensityFactor = 1;
-  if (minColWidth < 210) {
-    colDensityFactor = 0.93;
-  } else if (minColWidth < 260) {
-    colDensityFactor = 0.96;
-  } else if (minColWidth < 320 && maxGridCols >= 3) {
-    colDensityFactor = 0.98;
-  }
-  if (subcardCount >= 18) {
-    colDensityFactor *= 0.97;
-  } else if (subcardCount >= 12) {
-    colDensityFactor *= 0.985;
-  }
-  if (isSplitLayout && containerWidth < 680) {
-    colDensityFactor *= 0.97;
-  }
-
-  // Kết hợp trọng số chiều rộng + chiều cao + mật độ cột/subcard
-  // Giới hạn mềm trong [0.92, 1.03] để tránh co chữ quá nhỏ khi thu hẹp cửa sổ
-  const combinedBase = widthFactor * 0.62 + heightFactor * 0.38;
-  const rawLayoutFactor = Math.min(combinedBase, heightFactor + 0.04) * (0.95 + colDensityFactor * 0.05);
-  const layoutFactor = Math.round(clampNum(rawLayoutFactor, 0.92, 1.03) * 1000) / 1000;
-  const colFactor = Math.round(clampNum(colDensityFactor, 0.94, 1.02) * 1000) / 1000;
-
-  const densityTier: LayoutTypographyEvaluation['densityTier'] =
-    layoutFactor <= 0.945 || colFactor <= 0.95
-      ? 'compact'
-      : layoutFactor >= 1.005 && colFactor >= 0.985
-        ? 'spacious'
-        : 'balanced';
-
-  const optimalChMeasure =
-    containerWidth < 460
-      ? '48ch'
-      : containerWidth < 720
-        ? '56ch'
-        : maxGridCols >= 3 || minColWidth < 360
-          ? '60ch'
-          : '68ch';
+  const layoutFactor = 1;
+  const colFactor = 1;
+  const densityTier: LayoutTypographyEvaluation['densityTier'] = 'balanced';
+  const optimalChMeasure = '68ch';
 
   if (typeof document !== 'undefined') {
     const rootEl = document.documentElement;
     rootEl.setAttribute('data-layout-density', densityTier);
     rootEl.setAttribute('data-layout-cols', maxGridCols >= 4 ? '4+' : String(maxGridCols));
-    rootEl.style.setProperty('--layout-typo-factor', String(layoutFactor));
-    rootEl.style.setProperty('--layout-col-factor', String(colFactor));
+    rootEl.style.setProperty('--layout-typo-factor', '1');
+    rootEl.style.setProperty('--layout-col-factor', '1');
     rootEl.style.setProperty('--layout-active-w', `${Math.round(containerWidth)}px`);
     rootEl.style.setProperty('--layout-active-h', `${Math.round(containerHeight)}px`);
     rootEl.style.setProperty('--ch-measure', optimalChMeasure);
@@ -519,12 +447,9 @@ const SCALE_LETTER_SPACING_VAR_MAP: Record<string, string> = {
 let isResizeListenerBound = false;
 
 /**
- * Cập nhật động kích thước phông chữ (Fluid Typography + Layout Evaluation) theo chiều rộng màn hình
- * và cấu trúc bố cục tổng thể thực tế:
- * - Thuộc tính gốc (font-optical-sizing, font-kerning, text-rendering, font-variant-ligatures)
- * - Tỷ lệ ký tự trên dòng tối ưu (45–75ch) thích ứng theo bố cục
- * - Chiều cao dòng không đơn vị đồng bộ cho từng cấp độ typo-h1 -> typo-caption
- * - Nhân đồng bộ mọi token với --layout-typo-factor từ hàm đánh giá bố cục
+ * Áp dụng hệ thống phông chữ chuẩn mặc định 100% (1:1) lên tài liệu:
+ * - Cố định cỡ chữ 100% chuẩn trên mọi kích thước trình duyệt, không phóng to thu nhỏ
+ * - Chỉ ngắt cột lưới và xuống dòng tự nhiên khi thu hẹp cửa sổ
  */
 export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   if (typeof document === 'undefined') return;
@@ -556,21 +481,20 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('-moz-osx-font-smoothing', 'grayscale');
   rootStyle.setProperty('text-rendering', 'optimizeLegibility');
 
-  // 3. Tỷ lệ ký tự tối ưu trên dòng (Optimal Character-per-line Measure: 45–75ch) thích ứng viewport
-  const isSmallMobile = width < 480;
+  // 3. Ghi nhận tier viewport để bố cục ngắt cột tự nhiên, không co chữ
   const isMobile = width < 768;
   const isTablet = width >= 768 && width < 1200;
   const tier = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
   rootEl.setAttribute('data-viewport-tier', tier);
   rootEl.setAttribute('data-typography-ready', 'true');
 
-  rootStyle.setProperty('--ch-measure-compact', isSmallMobile ? '45ch' : '52ch');
-  rootStyle.setProperty('--ch-measure', isSmallMobile ? '54ch' : isMobile ? '60ch' : isTablet ? '65ch' : '68ch');
-  rootStyle.setProperty('--ch-measure-wide', isMobile ? '66ch' : '75ch');
+  rootStyle.setProperty('--ch-measure-compact', '52ch');
+  rootStyle.setProperty('--ch-measure', '68ch');
+  rootStyle.setProperty('--ch-measure-wide', '75ch');
 
-  // 4. Chiều cao dòng không đơn vị chuẩn thống nhất (Unitless Line Heights)
-  rootStyle.setProperty('--lh-heading', isMobile ? '1.25' : '1.28');
-  rootStyle.setProperty('--lh-body', isMobile ? '1.58' : '1.6');
+  // 4. Chiều cao dòng không đơn vị chuẩn thống nhất 100%
+  rootStyle.setProperty('--lh-heading', '1.28');
+  rootStyle.setProperty('--lh-body', '1.6');
   rootStyle.setProperty('--lh-compact', '1.38');
   rootStyle.setProperty('--lh-kpi', '1.18');
 
@@ -585,7 +509,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--ls-caption', '0.01em');
   rootStyle.setProperty('--ls-label', '0.025em');
 
-  // 6. Đặt hệ số mặc định và liên kết toàn bộ token cỡ chữ với --layout-typo-factor
+  // 6. Khóa hệ số thu phóng về đúng 1 (100% mặc định)
   try {
     localStorage.removeItem('hungthai_font_scale_v1');
   } catch {
@@ -596,29 +520,14 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
     document.body.removeAttribute('data-font-scale');
   }
   rootStyle.setProperty('--font-scale', '1');
-
-  /**
-   * Nhân --layout-typo-factor vào BÊN TRONG tham số ưu tiên (preferred) của clamp(min, pref, max)
-   * thay vì nhân bên ngoài, nhằm bảo vệ tuyệt đối ngưỡng min (không bị quá nhỏ trên màn hẹp)
-   * và ngưỡng max (không bị quá to trên màn lớn).
-   */
-  const buildBoundedFluidSize = (fluidExpr: string): string => {
-    const match = fluidExpr.trim().match(/^clamp\(\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^)]+?)\s*\)$/i);
-    if (!match) {
-      return `calc(${fluidExpr} * var(--layout-typo-factor, 1))`;
-    }
-    const [, minVal, preferredVal, maxVal] = match;
-    return `clamp(${minVal}, calc((${preferredVal}) * var(--layout-typo-factor, 1)), ${maxVal})`;
-  };
+  rootStyle.setProperty('--layout-typo-factor', '1');
+  rootStyle.setProperty('--layout-col-factor', '1');
 
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
-    const isLockedMobileInput = key === 'input' && isMobile;
-    const derivedFluidSize = isLockedMobileInput
-      ? '16px'
-      : buildBoundedFluidSize(spec.fluidClamp);
+    const fixedDefaultSize = spec.desktop;
 
-    rootStyle.setProperty(spec.cssVar, derivedFluidSize);
-    rootStyle.setProperty(`${spec.cssVar}-fluid`, spec.fluidClamp);
+    rootStyle.setProperty(spec.cssVar, fixedDefaultSize);
+    rootStyle.setProperty(`${spec.cssVar}-fluid`, fixedDefaultSize);
 
     const lhVar = SCALE_LINE_HEIGHT_VAR_MAP[key];
     if (lhVar) {
@@ -631,10 +540,9 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
     }
   });
 
-  // Đánh giá bố cục tổng thể hiện tại để suy ra --layout-typo-factor & --layout-col-factor thực tế
   evaluateOverallLayoutTypography();
 
-  // 7. Gắn listener lắng nghe thay đổi kích thước màn hình (chỉ gắn 1 lần duy nhất)
+  // 7. Gắn listener cập nhật tier viewport khi resize (cỡ chữ vẫn giữ cố định 100%)
   if (typeof window !== 'undefined' && !isResizeListenerBound) {
     isResizeListenerBound = true;
     let rAFId: number | null = null;

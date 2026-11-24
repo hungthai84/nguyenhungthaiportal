@@ -203,7 +203,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     layerDepth,
     autoTimeTheme,
     language,
-    activeWallpaperId: activeWallpaper?.id || 'theme-bg-light-deep-ocean',
+    activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
   });
   latestUiRef.current = {
     cardStyle,
@@ -211,7 +211,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     layerDepth,
     autoTimeTheme,
     language,
-    activeWallpaperId: activeWallpaper?.id || 'theme-bg-light-deep-ocean',
+    activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
   };
 
   useEffect(() => {
@@ -370,7 +370,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const userPath = `users/${user.uid}`;
     const timer = setTimeout(() => {
-      const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'theme-bg-light-deep-ocean', 'theme-bg');
+      const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'custom-wp-1788112774646', 'theme-bg');
       const safeLayerDepth = Math.max(0, Math.min(200, Math.round(layerDepth)));
       const basePayload: Record<string, unknown> = {
         cardStyle: normalizeCardStyle(cardStyle),

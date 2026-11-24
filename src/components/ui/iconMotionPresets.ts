@@ -49,23 +49,44 @@ export interface IconTriggerOptions {
 
 /**
  * Coordinates interactive icon animation triggers across pointer hover,
- * external isHovered state, keyboard focus (:focus-visible / focusin),
- * and mobile touch tap bursts for direct icons and parent interactive triggers.
- * Intentionally avoids continuous active-tab looping so icons rest calmly.
+ * external isHovered state, page/tab selection (isActive transition),
+ * click/tap bursts, and keyboard focus (:focus-visible / focusin).
+ * Intentionally avoids continuous active-tab looping so icons rest calmly after moving.
  */
-export function useIconInteractionTrigger(
+function useIconInteractionState(
   svgRef: RefObject<SVGSVGElement | null>,
   {
+    isActive = false,
     isHovered: externalHovered,
     hoverTrigger = true,
     disableAncestorTrigger = false,
     prefersReducedMotion,
   }: IconTriggerOptions
-): 'idle' | 'hover' {
+): { animateState: 'idle' | 'hover'; replayCount: number } {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isTapBurst, setIsTapBurst] = useState(false);
+  const [replayCount, setReplayCount] = useState(0);
   const tapTimerRef = useRef<number | null>(null);
+  const prevActiveRef = useRef<boolean>(isActive);
+
+  useEffect(() => {
+    const wasActive = prevActiveRef.current;
+    prevActiveRef.current = isActive;
+
+    if (prefersReducedMotion) return;
+    if (!wasActive && isActive) {
+      setIsTapBurst(true);
+      setReplayCount((c) => c + 1);
+      if (tapTimerRef.current) {
+        window.clearTimeout(tapTimerRef.current);
+      }
+      tapTimerRef.current = window.setTimeout(() => {
+        setIsTapBurst(false);
+        tapTimerRef.current = null;
+      }, 850);
+    }
+  }, [isActive, prefersReducedMotion]);
 
   useEffect(() => {
     if (prefersReducedMotion || !hoverTrigger) {
@@ -107,6 +128,18 @@ export function useIconInteractionTrigger(
       }
     }
 
+    const triggerBurst = () => {
+      setIsTapBurst(true);
+      setReplayCount((c) => c + 1);
+      if (tapTimerRef.current) {
+        window.clearTimeout(tapTimerRef.current);
+      }
+      tapTimerRef.current = window.setTimeout(() => {
+        setIsTapBurst(false);
+        tapTimerRef.current = null;
+      }, 850);
+    };
+
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
 
@@ -130,15 +163,12 @@ export function useIconInteractionTrigger(
     const handlePointerDown = (e: Event) => {
       const pe = e as PointerEvent;
       if (pe.pointerType !== 'mouse') {
-        setIsTapBurst(true);
-        if (tapTimerRef.current) {
-          window.clearTimeout(tapTimerRef.current);
-        }
-        tapTimerRef.current = window.setTimeout(() => {
-          setIsTapBurst(false);
-          tapTimerRef.current = null;
-        }, 720);
+        triggerBurst();
       }
+    };
+
+    const handleClick = () => {
+      triggerBurst();
     };
 
     targetEl.addEventListener('mouseenter', handleMouseEnter);
@@ -146,6 +176,7 @@ export function useIconInteractionTrigger(
     targetEl.addEventListener('focusin', handleFocusIn);
     targetEl.addEventListener('focusout', handleFocusOut);
     targetEl.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    targetEl.addEventListener('click', handleClick);
 
     return () => {
       targetEl.removeEventListener('mouseenter', handleMouseEnter);
@@ -153,6 +184,7 @@ export function useIconInteractionTrigger(
       targetEl.removeEventListener('focusin', handleFocusIn);
       targetEl.removeEventListener('focusout', handleFocusOut);
       targetEl.removeEventListener('pointerdown', handlePointerDown);
+      targetEl.removeEventListener('click', handleClick);
       if (tapTimerRef.current) {
         window.clearTimeout(tapTimerRef.current);
         tapTimerRef.current = null;
@@ -160,27 +192,50 @@ export function useIconInteractionTrigger(
     };
   }, [svgRef, hoverTrigger, disableAncestorTrigger, prefersReducedMotion]);
 
-  if (prefersReducedMotion) return 'idle';
+  if (prefersReducedMotion) return { animateState: 'idle', replayCount: 0 };
   if (typeof externalHovered === 'boolean') {
-    return externalHovered || isHovered || isFocused || isTapBurst ? 'hover' : 'idle';
+    return {
+      animateState: externalHovered || isHovered || isFocused || isTapBurst ? 'hover' : 'idle',
+      replayCount,
+    };
   }
-  return isHovered || isFocused || isTapBurst ? 'hover' : 'idle';
+  return {
+    animateState: isHovered || isFocused || isTapBurst ? 'hover' : 'idle',
+    replayCount,
+  };
+}
+
+export function useIconInteractionTrigger(
+  svgRef: RefObject<SVGSVGElement | null>,
+  options: IconTriggerOptions
+): 'idle' | 'hover' {
+  return useIconInteractionState(svgRef, options).animateState;
 }
 
 /**
  * Imperative Motion AnimationControls driver (Calendar1 pattern)
- * synchronizing hover/focus/tap states to `controls.start('hover' | 'idle')`.
+ * synchronizing hover/focus/tap/active-selection states to `controls.start('hover' | 'idle')`.
  */
 export function useIconAnimationControls(
   svgRef: RefObject<SVGSVGElement | null>,
   options: IconTriggerOptions
 ): { controls: ReturnType<typeof useAnimation>; animateState: 'idle' | 'hover' } {
   const controls = useAnimation();
-  const animateState = useIconInteractionTrigger(svgRef, options);
+  const { animateState, replayCount } = useIconInteractionState(svgRef, options);
+  const prevReplayRef = useRef(0);
 
   useEffect(() => {
+    if (!options.prefersReducedMotion && replayCount !== prevReplayRef.current) {
+      prevReplayRef.current = replayCount;
+      controls.stop();
+      controls.set('idle');
+      const rafId = window.requestAnimationFrame(() => {
+        controls.start('hover');
+      });
+      return () => window.cancelAnimationFrame(rafId);
+    }
     controls.start(animateState);
-  }, [controls, animateState]);
+  }, [controls, animateState, replayCount, options.prefersReducedMotion]);
 
   return { controls, animateState };
 }

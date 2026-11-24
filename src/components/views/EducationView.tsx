@@ -274,22 +274,31 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [matchedControlWidth, setMatchedControlWidth] = useState<number>(216);
+  const [matchedControlWidth, setMatchedControlWidth] = useState<number | null>(null);
 
   useEffect(() => {
     const syncControlSize = () => {
       const btn = filterButtonRef.current;
-      if (!btn) return;
+      const row = filterMenuRef.current;
+      if (!btn || !row) return;
+      const rowW = Math.floor(row.getBoundingClientRect().width);
       const w = Math.ceil(btn.getBoundingClientRect().width);
+      if (rowW <= 0) return;
+      if (rowW < 450) {
+        setMatchedControlWidth(null);
+        return;
+      }
       if (w > 0) {
-        setMatchedControlWidth(Math.max(w, 216));
+        const maxPerControl = Math.max(160, Math.floor((rowW - 12) / 2));
+        setMatchedControlWidth(Math.min(Math.max(w, 200), maxPerControl));
       }
     };
     syncControlSize();
     let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined' && filterButtonRef.current) {
+    if (typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(syncControlSize);
-      ro.observe(filterButtonRef.current);
+      if (filterButtonRef.current) ro.observe(filterButtonRef.current);
+      if (filterMenuRef.current) ro.observe(filterMenuRef.current);
     }
     window.addEventListener('resize', syncControlSize);
     return () => {
@@ -819,7 +828,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       data-element-type="container"
       data-element-page="education"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-hidden no-scrollbar font-play select-none text-left rounded-none box-border"
     >
       {/* ========================================================================= */}
       {/* CARD HỌC VẤN: CHỨA TOÀN BỘ NỘI DUNG TRANG, FORMAT NHƯ CARD GIỚI THIỆU 1   */}
@@ -830,7 +839,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-type="container"
         data-element-page="education"
         data-element-parent="education-page-container"
-        className="page-cards-track"
+        className="page-cards-track min-w-0 max-w-full"
       >
       <div
         id="education-main-card"
@@ -845,14 +854,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       <div
         id="education-main-scroll-viewport"
         className={cn(
-          'main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
+          'main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
           selectedCourse ? 'overflow-hidden' : 'overflow-y-auto'
         )}
       >
       <div
         id="education-main-wrapper"
         className={cn(
-          'w-full flex-grow flex flex-col gap-[15px] justify-start',
+          'w-full max-w-full min-w-0 flex-1 flex flex-col gap-[15px] justify-start box-border',
           selectedCourse && 'h-full flex-1 min-h-0 gap-0'
         )}
       >
@@ -864,7 +873,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           data-element-type="banner-card"
           data-element-page="education"
           data-section-card="true"
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+          className="banner-card hero-banner group w-full max-w-full min-w-0 min-h-[140px] h-auto lg:min-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
           style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
         >
         <div
@@ -900,8 +909,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           </p>
         </div>
 
-        <div id="education-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
-          <div className="relative inline-block text-left">
+        <div id="education-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0" ref={filterMenuRef}>
+          <div className="relative inline-block max-w-full min-w-0 text-left">
             <button
               id="education-filter-toggle-btn"
               ref={filterButtonRef}
@@ -910,17 +919,17 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 SoundEngine.playTap();
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
-              style={{ minWidth: `${matchedControlWidth}px` }}
-              className="banner-control-pill h-auto min-h-9 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
+              style={matchedControlWidth ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' } : { maxWidth: '100%' }}
+              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
               aria-haspopup="listbox"
             >
               <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
-              <span>{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
+              <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
               {activeCategory !== 'all' && (
-                <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono">
+                <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
                   {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
                 </span>
               )}
@@ -942,7 +951,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
                   role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[min(14rem,calc(100vw-48px))] max-w-[min(22rem,calc(100vw-48px))] rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                 >
                   {TRAINING_TYPE_CATEGORIES.map((cat) => {
                     const isActive = activeCategory === cat.id;
@@ -998,10 +1007,12 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             id="education-view-mode-switcher"
             role="group"
             aria-label={isEn ? 'View mode' : 'Dạng view'}
-            style={{
-              minWidth: `${matchedControlWidth}px`,
-            }}
-            className="banner-control-pill h-auto min-h-9 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
+            style={
+              matchedControlWidth
+                ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' }
+                : { maxWidth: '100%' }
+            }
+            className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink"
           >
             <button
               type="button"
@@ -1079,7 +1090,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           />
         );
       })() : mainSection === 'skills' ? (
-        <div className="w-full flex-1 min-h-0">
+        <div className="w-full max-w-full min-w-0 flex-1 min-h-0">
           <SkillsView currentTheme={currentTheme} embedded />
         </div>
       ) : (
@@ -1357,7 +1368,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
                   {course.result && (
                     <div
-                      className="mt-1 px-2.5 py-1 rounded-[10px] border flex items-start gap-1.5 min-w-0 shadow-xs self-start text-left"
+                      className="mt-1 px-2.5 py-1 rounded-[10px] border flex items-start gap-1.5 min-w-0 max-w-full shadow-xs self-start text-left"
                       style={{
                         backgroundColor: `${cardColor}12`,
                         borderColor: `${cardColor}35`,

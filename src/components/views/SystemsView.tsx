@@ -1750,17 +1750,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               >
                 {filteredSystems.map((item) => {
                   const meta = SYSTEM_DESIGN_MAP[item.id] || SYSTEM_DESIGN_MAP.sdp;
-                  const tech = SYSTEM_TECH_SPECS_MAP[item.id] || SYSTEM_TECH_SPECS_MAP.sdp;
                   const accentColor = getAccentColor(item.id);
-                  const localizedTitle = isEn
-                    ? item.nameEn || item.name
-                    : item.nameVi || item.name;
                   const localizedDesc = isEn
                     ? item.descEn || item.description
                     : item.descVi || item.description;
                   const isDemoActive = activeCardDemoId === item.id;
                   const isHovered = hoveredCardVideoId === item.id;
-                  const isPendingBi = item.id === 'bi' || !item.url;
 
                   const hoverFloodBg = isLeatherTheme
                     ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.30) 0%, rgba(217, 145, 58, 0.22) 52%, rgba(120, 72, 24, 0.14) 100%)'
@@ -1815,10 +1810,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           : isLight
                             ? meta.borderLight
                             : meta.borderDark,
-                        height: '100%',
+                        height: 'auto',
                         ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
                       }}
-                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-3.5 box-border w-full h-full flex flex-col justify-between text-left font-semibold overflow-hidden cursor-pointer"
+                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left font-semibold overflow-hidden cursor-pointer"
                     >
                       {/* Lớp Color Reveal lan màu dần khắp thẻ Hệ thống khi di chuột / focus */}
                       <span
@@ -1930,17 +1925,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Icon & viết tắt, Tên đầy đủ, Mô tả 3 dòng; Phải: 3 hàng hình ảnh) */}
+                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Hàng 1 Icon & viết tắt, Hàng 2 Tên đầy đủ, Hàng 3 Mô tả 3 dòng; Phải: Hình ảnh cao bằng 3 hàng) */}
                       {(() => {
                         const systemFullName = isEn
                           ? meta.subtitle || item.nameEn || item.name
                           : SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.nameVi || item.name;
-                        const connIds = SYSTEM_CONNECTIONS_MAP[item.id] || ['sdp', 'crm'];
                         const primaryImg = meta.illustrationSrc || item.imageUrl;
-                        const secondImg =
-                          SYSTEM_DESIGN_MAP[connIds[0]]?.illustrationSrc || primaryImg;
-                        const thirdImg =
-                          SYSTEM_DESIGN_MAP[connIds[1]]?.illustrationSrc || primaryImg;
 
                         const handleRightMediaEnter = () => {
                           if (item.videoUrl) setHoveredCardVideoId(item.id);
@@ -1967,12 +1957,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         return (
                           <div
                             className={cn(
-                              'system-card-split-grid relative z-10 w-full flex-1 grid grid-cols-2 grid-rows-[auto_auto_1fr] gap-x-0 gap-y-2 min-w-0 items-stretch transition-opacity duration-200',
+                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 items-stretch transition-opacity duration-200',
                               (isDemoActive || isHovered) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                             )}
                           >
                             {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề viết tắt hệ thống */}
-                            <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-1.5 self-center">
+                            <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-1.5 self-center">
                               <WebIcon
                                 name={meta.iconName}
                                 className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
@@ -1987,8 +1977,28 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </h3>
                             </div>
 
-                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1, 2, 3: Hình ảnh duy nhất trải dài toàn bộ 3 hàng bên phải */}
-                            <div className="col-start-2 row-start-1 row-span-3 min-w-0 pl-2.5 flex items-center justify-center self-stretch h-full">
+                            {/* CỘT BÊN TRÁI (50%) - HÀNG 2: Tên đầy đủ (6 từ tiếng Việt / Tên đầy đủ tiếng Anh) */}
+                            <div className="col-start-1 row-start-2 min-w-0 flex items-center">
+                              <h4
+                                className="typo-h5 font-play font-bold m-0 leading-snug text-[var(--text-primary)] line-clamp-2"
+                                title={systemFullName}
+                              >
+                                {systemFullName}
+                              </h4>
+                            </div>
+
+                            {/* CỘT BÊN TRÁI (50%) - HÀNG 3: Mô tả ngắn gọn hệ thống công dụng khoảng 3 hàng */}
+                            <div className="col-start-1 row-start-3 min-w-0 flex items-start">
+                              <p
+                                className="typo-body-sm font-normal text-[var(--text-secondary)] m-0 leading-[1.45] line-clamp-3"
+                                title={localizedDesc}
+                              >
+                                {localizedDesc}
+                              </p>
+                            </div>
+
+                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1..3: Hình ảnh duy nhất chiều cao bằng 3 hàng cộng lại */}
+                            <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
                               <div
                                 role={item.videoUrl ? 'button' : undefined}
                                 tabIndex={item.videoUrl ? 0 : undefined}
@@ -2012,7 +2022,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 }
                                 data-media-card="image"
                                 className={cn(
-                                  'system-card-image-slot relative w-full h-full min-h-[148px] sm:min-h-[168px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35 transition-transform duration-300',
+                                  'system-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35 transition-transform duration-300',
                                   item.videoUrl && 'cursor-pointer hover:scale-[1.02]'
                                 )}
                               >

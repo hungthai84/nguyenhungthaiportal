@@ -203,7 +203,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
             gap: '10px',
             height: '100%',
             minHeight: '100%',
@@ -212,7 +212,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             paddingRight: '0px',
             boxSizing: 'border-box',
           }}
-          className="page-cards-track flex flex-row items-center justify-start gap-[10px] w-full h-full min-h-full box-border"
+          className="page-cards-track flex flex-row items-center justify-center gap-[10px] w-full h-full min-h-full box-border"
         >
           <div
             id="home-main-card-1"
@@ -275,12 +275,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <div className="space-y-1.5 max-w-xl">
                     <h1
                       id="home-hero-heading"
-                      className="font-play font-extrabold tracking-tight leading-[1.12] text-[clamp(1.75rem,3.6vw,3.15rem)]"
+                      className="font-play font-extrabold tracking-tight leading-[1.12] typo-h1"
                       style={{ color: 'var(--text-heading, var(--text-primary))' }}
                     >
                       <span className="block">Nguyễn Hùng Thái</span>
                       <span
-                        className="block mt-0.5 text-[clamp(1.25rem,2.4vw,2.15rem)] font-bold"
+                        className="block mt-0.5 typo-h2 font-bold"
                         style={{ color: 'var(--text-link, var(--color-primary))' }}
                       >
                         {isEn

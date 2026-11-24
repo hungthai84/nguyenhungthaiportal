@@ -15,30 +15,31 @@
   --font-quote: 'Dancing Script', cursive;
   --font-scale: 1;
   --layout-typo-factor: 1;
+  --layout-col-factor: 1;
 
-  /* Unified Fluid Typography Target Matrix (Tối ưu theo môi trường và bố cục 1250px + Bento grid) */
-  --fs-display: clamp(26px, 2.2vw + 16px, 42px);
-  --fs-h1: clamp(22px, 1.4vw + 14px, 32px);
-  --fs-h2: clamp(19px, 1.1vw + 13px, 24px);
-  --fs-h3: clamp(16px, 0.75vw + 12px, 20px);
-  --fs-h4: clamp(14.5px, 0.5vw + 11.5px, 17px);
-  --fs-h5: clamp(13.5px, 0.35vw + 11px, 15.5px);
+  /* Unified 100% Standard Default Typography Matrix (No dynamic vw/cqi zoom) */
+  --fs-display: 42px;
+  --fs-h1: 32px;
+  --fs-h2: 24px;
+  --fs-h3: 20px;
+  --fs-h4: 17px;
+  --fs-h5: 15.5px;
 
-  --fs-body-lg: clamp(15px, 0.3vw + 13.5px, 16.5px);
-  --fs-body: clamp(14px, 0.2vw + 13px, 15px);
-  --fs-body-sm: clamp(12.5px, 0.15vw + 12px, 13.5px);
+  --fs-body-lg: 16.5px;
+  --fs-body: 15px;
+  --fs-body-sm: 13.5px;
 
-  --fs-caption: clamp(11.5px, 0.15vw + 11px, 12px);
-  --fs-label: clamp(11.5px, 0.15vw + 11px, 12px);
-  --fs-badge: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-caption: 12px;
+  --fs-label: 12px;
+  --fs-badge: 12px;
   --fs-overline: 10px;
-  --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
-  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
-  --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-button: 14px;
+  --fs-nav: 14px;
+  --fs-tab: 14px;
   --fs-input: 16px;
-  --fs-kpi: clamp(24px, 1.5vw + 18px, 36px);
-  --fs-quote: clamp(16px, 0.75vw + 13px, 21px);
-  --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
+  --fs-kpi: 36px;
+  --fs-quote: 20px;
+  --fs-popup-title: 20px;
 
   /* Cấu hình hình nền mặc định: 0% mờ (opacity 100%), độ rõ nét 0px blur */
   --wallpaper-bg-blur: 0px;
@@ -504,17 +505,17 @@
   --outline-offset-image-card: 0px;
 
   /* Container Max Width & Unified Horizontal Frame Width (Equal to Main Card) */
-  --main-card-target-w: 1000px;
-  --main-card-target-h: 600px;
-  --container-max-w: var(--main-card-target-w, 1000px);
+  --main-card-target-w: clamp(1000px, 78vw, 1380px);
+  --main-card-target-h: 100%;
+  --container-max-w: var(--main-card-target-w, 1380px);
   --shell-section-gap: 0px;
   --shell-header-height: 72px;
   --shell-footer-height: 72px;
   --about-peek-reserve: 112px;
   --main-cards-gap: 10px;
-  --main-card-w: clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px));
-  --main-card-h: min(var(--main-card-target-h, 600px), 100%);
-  --shared-frame-w: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
+  --main-card-w: clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px));
+  --main-card-h: min(var(--main-card-target-h, 100%), 100%);
+  --shared-frame-w: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px)));
 }
 
 @media (min-width: 1600px) {

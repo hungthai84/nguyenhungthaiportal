@@ -195,46 +195,26 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 }
 
 /* ------------------------------------------------------------------------- */
-/* 2. FLUID CONTAINER-BASED TYPOGRAPHY & SPACING TOKENS (cqi)                */
-/* Applied on descendants of .page-main-card so cqi resolves against the     */
-/* actual Main Card inline width rather than the outer browser viewport.     */
+/* 2. STANDARD 100% TYPOGRAPHY & SPACING TOKENS INSIDE MAIN CARDS            */
+/* Fixed 1:1 default scale — no dynamic cqi/vw shrink or zoom                */
 /* ------------------------------------------------------------------------- */
 .page-main-card > *,
 [data-main-card="true"]:not(#pdf-page-container) > *,
 #about-intro-card-1 > *,
 #about-intro-card-2 > * {
-  --mc-gap: clamp(12px, 1.35cqi, 16px);
-  --mc-card-pad: clamp(12px, 1.45cqi, 16px);
-  --mc-subcard-pad: clamp(10px, 1.1cqi, 12px);
-
-  --fs-display: clamp(26px, calc((2.2cqi + 16px) * var(--layout-typo-factor, 1)), 42px);
-  --fs-h1: clamp(22px, calc((1.4cqi + 14px) * var(--layout-typo-factor, 1)), 32px);
-  --fs-h2: clamp(19px, calc((0.9cqi + 13px) * var(--layout-typo-factor, 1)), 24px);
-  --fs-h3: clamp(16px, calc((0.7cqi + 11.5px) * var(--layout-typo-factor, 1)), 20px);
-  --fs-h4: clamp(14.5px, calc((0.45cqi + 11px) * var(--layout-typo-factor, 1)), 17px);
-  --fs-h5: clamp(13.5px, calc((0.35cqi + 11px) * var(--layout-typo-factor, 1)), 15.5px);
-  --fs-body-lg: clamp(15px, calc((0.35cqi + 12px) * var(--layout-typo-factor, 1)), 16.5px);
-  --fs-body: clamp(14px, calc((0.25cqi + 11.8px) * var(--layout-typo-factor, 1)), 15px);
-  --fs-body-sm: clamp(12.5px, calc((0.2cqi + 10.8px) * var(--layout-typo-factor, 1)), 13.5px);
-  --fs-caption: clamp(11.5px, 0.15cqi + 10.5px, 12px);
-  --fs-label: clamp(11.5px, 0.15cqi + 10.5px, 12px);
-  --fs-badge: clamp(11.5px, 0.15cqi + 10.5px, 12px);
-  --fs-overline: 10px;
-  --fs-button: clamp(13px, calc((0.2cqi + 11.5px) * var(--layout-typo-factor, 1)), 14px);
-  --fs-nav: clamp(13.5px, calc((0.15cqi + 12px) * var(--layout-typo-factor, 1)), 14px);
-  --fs-tab: clamp(13.5px, calc((0.15cqi + 12px) * var(--layout-typo-factor, 1)), 14px);
-  --fs-kpi: clamp(24px, calc((1.6cqi + 13px) * var(--layout-typo-factor, 1)), 36px);
-  --fs-quote: clamp(17px, calc((1.0cqi + 10px) * var(--layout-typo-factor, 1)), 24px);
-  --fs-popup-title: clamp(17px, calc((0.6cqi + 12px) * var(--layout-typo-factor, 1)), 20px);
+  --mc-gap: 16px;
+  --mc-card-pad: 16px;
+  --mc-subcard-pad: 12px;
+  --layout-typo-factor: 1;
+  --layout-col-factor: 1;
 }
 
-/* Mật độ cột/subcard cao sẽ tinh chỉnh nhẹ chữ trong subcard để giữ bố cục thoáng, không vỡ dòng */
 .page-main-card [data-subcard="true"],
 .page-main-card .sub-card,
 .page-main-card .exp-detail-subcard,
 .page-main-card .skill-swot-subcard {
-  --fs-body: clamp(13.5px, calc((0.32cqi + 10.8px) * var(--layout-typo-factor, 1) * var(--layout-col-factor, 1)), 15px);
-  --fs-body-sm: clamp(12.5px, calc((0.25cqi + 10px) * var(--layout-typo-factor, 1) * var(--layout-col-factor, 1)), 13.5px);
+  --layout-typo-factor: 1;
+  --layout-col-factor: 1;
 }
 
 /* Fluid gaps across top-level Bento & View Grids inside Main Cards */
@@ -248,9 +228,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #about-intro-card-2-scroll-viewport,
 #about-intro-grid-2,
 #services-main-content,
-#services-main-content .services-cards-grid,
 #interview-main-content,
-#systems-page-container .systems-cards-grid,
 #interface-page-container .interface-group-grid,
 #interface-page-container .interface-themes-grid,
 #projects-page-container .grid,
@@ -261,6 +239,16 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   column-gap: var(--mc-gap, 15px) !important;
   grid-auto-flow: dense !important;
   align-items: stretch !important;
+}
+
+#services-main-content .services-cards-grid,
+#systems-page-container .systems-cards-grid {
+  gap: var(--mc-gap, 15px) !important;
+  row-gap: var(--mc-gap, 15px) !important;
+  column-gap: var(--mc-gap, 15px) !important;
+  grid-auto-rows: auto !important;
+  align-items: start !important;
+  align-content: start !important;
 }
 
 /* ========================================================================= */
@@ -295,7 +283,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #horoscope-page-container [data-subcard="true"],
 #horoscope-page-container .sub-card,
 #horoscope-page-container .domain-card-sub {
-  padding: clamp(12px, 1.4cqi, 16px) !important;
+  padding: 12px !important;
   border-radius: var(--radius-subcard, 14px) !important;
   box-sizing: border-box !important;
   backdrop-filter: blur(var(--surface-secondary-blur, 16px)) saturate(135%);
@@ -392,14 +380,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #horoscope-page-container [data-subcard="true"],
 #horoscope-page-container .sub-card {
   padding: var(--mc-subcard-pad, 12px) !important;
-  gap: clamp(8px, 1cqi, 12px) !important;
+  gap: 10px !important;
 }
 
 .page-main-card .hero-banner :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
 .page-main-card .banner-card :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote),
 .page-main-card [id$="-hero-banner"] :is(p.font-italianno, p.font-handwriting, p.font-quote, p.font-moon-dance, .banner-quote) {
   font-family: var(--font-quote, 'Dancing Script', cursive) !important;
-  font-size: var(--fs-quote, clamp(1.08rem, calc((1.35cqi + 0.56rem) * var(--layout-typo-factor, 1)), 1.55rem)) !important;
+  font-size: var(--fs-quote, 20px) !important;
   line-height: 1.38 !important;
 }
 
@@ -476,7 +464,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   overflow-y: hidden !important;
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
-  gap: clamp(8px, 1cqi, 12px) !important;
+  gap: 10px !important;
 }
 
 #brands-bento-grid .partner-brand-tile {
@@ -487,8 +475,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   flex: 0 0 auto !important;
   width: max-content !important;
   white-space: nowrap !important;
-  padding: clamp(7px, 0.9cqi, 10px) clamp(10px, 1.15cqi, 14px) !important;
-  gap: clamp(8px, 0.9cqi, 10px) !important;
+  padding: 8px 12px !important;
+  gap: 8px !important;
   scroll-snap-align: start;
 }
 
@@ -606,24 +594,24 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   #systems-page-container .systems-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   #projects-grid.projects-responsive-grid {
@@ -749,27 +737,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services shrinks cleanly to 2 columns (2 cols x 3 rows) matching Systems */
+  /* Services shrinks cleanly to 2 columns on medium widths with content-fit height */
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
-  /* Systems shrinks cleanly to 2 columns (2 cols x 3 rows) on medium/compact widths */
+  /* Systems shrinks cleanly to 2 columns on medium widths with content-fit height */
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -900,23 +888,23 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns */
@@ -1049,23 +1037,23 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: 1fr !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: stretch !important;
+    align-items: start !important;
   }
 
   /* Projects auto-fit responsive columns on wide desktop */
@@ -1120,7 +1108,7 @@ html #home-stats-card,
 html #home-intro-card,
 html #home-capabilities-card,
 html #home-achievements-card {
-  padding: clamp(14px, 1.5cqi, 20px) !important;
+  padding: 16px !important;
   max-width: min(100%, 340px) !important;
 }
 
@@ -1150,19 +1138,43 @@ html .home-hero-card .home-hero-badge {
 }
 
 html .home-hero-card :is(h3.card-title, .card-title-synced, [data-card-title="true"]) {
-  font-size: var(--fs-h4, clamp(16px, 1.15cqi, 20px)) !important;
+  font-size: var(--fs-h4, 17px) !important;
   line-height: var(--lh-h4, 1.32) !important;
   margin-bottom: 0 !important;
 }
 
 html .home-hero-card p {
-  font-size: var(--fs-body-sm, 14px) !important;
+  font-size: var(--fs-body-sm, 13.5px) !important;
   line-height: var(--lh-body-sm, 1.55) !important;
 }
 
 html .home-hero-card button.theme-modal-close {
   min-height: 36px !important;
   padding: 6px 14px !important;
-  font-size: var(--fs-button, 13.5px) !important;
+  font-size: var(--fs-button, 14px) !important;
 }
 
+
+/* ========================================================================= */
+/* E. BENTO GRID STANDARDIZED ROW ALIGNMENT UTILITY CLASSES                  */
+/* ========================================================================= */
+.bento-layout-grid {
+  display: grid !important;
+  align-items: stretch !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.bento-grid-item {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+}

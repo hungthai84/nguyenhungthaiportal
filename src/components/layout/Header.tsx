@@ -580,6 +580,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ) : (
                       <WebIcon
                         name={page.icon || 'home'}
+                        isActive={isSelected}
                         className="nav-pill-icon-svg w-[18px] h-[18px] text-center block shrink-0"
                       />
                     )}

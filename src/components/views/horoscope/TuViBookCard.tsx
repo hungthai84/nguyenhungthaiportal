@@ -502,7 +502,6 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [scale, setScale] = useState(fitToHeight ? 0.56 : 1);
   const [isDarkState, setIsDarkState] = useState(() => {
     if (typeof document === 'undefined') return false;
     return (
@@ -534,41 +533,7 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
   const containerRef = useRef<HTMLDivElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const natCardRef = useRef<HTMLDivElement>(null);
-
-  // Tự động co giãn sân khấu 840x600 khớp hoàn hảo theo cả độ rộng & chiều cao thẻ chứa (container)
-  useEffect(() => {
-    const updateScale = () => {
-      const baseWidth = 840;
-      const baseHeight = 600;
-      const el = containerRef.current;
-      const containerWidth = el?.clientWidth || window.innerWidth - 20;
-      const availableWidth = Math.min(containerWidth, window.innerWidth - 20);
-      let nextScale = availableWidth < baseWidth ? availableWidth / baseWidth : 1;
-
-      if (fitToHeight && el) {
-        const containerHeight = el.clientHeight;
-        if (containerHeight > 80) {
-          const heightScale = Math.max(0.32, (containerHeight - 6) / baseHeight);
-          nextScale = Math.min(nextScale, heightScale);
-        }
-      }
-
-      setScale(Math.max(0.32, Math.min(1, nextScale)));
-    };
-    updateScale();
-    window.addEventListener('resize', updateScale);
-
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
-      ro = new ResizeObserver(updateScale);
-      ro.observe(containerRef.current);
-    }
-
-    return () => {
-      window.removeEventListener('resize', updateScale);
-      if (ro) ro.disconnect();
-    };
-  }, [fitToHeight]);
+  void fitToHeight;
 
   // Đóng sách / tắt trạng thái active khi bấm ra ngoài khu vực sách
   useEffect(() => {
@@ -783,7 +748,8 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
 
         .nat-stage {
           width: 100%;
-          overflow-x: clip;
+          overflow-x: auto;
+          overflow-y: visible;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -1581,11 +1547,11 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
       `}</style>
 
       {/* ================= SÂN KHẤU BÌA SÁCH TỬ VI ================= */}
-      <div className="nat-stage" style={{ height: `${600 * scale}px` }}>
+      <div className="nat-stage" style={{ height: '600px' }}>
         <div
           ref={natCardRef}
           className={`nat ${isActive ? 'is-active' : ''} ${isBookOpen ? 'is-book-open' : ''}`}
-          style={{ transform: scale < 1 ? `scale(${scale})` : 'none' }}
+          style={{ transform: 'none' }}
           tabIndex={0}
         >
           {/* Vòng la bàn Bát Quái xoay phía sau */}

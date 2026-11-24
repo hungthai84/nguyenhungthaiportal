@@ -312,6 +312,18 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
   // Đồng bộ chiều cao Thẻ chính tử vi 1 bằng chính xác chiều cao thẻ chính trang Dịch vụ (#service-main-card)
   useEffect(() => {
+    const getHoroscopeTargetId = (idx: number) => {
+      const slideToIdMap: Record<number, string> = {
+        0: 'horoscope-card-1',
+        1: 'horoscope-card-2',
+        2: 'horoscope-card-3',
+        3: 'horoscope-card-pillars',
+        4: 'horoscope-card-4',
+        5: 'horoscope-card-5',
+      };
+      return slideToIdMap[idx] || `horoscope-card-${idx + 1}`;
+    };
+
     const syncMainCardHeight = () => {
       const viewportEl = document.getElementById('global-content-viewport');
       const container = horoscopeContainerRef.current;
@@ -322,6 +334,57 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       const h = Math.max(240, Math.round(targetEl.clientHeight - padY));
       if (h > 0) {
         setMainCard1Height(h);
+      }
+
+      if (container && !isProgrammaticScrollRef.current) {
+        requestAnimationFrame(() => {
+          const idx = activeCardIndexRef.current;
+          const topRow = horoscopeTopRowRef.current;
+          if (idx === 0 || idx === 5) {
+            if (topRow) {
+              const containerRect = container.getBoundingClientRect();
+              const rowRect = topRow.getBoundingClientRect();
+              const expectedTop = Math.max(
+                0,
+                Math.round(
+                  container.scrollTop +
+                    (rowRect.top - containerRect.top) -
+                    (container.clientHeight - topRow.offsetHeight) / 2
+                )
+              );
+              if (Math.abs(container.scrollTop - expectedTop) > 1) {
+                container.scrollTop = expectedTop;
+              }
+              const horizCard = document.getElementById(getHoroscopeTargetId(idx));
+              if (horizCard) {
+                const expectedLeft = Math.max(
+                  0,
+                  Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2)
+                );
+                if (Math.abs(topRow.scrollLeft - expectedLeft) > 1) {
+                  topRow.scrollLeft = expectedLeft;
+                }
+              }
+            }
+          } else {
+            const cardEl = document.getElementById(getHoroscopeTargetId(idx));
+            if (cardEl) {
+              const containerRect = container.getBoundingClientRect();
+              const cardRect = cardEl.getBoundingClientRect();
+              const expectedTop = Math.max(
+                0,
+                Math.round(
+                  container.scrollTop +
+                    (cardRect.top - containerRect.top) -
+                    (container.clientHeight - cardEl.offsetHeight) / 2
+                )
+              );
+              if (Math.abs(container.scrollTop - expectedTop) > 1) {
+                container.scrollTop = expectedTop;
+              }
+            }
+          }
+        });
       }
     };
     syncMainCardHeight();
@@ -360,15 +423,43 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
       isProgrammaticScrollRef.current = true;
 
+      const slideToIdMap: Record<number, string> = {
+        0: 'horoscope-card-1',
+        1: 'horoscope-card-2',
+        2: 'horoscope-card-3',
+        3: 'horoscope-card-pillars',
+        4: 'horoscope-card-4',
+        5: 'horoscope-card-5',
+      };
+      const targetId = slideToIdMap[clamped] || `horoscope-card-${clamped + 1}`;
+
+      const computeCenteredTop = (targetEl: HTMLElement) => {
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = targetEl.getBoundingClientRect();
+        return Math.max(
+          0,
+          Math.round(
+            container.scrollTop +
+              (targetRect.top - containerRect.top) -
+              (container.clientHeight - targetEl.offsetHeight) / 2
+          )
+        );
+      };
+
       if (clamped === 0 || clamped === 5) {
+        const targetTop = topRow ? computeCenteredTop(topRow) : 0;
         if (smooth) {
-          container.scrollTo({ top: 0, behavior: 'smooth' });
+          container.scrollTo({ top: targetTop, behavior: 'smooth' });
         } else {
-          container.scrollTop = 0;
+          container.scrollTop = targetTop;
         }
         if (topRow) {
-          const targetLeft =
-            clamped === 0 ? 0 : Math.max(0, topRow.scrollWidth - topRow.clientWidth);
+          const horizCard = document.getElementById(targetId);
+          const targetLeft = horizCard
+            ? Math.max(0, Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2))
+            : clamped === 0
+              ? 0
+              : Math.max(0, topRow.scrollWidth - topRow.clientWidth);
           if (smooth) {
             topRow.scrollTo({ left: targetLeft, behavior });
           } else {
@@ -376,21 +467,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           }
         }
       } else {
-        const slideToIdMap: Record<number, string> = {
-          1: 'horoscope-card-2',
-          2: 'horoscope-card-3',
-          3: 'horoscope-card-pillars',
-          4: 'horoscope-card-4',
-        };
-        const targetId = slideToIdMap[clamped] || `horoscope-card-${clamped + 1}`;
         const cardEl = document.getElementById(targetId);
         if (cardEl) {
-          const containerRect = container.getBoundingClientRect();
-          const cardRect = cardEl.getBoundingClientRect();
-          const targetScrollTop = Math.max(
-            0,
-            container.scrollTop + (cardRect.top - containerRect.top) - 15
-          );
+          const targetScrollTop = computeCenteredTop(cardEl);
           if (smooth) {
             container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
           } else {
@@ -400,6 +479,32 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       }
 
       scrollTimeoutRef.current = window.setTimeout(() => {
+        if (clamped === 0 || clamped === 5) {
+          if (topRow) {
+            const settledTop = computeCenteredTop(topRow);
+            if (Math.abs(container.scrollTop - settledTop) > 1) {
+              container.scrollTop = settledTop;
+            }
+            const horizCard = document.getElementById(targetId);
+            if (horizCard) {
+              const settledLeft = Math.max(
+                0,
+                Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2)
+              );
+              if (Math.abs(topRow.scrollLeft - settledLeft) > 1) {
+                topRow.scrollLeft = settledLeft;
+              }
+            }
+          }
+        } else {
+          const cardEl = document.getElementById(targetId);
+          if (cardEl) {
+            const settledTop = computeCenteredTop(cardEl);
+            if (Math.abs(container.scrollTop - settledTop) > 1) {
+              container.scrollTop = settledTop;
+            }
+          }
+        }
         isProgrammaticScrollRef.current = false;
         evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
       }, smooth ? 560 : 60);
@@ -412,7 +517,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     const container = horoscopeContainerRef.current;
     if (!container) return;
     const topRow = horoscopeTopRowRef.current;
-    const containerTop = container.getBoundingClientRect().top;
+    const containerRect = container.getBoundingClientRect();
+    const containerCenterY = containerRect.top + containerRect.height / 2;
 
     // If user is in the top horizontal row (Card 1 & Card 5)
     if (topRow && container.scrollTop < Math.max(120, topRow.offsetHeight * 0.45)) {
@@ -436,7 +542,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     verticalTargets.forEach(({ id, idx }) => {
       const el = document.getElementById(id);
       if (el) {
-        const diff = Math.abs(el.getBoundingClientRect().top - containerTop - 20);
+        const r = el.getBoundingClientRect();
+        const diff = Math.abs(r.top + r.height / 2 - containerCenterY);
         if (diff < minDiff) {
           minDiff = diff;
           nextIdx = idx;
@@ -1526,7 +1633,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-main-card="true"
       data-element-page="horoscope"
       style={horoscopeStackedCardStyle}
-      className="bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
+      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
     >
       <div className="w-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1605,7 +1712,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-main-card="true"
       data-element-page="horoscope"
       style={horoscopeStackedCardStyle}
-      className="bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden font-play box-border"
+      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden font-play box-border"
     >
       {/* Header Bar Card 3 */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0">
@@ -1803,7 +1910,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-main-card="true"
       data-element-page="horoscope"
       style={horoscopeStackedCardStyle}
-      className="bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
+      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
     >
       <div className="w-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -1926,7 +2033,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
           } as React.CSSProperties
         }
-        className="page-main-card bento-card glass-card shrink-0 snap-start grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch content-start gap-[15px] [grid-auto-flow:dense] p-[15px] rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+        className="page-main-card bento-card glass-card shrink-0 snap-center grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch content-start gap-[15px] [grid-auto-flow:dense] p-[15px] rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
       >
         <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-[var(--border-subcard)]">
           <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
@@ -2401,7 +2508,13 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-page="horoscope"
           data-element-parent="horoscope-page-container"
           onScroll={syncActiveHoroscopeIndex}
-          className="w-full max-w-full flex flex-row flex-nowrap items-center gap-[10px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
+          style={{
+            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            maxWidth: 'var(--main-card-target-w, 1000px)',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          className="w-full max-w-full mx-auto flex flex-row flex-nowrap items-center gap-[10px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
         >
           {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (1000x600px) */}
           <section
@@ -2431,7 +2544,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
               } as React.CSSProperties
             }
-            className="page-main-card shrink-0 snap-start relative flex flex-col justify-start p-[15px] gap-0 rounded-none overflow-hidden box-border"
+            className="page-main-card shrink-0 snap-center relative flex flex-col justify-start p-[15px] gap-0 rounded-none overflow-hidden box-border"
           >
             <div
               id="horoscope-card-1-viewport"

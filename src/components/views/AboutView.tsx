@@ -2627,19 +2627,12 @@ export function AboutView({
               }}
               className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
-                  {/* Header Bento Box Bar + Tab Switcher (Tab 1: Thông tin cá nhân, Tab 2: Thông tin liên hệ) */}
-                  <div className="w-full flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 min-w-0 shrink-0">
-                    <div className="card-header-sync flex items-center gap-1.5 sm:gap-2 text-blue-600 dark:text-cyan-400 min-w-0">
-                      <WebIcon name="user" className="w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" />
-                      <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight truncate" data-card-title="true">
-                        Thông tin chi tiết
-                      </h3>
-                    </div>
-
+                  {/* Header Bento Box Bar: Tab chuyển thành tiêu đề của thẻ */}
+                  <div className="w-full flex items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 min-w-0 shrink-0">
                     <div
                       role="tablist"
                       aria-label="Thông tin chi tiết"
-                      className="inline-flex items-center gap-1 p-1 rounded-[14px] bg-[var(--bg-subcard)] shrink-0 max-w-full"
+                      className="card-header-sync flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 min-w-0 w-full"
                     >
                       <button
                         type="button"
@@ -2647,47 +2640,68 @@ export function AboutView({
                         id="about-tab-personal"
                         aria-selected={detailInfoTab === 'personal'}
                         aria-controls="about-tabpanel-personal"
+                        data-card-title={detailInfoTab === 'personal' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('personal')}
                         onKeyDown={(e) => {
                           if (e.key === 'ArrowRight') handleSwitchDetailTab('contact');
                         }}
-                        style={
-                          detailInfoTab === 'personal'
-                            ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                            : undefined
-                        }
                         className={cn(
-                          'px-2.5 py-1 rounded-[10px] text-[11px] sm:text-xs font-semibold font-play transition-all duration-200 cursor-pointer whitespace-nowrap',
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left',
                           detailInfoTab === 'personal'
-                            ? 'shadow-sm'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
                         )}
                       >
-                        Thông tin cá nhân
+                        <WebIcon
+                          name="user"
+                          className={cn(
+                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
+                            detailInfoTab === 'personal' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
+                          )}
+                        />
+                        <span>Thông tin cá nhân</span>
+                        {detailInfoTab === 'personal' && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
+                          />
+                        )}
                       </button>
+
+                      <span aria-hidden="true" className="text-[var(--text-muted)] opacity-35 select-none font-normal">|</span>
+
                       <button
                         type="button"
                         role="tab"
                         id="about-tab-contact"
                         aria-selected={detailInfoTab === 'contact'}
                         aria-controls="about-tabpanel-contact"
+                        data-card-title={detailInfoTab === 'contact' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('contact')}
                         onKeyDown={(e) => {
                           if (e.key === 'ArrowLeft') handleSwitchDetailTab('personal');
                         }}
-                        style={
-                          detailInfoTab === 'contact'
-                            ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                            : undefined
-                        }
                         className={cn(
-                          'px-2.5 py-1 rounded-[10px] text-[11px] sm:text-xs font-semibold font-play transition-all duration-200 cursor-pointer whitespace-nowrap',
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left',
                           detailInfoTab === 'contact'
-                            ? 'shadow-sm'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
                         )}
                       >
-                        Thông tin liên hệ
+                        <WebIcon
+                          name="phone"
+                          className={cn(
+                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
+                            detailInfoTab === 'contact' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
+                          )}
+                        />
+                        <span>Thông tin liên hệ</span>
+                        {detailInfoTab === 'contact' && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
+                          />
+                        )}
                       </button>
                     </div>
                   </div>

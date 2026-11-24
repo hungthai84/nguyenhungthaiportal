@@ -368,7 +368,7 @@ html, body {
 [id$="-banner-quote"],
 [id$="-hero-banner-quote"] {
   font-family: var(--font-quote, 'Dancing Script', cursive) !important;
-  font-size: var(--fs-quote, clamp(1.1rem, 1.45vw + 0.58rem, 1.55rem)) !important;
+  font-size: var(--fs-quote, 20px) !important;
   font-weight: 600 !important;
   font-style: normal !important;
   line-height: 1.35 !important;
@@ -618,9 +618,9 @@ html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   grid-auto-flow: row !important;
-  gap: clamp(8px, 1vw, 12px) !important;
-  row-gap: clamp(8px, 1vw, 12px) !important;
-  column-gap: clamp(8px, 1vw, 12px) !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
@@ -632,8 +632,8 @@ html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
 }
 
 html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
-  padding: clamp(8px, 1vw, 12px) !important;
-  gap: clamp(6px, 0.7vw, 10px) !important;
+  padding: 12px !important;
+  gap: 8px !important;
   margin: 0 !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
@@ -861,46 +861,26 @@ html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope
 }
 
 html #letter-cards-track > #letter-card-1,
-html[data-card-style] #letter-cards-track > #letter-card-1 {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
-  min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  flex: 0 0 auto !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  margin: 0 auto !important;
-  padding: var(--main-card-padding, 15px) !important;
-  gap: 12px !important;
-  row-gap: 12px !important;
-  column-gap: 12px !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
-  box-sizing: border-box !important;
-}
-
+html[data-card-style] #letter-cards-track > #letter-card-1,
 html #letter-cards-track > #letter-card-4,
 html[data-card-style] #letter-cards-track > #letter-card-4 {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  min-width: 0 !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  flex: 0 0 auto !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  flex: 0 0 100% !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 auto !important;
   padding: var(--main-card-padding, 15px) !important;
-  gap: 12px !important;
-  row-gap: 12px !important;
-  column-gap: 12px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -992,21 +972,21 @@ html.dark[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-c
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
   min-width: 0 !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  flex: 0 0 100% !important;
   scroll-snap-align: center;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 !important;
   padding: var(--main-card-padding, 15px) !important;
-  gap: 12px !important;
-  row-gap: 12px !important;
-  column-gap: 12px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -1662,7 +1642,6 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
 /* 3. Token-Consistent Rounded Corners for Education Banners, Project Banners & Wallpaper Thumbnails */
 html #education-courses-grid .education-course-card .education-card-banner,
 html #education-certificates-card .education-card-banner,
-html #projects-grid .project-card .project-card-banner,
 html #project-detail-banner,
 html #project-detail-banner .project-detail-banner-media,
 html #project-detail-banner .project-detail-banner-scrim,
@@ -1680,7 +1659,6 @@ html .memory-photo-item {
 
 html #education-courses-grid .education-course-card .education-card-banner img,
 html #education-certificates-card .education-card-banner img,
-html #projects-grid .project-card .project-card-banner img,
 html #project-detail-banner .project-detail-banner-media img,
 html #wallpaper-page-container [id^="wallpaper-card-media-"] > img,
 html #wallpaper-page-container [id^="wallpaper-card-media-"] > video,
@@ -2812,8 +2790,8 @@ html #memories-page-container [id^="memory-card-"],
 html[data-card-style] #memories-page-container [id^="memory-card-"],
 html .themed-image-card:not([data-media-card="video"]):not(#wallpaper-cards-grid *),
 html[data-card-style] .themed-image-card:not([data-media-card="video"]):not(#wallpaper-cards-grid *),
-html [data-media-card="image"]:not(#wallpaper-cards-grid *),
-html[data-card-style] [data-media-card="image"]:not(#wallpaper-cards-grid *) {
+html [data-media-card="image"]:not(#wallpaper-cards-grid *):not(.project-card-banner),
+html[data-card-style] [data-media-card="image"]:not(#wallpaper-cards-grid *):not(.project-card-banner) {
   padding: 0px !important;
   border-radius: var(--radius-card, 14px) !important;
   -webkit-clip-path: inset(0 round var(--radius-card, 14px)) !important;
@@ -2848,7 +2826,7 @@ html[data-card-style] #experience-video-card-2026 {
 }
 
 html #memories-page-container [id^="memory-card-"] > img.memory-crisp-img,
-html [data-media-card="image"]:not(#wallpaper-cards-grid *) > img,
+html [data-media-card="image"]:not(#wallpaper-cards-grid *):not(.project-card-banner) > img,
 html .themed-image-frame,
 html[data-card-style] .themed-image-frame {
   border-radius: var(--radius-card, 14px) !important;
@@ -4678,8 +4656,8 @@ html[data-card-style] :is(
   .education-course-card,
   .exp-bento-surface-card,
   .themed-image-card,
-  .themed-image-frame,
-  [data-media-card="image"],
+  .themed-image-frame:not(.project-card-banner),
+  [data-media-card="image"]:not(.project-card-banner),
   [data-media-card="video"]
 ) {
   border-radius: var(--radius-card, 14px) !important;
@@ -4716,7 +4694,7 @@ html[data-card-style] :is(
 
 html[data-card-style] :is(
   #global-content-viewport video:not(.rounded-full):not([class*="rounded-full"]),
-  #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
+  #global-content-viewport img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]):not(.project-card-banner img),
   .theme-modal-card video:not(.rounded-full):not([class*="rounded-full"]),
   .theme-modal-card img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]),
   .theme-pip-player video:not(.rounded-full):not([class*="rounded-full"]),
@@ -4859,6 +4837,31 @@ html:root[data-card-style] body :is(
   transform: none !important;
 }
 
+@keyframes navPillIconSelectPop {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(1.18) rotate(-8deg);
+  }
+  65% {
+    transform: scale(0.95) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+#app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  animation: navPillIconSelectPop 520ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+    animation: none !important;
+  }
+}
+
 /* ========================================================================= */
 /* ABSOLUTE FINAL OVERRIDE: HERO BANNER 1/3 HEIGHT ON RESIZE / SMALL SCREENS */
 /* User Request: "Khi kích thước thay đổi banner chiều cao sẽ giảm xuống 1/3"*/
@@ -4881,8 +4884,8 @@ html:root[data-card-style] body :is(
   }
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
-    font-size: clamp(13px, 3.5vw, 17px) !important;
-    line-height: 1.2 !important;
+    font-size: var(--fs-h3, 20px) !important;
+    line-height: 1.25 !important;
     margin: 0 !important;
   }
 
@@ -4907,9 +4910,9 @@ html:root[data-card-style] body :is(
     padding-left: 10px !important;
     padding-right: 10px !important;
     font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-    font-size: clamp(13px, 3.5vw, 17px) !important;
+    font-size: var(--fs-button, 14px) !important;
     font-weight: var(--fw-semibold, 600) !important;
-    line-height: 1.2 !important;
+    line-height: 1.35 !important;
     white-space: nowrap !important;
   }
 }
@@ -4931,8 +4934,8 @@ html:root[data-card-style] body :is(
   }
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
-    font-size: clamp(14px, 2.2cqi, 18px) !important;
-    line-height: 1.2 !important;
+    font-size: var(--fs-h3, 20px) !important;
+    line-height: 1.25 !important;
     margin: 0 !important;
   }
 
@@ -4949,9 +4952,9 @@ html:root[data-card-style] body :is(
     padding-left: 10px !important;
     padding-right: 10px !important;
     font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-    font-size: clamp(14px, 2.2cqi, 18px) !important;
+    font-size: var(--fs-button, 14px) !important;
     font-weight: var(--fw-bold, 700) !important;
-    line-height: 1.2 !important;
+    line-height: 1.35 !important;
   }
 }
 
@@ -5002,32 +5005,37 @@ html:root[data-card-style] body #projects-page-container #projects-grid .project
 html:root.dark[data-card-style] body #projects-page-container #projects-grid .project-card .project-card-banner[data-media-card="image"],
 html:root body #projects-page-container .project-card .project-card-banner,
 html:root[data-card-style] body #projects-page-container .project-card .project-card-banner,
+html:root.dark[data-card-style] body #projects-page-container .project-card .project-card-banner,
 html:root body .project-card .project-card-banner[data-media-card="image"],
 html:root[data-card-style] body .project-card .project-card-banner[data-media-card="image"],
+html:root.dark[data-card-style] body .project-card .project-card-banner[data-media-card="image"],
 html:root body .project-card .project-card-banner,
-html:root[data-card-style] body .project-card .project-card-banner {
+html:root[data-card-style] body .project-card .project-card-banner,
+html:root.dark[data-card-style] body .project-card .project-card-banner {
   width: calc(100% - 4px) !important;
   margin: 2px 2px 0 2px !important;
-  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
-  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
-  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
-  clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
+  -webkit-clip-path: inset(0 round var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px) !important;
+  clip-path: inset(0 round var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px) !important;
 }
 
 html:root body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
 html:root[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
+html:root.dark[data-card-style] body #projects-page-container .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
 html:root body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
-html:root[data-card-style] body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim) {
-  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
-  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
+html:root[data-card-style] body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim),
+html:root.dark[data-card-style] body .project-card .project-card-banner :is(img, video, .project-card-banner-scrim) {
+  border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
-  -webkit-clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
-  clip-path: inset(0 round calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px) !important;
+  border-radius: var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px !important;
+  -webkit-clip-path: inset(0 round var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px) !important;
+  clip-path: inset(0 round var(--radius-global, var(--radius-card, 14px)) var(--radius-global, var(--radius-card, 14px)) 0px 0px) !important;
 }
 
 /* ========================================================================= */
@@ -6020,10 +6028,12 @@ html[data-surface-depth="flat"] body :is(
 .news-slider-wrapper-container {
   position: relative;
   width: 100%;
-  min-height: 490px;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
   height: auto;
-  flex: 1 0 auto;
-  padding: 24px 10px 22px;
+  flex: 1 1 auto;
+  padding: clamp(14px, 2.2vh, 22px) 10px clamp(14px, 2vh, 20px);
   border-radius: var(--radius-banner, 14px);
   overflow: hidden;
   display: flex;
@@ -6063,13 +6073,16 @@ html[data-surface-depth="flat"] body :is(
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1100px;
+  max-width: 100%;
+  min-width: 0;
   margin: 0 auto;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .news-item-bg {
   width: 312px;
+  max-width: 100%;
   height: 420px;
   position: absolute;
   top: 0;
@@ -6119,7 +6132,7 @@ html[data-surface-depth="flat"] body :is(
 }
 
 .news-card-item {
-  padding: 26px 24px;
+  padding: clamp(16px, 2.4vh, 24px) 20px;
   height: 100%;
   color: #ffffff;
   border-radius: var(--radius-card, 12px);
@@ -6211,8 +6224,8 @@ html[data-surface-depth="flat"] body :is(
 .news-card-img {
   border-radius: var(--radius-image, 10px);
   box-shadow: 0 6px 24px 4px rgba(0, 0, 0, 0.42);
-  height: 158px;
-  margin-top: 18px;
+  height: clamp(104px, 16vh, 152px);
+  margin-top: clamp(10px, 1.8vh, 16px);
   width: 100%;
   flex-shrink: 0;
   overflow: hidden;
@@ -6284,6 +6297,9 @@ html[data-surface-depth="flat"] body :is(
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
+  max-width: 100%;
+  padding: 0 6px;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -6305,22 +6321,22 @@ html[data-surface-depth="flat"] body :is(
   background: #ffffff;
 }
 
-@media screen and (max-width: 960px) {
+@container education-main (min-width: 720px) and (max-width: 959px) {
   .news-slider-slide,
   .news-item-bg {
-    width: 270px;
+    width: clamp(210px, 31cqi, 270px);
   }
 }
 
-@media screen and (max-width: 768px) {
+@container education-main (max-width: 719px) {
   .news-slider-wrapper-container {
-    min-height: 440px;
-    padding: 16px 8px 18px;
+    min-height: 0;
+    padding: 14px 8px 16px;
   }
   .news-slider-slide,
   .news-item-bg {
-    width: 100%;
-    max-width: 340px;
+    width: min(320px, calc(100cqi - 24px));
+    max-width: calc(100cqi - 24px);
   }
   .news-slider-slide.swiper-slide-prev,
   .news-slider-slide.swiper-slide-next {
@@ -6332,11 +6348,11 @@ html[data-surface-depth="flat"] body :is(
     pointer-events: auto;
   }
   .news-card-item {
-    padding: 22px 20px;
+    padding: 18px 16px;
   }
   .news-slider-ctr {
-    gap: 14px;
-    margin-top: 14px;
+    gap: 12px;
+    margin-top: 12px;
   }
   .news-slider-arrows {
     display: flex;
@@ -6355,6 +6371,65 @@ html[data-surface-depth="flat"] body :is(
   }
   .news-slider-arrow:hover:not(:disabled) {
     transform: scale(1.08);
+  }
+  .news-slider-bullet.active-bullet {
+    width: 34px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .news-slider-slide,
+  .news-item-bg {
+    width: clamp(210px, 31cqi, 270px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .news-slider-wrapper-container {
+    min-height: 0;
+    padding: 14px 8px 16px;
+  }
+  .news-slider-slide,
+  .news-item-bg {
+    width: min(320px, calc(100cqi - 24px));
+    max-width: calc(100cqi - 24px);
+  }
+  .news-slider-slide.swiper-slide-prev,
+  .news-slider-slide.swiper-slide-next {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .news-slider-slide.swiper-slide-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .news-card-item {
+    padding: 18px 16px;
+  }
+  .news-slider-ctr {
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .news-slider-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .news-slider-container .news-slider-arrow {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 40px;
+    height: 40px;
+  }
+  .news-slider-arrow:hover:not(:disabled) {
+    transform: scale(1.08);
+  }
+  .news-slider-bullet.active-bullet {
+    width: 34px;
   }
 }
 

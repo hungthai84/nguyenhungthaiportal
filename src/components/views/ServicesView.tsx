@@ -836,7 +836,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         }
                       }}
                       style={{
-                        height: '100%',
+                        height: 'auto',
                         background: isLeatherTheme
                           ? undefined
                           : isLight
@@ -849,7 +849,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                             : meta.borderDark,
                         ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
                       }}
-                      className="service-card domain-card bento-card glass-card group relative rounded-[14px] box-border w-full flex flex-col justify-between gap-2.5 text-left"
+                      className="service-card domain-card bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left"
                     >
                       {/* Lớp Color Reveal lan màu dần khắp thẻ theo vị trí trỏ chuột */}
                       <span
@@ -858,12 +858,12 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         style={{ background: hoverFloodBg }}
                       />
 
-                      {/* Bố cục Thẻ dịch vụ 2 phần 50% / 50%:
-                          Cột bên trái 50% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
-                          Cột bên phải 50% (H1: Hình ảnh, H2: Hình ảnh, H3: Hình ảnh) */}
-                      <div className="service-card-split-grid relative z-10 grid grid-cols-2 grid-rows-[auto_1fr_auto] gap-x-0 gap-y-2 flex-1 min-w-0 w-full items-stretch">
-                        {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề */}
-                        <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-2 self-center">
+                      {/* Bố cục Thẻ dịch vụ 2 phần 70% / 30%:
+                          Cột bên trái 70% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
+                          Cột bên phải 30% (H1-H3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại) */}
+                      <div className="service-card-split-grid relative z-10 grid grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 w-full items-stretch">
+                        {/* CỘT BÊN TRÁI (70%) - HÀNG 1: Icon & Tiêu đề */}
+                        <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-center">
                           {renderDomainIcon(
                             meta.iconKey,
                             'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
@@ -879,11 +879,65 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           </h3>
                         </div>
 
-                        {/* CỘT BÊN PHẢI (50%) - HÀNG 1: Hình ảnh */}
-                        <div className="col-start-2 row-start-1 min-w-0 pl-2.5 flex items-center justify-center self-stretch">
+                        {/* CỘT BÊN TRÁI (70%) - HÀNG 2: Mô tả */}
+                        <div className="col-start-1 row-start-2 min-w-0 flex items-start">
+                          <p
+                            id={`service-card-desc-${domain.id}`}
+                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
+                            title={summaryText}
+                          >
+                            {summaryText}
+                          </p>
+                        </div>
+
+                        {/* CỘT BÊN TRÁI (70%) - HÀNG 3: Logo đối tác căn trái */}
+                        <div
+                          className={cn(
+                            'service-divider col-start-1 row-start-3 pt-2 flex items-center justify-start gap-2 min-w-0',
+                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
+                          )}
+                        >
+                          {(domain.companyLogos || []).length > 0 && (
+                            <div className="flex items-center flex-wrap gap-2 min-w-0">
+                              {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                                <div
+                                  key={partner.name || pIdx}
+                                  title={partner.name}
+                                  style={{
+                                    background: 'var(--surface-secondary-bg, var(--bg-card))',
+                                    border: 'none',
+                                  }}
+                                  className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                >
+                                  <img
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    loading="lazy"
+                                    decoding="async"
+                                    referrerPolicy="no-referrer"
+                                    className="w-full h-full object-cover rounded-full"
+                                    onError={(e) => {
+                                      if (
+                                        partner.fallbackLogo &&
+                                        e.currentTarget.src !== partner.fallbackLogo
+                                      ) {
+                                        e.currentTarget.src = partner.fallbackLogo;
+                                      } else {
+                                        e.currentTarget.src = serviceImage;
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại */}
+                        <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
                           <div
                             data-media-card="image"
-                            className="service-card-illustration service-card-image-slot relative w-full h-[60px] sm:h-[68px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
+                            className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
                           >
                             <img
                               src={serviceImage}
@@ -900,117 +954,6 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                               style={{ filter: 'none', WebkitFilter: 'none' }}
                             />
                           </div>
-                        </div>
-
-                        {/* CỘT BÊN TRÁI (50%) - HÀNG 2: Mô tả */}
-                        <div className="col-start-1 row-start-2 min-w-0 pr-2.5 flex items-start self-stretch">
-                          <p
-                            id={`service-card-desc-${domain.id}`}
-                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-caption sm:typo-body-sm font-normal"
-                            title={summaryText}
-                          >
-                            {summaryText}
-                          </p>
-                        </div>
-
-                        {/* CỘT BÊN PHẢI (50%) - HÀNG 2: Hình ảnh */}
-                        <div className="col-start-2 row-start-2 min-w-0 pl-2.5 flex items-center justify-center self-stretch">
-                          <div
-                            data-media-card="image"
-                            className="service-card-illustration service-card-image-slot relative w-full h-[54px] sm:h-[62px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
-                          >
-                            <img
-                              src={domain.companyLogos?.[0]?.logo || serviceImage}
-                              alt={domain.companyLogos?.[0]?.name || cardTitle}
-                              loading="lazy"
-                              decoding="async"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => {
-                                if (e.currentTarget.src !== serviceImage) {
-                                  e.currentTarget.src = serviceImage;
-                                }
-                              }}
-                              className="service-img-pop relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
-                            />
-                          </div>
-                        </div>
-
-                        {/* CỘT BÊN TRÁI (50%) - HÀNG 3: Logo (Nhãn & tên doanh nghiệp) */}
-                        <div
-                          className={cn(
-                            'service-divider col-start-1 row-start-3 pt-2 pr-2.5 mt-auto flex flex-col justify-center gap-0.5 min-w-0 self-stretch',
-                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
-                          )}
-                        >
-                          <span
-                            className="typo-badge font-bold tracking-tight truncate"
-                            style={{ color: accentColor }}
-                          >
-                            Logo
-                          </span>
-                          {(domain.companies || []).length > 0 && (
-                            <span
-                              className="typo-caption text-[var(--text-secondary)] truncate leading-tight"
-                              title={domain.companies.join(' · ')}
-                            >
-                              {domain.companies.join(' · ')}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* CỘT BÊN PHẢI (50%) - HÀNG 3: Hình ảnh */}
-                        <div
-                          className={cn(
-                            'service-divider col-start-2 row-start-3 pt-2 pl-2.5 mt-auto flex items-center justify-end gap-1.5 flex-wrap min-w-0 self-stretch',
-                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
-                          )}
-                        >
-                          {(domain.companyLogos || []).length > 0 ? (
-                            (domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
-                              <div
-                                key={partner.name || pIdx}
-                                title={partner.name}
-                                style={{
-                                  background: 'var(--surface-secondary-bg, var(--bg-card))',
-                                  border: 'none',
-                                }}
-                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
-                              >
-                                <img
-                                  src={partner.logo}
-                                  alt={partner.name}
-                                  loading="lazy"
-                                  decoding="async"
-                                  referrerPolicy="no-referrer"
-                                  className="w-full h-full object-cover rounded-full"
-                                  onError={(e) => {
-                                    if (
-                                      partner.fallbackLogo &&
-                                      e.currentTarget.src !== partner.fallbackLogo
-                                    ) {
-                                      e.currentTarget.src = partner.fallbackLogo;
-                                    } else {
-                                      e.currentTarget.src = serviceImage;
-                                    }
-                                  }}
-                                />
-                              </div>
-                            ))
-                          ) : (
-                            <div
-                              data-media-card="image"
-                              className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center shrink-0"
-                            >
-                              <img
-                                src={serviceImage}
-                                alt={cardTitle}
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                className="w-full h-full object-cover rounded-full"
-                              />
-                            </div>
-                          )}
                         </div>
                       </div>
                     </motion.div>

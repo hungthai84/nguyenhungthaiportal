@@ -763,17 +763,16 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card card-item bento-card glass-card group relative h-full rounded-[14px] p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
+                  className="project-card card-item bento-card glass-card group relative h-full p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
                   style={{
                     borderColor: `${cardColor}45`,
                     padding: 0,
-                    borderRadius: '14px',
                   }}
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án: Cách mép thẻ dự án 2px, bo góc trên đồng tâm 12px, cạnh dưới phẳng */}
+                  {/* 1. Ảnh bìa thẻ Dự án: Không bo cong 4 góc, chỉ bo góc trên trái & trên phải theo Tùy chỉnh chung Bo cong 4 góc */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
+                    className="project-card-banner relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -790,10 +789,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
                         }
                       }}
-                      className="w-full h-full object-cover object-center rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     <div
-                      className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-none"
+                      className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-bl-none rounded-br-none"
                       style={{
                         background:
                           'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',

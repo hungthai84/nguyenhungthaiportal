@@ -75,10 +75,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
   // Tính kích thước sách tối ưu luôn lọt lòng thẻ ở mọi độ rộng & chiều cao (cả 2 trang đối xứng và 1 trang hẹp)
   const fittedBook = useMemo(() => {
-    const padX = stageBounds.w >= 640 ? 28 : 16;
-    const padY = stageBounds.h >= 480 ? 24 : 16;
-    const availW = Math.max(160, stageBounds.w - padX * 2);
-    const availH = Math.max(180, stageBounds.h - padY * 2);
+    const padX = stageBounds.w >= 640 ? 28 : 12;
+    const padTop = stageBounds.w < 680 ? 48 : 20;
+    const padBottom = stageBounds.h >= 480 ? 20 : 12;
+    const availW = Math.max(120, stageBounds.w - padX * 2);
+    const availH = Math.max(140, stageBounds.h - padTop - padBottom);
     const isSingle = availW < 520;
 
     if (isSingle) {
@@ -91,8 +92,8 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       }
       return {
         isSingle: true,
-        frameWidth: Math.max(160, Math.floor(pageW)),
-        bookHeight: Math.max(180, Math.floor(pageH)),
+        frameWidth: Math.min(availW, Math.max(120, Math.floor(pageW))),
+        bookHeight: Math.min(availH, Math.max(140, Math.floor(pageH))),
       };
     }
 
@@ -105,8 +106,8 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     }
     return {
       isSingle: false,
-      frameWidth: Math.max(260, Math.floor(bookW)),
-      bookHeight: Math.max(160, Math.floor(bookH)),
+      frameWidth: Math.min(availW, Math.max(220, Math.floor(bookW))),
+      bookHeight: Math.min(availH, Math.max(140, Math.floor(bookH))),
     };
   }, [stageBounds.h, stageBounds.w]);
 

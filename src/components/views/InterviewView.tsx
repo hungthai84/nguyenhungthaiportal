@@ -920,16 +920,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 shadow-2xs" />
           </div>
 
-          {/* Scrollable Body (Asker + Answer + Insights): Nền giống card chi tiết trả lời, bo cong 14px */}
+          {/* Nội dung câu hỏi, trả lời & trọng tâm đưa trực tiếp ra ngoài thẻ Chi tiết trả lời */}
           <div
-            id="el-p9-div-104"
             data-scrollable="true"
             data-no-wheel-horizontal="true"
-            style={{
-              borderRadius: '14px',
-              padding: '12px',
-            }}
-            className="bento-card glass-card flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3 rounded-[14px] p-3 border"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3"
           >
             {/* Asker (Đã đưa thẻ thời gian vào chung thẻ câu hỏi) */}
             <div

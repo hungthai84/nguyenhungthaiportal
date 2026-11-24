@@ -432,6 +432,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const activeMilestone = EXPERIENCE_MILESTONES[activeKey] || EXPERIENCE_MILESTONES['2013'];
 
   const [failedPhotoSrcs, setFailedPhotoSrcs] = useState<Record<string, boolean>>({});
+  const [failedBannerKeys, setFailedBannerKeys] = useState<Record<string, boolean>>({});
   const [bannerImgError, setBannerImgError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -849,6 +850,467 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
   const normalizedActiveKey = activeKey.startsWith('2013') || activeKey === '2014-airpay' ? '2013' : activeKey;
 
+  const isCompanyLogoAsset = (url?: string, milestoneLogo?: string) => {
+    if (!url) return false;
+    if (milestoneLogo && url === milestoneLogo) return true;
+    return /logo_|_logo|\/logo\//i.test(url);
+  };
+
+  const getMilestonePhotosList = (milestone?: (typeof EXPERIENCE_MILESTONES)[string]) => {
+    if (!milestone) return [];
+    const basePhotos = (milestone.photos || []).filter(
+      (p) => !isCompanyLogoAsset(p.src, milestone.logo)
+    );
+    const safeMemoryImg =
+      milestone.memoryImg && !isCompanyLogoAsset(milestone.memoryImg, milestone.logo)
+        ? milestone.memoryImg
+        : '';
+    const primaryMemoryPhoto = safeMemoryImg
+      ? [
+          {
+            src: safeMemoryImg,
+            title: milestone.company,
+            desc: `${milestone.roleTitle} (${milestone.period})`,
+          },
+        ]
+      : [];
+    return [...primaryMemoryPhoto, ...basePhotos.filter((p) => p.src !== safeMemoryImg)];
+  };
+
+  const getMilestoneProductsWithServices = (
+    milestone: (typeof EXPERIENCE_MILESTONES)[string],
+    matchedRoadmapCard?: (typeof roadmapCards)[number]
+  ) => {
+    const rawProductsList =
+      milestone.products && milestone.products.length > 0
+        ? milestone.products.map((p) => ({
+            name: p.alt.replace(/^Logo\s+/i, '').trim() || milestone.company,
+            src: p.src,
+          }))
+        : matchedRoadmapCard?.products && matchedRoadmapCard.products.length > 0
+          ? matchedRoadmapCard.products.map((p) => ({
+              name: p.name,
+              src: p.logo,
+            }))
+          : [
+              {
+                name: milestone.company,
+                src: milestone.logo,
+              },
+            ];
+
+    const resolveServicesForLogo = (productName: string, logoUrl: string): string[] => {
+      const matched: string[] = [];
+      const addService = (title: string) => {
+        if (title && !matched.includes(title)) matched.push(title);
+      };
+
+      const normSrc = logoUrl.toLowerCase();
+      const normMilestoneLogo = (milestone.logo || '').toLowerCase();
+      const normName = productName.toLowerCase();
+
+      DOMAINS_DATA.forEach((domain) => {
+        const hasUrlMatch = (domain.companyLogos || []).some((cl) => {
+          const clLogo = (cl.logo || '').toLowerCase();
+          const clFallback = (cl.fallbackLogo || '').toLowerCase();
+          return (
+            (clLogo &&
+              (clLogo === normSrc ||
+                (rawProductsList.length === 1 && clLogo === normMilestoneLogo))) ||
+            (clFallback && clFallback === normSrc)
+          );
+        });
+        if (hasUrlMatch) {
+          addService(domain.title);
+        }
+      });
+
+      if (matched.length === 0) {
+        const combined = `${normName} ${normSrc}`;
+        if (
+          combined.includes('mobifone') ||
+          combined.includes('v247') ||
+          combined.includes('htvc') ||
+          combined.includes('lbc')
+        ) {
+          addService('Dịch vụ Viễn thông');
+        }
+        if (combined.includes('garena') || combined.includes('ved') || combined.includes('gcafe')) {
+          addService('Thể thao điện tử');
+        }
+        if (combined.includes('shopeepay') || combined.includes('airpay') || combined.includes('momo')) {
+          addService('Thanh toán điện tử');
+        } else if (combined.includes('shopee')) {
+          addService('Thương mại điện tử');
+        }
+        if (combined.includes('prudential')) {
+          addService('Tài chính bảo hiểm');
+        }
+        if (combined.includes('finviet')) {
+          addService('Thanh toán điện tử');
+          addService('Thương mại điện tử');
+          addService('Tài chính bảo hiểm');
+        }
+        if (combined.includes('power') || combined.includes('powerservice')) {
+          addService('Xây dựng hệ thống');
+        }
+      }
+
+      if (normName.includes('shopeepay') || normName.includes('airpay') || normSrc.includes('shopeepay')) {
+        matched.sort((a, b) => (a === 'Thanh toán điện tử' ? -1 : b === 'Thanh toán điện tử' ? 1 : 0));
+      } else if (normName.includes('finviet') || normSrc.includes('finviet')) {
+        const priority = ['Thanh toán điện tử', 'Thương mại điện tử', 'Tài chính bảo hiểm'];
+        matched.sort((a, b) => priority.indexOf(a) - priority.indexOf(b));
+      }
+
+      if (matched.length === 0 && milestone.tag) {
+        addService(milestone.tag);
+      }
+      return matched;
+    };
+
+    const productsWithServices = rawProductsList.map((prod) => ({
+      ...prod,
+      services: resolveServicesForLogo(prod.name, prod.src),
+    }));
+
+    const derivedServicesList = Array.from(
+      new Set(productsWithServices.flatMap((prod) => prod.services))
+    );
+
+    return { productsWithServices, derivedServicesList };
+  };
+
+  const renderMilestoneColumnFrames = ({
+    item,
+    idx,
+    milestoneData,
+    resolvedAccent,
+    primaryTextColor,
+    secondaryTextColor,
+    isMobileMode = false,
+  }: {
+    item: (typeof roadmapCards)[number];
+    idx: number;
+    milestoneData?: (typeof EXPERIENCE_MILESTONES)[string];
+    resolvedAccent: string;
+    primaryTextColor: string;
+    secondaryTextColor: string;
+    isMobileMode?: boolean;
+  }) => {
+    const photosList = getMilestonePhotosList(milestoneData);
+    const { derivedServicesList } = milestoneData
+      ? getMilestoneProductsWithServices(milestoneData, item)
+      : { derivedServicesList: [] as string[] };
+    const servicesText =
+      derivedServicesList.length > 0
+        ? derivedServicesList.join(' · ')
+        : milestoneData?.tag || item.productSummary;
+
+    const frameCardStyle: React.CSSProperties = isBlackLeather
+      ? {
+          background: 'rgba(20, 23, 29, 0.88)',
+          borderColor: 'rgba(255, 255, 255, 0.22)',
+        }
+      : isBrownLeather
+        ? {
+            background: 'rgba(82, 46, 16, 0.72)',
+            borderColor: 'rgba(245, 222, 179, 0.30)',
+          }
+        : {
+            background: 'var(--bg-subcard, var(--surface-tertiary-bg, rgba(255, 255, 255, 0.72)))',
+            borderColor: 'var(--border-subcard, var(--border-color, rgba(148, 163, 184, 0.25)))',
+          };
+
+    const hasBannerFailed = Boolean(failedBannerKeys[item.key]);
+
+    return (
+      <div
+        data-no-wheel-horizontal="true"
+        style={{ padding: '15px' }}
+        className={cn(
+          'exp-milestone-scroll flex-1 min-h-0 flex flex-col justify-start gap-2.5 overflow-y-auto overscroll-y-contain touch-pan-y glass-scrollbar p-[15px]'
+        )}
+      >
+        {/* 1. KHUNG BANNER */}
+        <div
+          style={{
+            borderColor: frameCardStyle.borderColor,
+            background: item.blockGradient,
+          }}
+          className="exp-bento-item-card relative w-full h-[120px] sm:h-[140px] shrink-0 rounded-[var(--radius-subcard,14px)] overflow-hidden border shadow-xs"
+        >
+          {!hasBannerFailed && milestoneData?.bannerUrl ? (
+            <img
+              src={milestoneData.bannerUrl}
+              alt={`Banner ${item.shortName}`}
+              loading="lazy"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              onError={() => setFailedBannerKeys((prev) => ({ ...prev, [item.key]: true }))}
+              className="w-full h-full object-cover object-center block select-none pointer-events-none"
+            />
+          ) : (
+            <div
+              style={{ background: item.blockGradient }}
+              className="w-full h-full flex items-center justify-center text-white font-bold typo-h4 px-4 text-center"
+            >
+              {item.shortName}
+            </div>
+          )}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent pointer-events-none"
+          />
+        </div>
+
+        {/* 2. KHUNG TÊN CÔNG TY (Bên trái: Logo & Tên công ty | Bên phải: Năm & Dịch vụ) */}
+        <div
+          style={frameCardStyle}
+          className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 min-w-0"
+        >
+          {/* Bên trái: Logo và tên công ty */}
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="flex flex-col items-center justify-center shrink-0">
+              {item.logos.map((logo, logoIdx) => (
+                <CircularLogo
+                  key={logoIdx}
+                  logo={logo}
+                  isStacked={item.logos.length > 1}
+                  index={logoIdx}
+                  total={item.logos.length}
+                  companyName={item.shortName}
+                  onOpenDetail={() => handleOpenJobCard(item.key, idx)}
+                />
+              ))}
+            </div>
+            <h3
+              style={{ color: primaryTextColor }}
+              data-subcard-title="true"
+              className="subcard-title-synced typo-h5 font-bold leading-[1.28] break-words flex flex-col justify-center min-w-0 flex-1 select-none m-0"
+            >
+              <span className="leading-tight flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                <span>{item.companyLine1}</span>
+              </span>
+              <span className="block leading-tight">{item.companyLine2}</span>
+            </h3>
+          </div>
+
+          {/* Bên phải: Năm và dịch vụ */}
+          <div className="flex flex-col items-start sm:items-end justify-center text-left sm:text-right shrink-0 sm:max-w-[46%] min-w-0 gap-0.5">
+            <span
+              style={{ color: resolvedAccent }}
+              className="inline-flex items-center gap-1.5 typo-label font-bold tabular-nums leading-tight"
+            >
+              <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+              <span>
+                {item.yearBadge}
+                {milestoneData?.tenure ? ` · ${milestoneData.tenure}` : ''}
+              </span>
+            </span>
+            <span
+              style={{ color: secondaryTextColor }}
+              className="typo-caption font-semibold leading-snug break-words"
+              title={servicesText}
+            >
+              {servicesText}
+            </span>
+          </div>
+        </div>
+
+        {/* 3. KHUNG THÔNG TIN (Thời gian, Vị trí, Quản lý) */}
+        <div
+          style={frameCardStyle}
+          className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border p-3 flex flex-col gap-1.5 typo-label font-normal min-w-0"
+        >
+          {milestoneData && (
+            <div className="flex items-start gap-1.5 leading-[1.38] min-w-0">
+              <span
+                style={{ color: resolvedAccent }}
+                className="font-bold shrink-0 inline-flex items-center gap-1.5"
+              >
+                <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+                <span>Thời gian:</span>
+              </span>
+              <span style={{ color: primaryTextColor }} className="font-medium break-words min-w-0">
+                {milestoneData.cardYearLabel} ({milestoneData.tenure})
+              </span>
+            </div>
+          )}
+
+          <div className="flex items-start gap-1.5 leading-[1.38] min-w-0">
+            <span
+              style={{ color: resolvedAccent }}
+              className="font-bold shrink-0 inline-flex items-center gap-1.5"
+            >
+              <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+              <span>Vị trí:</span>
+            </span>
+            <span style={{ color: primaryTextColor }} className="font-medium break-words min-w-0">
+              {item.roleSummary}
+            </span>
+          </div>
+
+          <div className="flex items-start gap-1.5 leading-[1.38] min-w-0">
+            <span
+              style={{ color: resolvedAccent }}
+              className="font-bold shrink-0 inline-flex items-center gap-1.5"
+            >
+              <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+              <span>Quản lý:</span>
+            </span>
+            <span style={{ color: primaryTextColor }} className="font-medium break-words min-w-0">
+              {item.headcountLabel}
+            </span>
+          </div>
+        </div>
+
+        {/* 4. KHUNG MÔ TẢ */}
+        <div
+          style={frameCardStyle}
+          className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border p-3 flex flex-col gap-1 min-w-0"
+        >
+          <div className="flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5 shrink-0" style={{ color: resolvedAccent }} />
+            <span style={{ color: resolvedAccent }} className="typo-caption font-bold">
+              Mô tả
+            </span>
+          </div>
+          <p
+            style={{ color: primaryTextColor }}
+            className="typo-body-sm font-normal leading-[1.48] break-words m-0"
+          >
+            {item.description}
+          </p>
+        </div>
+
+        {/* 5. KHUNG HÌNH ẢNH KỶ NIỆM */}
+        <div
+          style={frameCardStyle}
+          className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border p-3 flex flex-col gap-2 min-w-0"
+        >
+          <div className="flex items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Camera className="w-3.5 h-3.5 shrink-0" style={{ color: resolvedAccent }} />
+              <span style={{ color: resolvedAccent }} className="typo-caption font-bold truncate">
+                Hình ảnh kỷ niệm
+              </span>
+            </div>
+            {photosList.length > 0 && (
+              <span
+                style={{ color: secondaryTextColor }}
+                className="typo-caption font-semibold tabular-nums shrink-0"
+              >
+                {photosList.length} ảnh
+              </span>
+            )}
+          </div>
+
+          {photosList.length > 0 ? (
+            <div
+              className={cn(
+                'grid gap-2',
+                photosList.length === 1
+                  ? 'grid-cols-1'
+                  : photosList.length === 2
+                    ? 'grid-cols-2'
+                    : 'grid-cols-2 sm:grid-cols-3'
+              )}
+            >
+              {photosList.map((photo, pIdx) => {
+                const hasImgFailed = Boolean(failedPhotoSrcs[photo.src]);
+                return (
+                  <button
+                    key={`${item.key}-col-photo-${pIdx}`}
+                    type="button"
+                    data-media-card="image"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      SoundEngine.playTap();
+                      setActiveKey(item.key);
+                      setCarouselSlideIdx(pIdx);
+                      setIsPhotoLightboxOpen(true);
+                    }}
+                    aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || item.shortName}`}
+                    className={cn(
+                      'exp-bento-rect-btn group/photo relative w-full overflow-hidden rounded-[10px] border p-0 text-left cursor-pointer transition-transform duration-200 hover:scale-[1.02]',
+                      photosList.length === 1 ? 'aspect-[16/9] max-h-[150px]' : 'aspect-[16/10]'
+                    )}
+                    style={{ borderColor: frameCardStyle.borderColor }}
+                  >
+                    {!hasImgFailed ? (
+                      <img
+                        src={photo.src}
+                        alt={photo.title || item.shortName}
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        onError={() =>
+                          setFailedPhotoSrcs((prev) => ({ ...prev, [photo.src]: true }))
+                        }
+                        className="w-full h-full object-cover block"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-1 p-2 bg-slate-200/50 dark:bg-slate-800/70">
+                        <Camera className="w-4 h-4" style={{ color: resolvedAccent }} />
+                        <span
+                          style={{ color: secondaryTextColor }}
+                          className="typo-caption truncate max-w-full"
+                        >
+                          {photo.title || item.shortName}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent opacity-0 group-hover/photo:opacity-100 transition-opacity flex items-end justify-end p-1.5">
+                      <ZoomIn className="w-3.5 h-3.5 text-white shrink-0" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <p style={{ color: secondaryTextColor }} className="typo-caption m-0">
+              Chưa có hình ảnh kỷ niệm cho cột mốc này.
+            </p>
+          )}
+        </div>
+
+        {/* Nút Xem chi tiết */}
+        <div className="pt-0.5 flex items-center justify-end shrink-0">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              SoundEngine.playTap();
+              handleOpenJobCard(item.key, idx);
+            }}
+            style={
+              !isLeather
+                ? {
+                    color: resolvedAccent,
+                    background: 'var(--bg-nav-pill, var(--bg-subcard))',
+                    borderColor: 'var(--border-subcard, var(--border-color))',
+                  }
+                : { color: resolvedAccent }
+            }
+            className={cn(
+              'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer',
+              isBlackLeather
+                ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
+                : isBrownLeather
+                  ? 'bg-[#522E10]/85 border-[#F5DEB3]/45 hover:bg-[#522E10]'
+                  : ''
+            )}
+          >
+            <span className="text-current">Xem chi tiết</span>
+            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       id="experience-page-container"
@@ -1218,202 +1680,84 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {/* Lớp bóng đổ nếp gấp giấy Chromatic Folds */}
                       <div aria-hidden="true" className="exp-fold-shading" />
 
-                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: ICON LỊCH + NĂM & SỐ NĂM -> CỤM LOGO XẾP DỌC -> TÊN CÔNG TY DỌC */}
+                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: CHIA 3 PHẦN (TOP: Icon lịch & Năm & năm | CENTER 1: Logo căn bot & CENTER 2: Tên công ty căn top | BOTTOM: Số lượng năm) */}
                       <div className="exp-fold-spine" aria-hidden={isExpanded}>
-                        <div className="exp-fold-num">
-                          <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
-                          <span>{item.key === '2026' ? '2026+' : item.key}</span>
+                        {/* TOP: Icon lịch & Năm & năm */}
+                        <div className="exp-fold-spine-top">
+                          <div className="exp-fold-num">
+                            <div className="inline-flex items-center justify-center gap-1 leading-none">
+                              <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+                              <span className="text-[10.5px] font-semibold tracking-wide opacity-90">Năm</span>
+                            </div>
+                            <span className="text-[12.5px] font-bold tabular-nums leading-tight">
+                              {item.key === '2026' ? '2026+' : item.key}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* CENTER: Center 1 (Logo căn bot) & Center 2 (Tên công ty căn top) */}
+                        <div className="exp-fold-spine-center">
+                          <div className="exp-fold-spine-center-1">
+                            {item.logos.length > 0 && (
+                              <div className="exp-fold-spine-logo-stack">
+                                {item.logos.map((spineLogo, sIdx) => (
+                                  <div
+                                    key={`${spineLogo.src}-${sIdx}`}
+                                    className="exp-fold-spine-logo"
+                                    style={{
+                                      marginTop:
+                                        sIdx > 0
+                                          ? item.logos.length >= 4
+                                            ? '-9px'
+                                            : '-8px'
+                                          : '0px',
+                                      zIndex: item.logos.length - sIdx,
+                                      width: item.logos.length >= 4 ? '28px' : undefined,
+                                      height: item.logos.length >= 4 ? '28px' : undefined,
+                                    }}
+                                  >
+                                    <img
+                                      src={spineLogo.src}
+                                      alt={spineLogo.alt}
+                                      className="w-full h-full object-cover rounded-full"
+                                      loading="lazy"
+                                      decoding="async"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="exp-fold-spine-center-2">
+                            <span className="exp-fold-spine-label">
+                              {item.shortName}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* BOTTOM: Số lượng năm */}
+                        <div className="exp-fold-spine-bottom">
                           {milestoneData?.tenure && (
-                            <span className="typo-badge font-semibold opacity-90">
+                            <span className="exp-fold-tenure">
                               {milestoneData.tenure}
                             </span>
                           )}
                         </div>
-                        {item.logos.length > 0 && (
-                          <div className="exp-fold-spine-logo-stack">
-                            {item.logos.map((spineLogo, sIdx) => (
-                              <div
-                                key={`${spineLogo.src}-${sIdx}`}
-                                className="exp-fold-spine-logo"
-                                style={{
-                                  marginTop:
-                                    sIdx > 0
-                                      ? item.logos.length >= 4
-                                        ? '-9px'
-                                        : '-8px'
-                                      : '0px',
-                                  zIndex: item.logos.length - sIdx,
-                                  width: item.logos.length >= 4 ? '28px' : undefined,
-                                  height: item.logos.length >= 4 ? '28px' : undefined,
-                                }}
-                              >
-                                <img
-                                  src={spineLogo.src}
-                                  alt={spineLogo.alt}
-                                  className="w-full h-full object-cover rounded-full"
-                                  loading="lazy"
-                                  decoding="async"
-                                  referrerPolicy="no-referrer"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <span className="exp-fold-spine-label">
-                          {item.shortName}
-                        </span>
                       </div>
 
-                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC KHI MỞ NẾP GẤP: KHUNG MÀU THAY BANNER -> LOGO TRƯỚC TÊN CÔNG TY */}
+                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC THEO CHIỀU DỌC: BANNER -> TÊN CÔNG TY -> THÔNG TIN -> MÔ TẢ -> HÌNH ẢNH KỶ NIỆM */}
                       <div className="exp-fold-sheet pt-[66px] sm:pt-[72px] pb-0">
-                        {/* 1. Khung màu thương hiệu thay thế banner công ty: Icon Lịch + Năm + Số năm + Ngành */}
-                        <div className="relative w-full shrink-0 mb-2.5 px-11 sm:px-14 overflow-hidden">
-                          <div
-                            style={{ background: item.blockGradient }}
-                            className="relative w-full rounded-[14px] px-4 py-3 text-white shadow-[0_8px_18px_-4px_rgba(15,23,42,0.22)] flex flex-wrap items-center justify-between gap-2"
-                          >
-                            <span className="inline-flex items-center gap-2 typo-h5 font-bold tracking-[0.02em] leading-none">
-                              <Calendar className="w-[16px] h-[16px] shrink-0" strokeWidth={2.5} />
-                              <span>{item.yearBadge}</span>
-                              {milestoneData?.tenure && (
-                                <span className="typo-caption font-semibold opacity-90">
-                                  · {milestoneData.tenure}
-                                </span>
-                              )}
-                            </span>
-                            {milestoneData?.tag && (
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full typo-badge font-semibold bg-white/20 text-white">
-                                {milestoneData.tag}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* 2. Thông tin công ty (Logo xếp chồng dọc chuyển xuống trước tên công ty), thời gian, vị trí, quản lý, mô tả */}
-                        <div
-                          data-no-wheel-horizontal="true"
-                          className="exp-milestone-scroll flex-1 min-h-0 px-11 sm:px-14 pt-1 pb-10 flex flex-col justify-start overflow-y-auto overscroll-y-contain touch-pan-y no-scrollbar"
-                        >
-                          <div
-                            className={cn(
-                              'flex items-center gap-3.5 border-b pb-3 mb-2.5 min-w-0',
-                              isBlackLeather
-                                ? 'border-white/30'
-                                : isBrownLeather
-                                  ? 'border-[#F5DEB3]/35'
-                                  : isDarkSurface
-                                    ? 'border-white/15'
-                                    : 'border-slate-300'
-                            )}
-                          >
-                            <div className="flex flex-col items-center justify-center shrink-0">
-                              {item.logos.map((logo, logoIdx) => (
-                                <CircularLogo
-                                  key={logoIdx}
-                                  logo={logo}
-                                  isStacked={item.logos.length > 1}
-                                  index={logoIdx}
-                                  total={item.logos.length}
-                                  companyName={item.shortName}
-                                  onOpenDetail={() => handleOpenJobCard(item.key, idx)}
-                                />
-                              ))}
-                            </div>
-
-                            <h3
-                              style={{ color: primaryTextColor }}
-                              data-subcard-title="true"
-                              className="subcard-title-synced typo-h5 font-bold leading-[1.28] break-words flex flex-col justify-center min-w-0 flex-1 select-none"
-                            >
-                              <span className="leading-tight flex items-center gap-1.5">
-                                <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
-                                <span>{item.companyLine1}</span>
-                              </span>
-                              <span className="block leading-tight">{item.companyLine2}</span>
-                            </h3>
-                          </div>
-
-                          <div className="space-y-1.5 mb-2 typo-label font-normal">
-                            {milestoneData && (
-                              <div className="flex items-start gap-1.5 leading-[1.35]">
-                                <span
-                                  style={{ color: resolvedAccent }}
-                                  className="font-bold shrink-0 inline-flex items-center gap-1"
-                                >
-                                  <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                                  Thời gian:
-                                </span>
-                                <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                                  {milestoneData.cardYearLabel} ({milestoneData.tenure})
-                                </span>
-                              </div>
-                            )}
-
-                            <div className="flex items-start gap-1.5 leading-[1.35]">
-                              <span
-                                style={{ color: resolvedAccent }}
-                                className="font-bold shrink-0 inline-flex items-center gap-1"
-                              >
-                                <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                                Vị trí:
-                              </span>
-                              <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                                {item.roleSummary}
-                              </span>
-                            </div>
-
-                            <div className="flex items-start gap-1.5 leading-[1.35]">
-                              <span
-                                style={{ color: resolvedAccent }}
-                                className="font-bold shrink-0 inline-flex items-center gap-1"
-                              >
-                                <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                                Quản lý:
-                              </span>
-                              <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                                {item.headcountLabel}
-                              </span>
-                            </div>
-                          </div>
-
-                          <p
-                            style={{ color: secondaryTextColor }}
-                            className="typo-caption font-normal leading-[1.45] break-words mb-2.5"
-                          >
-                            {item.description}
-                          </p>
-
-                          <div className="mt-auto pt-1 flex items-center">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                SoundEngine.playTap();
-                                handleOpenJobCard(item.key, idx);
-                              }}
-                              style={
-                                !isLeather
-                                  ? {
-                                      color: resolvedAccent,
-                                      background: 'var(--bg-nav-pill, var(--bg-subcard))',
-                                      borderColor: 'var(--border-subcard, var(--border-color))',
-                                    }
-                                  : { color: resolvedAccent }
-                              }
-                              className={cn(
-                                'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer',
-                                isBlackLeather
-                                  ? 'bg-[#14171D]/90 border-white/65 hover:bg-[#232731]'
-                                  : isBrownLeather
-                                    ? 'bg-[#522E10]/85 border-[#F5DEB3]/45 hover:bg-[#522E10]'
-                                    : ''
-                              )}
-                            >
-                              <span className="text-current">Xem chi tiết</span>
-                              <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                            </button>
-                          </div>
-                        </div>
+                        {renderMilestoneColumnFrames({
+                          item,
+                          idx,
+                          milestoneData,
+                          resolvedAccent,
+                          primaryTextColor,
+                          secondaryTextColor,
+                          isMobileMode: false,
+                        })}
                       </div>
                     </div>
                   );
@@ -1480,117 +1824,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         unfoldingFoldIdx === idx && 'scale-[1.015]'
                       )}
                     >
-                      {/* Khung màu thương hiệu thay thế banner công ty trên Mobile */}
-                      <div className="relative w-full shrink-0 mb-2.5 px-11 overflow-hidden">
-                        <div
-                          style={{ background: item.blockGradient }}
-                          className="w-full rounded-[14px] px-4 py-2.5 text-white shadow-sm flex items-center justify-between gap-2"
-                        >
-                          <span className="inline-flex items-center gap-1.5 typo-h5 font-bold">
-                            <Calendar className="w-4 h-4 shrink-0" strokeWidth={2.5} />
-                            <span>{item.yearBadge}</span>
-                            {milestoneData?.tenure && (
-                              <span className="typo-caption font-semibold opacity-90">
-                                · {milestoneData.tenure}
-                              </span>
-                            )}
-                          </span>
-                          {milestoneData?.tag && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full typo-badge font-semibold bg-white/20 text-white">
-                              {milestoneData.tag}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div
-                        data-no-wheel-horizontal="true"
-                        className="exp-milestone-scroll flex-1 min-h-0 px-12 pt-1 pb-2 flex flex-col overflow-y-auto no-scrollbar"
-                      >
-                        <div className="flex items-center gap-3 border-b border-slate-300/40 pb-2.5 mb-2 min-w-0">
-                          <div className="flex flex-col items-center justify-center shrink-0">
-                            {item.logos.map((logo, logoIdx) => (
-                              <CircularLogo
-                                key={logoIdx}
-                                logo={logo}
-                                isStacked={item.logos.length > 1}
-                                index={logoIdx}
-                                total={item.logos.length}
-                                companyName={item.shortName}
-                                onOpenDetail={() => handleOpenJobCard(item.key, idx)}
-                              />
-                            ))}
-                          </div>
-                          <h3
-                            style={{ color: primaryTextColor }}
-                            data-subcard-title="true"
-                            className="subcard-title-synced typo-h5 font-bold leading-[1.28] min-w-0 flex-1"
-                          >
-                            <span className="leading-tight flex items-center gap-1.5">
-                              <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-80" />
-                              <span>{item.companyLine1}</span>
-                            </span>
-                            <span className="block leading-tight">{item.companyLine2}</span>
-                          </h3>
-                        </div>
-                        <div className="space-y-1.5 mb-2 typo-label font-normal">
-                          {milestoneData && (
-                            <div className="flex items-start gap-1.5 leading-[1.35]">
-                              <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
-                                <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                                Thời gian:
-                              </span>
-                              <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                                {milestoneData.cardYearLabel} ({milestoneData.tenure})
-                              </span>
-                            </div>
-                          )}
-                          <div className="flex items-start gap-1.5 leading-[1.35]">
-                            <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
-                              <Briefcase className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                              Vị trí:
-                            </span>
-                            <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                              {item.roleSummary}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-1.5 leading-[1.35]">
-                            <span style={{ color: resolvedAccent }} className="font-bold shrink-0 inline-flex items-center gap-1">
-                              <Users className="w-3.5 h-3.5 shrink-0" strokeWidth={2.75} />
-                              Quản lý:
-                            </span>
-                            <span style={{ color: primaryTextColor }} className="font-medium break-words">
-                              {item.headcountLabel}
-                            </span>
-                          </div>
-                        </div>
-                        <p style={{ color: secondaryTextColor }} className="typo-caption font-normal leading-[1.45] break-words mb-2.5">
-                          {item.description}
-                        </p>
-                        <div className="mt-auto pt-1 flex items-center">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              SoundEngine.playTap();
-                              handleOpenJobCard(item.key, idx);
-                            }}
-                            style={
-                              !isLeather
-                                ? {
-                                    color: resolvedAccent,
-                                    background: 'var(--bg-nav-pill, var(--bg-subcard))',
-                                    borderColor: 'var(--border-subcard, var(--border-color))',
-                                  }
-                                : { color: resolvedAccent }
-                            }
-                            className="exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[14px] typo-button font-bold border transition-all cursor-pointer"
-                          >
-                            <span className="text-current">Xem chi tiết</span>
-                            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                          </button>
-                        </div>
-                      </div>
+                      {renderMilestoneColumnFrames({
+                        item,
+                        idx,
+                        milestoneData,
+                        resolvedAccent,
+                        primaryTextColor,
+                        secondaryTextColor,
+                        isMobileMode: true,
+                      })}
                     </div>
                   );
                 })}
@@ -1707,32 +1949,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         const customContent = MILESTONE_CUSTOM_CONTENT[contentKey] || MILESTONE_CUSTOM_CONTENT['2013'];
         const narrationInfo = STORY_NARRATIONS[normalizedActiveKey];
 
-        // Helper lọc bỏ logo công ty khỏi bộ sưu tập Hình ảnh kỷ niệm
-        const isCompanyLogoAsset = (url?: string) => {
-          if (!url) return false;
-          if (activeMilestone.logo && url === activeMilestone.logo) return true;
-          return /logo_|_logo|\/logo\//i.test(url);
-        };
-
-        // Danh sách hình ảnh kỷ niệm thực tế (giữ nguyên toàn bộ data thật)
-        const basePhotos = (activeMilestone.photos || []).filter((p) => !isCompanyLogoAsset(p.src));
-        const safeMemoryImg =
-          activeMilestone.memoryImg && !isCompanyLogoAsset(activeMilestone.memoryImg)
-            ? activeMilestone.memoryImg
-            : '';
-        const primaryMemoryPhoto = safeMemoryImg
-          ? [
-              {
-                src: safeMemoryImg,
-                title: activeMilestone.company,
-                desc: `${activeMilestone.roleTitle} (${activeMilestone.period})`,
-              },
-            ]
-          : [];
-        const photosList = [
-          ...primaryMemoryPhoto,
-          ...basePhotos.filter((p) => p.src !== safeMemoryImg),
-        ];
+        const photosList = getMilestonePhotosList(activeMilestone);
 
         // Danh sách Công việc lấy trực tiếp từ activeMilestone.tasks
         const tasksList =
@@ -1828,97 +2045,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         const currentRoadmapCard = roadmapCards.find(
           (c) => c.key === activeMilestone.key || c.key === activeKey
         );
-        const rawProductsList =
-          activeMilestone.products && activeMilestone.products.length > 0
-            ? activeMilestone.products.map((p) => ({
-                name: p.alt.replace(/^Logo\s+/i, '').trim() || activeMilestone.company,
-                src: p.src,
-              }))
-            : currentRoadmapCard?.products && currentRoadmapCard.products.length > 0
-              ? currentRoadmapCard.products.map((p) => ({
-                  name: p.name,
-                  src: p.logo,
-                }))
-              : [
-                  {
-                    name: activeMilestone.company,
-                    src: activeMilestone.logo,
-                  },
-                ];
-
-        const resolveServicesForLogo = (productName: string, logoUrl: string): string[] => {
-          const matched: string[] = [];
-          const addService = (title: string) => {
-            if (title && !matched.includes(title)) matched.push(title);
-          };
-
-          const normSrc = logoUrl.toLowerCase();
-          const normMilestoneLogo = (activeMilestone.logo || '').toLowerCase();
-          const normName = productName.toLowerCase();
-
-          // 1. Ưu tiên khớp chính xác theo URL logo trong DOMAINS_DATA
-          DOMAINS_DATA.forEach((domain) => {
-            const hasUrlMatch = (domain.companyLogos || []).some((cl) => {
-              const clLogo = (cl.logo || '').toLowerCase();
-              const clFallback = (cl.fallbackLogo || '').toLowerCase();
-              return (
-                (clLogo && (clLogo === normSrc || (rawProductsList.length === 1 && clLogo === normMilestoneLogo))) ||
-                (clFallback && clFallback === normSrc)
-              );
-            });
-            if (hasUrlMatch) {
-              addService(domain.title);
-            }
-          });
-
-          // 2. Fallback khớp theo từ khóa tên / tên file logo khi URL khác biến thể (vd: Mobifone_Logo.png)
-          if (matched.length === 0) {
-            const combined = `${normName} ${normSrc}`;
-            if (combined.includes('mobifone') || combined.includes('v247') || combined.includes('htvc') || combined.includes('lbc')) {
-              addService('Dịch vụ Viễn thông');
-            }
-            if (combined.includes('garena') || combined.includes('ved') || combined.includes('gcafe')) {
-              addService('Thể thao điện tử');
-            }
-            if (combined.includes('shopeepay') || combined.includes('airpay') || combined.includes('momo')) {
-              addService('Thanh toán điện tử');
-            } else if (combined.includes('shopee')) {
-              addService('Thương mại điện tử');
-            }
-            if (combined.includes('prudential')) {
-              addService('Tài chính bảo hiểm');
-            }
-            if (combined.includes('finviet')) {
-              addService('Thanh toán điện tử');
-              addService('Thương mại điện tử');
-              addService('Tài chính bảo hiểm');
-            }
-            if (combined.includes('power') || combined.includes('powerservice')) {
-              addService('Xây dựng hệ thống');
-            }
-          }
-
-          // Sắp xếp ưu tiên cho các logo đa dịch vụ (ShopeePay / Finviet) để badge chính hiển thị đầu tiên
-          if (normName.includes('shopeepay') || normName.includes('airpay') || normSrc.includes('shopeepay')) {
-            matched.sort((a, b) => (a === 'Thanh toán điện tử' ? -1 : b === 'Thanh toán điện tử' ? 1 : 0));
-          } else if (normName.includes('finviet') || normSrc.includes('finviet')) {
-            const priority = ['Thanh toán điện tử', 'Thương mại điện tử', 'Tài chính bảo hiểm'];
-            matched.sort((a, b) => priority.indexOf(a) - priority.indexOf(b));
-          }
-
-          if (matched.length === 0 && activeMilestone.tag) {
-            addService(activeMilestone.tag);
-          }
-          return matched;
-        };
-
-        const productsWithServices = rawProductsList.map((prod) => ({
-          ...prod,
-          services: resolveServicesForLogo(prod.name, prod.src),
-        }));
-
-        const derivedServicesList = Array.from(
-          new Set(productsWithServices.flatMap((prod) => prod.services))
+        const { derivedServicesList } = getMilestoneProductsWithServices(
+          activeMilestone,
+          currentRoadmapCard
         );
 
         // Helpers ánh xạ màu & icon cho từng chip Dịch vụ hoạt động (tương thích Sáng / Tối)

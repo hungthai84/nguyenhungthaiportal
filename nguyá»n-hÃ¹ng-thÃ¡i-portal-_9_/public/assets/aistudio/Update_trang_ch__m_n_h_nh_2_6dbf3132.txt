@@ -1,7 +1,0 @@
- Update trang chủ màn hình 2 
-
-   - Man hình 1 Vídeo 2 : Giới thieu.mp4: https://drive.google.com/file/d/12SPR7GJR0iw-bo4hWuJHKSNJjb4X_TIm/preview
-   - Màn hình 1 video 1 : man hình cho.mp4: https://drive.google.com/file/d/1CtLHbBDYyACUJg2Xr0mtVAMG5Hdo8RDp/preview
-   - Man hinh 1 chuyen sang man hinh 2.mp4: https://drive.google.com/file/d/11FZeENhRMILyUrG-em1DIWPyx2zVdc9d/preview
-
-Card video format chỉnh video fill lắp đầy card banner video mute, video loop vô tận, tối ưu video sắc nét, video không hiển thị nút control.

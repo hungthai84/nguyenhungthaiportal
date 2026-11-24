@@ -315,7 +315,6 @@ html[data-card-style="frost-ice-neu"] :is(
   -webkit-backdrop-filter: none !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 

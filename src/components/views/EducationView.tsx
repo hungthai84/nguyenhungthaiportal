@@ -1,6 +1,6 @@
  'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SkillsView } from './SkillsView';
@@ -343,30 +343,197 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     });
   }, [activeCategory, maxYearFilter, exactYearFilter]);
 
-  const [hoveredCarouselIdx, setHoveredCarouselIdx] = useState<number | null>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const [hoveredSlotIdx, setHoveredSlotIdx] = useState<number | null>(null);
+  const [disableTrackTransition, setDisableTrackTransition] = useState<boolean>(false);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [slideWidth, setSlideWidth] = useState<number>(0);
+  const [dragDeltaX, setDragDeltaX] = useState<number>(0);
+  const [isDraggingTrack, setIsDraggingTrack] = useState<boolean>(false);
 
-  const effectiveIndex = hoveredCarouselIdx !== null ? hoveredCarouselIdx : Math.min(activeCarouselIdx, filteredCourses.length - 1);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wrpRef = useRef<HTMLDivElement>(null);
+  const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const dragStartXRef = useRef<number | null>(null);
+  const didDragRef = useRef<boolean>(false);
+  const wheelCooldownRef = useRef<number>(0);
+  const snapTimerRef = useRef<number | null>(null);
+
+  const totalCourses = filteredCourses.length;
+  const useLoopClones = totalCourses >= 3;
+  const clonePad = useLoopClones ? 2 : 0;
+
+  const extendedSlides = useMemo(() => {
+    if (totalCourses === 0) return [];
+    if (!useLoopClones) {
+      return filteredCourses.map((course, idx) => ({
+        course,
+        origIdx: idx,
+        slotKey: `real-${course.id}`,
+        isClone: false,
+      }));
+    }
+    return [
+      {
+        course: filteredCourses[totalCourses - 2],
+        origIdx: totalCourses - 2,
+        slotKey: `clone-pre-2-${filteredCourses[totalCourses - 2].id}`,
+        isClone: true,
+      },
+      {
+        course: filteredCourses[totalCourses - 1],
+        origIdx: totalCourses - 1,
+        slotKey: `clone-pre-1-${filteredCourses[totalCourses - 1].id}`,
+        isClone: true,
+      },
+      ...filteredCourses.map((course, idx) => ({
+        course,
+        origIdx: idx,
+        slotKey: `real-${course.id}`,
+        isClone: false,
+      })),
+      {
+        course: filteredCourses[0],
+        origIdx: 0,
+        slotKey: `clone-post-0-${filteredCourses[0].id}`,
+        isClone: true,
+      },
+      {
+        course: filteredCourses[1],
+        origIdx: 1,
+        slotKey: `clone-post-1-${filteredCourses[1].id}`,
+        isClone: true,
+      },
+    ];
+  }, [filteredCourses, totalCourses, useLoopClones]);
+
+  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(() => (useLoopClones ? 2 : 0));
+
+  useEffect(() => {
+    if (snapTimerRef.current !== null) {
+      window.clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+    setActiveCarouselIdx(0);
+    setVisualTrackIdx(totalCourses >= 3 ? 2 : 0);
+    setHoveredSlotIdx(null);
+    setDisableTrackTransition(true);
+    const rafId = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setDisableTrackTransition(false));
+    });
+    return () => window.cancelAnimationFrame(rafId);
+  }, [activeCategory, maxYearFilter, exactYearFilter, totalCourses]);
+
+  const measureSliderGeometry = useCallback(() => {
+    if (viewMode !== 'css-tricks') return;
+    const containerEl = containerRef.current;
+    const firstSlideEl = slotSlideRefs.current[0];
+    if (containerEl) {
+      const cw = containerEl.clientWidth;
+      if (cw > 0) setContainerWidth(cw);
+    }
+    if (firstSlideEl) {
+      const sw = firstSlideEl.offsetWidth;
+      if (sw > 0) setSlideWidth(sw);
+    }
+  }, [viewMode]);
 
   useEffect(() => {
     if (viewMode !== 'css-tricks') return;
-    const itemEl = itemRefs.current[effectiveIndex];
-    const trackEl = trackRef.current;
+    measureSliderGeometry();
+    const containerEl = containerRef.current;
+    const firstSlideEl = slotSlideRefs.current[0];
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(() => measureSliderGeometry());
+      if (containerEl) ro.observe(containerEl);
+      if (firstSlideEl) ro.observe(firstSlideEl);
+    }
+    window.addEventListener('resize', measureSliderGeometry);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', measureSliderGeometry);
+    };
+  }, [viewMode, extendedSlides.length, measureSliderGeometry]);
+
+  const baseTrackX = useMemo(() => {
+    if (containerWidth <= 0 || slideWidth <= 0) return 0;
+    return containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
+  }, [containerWidth, slideWidth, visualTrackIdx]);
+
+  const currentTrackX = baseTrackX + dragDeltaX;
+
+  const activeHighlightSlotIdx =
+    hoveredSlotIdx !== null ? hoveredSlotIdx : visualTrackIdx;
+
+  const syncItemBg = useCallback(() => {
+    if (viewMode !== 'css-tricks') return;
     const bgEl = bgRef.current;
-    if (!itemEl || !trackEl || !bgEl) return;
+    const wrpEl = wrpRef.current;
+    const slideEl = slotSlideRefs.current[activeHighlightSlotIdx];
+    const itemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    if (!bgEl || !wrpEl || !slideEl || !itemEl) return;
 
-    const itemRect = itemEl.getBoundingClientRect();
-    const trackRect = trackEl.getBoundingClientRect();
-    const x = itemRect.left - trackRect.left + trackEl.scrollLeft;
-    const y = itemRect.top - trackRect.top + trackEl.scrollTop;
+    const x = wrpEl.offsetLeft + currentTrackX + slideEl.offsetLeft + itemEl.offsetLeft;
+    const y = wrpEl.offsetTop + slideEl.offsetTop + itemEl.offsetTop;
+    const w = itemEl.offsetWidth;
+    const h = itemEl.offsetHeight;
 
-    bgEl.style.width = `${itemRect.width}px`;
-    bgEl.style.height = `${itemRect.height}px`;
-    bgEl.style.transform = `translateX(${x}px) translateY(${y}px)`;
-    bgEl.classList.add('active');
-  }, [effectiveIndex, filteredCourses, viewMode]);
+    if (w > 0 && h > 0) {
+      bgEl.style.width = `${w}px`;
+      bgEl.style.height = `${h}px`;
+      bgEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      bgEl.classList.add('active');
+    }
+  }, [viewMode, activeHighlightSlotIdx, currentTrackX]);
+
+  useEffect(() => {
+    syncItemBg();
+  }, [syncItemBg, extendedSlides.length, containerWidth, slideWidth]);
+
+  useEffect(() => {
+    if (viewMode !== 'css-tricks') return;
+    const activeItemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    if (!activeItemEl || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => syncItemBg());
+    ro.observe(activeItemEl);
+    return () => ro.disconnect();
+  }, [viewMode, activeHighlightSlotIdx, syncItemBg]);
+
+  const scheduleLoopSnapIfNeeded = useCallback(
+    (targetTrackIdx: number) => {
+      if (!useLoopClones) return;
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+        snapTimerRef.current = null;
+      }
+      if (targetTrackIdx < clonePad || targetTrackIdx >= clonePad + totalCourses) {
+        const canonicalTrackIdx =
+          targetTrackIdx < clonePad
+            ? targetTrackIdx + totalCourses
+            : targetTrackIdx - totalCourses;
+        snapTimerRef.current = window.setTimeout(() => {
+          setDisableTrackTransition(true);
+          setVisualTrackIdx(canonicalTrackIdx);
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              setDisableTrackTransition(false);
+            });
+          });
+        }, 430);
+      }
+    },
+    [useLoopClones, clonePad, totalCourses]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleOpenDetail = (course: EducationCourse) => {
     SoundEngine.playBookOpen();
@@ -422,15 +589,118 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     video.muted = next;
   };
 
-  const handlePrevCarousel = () => {
+  const handlePrevCarousel = useCallback(() => {
+    if (totalCourses <= 1) return;
     SoundEngine.playTap();
-    setActiveCarouselIdx((prev) => (prev > 0 ? prev - 1 : Math.max(0, filteredCourses.length - 1)));
-  };
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalCourses - 1);
+    const nextOrig = currentOrig > 0 ? currentOrig - 1 : totalCourses - 1;
+    setActiveCarouselIdx(nextOrig);
 
-  const handleNextCarousel = () => {
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalCourses
+        : visualTrackIdx >= clonePad + totalCourses
+          ? visualTrackIdx - totalCourses
+          : visualTrackIdx;
+    const nextTrack = Math.max(0, baseTrack - 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, scheduleLoopSnapIfNeeded, totalCourses, useLoopClones, visualTrackIdx]);
+
+  const handleNextCarousel = useCallback(() => {
+    if (totalCourses <= 1) return;
     SoundEngine.playTap();
-    setActiveCarouselIdx((prev) => (prev < filteredCourses.length - 1 ? prev + 1 : 0));
-  };
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalCourses - 1);
+    const nextOrig = currentOrig < totalCourses - 1 ? currentOrig + 1 : 0;
+    setActiveCarouselIdx(nextOrig);
+
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalCourses
+        : visualTrackIdx >= clonePad + totalCourses
+          ? visualTrackIdx - totalCourses
+          : visualTrackIdx;
+    const nextTrack = Math.min(extendedSlides.length - 1, baseTrack + 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, extendedSlides.length, scheduleLoopSnapIfNeeded, totalCourses, useLoopClones, visualTrackIdx]);
+
+  const handleSelectBullet = useCallback(
+    (origIdx: number) => {
+      SoundEngine.playTap();
+      setHoveredSlotIdx(null);
+      setActiveCarouselIdx(origIdx);
+      setVisualTrackIdx(useLoopClones ? origIdx + clonePad : origIdx);
+    },
+    [clonePad, useLoopClones]
+  );
+
+  useEffect(() => {
+    if (
+      viewMode !== 'css-tricks' ||
+      selectedCourse ||
+      verifyingCourse ||
+      isLightboxOpen ||
+      isFilterDropdownOpen
+    ) {
+      return;
+    }
+    const onArrowKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrevCarousel();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNextCarousel();
+      }
+    };
+    window.addEventListener('keydown', onArrowKey);
+    return () => window.removeEventListener('keydown', onArrowKey);
+  }, [
+    viewMode,
+    selectedCourse,
+    verifyingCourse,
+    isLightboxOpen,
+    isFilterDropdownOpen,
+    handlePrevCarousel,
+    handleNextCarousel,
+  ]);
 
   const handleResetFilters = () => {
     SoundEngine.playTap();
@@ -438,6 +708,54 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     setMaxYearFilter(2026);
     setExactYearFilter(null);
     setActiveCarouselIdx(0);
+    setVisualTrackIdx(totalCourses >= 3 ? 2 : 0);
+  };
+
+  const handleSliderWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (viewMode !== 'css-tricks') return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 12) {
+      const now = Date.now();
+      if (now - wheelCooldownRef.current < 320) return;
+      wheelCooldownRef.current = now;
+      if (e.deltaX > 0) {
+        handleNextCarousel();
+      } else {
+        handlePrevCarousel();
+      }
+    }
+  };
+
+  const handleSliderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    dragStartXRef.current = e.clientX;
+    didDragRef.current = false;
+    setIsDraggingTrack(true);
+    setDragDeltaX(0);
+  };
+
+  const handleSliderPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStartXRef.current === null) return;
+    const dx = e.clientX - dragStartXRef.current;
+    if (Math.abs(dx) > 8) {
+      didDragRef.current = true;
+    }
+    setDragDeltaX(dx);
+  };
+
+  const finishSliderDrag = () => {
+    if (dragStartXRef.current === null) return;
+    const dx = dragDeltaX;
+    dragStartXRef.current = null;
+    setIsDraggingTrack(false);
+    setDragDeltaX(0);
+    if (dx <= -48) {
+      handleNextCarousel();
+    } else if (dx >= 48) {
+      handlePrevCarousel();
+    }
+    window.setTimeout(() => {
+      didDragRef.current = false;
+    }, 60);
   };
 
   const handleDeckWheel = (e: React.WheelEvent<HTMLDivElement>) => {
@@ -730,10 +1048,10 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
-              title={isEn ? 'Stacked View' : 'Dạng xếp chồng'}
+              title="Slider Card"
             >
               <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
-              <span className="whitespace-nowrap">{isEn ? 'Stacked' : 'Xếp chồng'}</span>
+              <span className="whitespace-nowrap">Slider Card</span>
             </button>
           </div>
         </div>
@@ -784,43 +1102,118 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           </button>
         </div>
       ) : viewMode === 'css-tricks' ? (
-        <div className="news-slider-wrapper-container relative w-full h-full flex flex-col justify-center overflow-hidden">
-          <div className="news-slider-bg">
-            <img src="https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1537132206/news-slider/background.webp" alt="Background" />
+        <div
+          className="news-slider-wrapper-container relative w-full flex-1 flex flex-col justify-center overflow-hidden"
+          onMouseLeave={() => setHoveredSlotIdx(null)}
+        >
+          <div className="news-slider-bg" aria-hidden="true">
+            <img
+              src="https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1537132206/news-slider/background.webp"
+              alt=""
+            />
           </div>
-          <div ref={bgRef} className="news-item-bg" />
 
-          <div className="news-slider-container" ref={trackRef}>
-            <div className="news-slider-wrp" onWheel={handleDeckWheel}>
-              {filteredCourses.map((course, idx) => {
+          <div
+            ref={containerRef}
+            className="news-slider-container"
+            onWheel={handleSliderWheel}
+          >
+            <div ref={bgRef} className="news-item-bg" aria-hidden="true" />
+
+            <div
+              ref={wrpRef}
+              onPointerDown={handleSliderPointerDown}
+              onPointerMove={handleSliderPointerMove}
+              onPointerUp={finishSliderDrag}
+              onPointerCancel={finishSliderDrag}
+              onPointerLeave={finishSliderDrag}
+              style={{
+                transform: `translate3d(${currentTrackX}px, 0, 0)`,
+                transition:
+                  disableTrackTransition || isDraggingTrack
+                    ? 'none'
+                    : 'transform 0.43s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+              className="news-slider-wrp"
+            >
+              {extendedSlides.map((slideItem, slotIdx) => {
+                const { course, origIdx, slotKey } = slideItem;
                 const localizedCourseTitle = t(course.title);
-                const isActive = idx === safeCarouselIndex;
+                const isActiveCenter = slotIdx === visualTrackIdx;
+                const isPrevSlide = slotIdx === visualTrackIdx - 1;
+                const isNextSlide = slotIdx === visualTrackIdx + 1;
+                const isHighlighted =
+                  hoveredSlotIdx !== null
+                    ? slotIdx === hoveredSlotIdx
+                    : isActiveCenter;
 
                 return (
                   <div
-                    key={course.id}
-                    ref={(el) => { itemRefs.current[idx] = el; }}
-                    onMouseEnter={() => setHoveredCarouselIdx(idx)}
-                    onMouseLeave={() => setHoveredCarouselIdx(null)}
-                    onClick={() => {
-                      setActiveCarouselIdx(idx);
-                      handleOpenDetail(course);
+                    key={slotKey}
+                    ref={(el) => {
+                      slotSlideRefs.current[slotIdx] = el;
                     }}
-                    className={cn("news-slider-slide", isActive && "active-slide")}
+                    className={cn(
+                      'news-slider-slide',
+                      isActiveCenter && 'active-slide swiper-slide-active',
+                      isPrevSlide && 'swiper-slide-prev',
+                      isNextSlide && 'swiper-slide-next'
+                    )}
                   >
-                    <div className={cn("news-card-item", isActive && "active")}>
+                    <div
+                      ref={(el) => {
+                        slotItemRefs.current[slotIdx] = el;
+                      }}
+                      role="button"
+                      tabIndex={isPrevSlide || isActiveCenter || isNextSlide ? 0 : -1}
+                      onMouseEnter={() => {
+                        if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                          setHoveredSlotIdx(slotIdx);
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                          setHoveredSlotIdx((prev) => (prev === slotIdx ? null : prev));
+                        }
+                      }}
+                      onClick={() => {
+                        if (didDragRef.current) return;
+                        setActiveCarouselIdx(origIdx);
+                        if (useLoopClones) {
+                          setVisualTrackIdx(origIdx + clonePad);
+                        } else {
+                          setVisualTrackIdx(origIdx);
+                        }
+                        handleOpenDetail(course);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveCarouselIdx(origIdx);
+                          handleOpenDetail(course);
+                        }
+                      }}
+                      className={cn('news-card-item', isHighlighted && 'active')}
+                    >
                       <div className="news-card-date">
                         <span className="news-card-date-title">{course.year}</span>
                         <span className="news-card-date-txt">{getShortCategoryLabel(course.category)}</span>
                       </div>
-                      <div className="news-card-title">
+                      <div className="news-card-title" title={localizedCourseTitle}>
                         {localizedCourseTitle}
                       </div>
-                      <p className="news-card-txt">
+                      <p className="news-card-txt" title={course.desc}>
                         {course.desc}
                       </p>
                       <div className="news-card-img">
-                        <img src={course.image} alt={localizedCourseTitle} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                        <img
+                          src={course.image}
+                          alt={localizedCourseTitle}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          draggable={false}
+                        />
                       </div>
                     </div>
                   </div>
@@ -829,46 +1222,46 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </div>
 
             <div className="news-slider-ctr">
-              <button
-                type="button"
-                onClick={handlePrevCarousel}
-                className="news-slider-arrow"
-                aria-label="Previous"
-              >
-                <span className="inline-flex">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </span>
-              </button>
+              <div className="news-slider-arrows">
+                <button
+                  type="button"
+                  onClick={handlePrevCarousel}
+                  disabled={totalCourses <= 1}
+                  className="news-slider-arrow news-slider-prev"
+                  aria-label="Previous"
+                >
+                  <span className="icon-font">
+                    <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                      <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z" />
+                    </svg>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextCarousel}
+                  disabled={totalCourses <= 1}
+                  className="news-slider-arrow news-slider-next"
+                  aria-label="Next"
+                >
+                  <span className="icon-font">
+                    <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                      <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.696z" />
+                    </svg>
+                  </span>
+                </button>
+              </div>
 
               <div className="news-slider-pagination">
-                {filteredCourses.map((_, idx) => (
+                {filteredCourses.map((course, idx) => (
                   <button
-                    key={idx}
+                    key={course.id}
                     type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setActiveCarouselIdx(idx);
-                    }}
-                    className={cn("news-slider-bullet", idx === safeCarouselIndex && "active-bullet")}
+                    onClick={() => handleSelectBullet(idx)}
+                    className={cn('news-slider-bullet', idx === safeCarouselIndex && 'active-bullet')}
                     aria-label={`Slide ${idx + 1}`}
                   />
                 ))}
               </div>
-
-              <button
-                type="button"
-                onClick={handleNextCarousel}
-                className="news-slider-arrow"
-                aria-label="Next"
-              >
-                <span className="inline-flex">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </button>
             </div>
           </div>
         </div>

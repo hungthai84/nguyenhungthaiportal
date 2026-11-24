@@ -464,6 +464,21 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
   },
 };
 
+const SYSTEM_VI_SIX_WORD_NAMES: Record<string, string> = {
+  sdp: 'Cổng làm việc dịch vụ số',
+  csc: 'Trung tâm chăm sóc đa kênh',
+  crm: 'Quản trị quan hệ khách hàng',
+  clp: 'Chương trình khách hàng thân thiết',
+  pos: 'Quản lý bán hàng tại quầy',
+  erp: 'Hoạch định nguồn lực doanh nghiệp',
+  hrm: 'Quản trị nguồn lực nhân sự',
+  bpm: 'Số hóa quy trình làm việc',
+  okr: 'Quản trị mục tiêu kết quả',
+  lms: 'Hệ thống đào tạo trực tuyến',
+  bi: 'Báo cáo phân tích dữ liệu',
+  ai: 'Trợ lý trí tuệ nhân tạo',
+};
+
 const REFERENCE_GRID_ORDER = [
   'csc',
   'sdp',
@@ -599,6 +614,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     height: number;
   } | null>(null);
   const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
+  const [isBannerHiddenForExpand, setIsBannerHiddenForExpand] = useState<boolean>(false);
 
   // Level 1 Full-Card Video (triggered by clicking image or Demo button)
   const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
@@ -790,6 +806,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       setExpandedSystem(sys);
 
       if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
+        setIsBannerHiddenForExpand(true);
         if (targetBounds) {
           setMorphRect({
             top: targetBounds.top,
@@ -808,6 +825,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       const cardRect = originEl.getBoundingClientRect();
 
       setWrapperMinHeight(undefined);
+      setIsBannerHiddenForExpand(true);
       setAnimPhase('entering');
       setMorphRect({
         top: cardRect.top - hostRect.top,
@@ -820,14 +838,15 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
         if (expandedCardRef.current) {
           void expandedCardRef.current.offsetHeight;
         }
+        const liveBounds = computeTargetBounds() || targetBounds;
         rafRef.current = window.requestAnimationFrame(() => {
           setIsGridDimmed(true);
           setAnimPhase('open');
           setMorphRect({
-            top: targetBounds.top,
-            left: targetBounds.left,
-            width: targetBounds.width,
-            height: targetBounds.height,
+            top: liveBounds.top,
+            left: liveBounds.left,
+            width: liveBounds.width,
+            height: liveBounds.height,
           });
         });
       });
@@ -846,13 +865,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
     const hostEl = systemsMainRef.current || cardsWrapperRef.current;
     const targetId = originSystemId || expandedSystem.id;
-    const originEl = cardRefs.current[targetId];
 
     setIsGridDimmed(false);
     setIsCompareOpen(false);
     setIsQrOpen(false);
+    setIsBannerHiddenForExpand(false);
 
-    if (prefersReducedMotion || !hostEl || !originEl) {
+    if (prefersReducedMotion || !hostEl) {
       setExpandedSystem(null);
       setOriginSystemId(null);
       setAnimPhase('idle');
@@ -861,24 +880,35 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       return;
     }
 
-    const hostRect = hostEl.getBoundingClientRect();
-    const cardRect = originEl.getBoundingClientRect();
+    rafRef.current = window.requestAnimationFrame(() => {
+      const originEl = cardRefs.current[targetId];
+      if (!originEl) {
+        setExpandedSystem(null);
+        setOriginSystemId(null);
+        setAnimPhase('idle');
+        setMorphRect(null);
+        setWrapperMinHeight(undefined);
+        return;
+      }
+      const hostRect = hostEl.getBoundingClientRect();
+      const cardRect = originEl.getBoundingClientRect();
 
-    setAnimPhase('closing');
-    setMorphRect({
-      top: cardRect.top - hostRect.top,
-      left: cardRect.left - hostRect.left,
-      width: cardRect.width,
-      height: cardRect.height,
+      setAnimPhase('closing');
+      setMorphRect({
+        top: cardRect.top - hostRect.top,
+        left: cardRect.left - hostRect.left,
+        width: cardRect.width,
+        height: cardRect.height,
+      });
+
+      animTimerRef.current = window.setTimeout(() => {
+        setExpandedSystem(null);
+        setOriginSystemId(null);
+        setAnimPhase('idle');
+        setMorphRect(null);
+        setWrapperMinHeight(undefined);
+      }, 720);
     });
-
-    animTimerRef.current = window.setTimeout(() => {
-      setExpandedSystem(null);
-      setOriginSystemId(null);
-      setAnimPhase('idle');
-      setMorphRect(null);
-      setWrapperMinHeight(undefined);
-    }, 580);
   }, [expandedSystem, animPhase, clearTimers, originSystemId]);
 
   const switchExpandedSystem = useCallback((sys: SystemData) => {
@@ -1160,8 +1190,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             id="systems-main-scroll-viewport"
             className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
-          {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG */}
-          {!isCircleVideoPlaying && (
+          {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG (Tạm ẩn khi mở rộng thẻ hệ thống) */}
+          {!isCircleVideoPlaying && !isBannerHiddenForExpand && (
           <motion.section
             id="systems-hero-banner"
             data-element-name="Banner card"
@@ -1900,23 +1930,49 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* Nội dung thẻ hệ thống: ẩn hoàn toàn tiêu đề & văn bản khi đang phát video (cả hover và click) */}
-                      <div
-                        className={cn(
-                          'relative z-10 w-full flex-1 flex flex-row items-stretch justify-between gap-3 min-w-0 transition-opacity duration-200',
-                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
-                        )}
-                      >
-                        {/* Cột trái: Tiêu đề + Mô tả + Phân hệ */}
-                        <div
-                          className={cn(
-                            'flex-1 min-w-0 flex flex-col justify-between gap-2 text-left py-0.5 transition-opacity duration-200',
-                            (isDemoActive || isHovered) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
-                          )}
-                        >
-                          <div className="flex flex-col gap-1 min-w-0">
-                            {/* Tiêu đề chính: Icon + Mã viết tắt */}
-                            <div className="flex items-center gap-1.5 min-w-0">
+                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Icon & viết tắt, Tên đầy đủ, Mô tả 3 dòng; Phải: 3 hàng hình ảnh) */}
+                      {(() => {
+                        const systemFullName = isEn
+                          ? meta.subtitle || item.nameEn || item.name
+                          : SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.nameVi || item.name;
+                        const connIds = SYSTEM_CONNECTIONS_MAP[item.id] || ['sdp', 'crm'];
+                        const primaryImg = meta.illustrationSrc || item.imageUrl;
+                        const secondImg =
+                          SYSTEM_DESIGN_MAP[connIds[0]]?.illustrationSrc || primaryImg;
+                        const thirdImg =
+                          SYSTEM_DESIGN_MAP[connIds[1]]?.illustrationSrc || primaryImg;
+
+                        const handleRightMediaEnter = () => {
+                          if (item.videoUrl) setHoveredCardVideoId(item.id);
+                        };
+                        const handleRightMediaLeave = () => {
+                          setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
+                        };
+                        const handleRightMediaClick = (e: React.MouseEvent) => {
+                          if (!item.videoUrl) return;
+                          e.stopPropagation();
+                          SoundEngine.playTap();
+                          setActiveCardDemoId(item.id);
+                        };
+                        const handleRightMediaKeyDown = (e: React.KeyboardEvent) => {
+                          if (!item.videoUrl) return;
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            SoundEngine.playTap();
+                            setActiveCardDemoId(item.id);
+                          }
+                        };
+
+                        return (
+                          <div
+                            className={cn(
+                              'system-card-split-grid relative z-10 w-full flex-1 grid grid-cols-2 grid-rows-[auto_auto_1fr] gap-x-0 gap-y-2 min-w-0 items-stretch transition-opacity duration-200',
+                              (isDemoActive || isHovered) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                            )}
+                          >
+                            {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề viết tắt hệ thống */}
+                            <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-1.5 self-center">
                               <WebIcon
                                 name={meta.iconName}
                                 className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
@@ -1931,102 +1987,51 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </h3>
                             </div>
 
-                            {/* Tên đầy đủ của hệ thống — đồng bộ màu giống màu tiêu đề */}
-                            <p
-                              className="typo-body-sm font-semibold leading-snug line-clamp-2 m-0 break-words"
-                              style={{ color: accentColor }}
-                              title={localizedTitle}
-                            >
-                              {localizedTitle}
-                            </p>
-
-                            {/* Mô tả chức năng hệ thống (~3 dòng ngắn gọn, font-semibold rõ nét trên nền tối) */}
-                            <p
-                              className="typo-caption font-semibold leading-[1.45] line-clamp-3 text-[var(--text-secondary)] m-0 break-words"
-                              title={localizedDesc}
-                            >
-                              {localizedDesc}
-                            </p>
-                          </div>
-
-                          {/* Nhãn phân hệ gọn bên dưới trái */}
-                          <div className="flex items-center pt-1 min-w-0">
-                            <span
-                              className="inline-flex items-center gap-1.5 typo-badge font-semibold truncate max-w-full opacity-90"
-                              style={{ color: accentColor }}
-                            >
-                              <span
+                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1, 2, 3: Hình ảnh duy nhất trải dài toàn bộ 3 hàng bên phải */}
+                            <div className="col-start-2 row-start-1 row-span-3 min-w-0 pl-2.5 flex items-center justify-center self-stretch h-full">
+                              <div
+                                role={item.videoUrl ? 'button' : undefined}
+                                tabIndex={item.videoUrl ? 0 : undefined}
+                                onMouseEnter={handleRightMediaEnter}
+                                onMouseLeave={handleRightMediaLeave}
+                                onClick={handleRightMediaClick}
+                                onKeyDown={handleRightMediaKeyDown}
+                                title={
+                                  item.videoUrl
+                                    ? isEn
+                                      ? 'Click image to play full-card video (hover to preview)'
+                                      : 'Bấm vào hình để xem video toàn thẻ (rê chuột để xem video lấp đầy)'
+                                    : systemFullName
+                                }
+                                aria-label={
+                                  item.videoUrl
+                                    ? isEn
+                                      ? `Play ${item.abbr} video`
+                                      : `Xem video ${item.abbr}`
+                                    : systemFullName
+                                }
+                                data-media-card="image"
                                 className={cn(
-                                  'w-1.5 h-1.5 rounded-full shrink-0',
-                                  isPendingBi ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'
+                                  'system-card-image-slot relative w-full h-full min-h-[148px] sm:min-h-[168px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35 transition-transform duration-300',
+                                  item.videoUrl && 'cursor-pointer hover:scale-[1.02]'
                                 )}
-                              />
-                              <span className="truncate">{isEn ? tech.ecosystemLabelEn : tech.ecosystemLabel}</span>
-                            </span>
+                              >
+                                <img
+                                  src={primaryImg}
+                                  alt={systemFullName}
+                                  referrerPolicy="no-referrer"
+                                  loading="lazy"
+                                  decoding="async"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                  className="system-img-pop w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-
-                        {/* Cột phải: Hình minh họa nằm bên phải của Tiêu đề & Mô tả */}
-                        <div
-                          role={item.videoUrl ? 'button' : undefined}
-                          tabIndex={item.videoUrl ? 0 : undefined}
-                          onMouseEnter={() => {
-                            if (item.videoUrl) setHoveredCardVideoId(item.id);
-                          }}
-                          onMouseLeave={() => {
-                            setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
-                          }}
-                          onClick={(e) => {
-                            if (!item.videoUrl) return;
-                            e.stopPropagation();
-                            SoundEngine.playTap();
-                            setActiveCardDemoId(item.id);
-                          }}
-                          onKeyDown={(e) => {
-                            if (!item.videoUrl) return;
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              SoundEngine.playTap();
-                              setActiveCardDemoId(item.id);
-                            }
-                          }}
-                          title={
-                            item.videoUrl
-                              ? isEn
-                                ? 'Click image to play full-card video (hover to preview)'
-                                : 'Bấm vào hình để xem video toàn thẻ (rê chuột để xem video lấp đầy)'
-                              : localizedTitle
-                          }
-                          aria-label={
-                            item.videoUrl
-                              ? isEn
-                                ? `Play ${item.abbr} video`
-                                : `Xem video ${item.abbr}`
-                              : localizedTitle
-                          }
-                          style={{ borderRadius: '14px' }}
-                          className={cn(
-                            'relative z-10 shrink-0 self-stretch w-[108px] sm:w-[126px] min-h-[120px] flex items-center justify-center overflow-hidden rounded-[14px] transition-transform duration-300',
-                            item.videoUrl && 'cursor-pointer hover:scale-105'
-                          )}
-                        >
-                          <img
-                            src={meta.illustrationSrc || item.imageUrl}
-                            alt={localizedTitle}
-                            referrerPolicy="no-referrer"
-                            loading="lazy"
-                            decoding="async"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                            className={cn(
-                              'w-full h-full max-h-full object-contain rounded-[14px] select-none pointer-events-none transition-all duration-300',
-                              isHovered && item.videoUrl && 'opacity-0'
-                            )}
-                          />
-                        </div>
-                      </div>
+                        );
+                      })()}
                     </article>
                   );
                 })}

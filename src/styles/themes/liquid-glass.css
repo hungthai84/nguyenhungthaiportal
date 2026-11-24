@@ -671,7 +671,6 @@ html:is([data-card-style="liquid-glass"], [data-theme="liquid-glass"], :not([dat
 ) {
   background: rgba(255, 255, 255, var(--card-alpha, 0.56)) !important;
   border: 1px solid rgba(255, 255, 255, 0.84) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(165%) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(165%) !important;
@@ -692,7 +691,6 @@ html:is([data-card-style="dark-liquid-glass"], [data-theme="dark-liquid-glass"],
 ) {
   background: rgba(19, 29, 48, var(--card-alpha, 0.68)) !important;
   border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(165%) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(165%) !important;

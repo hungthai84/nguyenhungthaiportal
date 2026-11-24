@@ -859,11 +859,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                       />
 
                       {/* Bố cục Thẻ dịch vụ 2 phần 50% / 50%:
-                          Bên trái 50% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
-                          Bên phải 50% (H1+H2: Hình ảnh, H3: Hình ảnh Logo) */}
-                      <div className="service-card-split-grid relative z-10 grid grid-cols-2 grid-rows-[auto_auto_auto] gap-x-2.5 gap-y-2 flex-1 min-w-0 w-full items-stretch">
-                        {/* BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề */}
-                        <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-2 self-start pt-0.5">
+                          Cột bên trái 50% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
+                          Cột bên phải 50% (H1: Hình ảnh, H2: Hình ảnh, H3: Hình ảnh) */}
+                      <div className="service-card-split-grid relative z-10 grid grid-cols-2 grid-rows-[auto_1fr_auto] gap-x-0 gap-y-2 flex-1 min-w-0 w-full items-stretch">
+                        {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề */}
+                        <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-2 self-center">
                           {renderDomainIcon(
                             meta.iconKey,
                             'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
@@ -879,22 +879,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           </h3>
                         </div>
 
-                        {/* BÊN TRÁI (50%) - HÀNG 2: Mô tả */}
-                        <div className="col-start-1 row-start-2 min-w-0 pr-2.5 flex items-start self-stretch">
-                          <p
-                            id={`service-card-desc-${domain.id}`}
-                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-caption sm:typo-body-sm font-normal"
-                            title={summaryText}
-                          >
-                            {summaryText}
-                          </p>
-                        </div>
-
-                        {/* BÊN PHẢI (50%) - HÀNG 1: Hình ảnh */}
-                        <div className="col-start-2 row-start-1 min-w-0 pl-1.5 flex items-center justify-center self-stretch">
+                        {/* CỘT BÊN PHẢI (50%) - HÀNG 1: Hình ảnh */}
+                        <div className="col-start-2 row-start-1 min-w-0 pl-2.5 flex items-center justify-center self-stretch">
                           <div
                             data-media-card="image"
-                            className="service-card-illustration relative w-full h-[64px] sm:h-[72px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,14px)] p-0.5"
+                            className="service-card-illustration service-card-image-slot relative w-full h-[60px] sm:h-[68px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
                           >
                             <img
                               src={serviceImage}
@@ -913,27 +902,43 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           </div>
                         </div>
 
-                        {/* BÊN PHẢI (50%) - HÀNG 2: Hình ảnh */}
-                        <div className="col-start-2 row-start-2 min-w-0 pl-1.5 flex items-center justify-center self-stretch">
+                        {/* CỘT BÊN TRÁI (50%) - HÀNG 2: Mô tả */}
+                        <div className="col-start-1 row-start-2 min-w-0 pr-2.5 flex items-start self-stretch">
+                          <p
+                            id={`service-card-desc-${domain.id}`}
+                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-caption sm:typo-body-sm font-normal"
+                            title={summaryText}
+                          >
+                            {summaryText}
+                          </p>
+                        </div>
+
+                        {/* CỘT BÊN PHẢI (50%) - HÀNG 2: Hình ảnh */}
+                        <div className="col-start-2 row-start-2 min-w-0 pl-2.5 flex items-center justify-center self-stretch">
                           <div
                             data-media-card="image"
-                            className="service-card-illustration relative w-full h-[52px] sm:h-[60px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,14px)] p-0.5 opacity-90"
+                            className="service-card-illustration service-card-image-slot relative w-full h-[54px] sm:h-[62px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
                           >
                             <img
                               src={domain.companyLogos?.[0]?.logo || serviceImage}
-                              alt=""
+                              alt={domain.companyLogos?.[0]?.name || cardTitle}
                               loading="lazy"
                               decoding="async"
                               referrerPolicy="no-referrer"
+                              onError={(e) => {
+                                if (e.currentTarget.src !== serviceImage) {
+                                  e.currentTarget.src = serviceImage;
+                                }
+                              }}
                               className="service-img-pop relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
                             />
                           </div>
                         </div>
 
-                        {/* BÊN TRÁI (50%) - HÀNG 3: Logo (Nhãn & tên doanh nghiệp) */}
+                        {/* CỘT BÊN TRÁI (50%) - HÀNG 3: Logo (Nhãn & tên doanh nghiệp) */}
                         <div
                           className={cn(
-                            'service-divider col-start-1 row-start-3 pt-2.5 pr-2.5 mt-auto flex flex-col justify-center gap-0.5 min-w-0 self-stretch',
+                            'service-divider col-start-1 row-start-3 pt-2 pr-2.5 mt-auto flex flex-col justify-center gap-0.5 min-w-0 self-stretch',
                             isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
                           )}
                         >
@@ -953,14 +958,14 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           )}
                         </div>
 
-                        {/* BÊN PHẢI (50%) - HÀNG 3: Hình ảnh Logo */}
+                        {/* CỘT BÊN PHẢI (50%) - HÀNG 3: Hình ảnh */}
                         <div
                           className={cn(
-                            'service-divider col-start-2 row-start-3 pt-2.5 pl-2.5 mt-auto flex items-center justify-end gap-1.5 flex-wrap min-w-0 self-stretch',
+                            'service-divider col-start-2 row-start-3 pt-2 pl-2.5 mt-auto flex items-center justify-end gap-1.5 flex-wrap min-w-0 self-stretch',
                             isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
                           )}
                         >
-                          {(domain.companyLogos || []).length > 0 &&
+                          {(domain.companyLogos || []).length > 0 ? (
                             (domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                               <div
                                 key={partner.name || pIdx}
@@ -985,12 +990,27 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                     ) {
                                       e.currentTarget.src = partner.fallbackLogo;
                                     } else {
-                                      e.currentTarget.style.display = 'none';
+                                      e.currentTarget.src = serviceImage;
                                     }
                                   }}
                                 />
                               </div>
-                            ))}
+                            ))
+                          ) : (
+                            <div
+                              data-media-card="image"
+                              className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center shrink-0"
+                            >
+                              <img
+                                src={serviceImage}
+                                alt={cardTitle}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover rounded-full"
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.div>

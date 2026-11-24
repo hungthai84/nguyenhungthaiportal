@@ -40,11 +40,11 @@ export interface ThemeBackground {
 
 export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'liquid-glass': {
-    light: wpLiquidGlass,
+    light: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     dark: darkRainbowGlassWallpaper,
   },
   'dark-liquid-glass': {
-    light: wpLiquidGlass,
+    light: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     dark: darkRainbowGlassWallpaper,
   },
   'cowhide-leather': {
@@ -494,14 +494,14 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-liquid-glass',
-    name: '✨ Nền Liquid Glass Soft UI Sáng (Giao diện riêng)',
+    name: '✨ Nền Liquid Glass Soft UI Sáng · Hình nền #32 (Mặc định)',
     type: 'image',
-    value: wpLiquidGlass,
-    bg: `url('${wpLiquidGlass}') center/cover no-repeat`,
+    value: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
+    bg: "url('https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg') center/cover no-repeat",
     previewStyle: {
       background:
         'radial-gradient(at 14% 16%, rgba(165, 180, 252, 0.34) 0px, transparent 52%), linear-gradient(135deg, #f3f6fd 0%, #e9eefb 50%, #edf2fc 100%)',
-      backgroundImage: `url('${wpLiquidGlass}')`,
+      backgroundImage: "url('https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },

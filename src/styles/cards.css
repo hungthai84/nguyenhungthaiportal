@@ -582,7 +582,6 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   transform: none !important;
   animation: none !important;
   transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
@@ -721,33 +720,33 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   transform: none !important;
 }
 
-.page-main-card,
-[data-main-card="true"]:not(#pdf-page-container),
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
-  width: var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
-  max-width: min(100%, var(--container-max-w, 1250px)) !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
-  flex: 0 0 var(--about-card-w, var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) !important;
   flex-shrink: 0 !important;
   height: 100% !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
   scroll-behavior: smooth !important;
   margin: 0 !important;
-  padding: var(--main-card-padding, 20px) !important;
-  gap: 16px !important;
-  row-gap: 16px !important;
-  column-gap: 16px !important;
+  padding: var(--main-card-padding, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0px !important;
   transform: none !important;
   animation: none !important;
   transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
@@ -3907,17 +3906,18 @@ html #education-courses-grid .education-course-card,
 
 #services-page-container .domain-card .service-card-split-grid {
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
   grid-template-rows: auto 1fr auto !important;
+  column-gap: 0px !important;
+  row-gap: 8px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
 
 #services-page-container .domain-card .service-card-illustration {
   width: 100% !important;
-  height: 100% !important;
-  min-height: 108px !important;
-  max-height: 152px !important;
+  min-height: 0 !important;
+  max-height: none !important;
   align-self: stretch !important;
   justify-self: stretch !important;
 }
@@ -4110,18 +4110,22 @@ html.dark #services-page-container .domain-card-sub {
   cursor: pointer;
 }
 
+#systems-page-container .system-card-tile .system-card-split-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  grid-template-rows: auto auto 1fr !important;
+  column-gap: 0px !important;
+  row-gap: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
 @container system-card (max-width: 270px) {
   #systems-page-container .system-card-tile {
     padding: 10px !important;
   }
-  #systems-page-container .system-card-tile > div.relative.z-10 {
-    flex-direction: column-reverse !important;
-    gap: 8px !important;
-  }
-  #systems-page-container .system-card-tile > div.relative.z-10 > div:last-child {
-    width: 100% !important;
-    min-height: 76px !important;
-    height: 82px !important;
+  #systems-page-container .system-card-tile .system-card-image-slot {
+    height: 46px !important;
   }
 }
 
@@ -4199,12 +4203,12 @@ html.dark #systems-page-container .system-card-sub {
 
 #systems-page-container #systems-expanded-card.is-animating {
   transition:
-    top 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    left 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.58s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.58s ease;
+    top 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.72s ease;
 }
 
 #systems-page-container #systems-expanded-card .expanded-detail-content {
@@ -4877,9 +4881,9 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 /* ========================================================================= */
 /* THEME-AWARE TIER RADII ACROSS ALL THEMES (DEFAULT 14PX, LIQUID GLASS 5-T) */
 /* ========================================================================= */
-.page-main-card,
-[data-main-card="true"] {
-  border-radius: var(--radius-main, 14px) !important;
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer) {
+  border-radius: 0px !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
@@ -4973,29 +4977,33 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 #app-header {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: var(--radius-global, 14px) !important;
+  border-bottom-right-radius: var(--radius-global, 14px) !important;
+  border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
 }
 
 #app-footer {
-  border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-top-left-radius: var(--radius-global, 14px) !important;
+  border-top-right-radius: var(--radius-global, 14px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) 0 0 !important;
+  border-radius: var(--radius-global, 14px) var(--radius-global, 14px) 0 0 !important;
 }
 
 /* ========================================================================= */
-/* UNIFIED 1250PX MAX-WIDTH FOR HEADER, FOOTER & MAIN CARDS                 */
+/* UNIFIED SHELL WIDTH (1000PX) FOR HEADER/FOOTER/MAIN CARDS; PDF 1250PX     */
 /* ========================================================================= */
-#app-header,
-#app-footer,
-.page-main-card,
-[data-main-card="true"],
-#main-card-container,
 #pdf-page-container {
   max-width: 1250px !important;
+  box-sizing: border-box !important;
+}
+
+#app-header,
+#app-footer,
+.page-main-card:not(#pdf-page-container),
+[data-main-card="true"]:not(#pdf-page-container),
+#main-card-container {
+  max-width: var(--main-card-target-w, 1000px) !important;
   box-sizing: border-box !important;
 }
 
@@ -5166,20 +5174,20 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, nhô mép phải & cuộn ngang mượt, chiều cao 600px */
+/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, căn thẳng mép Header/Footer, chiều cao max full */
 #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding-left: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
-  padding-right: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
@@ -5197,15 +5205,15 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  width: 100% !important;
   min-width: 0 !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  border-radius: var(--radius-main, 14px) !important;
-  scroll-snap-align: center;
+  max-width: 100% !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, 100%) !important;
+  flex: 0 0 100% !important;
+  border-radius: 0px !important;
+  scroll-snap-align: start;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   box-sizing: border-box !important;
@@ -5258,7 +5266,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-/* Thẻ Dịch vụ: Hình ảnh chiếm nửa phải (50% chiều ngang, hàng 1 + hàng 2), giữ nguyên màu gốc */
+/* Thẻ Dịch vụ: Chia 2 cột 50% / 50%, 3 hàng ảnh bên phải giữ nguyên màu gốc */
 #services-page-container .domain-card .service-card-illustration {
   align-self: stretch !important;
   justify-self: stretch !important;
@@ -5266,9 +5274,8 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  height: 100% !important;
-  min-height: 108px !important;
-  max-height: 152px !important;
+  min-height: 0 !important;
+  max-height: none !important;
 }
 
 #services-page-container .domain-card .service-img-pop {

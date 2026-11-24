@@ -76,9 +76,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     };
   }, []);
 
-  const peekReserve = viewportWidth < 640 ? 20 : 32;
+  const peekReserve = viewportWidth < 640 ? 16 : 32;
   const homeCardWidth = Math.min(1000, Math.max(260, viewportWidth - peekReserve));
-  const homeSideInset = Math.max(10, (homeContainerWidth - homeCardWidth) / 2);
+  const homeSideInset = 0;
 
   const handleQuickNavigateAbout = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -191,7 +191,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           ['--about-card-w' as any]: `${homeCardWidth}px`,
           ['--about-side-inset' as any]: `${homeSideInset}px`,
         }}
-        className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-hidden overflow-y-hidden no-scrollbar select-none font-play rounded-none box-border"
+        className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[10px] overflow-x-hidden overflow-y-hidden no-scrollbar select-none font-play rounded-none box-border"
       >
         <div
           id="home-cards-track"
@@ -207,12 +207,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
             gap: '10px',
             height: '100%',
             minHeight: '100%',
-            width: 'max-content',
-            paddingLeft: `${homeSideInset}px`,
-            paddingRight: `${homeSideInset}px`,
+            width: '100%',
+            paddingLeft: '0px',
+            paddingRight: '0px',
             boxSizing: 'border-box',
           }}
-          className="page-cards-track flex flex-row items-center justify-start gap-[10px] h-full min-h-full box-border"
+          className="page-cards-track flex flex-row items-center justify-start gap-[10px] w-full h-full min-h-full box-border"
         >
           <div
             id="home-main-card-1"
@@ -222,16 +222,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-page="home"
             data-element-parent="home-cards-track"
             style={{
-              width: `${homeCardWidth}px`,
-              maxWidth: '1000px',
-              minWidth: `${homeCardWidth}px`,
-              flex: `0 0 ${homeCardWidth}px`,
-              height: 'min(600px, 100%)',
-              minHeight: 'min(600px, 100%)',
-              maxHeight: 'min(600px, 100%)',
+              width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+              maxWidth: 'var(--main-card-target-w, 1000px)',
+              minWidth: '0px',
+              flex: '1 1 100%',
+              height: '100%',
+              minHeight: '0px',
+              maxHeight: '100%',
               padding: 'var(--main-card-padding, 15px)',
               gap: '15px',
-              borderRadius: 'var(--radius-main, 14px)',
+              borderRadius: '0px',
             }}
             className="page-main-card home-screen-main-card relative shrink-0 flex flex-col justify-between overflow-hidden select-none font-play box-border opacity-100"
           >
@@ -249,10 +249,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
               <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-4 sm:gap-6 lg:gap-8 px-4 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
                 {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
-                <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                <div
                   className="md:col-span-7 flex flex-col justify-center items-start gap-4 sm:gap-5 min-w-0 order-2 md:order-1"
                 >
                   <div
@@ -395,7 +392,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       );
                     })}
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Cột Phải: Khung chân dung vòng tròn đồng tâm & video toggle */}
                 <motion.div

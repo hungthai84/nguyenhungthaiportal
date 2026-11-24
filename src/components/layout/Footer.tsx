@@ -486,23 +486,21 @@ export const Footer: React.FC<FooterProps> = ({
         ...cleanFooterStyle,
         maxWidth: 'var(--main-card-target-w, 1000px)',
         width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+        height: 'auto',
+        minHeight: 0,
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderTopLeftRadius: `${cornerRadius}px`,
-        borderTopRightRadius: `${cornerRadius}px`,
+        marginTop: '0px',
+        marginBottom: '0px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        borderTopLeftRadius: 'var(--radius-global, 14px)',
+        borderTopRightRadius: 'var(--radius-global, 14px)',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
-        borderRadius: `${cornerRadius}px ${cornerRadius}px 0 0`,
-        border: '1px dashed #000000',
-        borderStyle: 'dashed',
-        borderColor: '#000000',
-        borderWidth: '1px',
-        background: 'transparent',
-        boxShadow: 'none',
-        backdropFilter: 'none',
-        WebkitBackdropFilter: 'none',
+        borderRadius: 'var(--radius-global, 14px) var(--radius-global, 14px) 0 0',
       }}
-      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-0 py-[5px] flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${

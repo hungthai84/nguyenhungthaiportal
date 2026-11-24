@@ -1018,12 +1018,13 @@ html[data-card-style] #horoscope-row-1-horizontal > :is(#horoscope-card-profile,
   height: 100% !important;
   min-height: 0 !important;
   flex: none !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   margin: 0 !important;
   padding: 12px !important;
-  gap: 10px !important;
-  row-gap: 10px !important;
-  column-gap: 10px !important;
+  gap: 8px !important;
+  row-gap: 8px !important;
+  column-gap: 8px !important;
   border-width: 1px !important;
   border-style: solid !important;
   border-radius: var(--radius-card, 14px) !important;
@@ -6019,11 +6020,16 @@ html[data-surface-depth="flat"] body :is(
 .news-slider-wrapper-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 490px;
+  height: auto;
+  flex: 1 0 auto;
+  padding: 24px 10px 22px;
+  border-radius: var(--radius-banner, 14px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .news-slider-bg {
@@ -6033,36 +6039,46 @@ html[data-surface-depth="flat"] body :is(
   height: 100%;
   z-index: 0;
   pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
 }
 .news-slider-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0.28;
+  border-radius: 0 !important;
 }
 .news-slider-bg:after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(45deg, rgba(209, 0, 42, 0.45) 0%, rgba(14, 93, 196, 0.78) 100%);
-  opacity: 0.88;
+  background-image: linear-gradient(45deg, rgba(209, 0, 42, 0.6) 0%, #0E5DC4 100%);
+  opacity: 0.9;
+}
+
+.news-slider-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .news-item-bg {
-  width: 320px;
-  height: 500px;
+  width: 312px;
+  height: 420px;
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--surface-primary-bg, rgba(255, 255, 255, 0.94));
-  backdrop-filter: blur(18px);
-  border-radius: var(--radius-card, 14px);
-  box-shadow: 0 12px 36px 8px rgba(0,0,0,0.30);
+  background: #ffffff;
+  border-radius: var(--radius-card, 12px);
+  box-shadow: 0 6px 26px 6px rgba(0, 0, 0, 0.42);
   opacity: 0;
-  transition: transform .35s cubic-bezier(0.22, 1, 0.36, 1), opacity .3s ease, width .35s ease, height .35s ease;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
   z-index: 1;
   pointer-events: none;
 }
@@ -6070,121 +6086,138 @@ html[data-surface-depth="flat"] body :is(
   opacity: 1;
 }
 
-.news-slider-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  overflow: visible;
-}
-
 .news-slider-wrp {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   position: relative;
   z-index: 2;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 24px 15px;
-  scrollbar-width: none;
+  width: max-content;
+  min-width: 100%;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
 }
-.news-slider-wrp::-webkit-scrollbar {
-  display: none;
+.news-slider-wrp:active {
+  cursor: grabbing;
 }
 
 .news-slider-slide {
-  width: 380px;
+  width: 312px;
   flex-shrink: 0;
-  opacity: 0.65;
-  transition: opacity .3s ease, transform .3s ease;
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  box-sizing: border-box;
 }
+.news-slider-slide.swiper-slide-prev,
+.news-slider-slide.swiper-slide-active,
+.news-slider-slide.swiper-slide-next,
 .news-slider-slide.active-slide {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .news-card-item {
-  padding: 36px;
-  color: #fff;
-  border-radius: var(--radius-card, 14px);
-  display: block;
-  transition: color .3s ease;
+  padding: 26px 24px;
+  height: 100%;
+  color: #ffffff;
+  border-radius: var(--radius-card, 12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
+  box-sizing: border-box;
 }
-.news-card-item:hover,
+
+@media (hover: hover) {
+  .news-card-item:hover {
+    color: #222222;
+  }
+  .news-card-item:hover .news-card-date,
+  .news-card-item:hover .news-card-title,
+  .news-card-item:hover .news-card-txt {
+    opacity: 1;
+    color: #222222;
+  }
+  .news-card-item:hover .news-card-img {
+    box-shadow: none;
+  }
+}
+
 .news-card-item.active {
-  color: #1E293B;
+  color: #222222;
+}
+.news-card-item.active .news-card-date,
+.news-card-item.active .news-card-title,
+.news-card-item.active .news-card-txt {
+  opacity: 1;
+  color: #222222;
 }
 
 .news-card-date {
-  padding-bottom: 18px;
-  margin-bottom: 18px;
-  border-bottom: 2px solid rgba(255,255,255,0.45);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid currentColor;
   display: inline-block;
-  opacity: .82;
-  transition: opacity .3s;
-}
-.news-card-item:hover .news-card-date,
-.news-card-item.active .news-card-date {
-  border-bottom-color: #1E293B;
-  opacity: 1;
+  align-self: flex-start;
+  opacity: 0.78;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
 }
 
 .news-card-date-title {
   display: block;
-  font-size: 30px;
-  margin-bottom: 6px;
+  font-size: 26px;
+  line-height: 1.1;
+  margin-bottom: 4px;
   font-weight: 700;
 }
 
 .news-card-date-txt {
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 600;
 }
 
 .news-card-title {
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 700;
-  opacity: .85;
-  margin-top: 10px;
-  margin-bottom: 14px;
-  transition: opacity .3s;
-}
-.news-card-item:hover .news-card-title,
-.news-card-item.active .news-card-title {
-  opacity: 1;
-  color: #1E293B;
+  line-height: 1.32;
+  opacity: 0.88;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  min-height: 2.64em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .news-card-txt {
-  margin: 10px 0;
-  line-height: 1.6em;
-  font-size: 14px;
-  opacity: .78;
-  transition: opacity .3s;
+  margin: 0 0 auto;
+  line-height: 1.55em;
+  font-size: 13.5px;
+  opacity: 0.78;
+  min-height: 4.65em;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-.news-card-item:hover .news-card-txt,
-.news-card-item.active .news-card-txt {
-  opacity: 1;
-  color: #334155;
+  transition: opacity 0.3s ease, color 0.3s ease;
 }
 
 .news-card-img {
-  border-radius: var(--radius-image, 14px);
-  box-shadow: 0 6px 22px 4px rgba(0,0,0,0.25);
-  height: 190px;
-  margin-top: 24px;
+  border-radius: var(--radius-image, 10px);
+  box-shadow: 0 6px 24px 4px rgba(0, 0, 0, 0.42);
+  height: 158px;
+  margin-top: 18px;
   width: 100%;
+  flex-shrink: 0;
   overflow: hidden;
-  transition: all .3s;
+  transition: box-shadow 0.3s ease;
 }
-.news-card-item:hover .news-card-img,
 .news-card-item.active .news-card-img {
   box-shadow: none;
 }
@@ -6192,106 +6225,186 @@ html[data-surface-depth="flat"] body :is(
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--radius-image, 14px);
+  border-radius: var(--radius-image, 10px);
 }
 
 .news-slider-ctr {
   position: relative;
   z-index: 12;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  gap: 24px;
+  margin-top: 18px;
 }
 
 .news-slider-arrow {
-  background: var(--surface-primary-bg, #FFFFFF);
-  border: 1px solid var(--surface-primary-border, rgba(255,255,255,0.4));
+  background: #ffffff;
+  border: none;
   display: inline-flex;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.38);
   border-radius: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  color: var(--text-primary, #1E293B);
-  transition: transform .2s ease, background .2s ease;
+  color: #222222;
+  z-index: 18;
+  transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease;
 }
-.news-slider-arrow:hover {
-  transform: scale(1.08);
+.news-slider-container .news-slider-arrow {
+  position: absolute;
+}
+.news-slider-arrow.news-slider-prev {
+  left: 10px;
+}
+.news-slider-arrow.news-slider-next {
+  right: 10px;
+}
+.news-slider-arrow .icon-font {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.news-slider-arrow:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.08);
+}
+.news-slider-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .news-slider-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
+  text-align: center;
 }
 
 .news-slider-bullet {
-  width: 14px;
-  height: 10px;
+  width: 12px;
+  height: 9px;
   display: inline-block;
-  background: #fff;
-  opacity: .3;
+  background: #ffffff;
+  opacity: 0.28;
   border-radius: 20px;
-  transition: all .4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
   cursor: pointer;
   border: none;
+  padding: 0;
 }
 .news-slider-bullet.active-bullet {
   opacity: 1;
-  width: 85px;
+  width: 56px;
   background: #ffffff;
 }
 
+@media screen and (max-width: 960px) {
+  .news-slider-slide,
+  .news-item-bg {
+    width: 270px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .news-slider-wrapper-container {
+    min-height: 440px;
+    padding: 16px 8px 18px;
+  }
+  .news-slider-slide,
+  .news-item-bg {
+    width: 100%;
+    max-width: 340px;
+  }
+  .news-slider-slide.swiper-slide-prev,
+  .news-slider-slide.swiper-slide-next {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .news-slider-slide.swiper-slide-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .news-card-item {
+    padding: 22px 20px;
+  }
+  .news-slider-ctr {
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .news-slider-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .news-slider-container .news-slider-arrow {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 40px;
+    height: 40px;
+  }
+  .news-slider-arrow:hover:not(:disabled) {
+    transform: scale(1.08);
+  }
+}
+
 /* ========================================================================= */
-/* HEADER, MAIN CARD, FOOTER: UNIFIED WIDTH, 0PX GAP, NO EFFECTS, NO SHADOW  */
-/* 1. Chiều ngang Header và Footer bằng chiều ngang Main Card ở mọi kích thước  */
-/* 2. Khoảng cách Header đến Main Card = 0px, Footer đến Main Card = 0px      */
-/* 3. Xóa toàn bộ hiệu ứng, đổ bóng, nổi, floating                            */
-/* 4. Footer: Chỉ bo cong góc trên trái và góc trên phải (14px)               */
-/*    Header: Ngược lại, chỉ bo cong góc dưới trái và góc dưới phải (14px)    */
-/*    Main Card: Không bo cong (0px)                                         */
+/* HEADER, CENTER, FOOTER: UNIFIED SHELL ACROSS ALL 14 THEMES                */
+/* 1. Chiều ngang Main Card = Header = Footer ở mọi kích thước               */
+/* 2. Khoảng cách Header ↔ Main Card = 0px, Footer ↔ Main Card = 0px         */
+/* 3. Khu vực chính giữa padding-top: 10px, padding-bottom: 10px             */
+/* 4. Khoảng cách giữa các card chính theo chiều ngang/dọc = 10px            */
+/* 5. Header/Footer padding-top: 5px, padding-bottom: 5px                    */
+/* 6. Header: chỉ bo góc dưới trái & dưới phải theo --radius-global          */
+/*    Footer: chỉ bo góc trên trái & trên phải theo --radius-global          */
+/*    Main Card: không bo cong (0px)                                         */
 /* ========================================================================= */
 
 #website-root {
   gap: 0px !important;
   row-gap: 0px !important;
+  padding-block: 0px !important;
+  padding-inline: 0px !important;
 }
 
-/* ĐỒNG BỘ CHIỀU NGANG HEADER, MAIN CARD, FOOTER Ở MỌI KÍCH THƯỚC */
+/* ĐỒNG BỘ CHIỀU NGANG HEADER, MAIN CARD, FOOTER Ở MỌI KÍCH THƯỚC VÀ MỌI GIAO DIỆN */
 html:root body #app-header-container,
 html:root body #app-header,
 html:root body #app-header-container > header,
-html:root body #global-content-viewport,
-html:root body .page-main-card,
-html:root body [data-main-card="true"],
-html:root body .home-screen-main-card,
-html:root body [id^="home-main-card-"],
+html:root body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
 html:root body #about-intro-card-1,
 html:root body #about-intro-card-2,
 html:root body #experience-main-card,
 html:root body #contact-main-card,
-html:root body [id^="letter-card-"],
+html:root body #letter-card-1,
+html:root body #letter-card-4,
 html:root body #el-p0-div-98,
 html:root body #app-footer,
 html:root body #el-p0-div-98 > footer,
 html:root[data-card-style] body #app-header-container,
 html:root[data-card-style] body #app-header,
 html:root[data-card-style] body #app-header-container > header,
-html:root[data-card-style] body #global-content-viewport,
-html:root[data-card-style] body .page-main-card,
-html:root[data-card-style] body [data-main-card="true"],
-html:root[data-card-style] body .home-screen-main-card,
-html:root[data-card-style] body [id^="home-main-card-"],
+html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
 html:root[data-card-style] body #about-intro-card-1,
 html:root[data-card-style] body #about-intro-card-2,
 html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
-html:root[data-card-style] body [id^="letter-card-"],
+html:root[data-card-style] body #letter-card-1,
+html:root[data-card-style] body #letter-card-4,
 html:root[data-card-style] body #el-p0-div-98,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 > footer {
@@ -6302,139 +6415,128 @@ html:root[data-card-style] body #el-p0-div-98 > footer {
   margin-right: auto !important;
 }
 
-/* KHOẢNG CÁCH HEADER VÀ FOOTER ĐẾN MAIN CARD = 0PX */
-#app-header-container,
-#app-header,
-#global-content-viewport,
-.page-main-card,
-[data-main-card="true"],
-#el-p0-div-98,
-#app-footer {
+/* KHOẢNG CÁCH HEADER VÀ FOOTER ĐẾN MAIN CARD = 0PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
+html:root body :is(#app-header-container, #app-header, #global-content-viewport, .page-main-card:not(#pdf-page-container), [data-main-card="true"]:not(#pdf-page-container), #el-p0-div-98, #app-footer),
+html:root[data-card-style] body :is(#app-header-container, #app-header, #global-content-viewport, .page-main-card:not(#pdf-page-container), [data-main-card="true"]:not(#pdf-page-container), #el-p0-div-98, #app-footer) {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
 
-/* CÁC THÀNH PHẦN DIV TẠO LINE NÉT ĐỨT MÀU ĐEN, XÓA TOÀN BỘ HIỆU ỨNG, ĐỔ BÓNG, NỔI, FLOATING */
-#app-header,
-#app-header-container > header,
-#app-footer,
-#el-p0-div-98 > footer,
-.page-main-card,
-[data-main-card="true"],
-.home-screen-main-card,
-[id^="home-main-card-"],
-#experience-main-card,
-#contact-main-card,
-div[data-element-type="card"],
-div[data-section-card="true"],
-div[data-subcard="true"],
-div.bento-card,
-div.glass-card,
-div.sub-card,
-div.exp-bento-surface-card,
-div.hero-banner,
-div.banner-card {
-  border: 1px dashed #000000 !important;
-  border-width: 1px !important;
-  border-style: dashed !important;
-  border-color: #000000 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-  outline: none !important;
+/* HEADER & FOOTER PADDING TOP 5PX, PADDING BOT 5PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
+html:root body :is(#app-header-container, #el-p0-div-98),
+html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98) {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  padding: 0px !important;
+  overflow: visible !important;
 }
 
-#app-header,
-#app-header-container > header,
-#app-footer,
-#el-p0-div-98 > footer,
-.page-main-card,
-[data-main-card="true"],
-.home-screen-main-card,
-[id^="home-main-card-"],
-#experience-main-card,
-#contact-main-card {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  opacity: 1 !important;
-  filter: none !important;
-  -webkit-filter: none !important;
+html:root body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer),
+html:root[data-card-style] body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer) {
+  height: auto !important;
+  min-height: 0 !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  overflow: visible !important;
 }
 
-/* Khóa bỏ bóng và giữ border nét đứt khi hover / active / focus */
-#app-header:hover,
-#app-header:active,
-#app-footer:hover,
-#app-footer:active,
-.page-main-card:hover,
-.page-main-card:active,
-[data-main-card="true"]:hover,
-[data-main-card="true"]:active {
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important;
-  background: transparent !important;
-  border: 1px dashed #000000 !important;
+/* Giữ hiệu ứng mở rộng từ từ bằng 9 thẻ cộng lại cho Thẻ hệ thống khi click */
+html:root body #systems-page-container #systems-expanded-card.is-animating,
+html:root[data-card-style] body #systems-page-container #systems-expanded-card.is-animating {
+  transition:
+    top 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.72s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 /* FOOTER: Không bo cong 4 góc, CHỈ bo cong góc trên bên trái và góc trên bên phải theo Tùy chỉnh chung Bo cong 4 góc */
-html:root body #app-footer,
-html:root[data-card-style] body #app-footer,
-html:root body #el-p0-div-98,
-html:root body #el-p0-div-98 > footer,
-html:root[data-card-style] body #el-p0-div-98 > footer {
-  border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+html:root body :is(#app-footer, #app-footer:hover, #app-footer:active, #app-footer:focus-within, #el-p0-div-98 > footer),
+html:root[data-card-style] body :is(#app-footer, #app-footer:hover, #app-footer:active, #app-footer:focus-within, #el-p0-div-98 > footer),
+html.dark:root[data-card-style] body :is(#app-footer, #app-footer:hover, #app-footer:active, #app-footer:focus-within, #el-p0-div-98 > footer) {
+  border-top-left-radius: var(--radius-global, 14px) !important;
+  border-top-right-radius: var(--radius-global, 14px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) 0 0 !important;
+  border-radius: var(--radius-global, 14px) var(--radius-global, 14px) 0 0 !important;
 }
 
 /* HEADER: Không bo cong 4 góc, CHỈ bo cong góc dưới bên trái và góc dưới bên phải theo Tùy chỉnh chung Bo cong 4 góc */
-html:root body #app-header,
-html:root[data-card-style] body #app-header,
-html:root body #app-header-container,
-html:root body #app-header-container > header,
-html:root[data-card-style] body #app-header-container > header {
+html:root body :is(#app-header, #app-header:hover, #app-header:active, #app-header:focus-within, #app-header-container > header),
+html:root[data-card-style] body :is(#app-header, #app-header:hover, #app-header:active, #app-header:focus-within, #app-header-container > header),
+html.dark:root[data-card-style] body :is(#app-header, #app-header:hover, #app-header:active, #app-header:focus-within, #app-header-container > header) {
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: var(--radius-global, 14px) !important;
+  border-bottom-right-radius: var(--radius-global, 14px) !important;
+  border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
 }
 
-/* MAIN CARD: CHIỀU CAO MAX FULL, KHU VỰC CHÍNH GIỮA PADDING TOP 10PX, PADDING BOT 10PX */
+/* KHU VỰC CHÍNH GIỮA: PADDING TOP 10PX, PADDING BOT 10PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
 html:root body #global-content-viewport,
 html:root[data-card-style] body #global-content-viewport {
-  flex: 1 1 auto !important;
+  flex: 1 1 0% !important;
   height: 100% !important;
   min-height: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   box-sizing: border-box !important;
 }
 
-html:root body .page-main-card,
-html:root body [data-main-card="true"],
-html:root[data-card-style] body .page-main-card,
-html:root[data-card-style] body [data-main-card="true"] {
+html:root body #global-content-viewport:has(#pdf-page-container),
+html:root[data-card-style] body #global-content-viewport:has(#pdf-page-container) {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+/* KHOẢNG CÁCH GIỮA CÁC CARD CHÍNH THEO CHIỀU NGANG 10PX, CHIỀU DỌC 10PX */
+html:root body :is(
+  #home-page-container,
+  #home-cards-track,
+  #horoscope-page-container,
+  #horoscope-row-1-5-horizontal,
+  #horoscope-cards-track,
+  #letter-page-container,
+  #letter-cards-track,
+  #letter-cards-row-2-3,
+  .page-cards-track
+),
+html:root[data-card-style] body :is(
+  #home-page-container,
+  #home-cards-track,
+  #horoscope-page-container,
+  #horoscope-row-1-5-horizontal,
+  #horoscope-cards-track,
+  #letter-page-container,
+  #letter-cards-track,
+  #letter-cards-row-2-3,
+  .page-cards-track
+) {
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+}
+
+/* MAIN CARD: CHIỀU CAO MAX FULL VÀ KHÔNG BO CONG (0PX) */
+html:root body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header) {
   height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
   box-sizing: border-box !important;
 }
 
-/* MAIN CARD: Toàn bộ không bo cong (0px) */
 html:root body :is(
   #global-content-viewport,
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not(#app-footer):not(#app-header),
+  [data-main-card="true"]:not(#app-footer):not(#app-header),
   .home-screen-main-card,
   [id^="home-main-card-"],
   #about-intro-card-1,
@@ -6445,8 +6547,8 @@ html:root body :is(
 ),
 html:root[data-card-style] body :is(
   #global-content-viewport,
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not(#app-footer):not(#app-header),
+  [data-main-card="true"]:not(#app-footer):not(#app-header),
   .home-screen-main-card,
   [id^="home-main-card-"],
   #about-intro-card-1,
@@ -6459,4 +6561,5 @@ html:root[data-card-style] body :is(
 }
 
 /* End of index.css */
+
 

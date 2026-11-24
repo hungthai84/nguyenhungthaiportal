@@ -312,7 +312,6 @@ html[data-card-style="neumorphism-beyond"] :is(
   backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
   border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 

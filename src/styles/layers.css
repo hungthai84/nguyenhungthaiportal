@@ -14,10 +14,10 @@ html body :is(
   #experience-main-card,
   #contact-main-card,
   [id^="letter-card-"]
-):not(#pdf-page-container) {
+):not(#pdf-page-container):not(#app-header):not(#app-footer) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0px !important;
   color: var(--text-primary) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;

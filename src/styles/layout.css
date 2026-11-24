@@ -3,11 +3,12 @@
 /* ========================================================================= */
 
 #website-root {
-  --shell-section-gap: 10px;
+  --shell-section-gap: 0px;
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 10px) !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
@@ -20,12 +21,13 @@
 }
 
 #app-header-container {
-  flex: 0 0 10% !important;
-  height: 10% !important;
-  max-height: 10% !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
   min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+  padding: 0 !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
@@ -34,12 +36,13 @@
 }
 
 #el-p0-div-98 {
-  flex: 0 0 10% !important;
-  height: 10% !important;
-  max-height: 10% !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
   min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 #home-cards-track {
@@ -51,14 +54,18 @@
 }
 
 #global-content-viewport {
-  width: 100%;
-  max-width: 100%;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
+  max-width: var(--main-card-target-w, 1000px);
   flex: 1 1 0% !important;
-  height: calc(80% - (var(--shell-section-gap, 15px) * 2));
+  height: 100% !important;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   min-height: 0 !important;
   scroll-behavior: smooth;
   transition: none !important;
@@ -186,10 +193,10 @@
 #about-intro-card-1 {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  border-radius: 0px !important;
   display: flex !important;
   flex-direction: column !important;
   overflow-y: auto !important;
@@ -241,17 +248,17 @@
 }
 
 .page-cards-track {
-  padding-left: max(10px, calc((100vw - 2px - var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))) / 2));
-  padding-right: max(10px, calc((100vw - 2px - var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))) / 2));
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
-/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size - Unified 1000x600px, 14px radius */
-.page-main-card:not(#pdf-page-container),
-[data-main-card="true"]:not(#pdf-page-container) {
+/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size - Unified width, max full height, 0px radius */
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer) {
   overflow-x: hidden !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -272,10 +279,10 @@
 .tab-content-host > [data-main-card="true"]:not(#pdf-page-container) {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  border-radius: 0px !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -313,7 +320,7 @@
   margin-right: auto !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
-  padding-bottom: 16px !important;
+  padding-bottom: 0px !important;
   box-sizing: border-box !important;
   flex: 0 0 auto !important;
 }
@@ -323,9 +330,9 @@
   flex-direction: column !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -335,7 +342,7 @@
   margin-right: auto !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
-  padding-bottom: 16px !important;
+  padding-bottom: 0px !important;
   box-sizing: border-box !important;
   flex: 0 0 auto !important;
 }
@@ -345,12 +352,12 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
+  height: var(--horoscope-main-card-1-h, 100%) !important;
+  min-height: var(--horoscope-main-card-1-h, 100%) !important;
+  max-height: var(--horoscope-main-card-1-h, 100%) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
@@ -360,10 +367,10 @@
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, 100%) !important;
+  border-radius: 0px !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -473,18 +480,20 @@
 
 #app-header,
 #app-header-container > header {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: 1250px !important;
-  height: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: auto !important;
   min-height: 0 !important;
-  max-height: 100% !important;
+  max-height: none !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: var(--radius-global, 14px) !important;
+  border-bottom-right-radius: var(--radius-global, 14px) !important;
+  border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
 }
 
 #home-page-container {
@@ -497,26 +506,29 @@
 #home-cards-track {
   display: flex !important;
   justify-content: flex-start !important;
-  align-items: center !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
-  width: max-content !important;
-  max-width: none !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
   margin: 0 !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   box-sizing: border-box !important;
 }
 
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  flex: 0 0 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  border-radius: 0px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   box-sizing: border-box !important;
@@ -524,18 +536,20 @@
 
 #app-footer,
 #el-p0-div-98 > footer {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: 1250px !important;
-  height: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: auto !important;
   min-height: 0 !important;
-  max-height: 100% !important;
+  max-height: none !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
-  border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-top-left-radius: var(--radius-global, 14px) !important;
+  border-top-right-radius: var(--radius-global, 14px) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) 0 0 !important;
+  border-radius: var(--radius-global, 14px) var(--radius-global, 14px) 0 0 !important;
   overflow: visible !important;
   z-index: 50 !important;
 }
@@ -732,7 +746,7 @@
   }
 }
 
-/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer max-width 1250px và main card 1000px căn giữa */
+/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer và main card đồng nhất 1000px căn giữa; PDF 1250px */
 @media screen and (min-width: 1920px) {
   #global-content-viewport:has(#pdf-page-container) {
     max-width: 1250px;
@@ -741,8 +755,6 @@
     margin-right: auto;
   }
 
-  #app-header,
-  #app-footer,
   #pdf-page-container {
     max-width: 1250px !important;
     width: min(100%, 1250px) !important;
@@ -750,6 +762,8 @@
     margin-right: auto !important;
   }
 
+  #app-header,
+  #app-footer,
   .page-main-card:not(#pdf-page-container),
   [data-main-card="true"]:not(#pdf-page-container) {
     max-width: var(--main-card-target-w, 1000px) !important;

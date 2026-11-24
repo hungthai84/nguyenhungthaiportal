@@ -91,8 +91,9 @@ html[data-card-style="light-deep-ocean"] {
   height: 100vh;
   height: 100dvh;
   padding-inline: 0 !important;
-  padding-block: var(--shell-outer-pad-y, 8px) !important;
-  gap: var(--shell-section-gap, 10px) !important;
+  padding-block: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
   overflow-x: clip !important;
   overflow-y: hidden !important;
 }
@@ -112,11 +113,12 @@ html[data-card-style="light-deep-ocean"] {
 
 #global-content-viewport {
   flex: 1 1 0% !important;
-  height: auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
   z-index: var(--z-main-surface, 10);
   overflow: visible !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
 
 #global-content-viewport:has(#pdf-page-container) {
@@ -199,10 +201,8 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
   border-color: var(--surface-primary-border, var(--border-color)) !important;
 }
 
-/* Unified 4-Corner Border Radius across Header, Main Card & Footer */
+/* Unified 0px Corner Radius across Main Card Surfaces (Header & Footer use selective corners below) */
 html:root body :is(
-  #app-header,
-  #app-footer,
   .page-main-card,
   [data-main-card="true"],
   .home-screen-main-card,
@@ -212,7 +212,7 @@ html:root body :is(
   #experience-main-card,
   #contact-main-card,
   [id^="letter-card-"]
-):not(#pdf-page-container),
+):not(#pdf-page-container):not(#app-footer):not(#app-header),
 html:root[data-card-style] body :is(
   .page-main-card,
   [data-main-card="true"],
@@ -223,8 +223,8 @@ html:root[data-card-style] body :is(
   #experience-main-card,
   #contact-main-card,
   [id^="letter-card-"]
-):not(#pdf-page-container) {
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+):not(#pdf-page-container):not(#app-footer):not(#app-header) {
+  border-radius: 0px !important;
 }
 
 /* Preserve Home Inner Media Crispness (0% blur on video/image stages inside Home Main Card) */
@@ -267,26 +267,26 @@ html[data-card-style] #letter-cards-track .page-main-card:not(#pdf-page-containe
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, 100%) !important;
   flex: 0 0 auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 auto !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
-/* Preserve About Card 1 clean internal Bento scroll & 1000x600px floating card presentation */
+/* Preserve About Card 1 clean internal Bento scroll & full-height presentation */
 html #about-intro-card-1,
 html[data-card-style] #about-intro-card-1 {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  border-radius: 0px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   margin: 0 auto !important;
@@ -295,6 +295,15 @@ html[data-card-style] #about-intro-card-1 {
 /* ========================================================================= */
 /* SOFT FLOATING GLASS FOOTER & HEADER REFINEMENT                             */
 /* ========================================================================= */
+#app-header {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
+  overflow: visible !important;
+}
+
 #app-footer {
   border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
   border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
@@ -315,63 +324,69 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
 /* ========================================================================= */
 /* UNIFIED MAIN CARD SIZING TEMPLATE (1000px x 600px, 14px radius, 10px gap) */
 /* ========================================================================= */
-html:root body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]),
-html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]),
-html:root body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]),
-html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]) {
+html:root body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header) {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
   padding: var(--main-card-padding, 15px) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
   margin: 0 auto !important;
 }
 
 html:root body #horoscope-card-2,
 html:root body #horoscope-card-3,
+html:root body #horoscope-card-pillars,
 html:root body #horoscope-card-4,
 html:root[data-card-style] body #horoscope-card-2,
 html:root[data-card-style] body #horoscope-card-3,
+html:root[data-card-style] body #horoscope-card-pillars,
 html:root[data-card-style] body #horoscope-card-4 {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
+  height: var(--horoscope-main-card-1-h, 100%) !important;
+  min-height: var(--horoscope-main-card-1-h, 100%) !important;
+  max-height: var(--horoscope-main-card-1-h, 100%) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   padding: var(--main-card-padding, 15px) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
 @media (max-width: 639px) {
-  html:root body :is(#app-header, #app-footer),
-  html:root[data-card-style] body :is(#app-header, #app-footer) {
+  html:root body :is(#app-header-container, #app-header, #global-content-viewport, #el-p0-div-98, #app-footer),
+  html:root[data-card-style] body :is(#app-header-container, #app-header, #global-content-viewport, #el-p0-div-98, #app-footer) {
     width: calc(100vw - 16px) !important;
     max-width: calc(100vw - 16px) !important;
-    padding: 4px 10px !important;
+  }
+
+  html:root body :is(#app-header, #app-footer),
+  html:root[data-card-style] body :is(#app-header, #app-footer) {
+    padding: 5px 10px !important;
   }
 
   html:root body .page-cards-track:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track),
   html:root[data-card-style] body .page-cards-track:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track) {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
     gap: 10px !important;
   }
 
-  html:root body .page-main-card:not(#pdf-page-container),
-  html:root[data-card-style] body .page-main-card:not(#pdf-page-container),
-  html:root body [data-main-card="true"]:not(#pdf-page-container),
-  html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container) {
-    width: calc(100vw - 20px) !important;
-    max-width: calc(100vw - 20px) !important;
+  html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header),
+  html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header),
+  html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header),
+  html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header) {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
     padding: 10px !important;
     gap: 10px !important;
-    border-radius: var(--radius-main, 14px) !important;
+    border-radius: 0px !important;
   }
 
   html:root body .page-main-card:not(#pdf-page-container) :is(.bento-card, .glass-card):not(.hero-banner):not(.banner-card):not(#about-hero-video-container):not(#bento-letter-video),
@@ -390,9 +405,9 @@ html:root[data-card-style] body #horoscope-card-4 {
   }
 
   html:root body :is(#about-intro-card-1, #letter-card-1, #letter-card-2, #letter-card-3, #letter-card-4, #horoscope-card-1, #horoscope-card-5) {
-    height: min(600px, 100%) !important;
-    min-height: min(600px, 100%) !important;
-    max-height: min(600px, 100%) !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
   }
 }
 
@@ -562,5 +577,247 @@ html:root[data-card-style] body :is(
   #global-content-viewport :is(img, video):not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"])
 ) {
   border-radius: var(--radius-image, 14px) !important;
+}
+
+/* ========================================================================= */
+/* 6. AUTHORITATIVE SHELL CONTRACT ACROSS ALL 14 THEMES (FINAL CASCADE LOCK) */
+/* ========================================================================= */
+html:root body #website-root,
+html:root[data-card-style] body #website-root,
+html:root[data-theme] body #website-root {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  padding: 0px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Header & Footer: 10% height, exactly 80% width (80vw / max 1000px), centered */
+html:root body :is(#app-header-container, #el-p0-div-98),
+html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98),
+html:root[data-theme] body :is(#app-header-container, #el-p0-div-98) {
+  flex: 0 0 10% !important;
+  height: 10% !important;
+  max-height: 10% !important;
+  min-height: 0 !important;
+  width: 80vw !important;
+  max-width: 1000px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding: 0px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Center Viewport (#global-content-viewport): 80% height, 100vw width (chiếm 100% website) */
+html:root body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root[data-theme] body #global-content-viewport:not(:has(#pdf-page-container)) {
+  flex: 0 0 80% !important;
+  height: 80% !important;
+  max-height: 80% !important;
+  min-height: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 10vw !important;
+  padding-right: 10vw !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Identical width across Header, Main Cards & Footer (80vw / max 1000px) */
+html:root body :is(
+  #app-header,
+  #app-header-container > header,
+  #app-footer,
+  #el-p0-div-98 > footer,
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #horoscope-cards-track,
+  #letter-card-1,
+  #letter-card-4,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #home-page-container,
+  #home-cards-track
+),
+html:root[data-card-style] body :is(
+  #app-header,
+  #app-header-container > header,
+  #app-footer,
+  #el-p0-div-98 > footer,
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #horoscope-cards-track,
+  #letter-card-1,
+  #letter-card-4,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #home-page-container,
+  #home-cards-track
+),
+html:root[data-theme] body :is(
+  #app-header,
+  #app-header-container > header,
+  #app-footer,
+  #el-p0-div-98 > footer,
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #horoscope-cards-track,
+  #letter-card-1,
+  #letter-card-4,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #home-page-container,
+  #home-cards-track
+) {
+  width: 80vw !important;
+  max-width: 1000px !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1279px) {
+  /* Tự động ẩn dây đèn kéo, chậu cây bên trái và AI bot bên phải khi thu nhỏ màn hình dưới 1280px */
+  #db-pull-cord-container,
+  #potted-plant-widget-container,
+  #ai-mascot-widget-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 639px) {
+  html:root body :is(#app-header-container, #app-header, #global-content-viewport:not(:has(#pdf-page-container)), #el-p0-div-98, #app-footer, #horoscope-cards-track, #letter-card-1, #letter-card-4, #home-main-card-1, [id^="home-main-card-"], #home-page-container, #home-cards-track),
+  html:root[data-card-style] body :is(#app-header-container, #app-header, #global-content-viewport:not(:has(#pdf-page-container)), #el-p0-div-98, #app-footer, #horoscope-cards-track, #letter-card-1, #letter-card-4, #home-main-card-1, [id^="home-main-card-"], #home-page-container, #home-cards-track) {
+    width: 96vw !important;
+    max-width: 96vw !important;
+  }
+}
+
+/* 0px Header <-> Main Card <-> Footer gaps + 5px Header/Footer top/bottom padding */
+html:root body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer),
+html:root[data-card-style] body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer),
+html:root[data-theme] body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer) {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  box-sizing: border-box !important;
+}
+
+/* Center area: padding-top 10px, padding-bottom 10px, 0px vertical margin */
+html:root body #global-content-viewport,
+html:root[data-card-style] body #global-content-viewport,
+html:root[data-theme] body #global-content-viewport {
+  flex: 1 1 0% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+html:root body #global-content-viewport:has(#pdf-page-container),
+html:root[data-card-style] body #global-content-viewport:has(#pdf-page-container) {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+/* Main-card horizontal & vertical spacing = 10px, tracks flush */
+html:root body :is(
+  #home-page-container,
+  #home-cards-track,
+  #horoscope-page-container,
+  #horoscope-row-1-5-horizontal,
+  #horoscope-cards-track,
+  #letter-page-container,
+  #letter-cards-track,
+  #letter-cards-row-2-3,
+  .page-cards-track
+),
+html:root[data-card-style] body :is(
+  #home-page-container,
+  #home-cards-track,
+  #horoscope-page-container,
+  #horoscope-row-1-5-horizontal,
+  #horoscope-cards-track,
+  #letter-page-container,
+  #letter-cards-track,
+  #letter-cards-row-2-3,
+  .page-cards-track
+) {
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+html:root body :is(#home-cards-track > [id^="home-main-card-"], #horoscope-row-1-5-horizontal > .page-main-card, #letter-cards-row-2-3 > .page-main-card),
+html:root[data-card-style] body :is(#home-cards-track > [id^="home-main-card-"], #horoscope-row-1-5-horizontal > .page-main-card, #letter-cards-row-2-3 > .page-main-card) {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0px !important;
+}
+
+/* Header selective corner rounding: top = 0px, bottom-left & bottom-right = --radius-global */
+html:root body :is(#app-header, #app-header-container > header):is(*, :hover, :active, :focus-within),
+html:root[data-card-style] body :is(#app-header, #app-header-container > header):is(*, :hover, :active, :focus-within),
+html:root[data-theme] body :is(#app-header, #app-header-container > header):is(*, :hover, :active, :focus-within),
+html.dark:root[data-card-style] body :is(#app-header, #app-header-container > header):is(*, :hover, :active, :focus-within) {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-global, 14px) !important;
+  border-bottom-right-radius: var(--radius-global, 14px) !important;
+  border-radius: 0px 0px var(--radius-global, 14px) var(--radius-global, 14px) !important;
+}
+
+/* Footer selective corner rounding: top-left & top-right = --radius-global, bottom = 0px */
+html:root body :is(#app-footer, #el-p0-div-98 > footer):is(*, :hover, :active, :focus-within),
+html:root[data-card-style] body :is(#app-footer, #el-p0-div-98 > footer):is(*, :hover, :active, :focus-within),
+html:root[data-theme] body :is(#app-footer, #el-p0-div-98 > footer):is(*, :hover, :active, :focus-within),
+html.dark:root[data-card-style] body :is(#app-footer, #el-p0-div-98 > footer):is(*, :hover, :active, :focus-within) {
+  border-top-left-radius: var(--radius-global, 14px) !important;
+  border-top-right-radius: var(--radius-global, 14px) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, 14px) var(--radius-global, 14px) 0px 0px !important;
 }
 

@@ -115,7 +115,7 @@ export default function App() {
     1: 4,
     2: 1,
     5: 1,
-    10: 5,
+    10: 6,
   };
 
   const [pageSlides, setPageSlides] = useState<Record<number, number>>({
@@ -478,7 +478,7 @@ export default function App() {
     [currentTabIndex, pageSlides]
   );
 
-  const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'neumorphism-beyond');
+  const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'liquid-glass');
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -847,10 +847,11 @@ export default function App() {
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 var(--shell-header-height, 72px)',
-            height: 'var(--shell-header-height, 72px)',
-            maxHeight: 'var(--shell-header-height, 72px)',
+            flex: '0 0 auto',
+            height: 'auto',
+            maxHeight: 'none',
             minHeight: 0,
+            padding: '0px',
             maxWidth: 'var(--main-card-target-w, 1000px)',
             width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             marginLeft: 'auto',
@@ -859,9 +860,9 @@ export default function App() {
             marginBottom: '0px',
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
-            borderBottomLeftRadius: `${cornerRadius}px`,
-            borderBottomRightRadius: `${cornerRadius}px`,
-            borderRadius: `0 0 ${cornerRadius}px ${cornerRadius}px`,
+            borderBottomLeftRadius: 'var(--radius-global, 14px)',
+            borderBottomRightRadius: 'var(--radius-global, 14px)',
+            borderRadius: '0 0 var(--radius-global, 14px) var(--radius-global, 14px)',
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
@@ -925,21 +926,22 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 var(--shell-footer-height, 72px)',
-            height: 'var(--shell-footer-height, 72px)',
-            maxHeight: 'var(--shell-footer-height, 72px)',
+            flex: '0 0 auto',
+            height: 'auto',
+            maxHeight: 'none',
             minHeight: 0,
+            padding: '0px',
             maxWidth: 'var(--main-card-target-w, 1000px)',
             width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
             marginBottom: '0px',
-            borderTopLeftRadius: `${cornerRadius}px`,
-            borderTopRightRadius: `${cornerRadius}px`,
+            borderTopLeftRadius: 'var(--radius-global, 14px)',
+            borderTopRightRadius: 'var(--radius-global, 14px)',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
-            borderRadius: `${cornerRadius}px ${cornerRadius}px 0 0`,
+            borderRadius: 'var(--radius-global, 14px) var(--radius-global, 14px) 0 0',
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >

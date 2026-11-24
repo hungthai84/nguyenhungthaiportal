@@ -205,7 +205,6 @@ html[data-card-style="deep-ocean"] :is(
   backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 148%)) !important;
   border: 1px solid rgba(56, 189, 248, 0.28) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 

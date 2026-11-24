@@ -229,7 +229,6 @@ html[data-card-style="multicolor-glass"] :is(
 ) {
   background: var(--surface-primary-bg) !important;
   border: 1px solid var(--surface-primary-border) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 185%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 185%)) !important;

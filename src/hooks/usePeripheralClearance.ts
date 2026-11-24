@@ -45,6 +45,11 @@ export function usePeripheralClearance(enabled = true): PeripheralClearanceState
       const vw = window.innerWidth;
       const vh = window.innerHeight;
 
+      if (vw < 1280) {
+        setState(DEFAULT_CLEARANCE);
+        return;
+      }
+
       const headerEl = document.getElementById('app-header');
       const footerEl = document.getElementById('app-footer');
 

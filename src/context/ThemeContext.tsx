@@ -181,25 +181,30 @@ function applyGlobalCornerRadiusCssVariables(radius: number): void {
   if (typeof document === 'undefined') return;
   const r = clampCornerRadius(radius);
   const px = `${r}px`;
-  const root = document.documentElement;
-  root.style.setProperty('--radius-global', px, 'important');
-  root.style.setProperty('--radius-main', px, 'important');
-  root.style.setProperty('--radius-card', px, 'important');
-  root.style.setProperty('--radius-subcard', px, 'important');
-  root.style.setProperty('--radius-banner', px, 'important');
-  root.style.setProperty('--radius-media', px, 'important');
-  root.style.setProperty('--radius-video', px, 'important');
-  root.style.setProperty('--radius-image', px, 'important');
-  root.style.setProperty('--radius-modal', px, 'important');
-  root.style.setProperty('--radius-popup', px, 'important');
-  root.style.setProperty('--radius-widget', px, 'important');
-  root.style.setProperty('--radius-input', px, 'important');
-  root.style.setProperty('--radius-primary-surface', px, 'important');
-  root.style.setProperty('--surface-radius-main', px, 'important');
-  root.style.setProperty('--surface-radius-header', px, 'important');
-  root.style.setProperty('--radius-header', px, 'important');
-  root.style.setProperty('--surface-radius-footer', px, 'important');
-  root.style.setProperty('--radius-footer', px, 'important');
+  const targets: HTMLElement[] = [document.documentElement];
+  if (document.body) {
+    targets.push(document.body);
+  }
+  for (const el of targets) {
+    el.style.setProperty('--radius-global', px, 'important');
+    el.style.setProperty('--radius-main', px, 'important');
+    el.style.setProperty('--radius-card', px, 'important');
+    el.style.setProperty('--radius-subcard', px, 'important');
+    el.style.setProperty('--radius-banner', px, 'important');
+    el.style.setProperty('--radius-media', px, 'important');
+    el.style.setProperty('--radius-video', px, 'important');
+    el.style.setProperty('--radius-image', px, 'important');
+    el.style.setProperty('--radius-modal', px, 'important');
+    el.style.setProperty('--radius-popup', px, 'important');
+    el.style.setProperty('--radius-widget', px, 'important');
+    el.style.setProperty('--radius-input', px, 'important');
+    el.style.setProperty('--radius-primary-surface', px, 'important');
+    el.style.setProperty('--surface-radius-main', px, 'important');
+    el.style.setProperty('--surface-radius-header', px, 'important');
+    el.style.setProperty('--radius-header', px, 'important');
+    el.style.setProperty('--surface-radius-footer', px, 'important');
+    el.style.setProperty('--radius-footer', px, 'important');
+  }
 }
 
 export interface ThemeContextType {
@@ -249,7 +254,7 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_default_view_v2';
+const DEFAULT_UI_SEED_KEY = 'hungthai_default_ui_seed_v2026_liquid_glass_wp32_v4';
 const DEFAULT_OVERLAY_RESET_SEED_KEY = 'hungthai_overlay_reset_0px_0pct_v3';
 let didRunDefaultUiSeed = false;
 

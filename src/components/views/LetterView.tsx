@@ -435,7 +435,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
     const syncViewportHeight = () => {
       const vp = document.getElementById('global-content-viewport') || letterContainerRef.current;
       if (!vp) return;
-      const h = Math.min(600, Math.round(vp.clientHeight));
+      const cs = window.getComputedStyle(vp);
+      const padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+      const h = Math.max(240, Math.round(vp.clientHeight - padY));
       if (h > 0) {
         setViewportHeight((prev) => (prev === h ? prev : h));
       }
@@ -1920,7 +1922,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           marginRight: 'auto',
           paddingLeft: '0px',
           paddingRight: '0px',
-          paddingBottom: '16px',
+          paddingBottom: '0px',
           boxSizing: 'border-box',
           ...(viewportHeight
             ? ({
@@ -1952,9 +1954,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: 'var(--main-card-target-w, 1000px)',
           minWidth: '0px',
-          height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-          minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-          maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          height: 'var(--letter-viewport-h, 100%)',
+          minHeight: 'var(--letter-viewport-h, 100%)',
+          maxHeight: 'var(--letter-viewport-h, 100%)',
           paddingTop: '15px',
           paddingRight: '15px',
           paddingBottom: '15px',
@@ -1962,9 +1964,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
           gap: '15px',
           rowGap: '15px',
           columnGap: '15px',
-          borderRadius: 'var(--radius-main, 14px)',
+          borderRadius: '0px',
         }}
-        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
       >
                 <div
                   id="el-p1-div-85"
@@ -2310,7 +2312,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             }
           }
         }}
-        className="w-full max-w-full flex flex-row flex-nowrap gap-[15px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
+        className="w-full max-w-full flex flex-row flex-nowrap gap-[10px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -2322,10 +2324,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
           columnGap: '10px',
           width: '100%',
           maxWidth: '100%',
-          paddingLeft:
-            'max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2))',
-          paddingRight:
-            'max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2))',
+          paddingLeft: '0px',
+          paddingRight: '0px',
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
@@ -2346,21 +2346,19 @@ export const LetterView: React.FC<LetterViewProps> = ({
             }
           }}
           style={{
-            width:
-              'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            width: '100%',
             minWidth: '0px',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            flex:
-              '0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-            scrollSnapAlign: 'center',
+            maxWidth: '100%',
+            height: 'var(--letter-viewport-h, 100%)',
+            minHeight: 'var(--letter-viewport-h, 100%)',
+            maxHeight: 'var(--letter-viewport-h, 100%)',
+            flex: '0 0 100%',
+            scrollSnapAlign: 'start',
             padding: '15px',
             gap: '15px',
-            borderRadius: 'var(--radius-main, 14px)',
+            borderRadius: '0px',
           }}
-          className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+          className="page-main-card shrink-0 snap-start relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
           <div
             id="letter-slide-2-grid"
@@ -2390,21 +2388,19 @@ export const LetterView: React.FC<LetterViewProps> = ({
             }
           }}
           style={{
-            width:
-              'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            width: '100%',
             minWidth: '0px',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-            flex:
-              '0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-            scrollSnapAlign: 'center',
+            maxWidth: '100%',
+            height: 'var(--letter-viewport-h, 100%)',
+            minHeight: 'var(--letter-viewport-h, 100%)',
+            maxHeight: 'var(--letter-viewport-h, 100%)',
+            flex: '0 0 100%',
+            scrollSnapAlign: 'start',
             padding: '15px',
             gap: '15px',
-            borderRadius: 'var(--radius-main, 14px)',
+            borderRadius: '0px',
           }}
-          className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+          className="page-main-card shrink-0 snap-start relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
           <div
             id="letter-slide-3-grid"
@@ -2435,14 +2431,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
             'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           minWidth: '0px',
           maxWidth: 'var(--main-card-target-w, 1000px)',
-          height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-          minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
-          maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          height: 'var(--letter-viewport-h, 100%)',
+          minHeight: 'var(--letter-viewport-h, 100%)',
+          maxHeight: 'var(--letter-viewport-h, 100%)',
           padding: '15px',
           gap: '15px',
-          borderRadius: 'var(--radius-main, 14px)',
+          borderRadius: '0px',
         }}
-        className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
+        className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
       >
         <div
           id="letter-slide-4-bento-grid"

@@ -11,7 +11,7 @@ import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
-export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-deep-ocean';
+export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_CORNER_RADIUS = 14;
 export const MIN_CORNER_RADIUS = 0;
@@ -78,10 +78,10 @@ export interface ThemeBackgroundSpec {
 export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'liquid-glass': {
     id: 'liquid-glass',
-    presetId: 'theme-bg-liquid-glass',
-    label: 'Nền Liquid Glass UI (Sáng)',
+    presetId: 'custom-wp-1788112774646',
+    label: 'Hình nền #32 (Liquid Glass UI Sáng)',
     themeMode: 'light',
-    imagePath: wpLiquidGlass,
+    imagePath: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     fallbackGradient:
       'radial-gradient(ellipse 68% 58% at 12% 14%, rgba(245, 221, 224, 0.90) 0px, transparent 58%), radial-gradient(ellipse 64% 56% at 88% 16%, rgba(169, 230, 231, 0.72) 0px, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 48%, rgba(207, 197, 233, 0.68) 0px, transparent 60%), radial-gradient(ellipse 66% 54% at 82% 86%, rgba(174, 191, 206, 0.65) 0px, transparent 56%), linear-gradient(135deg, #F8F6F7 0%, #F1E7E5 44%, #ECE7F6 74%, #E6F3F6 100%)',
     overlayBg: 'rgba(248, 246, 247, 0.08)',
@@ -215,7 +215,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
-  'liquid-glass': THEME_BACKGROUNDS['liquid-glass'].presetId,
+  'liquid-glass': 'custom-wp-1788112774646',
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
   'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,

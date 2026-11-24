@@ -300,7 +300,6 @@ html[data-card-style="light-deep-ocean"] :is(
   backdrop-filter: blur(var(--surface-primary-blur, 18px)) saturate(var(--surface-primary-saturate, 160%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 18px)) saturate(var(--surface-primary-saturate, 160%)) !important;
   border: 1px solid rgba(255, 255, 255, 0.55) !important;
-  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   color: #03195B !important;
 }
@@ -535,7 +534,8 @@ html[data-card-style="light-deep-ocean"] :is(
   #services-page-container .domain-card,
   #services-page-container #services-expanded-card,
   #systems-page-container #systems-expanded-card,
-  #horoscope-cards-track > .page-main-card
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-card-5
 ) {
   background: linear-gradient(
     145deg,

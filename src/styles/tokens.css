@@ -1891,7 +1891,7 @@ html[data-card-style="dark-flat-soft-ui"],
 
 @media (max-width: 639px) {
   :root {
-    --main-card-w: calc(100vw - 20px);
+    --main-card-w: calc(100vw - 16px);
     --main-card-padding: 10px;
     --space-main-padding: 10px;
     --space-card-padding: 10px;

@@ -2095,20 +2095,20 @@ export function AboutView({
         style={{
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))',
           maxWidth: '1000px',
-          height: 'min(600px, 100%)',
-          minHeight: 'min(600px, 100%)',
-          maxHeight: 'min(600px, 100%)',
+          height: '100%',
+          minHeight: '0px',
+          maxHeight: '100%',
           padding: viewportWidth < 640 ? '10px' : '15px',
           gap: viewportWidth < 640 ? '10px' : '12px',
           rowGap: viewportWidth < 640 ? '10px' : '12px',
           columnGap: viewportWidth < 640 ? '10px' : '12px',
-          borderRadius: 'var(--radius-main, 14px)',
+          borderRadius: '0px',
           boxSizing: 'border-box',
           margin: '0 auto',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
-        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1000px] shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1000px] shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-grid-1"

@@ -459,24 +459,22 @@ export const Header: React.FC<HeaderProps> = ({
       style={{
         maxWidth: 'var(--main-card-target-w, 1000px)',
         width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+        height: 'auto',
+        minHeight: 0,
         marginLeft: 'auto',
         marginRight: 'auto',
+        marginTop: '0px',
+        marginBottom: '0px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
         zIndex: isRadialMenuOpen ? 99999 : 40,
         borderTopLeftRadius: '0px',
         borderTopRightRadius: '0px',
-        borderBottomLeftRadius: `${cornerRadius}px`,
-        borderBottomRightRadius: `${cornerRadius}px`,
-        borderRadius: `0 0 ${cornerRadius}px ${cornerRadius}px`,
-        border: '1px dashed #000000',
-        borderStyle: 'dashed',
-        borderColor: '#000000',
-        borderWidth: '1px',
-        background: 'transparent',
-        boxShadow: 'none',
-        backdropFilter: 'none',
-        WebkitBackdropFilter: 'none',
+        borderBottomLeftRadius: 'var(--radius-global, 14px)',
+        borderBottomRightRadius: 'var(--radius-global, 14px)',
+        borderRadius: '0 0 var(--radius-global, 14px) var(--radius-global, 14px)',
       }}
-      className={`neonav-bar mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto h-auto min-h-0 py-[5px] flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >

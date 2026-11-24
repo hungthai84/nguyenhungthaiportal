@@ -5432,7 +5432,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 #interface-page-container .interface-themes-grid,
 #interface-themes-grid {
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   grid-auto-rows: 1fr !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -5441,6 +5441,14 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
+}
+
+@media (max-width: 1199px) {
+  #interface-page-container .interface-group-grid,
+  #interface-page-container .interface-themes-grid,
+  #interface-themes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (max-width: 639px) {

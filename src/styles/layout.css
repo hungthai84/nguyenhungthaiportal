@@ -120,8 +120,8 @@
   width: 100%;
   max-width: var(--container-max-w, 1250px);
   min-width: 0;
-  height: 100%;
-  margin: 0 auto !important;
+  height: calc(100% - 30px) !important;
+  margin: 15px auto !important;
   padding: 15px !important;
   gap: 15px !important;
   box-sizing: border-box !important;

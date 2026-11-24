@@ -6,18 +6,47 @@
 /* ========================================================================= */
 
 .card-mica-fluent {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
-  backdrop-filter: blur(11px);
-  -webkit-backdrop-filter: blur(11px);
+  position: relative;
+  overflow: hidden;
+
+  /* Nền Gradient trắng trong suốt */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.60) 0%,
+    rgba(255, 255, 255, 0.30) 100%
+  );
+
+  /* Hiệu ứng kính mờ */
+  -webkit-backdrop-filter: blur(0.65em);
+  backdrop-filter: blur(0.65em);
+
+  /* Viền kính */
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  /* Bo góc */
+  border-radius: 1rem;
+
+  /* Bóng đổ */
+  box-shadow: 0 25px 50px -12px
+    rgba(0, 0, 0, 0.50);
+
+  /* Chuyển động */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
   color: #1c0708;
 }
 
+/* Hiệu ứng khi rê chuột */
 .card-mica-fluent:hover {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  transform: translateY(-4px);
+
+  -webkit-backdrop-filter: blur(1em);
+  backdrop-filter: blur(1em);
+
+  box-shadow: 0 25px 50px -12px
+    rgba(0, 0, 0, 0.75);
 }
 
 html[data-card-style="mica-fluent"],

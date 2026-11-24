@@ -42,7 +42,7 @@ const LETTER_MILESTONE_DEFINITIONS: Array<{
 }> = [
   {
     id: '2002',
-    sourceKey: '2003',
+    sourceKey: '2002',
     yearLabelVi: '2002',
     yearLabelEn: '2002',
     roleVi: 'Nhân viên CSKH',

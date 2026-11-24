@@ -11,7 +11,7 @@ import {
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { THEME_FOUR_WORD_NAMES, normalizeCardStyle } from '@/config/ui/cardStyles';
+import { THEME_FOUR_WORD_NAMES, normalizeCardStyle, CARD_STYLES_MAP } from '@/config/ui/cardStyles';
 import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
 import {
   DEFAULT_CARD_STYLE,
@@ -616,6 +616,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
   const interfaceBannerVideo = getDefaultBannerVideoConfig('interface');
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
+  const [groupVariants, setGroupVariants] = useState<Record<string, 'light' | 'dark'>>({});
 
   const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
   const visualThemeMode: VisualThemeMode = isNeumorphismActive ? 'neumorphism' : 'standard';
@@ -1559,19 +1560,22 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   data-element-page="interface"
                   className="interface-themes-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch w-full max-w-full min-w-0"
                 >
-                  {visibleGroups.flatMap((group) => group.presets).map((preset) => {
-                    const groupMatch = CARD_STYLE_GROUPS.find((g) => g.presets.some((p) => p.id === preset.id));
-                    const groupIcon = groupMatch?.icon || 'palette';
-                    const groupLabel = groupMatch ? (isEn ? groupMatch.labelEn : groupMatch.label) : 'Theme';
-                    const lightId = groupMatch?.lightMode || groupMatch?.defaultMode || groupMatch?.presets[0]?.id;
+                  {visibleGroups.map((group) => {
+                    const lightId = group.lightMode || group.defaultMode || group.presets[0]?.id;
                     const darkId =
-                      groupMatch?.darkMode && groupMatch.darkMode !== lightId
-                        ? groupMatch.darkMode
+                      group.darkMode && group.darkMode !== lightId
+                        ? group.darkMode
                         : undefined;
+                    const currentVariant = groupVariants[group.id] || (darkId && cardStyle === darkId ? 'dark' : 'light');
+                    const targetPresetId = currentVariant === 'dark' && darkId ? darkId : lightId;
+                    const preset = CARD_STYLES_MAP[targetPresetId] || group.presets[0];
+
+                    const groupIcon = group.icon || 'palette';
+                    const groupLabel = isEn ? group.labelEn : group.label;
 
                     return (
                       <ThemePresetCard
-                        key={preset.id}
+                        key={group.id}
                         preset={preset}
                         groupIcon={groupIcon}
                         groupLabel={groupLabel}
@@ -1589,6 +1593,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         displayDesc={t(preset.desc)}
                         lightModeId={lightId}
                         darkModeId={darkId}
+                        currentVariant={currentVariant}
+                        onVariantChange={(variant) => {
+                          setGroupVariants((prev) => ({ ...prev, [group.id]: variant }));
+                        }}
                         onSelectTheme={handleSelectTheme}
                         onToggleVideo={handleToggleVideoPreview}
                         onVideoError={handleVideoPreviewError}

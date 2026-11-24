@@ -1,0 +1,1565 @@
+Phân tích lấy hiệu ứng, bố cục card sau đó tạo thêm dạng view kệ sách tại trang học vấn : không thay đổi data và bìa sách học vấn : 
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disc Shelf · Reactive CSS</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@reactivecss/core@0.10.0/dist/reactive-css.min.js" defer></script>
+</head>
+<body>
+  <main class="library v2" style="--last: 11">
+    <!-- The room: one blurred, tinted copy of each cover, the chosen one showing. -->
+    <div class="backdrops" aria-hidden="true"><div style="--h: 220; --img: url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 70; --img: url('https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 175; --img: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 40; --img: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 25; --img: url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 150; --img: url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 55; --img: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 195; --img: url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 255; --img: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 285; --img: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 125; --img: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div><div style="--h: 45; --img: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=640&h=400&fit=crop&auto=format&q=70&blur=200')"></div></div>
+    <svg class="streaks" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true"><path d="M-100 330 C 300 230, 700 420, 1000 300 S 1500 200, 1700 280"/><path d="M-100 420 C 400 360, 800 500, 1150 380 S 1500 330, 1700 360"/><path d="M-100 250 C 350 300, 900 180, 1250 260 S 1550 300, 1700 230"/></svg>
+
+    <header class="top">
+      <p class="brand"><i aria-hidden="true"></i>Disc Shelf</p>
+      <p class="count"><b></b> / 12</p>
+    </header>
+
+    <!-- The shelf: spines to the left of the chosen case, covers fanned to the right. Arrow keys, a drag or a click on a
+         case move along it; Enter or a click on the chosen case opens it. -->
+    <section class="shelf" tabindex="0" aria-label="Album shelf. Left and right arrows browse; Enter opens the album, Escape closes it.">
+      <ol class="cases">
+      <li class="case" style="--h: 220">
+        <button class="pick" type="button" tabindex="-1" aria-label="Lagoon Hours by The Gondola Club, 2019"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Lagoon Hours</b><span>The Gondola Club</span></p></div>
+            <div class="in"><p class="notes-title">Lagoon Hours</p><ol><li><span>01</span>Rialto at Six<small>4:12</small></li><li><span>02</span>Slow Canal<small>5:40</small></li><li><span>03</span>Glass from Murano<small>3:58</small></li><li><span>04</span>Vaporetto<small>4:31</small></li><li><span>05</span>Acqua Alta<small>6:05</small></li></ol><p class="notes-foot">The Gondola Club · 2019 · Jazz</p></div>
+          </div>
+          <div class="spine"><b>Lagoon Hours</b><span>2019</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 70">
+        <button class="pick" type="button" tabindex="-1" aria-label="Good Boy Sessions by Biscuit &amp; the Barks, 2021"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Good Boy Sessions</b><span>Biscuit &amp; the Barks</span></p></div>
+            <div class="in"><p class="notes-title">Good Boy Sessions</p><ol><li><span>01</span>Fetch<small>2:48</small></li><li><span>02</span>Tennis Ball Summer<small>3:21</small></li><li><span>03</span>Mid-Grin<small>3:02</small></li><li><span>04</span>Sofa Rules<small>2:55</small></li><li><span>05</span>Walkies<small>3:40</small></li></ol><p class="notes-foot">Biscuit &amp; the Barks · 2021 · Indie pop</p></div>
+          </div>
+          <div class="spine"><b>Good Boy Sessions</b><span>2021</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 175">
+        <button class="pick" type="button" tabindex="-1" aria-label="Still Water by Nora Lind, 2018"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Still Water</b><span>Nora Lind</span></p></div>
+            <div class="in"><p class="notes-title">Still Water</p><ol><li><span>01</span>Oars<small>6:10</small></li><li><span>02</span>Green Glass<small>7:24</small></li><li><span>03</span>Lake Braies<small>5:52</small></li><li><span>04</span>Mist Line<small>8:03</small></li><li><span>05</span>Drift<small>9:15</small></li></ol><p class="notes-foot">Nora Lind · 2018 · Ambient</p></div>
+          </div>
+          <div class="spine"><b>Still Water</b><span>2018</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 40">
+        <button class="pick" type="button" tabindex="-1" aria-label="Friday Slice by Forno, 2022"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Friday Slice</b><span>Forno</span></p></div>
+            <div class="in"><p class="notes-title">Friday Slice</p><ol><li><span>01</span>Wood-Fired<small>3:44</small></li><li><span>02</span>Extra Basil<small>4:02</small></li><li><span>03</span>Crust Groove<small>3:36</small></li><li><span>04</span>Margherita Strut<small>4:18</small></li><li><span>05</span>Last Slice<small>5:01</small></li></ol><p class="notes-foot">Forno · 2022 · Funk</p></div>
+          </div>
+          <div class="spine"><b>Friday Slice</b><span>2022</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 25">
+        <button class="pick" type="button" tabindex="-1" aria-label="Cliffside by Amalfi Radio, 2017"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Cliffside</b><span>Amalfi Radio</span></p></div>
+            <div class="in"><p class="notes-title">Cliffside</p><ol><li><span>01</span>Manarola<small>4:46</small></li><li><span>02</span>Terrace Lights<small>5:10</small></li><li><span>03</span>Coastal Path<small>4:22</small></li><li><span>04</span>Harbour Boys<small>3:57</small></li><li><span>05</span>Sea Wall<small>6:30</small></li></ol><p class="notes-foot">Amalfi Radio · 2017 · Italo disco</p></div>
+          </div>
+          <div class="spine"><b>Cliffside</b><span>2017</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 150">
+        <button class="pick" type="button" tabindex="-1" aria-label="Who, Me? by Tuxedo, 2020"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Who, Me?</b><span>Tuxedo</span></p></div>
+            <div class="in"><p class="notes-title">Who, Me?</p><ol><li><span>01</span>Paws on the Table<small>2:31</small></li><li><span>02</span>Innocent<small>2:47</small></li><li><span>03</span>Knocked It Off<small>2:19</small></li><li><span>04</span>Nap Loop<small>3:05</small></li><li><span>05</span>Green Room<small>2:58</small></li></ol><p class="notes-foot">Tuxedo · 2020 · Lo-fi</p></div>
+          </div>
+          <div class="spine"><b>Who, Me?</b><span>2020</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 55">
+        <button class="pick" type="button" tabindex="-1" aria-label="Four Flat Whites by Café Social, 2016"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Four Flat Whites</b><span>Café Social</span></p></div>
+            <div class="in"><p class="notes-title">Four Flat Whites</p><ol><li><span>01</span>Latte Art<small>3:33</small></li><li><span>02</span>Corner Table<small>4:08</small></li><li><span>03</span>Oat or Dairy<small>3:11</small></li><li><span>04</span>Saturday Queue<small>3:46</small></li><li><span>05</span>Refill<small>4:20</small></li></ol><p class="notes-foot">Café Social · 2016 · Bossa nova</p></div>
+          </div>
+          <div class="spine"><b>Four Flat Whites</b><span>2016</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 195">
+        <button class="pick" type="button" tabindex="-1" aria-label="Tide Machine by North Shore Surf Club, 2015"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Tide Machine</b><span>North Shore Surf Club</span></p></div>
+            <div class="in"><p class="notes-title">Tide Machine</p><ol><li><span>01</span>Inside the Barrel<small>2:58</small></li><li><span>02</span>Offshore<small>3:12</small></li><li><span>03</span>Wax On<small>2:41</small></li><li><span>04</span>Set Wave<small>3:27</small></li><li><span>05</span>Wipeout Waltz<small>4:05</small></li></ol><p class="notes-foot">North Shore Surf Club · 2015 · Surf rock</p></div>
+          </div>
+          <div class="spine"><b>Tide Machine</b><span>2015</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 255">
+        <button class="pick" type="button" tabindex="-1" aria-label="Yellow Cab Nights by Midtown Static, 2014"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Yellow Cab Nights</b><span>Midtown Static</span></p></div>
+            <div class="in"><p class="notes-title">Yellow Cab Nights</p><ol><li><span>01</span>Avenue Glow<small>4:55</small></li><li><span>02</span>Gridlock<small>5:18</small></li><li><span>03</span>Neon Fare<small>4:37</small></li><li><span>04</span>Uptown Express<small>5:44</small></li><li><span>05</span>Empty Lanes<small>6:12</small></li></ol><p class="notes-foot">Midtown Static · 2014 · Synthwave</p></div>
+          </div>
+          <div class="spine"><b>Yellow Cab Nights</b><span>2014</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 285">
+        <button class="pick" type="button" tabindex="-1" aria-label="Night Hike by Orbit Hall, 2023"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Night Hike</b><span>Orbit Hall</span></p></div>
+            <div class="in"><p class="notes-title">Night Hike</p><ol><li><span>01</span>Head Torch<small>5:20</small></li><li><span>02</span>Milky Way<small>7:02</small></li><li><span>03</span>Ridge Line<small>6:14</small></li><li><span>04</span>Cold Summit<small>5:48</small></li><li><span>05</span>First Light<small>8:30</small></li></ol><p class="notes-foot">Orbit Hall · 2023 · Electronic</p></div>
+          </div>
+          <div class="spine"><b>Night Hike</b><span>2023</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 125">
+        <button class="pick" type="button" tabindex="-1" aria-label="Lunch Break by Green Room Trio, 2019"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Lunch Break</b><span>Green Room Trio</span></p></div>
+            <div class="in"><p class="notes-title">Lunch Break</p><ol><li><span>01</span>Desk Bowl<small>3:42</small></li><li><span>02</span>Half an Hour<small>4:15</small></li><li><span>03</span>Back to Work<small>3:58</small></li><li><span>04</span>Extra Dressing<small>4:27</small></li><li><span>05</span>Out of Office<small>5:03</small></li></ol><p class="notes-foot">Green Room Trio · 2019 · Soul</p></div>
+          </div>
+          <div class="spine"><b>Lunch Break</b><span>2019</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 45">
+        <button class="pick" type="button" tabindex="-1" aria-label="Last Night of the Trip by Summer Ensemble, 2024"></button>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Last Night of the Trip</b><span>Summer Ensemble</span></p></div>
+            <div class="in"><p class="notes-title">Last Night of the Trip</p><ol><li><span>01</span>Arm in Arm<small>4:01</small></li><li><span>02</span>Golden Hour<small>4:44</small></li><li><span>03</span>Hilltop<small>3:52</small></li><li><span>04</span>Postcards<small>4:16</small></li><li><span>05</span>Home Tomorrow<small>5:20</small></li></ol><p class="notes-foot">Summer Ensemble · 2024 · Folk</p></div>
+          </div>
+          <div class="spine"><b>Last Night of the Trip</b><span>2024</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      </ol>
+      <!-- The glossy floor: the same cases, mirrored about the floor line and fading out. -->
+      <div class="mirror" aria-hidden="true"><ol class="cases reflect">
+      <li class="case" style="--h: 220">
+        <span class="pick" tabindex="-1" aria-label="Lagoon Hours by The Gondola Club, 2019"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Lagoon Hours</b><span>The Gondola Club</span></p></div>
+            <div class="in"><p class="notes-title">Lagoon Hours</p><ol><li><span>01</span>Rialto at Six<small>4:12</small></li><li><span>02</span>Slow Canal<small>5:40</small></li><li><span>03</span>Glass from Murano<small>3:58</small></li><li><span>04</span>Vaporetto<small>4:31</small></li><li><span>05</span>Acqua Alta<small>6:05</small></li></ol><p class="notes-foot">The Gondola Club · 2019 · Jazz</p></div>
+          </div>
+          <div class="spine"><b>Lagoon Hours</b><span>2019</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 70">
+        <span class="pick" tabindex="-1" aria-label="Good Boy Sessions by Biscuit &amp; the Barks, 2021"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Good Boy Sessions</b><span>Biscuit &amp; the Barks</span></p></div>
+            <div class="in"><p class="notes-title">Good Boy Sessions</p><ol><li><span>01</span>Fetch<small>2:48</small></li><li><span>02</span>Tennis Ball Summer<small>3:21</small></li><li><span>03</span>Mid-Grin<small>3:02</small></li><li><span>04</span>Sofa Rules<small>2:55</small></li><li><span>05</span>Walkies<small>3:40</small></li></ol><p class="notes-foot">Biscuit &amp; the Barks · 2021 · Indie pop</p></div>
+          </div>
+          <div class="spine"><b>Good Boy Sessions</b><span>2021</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 175">
+        <span class="pick" tabindex="-1" aria-label="Still Water by Nora Lind, 2018"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Still Water</b><span>Nora Lind</span></p></div>
+            <div class="in"><p class="notes-title">Still Water</p><ol><li><span>01</span>Oars<small>6:10</small></li><li><span>02</span>Green Glass<small>7:24</small></li><li><span>03</span>Lake Braies<small>5:52</small></li><li><span>04</span>Mist Line<small>8:03</small></li><li><span>05</span>Drift<small>9:15</small></li></ol><p class="notes-foot">Nora Lind · 2018 · Ambient</p></div>
+          </div>
+          <div class="spine"><b>Still Water</b><span>2018</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 40">
+        <span class="pick" tabindex="-1" aria-label="Friday Slice by Forno, 2022"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="eager"><i class="hinge"></i><p class="art"><b>Friday Slice</b><span>Forno</span></p></div>
+            <div class="in"><p class="notes-title">Friday Slice</p><ol><li><span>01</span>Wood-Fired<small>3:44</small></li><li><span>02</span>Extra Basil<small>4:02</small></li><li><span>03</span>Crust Groove<small>3:36</small></li><li><span>04</span>Margherita Strut<small>4:18</small></li><li><span>05</span>Last Slice<small>5:01</small></li></ol><p class="notes-foot">Forno · 2022 · Funk</p></div>
+          </div>
+          <div class="spine"><b>Friday Slice</b><span>2022</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 25">
+        <span class="pick" tabindex="-1" aria-label="Cliffside by Amalfi Radio, 2017"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Cliffside</b><span>Amalfi Radio</span></p></div>
+            <div class="in"><p class="notes-title">Cliffside</p><ol><li><span>01</span>Manarola<small>4:46</small></li><li><span>02</span>Terrace Lights<small>5:10</small></li><li><span>03</span>Coastal Path<small>4:22</small></li><li><span>04</span>Harbour Boys<small>3:57</small></li><li><span>05</span>Sea Wall<small>6:30</small></li></ol><p class="notes-foot">Amalfi Radio · 2017 · Italo disco</p></div>
+          </div>
+          <div class="spine"><b>Cliffside</b><span>2017</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 150">
+        <span class="pick" tabindex="-1" aria-label="Who, Me? by Tuxedo, 2020"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Who, Me?</b><span>Tuxedo</span></p></div>
+            <div class="in"><p class="notes-title">Who, Me?</p><ol><li><span>01</span>Paws on the Table<small>2:31</small></li><li><span>02</span>Innocent<small>2:47</small></li><li><span>03</span>Knocked It Off<small>2:19</small></li><li><span>04</span>Nap Loop<small>3:05</small></li><li><span>05</span>Green Room<small>2:58</small></li></ol><p class="notes-foot">Tuxedo · 2020 · Lo-fi</p></div>
+          </div>
+          <div class="spine"><b>Who, Me?</b><span>2020</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 55">
+        <span class="pick" tabindex="-1" aria-label="Four Flat Whites by Café Social, 2016"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Four Flat Whites</b><span>Café Social</span></p></div>
+            <div class="in"><p class="notes-title">Four Flat Whites</p><ol><li><span>01</span>Latte Art<small>3:33</small></li><li><span>02</span>Corner Table<small>4:08</small></li><li><span>03</span>Oat or Dairy<small>3:11</small></li><li><span>04</span>Saturday Queue<small>3:46</small></li><li><span>05</span>Refill<small>4:20</small></li></ol><p class="notes-foot">Café Social · 2016 · Bossa nova</p></div>
+          </div>
+          <div class="spine"><b>Four Flat Whites</b><span>2016</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 195">
+        <span class="pick" tabindex="-1" aria-label="Tide Machine by North Shore Surf Club, 2015"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Tide Machine</b><span>North Shore Surf Club</span></p></div>
+            <div class="in"><p class="notes-title">Tide Machine</p><ol><li><span>01</span>Inside the Barrel<small>2:58</small></li><li><span>02</span>Offshore<small>3:12</small></li><li><span>03</span>Wax On<small>2:41</small></li><li><span>04</span>Set Wave<small>3:27</small></li><li><span>05</span>Wipeout Waltz<small>4:05</small></li></ol><p class="notes-foot">North Shore Surf Club · 2015 · Surf rock</p></div>
+          </div>
+          <div class="spine"><b>Tide Machine</b><span>2015</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 255">
+        <span class="pick" tabindex="-1" aria-label="Yellow Cab Nights by Midtown Static, 2014"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Yellow Cab Nights</b><span>Midtown Static</span></p></div>
+            <div class="in"><p class="notes-title">Yellow Cab Nights</p><ol><li><span>01</span>Avenue Glow<small>4:55</small></li><li><span>02</span>Gridlock<small>5:18</small></li><li><span>03</span>Neon Fare<small>4:37</small></li><li><span>04</span>Uptown Express<small>5:44</small></li><li><span>05</span>Empty Lanes<small>6:12</small></li></ol><p class="notes-foot">Midtown Static · 2014 · Synthwave</p></div>
+          </div>
+          <div class="spine"><b>Yellow Cab Nights</b><span>2014</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 285">
+        <span class="pick" tabindex="-1" aria-label="Night Hike by Orbit Hall, 2023"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Night Hike</b><span>Orbit Hall</span></p></div>
+            <div class="in"><p class="notes-title">Night Hike</p><ol><li><span>01</span>Head Torch<small>5:20</small></li><li><span>02</span>Milky Way<small>7:02</small></li><li><span>03</span>Ridge Line<small>6:14</small></li><li><span>04</span>Cold Summit<small>5:48</small></li><li><span>05</span>First Light<small>8:30</small></li></ol><p class="notes-foot">Orbit Hall · 2023 · Electronic</p></div>
+          </div>
+          <div class="spine"><b>Night Hike</b><span>2023</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 125">
+        <span class="pick" tabindex="-1" aria-label="Lunch Break by Green Room Trio, 2019"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Lunch Break</b><span>Green Room Trio</span></p></div>
+            <div class="in"><p class="notes-title">Lunch Break</p><ol><li><span>01</span>Desk Bowl<small>3:42</small></li><li><span>02</span>Half an Hour<small>4:15</small></li><li><span>03</span>Back to Work<small>3:58</small></li><li><span>04</span>Extra Dressing<small>4:27</small></li><li><span>05</span>Out of Office<small>5:03</small></li></ol><p class="notes-foot">Green Room Trio · 2019 · Soul</p></div>
+          </div>
+          <div class="spine"><b>Lunch Break</b><span>2019</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      <li class="case" style="--h: 45">
+        <span class="pick" tabindex="-1" aria-label="Last Night of the Trip by Summer Ensemble, 2024"></span>
+        <div class="box" aria-hidden="true">
+          <div class="cover">
+            <div class="out"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&h=600&fit=crop&auto=format&q=70" alt="" loading="lazy"><i class="hinge"></i><p class="art"><b>Last Night of the Trip</b><span>Summer Ensemble</span></p></div>
+            <div class="in"><p class="notes-title">Last Night of the Trip</p><ol><li><span>01</span>Arm in Arm<small>4:01</small></li><li><span>02</span>Golden Hour<small>4:44</small></li><li><span>03</span>Hilltop<small>3:52</small></li><li><span>04</span>Postcards<small>4:16</small></li><li><span>05</span>Home Tomorrow<small>5:20</small></li></ol><p class="notes-foot">Summer Ensemble · 2024 · Folk</p></div>
+          </div>
+          <div class="spine"><b>Last Night of the Trip</b><span>2024</span></div>
+          <div class="edge"></div><div class="lid"></div><div class="base"></div>
+          <div class="tray"><div class="disc"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=240&h=240&fit=crop&auto=format&q=70" alt=""><i></i></div></div>
+        </div>
+      </li>
+      </ol></div>
+      <button class="open-hit" type="button" aria-label="Open the album"></button>
+      <p class="hint" aria-hidden="true"><span class="label"><span class="on-hover">drag the shelf, or click a case</span><span class="on-touch">swipe the shelf, or tap a case</span></span><svg viewBox="0 0 50 100"><path d="M2 98 C 1 60, 18 24, 48 3 M33 5 L49 2 L45 19"/></svg></p>
+    </section>
+
+    <div class="titles" aria-live="polite">
+        <div><h2>Lagoon Hours</h2><p>The Gondola Club · 2019 · Jazz · 5 tracks</p></div>
+        <div><h2>Good Boy Sessions</h2><p>Biscuit &amp; the Barks · 2021 · Indie pop · 5 tracks</p></div>
+        <div><h2>Still Water</h2><p>Nora Lind · 2018 · Ambient · 5 tracks</p></div>
+        <div><h2>Friday Slice</h2><p>Forno · 2022 · Funk · 5 tracks</p></div>
+        <div><h2>Cliffside</h2><p>Amalfi Radio · 2017 · Italo disco · 5 tracks</p></div>
+        <div><h2>Who, Me?</h2><p>Tuxedo · 2020 · Lo-fi · 5 tracks</p></div>
+        <div><h2>Four Flat Whites</h2><p>Café Social · 2016 · Bossa nova · 5 tracks</p></div>
+        <div><h2>Tide Machine</h2><p>North Shore Surf Club · 2015 · Surf rock · 5 tracks</p></div>
+        <div><h2>Yellow Cab Nights</h2><p>Midtown Static · 2014 · Synthwave · 5 tracks</p></div>
+        <div><h2>Night Hike</h2><p>Orbit Hall · 2023 · Electronic · 5 tracks</p></div>
+        <div><h2>Lunch Break</h2><p>Green Room Trio · 2019 · Soul · 5 tracks</p></div>
+        <div><h2>Last Night of the Trip</h2><p>Summer Ensemble · 2024 · Folk · 5 tracks</p></div>
+    </div>
+
+    <footer class="keys" aria-hidden="true">
+      <span><kbd>←</kbd><kbd>→</kbd> Browse</span>
+      <span class="when-shut"><kbd>Enter</kbd> Open</span>
+      <span class="when-open"><kbd>Esc</kbd> Close</span>
+    </footer>
+    <button class="close" type="button">Close</button>
+  </main>
+  <section class="colophon" aria-labelledby="how">
+    <div class="colophon-head"><h2 id="how">How it is built</h2><a class="down" href="#how-text" aria-label="Read how it is built"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg></a></div>
+    <div id="how-text">
+    <p>The shelf is plain CSS: each case is a 3D box (a hinged cover with the tracklist inside, spine, edges, a tray with the disc) under one <code>perspective</code>, and works out its place from its distance to the chosen one, <code>sibling-index()</code> less the choice: spine-on before it, fanned after it, forward at zero, with transitions carrying it there. The glossy floor is the shelf again, mirrored with <code>scaleY(-1)</code> and faded with a mask. <a href="https://reactivecss.com" target="_blank" rel="noopener">Reactive CSS</a> adds the interaction, with no application JavaScript:</p>
+    <ul><li>Two <a href="https://reactivecss.com/docs/reference/state/" target="_blank" rel="noopener"><code>state()</code></a>s, which case is chosen and whether it is open. <code>.case:on(click)</code> chooses <code>sibling-index()</code>, read at the event.</li><li><a href="https://reactivecss.com/docs/reference/drag/" target="_blank" rel="noopener"><code>:on(drag)</code></a> along the shelf moves a case for every 70px of <a href="https://reactivecss.com/docs/reference/event/" target="_blank" rel="noopener"><code>event(delta-x)</code></a> from where the drag started; the arrow keys, Home and End step with <a href="https://reactivecss.com/docs/reference/on-rule/" target="_blank" rel="noopener"><code>:on(keydown(ArrowRight), prevent())</code></a>.</li><li>Enter or a click on the chosen case opens it: the cover swings open on its hinge and the disc slides out and spins; Escape closes it.</li><li>The glint sweeps across the chosen case only, and its disc spins only when open: one <a href="https://reactivecss.com/docs/reference/when-selector/" target="_blank" rel="noopener"><code>:when()</code></a> rule per place on the shelf.</li><li>The hint fades after the first browse, through a page-wide <a href="https://reactivecss.com/docs/reference/state/" target="_blank" rel="noopener"><code>state()</code></a> and <a href="https://reactivecss.com/docs/reference/when-selector/" target="_blank" rel="noopener"><code>:when()</code></a>.</li></ul>
+    </div>
+  </section>
+  <div class="labels">
+    <span class="label-made">Built with <b>Reactive CSS</b></span>
+    <a class="label-link" href="https://reactivecss.com" target="_blank" rel="noopener">reactivecss.com ↗</a>
+  </div>
+  <div class="labels left">
+    <a class="label-x" href="https://x.com/troshkin_pavel" target="_blank" rel="noopener">𝕏 @troshkin_pavel</a>
+  </div>
+</body>
+</html>
+@layer base, reactive;
+
+@property --sel {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --open {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --cnt {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 1;
+}
+/* A case's distance to the chosen one and its side, worked out on the case: registered, so its parts inherit the numbers
+   (an unregistered one would be worked out again in each part, where sibling-index() is the part's own). */
+@property --d {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --ad {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --L {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --R {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --C {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Gochi Hand (SIL Open Font License) for the hint: a font file, not a stylesheet. */
+@font-face {
+  font-family: "Gochi Hand";
+  src: url("https://fonts.gstatic.com/s/gochihand/v27/hES06XlsOjtJsgCkx1Pkfon_-18kTWE.woff2")
+    format("woff2");
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  body {
+    background: oklch(14% 0.01 270);
+    color: white;
+    font:
+      500 15px/1.35 system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .library {
+    --W: clamp(150px, min(30vw, 40dvh), 300px); /* a case: square, as a CD's */
+    --H: var(--W);
+    --S: calc(var(--W) * 0.075); /* its depth: the spine's width */
+    --sp: calc(var(--S) + 5px); /* spines on the shelf, one every */
+    --cnt: calc(var(--sel) + 1);
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr calc(var(--H) * 1.55) auto 1.3fr auto;
+    gap: 8px; /* the shelf and its title together, in the middle */
+    block-size: 100dvh;
+    padding: 18px 24px 20px;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow-x: clip; /* ...never sideways: the fanned covers run past the edge */
+  }
+
+  /* ---- the room: the chosen cover, blurred and tinted, cross-fading as you browse */
+  .backdrops {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: oklch(14% 0.01 270);
+  }
+  .backdrops div {
+    --d: calc(sibling-index() - 1 - var(--sel));
+    /* The cover, already blurred by the image server: soft without a blur filter. A full-screen blur on twelve layers
+       had to be painted again as each faded in, and switching fast left unpainted (black) tiles. */
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        60% 50% at 50% 42%,
+        oklch(55% 0.16 var(--h) / 0.5),
+        transparent 70%
+      ),
+      linear-gradient(
+        oklch(12% 0.02 var(--h) / 0.5),
+        oklch(10% 0.02 var(--h) / 0.88)
+      ),
+      var(--img) center / cover;
+    opacity: clamp(0, 1 - max(var(--d), -1 * var(--d)), 1);
+    transition: opacity 700ms ease;
+  }
+
+  /* ---- top bar */
+  .top {
+    grid-row: 1;
+    display: flex; /* clear of the version switcher */
+    justify-content: space-between;
+    align-items: center;
+    color: oklch(100% 0 0 / 0.8);
+    font-weight: 650;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    letter-spacing: 0.02em;
+    i {
+      inline-size: 18px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 30deg,
+        oklch(80% 0.1 200),
+        oklch(85% 0.1 320),
+        oklch(88% 0.1 90),
+        oklch(80% 0.1 200)
+      );
+      mask: radial-gradient(circle, transparent 2.5px, black 3px);
+    }
+  }
+  .count {
+    font-variant-numeric: tabular-nums;
+    color: oklch(100% 0 0 / 0.6);
+    counter-reset: n var(--cnt);
+    b::before {
+      content: counter(n);
+      color: white;
+    }
+  }
+
+  /* ---- the shelf */
+  .shelf {
+    grid-row: 3;
+    position: relative;
+    outline: none;
+    touch-action: pan-y;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  /* No frame round the case: it crossed the cover. While the shelf has focus, the key bar brightens instead. */
+  .open-hit {
+    outline: none;
+  }
+  .library:has(:is(.shelf, .open-hit):focus-visible) .keys {
+    color: white;
+    kbd {
+      background: oklch(100% 0 0 / 0.24);
+      border-color: oklch(100% 0 0 / 0.45);
+    }
+  }
+  .cases {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    list-style: none;
+    perspective: 1500px;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+  }
+
+  /* A case: its place from its distance to the chosen one (--d): before it (--L) spine-on in a row, after it (--R)
+     fanned covers, the chosen one (--C) forward; opened, it steps left and the others fade. */
+  .case {
+    --d: calc(sibling-index() - 1 - var(--sel));
+    --ad: max(var(--d), -1 * var(--d));
+    --L: clamp(0, -1 * var(--d), 1);
+    --R: clamp(0, var(--d), 1);
+    --C: calc(1 - var(--L) - var(--R));
+    --x: calc(
+      var(--R) * (var(--W) * 0.52 + 70px + (var(--d) - 1) * var(--W) * 0.3) -
+        var(--L) * (var(--W) * 0.5 + 60px + (var(--ad) - 1) * var(--sp)) +
+        var(--C) * var(--open) * var(--W) * 0.24
+    ); /* opened: right a little, so the cover (left) and the disc (right) sit centred */
+    position: absolute;
+    inset: 50% auto auto 50%;
+    inline-size: var(--W);
+    block-size: var(--H);
+    margin: calc(var(--H) / -2) 0 0 calc(var(--W) / -2);
+    transform-style: preserve-3d;
+    transform: translateX(var(--x))
+      translateZ(calc(var(--C) * (70px + var(--open) * 90px)))
+      rotateY(calc(var(--L) * 90deg - var(--R) * 58deg))
+      scale(calc(1 - (1 - var(--C)) * 0.1));
+    /* Faded while another case is open, and far off the shelf: on the flat faces below, not here, as opacity under 1
+       flattens a preserve-3d box (the cases came back spineless after closing, then snapped into 3D). */
+    --fade: calc(
+      (1 - var(--open) * (1 - var(--C))) * clamp(0, 14 - var(--ad), 1)
+    );
+    transition: transform 650ms cubic-bezier(0.2, 0.85, 0.25, 1);
+    cursor: pointer;
+  }
+  .box > :not(.cover),
+  .out,
+  .in {
+    opacity: var(--fade);
+    transition: opacity 400ms;
+  }
+  .pick {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    border: 0;
+    padding: 0;
+  }
+  .box {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+  .box > * {
+    position: absolute;
+  }
+
+  /* The cover: hinged on its left edge, the art outside and the tracklist inside. */
+  .cover {
+    inset: 0;
+    transform-style: preserve-3d;
+    transform-origin: 0 50%;
+    transform: translateZ(calc(var(--S) / 2))
+      rotateY(calc(var(--C) * var(--open) * -158deg));
+    transition: transform 800ms cubic-bezier(0.3, 0.9, 0.3, 1)
+      calc(var(--open) * 120ms);
+  }
+  .out,
+  .in {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 3px;
+  }
+  .out {
+    background: oklch(20% 0.03 var(--h));
+    box-shadow: 0 30px 60px -20px oklch(0% 0 0 / 0.7);
+    img {
+      position: absolute;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+    /* The plastic: a hinge strip on the left and a sheen across. */
+    .hinge {
+      position: absolute;
+      inset: 0 auto 0 0;
+      inline-size: 7%;
+      background: repeating-linear-gradient(
+        oklch(100% 0 0 / 0.18) 0 1px,
+        oklch(0% 0 0 / 0.25) 1px 3px
+      );
+      box-shadow: inset -1px 0 0 oklch(100% 0 0 / 0.35);
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        115deg,
+        oklch(100% 0 0 / 0.22),
+        transparent 30% 62%,
+        oklch(100% 0 0 / 0.1)
+      );
+      box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.25);
+    }
+  }
+  .art {
+    position: absolute;
+    inset: auto 0 0 7%;
+    display: grid;
+    gap: 2px;
+    padding: 9% 8% 7%;
+    background: linear-gradient(transparent, oklch(10% 0.02 var(--h) / 0.8));
+    b {
+      font-size: calc(var(--W) * 0.085);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-wrap: balance;
+    }
+    span {
+      font-size: calc(var(--W) * 0.045);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.8;
+    }
+  }
+  .in {
+    transform: rotateY(180deg);
+    display: grid;
+    align-content: start;
+    gap: 6%;
+    padding: 9% 10%;
+    background: oklch(95% 0.015 var(--h));
+    color: oklch(25% 0.04 var(--h));
+    font-size: calc(var(--W) * 0.042);
+    .notes-title {
+      font-size: 1.6em;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    ol {
+      display: grid;
+      gap: 0.55em;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.8em;
+      align-items: baseline;
+      padding-block-end: 0.45em;
+      border-block-end: 1px solid oklch(from currentColor l c h / 0.15);
+    }
+    li span,
+    li small {
+      font-variant-numeric: tabular-nums;
+      opacity: 0.6;
+      font-size: 0.85em;
+    }
+    .notes-foot {
+      font-size: 0.8em;
+      opacity: 0.65;
+    }
+  }
+
+  /* The other faces: the spine (a printed strip with the title), the edges and the tray with its disc. No back: it always
+     faces away. */
+  .spine {
+    inset: 0 auto 0 calc(var(--S) / -2);
+    inline-size: var(--S);
+    transform: rotateY(-90deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    background: linear-gradient(
+      90deg,
+      oklch(26% 0.07 var(--h)),
+      oklch(34% 0.09 var(--h)) 50%,
+      oklch(24% 0.07 var(--h))
+    );
+    box-shadow: inset 0 0 0 1px oklch(100% 0 0 / 0.14);
+    b {
+      writing-mode: vertical-rl;
+      font-size: clamp(9px, calc(var(--S) * 0.5), 12px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      max-block-size: 80%;
+    }
+    span {
+      writing-mode: vertical-rl;
+      font-size: clamp(8px, calc(var(--S) * 0.38), 10px);
+      opacity: 0.65;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+  .edge {
+    inset: 0 auto 0 calc(var(--W) - var(--S) / 2);
+    inline-size: var(--S);
+    transform: rotateY(90deg);
+    background: oklch(80% 0.01 var(--h));
+  }
+  .lid {
+    inset: calc(var(--S) / -2) 0 auto;
+    block-size: var(--S);
+    transform: rotateX(90deg);
+    background: oklch(88% 0.01 var(--h));
+  }
+  .base {
+    inset: auto 0 calc(var(--S) / -2);
+    block-size: var(--S);
+    transform: rotateX(-90deg);
+    background: oklch(60% 0.01 var(--h));
+  }
+  .tray {
+    inset: 0;
+    transform: translateZ(calc(var(--S) / -2 + 1px));
+    transform-style: preserve-3d;
+    border-radius: 3px;
+    background:
+      radial-gradient(
+        circle,
+        oklch(28% 0.01 260) 12%,
+        oklch(18% 0.01 260) 13% 46%,
+        oklch(24% 0.01 260) 47%
+      ),
+      oklch(16% 0.01 260);
+  }
+  /* The disc: the cover printed on it, a hole, a rainbow sheen; it slides out of the open case and spins. */
+  .disc {
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Lifted out of the tray as it slides (in front of the box, not through its right edge, which would cross it). */
+    transform: translateX(calc(var(--C) * var(--open) * var(--W) * 0.5))
+      translateZ(calc(var(--C) * var(--open) * (var(--S) + 4px)));
+    transition: transform 900ms cubic-bezier(0.3, 0.9, 0.3, 1)
+      calc(var(--open) * 450ms);
+    mask: radial-gradient(circle, transparent 7%, black 7.5%);
+    box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.25);
+    img {
+      position: absolute;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    } /* spins only when its case is open (below) */
+    i {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle,
+          oklch(92% 0 0) 14%,
+          transparent 14.5% 46%,
+          oklch(100% 0 0 / 0.1) 47%
+        ),
+        conic-gradient(
+          from 20deg,
+          oklch(100% 0 0 / 0),
+          oklch(85% 0.12 200 / 0.35),
+          oklch(100% 0 0 / 0) 25%,
+          oklch(85% 0.12 330 / 0.35),
+          oklch(100% 0 0 / 0) 50%,
+          oklch(88% 0.12 90 / 0.3),
+          oklch(100% 0 0 / 0) 75%,
+          oklch(85% 0.12 200 / 0.35)
+        );
+      mix-blend-mode: screen;
+    }
+  }
+  @keyframes spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+
+  /* The inside of the cover and the tray with the disc are drawn on the chosen case only (the others are shut, so they
+     never show). In 3D each face is a layer of its own: drawing them on every case (and its reflection) took 220 MB of
+     GPU memory on a 2x screen, and Chrome dropped faces (a chosen cover went missing) and stalled near the end of the shelf. */
+  .in,
+  .tray {
+    visibility: hidden;
+  }
+  @container style(--C: 1) {
+    .in,
+    .tray {
+      visibility: visible;
+    }
+  }
+
+  /* Over the chosen case: a click opens it (the shelf's drag still starts here). */
+  .open-hit {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    z-index: 5;
+    inline-size: var(--W);
+    block-size: var(--H);
+    margin: calc(var(--H) / -2) 0 0 calc(var(--W) / -2);
+    border: 0;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+    translate: calc(var(--open) * var(--W) * 0.24) 0;
+    transition: translate 650ms cubic-bezier(0.2, 0.85, 0.25, 1);
+  }
+
+  /* ---- the chosen album's title, cross-fading */
+  .titles {
+    grid-row: 4;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  } /* as tall as its titles: a set minimum let a short window squeeze it under the key bar */
+  .titles div {
+    --d: calc(sibling-index() - 1 - var(--sel));
+    grid-area: 1 / 1;
+    opacity: clamp(0, 1 - max(var(--d), -1 * var(--d)) * 1.5, 1);
+    translate: calc(var(--d) * 14px) 0;
+    transition:
+      opacity 350ms,
+      translate 450ms;
+    h2 {
+      font-size: clamp(22px, 3.4vw, 34px);
+      font-weight: 750;
+      letter-spacing: -0.025em;
+    }
+    p {
+      color: oklch(100% 0 0 / 0.65);
+      font-size: 14px;
+    }
+  }
+
+  /* ---- the key bar */
+  .keys {
+    grid-row: 6;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    color: oklch(100% 0 0 / 0.7);
+    font-size: 13px;
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    kbd {
+      display: inline-grid;
+      place-items: center;
+      min-inline-size: 24px;
+      block-size: 24px;
+      padding-inline: 6px;
+      border-radius: 6px;
+      background: oklch(100% 0 0 / 0.12);
+      border: 1px solid oklch(100% 0 0 / 0.2);
+      box-shadow: 0 2px 0 oklch(0% 0 0 / 0.4);
+      font:
+        600 12px/1 system-ui,
+        sans-serif;
+      color: white;
+    }
+    .when-open {
+      display: none;
+    }
+  }
+  .close {
+    position: absolute;
+    inset: 16px 20px auto auto;
+    padding: 8px 14px;
+    border: 1px solid oklch(100% 0 0 / 0.3);
+    border-radius: 999px;
+    background: oklch(0% 0 0 / 0.35);
+    color: white;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    opacity: var(--open);
+    visibility: hidden;
+    transition: opacity 300ms;
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+  }
+
+  /* ---- the hint, gone after the first browse */
+  .hint {
+    --hint: oklch(85% 0.02 270);
+    --tilt: -4deg;
+    --bob: -4px 2px;
+    position: absolute;
+    inset: auto calc(50% + var(--W) * 0.5 + 40px) 6% auto;
+    color: var(--hint);
+    z-index: 6;
+    font:
+      400 clamp(22px, 3.4vmin, 30px)/1 "Gochi Hand",
+      "Comic Sans MS",
+      cursive;
+    pointer-events: none;
+    transition:
+      opacity 500ms,
+      translate 500ms;
+    svg {
+      position: absolute;
+      inset: auto -10px calc(100% + 4px) auto;
+      block-size: clamp(40px, 6vmin, 56px);
+      overflow: visible;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      animation: hint-bob 2.4s ease-in-out infinite;
+    }
+    .label {
+      display: inline-block;
+      max-inline-size: 8em;
+      text-wrap: balance;
+      rotate: var(--tilt);
+      text-shadow: 0 2px 12px oklch(0% 0 0 / 0.85);
+    }
+    path {
+      vector-effect: non-scaling-stroke;
+    }
+    .on-touch {
+      display: none;
+    }
+    @media (hover: none) {
+      .on-hover {
+        display: none;
+      }
+      .on-touch {
+        display: inline;
+      }
+    }
+  }
+  @keyframes hint-bob {
+    50% {
+      translate: var(--bob, 0 -4px);
+    }
+  }
+
+  @media (width < 640px) {
+    .library {
+      padding: 14px 12px 16px;
+    }
+    .keys {
+      gap: 12px;
+      font-size: 12px;
+    }
+  }
+  .colophon,
+  .labels {
+    --card-heading: oklch(88% 0 0);
+    --card-lead: oklch(86% 0 0);
+    --card-text: oklch(64% 0 0);
+    --card-faint: oklch(50% 0 0);
+    --card-code: oklch(90% 0 0);
+    --card-link: white;
+    --card-bg: oklch(18% 0 0 / 0.72);
+    --card-border: oklch(100% 0 0 / 0.1);
+    --card-line: oklch(100% 0 0 / 0.07);
+    --card-chip: oklch(100% 0 0 / 0.07);
+    --card-chip-hover: oklch(100% 0 0 / 0.16);
+    --card-shadow: oklch(0% 0 0 / 0.8);
+    --card-focus: oklch(80% 0 0);
+    --pill-bg: oklch(22% 0 0);
+    --pill-ink: oklch(72% 0 0);
+    --pill-strong: white;
+    --pill-border: oklch(32% 0 0);
+    --pill-hover: oklch(30% 0 0);
+    --site-bg: oklch(94% 0 0);
+    --site-ink: oklch(20% 0 0);
+    --site-hover: white;
+    --pill-shadow: oklch(0% 0 0 / 0.5);
+  }
+  /* The explanation: a card set apart from the piece. A lead sentence, then numbered points; the functions are chips
+     that link to their reference pages, so it reads as notes about the page, not part of it. */
+  .colophon {
+    inline-size: min(100%, 680px);
+    font:
+      14px/1.6 system-ui,
+      sans-serif;
+    color: var(--card-text);
+  }
+  .colophon-head {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+    h2 {
+      font:
+        650 15px/1.3 system-ui,
+        sans-serif;
+      letter-spacing: -0.01em;
+      color: var(--card-heading);
+    }
+    .down {
+      display: grid;
+      place-items: center;
+      inline-size: 40px;
+      block-size: 40px;
+      border-radius: 50%;
+      color: var(--card-faint);
+      animation: nudge 2.2s ease-in-out infinite;
+      &:hover {
+        color: var(--card-link);
+      }
+      &:focus-visible {
+        outline: 2px solid var(--card-focus);
+      }
+      svg {
+        inline-size: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    }
+  }
+  @keyframes nudge {
+    50% {
+      translate: 0 5px;
+    }
+  }
+  #how-text {
+    scroll-margin-block-start: 8vmin;
+    padding: 26px 30px 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    background: var(--card-bg);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 24px 60px -30px var(--card-shadow);
+    > p {
+      margin-block-end: 18px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--card-lead);
+      text-wrap: pretty;
+      > a {
+        color: var(--card-link);
+        text-decoration-color: color-mix(
+          in oklch,
+          currentColor 40%,
+          transparent
+        );
+        text-underline-offset: 3px;
+        &:hover {
+          text-decoration-color: currentColor;
+        }
+      }
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: point;
+      border-block-start: 1px solid var(--card-line);
+    }
+    li {
+      counter-increment: point;
+      position: relative;
+      padding: 13px 0 13px 2.6em;
+      text-wrap: pretty;
+    }
+    li + li {
+      border-block-start: 1px solid var(--card-line);
+    }
+    li::before {
+      content: counter(point, decimal-leading-zero);
+      position: absolute;
+      inset-inline-start: 0;
+      font:
+        500 12px/2 ui-monospace,
+        "SF Mono",
+        Menlo,
+        monospace;
+      color: var(--card-faint);
+    }
+    code {
+      font:
+        500 0.88em ui-monospace,
+        "SF Mono",
+        Menlo,
+        monospace;
+      color: var(--card-code);
+      white-space: nowrap;
+    }
+    a:has(> code) {
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: var(--card-chip);
+      box-shadow: inset 0 0 0 1px var(--card-border);
+      text-decoration: none;
+      transition: background 150ms;
+      &:hover {
+        background: var(--card-chip-hover);
+      }
+    }
+    a:focus-visible {
+      outline: 2px solid var(--card-focus);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+  /* The labels in the corners, as on Hive's pen: Reactive CSS on the right, the X profile on the left. */
+  .labels {
+    position: fixed;
+    inset: auto 14px 14px auto;
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+    font:
+      600 12px/1 system-ui,
+      sans-serif;
+  }
+  .labels > * {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px var(--pill-shadow);
+  }
+  .label-made {
+    background: var(--pill-bg);
+    color: var(--pill-ink);
+    border: 1px solid var(--pill-border);
+    b {
+      color: var(--pill-strong);
+    }
+  }
+  :is(.label-link, .label-x) {
+    &:focus-visible {
+      outline: 2px solid var(--card-focus);
+      outline-offset: 2px;
+    }
+  }
+  .label-link {
+    background: var(--site-bg);
+    color: var(--site-ink);
+    &:hover {
+      background: var(--site-hover);
+    }
+  }
+  .labels.left {
+    inset: auto auto 14px 14px;
+  }
+  .label-x {
+    background: var(--pill-bg);
+    color: var(--pill-strong);
+    border: 1px solid var(--pill-border);
+    &:hover {
+      background: var(--pill-hover);
+    }
+  }
+  /* Phones: the labels end the page instead of floating over the piece. */
+  @media (width < 700px) {
+    .labels {
+      position: static;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-block-end: 3vmin;
+    }
+    .labels.left {
+      padding-block-end: 6vmin;
+    }
+  }
+  /* The piece fills the first screen. "How it is built" and an arrow sit at the bottom of that screen
+     (pulled up by the height of that head), and the explanation follows below. */
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    display: grid;
+    grid-template-rows: minmax(100dvh, auto) auto;
+    justify-items: center;
+  } /* a tall piece grows */
+  body > main[class] {
+    justify-self: stretch;
+    padding-block-end: calc(4vmin + 104px);
+  } /* room for the heading */
+  .colophon {
+    position: relative;
+    padding-inline: 16px;
+  } /* above a positioned <main> */
+  .colophon {
+    --head: 104px;
+    margin-block-start: calc(-1 * var(--head));
+    padding-block-end: calc(8vmin + 52px);
+  }
+  .colophon-head {
+    block-size: var(--head);
+    align-content: end;
+    padding-block-end: 18px;
+    margin-block-end: 6vmin;
+  }
+  @media (width < 700px) {
+    .colophon {
+      padding-block-end: 6vmin;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disc img,
+    .hint svg {
+      animation: none !important;
+    }
+    .case,
+    .cover,
+    .disc {
+      transition-duration: 1ms;
+    }
+  }
+}
+
+/* ---- Reactive CSS ---- */
+@layer reactive {
+  .library {
+    --sel: state(0);
+    --open: state(0);
+    --s0: state(0);
+    --tried: state(false);
+  }
+
+  /* Browsing: a click on a case chooses it; the arrow keys, Home and End step along; a drag moves one case for every
+     70px (from where the drag started), up to the last place (--last, set on the page). Not while a case is open. */
+  .library:when(--open == 0) .case:on(click) {
+    --sel: set(sibling-index() - 1);
+    --tried: set(true);
+  }
+  .library:when(--open == 0) .shelf:on(keydown(ArrowRight), prevent()) {
+    --sel: set(min(var(--last), var(--sel) + 1));
+    --tried: set(true);
+  }
+  .library:when(--open == 0) .shelf:on(keydown(ArrowLeft), prevent()) {
+    --sel: set(max(0, var(--sel) - 1));
+    --tried: set(true);
+  }
+  .library:when(--open == 0) .shelf:on(keydown(Home), prevent()) {
+    --sel: set(0);
+  }
+  .library:when(--open == 0) .shelf:on(keydown(End), prevent()) {
+    --sel: set(var(--last));
+  }
+  .library:when(--open == 0) .shelf:on(drag(start)) {
+    --s0: set(var(--sel));
+    --tried: set(true);
+  }
+  .library:when(--open == 0) .shelf:on(drag) {
+    --sel: set(clamp(0, round(var(--s0) - event(delta-x) / 70px), var(--last)));
+  }
+
+  /* Opening: a click on the chosen case or Enter opens it, and closes it again; Escape or Close closes it. */
+  .open-hit:on(click) {
+    --open: set(1 - var(--open));
+    --tried: set(true);
+  }
+  .shelf:on(keydown(Enter), prevent()) {
+    --open: set(1 - var(--open));
+  }
+  .shelf:on(keydown(Escape)) {
+    --open: set(0);
+  }
+  .close:on(click) {
+    --open: set(0);
+  }
+
+  .library:when(--open == 1) .keys .when-open {
+    display: inline-flex;
+  }
+  .library:when(--open == 1) .keys .when-shut {
+    display: none;
+  }
+  .library:when(--open == 1) .close {
+    visibility: visible;
+  }
+  .library:when(--tried) .hint {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  /* Only the open case's disc spins (and its reflection's): one rule per place on the shelf. */
+  .library:when(--open == 1 and --sel == 0) .case:nth-child(1) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 1) .case:nth-child(2) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 2) .case:nth-child(3) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 3) .case:nth-child(4) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 4) .case:nth-child(5) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 5) .case:nth-child(6) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 6) .case:nth-child(7) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 7) .case:nth-child(8) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 8) .case:nth-child(9) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 9) .case:nth-child(10) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 10) .case:nth-child(11) .disc img {
+    animation: spin 5s linear infinite;
+  }
+  .library:when(--open == 1 and --sel == 11) .case:nth-child(12) .disc img {
+    animation: spin 5s linear infinite;
+  }
+}
+
+/* Disc Shelf v2: on top of style.css, a glint and a glossy floor, as in a console library. A band of light sweeps
+   across the chosen case's plastic every few seconds, and the shelf stands on a glossy floor: a mirrored copy of the
+   cases, fading out, so the glint, the browsing and an opened case all show in it. Soft light streaks drift behind.
+   Only the chosen case (and its reflection) runs the glint, through one :when() rule per place on the shelf, and the
+   streaks move as one layer without filters, so v2 costs little more than v1 while nothing moves. */
+
+@layer base {
+  .v2 {
+    /* The floor line: the bottom of the cases, in the shelf. */
+    --sh: calc(var(--H) * 1.55);
+    --floor: calc(var(--sh) / 2 + var(--H) / 2);
+  }
+
+  /* ---- the glint: a bright band sweeping across the chosen case every 4.8s (the reactive layer below starts it on
+     that case only; the band waits off the cover on the others). */
+  .v2 .out::before {
+    content: "";
+    position: absolute;
+    inset: -30% -60%;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      oklch(100% 0 0 / 0.22) 45%,
+      oklch(100% 0 0 / 0.85) 50%,
+      oklch(100% 0 0 / 0.22) 55%,
+      transparent 60%
+    );
+    mix-blend-mode: screen;
+    translate: -70% 0;
+  }
+  @keyframes glint {
+    0%,
+    48% {
+      translate: -70% 0;
+    }
+    80%,
+    100% {
+      translate: 70% 0;
+    }
+  } /* a 1.5s sweep, then a pause */
+
+  /* ---- the glossy floor: the shelf again, mirrored about the floor line, fading as it goes down */
+  .mirror {
+    position: absolute;
+    inset: var(--floor) 0 auto;
+    block-size: calc(var(--H) * 0.9);
+    overflow: hidden;
+    pointer-events: none;
+    mask: linear-gradient(black, oklch(0% 0 0 / 0.35) 35%, transparent 85%);
+    opacity: 0.5;
+    /* The floor itself: a faint sheen along the line the cases stand on. */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 8% auto;
+      block-size: 1px;
+      z-index: 1;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        oklch(100% 0 0 / 0.35) 30% 70%,
+        transparent
+      );
+    }
+  }
+  .reflect {
+    inset: calc(-1 * var(--floor)) 0 auto;
+    block-size: var(--sh);
+    transform-origin: 50% var(--floor);
+    transform: scaleY(-1);
+  }
+  .reflect .case {
+    cursor: default;
+  }
+
+  /* ---- light streaks behind: thin curves in a soft colour; the whole layer drifts (a transform, no repaint), no filters. */
+  .streaks {
+    position: fixed;
+    inset: -6% 0;
+    z-index: -1;
+    inline-size: 100%;
+    block-size: 112%;
+    pointer-events: none;
+    fill: none;
+    stroke: oklch(92% 0.05 300 / 0.2);
+    stroke-width: 2;
+    stroke-linecap: round;
+    animation: drift 16s ease-in-out infinite alternate;
+    will-change: translate;
+    path:nth-child(2) {
+      stroke-width: 1.4;
+      stroke: oklch(92% 0.05 300 / 0.14);
+    }
+    path:nth-child(3) {
+      stroke-width: 1;
+      stroke: oklch(92% 0.05 300 / 0.12);
+    }
+  }
+  @keyframes drift {
+    to {
+      translate: 0 36px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .streaks {
+      animation: none;
+    }
+  }
+}
+
+/* ---- Reactive CSS: the glint runs on the chosen case only (and its reflection, the same place in the other list) */
+@layer reactive {
+  .library:when(--sel == 0) .case:nth-child(1) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 1) .case:nth-child(2) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 2) .case:nth-child(3) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 3) .case:nth-child(4) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 4) .case:nth-child(5) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 5) .case:nth-child(6) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 6) .case:nth-child(7) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 7) .case:nth-child(8) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 8) .case:nth-child(9) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 9) .case:nth-child(10) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 10) .case:nth-child(11) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+  .library:when(--sel == 11) .case:nth-child(12) .out::before {
+    animation: glint 4.8s cubic-bezier(0.45, 0.05, 0.35, 1) -1.4s infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2 .out::before {
+    animation: none !important;
+  }
+}
+
+/* The pens' background: CSS punctuation, scattered and faint. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--pattern-ink, oklch(100% 0 0 / 0.05));
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22240%22%20height%3D%22200%22%3E%3Cg%20transform%3D%22translate%2822%2026%29%20rotate%28-8%29%20scale%281%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3-10C0-10-.6-8.6-.6-6.4V-2.4C-.6-1.1-1.4-.2-3%200-1.4.2-.6%201.1-.6%202.4V6.4C-.6%208.6%200%2010%203%2010%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2840%2026%29%20rotate%28-8%29%20scale%281%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-3-10C0-10%20.6-8.6%20.6-6.4V-2.4C.6-1.1%201.4-.2%203%200%201.4.2.6%201.1.6%202.4V6.4C.6%208.6%200%2010-3%2010%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28104%2042%29%20rotate%2810%29%20scale%281%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%220%22%20cy%3D%22-5%22%20r%3D%221.5%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3Cpath%20d%3D%22M.4%203.2C1%204.6.6%206.8-1.4%208.4%22/%3E%3Ccircle%20cx%3D%22.2%22%20cy%3D%223.4%22%20r%3D%221.5%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28168%2022%29%20rotate%286%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-2.5-8-4.5%208M3.5-8%201.5%208M-7-3H7M-8%203H6%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28214%2070%29%20rotate%280%29%20scale%280.8%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M0-7V7M-6-3.5%206%203.5M-6%203.5%206-3.5%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2866%2092%29%20rotate%28-12%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-5-9C-9-4-9%204-5%209M5-9C9-4%209%204%205%209%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28136%20104%29%20rotate%280%29%20scale%281%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%220%22%20cy%3D%22-4.5%22%20r%3D%221.5%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%224.5%22%20r%3D%221.5%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28196%20140%29%20rotate%28-6%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-4-6%204%200-4%206%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2824%20150%29%20rotate%288%29%20scale%280.85%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6-8-6%208%22/%3E%3Ccircle%20cx%3D%22-4.5%22%20cy%3D%22-5.5%22%20r%3D%222.4%22/%3E%3Ccircle%20cx%3D%224.5%22%20cy%3D%225.5%22%20r%3D%222.4%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28104%20168%29%20rotate%284%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M-4-9H-7V9H-4M4-9H7V9H4%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28166%20186%29%20rotate%280%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4-9-4%209%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28226%20192%29%20rotate%280%29%20scale%281%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%221.7%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%28150%2060%29%20rotate%280%29%20scale%280.9%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%220%22%20cy%3D%220%22%20r%3D%221.7%22%20fill%3D%22black%22%20stroke%3D%22none%22/%3E%3C/g%3E%3Cg%20transform%3D%22translate%2854%20196%29%20rotate%2814%29%20scale%280.6%29%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M0-7V7M-6-3.5%206%203.5M-6%203.5%206-3.5%22/%3E%3C/g%3E%3C/svg%3E")
+    0 0 / 240px 200px repeat;
+}
+/*
+Disc Shelf: a console-style shelf of CD cases in 3D, with a glint and a glossy floor, with CSS and Reactive CSS
+
+  https://reactivecss.com
+  https://github.com/troshkinpavel/reactivecss
+  https://x.com/troshkin_pavel
+
+No application JavaScript. The only script is the Reactive CSS runtime, loaded in the HTML: https://cdn.jsdelivr.net/npm/@reactivecss/core@0.10.0/dist/reactive-css.min.js
+
+Everything the page does is in style.css.
+*/

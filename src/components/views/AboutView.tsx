@@ -2556,7 +2556,7 @@ export function AboutView({
                             detailInfoTab === 'personal' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
                           )}
                         />
-                        <span>Thông tin cá nhân</span>
+                        <span>Cá nhân</span>
                         {detailInfoTab === 'personal' && (
                           <span
                             aria-hidden="true"
@@ -2602,7 +2602,7 @@ export function AboutView({
                             detailInfoTab === 'contact' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
                           )}
                         />
-                        <span>Thông tin liên hệ</span>
+                        <span>Liên hệ</span>
                         {detailInfoTab === 'contact' && (
                           <span
                             aria-hidden="true"

@@ -43,6 +43,8 @@ export interface ThemePresetCardProps {
   displayDesc: string;
   lightModeId?: CardStyleMode;
   darkModeId?: CardStyleMode;
+  currentVariant?: 'light' | 'dark';
+  onVariantChange?: (variant: 'light' | 'dark') => void;
   onSelectTheme: (mode: CardStyleMode, label: string) => void;
   onToggleVideo: (id: CardStyleMode) => void;
   onVideoError: (id: CardStyleMode) => void;
@@ -64,6 +66,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     displayDesc,
     lightModeId,
     darkModeId,
+    currentVariant,
+    onVariantChange,
     onSelectTheme,
     onToggleVideo,
     onVideoError,
@@ -387,10 +391,11 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSelectTheme(lightModeId, displayPresetName);
+                    onVariantChange?.('light');
+                    if (lightModeId) onSelectTheme(lightModeId, displayPresetName);
                   }}
                   className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                    preset.id === lightModeId ? 'bg-white text-slate-900 shadow-xs' : 'text-current opacity-70 hover:opacity-100'
+                    currentVariant === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-current opacity-70 hover:opacity-100'
                   }`}
                 >
                   {isEn ? 'Light' : 'Sáng'}
@@ -399,10 +404,11 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSelectTheme(darkModeId, displayPresetName);
+                    onVariantChange?.('dark');
+                    if (darkModeId) onSelectTheme(darkModeId, displayPresetName);
                   }}
                   className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                    preset.id === darkModeId ? 'bg-slate-900 text-white shadow-xs' : 'text-current opacity-70 hover:opacity-100'
+                    currentVariant === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-current opacity-70 hover:opacity-100'
                   }`}
                 >
                   {isEn ? 'Dark' : 'Tối'}

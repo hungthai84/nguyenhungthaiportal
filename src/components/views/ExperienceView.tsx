@@ -130,7 +130,7 @@ const STORY_NARRATIONS: Record<
     highlightKpis: string[];
   }
 > = {
-  '2003': {
+  '2002': {
     title: 'MobiFone',
     stage: 'Cấp bậc 1 · Nhân viên CSKH (Viễn thông di động)',
     summary: 'Khởi đầu nhân viên tổng đài, rèn chuẩn quy trình viễn thông, xử lý sự cố và tư duy lấy khách hàng làm trung tâm.',
@@ -197,7 +197,7 @@ interface MilestoneCustomContent {
 }
 
 const MILESTONE_CUSTOM_CONTENT: Record<string, MilestoneCustomContent> = {
-  '2003': {
+  '2002': {
     bannerTitle: 'Tiên phong viễn thông di động<br />Chuẩn mực dịch vụ khách hàng',
     bannerDesc: 'Khởi đầu sự nghiệp với nền tảng quy trình viễn thông nghiêm ngặt, rèn luyện kỹ năng lắng nghe, thấu cảm và giải quyết khiếu nại cước đa kênh.',
     gradient: 'from-blue-700 via-blue-600 to-sky-700',
@@ -482,14 +482,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   // Giữ nguyên 100% dữ liệu 8 cột mốc từ website, áp dụng hệ màu & bố cục từ mẫu đính kèm
   const roadmapCards = [
     {
-      key: '2003',
-      yearBadge: 'Năm 2003',
+      key: '2002',
+      yearBadge: 'Năm 2002',
       companyLine1: 'Công ty',
       companyLine2: 'Viễn thông MobiFone',
       shortName: 'Công ty Viễn thông MobiFone',
       roleSummary: 'Nhân viên CSKH',
       headcountLabel: '12 Nhân sự',
-      description: EXPERIENCE_MILESTONES['2003']?.cardDescription || '',
+      description: EXPERIENCE_MILESTONES['2002']?.cardDescription || '',
       logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
       productSummary: 'MobiFone Di Động',
       products: [
@@ -813,7 +813,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       didDragRef.current = true;
     }
     if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
-      setHoveredFoldIdx(null);
       if (diffX > 0) {
         setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
       } else {
@@ -831,11 +830,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
       if (e.key === 'ArrowLeft') {
-        setHoveredFoldIdx(null);
         setChosenFoldIdx((prev) => Math.max(0, prev - 1));
       }
       if (e.key === 'ArrowRight') {
-        setHoveredFoldIdx(null);
         setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
       }
     };

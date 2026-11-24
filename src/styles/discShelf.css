@@ -1,0 +1,465 @@
+/* ========================================================================= */
+/* 3D DISC SHELF (CONSOLE CD/BOOK CASE SHELF FOR EDUCATION VIEW)             */
+/* ========================================================================= */
+
+@property --disc-sel {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-open {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-d {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-ad {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-L {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-R {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --disc-C {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.disc-library {
+  --W: clamp(140px, min(28vw, 36dvh), 260px);
+  --H: var(--W);
+  --S: calc(var(--W) * 0.075);
+  --sp: calc(var(--S) + 6px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 520px;
+  width: 100%;
+  padding: 16px 20px 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-x: clip;
+  border-radius: var(--radius-card, 16px);
+  background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.9));
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.disc-backdrops {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: var(--radius-card, 16px);
+  pointer-events: none;
+}
+.disc-backdrops div {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-img) center / cover;
+  opacity: clamp(0, 1 - max(var(--d), -1 * var(--d)), 1);
+  transition: opacity 700ms ease;
+  filter: blur(40px) brightness(0.4);
+}
+
+.disc-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+  padding-bottom: 12px;
+}
+.disc-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.disc-brand i {
+  width: 16px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(from 30deg, #38bdf8, #c084fc, #34d399, #38bdf8);
+}
+.disc-count {
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.disc-shelf {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: calc(var(--H) * 1.6);
+  outline: none;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.disc-shelf:active {
+  cursor: grabbing;
+}
+
+.disc-cases {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  list-style: none;
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.disc-case {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: var(--W);
+  height: var(--H);
+  margin: calc(var(--H) / -2) 0 0 calc(var(--W) / -2);
+  transform-style: preserve-3d;
+  transform: translateX(var(--x))
+    translateZ(calc(var(--disc-C) * (70px + var(--disc-open) * 90px)))
+    rotateY(calc(var(--disc-L) * 90deg - var(--disc-R) * 58deg))
+    scale(calc(1 - (1 - var(--disc-C)) * 0.1));
+  --fade: calc((1 - var(--disc-open) * (1 - var(--disc-C))) * clamp(0, 14 - var(--disc-ad), 1));
+  transition: transform 650ms cubic-bezier(0.2, 0.85, 0.25, 1);
+  cursor: pointer;
+}
+
+.disc-box > :not(.disc-cover),
+.disc-out,
+.disc-in {
+  opacity: var(--fade);
+  transition: opacity 400ms;
+}
+
+.disc-pick {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  padding: 0;
+}
+
+.disc-box {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.disc-box > * {
+  position: absolute;
+}
+
+.disc-cover {
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: 0 50%;
+  transform: translateZ(calc(var(--S) / 2))
+    rotateY(calc(var(--disc-C) * var(--disc-open) * -158deg));
+  transition: transform 800ms cubic-bezier(0.3, 0.9, 0.3, 1)
+    calc(var(--disc-open) * 120ms);
+}
+
+.disc-out,
+.disc-in {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.disc-out {
+  background: #1e293b;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+}
+.disc-out img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.disc-hinge {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 7%;
+  background: repeating-linear-gradient(
+    rgba(255, 255, 255, 0.2) 0 1px,
+    rgba(0, 0, 0, 0.3) 1px 3px
+  );
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.4);
+}
+.disc-out::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.25),
+    transparent 30% 62%,
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.disc-art {
+  position: absolute;
+  inset: auto 0 0 7%;
+  display: grid;
+  gap: 2px;
+  padding: 9% 8% 7%;
+  background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
+}
+.disc-art b {
+  font-size: calc(var(--W) * 0.08);
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.disc-art span {
+  font-size: calc(var(--W) * 0.042);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.disc-in {
+  transform: rotateY(180deg);
+  display: grid;
+  align-content: start;
+  gap: 6%;
+  padding: 8% 9%;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: calc(var(--W) * 0.04);
+}
+.disc-notes-title {
+  font-size: 1.4em;
+  font-weight: 800;
+}
+.disc-in ol {
+  display: grid;
+  gap: 0.4em;
+  padding: 0;
+  list-style: none;
+}
+.disc-in li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+  font-size: 0.85em;
+}
+
+.disc-spine {
+  inset: 0 auto 0 calc(var(--S) / -2);
+  width: var(--S);
+  transform: rotateY(-90deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  background: linear-gradient(90deg, #334155, #475569 50%, #1e293b);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+.disc-spine b {
+  writing-mode: vertical-rl;
+  font-size: clamp(9px, calc(var(--S) * 0.48), 11px);
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  max-height: 80%;
+}
+.disc-spine span {
+  writing-mode: vertical-rl;
+  font-size: clamp(8px, calc(var(--S) * 0.36), 10px);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.disc-edge {
+  inset: 0 auto 0 calc(var(--W) - var(--S) / 2);
+  width: var(--S);
+  transform: rotateY(90deg);
+  background: #cbd5e1;
+}
+.disc-lid {
+  inset: calc(var(--S) / -2) 0 auto;
+  height: var(--S);
+  transform: rotateX(90deg);
+  background: #e2e8f0;
+}
+.disc-base {
+  inset: auto 0 calc(var(--S) / -2);
+  height: var(--S);
+  transform: rotateX(-90deg);
+  background: #94a3b8;
+}
+.disc-tray {
+  inset: 0;
+  transform: translateZ(calc(var(--S) / -2 + 1px));
+  transform-style: preserve-3d;
+  border-radius: 4px;
+  background: radial-gradient(circle, #334155 12%, #0f172a 13% 46%, #1e293b 47%);
+}
+
+.disc-item-disc {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: translateX(calc(var(--disc-C) * var(--disc-open) * var(--W) * 0.5))
+    translateZ(calc(var(--disc-C) * var(--disc-open) * (var(--S) + 4px)));
+  transition: transform 900ms cubic-bezier(0.3, 0.9, 0.3, 1)
+    calc(var(--disc-open) * 450ms);
+  mask: radial-gradient(circle, transparent 7%, black 7.5%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+.disc-item-disc img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.disc-item-disc i {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, white 14%, transparent 14.5% 46%, rgba(255, 255, 255, 0.15) 47%),
+    conic-gradient(from 20deg, transparent, rgba(56, 189, 248, 0.35), transparent 25%, rgba(192, 132, 252, 0.35), transparent 50%, rgba(52, 211, 153, 0.3), transparent 75%, rgba(56, 189, 248, 0.35));
+  mix-blend-mode: screen;
+}
+
+@keyframes discSpin {
+  to { rotate: 1turn; }
+}
+
+.disc-in,
+.disc-tray {
+  visibility: hidden;
+}
+
+.disc-open-hit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 5;
+  width: var(--W);
+  height: var(--H);
+  margin: calc(var(--H) / -2) 0 0 calc(var(--W) / -2);
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px;
+  translate: calc(var(--disc-open) * var(--W) * 0.24) 0;
+  transition: translate 650ms cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+.disc-titles {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: 10px 0;
+}
+.disc-title-item {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+.disc-title-item h3 {
+  font-size: clamp(18px, 2.6vw, 24px);
+  font-weight: 750;
+  color: white;
+}
+.disc-title-item p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+}
+
+.disc-keys {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  padding-top: 8px;
+}
+.disc-keys span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.disc-keys kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding-inline: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font: 600 11px/1 system-ui, sans-serif;
+  color: white;
+}
+
+.disc-mirror {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 90px;
+  overflow: hidden;
+  pointer-events: none;
+  mask: linear-gradient(black, rgba(0, 0, 0, 0.35) 35%, transparent 85%);
+  opacity: 0.4;
+}
+
+.disc-glint {
+  content: "";
+  position: absolute;
+  inset: -30% -60%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.22) 45%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0.22) 55%,
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+  translate: -70% 0;
+}
+@keyframes discGlint {
+  0%, 48% { translate: -70% 0; }
+  80%, 100% { translate: 70% 0; }
+}

@@ -47,13 +47,13 @@ export interface ExperienceMilestone {
 export type CareerMilestone = ExperienceMilestone;
 
 export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
-  "2003": {
-    key: "2003",
+  "2002": {
+    key: "2002",
     code: "4.8",
-    year: "2003",
-    cardYearLabel: "2003 - 2007",
+    year: "2002",
+    cardYearLabel: "2002 - 2007",
     cardYearColor: "text-blue-500",
-    period: "Từ năm 2003 đến năm 2007",
+    period: "Từ năm 2002 đến năm 2007",
     company: "Công ty",
     subCompanies: "Viễn thông MobiFone",
     tag: "Viễn thông",
@@ -64,7 +64,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     memoryImg: "https://lh3.googleusercontent.com/d/1tCS7CfQ0JcW15zBrsPvRNXeutRiny9KP",
     headcount: 12,
     scaleDesc: "12 nhân sự nhóm",
-    tenure: "4 Năm",
+    tenure: "5 Năm",
     roleTitle: "Nhân viên CSKH",
     location: "TP. Hồ Chí Minh",
     highlightText:

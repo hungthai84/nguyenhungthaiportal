@@ -272,7 +272,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const headerPages = [...orderedPages, ...extraPages];
 
-  const { cardStyle } = useTheme();
+  const { cardStyle, cornerRadius = 14 } = useTheme();
   void currentTheme;
 
   const headerRef = useRef<HTMLElement>(null);
@@ -294,37 +294,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
-  const [pillRipples, setPillRipples] = useState<Record<string, { id: number; x: number; y: number }>>({});
-  const rippleTimersRef = useRef<Record<string, number>>({});
-
   const avatarPillRef = useRef<HTMLDivElement>(null);
-
-  const triggerPillRipple = (pillKey: string, e: React.MouseEvent<HTMLButtonElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const hasCoords = e.clientX !== 0 || e.clientY !== 0;
-    const x = hasCoords ? e.clientX - rect.left : rect.width / 2;
-    const y = hasCoords ? e.clientY - rect.top : rect.height / 2;
-    const rippleId = Date.now() + Math.random();
-    setPillRipples((prev) => ({ ...prev, [pillKey]: { id: rippleId, x, y } }));
-    if (rippleTimersRef.current[pillKey]) {
-      window.clearTimeout(rippleTimersRef.current[pillKey]);
-    }
-    rippleTimersRef.current[pillKey] = window.setTimeout(() => {
-      setPillRipples((prev) => {
-        if (!prev[pillKey] || prev[pillKey].id !== rippleId) return prev;
-        const next = { ...prev };
-        delete next[pillKey];
-        return next;
-      });
-    }, 600);
-  };
-
-  useEffect(() => {
-    const timers = rippleTimersRef.current;
-    return () => {
-      Object.values(timers).forEach((t) => window.clearTimeout(t));
-    };
-  }, []);
 
   // Đo kích thước tự nhiên và vị trí kết thúc chữ tiêu đề của từng nút ở Header
   useLayoutEffect(() => {
@@ -437,7 +407,7 @@ export const Header: React.FC<HeaderProps> = ({
         const btnCenter = btnRect.left - navRect.left + nav.scrollLeft + btnRect.width / 2;
         const maxScroll = Math.max(0, nav.scrollWidth - nav.clientWidth);
         const targetScrollLeft = Math.max(0, Math.min(maxScroll, btnCenter - nav.clientWidth / 2));
-        nav.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
+        nav.scrollTo({ left: targetScrollLeft, behavior: 'auto' });
       }
     });
 
@@ -487,13 +457,26 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-parent="website-root"
       onMouseLeave={handleHeaderMouseLeave}
       style={{
-        maxWidth: '1250px',
-        width: 'var(--shared-frame-w, 100%)',
+        maxWidth: 'var(--main-card-target-w, 1000px)',
+        width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
         marginLeft: 'auto',
         marginRight: 'auto',
         zIndex: isRadialMenuOpen ? 99999 : 40,
+        borderTopLeftRadius: '0px',
+        borderTopRightRadius: '0px',
+        borderBottomLeftRadius: `${cornerRadius}px`,
+        borderBottomRightRadius: `${cornerRadius}px`,
+        borderRadius: `0 0 ${cornerRadius}px ${cornerRadius}px`,
+        border: '1px dashed #000000',
+        borderStyle: 'dashed',
+        borderColor: '#000000',
+        borderWidth: '1px',
+        background: 'transparent',
+        boxShadow: 'none',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
       }}
-      className={`neonav-bar floating-glass-surface floating-surface--header mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -537,7 +520,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div
               key={page.id}
               onMouseEnter={() => handleItemMouseEnter(index, page.id)}
-              className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+              className="relative pointer-events-auto shrink-0"
               style={{
                 marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
@@ -547,7 +530,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[index] = el;
                 }}
-                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-0 bg-transparent border-0"
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
                 }}
@@ -563,13 +546,12 @@ export const Header: React.FC<HeaderProps> = ({
                   aria-current={isSelected ? 'page' : undefined}
                   data-active={isSelected ? 'true' : 'false'}
                   onFocus={() => setFocusedNavIndex(index)}
-                  onClick={(e) => {
-                    triggerPillRipple(`page-${page.id}`, e);
+                  onClick={() => {
                     SoundEngine.playPageSpecificSound(page.id);
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer transition-colors duration-200 border"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
@@ -584,20 +566,8 @@ export const Header: React.FC<HeaderProps> = ({
                     } as React.CSSProperties
                   }
                 >
-                  {pillRipples[`page-${page.id}`] && (
-                    <span className="nav-pill-ripple-layer" aria-hidden="true">
-                      <span
-                        key={pillRipples[`page-${page.id}`].id}
-                        className="nav-pill-ripple-wave"
-                        style={{
-                          left: `${pillRipples[`page-${page.id}`].x}px`,
-                          top: `${pillRipples[`page-${page.id}`].y}px`,
-                        }}
-                      />
-                    </span>
-                  )}
                   {/* Round Circle Badge with Icon or Avatar */}
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200">
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     {styleCfg.avatarGif ? (
                       <img
                         src={styleCfg.avatarGif}
@@ -618,12 +588,12 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold' }}
-                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate transition-colors duration-200"
+                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                     >
                       {pageTitle}
                     </span>
@@ -658,7 +628,7 @@ export const Header: React.FC<HeaderProps> = ({
                 setHoveredNavIndex(avatarNavIndex);
                 SoundEngine.playGlassChime();
               }}
-              className="relative pointer-events-auto shrink-0 transition-[margin] duration-300 ease-out"
+              className="relative pointer-events-auto shrink-0"
               style={{
                 marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
@@ -668,7 +638,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ref={(el) => {
                   pillWrapperRefs.current[avatarNavIndex] = el;
                 }}
-                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none transition-all duration-200 w-max h-auto p-0 bg-transparent border-0"
+                className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
                 style={{
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
                 }}
@@ -691,7 +661,6 @@ export const Header: React.FC<HeaderProps> = ({
                   aria-expanded={isRadialMenuOpen}
                   onFocus={() => setFocusedNavIndex(avatarNavIndex)}
                   onClick={(e) => {
-                    triggerPillRipple('avatar-hungthai', e);
                     toggleRadialMenu(e);
                   }}
                   title={
@@ -699,7 +668,7 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border transition-all duration-200"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': '#4F46E5',
@@ -714,19 +683,7 @@ export const Header: React.FC<HeaderProps> = ({
                     } as React.CSSProperties
                   }
                 >
-                  {pillRipples['avatar-hungthai'] && (
-                    <span className="nav-pill-ripple-layer" aria-hidden="true">
-                      <span
-                        key={pillRipples['avatar-hungthai'].id}
-                        className="nav-pill-ripple-wave"
-                        style={{
-                          left: `${pillRipples['avatar-hungthai'].x}px`,
-                          top: `${pillRipples['avatar-hungthai'].y}px`,
-                        }}
-                      />
-                    </span>
-                  )}
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30 transition-colors duration-200">
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     <img
                       src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
                       alt="Hùng Thái"
@@ -738,11 +695,11 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px] transition-colors duration-200" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                     <span
                       style={{ fontWeight: 'bold' }}
-                      className="nav-pill-title typo-nav leading-tight font-play truncate transition-colors duration-200"
+                      className="nav-pill-title typo-nav leading-tight font-play truncate"
                     >
                       {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
                     </span>

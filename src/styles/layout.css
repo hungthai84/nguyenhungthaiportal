@@ -130,12 +130,12 @@
   height: 100%;
   margin: 0;
   padding: 0;
-  gap: 15px;
-  row-gap: 15px;
-  column-gap: 15px;
+  gap: var(--main-cards-gap, 10px);
+  row-gap: var(--main-cards-gap, 10px);
+  column-gap: var(--main-cards-gap, 10px);
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
   justify-content: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
@@ -167,13 +167,15 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 0 !important;
+  justify-content: center !important;
+  gap: var(--main-cards-gap, 10px) !important;
+  row-gap: var(--main-cards-gap, 10px) !important;
+  column-gap: var(--main-cards-gap, 10px) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
   width: 100% !important;
-  max-width: 1250px !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   margin: 0 auto !important;
   padding: 0 !important;
   box-sizing: border-box !important;
@@ -182,14 +184,16 @@
 }
 
 #about-intro-card-1 {
-  width: 100% !important;
-  max-width: 1250px !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: min(var(--main-card-target-h, 600px), 100%) !important;
+  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  border-radius: var(--radius-main, 14px) !important;
   display: flex !important;
   flex-direction: column !important;
-  overflow: hidden !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   box-sizing: border-box !important;
   margin: 0 auto !important;
 }
@@ -209,10 +213,10 @@
 [id$="-cards-track"] {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  gap: 15px;
-  row-gap: 15px;
-  column-gap: 15px;
+  align-items: center;
+  gap: var(--main-cards-gap, 10px);
+  row-gap: var(--main-cards-gap, 10px);
+  column-gap: var(--main-cards-gap, 10px);
   height: 100%;
   min-height: 100%;
   width: max-content;
@@ -237,31 +241,41 @@
 }
 
 .page-cards-track {
-  padding-left: max(15px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
-  padding-right: max(15px, calc((100vw - 2px - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2));
+  padding-left: max(10px, calc((100vw - 2px - var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))) / 2));
+  padding-right: max(10px, calc((100vw - 2px - var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))) / 2));
 }
 
-/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size - Max 1250px */
-.page-main-card,
-[data-main-card="true"],
+/* Anti-overflow & Strict Main-Card Containment at Every Viewport Size - Unified 1000x600px, 14px radius */
+.page-main-card:not(#pdf-page-container),
+[data-main-card="true"]:not(#pdf-page-container) {
+  overflow-x: hidden !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  min-width: 0 !important;
+  border-radius: var(--radius-main, 14px) !important;
+  box-sizing: border-box !important;
+}
+
 #pdf-page-container {
   overflow-x: hidden !important;
-  max-width: 1250px !important;
+  max-width: var(--container-max-w, 1250px) !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
 
-.page-cards-track > .page-main-card,
-.page-cards-track > [data-main-card="true"],
-.main-card > .page-main-card,
-.main-card > [data-main-card="true"],
-#tab-content > .page-main-card,
-#tab-content > [data-main-card="true"],
-.tab-content-host > .page-main-card,
-.tab-content-host > [data-main-card="true"],
-#pdf-page-container {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: 1250px !important;
+.page-cards-track > .page-main-card:not(#pdf-page-container),
+.page-cards-track > [data-main-card="true"]:not(#pdf-page-container),
+.main-card > .page-main-card:not(#pdf-page-container),
+.main-card > [data-main-card="true"]:not(#pdf-page-container),
+#tab-content > .page-main-card:not(#pdf-page-container),
+#tab-content > [data-main-card="true"]:not(#pdf-page-container),
+.tab-content-host > .page-main-card:not(#pdf-page-container),
+.tab-content-host > [data-main-card="true"]:not(#pdf-page-container) {
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: min(var(--main-card-target-h, 600px), 100%) !important;
+  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  border-radius: var(--radius-main, 14px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -287,8 +301,11 @@
   flex-direction: column !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: 1250px !important;
+  gap: var(--main-cards-gap, 10px) !important;
+  row-gap: var(--main-cards-gap, 10px) !important;
+  column-gap: var(--main-cards-gap, 10px) !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
   height: auto !important;
   min-height: auto !important;
@@ -306,6 +323,9 @@
   flex-direction: column !important;
   align-items: center !important;
   justify-content: flex-start !important;
+  gap: var(--main-cards-gap, 10px) !important;
+  row-gap: var(--main-cards-gap, 10px) !important;
+  column-gap: var(--main-cards-gap, 10px) !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -325,15 +345,25 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
+  height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
+  min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
+  max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  border-radius: var(--radius-main, 14px) !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
 
 #letter-cards-track > .page-main-card,
 #letter-cards-track > [data-main-card="true"] {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: var(--container-max-w, 1250px) !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
+  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  border-radius: var(--radius-main, 14px) !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -450,20 +480,27 @@
   max-height: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-radius: var(--radius-header, 0 0 14px 14px) !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
 }
 
 #home-page-container {
   display: flex !important;
   justify-content: flex-start !important;
-  align-items: stretch !important;
+  align-items: center !important;
   width: 100% !important;
 }
 
 #home-cards-track {
   display: flex !important;
   justify-content: flex-start !important;
-  align-items: stretch !important;
+  align-items: center !important;
+  gap: var(--main-cards-gap, 10px) !important;
+  row-gap: var(--main-cards-gap, 10px) !important;
+  column-gap: var(--main-cards-gap, 10px) !important;
   width: max-content !important;
   max-width: none !important;
   margin: 0 !important;
@@ -473,9 +510,13 @@
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
-  max-width: 1250px !important;
-  flex: 0 0 var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px)) !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  height: min(var(--main-card-target-h, 600px), 100%) !important;
+  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  border-radius: var(--radius-main, 14px) !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   box-sizing: border-box !important;
@@ -490,7 +531,11 @@
   max-height: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) 0 0 !important;
   overflow: visible !important;
   z-index: 50 !important;
 }
@@ -687,7 +732,7 @@
   }
 }
 
-/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer, main card max-width 1250px và căn giữa */
+/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer max-width 1250px và main card 1000px căn giữa */
 @media screen and (min-width: 1920px) {
   #global-content-viewport:has(#pdf-page-container) {
     max-width: 1250px;
@@ -698,11 +743,17 @@
 
   #app-header,
   #app-footer,
-  .page-main-card,
-  [data-main-card="true"],
   #pdf-page-container {
     max-width: 1250px !important;
     width: min(100%, 1250px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .page-main-card:not(#pdf-page-container),
+  [data-main-card="true"]:not(#pdf-page-container) {
+    max-width: var(--main-card-target-w, 1000px) !important;
+    width: var(--main-card-target-w, 1000px) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }

@@ -12,7 +12,7 @@
   -webkit-backdrop-filter: none !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-card, 22px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-shadow:
     -7px -7px 16px rgba(255, 255, 255, 0.86),
     7px 7px 16px rgba(163, 179, 199, 0.58) !important;
@@ -49,12 +49,20 @@ html[data-card-style="frost-ice-neu"] body {
   --color-surface-pink: #E0E8F2;
   --color-surface-purple: #E0E8F2;
 
-  /* Generous Rounded Corners */
-  --radius-card: 22px;
-  --radius-subcard: 18px;
-  --radius-banner: 22px;
-  --radius-modal: 26px;
-  --radius-popup: 22px;
+  /* Unified 14px Rounded Corners */
+  --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-input: 14px;
   --radius-badge: 9999px;
 
   /* High-Contrast WCAG AA Marine Slate Typography on #E0E8F2 */
@@ -190,17 +198,16 @@ html[data-card-style="frost-ice-neu"] body {
   --shadow-popup:
     -10px -10px 22px rgba(255, 255, 255, 0.88),
     12px 12px 26px rgba(145, 163, 186, 0.62);
-  --surface-header-shadow:
-    0 8px 18px rgba(163, 179, 199, 0.45);
-  --surface-footer-shadow:
-    0 -8px 18px rgba(163, 179, 199, 0.45);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
 
   /* Layered Surface Tokens */
   --surface-primary-bg: #E0E8F2;
   --surface-primary-border: transparent;
-  --surface-primary-shadow:
-    -10px -10px 22px rgba(255, 255, 255, 0.88),
-    10px 10px 22px rgba(163, 179, 199, 0.62);
+  --surface-primary-shadow: var(--elevation-primary-surface);
   --surface-primary-blur: 0px;
   --surface-primary-saturate: 100%;
 
@@ -295,9 +302,9 @@ html[data-card-style="frost-ice-neu"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
-  [id$="-main-card"],
+  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -308,23 +315,8 @@ html[data-card-style="frost-ice-neu"] :is(
   -webkit-backdrop-filter: none !important;
   border: none !important;
   border-width: 0 !important;
-  box-shadow:
-    -10px -10px 22px rgba(255, 255, 255, 0.88),
-    10px 10px 22px rgba(163, 179, 199, 0.62) !important;
-}
-
-html[data-card-style="frost-ice-neu"] #app-header {
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    0 8px 18px rgba(163, 179, 199, 0.45) !important;
-}
-
-html[data-card-style="frost-ice-neu"] #app-footer {
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    0 -8px 18px rgba(163, 179, 199, 0.45) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 
 /* Hero & Section Banners */
@@ -343,7 +335,7 @@ html[data-card-style="frost-ice-neu"] :is(
   background: #E0E8F2 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-banner, 22px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow:
     -7px -7px 16px rgba(255, 255, 255, 0.86),
     7px 7px 16px rgba(163, 179, 199, 0.58) !important;
@@ -396,7 +388,7 @@ html[data-card-style="frost-ice-neu"] :is(
   box-shadow:
     -7px -7px 16px rgba(255, 255, 255, 0.86),
     7px 7px 16px rgba(163, 179, 199, 0.58) !important;
-  border-radius: var(--radius-card, 22px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -417,7 +409,7 @@ html[data-card-style="frost-ice-neu"] :is(
   box-shadow:
     -5px -5px 11px rgba(255, 255, 255, 0.85),
     5px 5px 11px rgba(163, 179, 199, 0.55) !important;
-  border-radius: var(--radius-subcard, 18px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -444,7 +436,7 @@ html:root[data-card-style="frost-ice-neu"] :is(
   background: #E0E8F2 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-modal, 26px) !important;
+  border-radius: var(--radius-modal, 14px) !important;
   box-shadow:
     -10px -10px 22px rgba(255, 255, 255, 0.88),
     12px 12px 26px rgba(145, 163, 186, 0.62) !important;
@@ -458,7 +450,7 @@ html[data-card-style="frost-ice-neu"] :is(input, textarea, select):not([type="ra
   background: #E0E8F2 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: 16px !important;
+  border-radius: var(--radius-input, 14px) !important;
   box-shadow:
     inset 4px 4px 9px rgba(163, 179, 199, 0.60),
     inset -4px -4px 9px rgba(255, 255, 255, 0.86) !important;

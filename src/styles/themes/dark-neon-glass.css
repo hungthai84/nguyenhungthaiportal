@@ -198,11 +198,12 @@ html[data-theme="dark-neon-glass"] {
     rgba(10, 12, 34, 0.58) 100%
   );
   --surface-primary-border: rgba(34, 211, 238, 0.32);
-  --surface-primary-shadow:
-    0 22px 52px -12px rgba(2, 6, 23, 0.80),
-    0 0 28px -8px rgba(34, 211, 238, 0.24),
-    0 0 30px -10px rgba(217, 70, 239, 0.18),
-    var(--liquid-rim-inset);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
   --surface-primary-blur: 24px;
   --surface-primary-saturate: 185%;
 
@@ -244,14 +245,15 @@ html[data-theme="dark-neon-glass"] {
   --surface-interactive-blur: 18px;
 
   --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
   --radius-card: 14px;
   --radius-subcard: 14px;
   --radius-banner: 14px;
   --radius-modal: 14px;
   --radius-popup: 14px;
   --radius-widget: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
   --radius-button: 999px;
   --radius-pill: 999px;
   --radius-badge: 999px;
@@ -277,30 +279,21 @@ html[data-card-style="dark-neon-glass"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
-  [id$="-main-card"],
+  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
   [id^="letter-card-"]
 ) {
   background: var(--surface-primary-bg) !important;
-  border-color: var(--surface-primary-border) !important;
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+  border: 1px solid var(--surface-primary-border) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 185%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 185%)) !important;
   color: #f8fafc !important;
-}
-
-html[data-card-style="dark-neon-glass"] #app-header {
-  border-top: none !important;
-  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow, var(--surface-primary-shadow))) !important;
-}
-
-html[data-card-style="dark-neon-glass"] #app-footer {
-  border-bottom: none !important;
-  box-shadow: var(--layer-l1-footer-shadow, var(--surface-footer-shadow, var(--surface-primary-shadow))) !important;
 }
 
 /* ------------------------------------------------------------------------- */

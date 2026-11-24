@@ -857,7 +857,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       data-element-type="container"
       data-element-page="experience"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-hidden select-none text-[var(--text-primary)] font-play text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-hidden select-none text-[var(--text-primary)] font-play text-left rounded-none box-border"
     >
       <div
         id="experience-cards-track"
@@ -876,12 +876,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,30px)] w-full h-full overflow-hidden',
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full overflow-hidden',
             'p-0 gap-0'
           )}
           style={{
             padding: '0px',
-            borderRadius: 'var(--radius-main, 30px)',
+            borderRadius: 'var(--radius-main, 14px)',
             gap: '0px',
           }}
         >
@@ -2165,8 +2165,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               data-element-page="experience"
               data-element-parent="experience-main-card"
               data-section-card="true"
-              className="bento-card glass-card exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-main,30px)] border-0 block w-full min-w-0 p-[15px] font-play box-border"
-              style={{ padding: '15px', borderRadius: 'var(--radius-main, 30px)' }}
+              className="bento-card glass-card exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-main,14px)] border-0 block w-full min-w-0 p-[15px] font-play box-border"
+              style={{ padding: '15px', borderRadius: 'var(--radius-main, 14px)' }}
             >
             {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Nút đóng ở góc trên bên phải */}
             <div
@@ -2992,7 +2992,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             key={cIdx}
                             data-bento-subtone={cmtSubtone}
                             className={cn(
-                              'exp-bento-item-card rounded-[var(--radius-subcard,16px)] p-[15px] flex items-start gap-[15px] min-w-0 border bg-gradient-to-r',
+                              'exp-bento-item-card rounded-[var(--radius-subcard,14px)] p-[15px] flex items-start gap-[15px] min-w-0 border bg-gradient-to-r',
                               isDarkCardText
                                 ? cIdx % 2 === 0
                                   ? 'from-amber-950/48 to-slate-900/70 border-amber-500/25'
@@ -3028,7 +3028,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     data-multicolor-bento="true"
                     data-bento-tone="emerald"
                     className={cn(
-                      'experience-masonry-item exp-bento-surface-card bento-tone-emerald transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
+                      'experience-masonry-item exp-bento-surface-card bento-tone-emerald transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-[15px] shadow-[0_14px_34px_-8px_rgba(30,41,59,0.08),0_4px_12px_-2px_rgba(15,23,42,0.03)] backdrop-blur-md border min-w-0 h-auto flex flex-col gap-[15px]',
                       isDarkCardText
                         ? 'bg-gradient-to-br from-emerald-950/55 via-slate-900/74 to-cyan-950/48 border-emerald-500/28 text-white'
                         : 'bg-gradient-to-br from-emerald-50/92 via-teal-50/80 to-cyan-50/88 border-emerald-200/75 text-slate-900'
@@ -3111,7 +3111,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               key={`${kpi.label}-${kIdx}`}
                               data-bento-subtone={pal.tone}
                               className={cn(
-                                'exp-bento-item-card p-[15px] rounded-[var(--radius-subcard,16px)] border bg-gradient-to-br flex flex-col justify-start gap-3 min-w-0 h-fit shadow-xs transition-all hover:shadow-md',
+                                'exp-bento-item-card p-[15px] rounded-[var(--radius-subcard,14px)] border bg-gradient-to-br flex flex-col justify-start gap-3 min-w-0 h-fit shadow-xs transition-all hover:shadow-md',
                                 spanLastOdd && 'sm:col-span-2',
                                 isDarkCardText ? pal.dark : pal.light
                               )}
@@ -3216,11 +3216,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               aria-modal="true"
               aria-label={`Thư viện ảnh ${activeMilestone.company}`}
               onClick={(e) => e.stopPropagation()}
-              className="theme-modal-card max-w-4xl w-full rounded-[var(--radius-card,24px)] overflow-hidden shadow-2xl relative"
+              className="theme-modal-card max-w-4xl w-full rounded-[var(--radius-card,14px)] overflow-hidden shadow-2xl relative"
             >
               <div
                 className={cn(
-                  'relative aspect-[16/10] w-full flex items-center justify-center rounded-[var(--radius-subcard,16px)] overflow-hidden',
+                  'relative aspect-[16/10] w-full flex items-center justify-center rounded-[var(--radius-subcard,14px)] overflow-hidden',
                   isDarkCardText ? 'bg-[#0B1220]' : 'bg-slate-100'
                 )}
               >
@@ -3229,7 +3229,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   alt={curPhoto.title || activeMilestone.company}
                   decoding="async"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-contain rounded-[var(--radius-subcard,16px)]"
+                  className="w-full h-full object-contain rounded-[var(--radius-subcard,14px)]"
                 />
                 {lightboxPhotos.length > 1 && (
                   <>

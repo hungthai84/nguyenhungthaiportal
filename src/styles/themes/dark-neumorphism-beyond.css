@@ -192,20 +192,19 @@ html[data-card-style="dark-neumorphism-beyond"] body {
     0 18px 36px rgba(2, 5, 12, 0.72),
     4px 6px 16px rgba(3, 6, 12, 0.65),
     inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  --surface-header-shadow:
-    0 8px 22px rgba(4, 7, 14, 0.56),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  --surface-footer-shadow:
-    0 -8px 22px rgba(4, 7, 14, 0.56),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
 
   /* Layered Surface Tokens */
   --surface-primary-bg: linear-gradient(145deg, rgba(26, 34, 48, 0.92) 0%, rgba(19, 25, 37, 0.89) 100%);
   --surface-primary-border: rgba(148, 163, 184, 0.16);
-  --surface-primary-shadow:
-    0 10px 26px rgba(4, 7, 14, 0.58),
-    4px 5px 12px rgba(3, 6, 12, 0.64),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --surface-primary-shadow: var(--elevation-primary-surface);
   --surface-primary-blur: 14px;
   --surface-primary-saturate: 108%;
 
@@ -299,9 +298,9 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
-  [id$="-main-card"],
+  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -311,30 +310,8 @@ html[data-card-style="dark-neumorphism-beyond"] :is(
   backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 108%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 108%)) !important;
   border: 1px solid rgba(148, 163, 184, 0.16) !important;
-  box-shadow: var(
-    --layer-l1-shadow,
-    0 10px 26px rgba(4, 7, 14, 0.58),
-    4px 5px 12px rgba(3, 6, 12, 0.64),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08)
-  ) !important;
-}
-
-html[data-card-style="dark-neumorphism-beyond"] #app-header {
-  border-top: none !important;
-  box-shadow: var(
-    --layer-l1-header-shadow,
-    0 8px 22px rgba(4, 7, 14, 0.56),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07)
-  ) !important;
-}
-
-html[data-card-style="dark-neumorphism-beyond"] #app-footer {
-  border-bottom: none !important;
-  box-shadow: var(
-    --layer-l1-footer-shadow,
-    0 -8px 22px rgba(4, 7, 14, 0.56),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07)
-  ) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 
 /* Hero & Section Banners */

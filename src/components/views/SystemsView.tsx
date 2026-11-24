@@ -1129,7 +1129,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       data-element-type="container"
       data-element-page="systems"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none text-[var(--text-primary)] box-border"
     >
       <div
         id="systems-cards-track"
@@ -2064,8 +2064,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 height: `${morphRect.height}px`,
                 borderRadius:
                   animPhase === 'open'
-                    ? 'var(--radius-main, 30px)'
-                    : 'var(--radius-card, 20px)',
+                    ? 'var(--radius-main, 14px)'
+                    : 'var(--radius-card, 14px)',
                 zIndex: 50,
               }}
             >
@@ -2082,7 +2082,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       <div
-                        style={{ borderRadius: 'var(--radius-card, 20px)' }}
+                        style={{ borderRadius: 'var(--radius-card, 14px)' }}
                         className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center overflow-hidden border-0 shadow-none"
                       >
                         <img

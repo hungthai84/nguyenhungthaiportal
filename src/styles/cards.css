@@ -11,8 +11,9 @@
   --radius-popup: 14px;
   --radius-widget: 14px;
   --radius-input: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
   --radius-button: 999px;
   --space-card-padding: 16px;
   --space-card-gap: 16px;
@@ -83,6 +84,10 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   row-gap: 15px;
   column-gap: 15px;
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
+}
+
+[data-framer-bento="true"] {
+  transition: box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
 }
 
 #about-hero-video-container,
@@ -223,7 +228,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 .pinterest-pin-card,
 [data-media-card="image"] {
   padding: 0px !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-image, 14px) !important;
   overflow: hidden !important;
 }
 
@@ -232,7 +237,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
   width: 100% !important;
   height: auto !important;
   object-fit: cover !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-image, 14px) !important;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -570,30 +575,17 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   background: var(--pillar-progress-fill);
 }
 
-#app-header {
-  background: var(--surface-primary-bg, var(--bg-main)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  border-top: none !important;
-  box-shadow: var(--elev-level-3-header, var(--surface-header-shadow)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-header, 0 0 14px 14px) !important;
-  transform: none !important;
-  animation: none !important;
-  transition: box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
-}
-
+#app-header,
 #app-footer {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  border-bottom: none !important;
-  box-shadow: var(--elev-level-3-footer, var(--surface-footer-shadow)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   transform: none !important;
   animation: none !important;
-  transition: box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
+  transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
 }
 
 #el-p1-div-85,
@@ -752,13 +744,13 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   column-gap: 16px !important;
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  box-shadow: none !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-main, 20px) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   transform: none !important;
   animation: none !important;
-  transition: border-color 220ms ease !important;
+  transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
 }
 
 #home-main-card,
@@ -1116,7 +1108,7 @@ h3.card-title,
   margin-left: auto !important;
   margin-right: auto !important;
   background: var(--surface-primary-bg, var(--bg-main)) !important;
-  border-radius: var(--radius-main, 20px) !important;
+  border-radius: var(--radius-main, 14px) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
@@ -1995,11 +1987,11 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
-  background: var(--surface-primary-bg, var(--surface-card-glass, var(--bg-card))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--glass-card-border, var(--border-color))) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-primary-saturate, var(--glass-card-saturate, 134%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-primary-saturate, var(--glass-card-saturate, 134%))) !important;
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--elev-card-l2, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   border-radius: 14px !important;
   padding: 15px !important;
   box-sizing: border-box !important;
@@ -2014,7 +2006,7 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
 .letter-footer-subcard {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
   border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft)))) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
   backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
@@ -2061,7 +2053,7 @@ article.project-card,
   box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card, 20px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   padding: 0 !important;
   gap: 0 !important;
   overflow: hidden !important;
@@ -2089,11 +2081,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -2108,11 +2096,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-image-card, var(--shadow-subcard)) !important;
   outline: var(--outline-image-card, none);
   outline-offset: var(--outline-offset-image-card, 0px);
-  border-top-left-radius: 14px !important;
-  border-top-right-radius: 14px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: 14px 14px 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
 }
@@ -2126,11 +2110,7 @@ article.project-card:hover,
   object-fit: cover !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
 }
 
 .themed-image-frame:not(.project-card-banner) img {
@@ -2140,11 +2120,7 @@ article.project-card:hover,
   object-fit: cover !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-top-left-radius: 14px !important;
-  border-top-right-radius: 14px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: 14px 14px 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
 }
 
 .project-card-body,
@@ -2188,7 +2164,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-popup) !important;
   backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
   -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
-  border-radius: var(--radius-popup, 20px) !important;
+  border-radius: var(--radius-popup, 14px) !important;
   color: var(--text-primary) !important;
 }
 
@@ -2253,7 +2229,7 @@ article.project-card:hover,
   box-shadow: var(--shadow-modal) !important;
   backdrop-filter: blur(var(--blur-modal, var(--surface-interactive-blur, var(--bg-blur)))) saturate(170%) !important;
   -webkit-backdrop-filter: blur(var(--blur-modal, var(--surface-interactive-blur, var(--bg-blur)))) saturate(170%) !important;
-  border-radius: var(--radius-modal, 24px) !important;
+  border-radius: var(--radius-modal, 14px) !important;
   color: var(--text-primary) !important;
   outline: var(--outline-subcard, none);
   outline-offset: -6px;
@@ -2274,7 +2250,7 @@ article.project-card:hover,
 .theme-modal-subcard {
   background: var(--bg-subcard) !important;
   border: 1px solid var(--border-subcard, var(--border-color)) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   box-shadow: var(--shadow-subcard) !important;
   backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
   -webkit-backdrop-filter: blur(var(--blur-subcard, 0px)) !important;
@@ -2308,7 +2284,7 @@ article.project-card:hover,
   background: var(--bg-input) !important;
   border-color: var(--border-input, var(--border-color)) !important;
   color: var(--text-input, var(--text-primary)) !important;
-  border-radius: var(--radius-input, 16px);
+  border-radius: var(--radius-input, 14px);
 }
 
 .theme-input::placeholder,
@@ -2658,7 +2634,7 @@ button:focus-visible,
   gap: 12px !important;
   row-gap: 12px !important;
   column-gap: 12px !important;
-  border-radius: var(--radius-subcard, 12px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
@@ -2744,7 +2720,7 @@ button:focus-visible,
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
   padding: 12px !important;
   box-sizing: border-box !important;
 }
@@ -2754,7 +2730,7 @@ button:focus-visible,
 #interview-answers-card #interview-asker-card,
 #interview-answers-card #interview-answerer-card,
 #interview-answers-card #interview-insights-card {
-  border-radius: 14px !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 #interview-answers-card :is([data-subcard="true"], .exp-detail-subcard) :is(p, span.subcard-desc, .subcard-text, .text-muted) {
@@ -2804,7 +2780,7 @@ button:focus-visible,
 :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .theme-modal-subcard)
   :is([data-subcard="true"], .sub-card, .nested-card, .project-detail-chip, .education-skill-chip, .theme-muted-surface, [data-elevation="1"]) {
   box-shadow: var(--elevation-1, var(--shadow-nested-glass, var(--shadow-nested))) !important;
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 /* Sub Card nested inside Sub Card stays grounded without floating bounce */
@@ -2843,11 +2819,11 @@ button:focus-visible,
 /* EXPERIENCE DETAIL BENTO GRID BUTTONS, SCROLLING & THEME CONTRAST SAFETY   */
 /* ========================================================================= */
 #experience-job-detail-card button.exp-bento-rect-btn {
-  border-radius: var(--radius-subcard, 16px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 #experience-job-detail-card .exp-bento-hero-banner {
-  border-radius: var(--radius-banner, 22px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
 }
 
@@ -3343,7 +3319,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   min-height: 0 !important;
   min-width: 0 !important;
   padding: 15px !important;
-  border-radius: var(--radius-card, 24px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   overflow: visible !important;
   box-sizing: border-box !important;
 }
@@ -3537,7 +3513,7 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   max-height: none !important;
   align-self: flex-start !important;
   margin-left: -60px !important;
-  border-radius: 24px !important;
+  border-radius: var(--radius-card, 14px) !important;
   padding: 12px !important;
   flex-shrink: 0 !important;
   position: relative !important;
@@ -3667,18 +3643,14 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-card, 14px) !important;
   padding: 0 !important;
   gap: 0 !important;
   overflow: hidden !important;
 }
 
 #projects-grid .project-card .project-card-banner {
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: 12px 12px 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.12)) !important;
   overflow: hidden !important;
@@ -3933,23 +3905,25 @@ html #education-courses-grid .education-course-card,
   cursor: pointer;
 }
 
-#services-page-container .domain-card .service-card-body-row {
-  grid-template-columns: minmax(0, 1fr) clamp(58px, 18cqi, 76px) !important;
-  align-items: center !important;
+#services-page-container .domain-card .service-card-split-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: auto 1fr auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 #services-page-container .domain-card .service-card-illustration {
-  width: clamp(58px, 18cqi, 76px) !important;
-  height: clamp(82px, 24cqi, 96px) !important;
-  min-height: 82px !important;
-  max-height: 98px !important;
-  align-self: center !important;
-  justify-self: end !important;
-  flex-shrink: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 108px !important;
+  max-height: 152px !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
 }
 
 #services-page-container .domain-card .service-title-text {
-  font-size: clamp(0.92rem, 4.4cqi, 1.15rem) !important;
+  font-size: clamp(0.88rem, 4.1cqi, 1.08rem) !important;
   line-height: 1.28 !important;
 }
 
@@ -3970,28 +3944,12 @@ html #education-courses-grid .education-course-card,
 }
 
 #services-page-container .domain-card .service-desc-text {
-  font-size: clamp(0.78rem, 3.2cqi, 0.9rem);
-  line-height: 1.5;
+  font-size: clamp(0.76rem, 3cqi, 0.875rem);
+  line-height: 1.45;
   flex: 0 1 auto;
 }
 
-@container service-card (max-width: 300px) {
-  #services-page-container .domain-card .service-card-body-row {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
-  }
-
-  #services-page-container .domain-card .service-card-illustration {
-    width: 72px !important;
-    height: 80px !important;
-    min-height: 80px !important;
-    max-height: 84px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
+@container service-card (max-width: 240px) {
   #services-page-container .domain-card .service-kpi-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -4053,7 +4011,7 @@ html.dark #services-page-container .domain-card-sub {
 #services-page-container #services-expanded-card {
   position: absolute;
   z-index: 40;
-  border-radius: var(--radius-card, 24px);
+  border-radius: var(--radius-card, 14px);
   border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55));
   background: var(--surface-secondary-bg, var(--bg-card));
   box-shadow: var(--lg-clear-shadow, 0 32px 64px -16px rgba(15, 23, 42, 0.26), 0 0 0 1px rgba(255, 255, 255, 0.28) inset);
@@ -4068,7 +4026,7 @@ html.dark #services-page-container .domain-card-sub {
 #services-page-container #services-expanded-card.is-open {
   border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55)) !important;
   box-shadow: var(--lg-clear-shadow, 0 24px 52px -14px rgba(15, 23, 42, 0.22)) !important;
-  border-radius: 14px !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 #services-page-container #services-expanded-card.is-animating {
@@ -4221,7 +4179,7 @@ html.dark #systems-page-container .system-card-sub {
 #systems-page-container #systems-expanded-card {
   position: absolute;
   z-index: 40;
-  border-radius: var(--radius-card, 24px);
+  border-radius: var(--radius-card, 14px);
   border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55));
   background: var(--surface-secondary-bg, var(--bg-card));
   box-shadow: var(--lg-clear-shadow, 0 32px 64px -16px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.28) inset);
@@ -4236,7 +4194,7 @@ html.dark #systems-page-container .system-card-sub {
 #systems-page-container #systems-expanded-card.is-open {
   border: 0 !important;
   box-shadow: none !important;
-  border-radius: var(--radius-main, 30px) !important;
+  border-radius: var(--radius-main, 14px) !important;
 }
 
 #systems-page-container #systems-expanded-card.is-animating {
@@ -4974,25 +4932,21 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 [data-section-card="true"] img:not(.rounded-full):not([class*="rounded-full"]):not([class*="rounded-[999"]):not(.project-card-banner img),
 [data-media-card="image"]:not(.project-card-banner),
 [data-media-card="video"] {
-  border-radius: var(--radius-image, 14px) !important;
+  border-radius: var(--radius-video, 14px) !important;
 }
 
 .project-card .project-card-banner,
 .project-card .project-card-banner[data-media-card="image"],
 .project-card .project-card-banner :is(img, video),
 .project-card .project-card-banner .project-card-banner-scrim {
-  border-top-left-radius: calc(var(--radius-card, 14px) - 2px) !important;
-  border-top-right-radius: calc(var(--radius-card, 14px) - 2px) !important;
-  border-bottom-left-radius: 0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-radius: calc(var(--radius-card, 14px) - 2px) calc(var(--radius-card, 14px) - 2px) 0px 0px !important;
+  border-radius: var(--radius-image, 14px) !important;
 }
 
 #education-book-view .education-book-media-rounded,
 #education-book-view img.education-book-media-img {
-  border-radius: 14px !important;
-  -webkit-clip-path: inset(0 round 14px) !important;
-  clip-path: inset(0 round 14px) !important;
+  border-radius: var(--radius-image, 14px) !important;
+  -webkit-clip-path: inset(0 round var(--radius-image, 14px)) !important;
+  clip-path: inset(0 round var(--radius-image, 14px)) !important;
 }
 
 /* Sách học vấn: đồng bộ 100% bề mặt, viền, blur và độ sâu theo Theme đang chọn */
@@ -5013,15 +4967,23 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 
 .project-detail-banner-media,
 .project-detail-banner-media :is(video, img) {
-  border-radius: 14px !important;
+  border-radius: var(--radius-video, var(--radius-banner, 14px)) !important;
 }
 
 #app-header {
-  border-radius: var(--radius-header, 0 0 14px 14px) !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) !important;
 }
 
 #app-footer {
-  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
+  border-top-left-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-top-right-radius: var(--radius-global, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-global, var(--radius-main, 14px)) var(--radius-global, var(--radius-main, 14px)) 0 0 !important;
 }
 
 /* ========================================================================= */
@@ -5204,20 +5166,20 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 15px, nhô mép phải & cuộn ngang mượt, chiều cao bằng Card 1 */
+/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, nhô mép phải & cuộn ngang mượt, chiều cao 600px */
 #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  gap: var(--main-cards-gap, 10px) !important;
+  row-gap: var(--main-cards-gap, 10px) !important;
+  column-gap: var(--main-cards-gap, 10px) !important;
   width: 100% !important;
   max-width: 100% !important;
-  padding-left: max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2)) !important;
-  padding-right: max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2)) !important;
+  padding-left: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
+  padding-right: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   scroll-snap-type: x mandatory;
@@ -5235,13 +5197,14 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
-  width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
   min-width: 0 !important;
-  max-width: var(--container-max-w, 1250px) !important;
-  height: var(--letter-card-1-h, auto) !important;
-  min-height: var(--letter-card-1-h, 0px) !important;
-  max-height: var(--letter-card-1-h, none) !important;
-  flex: 0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  min-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  max-height: min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px)) !important;
+  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  border-radius: var(--radius-main, 14px) !important;
   scroll-snap-align: center;
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -5295,17 +5258,17 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-/* Thẻ Dịch vụ: Thu nhỏ kích thước hình ảnh xuống gấp 3, giữ nguyên màu gốc (no filter, no drop-shadow) */
+/* Thẻ Dịch vụ: Hình ảnh chiếm nửa phải (50% chiều ngang, hàng 1 + hàng 2), giữ nguyên màu gốc */
 #services-page-container .domain-card .service-card-illustration {
-  align-self: center !important;
-  justify-self: end !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: clamp(58px, 18cqi, 76px) !important;
-  height: clamp(82px, 24cqi, 96px) !important;
-  min-height: 82px !important;
-  max-height: 98px !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 108px !important;
+  max-height: 152px !important;
 }
 
 #services-page-container .domain-card .service-img-pop {

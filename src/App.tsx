@@ -1,4 +1,5 @@
 import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
+import { MotionConfig } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { PullCord } from './components/ui/PullCord';
@@ -126,7 +127,7 @@ export default function App() {
     slide: number;
   } | null>(null);
 
-  const { isDark, cardStyle, activeWallpaper, setWallpaper } = useTheme();
+  const { isDark, cardStyle, activeWallpaper, setWallpaper, cornerRadius = 14 } = useTheme();
   const mainViewportRef = useRef<HTMLElement | null>(null);
   const [loadedWallpaperUrl, setLoadedWallpaperUrl] = useState<string>('');
   const wallpaperImgRef = useRef<HTMLImageElement | null>(null);
@@ -587,6 +588,7 @@ export default function App() {
   };
 
   return (
+    <MotionConfig reducedMotion="user">
     <div
       id="website-root"
       data-element-name="Khung chứa toàn bộ trang web"
@@ -594,9 +596,17 @@ export default function App() {
       data-element-page="global"
       style={{
         padding: '0px',
-        gap: currentTabIndex === 16 ? '0px' : 'var(--shell-section-gap, 10px)',
+        gap: '0px',
+        width: '100%',
+        height: '100dvh',
+        minHeight: '100vh',
+        maxHeight: '100dvh',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'relative',
       }}
-      className="h-screen w-screen overflow-hidden flex flex-col items-center m-0 p-0 select-text relative transition-colors duration-300 ease-in-out"
+      className="w-full h-full overflow-hidden flex flex-col items-center m-0 p-0 select-text relative"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       {(() => {
@@ -832,17 +842,28 @@ export default function App() {
         />
       )}
 
-      {/* HEADER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: Chiều cao responsive theo breakpoint, chiều ngang bằng main card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 10%',
-            height: '10%',
-            maxHeight: '10%',
+            flex: '0 0 var(--shell-header-height, 72px)',
+            height: 'var(--shell-header-height, 72px)',
+            maxHeight: 'var(--shell-header-height, 72px)',
             minHeight: 0,
+            maxWidth: 'var(--main-card-target-w, 1000px)',
+            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '0px',
+            marginBottom: '0px',
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px',
+            borderBottomLeftRadius: `${cornerRadius}px`,
+            borderBottomRightRadius: `${cornerRadius}px`,
+            borderRadius: `0 0 ${cornerRadius}px ${cornerRadius}px`,
           }}
-          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
+          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
           <Header
             pages={TABS_DATA}
@@ -854,7 +875,7 @@ export default function App() {
         </div>
       )}
 
-      {/* MAIN CENTER CARD: Chiếm % chiều cao còn lại (100% khi xem Trang Tải PDF) */}
+      {/* MAIN CENTER CARD: Tự động chiếm phần không gian còn lại (100% khi xem Trang Tải PDF) */}
       <main
         ref={mainViewportRef}
         id="global-content-viewport"
@@ -863,22 +884,22 @@ export default function App() {
         data-element-page="global"
         data-element-parent="website-root"
         style={{
-          width: '100%',
-          maxWidth: currentTabIndex === 16 ? '1250px' : '100%',
-          flex: '1 1 0%',
-          height:
-            currentTabIndex === 16
-              ? '100%'
-              : 'calc(80% - (var(--shell-section-gap, 10px) * 2))',
+          width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+          maxWidth: currentTabIndex === 16 ? '1250px' : 'var(--main-card-target-w, 1000px)',
+          flex: currentTabIndex === 16 ? '1 1 100%' : '1 1 auto',
+          height: '100%',
           minHeight: 0,
+          minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
-          paddingTop: currentTabIndex === 16 ? '0px' : '10px',
-          paddingBottom: currentTabIndex === 16 ? '0px' : '10px',
+          marginTop: '0px',
+          marginBottom: '0px',
+          paddingTop: '10px',
+          paddingBottom: '10px',
         }}
         className={`w-full ${
-          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'
-        } mx-auto my-0 min-h-0 rounded-[var(--radius-main,14px)] p-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-[1000px]'
+        } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <div
           key={`page-view-${currentTabIndex}`}
@@ -896,7 +917,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER: 10% chiều cao khung hình (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang bằng main card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -904,12 +925,23 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 10%',
-            height: '10%',
-            maxHeight: '10%',
+            flex: '0 0 var(--shell-footer-height, 72px)',
+            height: 'var(--shell-footer-height, 72px)',
+            maxHeight: 'var(--shell-footer-height, 72px)',
             minHeight: 0,
+            maxWidth: 'var(--main-card-target-w, 1000px)',
+            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '0px',
+            marginBottom: '0px',
+            borderTopLeftRadius: `${cornerRadius}px`,
+            borderTopRightRadius: `${cornerRadius}px`,
+            borderBottomLeftRadius: '0px',
+            borderBottomRightRadius: '0px',
+            borderRadius: `${cornerRadius}px ${cornerRadius}px 0 0`,
           }}
-          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none rounded-none"
+          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
@@ -958,5 +990,6 @@ export default function App() {
         <XRayInspector onShowNotification={showNotification} />
       </Suspense>
     </div>
+    </MotionConfig>
   );
 }

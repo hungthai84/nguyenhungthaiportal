@@ -624,7 +624,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     className={cn(
                       "swot-quadrant-card bento-card glass-card w-full relative text-[var(--text-primary)] transition-all duration-300 flex flex-col justify-between p-[15px] gap-[15px] min-h-[300px]",
                       isSelected
-                        ? "md:col-span-2 h-full min-h-full flex-1 overflow-y-auto glass-scrollbar rounded-[var(--radius-main,30px)] border-0"
+                        ? "md:col-span-2 h-full min-h-full flex-1 overflow-y-auto glass-scrollbar rounded-[var(--radius-main,14px)] border-0"
                         : "rounded-[14px] overflow-hidden"
                     )}
                   >
@@ -953,7 +953,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         data-element-name="Trang Kỹ Năng Cốt Lõi"
         data-element-type="section"
         data-element-page="skills"
-        className="w-full min-w-0 flex flex-col justify-start font-play text-left animate-fadeIn gap-[15px] box-border"
+        className="w-full min-w-0 flex flex-col justify-start font-play text-left gap-[15px] box-border"
       >
         {skillsMainBody}
       </div>
@@ -967,7 +967,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
       data-element-type="container"
       data-element-page="skills"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left rounded-none box-border"
     >
       <div
         id="skills-cards-track"

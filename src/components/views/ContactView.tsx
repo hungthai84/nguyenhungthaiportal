@@ -135,7 +135,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
       data-element-type="container"
       data-element-page="contact"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play text-left rounded-none box-border"
       style={{
         boxSizing: 'border-box',
       }}
@@ -173,7 +173,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               className="banner-card bento-card glass-card group w-full lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
               style={{
                 padding: '15px',
-                borderRadius: 'var(--radius-banner, 24px)',
+                borderRadius: 'var(--radius-banner, 14px)',
                 boxSizing: 'border-box',
               }}
             >
@@ -224,7 +224,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               style={{
                 padding: '15px',
                 gap: '15px',
-                borderRadius: 'var(--radius-card, 24px)',
+                borderRadius: 'var(--radius-card, 14px)',
                 boxSizing: 'border-box',
               }}
             >
@@ -310,7 +310,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               {activeMode === 'calendar' ? (
                 <div
                   id="contact-calendar-viewport"
-                  className="flex-1 w-full h-full min-h-[460px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,16px)] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
+                  className="flex-1 w-full h-full min-h-[460px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,14px)] border-0 bg-transparent shadow-none flex flex-col p-0 m-0"
                   style={{ padding: '0px', margin: '0px', scrollbarWidth: 'none' }}
                 >
                   <iframe
@@ -319,7 +319,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     style={{
                       display: 'block',
                       border: 0,
-                      borderRadius: 'var(--radius-subcard, 16px)',
+                      borderRadius: 'var(--radius-subcard, 14px)',
                       width: '100%',
                       height: '100%',
                       minHeight: '700px',
@@ -331,7 +331,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     scrolling="no"
                     frameBorder="0"
                     title="Đặt lịch hẹn Google Calendar"
-                    className="w-full h-full flex-1 min-h-[700px] rounded-[var(--radius-subcard,16px)] p-0 m-0 block"
+                    className="w-full h-full flex-1 min-h-[700px] rounded-[var(--radius-subcard,14px)] p-0 m-0 block"
                   />
                 </div>
               ) : (

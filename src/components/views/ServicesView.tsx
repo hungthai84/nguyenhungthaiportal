@@ -27,6 +27,7 @@ import { DomainData, SiteTheme } from '@/types';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
+import { isNeumorphismCardStyle } from '@/config/ui/themeDefaults';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
@@ -310,6 +311,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
   const isLight = !isDark;
   const isEn = language === 'en';
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
+  const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
 
   const [expandedDomain, setExpandedDomain] = useState<DomainData | null>(null);
   const [originDomainId, setOriginDomainId] = useState<string | null>(null);
@@ -567,7 +569,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       data-element-type="container"
       data-element-page="services"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none text-[var(--text-primary)] box-border"
     >
       <div
         id="services-cards-track"
@@ -856,17 +858,19 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                         style={{ background: hoverFloodBg }}
                       />
 
-                      {/* Thân card: Bên trái (Hàng 1: Icon + Tiêu đề, Hàng 2: Mô tả 3 dòng) | Bên phải: Hình dịch vụ thu nhỏ gấp 3 */}
-                      <div className="service-card-body-row relative z-10 grid grid-cols-[minmax(0,1fr)_60px] sm:grid-cols-[minmax(0,1fr)_74px] grid-rows-[auto_1fr] gap-x-3 gap-y-2 items-center min-w-0 flex-1">
-                        {/* Bên trái - Hàng 1: Icon và Tiêu đề */}
-                        <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-start pt-0.5">
+                      {/* Bố cục Thẻ dịch vụ 2 phần 50% / 50%:
+                          Bên trái 50% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
+                          Bên phải 50% (H1+H2: Hình ảnh, H3: Hình ảnh Logo) */}
+                      <div className="service-card-split-grid relative z-10 grid grid-cols-2 grid-rows-[auto_auto_auto] gap-x-2.5 gap-y-2 flex-1 min-w-0 w-full items-stretch">
+                        {/* BÊN TRÁI (50%) - HÀNG 1: Icon & Tiêu đề */}
+                        <div className="col-start-1 row-start-1 min-w-0 pr-2.5 flex items-center gap-2 self-start pt-0.5">
                           {renderDomainIcon(
                             meta.iconKey,
                             'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
                             accentColor
                           )}
                           <h3
-                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 truncate"
+                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 line-clamp-2"
                             data-card-title="true"
                             style={{ color: accentColor }}
                             title={cardTitle}
@@ -875,39 +879,89 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           </h3>
                         </div>
 
-                        {/* Bên trái - Hàng 2: Mô tả 3 hàng */}
-                        <p
-                          id={`service-card-desc-${domain.id}`}
-                          className="col-start-1 row-start-2 service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.5] typo-body-sm font-normal self-start"
-                          title={summaryText}
-                        >
-                          {summaryText}
-                        </p>
-
-                        {/* Bên phải - Hàng 1 + Hàng 2: Hình dịch vụ thu nhỏ kích thước gấp 3 */}
-                        <div className="col-start-2 row-start-1 row-span-2 service-card-illustration relative shrink-0 flex items-center justify-center self-center justify-self-end w-[60px] sm:w-[74px] h-[84px] sm:h-[96px] min-h-[84px] sm:min-h-[96px] max-h-[98px]">
-                          <img
-                            src={serviceImage}
-                            alt={cardTitle}
-                            loading="lazy"
-                            decoding="async"
-                            referrerPolicy="no-referrer"
-                            onError={(e) => {
-                              if (e.currentTarget.src !== meta.fallbackIllustration) {
-                                e.currentTarget.src = meta.fallbackIllustration;
-                              }
-                            }}
-                            className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
-                            style={{ filter: 'none', WebkitFilter: 'none' }}
-                          />
+                        {/* BÊN TRÁI (50%) - HÀNG 2: Mô tả */}
+                        <div className="col-start-1 row-start-2 min-w-0 pr-2.5 flex items-start self-stretch">
+                          <p
+                            id={`service-card-desc-${domain.id}`}
+                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-caption sm:typo-body-sm font-normal"
+                            title={summaryText}
+                          >
+                            {summaryText}
+                          </p>
                         </div>
-                      </div>
 
-                      {/* Tầng Footer: Dải Logo doanh nghiệp tiêu biểu (tăng thêm 1/2 kích thước: 28px -> 42px) */}
-                      <div className="service-divider relative z-10 pt-2.5 mt-auto border-t border-[var(--border-subcard)] flex items-center justify-start gap-2.5 shrink-0 min-w-0">
-                        {(domain.companyLogos || []).length > 0 && (
-                          <div className="flex items-center gap-2.5 flex-wrap min-w-0">
-                            {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                        {/* BÊN PHẢI (50%) - HÀNG 1: Hình ảnh */}
+                        <div className="col-start-2 row-start-1 min-w-0 pl-1.5 flex items-center justify-center self-stretch">
+                          <div
+                            data-media-card="image"
+                            className="service-card-illustration relative w-full h-[64px] sm:h-[72px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,14px)] p-0.5"
+                          >
+                            <img
+                              src={serviceImage}
+                              alt={cardTitle}
+                              loading="lazy"
+                              decoding="async"
+                              referrerPolicy="no-referrer"
+                              onError={(e) => {
+                                if (e.currentTarget.src !== meta.fallbackIllustration) {
+                                  e.currentTarget.src = meta.fallbackIllustration;
+                                }
+                              }}
+                              className="service-img-pop relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none filter-none"
+                              style={{ filter: 'none', WebkitFilter: 'none' }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* BÊN PHẢI (50%) - HÀNG 2: Hình ảnh */}
+                        <div className="col-start-2 row-start-2 min-w-0 pl-1.5 flex items-center justify-center self-stretch">
+                          <div
+                            data-media-card="image"
+                            className="service-card-illustration relative w-full h-[52px] sm:h-[60px] flex items-center justify-center overflow-hidden rounded-[var(--radius-image,14px)] p-0.5 opacity-90"
+                          >
+                            <img
+                              src={domain.companyLogos?.[0]?.logo || serviceImage}
+                              alt=""
+                              loading="lazy"
+                              decoding="async"
+                              referrerPolicy="no-referrer"
+                              className="service-img-pop relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
+                            />
+                          </div>
+                        </div>
+
+                        {/* BÊN TRÁI (50%) - HÀNG 3: Logo (Nhãn & tên doanh nghiệp) */}
+                        <div
+                          className={cn(
+                            'service-divider col-start-1 row-start-3 pt-2.5 pr-2.5 mt-auto flex flex-col justify-center gap-0.5 min-w-0 self-stretch',
+                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
+                          )}
+                        >
+                          <span
+                            className="typo-badge font-bold tracking-tight truncate"
+                            style={{ color: accentColor }}
+                          >
+                            Logo
+                          </span>
+                          {(domain.companies || []).length > 0 && (
+                            <span
+                              className="typo-caption text-[var(--text-secondary)] truncate leading-tight"
+                              title={domain.companies.join(' · ')}
+                            >
+                              {domain.companies.join(' · ')}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* BÊN PHẢI (50%) - HÀNG 3: Hình ảnh Logo */}
+                        <div
+                          className={cn(
+                            'service-divider col-start-2 row-start-3 pt-2.5 pl-2.5 mt-auto flex items-center justify-end gap-1.5 flex-wrap min-w-0 self-stretch',
+                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
+                          )}
+                        >
+                          {(domain.companyLogos || []).length > 0 &&
+                            (domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                               <div
                                 key={partner.name || pIdx}
                                 title={partner.name}
@@ -915,7 +969,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                   background: 'var(--surface-secondary-bg, var(--bg-card))',
                                   border: 'none',
                                 }}
-                                className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
                               >
                                 <img
                                   src={partner.logo}
@@ -937,8 +991,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                 />
                               </div>
                             ))}
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </motion.div>
                   );

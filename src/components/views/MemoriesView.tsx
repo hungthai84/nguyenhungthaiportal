@@ -141,7 +141,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
       data-element-type="container"
       data-element-page="memories"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none box-border"
     >
       <div
         id="memories-cards-track"
@@ -158,7 +158,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           data-element-type="card"
           data-element-page="memories"
           data-element-parent="memories-cards-track"
-          className="page-main-card flex flex-col justify-start p-[20px] gap-[16px] rounded-[20px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
       {/* Style for crisp bright image, smooth zoom & GPU-composited fly-up animation */}
       <style
@@ -423,12 +423,12 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 data-media-card="image"
                 style={{
                   animationDelay: `${(idx % 16) * 35}ms`,
-                  borderRadius: 'var(--radius-card, 16px)',
+                  borderRadius: 'var(--radius-image, 14px)',
                   padding: '0px',
                   cursor: 'pointer',
                 }}
                 className={cn(
-                  'themed-image-card memory-photo-item pinterest-pin-card break-inside-avoid mb-[16px] relative rounded-[16px] overflow-hidden block group transition-all duration-300 p-0 shadow-sm border border-[var(--border-subcard)] hover:shadow-2xl'
+                  'themed-image-card memory-photo-item pinterest-pin-card break-inside-avoid mb-[16px] relative rounded-[var(--radius-image,14px)] overflow-hidden block group transition-all duration-300 p-0 shadow-sm border border-[var(--border-subcard)] hover:shadow-2xl'
                 )}
               >
                 {/* HÌNH ẢNH PINTEREST GIỮ NGUYÊN TỶ LỆ TỰ NHIÊN (WATERFALL MASONRY) */}
@@ -446,13 +446,13 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                         'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
                     }
                   }}
-                  style={{ borderRadius: 'var(--radius-card, 16px)' }}
+                  style={{ borderRadius: 'var(--radius-image, 14px)' }}
                   className="memory-crisp-img w-full h-auto object-cover block rounded-[inherit] transition-all duration-300 group-hover:scale-[1.02]"
                 />
 
                 {/* LỚP PHỦ PINTEREST THEO GIAO DIỆN — HIỆN TRƠN TRU KHI RÊ CHUỘT HOẶC FOCUS */}
                 <div
-                  style={{ inset: '0px', borderRadius: 'var(--radius-card, 16px)' }}
+                  style={{ inset: '0px', borderRadius: 'var(--radius-image, 14px)' }}
                   className="themed-image-card-scrim absolute pointer-events-none z-10 rounded-[inherit] bg-gradient-to-t from-black/85 via-black/30 to-black/15 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300"
                 />
 

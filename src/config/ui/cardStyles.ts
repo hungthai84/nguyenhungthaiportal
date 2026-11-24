@@ -173,7 +173,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
         'linear-gradient(145deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 246, 247, 0.72) 52%, rgba(241, 231, 229, 0.68) 100%)',
       backdropFilter: 'blur(16px) saturate(165%)',
       WebkitBackdropFilter: 'blur(16px) saturate(165%)',
-      borderRadius: '20px',
+      borderRadius: '14px',
       border: '1px solid rgba(255, 255, 255, 0.86)',
       boxShadow:
         '0 18px 42px -10px rgba(79, 70, 229, 0.16), 0 6px 16px -4px rgba(109, 40, 217, 0.08), inset 0 1.5px 0 rgba(255, 255, 255, 0.94), inset 0 -1px 0 rgba(255, 255, 255, 0.42)',
@@ -239,7 +239,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#101A2B',
     },
     badgeColorClass: 'bg-[#171F33]/90 text-[#B5A7F4] border-violet-300/25',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'cowhide-leather',
@@ -260,6 +260,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     desc: 'Mô phỏng chất liệu da màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét màu kem và sắc chữ tương phản sang trọng.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%)',
+      borderRadius: '14px',
       border: '2px solid #522E10',
       boxShadow:
         '0 18px 38px rgba(0, 0, 0, 0.45), inset 0 2px 4px rgba(255, 220, 180, 0.25), inset 0 -3px 6px rgba(0, 0, 0, 0.6)',
@@ -280,7 +281,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#522E10]/90 text-white border-[#F5DEB3]/50',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'black-cowhide-leather',
@@ -301,6 +302,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     desc: 'Chất liệu da bò đen tuyền cao cấp (#22252D → #101217) kết hợp đường chỉ khâu tay màu trắng tinh khiết nổi bật và chữ trắng sắc nét.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, #22252D 0%, #111318 50%, #1A1D24 100%)',
+      borderRadius: '14px',
       border: '2px solid #090A0E',
       boxShadow:
         '0 18px 38px rgba(0, 0, 0, 0.62), inset 0 2px 4px rgba(255, 255, 255, 0.14), inset 0 -3px 6px rgba(0, 0, 0, 0.78)',
@@ -321,7 +323,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#0B0C10',
     },
     badgeColorClass: 'bg-[#14171D]/92 text-white border-white/70',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'deep-ocean',
@@ -361,7 +363,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-[#101C38] text-sky-200 border-sky-400/40',
-    layerDepth: 0,
+    layerDepth: 100,
   },
   {
     id: 'light-deep-ocean',
@@ -382,7 +384,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     desc: 'Giao diện Ocean Navy Light – Glossy Liquid Glass UI: nền Ocean Navy sáng (#1951FC), card xanh kính nhiều lớp (#3781FC/#73BFFF), nhận diện Navy Deep (#03195B) và phản chiếu Glossy cao cấp.',
     cardSampleStyle: {
       background: 'linear-gradient(145deg, rgba(115, 191, 255, 0.42), rgba(55, 129, 252, 0.30), rgba(203, 233, 253, 0.32))',
-      borderRadius: '18px',
+      borderRadius: '14px',
       border: '1px solid rgba(255, 255, 255, 0.55)',
       boxShadow: '0 8px 24px rgba(3, 25, 91, 0.14), inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -2px 8px rgba(25, 81, 252, 0.12)',
       color: '#03195B',
@@ -514,7 +516,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: '#E0E8F2',
       backdropFilter: 'none',
       WebkitBackdropFilter: 'none',
-      borderRadius: '22px',
+      borderRadius: '14px',
       border: 'none',
       boxShadow:
         '-7px -7px 16px rgba(255, 255, 255, 0.86), 7px 7px 16px rgba(163, 179, 199, 0.58)',
@@ -564,7 +566,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: '#1A2433',
       backdropFilter: 'none',
       WebkitBackdropFilter: 'none',
-      borderRadius: '22px',
+      borderRadius: '14px',
       border: 'none',
       boxShadow:
         '-7px -7px 16px rgba(38, 52, 74, 0.70), 7px 7px 16px rgba(10, 15, 24, 0.78)',
@@ -614,7 +616,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: 'rgba(255, 255, 255, 0.92)',
       backdropFilter: 'blur(22px) saturate(185%)',
       WebkitBackdropFilter: 'blur(22px) saturate(185%)',
-      borderRadius: '22px',
+      borderRadius: '14px',
       border: '1px solid rgba(255, 255, 255, 0.94)',
       boxShadow:
         '0 14px 34px -8px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.98)',
@@ -659,7 +661,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
         'linear-gradient(145deg, rgba(10, 16, 38, 0.66) 0%, rgba(18, 14, 46, 0.60) 52%, rgba(12, 10, 34, 0.68) 100%)',
       backdropFilter: 'blur(24px) saturate(185%)',
       WebkitBackdropFilter: 'blur(24px) saturate(185%)',
-      borderRadius: '22px',
+      borderRadius: '14px',
       border: '1px solid rgba(34, 211, 238, 0.36)',
       boxShadow:
         '0 16px 38px -8px rgba(2, 6, 23, 0.78), 0 0 22px -6px rgba(34, 211, 238, 0.24), inset 0 1px 0 rgba(165, 243, 252, 0.24)',
@@ -704,7 +706,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: 'rgba(255, 255, 255, 0.94)',
       backdropFilter: 'none',
       WebkitBackdropFilter: 'none',
-      borderRadius: '20px',
+      borderRadius: '14px',
       border: '1px solid rgba(226, 232, 240, 0.90)',
       boxShadow:
         '0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 18px -2px rgba(15, 23, 42, 0.05), 0 16px 32px -8px rgba(15, 23, 42, 0.04)',
@@ -748,7 +750,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       background: 'rgba(19, 27, 42, 0.94)',
       backdropFilter: 'none',
       WebkitBackdropFilter: 'none',
-      borderRadius: '20px',
+      borderRadius: '14px',
       border: '1px solid rgba(148, 163, 184, 0.16)',
       boxShadow:
         '0 4px 20px -2px rgba(0, 0, 0, 0.45), 0 10px 30px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',

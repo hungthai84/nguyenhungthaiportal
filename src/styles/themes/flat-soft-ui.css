@@ -11,7 +11,7 @@
 .card-flat-soft-ui {
   background: #FFFFFF !important;
   border: 1px solid rgba(226, 232, 240, 0.90) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-shadow:
     0 1px 3px rgba(15, 23, 42, 0.04),
     0 6px 18px -2px rgba(15, 23, 42, 0.05),
@@ -33,7 +33,7 @@
 .card-dark-flat-soft-ui {
   background: #131B2A !important;
   border: 1px solid rgba(148, 163, 184, 0.16) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-shadow:
     0 4px 20px -2px rgba(0, 0, 0, 0.45),
     0 10px 30px -4px rgba(0, 0, 0, 0.35),
@@ -187,7 +187,12 @@ html[data-card-style="flat-soft-ui"] {
   /* Surface System Integration */
   --surface-primary-bg: #FFFFFF;
   --surface-primary-border: rgba(226, 232, 240, 0.90);
-  --surface-primary-shadow: var(--shadow-card);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
   --surface-primary-blur: 0px;
 
   --surface-secondary-bg: #F8FAFC;
@@ -212,11 +217,15 @@ html[data-card-style="flat-soft-ui"] {
 
   /* Radii & Layout */
   --radius-main: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
-  --radius-card: 16px;
-  --radius-subcard: 12px;
-  --radius-banner: 16px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
   --radius-pill: 9999px;
   --card-border-width: 1px;
 }
@@ -356,7 +365,12 @@ html[data-card-style="dark-flat-soft-ui"] {
   /* Surface System Integration */
   --surface-primary-bg: #131B2A;
   --surface-primary-border: rgba(148, 163, 184, 0.16);
-  --surface-primary-shadow: var(--shadow-card);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
   --surface-primary-blur: 0px;
 
   --surface-secondary-bg: #162032;
@@ -381,11 +395,15 @@ html[data-card-style="dark-flat-soft-ui"] {
 
   /* Radii & Layout */
   --radius-main: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
-  --radius-card: 16px;
-  --radius-subcard: 12px;
-  --radius-banner: 16px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
   --radius-pill: 9999px;
   --card-border-width: 1px;
 }
@@ -395,8 +413,10 @@ html[data-card-style="dark-flat-soft-ui"] {
    Strict 3-Tier Surface Separation: L1 > L2 > L3, 0px blur matte crisp surfaces
    -------------------------------------------------------------------------- */
 html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
+  #app-header,
+  #app-footer,
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
   [data-section-card="true"],
   .bento-card,
   [data-subcard="true"],
@@ -412,19 +432,41 @@ html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"])
   -webkit-backdrop-filter: none !important;
 }
 
-/* Level 1: Primary Page Main Card Shell */
-html[data-card-style="flat-soft-ui"] :is(.page-main-card, [data-main-card="true"]) {
+/* Level 1: Unified Primary Floating Surface (Header · Active Main Cards · Footer) */
+html[data-card-style="flat-soft-ui"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
   background: var(--surface-primary-bg, #FFFFFF) !important;
   border: 1px solid var(--surface-primary-border, rgba(226, 232, 240, 0.90)) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
 }
 
-html[data-card-style="dark-flat-soft-ui"] :is(.page-main-card, [data-main-card="true"]) {
+html[data-card-style="dark-flat-soft-ui"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
   background: var(--surface-primary-bg, #131B2A) !important;
   border: 1px solid var(--surface-primary-border, rgba(148, 163, 184, 0.16)) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
-  border-radius: var(--radius-main, 14px) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
 }
 
 /* Level 2: Section Cards, Bento Cards & Banner Cards */
@@ -438,7 +480,7 @@ html[data-card-style="flat-soft-ui"] :is(
   background: var(--surface-secondary-bg, #F8FAFC) !important;
   border: 1px solid var(--surface-secondary-border, rgba(203, 213, 225, 0.85)) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(
@@ -451,7 +493,7 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   background: var(--surface-secondary-bg, #162032) !important;
   border: 1px solid var(--surface-secondary-border, rgba(148, 163, 184, 0.18)) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
-  border-radius: var(--radius-card, 16px) !important;
+  border-radius: var(--radius-card, 14px) !important;
 }
 
 /* Level 3: Nested Subcards & Detail Blocks */
@@ -467,7 +509,7 @@ html[data-card-style="flat-soft-ui"] :is(
   background: var(--surface-tertiary-bg, #F1F5F9) !important;
   border: 1px solid var(--surface-tertiary-border, rgba(203, 213, 225, 0.72)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
-  border-radius: var(--radius-subcard, 12px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(
@@ -482,25 +524,9 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   background: var(--surface-tertiary-bg, #1A2438) !important;
   border: 1px solid var(--surface-tertiary-border, rgba(148, 163, 184, 0.14)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
-  border-radius: var(--radius-subcard, 12px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
 }
 
-/* Header & Footer bar styling */
-html[data-card-style="flat-soft-ui"] :is(#app-header, #app-footer) {
-  background: rgba(255, 255, 255, 0.96) !important;
-  border-color: rgba(226, 232, 240, 0.90) !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-html[data-card-style="dark-flat-soft-ui"] :is(#app-header, #app-footer) {
-  background: rgba(19, 27, 42, 0.96) !important;
-  border-color: rgba(148, 163, 184, 0.16) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
 
 /* Nav Pills — Inactive Guard + Explicit Active State */
 html[data-card-style="flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) {

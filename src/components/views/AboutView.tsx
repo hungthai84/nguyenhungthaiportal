@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <WebIcon name="linkedin" className={className || 'w-4 h-4'} strokeWidth={2.75} />
 );
-import { motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import QRCode from 'qrcode';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
@@ -594,9 +594,10 @@ export function AboutView({
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
 
-  const peekReserve = viewportWidth <= 1023 ? 32 : 112;
-  const aboutCardWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
-  const aboutSideInset = Math.max(15, (aboutContainerWidth - aboutCardWidth) / 2);
+  const prefersReducedMotion = useReducedMotion();
+  const peekReserve = viewportWidth < 640 ? 20 : 32;
+  const aboutCardWidth = Math.min(1000, Math.max(260, viewportWidth - peekReserve));
+  const aboutSideInset = Math.max(10, (aboutContainerWidth - aboutCardWidth) / 2);
 
   useEffect(() => {
     const el = aboutContainerRef.current;
@@ -676,6 +677,130 @@ export function AboutView({
   // Hero Media State: 'video' | 'map'
   const [activeHeroMedia, setActiveHeroMedia] = useState<'video' | 'map'>('video');
   const [activeHeroMapType, setActiveHeroMapType] = useState<'tam_tru' | 'cu_tru'>('tam_tru');
+
+  // Card Thông tin chi tiết: 2 Tabs (Tab 1: Thông tin cá nhân, Tab 2: Thông tin liên hệ + Form xác thực)
+  const [detailInfoTab, setDetailInfoTab] = useState<'personal' | 'contact'>('personal');
+  const [detailTabDirection, setDetailTabDirection] = useState<1 | -1>(1);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [contactTouched, setContactTouched] = useState({
+    name: false,
+    email: false,
+    phone: false,
+    message: false,
+  });
+  const [contactAttemptedSubmit, setContactAttemptedSubmit] = useState(false);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+
+  const validateContactFields = useCallback((values: typeof contactForm) => {
+    const trimmedName = values.name.trim();
+    const trimmedEmail = values.email.trim();
+    const trimmedPhone = values.phone.trim();
+    const trimmedMessage = values.message.trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const allowedPhoneCharsRegex = /^\+?[\d\s().-]+$/;
+    const phoneDigits = trimmedPhone.replace(/\D/g, '');
+
+    const errors: Partial<Record<keyof typeof contactForm, string>> = {};
+
+    if (!trimmedName) {
+      errors.name = 'Vui lòng nhập họ và tên.';
+    } else if (trimmedName.length < 2) {
+      errors.name = 'Họ và tên cần tối thiểu 2 ký tự.';
+    }
+
+    if (!trimmedEmail) {
+      errors.email = 'Vui lòng nhập địa chỉ email.';
+    } else if (!emailRegex.test(trimmedEmail)) {
+      errors.email = 'Email chưa đúng định dạng (ví dụ: ten@domain.com).';
+    }
+
+    if (!trimmedPhone) {
+      errors.phone = 'Vui lòng nhập số điện thoại.';
+    } else if (!allowedPhoneCharsRegex.test(trimmedPhone)) {
+      errors.phone = 'Số điện thoại chỉ được chứa chữ số và dấu +, -, khoảng trắng.';
+    } else if (phoneDigits.length < 9 || phoneDigits.length > 15) {
+      errors.phone = `Số điện thoại cần từ 9 đến 15 chữ số (hiện tại: ${phoneDigits.length}).`;
+    }
+
+    if (!trimmedMessage) {
+      errors.message = 'Vui lòng nhập nội dung cần trao đổi.';
+    } else if (trimmedMessage.length < 5) {
+      errors.message = 'Nội dung cần tối thiểu 5 ký tự.';
+    }
+
+    return {
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    };
+  }, []);
+
+  const contactValidation = useMemo(
+    () => validateContactFields(contactForm),
+    [contactForm, validateContactFields]
+  );
+
+  const handleSwitchDetailTab = useCallback(
+    (nextTab: 'personal' | 'contact') => {
+      if (nextTab === detailInfoTab) return;
+      SoundEngine.playTap();
+      setDetailTabDirection(nextTab === 'contact' ? 1 : -1);
+      setDetailInfoTab(nextTab);
+    },
+    [detailInfoTab]
+  );
+
+  const handleContactFieldChange = useCallback(
+    (field: keyof typeof contactForm, value: string) => {
+      setContactSubmitted(false);
+      setContactForm((prev) => ({ ...prev, [field]: value }));
+    },
+    []
+  );
+
+  const handleContactFieldBlur = useCallback((field: keyof typeof contactForm) => {
+    setContactTouched((prev) => ({ ...prev, [field]: true }));
+  }, []);
+
+  const handleContactFormSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      setContactAttemptedSubmit(true);
+      setContactTouched({
+        name: true,
+        email: true,
+        phone: true,
+        message: true,
+      });
+
+      const currentValidation = validateContactFields(contactForm);
+      if (!currentValidation.isValid) {
+        SoundEngine.playTap();
+        const firstError =
+          currentValidation.errors.email ||
+          currentValidation.errors.phone ||
+          currentValidation.errors.name ||
+          currentValidation.errors.message ||
+          'Vui lòng kiểm tra lại thông tin liên hệ.';
+        showToast(firstError);
+        return;
+      }
+
+      SoundEngine.playPop();
+      setContactSubmitted(true);
+      setContactAttemptedSubmit(false);
+      setContactTouched({ name: false, email: false, phone: false, message: false });
+      setContactForm({ name: '', email: '', phone: '', message: '' });
+      showToast('✓ Đã xác thực & gửi thông tin liên hệ thành công!');
+      onShowNotification?.('Đã gửi thông tin liên hệ tới Nguyễn Hùng Thái.');
+    },
+    [contactForm, validateContactFields, showToast, onShowNotification]
+  );
 
   // Sao chép danh thiếp 1 chạm & mã QR vCard động
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -1926,15 +2051,15 @@ export function AboutView({
         paddingLeft: '0px',
         paddingRight: '0px',
         paddingBottom: '0px',
-        gap: '15px',
-        rowGap: '15px',
-        columnGap: '15px',
+        gap: '10px',
+        rowGap: '10px',
+        columnGap: '10px',
         borderRadius: '0px',
         background: 'transparent',
         ['--about-card-w' as any]: `${aboutCardWidth}px`,
         ['--about-side-inset' as any]: `${aboutSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-0 font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-visible z-10 box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-center p-0 gap-[10px] font-play text-left text-[var(--text-primary)] rounded-none overflow-visible z-10 box-border"
     >
       <div
         id="about-cards-track"
@@ -1942,18 +2067,19 @@ export function AboutView({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'flex-start',
+          justifyContent: 'center',
           height: '100%',
           minHeight: '100%',
           maxHeight: '100%',
           width: '100%',
-          maxWidth: '1250px',
+          maxWidth: '1000px',
+          gap: '10px',
           margin: '0 auto',
           boxSizing: 'border-box',
           padding: 0,
           overflow: 'visible',
         }}
-        className="page-cards-track flex flex-col items-center justify-start h-full min-h-full max-h-full w-full max-w-[1250px] mx-auto box-border overflow-visible"
+        className="page-cards-track flex flex-col items-center justify-center h-full min-h-full max-h-full w-full max-w-[1000px] gap-[10px] mx-auto box-border overflow-visible"
       >
       {/* ========================================================================= */}
       {/* CARD GIỚI THIỆU CHÍNH (BENTO MULTICOLOR VIEW): NHẬP CARD 1 & 2 LÀM 1      */}
@@ -1967,21 +2093,22 @@ export function AboutView({
         data-element-page="about"
         data-element-parent="about-page-container"
         style={{
-          width: '100%',
-          maxWidth: '1250px',
-          height: '100%',
-          minHeight: '100%',
-          maxHeight: '100%',
-          padding: '15px',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
+          width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))',
+          maxWidth: '1000px',
+          height: 'min(600px, 100%)',
+          minHeight: 'min(600px, 100%)',
+          maxHeight: 'min(600px, 100%)',
+          padding: viewportWidth < 640 ? '10px' : '15px',
+          gap: viewportWidth < 640 ? '10px' : '12px',
+          rowGap: viewportWidth < 640 ? '10px' : '12px',
+          columnGap: viewportWidth < 640 ? '10px' : '12px',
+          borderRadius: 'var(--radius-main, 14px)',
           boxSizing: 'border-box',
           margin: '0 auto',
-          overflow: 'hidden',
+          overflowY: 'auto',
+          overflowX: 'hidden',
         }}
-        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-hidden box-border mx-auto opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1000px] shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-grid-1"
@@ -1995,33 +2122,34 @@ export function AboutView({
             overscrollBehaviorY: 'contain',
             WebkitOverflowScrolling: 'touch',
             scrollBehavior: 'smooth',
-            padding: '2px',
-            paddingLeft: '2px',
-            paddingRight: '2px',
-            paddingBottom: '2px',
-            paddingTop: '2px',
-            gap: '12px',
-            rowGap: '12px',
-            columnGap: '12px',
+            padding: '0px',
+            gap: viewportWidth < 640 ? '10px' : '12px',
+            rowGap: viewportWidth < 640 ? '10px' : '12px',
+            columnGap: viewportWidth < 640 ? '10px' : '12px',
             borderRadius: '14px',
           }}
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 p-0 rounded-[14px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+          className="main-card-scroll-viewport w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 sm:gap-3 p-0 rounded-[14px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
             
             {/* BENTO TILE 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (SAPPHIRE BLUE) */}
-            <div
+            <motion.div
               id="about-hero-video-container"
+              data-framer-bento="true"
               data-element-name="Card video chân dung chuyên gia"
               data-element-type="card"
               data-media-card={activeHeroMedia === 'video' ? 'video' : undefined}
               data-video-bg-card={activeHeroMedia === 'video' ? 'true' : 'false'}
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.02, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                borderRadius: 'var(--radius-card, 16px)',
+                borderRadius: 'var(--radius-card, 14px)',
                 padding: '0px',
               }}
-              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,16px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[240px] sm:min-h-[300px] lg:min-h-0 h-full min-w-0 group/video p-0 text-left"
+              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[220px] sm:min-h-[290px] lg:min-h-0 h-full min-w-0 group/video p-0 text-left"
             >
                   <div
                     id="el-p2-div-87"
@@ -2480,205 +2608,528 @@ export function AboutView({
                     </div>
                   )}
                   </div>
-                  </div>
+                  </motion.div>
 
-            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (EMERALD MINT) */}
-            <div
+            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (2 TABS + ANIMATION + VALIDATION) */}
+            <motion.div
               id="about-personal-info-card-right"
+              data-framer-bento="true"
               data-element-name="Card thông tin chi tiết"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-6 content-stretch items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-3 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
+              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
-                  {/* Header Bento Box Bar + Thanh thao tác nhanh (Lật Bản đồ M, Sao chép 1 chạm, Mã QR vCard) */}
-                  <div className="col-span-full sm:col-span-6 w-full flex flex-wrap items-center justify-between gap-1 sm:gap-2 border-b border-[var(--border-subcard)] pb-1.5 sm:pb-2 min-w-0">
-                    <div className="card-header-sync flex items-center gap-1.5 sm:gap-2 text-blue-600 dark:text-cyan-400 min-w-0 flex-1">
+                  {/* Header Bento Box Bar + Tab Switcher (Tab 1: Thông tin cá nhân, Tab 2: Thông tin liên hệ) */}
+                  <div className="w-full flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 min-w-0 shrink-0">
+                    <div className="card-header-sync flex items-center gap-1.5 sm:gap-2 text-blue-600 dark:text-cyan-400 min-w-0">
                       <WebIcon name="user" className="w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] text-blue-600 dark:text-cyan-400 shrink-0" />
                       <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight truncate" data-card-title="true">
                         Thông tin chi tiết
                       </h3>
                     </div>
+
+                    <div
+                      role="tablist"
+                      aria-label="Thông tin chi tiết"
+                      className="inline-flex items-center gap-1 p-1 rounded-[14px] bg-[var(--bg-subcard)] shrink-0 max-w-full"
+                    >
+                      <button
+                        type="button"
+                        role="tab"
+                        id="about-tab-personal"
+                        aria-selected={detailInfoTab === 'personal'}
+                        aria-controls="about-tabpanel-personal"
+                        onClick={() => handleSwitchDetailTab('personal')}
+                        onKeyDown={(e) => {
+                          if (e.key === 'ArrowRight') handleSwitchDetailTab('contact');
+                        }}
+                        style={
+                          detailInfoTab === 'personal'
+                            ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                            : undefined
+                        }
+                        className={cn(
+                          'px-2.5 py-1 rounded-[10px] text-[11px] sm:text-xs font-semibold font-play transition-all duration-200 cursor-pointer whitespace-nowrap',
+                          detailInfoTab === 'personal'
+                            ? 'shadow-sm'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        )}
+                      >
+                        Thông tin cá nhân
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        id="about-tab-contact"
+                        aria-selected={detailInfoTab === 'contact'}
+                        aria-controls="about-tabpanel-contact"
+                        onClick={() => handleSwitchDetailTab('contact')}
+                        onKeyDown={(e) => {
+                          if (e.key === 'ArrowLeft') handleSwitchDetailTab('personal');
+                        }}
+                        style={
+                          detailInfoTab === 'contact'
+                            ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                            : undefined
+                        }
+                        className={cn(
+                          'px-2.5 py-1 rounded-[10px] text-[11px] sm:text-xs font-semibold font-play transition-all duration-200 cursor-pointer whitespace-nowrap',
+                          detailInfoTab === 'contact'
+                            ? 'shadow-sm'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        )}
+                      >
+                        Thông tin liên hệ
+                      </button>
+                    </div>
                   </div>
 
-                  {[
-                    // TẦNG 1: LIÊN HỆ & KẾT NỐI TRỰC TIẾP
-                    {
-                      id: 'phone',
-                      label: 'Điện thoại',
-                      value: '+84 0909097882',
-                      icon: 'phone',
-                      iconColorCls: 'text-orange-600 dark:text-orange-300',
-                      bgCls: 'bg-orange-500/10 dark:bg-orange-500/15 border-orange-500/25 dark:border-orange-400/30',
-                      action: () => {
-                        window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
-                      },
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    {
-                      id: 'email',
-                      label: 'Hộp thư',
-                      value: 'hungthai84@gmail.com',
-                      icon: 'mail',
-                      iconColorCls: 'text-pink-600 dark:text-pink-300',
-                      bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
-                      action: () => {
-                        if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                          navigator.clipboard.writeText('hungthai84@gmail.com');
-                          showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
-                        }
-                      },
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    {
-                      id: 'website',
-                      label: 'Website',
-                      value: 'Vào website',
-                      icon: 'globe',
-                      iconColorCls: 'text-blue-600 dark:text-sky-300',
-                      bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
-                      action: () => {
-                        window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
-                      },
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    {
-                      id: 'linkedin',
-                      label: 'LinkedIn',
-                      value: 'Vào linkedin',
-                      icon: 'user-check',
-                      iconColorCls: 'text-indigo-600 dark:text-indigo-300',
-                      bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',
-                      action: () => {
-                        window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
-                      },
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    // TẦNG 2: ĐỊA ĐIỂM & BẢN ĐỒ TƯƠNG TÁC
-                    {
-                      id: 'tam_tru',
-                      label: 'Tạm trú',
-                      value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
-                      icon: 'map-pin',
-                      iconColorCls: 'text-cyan-600 dark:text-cyan-300',
-                      bgCls: cn(
-                        'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
-                        activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru' && 'ring-2 ring-cyan-500/70'
-                      ),
-                      action: () => {
-                        setActiveHeroMedia('map');
-                        setActiveHeroMapType('tam_tru');
-                        setActiveMapTab('tam_tru');
-                        showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
-                      },
-                      colSpan: 'col-span-1 sm:col-span-6',
-                    },
-                    {
-                      id: 'cu_tru',
-                      label: 'Cư trú',
-                      value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
-                      icon: 'home',
-                      iconColorCls: 'text-teal-600 dark:text-teal-300',
-                      bgCls: cn(
-                        'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
-                        activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru' && 'ring-2 ring-teal-500/70'
-                      ),
-                      action: () => {
-                        setActiveHeroMedia('map');
-                        setActiveHeroMapType('cu_tru');
-                        setActiveMapTab('cu_tru');
-                        showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
-                      },
-                      colSpan: 'col-span-1 sm:col-span-6',
-                    },
-                    // TẦNG 3: THÔNG TIN CÁ NHÂN & NHÂN KHẨU HỌC
-                    {
-                      id: 'birthday',
-                      label: 'Sinh nhật',
-                      value: '22/06/1984',
-                      icon: 'calendar',
-                      iconColorCls: 'text-amber-600 dark:text-amber-300',
-                      bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
-                      action: () => showToast('Sinh nhật: 22/06/1984'),
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    {
-                      id: 'horoscope',
-                      label: 'Tử vi',
-                      value: 'Giáp Tý',
-                      icon: 'sparkles',
-                      iconColorCls: 'text-purple-600 dark:text-purple-300',
-                      bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
-                      action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
-                      colSpan: 'col-span-1 sm:col-span-3',
-                    },
-                    {
-                      id: 'gender',
-                      label: 'Giới tính',
-                      value: 'Nam giới',
-                      icon: 'user',
-                      iconColorCls: 'text-sky-600 dark:text-sky-300',
-                      bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
-                      action: () => showToast('Giới tính: Nam giới'),
-                      colSpan: 'col-span-1 sm:col-span-2',
-                    },
-                    {
-                      id: 'ethnicity',
-                      label: 'Dân tộc',
-                      value: 'Kinh',
-                      icon: 'globe',
-                      iconColorCls: 'text-emerald-600 dark:text-emerald-300',
-                      bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
-                      action: () => showToast('Dân tộc: Kinh'),
-                      colSpan: 'col-span-1 sm:col-span-2',
-                    },
-                    {
-                      id: 'marital',
-                      label: 'Hôn nhân',
-                      value: 'Độc thân',
-                      icon: 'heart',
-                      iconColorCls: 'text-rose-600 dark:text-rose-300',
-                      bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
-                      action: () => showToast('Hôn nhân: Độc thân'),
-                      colSpan: 'col-span-1 sm:col-span-2',
-                    },
-                  ].map((item) => (
-                    <div
-                      key={item.id}
-                      data-subcard="true"
-                      onClick={() => {
-                        SoundEngine.playPop();
-                        item.action();
-                      }}
-                      title={`${item.label}: ${item.value}`}
-                      className={cn(
-                        'about-info-subcard h-full w-full flex flex-col justify-center gap-1 p-2 sm:px-2.5 sm:py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
-                        item.colSpan,
-                        item.bgCls
-                      )}
-                    >
-                      {/* Hàng 1: Icon & Tiêu đề */}
-                      <div className="flex items-center gap-1.5 min-w-0 w-full">
-                        <WebIcon
-                          name={item.icon}
-                          className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
-                          style={{ width: '14px', height: '14px' }}
-                        />
-                        <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
-                          {item.label}
-                        </span>
-                      </div>
+                  {/* Animated Tab Body (Slide + Fade) */}
+                  <div className="relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5">
+                    <AnimatePresence mode="wait" initial={false}>
+                      {detailInfoTab === 'personal' ? (
+                        <motion.div
+                          key="personal"
+                          id="about-tabpanel-personal"
+                          role="tabpanel"
+                          aria-labelledby="about-tab-personal"
+                          initial={
+                            prefersReducedMotion
+                              ? { opacity: 1 }
+                              : { opacity: 0, x: detailTabDirection * 18 }
+                          }
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={
+                            prefersReducedMotion
+                              ? { opacity: 1 }
+                              : { opacity: 0, x: -detailTabDirection * 18 }
+                          }
+                          transition={{
+                            duration: prefersReducedMotion ? 0.01 : 0.24,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="w-full flex flex-col gap-2"
+                        >
+                          <div
+                            id="about-personal-info-grid"
+                            className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full"
+                          >
+                            {[
+                              {
+                                id: 'birthday',
+                                label: 'Sinh nhật',
+                                value: '22/06/1984',
+                                icon: 'calendar',
+                                iconColorCls: 'text-amber-600 dark:text-amber-300',
+                                bgCls: 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/25 dark:border-amber-400/30',
+                                action: () => showToast('Sinh nhật: 22/06/1984'),
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'horoscope',
+                                label: 'Tử vi',
+                                value: 'Giáp Tý · Hải Trung Kim',
+                                icon: 'sparkles',
+                                iconColorCls: 'text-purple-600 dark:text-purple-300',
+                                bgCls: 'bg-purple-500/10 dark:bg-purple-500/15 border-purple-500/25 dark:border-purple-400/30',
+                                action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim'),
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'gender',
+                                label: 'Giới tính',
+                                value: 'Nam giới',
+                                icon: 'user',
+                                iconColorCls: 'text-sky-600 dark:text-sky-300',
+                                bgCls: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-500/25 dark:border-sky-400/30',
+                                action: () => showToast('Giới tính: Nam giới'),
+                                colSpan: 'col-span-1 sm:col-span-2',
+                              },
+                              {
+                                id: 'ethnicity',
+                                label: 'Dân tộc',
+                                value: 'Kinh',
+                                icon: 'globe',
+                                iconColorCls: 'text-emerald-600 dark:text-emerald-300',
+                                bgCls: 'bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/25 dark:border-emerald-400/30',
+                                action: () => showToast('Dân tộc: Kinh'),
+                                colSpan: 'col-span-1 sm:col-span-2',
+                              },
+                              {
+                                id: 'marital',
+                                label: 'Hôn nhân',
+                                value: 'Độc thân',
+                                icon: 'heart',
+                                iconColorCls: 'text-rose-600 dark:text-rose-300',
+                                bgCls: 'bg-rose-500/10 dark:bg-rose-500/15 border-rose-500/25 dark:border-rose-400/30',
+                                action: () => showToast('Hôn nhân: Độc thân'),
+                                colSpan: 'col-span-1 sm:col-span-2',
+                              },
+                              {
+                                id: 'role_summary',
+                                label: 'Vai trò & Kinh nghiệm',
+                                value: 'Head of CX & CS Operations · 22+ Năm',
+                                icon: 'award',
+                                iconColorCls: 'text-blue-600 dark:text-cyan-300',
+                                bgCls: 'bg-blue-500/10 dark:bg-cyan-500/15 border-blue-500/25 dark:border-cyan-400/30',
+                                action: () => showToast('Head of CX & CS Operations · 22+ Năm thực chiến'),
+                                colSpan: 'col-span-1 sm:col-span-6',
+                              },
+                            ].map((item) => (
+                              <div
+                                key={item.id}
+                                data-subcard="true"
+                                onClick={() => {
+                                  SoundEngine.playPop();
+                                  item.action();
+                                }}
+                                title={`${item.label}: ${item.value}`}
+                                className={cn(
+                                  'about-info-subcard h-full w-full flex flex-col justify-center gap-1 p-2 sm:px-2.5 sm:py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                                  item.colSpan,
+                                  item.bgCls
+                                )}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0 w-full">
+                                  <WebIcon
+                                    name={item.icon}
+                                    className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
+                                    style={{ width: '14px', height: '14px' }}
+                                  />
+                                  <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
+                                    {item.label}
+                                  </span>
+                                </div>
+                                <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
+                                  {item.value}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
 
-                      {/* Hàng 2: Chỉ hiển thị 1 dòng */}
-                      <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
-                        {item.value}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                          {/* Thao tác nhanh danh thiếp & chuyển sang Tab Liên hệ */}
+                          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <button
+                                type="button"
+                                id="about-copy-vcard-btn"
+                                onClick={handleCopyFullVCard}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] bg-[var(--bg-subcard)] text-[var(--text-primary)] text-xs font-semibold cursor-pointer hover:opacity-90 transition whitespace-nowrap"
+                              >
+                                {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                                <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép vCard'}</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  SoundEngine.playPop();
+                                  setIsQrModalOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] bg-[var(--bg-subcard)] text-[var(--text-primary)] text-xs font-semibold cursor-pointer hover:opacity-90 transition whitespace-nowrap"
+                              >
+                                <QrCode className="w-3.5 h-3.5" />
+                                <span>Mã QR</span>
+                              </button>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleSwitchDetailTab('contact')}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[12px] text-xs font-semibold text-blue-600 dark:text-cyan-400 hover:underline cursor-pointer whitespace-nowrap"
+                            >
+                              <span>Xem liên hệ</span>
+                              <ChevronRight className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="contact"
+                          id="about-tabpanel-contact"
+                          role="tabpanel"
+                          aria-labelledby="about-tab-contact"
+                          initial={
+                            prefersReducedMotion
+                              ? { opacity: 1 }
+                              : { opacity: 0, x: detailTabDirection * 18 }
+                          }
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={
+                            prefersReducedMotion
+                              ? { opacity: 1 }
+                              : { opacity: 0, x: -detailTabDirection * 18 }
+                          }
+                          transition={{
+                            duration: prefersReducedMotion ? 0.01 : 0.24,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="w-full flex flex-col gap-2.5"
+                        >
+                          <div
+                            id="about-personal-info-grid"
+                            className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full"
+                          >
+                            {[
+                              {
+                                id: 'phone',
+                                label: 'Điện thoại',
+                                value: '+84 0909097882',
+                                icon: 'phone',
+                                iconColorCls: 'text-orange-600 dark:text-orange-300',
+                                bgCls: 'bg-orange-500/10 dark:bg-orange-500/15 border-orange-500/25 dark:border-orange-400/30',
+                                action: () => {
+                                  window.open('https://zalo.me/0909097882', '_blank', 'noopener,noreferrer');
+                                },
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'email',
+                                label: 'Hộp thư',
+                                value: 'hungthai84@gmail.com',
+                                icon: 'mail',
+                                iconColorCls: 'text-pink-600 dark:text-pink-300',
+                                bgCls: 'bg-pink-500/10 dark:bg-pink-500/15 border-pink-500/25 dark:border-pink-400/30',
+                                action: () => {
+                                  if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                                    navigator.clipboard.writeText('hungthai84@gmail.com');
+                                    showToast('✓ Đã sao chép Email: hungthai84@gmail.com');
+                                  }
+                                },
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'website',
+                                label: 'Website',
+                                value: 'Vào website',
+                                icon: 'globe',
+                                iconColorCls: 'text-blue-600 dark:text-sky-300',
+                                bgCls: 'bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/25 dark:border-blue-400/30',
+                                action: () => {
+                                  window.open('https://nguyenhungthai.powerservice.one/', '_blank', 'noopener,noreferrer');
+                                },
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'linkedin',
+                                label: 'LinkedIn',
+                                value: 'Vào linkedin',
+                                icon: 'user-check',
+                                iconColorCls: 'text-indigo-600 dark:text-indigo-300',
+                                bgCls: 'bg-indigo-500/10 dark:bg-indigo-500/15 border-indigo-500/25 dark:border-indigo-400/30',
+                                action: () => {
+                                  window.open('https://www.linkedin.com/in/hungthai84/', '_blank', 'noopener,noreferrer');
+                                },
+                                colSpan: 'col-span-1 sm:col-span-3',
+                              },
+                              {
+                                id: 'tam_tru',
+                                label: 'Tạm trú',
+                                value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
+                                icon: 'map-pin',
+                                iconColorCls: 'text-cyan-600 dark:text-cyan-300',
+                                bgCls: cn(
+                                  'bg-cyan-500/10 dark:bg-cyan-500/15 border-cyan-500/25 dark:border-cyan-400/30',
+                                  activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru' && 'ring-2 ring-cyan-500/70'
+                                ),
+                                action: () => {
+                                  setActiveHeroMedia('map');
+                                  setActiveHeroMapType('tam_tru');
+                                  setActiveMapTab('tam_tru');
+                                  showToast('📍 Tạm trú: P.Tân Phú (Q7) , TP. Hồ Chí Minh');
+                                },
+                                colSpan: 'col-span-1 sm:col-span-6',
+                              },
+                              {
+                                id: 'cu_tru',
+                                label: 'Cư trú',
+                                value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
+                                icon: 'home',
+                                iconColorCls: 'text-teal-600 dark:text-teal-300',
+                                bgCls: cn(
+                                  'bg-teal-500/10 dark:bg-teal-500/15 border-teal-500/25 dark:border-teal-400/30',
+                                  activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru' && 'ring-2 ring-teal-500/70'
+                                ),
+                                action: () => {
+                                  setActiveHeroMedia('map');
+                                  setActiveHeroMapType('cu_tru');
+                                  setActiveMapTab('cu_tru');
+                                  showToast('📍 Cư trú: Phường Mỹ Tho, Tỉnh Đồng Tháp');
+                                },
+                                colSpan: 'col-span-1 sm:col-span-6',
+                              },
+                            ].map((item) => (
+                              <div
+                                key={item.id}
+                                data-subcard="true"
+                                onClick={() => {
+                                  SoundEngine.playPop();
+                                  item.action();
+                                }}
+                                title={`${item.label}: ${item.value}`}
+                                className={cn(
+                                  'about-info-subcard h-full w-full flex flex-col justify-center gap-1 p-2 sm:px-2.5 sm:py-2 rounded-[14px] border transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-md hover:-translate-y-0.5 group/subcard overflow-hidden box-border min-w-0',
+                                  item.colSpan,
+                                  item.bgCls
+                                )}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0 w-full">
+                                  <WebIcon
+                                    name={item.icon}
+                                    className={cn('w-3.5 h-3.5 shrink-0', item.iconColorCls)}
+                                    style={{ width: '14px', height: '14px' }}
+                                  />
+                                  <span className={cn('about-info-label typo-label font-bold leading-tight whitespace-nowrap truncate min-w-0', item.iconColorCls)}>
+                                    {item.label}
+                                  </span>
+                                </div>
+                                <div className="about-info-value typo-body-sm font-semibold font-play text-[var(--text-primary)] leading-tight whitespace-nowrap truncate min-w-0 w-full">
+                                  {item.value}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Form liên hệ nhanh có xác thực Email & Độ dài Số điện thoại */}
+                          <form
+                            id="about-contact-quick-form"
+                            noValidate
+                            onSubmit={handleContactFormSubmit}
+                            className="w-full flex flex-col gap-2 p-2.5 rounded-[14px] bg-[var(--bg-subcard)] box-border"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="typo-label font-bold text-[var(--text-primary)]">
+                                Gửi lời nhắn nhanh
+                              </span>
+                              {contactSubmitted && (
+                                <span
+                                  role="status"
+                                  className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400"
+                                >
+                                  ✓ Đã tiếp nhận liên hệ
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <input
+                                  type="text"
+                                  name="name"
+                                  aria-label="Họ và tên"
+                                  aria-invalid={Boolean((contactTouched.name || contactAttemptedSubmit) && contactValidation.errors.name)}
+                                  placeholder="Họ và tên *"
+                                  value={contactForm.name}
+                                  onChange={(e) => handleContactFieldChange('name', e.target.value)}
+                                  onBlur={() => handleContactFieldBlur('name')}
+                                  className={cn(
+                                    'w-full px-2.5 py-1.5 rounded-[10px] text-xs font-play bg-[var(--bg-card)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-blue-500/40',
+                                    (contactTouched.name || contactAttemptedSubmit) && contactValidation.errors.name && 'ring-1 ring-rose-500/80'
+                                  )}
+                                />
+                                {(contactTouched.name || contactAttemptedSubmit) && contactValidation.errors.name && (
+                                  <span role="alert" className="text-[10.5px] leading-tight text-rose-600 dark:text-rose-400">
+                                    {contactValidation.errors.name}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <input
+                                  type="tel"
+                                  name="phone"
+                                  aria-label="Số điện thoại"
+                                  aria-invalid={Boolean((contactTouched.phone || contactAttemptedSubmit) && contactValidation.errors.phone)}
+                                  placeholder="Số điện thoại (9–15 số) *"
+                                  value={contactForm.phone}
+                                  onChange={(e) => handleContactFieldChange('phone', e.target.value)}
+                                  onBlur={() => handleContactFieldBlur('phone')}
+                                  className={cn(
+                                    'w-full px-2.5 py-1.5 rounded-[10px] text-xs font-play bg-[var(--bg-card)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-blue-500/40',
+                                    (contactTouched.phone || contactAttemptedSubmit) && contactValidation.errors.phone && 'ring-1 ring-rose-500/80'
+                                  )}
+                                />
+                                {(contactTouched.phone || contactAttemptedSubmit) && contactValidation.errors.phone && (
+                                  <span role="alert" className="text-[10.5px] leading-tight text-rose-600 dark:text-rose-400">
+                                    {contactValidation.errors.phone}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex flex-col gap-0.5 min-w-0">
+                              <input
+                                type="email"
+                                name="email"
+                                aria-label="Địa chỉ email"
+                                aria-invalid={Boolean((contactTouched.email || contactAttemptedSubmit) && contactValidation.errors.email)}
+                                placeholder="Email liên hệ (ten@domain.com) *"
+                                value={contactForm.email}
+                                onChange={(e) => handleContactFieldChange('email', e.target.value)}
+                                onBlur={() => handleContactFieldBlur('email')}
+                                className={cn(
+                                  'w-full px-2.5 py-1.5 rounded-[10px] text-xs font-play bg-[var(--bg-card)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-blue-500/40',
+                                  (contactTouched.email || contactAttemptedSubmit) && contactValidation.errors.email && 'ring-1 ring-rose-500/80'
+                                )}
+                              />
+                              {(contactTouched.email || contactAttemptedSubmit) && contactValidation.errors.email && (
+                                <span role="alert" className="text-[10.5px] leading-tight text-rose-600 dark:text-rose-400">
+                                  {contactValidation.errors.email}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-2">
+                              <div className="flex-1 flex flex-col gap-0.5 min-w-0">
+                                <input
+                                  type="text"
+                                  name="message"
+                                  aria-label="Nội dung liên hệ"
+                                  aria-invalid={Boolean((contactTouched.message || contactAttemptedSubmit) && contactValidation.errors.message)}
+                                  placeholder="Nội dung trao đổi *"
+                                  value={contactForm.message}
+                                  onChange={(e) => handleContactFieldChange('message', e.target.value)}
+                                  onBlur={() => handleContactFieldBlur('message')}
+                                  className={cn(
+                                    'w-full px-2.5 py-1.5 rounded-[10px] text-xs font-play bg-[var(--bg-card)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-blue-500/40',
+                                    (contactTouched.message || contactAttemptedSubmit) && contactValidation.errors.message && 'ring-1 ring-rose-500/80'
+                                  )}
+                                />
+                                {(contactTouched.message || contactAttemptedSubmit) && contactValidation.errors.message && (
+                                  <span role="alert" className="text-[10.5px] leading-tight text-rose-600 dark:text-rose-400">
+                                    {contactValidation.errors.message}
+                                  </span>
+                                )}
+                              </div>
+
+                              <button
+                                type="submit"
+                                id="about-contact-submit-btn"
+                                aria-disabled={!contactValidation.isValid}
+                                style={{
+                                  background: 'var(--bg-button-primary)',
+                                  color: 'var(--text-button-primary, #FFFFFF)',
+                                }}
+                                className={cn(
+                                  'px-3 py-1.5 rounded-[10px] text-xs font-semibold font-play transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-sm',
+                                  !contactValidation.isValid ? 'opacity-75 hover:opacity-90' : 'hover:opacity-95'
+                                )}
+                              >
+                                Gửi liên hệ
+                              </button>
+                            </div>
+                          </form>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
 
         </div>
 
@@ -2689,23 +3140,28 @@ export function AboutView({
           id="about-intro-grid-2"
           style={{
             padding: '0px',
-            gap: '12px',
-            rowGap: '12px',
-            columnGap: '12px',
+            gap: viewportWidth < 640 ? '10px' : '12px',
+            rowGap: viewportWidth < 640 ? '10px' : '12px',
+            columnGap: viewportWidth < 640 ? '10px' : '12px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-3 items-stretch content-start box-border"
+          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-2.5 sm:gap-3 items-stretch content-start box-border"
         >
             {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (PURPLE AMETHYST) */}
-            <div
+            <motion.div
               id="about-career-goal-card"
+              data-framer-bento="true"
               data-element-name="Card Giới Thiệu Bản Thân Chuyên Gia"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: '14px',
+                padding: viewportWidth < 640 ? '10px' : '14px',
               }}
-              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
@@ -2729,19 +3185,24 @@ export function AboutView({
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* BENTO TILE 4: CARD 3 TRỤ CỘT VẬN HÀNH (AMBER GOLD) */}
-            <div
+            <motion.div
               id="about-operating-pillars-card"
+              data-framer-bento="true"
               data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: '14px',
+                padding: viewportWidth < 640 ? '10px' : '14px',
               }}
-              className="bento-card bento-color-amber glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-amber glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2827,19 +3288,24 @@ export function AboutView({
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* BENTO TILE 5: CARD GIÁ TRỊ CỐT LÕI (ROSE CORAL) */}
-            <div
+            <motion.div
               id="about-core-values-card"
+              data-framer-bento="true"
               data-element-name="Card Giá Trị Cốt Lõi Vàng"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: '14px',
+                padding: viewportWidth < 640 ? '10px' : '14px',
               }}
-              className="bento-card bento-color-rose glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[16px] p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-rose glass-card col-span-full lg:col-span-7 xl:col-span-7 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -2937,19 +3403,24 @@ export function AboutView({
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* BENTO TILE 6: CARD TRIẾT LÝ TẦM NHÌN & CÂU NÓI HAY (CYAN TEAL) */}
-            <div
+            <motion.div
               id="about-philosophy-card"
+              data-framer-bento="true"
               data-element-name="Card Triết Lý Tầm Nhìn CX 2026+"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: '14px',
+                padding: viewportWidth < 640 ? '10px' : '14px',
               }}
-              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[16px] p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
             >
               <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
@@ -2973,7 +3444,7 @@ export function AboutView({
                   </blockquote>
                 </div>
               </div>
-            </div>
+            </motion.div>
         </div>
       </div>
 

@@ -249,18 +249,21 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     padding: '15px',
     boxSizing: 'border-box',
     width: '100%',
-    maxWidth: '100%',
+    maxWidth: '1000px',
     minWidth: 0,
-    height: '100%',
-    minHeight: '100%',
+    height: 'min(600px, 100%)',
+    minHeight: 'min(600px, 100%)',
     flex: '1 1 100%',
     alignSelf: 'stretch',
   };
 
   const horoscopeStackedCardStyle: React.CSSProperties = {
     ...horoscopeMainCardStyle,
-    height: 'auto',
-    minHeight: 'unset',
+    height: 'min(600px, var(--horoscope-main-card-1-h, 600px))',
+    minHeight: 'min(600px, var(--horoscope-main-card-1-h, 600px))',
+    maxHeight: 'min(600px, var(--horoscope-main-card-1-h, 600px))',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     flex: '0 0 auto',
   };
 
@@ -313,7 +316,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       const container = horoscopeContainerRef.current;
       const targetEl = viewportEl || container;
       if (!targetEl) return;
-      const h = Math.round(targetEl.clientHeight);
+      const h = Math.min(600, Math.round(targetEl.clientHeight));
       if (h > 0) {
         setMainCard1Height(h);
       }
@@ -2437,7 +2440,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           borderRadius: '0px',
           background: 'transparent',
         }}
-        className="main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 box-border"
+        className="main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 box-border"
       >
         {/* HÀNG NGANG TRÊN CÙNG: MAIN CARD TỬ VI 1 + CARD 5 KIỂM TRA TƯƠNG HỢP (NHÔ MỘT PHẦN BÊN PHẢI) */}
         <div
@@ -2448,9 +2451,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-page="horoscope"
           data-element-parent="horoscope-page-container"
           onScroll={syncActiveHoroscopeIndex}
-          className="w-full max-w-full flex flex-row flex-nowrap items-stretch gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
+          className="w-full max-w-full flex flex-row flex-nowrap items-center gap-[10px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
         >
-          {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (CHIỀU CAO BẰNG THẺ CHÍNH DỊCH VỤ) */}
+          {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (1000x600px) */}
           <section
             id="horoscope-card-1"
             data-element-name="Thẻ main chính tử vi 1"
@@ -2469,10 +2472,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 ...horoscopeMainCardStyle,
                 padding: '15px',
                 gap: '0px',
-                height: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                minHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                maxHeight: mainCard1Height ? `${mainCard1Height}px` : undefined,
-                '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
+                height: mainCard1Height ? `${mainCard1Height}px` : 'min(600px, 100%)',
+                minHeight: mainCard1Height ? `${mainCard1Height}px` : 'min(600px, 100%)',
+                maxHeight: mainCard1Height ? `${mainCard1Height}px` : '600px',
+                '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : 'min(600px, 100%)',
               } as React.CSSProperties
             }
             className="page-main-card shrink-0 snap-start relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border"
@@ -2534,9 +2537,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            gap: '15px',
-            width: 'var(--shared-frame-w, min(calc(100vw - var(--about-peek-reserve, 112px)), 1250px))',
-            maxWidth: '1250px',
+            gap: '10px',
+            rowGap: '10px',
+            columnGap: '10px',
+            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            maxWidth: 'var(--main-card-target-w, 1000px)',
             marginLeft: 'auto',
             marginRight: 'auto',
             paddingLeft: '0px',
@@ -2544,7 +2549,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             paddingBottom: '16px',
             boxSizing: 'border-box',
           }}
-          className="page-cards-track flex flex-col items-stretch gap-[15px] mx-auto box-border"
+          className="page-cards-track flex flex-col items-stretch gap-[10px] mx-auto box-border"
         >
           {/* MAIN CARD TỬ VI 2: PHONG CÁCH QUẢN TRỊ */}
           {renderCard2PhongCachQuanTri()}

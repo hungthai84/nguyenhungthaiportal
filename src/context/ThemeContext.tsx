@@ -17,6 +17,11 @@ import {
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
+  DEFAULT_CORNER_RADIUS,
+  MIN_CORNER_RADIUS,
+  MAX_CORNER_RADIUS,
+  GLOBAL_CORNER_RADIUS_STORAGE_KEY,
+  GLOBAL_CORNER_RADIUS_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
@@ -122,7 +127,7 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
   if (isCustomOpacity) {
     const alpha = Math.max(0.15, Math.min(1, settings.cardOpacity / 100));
     const subcardAlpha = Math.max(0.15, Math.min(1, alpha * 1.02));
-    const headerAlpha = Math.max(0.2, Math.min(1, alpha + 0.04));
+    const headerAlpha = alpha;
     const popupAlpha = Math.max(0.58, Math.min(1, alpha + 0.16));
     root.setAttribute('data-custom-opacity', 'true');
     root.style.setProperty('--card-alpha', alpha.toFixed(2));
@@ -153,6 +158,48 @@ function applyWallpaperOverlayCssVariables(settings: WallpaperOverlaySettings) {
 function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   const targetId = THEME_DEFAULT_WALLPAPER_ID[mode];
   return WALLPAPER_PRESETS_LIST.find((w) => w.id === targetId) || WALLPAPER_PRESETS_LIST[0];
+}
+
+function clampCornerRadius(raw: unknown): number {
+  const num = typeof raw === 'number' ? raw : Number(raw);
+  if (!Number.isFinite(num)) return DEFAULT_CORNER_RADIUS;
+  return Math.min(MAX_CORNER_RADIUS, Math.max(MIN_CORNER_RADIUS, Math.round(num)));
+}
+
+function readInitialCornerRadius(): number {
+  if (typeof window === 'undefined') return DEFAULT_CORNER_RADIUS;
+  try {
+    const saved = localStorage.getItem(GLOBAL_CORNER_RADIUS_STORAGE_KEY);
+    if (saved === null || saved === '') return DEFAULT_CORNER_RADIUS;
+    return clampCornerRadius(saved);
+  } catch {
+    return DEFAULT_CORNER_RADIUS;
+  }
+}
+
+function applyGlobalCornerRadiusCssVariables(radius: number): void {
+  if (typeof document === 'undefined') return;
+  const r = clampCornerRadius(radius);
+  const px = `${r}px`;
+  const root = document.documentElement;
+  root.style.setProperty('--radius-global', px, 'important');
+  root.style.setProperty('--radius-main', px, 'important');
+  root.style.setProperty('--radius-card', px, 'important');
+  root.style.setProperty('--radius-subcard', px, 'important');
+  root.style.setProperty('--radius-banner', px, 'important');
+  root.style.setProperty('--radius-media', px, 'important');
+  root.style.setProperty('--radius-video', px, 'important');
+  root.style.setProperty('--radius-image', px, 'important');
+  root.style.setProperty('--radius-modal', px, 'important');
+  root.style.setProperty('--radius-popup', px, 'important');
+  root.style.setProperty('--radius-widget', px, 'important');
+  root.style.setProperty('--radius-input', px, 'important');
+  root.style.setProperty('--radius-primary-surface', px, 'important');
+  root.style.setProperty('--surface-radius-main', px, 'important');
+  root.style.setProperty('--surface-radius-header', px, 'important');
+  root.style.setProperty('--radius-header', px, 'important');
+  root.style.setProperty('--surface-radius-footer', px, 'important');
+  root.style.setProperty('--radius-footer', px, 'important');
 }
 
 export interface ThemeContextType {
@@ -186,6 +233,9 @@ export interface ThemeContextType {
   autoTimeTheme: boolean;
   setAutoTimeTheme: (enabled: boolean) => void;
   toggleAutoTimeTheme: () => void;
+  cornerRadius: number;
+  setCornerRadius: (radius: number) => void;
+  resetCornerRadius: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -339,7 +389,18 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     readStoredGlassCustomizations()
   );
 
-  const layerDepth = getLayerDepthForTheme(cardStyle);
+  const [customLayerDepth, setCustomLayerDepth] = useState<number | null>(() => {
+    try {
+      const saved = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
+      if (saved === null || saved === '') return null;
+      const num = Number(saved);
+      return Number.isFinite(num) ? Math.max(0, Math.min(200, Math.round(num))) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const layerDepth = customLayerDepth !== null ? customLayerDepth : getLayerDepthForTheme(cardStyle);
   const surfaceDepth: SurfaceDepthMode = layerDepth === 0 ? 'flat' : 'depth';
 
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
@@ -350,6 +411,24 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       return false;
     }
   });
+
+  const [cornerRadius, setCornerRadiusState] = useState<number>(() => readInitialCornerRadius());
+
+  const setCornerRadius = useCallback((rawRadius: number) => {
+    const clamped = clampCornerRadius(rawRadius);
+    setCornerRadiusState(clamped);
+    applyGlobalCornerRadiusCssVariables(clamped);
+    try {
+      localStorage.setItem(GLOBAL_CORNER_RADIUS_STORAGE_KEY, String(clamped));
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(GLOBAL_CORNER_RADIUS_SYNC_EVENT, { detail: clamped }));
+  }, []);
+
+  const resetCornerRadius = useCallback(() => {
+    setCornerRadius(DEFAULT_CORNER_RADIUS);
+  }, [setCornerRadius]);
 
   const setAutoTimeTheme = useCallback((enabled: boolean) => {
     setAutoTimeThemeState(enabled);
@@ -486,6 +565,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [layerDepth, cardStyle]);
 
   useEffect(() => {
+    applyGlobalCornerRadiusCssVariables(cornerRadius);
+  }, [cornerRadius, cardStyle]);
+
+  useEffect(() => {
     try {
       localStorage.removeItem('hungthai_font_scale_v1');
     } catch {
@@ -532,17 +615,26 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setColorSchemeModeState((prev) => (prev === detail ? prev : detail));
       }
     };
+    const handleCornerRadiusSync = (e: Event) => {
+      const detail = (e as CustomEvent<number>).detail;
+      if (typeof detail === 'number' && Number.isFinite(detail)) {
+        const clamped = clampCornerRadius(detail);
+        setCornerRadiusState((prev) => (prev === clamped ? prev : clamped));
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     window.addEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
+    window.addEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
       window.removeEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
+      window.removeEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
     };
   }, []);
 
@@ -836,10 +928,34 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [cardStyle]
   );
 
-  const setLayerDepth = useCallback((_rawDepth: number) => {}, []);
-  const resetLayerDepth = useCallback(() => {}, []);
-  const setSurfaceDepth = useCallback((_mode: SurfaceDepthMode) => {}, []);
-  const toggleSurfaceDepth = useCallback(() => {}, []);
+  const setLayerDepth = useCallback((rawDepth: number) => {
+    const clamped = Math.max(0, Math.min(200, Math.round(Number(rawDepth) || 0)));
+    setCustomLayerDepth(clamped);
+    try {
+      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(clamped));
+      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, clamped === 0 ? 'flat' : 'depth');
+    } catch {
+      // ignore
+    }
+  }, []);
+  const resetLayerDepth = useCallback(() => {
+    setCustomLayerDepth(null);
+    try {
+      localStorage.removeItem(LAYER_DEPTH_STORAGE_KEY);
+      localStorage.removeItem(SURFACE_DEPTH_STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+  }, []);
+  const setSurfaceDepth = useCallback(
+    (mode: SurfaceDepthMode) => {
+      setLayerDepth(mode === 'flat' ? 0 : getLayerDepthForTheme(cardStyle));
+    },
+    [cardStyle, setLayerDepth]
+  );
+  const toggleSurfaceDepth = useCallback(() => {
+    setLayerDepth(layerDepth === 0 ? getLayerDepthForTheme(cardStyle) : 0);
+  }, [cardStyle, layerDepth, setLayerDepth]);
   const updateWallpaperOverlay = useCallback((_patch: Partial<WallpaperOverlaySettings>) => {}, []);
   const resetWallpaperOverlay = useCallback(() => {}, []);
   const setAdaptiveAccentEnabled = useCallback((_enabled: boolean) => {}, []);
@@ -877,6 +993,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         autoTimeTheme,
         setAutoTimeTheme,
         toggleAutoTimeTheme,
+        cornerRadius,
+        setCornerRadius,
+        resetCornerRadius,
       }}
     >
       {children}

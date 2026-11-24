@@ -603,7 +603,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-[50px] px-2.5 lg:px-3.5 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-3 cursor-pointer overflow-hidden text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+          className="relative h-[50px] px-2.5 lg:px-3.5 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
           style={{
             borderRadius: '10px',
           }}

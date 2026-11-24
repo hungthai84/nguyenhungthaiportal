@@ -15,6 +15,9 @@ import { THEME_FOUR_WORD_NAMES, normalizeCardStyle } from '@/config/ui/cardStyle
 import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
 import {
   DEFAULT_CARD_STYLE,
+  DEFAULT_CORNER_RADIUS,
+  MIN_CORNER_RADIUS,
+  MAX_CORNER_RADIUS,
   THEME_BACKGROUNDS,
   VISUAL_THEME_MODE_STORAGE_KEY,
   LAST_STANDARD_CARD_STYLE_STORAGE_KEY,
@@ -81,7 +84,7 @@ export interface InterfaceViewProps {
 
 const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
   'liquid-glass': {
-    radius: '20px',
+    radius: '14px',
     activeRingColor: '#6D28D9',
     activeBorderClass: 'border-[#6D28D9]',
     idleBorderClass: 'border-white/85 hover:border-violet-400/60',
@@ -131,7 +134,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'dark-neon-glass': {
-    radius: '24px',
+    radius: '14px',
     activeRingColor: '#22D3EE',
     activeBorderClass: 'border-[#22D3EE]',
     idleBorderClass: 'border-cyan-400/25 hover:border-fuchsia-400/60',
@@ -242,7 +245,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'light-deep-ocean': {
-    radius: '18px',
+    radius: '14px',
     activeRingColor: '#1951FC',
     activeBorderClass: 'border-[#1951FC]',
     idleBorderClass: 'border-white/65 hover:border-[#73BFFF]',
@@ -270,7 +273,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'multicolor-glass': {
-    radius: '24px',
+    radius: '14px',
     activeRingColor: '#4F46E5',
     activeBorderClass: 'border-[#4F46E5]',
     idleBorderClass: 'border-white/80 hover:border-indigo-400/70',
@@ -351,7 +354,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'frost-ice-neu': {
-    radius: '22px',
+    radius: '14px',
     activeRingColor: '#5B57E8',
     activeBorderClass: 'border-0',
     idleBorderClass: 'border-0',
@@ -377,7 +380,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'dark-frost-ice-neu': {
-    radius: '22px',
+    radius: '14px',
     activeRingColor: '#6E6AF6',
     activeBorderClass: 'border-0',
     idleBorderClass: 'border-0',
@@ -403,7 +406,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'flat-soft-ui': {
-    radius: '16px',
+    radius: '14px',
     activeRingColor: '#4F46E5',
     activeBorderClass: 'border-[#4F46E5]',
     idleBorderClass: 'border-slate-200 hover:border-indigo-400',
@@ -428,7 +431,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'dark-flat-soft-ui': {
-    radius: '16px',
+    radius: '14px',
     activeRingColor: '#6366F1',
     activeBorderClass: 'border-[#6366F1]',
     idleBorderClass: 'border-slate-700/60 hover:border-indigo-400/60',
@@ -461,6 +464,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     resetGlassSettings,
     setAutoTimeTheme,
     isDark,
+    cornerRadius,
+    setCornerRadius,
+    resetCornerRadius,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
@@ -657,6 +663,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     SoundEngine.playGlassChime();
     setAutoTimeTheme(false);
     resetGlassSettings(DEFAULT_CARD_STYLE);
+    resetCornerRadius();
     setCardStyle(DEFAULT_CARD_STYLE);
     try {
       localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, 'standard');
@@ -729,7 +736,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   }, [activeVideoPreviewId, visibleThemeEntries]);
 
-  const isDefaultConfig = cardStyle === DEFAULT_CARD_STYLE;
+  const isDefaultConfig =
+    cardStyle === DEFAULT_CARD_STYLE && cornerRadius === DEFAULT_CORNER_RADIUS;
 
   return (
     <div
@@ -738,7 +746,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       data-element-type="container"
       data-element-page="interface"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none box-border"
     >
       <div
         id="interface-cards-track"
@@ -764,7 +772,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="banner-card"
             data-element-page="interface"
             data-section-card="true"
-            className={`banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative ${
+            className={`banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative ${
               isNeumorphismActive ? 'border-0' : 'border'
             } text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300`}
           >
@@ -1040,6 +1048,174 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </section>
 
+          {/* TÙY CHỈNH CHUNG: BO CONG 4 GÓC ÁP DỤNG CHO TẤT CẢ GIAO DIỆN */}
+          <section
+            id="interface-global-customization-card"
+            data-element-name="Tùy chỉnh chung Bo cong 4 góc"
+            data-element-type="subcard"
+            data-element-page="interface"
+            data-subcard="true"
+            className={`sub-card flex flex-col gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] transition-all duration-200 ${
+              isNeumorphismActive ? 'border-0' : 'border'
+            }`}
+            style={{
+              background: 'var(--bg-subcard)',
+              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+            }}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
+                  style={{
+                    background: 'var(--bg-button-secondary, var(--bg-card))',
+                    color: 'var(--text-link, var(--color-primary))',
+                  }}
+                >
+                  <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
+                </span>
+                <div className="min-w-0">
+                  <h2
+                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: 'var(--text-link, var(--color-primary))' }}
+                  >
+                    {isEn
+                      ? 'Global Customization · 4-Corner Radius'
+                      : 'Tùy chỉnh chung · Bo cong 4 góc'}
+                  </h2>
+                  <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
+                    {isEn
+                      ? 'Syncs all 4 corners for Card, Sub card, Image, Video & Banner across every theme (Default: 14px)'
+                      : 'Áp dụng 4 góc cho Card, Sub card, Hình ảnh, Video & Banner trên tất cả giao diện (Chuẩn: 14px)'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <span
+                  id="global-corner-radius-value"
+                  className={`px-3 py-1 rounded-full typo-badge font-mono font-bold tabular-nums whitespace-nowrap ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  }`}
+                  style={{
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-link, var(--color-primary))',
+                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                  }}
+                >
+                  {cornerRadius}px
+                </span>
+
+                <button
+                  id="global-corner-radius-reset-btn"
+                  type="button"
+                  disabled={cornerRadius === DEFAULT_CORNER_RADIUS}
+                  onClick={() => {
+                    SoundEngine.playGlassChime();
+                    resetCornerRadius();
+                    onShowNotification?.(
+                      isEn
+                        ? `✓ Restored 4-corner radius to default (${DEFAULT_CORNER_RADIUS}px)`
+                        : `✓ Đã khôi phục bo cong 4 góc mặc định (${DEFAULT_CORNER_RADIUS}px)`
+                    );
+                  }}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  } ${
+                    cornerRadius === DEFAULT_CORNER_RADIUS
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'cursor-pointer hover:opacity-90'
+                  }`}
+                  style={{
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                  }}
+                  title={
+                    isEn
+                      ? `Reset corner radius to ${DEFAULT_CORNER_RADIUS}px`
+                      : `Đặt lại bo cong 4 góc về ${DEFAULT_CORNER_RADIUS}px`
+                  }
+                >
+                  <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? `Default ${DEFAULT_CORNER_RADIUS}px` : `Mặc định ${DEFAULT_CORNER_RADIUS}px`}</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <span
+                  className="typo-badge font-mono tabular-nums shrink-0"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  {MIN_CORNER_RADIUS}px
+                </span>
+                <input
+                  id="global-corner-radius-slider"
+                  type="range"
+                  min={MIN_CORNER_RADIUS}
+                  max={MAX_CORNER_RADIUS}
+                  step={1}
+                  value={cornerRadius}
+                  onChange={(e) => setCornerRadius(Number(e.target.value))}
+                  aria-label={
+                    isEn
+                      ? 'Global 4-corner border radius in pixels'
+                      : 'Tùy chỉnh chung độ bo cong 4 góc (px)'
+                  }
+                  className="w-full h-2 rounded-full cursor-pointer accent-[var(--color-primary)]"
+                />
+                <span
+                  className="typo-badge font-mono tabular-nums shrink-0"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  {MAX_CORNER_RADIUS}px
+                </span>
+              </div>
+
+              <div
+                role="group"
+                aria-label={isEn ? 'Corner radius presets' : 'Mức bo cong nhanh'}
+                className="flex flex-wrap items-center gap-1.5 shrink-0"
+              >
+                {[0, 8, 14, 20, 24].map((presetRadius) => {
+                  const isSelected = cornerRadius === presetRadius;
+                  return (
+                    <button
+                      key={presetRadius}
+                      type="button"
+                      aria-pressed={isSelected}
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setCornerRadius(presetRadius);
+                      }}
+                      className={`px-2.5 py-1 rounded-full typo-badge font-mono font-bold tabular-nums transition-all cursor-pointer whitespace-nowrap ${
+                        isNeumorphismActive ? 'border-0' : 'border'
+                      } ${isSelected ? 'shadow-xs' : 'opacity-85 hover:opacity-100'}`}
+                      style={
+                        isSelected
+                          ? {
+                              background: 'var(--bg-button-primary)',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                              ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
+                            }
+                          : {
+                              background: 'var(--bg-card)',
+                              color: 'var(--text-primary)',
+                              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                            }
+                      }
+                    >
+                      {presetRadius}px
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
           {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện (ẩn mặc định, fade-in mượt mà khi hiển thị lại) */}
           <AnimatePresence initial={false}>
             {isQuickThemeSectionOpen && (
@@ -1091,7 +1267,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     <div
                       key={group.id}
                       id={`quick-theme-group-${group.id}`}
-                      className={`w-full flex flex-wrap items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border transition-colors min-w-0 ${
+                      className={`w-full flex flex-wrap items-center justify-between gap-2 px-2.5 py-1.5 rounded-[var(--radius-subcard,14px)] ${
+                        isNeumorphismActive ? 'border-0' : 'border'
+                      } transition-colors min-w-0 ${
                         isGroupActive ? 'shadow-xs' : 'hover:opacity-95'
                       }`}
                       style={{
@@ -1309,7 +1487,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             <div
               id="interface-soft-ui-reference-widget"
               data-subcard="true"
-              className="sub-card neu-kit-surface flex flex-col gap-[15px] p-[18px] rounded-[22px] border-0"
+              className="sub-card neu-kit-surface flex flex-col gap-[15px] p-[18px] rounded-[var(--radius-subcard,14px)] border-0"
               style={{
                 background: 'var(--bg-subcard)',
               }}
@@ -1404,7 +1582,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         setNeuKitPressed((prev) => ({ ...prev, heart: !prev.heart }));
                         onShowNotification?.('♥ Liked');
                       }}
-                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
                       }}
@@ -1420,7 +1598,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         setNeuKitPressed((prev) => ({ ...prev, comment: !prev.comment }));
                         onShowNotification?.('💬 Chat toggled');
                       }}
-                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
                       }}
@@ -1436,7 +1614,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         setNeuKitPressed((prev) => ({ ...prev, bookmark: !prev.bookmark }));
                         onShowNotification?.('📌 Saved');
                       }}
-                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[var(--radius-subcard,14px)] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
                       }}
@@ -1483,7 +1661,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </div>
 
                 <div
-                  className="neu-kit-well lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[var(--radius-subcard,18px)] border-0"
+                  className="neu-kit-well lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] border-0"
                   style={{
                     background: 'var(--bg-card)',
                   }}

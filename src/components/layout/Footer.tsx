@@ -4,6 +4,7 @@ import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
+import { isNeumorphismCardStyle } from '@/config/ui/themeDefaults';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
@@ -135,6 +136,7 @@ export const Footer: React.FC<FooterProps> = ({
     cardStyle,
     setCardStyle,
     isDark,
+    cornerRadius = 14,
   } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
@@ -274,7 +276,7 @@ export const Footer: React.FC<FooterProps> = ({
         mobilePlacement
           ? 'inset-x-3 mx-auto w-[min(288px,calc(100vw-24px))] sm:inset-x-auto sm:right-3'
           : 'left-auto right-0 w-72'
-      } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left animate-slide-up pointer-events-auto`}
+      } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left pointer-events-auto`}
     >
       <div
         className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -291,9 +293,7 @@ export const Footer: React.FC<FooterProps> = ({
         data-selected={language === 'vi' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('vi')}
         data-no-translate="true"
-        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
-          language === 'vi' ? 'shadow-xs' : ''
-        }`}
+        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold cursor-pointer text-left"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
@@ -309,9 +309,7 @@ export const Footer: React.FC<FooterProps> = ({
         data-selected={language === 'en' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('en')}
         data-no-translate="true"
-        className={`theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold transition cursor-pointer text-left ${
-          language === 'en' ? 'shadow-xs' : ''
-        }`}
+        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-2 rounded-[var(--radius-subcard,16px)] typo-body-sm font-bold cursor-pointer text-left"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
@@ -351,7 +349,7 @@ export const Footer: React.FC<FooterProps> = ({
           mobilePlacement
             ? 'inset-x-3 mx-auto w-[min(348px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
-        } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto`}
+        } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
       >
         <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
           {CARD_STYLE_GROUPS.map((group) => {
@@ -369,8 +367,8 @@ export const Footer: React.FC<FooterProps> = ({
               <div
                 key={group.id}
                 data-selected={isGroupActive ? 'true' : undefined}
-                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border transition-colors min-w-0 ${
-                  isGroupActive ? 'shadow-xs' : 'theme-dropdown-option border-transparent'
+                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border min-w-0 ${
+                  isGroupActive ? '' : 'theme-dropdown-option border-transparent'
                 }`}
                 style={{
                   background: isGroupActive ? 'var(--bg-subcard)' : undefined,
@@ -421,8 +419,8 @@ export const Footer: React.FC<FooterProps> = ({
                           ? THEME_FOUR_WORD_NAMES[lightMode]?.en
                           : THEME_FOUR_WORD_NAMES[lightMode]?.vi
                       }
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                        isLightActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap ${
+                        isLightActive ? '' : 'opacity-75'
                       }`}
                       style={
                         isLightActive
@@ -451,8 +449,8 @@ export const Footer: React.FC<FooterProps> = ({
                           ? THEME_FOUR_WORD_NAMES[darkMode]?.en
                           : THEME_FOUR_WORD_NAMES[darkMode]?.vi
                       }
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap ${
-                        isDarkActive ? 'shadow-xs' : 'opacity-75 hover:opacity-100'
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap ${
+                        isDarkActive ? '' : 'opacity-75'
                       }`}
                       style={
                         isDarkActive
@@ -486,22 +484,25 @@ export const Footer: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: '1250px',
-        width: 'var(--shared-frame-w, 100%)',
+        maxWidth: 'var(--main-card-target-w, 1000px)',
+        width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
         marginLeft: 'auto',
         marginRight: 'auto',
-        borderBottom: 'none',
-        borderTop: glassBorderVal,
-        borderLeft: glassBorderVal,
-        borderRight: glassBorderVal,
-        borderRadius: '14px 14px 0px 0px',
-        borderTopLeftRadius: '14px',
-        borderTopRightRadius: '14px',
-        borderBottomRightRadius: '0px',
+        borderTopLeftRadius: `${cornerRadius}px`,
+        borderTopRightRadius: `${cornerRadius}px`,
         borderBottomLeftRadius: '0px',
-        animation: 'none',
+        borderBottomRightRadius: '0px',
+        borderRadius: `${cornerRadius}px ${cornerRadius}px 0 0`,
+        border: '1px dashed #000000',
+        borderStyle: 'dashed',
+        borderColor: '#000000',
+        borderWidth: '1px',
+        background: 'transparent',
+        boxShadow: 'none',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
       }}
-      className="floating-glass-surface floating-surface--footer mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${

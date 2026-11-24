@@ -395,25 +395,11 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
         setPinnedTargets([pinned]);
         setHoveredInfo(null);
         SoundEngine.playTap();
-        onShowNotification?.(
-          `Đã ghim "${pinned.info.elementName || pinned.info.tag}" · Bấm phím Shift để chọn thêm · Double-click để sao chép tên`
-        );
         return;
       }
 
       // Đã có đối tượng ghim nhưng KHÔNG giữ/bật Shift -> khóa chặt, không chọn được đối tượng khác
       if (!allowAddMore) {
-        // Chỉ thông báo ở lần click đơn (không ghi đè toast khi vừa double-click)
-        if (e.detail === 1) {
-          const isPinnedOrChild = currentPinned.some(
-            (p) => p.target === target || p.target.contains(target)
-          );
-          if (!isPinnedOrChild) {
-            onShowNotification?.(
-              'Đối tượng đang được ghim · Bấm phím tắt Shift để chọn thêm đối tượng khác'
-            );
-          }
-        }
         return;
       }
 
@@ -646,32 +632,6 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
           cursor: ${pinnedTargets.length > 0 && !isShiftHeld && !isShiftAddMode ? 'not-allowed' : 'crosshair'} !important;
         }
       `}</style>
-      {/* Trạng thái thanh chỉ dẫn nhanh trên cùng khi đang bật X-Ray & có đối tượng ghim */}
-      {pinnedTargets.length > 0 && (
-        <div className="fixed top-3 left-1/2 -translate-x-1/2 pointer-events-auto z-[100001] inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/90 text-white border border-white/20 shadow-lg backdrop-blur-md text-[11px] font-play whitespace-nowrap max-w-[calc(100vw-24px)] overflow-x-auto no-scrollbar">
-          <span
-            className={`w-2 h-2 rounded-full shrink-0 ${
-              isShiftHeld || isShiftAddMode ? 'bg-emerald-400' : 'bg-rose-500'
-            }`}
-          />
-          <span className="font-bold">
-            {isShiftHeld || isShiftAddMode
-              ? `Đang bật chọn thêm (Shift) · Đã ghim ${pinnedTargets.length}`
-              : `Đã ghim ${pinnedTargets.length} đối tượng · Bấm Shift để chọn thêm · Double-click để chép tên`}
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              setPinnedTargets([]);
-              setIsShiftAddMode(false);
-            }}
-            className="px-2 py-0.5 rounded-full bg-white/15 hover:bg-white/25 text-white font-semibold cursor-pointer transition-colors"
-            title="Bỏ ghim tất cả (Esc)"
-          >
-            Bỏ ghim
-          </button>
-        </div>
-      )}
 
       {/* Khung viền khi rê chuột (chỉ hiển thị khi chưa ghim hoặc đang giữ/bật Shift để chọn thêm) */}
       {canHoverPreview && hoveredInfo && !isHoveredPinned && (

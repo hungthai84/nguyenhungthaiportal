@@ -343,6 +343,31 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     });
   }, [activeCategory, maxYearFilter, exactYearFilter]);
 
+  const [hoveredCarouselIdx, setHoveredCarouselIdx] = useState<number | null>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const effectiveIndex = hoveredCarouselIdx !== null ? hoveredCarouselIdx : Math.min(activeCarouselIdx, filteredCourses.length - 1);
+
+  useEffect(() => {
+    if (viewMode !== 'css-tricks') return;
+    const itemEl = itemRefs.current[effectiveIndex];
+    const trackEl = trackRef.current;
+    const bgEl = bgRef.current;
+    if (!itemEl || !trackEl || !bgEl) return;
+
+    const itemRect = itemEl.getBoundingClientRect();
+    const trackRect = trackEl.getBoundingClientRect();
+    const x = itemRect.left - trackRect.left + trackEl.scrollLeft;
+    const y = itemRect.top - trackRect.top + trackEl.scrollTop;
+
+    bgEl.style.width = `${itemRect.width}px`;
+    bgEl.style.height = `${itemRect.height}px`;
+    bgEl.style.transform = `translateX(${x}px) translateY(${y}px)`;
+    bgEl.classList.add('active');
+  }, [effectiveIndex, filteredCourses, viewMode]);
+
   const handleOpenDetail = (course: EducationCourse) => {
     SoundEngine.playBookOpen();
     setSelectedCourse(course);
@@ -476,7 +501,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       data-element-type="container"
       data-element-page="education"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left animate-fadeIn rounded-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none box-border"
     >
       {/* ========================================================================= */}
       {/* CARD HỌC VẤN: CHỨA TOÀN BỘ NỘI DUNG TRANG, FORMAT NHƯ CARD GIỚI THIỆU 1   */}
@@ -521,8 +546,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           data-element-type="banner-card"
           data-element-page="education"
           data-section-card="true"
-          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
+          className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
         >
         <div
           id="education-hero-banner-bg"
@@ -743,7 +768,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         <>
 
 
-      {/* 4. NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC CHI TIẾT (NỀN TRONG SUỐT 50%) */}
+      {/* 4. NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC SLIDER NEWS CARD (KHÔNG ĐỔI DATA) */}
       {filteredCourses.length === 0 ? (
         <div
           className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
@@ -758,23 +783,107 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             Hiển thị tất cả 14 chứng chỉ
           </button>
         </div>
+      ) : viewMode === 'css-tricks' ? (
+        <div className="news-slider-wrapper-container relative w-full h-full flex flex-col justify-center overflow-hidden">
+          <div className="news-slider-bg">
+            <img src="https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1537132206/news-slider/background.webp" alt="Background" />
+          </div>
+          <div ref={bgRef} className="news-item-bg" />
+
+          <div className="news-slider-container" ref={trackRef}>
+            <div className="news-slider-wrp" onWheel={handleDeckWheel}>
+              {filteredCourses.map((course, idx) => {
+                const localizedCourseTitle = t(course.title);
+                const isActive = idx === safeCarouselIndex;
+
+                return (
+                  <div
+                    key={course.id}
+                    ref={(el) => { itemRefs.current[idx] = el; }}
+                    onMouseEnter={() => setHoveredCarouselIdx(idx)}
+                    onMouseLeave={() => setHoveredCarouselIdx(null)}
+                    onClick={() => {
+                      setActiveCarouselIdx(idx);
+                      handleOpenDetail(course);
+                    }}
+                    className={cn("news-slider-slide", isActive && "active-slide")}
+                  >
+                    <div className={cn("news-card-item", isActive && "active")}>
+                      <div className="news-card-date">
+                        <span className="news-card-date-title">{course.year}</span>
+                        <span className="news-card-date-txt">{getShortCategoryLabel(course.category)}</span>
+                      </div>
+                      <div className="news-card-title">
+                        {localizedCourseTitle}
+                      </div>
+                      <p className="news-card-txt">
+                        {course.desc}
+                      </p>
+                      <div className="news-card-img">
+                        <img src={course.image} alt={localizedCourseTitle} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="news-slider-ctr">
+              <button
+                type="button"
+                onClick={handlePrevCarousel}
+                className="news-slider-arrow"
+                aria-label="Previous"
+              >
+                <span className="inline-flex">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </span>
+              </button>
+
+              <div className="news-slider-pagination">
+                {filteredCourses.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setActiveCarouselIdx(idx);
+                    }}
+                    className={cn("news-slider-bullet", idx === safeCarouselIndex && "active-bullet")}
+                    aria-label={`Slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleNextCarousel}
+                className="news-slider-arrow"
+                aria-label="Next"
+              >
+                <span className="inline-flex">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
-        /* CHẾ ĐỘ HIỂN THỊ: CSS-TRICKS (HOVER/FOCUS TRANSLATE DECK) HOẶC LƯỚI CHUẨN (GRID VIEW) */
+        /* Grid View */
         <div
           id="education-courses-grid"
           onWheel={handleDeckWheel}
-          className={cn(
-            viewMode === 'css-tricks'
-              ? "education-css-tricks-deck cards w-full select-none"
-              : "education-responsive-grid card-grid w-full min-w-0 items-stretch"
-          )}
-          style={viewMode === 'grid' ? { gap: '15px', rowGap: '15px', columnGap: '15px' } : undefined}
+          className="education-responsive-grid card-grid w-full min-w-0 items-stretch"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
         >
           {filteredCourses.map((course, idx) => {
             const localizedCourseTitle = t(course.title);
             const displayTitle = localizedCourseTitle;
             const cardColor = getCourseColor(course, idx);
-            const isCssTricks = viewMode === 'css-tricks';
 
             return (
               <motion.article
@@ -792,20 +901,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     handleOpenDetail(course);
                   }
                 }}
-                className={cn(
-                  "education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px] flex flex-col gap-[10px]",
-                  isCssTricks
-                    ? "rounded-[24px] justify-start h-auto self-start"
-                    : "rounded-[14px] justify-between border border-l-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
-                )}
+                className="education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px] flex flex-col justify-between rounded-[var(--radius-card,14px)] border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
                 style={
                   {
-                    '--education-card-bg': isDark
-                      ? `linear-gradient(155deg, ${cardColor}38 0%, ${cardColor}18 42%, rgba(15, 23, 42, 0.95) 100%)`
-                      : `linear-gradient(155deg, ${cardColor}28 0%, ${cardColor}10 40%, rgba(255, 255, 255, 0.96) 100%)`,
-                    padding: isCssTricks ? '12px' : '10px',
-                    borderLeft: 'none',
-                    borderLeftWidth: 0,
                     borderColor: isDark
                       ? 'rgba(56, 189, 248, 0.32)'
                       : 'rgba(255, 255, 255, 0.85)',
@@ -818,20 +916,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   } as React.CSSProperties
                 }
               >
-
-                {/* 1. Ảnh bìa banner tỷ lệ với bo góc mềm mại & overlay format giống Bìa dạng view lưới */}
                 <div
                   data-media-card="image"
-                  style={{ borderRadius: isCssTricks ? '14px' : '12px', padding: '0px' }}
-                  className={cn(
-                    "education-card-banner themed-image-frame relative w-full overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img border border-[var(--border-subcard)] m-0 p-0 shadow-xs",
-                    isCssTricks ? "aspect-[16/10] rounded-[14px]" : "aspect-[16/10] rounded-[12px]"
-                  )}
+                  style={{ borderRadius: 'var(--radius-image, 14px)', padding: '0px' }}
+                  className="education-card-banner themed-image-frame relative w-full overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img border border-[var(--border-subcard)] m-0 p-0 shadow-xs aspect-[16/10] rounded-[var(--radius-image,14px)]"
                 >
                   <img
                     src={course.image}
                     alt={localizedCourseTitle}
-                    style={{ borderRadius: isCssTricks ? '14px' : '12px' }}
+                    style={{ borderRadius: 'var(--radius-image, 14px)' }}
                     className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0"
                     loading="lazy"
                     decoding="async"
@@ -848,11 +941,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   </div>
                 </div>
 
-                {/* 3. card-heading (Bố cục CodePen): Tiêu đề in đậm kèm icon đại diện (Căn trái) */}
-                <div className={cn(
-                  "card-heading flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full",
-                  isCssTricks ? "flex-none" : "flex-1"
-                )}>
+                <div className="card-heading flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full flex-1">
                   <h3
                     className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex items-start justify-start text-left gap-1.5 w-full"
                     data-card-title="true"
@@ -875,7 +964,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
                   {course.result && (
                     <div
-                      id={Number(course.id) === 1 ? 'el-p3-div-97' : `el-p3-div-result-${course.id}`}
                       className="mt-1 px-2.5 py-1 rounded-[10px] border flex items-start gap-1.5 min-w-0 shadow-xs self-start text-left"
                       style={{
                         backgroundColor: `${cardColor}12`,
@@ -889,9 +977,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   )}
                 </div>
 
-                {/* 4. card-tags: Ẩn tag bên dưới thẻ học vấn theo yêu cầu */}
-
-                {/* Hiệu ứng nếp gấp góc giấy mời mở sách khi rê chuột */}
                 <span
                   aria-hidden="true"
                   className="pointer-events-none absolute bottom-0 right-0 w-0 h-0 group-hover:w-7 group-hover:h-7 transition-all duration-300 ease-out rounded-tl-[8px] z-20"

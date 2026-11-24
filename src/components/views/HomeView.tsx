@@ -44,25 +44,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const [showCircleVideo, setShowCircleVideo] = useState<boolean>(false);
   const [avatarLoadError, setAvatarLoadError] = useState<boolean>(false);
 
-  // Width calculations for perfect centering matching header
+  // Width calculations for centered 1000x600px main card
   const [viewportWidth, setViewportWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
   const [homeContainerWidth, setHomeContainerWidth] = useState<number>(() =>
     typeof window !== 'undefined' ? window.innerWidth : 1440
   );
-  const [exactHeaderWidth, setExactHeaderWidth] = useState<number>(0);
 
   useEffect(() => {
     const container = homeContainerRef.current;
     const updateWidths = () => {
-      const headerEl = document.getElementById('app-header');
-      if (headerEl) {
-        const w = headerEl.getBoundingClientRect().width;
-        if (w > 0) {
-          setExactHeaderWidth(w);
-        }
-      }
       if (typeof window !== 'undefined') {
         setViewportWidth(window.innerWidth);
       }
@@ -72,12 +64,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
       evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
     };
     updateWidths();
-    const headerEl = document.getElementById('app-header');
     const ro =
       typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateWidths) : null;
-    if (ro) {
-      if (container) ro.observe(container);
-      if (headerEl) ro.observe(headerEl);
+    if (ro && container) {
+      ro.observe(container);
     }
     window.addEventListener('resize', updateWidths);
     return () => {
@@ -86,10 +76,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     };
   }, []);
 
-  const peekReserve = viewportWidth <= 1023 ? 32 : 112;
-  const fallbackWidth = Math.min(1250, Math.max(260, viewportWidth - peekReserve));
-  const homeCardWidth = exactHeaderWidth > 0 ? exactHeaderWidth : fallbackWidth;
-  const homeSideInset = Math.max(0, (homeContainerWidth - homeCardWidth) / 2);
+  const peekReserve = viewportWidth < 640 ? 20 : 32;
+  const homeCardWidth = Math.min(1000, Math.max(260, viewportWidth - peekReserve));
+  const homeSideInset = Math.max(10, (homeContainerWidth - homeCardWidth) / 2);
 
   const handleQuickNavigateAbout = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -213,9 +202,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
           style={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'stretch',
+            alignItems: 'center',
             justifyContent: 'flex-start',
-            gap: '15px',
+            gap: '10px',
             height: '100%',
             minHeight: '100%',
             width: 'max-content',
@@ -223,7 +212,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             paddingRight: `${homeSideInset}px`,
             boxSizing: 'border-box',
           }}
-          className="page-cards-track flex flex-row items-stretch justify-start gap-[15px] h-full min-h-full box-border"
+          className="page-cards-track flex flex-row items-center justify-start gap-[10px] h-full min-h-full box-border"
         >
           <div
             id="home-main-card-1"
@@ -234,16 +223,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-parent="home-cards-track"
             style={{
               width: `${homeCardWidth}px`,
-              maxWidth: '1250px',
+              maxWidth: '1000px',
               minWidth: `${homeCardWidth}px`,
               flex: `0 0 ${homeCardWidth}px`,
-              height: '100%',
-              minHeight: '100%',
+              height: 'min(600px, 100%)',
+              minHeight: 'min(600px, 100%)',
+              maxHeight: 'min(600px, 100%)',
               padding: 'var(--main-card-padding, 15px)',
               gap: '15px',
-              borderRadius: 'var(--radius-main, 30px)',
+              borderRadius: 'var(--radius-main, 14px)',
             }}
-            className="page-main-card home-screen-main-card relative shrink-0 h-full min-h-full flex flex-col justify-between overflow-hidden select-none font-play box-border opacity-100"
+            className="page-main-card home-screen-main-card relative shrink-0 flex flex-col justify-between overflow-hidden select-none font-play box-border opacity-100"
           >
             <div
               id="home-hero-stage-1"
@@ -252,12 +242,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
               data-element-type="card"
               data-element-page="home"
               data-element-parent="home-main-card-1"
-              className="bento-card glass-card home-split-hero-card relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-center overflow-y-auto md:overflow-hidden rounded-[var(--radius-card,24px)] box-border text-left !p-0"
-              style={{ borderRadius: 'var(--radius-card, 24px)' }}
+              className="bento-card glass-card home-split-hero-card relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-center overflow-y-auto md:overflow-hidden rounded-[var(--radius-card,14px)] box-border text-left !p-0"
+              style={{ borderRadius: 'var(--radius-card, 14px)' }}
             >
               {renderAuroraLayer()}
 
-              <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-6 sm:gap-8 lg:gap-10 px-6 py-6 sm:px-9 sm:py-8 lg:px-14 lg:py-10">
+              <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-4 sm:gap-6 lg:gap-8 px-4 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
                 {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, x: -16 }}
@@ -414,7 +404,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
                   className="md:col-span-5 flex items-center justify-center order-1 md:order-2 py-2"
                 >
-                  <div className="relative flex items-center justify-center w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] md:w-[295px] md:h-[295px] lg:w-[350px] lg:h-[350px] xl:w-[380px] xl:h-[380px] shrink-0">
+                  <div className="relative flex items-center justify-center w-[196px] h-[196px] sm:w-[250px] sm:h-[250px] md:w-[270px] md:h-[270px] lg:w-[310px] lg:h-[310px] shrink-0">
                     <div
                       aria-hidden="true"
                       className="absolute inset-0 rounded-full border-[1.5px] pointer-events-none"

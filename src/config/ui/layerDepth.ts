@@ -56,6 +56,8 @@ export function applyLayerDepthCssVariables(depthRaw: number, _cardStyle: CardSt
 
   if (depth === 0) {
     root.style.setProperty('--layer-depth-scale', '0.00');
+    root.style.setProperty('--elevation-primary-surface', 'none');
+    root.style.setProperty('--elevation-primary-surface-hover', 'none');
     root.style.setProperty('--layer-l1-shadow', 'none');
     root.style.setProperty('--layer-l1-header-shadow', 'none');
     root.style.setProperty('--layer-l1-footer-shadow', 'none');
@@ -72,10 +74,12 @@ export function applyLayerDepthCssVariables(depthRaw: number, _cardStyle: CardSt
   const l2Lift = (-3 * Math.min(scale, 1.5)).toFixed(2);
   const l3Lift = (-1.5 * Math.min(scale, 1.5)).toFixed(2);
 
+  root.style.removeProperty('--elevation-primary-surface');
+  root.style.removeProperty('--elevation-primary-surface-hover');
   root.style.setProperty('--layer-depth-scale', scale.toFixed(2));
-  root.style.setProperty('--layer-l1-shadow', 'var(--surface-primary-shadow, var(--shadow-card))');
-  root.style.setProperty('--layer-l1-header-shadow', 'var(--surface-header-shadow, var(--shadow-card))');
-  root.style.setProperty('--layer-l1-footer-shadow', 'var(--surface-footer-shadow, var(--shadow-card))');
+  root.style.setProperty('--layer-l1-shadow', 'var(--elevation-primary-surface, var(--surface-primary-shadow, var(--shadow-card)))');
+  root.style.setProperty('--layer-l1-header-shadow', 'var(--elevation-primary-surface, var(--surface-primary-shadow, var(--shadow-card)))');
+  root.style.setProperty('--layer-l1-footer-shadow', 'var(--elevation-primary-surface, var(--surface-primary-shadow, var(--shadow-card)))');
   root.style.setProperty('--layer-l2-shadow', 'var(--surface-secondary-shadow, var(--shadow-card))');
   root.style.setProperty('--layer-l2-shadow-hover', 'var(--shadow-card-hover, var(--surface-secondary-shadow, var(--shadow-card)))');
   root.style.setProperty('--layer-l2-lift', `${l2Lift}px`);

@@ -12,7 +12,7 @@
   -webkit-backdrop-filter: none !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-card, 22px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   box-shadow:
     -7px -7px 16px rgba(38, 52, 74, 0.70),
     7px 7px 16px rgba(10, 15, 24, 0.78) !important;
@@ -49,12 +49,20 @@ html[data-card-style="dark-frost-ice-neu"] body {
   --color-surface-pink: #1A2433;
   --color-surface-purple: #1A2433;
 
-  /* Generous Rounded Corners */
-  --radius-card: 22px;
-  --radius-subcard: 18px;
-  --radius-banner: 22px;
-  --radius-modal: 26px;
-  --radius-popup: 22px;
+  /* Unified 14px Rounded Corners */
+  --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-input: 14px;
   --radius-badge: 9999px;
 
   /* High-Contrast WCAG AA Glacier White Typography on #1A2433 */
@@ -190,17 +198,16 @@ html[data-card-style="dark-frost-ice-neu"] body {
   --shadow-popup:
     -10px -10px 22px rgba(38, 52, 74, 0.72),
     12px 12px 26px rgba(6, 10, 18, 0.86);
-  --surface-header-shadow:
-    0 8px 18px rgba(8, 12, 20, 0.72);
-  --surface-footer-shadow:
-    0 -8px 18px rgba(8, 12, 20, 0.72);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
 
   /* Layered Surface Tokens */
   --surface-primary-bg: #1A2433;
   --surface-primary-border: transparent;
-  --surface-primary-shadow:
-    -10px -10px 22px rgba(38, 52, 74, 0.72),
-    10px 10px 22px rgba(10, 15, 24, 0.82);
+  --surface-primary-shadow: var(--elevation-primary-surface);
   --surface-primary-blur: 0px;
   --surface-primary-saturate: 100%;
 
@@ -295,9 +302,9 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"],
+  [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
-  [id$="-main-card"],
+  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -308,23 +315,8 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   -webkit-backdrop-filter: none !important;
   border: none !important;
   border-width: 0 !important;
-  box-shadow:
-    -10px -10px 22px rgba(38, 52, 74, 0.72),
-    10px 10px 22px rgba(10, 15, 24, 0.82) !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] #app-header {
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    0 8px 18px rgba(8, 12, 20, 0.72) !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] #app-footer {
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    0 -8px 18px rgba(8, 12, 20, 0.72) !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 
 /* Hero & Section Banners */
@@ -343,7 +335,7 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   background: #1A2433 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-banner, 22px) !important;
+  border-radius: var(--radius-banner, 14px) !important;
   box-shadow:
     -7px -7px 16px rgba(38, 52, 74, 0.70),
     7px 7px 16px rgba(10, 15, 24, 0.78) !important;
@@ -396,7 +388,7 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   box-shadow:
     -7px -7px 16px rgba(38, 52, 74, 0.70),
     7px 7px 16px rgba(10, 15, 24, 0.78) !important;
-  border-radius: var(--radius-card, 22px) !important;
+  border-radius: var(--radius-card, 14px) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -417,7 +409,7 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   box-shadow:
     -5px -5px 11px rgba(38, 52, 74, 0.66),
     5px 5px 11px rgba(10, 15, 24, 0.74) !important;
-  border-radius: var(--radius-subcard, 18px) !important;
+  border-radius: var(--radius-subcard, 14px) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -444,7 +436,7 @@ html:root[data-card-style="dark-frost-ice-neu"] :is(
   background: #1A2433 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: var(--radius-modal, 26px) !important;
+  border-radius: var(--radius-modal, 14px) !important;
   box-shadow:
     -10px -10px 22px rgba(38, 52, 74, 0.72),
     12px 12px 26px rgba(6, 10, 18, 0.86) !important;
@@ -458,7 +450,7 @@ html[data-card-style="dark-frost-ice-neu"] :is(input, textarea, select):not([typ
   background: #1A2433 !important;
   border: none !important;
   border-width: 0 !important;
-  border-radius: 16px !important;
+  border-radius: var(--radius-input, 14px) !important;
   box-shadow:
     inset 4px 4px 9px rgba(10, 15, 24, 0.80),
     inset -4px -4px 9px rgba(38, 52, 74, 0.66) !important;

@@ -146,8 +146,9 @@
   --radius-popup: 14px;
   --radius-widget: 14px;
   --radius-banner: 14px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
 
   /* Component Dimensions & Unified Layer Card Padding Tokens (20px -> 16px -> 12px) */
   --main-card-padding: 20px;
@@ -288,10 +289,22 @@
   --elevation-2: var(--shadow-subcard);
   --shadow-card: 0 14px 36px -6px rgba(30, 27, 75, 0.14), 0 4px 14px -2px rgba(30, 27, 75, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.85);
   --elevation-3: var(--shadow-card);
-  --shadow-header: 0 24px 58px -12px rgba(30, 27, 75, 0.22), 0 8px 22px -4px rgba(30, 27, 75, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.95);
-  --shadow-main-card: var(--shadow-header);
-  --shadow-footer: var(--shadow-header);
-  --elevation-4: var(--shadow-main-card);
+  --elevation-primary-surface:
+    0 2px 6px rgba(15, 23, 42, 0.05),
+    0 12px 28px -6px rgba(15, 23, 42, 0.12),
+    0 20px 44px -12px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.05);
+  --elevation-primary-surface-hover:
+    0 3px 8px rgba(15, 23, 42, 0.06),
+    0 14px 32px -6px rgba(15, 23, 42, 0.15),
+    0 24px 52px -12px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.06);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
+  --elevation-4: var(--elevation-primary-surface);
   --main-card-deep-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --main-card-deep-shadow-hover: 0 28px 64px -12px rgba(15, 23, 42, 0.30), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   --main-card-deep-shadow-dark: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -490,10 +503,61 @@
   --outline-image-card: none;
   --outline-offset-image-card: 0px;
 
-  /* Container Max Width & Unified Horizontal Frame Width */
-  --container-max-w: 1250px;
+  /* Container Max Width & Unified Horizontal Frame Width (Equal to Main Card) */
+  --main-card-target-w: 1000px;
+  --main-card-target-h: 600px;
+  --container-max-w: var(--main-card-target-w, 1000px);
+  --shell-section-gap: 0px;
+  --shell-header-height: 72px;
+  --shell-footer-height: 72px;
   --about-peek-reserve: 112px;
-  --shared-frame-w: clamp(260px, calc(100vw - var(--about-peek-reserve)), var(--container-max-w, 1250px));
+  --main-cards-gap: 10px;
+  --main-card-w: clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px));
+  --main-card-h: min(var(--main-card-target-h, 600px), 100%);
+  --shared-frame-w: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --shell-header-height: 84px;
+    --shell-footer-height: 84px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 1400px) and (max-width: 1599px) {
+  :root {
+    --shell-header-height: 72px;
+    --shell-footer-height: 72px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1399px) {
+  :root {
+    --shell-header-height: 64px;
+    --shell-footer-height: 64px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --shell-header-height: 64px;
+    --shell-footer-height: 64px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 390px) and (max-width: 767px) {
+  :root {
+    --shell-header-height: 63px;
+    --shell-footer-height: 63px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (max-width: 389px) {
+  :root {
+    --shell-header-height: 56px;
+    --shell-footer-height: 56px;
+    --shell-section-gap: 0px;
+  }
 
   /* ========================================================================= */
   /* LỚP 3: GLOBAL 5-LAYER BACKGROUND (Soft Liquid Glass 3D Light Ambient)     */
@@ -585,25 +649,19 @@
   --shadow-nested-glass:
     0 2px 8px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.50);
 
-  /* Level 01 – Main Card: Soft Liquid Glass 3D (Header, Main Container, Footer) */
+  /* Level 01 – Unified Primary Floating Surface (Header, Main Card, Footer) */
   --surface-primary-bg: var(--surface-main-glass);
   --surface-header-bg: var(--surface-primary-bg);
   --surface-footer-bg: var(--surface-primary-bg);
   --surface-primary-border: var(--glass-main-border);
   --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
-  --surface-primary-shadow:
-    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --surface-primary-shadow-hover:
-    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --surface-header-shadow:
-    0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --surface-header-shadow-hover:
-    0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --surface-footer-shadow:
-    0 -12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --surface-footer-shadow-hover:
-    0 -12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-primary-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow-hover: var(--elevation-primary-surface-hover);
   --surface-primary-hover-lift: 0px;
   --surface-primary-transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease;
   --surface-primary-blur: var(--glass-main-blur);
@@ -738,10 +796,22 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="d
   --elevation-2: var(--shadow-subcard);
   --shadow-card: 0 14px 34px -6px rgba(0, 0, 0, 0.32), 0 4px 12px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.14);
   --elevation-3: var(--shadow-card);
-  --shadow-header: 0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --shadow-main-card: var(--shadow-header);
-  --shadow-footer: var(--shadow-header);
-  --elevation-4: var(--shadow-main-card);
+  --elevation-primary-surface:
+    0 2px 8px rgba(0, 0, 0, 0.32),
+    0 14px 32px -6px rgba(0, 0, 0, 0.56),
+    0 24px 52px -12px rgba(0, 0, 0, 0.44),
+    inset 0 1px 0 rgba(225, 235, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.34);
+  --elevation-primary-surface-hover:
+    0 3px 10px rgba(0, 0, 0, 0.36),
+    0 16px 38px -6px rgba(0, 0, 0, 0.62),
+    0 28px 60px -12px rgba(0, 0, 0, 0.50),
+    inset 0 1px 0 rgba(225, 235, 255, 0.24),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.38);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
+  --elevation-4: var(--elevation-primary-surface);
   --shadow-card-hover: 0 20px 44px -6px rgba(0, 0, 0, 0.42), 0 8px 20px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22);
   --shadow-subcard-hover: 0 10px 24px -3px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.16);
   --shadow-floating: 0 20px 48px -6px rgba(0, 0, 0, 0.45), 0 6px 16px -2px rgba(0, 0, 0, 0.30);
@@ -940,21 +1010,17 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="d
     0 2px 8px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.08);
 
   --surface-primary-bg: var(--surface-main-glass);
+  --surface-header-bg: var(--surface-primary-bg);
+  --surface-footer-bg: var(--surface-primary-bg);
   --surface-primary-border: var(--glass-main-border);
   --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
-  --surface-primary-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --surface-primary-shadow-hover:
-    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --surface-header-shadow:
-    0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --surface-header-shadow-hover:
-    0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --surface-footer-shadow:
-    0 -14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
-  --surface-footer-shadow-hover:
-    0 -14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-primary-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow-hover: var(--elevation-primary-surface-hover);
   --surface-primary-blur: var(--glass-main-blur);
   --surface-primary-saturate: var(--glass-main-saturate);
 
@@ -1123,14 +1189,17 @@ html[data-card-style="liquid-glass"] {
   --border-card: rgba(255, 255, 255, 0.82);
   --border-subcard: rgba(255, 255, 255, 0.86);
   --nav-pill-accent: #6D28D9;
-  --radius-main: 24px;
-  --radius-card: 20px;
+  --radius-main: 14px;
+  --radius-card: 14px;
   --radius-subcard: 14px;
-  --radius-modal: 20px;
-  --radius-popup: 20px;
-  --radius-banner: 20px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
   --pill-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 246, 247, 0.56) 100%);
   --pill-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.90) 0%, rgba(241, 231, 229, 0.78) 100%);
   --pill-border: rgba(255, 255, 255, 0.84);
@@ -1180,14 +1249,17 @@ html[data-card-style="dark-liquid-glass"] {
   --border-card: rgba(255, 255, 255, 0.16);
   --border-subcard: rgba(255, 255, 255, 0.14);
   --nav-pill-accent: #B5A7F4;
-  --radius-main: 24px;
-  --radius-card: 20px;
+  --radius-main: 14px;
+  --radius-card: 14px;
   --radius-subcard: 14px;
-  --radius-modal: 20px;
-  --radius-popup: 20px;
-  --radius-banner: 20px;
-  --radius-header: 0 0 14px 14px;
-  --radius-footer: 14px 14px 0 0;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-banner: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
   --pill-bg: linear-gradient(145deg, rgba(34, 48, 78, 0.74) 0%, rgba(22, 32, 54, 0.66) 100%);
   --pill-bg-hover: linear-gradient(145deg, rgba(46, 64, 102, 0.86) 0%, rgba(30, 44, 72, 0.78) 100%);
   --pill-border: rgba(255, 255, 255, 0.18);
@@ -1816,3 +1888,16 @@ html[data-card-style="dark-flat-soft-ui"],
   --pill-arrow-text: #818CF8;
   --pill-counter-color: #818CF8;
 }
+
+@media (max-width: 639px) {
+  :root {
+    --main-card-w: calc(100vw - 20px);
+    --main-card-padding: 10px;
+    --space-main-padding: 10px;
+    --space-card-padding: 10px;
+    --space-card-gap: 10px;
+    --space-subcard-padding: 10px;
+    --space-subcard-gap: 8px;
+  }
+}
+

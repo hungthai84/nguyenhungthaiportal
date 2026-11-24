@@ -161,7 +161,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         title={isEn ? 'Double-click to apply theme' : 'Nhấp đúp để áp dụng giao diện'}
         style={{
           ...safeSampleStyle,
-          borderRadius: meta.radius,
+          borderRadius: 'var(--radius-card, 14px)',
           padding: '15px',
           cursor: 'pointer',
           ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
@@ -185,7 +185,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         {/* Top Visual Specimen Stage: Wallpaper & Surface / Demo Video */}
         <div
           style={{
-            borderRadius: isMatteNeu ? '16px' : '12px',
+            borderRadius: 'var(--radius-subcard, 14px)',
             backgroundImage: bgSpec?.imagePath
               ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
               : bgSpec?.fallbackGradient,
@@ -198,10 +198,10 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           }`}
         >
           <div
-            className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 ${
+            className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 rounded-[var(--radius-subcard,14px)] ${
               isMatteNeu
-                ? 'rounded-[14px]'
-                : 'rounded-[10px] bg-black/25 dark:bg-black/40 backdrop-blur-xs'
+                ? ''
+                : 'bg-black/25 dark:bg-black/40 backdrop-blur-xs'
             }`}
             style={safeMiniWrapStyle}
           >
@@ -248,7 +248,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                 data-media-card="video"
                 style={{
                   padding: '0px',
-                  borderRadius: preset.id.includes('glass') ? '10px' : '8px',
+                  borderRadius: 'var(--radius-video, 14px)',
                 }}
                 className={`relative w-full h-[94px] overflow-hidden bg-slate-950/60 box-border ${
                   isMatteNeu ? 'border-0' : 'border border-white/20'

@@ -13,6 +13,9 @@ import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-deep-ocean';
 export const DEFAULT_LAYER_DEPTH = 100;
+export const DEFAULT_CORNER_RADIUS = 14;
+export const MIN_CORNER_RADIUS = 0;
+export const MAX_CORNER_RADIUS = 28;
 
 export type VisualThemeMode = 'neumorphism' | 'standard';
 
@@ -27,6 +30,7 @@ export const ADAPTIVE_ACCENT_STORAGE_KEY = 'hungthai_adaptive_accent_v1';
 export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
 export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
+export const GLOBAL_CORNER_RADIUS_STORAGE_KEY = 'hungthai_global_corner_radius_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
@@ -36,6 +40,7 @@ export const ADAPTIVE_ACCENT_SYNC_EVENT = 'hungthai:adaptive-accent-changed';
 export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
+export const GLOBAL_CORNER_RADIUS_SYNC_EVENT = 'hungthai:global-corner-radius-changed';
 
 export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
   style === 'frost-ice-neu' || style === 'dark-frost-ice-neu';

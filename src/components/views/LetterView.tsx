@@ -435,7 +435,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
     const syncViewportHeight = () => {
       const vp = document.getElementById('global-content-viewport') || letterContainerRef.current;
       if (!vp) return;
-      const h = Math.round(vp.clientHeight);
+      const h = Math.min(600, Math.round(vp.clientHeight));
       if (h > 0) {
         setViewportHeight((prev) => (prev === h ? prev : h));
       }
@@ -1892,13 +1892,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
         paddingLeft: '0px',
         paddingRight: '0px',
         paddingBottom: '0px',
-        gap: '15px',
-        rowGap: '15px',
-        columnGap: '15px',
+        gap: '10px',
+        rowGap: '10px',
+        columnGap: '10px',
         borderRadius: '0px',
         background: 'transparent',
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[15px] font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[10px] font-play text-left text-[var(--text-primary)] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
     >
       <div
         id="letter-cards-track"
@@ -1910,9 +1910,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
+          gap: '10px',
+          rowGap: '10px',
+          columnGap: '10px',
           width: '100%',
           maxWidth: '100%',
           height: 'auto',
@@ -1934,10 +1934,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
               } as React.CSSProperties)
             : {}),
         }}
-        className="flex flex-col items-center gap-[15px] w-full max-w-full mx-auto h-auto box-border"
+        className="flex flex-col items-center gap-[10px] w-full max-w-full mx-auto h-auto box-border"
       >
       {/* ========================================================================= */}
-      {/* HÀNG DỌC 1: CARD THƯ NGỎ 1 (KÍCH THƯỚC KHỚP THẺ CHÍNH TRANG GIỚI THIỆU)   */}
+      {/* HÀNG DỌC 1: CARD THƯ NGỎ 1 (CHUẨN 1000x600px, BO CONG 14px)               */}
       {/* ========================================================================= */}
       <div
         id="letter-card-1"
@@ -1949,12 +1949,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-page="letter"
         data-element-parent="letter-cards-track"
         style={{
-          width: 'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
-          maxWidth: 'var(--container-max-w, 1250px)',
+          width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+          maxWidth: 'var(--main-card-target-w, 1000px)',
           minWidth: '0px',
-          height: 'var(--letter-viewport-h, 100%)',
-          minHeight: 'var(--letter-viewport-h, 100%)',
-          maxHeight: 'var(--letter-viewport-h, none)',
+          height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
           paddingTop: '15px',
           paddingRight: '15px',
           paddingBottom: '15px',
@@ -1964,7 +1964,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           columnGap: '15px',
           borderRadius: 'var(--radius-main, 14px)',
         }}
-        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border transition-opacity duration-300"
+        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
       >
                 <div
                   id="el-p1-div-85"
@@ -2317,15 +2317,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
           flexWrap: 'nowrap',
           alignItems: 'stretch',
           justifyContent: 'flex-start',
-          gap: '15px',
-          rowGap: '15px',
-          columnGap: '15px',
+          gap: '10px',
+          rowGap: '10px',
+          columnGap: '10px',
           width: '100%',
           maxWidth: '100%',
           paddingLeft:
-            'max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2))',
+            'max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2))',
           paddingRight:
-            'max(15px, calc((100% - var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))) / 2))',
+            'max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2))',
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
@@ -2347,18 +2347,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }}
           style={{
             width:
-              'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+              'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             minWidth: '0px',
-            maxWidth: 'var(--container-max-w, 1250px)',
-            height: 'var(--letter-viewport-h, 100%)',
-            minHeight: 'var(--letter-viewport-h, 100%)',
-            maxHeight: 'var(--letter-viewport-h, none)',
+            maxWidth: 'var(--main-card-target-w, 1000px)',
+            height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+            minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+            maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
             flex:
-              '0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+              '0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             scrollSnapAlign: 'center',
             padding: '15px',
             gap: '15px',
-            borderRadius: 'var(--radius-main, 30px)',
+            borderRadius: 'var(--radius-main, 14px)',
           }}
           className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
@@ -2391,18 +2391,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }}
           style={{
             width:
-              'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+              'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             minWidth: '0px',
-            maxWidth: 'var(--container-max-w, 1250px)',
-            height: 'var(--letter-viewport-h, 100%)',
-            minHeight: 'var(--letter-viewport-h, 100%)',
-            maxHeight: 'var(--letter-viewport-h, none)',
+            maxWidth: 'var(--main-card-target-w, 1000px)',
+            height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+            minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+            maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
             flex:
-              '0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+              '0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             scrollSnapAlign: 'center',
             padding: '15px',
             gap: '15px',
-            borderRadius: 'var(--radius-main, 30px)',
+            borderRadius: 'var(--radius-main, 14px)',
           }}
           className="page-main-card shrink-0 snap-center relative z-10 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
         >
@@ -2432,15 +2432,15 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-element-parent="letter-cards-track"
         style={{
           width:
-            'var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px)))',
+            'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           minWidth: '0px',
-          maxWidth: 'var(--container-max-w, 1250px)',
-          height: 'var(--letter-viewport-h, 100%)',
-          minHeight: 'var(--letter-viewport-h, 100%)',
-          maxHeight: 'var(--letter-viewport-h, none)',
+          maxWidth: 'var(--main-card-target-w, 1000px)',
+          height: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          minHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
+          maxHeight: 'min(var(--main-card-target-h, 600px), var(--letter-viewport-h, 600px))',
           padding: '15px',
           gap: '15px',
-          borderRadius: 'var(--radius-main, 30px)',
+          borderRadius: 'var(--radius-main, 14px)',
         }}
         className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border"
       >

@@ -102,13 +102,28 @@ html[data-card-style="black-cowhide-leather"] .edu-bento-tile {
   color: #ffffff !important;
 }
 
-html[data-card-style="neumorphism-beyond"] .edu-bento-tile,
-html[data-card-style="frost-ice-neu"] .edu-bento-tile {
+html[data-card-style="neumorphism-beyond"] .edu-bento-tile {
   border-color: rgba(196, 209, 226, 0.78) !important;
   box-shadow:
     0 6px 16px rgba(148, 163, 184, 0.20),
     3px 4px 10px rgba(163, 177, 198, 0.26),
     inset 0 1px 0 rgba(255, 255, 255, 0.38) !important;
+}
+
+html[data-card-style="frost-ice-neu"] .edu-bento-tile {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -7px -7px 16px rgba(255, 255, 255, 0.86),
+    7px 7px 16px rgba(163, 179, 199, 0.58) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] .edu-bento-tile {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -7px -7px 16px rgba(38, 52, 74, 0.70),
+    7px 7px 16px rgba(10, 15, 24, 0.78) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -118,13 +133,30 @@ html[data-card-style="frost-ice-neu"] .edu-bento-tile {
     box-shadow: var(--shadow-card-hover, 0 16px 36px -8px rgba(15, 23, 42, 0.14)) !important;
   }
 
-  html[data-card-style="neumorphism-beyond"] .edu-bento-tile:hover,
-  html[data-card-style="frost-ice-neu"] .edu-bento-tile:hover {
+  html[data-card-style="neumorphism-beyond"] .edu-bento-tile:hover {
     border-color: rgba(100, 182, 255, 0.64) !important;
     box-shadow:
       0 10px 22px rgba(148, 163, 184, 0.25),
       4px 6px 14px rgba(163, 177, 198, 0.32),
       inset 0 1px 0 rgba(255, 255, 255, 0.46) !important;
+  }
+
+  html[data-card-style="frost-ice-neu"] .edu-bento-tile:hover {
+    transform: none !important;
+    border: none !important;
+    border-width: 0 !important;
+    box-shadow:
+      -9px -9px 18px rgba(255, 255, 255, 0.92),
+      9px 9px 18px rgba(163, 179, 199, 0.64) !important;
+  }
+
+  html[data-card-style="dark-frost-ice-neu"] .edu-bento-tile:hover {
+    transform: none !important;
+    border: none !important;
+    border-width: 0 !important;
+    box-shadow:
+      -9px -9px 18px rgba(45, 62, 88, 0.76),
+      9px 9px 18px rgba(8, 12, 20, 0.84) !important;
   }
 }
 

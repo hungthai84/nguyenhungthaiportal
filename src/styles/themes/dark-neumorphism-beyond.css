@@ -553,42 +553,40 @@ html:root[data-card-style="dark-neumorphism-beyond"] :is(
     inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 
-html:root[data-card-style="dark-neumorphism-beyond"] #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
-html:root[data-card-style="dark-neumorphism-beyond"] #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
-  color: #ffffff !important;
-}
-
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(
-  button.nav-pill,
+/* Header & Footer Nav Pills (Unselected): Circle badge matches title color + contrasting dark icon */
+html:root[data-card-style="dark-neumorphism-beyond"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
-  background: linear-gradient(145deg, #222C3E 0%, #192130 100%) !important;
-  background-color: #1E2738 !important;
-  --tw-ring-color: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 36%, rgba(148, 163, 184, 0.25)) !important;
-  border: 1px solid color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 32%, rgba(148, 163, 184, 0.24)) !important;
-  box-shadow:
-    0 3px 8px rgba(4, 7, 14, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  background: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 82%, #ffffff) !important;
+  background-color: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 82%, #ffffff) !important;
+  --tw-ring-color: transparent !important;
+  border: 1px solid color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 62%, #ffffff) !important;
+  box-shadow: 0 3px 8px rgba(4, 7, 14, 0.45) !important;
 }
 
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(
-  button.nav-pill,
+html:root[data-card-style="dark-neumorphism-beyond"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
-html:root[data-card-style="dark-neumorphism-beyond"] #app-footer :is(
-  button.nav-pill,
+html:root[data-card-style="dark-neumorphism-beyond"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
-  color: var(--nav-pill-accent, #64B6FF) !important;
+  color: #090E1A !important;
+  stroke: currentColor !important;
 }
 
 html:root[data-card-style="dark-neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {

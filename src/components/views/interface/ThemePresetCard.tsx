@@ -108,6 +108,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       return sampleProps;
     })();
 
+    const isMatteNeu = preset.id === 'frost-ice-neu' || preset.id === 'dark-frost-ice-neu';
+
     const safeMiniWrapStyle: React.CSSProperties | undefined = (() => {
       if (!preset.miniPreviewWrapStyle) return undefined;
       if (preset.id === 'liquid-glass') {
@@ -134,6 +136,14 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           border: 'none',
         };
       }
+      if (isMatteNeu) {
+        return {
+          ...preset.miniPreviewWrapStyle,
+          border: 'none',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+        };
+      }
       return { ...preset.miniPreviewWrapStyle, border: 'none' };
     })();
 
@@ -146,28 +156,42 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
           ...(isActive
             ? {
-                boxShadow: `${(safeSampleStyle as Record<string, string | number>).boxShadow || ''}, 0 0 0 2.5px ${meta.activeRingColor}`,
+                boxShadow: [
+                  (safeSampleStyle as Record<string, string | number>).boxShadow,
+                  `0 0 0 2.5px ${meta.activeRingColor}`,
+                ]
+                  .filter(Boolean)
+                  .join(', '),
               }
             : {}),
         }}
-        className={`theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out border min-w-0 overflow-hidden hover:-translate-y-0.5 ${preset.cardClassName} ${
-          isActive ? meta.activeBorderClass : meta.idleBorderClass
+        className={`theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out min-w-0 overflow-hidden motion-safe:hover:-translate-y-0.5 ${preset.cardClassName} ${
+          isMatteNeu
+            ? 'border-0'
+            : `border ${isActive ? meta.activeBorderClass : meta.idleBorderClass}`
         }`}
       >
         {/* Top Visual Specimen Stage: Wallpaper & Surface / Demo Video */}
         <div
           style={{
-            borderRadius: '12px',
+            borderRadius: isMatteNeu ? '16px' : '12px',
             backgroundImage: bgSpec?.imagePath
               ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
               : bgSpec?.fallbackGradient,
+            backgroundColor: isMatteNeu ? (preset.isDark ? '#1A2433' : '#E0E8F2') : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-          className="relative h-[152px] shrink-0 overflow-hidden p-2 flex flex-col justify-between border border-white/25 dark:border-white/10 shadow-none"
+          className={`relative h-[152px] shrink-0 overflow-hidden p-2 flex flex-col justify-between shadow-none ${
+            isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
+          }`}
         >
           <div
-            className="relative z-10 h-full p-2 flex flex-col justify-between gap-2 rounded-[10px] bg-black/25 dark:bg-black/40 backdrop-blur-xs"
+            className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 ${
+              isMatteNeu
+                ? 'rounded-[14px]'
+                : 'rounded-[10px] bg-black/25 dark:bg-black/40 backdrop-blur-xs'
+            }`}
             style={safeMiniWrapStyle}
           >
             <div className="flex items-center justify-between gap-2 min-w-0">
@@ -184,7 +208,9 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       : 'Thử tải lại video minh họa'
                     : undefined
                 }
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-semibold border cursor-pointer transition-opacity hover:opacity-90 shrink-0 whitespace-nowrap ${meta.ctaIdleClass}`}
+                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-semibold cursor-pointer transition-opacity hover:opacity-90 shrink-0 whitespace-nowrap ${
+                  isMatteNeu ? 'border-0' : 'border'
+                } ${meta.ctaIdleClass}`}
               >
                 <WebIcon
                   name={isVideoVisible ? 'x' : hasVideoFailed ? 'rotate-ccw' : 'play'}
@@ -213,7 +239,9 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                   padding: '0px',
                   borderRadius: preset.id.includes('glass') ? '10px' : '8px',
                 }}
-                className="relative w-full h-[94px] overflow-hidden bg-slate-950/60 border border-white/20 box-border"
+                className={`relative w-full h-[94px] overflow-hidden bg-slate-950/60 box-border ${
+                  isMatteNeu ? 'border-0' : 'border border-white/20'
+                }`}
               >
                 <video
                   src={meta.demoVideoUrl}
@@ -262,7 +290,9 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                 <div className="flex items-center justify-between gap-1.5">
                   <span
                     style={preset.miniTabStyle}
-                    className="px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full border text-center"
+                    className={`px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full text-center ${
+                      isMatteNeu ? 'border-0' : 'border'
+                    }`}
                   >
                     {isEn ? 'Header · Tab' : 'Header · Tab Mẫu'}
                   </span>
@@ -285,9 +315,18 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       <div
                         className="flex-1 h-2 rounded-full overflow-hidden"
                         style={{
-                          background: preset.isDark
-                            ? 'rgba(15, 23, 42, 0.55)'
-                            : 'rgba(148, 163, 184, 0.22)',
+                          background: isMatteNeu
+                            ? preset.isDark
+                              ? '#1A2433'
+                              : '#E0E8F2'
+                            : preset.isDark
+                              ? 'rgba(15, 23, 42, 0.55)'
+                              : 'rgba(148, 163, 184, 0.22)',
+                          boxShadow: isMatteNeu
+                            ? preset.isDark
+                              ? 'inset -2px -2px 4px rgba(38, 52, 74, 0.65), inset 2px 2px 4px rgba(10, 15, 24, 0.78)'
+                              : 'inset -2px -2px 4px rgba(255, 255, 255, 0.85), inset 2px 2px 4px rgba(163, 179, 199, 0.58)'
+                            : undefined,
                         }}
                       >
                         <div
@@ -346,14 +385,18 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
 
         {/* Single Clear Card Footer Action */}
         <div
-          className={`mt-auto pt-2.5 flex items-center justify-between gap-2 border-t ${meta.dividerClass}`}
+          className={`mt-auto pt-2.5 flex items-center justify-between gap-2 ${
+            isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
+          }`}
         >
           <span className={`typo-caption font-mono tabular-nums truncate ${meta.accentTextClass}`}>
             {preset.id === 'liquid-glass' || preset.id === 'dark-liquid-glass'
               ? `${meta.radius} · blur(16px)`
-              : preset.id.includes('glass')
-                ? '24px · blur(24px)'
-                : meta.radius}
+              : isMatteNeu
+                ? `${meta.radius} · Soft UI Matte`
+                : preset.id.includes('glass')
+                  ? '24px · blur(24px)'
+                  : meta.radius}
           </span>
 
           <button

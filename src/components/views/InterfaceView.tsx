@@ -6,13 +6,21 @@ import {
   useTheme,
   getCardStyleProperties,
   getCardStyleConfig,
+  getLightDarkCounterpart,
   UNIFIED_INTERFACE_THEMES,
   CARD_STYLE_GROUPS,
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
-import { THEME_FOUR_WORD_NAMES } from '@/config/ui/cardStyles';
+import { THEME_FOUR_WORD_NAMES, normalizeCardStyle } from '@/config/ui/cardStyles';
 import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
-import { DEFAULT_CARD_STYLE, THEME_BACKGROUNDS } from '@/config/ui/themeDefaults';
+import {
+  DEFAULT_CARD_STYLE,
+  THEME_BACKGROUNDS,
+  VISUAL_THEME_MODE_STORAGE_KEY,
+  LAST_STANDARD_CARD_STYLE_STORAGE_KEY,
+  VisualThemeMode,
+  isNeumorphismCardStyle,
+} from '@/config/ui/themeDefaults';
 import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
@@ -49,7 +57,8 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
             rawFamily === 'deep-ocean' ||
             rawFamily === 'neumorphism-beyond' ||
             rawFamily === 'frost-ice-neu' ||
-            rawFamily === 'multicolor-glass'
+            rawFamily === 'multicolor-glass' ||
+            rawFamily === 'flat-soft-ui'
           ? rawFamily
           : fallback.selectedFamilyFilter;
     return {
@@ -342,55 +351,55 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'frost-ice-neu': {
-    radius: '20px',
-    activeRingColor: '#6E6AF6',
-    activeBorderClass: 'border-[#6E6AF6]',
-    idleBorderClass: 'border-white/90 hover:border-[#4AB8F9]',
-    activeBadgeClass: 'bg-[#EEF6FD] text-[#6E6AF6] border-white shadow-xs',
-    iconColor: '#6E6AF6',
-    titleTextClass: 'text-[#25384B]',
-    bodyTextClass: 'text-[#546B82]',
-    accentTextClass: 'text-[#6E6AF6]',
-    previewBorderClass: 'border-white/90 border-solid',
-    dividerClass: 'border-[#CFE0F0]/75 border-solid',
-    ctaIdleClass: 'bg-[#EDF6FD] text-[#546B82] hover:text-[#25384B] border border-white/90 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#6E6AF6] via-[#965CE8] to-[#4AB8F9] text-white shadow-xs border border-[#6E6AF6]/40',
-    toggleTrackDarkClass: 'bg-[#DFECF8] border-white/80',
-    toggleTrackLightClass: 'bg-[#6E6AF6] border-[#6E6AF6]',
-    toggleThumbDarkClass: 'bg-[#F5FAFF] text-[#546B82]',
-    toggleThumbLightClass: 'bg-[#F5FAFF] text-[#6E6AF6]',
+    radius: '22px',
+    activeRingColor: '#5B57E8',
+    activeBorderClass: 'border-0',
+    idleBorderClass: 'border-0',
+    activeBadgeClass: 'bg-[#E0E8F2] text-[#433EC9] border-0 shadow-[-4px_-4px_8px_rgba(255,255,255,0.86),4px_4px_8px_rgba(163,179,199,0.56)]',
+    iconColor: '#5B57E8',
+    titleTextClass: 'text-[#18273B]',
+    bodyTextClass: 'text-[#475B73]',
+    accentTextClass: 'text-[#433EC9]',
+    previewBorderClass: 'border-0',
+    dividerClass: 'border-0',
+    ctaIdleClass:
+      'bg-[#E0E8F2] text-[#18273B] hover:text-[#433EC9] border-0 shadow-[-4px_-4px_9px_rgba(255,255,255,0.86),4px_4px_9px_rgba(163,179,199,0.56)] hover:shadow-[-5px_-5px_11px_rgba(255,255,255,0.92),5px_5px_11px_rgba(163,179,199,0.62)] active:shadow-[inset_3px_3px_6px_rgba(163,179,199,0.60),inset_-3px_-3px_6px_rgba(255,255,255,0.86)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B57E8]',
+    ctaActiveClass:
+      'bg-[#5B57E8] text-white border-0 shadow-[-3px_-3px_8px_rgba(255,255,255,0.80),4px_4px_10px_rgba(91,87,232,0.36),inset_1px_1px_2px_rgba(255,255,255,0.22),inset_-1px_-1px_3px_rgba(34,30,128,0.24)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#433EC9]',
+    toggleTrackDarkClass: 'bg-[#E0E8F2] border-0',
+    toggleTrackLightClass: 'bg-[#5B57E8] border-0',
+    toggleThumbDarkClass: 'bg-[#E0E8F2] text-[#475B73]',
+    toggleThumbLightClass: 'bg-[#FFFFFF] text-[#5B57E8]',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
-      { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
-      { label: 'Apricot', width: '54%', gradient: 'linear-gradient(90deg, #FDCB63, #FA8F60)' },
-      { label: 'Rose', width: '91%', gradient: 'linear-gradient(90deg, #FF70A1, #F84D9C)' },
+      { label: 'Primary', width: '82%', gradient: '#5B57E8' },
+      { label: 'Inset', width: '64%', gradient: '#433EC9' },
     ],
   },
   'dark-frost-ice-neu': {
-    radius: '20px',
-    activeRingColor: '#8E8BFF',
-    activeBorderClass: 'border-[#8E8BFF]',
-    idleBorderClass: 'border-sky-300/20 hover:border-[#4AB8F9]/60',
-    activeBadgeClass: 'bg-[#1D2B40] text-[#A4A1FF] border-sky-300/25 shadow-xs',
-    iconColor: '#8E8BFF',
-    titleTextClass: 'text-[#F1F8FF]',
-    bodyTextClass: 'text-[#B5CAE0]',
-    accentTextClass: 'text-[#8E8BFF]',
-    previewBorderClass: 'border-sky-300/20 border-solid',
-    dividerClass: 'border-sky-300/18 border-solid',
-    ctaIdleClass: 'bg-[#1A263A] text-[#B5CAE0] hover:text-white border border-sky-300/20 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#6E6AF6] via-[#965CE8] to-[#4AB8F9] text-white shadow-xs border border-[#8E8BFF]/45',
-    toggleTrackDarkClass: 'bg-[#101927] border-sky-300/20',
-    toggleTrackLightClass: 'bg-[#6E6AF6] border-[#8E8BFF]',
-    toggleThumbDarkClass: 'bg-[#23344F] text-[#8E8BFF]',
-    toggleThumbLightClass: 'bg-[#F1F8FF] text-[#141F31]',
+    radius: '22px',
+    activeRingColor: '#6E6AF6',
+    activeBorderClass: 'border-0',
+    idleBorderClass: 'border-0',
+    activeBadgeClass: 'bg-[#1A2433] text-[#B8B6FF] border-0 shadow-[-4px_-4px_8px_rgba(38,52,74,0.68),4px_4px_8px_rgba(10,15,24,0.76)]',
+    iconColor: '#9B97FF',
+    titleTextClass: 'text-[#F1F6FC]',
+    bodyTextClass: 'text-[#A7BAD0]',
+    accentTextClass: 'text-[#A5A2FF]',
+    previewBorderClass: 'border-0',
+    dividerClass: 'border-0',
+    ctaIdleClass:
+      'bg-[#1A2433] text-[#DCE7F5] hover:text-white border-0 shadow-[-4px_-4px_9px_rgba(38,52,74,0.70),4px_4px_9px_rgba(10,15,24,0.78)] hover:shadow-[-5px_-5px_11px_rgba(45,62,88,0.76),5px_5px_11px_rgba(8,12,20,0.84)] active:shadow-[inset_3px_3px_6px_rgba(10,15,24,0.80),inset_-3px_-3px_6px_rgba(38,52,74,0.66)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9B97FF]',
+    ctaActiveClass:
+      'bg-[#6E6AF6] text-white border-0 shadow-[-3px_-3px_8px_rgba(38,52,74,0.65),4px_4px_10px_rgba(8,12,22,0.78),inset_1px_1px_2px_rgba(255,255,255,0.22),inset_-1px_-1px_3px_rgba(10,15,24,0.30)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9B97FF]',
+    toggleTrackDarkClass: 'bg-[#1A2433] border-0',
+    toggleTrackLightClass: 'bg-[#6E6AF6] border-0',
+    toggleThumbDarkClass: 'bg-[#1A2433] text-[#9B97FF]',
+    toggleThumbLightClass: 'bg-[#F1F6FC] text-[#1A2433]',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Violet', width: '73%', gradient: 'linear-gradient(90deg, #6E6AF6, #965CE8)' },
-      { label: 'Aqua', width: '82%', gradient: 'linear-gradient(90deg, #4AB8F9, #3CD9D8)' },
-      { label: 'Apricot', width: '54%', gradient: 'linear-gradient(90deg, #FDCB63, #FA8F60)' },
-      { label: 'Rose', width: '91%', gradient: 'linear-gradient(90deg, #FF70A1, #F84D9C)' },
+      { label: 'Primary', width: '82%', gradient: '#6E6AF6' },
+      { label: 'Inset', width: '64%', gradient: '#9B97FF' },
     ],
   },
   'flat-soft-ui': {
@@ -469,10 +478,26 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
   const [isQuickThemeSectionOpen, setIsQuickThemeSectionOpen] = useState<boolean>(false);
   const [sandboxQuery, setSandboxQuery] = useState<string>('');
+  const [neuKitPressed, setNeuKitPressed] = useState<{
+    mainBtn: boolean;
+    heart: boolean;
+    comment: boolean;
+    bookmark: boolean;
+    share: boolean;
+  }>({
+    mainBtn: false,
+    heart: true,
+    comment: false,
+    bookmark: false,
+    share: false,
+  });
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
   const interfaceBannerVideo = getDefaultBannerVideoConfig('interface');
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
+
+  const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
+  const visualThemeMode: VisualThemeMode = isNeumorphismActive ? 'neumorphism' : 'standard';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -520,9 +545,74 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     }
   }, [selectedFamilyFilter, selectedMechanismFilter, isSandboxOpen, neuSliders]);
 
+  // Persist visual theme mode ('neumorphism' | 'standard') and last standard style in localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, visualThemeMode);
+      if (!isNeumorphismCardStyle(cardStyle)) {
+        localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, cardStyle);
+      }
+    } catch {
+      // ignore storage quota errors
+    }
+  }, [cardStyle, visualThemeMode]);
+
+  const handleToggleVisualThemeMode = useCallback(() => {
+    SoundEngine.playGlassChime();
+    if (isNeumorphismCardStyle(cardStyle)) {
+      let savedStandard: CardStyleMode = DEFAULT_CARD_STYLE;
+      try {
+        const rawLast = localStorage.getItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY);
+        if (rawLast) {
+          const normalized = normalizeCardStyle(rawLast);
+          if (!isNeumorphismCardStyle(normalized)) {
+            savedStandard = normalized;
+          }
+        }
+        localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, 'standard');
+      } catch {
+        // ignore storage errors
+      }
+      const targetStyle = getLightDarkCounterpart(savedStandard, isDark);
+      const targetCfg = getCardStyleConfig(targetStyle);
+      setCardStyle(targetStyle);
+      onShowNotification?.(
+        isEn
+          ? `✓ Switched to Standard theme: ${t(targetCfg.name)}`
+          : `✓ Đã chuyển sang giao diện Chuẩn: ${targetCfg.name}`
+      );
+    } else {
+      try {
+        localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, cardStyle);
+        localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, 'neumorphism');
+      } catch {
+        // ignore storage errors
+      }
+      const targetNeuStyle: CardStyleMode = isDark ? 'dark-frost-ice-neu' : 'frost-ice-neu';
+      const targetCfg = getCardStyleConfig(targetNeuStyle);
+      setCardStyle(targetNeuStyle);
+      onShowNotification?.(
+        isEn
+          ? `✓ Switched to Neumorphism theme: ${t(targetCfg.name)}`
+          : `✓ Đã chuyển sang giao diện Neumorphism: ${targetCfg.name}`
+      );
+    }
+  }, [cardStyle, isDark, isEn, onShowNotification, setCardStyle, t]);
+
   const handleSelectTheme = useCallback(
     (mode: CardStyleMode, label: string) => {
       SoundEngine.playGlassChime();
+      try {
+        localStorage.setItem(
+          VISUAL_THEME_MODE_STORAGE_KEY,
+          isNeumorphismCardStyle(mode) ? 'neumorphism' : 'standard'
+        );
+        if (!isNeumorphismCardStyle(mode)) {
+          localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, mode);
+        }
+      } catch {
+        // ignore storage errors
+      }
       setCardStyle(mode);
       if (onShowNotification) {
         onShowNotification(
@@ -568,6 +658,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     setAutoTimeTheme(false);
     resetGlassSettings(DEFAULT_CARD_STYLE);
     setCardStyle(DEFAULT_CARD_STYLE);
+    try {
+      localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, 'standard');
+      localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, DEFAULT_CARD_STYLE);
+    } catch {
+      // ignore storage errors
+    }
     setSelectedFamilyFilter('all');
     setSelectedMechanismFilter('all');
     setIsFamilyFilterOpen(false);
@@ -668,7 +764,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="banner-card"
             data-element-page="interface"
             data-section-card="true"
-            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
+            className={`banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative ${
+              isNeumorphismActive ? 'border-0' : 'border'
+            } text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300`}
           >
             <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
               <VideoBanner
@@ -820,7 +918,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 <div
                   role="group"
                   aria-label={isEn ? 'Filter by mechanism' : 'Lọc theo chế độ Sáng, Tối, Màu'}
-                  className="banner-control-pill h-9 inline-flex items-center gap-1 px-1.5 py-1 rounded-full border"
+                  className={`banner-control-pill h-9 inline-flex items-center gap-1 px-1.5 py-1 rounded-full ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  }`}
                 >
                   {(
                     [
@@ -840,7 +940,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                           SoundEngine.playTap();
                           setSelectedMechanismFilter(item.id);
                         }}
-                        className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap ${
+                        className={`px-2.5 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap border-0 ${
                           active ? 'shadow-xs' : 'opacity-80 hover:opacity-100'
                         }`}
                         style={
@@ -863,7 +963,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       setSelectedFamilyFilter('all');
                       setSelectedMechanismFilter('all');
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full border typo-badge font-bold cursor-pointer transition-all hover:opacity-90"
+                    className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full ${
+                      isNeumorphismActive ? 'border-0' : 'border'
+                    } typo-badge font-bold cursor-pointer transition-all hover:opacity-90 whitespace-nowrap shrink-0`}
                     title={isEn ? 'Clear filters' : 'Xóa bộ lọc'}
                   >
                     <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
@@ -872,7 +974,69 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 )}
               </div>
 
+              {/* Dedicated Visual Theme Toggle (Neumorphism <-> Standard) + Soft UI Kit Toggle */}
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  id="interface-neu-standard-toggle-btn"
+                  type="button"
+                  role="switch"
+                  aria-checked={isNeumorphismActive}
+                  aria-pressed={isNeumorphismActive}
+                  data-visual-mode={visualThemeMode}
+                  onClick={handleToggleVisualThemeMode}
+                  className={`banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  }`}
+                  style={
+                    isNeumorphismActive
+                      ? {
+                          background: 'var(--bg-button-primary)',
+                          color: 'var(--text-button-primary, #FFFFFF)',
+                        }
+                      : undefined
+                  }
+                  title={
+                    isEn
+                      ? isNeumorphismActive
+                        ? 'Switch to Standard visual theme'
+                        : 'Switch to Neumorphism visual theme'
+                      : isNeumorphismActive
+                        ? 'Chuyển về giao diện Chuẩn (Standard)'
+                        : 'Chuyển sang giao diện Neumorphism'
+                  }
+                >
+                  <WebIcon
+                    name={isNeumorphismActive ? 'sparkles' : 'layers'}
+                    className="w-3.5 h-3.5 shrink-0"
+                  />
+                  <span>
+                    {isEn
+                      ? isNeumorphismActive
+                        ? 'Theme: Neumorphism'
+                        : 'Theme: Standard'
+                      : isNeumorphismActive
+                        ? 'Chế độ: Neumorphism'
+                        : 'Chế độ: Chuẩn'}
+                  </span>
+                </button>
 
+                <button
+                  id="interface-uikit-toggle-btn"
+                  type="button"
+                  aria-pressed={isSandboxOpen}
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsSandboxOpen((prev) => !prev);
+                  }}
+                  className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  }`}
+                  title={isEn ? 'Toggle Neumorphism UI Kit' : 'Bật/tắt bộ mẫu Neumorphism UI Kit'}
+                >
+                  <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isEn ? 'UI Kit' : 'UI Kit'}</span>
+                </button>
+              </div>
             </div>
           </section>
 
@@ -1044,8 +1208,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             {visibleThemesCount === 0 ? (
               <div
                 data-subcard="true"
-                className="sub-card p-[15px] border flex flex-col sm:flex-row items-center justify-between gap-[15px]"
-                style={{ background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }}
+                className={`sub-card p-[15px] ${
+                  isNeumorphismActive ? 'border-0' : 'border'
+                } flex flex-col sm:flex-row items-center justify-between gap-[15px]`}
+                style={
+                  isNeumorphismActive
+                    ? { background: 'var(--bg-subcard)' }
+                    : { background: 'var(--bg-subcard)', borderColor: 'var(--border-subcard)' }
+                }
               >
                 <p className="typo-body-sm" style={{ color: 'var(--text-secondary)' }}>
                   {isEn
@@ -1058,7 +1228,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     setSelectedFamilyFilter('all');
                     setSelectedMechanismFilter('all');
                   }}
-                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap shrink-0"
+                  className="px-3.5 py-1.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap shrink-0 border-0"
                   style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
                 >
                   {isEn ? 'Show all themes' : 'Hiện tất cả giao diện'}
@@ -1067,8 +1237,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             ) : (
               <>
                 <div
-                  className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b min-w-0"
-                  style={{ borderColor: 'var(--border-subcard)' }}
+                  className={`flex flex-wrap items-center justify-between gap-2 pb-2 ${
+                    isNeumorphismActive ? 'border-0' : 'border-b'
+                  } min-w-0`}
+                  style={isNeumorphismActive ? undefined : { borderColor: 'var(--border-subcard)' }}
                 >
                   <span
                     className="typo-caption font-semibold tabular-nums"
@@ -1103,17 +1275,25 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         data-element-name={`Nhóm giao diện ${group.label}`}
                         data-element-type="card"
                         data-subcard="true"
-                        className="interface-group-card sub-card rounded-[14px] border p-[14px] flex flex-col gap-[12px] w-full h-full min-w-0"
-                        style={{
-                          background: 'var(--bg-subcard)',
-                          borderColor: isGroupActive
-                            ? 'var(--color-primary)'
-                            : 'var(--border-subcard)',
-                        }}
+                        className={`interface-group-card sub-card rounded-[14px] ${
+                          isNeumorphismActive ? 'border-0' : 'border'
+                        } p-[14px] flex flex-col gap-[12px] w-full h-full min-w-0`}
+                        style={
+                          isNeumorphismActive
+                            ? { background: 'var(--bg-subcard)' }
+                            : {
+                                background: 'var(--bg-subcard)',
+                                borderColor: isGroupActive
+                                  ? 'var(--color-primary)'
+                                  : 'var(--border-subcard)',
+                              }
+                        }
                       >
                         <div
-                          className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b min-w-0"
-                          style={{ borderColor: 'var(--border-subcard)' }}
+                          className={`flex flex-wrap items-center justify-between gap-2 pb-2 ${
+                            isNeumorphismActive ? 'border-0' : 'border-b'
+                          } min-w-0`}
+                          style={isNeumorphismActive ? undefined : { borderColor: 'var(--border-subcard)' }}
                         >
                           <div
                             className="card-header-sync flex items-center gap-2 min-w-0"
@@ -1182,21 +1362,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             )}
           </div>
 
-          {/* 4. Phòng thử nghiệm thành phần Soft UI (Thu gọn mặc định để ưu tiên kho giao diện) */}
+          {/* 4. Bộ thành phần Neumorphism Soft UI Kit (Thu gọn mặc định, tuân thủ 100% không viền + bóng nổi/lõm kép) */}
           {isSandboxOpen && (
             <div
               id="interface-soft-ui-reference-widget"
               data-subcard="true"
-              className="sub-card flex flex-col gap-[15px] p-[15px] border"
+              className="sub-card neu-kit-surface flex flex-col gap-[15px] p-[18px] rounded-[22px] border-0"
               style={{
                 background: 'var(--bg-subcard)',
-                borderColor: 'var(--border-subcard)',
               }}
             >
-              <div
-                className="flex items-center justify-between gap-3 pb-2.5 border-b"
-                style={{ borderColor: 'var(--border-subcard)' }}
-              >
+              <div className="flex items-center justify-between gap-3 pb-1 border-0">
                 <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--color-primary)' }}>
                   <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                   <h4
@@ -1204,24 +1380,37 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     data-card-title="true"
                     style={{ color: 'var(--color-primary)' }}
                   >
-                    {isEn ? 'Liquid Glass Soft UI Component Suite (Reference Match)' : 'Bộ thành phần Liquid Glass Soft UI (Khớp mẫu tham khảo)'}
+                    {isEn ? 'Neumorphism UI Kit (Borderless Soft UI)' : 'Neumorphism UI Kit (Soft UI Không Viền)'}
                   </h4>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsSandboxOpen(false);
+                  }}
+                  aria-label={isEn ? 'Close UI Kit' : 'Đóng UI Kit'}
+                  className="neu-kit-btn w-8 h-8 rounded-full border-0 flex items-center justify-center cursor-pointer shrink-0"
+                  style={{
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  <WebIcon name="x" className="w-4 h-4" />
+                </button>
               </div>
               <p className="typo-caption" style={{ color: 'var(--text-muted)' }}>
                 {isEn
-                  ? 'Interactive replica of search bar, pill buttons, soft icon cards, and crisp multi-color vertical slider tracks.'
-                  : 'Mô phỏng tương tác thanh tìm kiếm, nút bấm, thẻ icon và các thanh trượt dọc đa sắc từ mẫu thiết kế.'}
+                  ? 'Zero CSS borders across all interactive controls—depth is sculpted purely with dual outset and inset box-shadows.'
+                  : 'Loại bỏ hoàn toàn viền CSS ở mọi thành phần tương tác—độ nổi khối và nhấn lõm được tạo thuần bằng cặp bóng đổ outset/inset.'}
               </p>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-center pt-1">
                 <div className="lg:col-span-5 flex flex-col gap-[15px]">
                   <div
-                    className="flex items-center gap-3 px-4 py-3 rounded-[999px] border transition-all"
+                    className="neu-kit-well flex items-center gap-3 px-4 py-3 rounded-[999px] border-0 transition-all"
                     style={{
                       background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      boxShadow: 'var(--neu-inset-shadow)',
                     }}
                   >
                     <WebIcon name="search" className="w-4 h-4 shrink-0 opacity-70" />
@@ -1230,14 +1419,16 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       value={sandboxQuery}
                       onChange={(e) => setSandboxQuery(e.target.value)}
                       placeholder={isEn ? 'Search for ...' : 'Nhập thử từ khóa...'}
-                      className="w-full bg-transparent border-none outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
+                      className="w-full bg-transparent border-0 outline-none typo-body text-[var(--text-input)] placeholder-[var(--text-placeholder)]"
+                      style={{ boxShadow: 'none' }}
                     />
                     {sandboxQuery && (
                       <button
                         type="button"
                         onClick={() => setSandboxQuery('')}
                         aria-label={isEn ? 'Clear text' : 'Xóa chữ'}
-                        className="w-5 h-5 rounded-full flex items-center justify-center opacity-70 hover:opacity-100 cursor-pointer shrink-0"
+                        className="neu-kit-btn w-6 h-6 rounded-full border-0 flex items-center justify-center opacity-80 hover:opacity-100 cursor-pointer shrink-0"
+                        style={{ background: 'var(--bg-card)', color: 'var(--text-primary)' }}
                       >
                         <WebIcon name="x" className="w-3.5 h-3.5" />
                       </button>
@@ -1246,82 +1437,85 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                   <button
                     type="button"
+                    aria-pressed={neuKitPressed.mainBtn}
                     onClick={() => {
                       SoundEngine.playGlassChime();
-                      if (onShowNotification) onShowNotification(isEn ? '✓ Soft button clicked!' : '✓ Đã bấm nút Soft UI!');
+                      setNeuKitPressed((prev) => ({ ...prev, mainBtn: !prev.mainBtn }));
+                      onShowNotification?.(isEn ? '✓ Soft UI button toggled!' : '✓ Đã chuyển trạng thái nút Soft UI!');
                     }}
-                    className="w-full py-3 px-6 rounded-[999px] border typo-button font-bold text-center cursor-pointer transition-all"
+                    className="neu-kit-btn w-full py-3 px-6 rounded-[999px] border-0 typo-button font-bold text-center cursor-pointer"
                     style={{
                       background: 'var(--bg-card)',
-                      borderColor: 'var(--border-subcard)',
-                      boxShadow: 'var(--neu-raised-shadow)',
-                      color: 'var(--text-primary)',
+                      color: neuKitPressed.mainBtn ? 'var(--color-primary)' : 'var(--text-primary)',
                     }}
                   >
-                    Button
+                    {neuKitPressed.mainBtn ? (isEn ? 'Pressed (Inset)' : 'Đang nhấn (Inset)') : 'Button'}
                   </button>
 
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
+                      aria-pressed={neuKitPressed.heart}
+                      aria-label={isEn ? 'Like toggle' : 'Thích'}
                       onClick={() => {
                         SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('♥ Liked');
+                        setNeuKitPressed((prev) => ({ ...prev, heart: !prev.heart }));
+                        onShowNotification?.('♥ Liked');
                       }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="heart" className="w-5 h-5" style={{ color: '#EE6AD2', fill: '#EE6AD2' }} />
+                      <WebIcon name="heart" className="w-5 h-5" style={{ color: '#EE6AD2', fill: neuKitPressed.heart ? '#EE6AD2' : 'none' }} />
                     </button>
                     <button
                       type="button"
+                      aria-pressed={neuKitPressed.comment}
+                      aria-label={isEn ? 'Comment toggle' : 'Bình luận'}
                       onClick={() => {
                         SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('💬 Chat opened');
+                        setNeuKitPressed((prev) => ({ ...prev, comment: !prev.comment }));
+                        onShowNotification?.('💬 Chat toggled');
                       }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="message-square" className="w-5 h-5" style={{ color: '#64B6FF', fill: '#64B6FF' }} />
+                      <WebIcon name="message-square" className="w-5 h-5" style={{ color: '#64B6FF', fill: neuKitPressed.comment ? '#64B6FF' : 'none' }} />
                     </button>
                     <button
                       type="button"
+                      aria-pressed={neuKitPressed.bookmark}
+                      aria-label={isEn ? 'Bookmark toggle' : 'Lưu dấu'}
                       onClick={() => {
                         SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('📌 Saved');
+                        setNeuKitPressed((prev) => ({ ...prev, bookmark: !prev.bookmark }));
+                        onShowNotification?.('📌 Saved');
                       }}
-                      className="w-12 h-12 rounded-[16px] flex items-center justify-center border transition-all cursor-pointer"
+                      className="neu-kit-btn w-12 h-12 rounded-[16px] border-0 flex items-center justify-center cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
                       }}
                     >
-                      <WebIcon name="bookmark" className="w-5 h-5" style={{ color: '#4973FF', fill: '#4973FF' }} />
+                      <WebIcon name="bookmark" className="w-5 h-5" style={{ color: '#4973FF', fill: neuKitPressed.bookmark ? '#4973FF' : 'none' }} />
                     </button>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
+                      aria-pressed={neuKitPressed.share}
                       onClick={() => {
                         SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('🔗 Shared');
+                        setNeuKitPressed((prev) => ({ ...prev, share: !prev.share }));
+                        onShowNotification?.('🔗 Shared');
                       }}
-                      className="flex-1 py-2.5 px-5 rounded-[999px] border flex items-center justify-center gap-2 typo-label font-bold cursor-pointer transition-all"
+                      className="neu-kit-btn flex-1 py-2.5 px-5 rounded-[999px] border-0 flex items-center justify-center gap-2 typo-label font-bold cursor-pointer"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
-                        color: 'var(--text-primary)',
+                        color: neuKitPressed.share ? 'var(--color-primary)' : 'var(--text-primary)',
                       }}
                     >
                       <WebIcon name="share-2" className="w-4 h-4" />
@@ -1329,15 +1523,15 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     </button>
                     <button
                       type="button"
+                      aria-label={isEn ? 'Increment all sliders' : 'Tăng thanh trượt'}
                       onClick={() => {
                         SoundEngine.playTap();
-                        if (onShowNotification) onShowNotification('➕ Action added');
+                        setNeuSliders((prev) => prev.map((v) => (v >= 90 ? 30 : Math.min(95, v + 10))));
+                        onShowNotification?.('➕ Action added');
                       }}
-                      className="w-11 h-11 rounded-full flex items-center justify-center border transition-all cursor-pointer shrink-0"
+                      className="neu-kit-btn w-11 h-11 rounded-full border-0 flex items-center justify-center cursor-pointer shrink-0"
                       style={{
                         background: 'var(--bg-card)',
-                        borderColor: 'var(--border-subcard)',
-                        boxShadow: 'var(--neu-raised-shadow)',
                         color: 'var(--text-primary)',
                       }}
                     >
@@ -1347,11 +1541,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </div>
 
                 <div
-                  className="lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] border"
+                  className="neu-kit-well lg:col-span-7 flex items-end justify-around gap-3 p-[15px] rounded-[var(--radius-subcard,18px)] border-0"
                   style={{
                     background: 'var(--bg-card)',
-                    borderColor: 'var(--border-subcard)',
-                    boxShadow: 'var(--neu-inset-shadow)',
                   }}
                 >
                   {[
@@ -1366,10 +1558,24 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     return (
                       <div key={bar.label} className="flex flex-col items-center gap-3">
                         <div
-                          className="relative w-3.5 h-[140px] rounded-[999px] cursor-pointer overflow-hidden"
+                          role="slider"
+                          tabIndex={0}
+                          aria-label={`${bar.label} level`}
+                          aria-valuemin={10}
+                          aria-valuemax={95}
+                          aria-valuenow={val}
+                          className="neu-kit-well relative w-3.5 h-[140px] rounded-[999px] border-0 cursor-pointer overflow-hidden"
                           style={{
-                            background: 'var(--bg-subcard)',
-                            boxShadow: 'inset 2px 2px 5px rgba(163, 177, 198, 0.48), inset -2px -2px 4px rgba(255, 255, 255, 0.42)',
+                            background: 'var(--bg-card)',
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+                              e.preventDefault();
+                              setNeuSliders((prev) => prev.map((n, i) => (i === idx ? Math.min(95, n + 5) : n)));
+                            } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+                              e.preventDefault();
+                              setNeuSliders((prev) => prev.map((n, i) => (i === idx ? Math.max(10, n - 5) : n)));
+                            }
                           }}
                           onClick={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
@@ -1399,11 +1605,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             updated[idx] = val >= 90 ? 30 : val + 15;
                             setNeuSliders(updated);
                           }}
-                          className="w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                          className="neu-kit-btn w-9 h-9 rounded-full border-0 flex items-center justify-center cursor-pointer"
                           style={{
                             background: 'var(--bg-card)',
-                            borderColor: 'var(--border-subcard)',
-                            boxShadow: 'var(--neu-raised-shadow)',
                             color: 'var(--text-primary)',
                           }}
                           title={`${bar.label}: ${val}%`}

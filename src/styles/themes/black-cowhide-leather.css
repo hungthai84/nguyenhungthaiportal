@@ -450,35 +450,43 @@ html[data-card-style="black-cowhide-leather"] :is(
 }
 
 /* Circular Menu Icon Medallion Inside Header & Footer Nav Pills */
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn .nav-pill-icon-badge {
-  background: linear-gradient(145deg, #161920 0%, #0A0B0F 100%) !important;
-  background-color: #0A0B0F !important;
-  border: 1px dashed rgba(255, 255, 255, 0.78) !important;
+html[data-card-style="black-cowhide-leather"] :is(
+  #app-header nav button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1px dashed rgba(10, 11, 15, 0.55) !important;
+  --tw-ring-color: transparent !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-card-style="black-cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #272B36 0%, #14171F 100%) !important;
+  border: 1px dashed #FFFFFF !important;
   --tw-ring-color: rgba(15, 17, 22, 0.94) !important;
   box-shadow: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #app-header nav button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-lang-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-appearance-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-theme-mode-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-wallpaper-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html[data-card-style="black-cowhide-leather"] #footer-ai-btn:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  background: linear-gradient(145deg, #272B36 0%, #14171F 100%) !important;
-  border-color: #FFFFFF !important;
+html[data-card-style="black-cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+  color: #0A0B0F !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-icon-badge svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill .nav-pill-icon-svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
-html[data-card-style="black-cowhide-leather"] .nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+html[data-card-style="black-cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="black-cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
   color: #FFFFFF !important;
 }
 

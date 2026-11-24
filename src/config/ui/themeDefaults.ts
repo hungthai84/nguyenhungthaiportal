@@ -8,16 +8,17 @@ import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_bey
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
-import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
-import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
-import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'light-deep-ocean';
 export const DEFAULT_LAYER_DEPTH = 100;
 
+export type VisualThemeMode = 'neumorphism' | 'standard';
+
 export const CARD_STYLE_STORAGE_KEY = 'hungthai_card_style_v2';
+export const VISUAL_THEME_MODE_STORAGE_KEY = 'hungthai_visual_theme_mode_v1';
+export const LAST_STANDARD_CARD_STYLE_STORAGE_KEY = 'hungthai_last_standard_style_v1';
 export const COLOR_SCHEME_MODE_STORAGE_KEY = 'hungthai_color_scheme_mode_v1';
 export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
@@ -36,6 +37,9 @@ export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
 export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 
+export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
+  style === 'frost-ice-neu' || style === 'dark-frost-ice-neu';
+
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
   { cardOpacity: number; blurIntensity: number }
@@ -50,8 +54,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
   'dark-neumorphism-beyond': { cardOpacity: 92, blurIntensity: 14 },
-  'frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
-  'dark-frost-ice-neu': { cardOpacity: 93, blurIntensity: 14 },
+  'frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
+  'dark-frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
 };
@@ -92,7 +96,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-cowhide-leather',
     label: 'Nền Chất liệu da (màu nâu)',
     themeMode: 'color',
-    imagePath: cowhideLeatherWallpaper,
+    imagePath: '',
     fallbackGradient:
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
@@ -150,20 +154,18 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     presetId: 'theme-bg-frost-ice-neu',
     label: 'Nền Băng Tuyết Nổi Khối (Sáng)',
     themeMode: 'light',
-    imagePath: frostIceNeuWallpaper,
-    fallbackGradient:
-      'radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.92) 0%, transparent 48%), radial-gradient(circle at 86% 24%, rgba(168, 212, 248, 0.50) 0%, transparent 54%), radial-gradient(circle at 50% 88%, rgba(186, 218, 245, 0.45) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
-    overlayBg: 'rgba(232, 243, 252, 0.12)',
+    imagePath: '',
+    fallbackGradient: '#E0E8F2',
+    overlayBg: 'transparent',
   },
   'dark-frost-ice-neu': {
     id: 'dark-frost-ice-neu',
     presetId: 'theme-bg-dark-frost-ice-neu',
     label: 'Nền Băng Tuyết Nổi Khối (Tối)',
     themeMode: 'dark',
-    imagePath: darkFrostIceNeuWallpaper,
-    fallbackGradient:
-      'radial-gradient(circle at 18% 14%, rgba(110, 106, 246, 0.16) 0%, transparent 46%), radial-gradient(circle at 84% 22%, rgba(74, 184, 249, 0.14) 0%, transparent 50%), radial-gradient(circle at 74% 84%, rgba(255, 112, 161, 0.10) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
-    overlayBg: 'rgba(12, 19, 32, 0.22)',
+    imagePath: '',
+    fallbackGradient: '#1A2433',
+    overlayBg: 'transparent',
   },
   'multicolor-glass': {
     id: 'multicolor-glass',

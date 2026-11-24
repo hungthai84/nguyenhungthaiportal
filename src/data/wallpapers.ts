@@ -8,9 +8,6 @@ import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_bey
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
-import cowhideLeatherWallpaper from '@/assets/images/theme_bg_cowhide_leather_1795263157003.jpg';
-import frostIceNeuWallpaper from '@/assets/images/wallpaper_ice_blue_neu_1795175772109.jpg';
-import darkFrostIceNeuWallpaper from '@/assets/images/wallpaper_dark_ice_blue_neu_1795175772360.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
@@ -51,8 +48,10 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: darkRainbowGlassWallpaper,
   },
   'cowhide-leather': {
-    light: cowhideLeatherWallpaper,
-    dark: cowhideLeatherWallpaper,
+    light:
+      'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
+    dark:
+      'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
   },
   'black-cowhide-leather': {
     light: blackCowhideLeatherWallpaper,
@@ -75,12 +74,12 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: darkNeumorphismBeyondWallpaper,
   },
   'frost-ice-neu': {
-    light: frostIceNeuWallpaper,
-    dark: darkFrostIceNeuWallpaper,
+    light: '#E0E8F2',
+    dark: '#1A2433',
   },
   'dark-frost-ice-neu': {
-    light: frostIceNeuWallpaper,
-    dark: darkFrostIceNeuWallpaper,
+    light: '#E0E8F2',
+    dark: '#1A2433',
   },
   'multicolor-glass': {
     light: multicolorGlassWallpaper,
@@ -466,15 +465,13 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-cowhide-leather',
     name: '💼 Nền Da Bò Thủ Công (Theme Background)',
-    type: 'image',
-    value: cowhideLeatherWallpaper,
-    bg: `url('${cowhideLeatherWallpaper}') center/cover no-repeat`,
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%);',
+    bg: 'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
     previewStyle: {
       background:
         'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
-      backgroundImage: `url('${cowhideLeatherWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
     },
     isCustom: false,
     createdAt: 1794300000005,
@@ -592,15 +589,11 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-frost-ice-neu',
     name: '❄️ Nền Băng Tuyết Nổi Khối Sáng (Giao diện riêng)',
-    type: 'image',
-    value: frostIceNeuWallpaper,
-    bg: `url('${frostIceNeuWallpaper}') center/cover no-repeat`,
+    type: 'css',
+    value: 'background: #E0E8F2;',
+    bg: '#E0E8F2',
     previewStyle: {
-      background:
-        'radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.95) 0%, transparent 50%), radial-gradient(circle at 84% 78%, rgba(154, 200, 240, 0.55) 0%, transparent 56%), linear-gradient(145deg, #EDF6FD 0%, #E4F0FB 52%, #D4E6F7 100%)',
-      backgroundImage: `url('${frostIceNeuWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      background: '#E0E8F2',
     },
     isCustom: false,
     createdAt: 1794300000025,
@@ -608,15 +601,11 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'theme-bg-dark-frost-ice-neu',
     name: '🌌 Nền Băng Tuyết Nổi Khối Tối (Giao diện riêng)',
-    type: 'image',
-    value: darkFrostIceNeuWallpaper,
-    bg: `url('${darkFrostIceNeuWallpaper}') center/cover no-repeat`,
+    type: 'css',
+    value: 'background: #1A2433;',
+    bg: '#1A2433',
     previewStyle: {
-      background:
-        'radial-gradient(circle at 20% 20%, rgba(110, 106, 246, 0.24) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(74, 184, 249, 0.22) 0%, transparent 52%), linear-gradient(145deg, #162235 0%, #101928 52%, #0C1320 100%)',
-      backgroundImage: `url('${darkFrostIceNeuWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      background: '#1A2433',
     },
     isCustom: false,
     createdAt: 1794300000026,

@@ -11,6 +11,9 @@ import {
 } from '../data/wallpapers';
 import {
   CARD_STYLE_STORAGE_KEY,
+  VISUAL_THEME_MODE_STORAGE_KEY,
+  LAST_STANDARD_CARD_STYLE_STORAGE_KEY,
+  isNeumorphismCardStyle,
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
   DEFAULT_CARD_STYLE,
@@ -207,6 +210,8 @@ function ensureDefaultUiSeedSync(): void {
     if (localStorage.getItem(DEFAULT_UI_SEED_KEY) !== '1') {
       const keysToClear = [
         CARD_STYLE_STORAGE_KEY,
+        VISUAL_THEME_MODE_STORAGE_KEY,
+        LAST_STANDARD_CARD_STYLE_STORAGE_KEY,
         'hungthai_card_style',
         'hungthai_card_style_manual',
         'hungthai_last_dark_style',
@@ -267,7 +272,13 @@ function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode
   ensureDefaultUiSeedSync();
   try {
     const savedStyle = localStorage.getItem(CARD_STYLE_STORAGE_KEY);
-    const baseStyle = savedStyle ? normalizeCardStyle(savedStyle) : DEFAULT_CARD_STYLE;
+    let baseStyle = savedStyle ? normalizeCardStyle(savedStyle) : DEFAULT_CARD_STYLE;
+    if (!savedStyle) {
+      const savedVisualMode = localStorage.getItem(VISUAL_THEME_MODE_STORAGE_KEY);
+      if (savedVisualMode === 'neumorphism') {
+        baseStyle = initialSchemeMode === 'dark' ? 'dark-frost-ice-neu' : 'frost-ice-neu';
+      }
+    }
     if (initialSchemeMode === 'system') {
       return getLightDarkCounterpart(baseStyle, getSystemPrefersDark());
     }
@@ -440,6 +451,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const nextDark = resolveCardStyleDark(cardStyle);
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, cardStyle);
+      const isNeu = isNeumorphismCardStyle(cardStyle);
+      localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, isNeu ? 'neumorphism' : 'standard');
+      if (!isNeu) {
+        localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, cardStyle);
+      }
       localStorage.removeItem('theme_mode');
     } catch (e) {
       // ignore

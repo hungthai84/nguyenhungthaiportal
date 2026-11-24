@@ -265,40 +265,94 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     accentDotColor: '#64B6FF',
   },
   'frost-ice-neu': {
-    bracketBg: 'linear-gradient(145deg, #F5FAFF 0%, #E7F2FC 100%)',
-    bracketBorder: '1px solid rgba(255, 255, 255, 0.92)',
-    wireStroke: '#6E6AF6',
-    capBg: 'linear-gradient(145deg, #F6FBFF 0%, #E6F1FB 100%)',
-    capBorder: '1px solid rgba(255, 255, 255, 0.92)',
-    shadeBg: 'linear-gradient(145deg, #F6FBFF 0%, #E6F1FB 100%)',
-    shadeBorder: '1px solid rgba(255, 255, 255, 0.92)',
+    bracketBg: '#E0E8F2',
+    bracketBorder: '1px solid transparent',
+    wireStroke: '#5B57E8',
+    capBg: '#E0E8F2',
+    capBorder: '1px solid transparent',
+    shadeBg: '#E0E8F2',
+    shadeBorder: '1px solid transparent',
     shadeShadow:
-      '5px 6px 14px rgba(162, 193, 224, 0.36), -4px -4px 10px rgba(255, 255, 255, 0.96), inset 0 1px 0 rgba(255, 255, 255, 1)',
-    cordStroke: '#6E6AF6',
-    beadBg: 'linear-gradient(180deg, #6E6AF6 0%, #4AB8F9 52%, #FF70A1 100%)',
-    beadBorder: '1px solid rgba(255, 255, 255, 0.92)',
-    beadShadow: '3px 4px 10px rgba(162, 193, 224, 0.38), -2px -2px 6px rgba(255, 255, 255, 0.96)',
-    unlitBulbBg: 'rgba(136, 160, 184, 0.55)',
-    unlitBulbShadow: 'inset 1px 1px 3px rgba(162, 193, 224, 0.48), inset -1px -1px 2px rgba(255, 255, 255, 0.92)',
-    accentDotColor: '#6E6AF6',
+      '-6px -6px 14px rgba(255, 255, 255, 0.86), 6px 6px 14px rgba(163, 179, 199, 0.58)',
+    cordStroke: '#5B57E8',
+    beadBg: '#5B57E8',
+    beadBorder: '1px solid transparent',
+    beadShadow: '-3px -3px 7px rgba(255, 255, 255, 0.80), 3px 3px 8px rgba(91, 87, 232, 0.34)',
+    unlitBulbBg: '#C8D4E3',
+    unlitBulbShadow: 'inset 2px 2px 5px rgba(163, 179, 199, 0.58), inset -2px -2px 5px rgba(255, 255, 255, 0.86)',
+    accentDotColor: '#5B57E8',
   },
   'dark-frost-ice-neu': {
-    bracketBg: 'linear-gradient(145deg, #1E2C42 0%, #141F31 100%)',
-    bracketBorder: '1px solid rgba(148, 189, 232, 0.20)',
-    wireStroke: '#8E8BFF',
-    capBg: 'linear-gradient(145deg, #213049 0%, #162235 100%)',
-    capBorder: '1px solid rgba(148, 189, 232, 0.20)',
-    shadeBg: 'linear-gradient(145deg, #213049 0%, #141F31 100%)',
-    shadeBorder: '1px solid rgba(148, 189, 232, 0.20)',
+    bracketBg: '#1A2433',
+    bracketBorder: '1px solid transparent',
+    wireStroke: '#6E6AF6',
+    capBg: '#1A2433',
+    capBorder: '1px solid transparent',
+    shadeBg: '#1A2433',
+    shadeBorder: '1px solid transparent',
     shadeShadow:
-      '5px 6px 14px rgba(4, 9, 18, 0.68), -3px -3px 10px rgba(44, 67, 102, 0.34), inset 0 1px 0 rgba(186, 218, 250, 0.14)',
-    cordStroke: '#8E8BFF',
-    beadBg: 'linear-gradient(180deg, #6E6AF6 0%, #4AB8F9 52%, #FF70A1 100%)',
-    beadBorder: '1px solid rgba(142, 139, 255, 0.38)',
-    beadShadow: '3px 4px 10px rgba(4, 9, 18, 0.64), -2px -2px 6px rgba(44, 67, 102, 0.34)',
-    unlitBulbBg: 'rgba(116, 146, 180, 0.50)',
-    unlitBulbShadow: 'inset 1px 1px 3px rgba(4, 9, 18, 0.72), inset -1px -1px 2px rgba(44, 67, 102, 0.34)',
-    accentDotColor: '#4AB8F9',
+      '-6px -6px 14px rgba(38, 52, 74, 0.70), 6px 6px 14px rgba(10, 15, 24, 0.78)',
+    cordStroke: '#6E6AF6',
+    beadBg: '#6E6AF6',
+    beadBorder: '1px solid transparent',
+    beadShadow: '-3px -3px 7px rgba(38, 52, 74, 0.65), 3px 3px 8px rgba(8, 12, 22, 0.76)',
+    unlitBulbBg: '#273549',
+    unlitBulbShadow: 'inset 2px 2px 5px rgba(10, 15, 24, 0.78), inset -2px -2px 5px rgba(38, 52, 74, 0.65)',
+    accentDotColor: '#6E6AF6',
+  },
+  'multicolor-glass': {
+    bracketBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(238, 242, 255, 0.88) 100%)',
+    bracketBorder: '1px solid rgba(255, 255, 255, 0.94)',
+    wireStroke: '#4F46E5',
+    capBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 249, 255, 0.90) 100%)',
+    capBorder: '1px solid rgba(255, 255, 255, 0.95)',
+    shadeBg: 'linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(244, 238, 255, 0.88) 100%)',
+    shadeBorder: '1px solid rgba(255, 255, 255, 0.94)',
+    shadeShadow:
+      '0 12px 28px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.98)',
+    cordStroke: '#6366F1',
+    beadBg: 'linear-gradient(180deg, #6366F1 0%, #EC4899 52%, #06B6D4 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.92)',
+    beadShadow: '0 4px 12px rgba(99, 102, 241, 0.34)',
+    unlitBulbBg: 'rgba(148, 163, 184, 0.65)',
+    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.78)',
+    accentDotColor: '#6366F1',
+  },
+  'flat-soft-ui': {
+    bracketBg: '#FFFFFF',
+    bracketBorder: '1px solid rgba(226, 232, 240, 0.95)',
+    wireStroke: '#4F46E5',
+    capBg: '#F8FAFC',
+    capBorder: '1px solid rgba(226, 232, 240, 0.95)',
+    shadeBg: '#FFFFFF',
+    shadeBorder: '1px solid rgba(226, 232, 240, 0.95)',
+    shadeShadow:
+      '0 6px 18px -2px rgba(15, 23, 42, 0.08), 0 12px 28px -6px rgba(15, 23, 42, 0.06)',
+    cordStroke: '#4F46E5',
+    beadBg: 'linear-gradient(180deg, #4F46E5 0%, #3B82F6 100%)',
+    beadBorder: '1px solid rgba(255, 255, 255, 0.92)',
+    beadShadow: '0 4px 10px rgba(79, 70, 229, 0.25)',
+    unlitBulbBg: '#CBD5E1',
+    unlitBulbShadow: 'inset 0 1px 2px rgba(15, 23, 42, 0.12)',
+    accentDotColor: '#4F46E5',
+  },
+  'dark-flat-soft-ui': {
+    bracketBg: '#131B2A',
+    bracketBorder: '1px solid rgba(148, 163, 184, 0.22)',
+    wireStroke: '#818CF8',
+    capBg: '#161F30',
+    capBorder: '1px solid rgba(148, 163, 184, 0.22)',
+    shadeBg: '#131B2A',
+    shadeBorder: '1px solid rgba(148, 163, 184, 0.22)',
+    shadeShadow:
+      '0 10px 26px rgba(0, 0, 0, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+    cordStroke: '#818CF8',
+    beadBg: 'linear-gradient(180deg, #6366F1 0%, #4F46E5 100%)',
+    beadBorder: '1px solid rgba(165, 180, 252, 0.45)',
+    beadShadow: '0 4px 12px rgba(99, 102, 241, 0.36)',
+    unlitBulbBg: '#334155',
+    unlitBulbShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.45)',
+    accentDotColor: '#818CF8',
   },
 };
 
@@ -736,9 +790,20 @@ export const PullCord: React.FC<PullCordProps> = ({
     ? {
         display: 'block',
         transformOrigin: '50% 50%',
-        backgroundColor: isGlowDisabledTheme ? '#4973FF' : activeBulbStop.core,
+        backgroundColor:
+          cardStyle === 'frost-ice-neu'
+            ? '#5B57E8'
+            : cardStyle === 'dark-frost-ice-neu'
+              ? '#6E6AF6'
+              : isGlowDisabledTheme
+                ? '#4973FF'
+                : activeBulbStop.core,
         boxShadow: isGlowDisabledTheme
-          ? '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
+          ? cardStyle === 'frost-ice-neu'
+            ? '-2px -2px 5px rgba(255, 255, 255, 0.85), 3px 3px 7px rgba(91, 87, 232, 0.38)'
+            : cardStyle === 'dark-frost-ice-neu'
+              ? '-2px -2px 5px rgba(38, 52, 74, 0.65), 3px 3px 7px rgba(8, 12, 22, 0.75)'
+              : '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
           : `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
         transition: 'background-color 900ms ease, box-shadow 900ms ease, opacity 300ms ease',
       }

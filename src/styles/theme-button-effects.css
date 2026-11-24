@@ -167,8 +167,6 @@
     [data-card-style="light-deep-ocean"],
     [data-card-style="neumorphism-beyond"],
     [data-card-style="dark-neumorphism-beyond"],
-    [data-card-style="frost-ice-neu"],
-    [data-card-style="dark-frost-ice-neu"],
     [data-card-style="cowhide-leather"],
     [data-card-style="black-cowhide-leather"],
     [data-card-style="flat-soft-ui"],
@@ -188,7 +186,7 @@
 /* ------------------------------------------------------------------------- */
 /* 1. NEUMORPHISM & BEYOND (Nổi Khối Kính Mờ — Matte Soft UI Tactile Press)  */
 /* ------------------------------------------------------------------------- */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
+html[data-card-style="neumorphism-beyond"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -208,7 +206,7 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   );
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
+html[data-card-style="neumorphism-beyond"] :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -226,7 +224,7 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) :where(
+  html[data-card-style="neumorphism-beyond"] :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -247,10 +245,8 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   }
 }
 
-
-
-/* 1B. DARK NEUMORPHISM & DARK FROST ICE NEU */
-html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
+/* 1B. DARK NEUMORPHISM BEYOND */
+html[data-card-style="dark-neumorphism-beyond"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -270,7 +266,7 @@ html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-fros
   );
 }
 
-html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
+html[data-card-style="dark-neumorphism-beyond"] :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -287,7 +283,7 @@ html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-fros
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) :where(
+  html[data-card-style="dark-neumorphism-beyond"] :where(
     button,
     a[role="button"],
     .nav-pill,
@@ -306,6 +302,146 @@ html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-fros
       -4px -4px 12px rgba(44, 60, 88, 0.42),
       inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
   }
+}
+
+/* 1C. FROST ICE NEUMORPHISM (Light & Dark — Pure Matte, Zero Gloss, Dual Soft Shadows) */
+html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before,
+html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  display: none !important;
+  content: none !important;
+}
+
+html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn) {
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="frost-ice-neu"] :where(
+    button,
+    a[role="button"],
+    [role="tab"],
+    [role="option"],
+    [role="switch"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([aria-pressed="true"]):not([disabled]):hover {
+    transform: none !important;
+    border: none !important;
+    border-width: 0 !important;
+    box-shadow:
+      -6px -6px 13px rgba(255, 255, 255, 0.92),
+      6px 6px 13px rgba(163, 179, 199, 0.64) !important;
+  }
+
+  html[data-card-style="dark-frost-ice-neu"] :where(
+    button,
+    a[role="button"],
+    [role="tab"],
+    [role="option"],
+    [role="switch"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([aria-pressed="true"]):not([disabled]):hover {
+    transform: none !important;
+    border: none !important;
+    border-width: 0 !important;
+    box-shadow:
+      -6px -6px 13px rgba(45, 62, 88, 0.76),
+      6px 6px 13px rgba(8, 12, 20, 0.84) !important;
+  }
+}
+
+html[data-card-style="frost-ice-neu"] :where(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([disabled]):is(:active, [aria-pressed="true"]) {
+  transform: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(163, 179, 199, 0.60),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.88) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :where(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([disabled]):is(:active, [aria-pressed="true"]) {
+  transform: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(10, 15, 24, 0.80),
+    inset -4px -4px 8px rgba(38, 52, 74, 0.66) !important;
 }
 
 

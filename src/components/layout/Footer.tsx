@@ -353,7 +353,7 @@ export const Footer: React.FC<FooterProps> = ({
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
         } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left animate-slide-up pointer-events-auto`}
       >
-        <div className="max-h-[380px] overflow-y-auto no-scrollbar flex flex-col gap-1">
+        <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
           {CARD_STYLE_GROUPS.map((group) => {
             const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
             const darkMode = group.darkMode || group.presets[group.presets.length - 1]?.id || lightMode;

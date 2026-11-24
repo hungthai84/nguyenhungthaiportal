@@ -4728,19 +4728,19 @@ html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--letter {
   animation: none !important;
 }
 
-/* --- Theme 13: Băng Tuyết Nổi Khối (Sáng & Tối) --- */
+/* --- Theme 13: Băng Tuyết Nổi Khối (Sáng & Tối · Pure Matte Neumorphism) --- */
 html[data-card-style="frost-ice-neu"] .video-play-btn {
-  --vp-backdrop: blur(12px) saturate(112%);
-  --vp-border: rgba(255, 255, 255, 0.92);
-  --vp-text: #25384B;
-  --vp-specular: rgba(255, 255, 255, 0.96);
+  --vp-backdrop: none;
+  --vp-border: transparent;
+  --vp-text: #22344A;
+  --vp-specular: transparent;
   --vp-chase-a: transparent;
   --vp-chase-b: transparent;
-  --vp-shadow-ambient: 6px 8px 16px rgba(162, 193, 224, 0.38), -5px -5px 12px rgba(255, 255, 255, 0.96);
-  --vp-shadow-hover: 8px 10px 20px rgba(154, 187, 220, 0.44), -6px -6px 14px rgba(255, 255, 255, 1);
-  --vp-sound-bg: rgba(110, 106, 246, 0.14);
-  --vp-sound-border: rgba(110, 106, 246, 0.28);
-  --vp-sound-hover: rgba(74, 184, 249, 0.24);
+  --vp-shadow-ambient: -5px -5px 10px rgba(255, 255, 255, 0.86), 5px 5px 10px rgba(163, 179, 199, 0.56);
+  --vp-shadow-hover: -6px -6px 13px rgba(255, 255, 255, 0.92), 6px 6px 13px rgba(163, 179, 199, 0.64);
+  --vp-sound-bg: #E0E8F2;
+  --vp-sound-border: transparent;
+  --vp-sound-hover: #E0E8F2;
   animation: none !important;
 }
 html[data-card-style="frost-ice-neu"] .video-play-btn::before {
@@ -4751,28 +4751,28 @@ html[data-card-style="frost-ice-neu"] .video-play-btn--home,
 html[data-card-style="frost-ice-neu"] .video-play-btn--about,
 html[data-card-style="frost-ice-neu"] .video-play-btn--interview,
 html[data-card-style="frost-ice-neu"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #F6FBFF 0%, #E7F2FC 100%);
-  --vp-bg-hover: linear-gradient(145deg, #FFFFFF 0%, #EDF6FD 100%);
+  --vp-bg: #E0E8F2;
+  --vp-bg-hover: #E0E8F2;
 }
 html[data-card-style="frost-ice-neu"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #6E6AF6 0%, #965CE8 52%, #4AB8F9 100%);
-  --vp-bg-hover: linear-gradient(135deg, #7D7AF8 0%, #A46EED 52%, #5EC4FA 100%);
+  --vp-bg: #5B57E8;
+  --vp-bg-hover: #4B46D6;
   --vp-text: #FFFFFF;
   animation: none !important;
 }
 
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn {
-  --vp-backdrop: blur(12px) saturate(112%);
-  --vp-border: rgba(148, 189, 232, 0.22);
-  --vp-text: #F1F8FF;
-  --vp-specular: rgba(186, 218, 250, 0.16);
+  --vp-backdrop: none;
+  --vp-border: transparent;
+  --vp-text: #DCE7F5;
+  --vp-specular: transparent;
   --vp-chase-a: transparent;
   --vp-chase-b: transparent;
-  --vp-shadow-ambient: 6px 8px 16px rgba(4, 9, 18, 0.68), -4px -4px 10px rgba(44, 67, 102, 0.34);
-  --vp-shadow-hover: 8px 10px 20px rgba(4, 9, 18, 0.76), -5px -5px 12px rgba(52, 78, 118, 0.42);
-  --vp-sound-bg: rgba(142, 139, 255, 0.16);
-  --vp-sound-border: rgba(142, 139, 255, 0.34);
-  --vp-sound-hover: rgba(74, 184, 249, 0.24);
+  --vp-shadow-ambient: -5px -5px 10px rgba(38, 52, 74, 0.68), 5px 5px 10px rgba(10, 15, 24, 0.76);
+  --vp-shadow-hover: -6px -6px 13px rgba(45, 62, 88, 0.76), 6px 6px 13px rgba(8, 12, 20, 0.84);
+  --vp-sound-bg: #1A2433;
+  --vp-sound-border: transparent;
+  --vp-sound-hover: #1A2433;
   animation: none !important;
 }
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn::before {
@@ -4783,12 +4783,12 @@ html[data-card-style="dark-frost-ice-neu"] .video-play-btn--home,
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn--about,
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn--interview,
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, #213049 0%, #152134 100%);
-  --vp-bg-hover: linear-gradient(145deg, #283A57 0%, #1B2940 100%);
+  --vp-bg: #1A2433;
+  --vp-bg-hover: #1A2433;
 }
 html[data-card-style="dark-frost-ice-neu"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #6E6AF6 0%, #965CE8 52%, #4AB8F9 100%);
-  --vp-bg-hover: linear-gradient(135deg, #7D7AF8 0%, #A46EED 52%, #5EC4FA 100%);
+  --vp-bg: #6E6AF6;
+  --vp-bg-hover: #7B77FA;
   --vp-text: #FFFFFF;
   animation: none !important;
 }

@@ -1934,7 +1934,7 @@ export function AboutView({
         ['--about-card-w' as any]: `${aboutCardWidth}px`,
         ['--about-side-inset' as any]: `${aboutSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-0 font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-hidden z-10 box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-0 font-play text-left text-[var(--text-primary)] transition-all duration-300 rounded-none overflow-visible z-10 box-border"
     >
       <div
         id="about-cards-track"
@@ -1951,9 +1951,9 @@ export function AboutView({
           margin: '0 auto',
           boxSizing: 'border-box',
           padding: 0,
-          overflow: 'hidden',
+          overflow: 'visible',
         }}
-        className="page-cards-track flex flex-col items-center justify-start h-full min-h-full max-h-full w-full max-w-[1250px] mx-auto box-border overflow-hidden"
+        className="page-cards-track flex flex-col items-center justify-start h-full min-h-full max-h-full w-full max-w-[1250px] mx-auto box-border overflow-visible"
       >
       {/* ========================================================================= */}
       {/* CARD GIỚI THIỆU CHÍNH (BENTO MULTICOLOR VIEW): NHẬP CARD 1 & 2 LÀM 1      */}
@@ -1961,6 +1961,7 @@ export function AboutView({
       <div
         id="about-intro-card-1"
         data-main-card="true"
+        data-floating-surface="main"
         data-element-name="Thẻ chính Trang Giới Thiệu Chuyên Gia"
         data-element-type="card"
         data-element-page="about"
@@ -1971,22 +1972,19 @@ export function AboutView({
           height: '100%',
           minHeight: '100%',
           maxHeight: '100%',
-          paddingTop: '12px',
-          paddingRight: '12px',
-          paddingBottom: '12px',
-          paddingLeft: '12px',
-          gap: '0px',
-          rowGap: '0px',
-          columnGap: '0px',
-          borderRadius: 'var(--radius-main, 14px)',
+          padding: '15px',
+          gap: '15px',
+          rowGap: '15px',
+          columnGap: '15px',
+          borderRadius: 'var(--radius-main, 30px)',
           boxSizing: 'border-box',
           margin: '0 auto',
           overflow: 'hidden',
         }}
-        className="page-main-card relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-3 gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border mx-auto opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1250px] shrink-0 h-full min-h-full max-h-full flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-main,30px)] overflow-hidden box-border mx-auto opacity-100"
       >
         <div
-          id="about-intro-card-1-scroll-viewport"
+          id="about-intro-grid-1"
           onWheel={(e) => {
             const el = e.currentTarget;
             if (el) {
@@ -1997,19 +1995,17 @@ export function AboutView({
             overscrollBehaviorY: 'contain',
             WebkitOverflowScrolling: 'touch',
             scrollBehavior: 'smooth',
-          }}
-          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-3 overflow-y-auto overflow-x-hidden no-scrollbar box-border"
-        >
-        <div
-          id="about-intro-grid-1"
-          style={{
-            padding: '0px',
+            padding: '2px',
+            paddingLeft: '2px',
+            paddingRight: '2px',
+            paddingBottom: '2px',
+            paddingTop: '2px',
             gap: '12px',
             rowGap: '12px',
             columnGap: '12px',
             borderRadius: '14px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-3 p-0 rounded-[14px] items-stretch box-border"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 p-0 rounded-[14px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
         >
             
             {/* BENTO TILE 1: CARD VIDEO CHÂN DUNG CHUYÊN GIA (SAPPHIRE BLUE) */}
@@ -2979,8 +2975,6 @@ export function AboutView({
               </div>
             </div>
         </div>
-        </div>
-      </div>
       </div>
 
       {/* Bento Card Focus / Expand Modal (Yêu Cầu 5) */}
@@ -3135,6 +3129,7 @@ export function AboutView({
           </div>
         </div>
       </Modal>
+      </div>
     </div>
   );
 }

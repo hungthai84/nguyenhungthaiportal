@@ -1,0 +1,355 @@
+/* ========================================================================= */
+/* UNIFIED FLOATING GLASS SURFACE ARCHITECTURE                               */
+/* HeaderSurface · MainContentSurface · FooterSurface                        */
+/* "Same Material – Consistent Elevation – Distinct Identity"                */
+/* ========================================================================= */
+
+:root {
+  /* Responsive Shell Spacing Tokens (Desktop 10px -> Laptop 8px -> Tablet 6px -> Mobile 4px) */
+  --shell-section-gap: 10px;
+  --surface-border-width: 1px;
+  --surface-radius-header: 0 0 14px 14px;
+  --surface-radius-main: var(--radius-main, 14px);
+  --surface-radius-footer: 14px 14px 0 0;
+  --surface-transition: 240ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Specular Edge Highlight Tokens (Light Default) */
+  --surface-specular-top: rgba(255, 255, 255, 0.86);
+  --surface-specular-side: rgba(255, 255, 255, 0.62);
+  --surface-specular-bottom: rgba(15, 23, 42, 0.10);
+
+  /* Unified Z-Index Layer Contract */
+  --z-wallpaper: 0;
+  --z-ambient: 1;
+  --z-main-surface: 10;
+  --z-header-surface: 40;
+  --z-footer-surface: 50;
+  --z-popup: 90;
+  --z-modal: 1000;
+  --z-overlay: 10000;
+}
+
+/* Dark Theme Specular Rim Tokens */
+html.dark,
+html[data-card-style^="dark-"],
+html[data-card-style="deep-ocean"],
+html[data-card-style="cowhide-leather"],
+html[data-card-style="black-cowhide-leather"] {
+  --surface-specular-top: rgba(255, 255, 255, 0.24);
+  --surface-specular-side: rgba(255, 255, 255, 0.14);
+  --surface-specular-bottom: rgba(0, 0, 0, 0.42);
+}
+
+html[data-card-style="deep-ocean"] {
+  --surface-specular-top: rgba(186, 230, 253, 0.36);
+  --surface-specular-side: rgba(56, 189, 248, 0.26);
+  --surface-specular-bottom: rgba(2, 6, 23, 0.56);
+}
+
+html[data-card-style="dark-neon-glass"] {
+  --surface-specular-top: rgba(165, 243, 252, 0.42);
+  --surface-specular-side: rgba(34, 211, 238, 0.32);
+  --surface-specular-bottom: rgba(217, 70, 239, 0.26);
+}
+
+html[data-card-style="light-deep-ocean"] {
+  --surface-specular-top: rgba(255, 255, 255, 0.88);
+  --surface-specular-side: rgba(255, 255, 255, 0.66);
+  --surface-specular-bottom: rgba(3, 25, 91, 0.16);
+}
+
+/* Responsive Shell Section Gap Scale */
+@media (max-width: 1279px) {
+  :root {
+    --shell-section-gap: 8px;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --shell-section-gap: 6px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --shell-section-gap: 4px;
+  }
+}
+
+/* ========================================================================= */
+/* 1. APPLICATION SHELL & BREATHING ROOM (UNCLIPPED 3-SURFACE FLOATING SPACE)*/
+/* ========================================================================= */
+
+#website-root {
+  height: 100vh;
+  height: 100dvh;
+  padding: 0 !important;
+  gap: var(--shell-section-gap, 10px) !important;
+  overflow-x: clip !important;
+  overflow-y: hidden !important;
+}
+
+#website-root:has(#pdf-page-container) {
+  --shell-section-gap: 0px;
+  gap: 0px !important;
+}
+
+#app-header-container {
+  z-index: var(--z-header-surface, 40);
+  overflow: visible !important;
+  padding: 0px !important;
+}
+
+#global-content-viewport {
+  height: calc(80% - (var(--shell-section-gap, 10px) * 2)) !important;
+  z-index: var(--z-main-surface, 10);
+  overflow: visible !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+#global-content-viewport:has(#pdf-page-container) {
+  height: 100% !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.tab-content-host,
+#tab-content {
+  overflow: visible !important;
+}
+
+#el-p0-div-98 {
+  z-index: var(--z-footer-surface, 50);
+  overflow: visible !important;
+  padding: 0px !important;
+}
+
+/* ========================================================================= */
+/* 2. ZERO SHADOW CLIPPING ON SINGLE-CARD & MULTI-CARD PAGE TRACKS           */
+/* ========================================================================= */
+
+/* Single-card pages: overflow visible lets Level-4 floating shadows breathe cleanly */
+:is(
+  #about-page-container,
+  #about-cards-track,
+  #education-page-container,
+  #services-page-container,
+  #experience-page-container,
+  #skills-page-container,
+  #projects-page-container,
+  #systems-page-container,
+  #interview-page-container,
+  #memories-page-container,
+  #contact-page-container,
+  #ai-assistant-page-container,
+  #wallpaper-page-container,
+  #interface-page-container
+) {
+  overflow: visible !important;
+}
+
+/* Home multi-slide horizontal container: clip X so slides don't cause page scroll, keep Y visible for top/bottom floating shadows */
+#home-page-container {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+/* Vertical scroll views (Letter & Horoscope): keep vertical scrolling smooth with horizontal shadow clearance */
+#letter-page-container,
+#horoscope-page-container {
+  overflow-x: clip !important;
+  overflow-y: auto !important;
+}
+
+/* ========================================================================= */
+/* 3. UNIFIED FLOATING GLASS MATERIAL CONTRACT (HEADER + MAIN + FOOTER)      */
+/* ========================================================================= */
+
+/* Shared Glass Material & Specular Border on Glass Themes */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):root body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  #about-intro-card-1,
+  [id^="letter-card-"]
+):not(#pdf-page-container) {
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 20px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 155%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 20px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 155%)))) !important;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  border-style: solid !important;
+  border-width: var(--surface-border-width, 1px) !important;
+  border-top-color: var(--surface-specular-top) !important;
+  border-left-color: var(--surface-specular-side) !important;
+  border-right-color: var(--surface-specular-side) !important;
+  border-bottom-color: var(--surface-specular-bottom) !important;
+}
+
+/* Distinct Surface Geometry & Edge Identity */
+html:root body #app-header,
+html:root[data-card-style] body #app-header {
+  border-top: none !important;
+  border-radius: var(--surface-radius-header, 0 0 14px 14px) !important;
+}
+
+html:root body #app-footer,
+html:root[data-card-style] body #app-footer {
+  border-bottom: none !important;
+  border-radius: var(--surface-radius-footer, 14px 14px 0 0) !important;
+}
+
+html:root body :is(
+  .page-main-card,
+  [data-main-card="true"],
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  #about-intro-card-1,
+  [id^="letter-card-"]
+):not(#pdf-page-container),
+html:root[data-card-style] body :is(
+  .page-main-card,
+  [data-main-card="true"],
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  #about-intro-card-1,
+  [id^="letter-card-"]
+):not(#pdf-page-container) {
+  border-radius: var(--surface-radius-main, var(--radius-main, 14px)) !important;
+}
+
+/* Preserve Home Inner Media Crispness (0% blur on video/image stages inside Home Main Card) */
+html:root body #home-page-container :is(
+  .home-screen-media-stage,
+  [id^="home-main-content-"],
+  [data-media-card="video"],
+  video,
+  img
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Preserve Frost Ice Neu pure borderless matte surface identity */
+html[data-card-style="frost-ice-neu"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"]:not(#pdf-page-container)),
+html[data-card-style="dark-frost-ice-neu"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"]:not(#pdf-page-container)) {
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ========================================================================= */
+/* 4. LETTER CARD 1 <-> ABOUT CARD 1 EXACT DIMENSION PARITY                  */
+/* ========================================================================= */
+
+html #letter-cards-track > #letter-card-1,
+html[data-card-style] #letter-cards-track > #letter-card-1 {
+  width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  min-width: 0 !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, none) !important;
+  flex: 0 0 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Preserve About Card 1 clean internal Bento scroll & floating card presentation */
+html #about-intro-card-1,
+html[data-card-style] #about-intro-card-1 {
+  width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  margin: 0 auto !important;
+}
+
+/* ========================================================================= */
+/* SOFT FLOATING GLASS FOOTER & HEADER REFINEMENT                             */
+/* ========================================================================= */
+#app-footer {
+  border-radius: var(--surface-radius-footer, 14px 14px 0 0) !important;
+  border-bottom: none !important;
+  overflow: visible !important;
+}
+
+
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  border-style: none !important;
+  border-radius: 0px !important;
+}
+
+/* ========================================================================= */
+/* UNIFIED MAIN CARD SIZING TEMPLATE (MATCHING HOMEPAGE MAIN CARD)           */
+/* ========================================================================= */
+html:root body .page-main-card:not(#pdf-page-container),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container),
+html:root body [data-main-card="true"]:not(#pdf-page-container),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container) {
+  width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
+  max-width: var(--container-max-w, 1250px) !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  padding: var(--main-card-padding, 15px) !important;
+  border-radius: var(--radius-main, 30px) !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+}
+
+/* ========================================================================= */
+/* HEADER & FOOTER UNIFIED PADDING (15PX)                                    */
+/* ========================================================================= */
+html:root body #app-header,
+html:root[data-card-style] body #app-header,
+html:root body #app-footer,
+html:root[data-card-style] body #app-footer {
+  padding: 5px 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* REMOVE ALL VISUAL EFFECTS FOR HEADER, MAIN CARD, AND FOOTER               */
+/* ========================================================================= */
+html:root body :is(
+  #app-header,
+  .page-main-card,
+  [data-main-card="true"],
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  #about-intro-card-1,
+  [id^="letter-card-"],
+  #app-footer
+),
+html:root[data-card-style] body :is(
+  #app-header,
+  .page-main-card,
+  [data-main-card="true"],
+  .home-screen-main-card,
+  [id^="home-main-card-"],
+  #about-intro-card-1,
+  [id^="letter-card-"],
+  #app-footer
+) {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}

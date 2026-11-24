@@ -1,4 +1,56 @@
 @import "tailwindcss";
+
+/* Global website container */
+:root {
+  --website-max-width: 1440px;
+  --content-max-width: 1320px;
+  --page-padding-desktop: 32px;
+  --page-padding-laptop: 24px;
+  --page-padding-tablet: 20px;
+  --page-padding-mobile: 16px;
+}
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+}
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+}
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+.website-container {
+  width: min(
+    calc(100% - 64px),
+    var(--website-max-width)
+  );
+  margin-inline: auto;
+}
+.main-content {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
+@media (max-width: 1439px) {
+  .website-container {
+    width: calc(100% - 48px);
+  }
+}
+@media (max-width: 1023px) {
+  .website-container {
+    width: calc(100% - 40px);
+  }
+}
+@media (max-width: 767px) {
+  .website-container {
+    width: calc(100% - 32px);
+  }
+}
+
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *));
 
 @theme {
@@ -810,10 +862,12 @@ html[data-card-style] #letter-cards-track > #letter-card-1 {
   width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   max-width: var(--container-max-w, 1250px) !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, none) !important;
   flex: 0 0 auto !important;
-  overflow: visible !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   margin: 0 auto !important;
   padding: 15px !important;
   gap: 15px !important;
@@ -830,9 +884,9 @@ html[data-card-style] #letter-cards-track > #letter-card-4 {
   width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   min-width: 0 !important;
   max-width: var(--container-max-w, 1250px) !important;
-  height: var(--letter-card-1-h, auto) !important;
-  min-height: var(--letter-card-1-h, 0px) !important;
-  max-height: var(--letter-card-1-h, none) !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, none) !important;
   flex: 0 0 auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -843,7 +897,7 @@ html[data-card-style] #letter-cards-track > #letter-card-4 {
   column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-main, 30px) !important;
   box-sizing: border-box !important;
 }
 
@@ -935,9 +989,9 @@ html.dark[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-c
   width: var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   min-width: 0 !important;
   max-width: var(--container-max-w, 1250px) !important;
-  height: var(--letter-card-1-h, auto) !important;
-  min-height: var(--letter-card-1-h, 0px) !important;
-  max-height: var(--letter-card-1-h, none) !important;
+  height: var(--letter-viewport-h, 100%) !important;
+  min-height: var(--letter-viewport-h, 100%) !important;
+  max-height: var(--letter-viewport-h, none) !important;
   flex: 0 0 var(--shared-frame-w, clamp(260px, calc(100vw - var(--about-peek-reserve, 112px)), var(--container-max-w, 1250px))) !important;
   scroll-snap-align: center;
   overflow-y: auto !important;
@@ -949,7 +1003,7 @@ html.dark[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-c
   column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-main, 30px) !important;
   box-sizing: border-box !important;
 }
 
@@ -1574,73 +1628,6 @@ html[data-card-style="black-cowhide-leather"] #pdf-page-container {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:not([data-surface-depth="flat"]) :is(
-    .page-main-card,
-    [data-main-card="true"],
-    #contact-main-card,
-    #about-intro-card-1,
-    #about-intro-card-2,
-    #pdf-page-container
-  ):hover:not(:has(
-    [data-section-card="true"]:hover,
-    [data-subcard="true"]:hover,
-    .sub-card:hover,
-    .bento-card:hover,
-    .project-card:hover,
-    .education-card:hover,
-    .education-course-card:hover,
-    .exp-bento-surface-card:hover,
-    .exp-bento-item-card:hover,
-    .hero-banner:hover,
-    .banner-card:hover
-  )) {
-    box-shadow: none !important;
-    border-color: var(--surface-primary-border) !important;
-  }
-
-  html.dark:not([data-surface-depth="flat"]) :is(
-    .page-main-card,
-    [data-main-card="true"],
-    #contact-main-card,
-    #about-intro-card-1,
-    #about-intro-card-2,
-    #pdf-page-container
-  ):hover:not(:has(
-    [data-section-card="true"]:hover,
-    [data-subcard="true"]:hover,
-    .sub-card:hover,
-    .bento-card:hover,
-    .project-card:hover,
-    .education-card:hover,
-    .education-course-card:hover,
-    .exp-bento-surface-card:hover,
-    .exp-bento-item-card:hover,
-    .hero-banner:hover,
-    .banner-card:hover
-  )),
-  html[data-theme-mode="dark"]:not([data-surface-depth="flat"]) :is(
-    .page-main-card,
-    [data-main-card="true"],
-    #contact-main-card,
-    #about-intro-card-1,
-    #about-intro-card-2,
-    #pdf-page-container
-  ):hover:not(:has(
-    [data-section-card="true"]:hover,
-    [data-subcard="true"]:hover,
-    .sub-card:hover,
-    .bento-card:hover,
-    .project-card:hover,
-    .education-card:hover,
-    .education-course-card:hover,
-    .exp-bento-surface-card:hover,
-    .exp-bento-item-card:hover,
-    .hero-banner:hover,
-    .banner-card:hover
-  )) {
-    box-shadow: none !important;
-  }
-
   html[data-surface-depth="flat"] .page-main-card:hover,
   html[data-surface-depth="flat"][data-card-style] .page-main-card:hover,
   html[data-surface-depth="flat"] [data-main-card="true"]:hover,
@@ -5218,16 +5205,11 @@ html:root[data-card-style] body #education-filter-toggle-btn {
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE: HOME PAGE — KEEP STAGE MEDIA CRISP, SYNC PILLS & CAPSULES */
+/* FINAL OVERRIDE: HOME PAGE — KEEP STAGE MEDIA CRISP, PRESERVE GLASS SHELL  */
 /* ========================================================================= */
 html:root body #home-page-container :is(
-  .home-screen-main-card,
-  [id^="home-main-card-"],
   .home-screen-media-stage,
   [id^="home-main-content-"],
-  .bento-card,
-  .glass-card,
-  [data-section-card="true"],
   [data-media-card="video"],
   video,
   img
@@ -5239,40 +5221,20 @@ html:root body #home-page-container :is(
 }
 
 html:root body #home-page-container :is(
-  .home-screen-main-card,
-  [id^="home-main-card-"],
   .home-screen-media-stage,
-  [id^="home-main-content-"],
-  .bento-card,
-  .glass-card,
-  [data-section-card="true"]
+  [id^="home-main-content-"]
 )::before,
 html:root body #home-page-container :is(
-  .home-screen-main-card,
-  [id^="home-main-card-"],
   .home-screen-media-stage,
-  [id^="home-main-content-"],
-  .bento-card,
-  .glass-card,
-  [data-section-card="true"]
+  [id^="home-main-content-"]
 )::after,
 html:root[data-card-style] body #home-page-container :is(
-  .home-screen-main-card,
-  [id^="home-main-card-"],
   .home-screen-media-stage,
-  [id^="home-main-content-"],
-  .bento-card,
-  .glass-card,
-  [data-section-card="true"]
+  [id^="home-main-content-"]
 )::before,
 html:root[data-card-style] body #home-page-container :is(
-  .home-screen-main-card,
-  [id^="home-main-card-"],
   .home-screen-media-stage,
-  [id^="home-main-content-"],
-  .bento-card,
-  .glass-card,
-  [data-section-card="true"]
+  [id^="home-main-content-"]
 )::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -6204,5 +6166,22 @@ html[data-surface-depth="flat"] body :is(
   #interface-soft-ui-reference-widget * {
     transition: none !important;
   }
+}
+
+/* Final Floating Footer & Viewport Refinement Rules */
+#global-content-viewport {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+#app-footer {
+  padding: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
 }
 

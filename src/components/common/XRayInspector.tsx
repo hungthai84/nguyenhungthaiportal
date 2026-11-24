@@ -126,6 +126,35 @@ interface PinnedTarget {
   rect: DOMRect;
 }
 
+function getActiveFeaturesForTarget(item: PinnedTarget) {
+  const { computed, info, target } = item;
+  const features: { id: string; label: string; icon: string; colorClass: string }[] = [];
+
+  if (info.id || info.elementName) {
+    features.push({ id: 'identity', label: 'Định danh & Tên thẻ', icon: 'tag', colorClass: 'text-cyan-400 bg-cyan-500/15' });
+  }
+  if (computed.animation && computed.animation !== 'none') {
+    features.push({ id: 'animation', label: 'Hoạt ảnh (Animation) đang bật', icon: 'sparkles', colorClass: 'text-purple-400 bg-purple-500/15' });
+  }
+  if (computed.transition && computed.transition !== 'none' && !computed.transition.includes('0s')) {
+    features.push({ id: 'transition', label: 'Chuyển động (Transition) đang bật', icon: 'zap', colorClass: 'text-amber-400 bg-amber-500/15' });
+  }
+  if (computed.boxShadow && computed.boxShadow !== 'none') {
+    features.push({ id: 'shadow', label: 'Đổ bóng (Box Shadow)', icon: 'shield', colorClass: 'text-emerald-400 bg-emerald-500/15' });
+  }
+  if (computed.backdropFilter && computed.backdropFilter !== 'none' && computed.backdropFilter !== 'initial') {
+    features.push({ id: 'glass', label: 'Hiệu ứng kính mờ (Backdrop Filter)', icon: 'layers', colorClass: 'text-sky-400 bg-sky-500/15' });
+  }
+  if (computed.cursor === 'pointer' || ['button', 'a', 'input'].includes(target.tagName.toLowerCase())) {
+    features.push({ id: 'interactive', label: 'Tương tác trực tiếp (Interactive)', icon: 'mouse-pointer', colorClass: 'text-rose-400 bg-rose-500/15' });
+  }
+  if (info.text && info.text.length > 0) {
+    features.push({ id: 'text', label: 'Có nội dung văn bản', icon: 'file-text', colorClass: 'text-indigo-400 bg-indigo-500/15' });
+  }
+
+  return features;
+}
+
 export const XRayInspector: React.FC<XRayInspectorProps> = ({
   onShowNotification,
 }) => {
@@ -517,10 +546,11 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     e.stopPropagation();
     if (pinnedTargets.length === 0) return;
     const payload = pinnedTargets
-      .map(
-        ({ info }) =>
-          `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Nội dung: "${info.text || ''}"]`
-      )
+      .map((item) => {
+        const { info } = item;
+        const activeFeatures = getActiveFeaturesForTarget(item).map((f) => f.label).join(', ');
+        return `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Tính năng đang bật (ON): ${activeFeatures || 'Không có'} | Nội dung: "${info.text || ''}"]`;
+      })
       .join('\n\n');
 
     copyTextToClipboard(payload);
@@ -529,7 +559,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       pinnedTargets.length === 1
         ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
         : `${pinnedTargets.length} đối tượng`;
-    onShowNotification?.(`✓ Đã sao chép nhận dạng ${labelSummary} vào bộ nhớ tạm`);
+    onShowNotification?.(`✓ Đã sao chép nhận dạng ${labelSummary} vào bộ nhớ tạm (Tiếng Việt)`);
     closeXRay();
   };
 
@@ -539,8 +569,11 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     e.stopPropagation();
     if (pinnedTargets.length === 0) return;
     const payload = pinnedTargets
-      .map(({ computed, info }) => {
+      .map((item) => {
+        const { computed, info } = item;
+        const activeFeatures = getActiveFeaturesForTarget(item).map((f) => f.label).join(', ');
         return `[Hiệu ứng đối tượng: ${info.elementName || info.tag}]
+- Các tính năng đang bật (ON): ${activeFeatures || 'Không có'}
 - Chuyển động (Transition): ${computed.transition}
 - Hoạt ảnh (Animation): ${computed.animation}
 - Biến đổi (Transform): ${computed.transform}
@@ -559,7 +592,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       pinnedTargets.length === 1
         ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
         : `${pinnedTargets.length} đối tượng`;
-    onShowNotification?.(`✓ Đã sao chép hiệu ứng ${labelSummary} vào bộ nhớ tạm`);
+    onShowNotification?.(`✓ Đã sao chép hiệu ứng ${labelSummary} vào bộ nhớ tạm (Tiếng Việt)`);
     closeXRay();
   };
 
@@ -569,8 +602,11 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     e.stopPropagation();
     if (pinnedTargets.length === 0) return;
     const payload = pinnedTargets
-      .map(({ computed, info, rect }) => {
+      .map((item) => {
+        const { computed, info, rect } = item;
+        const activeFeatures = getActiveFeaturesForTarget(item).map((f) => f.label).join(', ');
         return `[Thông tin cấu hình đối tượng: ${info.elementName || info.tag}]
+- Các tính năng đang bật (ON): ${activeFeatures || 'Không có'}
 - Kích thước & Vị trí: Rộng ${Math.round(rect.width)}px, Cao ${Math.round(rect.height)}px (Top: ${Math.round(rect.top)}px, Left: ${Math.round(rect.left)}px)
 - Phông chữ: ${computed.fontFamily}
 - Cỡ chữ: ${computed.fontSize} (Độ đậm: ${computed.fontWeight}, Chiều cao dòng: ${computed.lineHeight})
@@ -591,7 +627,7 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
       pinnedTargets.length === 1
         ? `"${pinnedTargets[0].info.elementName || pinnedTargets[0].info.tag}"`
         : `${pinnedTargets.length} đối tượng`;
-    onShowNotification?.(`✓ Đã sao chép cấu hình ${labelSummary} vào bộ nhớ tạm`);
+    onShowNotification?.(`✓ Đã sao chép cấu hình ${labelSummary} vào bộ nhớ tạm (Tiếng Việt)`);
     closeXRay();
   };
 
@@ -693,9 +729,22 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
                   #{idx + 1}
                 </span>
               )}
-              <span className="text-xs font-bold font-play truncate max-w-[170px] sm:max-w-[240px]">
+              <span className="text-xs font-bold font-play truncate max-w-[130px] sm:max-w-[180px]">
                 {item.info.elementName || item.info.tag}
               </span>
+
+              {/* Các icon tính năng đang bật (ON) */}
+              <div className="flex items-center gap-0.5 px-1 py-0.5 rounded bg-white/10 shrink-0">
+                {getActiveFeaturesForTarget(item).map((feat) => (
+                  <span
+                    key={feat.id}
+                    title={feat.label}
+                    className={`w-4 h-4 rounded flex items-center justify-center ${feat.colorClass}`}
+                  >
+                    <WebIcon name={feat.icon} className="w-2.5 h-2.5" />
+                  </span>
+                ))}
+              </div>
 
               {isLast && (
                 <>

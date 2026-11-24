@@ -1,0 +1,822 @@
+/* ========================================================================= */
+/* THEME SYSTEM: DARK FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI TỐI)        */
+/* Authentic Dark Soft UI / Neumorphism (Material-less Uniform Matte Surface)*/
+/* Matte Base Canvas & Surfaces: #1A2433 · No Borders · No Gloss / Blur      */
+/* Dual Opposing Shadows: Soft Slate Highlight Top-Left + Deep Shadow BR     */
+/* Saturated Primary Accent: #6E6AF6 (WCAG AA Contrast & Focus Outline Cue)  */
+/* ========================================================================= */
+
+.card-dark-frost-ice-neu {
+  background: #1A2433 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 22px) !important;
+  box-shadow:
+    -7px -7px 16px rgba(38, 52, 74, 0.70),
+    7px 7px 16px rgba(10, 15, 24, 0.78) !important;
+  color: #DCE7F5 !important;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease !important;
+}
+
+.card-dark-frost-ice-neu:hover {
+  transform: none;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -9px -9px 18px rgba(45, 62, 88, 0.76),
+    9px 9px 18px rgba(8, 12, 20, 0.84) !important;
+}
+
+[data-theme="dark-frost-ice-neu"],
+html[data-card-style="dark-frost-ice-neu"],
+html[data-card-style="dark-frost-ice-neu"] body {
+  color-scheme: dark;
+  --ambient-wallpaper-opacity: 1;
+
+  /* Uniform Matte Deep Arctic Slate Surface & Canvas (#1A2433) */
+  --color-bg: #1A2433;
+  --color-bg-soft: #1A2433;
+  --color-bg-blue: #1A2433;
+  --color-surface: #1A2433;
+  --color-surface-elevated: #1A2433;
+  --color-surface-indigo: #1A2433;
+  --color-surface-cyan: #1A2433;
+  --color-surface-green: #1A2433;
+  --color-surface-orange: #1A2433;
+  --color-surface-pink: #1A2433;
+  --color-surface-purple: #1A2433;
+
+  /* Generous Rounded Corners */
+  --radius-card: 22px;
+  --radius-subcard: 18px;
+  --radius-banner: 22px;
+  --radius-modal: 26px;
+  --radius-popup: 22px;
+  --radius-badge: 9999px;
+
+  /* High-Contrast WCAG AA Glacier White Typography on #1A2433 */
+  --color-heading: #F1F6FC;
+  --color-text: #DCE7F5;
+  --color-text-secondary: #A7BAD0;
+  --color-text-muted: #94ABC5;
+  --color-text-inverse: #0F1725;
+  --text-primary: #DCE7F5;
+  --text-heading: #F1F6FC;
+  --text-secondary: #A7BAD0;
+  --text-muted: #94ABC5;
+  --text-link: #A5A2FF;
+  --text-accent: #8B87FF;
+  --text-input: #F1F6FC;
+  --text-placeholder: #94ABC5;
+  --text-on-dark: #FFFFFF;
+  --text-badge: #B9B6FF;
+  --text-highlight: #8B87FF;
+
+  /* Single Saturated Primary Accent + Harmonic Neutral Support */
+  --color-primary: #6E6AF6;
+  --color-secondary: #8B87FF;
+  --color-tertiary: #6E6AF6;
+  --color-accent: #6E6AF6;
+  --color-sky: #4AB8F9;
+  --color-blue: #6E6AF6;
+  --color-indigo: #6E6AF6;
+  --color-pink: #8B87FF;
+  --color-cyan: #3CD9D8;
+  --color-green: #3CD9D8;
+  --color-amber: #FDCB63;
+  --color-purple: #8B87FF;
+
+  /* Material-less Matte (Zero Glass Specular Sheen) */
+  --liquid-specular-rim: transparent;
+  --liquid-specular-edge: transparent;
+  --liquid-specular-bottom: transparent;
+  --liquid-specular-sheen: none;
+  --liquid-specular-sheen-hover: none;
+  --liquid-rim-inset: none;
+  --liquid-rim-inset-hover: none;
+  --glass-reflection-primary: none;
+  --glass-reflection-secondary: none;
+  --glass-prism-highlight: none;
+  --glass-inner-highlight: none;
+  --card-highlight: transparent;
+  --glass-highlight: transparent;
+  --ambient-inner-highlight: transparent;
+
+  /* Dual Soft Shadow Pairs (Raised vs. Pressed Inset) */
+  --neu-raised-shadow:
+    -6px -6px 12px rgba(38, 52, 74, 0.68),
+    6px 6px 12px rgba(10, 15, 24, 0.78);
+  --neu-inset-shadow:
+    inset 4px 4px 9px rgba(10, 15, 24, 0.80),
+    inset -4px -4px 9px rgba(38, 52, 74, 0.66);
+
+  /* Semantic Matte Surface Tokens */
+  --bg-app: #1A2433;
+  --bg-page: transparent;
+  --bg-main: #1A2433;
+  --bg-header: #1A2433;
+  --bg-footer: #1A2433;
+  --bg-card: #1A2433;
+  --bg-card-hover: #1A2433;
+  --bg-subcard: #1A2433;
+  --bg-subcard-hover: #1A2433;
+  --bg-nested: #1A2433;
+  --bg-nested-card: #1A2433;
+  --bg-nested-badge: #1A2433;
+  --bg-modal: #1A2433;
+  --bg-popup: #1A2433;
+  --bg-dropdown: #1A2433;
+  --bg-tooltip: #0D1420;
+  --bg-input: #1A2433;
+  --bg-table: #1A2433;
+  --bg-table-head: #1A2433;
+
+  /* Controls & Primary Saturated Accent Action */
+  --bg-nav-button-opaque: #1A2433;
+  --bg-nav-pill: #1A2433;
+  --bg-nav-pill-hover: #1A2433;
+  --bg-button-primary: #6E6AF6;
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: #1A2433;
+  --text-button-secondary: #DCE7F5;
+  --bg-badge: #1A2433;
+  --bg-highlight: rgba(110, 106, 246, 0.20);
+  --bg-banner: #1A2433;
+
+  /* Zero Borders Anywhere */
+  --color-border: transparent;
+  --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-nested-badge: transparent;
+  --border-modal: transparent;
+  --border-popup: transparent;
+  --border-input: transparent;
+  --color-focus-ring: #9B97FF;
+
+  /* Zero Glass Blur / Saturation */
+  --glass-bg: #1A2433;
+  --glass-border: transparent;
+  --glass-blur: 0px;
+  --bg-blur: 0px;
+  --blur-subcard: 0px;
+  --blur-nav-pill: 0px;
+  --blur-modal: 0px;
+  --glass-saturate: 100%;
+
+  /* Raised & Inset Dual Soft Shadows */
+  --shadow-card:
+    -7px -7px 16px rgba(38, 52, 74, 0.70),
+    7px 7px 16px rgba(10, 15, 24, 0.78);
+  --shadow-card-hover:
+    -9px -9px 18px rgba(45, 62, 88, 0.76),
+    9px 9px 18px rgba(8, 12, 20, 0.84);
+  --shadow-subcard:
+    -5px -5px 11px rgba(38, 52, 74, 0.66),
+    5px 5px 11px rgba(10, 15, 24, 0.74);
+  --shadow-nested:
+    -4px -4px 8px rgba(38, 52, 74, 0.62),
+    4px 4px 8px rgba(10, 15, 24, 0.70);
+  --shadow-nav-pill:
+    -5px -5px 10px rgba(38, 52, 74, 0.68),
+    5px 5px 10px rgba(10, 15, 24, 0.76);
+  --shadow-button:
+    -5px -5px 10px rgba(38, 52, 74, 0.68),
+    5px 5px 10px rgba(10, 15, 24, 0.76);
+  --shadow-popup:
+    -10px -10px 22px rgba(38, 52, 74, 0.72),
+    12px 12px 26px rgba(6, 10, 18, 0.86);
+  --surface-header-shadow:
+    0 8px 18px rgba(8, 12, 20, 0.72);
+  --surface-footer-shadow:
+    0 -8px 26px -4px rgba(8, 12, 20, 0.42);
+
+  /* Layered Surface Tokens */
+  --surface-primary-bg: #1A2433;
+  --surface-primary-border: transparent;
+  --surface-footer-border-top: transparent;
+  --surface-primary-shadow:
+    -10px -10px 22px rgba(38, 52, 74, 0.72),
+    10px 10px 22px rgba(10, 15, 24, 0.82);
+  --surface-primary-blur: 0px;
+  --surface-primary-saturate: 100%;
+
+  --surface-secondary-bg: #1A2433;
+  --surface-secondary-border: transparent;
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 0px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: #1A2433;
+  --surface-tertiary-border: transparent;
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-interactive-bg: #1A2433;
+  --surface-interactive-hover: #1A2433;
+  --surface-interactive-active: #6E6AF6;
+  --surface-interactive-border: transparent;
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
+  --outline-nav-pill: none;
+
+  /* Banner & Pillar Tokens */
+  --banner-transparent-bg: #1A2433;
+  --banner-border: transparent;
+  --bg-banner-pill: #1A2433;
+  --border-banner-pill: transparent;
+  --text-banner-pill: #B9B6FF;
+  --bg-banner-cta: #6E6AF6;
+  --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: #1A2433;
+  --border-nav-arrow: transparent;
+
+  --text-header-title: #F1F6FC;
+  --text-header-sub: #A7BAD0;
+  --text-nav-default: #DCE7F5;
+  --text-nav-active: #FFFFFF;
+  --text-nav-arrow: #DCE7F5;
+  --text-banner-input: #F1F6FC;
+  --text-banner-placeholder: #94ABC5;
+
+  /* Saturated Accent + Neutral Track */
+  --pillar-blue: #8B87FF;
+  --pillar-cyan: #8B87FF;
+  --pillar-emerald: #8B87FF;
+  --pillar-violet: #8B87FF;
+  --pillar-amber: #8B87FF;
+  --pillar-rose: #8B87FF;
+  --pillar-heading: #F1F6FC;
+  --pillar-body: #A7BAD0;
+  --pillar-progress-track: #1A2433;
+  --pillar-progress-fill: #6E6AF6;
+
+  /* Pure Uniform Matte Base Canvas (No Ambient Orbs/Glows) */
+  --app-bg-base: #1A2433;
+  --app-bg-gradient: #1A2433;
+  --ambient-base-bg: #1A2433;
+  --ambient-glow-1: transparent;
+  --ambient-glow-2: transparent;
+  --ambient-glow-3: transparent;
+  --ambient-glow-4: transparent;
+  --ambient-wave-1: transparent;
+  --ambient-wave-2: transparent;
+  --ambient-wave-3: transparent;
+  --ambient-depth-veil: none;
+  --ambient-depth-vignette: none;
+}
+
+/* Strip Ambient Glow/Orb/Wave Layers for Clean Uniform Matte Canvas */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  .ambient-layer-glow,
+  .ambient-layer-abstract,
+  .ambient-orb,
+  .ambient-wave
+) {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(
+  .motion-card,
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+) {
+  animation: none !important;
+}
+
+/* Layer Card Level 1: Header · Main Card · Footer (Matte, Borderless, Dual Shadow) */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: #1A2433 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -10px -10px 22px rgba(38, 52, 74, 0.72),
+    10px 10px 22px rgba(10, 15, 24, 0.82) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] #app-header {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    0 8px 18px rgba(8, 12, 20, 0.72) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] #app-footer {
+  border: none !important;
+  border-width: 0 !important;
+}
+
+/* Hero & Section Banners */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-banner, 22px) !important;
+  box-shadow:
+    -7px -7px 16px rgba(38, 52, 74, 0.70),
+    7px 7px 16px rgba(10, 15, 24, 0.78) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 9px rgba(38, 52, 74, 0.66),
+    4px 4px 9px rgba(10, 15, 24, 0.74) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Layer Card Level 2: Extruded Section, Bento & Personal Info Cards (Uniform Matte) */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(#app-header):not(#app-footer),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
+  .glass-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]),
+  .project-card,
+  .exp-bento-surface-card:not([data-multicolor-bento="true"]),
+  .education-card,
+  .education-course-card,
+  #about-personal-info-grid,
+  .bento-tone-sky,
+  .bento-tone-cyan,
+  .bento-tone-teal,
+  .bento-tone-blue,
+  .bento-tone-indigo,
+  .bento-tone-purple,
+  .bento-tone-pink,
+  .bento-tone-emerald,
+  .bento-tone-amber
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -7px -7px 16px rgba(38, 52, 74, 0.70),
+    7px 7px 16px rgba(10, 15, 24, 0.78) !important;
+  border-radius: var(--radius-card, 22px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Layer Card Level 3: Raised Sub-cards */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card:not([data-bento-subtone]),
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 11px rgba(38, 52, 74, 0.66),
+    5px 5px 11px rgba(10, 15, 24, 0.74) !important;
+  border-radius: var(--radius-subcard, 18px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Strict Zero-Border Rule for Divider Utility Classes & Rings inside Dark Matte Soft UI */
+html[data-card-style="dark-frost-ice-neu"] :is(.border, .border-t, .border-b, .border-l, .border-r) {
+  border-color: transparent !important;
+}
+
+/* Modals, Popups, PiP & Dropdowns */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  .theme-modal-card,
+  .theme-pip-player,
+  .theme-modal-subcard,
+  [role="dialog"],
+  .dropdown-menu,
+  .popover-card,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  .theme-popup,
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-modal, 26px) !important;
+  box-shadow:
+    -10px -10px 22px rgba(38, 52, 74, 0.72),
+    12px 12px 26px rgba(6, 10, 18, 0.86) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #DCE7F5 !important;
+}
+
+/* Inverted Inset Wells for All Text Inputs, Selects & Textareas (Strict No Borders + Clear Focus Ring Cue) */
+html[data-card-style="dark-frost-ice-neu"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 16px !important;
+  box-shadow:
+    inset 4px 4px 9px rgba(10, 15, 24, 0.80),
+    inset -4px -4px 9px rgba(38, 52, 74, 0.66) !important;
+  color: #F1F6FC !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(input[type="checkbox"], input[type="radio"]) {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -2px -2px 5px rgba(38, 52, 74, 0.68),
+    2px 2px 5px rgba(10, 15, 24, 0.78) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(input[type="checkbox"], input[type="radio"]):checked {
+  box-shadow:
+    inset 2px 2px 5px rgba(10, 15, 24, 0.82),
+    inset -2px -2px 5px rgba(38, 52, 74, 0.68) !important;
+}
+
+html[data-card-style="dark-frost-ice-neu"] :is(input, textarea, select):focus-visible {
+  outline: 2.5px solid #9B97FF !important;
+  outline-offset: 2px !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 5px 5px 10px rgba(10, 15, 24, 0.86),
+    inset -5px -5px 10px rgba(42, 58, 82, 0.72) !important;
+}
+
+/* Visible Non-Shadow Focus Cue Across All Interactive Controls (WCAG AA Non-Text Contrast) */
+html[data-card-style="dark-frost-ice-neu"] :is(
+  button,
+  a[href],
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2.5px solid #9B97FF !important;
+  outline-offset: 2px !important;
+}
+
+/* Strict Zero-Border Rule + Raised Outset Shadows for ALL Interactive Controls */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .theme-dropdown-option,
+  [data-element-type="button"]
+):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn) {
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* Raised Tactile Controls, Nav Pills & Secondary Buttons */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+  button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]),
+  #footer-lang-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-appearance-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-wallpaper-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-theme-mode-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-ai-btn:not([aria-current="page"]):not([data-active="true"]),
+  #app-footer #footer-nav-capsule,
+  .radial-contact-pill,
+  .theme-capsule-btn:not(.video-play-btn),
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]),
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"])
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 10px rgba(38, 52, 74, 0.68),
+    5px 5px 10px rgba(10, 15, 24, 0.76) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #DCE7F5 !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  button#footer-ai-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-lang-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-appearance-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-wallpaper-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-theme-mode-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]):hover,
+  .radial-contact-pill:hover,
+  .banner-control-pill:hover,
+  .theme-capsule-btn:not(.video-play-btn):hover,
+  .edu-bento-action-btn:hover,
+  .sys-bento-action-btn:hover,
+  .education-skill-chip:hover,
+  .project-card-btn-secondary:hover,
+  .exp-bento-rect-btn:hover,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]):hover,
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"]):hover
+) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -6px -6px 13px rgba(45, 62, 88, 0.76),
+    6px 6px 13px rgba(8, 12, 20, 0.84) !important;
+}
+
+/* Tactile Pressed / Inset State on Interactive Buttons, Selected Tabs/Options & Pressed Toggles */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn:not(.video-play-btn),
+  .radial-contact-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option
+):not([aria-current="page"]):not([data-active="true"]):not(:disabled):is(:active, [aria-pressed="true"], [aria-selected="true"], [data-selected="true"]) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(10, 15, 24, 0.82),
+    inset -4px -4px 8px rgba(38, 52, 74, 0.68) !important;
+  color: #B9B6FF !important;
+  font-weight: 700 !important;
+  transform: none !important;
+}
+
+/* Header & Footer Nav Pills (Unselected): Circle Badge Matches Title Color + Contrasting Dark Icon (No Border) */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #ffffff) !important;
+  background-color: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #ffffff) !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -2px -2px 5px rgba(38, 52, 74, 0.56),
+    2px 2px 6px rgba(10, 15, 24, 0.72) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+  color: #090E1A !important;
+  stroke: currentColor !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -3px -3px 6px rgba(38, 52, 74, 0.68),
+    3px 3px 6px rgba(10, 15, 24, 0.74) !important;
+  color: #A5A2FF !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 8px rgba(45, 62, 88, 0.76),
+    4px 4px 8px rgba(8, 12, 20, 0.82) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):active {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(10, 15, 24, 0.80),
+    inset -3px -3px 6px rgba(38, 52, 74, 0.66) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  color: #A5A2FF !important;
+}
+
+/* Primary Action / Active Nav Pill: Single Saturated Accent (#6E6AF6) + Crisp White Text (No Border) */
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: #6E6AF6 !important;
+  background-color: #6E6AF6 !important;
+  border: none !important;
+  border-width: 0 !important;
+  color: #FFFFFF !important;
+  filter: none !important;
+  box-shadow:
+    -4px -4px 10px rgba(42, 58, 82, 0.65),
+    5px 5px 12px rgba(8, 12, 20, 0.82),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.22),
+    inset -1px -1px 3px rgba(10, 15, 24, 0.30) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]):hover {
+  background: #7B77FA !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 12px rgba(48, 66, 94, 0.72),
+    6px 6px 14px rgba(6, 10, 18, 0.88),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.26),
+    inset -1px -1px 3px rgba(10, 15, 24, 0.34) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  box-shadow: 0 2px 6px rgba(8, 12, 20, 0.36) !important;
+}
+
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html:root[data-card-style="dark-frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+  color: #6E6AF6 !important;
+}
+
+/* Inverted Inset Range Sliders & Progress Wells */
+html[data-card-style="dark-frost-ice-neu"] input[type="range"] {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 9999px !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(10, 15, 24, 0.80),
+    inset -3px -3px 6px rgba(38, 52, 74, 0.66) !important;
+  accent-color: #8B87FF;
+}
+
+html[data-card-style="dark-frost-ice-neu"] .pillar-gradient-card .pillar-progress-track {
+  background: #1A2433 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(10, 15, 24, 0.78),
+    inset -3px -3px 6px rgba(38, 52, 74, 0.64);
+}
+
+html[data-card-style="dark-frost-ice-neu"] .pillar-gradient-card :is(.pillar-heading, .pillar-sub) {
+  color: #A5A2FF !important;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="dark-frost-ice-neu"],
+  html[data-card-style="dark-frost-ice-neu"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  html[data-card-style="dark-frost-ice-neu"] :is(button, a, .nav-pill, .bento-card, .project-card):hover {
+    transform: none !important;
+  }
+}

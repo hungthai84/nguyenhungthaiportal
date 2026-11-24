@@ -7,14 +7,32 @@
   height: 100vh;
   height: 100dvh;
   padding: 0 !important;
-  gap: var(--shell-section-gap, 10px);
+  gap: var(--shell-section-gap, 10px) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
 }
 
 #website-root:has(#pdf-page-container) {
+  --shell-section-gap: 0px;
   gap: 0 !important;
 }
 
-#app-header-container,
+#app-header-container {
+  flex: 0 0 10% !important;
+  height: 10% !important;
+  max-height: 10% !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
 #el-p0-div-98 {
   flex: 0 0 10% !important;
   height: 10% !important;
@@ -24,11 +42,19 @@
   margin-bottom: 0 !important;
 }
 
+#home-cards-track {
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
 #global-content-viewport {
   width: 100%;
   max-width: 100%;
   flex: 1 1 0% !important;
-  height: calc(80% - (var(--shell-section-gap, 10px) * 2));
+  height: calc(80% - (var(--shell-section-gap, 15px) * 2));
   margin-left: auto;
   margin-right: auto;
   margin-top: 0 !important;
@@ -152,7 +178,7 @@
   padding: 0 !important;
   box-sizing: border-box !important;
   background: transparent !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 #about-intro-card-1 {
@@ -949,7 +975,7 @@
   transform: none !important;
 }
 
-/* Static Header, Main Container & Footer (no hover or entrance effects) */
+/* Keep layout containers stationary (no layout-shifting transforms or entrance jumps) */
 #app-header,
 #app-header:hover,
 #app-footer,
@@ -960,7 +986,6 @@
 [id$="-page-container"]:not(#pdf-page-container):hover,
 [id$="-page-root"],
 [id$="-page-root"]:hover {
-  transition: none !important;
   animation: none !important;
   transform: none !important;
 }

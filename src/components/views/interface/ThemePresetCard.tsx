@@ -40,6 +40,8 @@ export interface ThemePresetCardProps {
   displayPresetName: string;
   displayShortBadge?: string;
   displayDesc: string;
+  lightModeId?: CardStyleMode;
+  darkModeId?: CardStyleMode;
   onSelectTheme: (mode: CardStyleMode, label: string) => void;
   onToggleVideo: (id: CardStyleMode) => void;
   onVideoError: (id: CardStyleMode) => void;
@@ -59,6 +61,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     hasVideoFailed,
     displayPresetName,
     displayDesc,
+    lightModeId,
+    darkModeId,
     onSelectTheme,
     onToggleVideo,
     onVideoError,
@@ -149,10 +153,17 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
 
     return (
       <article
+        onDoubleClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onSelectTheme(preset.id, displayPresetName);
+        }}
+        title={isEn ? 'Double-click to apply theme' : 'Nhấp đúp để áp dụng giao diện'}
         style={{
           ...safeSampleStyle,
           borderRadius: meta.radius,
           padding: '15px',
+          cursor: 'pointer',
           ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
           ...(isActive
             ? {
@@ -352,11 +363,37 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
             <span className={`typo-caption font-semibold truncate ${meta.accentTextClass}`}>
               {groupLabel} · {mechanismLabel}
             </span>
-            {isActive && (
-              <span className="inline-flex items-center gap-1 typo-caption font-bold text-emerald-600 dark:text-emerald-300 shrink-0 whitespace-nowrap">
-                <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />
-                <span>{isEn ? 'Active' : 'Đang bật'}</span>
-              </span>
+            {lightModeId && darkModeId && (
+              <div
+                role="group"
+                aria-label="Light / Dark mode tab"
+                className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
+              >
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectTheme(lightModeId, displayPresetName);
+                  }}
+                  className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                    preset.id === lightModeId ? 'bg-white text-slate-900 shadow-xs' : 'text-current opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  {isEn ? 'Light' : 'Sáng'}
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectTheme(darkModeId, displayPresetName);
+                  }}
+                  className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                    preset.id === darkModeId ? 'bg-slate-900 text-white shadow-xs' : 'text-current opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  {isEn ? 'Dark' : 'Tối'}
+                </button>
+              </div>
             )}
           </div>
 
@@ -390,37 +427,14 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           }`}
         >
           <span className={`typo-caption font-mono tabular-nums truncate ${meta.accentTextClass}`}>
-            {preset.id === 'liquid-glass' || preset.id === 'dark-liquid-glass'
-              ? `${meta.radius} · blur(16px)`
-              : isMatteNeu
-                ? `${meta.radius} · Soft UI Matte`
-                : preset.id.includes('glass')
-                  ? '24px · blur(24px)'
-                  : meta.radius}
+            {isActive
+              ? (isEn ? '✓ Active Theme' : '✓ Đang áp dụng')
+              : (isEn ? 'Double-click to apply' : 'Nhấp đúp để áp dụng')}
           </span>
 
-          <button
-            type="button"
-            aria-pressed={isActive}
-            onClick={() => onSelectTheme(preset.id, displayPresetName)}
-            className={`typo-button font-bold px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap ${
-              isActive ? meta.ctaActiveClass : meta.ctaIdleClass
-            }`}
-          >
-            <WebIcon
-              name={isActive ? 'check' : 'sparkles'}
-              className="w-3.5 h-3.5 shrink-0"
-            />
-            <span>
-              {isActive
-                ? isEn
-                  ? 'Active'
-                  : 'Đang bật'
-                : isEn
-                  ? 'Apply'
-                  : 'Áp dụng'}
-            </span>
-          </button>
+          <span className={`typo-caption font-semibold ${isActive ? 'text-emerald-500 dark:text-emerald-300 font-bold' : 'opacity-60'}`}>
+            {isActive ? (isEn ? 'Active' : 'Đang bật') : ''}
+          </span>
         </div>
       </article>
     );

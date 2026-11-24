@@ -574,26 +574,26 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   border-top: none !important;
-  box-shadow: none !important;
+  box-shadow: var(--elev-level-3-header, var(--surface-header-shadow)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-header, 0 0 20px 20px) !important;
+  border-radius: var(--radius-header, 0 0 14px 14px) !important;
   transform: none !important;
   animation: none !important;
-  transition: border-color 220ms ease !important;
+  transition: box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
 
 #app-footer {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   border-bottom: none !important;
-  box-shadow: none !important;
+  box-shadow: var(--elev-level-3-footer, var(--surface-footer-shadow)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  border-radius: var(--radius-footer, 20px 20px 0 0) !important;
+  border-radius: var(--radius-footer, 14px 14px 0 0) !important;
   transform: none !important;
   animation: none !important;
-  transition: border-color 220ms ease !important;
+  transition: box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
 
 #el-p1-div-85,
@@ -3801,6 +3801,7 @@ html #education-courses-grid .education-course-card,
   }
 }
 
+/* Main Card floating elevation is governed by elevation.css (Level 4, zero continuous animation jitter) */
 #home-main-card,
 [id^="home-main-card-"],
 [data-main-card="true"],
@@ -3808,22 +3809,6 @@ html #education-courses-grid .education-course-card,
 #about-intro-card-1,
 #about-intro-card-2 {
   animation: none !important;
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow))) !important;
-}
-
-.dark #home-main-card,
-.dark [id^="home-main-card-"],
-.dark [data-main-card="true"],
-.dark .page-main-card,
-.dark #about-intro-card-1,
-.dark #about-intro-card-2,
-:root[data-theme-mode="dark"] #home-main-card,
-:root[data-theme-mode="dark"] [id^="home-main-card-"],
-:root[data-theme-mode="dark"] [data-main-card="true"],
-:root[data-theme-mode="dark"] .page-main-card,
-:root[data-theme-mode="dark"] #about-intro-card-1,
-:root[data-theme-mode="dark"] #about-intro-card-2 {
-  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow, var(--main-card-deep-shadow-dark))) !important;
 }
 
 /* Main Card container stays stationary on hover so nested Card & Sub Card interactions remain stable */

@@ -480,6 +480,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header
       ref={headerRef}
       id="app-header"
+      data-floating-surface="header"
       data-element-name="Thanh điều hướng Header chính"
       data-element-type="container"
       data-element-page="global"
@@ -492,7 +493,7 @@ export const Header: React.FC<HeaderProps> = ({
         marginRight: 'auto',
         zIndex: isRadialMenuOpen ? 99999 : 40,
       }}
-      className={`neonav-bar mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar floating-glass-surface floating-surface--header mx-auto h-full min-h-0 py-0.5 flex items-center justify-between px-2 sm:px-3 ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >

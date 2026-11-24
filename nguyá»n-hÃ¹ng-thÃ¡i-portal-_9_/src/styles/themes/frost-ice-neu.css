@@ -1,0 +1,822 @@
+/* ========================================================================= */
+/* THEME SYSTEM: FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI SÁNG)            */
+/* Authentic Soft UI / Neumorphism (Material-less Uniform Matte Surface)     */
+/* Matte Base Canvas & Surfaces: #E0E8F2 · No Borders · No Gloss / Blur      */
+/* Dual Opposing Shadows: Light Top-Left + Cool Slate Bottom-Right           */
+/* Saturated Primary Accent: #5B57E8 (WCAG AA Contrast & Focus Outline Cue)  */
+/* ========================================================================= */
+
+.card-frost-ice-neu {
+  background: #E0E8F2 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 22px) !important;
+  box-shadow:
+    -7px -7px 16px rgba(255, 255, 255, 0.86),
+    7px 7px 16px rgba(163, 179, 199, 0.58) !important;
+  color: #22344A !important;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease !important;
+}
+
+.card-frost-ice-neu:hover {
+  transform: none;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -9px -9px 18px rgba(255, 255, 255, 0.92),
+    9px 9px 18px rgba(163, 179, 199, 0.64) !important;
+}
+
+[data-theme="frost-ice-neu"],
+html[data-card-style="frost-ice-neu"],
+html[data-card-style="frost-ice-neu"] body {
+  color-scheme: light;
+  --ambient-wallpaper-opacity: 1;
+
+  /* Uniform Matte Pale Grey-Blue Surface & Canvas (#E0E8F2) */
+  --color-bg: #E0E8F2;
+  --color-bg-soft: #E0E8F2;
+  --color-bg-blue: #E0E8F2;
+  --color-surface: #E0E8F2;
+  --color-surface-elevated: #E0E8F2;
+  --color-surface-indigo: #E0E8F2;
+  --color-surface-cyan: #E0E8F2;
+  --color-surface-green: #E0E8F2;
+  --color-surface-orange: #E0E8F2;
+  --color-surface-pink: #E0E8F2;
+  --color-surface-purple: #E0E8F2;
+
+  /* Generous Rounded Corners */
+  --radius-card: 22px;
+  --radius-subcard: 18px;
+  --radius-banner: 22px;
+  --radius-modal: 26px;
+  --radius-popup: 22px;
+  --radius-badge: 9999px;
+
+  /* High-Contrast WCAG AA Marine Slate Typography on #E0E8F2 */
+  --color-heading: #18273B;
+  --color-text: #22344A;
+  --color-text-secondary: #475B73;
+  --color-text-muted: #536882;
+  --text-primary: #22344A;
+  --text-heading: #18273B;
+  --text-secondary: #475B73;
+  --text-muted: #536882;
+  --text-link: #4B46D6;
+  --text-accent: #5B57E8;
+  --text-input: #18273B;
+  --text-placeholder: #536882;
+  --text-on-dark: #FFFFFF;
+  --text-badge: #4B46D6;
+  --text-highlight: #5B57E8;
+  --color-text-inverse: #FFFFFF;
+
+  /* Single Saturated Primary Accent + Harmonic Neutral Support */
+  --color-primary: #5B57E8;
+  --color-secondary: #4B46D6;
+  --color-tertiary: #5B57E8;
+  --color-accent: #5B57E8;
+  --color-sky: #4AB8F9;
+  --color-blue: #5B57E8;
+  --color-indigo: #5B57E8;
+  --color-pink: #5B57E8;
+  --color-cyan: #4AB8F9;
+  --color-green: #3CD9D8;
+  --color-amber: #FA8F60;
+  --color-purple: #7B61FF;
+
+  /* Material-less Matte (Zero Glass Specular Sheen) */
+  --liquid-specular-rim: transparent;
+  --liquid-specular-edge: transparent;
+  --liquid-specular-bottom: transparent;
+  --liquid-specular-sheen: none;
+  --liquid-specular-sheen-hover: none;
+  --liquid-rim-inset: none;
+  --liquid-rim-inset-hover: none;
+  --glass-reflection-primary: none;
+  --glass-reflection-secondary: none;
+  --glass-prism-highlight: none;
+  --glass-inner-highlight: none;
+  --card-highlight: transparent;
+  --glass-highlight: transparent;
+  --ambient-inner-highlight: transparent;
+
+  /* Dual Soft Shadow Pairs (Raised vs. Pressed Inset) */
+  --neu-raised-shadow:
+    -6px -6px 12px rgba(255, 255, 255, 0.86),
+    6px 6px 12px rgba(163, 179, 199, 0.60);
+  --neu-inset-shadow:
+    inset 4px 4px 9px rgba(163, 179, 199, 0.60),
+    inset -4px -4px 9px rgba(255, 255, 255, 0.86);
+
+  /* Semantic Matte Surface Tokens */
+  --bg-app: #E0E8F2;
+  --bg-page: transparent;
+  --bg-main: #E0E8F2;
+  --bg-header: #E0E8F2;
+  --bg-footer: #E0E8F2;
+  --bg-card: #E0E8F2;
+  --bg-card-hover: #E0E8F2;
+  --bg-subcard: #E0E8F2;
+  --bg-subcard-hover: #E0E8F2;
+  --bg-nested: #E0E8F2;
+  --bg-nested-card: #E0E8F2;
+  --bg-nested-badge: #E0E8F2;
+  --bg-modal: #E0E8F2;
+  --bg-popup: #E0E8F2;
+  --bg-dropdown: #E0E8F2;
+  --bg-tooltip: #18273B;
+  --bg-input: #E0E8F2;
+  --bg-table: #E0E8F2;
+  --bg-table-head: #E0E8F2;
+
+  /* Controls & Primary Saturated Accent Action */
+  --bg-nav-button-opaque: #E0E8F2;
+  --bg-nav-pill: #E0E8F2;
+  --bg-nav-pill-hover: #E0E8F2;
+  --bg-button-primary: #5B57E8;
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: #E0E8F2;
+  --text-button-secondary: #22344A;
+  --bg-badge: #E0E8F2;
+  --bg-highlight: rgba(91, 87, 232, 0.12);
+  --bg-banner: #E0E8F2;
+
+  /* Zero Borders Anywhere */
+  --color-border: transparent;
+  --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-nested-badge: transparent;
+  --border-modal: transparent;
+  --border-popup: transparent;
+  --border-input: transparent;
+  --color-focus-ring: #5B57E8;
+
+  /* Zero Glass Blur / Saturation */
+  --glass-bg: #E0E8F2;
+  --glass-border: transparent;
+  --glass-blur: 0px;
+  --bg-blur: 0px;
+  --blur-subcard: 0px;
+  --blur-nav-pill: 0px;
+  --blur-modal: 0px;
+  --glass-saturate: 100%;
+
+  /* Raised & Inset Dual Soft Shadows */
+  --shadow-card:
+    -7px -7px 16px rgba(255, 255, 255, 0.86),
+    7px 7px 16px rgba(163, 179, 199, 0.58);
+  --shadow-card-hover:
+    -9px -9px 18px rgba(255, 255, 255, 0.92),
+    9px 9px 18px rgba(163, 179, 199, 0.64);
+  --shadow-subcard:
+    -5px -5px 11px rgba(255, 255, 255, 0.85),
+    5px 5px 11px rgba(163, 179, 199, 0.55);
+  --shadow-nested:
+    -4px -4px 8px rgba(255, 255, 255, 0.84),
+    4px 4px 8px rgba(163, 179, 199, 0.52);
+  --shadow-nav-pill:
+    -5px -5px 10px rgba(255, 255, 255, 0.86),
+    5px 5px 10px rgba(163, 179, 199, 0.56);
+  --shadow-button:
+    -5px -5px 10px rgba(255, 255, 255, 0.86),
+    5px 5px 10px rgba(163, 179, 199, 0.56);
+  --shadow-popup:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    12px 12px 26px rgba(145, 163, 186, 0.62);
+  --surface-header-shadow:
+    0 8px 18px rgba(163, 179, 199, 0.45);
+  --surface-footer-shadow:
+    0 -8px 26px -4px rgba(163, 179, 199, 0.26);
+
+  /* Layered Surface Tokens */
+  --surface-primary-bg: #E0E8F2;
+  --surface-primary-border: transparent;
+  --surface-footer-border-top: transparent;
+  --surface-primary-shadow:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    10px 10px 22px rgba(163, 179, 199, 0.62);
+  --surface-primary-blur: 0px;
+  --surface-primary-saturate: 100%;
+
+  --surface-secondary-bg: #E0E8F2;
+  --surface-secondary-border: transparent;
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 0px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: #E0E8F2;
+  --surface-tertiary-border: transparent;
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-interactive-bg: #E0E8F2;
+  --surface-interactive-hover: #E0E8F2;
+  --surface-interactive-active: #5B57E8;
+  --surface-interactive-border: transparent;
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
+  --outline-nav-pill: none;
+
+  /* Banner & Pillar Tokens */
+  --banner-transparent-bg: #E0E8F2;
+  --banner-border: transparent;
+  --bg-banner-pill: #E0E8F2;
+  --border-banner-pill: transparent;
+  --text-banner-pill: #4B46D6;
+  --bg-banner-cta: #5B57E8;
+  --text-banner-cta: #FFFFFF;
+  --bg-nav-arrow: #E0E8F2;
+  --border-nav-arrow: transparent;
+
+  --text-header-title: #18273B;
+  --text-header-sub: #475B73;
+  --text-nav-default: #22344A;
+  --text-nav-active: #FFFFFF;
+  --text-nav-arrow: #22344A;
+  --text-banner-input: #18273B;
+  --text-banner-placeholder: #536882;
+
+  /* Saturated Accent + Neutral Track */
+  --pillar-blue: #5B57E8;
+  --pillar-cyan: #5B57E8;
+  --pillar-emerald: #5B57E8;
+  --pillar-violet: #5B57E8;
+  --pillar-amber: #5B57E8;
+  --pillar-rose: #5B57E8;
+  --pillar-heading: #18273B;
+  --pillar-body: #475B73;
+  --pillar-progress-track: #E0E8F2;
+  --pillar-progress-fill: #5B57E8;
+
+  /* Pure Uniform Matte Base Canvas (No Ambient Orbs/Glows) */
+  --app-bg-base: #E0E8F2;
+  --app-bg-gradient: #E0E8F2;
+  --ambient-base-bg: #E0E8F2;
+  --ambient-glow-1: transparent;
+  --ambient-glow-2: transparent;
+  --ambient-glow-3: transparent;
+  --ambient-glow-4: transparent;
+  --ambient-wave-1: transparent;
+  --ambient-wave-2: transparent;
+  --ambient-wave-3: transparent;
+  --ambient-depth-veil: none;
+  --ambient-depth-vignette: none;
+}
+
+/* Strip Ambient Glow/Orb/Wave Layers for Clean Uniform Matte Canvas */
+html[data-card-style="frost-ice-neu"] :is(
+  .ambient-layer-glow,
+  .ambient-layer-abstract,
+  .ambient-orb,
+  .ambient-wave
+) {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+html[data-card-style="frost-ice-neu"] :is(
+  .motion-card,
+  .bento-card,
+  .glass-card,
+  [data-section-card="true"]
+) {
+  animation: none !important;
+}
+
+/* Layer Card Level 1: Header · Main Card · Footer (Matte, Borderless, Dual Shadow) */
+html[data-card-style="frost-ice-neu"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: #E0E8F2 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    10px 10px 22px rgba(163, 179, 199, 0.62) !important;
+}
+
+html[data-card-style="frost-ice-neu"] #app-header {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    0 8px 18px rgba(163, 179, 199, 0.45) !important;
+}
+
+html[data-card-style="frost-ice-neu"] #app-footer {
+  border: none !important;
+  border-width: 0 !important;
+}
+
+/* Hero & Section Banners */
+html[data-card-style="frost-ice-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-banner, 22px) !important;
+  box-shadow:
+    -7px -7px 16px rgba(255, 255, 255, 0.86),
+    7px 7px 16px rgba(163, 179, 199, 0.58) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  .hero-banner,
+  .banner-card,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  [id$="-hero-banner"]
+) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 9px rgba(255, 255, 255, 0.84),
+    4px 4px 9px rgba(163, 179, 199, 0.52) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Layer Card Level 2: Extruded Section, Bento & Personal Info Cards (Uniform Matte) */
+html[data-card-style="frost-ice-neu"] :is(
+  [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(#app-header):not(#app-footer),
+  .bento-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
+  .glass-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]),
+  .project-card,
+  .exp-bento-surface-card:not([data-multicolor-bento="true"]),
+  .education-card,
+  .education-course-card,
+  #about-personal-info-grid,
+  .bento-tone-sky,
+  .bento-tone-cyan,
+  .bento-tone-teal,
+  .bento-tone-blue,
+  .bento-tone-indigo,
+  .bento-tone-purple,
+  .bento-tone-pink,
+  .bento-tone-emerald,
+  .bento-tone-amber
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -7px -7px 16px rgba(255, 255, 255, 0.86),
+    7px 7px 16px rgba(163, 179, 199, 0.58) !important;
+  border-radius: var(--radius-card, 22px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Layer Card Level 3: Raised Sub-cards & Nested Elements */
+html[data-card-style="frost-ice-neu"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card:not([data-bento-subtone]),
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 11px rgba(255, 255, 255, 0.85),
+    5px 5px 11px rgba(163, 179, 199, 0.55) !important;
+  border-radius: var(--radius-subcard, 18px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Strict Zero-Border Rule for Divider Utility Classes & Rings inside Matte Soft UI */
+html[data-card-style="frost-ice-neu"] :is(.border, .border-t, .border-b, .border-l, .border-r) {
+  border-color: transparent !important;
+}
+
+/* Modals, Popups, PiP & Dropdowns */
+html:root[data-card-style="frost-ice-neu"] :is(
+  .theme-modal-card,
+  .theme-pip-player,
+  .theme-modal-subcard,
+  [role="dialog"],
+  .dropdown-menu,
+  .popover-card,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  .theme-popup,
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-modal, 26px) !important;
+  box-shadow:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    12px 12px 26px rgba(145, 163, 186, 0.62) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #22344A !important;
+}
+
+/* Inverted Inset Wells for All Text Inputs, Selects & Textareas (Strict No Borders + Clear Focus Ring Cue) */
+html[data-card-style="frost-ice-neu"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 16px !important;
+  box-shadow:
+    inset 4px 4px 9px rgba(163, 179, 199, 0.60),
+    inset -4px -4px 9px rgba(255, 255, 255, 0.86) !important;
+  color: #18273B !important;
+}
+
+html[data-card-style="frost-ice-neu"] :is(input[type="checkbox"], input[type="radio"]) {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -2px -2px 5px rgba(255, 255, 255, 0.86),
+    2px 2px 5px rgba(163, 179, 199, 0.56) !important;
+}
+
+html[data-card-style="frost-ice-neu"] :is(input[type="checkbox"], input[type="radio"]):checked {
+  box-shadow:
+    inset 2px 2px 5px rgba(163, 179, 199, 0.62),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.88) !important;
+}
+
+html[data-card-style="frost-ice-neu"] :is(input, textarea, select):focus-visible {
+  outline: 2.5px solid #5B57E8 !important;
+  outline-offset: 2px !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 5px 5px 10px rgba(163, 179, 199, 0.66),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.90) !important;
+}
+
+/* Visible Non-Shadow Focus Cue Across All Interactive Controls (WCAG AA Non-Text Contrast) */
+html[data-card-style="frost-ice-neu"] :is(
+  button,
+  a[href],
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2.5px solid #5B57E8 !important;
+  outline-offset: 2px !important;
+}
+
+/* Strict Zero-Border Rule + Raised Outset Shadows for ALL Interactive Controls */
+html:root[data-card-style="frost-ice-neu"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .theme-dropdown-option,
+  [data-element-type="button"]
+):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn) {
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* Raised Tactile Controls, Nav Pills & Secondary Buttons (Exact Matte #E0E8F2, No Borders) */
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+  button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]),
+  #footer-lang-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-appearance-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-wallpaper-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-theme-mode-btn:not([aria-current="page"]):not([data-active="true"]),
+  #footer-ai-btn:not([aria-current="page"]):not([data-active="true"]),
+  #app-footer #footer-nav-capsule,
+  .radial-contact-pill,
+  .theme-capsule-btn:not(.video-play-btn),
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]),
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"])
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 10px rgba(255, 255, 255, 0.86),
+    5px 5px 10px rgba(163, 179, 199, 0.56) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #22344A !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  button#footer-ai-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-lang-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-appearance-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-wallpaper-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #footer-theme-mode-btn:not([aria-current="page"]):not([data-active="true"]):hover,
+  #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+  button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]):hover,
+  .radial-contact-pill:hover,
+  .banner-control-pill:hover,
+  .theme-capsule-btn:not(.video-play-btn):hover,
+  .edu-bento-action-btn:hover,
+  .sys-bento-action-btn:hover,
+  .education-skill-chip:hover,
+  .project-card-btn-secondary:hover,
+  .exp-bento-rect-btn:hover,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]):hover,
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"]):hover
+) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -6px -6px 13px rgba(255, 255, 255, 0.92),
+    6px 6px 13px rgba(163, 179, 199, 0.64) !important;
+}
+
+/* Tactile Pressed / Inset State on Interactive Buttons, Selected Tabs/Options & Pressed Toggles */
+html:root[data-card-style="frost-ice-neu"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn:not(.video-play-btn),
+  .radial-contact-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option
+):not([aria-current="page"]):not([data-active="true"]):not(:disabled):is(:active, [aria-pressed="true"], [aria-selected="true"], [data-selected="true"]) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 4px 4px 8px rgba(163, 179, 199, 0.62),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.88) !important;
+  color: #433EC9 !important;
+  font-weight: 700 !important;
+  transform: none !important;
+}
+
+/* Header & Footer Nav Pills (Unselected): Circle Badge Matches Title Color + Crisp White Icon (No Border) */
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent, #5B57E8) !important;
+  background-color: var(--nav-pill-accent, #5B57E8) !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -2px -2px 5px rgba(255, 255, 255, 0.72),
+    2px 2px 6px color-mix(in srgb, var(--nav-pill-accent, #5B57E8) 38%, rgba(163, 179, 199, 0.54)) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-footer button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+  color: #ffffff !important;
+  stroke: currentColor !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -3px -3px 6px rgba(255, 255, 255, 0.86),
+    3px 3px 6px rgba(163, 179, 199, 0.54) !important;
+  color: #4B46D6 !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 8px rgba(255, 255, 255, 0.92),
+    4px 4px 8px rgba(163, 179, 199, 0.60) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):active {
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(163, 179, 199, 0.58),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.86) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  color: #4B46D6 !important;
+}
+
+/* Primary Action / Active Nav Pill: Single Saturated Accent (#5B57E8) + Crisp White Text (No Border) */
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: #5B57E8 !important;
+  background-color: #5B57E8 !important;
+  border: none !important;
+  border-width: 0 !important;
+  color: #FFFFFF !important;
+  filter: none !important;
+  box-shadow:
+    -4px -4px 10px rgba(255, 255, 255, 0.78),
+    5px 5px 12px rgba(91, 87, 232, 0.34),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.24),
+    inset -1px -1px 3px rgba(34, 30, 128, 0.24) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]):hover {
+  background: #504CD9 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -5px -5px 12px rgba(255, 255, 255, 0.84),
+    6px 6px 14px rgba(91, 87, 232, 0.40),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.28),
+    inset -1px -1px 3px rgba(34, 30, 128, 0.28) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  box-shadow: 0 2px 6px rgba(24, 39, 59, 0.18) !important;
+}
+
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html:root[data-card-style="frost-ice-neu"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+  color: #5B57E8 !important;
+}
+
+/* Inverted Inset Range Sliders, Progress Tracks & Segmented Wells */
+html[data-card-style="frost-ice-neu"] input[type="range"] {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 9999px !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(163, 179, 199, 0.60),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.86) !important;
+  accent-color: #5B57E8;
+}
+
+html[data-card-style="frost-ice-neu"] .pillar-gradient-card .pillar-progress-track {
+  background: #E0E8F2 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset 3px 3px 6px rgba(163, 179, 199, 0.60),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.86);
+}
+
+html[data-card-style="frost-ice-neu"] .pillar-gradient-card :is(.pillar-heading, .pillar-sub) {
+  color: #4B46D6 !important;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="frost-ice-neu"],
+  html[data-card-style="frost-ice-neu"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  html[data-card-style="frost-ice-neu"] :is(button, a, .nav-pill, .bento-card, .project-card):hover {
+    transform: none !important;
+  }
+}

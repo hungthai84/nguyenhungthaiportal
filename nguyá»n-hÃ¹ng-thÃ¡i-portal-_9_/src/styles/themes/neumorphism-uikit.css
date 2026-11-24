@@ -1,0 +1,440 @@
+/* ========================================================================= */
+/* THEME SYSTEM: NEUMORPHISM UI KIT (SOFT UI CODEPEN EDITION)                */
+/* Authentic Pure Soft UI: Canvas & Surface #EBE7E7, Borderless               */
+/* Dual Opposing Shadows (Extruded Outset / Recessed Inset)                   */
+/* 6-Level Palette: Indigo, Magenta, Royal Purple, Neon Pink, Cyan, Soft Blue */
+/* Accent: Raspberry/Coral #EC3856, Vibrant Purple #AC6CE7, Green #5CE01F     */
+/* ========================================================================= */
+
+.card-neumorphism-uikit {
+  background: #EBE7E7 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 24px) !important;
+  box-shadow:
+    -5px -5px 10px #FFFFFF,
+    5px 5px 10px rgb(180, 175, 175) !important;
+  color: #1E293B !important;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease !important;
+}
+
+.card-neumorphism-uikit:hover {
+  transform: none;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -6px -6px 12px #FFFFFF,
+    6px 6px 12px rgb(170, 165, 165) !important;
+}
+
+.card-dark-neumorphism-uikit {
+  background: #22252D !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 24px) !important;
+  box-shadow:
+    -5px -5px 12px rgba(45, 50, 62, 0.65),
+    5px 5px 12px rgba(14, 16, 21, 0.85) !important;
+  color: #F1F5F9 !important;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease !important;
+}
+
+.card-dark-neumorphism-uikit:hover {
+  transform: none;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -6px -6px 14px rgba(45, 50, 62, 0.75),
+    6px 6px 14px rgba(10, 12, 17, 0.95) !important;
+}
+
+/* ========================================================================= */
+/* LIGHT MODE: NEUMORPHISM UI KIT                                            */
+/* ========================================================================= */
+[data-theme="neumorphism-uikit"],
+html[data-card-style="neumorphism-uikit"],
+html[data-card-style="neumorphism-uikit"] body {
+  color-scheme: light;
+  --ambient-wallpaper-opacity: 1;
+
+  /* Uniform Matte Soft Surface & Canvas from CodePen (#EBE7E7) */
+  --color-bg: #EBE7E7;
+  --color-bg-soft: #EBE7E7;
+  --color-bg-blue: #EBE7E7;
+  --color-surface: #EBE7E7;
+  --color-surface-elevated: #EBE7E7;
+  --color-surface-indigo: #EBE7E7;
+  --color-surface-cyan: #EBE7E7;
+  --color-surface-green: #EBE7E7;
+  --color-surface-orange: #EBE7E7;
+  --color-surface-pink: #EBE7E7;
+  --color-surface-purple: #EBE7E7;
+
+  /* Generous Rounded Radii */
+  --radius-card: 24px;
+  --radius-subcard: 20px;
+  --radius-banner: 24px;
+  --radius-modal: 28px;
+  --radius-popup: 22px;
+  --radius-badge: 9999px;
+
+  /* Typography Contrast Tokens on #EBE7E7 */
+  --color-heading: #1A1F2C;
+  --color-text: #2D3748;
+  --color-text-secondary: #5A6A80;
+  --color-text-muted: #718096;
+  --text-primary: #2D3748;
+  --text-heading: #1A1F2C;
+  --text-secondary: #5A6A80;
+  --text-muted: #718096;
+  --text-link: #EC3856;
+  --text-accent: #EC3856;
+  --text-input: #1A1F2C;
+  --text-placeholder: #718096;
+  --text-on-dark: #FFFFFF;
+  --text-badge: #EC3856;
+  --text-highlight: #AC6CE7;
+  --color-text-inverse: #FFFFFF;
+
+  /* 6-Level Palette & Accents from CodePen */
+  --color-primary: #EC3856;
+  --color-secondary: #AC6CE7;
+  --color-tertiary: #7C83FD;
+  --color-accent: #EC3856;
+  --color-sky: #96BAFF;
+  --color-blue: #61AAEE;
+  --color-indigo: #7C83FD;
+  --color-pink: #F351DD;
+  --color-cyan: #51C0F3;
+  --color-green: #5CE01F;
+  --color-amber: #FA8F60;
+  --color-purple: #AC6CE7;
+
+  /* Specific CodePen 6 Levels */
+  --neu-level-1: #7C83FD;
+  --neu-level-2: #C300FF;
+  --neu-level-3: #815EFF;
+  --neu-level-4: #F351DD;
+  --neu-level-5: #51C0F3;
+  --neu-level-6: #96BAFF;
+
+  /* Material-less Matte (Zero Glass Specular Sheen) */
+  --liquid-specular-rim: transparent;
+  --liquid-specular-edge: transparent;
+  --liquid-specular-bottom: transparent;
+  --liquid-specular-sheen: none;
+  --liquid-specular-sheen-hover: none;
+  --liquid-rim-inset: none;
+  --liquid-rim-inset-hover: none;
+  --glass-reflection-primary: none;
+  --glass-reflection-secondary: none;
+  --glass-prism-highlight: none;
+  --glass-inner-highlight: none;
+  --card-highlight: transparent;
+  --glass-highlight: transparent;
+  --ambient-inner-highlight: none;
+
+  /* CodePen Exact Soft UI Shadows (Extruded Outset & Recessed Inset) */
+  --neu-raised-shadow:
+    -5px -5px 10px #FFFFFF,
+    5px 5px 10px rgb(180, 175, 175);
+  --neu-inset-shadow:
+    inset 2px 2px 4px rgb(207, 206, 206),
+    inset -2px -2px 4px #FFFFFF;
+  --neu-button-shadow:
+    -3px -3px 6px #FFFFFF,
+    3px 3px 6px rgb(207, 206, 206);
+  --neu-button-inset:
+    inset 2px 2px 4px rgb(180, 175, 175),
+    inset -2px -2px 4px #FFFFFF;
+
+  /* Semantic Background Tokens (Pure Uniform #EBE7E7) */
+  --bg-app: #EBE7E7;
+  --bg-page: #EBE7E7;
+  --bg-main: #EBE7E7;
+  --bg-header: #EBE7E7;
+  --bg-footer: #EBE7E7;
+  --bg-card: #EBE7E7;
+  --bg-card-hover: #EBE7E7;
+  --bg-subcard: #EBE7E7;
+  --bg-subcard-hover: #EBE7E7;
+  --bg-nested: #EBE7E7;
+  --bg-nested-card: #EBE7E7;
+  --bg-nested-badge: #EBE7E7;
+  --bg-modal: #EBE7E7;
+  --bg-popup: #EBE7E7;
+  --bg-dropdown: #EBE7E7;
+  --bg-tooltip: #2D3748;
+  --bg-input: #EBE7E7;
+  --bg-table: #EBE7E7;
+  --bg-table-head: #EBE7E7;
+
+  /* Nav Pills & Controls */
+  --bg-nav-button-opaque: #EBE7E7;
+  --bg-nav-pill: #EBE7E7;
+  --bg-nav-pill-hover: #EBE7E7;
+  --bg-button-primary: #EC3856;
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: #EBE7E7;
+  --text-button-secondary: #2D3748;
+  --bg-badge: #EBE7E7;
+  --bg-highlight: rgba(236, 56, 86, 0.12);
+  --bg-banner: #EBE7E7;
+
+  /* Borderless Architecture (Zero Borders) */
+  --color-border: transparent;
+  --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-subcard-hover: transparent;
+  --border-nested: transparent;
+  --border-badge: transparent;
+  --border-highlight: transparent;
+  --border-modal: transparent;
+  --border-popup: transparent;
+  --border-input: transparent;
+  --border-dropdown: transparent;
+  --border-divider: transparent;
+  --border-table: transparent;
+  --border-button-secondary: transparent;
+
+  /* Status Colors */
+  --color-success: #5CE01F;
+  --color-warning: #F59E0B;
+  --color-danger: #EC3856;
+  --color-info: #51C0F3;
+}
+
+/* ========================================================================= */
+/* DARK MODE: DARK NEUMORPHISM UI KIT                                        */
+/* ========================================================================= */
+[data-theme="dark-neumorphism-uikit"],
+html[data-card-style="dark-neumorphism-uikit"],
+html[data-card-style="dark-neumorphism-uikit"] body {
+  color-scheme: dark;
+  --ambient-wallpaper-opacity: 1;
+
+  /* Uniform Matte Dark Surface & Canvas (#22252D) */
+  --color-bg: #22252D;
+  --color-bg-soft: #22252D;
+  --color-bg-blue: #22252D;
+  --color-surface: #22252D;
+  --color-surface-elevated: #22252D;
+  --color-surface-indigo: #22252D;
+  --color-surface-cyan: #22252D;
+  --color-surface-green: #22252D;
+  --color-surface-orange: #22252D;
+  --color-surface-pink: #22252D;
+  --color-surface-purple: #22252D;
+
+  /* Radii */
+  --radius-card: 24px;
+  --radius-subcard: 20px;
+  --radius-banner: 24px;
+  --radius-modal: 28px;
+  --radius-popup: 22px;
+  --radius-badge: 9999px;
+
+  /* Typography Contrast Tokens on #22252D */
+  --color-heading: #F8FAFC;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --text-primary: #E2E8F0;
+  --text-heading: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-link: #FF5A78;
+  --text-accent: #FF5A78;
+  --text-input: #F8FAFC;
+  --text-placeholder: #64748B;
+  --text-on-dark: #FFFFFF;
+  --text-badge: #FF5A78;
+  --text-highlight: #C084FC;
+  --color-text-inverse: #1E293B;
+
+  /* Accents */
+  --color-primary: #FF5A78;
+  --color-secondary: #C084FC;
+  --color-tertiary: #96BAFF;
+  --color-accent: #FF5A78;
+  --color-sky: #96BAFF;
+  --color-blue: #61AAEE;
+  --color-indigo: #815EFF;
+  --color-pink: #F351DD;
+  --color-cyan: #51C0F3;
+  --color-green: #5CE01F;
+  --color-amber: #FBBF24;
+  --color-purple: #C084FC;
+
+  /* Dark Soft UI Shadows */
+  --neu-raised-shadow:
+    -5px -5px 12px rgba(45, 50, 62, 0.65),
+    5px 5px 12px rgba(14, 16, 21, 0.85);
+  --neu-inset-shadow:
+    inset 2px 2px 5px rgba(10, 12, 17, 0.90),
+    inset -2px -2px 5px rgba(45, 50, 62, 0.55);
+  --neu-button-shadow:
+    -3px -3px 8px rgba(45, 50, 62, 0.65),
+    3px 3px 8px rgba(14, 16, 21, 0.85);
+  --neu-button-inset:
+    inset 2px 2px 4px rgba(10, 12, 17, 0.95),
+    inset -2px -2px 4px rgba(45, 50, 62, 0.60);
+
+  /* Semantic Background Tokens */
+  --bg-app: #22252D;
+  --bg-page: #22252D;
+  --bg-main: #22252D;
+  --bg-header: #22252D;
+  --bg-footer: #22252D;
+  --bg-card: #22252D;
+  --bg-card-hover: #22252D;
+  --bg-subcard: #22252D;
+  --bg-subcard-hover: #22252D;
+  --bg-nested: #22252D;
+  --bg-nested-card: #22252D;
+  --bg-nested-badge: #22252D;
+  --bg-modal: #22252D;
+  --bg-popup: #22252D;
+  --bg-dropdown: #22252D;
+  --bg-tooltip: #0F172A;
+  --bg-input: #22252D;
+  --bg-table: #22252D;
+  --bg-table-head: #22252D;
+
+  /* Nav Pills & Controls */
+  --bg-nav-button-opaque: #22252D;
+  --bg-nav-pill: #22252D;
+  --bg-nav-pill-hover: #22252D;
+  --bg-button-primary: #FF5A78;
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: #22252D;
+  --text-button-secondary: #E2E8F0;
+  --bg-badge: #22252D;
+  --bg-highlight: rgba(255, 90, 120, 0.16);
+  --bg-banner: #22252D;
+
+  /* Borderless */
+  --color-border: transparent;
+  --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-subcard-hover: transparent;
+  --border-nested: transparent;
+  --border-badge: transparent;
+  --border-highlight: transparent;
+  --border-modal: transparent;
+  --border-popup: transparent;
+  --border-input: transparent;
+  --border-dropdown: transparent;
+  --border-divider: transparent;
+  --border-table: transparent;
+  --border-button-secondary: transparent;
+
+  /* Status Colors */
+  --color-success: #5CE01F;
+  --color-warning: #FBBF24;
+  --color-danger: #FF5A78;
+  --color-info: #51C0F3;
+}
+
+/* ========================================================================= */
+/* COMPONENT SPECIFIC RULES FOR NEUMORPHISM UI KIT                           */
+/* ========================================================================= */
+[data-theme="neumorphism-uikit"] .sub-card,
+[data-theme="neumorphism-uikit"] [data-subcard="true"],
+html[data-card-style="neumorphism-uikit"] .sub-card,
+html[data-card-style="neumorphism-uikit"] [data-subcard="true"] {
+  background: #EBE7E7 !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 8px #FFFFFF,
+    4px 4px 8px rgb(189, 185, 185) !important;
+}
+
+[data-theme="dark-neumorphism-uikit"] .sub-card,
+[data-theme="dark-neumorphism-uikit"] [data-subcard="true"],
+html[data-card-style="dark-neumorphism-uikit"] .sub-card,
+html[data-card-style="dark-neumorphism-uikit"] [data-subcard="true"] {
+  background: #22252D !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 10px rgba(45, 50, 62, 0.65),
+    4px 4px 10px rgba(14, 16, 21, 0.85) !important;
+}
+
+/* Wells, Inset Inputs, Sliders */
+[data-theme="neumorphism-uikit"] .neu-kit-well,
+[data-theme="neumorphism-uikit"] input[type="text"]:not(.bg-transparent),
+[data-theme="neumorphism-uikit"] textarea,
+html[data-card-style="neumorphism-uikit"] .neu-kit-well,
+html[data-card-style="neumorphism-uikit"] input[type="text"]:not(.bg-transparent),
+html[data-card-style="neumorphism-uikit"] textarea {
+  background: #EBE7E7 !important;
+  border: none !important;
+  box-shadow:
+    inset 2px 2px 4px rgb(207, 206, 206),
+    inset -2px -2px 4px #FFFFFF !important;
+}
+
+[data-theme="dark-neumorphism-uikit"] .neu-kit-well,
+[data-theme="dark-neumorphism-uikit"] input[type="text"]:not(.bg-transparent),
+[data-theme="dark-neumorphism-uikit"] textarea,
+html[data-card-style="dark-neumorphism-uikit"] .neu-kit-well,
+html[data-card-style="dark-neumorphism-uikit"] input[type="text"]:not(.bg-transparent),
+html[data-card-style="dark-neumorphism-uikit"] textarea {
+  background: #22252D !important;
+  border: none !important;
+  box-shadow:
+    inset 2px 2px 5px rgba(10, 12, 17, 0.90),
+    inset -2px -2px 5px rgba(45, 50, 62, 0.55) !important;
+}
+
+/* Buttons and Interactive Pills */
+[data-theme="neumorphism-uikit"] .neu-kit-btn,
+html[data-card-style="neumorphism-uikit"] .neu-kit-btn {
+  background: #EBE7E7 !important;
+  border: none !important;
+  box-shadow:
+    -3px -3px 6px #FFFFFF,
+    3px 3px 6px rgb(207, 206, 206) !important;
+  transition: box-shadow 150ms ease, transform 150ms ease !important;
+}
+
+[data-theme="neumorphism-uikit"] .neu-kit-btn:active,
+[data-theme="neumorphism-uikit"] .neu-kit-btn[aria-pressed="true"],
+html[data-card-style="neumorphism-uikit"] .neu-kit-btn:active,
+html[data-card-style="neumorphism-uikit"] .neu-kit-btn[aria-pressed="true"] {
+  box-shadow:
+    inset 2px 2px 4px rgb(180, 175, 175),
+    inset -2px -2px 4px #FFFFFF !important;
+}
+
+[data-theme="dark-neumorphism-uikit"] .neu-kit-btn,
+html[data-card-style="dark-neumorphism-uikit"] .neu-kit-btn {
+  background: #22252D !important;
+  border: none !important;
+  box-shadow:
+    -3px -3px 8px rgba(45, 50, 62, 0.65),
+    3px 3px 8px rgba(14, 16, 21, 0.85) !important;
+  transition: box-shadow 150ms ease, transform 150ms ease !important;
+}
+
+[data-theme="dark-neumorphism-uikit"] .neu-kit-btn:active,
+[data-theme="dark-neumorphism-uikit"] .neu-kit-btn[aria-pressed="true"],
+html[data-card-style="dark-neumorphism-uikit"] .neu-kit-btn:active,
+html[data-card-style="dark-neumorphism-uikit"] .neu-kit-btn[aria-pressed="true"] {
+  box-shadow:
+    inset 2px 2px 4px rgba(10, 12, 17, 0.95),
+    inset -2px -2px 4px rgba(45, 50, 62, 0.60) !important;
+}

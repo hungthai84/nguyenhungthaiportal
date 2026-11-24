@@ -1,0 +1,616 @@
+/* ==========================================================================
+   FLAT SOFT UI THEME (Sáng & Tối / Light & Dark)
+   Clean minimalist flat architectural planes, whisper-soft tactile elevation,
+   pristine matte surfaces, high-contrast readable typography (WCAG AAA),
+   and seamless responsiveness without glare or visual clutter.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. STANDALONE CARD UTILITY CLASSES
+   -------------------------------------------------------------------------- */
+.card-flat-soft-ui {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(226, 232, 240, 0.90) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 6px 18px -2px rgba(15, 23, 42, 0.05),
+    0 16px 32px -8px rgba(15, 23, 42, 0.04) !important;
+  color: #0F172A !important;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms ease,
+              border-color 200ms ease !important;
+}
+
+.card-flat-soft-ui:hover {
+  transform: translateY(-2px);
+  border-color: rgba(203, 213, 225, 1) !important;
+  box-shadow:
+    0 4px 6px -1px rgba(15, 23, 42, 0.06),
+    0 12px 24px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+.card-dark-flat-soft-ui {
+  background: #131B2A !important;
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  box-shadow:
+    0 4px 20px -2px rgba(0, 0, 0, 0.45),
+    0 10px 30px -4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  color: #F8FAFC !important;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms ease,
+              border-color 200ms ease !important;
+}
+
+.card-dark-flat-soft-ui:hover {
+  transform: translateY(-2px);
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  box-shadow:
+    0 8px 28px -4px rgba(0, 0, 0, 0.55),
+    0 14px 38px -6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. FLAT SOFT UI · LIGHT MODE (SÁNG)
+   -------------------------------------------------------------------------- */
+[data-theme="flat-soft-ui"],
+html[data-card-style="flat-soft-ui"] {
+  color-scheme: light;
+  --ambient-wallpaper-opacity: 0.95;
+
+  /* Master Prompt & Palette Tokens */
+  --liquid-page-bg: #F8FAFC;
+  --liquid-page-bg-secondary: #F1F5F9;
+  --liquid-glass-surface: rgba(255, 255, 255, 0.94);
+  --liquid-glass-surface-strong: #FFFFFF;
+  --liquid-glass-border: rgba(226, 232, 240, 0.90);
+  --liquid-text-primary: #0F172A;
+  --liquid-text-secondary: #475569;
+  --liquid-primary: #4F46E5;
+  --liquid-secondary: #0D9488;
+  --liquid-accent-pink: #F43F5E;
+  --liquid-accent-cyan: #0284C7;
+
+  /* Core Color Tokens */
+  --color-bg: #F8FAFC;
+  --color-bg-soft: #F1F5F9;
+  --color-bg-blue: #EFF6FF;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-indigo: #EEF2FF;
+  --color-surface-cyan: #ECFEFF;
+  --color-surface-green: #F0FDF4;
+  --color-surface-orange: #FFF7ED;
+  --color-surface-pink: #FFF1F2;
+  --color-surface-purple: #FAF5FF;
+
+  --color-heading: #0F172A;
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #FFFFFF;
+
+  --color-primary: #4F46E5;
+  --color-secondary: #0D9488;
+  --color-tertiary: #0284C7;
+  --color-accent: #3B82F6;
+  --color-indigo: #4F46E5;
+  --color-blue: #3B82F6;
+  --color-cyan: #06B6D4;
+  --color-green: #10B981;
+  --color-amber: #F59E0B;
+  --color-pink: #EC4899;
+  --color-purple: #8B5CF6;
+
+  /* Semantic Typography Tokens */
+  --text-primary: #0F172A;
+  --text-heading: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --text-accent: #4F46E5;
+  --text-input: #0F172A;
+  --text-placeholder: #94A3B8;
+  --text-on-dark: #FFFFFF;
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #0F172A;
+  --text-badge: #4338CA;
+  --text-highlight: #4F46E5;
+
+  /* Semantic Background Tokens */
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-app: #F8FAFC;
+  --bg-page: transparent;
+  --bg-main: rgba(255, 255, 255, 0.92);
+  --bg-header: rgba(255, 255, 255, 0.95);
+  --bg-footer: rgba(255, 255, 255, 0.95);
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FFFFFF;
+  --bg-subcard: #F8FAFC;
+  --bg-subcard-hover: #F1F5F9;
+  --bg-nested: #F8FAFC;
+  --bg-nested-card: #F8FAFC;
+  --bg-modal: #FFFFFF;
+  --bg-popup: #FFFFFF;
+  --bg-dropdown: #FFFFFF;
+  --bg-tooltip: #0F172A;
+  --bg-input: #FFFFFF;
+  --bg-table: #FFFFFF;
+  --bg-table-head: #F8FAFC;
+  --bg-banner: #FFFFFF;
+
+  --bg-nav-button-opaque: #FFFFFF;
+  --bg-nav-pill: #FFFFFF;
+  --bg-nav-pill-hover: #F8FAFC;
+  --bg-nav-arrow: #FFFFFF;
+  --border-nav-arrow: rgba(203, 213, 225, 0.90);
+  --text-nav-arrow: #0F172A;
+  --bg-button-primary: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+  --bg-button-secondary: #F1F5F9;
+  --bg-button-hover: #E2E8F0;
+  --bg-badge: #EEF2FF;
+  --bg-highlight: rgba(79, 70, 229, 0.08);
+  --bg-banner-pill: #FFFFFF;
+  --border-banner-pill: rgba(203, 213, 225, 0.90);
+  --text-banner-pill: #0F172A;
+  --bg-banner-cta: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+  --text-banner-cta: #FFFFFF;
+
+  /* Borders & Shadows */
+  --color-border: rgba(226, 232, 240, 0.90);
+  --color-border-soft: rgba(226, 232, 240, 0.65);
+  --border-color: rgba(226, 232, 240, 0.90);
+  --border-card: rgba(226, 232, 240, 0.90);
+  --border-subcard: rgba(226, 232, 240, 0.80);
+  --border-modal: rgba(203, 213, 225, 0.90);
+  --border-input: rgba(203, 213, 225, 0.90);
+  --border-popup: rgba(226, 232, 240, 0.90);
+  --color-focus-ring: #4F46E5;
+
+  --shadow-card:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 6px 18px -2px rgba(15, 23, 42, 0.05),
+    0 16px 32px -8px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover:
+    0 4px 6px -1px rgba(15, 23, 42, 0.06),
+    0 12px 24px -4px rgba(15, 23, 42, 0.08);
+  --shadow-subcard: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-subcard-hover: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-nav-pill: 0 1px 3px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --shadow-button: 0 4px 14px rgba(79, 70, 229, 0.30);
+  --shadow-popup: 0 10px 30px -5px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+
+  /* Surface System Integration */
+  --surface-primary-bg: #FFFFFF;
+  --surface-primary-border: rgba(226, 232, 240, 0.90);
+  --surface-footer-border-top: rgba(226, 232, 240, 0.58);
+  --surface-primary-shadow: var(--shadow-card);
+  --surface-footer-shadow: 0 -8px 26px -6px rgba(15, 23, 42, 0.06);
+  --surface-primary-blur: 0px;
+
+  --surface-secondary-bg: #F8FAFC;
+  --surface-secondary-border: rgba(226, 232, 240, 0.80);
+  --surface-secondary-shadow: var(--shadow-subcard);
+  --surface-secondary-blur: 0px;
+
+  --surface-tertiary-bg: #F1F5F9;
+  --surface-tertiary-border: rgba(226, 232, 240, 0.80);
+  --surface-tertiary-shadow: none;
+  --surface-tertiary-blur: 0px;
+
+  --surface-nested-bg: #FFFFFF;
+  --surface-nested-border: rgba(226, 232, 240, 0.80);
+  --surface-nested-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  --surface-nested-blur: 0px;
+
+  --surface-interactive-bg: #FFFFFF;
+  --surface-interactive-hover: #F8FAFC;
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(226, 232, 240, 0.90);
+
+  /* Radii & Layout */
+  --radius-main: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-pill: 9999px;
+  --card-border-width: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   3. FLAT SOFT UI · DARK MODE (TỐI)
+   -------------------------------------------------------------------------- */
+[data-theme="dark-flat-soft-ui"],
+html[data-card-style="dark-flat-soft-ui"] {
+  color-scheme: dark;
+  --ambient-wallpaper-opacity: 0.92;
+
+  /* Master Prompt & Palette Tokens */
+  --liquid-page-bg: #0A0E17;
+  --liquid-page-bg-secondary: #0F172A;
+  --liquid-glass-surface: rgba(19, 27, 42, 0.94);
+  --liquid-glass-surface-strong: #162032;
+  --liquid-glass-border: rgba(148, 163, 184, 0.16);
+  --liquid-text-primary: #F8FAFC;
+  --liquid-text-secondary: #CBD5E1;
+  --liquid-primary: #6366F1;
+  --liquid-secondary: #2DD4BF;
+  --liquid-accent-pink: #FB7185;
+  --liquid-accent-cyan: #60A5FA;
+
+  /* Core Color Tokens */
+  --color-bg: #0A0E17;
+  --color-bg-soft: #0F172A;
+  --color-bg-blue: #0F1D36;
+  --color-surface: #131B2A;
+  --color-surface-elevated: #162032;
+  --color-surface-indigo: #1E1B4B;
+  --color-surface-cyan: #083344;
+  --color-surface-green: #064E3B;
+  --color-surface-orange: #431407;
+  --color-surface-pink: #4C0519;
+  --color-surface-purple: #3B0764;
+
+  --color-heading: #F8FAFC;
+  --color-text: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #0A0E17;
+
+  --color-primary: #6366F1;
+  --color-secondary: #2DD4BF;
+  --color-tertiary: #60A5FA;
+  --color-accent: #818CF8;
+  --color-indigo: #818CF8;
+  --color-blue: #60A5FA;
+  --color-cyan: #22D3EE;
+  --color-green: #34D399;
+  --color-amber: #FBBF24;
+  --color-pink: #F472B6;
+  --color-purple: #A78BFA;
+
+  /* Semantic Typography Tokens */
+  --text-primary: #F8FAFC;
+  --text-heading: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #818CF8;
+  --text-accent: #6366F1;
+  --text-input: #F8FAFC;
+  --text-placeholder: #64748B;
+  --text-on-dark: #FFFFFF;
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #F8FAFC;
+  --text-badge: #A5B4FC;
+  --text-highlight: #818CF8;
+
+  /* Semantic Background Tokens */
+  --bg-primary: #0A0E17;
+  --bg-secondary: #0F172A;
+  --bg-app: #0A0E17;
+  --bg-page: transparent;
+  --bg-main: rgba(19, 27, 42, 0.92);
+  --bg-header: rgba(19, 27, 42, 0.95);
+  --bg-footer: rgba(19, 27, 42, 0.95);
+  --bg-card: #131B2A;
+  --bg-card-hover: #162032;
+  --bg-subcard: #162032;
+  --bg-subcard-hover: #1E293B;
+  --bg-nested: #1A2438;
+  --bg-nested-card: #162032;
+  --bg-modal: #131B2A;
+  --bg-popup: #162032;
+  --bg-dropdown: #162032;
+  --bg-tooltip: #020617;
+  --bg-input: #0F172A;
+  --bg-table: #131B2A;
+  --bg-table-head: #162032;
+  --bg-banner: #131B2A;
+
+  --bg-nav-button-opaque: #162032;
+  --bg-nav-pill: #162032;
+  --bg-nav-pill-hover: #1E293B;
+  --bg-nav-arrow: #162032;
+  --border-nav-arrow: rgba(148, 163, 184, 0.22);
+  --text-nav-arrow: #F8FAFC;
+  --bg-button-primary: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --bg-button-secondary: #1E293B;
+  --bg-button-hover: #26354D;
+  --bg-badge: rgba(99, 102, 241, 0.16);
+  --bg-highlight: rgba(99, 102, 241, 0.14);
+  --bg-banner-pill: #162032;
+  --border-banner-pill: rgba(148, 163, 184, 0.22);
+  --text-banner-pill: #F8FAFC;
+  --bg-banner-cta: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  --text-banner-cta: #FFFFFF;
+
+  /* Borders & Shadows */
+  --color-border: rgba(148, 163, 184, 0.16);
+  --color-border-soft: rgba(148, 163, 184, 0.10);
+  --border-color: rgba(148, 163, 184, 0.16);
+  --border-card: rgba(148, 163, 184, 0.16);
+  --border-subcard: rgba(148, 163, 184, 0.12);
+  --border-modal: rgba(148, 163, 184, 0.24);
+  --border-input: rgba(148, 163, 184, 0.20);
+  --border-popup: rgba(148, 163, 184, 0.22);
+  --color-focus-ring: #6366F1;
+
+  --shadow-card:
+    0 4px 20px -2px rgba(0, 0, 0, 0.45),
+    0 10px 30px -4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-card-hover:
+    0 8px 28px -4px rgba(0, 0, 0, 0.55),
+    0 14px 38px -6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --shadow-subcard: 0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-subcard-hover: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-nav-pill: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-button: 0 4px 16px rgba(99, 102, 241, 0.38);
+  --shadow-popup: 0 12px 36px -4px rgba(0, 0, 0, 0.65), 0 4px 12px rgba(0, 0, 0, 0.45);
+
+  /* Surface System Integration */
+  --surface-primary-bg: #131B2A;
+  --surface-primary-border: rgba(148, 163, 184, 0.16);
+  --surface-footer-border-top: rgba(148, 163, 184, 0.10);
+  --surface-primary-shadow: var(--shadow-card);
+  --surface-footer-shadow: 0 -8px 26px -6px rgba(0, 0, 0, 0.22);
+  --surface-primary-blur: 0px;
+
+  --surface-secondary-bg: #162032;
+  --surface-secondary-border: rgba(148, 163, 184, 0.12);
+  --surface-secondary-shadow: var(--shadow-subcard);
+  --surface-secondary-blur: 0px;
+
+  --surface-tertiary-bg: #1A2438;
+  --surface-tertiary-border: rgba(148, 163, 184, 0.12);
+  --surface-tertiary-shadow: none;
+  --surface-tertiary-blur: 0px;
+
+  --surface-nested-bg: #131B2A;
+  --surface-nested-border: rgba(148, 163, 184, 0.12);
+  --surface-nested-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  --surface-nested-blur: 0px;
+
+  --surface-interactive-bg: #162032;
+  --surface-interactive-hover: #1E293B;
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(148, 163, 184, 0.16);
+
+  /* Radii & Layout */
+  --radius-main: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --radius-card: 16px;
+  --radius-subcard: 12px;
+  --radius-banner: 16px;
+  --radius-pill: 9999px;
+  --card-border-width: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT & COMPONENT STYLING FOR FLAT SOFT UI (LIGHT & DARK)
+   Strict 3-Tier Surface Separation: L1 > L2 > L3, 0px blur matte crisp surfaces
+   -------------------------------------------------------------------------- */
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
+  .page-main-card,
+  [data-main-card="true"],
+  [data-section-card="true"],
+  .bento-card,
+  [data-subcard="true"],
+  .sub-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-course-card,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Level 1: Primary Page Main Card Shell */
+html[data-card-style="flat-soft-ui"] :is(.page-main-card, [data-main-card="true"]) {
+  background: var(--surface-primary-bg, #FFFFFF) !important;
+  border: 1px solid var(--surface-primary-border, rgba(226, 232, 240, 0.90)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
+  border-radius: var(--radius-main, 14px) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(.page-main-card, [data-main-card="true"]) {
+  background: var(--surface-primary-bg, #131B2A) !important;
+  border: 1px solid var(--surface-primary-border, rgba(148, 163, 184, 0.16)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-main-card)) !important;
+  border-radius: var(--radius-main, 14px) !important;
+}
+
+/* Level 2: Section Cards, Bento Cards & Banner Cards */
+html[data-card-style="flat-soft-ui"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .banner-card,
+  .hero-banner,
+  .exp-bento-surface-card
+):not(.page-main-card):not([data-main-card="true"]) {
+  background: var(--surface-secondary-bg, #F8FAFC) !important;
+  border: 1px solid var(--surface-secondary-border, rgba(203, 213, 225, 0.85)) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  border-radius: var(--radius-card, 16px) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .banner-card,
+  .hero-banner,
+  .exp-bento-surface-card
+):not(.page-main-card):not([data-main-card="true"]) {
+  background: var(--surface-secondary-bg, #162032) !important;
+  border: 1px solid var(--surface-secondary-border, rgba(148, 163, 184, 0.18)) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  border-radius: var(--radius-card, 16px) !important;
+}
+
+/* Level 3: Nested Subcards & Detail Blocks */
+html[data-card-style="flat-soft-ui"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card
+):not(.skill-swot-subcard) {
+  background: var(--surface-tertiary-bg, #F1F5F9) !important;
+  border: 1px solid var(--surface-tertiary-border, rgba(203, 213, 225, 0.72)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card
+):not(.skill-swot-subcard) {
+  background: var(--surface-tertiary-bg, #1A2438) !important;
+  border: 1px solid var(--surface-tertiary-border, rgba(148, 163, 184, 0.14)) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
+}
+
+/* Header & Footer bar styling */
+html[data-card-style="flat-soft-ui"] #app-header {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(226, 232, 240, 0.90) !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="flat-soft-ui"] #app-footer {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(226, 232, 240, 0.90) !important;
+  border-top-color: var(--surface-footer-border-top, rgba(226, 232, 240, 0.58)) !important;
+  border-bottom: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] #app-header {
+  background: rgba(19, 27, 42, 0.96) !important;
+  border-color: rgba(148, 163, 184, 0.16) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] #app-footer {
+  background: rgba(19, 27, 42, 0.96) !important;
+  border-color: rgba(148, 163, 184, 0.16) !important;
+  border-top-color: var(--surface-footer-border-top, rgba(148, 163, 184, 0.10)) !important;
+  border-bottom: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Nav Pills — Inactive Guard + Explicit Active State */
+html[data-card-style="flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(226, 232, 240, 0.90) !important;
+  color: #0F172A !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  border-radius: 9999px !important;
+}
+html[data-card-style="flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
+  background: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 1) !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) {
+  background: #162032 !important;
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  color: #F8FAFC !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  border-radius: 9999px !important;
+}
+html[data-card-style="dark-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
+  background: #1E293B !important;
+  border-color: rgba(148, 163, 184, 0.30) !important;
+}
+
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .nav-pill:is([aria-current="page"], [data-active="true"]) {
+  background: var(--bg-button-primary) !important;
+  border-color: transparent !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
+  box-shadow: 0 6px 16px -4px rgba(79, 70, 229, 0.38) !important;
+  border-radius: 9999px !important;
+}
+
+/* Form Controls */
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select,
+  .theme-input
+) {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
+  color: var(--text-input) !important;
+}
+
+/* Modals, Popups & Dropdown Menus */
+html[data-card-style="flat-soft-ui"] :is(
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(203, 213, 225, 0.90) !important;
+  box-shadow: var(--shadow-popup) !important;
+  border-radius: var(--radius-popup, 14px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-flat-soft-ui"] :is(
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: #131B2A !important;
+  border: 1px solid rgba(148, 163, 184, 0.24) !important;
+  box-shadow: var(--shadow-popup) !important;
+  border-radius: var(--radius-popup, 14px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .theme-modal-header {
+  background: var(--surface-secondary-bg) !important;
+  border-bottom: 1px solid var(--surface-secondary-border) !important;
+}
+
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .theme-modal-subcard {
+  background: var(--surface-tertiary-bg) !important;
+  border: 1px solid var(--surface-tertiary-border) !important;
+}
+

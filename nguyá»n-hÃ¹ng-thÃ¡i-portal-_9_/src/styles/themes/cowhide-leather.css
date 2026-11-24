@@ -1,0 +1,1303 @@
+/* ========================================================================= */
+/* THEME: #82 DA NÂU BÒ THỦ CÔNG (FULL-GRAIN COWHIDE LEATHER & HAND-STITCH)  */
+/* ========================================================================= */
+
+html[data-card-style="cowhide-leather"],
+html.dark[data-card-style="cowhide-leather"] {
+  --leather-light: #8B5A2B;
+  --leather-mid: #7A4A20;
+  --leather-deep: #653A17;
+  --leather-border: #522E10;
+  --leather-darkest: #3D210B;
+  --leather-cream: #FFF8DC;
+  --leather-parchment: #F5DEB3;
+  --leather-stitch: rgba(245, 222, 179, 0.56);
+  --leather-amber: #FBBF24;
+
+  --bg-blur: 0px;
+  --glass-blur: 0px;
+  --blur-modal: 0px;
+
+  --color-bg: #2B1709;
+  --color-bg-soft: #3D210B;
+  --color-bg-blue: #4B2910;
+  --color-surface: #653A17;
+  --color-surface-elevated: #7A4A20;
+  --color-surface-indigo: #522E10;
+  --color-surface-cyan: #4E3016;
+  --color-surface-green: #462D13;
+  --color-surface-orange: #5C3312;
+  --color-surface-pink: #582B16;
+  --color-surface-purple: #542B18;
+
+  --color-heading: #FFFFFF;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #F4F4F5;
+  --color-text-muted: #E4E4E7;
+  --color-text-inverse: #2B1709;
+
+  --color-primary: #F5DEB3;
+  --color-secondary: #FCD34D;
+  --color-tertiary: #FBBF24;
+  --color-indigo: #F5DEB3;
+  --color-blue: #FDE68A;
+  --color-cyan: #F5DEB3;
+  --color-green: #A7F3D0;
+  --color-amber: #FCD34D;
+  --color-pink: #FDE68A;
+  --color-purple: #F5DEB3;
+  --color-coral: #FDBA74;
+
+  --color-border: #522E10;
+  --color-border-soft: rgba(245, 222, 179, 0.36);
+  --color-focus-ring: #F5DEB3;
+  --border-color: #522E10;
+  --glass-bg: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%);
+  --glass-border: rgba(245, 222, 179, 0.45);
+  --card-border-width: 2px;
+  --banner-transparent-bg: rgba(101, 58, 23, 0.10);
+
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-input: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+
+  --bg-main: #2B1709;
+  --bg-header: linear-gradient(145deg, #7A4A20 0%, #522E10 55%, #653A17 100%);
+  --bg-footer: linear-gradient(145deg, #7A4A20 0%, #522E10 55%, #653A17 100%);
+  --bg-card: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%);
+  --bg-subcard: linear-gradient(145deg, rgba(92, 54, 22, 0.88) 0%, rgba(58, 32, 11, 0.94) 100%);
+  --bg-subcard-hover: rgba(61, 33, 11, 0.72);
+  --bg-nested-card: rgba(62, 34, 12, 0.90);
+  --bg-button-primary: linear-gradient(135deg, #D97706 0%, #92400E 100%);
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: rgba(62, 34, 12, 0.90);
+  --text-button-secondary: #FFFFFF;
+  --bg-popup: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
+  --bg-modal: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
+  --bg-modal-backdrop: rgba(24, 11, 4, 0.72);
+  --bg-modal-header: linear-gradient(145deg, #653A17 0%, #4B2810 100%);
+  --bg-modal-footer: linear-gradient(145deg, #522E10 0%, #3D210B 100%);
+  --border-modal: #3D210B;
+  --bg-dropdown: linear-gradient(145deg, #7A4A20 0%, #522E10 100%);
+  --bg-navigation: linear-gradient(145deg, #653A17 0%, #4B2810 100%);
+  --bg-tab: rgba(82, 46, 16, 0.92);
+  --bg-input: rgba(61, 33, 11, 0.88);
+  --border-input: rgba(245, 222, 179, 0.45);
+  --border-input-focus: #FDE68A;
+  --text-input: #FFFFFF;
+  --text-placeholder: rgba(244, 244, 245, 0.72);
+  --bg-table: rgba(74, 41, 16, 0.92);
+  --bg-table-head: rgba(61, 33, 11, 0.95);
+  --bg-table-row-alt: rgba(82, 46, 16, 0.55);
+  --border-table: rgba(245, 222, 179, 0.30);
+  --bg-nav-button-opaque: #4B2810;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #F4F4F5;
+  --text-muted: #E4E4E7;
+  --text-link: #FDE68A;
+  --text-heading: #FFFFFF;
+  --icon-primary: #FFFFFF;
+  --icon-secondary: #F4F4F5;
+  --icon-muted: #E4E4E7;
+  --border-default: #522E10;
+  --border-muted: rgba(245, 222, 179, 0.30);
+  --border-strong: rgba(245, 222, 179, 0.55);
+
+  --shadow-header: 0 22px 48px rgba(0, 0, 0, 0.56), inset 0 1.5px 3px rgba(255, 220, 180, 0.24);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --shadow-card: 0 15px 34px rgba(0, 0, 0, 0.44),
+    inset 0 2px 4px rgba(255, 220, 180, 0.25),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+  --shadow-popup: 0 22px 46px rgba(0, 0, 0, 0.62),
+    inset 0 2px 4px rgba(255, 220, 180, 0.28),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.65);
+  --shadow-floating: 0 26px 58px -6px rgba(0, 0, 0, 0.68),
+    0 12px 26px -4px rgba(36, 18, 7, 0.48),
+    inset 0 1.5px 3px rgba(255, 220, 180, 0.26),
+    inset 0 -1px 0 rgba(245, 222, 179, 0.16);
+
+  --bg-nav-pill: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%);
+  --bg-nav-arrow: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%);
+  --border-nav-arrow: #522E10;
+  --text-nav-arrow: #FDE68A;
+  --bg-banner-pill: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%);
+  --border-banner-pill: #522E10;
+  --text-banner-pill: #FFFFFF;
+  --bg-banner-cta: linear-gradient(135deg, #B45309 0%, #78350F 100%);
+  --text-banner-cta: #FFFFFF;
+  --shadow-nav-pill: 0 8px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1.5px 3px rgba(255, 220, 180, 0.25),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.55);
+  --blur-nav-pill: 0px;
+  --outline-nav-pill: 1px dashed rgba(245, 222, 179, 0.56);
+  --outline-offset-nav-pill: -4px;
+  --divider-nav-pill: rgba(245, 222, 179, 0.42);
+
+  --border-subcard: #522E10;
+  --shadow-subcard: 0 9px 20px rgba(0, 0, 0, 0.34),
+    inset 0 1.5px 3px rgba(255, 220, 180, 0.20),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.50);
+  --blur-subcard: 0px;
+  --outline-subcard: 1px dashed rgba(245, 222, 179, 0.45);
+  --outline-offset-subcard: -5px;
+  --bg-nested-badge: #3D210B;
+  --border-nested-badge: rgba(245, 222, 179, 0.42);
+
+  --pillar-heading: #FFFFFF;
+  --pillar-sub: #FDE68A;
+  --pillar-body: #F4F4F5;
+  --pillar-badge-bg: rgba(61, 33, 11, 0.78);
+  --pillar-badge-text: #FFFFFF;
+  --pillar-divider: rgba(245, 222, 179, 0.32);
+  --pillar-progress-track: rgba(61, 33, 11, 0.78);
+  --pillar-progress-fill: linear-gradient(90deg, #F59E0B, #FDE68A);
+  --page-header-divider: rgba(245, 222, 179, 0.34);
+  --page-header-overlay-bg: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%);
+  --page-header-overlay-border: #522E10;
+  --page-header-overlay-shadow: 0 10px 22px rgba(0, 0, 0, 0.48), inset 0 1.5px 3px rgba(255, 220, 180, 0.24);
+  --page-header-overlay-blur: 0px;
+  --page-header-overlay-outline: 1px dashed rgba(245, 222, 179, 0.56);
+  --page-header-overlay-outline-offset: -4px;
+  --page-header-icon-bg: #3D210B;
+  --page-header-icon-border: rgba(245, 222, 179, 0.45);
+  --page-header-icon-outline: 1px dashed rgba(245, 222, 179, 0.42);
+
+  /* Global 5-Layer Background Tokens (Warm Burnished Cowhide Leather) */
+  --app-bg-base: #241207;
+  --app-bg-gradient:
+    radial-gradient(ellipse 88% 68% at 15% 15%, rgba(217, 119, 6, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 82% 65% at 85% 20%, rgba(180, 83, 9, 0.26) 0%, transparent 56%),
+    radial-gradient(ellipse 76% 64% at 76% 86%, rgba(190, 96, 82, 0.18) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 58% at 18% 82%, rgba(146, 64, 14, 0.22) 0%, transparent 56%),
+    linear-gradient(135deg, #241207 0%, #3a1e0c 38%, #472312 68%, #2b1509 100%);
+  --app-bg-glow-primary: rgba(245, 158, 11, 0.26);
+  --app-bg-glow-secondary: rgba(217, 119, 6, 0.24);
+  --app-bg-glow-accent: rgba(244, 114, 182, 0.14);
+  --app-bg-glow-cyan: rgba(251, 191, 36, 0.20);
+  --app-bg-opacity: 0.68;
+  --app-bg-shape-opacity: 0.56;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(43, 23, 9, 0.04) 0%, rgba(28, 14, 5, 0.24) 72%, rgba(20, 9, 3, 0.42) 100%);
+  --app-bg-transition-scrim: rgba(36, 18, 7, 0.06);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(245, 158, 11, 0.12);
+  --ambient-wave-2: rgba(244, 114, 182, 0.08);
+  --ambient-wave-3: rgba(180, 83, 9, 0.12);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 0.68;
+  --ambient-main-glow: 0 0 68px -10px rgba(245, 158, 11, 0.22), 0 0 112px -18px rgba(180, 83, 9, 0.18);
+  --ambient-edge-border: rgba(245, 222, 179, 0.36);
+
+  /* 4-Tier Surface Tokens (Warm Burnished Leather – Subtle Glassmorphism Level 01) */
+  --surface-primary-bg: linear-gradient(145deg, rgba(101, 58, 23, 0.62) 0%, rgba(56, 30, 10, 0.58) 55%, rgba(82, 46, 16, 0.62) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.1);
+  --surface-primary-border-hover: rgba(245, 222, 179, 0.38);
+  --surface-primary-outline-hover: rgba(253, 230, 138, 0.78);
+  --surface-primary-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.56), inset 0 1.5px 3px rgba(255, 220, 180, 0.24), inset 0 -1px 0 rgba(245, 222, 179, 0.14);
+  --surface-primary-shadow-hover:
+    0 26px 58px rgba(0, 0, 0, 0.68), inset 0 2px 4px rgba(255, 220, 180, 0.34), inset 0 -1px 0 rgba(253, 230, 138, 0.26);
+  --surface-header-shadow:
+    0 20px 46px rgba(0, 0, 0, 0.56), inset 0 1.5px 3px rgba(255, 220, 180, 0.24), inset 0 -1px 0 rgba(245, 222, 179, 0.14);
+  --surface-header-shadow-hover:
+    0 26px 56px rgba(0, 0, 0, 0.68), inset 0 2px 4px rgba(255, 220, 180, 0.34), inset 0 -1px 0 rgba(253, 230, 138, 0.26);
+  --surface-footer-border-top: rgba(245, 222, 179, 0.22);
+  --surface-footer-shadow:
+    0 -10px 28px -6px rgba(18, 9, 4, 0.30), 0 -4px 12px -4px rgba(217, 119, 6, 0.08), inset 0 1px 0 rgba(253, 230, 138, 0.12);
+  --surface-footer-shadow-hover:
+    0 -10px 28px -6px rgba(18, 9, 4, 0.30), 0 -4px 12px -4px rgba(217, 119, 6, 0.08), inset 0 1px 0 rgba(253, 230, 138, 0.12);
+  --surface-primary-blur: 12px;
+  --surface-primary-saturate: 118%;
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: #522E10;
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: #522E10;
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 0px;
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: rgba(122, 74, 32, 0.92);
+  --surface-interactive-active: linear-gradient(135deg, #B45309 0%, #78350F 55%, #92400E 100%);
+  --surface-interactive-border: #522E10;
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 0px;
+  --border-image-card: #522E10;
+  --shadow-image-card: var(--shadow-card);
+  --outline-image-card: 1.5px dashed rgba(245, 222, 179, 0.58);
+  --outline-offset-image-card: -6px;
+
+  /* High-Contrast Warm & Cream Accents for Dark Cowhide Leather */
+  --accent-blue: #93C5FD;
+  --accent-sky: #BAE6FD;
+  --accent-cyan: #A5F3FC;
+  --accent-teal: #99F6E4;
+  --accent-emerald: #A7F3D0;
+  --accent-green: #BBF7D0;
+  --accent-indigo: #C7D2FE;
+  --accent-violet: #DDD6FE;
+  --accent-purple: #E9D5FF;
+  --accent-fuchsia: #F5D0FE;
+  --accent-pink: #FBCFE8;
+  --accent-rose: #FECDD3;
+  --accent-red: #FCA5A5;
+  --accent-amber: #FDE68A;
+  --accent-yellow: #FEF08A;
+  --accent-orange: #FDBA74;
+  --accent-slate: #FFF8DC;
+}
+
+/* Header & Footer & Level-01 Main Card Full-Grain Stitched Leather Glassmorphism Chrome */
+html[data-card-style="cowhide-leather"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  #home-main-card,
+  [id$="-main-card"],
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: var(--surface-primary-bg) !important;
+  border-color: var(--surface-primary-border) !important;
+  color: #FFFFFF !important;
+  box-shadow: var(--layer-l1-shadow, var(--surface-primary-shadow)) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.50);
+  outline-offset: -6px;
+}
+
+html[data-card-style="cowhide-leather"] #app-header {
+  border-top: none !important;
+  box-shadow: var(--layer-l1-header-shadow, var(--surface-header-shadow)) !important;
+}
+
+html[data-card-style="cowhide-leather"] #app-footer {
+  border-top-color: var(--surface-footer-border-top, rgba(245, 222, 179, 0.22)) !important;
+  border-bottom: none !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(#footer-nav-capsule, #el-p0-div-16) {
+  background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%) !important;
+  border: 2px solid #3D210B !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.50),
+    0 4px 10px rgba(61, 33, 11, 0.36),
+    inset 0 1px 3px rgba(255, 220, 180, 0.24) !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.65);
+  outline-offset: -4px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(#footer-nav-capsule, #el-p0-div-16):hover {
+  background: linear-gradient(145deg, #8B5728 0%, #5F3613 100%) !important;
+  border-color: #B45309 !important;
+  outline-color: rgba(253, 230, 138, 0.85) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.60),
+    0 6px 14px rgba(180, 83, 9, 0.32),
+    inset 0 1px 3px rgba(255, 220, 180, 0.30) !important;
+}
+
+html[data-card-style="cowhide-leather"] #el-p0-div-16 [role="tab"][aria-selected="true"] {
+  background: linear-gradient(135deg, #fde68a 0%, #d97706 100%) !important;
+  border-color: rgba(255, 248, 220, 0.85) !important;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45) !important;
+}
+
+html[data-card-style="cowhide-leather"] #el-p0-div-16 [role="tab"][aria-selected="false"] {
+  background: rgba(245, 222, 179, 0.35) !important;
+}
+
+/* Outer Page Container Frame: 100% Transparent Canvas, 0px Radius & 1px Line Border */
+html[data-card-style="cowhide-leather"] .main-card:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container),
+html[data-card-style="cowhide-leather"] [id$="-page-container"]:not(#pdf-page-container),
+html[data-card-style="cowhide-leather"] [id$="-page-root"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1px solid rgba(245, 222, 179, 0.36) !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: none !important;
+}
+
+/* All Standard Section Cards: Rich Cowhide Surface + Hand-Stitched Dashed Border */
+html[data-card-style="cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2),
+html[data-card-style="cowhide-leather"] [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="cowhide-leather"] article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
+html[data-card-style="cowhide-leather"] .system-item:not(#app-header):not(#app-footer),
+html[data-card-style="cowhide-leather"] #horoscope-lookup-card,
+html[data-card-style="cowhide-leather"] #home-stats-card,
+html[data-card-style="cowhide-leather"] #home-intro-card,
+html[data-card-style="cowhide-leather"] #home-capabilities-card,
+html[data-card-style="cowhide-leather"] #home-achievements-card,
+html[data-card-style="cowhide-leather"] #bento-letter-video {
+  background: linear-gradient(145deg, #8b5a2b 0%, #653a17 50%, #7a4a20 100%) !important;
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
+}
+
+html[data-card-style="cowhide-leather"] #bento-letter-video {
+  padding: 0 !important;
+}
+
+html[data-card-style="cowhide-leather"] #horoscope-card-profile,
+html[data-card-style="cowhide-leather"] #horoscope-card-profile:hover,
+html[data-card-style="cowhide-leather"] #horoscope-card-management-style,
+html[data-card-style="cowhide-leather"] #horoscope-card-management-style:hover,
+html[data-card-style="cowhide-leather"] #horoscope-card-career-portrait,
+html[data-card-style="cowhide-leather"] #horoscope-card-career-portrait:hover,
+html[data-card-style="cowhide-leather"] #horoscope-card-five-elements,
+html[data-card-style="cowhide-leather"] #horoscope-card-five-elements:hover,
+html[data-card-style="cowhide-leather"] #horoscope-card-leadership-philosophy,
+html[data-card-style="cowhide-leather"] #horoscope-card-leadership-philosophy:hover,
+html[data-card-style="cowhide-leather"] #horoscope-card-work-synergy-check,
+html[data-card-style="cowhide-leather"] #horoscope-card-work-synergy-check:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  padding: 0 !important;
+}
+
+/* Card hover without seam/rim glow */
+html[data-card-style="cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="cowhide-leather"] .bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover,
+html[data-card-style="cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):hover {
+  box-shadow: var(--layer-l2-shadow, var(--shadow-card)) !important;
+}
+
+/* Header & Footer Nav Pills in Cowhide Leather */
+html[data-card-style="cowhide-leather"] #app-header .nav-pill-wrapper,
+html[data-card-style="cowhide-leather"] #app-footer .nav-pill-wrapper {
+  box-shadow: none !important;
+}
+
+html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill,
+html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar,
+html[data-card-style="cowhide-leather"] #footer-lang-btn,
+html[data-card-style="cowhide-leather"] #footer-appearance-btn,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn,
+html[data-card-style="cowhide-leather"] #footer-wallpaper-btn,
+html[data-card-style="cowhide-leather"] #footer-ai-btn {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border-color: #522E10 !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.36), inset 0 1px 2px rgba(255, 220, 180, 0.22), inset 0 -2px 4px rgba(0, 0, 0, 0.48) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.56);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] #app-header nav button.nav-pill:hover,
+html[data-card-style="cowhide-leather"] #header-btn-hungthai-avatar:hover,
+html[data-card-style="cowhide-leather"] #footer-lang-btn:hover,
+html[data-card-style="cowhide-leather"] #footer-appearance-btn:hover,
+html[data-card-style="cowhide-leather"] #footer-theme-mode-btn:hover,
+html[data-card-style="cowhide-leather"] #footer-wallpaper-btn:hover,
+html[data-card-style="cowhide-leather"] #footer-ai-btn:hover {
+  border-color: rgba(245, 222, 179, 0.72) !important;
+  outline-color: rgba(253, 230, 138, 0.85) !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(145deg, #BD7B3A 0%, #8C511B 52%, #A66528 100%) !important;
+  border-color: rgba(253, 230, 138, 0.85) !important;
+  outline-color: rgba(254, 243, 199, 0.92) !important;
+  transform: translate3d(0, -1.5px, 0) scale(1) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.52), 0 0 16px rgba(253, 230, 138, 0.18), inset 0 1px 2px rgba(255, 240, 200, 0.38) !important;
+  color: #FFFFFF !important;
+}
+
+/* Circular Menu Icon Medallion Inside Header & Footer Nav Pills */
+html[data-card-style="cowhide-leather"] :is(
+  #app-header nav button.nav-pill:not(#header-btn-hungthai-avatar),
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #FDE68A !important;
+  background-color: #FDE68A !important;
+  border: 1px dashed rgba(82, 46, 16, 0.62) !important;
+  --tw-ring-color: transparent !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
+  border: 1px dashed rgba(253, 230, 138, 0.85) !important;
+  --tw-ring-color: rgba(82, 46, 16, 0.92) !important;
+  box-shadow: inset 0 1.5px 2px rgba(255, 220, 180, 0.22),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.58),
+    0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+  color: #3A1F0A !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill .nav-pill-title {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .nav-pill .nav-pill-sub {
+  color: #F4F4F5 !important;
+}
+
+/* Radial Contact Menu Pills (Hung Thai Avatar Popup) in Cowhide Leather */
+html[data-card-style="cowhide-leather"] .radial-contact-pill-wrapper {
+  box-shadow: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-pill {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border-color: #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.56);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-icon-badge {
+  background: linear-gradient(145deg, #5A3213 0%, #3A1F0A 100%) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.62) !important;
+  box-shadow: inset 0 1px 2px rgba(255, 220, 180, 0.22), 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-icon-badge svg {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-divider {
+  background-color: rgba(245, 222, 179, 0.45) !important;
+  opacity: 1 !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-title {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .radial-contact-sub {
+  color: #F4F4F5 !important;
+}
+
+/* Footer Popups (Language & Theme Dropdowns) in Cowhide Leather */
+html[data-card-style="cowhide-leather"] #footer-lang-popup button,
+html[data-card-style="cowhide-leather"] #footer-theme-popup button {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-lang-popup button:hover,
+html[data-card-style="cowhide-leather"] #footer-theme-popup button:not(.theme-switch-btn):hover {
+  background: rgba(61, 33, 11, 0.65) !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-lang-popup button.bg-emerald-600 {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.7) !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-lang-popup button > div > div:first-child {
+  background: #3D210B !important;
+  border: 1px dashed rgba(245, 222, 179, 0.45);
+}
+
+html[data-card-style="cowhide-leather"] #footer-lang-popup button > div > div:first-child svg {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn {
+  background: #3D210B !important;
+  border: 1px dashed rgba(245, 222, 179, 0.50) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
+html[data-card-style="cowhide-leather"] #footer-nav-capsule svg {
+  color: #FFFFFF !important;
+}
+
+/* Sub-Cards, Timeline Milestone Cards, Pillars, SWOT Skills & Experience Detail Leather Panels */
+html[data-card-style="cowhide-leather"] [data-subcard="true"]:not(.skill-swot-subcard),
+html[data-card-style="cowhide-leather"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="cowhide-leather"] .about-info-subcard,
+html[data-card-style="cowhide-leather"] .experience-milestone-card,
+html[data-card-style="cowhide-leather"] .exp-detail-card,
+html[data-card-style="cowhide-leather"] .exp-detail-subcard,
+html[data-card-style="cowhide-leather"] .pillar-gradient-card,
+html[data-card-style="cowhide-leather"] #experience-info-card,
+html[data-card-style="cowhide-leather"] #experience-dedicated-company-card,
+html[data-card-style="cowhide-leather"] #experience-basic-info-card,
+html[data-card-style="cowhide-leather"] #experience-banner-card,
+html[data-card-style="cowhide-leather"] #experience-management-card,
+html[data-card-style="cowhide-leather"] #experience-responsibility-card,
+html[data-card-style="cowhide-leather"] #experience-achievement-card,
+html[data-card-style="cowhide-leather"] #experience-results-card,
+html[data-card-style="cowhide-leather"] #experience-commitments-card,
+html[data-card-style="cowhide-leather"] #experience-products-card,
+html[data-card-style="cowhide-leather"] #experience-memories-card {
+  background: linear-gradient(145deg, rgba(122, 74, 32, 0.92) 0%, rgba(82, 46, 16, 0.96) 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.45);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Nested subcards inside Experience milestone cards & info subcards get deeper saddle leather contrast */
+html[data-card-style="cowhide-leather"] .experience-milestone-card [data-subcard="true"],
+html[data-card-style="cowhide-leather"] #experience-banner-card .exp-detail-subcard,
+html[data-card-style="cowhide-leather"] .exp-detail-card .exp-detail-subcard,
+html[data-card-style="cowhide-leather"] #skills-languages-section .exp-detail-subcard {
+  background: linear-gradient(145deg, rgba(96, 56, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1px solid rgba(245, 222, 179, 0.32) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.36);
+  outline-offset: -4px;
+}
+
+html[data-card-style="cowhide-leather"] .skill-swot-subcard,
+html[data-card-style="cowhide-leather"] [id^="skill-item-"],
+html[data-card-style="cowhide-leather"] .skill-swot-subcard:hover,
+html[data-card-style="cowhide-leather"] [id^="skill-item-"]:hover,
+html[data-card-style="cowhide-leather"] .skill-swot-subcard[data-expanded="true"],
+html[data-card-style="cowhide-leather"] [id^="skill-item-"][data-expanded="true"],
+html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard,
+html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard:hover,
+html[data-card-style="cowhide-leather"] .swot-quadrant-card .skill-swot-subcard[data-expanded="true"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid var(--swot-accent-border) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .about-info-subcard:hover,
+html[data-card-style="cowhide-leather"] .exp-detail-subcard:hover,
+html[data-card-style="cowhide-leather"] .pillar-gradient-card:hover {
+  outline-color: rgba(253, 230, 138, 0.85);
+  border-color: rgba(245, 222, 179, 0.58) !important;
+}
+
+/* Warm High-Contrast SWOT Accents & Stitched Disclosure Panels in Cowhide Leather */
+html[data-card-style="cowhide-leather"] [data-swot="S"] {
+  --swot-accent: #FDE68A;
+  --swot-accent-soft: rgba(253, 230, 138, 0.20);
+  --swot-accent-border: rgba(253, 230, 138, 0.45);
+}
+html[data-card-style="cowhide-leather"] [data-swot="W"] {
+  --swot-accent: #A7F3D0;
+  --swot-accent-soft: rgba(167, 243, 208, 0.20);
+  --swot-accent-border: rgba(167, 243, 208, 0.45);
+}
+html[data-card-style="cowhide-leather"] [data-swot="O"] {
+  --swot-accent: #FDBA74;
+  --swot-accent-soft: rgba(253, 186, 116, 0.20);
+  --swot-accent-border: rgba(253, 186, 116, 0.45);
+}
+html[data-card-style="cowhide-leather"] [data-swot="T"] {
+  --swot-accent: #FECDD3;
+  --swot-accent-soft: rgba(254, 205, 211, 0.20);
+  --swot-accent-border: rgba(254, 205, 211, 0.45);
+}
+
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-icon,
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-index,
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-name {
+  color: var(--swot-accent) !important;
+  background: transparent !important;
+}
+
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-track {
+  background: rgba(43, 23, 9, 0.85) !important;
+  border: 1px solid rgba(245, 222, 179, 0.24);
+}
+
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px dashed rgba(245, 222, 179, 0.40) !important;
+}
+
+html[data-card-style="cowhide-leather"] .skill-swot-subcard .swot-skill-disclosure-text {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="S"] .swot-corner-outer {
+  fill: rgba(253, 230, 138, 0.24);
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="S"] .swot-corner-inner {
+  fill: #92400E;
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="W"] .swot-corner-outer {
+  fill: rgba(167, 243, 208, 0.22);
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="W"] .swot-corner-inner {
+  fill: #166534;
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="O"] .swot-corner-outer {
+  fill: rgba(253, 186, 116, 0.24);
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="O"] .swot-corner-inner {
+  fill: #B45309;
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="T"] .swot-corner-outer {
+  fill: rgba(254, 205, 211, 0.22);
+}
+html[data-card-style="cowhide-leather"] .swot-quadrant-card[data-swot="T"] .swot-corner-inner {
+  fill: #9F1239;
+}
+
+html[data-card-style="cowhide-leather"] .swot-control-pill {
+  border-color: #522E10 !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .swot-control-pill svg {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] #skills-languages-header {
+  border-color: rgba(245, 222, 179, 0.30) !important;
+}
+
+html[data-card-style="cowhide-leather"] #skills-languages-title,
+html[data-card-style="cowhide-leather"] #skills-languages-header svg {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .about-info-label {
+  color: #F4F4F5 !important;
+}
+
+html[data-card-style="cowhide-leather"] .about-info-value {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .service-card .service-ambient-glow {
+  opacity: 0.06 !important;
+}
+
+html[data-card-style="cowhide-leather"] .service-card .service-title-text,
+html[data-card-style="cowhide-leather"] #services-page-container .service-card h3 {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .service-card .service-divider {
+  border-color: rgba(245, 222, 179, 0.25) !important;
+}
+
+/* Bento Tones Harmonized into Warm Saddlery & Burnished Leather Tints */
+html[data-card-style="cowhide-leather"] .bento-tone-indigo,
+html[data-card-style="cowhide-leather"] .bento-tone-blue,
+html[data-card-style="cowhide-leather"] .bento-tone-sky {
+  background: linear-gradient(145deg, rgba(139, 90, 43, 0.92) 0%, rgba(92, 52, 20, 0.96) 100%) !important;
+  border: 1.5px dashed rgba(245, 222, 179, 0.5) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .bento-tone-cyan,
+html[data-card-style="cowhide-leather"] .bento-tone-teal,
+html[data-card-style="cowhide-leather"] .bento-tone-emerald {
+  background: linear-gradient(145deg, rgba(120, 74, 34, 0.92) 0%, rgba(76, 44, 16, 0.96) 100%) !important;
+  border: 1.5px dashed rgba(253, 230, 138, 0.45) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .bento-tone-purple,
+html[data-card-style="cowhide-leather"] .bento-tone-pink,
+html[data-card-style="cowhide-leather"] .bento-tone-amber {
+  background: linear-gradient(145deg, rgba(146, 92, 42, 0.92) 0%, rgba(98, 55, 20, 0.96) 100%) !important;
+  border: 1.5px dashed rgba(255, 248, 220, 0.48) !important;
+  color: #FFFFFF !important;
+}
+
+/* Popups, Dropdowns & Modals */
+html[data-card-style="cowhide-leather"] #ai-assistant-droptop-menu-list,
+html[data-card-style="cowhide-leather"] #ai-assistant-center-questions-modal,
+html[data-card-style="cowhide-leather"] #interview-question-filter-listbox,
+html[data-card-style="cowhide-leather"] #skills-filter-dropdown,
+html[data-card-style="cowhide-leather"] #services-filter-dropdown,
+html[data-card-style="cowhide-leather"] #footer-lang-popup,
+html[data-card-style="cowhide-leather"] #footer-theme-popup,
+html[data-card-style="cowhide-leather"] #app-footer [class*="rounded-"][class*="shadow-"],
+html[data-card-style="cowhide-leather"] [role="dialog"],
+html[data-card-style="cowhide-leather"] .modal-dialog,
+html[data-card-style="cowhide-leather"] .theme-modal-card {
+  background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%) !important;
+  border: 2px solid #3D210B !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.46);
+  outline-offset: -5px;
+  color: #FFFFFF !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-modal-header,
+html[data-card-style="cowhide-leather"] .theme-modal-footer {
+  background: linear-gradient(145deg, #653A17 0%, #4B2810 100%) !important;
+  border-color: rgba(245, 222, 179, 0.30) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-modal-subcard {
+  background: linear-gradient(145deg, rgba(96, 56, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1.5px solid #3D210B !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.42);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] [role="dialog"] [class*="text-slate-"],
+html[data-card-style="cowhide-leather"] [role="dialog"] [class*="text-gray-"],
+html[data-card-style="cowhide-leather"] .theme-modal-card [class*="text-slate-"],
+html[data-card-style="cowhide-leather"] #footer-lang-popup [class*="text-slate-"],
+html[data-card-style="cowhide-leather"] #footer-theme-popup [class*="text-slate-"] {
+  color: #F4F4F5 !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-modal-close {
+  background: #3D210B !important;
+  border: 1px dashed rgba(245, 222, 179, 0.50) !important;
+  color: #FFFFFF !important;
+}
+
+/* WCAG Contrast Enforcement on Warm Leather Surface (#FFFFFF & #F5DEB3) */
+html[data-card-style="cowhide-leather"] {
+  --accent-blue: #93C5FD;
+  --accent-sky: #7DD3FC;
+  --accent-cyan: #67E8F9;
+  --accent-teal: #5EEAD4;
+  --accent-emerald: #86EFAC;
+  --accent-green: #86EFAC;
+  --accent-indigo: #C7D2FE;
+  --accent-violet: #DDD6FE;
+  --accent-purple: #E9D5FF;
+  --accent-fuchsia: #F5D0FE;
+  --accent-pink: #FBCFE8;
+  --accent-rose: #FECDD3;
+  --accent-red: #FCA5A5;
+  --accent-amber: #FDE68A;
+  --accent-yellow: #FEF08A;
+  --accent-orange: #FED7AA;
+  --accent-slate: #FFFFFF;
+}
+
+html[data-card-style="cowhide-leather"] h1:not(.hero-banner h1):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] h2:not(.hero-banner h2):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] h3:not(.hero-banner h3):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] h4:not(.hero-banner h4):not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] h5:not(.card-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] .card-heading__title:not(.card-title-synced):not([data-card-title]),
+html[data-card-style="cowhide-leather"] .card-title:not(.card-title-synced):not([data-card-title]) {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] #experience-job-detail-card p,
+html[data-card-style="cowhide-leather"] #experience-job-detail-card h2:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] #experience-job-detail-card h3:not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] .experience-milestone-card p,
+html[data-card-style="cowhide-leather"] .experience-milestone-card h4:not(.subcard-title-synced):not([data-subcard-title]),
+html[data-card-style="cowhide-leather"] [id^="milestone-card-"] p,
+html[data-card-style="cowhide-leather"] [id^="milestone-card-"] h4:not(.subcard-title-synced):not([data-subcard-title]) {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] [data-section-card="true"]:not(.hero-banner):not(.banner-card) p:not([class*="text-yellow"]):not([class*="text-amber"]),
+html[data-card-style="cowhide-leather"] .bento-card:not(.hero-banner):not(.banner-card) p:not([class*="text-yellow"]):not([class*="text-amber"]) {
+  color: #FFFFFF;
+}
+
+html[data-card-style="cowhide-leather"] #interview-answers-card .exp-detail-subcard {
+  background: linear-gradient(145deg, rgba(96, 56, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1px solid rgba(245, 222, 179, 0.34) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.38);
+  outline-offset: -4px;
+}
+
+html[data-card-style="cowhide-leather"] #interview-answers-card .interview-meta-accent,
+html[data-card-style="cowhide-leather"] #interview-answers-card .interview-asker-heading {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] #interview-answers-card .interview-answerer-heading {
+  color: #A7F3D0 !important;
+}
+
+html[data-card-style="cowhide-leather"] #interview-answers-card .interview-insights-heading {
+  color: #FCD34D !important;
+}
+
+/* Ensure white logo badges remain crisp white for dark/colored company logos */
+html[data-card-style="cowhide-leather"] img[src*="cloudinary"] {
+  filter: none;
+}
+
+/* Interactive Buttons & Focus States */
+html[data-card-style="cowhide-leather"] button:focus-visible,
+html[data-card-style="cowhide-leather"] a:focus-visible,
+html[data-card-style="cowhide-leather"] input:focus-visible,
+html[data-card-style="cowhide-leather"] [role="button"]:focus-visible {
+  outline: 2px solid #F5DEB3 !important;
+  outline-offset: 2px !important;
+}
+
+/* Inputs & Textareas inside Leather Theme */
+html[data-card-style="cowhide-leather"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-card-style="cowhide-leather"] textarea,
+html[data-card-style="cowhide-leather"] select {
+  background-color: rgba(61, 33, 11, 0.85) !important;
+  border-color: rgba(245, 222, 179, 0.45) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] input::placeholder,
+html[data-card-style="cowhide-leather"] textarea::placeholder {
+  color: rgba(245, 222, 179, 0.65) !important;
+}
+
+/* ========================================================================= */
+/* COWHIDE LEATHER: BANNERS, NAV ARROWS, IMAGE CARDS & ALL SUBCARDS          */
+/* ========================================================================= */
+html[data-card-style="cowhide-leather"] .hero-banner,
+html[data-card-style="cowhide-leather"] .banner-card,
+html[data-card-style="cowhide-leather"] #project-detail-banner {
+  border: 2px solid #522E10 !important;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.48), inset 0 2px 4px rgba(255, 220, 180, 0.25) !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.56);
+  outline-offset: -7px;
+}
+
+html[data-card-style="cowhide-leather"] .banner-control-pill,
+html[data-card-style="cowhide-leather"] .nav-arrow-btn,
+html[data-card-style="cowhide-leather"] .theme-prev-next-btn,
+html[data-card-style="cowhide-leather"] #el-p0-button-1,
+html[data-card-style="cowhide-leather"] #el-p0-button-2,
+html[data-card-style="cowhide-leather"] .theme-back-to-top-btn,
+html[data-card-style="cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]),
+html[data-card-style="cowhide-leather"] .hero-banner a.rounded-full,
+html[data-card-style="cowhide-leather"] .hero-banner label.rounded-full,
+html[data-card-style="cowhide-leather"] .banner-card button:not(.banner-primary-cta):not([role="option"]),
+html[data-card-style="cowhide-leather"] .banner-card a.rounded-full,
+html[data-card-style="cowhide-leather"] .banner-card label.rounded-full {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 55%, #7A4A20 100%) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid #522E10 !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.42), inset 0 1px 3px rgba(255, 220, 180, 0.24) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -4px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner button:not(.banner-primary-cta):not([role="option"]):hover,
+html[data-card-style="cowhide-leather"] .banner-card button:not(.banner-primary-cta):not([role="option"]):hover,
+html[data-card-style="cowhide-leather"] .banner-control-pill:hover,
+html[data-card-style="cowhide-leather"] #el-p0-button-1:hover,
+html[data-card-style="cowhide-leather"] #el-p0-button-2:hover {
+  background: linear-gradient(145deg, #A06B38 0%, #7A4A20 55%, #8B5A2B 100%) !important;
+  border-color: #FDE68A !important;
+  outline-color: rgba(253, 230, 138, 0.85) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner button:not(.banner-primary-cta) span,
+html[data-card-style="cowhide-leather"] .banner-card button:not(.banner-primary-cta) span,
+html[data-card-style="cowhide-leather"] .banner-control-pill span {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .banner-control-pill svg,
+html[data-card-style="cowhide-leather"] .nav-arrow-btn svg,
+html[data-card-style="cowhide-leather"] .theme-prev-next-btn svg,
+html[data-card-style="cowhide-leather"] #el-p0-button-1 svg,
+html[data-card-style="cowhide-leather"] #el-p0-button-2 svg,
+html[data-card-style="cowhide-leather"] .theme-back-to-top-btn svg,
+html[data-card-style="cowhide-leather"] .theme-back-to-top-icon,
+html[data-card-style="cowhide-leather"] .hero-banner button:not(.banner-primary-cta) svg,
+html[data-card-style="cowhide-leather"] .banner-card button:not(.banner-primary-cta) svg {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) :is(.card-title, h3):not(.card-title-synced):not([data-card-title="true"]) {
+  color: #FFFFFF !important;
+}
+html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) p {
+  color: rgba(244, 244, 245, 0.88) !important;
+}
+html[data-card-style="cowhide-leather"] :is(#home-stats-card, #home-intro-card, #home-capabilities-card, #home-achievements-card) .home-hero-badge {
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .banner-primary-cta,
+html[data-card-style="cowhide-leather"] .hero-banner button.banner-primary-cta,
+html[data-card-style="cowhide-leather"] .banner-card button.banner-primary-cta {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid #F5DEB3 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 248, 220, 0.25) !important;
+  outline: 1px dashed rgba(255, 248, 220, 0.65);
+  outline-offset: -4px;
+}
+
+html[data-card-style="cowhide-leather"] .banner-count-pill,
+html[data-card-style="cowhide-leather"] .hero-banner .rounded-full[class*="font-mono"],
+html[data-card-style="cowhide-leather"] .banner-card .rounded-full[class*="font-mono"],
+html[data-card-style="cowhide-leather"] .hero-banner button span.rounded-full,
+html[data-card-style="cowhide-leather"] .banner-card button span.rounded-full {
+  background: #3D210B !important;
+  border: 1px solid rgba(245, 222, 179, 0.48) !important;
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner .banner-search-input,
+html[data-card-style="cowhide-leather"] .banner-card .banner-search-input,
+html[data-card-style="cowhide-leather"] .hero-banner input[type="text"],
+html[data-card-style="cowhide-leather"] .hero-banner input[type="search"],
+html[data-card-style="cowhide-leather"] .banner-card input[type="text"],
+html[data-card-style="cowhide-leather"] .banner-card input[type="search"] {
+  background: rgba(43, 23, 9, 0.88) !important;
+  border: 1.5px solid #522E10 !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.45) !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner input::placeholder,
+html[data-card-style="cowhide-leather"] .banner-card input::placeholder {
+  color: rgba(245, 222, 179, 0.68) !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner div:has(> input[type="text"]),
+html[data-card-style="cowhide-leather"] .hero-banner div:has(> input[type="search"]),
+html[data-card-style="cowhide-leather"] .banner-card div:has(> input[type="text"]),
+html[data-card-style="cowhide-leather"] .banner-card div:has(> input[type="search"]) {
+  background: rgba(43, 23, 9, 0.88) !important;
+  border-color: rgba(245, 222, 179, 0.45) !important;
+}
+
+html[data-card-style="cowhide-leather"] .banner-dropdown-menu,
+html[data-card-style="cowhide-leather"] .hero-banner [role="listbox"],
+html[data-card-style="cowhide-leather"] .banner-card [role="listbox"],
+html[data-card-style="cowhide-leather"] #systems-filter-listbox,
+html[data-card-style="cowhide-leather"] #wallpaper-filter-listbox,
+html[data-card-style="cowhide-leather"] #memories-filter-listbox,
+html[data-card-style="cowhide-leather"] #horoscope-filter-listbox {
+  background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%) !important;
+  border: 2px solid #3D210B !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.50);
+  outline-offset: -5px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner [role="option"],
+html[data-card-style="cowhide-leather"] .banner-card [role="option"] {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner [role="option"]:hover,
+html[data-card-style="cowhide-leather"] .banner-card [role="option"]:hover {
+  background: rgba(61, 33, 11, 0.72) !important;
+  border-color: rgba(245, 222, 179, 0.35) !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner [role="option"][aria-selected="true"],
+html[data-card-style="cowhide-leather"] .banner-card [role="option"][aria-selected="true"] {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  border: 1px dashed rgba(253, 230, 138, 0.75) !important;
+  color: #FFFFFF !important;
+}
+
+/* Badges & Info Chips inside Contact & AI Vertical Banners */
+html[data-card-style="cowhide-leather"] #contact-hero-banner [class*="rounded-"],
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .rounded-full {
+  border-color: rgba(245, 222, 179, 0.45) !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner,
+html[data-card-style="cowhide-leather"] .banner-card,
+html[data-card-style="cowhide-leather"] [data-element-type="banner-card"],
+html[data-card-style="cowhide-leather"] #services-hero-banner,
+html[data-card-style="cowhide-leather"] #project-detail-banner,
+html[data-card-style="cowhide-leather"] .project-detail-banner-inner,
+html[data-card-style="cowhide-leather"] #contact-hero-banner,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner,
+html[data-card-style="cowhide-leather"] #interview-questions-card,
+html[data-card-style="cowhide-leather"] #pdf-hero-banner,
+html[data-card-style="cowhide-leather"] [id$="-hero-banner"] {
+  background: var(--banner-transparent-bg, rgba(101, 58, 23, 0.10)) !important;
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #FFFFFF !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-section-card {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #FFFFFF !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] #interview-questions-card {
+  border: 2px solid #522E10 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -7px;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #pdf-hero-banner .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-media :is(img, video) {
+  opacity: 1 !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] .banner-card:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] .banner-card:hover .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #project-detail-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #contact-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner:hover .project-detail-banner-media video,
+html[data-card-style="cowhide-leather"] #pdf-hero-banner:hover .project-detail-banner-media img,
+html[data-card-style="cowhide-leather"] [id$="-hero-banner"]:hover .project-detail-banner-media :is(img, video) {
+  opacity: 1 !important;
+}
+
+html[data-card-style="cowhide-leather"] .hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] .banner-card .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #project-detail-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #contact-hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #ai-assistant-hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #interview-questions-card .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] #pdf-hero-banner .project-detail-banner-scrim,
+html[data-card-style="cowhide-leather"] [id$="-hero-banner"] .project-detail-banner-scrim {
+  background: rgba(101, 58, 23, 0.10) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-subcard,
+html[data-card-style="cowhide-leather"] .education-subcard,
+html[data-card-style="cowhide-leather"] .letter-subcard,
+html[data-card-style="cowhide-leather"] .letter-header-subcard,
+html[data-card-style="cowhide-leather"] .letter-footer-subcard {
+  background: linear-gradient(145deg, rgba(102, 58, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.45);
+  outline-offset: -5px;
+  box-shadow: var(--shadow-subcard) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-subcard *:not(.subcard-title-synced):not(.card-title-synced):not([data-subcard-title]):not([data-card-title]):not(.subcard-header-sync):not(.subcard-header-sync *):not(.card-header-sync):not(.card-header-sync *):not(svg):not(.web-icon),
+html[data-card-style="cowhide-leather"] .education-subcard *:not(.subcard-title-synced):not(.card-title-synced):not([data-subcard-title]):not([data-card-title]):not(.subcard-header-sync):not(.subcard-header-sync *):not(.card-header-sync):not(.card-header-sync *):not(svg):not(.web-icon),
+html[data-card-style="cowhide-leather"] .letter-subcard *:not(.subcard-title-synced):not(.card-title-synced):not([data-subcard-title]):not([data-card-title]):not(.subcard-header-sync):not(.subcard-header-sync *):not(.card-header-sync):not(.card-header-sync *):not(svg):not(.web-icon) {
+  color: #FFFFFF;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-chip,
+html[data-card-style="cowhide-leather"] .education-skill-chip,
+html[data-card-style="cowhide-leather"] .project-card-tag,
+html[data-card-style="cowhide-leather"] .project-card-order-badge {
+  background: #3D210B !important;
+  border: 1px dashed rgba(245, 222, 179, 0.50) !important;
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-card-btn-secondary {
+  background: #4B2810 !important;
+  border: 1px solid rgba(245, 222, 179, 0.45) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-card-btn-primary {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  border: 1px solid #FDE68A !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-toc-btn[data-active="false"] {
+  background: rgba(61, 33, 11, 0.85) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.40) !important;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-toc-btn[data-active="false"]:hover {
+  background: rgba(82, 46, 16, 0.94) !important;
+  border-color: rgba(253, 230, 138, 0.72) !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-detail-toc-btn[data-active="true"] {
+  background: linear-gradient(135deg, #B45309 0%, #78350F 100%) !important;
+  border: 1px solid #FDE68A !important;
+  outline: 1px dashed rgba(255, 248, 220, 0.65);
+  outline-offset: -3px;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .themed-image-card,
+html[data-card-style="cowhide-leather"] .themed-image-frame {
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.58);
+  outline-offset: -6px;
+}
+
+html[data-card-style="cowhide-leather"] .project-card {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border: 2px solid #522E10 !important;
+  box-shadow: var(--shadow-card) !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.52);
+  outline-offset: -6px;
+  color: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .project-card h3:not(.card-title-synced):not([data-card-title]):not([style*="color"]),
+html[data-card-style="cowhide-leather"] .project-card p:not([class*="text-"]):not([style*="color"]),
+html[data-card-style="cowhide-leather"] .project-card span:not(.project-card-tag):not(.project-card-order-badge):not([class*="text-"]):not([style*="color"]) {
+  color: #FFFFFF;
+}
+
+html[data-card-style="cowhide-leather"] .theme-pip-player {
+  background: linear-gradient(145deg, #7A4A20 0%, #522E10 100%) !important;
+  border: 2px solid #3D210B !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.50);
+  outline-offset: -4px;
+  color: #FFFFFF !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-pip-header,
+html[data-card-style="cowhide-leather"] .theme-pip-footer {
+  background: linear-gradient(145deg, #653A17 0%, #4B2810 100%) !important;
+  border-color: rgba(245, 222, 179, 0.30) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-table {
+  background: rgba(74, 41, 16, 0.92) !important;
+  border-color: rgba(245, 222, 179, 0.30) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] .theme-table thead,
+html[data-card-style="cowhide-leather"] .theme-table th {
+  background: rgba(61, 33, 11, 0.96) !important;
+  color: #FDE68A !important;
+  border-color: rgba(245, 222, 179, 0.30) !important;
+}
+
+html[data-card-style="cowhide-leather"] #systems-filter-listbox button:not([data-selected="true"]),
+html[data-card-style="cowhide-leather"] #memories-filter-listbox button:not([data-selected="true"]),
+html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:not([data-selected="true"]) {
+  color: #FFFFFF !important;
+}
+
+html[data-card-style="cowhide-leather"] #systems-filter-listbox button:hover,
+html[data-card-style="cowhide-leather"] #memories-filter-listbox button:hover,
+html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:hover {
+  background: rgba(61, 33, 11, 0.72) !important;
+  color: #FDE68A !important;
+}
+
+

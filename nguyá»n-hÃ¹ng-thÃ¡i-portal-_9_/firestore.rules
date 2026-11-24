@@ -1,0 +1,334 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // Reusable Hardened Global Helpers
+    // =========================================================================
+    function isValidId(id) {
+      return id is string
+        && id.size() >= 1
+        && id.size() <= 128
+        && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // =========================================================================
+    // Entity Validation Blueprints
+    // =========================================================================
+    function isValidCardStyle(style) {
+      return style is string
+        && style.size() >= 1
+        && style.size() <= 64
+        && style in [
+          'liquid-glass',
+          'dark-liquid-glass',
+          'multicolor-glass',
+          'dark-neon-glass',
+          'neumorphism-beyond',
+          'dark-neumorphism-beyond',
+          'frost-ice-neu',
+          'dark-frost-ice-neu',
+          'flat-soft-ui',
+          'dark-flat-soft-ui',
+          'light-multicolor-glass',
+          'light-multicolor-glass-dark',
+          'light-multicolor-glass-color',
+          'light-cowhide-leather',
+          'black-cowhide-leather',
+          'cowhide-leather',
+          'ice-blue-neu',
+          'dark-ice-blue-neu',
+          'glass-flat',
+          'rainbow-glass',
+          'dark-rainbow-glass',
+          'special-rainbow-glass',
+          'deep-ocean',
+          'light-deep-ocean',
+          'mica-fluent'
+        ];
+    }
+
+    function isValidUserPreferences(data) {
+      return data.keys().hasAll([
+          'uid',
+          'displayName',
+          'photoUrl',
+          'cardStyle',
+          'surfaceDepth',
+          'autoTimeTheme',
+          'language',
+          'activeWallpaperId',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid',
+          'displayName',
+          'photoUrl',
+          'cardStyle',
+          'surfaceDepth',
+          'layerDepth',
+          'autoTimeTheme',
+          'language',
+          'activeWallpaperId',
+          'createdAt',
+          'updatedAt'
+        ])
+        && isValidId(data.uid)
+        && data.uid == request.auth.uid
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 100
+        && data.photoUrl is string
+        && data.photoUrl.size() <= 500
+        && isValidCardStyle(data.cardStyle)
+        && data.surfaceDepth is string
+        && data.surfaceDepth in ['flat', 'depth']
+        && (!('layerDepth' in data) || (data.layerDepth is int && data.layerDepth >= 0 && data.layerDepth <= 200))
+        && data.autoTimeTheme is bool
+        && data.language is string
+        && data.language in ['auto', 'vi', 'en']
+        && isValidId(data.activeWallpaperId)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidCustomWallpaper(data) {
+      return data.keys().hasAll([
+          'ownerId',
+          'name',
+          'wallpaperType',
+          'value',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'ownerId',
+          'name',
+          'wallpaperType',
+          'value',
+          'createdAt',
+          'updatedAt'
+        ])
+        && isValidId(data.ownerId)
+        && data.ownerId == request.auth.uid
+        && data.name is string
+        && data.name.size() >= 1
+        && data.name.size() <= 120
+        && data.wallpaperType is string
+        && data.wallpaperType in ['image', 'video', 'css', 'gradient', 'webgl']
+        && data.value is string
+        && data.value.size() >= 1
+        && data.value.size() <= 2048
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidTagList(tags) {
+      return tags is list
+        && tags.size() <= 5
+        && (tags.size() == 0 || (tags[0] is string && tags[0].size() >= 1 && tags[0].size() <= 32));
+    }
+
+    function isValidContactInquiry(data) {
+      return data.keys().hasAll([
+          'authorId',
+          'senderName',
+          'organization',
+          'topic',
+          'message',
+          'tags',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'authorId',
+          'senderName',
+          'organization',
+          'topic',
+          'message',
+          'tags',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && isValidId(data.authorId)
+        && data.authorId == request.auth.uid
+        && data.senderName is string
+        && data.senderName.size() >= 1
+        && data.senderName.size() <= 100
+        && data.organization is string
+        && data.organization.size() <= 120
+        && data.topic is string
+        && data.topic in ['recruitment', 'cx_advisory', 'project_collab', 'other']
+        && data.message is string
+        && data.message.size() >= 5
+        && data.message.size() <= 1500
+        && isValidTagList(data.tags)
+        && data.status is string
+        && data.status in ['submitted', 'archived']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // =========================================================================
+    // Collection Rules
+    // =========================================================================
+
+    // 1. User Preferences (/users/{userId})
+    match /users/{userId} {
+      allow get: if isSignedIn()
+        && isValidId(userId)
+        && isOwner(userId);
+
+      allow list: if false;
+
+      allow create: if isVerifiedUser()
+        && isValidId(userId)
+        && isOwner(userId)
+        && isValidUserPreferences(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser()
+        && isValidId(userId)
+        && isOwner(userId)
+        && isValidUserPreferences(incoming())
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          // Action 1: Update display profile fields
+          incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoUrl', 'updatedAt']) ||
+          // Action 2: Sync UI appearance & workspace preferences
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'cardStyle',
+            'surfaceDepth',
+            'layerDepth',
+            'autoTimeTheme',
+            'language',
+            'activeWallpaperId',
+            'updatedAt'
+          ])
+        );
+
+      allow delete: if isVerifiedUser()
+        && isValidId(userId)
+        && isOwner(userId);
+
+      // 2. Custom Wallpapers Subcollection (/users/{userId}/wallpapers/{wallpaperId})
+      match /wallpapers/{wallpaperId} {
+        allow get: if isSignedIn()
+          && isValidId(userId)
+          && isValidId(wallpaperId)
+          && isOwner(userId)
+          && get(/databases/$(database)/documents/users/$(userId)).data.uid == request.auth.uid;
+
+        allow list: if isSignedIn()
+          && isOwner(userId)
+          && existing().ownerId == request.auth.uid;
+
+        allow create: if isVerifiedUser()
+          && isValidId(userId)
+          && isValidId(wallpaperId)
+          && isOwner(userId)
+          && isValidCustomWallpaper(incoming())
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && get(/databases/$(database)/documents/users/$(userId)).data.uid == request.auth.uid;
+
+        allow update: if isVerifiedUser()
+          && isValidId(userId)
+          && isValidId(wallpaperId)
+          && isOwner(userId)
+          && isValidCustomWallpaper(incoming())
+          && incoming().ownerId == existing().ownerId
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && get(/databases/$(database)/documents/users/$(userId)).data.uid == request.auth.uid
+          && (
+            incoming().diff(existing()).affectedKeys().hasOnly(['name', 'wallpaperType', 'value', 'updatedAt'])
+          );
+
+        allow delete: if isVerifiedUser()
+          && isValidId(userId)
+          && isValidId(wallpaperId)
+          && isOwner(userId)
+          && get(/databases/$(database)/documents/users/$(userId)).data.uid == request.auth.uid;
+      }
+    }
+
+    // 3. Direct Contact Inquiries (/inquiries/{inquiryId})
+    match /inquiries/{inquiryId} {
+      allow get: if isSignedIn()
+        && isValidId(inquiryId)
+        && existing().authorId == request.auth.uid;
+
+      allow list: if isSignedIn()
+        && existing().authorId == request.auth.uid;
+
+      allow create: if isVerifiedUser()
+        && isValidId(inquiryId)
+        && isValidContactInquiry(incoming())
+        && incoming().status == 'submitted'
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser()
+        && isValidId(inquiryId)
+        && isValidContactInquiry(incoming())
+        && existing().authorId == request.auth.uid
+        && existing().status != 'archived'
+        && incoming().authorId == existing().authorId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (
+            incoming().status == 'submitted'
+            && incoming().diff(existing()).affectedKeys().hasOnly([
+              'senderName',
+              'organization',
+              'topic',
+              'message',
+              'tags',
+              'updatedAt'
+            ])
+          ) ||
+          (
+            incoming().status == 'archived'
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+          )
+        );
+
+      allow delete: if isVerifiedUser()
+        && isValidId(inquiryId)
+        && existing().authorId == request.auth.uid;
+    }
+  }
+}

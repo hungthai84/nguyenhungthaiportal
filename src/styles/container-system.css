@@ -922,10 +922,10 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
-  /* Interface theme cards 2-column grid */
+  /* Interface theme cards 3-column grid in transition zone */
   #interface-page-container .interface-group-grid,
   #interface-themes-grid.interface-themes-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }
@@ -1071,10 +1071,10 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: stretch !important;
   }
 
-  /* Interface theme cards 2-column grid on wide desktop */
+  /* Interface theme cards 4-column grid on wide desktop */
   #interface-page-container .interface-group-grid,
   #interface-themes-grid.interface-themes-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     grid-auto-rows: 1fr !important;
     align-items: stretch !important;
   }

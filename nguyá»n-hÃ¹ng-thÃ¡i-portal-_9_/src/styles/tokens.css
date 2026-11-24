@@ -1,0 +1,1820 @@
+:root {
+  /* ========================================================================= */
+  /* LỚP 1: GLOBAL DESIGN SYSTEM – CẤU HÌNH CHUNG & COLOR TOKENS V1.0          */
+  /* ========================================================================= */
+
+  /* ========================================================================= */
+  /* GLOBAL TYPOGRAPHY SYSTEM – ONE SOURCE OF TRUTH (PLAY FONT)                */
+  /* ========================================================================= */
+  --font-primary: 'Play', sans-serif;
+  --font-family-primary: var(--font-primary);
+  --font-family-heading: var(--font-primary);
+  --font-family-body: var(--font-primary);
+  --font-family-numeric: var(--font-primary);
+  --font-main: var(--font-primary);
+  --font-quote: 'Dancing Script', cursive;
+  --font-scale: 1;
+  --layout-typo-factor: 1;
+
+  /* Unified Fluid Typography Target Matrix (Tối ưu theo môi trường và bố cục 1250px + Bento grid) */
+  --fs-display: clamp(26px, 2.2vw + 16px, 42px);
+  --fs-h1: clamp(22px, 1.4vw + 14px, 32px);
+  --fs-h2: clamp(19px, 1.1vw + 13px, 24px);
+  --fs-h3: clamp(16px, 0.75vw + 12px, 20px);
+  --fs-h4: clamp(14.5px, 0.5vw + 11.5px, 17px);
+  --fs-h5: clamp(13.5px, 0.35vw + 11px, 15.5px);
+
+  --fs-body-lg: clamp(15px, 0.3vw + 13.5px, 16.5px);
+  --fs-body: clamp(14px, 0.2vw + 13px, 15px);
+  --fs-body-sm: clamp(12.5px, 0.15vw + 12px, 13.5px);
+
+  --fs-caption: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-label: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-badge: clamp(11.5px, 0.15vw + 11px, 12px);
+  --fs-overline: 10px;
+  --fs-button: clamp(13px, 0.2vw + 12.5px, 14px);
+  --fs-nav: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-tab: clamp(13.5px, 0.15vw + 13px, 14px);
+  --fs-input: 16px;
+  --fs-kpi: clamp(24px, 1.5vw + 18px, 36px);
+  --fs-quote: clamp(16px, 0.75vw + 13px, 21px);
+  --fs-popup-title: clamp(17px, 0.7vw + 15px, 20px);
+
+  /* Cấu hình hình nền mặc định: 0% mờ (opacity 100%), độ rõ nét 0px blur */
+  --wallpaper-bg-blur: 0px;
+  --wallpaper-bg-dim: 0;
+
+  /* Semantic better-typography aliases */
+  --font-display: var(--fs-display);
+  --font-h1: var(--fs-h1);
+  --font-h2: var(--fs-h2);
+  --font-h3: var(--fs-h3);
+  --font-h4: var(--fs-h4);
+  --font-h5: var(--fs-h5);
+  --font-body-large: var(--fs-body-lg);
+  --font-body: var(--fs-body);
+  --font-body-small: var(--fs-body-sm);
+  --font-caption: var(--fs-caption);
+  --font-overline: var(--fs-overline);
+
+  /* Better-Typography: Unitless Line Heights, Letter Spacing & Reading Measures */
+  --lh-heading: 1.24;
+  --lh-body: 1.6;
+  --lh-body-lg: 1.62;
+  --lh-body-sm: 1.55;
+  --lh-compact: 1.38;
+  --lh-display: 1.16;
+  --lh-kpi: 1.18;
+  --lh-h1: 1.22;
+  --lh-h2: 1.26;
+  --lh-h3: 1.3;
+  --lh-h4: 1.32;
+  --lh-h5: 1.35;
+  --line-height-heading: var(--lh-heading);
+  --line-height-body: var(--lh-body);
+  --lh-card-title: var(--lh-h3);
+  --lh-secondary: var(--lh-body);
+  --lh-caption: 1.4;
+  --lh-label: var(--lh-compact);
+  --lh-badge: var(--lh-compact);
+  --lh-overline: 1.35;
+  --lh-button: 1.35;
+  --lh-nav: 1.35;
+  --lh-tab: 1.35;
+  --lh-input: 1.45;
+  --lh-popup-title: 1.28;
+  --lh-tight: 1.22;
+
+  --ls-display: -0.025em;
+  --ls-h1: -0.022em;
+  --ls-h2: -0.016em;
+  --ls-h3: -0.01em;
+  --ls-h4: -0.005em;
+  --ls-h5: -0.005em;
+  --ls-body: 0.005em;
+  --ls-caption: 0.01em;
+  --ls-label: 0.025em;
+  --ls-overline: 0.03em;
+  --ls-kpi: -0.02em;
+  --ls-popup-title: -0.015em;
+
+  --ch-measure: 68ch;
+  --ch-measure-compact: 52ch;
+  --ch-measure-wide: 75ch;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Legacy font-size aliases bridged cleanly onto --fs-* */
+  --text-micro: var(--fs-label);
+  --text-overline: var(--fs-overline);
+  --text-caption: var(--fs-caption);
+  --text-body: var(--fs-body);
+  --text-h5: var(--fs-h5);
+  --text-h4: var(--fs-h4);
+  --text-h3: var(--fs-h3);
+  --text-h2: var(--fs-h2);
+  --text-h1: var(--fs-h1);
+  --text-display: var(--fs-display);
+  --text-card-title: var(--fs-h3);
+  --text-card-body: var(--fs-body);
+  --text-button: var(--fs-button);
+  --banner-transparent-bg: rgba(255, 255, 255, 0.10);
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Layer Card UI Border Radius Tokens – Đồng bộ chuẩn 14px cho Card, Sub-card, Video & Hình ảnh trên mọi Theme */
+  --radius-main: 14px;
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-media: 14px;
+  --radius-video: 14px;
+  --radius-image: 14px;
+  --radius-button: 999px;
+  --radius-input: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-banner: 14px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+
+  /* Component Dimensions & Unified Layer Card Padding Tokens (20px -> 16px -> 12px) */
+  --main-card-padding: 20px;
+  --space-main-padding: 20px;
+  --space-card-padding: 16px;
+  --space-card-gap: 16px;
+  --space-subcard-padding: 12px;
+  --space-subcard-gap: 12px;
+  --card-padding: var(--space-card-padding);
+  --card-gap: var(--space-card-gap);
+  --card-content-gap: 16px;
+  --card-heading-gap: 8px;
+  --card-border-width: 1px;
+
+  /* 1. MÀU NỀN (Soft Liquid Glass 3D Light Ambient) */
+  --color-bg: #F7F8FD;
+  --color-bg-soft: #EEE9FA;
+  --color-bg-blue: #E6F0FC;
+
+  /* 2. MÀU CARD VÀ SURFACE (Readable Content Surfaces) */
+  --color-surface: #FBFCFF;
+  --bg-nav-button-opaque: #F7F8FD;
+  --color-surface-elevated: #F7F8FD;
+  --color-surface-indigo: #EEE9FA;
+  --color-surface-cyan: #E0F5F3;
+  --color-surface-green: #E7F7F2;
+  --color-surface-orange: #FFF0E8;
+  --color-surface-pink: #F7E8F2;
+  --color-surface-purple: #EEE9FA;
+
+  /* 3. MÀU CHỮ (Soft Liquid Glass Light Mode) */
+  --color-heading: #2D3850;
+  --color-text: #2D3850;
+  --color-text-secondary: #64718A;
+  --color-text-muted: #76839B;
+  --color-text-inverse: #FFFFFF;
+
+  /* 4. MÀU NHẬN DIỆN & MULTICOLOR AMBIENT ACCENTS (LIGHT) */
+  --color-primary: #7666D8;
+  --color-secondary: #A99AE8;
+  --color-tertiary: #69C9C4;
+  --color-blue: #5B8CE0;
+  --color-green: #38B088;
+  --color-rose: #D86A8C;
+  --color-orange: #E58C68;
+  --color-yellow: #D9A441;
+  --color-lime: #7AB86A;
+  --color-turquoise: #69C9C4;
+  --color-cyan: #56BDB6;
+  --color-indigo: #7666D8;
+  --color-violet: #8D7AE0;
+  --color-magenta: #C976B0;
+  --color-coral: #E68F7B;
+
+  --accent-peach: #F3B9A7;
+  --accent-lavender: #BEB0EB;
+  --accent-misty-blue: #B8D0F2;
+  --accent-pearl: #FDFDFF;
+
+  /* 5. MÀU TRẠNG THÁI (Dedicated Semantic Tokens, independent of multicolor accents) */
+  --semantic-success: #0F9D75;
+  --semantic-success-soft: rgba(15, 157, 117, 0.14);
+  --semantic-warning: #D9821E;
+  --semantic-warning-soft: rgba(217, 130, 30, 0.14);
+  --semantic-error: #D9485F;
+  --semantic-error-soft: rgba(217, 72, 95, 0.14);
+  --semantic-info: #2E82D6;
+  --semantic-info-soft: rgba(46, 130, 214, 0.14);
+  --color-success: var(--semantic-success);
+  --color-warning: var(--semantic-warning);
+  --color-error: var(--semantic-error);
+  --color-info: var(--semantic-info);
+
+  /* 6. MÀU VIỀN, FOCUS VÀ GLASS */
+  --color-border: rgba(255, 255, 255, 0.56);
+  --color-border-soft: rgba(118, 102, 216, 0.14);
+  --color-focus-ring: #7666D8;
+  --glass-bg: rgba(255, 255, 255, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.50);
+  --glass-blur: 24px;
+
+  /* GLOBAL MOTION SYSTEM – MOTION TOKENS */
+  --motion-instant: 100ms;
+  --motion-fast: 150ms;
+  --motion-normal: 220ms;
+  --motion-medium: 280ms;
+  --motion-slow: 350ms;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  --motion-ease: var(--ease-standard);
+  --motion-ease-out: var(--ease-out);
+  --motion-ease-in-out: var(--ease-in-out);
+  --motion-spring: var(--ease-spring);
+  --motion-distance-sm: 4px;
+  --motion-distance-md: 8px;
+  --motion-distance-lg: 16px;
+  --motion-scale-pressed: 0.98;
+  --motion-scale-hover: 1.01;
+
+  /* LIQUID GLASS UI – OPTICAL SPECULAR RIM & FLOATING PILL MOTION TOKENS (LIGHT) */
+  --liquid-specular-rim: rgba(255, 255, 255, 0.88);
+  --liquid-specular-edge: rgba(255, 255, 255, 0.58);
+  --liquid-specular-bottom: rgba(255, 255, 255, 0.34);
+  --liquid-specular-sheen: linear-gradient(125deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.08) 46%, rgba(169, 223, 222, 0.14) 100%);
+  --liquid-specular-sheen-hover: linear-gradient(125deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 255, 255, 0.16) 48%, rgba(190, 176, 235, 0.22) 100%);
+  --liquid-rim-inset: inset 0 1px 0 var(--liquid-specular-rim), inset 1px 0 0 var(--liquid-specular-edge), inset 0 -1px 0 var(--liquid-specular-bottom);
+  --liquid-rim-inset-hover: inset 0 1px 0 rgba(255, 255, 255, 0.96), inset 1px 0 0 rgba(255, 255, 255, 0.72), inset 0 -1px 0 rgba(255, 255, 255, 0.44);
+  --liquid-pill-flex-ms: 230ms;
+  --liquid-pill-flex-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ADAPTIVE ACCENT TOKENS (LIGHT MODE – WCAG AA HIGH CONTRAST) */
+  --accent-blue: #2563EB;
+  --accent-sky: #0284C7;
+  --accent-cyan: #0891B2;
+  --accent-teal: #0D9488;
+  --accent-emerald: #059669;
+  --accent-green: #16A34A;
+  --accent-indigo: #4F46E5;
+  --accent-violet: #7C3AED;
+  --accent-purple: #9333EA;
+  --accent-fuchsia: #C026D3;
+  --accent-pink: #DB2777;
+  --accent-rose: #E11D48;
+  --accent-red: #DC2626;
+  --accent-amber: #D97706;
+  --accent-yellow: #CA8A04;
+  --accent-orange: #EA580C;
+  --accent-slate: #475569;
+
+  /* GLOBAL 5-LEVEL ELEVATION & SHADOW SYSTEM (LIGHT MODE) */
+  --shadow-none: none;
+  --elevation-0: none;
+  --shadow-nested: 0 2px 6px -1px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+  --elevation-1: var(--shadow-nested);
+  --shadow-subcard: 0 6px 16px -3px rgba(30, 27, 75, 0.09), 0 2px 6px rgba(30, 27, 75, 0.04);
+  --elevation-2: var(--shadow-subcard);
+  --shadow-card: 0 14px 36px -6px rgba(30, 27, 75, 0.14), 0 4px 14px -2px rgba(30, 27, 75, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  --elevation-3: var(--shadow-card);
+  --shadow-header: 0 24px 58px -12px rgba(30, 27, 75, 0.22), 0 8px 22px -4px rgba(30, 27, 75, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.95);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --elevation-4: var(--shadow-main-card);
+  --main-card-deep-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --main-card-deep-shadow-hover: 0 28px 64px -12px rgba(15, 23, 42, 0.30), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --main-card-deep-shadow-dark: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --main-card-deep-shadow-dark-hover: 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --main-card-hover-lift: -3px;
+  --shadow-card-hover: 0 22px 48px -6px rgba(30, 27, 75, 0.22), 0 8px 20px -2px rgba(30, 27, 75, 0.10), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
+  --shadow-subcard-hover: 0 10px 26px -3px rgba(30, 27, 75, 0.14), 0 3px 8px rgba(30, 27, 75, 0.06);
+  --shadow-floating: 0 22px 52px -6px rgba(30, 27, 75, 0.24), 0 6px 18px -2px rgba(30, 27, 75, 0.12);
+  --shadow-modal: 0 32px 75px -10px rgba(15, 23, 42, 0.32), 0 12px 35px -4px rgba(15, 23, 42, 0.16);
+  --shadow-popup: var(--shadow-floating);
+  --elevation-5: var(--shadow-modal);
+
+  /* Legacy aliases for compatibility */
+  --color-muted: var(--color-text-muted);
+  --border-color: var(--color-border);
+  --shadow-sm: var(--elevation-1);
+  --shadow-md: var(--elevation-3);
+  --shadow-lg: var(--elevation-5);
+
+  /* Semantic Contrast Tokens (Light Mode - Soft Liquid Glass 3D) */
+  --text-primary: #2D3850;
+  --text-secondary: #64718A;
+  --text-muted: #76839B;
+  --text-disabled: #94A3B8;
+  --text-inverse: #FFFFFF;
+  --text-link: #7666D8;
+  --text-heading: #2D3850;
+  --icon-primary: #2D3850;
+  --icon-secondary: #64718A;
+  --icon-muted: #76839B;
+  --border-default: rgba(255, 255, 255, 0.56);
+  --border-muted: rgba(118, 102, 216, 0.14);
+  --border-strong: rgba(118, 102, 216, 0.28);
+  --bg-page: #FFF0E8;
+  --bg-disabled: rgba(226, 232, 240, 0.72);
+
+  /* Global Icon Config */
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+
+  /* ========================================================================= */
+  /* LỚP 2: THEME BACKGROUND & 3D BUTTON TOKENS (Soft Liquid Glass 3D)        */
+  /* ========================================================================= */
+  --bg-header: rgba(255, 255, 255, 0.22);
+  --bg-footer: rgba(255, 255, 255, 0.22);
+  --bg-main: rgba(255, 255, 255, 0.22);
+  --bg-card: #FBFCFF;
+  --bg-subcard: rgba(251, 252, 255, 0.76);
+  --bg-nested-card: rgba(247, 248, 253, 0.72);
+  --bg-button-primary: linear-gradient(135deg, #7C5CFF 0%, #9F7AEA 100%);
+  --text-button-primary: #FFFFFF;
+  --shadow-button-primary: 0 10px 24px -4px rgba(124, 92, 255, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.50), inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+  --bg-button-secondary: linear-gradient(135deg, #67C7C7 0%, #A2E4E4 100%);
+  --text-button-secondary: #1E1E24;
+  --shadow-button-secondary: 0 8px 20px -4px rgba(103, 199, 199, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --bg-button-ghost: rgba(255, 255, 255, 0.24);
+  --bg-button-icon: rgba(255, 255, 255, 0.20);
+  --bg-popup: rgba(251, 252, 255, 0.94);
+  --bg-modal: rgba(251, 252, 255, 0.95);
+  --bg-modal-backdrop: rgba(45, 56, 80, 0.32);
+  --bg-modal-header: rgba(247, 248, 253, 0.92);
+  --bg-modal-footer: rgba(247, 248, 253, 0.92);
+  --border-modal: rgba(255, 255, 255, 0.68);
+  --blur-modal: 24px;
+  --page-header-divider: rgba(118, 102, 216, 0.16);
+  --page-header-overlay-bg: rgba(251, 252, 255, 0.86);
+  --page-header-overlay-border: rgba(255, 255, 255, 0.72);
+  --page-header-overlay-shadow: 0 8px 22px -6px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --page-header-overlay-blur: 16px;
+  --page-header-overlay-outline: none;
+  --page-header-overlay-outline-offset: 0px;
+  --page-header-icon-bg: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 13%, rgba(255, 255, 255, 0.78));
+  --page-header-icon-border: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 28%, transparent);
+  --page-header-icon-outline: none;
+  --bg-dropdown: rgba(251, 252, 255, 0.95);
+  --bg-dropdown-item: transparent;
+  --bg-navigation: rgba(255, 255, 255, 0.22);
+  --bg-tooltip: #2D3850;
+  --bg-toast: #FBFCFF;
+  --bg-input: rgba(255, 255, 255, 0.88);
+  --border-input: rgba(118, 102, 216, 0.20);
+  --border-input-focus: #7666D8;
+  --text-input: #2D3850;
+  --text-placeholder: #64718A;
+  --bg-select: rgba(255, 255, 255, 0.90);
+  --bg-tab: rgba(238, 233, 250, 0.72);
+  --bg-table: rgba(251, 252, 255, 0.92);
+  --bg-table-head: rgba(247, 248, 253, 0.95);
+  --bg-table-row-alt: rgba(238, 233, 250, 0.35);
+  --border-table: rgba(118, 102, 216, 0.14);
+  --bg-blur: 24px;
+
+  /* Global Bridged Semantic Tokens (Theme Surfaces, Cards, Neon & Glass) */
+  --theme-page-background: var(--app-bg-gradient);
+  --theme-header-background: var(--bg-header);
+  --theme-footer-background: var(--bg-footer);
+  --theme-main-background: var(--surface-primary-bg);
+  --card-surface-primary: var(--bg-card);
+  --card-surface-secondary: var(--bg-subcard);
+  --card-surface-accent: var(--color-surface-indigo);
+  --card-surface-gradient: var(--bg-card);
+  --card-border: var(--border-color);
+  --card-shadow: var(--shadow-card);
+  --card-highlight: rgba(255, 255, 255, 0.92);
+  --card-glow: none;
+  --text-tertiary: var(--text-muted);
+  --text-accent: var(--color-primary);
+  --text-neon: var(--color-primary);
+  --text-neon-glow: none;
+  --neon-cyan: #0891B2;
+  --neon-blue: #2563EB;
+  --neon-purple: #7C3AED;
+  --neon-pink: #DB2777;
+  --neon-green: #16A34A;
+  --neon-yellow: #CA8A04;
+  --neon-orange: #EA580C;
+  --glass-opacity: 0.78;
+  --glass-highlight: rgba(255, 255, 255, 0.92);
+  --glass-shadow: var(--shadow-card);
+
+  /* Component Theme Tokens: Nav Pills (20% Transparent Glass), Subcards & Pillar/Value Cards */
+  --bg-nav-pill: rgba(255, 255, 255, 0.20);
+  --bg-nav-pill-hover: rgba(255, 255, 255, 0.34);
+  --shadow-nav-pill: 0 6px 18px rgba(50, 40, 80, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.60);
+  --blur-nav-pill: 18px;
+  --outline-nav-pill: none;
+  --outline-offset-nav-pill: 0px;
+  --divider-nav-pill: rgba(118, 102, 216, 0.24);
+  --pill-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.68) 0%, rgba(248, 246, 247, 0.50) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 231, 229, 0.72) 100%);
+  --pill-border: rgba(255, 255, 255, 0.82);
+  --pill-border-hover: rgba(255, 255, 255, 0.96);
+  --pill-text: #1E293B;
+  --pill-title-color: var(--nav-pill-accent, var(--text-primary, #1E293B));
+  --pill-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --pill-shadow-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --pill-blur: 16px;
+  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 24%, rgba(148, 163, 184, 0.28));
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 14%, rgba(255, 255, 255, 0.92));
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 32%, rgba(255, 255, 255, 0.88));
+  --pill-badge-icon: var(--nav-pill-accent, #6D28D9);
+  --pill-badge-shadow: 0 2px 6px color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 16%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 86%, #ffffff) 0%, var(--nav-pill-accent, #6D28D9) 55%, color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 84%, #1e1b4b) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 62%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 42%, rgba(15, 23, 42, 0.22)), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #6D28D9);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(248, 246, 247, 0.72) 100%);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(255, 255, 255, 0.92);
+  --pill-arrow-text: var(--color-primary, #6D28D9);
+  --pill-counter-color: var(--color-primary, #6D28D9);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.88);
+  --border-subcard: rgba(255, 255, 255, 0.62);
+  --blur-subcard: 14px;
+  --outline-subcard: none;
+  --outline-offset-subcard: 0px;
+  --bg-nested-badge: rgba(251, 252, 255, 0.90);
+  --border-nested-badge: rgba(118, 102, 216, 0.18);
+  --pillar-heading: #2D3850;
+  --pillar-sub: #7666D8;
+  --pillar-body: #64718A;
+  --pillar-badge-bg: rgba(118, 102, 216, 0.12);
+  --pillar-badge-text: #4F3FB8;
+  --pillar-divider: rgba(45, 56, 80, 0.12);
+  --pillar-progress-track: rgba(118, 102, 216, 0.14);
+  --pillar-progress-fill: linear-gradient(90deg, #7666D8 0%, #A99AE8 100%);
+
+  /* Banner, Nav Arrow, Back-to-Top & Image Card Tokens */
+  --banner-border: rgba(255, 255, 255, 0.56);
+  --banner-shadow: 0 14px 36px -8px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --banner-outline: none;
+  --banner-outline-offset: 0px;
+  --bg-banner-pill: rgba(255, 255, 255, 0.20);
+  --text-banner-pill: #2D3850;
+  --border-banner-pill: rgba(255, 255, 255, 0.56);
+  --shadow-banner-pill: 0 6px 18px rgba(50, 40, 80, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.60);
+  --outline-banner-pill: none;
+  --bg-banner-cta: linear-gradient(135deg, #7666D8 0%, #A99AE8 100%);
+  --text-banner-cta: #FFFFFF;
+  --border-banner-cta: rgba(255, 255, 255, 0.45);
+  --shadow-banner-cta: 0 8px 20px rgba(118, 102, 216, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  --bg-banner-input: rgba(251, 252, 255, 0.88);
+  --text-banner-input: #2D3850;
+  --border-banner-input: rgba(255, 255, 255, 0.64);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.20);
+  --border-nav-arrow: rgba(255, 255, 255, 0.56);
+  --text-nav-arrow: #2D3850;
+  --shadow-nav-arrow: 0 4px 12px rgba(50, 40, 80, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  --outline-nav-arrow: none;
+  --border-image-card: rgba(255, 255, 255, 0.62);
+  --shadow-image-card: 0 10px 28px -6px rgba(50, 40, 80, 0.12);
+  --outline-image-card: none;
+  --outline-offset-image-card: 0px;
+
+  /* Container Max Width & Unified Horizontal Frame Width */
+  --container-max-w: 1250px;
+  --about-peek-reserve: 112px;
+  --shared-frame-w: clamp(260px, calc(100vw - var(--about-peek-reserve)), var(--container-max-w, 1250px));
+
+  /* ========================================================================= */
+  /* LỚP 3: GLOBAL 5-LAYER BACKGROUND (Soft Liquid Glass 3D Light Ambient)     */
+  /* ========================================================================= */
+  --app-bg-base: #F8F6F7;
+  --app-bg-gradient:
+    radial-gradient(ellipse 68% 58% at 12% 14%, rgba(245, 221, 224, 0.90) 0%, transparent 58%),
+    radial-gradient(ellipse 64% 56% at 88% 16%, rgba(169, 230, 231, 0.72) 0%, transparent 54%),
+    radial-gradient(ellipse 62% 58% at 50% 48%, rgba(207, 197, 233, 0.68) 0%, transparent 60%),
+    radial-gradient(ellipse 66% 54% at 82% 86%, rgba(174, 191, 206, 0.65) 0%, transparent 56%),
+    linear-gradient(135deg, #F8F6F7 0%, #F1E7E5 44%, #ECE7F6 74%, #E6F3F6 100%);
+  --app-bg-glow-primary: rgba(207, 197, 233, 0.42);
+  --app-bg-glow-secondary: rgba(169, 230, 231, 0.34);
+  --app-bg-glow-accent: rgba(245, 221, 224, 0.42);
+  --app-bg-glow-cyan: rgba(174, 191, 206, 0.30);
+  --app-bg-blur: 22px;
+  --app-bg-opacity: 0.72;
+  --app-bg-shape-opacity: 0.54;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 85% 75% at 50% 48%, rgba(248, 246, 247, 0.16) 0%, rgba(241, 231, 229, 0.14) 65%, rgba(207, 197, 233, 0.18) 100%);
+  --app-bg-transition-scrim: rgba(248, 246, 247, 0.04);
+
+  /* Legacy Ambient Aliases bridged onto Global Background Tokens */
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(190, 176, 235, 0.22);
+  --ambient-wave-2: rgba(243, 185, 167, 0.18);
+  --ambient-wave-3: rgba(169, 223, 222, 0.20);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 1;
+  --ambient-blur-orb: var(--app-bg-blur);
+  --ambient-blur-wave: 38px;
+  --ambient-main-glow: 0 0 60px -10px rgba(118, 102, 216, 0.16), 0 0 100px -18px rgba(105, 201, 196, 0.14);
+  --ambient-edge-border: rgba(255, 255, 255, 0.75);
+  --ambient-inner-highlight: rgba(255, 255, 255, 0.85);
+
+  /* ========================================================================= */
+  /* LỚP 3B: SOFT LIQUID GLASS 3D 4-LEVEL TOKEN SYSTEM (LIGHT)                 */
+  /* ========================================================================= */
+  --glass-main-alpha: 0.22;
+  --glass-card-alpha: 0.84;
+  --glass-subcard-alpha: 0.66;
+  --glass-nested-alpha: 0.48;
+
+  --glass-main-blur: 24px;
+  --glass-card-blur: 18px;
+  --glass-subcard-blur: 14px;
+  --glass-nested-blur: 10px;
+
+  --glass-main-saturate: 140%;
+  --glass-card-saturate: 132%;
+  --glass-subcard-saturate: 120%;
+  --glass-nested-saturate: 112%;
+
+  --glass-reflection-primary:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 44%, rgba(238, 233, 250, 0.10) 76%, rgba(224, 245, 243, 0.14) 100%);
+  --glass-reflection-secondary:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.42) 0%, rgba(251, 252, 255, 0.16) 55%, rgba(238, 233, 250, 0.12) 100%);
+  --glass-prism-highlight:
+    linear-gradient(110deg, rgba(243, 185, 167, 0.16) 0%, rgba(190, 176, 235, 0.16) 50%, rgba(169, 223, 222, 0.16) 100%);
+  --glass-inner-highlight:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65), inset 1px 0 0 rgba(255, 255, 255, 0.42);
+
+  --surface-main-glass:
+    rgba(255, 255, 255, var(--glass-main-alpha, 0.22));
+  --surface-card-glass:
+    linear-gradient(145deg, rgba(251, 252, 255, var(--glass-card-alpha, 0.84)) 0%, rgba(247, 248, 253, var(--glass-card-alpha, 0.84)) 100%);
+  --surface-subcard-glass:
+    linear-gradient(145deg, rgba(251, 252, 255, var(--glass-subcard-alpha, 0.66)) 0%, rgba(247, 248, 253, var(--glass-subcard-alpha, 0.66)) 100%);
+  --surface-nested-glass:
+    rgba(251, 252, 255, var(--glass-nested-alpha, 0.48));
+
+  --glass-main-border: rgba(255, 255, 255, 0.50);
+  --glass-card-border: rgba(255, 255, 255, 0.65);
+  --glass-subcard-border: rgba(255, 255, 255, 0.54);
+  --glass-nested-border: rgba(255, 255, 255, 0.44);
+
+  --shadow-main-glass:
+    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --shadow-card-glass:
+    0 12px 28px -6px rgba(50, 40, 80, 0.11), 0 4px 12px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --shadow-subcard-glass:
+    0 6px 16px -4px rgba(50, 40, 80, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+  --shadow-nested-glass:
+    0 2px 8px -2px rgba(50, 40, 80, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.50);
+
+  /* Level 01 – Main Card: Soft Liquid Glass 3D (Header, Main Container, Footer) */
+  --surface-primary-bg: var(--surface-main-glass);
+  --surface-header-bg: var(--surface-primary-bg);
+  --surface-footer-bg: var(--surface-primary-bg);
+  --surface-primary-border: var(--glass-main-border);
+  --surface-footer-border-top: rgba(255, 255, 255, 0.36);
+  --surface-primary-border-hover: var(--glass-main-border);
+  --surface-primary-outline-hover: transparent;
+  --surface-primary-shadow:
+    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-primary-shadow-hover:
+    0 18px 40px rgba(50, 40, 80, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-header-shadow:
+    0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-header-shadow-hover:
+    0 12px 32px rgba(50, 40, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --surface-footer-shadow:
+    0 -10px 28px -6px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  --surface-footer-shadow-hover:
+    0 -10px 28px -6px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  --surface-primary-hover-lift: 0px;
+  --surface-primary-transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease;
+  --surface-primary-blur: var(--glass-main-blur);
+  --surface-primary-saturate: var(--glass-main-saturate);
+
+  /* Level 02 – Card: Readable Opaque/Frosted 3D Bento Card */
+  --surface-secondary-bg: var(--surface-card-glass);
+  --surface-secondary-border: var(--glass-card-border);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
+  --surface-secondary-blur: var(--glass-card-blur);
+  --surface-secondary-saturate: var(--glass-card-saturate);
+
+  /* Level 03 – Sub Card: Lighter Frosted Glass */
+  --surface-tertiary-bg: var(--surface-subcard-glass);
+  --surface-tertiary-hover: var(--surface-subcard-glass);
+  --surface-tertiary-border: var(--glass-subcard-border);
+  --surface-tertiary-shadow: var(--shadow-subcard-glass);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-glass);
+  --surface-tertiary-blur: var(--glass-subcard-blur);
+  --surface-tertiary-saturate: var(--glass-subcard-saturate);
+
+  /* Level 04 – Nested Card */
+  --surface-nested-bg: var(--surface-nested-glass);
+  --surface-nested-border: var(--glass-nested-border);
+  --surface-nested-shadow: var(--shadow-nested-glass);
+  --surface-nested-blur: var(--glass-nested-blur);
+  --surface-nested-saturate: var(--glass-nested-saturate);
+
+  /* Interactive Surface (20% Transparent Menu Pills & Utility Controls) */
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.52);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: var(--blur-nav-pill, 18px);
+
+  /* Global Soft UI / Neumorphism Shadow Fallbacks (Light) */
+  --neu-raised-shadow: -6px -6px 12px rgba(255, 255, 255, 0.86), 6px 6px 12px rgba(163, 179, 199, 0.56);
+  --neu-raised-hover-shadow: -7px -7px 14px rgba(255, 255, 255, 0.92), 7px 7px 14px rgba(163, 179, 199, 0.64);
+  --neu-inset-shadow: inset 4px 4px 9px rgba(163, 179, 199, 0.56), inset -4px -4px 9px rgba(255, 255, 255, 0.86);
+}
+
+/* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
+  --color-bg: #101A2B;
+  --color-bg-soft: #171F33;
+  --color-bg-blue: #202A40;
+  --color-surface: #202A40;
+  --color-surface-elevated: #26314B;
+  --color-surface-indigo: #232A46;
+  --color-surface-cyan: #153039;
+  --color-surface-green: #142D2B;
+  --color-surface-orange: #2D222B;
+  --color-surface-pink: #292038;
+  --color-surface-purple: #22203A;
+
+  --color-heading: #F2F4FC;
+  --color-text: #F2F4FC;
+  --color-text-secondary: #C0C9DC;
+  --color-text-muted: #98A6BF;
+  --color-text-inverse: #101A2B;
+
+  --color-primary: #B5A7F4;
+  --color-secondary: #8D83D8;
+  --color-tertiary: #4E9EAA;
+  --color-indigo: #B5A7F4;
+  --color-blue: #789ACB;
+  --color-cyan: #4E9EAA;
+  --color-green: #4ADE80;
+  --color-amber: #FBBF24;
+  --color-pink: #C2B7F3;
+  --color-purple: #8E80BD;
+  --color-coral: #B98283;
+
+  --accent-peach: #B98283;
+  --accent-lavender: #C2B7F3;
+  --accent-misty-blue: #789ACB;
+
+  --semantic-success: #34D399;
+  --semantic-success-soft: rgba(52, 211, 153, 0.16);
+  --semantic-warning: #FBBF24;
+  --semantic-warning-soft: rgba(251, 191, 36, 0.16);
+  --semantic-error: #FB7185;
+  --semantic-error-soft: rgba(251, 113, 133, 0.16);
+  --semantic-info: #60A5FA;
+  --semantic-info-soft: rgba(96, 165, 250, 0.16);
+  --color-success: var(--semantic-success);
+  --color-warning: var(--semantic-warning);
+  --color-error: var(--semantic-error);
+  --color-info: var(--semantic-info);
+
+  --color-border: rgba(225, 235, 255, 0.16);
+  --color-border-soft: rgba(225, 235, 255, 0.10);
+  --color-focus-ring: #B5A7F4;
+  --glass-blur: 24px;
+  --card-highlight: rgba(225, 235, 255, 0.16);
+  --glass-highlight: rgba(225, 235, 255, 0.16);
+  --neon-cyan: #4E9EAA;
+  --neon-blue: #789ACB;
+  --neon-purple: #8E80BD;
+  --neon-pink: #B98283;
+  --neon-green: #34D399;
+  --neon-yellow: #FBBF24;
+  --neon-orange: #B98283;
+
+  /* ADAPTIVE ACCENT TOKENS (DARK MODE) */
+  --accent-blue: #789ACB;
+  --accent-sky: #6BB4D0;
+  --accent-cyan: #4E9EAA;
+  --accent-teal: #5CB8B2;
+  --accent-emerald: #34D399;
+  --accent-green: #4ADE80;
+  --accent-indigo: #B5A7F4;
+  --accent-violet: #C2B7F3;
+  --accent-purple: #8E80BD;
+  --accent-fuchsia: #C792DF;
+  --accent-pink: #D18FA8;
+  --accent-rose: #B98283;
+  --accent-red: #F87171;
+  --accent-amber: #FBBF24;
+  --accent-yellow: #FACC15;
+  --accent-orange: #D99B7E;
+  --accent-slate: #C0C9DC;
+
+  /* GLOBAL 5-LEVEL ELEVATION & SHADOW SYSTEM (DARK MODE) */
+  --shadow-none: none;
+  --elevation-0: none;
+  --shadow-nested: 0 2px 8px -1px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
+  --elevation-1: var(--shadow-nested);
+  --shadow-subcard: 0 6px 18px -3px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(225, 235, 255, 0.10);
+  --elevation-2: var(--shadow-subcard);
+  --shadow-card: 0 14px 34px -6px rgba(0, 0, 0, 0.32), 0 4px 12px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --elevation-3: var(--shadow-card);
+  --shadow-header: 0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --shadow-main-card: var(--shadow-header);
+  --shadow-footer: var(--shadow-header);
+  --elevation-4: var(--shadow-main-card);
+  --shadow-card-hover: 0 20px 44px -6px rgba(0, 0, 0, 0.42), 0 8px 20px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+  --shadow-subcard-hover: 0 10px 24px -3px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.16);
+  --shadow-floating: 0 20px 48px -6px rgba(0, 0, 0, 0.45), 0 6px 16px -2px rgba(0, 0, 0, 0.30);
+  --shadow-modal: 0 32px 72px -10px rgba(0, 0, 0, 0.62), 0 12px 32px -4px rgba(0, 0, 0, 0.44);
+  --shadow-popup: var(--shadow-floating);
+  --elevation-5: var(--shadow-modal);
+
+  --color-muted: var(--color-text-muted);
+  --border-color: var(--color-border);
+  --shadow-sm: var(--elevation-1);
+  --shadow-md: var(--elevation-3);
+  --shadow-lg: var(--elevation-5);
+
+  /* Semantic Contrast Tokens (Dark Mode - Soft Liquid Glass 3D) */
+  --text-primary: #F2F4FC;
+  --text-secondary: #C0C9DC;
+  --text-muted: #98A6BF;
+  --text-disabled: #6E7D99;
+  --text-inverse: #101A2B;
+  --text-link: #C2B7F3;
+  --text-heading: #F2F4FC;
+  --icon-primary: #F2F4FC;
+  --icon-secondary: #C0C9DC;
+  --icon-muted: #98A6BF;
+  --border-default: rgba(225, 235, 255, 0.16);
+  --border-muted: rgba(225, 235, 255, 0.10);
+  --border-strong: rgba(225, 235, 255, 0.26);
+  --bg-page: #101A2B;
+  --bg-disabled: #171F33;
+  --bg-nav-button-opaque: #202A40;
+
+  --bg-header: rgba(30, 39, 60, 0.56);
+  --bg-footer: rgba(30, 39, 60, 0.56);
+  --bg-main: rgba(30, 39, 60, 0.56);
+  --bg-card: #202A40;
+  --bg-subcard: rgba(32, 42, 64, 0.68);
+  --bg-nested-card: rgba(23, 31, 51, 0.64);
+  --bg-button-primary: linear-gradient(135deg, #B5A7F4 0%, #9889EE 100%);
+  --text-button-primary: #101A2B;
+  --shadow-button-primary: 0 8px 20px -4px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --bg-button-secondary: linear-gradient(135deg, #4E9EAA 0%, #3A8390 100%);
+  --text-button-secondary: #F2F4FC;
+  --shadow-button-secondary: 0 6px 16px -4px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.22);
+  --bg-button-ghost: rgba(30, 39, 60, 0.32);
+  --bg-button-icon: rgba(30, 39, 60, 0.20);
+
+  --bg-nav-pill: rgba(30, 39, 60, 0.20);
+  --bg-nav-pill-hover: rgba(44, 57, 86, 0.44);
+  --shadow-nav-pill: 0 8px 20px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(235, 244, 255, 0.28), inset 1px 0 0 rgba(225, 235, 255, 0.14), inset 0 -1px 0 rgba(225, 235, 255, 0.08);
+  --blur-nav-pill: 20px;
+
+  /* Global Soft UI / Neumorphism Shadow Fallbacks (Dark) */
+  --neu-raised-shadow: -6px -6px 12px rgba(38, 52, 74, 0.66), 6px 6px 12px rgba(8, 12, 20, 0.78);
+  --neu-raised-hover-shadow: -7px -7px 14px rgba(45, 62, 88, 0.74), 7px 7px 14px rgba(6, 10, 18, 0.84);
+  --neu-inset-shadow: inset 4px 4px 9px rgba(8, 12, 20, 0.78), inset -4px -4px 9px rgba(38, 52, 74, 0.64);
+
+  /* LIQUID GLASS UI – OPTICAL SPECULAR RIM TOKENS (DARK) */
+  --liquid-specular-rim: rgba(235, 244, 255, 0.30);
+  --liquid-specular-edge: rgba(181, 167, 244, 0.20);
+  --liquid-specular-bottom: rgba(225, 235, 255, 0.08);
+  --liquid-specular-sheen: linear-gradient(125deg, rgba(226, 238, 255, 0.14) 0%, rgba(142, 128, 189, 0.06) 46%, rgba(78, 158, 170, 0.10) 100%);
+  --liquid-specular-sheen-hover: linear-gradient(125deg, rgba(226, 238, 255, 0.24) 0%, rgba(181, 167, 244, 0.12) 48%, rgba(78, 158, 170, 0.18) 100%);
+  --liquid-rim-inset: inset 0 1px 0 var(--liquid-specular-rim), inset 1px 0 0 var(--liquid-specular-edge), inset 0 -1px 0 var(--liquid-specular-bottom);
+  --liquid-rim-inset-hover: inset 0 1px 0 rgba(235, 244, 255, 0.46), inset 1px 0 0 rgba(181, 167, 244, 0.32), inset 0 -1px 0 rgba(225, 235, 255, 0.14);
+  --divider-nav-pill: rgba(225, 235, 255, 0.18);
+  --bg-subcard-hover: rgba(42, 54, 82, 0.85);
+  --border-subcard: rgba(225, 235, 255, 0.14);
+  --bg-nested-badge: rgba(32, 42, 64, 0.88);
+  --border-nested-badge: rgba(225, 235, 255, 0.18);
+  --pillar-heading: #F2F4FC;
+  --pillar-sub: #C2B7F3;
+  --pillar-body: #C0C9DC;
+  --pillar-badge-bg: rgba(181, 167, 244, 0.16);
+  --pillar-badge-text: #F2F4FC;
+  --pillar-divider: rgba(225, 235, 255, 0.16);
+  --pillar-progress-track: rgba(225, 235, 255, 0.14);
+  --pillar-progress-fill: linear-gradient(90deg, #B5A7F4 0%, #4E9EAA 100%);
+
+  /* Banner, Nav Arrow, Back-to-Top & Image Card Tokens (Dark) */
+  --banner-transparent-bg: rgba(30, 39, 60, 0.20);
+  --banner-border: rgba(225, 235, 255, 0.16);
+  --banner-shadow: 0 14px 36px -6px rgba(0, 0, 0, 0.34);
+  --bg-banner-pill: rgba(30, 39, 60, 0.20);
+  --text-banner-pill: #F2F4FC;
+  --border-banner-pill: rgba(225, 235, 255, 0.20);
+  --shadow-banner-pill: 0 6px 18px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --bg-banner-cta: linear-gradient(135deg, #B5A7F4 0%, #9889EE 100%);
+  --text-banner-cta: #101A2B;
+  --border-banner-cta: rgba(225, 235, 255, 0.28);
+  --bg-banner-input: rgba(32, 42, 64, 0.90);
+  --text-banner-input: #F2F4FC;
+  --border-banner-input: rgba(225, 235, 255, 0.22);
+  --bg-nav-arrow: rgba(30, 39, 60, 0.20);
+  --border-nav-arrow: rgba(225, 235, 255, 0.20);
+  --text-nav-arrow: #F2F4FC;
+  --shadow-nav-arrow: 0 4px 14px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --bg-popup: rgba(26, 35, 55, 0.96);
+  --bg-modal: rgba(26, 35, 55, 0.96);
+  --bg-modal-backdrop: rgba(8, 13, 24, 0.72);
+  --bg-modal-header: rgba(32, 42, 64, 0.94);
+  --bg-modal-footer: rgba(32, 42, 64, 0.94);
+  --border-modal: rgba(225, 235, 255, 0.18);
+  --blur-modal: 24px;
+  --bg-input: rgba(23, 31, 51, 0.90);
+  --border-input: rgba(225, 235, 255, 0.20);
+  --border-input-focus: #B5A7F4;
+  --text-input: #F2F4FC;
+  --text-placeholder: #98A6BF;
+  --bg-table: rgba(26, 35, 55, 0.90);
+  --bg-table-head: rgba(32, 42, 64, 0.95);
+  --bg-table-row-alt: rgba(32, 42, 64, 0.55);
+  --border-table: rgba(225, 235, 255, 0.12);
+  --border-image-card: rgba(225, 235, 255, 0.18);
+  --shadow-image-card: 0 12px 32px -6px rgba(0, 0, 0, 0.38);
+
+  /* Unified Global 5-Layer Ambient Glass Background System (Custom Dark Palette) */
+  --app-bg-base: #101A2B;
+  --app-bg-gradient:
+    radial-gradient(ellipse 80% 62% at 12% 12%, rgba(120, 154, 203, 0.24) 0%, transparent 58%),
+    radial-gradient(ellipse 76% 62% at 86% 18%, rgba(142, 128, 189, 0.26) 0%, transparent 56%),
+    radial-gradient(ellipse 74% 58% at 78% 86%, rgba(78, 158, 170, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 72% 58% at 16% 84%, rgba(185, 130, 131, 0.16) 0%, transparent 56%),
+    linear-gradient(135deg, #101A2B 0%, #171F33 36%, #202238 68%, #153039 100%);
+  --app-bg-glow-primary: rgba(120, 154, 203, 0.26);
+  --app-bg-glow-secondary: rgba(142, 128, 189, 0.26);
+  --app-bg-glow-accent: rgba(185, 130, 131, 0.18);
+  --app-bg-glow-cyan: rgba(78, 158, 170, 0.22);
+  --app-bg-opacity: 0.68;
+  --app-bg-shape-opacity: 0.52;
+  --app-bg-depth-veil:
+    radial-gradient(ellipse 88% 78% at 50% 48%, rgba(16, 26, 43, 0.08) 0%, rgba(16, 26, 43, 0.28) 72%, rgba(10, 16, 28, 0.44) 100%);
+  --app-bg-transition-scrim: rgba(16, 26, 43, 0.06);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: var(--app-bg-glow-primary);
+  --ambient-glow-2: var(--app-bg-glow-secondary);
+  --ambient-glow-3: var(--app-bg-glow-accent);
+  --ambient-glow-4: var(--app-bg-glow-cyan);
+  --ambient-glow-opacity: var(--app-bg-opacity);
+  --ambient-wave-1: rgba(142, 128, 189, 0.14);
+  --ambient-wave-2: rgba(78, 158, 170, 0.12);
+  --ambient-wave-3: rgba(185, 130, 131, 0.10);
+  --ambient-wave-opacity: var(--app-bg-shape-opacity);
+  --ambient-depth-veil: var(--app-bg-depth-veil);
+  --ambient-wallpaper-opacity: 1;
+  --ambient-main-glow: 0 0 64px -10px rgba(181, 167, 244, 0.16), 0 0 110px -18px rgba(78, 158, 170, 0.14);
+  --ambient-edge-border: rgba(225, 235, 255, 0.18);
+  --ambient-inner-highlight: rgba(225, 235, 255, 0.20);
+
+  /* Soft Liquid Glass 3D 4-Level Token System (Dark) */
+  --glass-main-alpha: 0.56;
+  --glass-card-alpha: 0.86;
+  --glass-subcard-alpha: 0.68;
+  --glass-nested-alpha: 0.48;
+
+  --glass-main-blur: 24px;
+  --glass-card-blur: 18px;
+  --glass-subcard-blur: 14px;
+  --glass-nested-blur: 10px;
+
+  --glass-main-saturate: 138%;
+  --glass-card-saturate: 130%;
+  --glass-subcard-saturate: 120%;
+  --glass-nested-saturate: 112%;
+
+  --glass-reflection-primary:
+    linear-gradient(125deg, rgba(225, 235, 255, 0.08) 0%, rgba(120, 154, 203, 0.06) 40%, rgba(142, 128, 189, 0.05) 75%, rgba(78, 158, 170, 0.06) 100%);
+  --glass-reflection-secondary:
+    linear-gradient(155deg, rgba(225, 235, 255, 0.06) 0%, rgba(120, 154, 203, 0.03) 55%, rgba(181, 167, 244, 0.05) 100%);
+  --glass-prism-highlight:
+    linear-gradient(110deg, rgba(120, 154, 203, 0.12) 0%, rgba(142, 128, 189, 0.12) 50%, rgba(78, 158, 170, 0.12) 100%);
+  --glass-inner-highlight:
+    inset 0 1px 0 rgba(225, 235, 255, 0.16), inset 1px 0 0 rgba(225, 235, 255, 0.08);
+
+  --surface-main-glass:
+    rgba(30, 39, 60, var(--glass-main-alpha, 0.56));
+  --surface-card-glass:
+    linear-gradient(145deg, rgba(32, 42, 64, var(--glass-card-alpha, 0.86)) 0%, rgba(26, 35, 55, var(--glass-card-alpha, 0.86)) 100%);
+  --surface-subcard-glass:
+    linear-gradient(145deg, rgba(36, 47, 72, var(--glass-subcard-alpha, 0.68)) 0%, rgba(28, 37, 58, var(--glass-subcard-alpha, 0.68)) 100%);
+  --surface-nested-glass:
+    rgba(23, 31, 51, var(--glass-nested-alpha, 0.48));
+
+  --glass-main-border: rgba(225, 235, 255, 0.16);
+  --glass-card-border: rgba(225, 235, 255, 0.16);
+  --glass-subcard-border: rgba(225, 235, 255, 0.14);
+  --glass-nested-border: rgba(225, 235, 255, 0.10);
+
+  --shadow-main-glass:
+    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --shadow-card-glass:
+    0 14px 32px -6px rgba(0, 0, 0, 0.30), 0 4px 12px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --shadow-subcard-glass:
+    0 6px 18px -4px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.10);
+  --shadow-nested-glass:
+    0 2px 8px -2px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(225, 235, 255, 0.08);
+
+  --surface-primary-bg: var(--surface-main-glass);
+  --surface-primary-border: var(--glass-main-border);
+  --surface-footer-border-top: rgba(225, 235, 255, 0.09);
+  --surface-primary-border-hover: var(--glass-main-border);
+  --surface-primary-outline-hover: transparent;
+  --surface-primary-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --surface-primary-shadow-hover:
+    0 18px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --surface-header-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --surface-header-shadow-hover:
+    0 14px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --surface-footer-shadow:
+    0 -10px 30px -6px rgba(2, 6, 23, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.07);
+  --surface-footer-shadow-hover:
+    0 -10px 30px -6px rgba(2, 6, 23, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.07);
+  --surface-primary-blur: var(--glass-main-blur);
+  --surface-primary-saturate: var(--glass-main-saturate);
+
+  --surface-secondary-bg: var(--surface-card-glass);
+  --surface-secondary-border: var(--glass-card-border);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
+  --surface-secondary-blur: var(--glass-card-blur);
+  --surface-secondary-saturate: var(--glass-card-saturate);
+
+  --surface-tertiary-bg: var(--surface-subcard-glass);
+  --surface-tertiary-hover: var(--surface-subcard-glass);
+  --surface-tertiary-border: var(--glass-subcard-border);
+  --surface-tertiary-shadow: var(--shadow-subcard-glass);
+  --surface-tertiary-shadow-hover: var(--shadow-subcard-glass);
+  --surface-tertiary-blur: var(--glass-subcard-blur);
+  --surface-tertiary-saturate: var(--glass-subcard-saturate);
+
+  --surface-nested-bg: var(--surface-nested-glass);
+  --surface-nested-border: var(--glass-nested-border);
+  --surface-nested-shadow: var(--shadow-nested-glass);
+  --surface-nested-blur: var(--glass-nested-blur);
+  --surface-nested-saturate: var(--glass-nested-saturate);
+
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-border: rgba(225, 235, 255, 0.20);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --pill-bg: linear-gradient(145deg, rgba(28, 40, 64, 0.72) 0%, rgba(18, 26, 44, 0.64) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(40, 56, 90, 0.84) 0%, rgba(26, 38, 64, 0.76) 100%);
+  --pill-border: rgba(255, 255, 255, 0.18);
+  --pill-border-hover: rgba(181, 167, 244, 0.48);
+  --pill-text: #F8FAFC;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 76%, #FFFFFF);
+  --pill-shadow: 0 8px 22px -6px rgba(2, 6, 23, 0.54), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --pill-shadow-hover: 0 12px 28px -6px rgba(2, 6, 23, 0.66), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --pill-blur: 16px;
+  --pill-divider: rgba(255, 255, 255, 0.22);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 24%, rgba(23, 31, 51, 0.88));
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 46%, rgba(255, 255, 255, 0.24));
+  --pill-badge-icon: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 78%, #FFFFFF);
+  --pill-badge-shadow: 0 3px 8px rgba(2, 6, 23, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #9889EE) 84%, #ffffff) 0%, var(--nav-pill-accent, #9889EE) 54%, color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 82%, #0f172a) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 64%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #9889EE) 44%, rgba(2, 6, 23, 0.62)), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  --pill-active-divider: rgba(255, 255, 255, 0.52);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #7C3AED);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(36, 50, 82, 0.84) 0%, rgba(22, 32, 54, 0.78) 100%);
+  --pill-arrow-hover: linear-gradient(145deg, rgba(50, 68, 110, 0.94) 0%, rgba(30, 44, 72, 0.88) 100%);
+  --pill-arrow-border: rgba(255, 255, 255, 0.22);
+  --pill-arrow-text: #E2E8F0;
+  --pill-counter-color: #B5A7F4;
+  --page-header-divider: rgba(225, 235, 255, 0.14);
+  --page-header-overlay-bg: rgba(26, 35, 55, 0.82);
+  --page-header-overlay-border: rgba(225, 235, 255, 0.18);
+  --page-header-overlay-shadow: 0 10px 26px -6px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(225, 235, 255, 0.14);
+  --page-header-overlay-blur: 14px;
+  --page-header-overlay-outline: none;
+  --page-header-overlay-outline-offset: 0px;
+  --page-header-icon-bg: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 18%, rgba(32, 42, 64, 0.72));
+  --page-header-icon-border: color-mix(in srgb, var(--page-header-accent, var(--color-primary)) 34%, transparent);
+  --page-header-icon-outline: none;
+}
+
+/* Mobile Glass & Background Blur Optimization (<= 767px) — Keeps 4-level hierarchy at smooth 60fps */
+@media (max-width: 767px) {
+  :root,
+  html.dark {
+    --app-bg-blur: 36px;
+    --ambient-blur-orb: 36px;
+    --ambient-blur-wave: 22px;
+    --glass-main-blur: 18px;
+    --glass-card-blur: 14px;
+    --glass-subcard-blur: 10px;
+    --glass-nested-blur: 8px;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root,
+  html.dark {
+    --about-peek-reserve: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root,
+  html.dark {
+    --about-peek-reserve: 32px;
+  }
+}
+
+/* Accessibility & Non-Backdrop Fallback: solid readable surfaces when reduced transparency or unsupported */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-main-alpha: 0.96;
+    --glass-card-alpha: 0.98;
+    --glass-subcard-alpha: 0.95;
+    --glass-nested-alpha: 0.92;
+    --bg-header: #F7F8FD;
+    --bg-footer: #F7F8FD;
+    --bg-main: #F7F8FD;
+    --surface-main-glass: #F7F8FD;
+    --surface-primary-bg: #F7F8FD;
+    --bg-nav-pill: rgba(251, 252, 255, 0.94);
+    --surface-interactive-bg: rgba(251, 252, 255, 0.94);
+  }
+  html.dark {
+    --glass-main-alpha: 0.96;
+    --glass-card-alpha: 0.98;
+    --glass-subcard-alpha: 0.95;
+    --glass-nested-alpha: 0.92;
+    --bg-header: #202A40;
+    --bg-footer: #202A40;
+    --bg-main: #202A40;
+    --surface-main-glass: #202A40;
+    --surface-primary-bg: #202A40;
+    --bg-nav-pill: rgba(32, 42, 64, 0.94);
+    --surface-interactive-bg: rgba(32, 42, 64, 0.94);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass-main-alpha: 0.96;
+    --glass-card-alpha: 0.98;
+    --glass-subcard-alpha: 0.95;
+    --glass-nested-alpha: 0.92;
+    --surface-main-glass: #F7F8FD;
+    --surface-primary-bg: #F7F8FD;
+  }
+  html.dark {
+    --glass-main-alpha: 0.96;
+    --glass-card-alpha: 0.98;
+    --glass-subcard-alpha: 0.95;
+    --glass-nested-alpha: 0.92;
+    --surface-main-glass: #202A40;
+    --surface-primary-bg: #202A40;
+  }
+}
+
+/* ========================================================================= */
+/* LỚP 3: MÀU TOKEN RIÊNG BIỆT CHO TỪNG GIAO DIỆN (THEME COLOR TOKENS)       */
+/* ========================================================================= */
+
+/* 1. LIQUID GLASS UI (SÁNG — PREMIUM PASTEL FROSTED GLASS) */
+html[data-card-style="liquid-glass"] {
+  --color-primary: #6D28D9;
+  --color-secondary: #0891B2;
+  --color-accent: #4F46E5;
+  --color-focus-ring: #6D28D9;
+  --color-bg: #F8F6F7;
+  --color-surface: rgba(255, 255, 255, 0.62);
+  --color-surface-elevated: rgba(255, 255, 255, 0.82);
+  --color-heading: #1E293B;
+  --color-text: #334155;
+  --color-text-secondary: #475569;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --bg-card: rgba(255, 255, 255, 0.62);
+  --bg-subcard: rgba(255, 255, 255, 0.78);
+  --border-card: rgba(255, 255, 255, 0.82);
+  --border-subcard: rgba(255, 255, 255, 0.86);
+  --nav-pill-accent: #6D28D9;
+  --radius-main: 24px;
+  --radius-card: 20px;
+  --radius-subcard: 14px;
+  --radius-modal: 20px;
+  --radius-popup: 20px;
+  --radius-banner: 20px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --pill-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 246, 247, 0.56) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.90) 0%, rgba(241, 231, 229, 0.78) 100%);
+  --pill-border: rgba(255, 255, 255, 0.84);
+  --pill-border-hover: rgba(255, 255, 255, 0.98);
+  --pill-text: #1E293B;
+  --pill-title-color: var(--nav-pill-accent, #6D28D9);
+  --pill-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --pill-shadow-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --pill-blur: 16px;
+  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 24%, rgba(174, 191, 206, 0.45));
+  --pill-badge-bg: var(--nav-pill-accent, #6D28D9);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 76%, #ffffff);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 28%, transparent);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 86%, #ffffff) 0%, var(--nav-pill-accent, #6D28D9) 54%, color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 84%, #1e1b4b) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 62%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 40%, rgba(30, 41, 59, 0.18)), inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #6D28D9);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(245, 221, 224, 0.42) 100%);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(255, 255, 255, 0.92);
+  --pill-arrow-text: #4F46E5;
+  --pill-counter-color: #4F46E5;
+}
+
+/* 2. LIQUID GLASS UI (TỐI — DEEP SLATE & LAVENDER PASTEL FROSTED GLASS) */
+html[data-card-style="dark-liquid-glass"] {
+  --color-primary: #B5A7F4;
+  --color-secondary: #67E8F9;
+  --color-accent: #9889EE;
+  --color-focus-ring: #B5A7F4;
+  --color-bg: #101A2B;
+  --color-surface: rgba(26, 38, 62, 0.66);
+  --color-surface-elevated: rgba(34, 48, 78, 0.78);
+  --color-heading: #F8FAFC;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #B5A7F4;
+  --bg-card: rgba(26, 38, 62, 0.66);
+  --bg-subcard: rgba(34, 48, 78, 0.74);
+  --border-card: rgba(255, 255, 255, 0.16);
+  --border-subcard: rgba(255, 255, 255, 0.14);
+  --nav-pill-accent: #B5A7F4;
+  --radius-main: 24px;
+  --radius-card: 20px;
+  --radius-subcard: 14px;
+  --radius-modal: 20px;
+  --radius-popup: 20px;
+  --radius-banner: 20px;
+  --radius-header: 0 0 14px 14px;
+  --radius-footer: 14px 14px 0 0;
+  --pill-bg: linear-gradient(145deg, rgba(34, 48, 78, 0.74) 0%, rgba(22, 32, 54, 0.66) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(46, 64, 102, 0.86) 0%, rgba(30, 44, 72, 0.78) 100%);
+  --pill-border: rgba(255, 255, 255, 0.18);
+  --pill-border-hover: rgba(181, 167, 244, 0.50);
+  --pill-text: #F8FAFC;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 82%, #FFFFFF);
+  --pill-shadow: 0 8px 22px -6px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --pill-shadow-hover: 0 12px 28px -6px rgba(152, 137, 238, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --pill-blur: 16px;
+  --pill-divider: rgba(255, 255, 255, 0.22);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 82%, #FFFFFF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 62%, #FFFFFF);
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: 0 3px 8px rgba(2, 6, 23, 0.44);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #9889EE) 84%, #ffffff) 0%, var(--nav-pill-accent, #9889EE) 54%, color-mix(in srgb, var(--nav-pill-accent, #6D28D9) 82%, #101A2B) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #B5A7F4) 64%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #9889EE) 42%, rgba(2, 6, 23, 0.62)), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  --pill-active-divider: rgba(255, 255, 255, 0.52);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #6D28D9);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(38, 54, 88, 0.86) 0%, rgba(24, 34, 58, 0.80) 100%);
+  --pill-arrow-hover: linear-gradient(145deg, rgba(52, 72, 114, 0.94) 0%, rgba(32, 46, 76, 0.88) 100%);
+  --pill-arrow-border: rgba(181, 167, 244, 0.34);
+  --pill-arrow-text: #E2E8F0;
+  --pill-counter-color: #B5A7F4;
+}
+
+/* 3. MULTICOLOR GLASS UI (SÁNG) */
+html[data-card-style="multicolor-glass"] {
+  --color-primary: #6366F1;
+  --color-secondary: #06B6D4;
+  --color-accent: #EC4899;
+  --color-focus-ring: #6366F1;
+  --color-bg: #EEF4FF;
+  --color-surface: rgba(255, 255, 255, 0.88);
+  --color-surface-elevated: rgba(255, 255, 255, 0.95);
+  --color-heading: #0F172A;
+  --color-text: #334155;
+  --color-text-secondary: #64748B;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --bg-card: rgba(255, 255, 255, 0.90);
+  --bg-subcard: rgba(255, 255, 255, 0.95);
+  --border-card: rgba(255, 255, 255, 0.92);
+  --border-subcard: rgba(238, 242, 255, 0.90);
+  --nav-pill-accent: #6366F1;
+  --pill-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(238, 242, 255, 0.78) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(224, 242, 254, 0.88) 100%);
+  --pill-border: rgba(255, 255, 255, 0.92);
+  --pill-border-hover: rgba(99, 102, 241, 0.42);
+  --pill-text: #0F172A;
+  --pill-title-color: var(--nav-pill-accent, #4F46E5);
+  --pill-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --pill-shadow-hover: 0 12px 26px -6px rgba(236, 72, 153, 0.22), inset 0 1px 0 #FFFFFF;
+  --pill-blur: 18px;
+  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #6366F1) 24%, rgba(148, 163, 184, 0.30));
+  --pill-badge-bg: var(--nav-pill-accent, #6366F1);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #6366F1) 76%, #FFFFFF);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #6366F1) 28%, transparent);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #6366F1) 88%, #ffffff) 0%, var(--nav-pill-accent, #6366F1) 55%, color-mix(in srgb, var(--nav-pill-accent, #EC4899) 76%, #312e81) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #6366F1) 66%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #6366F1) 42%, rgba(15, 23, 42, 0.20)), inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  --pill-active-divider: rgba(255, 255, 255, 0.58);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #4F46E5);
+  --pill-arrow-bg: linear-gradient(145deg, #FFFFFF 0%, #EEF2FF 100%);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(99, 102, 241, 0.28);
+  --pill-arrow-text: #4F46E5;
+  --pill-counter-color: #4F46E5;
+}
+
+/* 4. DARK NEON GLASS UI (TỐI) */
+html[data-card-style="dark-neon-glass"] {
+  --color-primary: #22D3EE;
+  --color-secondary: #E879F9;
+  --color-accent: #A855F7;
+  --color-focus-ring: #22D3EE;
+  --color-bg: #050814;
+  --color-surface: rgba(10, 16, 34, 0.84);
+  --color-surface-elevated: rgba(17, 24, 48, 0.92);
+  --color-heading: #FFFFFF;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-link: #22D3EE;
+  --bg-card: rgba(10, 16, 34, 0.86);
+  --bg-subcard: rgba(17, 24, 48, 0.88);
+  --border-card: rgba(34, 211, 238, 0.32);
+  --border-subcard: rgba(34, 211, 238, 0.20);
+  --nav-pill-accent: #22D3EE;
+  --pill-bg: linear-gradient(145deg, rgba(12, 20, 46, 0.86) 0%, rgba(18, 16, 48, 0.78) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(16, 32, 68, 0.94) 0%, rgba(28, 22, 68, 0.88) 100%);
+  --pill-border: rgba(34, 211, 238, 0.36);
+  --pill-border-hover: rgba(103, 232, 249, 0.76);
+  --pill-text: #F8FAFC;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 82%, #FFFFFF);
+  --pill-shadow: 0 8px 22px -6px rgba(2, 6, 23, 0.78), 0 0 14px -4px rgba(34, 211, 238, 0.22), inset 0 1px 0 rgba(165, 243, 252, 0.20);
+  --pill-shadow-hover: 0 10px 26px -4px rgba(34, 211, 238, 0.32), 0 0 18px -4px rgba(232, 121, 249, 0.26), inset 0 1px 0 rgba(165, 243, 252, 0.34);
+  --pill-blur: 18px;
+  --pill-divider: rgba(34, 211, 238, 0.34);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 82%, #FFFFFF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 62%, #FFFFFF);
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: 0 0 12px color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 28%, transparent);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 84%, #ffffff) 0%, var(--nav-pill-accent, #06B6D4) 52%, color-mix(in srgb, var(--nav-pill-accent, #A855F7) 78%, #1e1b4b) 100%);
+  --pill-active-border: rgba(165, 243, 252, 0.78);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 48%, rgba(2, 6, 23, 0.75)), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #0891B2);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(12, 24, 54, 0.90) 0%, rgba(22, 18, 52, 0.86) 100%);
+  --pill-arrow-hover: linear-gradient(145deg, rgba(16, 36, 76, 0.96) 0%, rgba(34, 24, 72, 0.92) 100%);
+  --pill-arrow-border: rgba(34, 211, 238, 0.44);
+  --pill-arrow-text: #22D3EE;
+  --pill-counter-color: #22D3EE;
+}
+
+/* 5. COWHIDE LEATHER (DA BÒ CỔ ĐIỂN) */
+html[data-card-style="cowhide-leather"] {
+  --color-primary: #F5DEB3;
+  --color-secondary: #FBBF24;
+  --color-accent: #B45309;
+  --color-focus-ring: #F5DEB3;
+  --color-bg: #2B1709;
+  --color-surface: #653A17;
+  --color-surface-elevated: #7A4A20;
+  --color-heading: #FFFFFF;
+  --color-text: #F5DEB3;
+  --color-text-secondary: #E4E4E7;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F5DEB3;
+  --text-muted: #E4E4E7;
+  --text-link: #FBBF24;
+  --bg-card: #653A17;
+  --bg-subcard: #522E10;
+  --border-card: rgba(245, 222, 179, 0.52);
+  --border-subcard: rgba(245, 222, 179, 0.36);
+  --nav-pill-accent: #D97706;
+  --pill-bg: linear-gradient(145deg, #8B5A2B 0%, #653A17 52%, #7A4A20 100%);
+  --pill-bg-hover: linear-gradient(145deg, #9C6733 0%, #73431B 52%, #8B5627 100%);
+  --pill-border: #522E10;
+  --pill-border-hover: rgba(245, 222, 179, 0.72);
+  --pill-text: #FFFFFF;
+  --pill-title-color: #FDE68A;
+  --pill-shadow: 0 6px 14px rgba(0, 0, 0, 0.36), inset 0 1px 2px rgba(255, 220, 180, 0.22), inset 0 -2px 4px rgba(0, 0, 0, 0.48);
+  --pill-shadow-hover: 0 8px 18px rgba(0, 0, 0, 0.46), inset 0 1px 2px rgba(255, 220, 180, 0.28);
+  --pill-blur: 0px;
+  --pill-divider: rgba(245, 222, 179, 0.48);
+  --pill-badge-bg: #FDE68A;
+  --pill-badge-border: rgba(253, 230, 138, 0.88);
+  --pill-badge-icon: #3A1F0A;
+  --pill-badge-shadow: 0 2px 5px rgba(0, 0, 0, 0.38);
+  --pill-active-bg: linear-gradient(145deg, #BD7B3A 0%, #8C511B 52%, #A66528 100%);
+  --pill-active-border: rgba(253, 230, 138, 0.85);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.52), 0 0 16px rgba(253, 230, 138, 0.18), inset 0 1px 2px rgba(255, 240, 200, 0.38);
+  --pill-active-divider: rgba(253, 230, 138, 0.68);
+  --pill-active-badge-bg: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%);
+  --pill-active-badge-icon: #FFFFFF;
+  --pill-arrow-bg: #3D210B;
+  --pill-arrow-hover: #522E10;
+  --pill-arrow-border: rgba(245, 222, 179, 0.54);
+  --pill-arrow-text: #FFFFFF;
+  --pill-counter-color: #FFFFFF;
+}
+
+/* 6. BLACK COWHIDE LEATHER (DA BÒ ĐEN CHỈ TRẮNG) */
+html[data-card-style="black-cowhide-leather"] {
+  --color-primary: #FFFFFF;
+  --color-secondary: #E4E4E7;
+  --color-accent: #D4D4D8;
+  --color-focus-ring: #FFFFFF;
+  --color-bg: #08090C;
+  --color-surface: #14171D;
+  --color-surface-elevated: #1D2028;
+  --color-heading: #FFFFFF;
+  --color-text: #E4E4E7;
+  --color-text-secondary: #A1A1AA;
+  --text-primary: #FFFFFF;
+  --text-secondary: #E4E4E7;
+  --text-muted: #A1A1AA;
+  --text-link: #FFFFFF;
+  --bg-card: #14171D;
+  --bg-subcard: #1D2028;
+  --border-card: rgba(255, 255, 255, 0.72);
+  --border-subcard: rgba(255, 255, 255, 0.45);
+  --nav-pill-accent: #FFFFFF;
+  --pill-bg: linear-gradient(145deg, #242730 0%, #12141A 52%, #1A1D24 100%);
+  --pill-bg-hover: linear-gradient(145deg, #2C303B 0%, #171A22 52%, #21252F 100%);
+  --pill-border: #08090C;
+  --pill-border-hover: rgba(255, 255, 255, 0.75);
+  --pill-text: #FFFFFF;
+  --pill-title-color: #FFFFFF;
+  --pill-shadow: 0 6px 14px rgba(0, 0, 0, 0.56), inset 0 1px 2px rgba(255, 255, 255, 0.16), inset 0 -2px 4px rgba(0, 0, 0, 0.62);
+  --pill-shadow-hover: 0 8px 18px rgba(0, 0, 0, 0.68), inset 0 1px 2px rgba(255, 255, 255, 0.22);
+  --pill-blur: 0px;
+  --pill-divider: rgba(255, 255, 255, 0.42);
+  --pill-badge-bg: #FFFFFF;
+  --pill-badge-border: rgba(255, 255, 255, 0.90);
+  --pill-badge-icon: #0A0B0F;
+  --pill-badge-shadow: 0 2px 6px rgba(0, 0, 0, 0.42);
+  --pill-active-bg: linear-gradient(145deg, #323642 0%, #1C2029 52%, #282C38 100%);
+  --pill-active-border: #FFFFFF;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.70), 0 0 16px rgba(255, 255, 255, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.28);
+  --pill-active-divider: rgba(255, 255, 255, 0.62);
+  --pill-active-badge-bg: linear-gradient(145deg, #272B36 0%, #14171F 100%);
+  --pill-active-badge-icon: #FFFFFF;
+  --pill-arrow-bg: #0D0F14;
+  --pill-arrow-hover: #1D2028;
+  --pill-arrow-border: rgba(255, 255, 255, 0.72);
+  --pill-arrow-text: #FFFFFF;
+  --pill-counter-color: #FFFFFF;
+}
+
+/* 7. DEEP OCEAN (ĐẠI DƯƠNG SÂU THẲM) */
+html[data-card-style="deep-ocean"] {
+  --color-primary: #38BDF8;
+  --color-secondary: #06B6D4;
+  --color-accent: #0284C7;
+  --color-focus-ring: #38BDF8;
+  --color-bg: #050B14;
+  --color-surface: rgba(13, 28, 56, 0.82);
+  --color-surface-elevated: rgba(18, 38, 74, 0.90);
+  --color-heading: #F0F8FF;
+  --color-text: #E2EEFA;
+  --color-text-secondary: #7B98B8;
+  --text-primary: #F0F8FF;
+  --text-secondary: #E2EEFA;
+  --text-muted: #7B98B8;
+  --text-link: #38BDF8;
+  --bg-card: rgba(13, 28, 56, 0.84);
+  --bg-subcard: rgba(18, 38, 74, 0.86);
+  --border-card: rgba(56, 189, 248, 0.32);
+  --border-subcard: rgba(56, 189, 248, 0.22);
+  --nav-pill-accent: #38BDF8;
+  --pill-bg: linear-gradient(145deg, rgba(14, 32, 64, 0.86) 0%, rgba(8, 20, 44, 0.82) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(20, 46, 90, 0.94) 0%, rgba(12, 28, 60, 0.88) 100%);
+  --pill-border: rgba(56, 189, 248, 0.34);
+  --pill-border-hover: rgba(125, 211, 252, 0.72);
+  --pill-text: #F0F8FF;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #38BDF8) 82%, #FFFFFF);
+  --pill-shadow: 0 8px 22px -6px rgba(2, 6, 23, 0.72), inset 0 1px 0 rgba(125, 211, 252, 0.22);
+  --pill-shadow-hover: 0 10px 26px -4px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(125, 211, 252, 0.34);
+  --pill-blur: 18px;
+  --pill-divider: rgba(56, 189, 248, 0.32);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #38BDF8) 82%, #FFFFFF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #38BDF8) 62%, #FFFFFF);
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: 0 2px 8px rgba(2, 6, 23, 0.45);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #38BDF8) 84%, #ffffff) 0%, var(--nav-pill-accent, #0284C7) 54%, color-mix(in srgb, var(--nav-pill-accent, #0369A1) 82%, #050B14) 100%);
+  --pill-active-border: rgba(125, 211, 252, 0.78);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #38BDF8) 44%, rgba(2, 6, 23, 0.70)), inset 0 1px 0 rgba(255, 255, 255, 0.40);
+  --pill-active-divider: rgba(255, 255, 255, 0.54);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #0284C7);
+  --pill-arrow-bg: linear-gradient(145deg, rgba(18, 42, 82, 0.90) 0%, rgba(10, 24, 52, 0.86) 100%);
+  --pill-arrow-hover: linear-gradient(145deg, rgba(24, 56, 108, 0.96) 0%, rgba(14, 34, 72, 0.90) 100%);
+  --pill-arrow-border: rgba(56, 189, 248, 0.42);
+  --pill-arrow-text: #38BDF8;
+  --pill-counter-color: #38BDF8;
+}
+
+/* 8. LIGHT OCEAN NAVY – GLOSSY LIQUID GLASS UI (MASTER PROMPT) */
+html[data-card-style="light-deep-ocean"],
+[data-theme="light-deep-ocean"] {
+  --color-primary: #1951FC;
+  --color-secondary: #3781FC;
+  --color-accent: #73BFFF;
+  --color-teal: #35C9B0;
+  --color-navy: #03195B;
+  --color-ocean: #0B2CB1;
+  --color-cyan: #73BFFF;
+  --color-focus-ring: #3781FC;
+  --color-bg: #1951FC;
+  --color-bg-soft: #3781FC;
+  --color-bg-blue: #CBE9FD;
+  --color-surface: rgba(115, 191, 255, 0.36);
+  --color-surface-elevated: rgba(203, 233, 253, 0.85);
+  --color-heading: #03195B;
+  --color-text: #082B70;
+  --color-text-secondary: #1E40AF;
+  --color-text-muted: #3B60A8;
+  --text-primary: #082B70;
+  --text-heading: #03195B;
+  --text-secondary: #1E40AF;
+  --text-muted: #3B60A8;
+  --text-link: #0B2CB1;
+  --bg-card: rgba(115, 191, 255, 0.38);
+  --bg-subcard: rgba(203, 233, 253, 0.56);
+  --border-card: rgba(255, 255, 255, 0.55);
+  --border-subcard: rgba(255, 255, 255, 0.50);
+  --border-hover: rgba(255, 255, 255, 0.88);
+  --nav-pill-accent: #1951FC;
+  --pill-bg: linear-gradient(145deg, rgba(235, 246, 255, 0.78) 0%, rgba(203, 233, 253, 0.62) 100%);
+  --pill-bg-hover: linear-gradient(145deg, rgba(248, 252, 255, 0.94) 0%, rgba(203, 233, 253, 0.82) 100%);
+  --pill-border: rgba(255, 255, 255, 0.74);
+  --pill-border-hover: rgba(255, 255, 255, 0.94);
+  --pill-text: #03195B;
+  --pill-title-color: #03195B;
+  --pill-shadow: 0 6px 18px rgba(3, 25, 91, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.82);
+  --pill-shadow-hover: 0 10px 24px rgba(3, 25, 91, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.94);
+  --pill-blur: 18px;
+  --pill-divider: rgba(25, 81, 252, 0.24);
+  --pill-badge-bg: var(--pill-title-color, #03195B);
+  --pill-badge-border: rgba(255, 255, 255, 0.45);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 2px 7px rgba(3, 25, 91, 0.24);
+  --pill-active-bg: linear-gradient(135deg, #0B2CB1 0%, #1951FC 55%, #3781FC 100%);
+  --pill-active-border: rgba(255, 255, 255, 0.82);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 8px 20px rgba(3, 25, 91, 0.26), inset 0 1px 1px rgba(255, 255, 255, 0.56);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #1951FC;
+  --pill-arrow-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(203, 233, 253, 0.78) 100%);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(255, 255, 255, 0.92);
+  --pill-arrow-text: #0B2CB1;
+  --pill-counter-color: #0B2CB1;
+}
+
+/* 9. NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ SÁNG) */
+html[data-card-style="neumorphism-beyond"] {
+  --color-primary: #4973FF;
+  --color-secondary: #64B6FF;
+  --color-accent: #EE6AD2;
+  --color-focus-ring: #4973FF;
+  --color-bg: #EBF0F6;
+  --color-surface: rgba(235, 240, 247, 0.94);
+  --color-surface-elevated: rgba(242, 246, 252, 0.98);
+  --color-heading: #1E293B;
+  --color-text: #334155;
+  --color-text-secondary: #64748B;
+  --text-primary: #1E293B;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-link: #4973FF;
+  --bg-card: rgba(235, 240, 247, 0.95);
+  --bg-subcard: rgba(242, 246, 252, 0.98);
+  --border-card: rgba(196, 209, 226, 0.75);
+  --border-subcard: rgba(210, 222, 236, 0.70);
+  --nav-pill-accent: #4973FF;
+  --pill-bg: linear-gradient(145deg, rgba(237, 242, 248, 0.95) 0%, rgba(226, 233, 242, 0.90) 100%);
+  --pill-bg-hover: linear-gradient(145deg, #EEF2F8 0%, #E1E8F2 100%);
+  --pill-border: rgba(196, 209, 226, 0.74);
+  --pill-border-hover: rgba(100, 182, 255, 0.65);
+  --pill-text: #334155;
+  --pill-title-color: var(--nav-pill-accent, #334155);
+  --pill-shadow: 0 3px 9px rgba(148, 163, 184, 0.16), 2px 3px 7px rgba(163, 177, 198, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  --pill-shadow-hover: 0 4px 11px rgba(148, 163, 184, 0.20), 2px 3px 8px rgba(163, 177, 198, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --pill-blur: 12px;
+  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 26%, rgba(163, 177, 198, 0.45));
+  --pill-badge-bg: var(--nav-pill-accent, #4973FF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 76%, #FFFFFF);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 28%, transparent);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #4973FF) 88%, #ffffff) 0%, var(--nav-pill-accent, #4973FF) 54%, color-mix(in srgb, var(--nav-pill-accent, #4973FF) 84%, #0f172a) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 62%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 4px 11px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 28%, transparent), 2px 3px 8px rgba(148, 163, 184, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #4973FF);
+  --pill-arrow-bg: linear-gradient(145deg, #F3F6FA 0%, #E1E8F2 100%);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(196, 209, 226, 0.80);
+  --pill-arrow-text: #3D66F0;
+  --pill-counter-color: #3D66F0;
+}
+
+/* 10. DARK NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ TỐI) */
+html[data-card-style="dark-neumorphism-beyond"] {
+  --color-primary: #60A5FA;
+  --color-secondary: #A78BFA;
+  --color-accent: #FB7185;
+  --color-focus-ring: #60A5FA;
+  --color-bg: #121722;
+  --color-surface: rgba(23, 30, 43, 0.92);
+  --color-surface-elevated: rgba(30, 39, 56, 0.96);
+  --color-heading: #F1F5F9;
+  --color-text: #CBD5E1;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #60A5FA;
+  --bg-card: rgba(23, 30, 43, 0.94);
+  --bg-subcard: rgba(30, 39, 56, 0.96);
+  --border-card: rgba(255, 255, 255, 0.14);
+  --border-subcard: rgba(255, 255, 255, 0.10);
+  --nav-pill-accent: #60A5FA;
+  --pill-bg: linear-gradient(145deg, rgba(30, 39, 55, 0.95) 0%, rgba(21, 28, 41, 0.92) 100%);
+  --pill-bg-hover: linear-gradient(145deg, #243044 0%, #1B2435 100%);
+  --pill-border: rgba(148, 163, 184, 0.18);
+  --pill-border-hover: rgba(100, 182, 255, 0.45);
+  --pill-text: #E2E8F0;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 82%, #FFFFFF);
+  --pill-shadow: 0 4px 12px rgba(4, 7, 14, 0.48), 2px 3px 7px rgba(3, 6, 12, 0.54), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --pill-shadow-hover: 0 6px 14px rgba(4, 7, 14, 0.56), 2px 3px 8px rgba(3, 6, 12, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --pill-blur: 12px;
+  --pill-divider: rgba(148, 163, 184, 0.28);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 82%, #FFFFFF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 62%, #FFFFFF);
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: 0 3px 8px rgba(4, 7, 14, 0.45);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #4973FF) 88%, #ffffff) 0%, var(--nav-pill-accent, #4973FF) 54%, color-mix(in srgb, var(--nav-pill-accent, #4973FF) 78%, #020617) 100%);
+  --pill-active-border: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 58%, #ffffff);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 6px 16px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 32%, transparent), 2px 3px 8px rgba(4, 7, 14, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --pill-active-divider: rgba(255, 255, 255, 0.54);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #4973FF);
+  --pill-arrow-bg: linear-gradient(145deg, #222C3E 0%, #171E2C 100%);
+  --pill-arrow-hover: #28344A;
+  --pill-arrow-border: rgba(100, 182, 255, 0.26);
+  --pill-arrow-text: #64B6FF;
+  --pill-counter-color: #64B6FF;
+}
+
+/* 11. FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI SÁNG · MATTE SOFT UI) */
+html[data-card-style="frost-ice-neu"] {
+  --color-primary: #5B57E8;
+  --color-secondary: #4B46D6;
+  --color-accent: #5B57E8;
+  --color-focus-ring: #5B57E8;
+  --color-bg: #E0E8F2;
+  --color-surface: #E0E8F2;
+  --color-surface-elevated: #E0E8F2;
+  --color-heading: #18273B;
+  --color-text: #22344A;
+  --color-text-secondary: #475B73;
+  --text-primary: #18273B;
+  --text-secondary: #22344A;
+  --text-muted: #536882;
+  --text-link: #4B46D6;
+  --bg-card: #E0E8F2;
+  --bg-subcard: #E0E8F2;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --nav-pill-accent: #5B57E8;
+  --pill-bg: #E0E8F2;
+  --pill-bg-hover: #E0E8F2;
+  --pill-border: transparent;
+  --pill-border-hover: transparent;
+  --pill-text: #22344A;
+  --pill-title-color: var(--nav-pill-accent, #5B57E8);
+  --pill-shadow: -5px -5px 10px rgba(255, 255, 255, 0.86), 5px 5px 10px rgba(163, 179, 199, 0.56);
+  --pill-shadow-hover: -6px -6px 13px rgba(255, 255, 255, 0.92), 6px 6px 13px rgba(163, 179, 199, 0.64);
+  --pill-blur: 0px;
+  --pill-divider: rgba(71, 91, 115, 0.24);
+  --pill-badge-bg: var(--nav-pill-accent, #5B57E8);
+  --pill-badge-border: transparent;
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: -3px -3px 6px rgba(255, 255, 255, 0.86), 3px 3px 6px rgba(163, 179, 199, 0.54);
+  --pill-active-bg: #5B57E8;
+  --pill-active-border: transparent;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: -4px -4px 10px rgba(255, 255, 255, 0.78), 5px 5px 12px rgba(91, 87, 232, 0.34);
+  --pill-active-divider: rgba(255, 255, 255, 0.56);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #5B57E8;
+  --pill-arrow-bg: #E0E8F2;
+  --pill-arrow-hover: #E0E8F2;
+  --pill-arrow-border: transparent;
+  --pill-arrow-text: #4B46D6;
+  --pill-counter-color: #4B46D6;
+}
+
+/* 12. DARK FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI TỐI · MATTE SOFT UI) */
+html[data-card-style="dark-frost-ice-neu"] {
+  --color-primary: #6E6AF6;
+  --color-secondary: #8B87FF;
+  --color-accent: #6E6AF6;
+  --color-focus-ring: #9B97FF;
+  --color-bg: #1A2433;
+  --color-surface: #1A2433;
+  --color-surface-elevated: #1A2433;
+  --color-heading: #F1F6FC;
+  --color-text: #DCE7F5;
+  --color-text-secondary: #A7BAD0;
+  --text-primary: #F1F6FC;
+  --text-secondary: #DCE7F5;
+  --text-muted: #94ABC5;
+  --text-link: #A5A2FF;
+  --bg-card: #1A2433;
+  --bg-subcard: #1A2433;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --nav-pill-accent: #6E6AF6;
+  --pill-bg: #1A2433;
+  --pill-bg-hover: #1A2433;
+  --pill-border: transparent;
+  --pill-border-hover: transparent;
+  --pill-text: #DCE7F5;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #FFFFFF);
+  --pill-shadow: -5px -5px 10px rgba(38, 52, 74, 0.68), 5px 5px 10px rgba(10, 15, 24, 0.76);
+  --pill-shadow-hover: -6px -6px 13px rgba(45, 62, 88, 0.76), 6px 6px 13px rgba(8, 12, 20, 0.84);
+  --pill-blur: 0px;
+  --pill-divider: rgba(167, 186, 208, 0.24);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #FFFFFF);
+  --pill-badge-border: transparent;
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: -3px -3px 6px rgba(38, 52, 74, 0.68), 3px 3px 6px rgba(10, 15, 24, 0.74);
+  --pill-active-bg: #6E6AF6;
+  --pill-active-border: transparent;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: -4px -4px 10px rgba(42, 58, 82, 0.65), 5px 5px 12px rgba(8, 12, 20, 0.82);
+  --pill-active-divider: rgba(255, 255, 255, 0.54);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #6E6AF6;
+  --pill-arrow-bg: #1A2433;
+  --pill-arrow-hover: #1A2433;
+  --pill-arrow-border: transparent;
+  --pill-arrow-text: #A5A2FF;
+  --pill-counter-color: #A5A2FF;
+  --neu-raised-hover-shadow: -7px -7px 14px rgba(45, 62, 88, 0.76), 7px 7px 14px rgba(8, 12, 20, 0.84);
+}
+
+/* 13. FLAT SOFT UI (SÁNG · MATTE PORCELAIN + INDIGO & TEAL) */
+html[data-card-style="flat-soft-ui"],
+[data-theme="flat-soft-ui"] {
+  --color-primary: #4F46E5;
+  --color-secondary: #0D9488;
+  --color-accent: #3B82F6;
+  --color-focus-ring: #4F46E5;
+  --color-bg: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-heading: #0F172A;
+  --color-text: #334155;
+  --color-text-secondary: #475569;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #4F46E5;
+  --bg-card: #FFFFFF;
+  --bg-subcard: #F8FAFC;
+  --border-card: rgba(226, 232, 240, 0.90);
+  --border-subcard: rgba(226, 232, 240, 0.80);
+  --nav-pill-accent: #4F46E5;
+  --pill-bg: #FFFFFF;
+  --pill-bg-hover: #F8FAFC;
+  --pill-border: rgba(226, 232, 240, 0.95);
+  --pill-border-hover: rgba(79, 70, 229, 0.36);
+  --pill-text: #0F172A;
+  --pill-title-color: var(--nav-pill-accent, #0F172A);
+  --pill-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+  --pill-shadow-hover: 0 6px 14px rgba(15, 23, 42, 0.09);
+  --pill-blur: 0px;
+  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 22%, rgba(203, 213, 225, 0.72));
+  --pill-badge-bg: var(--nav-pill-accent, #4F46E5);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 76%, #FFFFFF);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 26%, transparent);
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 88%, #ffffff) 0%, var(--nav-pill-accent, #4F46E5) 56%, color-mix(in srgb, var(--nav-pill-accent, #3B82F6) 86%, #1e1b4b) 100%);
+  --pill-active-border: transparent;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 6px 16px -4px color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 38%, transparent);
+  --pill-active-divider: rgba(255, 255, 255, 0.50);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #4F46E5);
+  --pill-arrow-bg: #F1F5F9;
+  --pill-arrow-hover: #E2E8F0;
+  --pill-arrow-border: rgba(203, 213, 225, 0.92);
+  --pill-arrow-text: #4F46E5;
+  --pill-counter-color: #4F46E5;
+}
+
+/* 14. DARK FLAT SOFT UI (TỐI · VELVET SLATE + INDIGO & MINT) */
+html[data-card-style="dark-flat-soft-ui"],
+[data-theme="dark-flat-soft-ui"] {
+  --color-primary: #6366F1;
+  --color-secondary: #2DD4BF;
+  --color-accent: #818CF8;
+  --color-focus-ring: #6366F1;
+  --color-bg: #0A0E17;
+  --color-surface: #131B2A;
+  --color-surface-elevated: #162032;
+  --color-heading: #F8FAFC;
+  --color-text: #CBD5E1;
+  --color-text-secondary: #94A3B8;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #818CF8;
+  --bg-card: #131B2A;
+  --bg-subcard: #162032;
+  --border-card: rgba(148, 163, 184, 0.16);
+  --border-subcard: rgba(148, 163, 184, 0.12);
+  --nav-pill-accent: #6366F1;
+  --pill-bg: #162032;
+  --pill-bg-hover: #1E293B;
+  --pill-border: rgba(148, 163, 184, 0.18);
+  --pill-border-hover: rgba(129, 140, 248, 0.42);
+  --pill-text: #F8FAFC;
+  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #818CF8) 82%, #FFFFFF);
+  --pill-shadow: 0 3px 10px rgba(0, 0, 0, 0.34);
+  --pill-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.44);
+  --pill-blur: 0px;
+  --pill-divider: rgba(148, 163, 184, 0.24);
+  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #818CF8) 82%, #FFFFFF);
+  --pill-badge-border: color-mix(in srgb, var(--nav-pill-accent, #818CF8) 62%, #FFFFFF);
+  --pill-badge-icon: #090E1A;
+  --pill-badge-shadow: none;
+  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #6366F1) 88%, #ffffff) 0%, var(--nav-pill-accent, #6366F1) 56%, color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 84%, #0A0E17) 100%);
+  --pill-active-border: transparent;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 6px 16px -4px color-mix(in srgb, var(--nav-pill-accent, #6366F1) 42%, transparent);
+  --pill-active-divider: rgba(255, 255, 255, 0.50);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: var(--nav-pill-accent, #6366F1);
+  --pill-arrow-bg: #1E293B;
+  --pill-arrow-hover: #283548;
+  --pill-arrow-border: rgba(148, 163, 184, 0.26);
+  --pill-arrow-text: #818CF8;
+  --pill-counter-color: #818CF8;
+}

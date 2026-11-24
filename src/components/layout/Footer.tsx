@@ -479,6 +479,7 @@ export const Footer: React.FC<FooterProps> = ({
   const footerElement = (
     <footer
       id="app-footer"
+      data-floating-surface="footer"
       data-element-name="Thanh điều hướng Footer chính"
       data-element-type="card"
       data-element-page="global"
@@ -500,7 +501,7 @@ export const Footer: React.FC<FooterProps> = ({
         borderBottomLeftRadius: '0px',
         animation: 'none',
       }}
-      className="mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
+      className="floating-glass-surface floating-surface--footer mx-auto h-full min-h-0 py-0.5 flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 border-b-0 border-x border-t mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${

@@ -1260,101 +1260,43 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </div>
 
                 <div
-                  id="interface-themes-groups"
-                  data-element-name="Danh sách nhóm thẻ giao diện"
+                  id="interface-themes-grid"
+                  data-element-name="Danh sách tất cả thẻ giao diện"
                   data-element-type="container"
                   data-element-page="interface"
-                  className="interface-themes-groups grid grid-cols-1 md:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
+                  className="interface-themes-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch w-full max-w-full min-w-0"
                 >
-                  {visibleGroups.map((group) => {
-                    const isGroupActive = group.presets.some((p) => p.id === cardStyle);
-                    return (
-                      <section
-                        key={group.id}
-                        id={`interface-group-${group.id}`}
-                        data-element-name={`Nhóm giao diện ${group.label}`}
-                        data-element-type="card"
-                        data-subcard="true"
-                        className={`interface-group-card sub-card rounded-[14px] ${
-                          isNeumorphismActive ? 'border-0' : 'border'
-                        } p-[14px] flex flex-col gap-[12px] w-full h-full min-w-0`}
-                        style={
-                          isNeumorphismActive
-                            ? { background: 'var(--bg-subcard)' }
-                            : {
-                                background: 'var(--bg-subcard)',
-                                borderColor: isGroupActive
-                                  ? 'var(--color-primary)'
-                                  : 'var(--border-subcard)',
-                              }
-                        }
-                      >
-                        <div
-                          className={`flex flex-wrap items-center justify-between gap-2 pb-2 ${
-                            isNeumorphismActive ? 'border-0' : 'border-b'
-                          } min-w-0`}
-                          style={isNeumorphismActive ? undefined : { borderColor: 'var(--border-subcard)' }}
-                        >
-                          <div
-                            className="card-header-sync flex items-center gap-2 min-w-0"
-                            style={{ color: 'var(--color-primary)' }}
-                          >
-                            <WebIcon name={group.icon} className="w-4 h-4 shrink-0" />
-                            <h2
-                              className="typo-h5 font-bold tracking-tight truncate card-title-synced m-0"
-                              data-card-title="true"
-                              style={{ color: 'var(--color-primary)' }}
-                            >
-                              {isEn ? group.labelEn : group.label}
-                            </h2>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0">
-                            {isGroupActive && (
-                              <span
-                                className="typo-badge font-semibold"
-                                style={{ color: 'var(--text-link, var(--color-primary))' }}
-                              >
-                                {isEn ? 'Active group' : 'Đang sử dụng'}
-                              </span>
-                            )}
-                            <span
-                              className="typo-caption font-semibold tabular-nums"
-                              style={{ color: 'var(--text-muted)' }}
-                            >
-                              {group.presets.length} {isEn ? 'themes' : 'giao diện'}
-                            </span>
-                          </div>
-                        </div>
+                  {visibleGroups.flatMap((group) => group.presets).map((preset) => {
+                    const groupMatch = CARD_STYLE_GROUPS.find((g) => g.presets.some((p) => p.id === preset.id));
+                    const groupIcon = groupMatch?.icon || 'palette';
+                    const groupLabel = groupMatch ? (isEn ? groupMatch.labelEn : groupMatch.label) : 'Theme';
+                    const lightId = groupMatch?.lightMode || groupMatch?.defaultMode || groupMatch?.presets[0]?.id;
+                    const darkId = groupMatch?.darkMode || groupMatch?.presets[groupMatch.presets.length - 1]?.id;
 
-                        <div
-                          id={`interface-group-grid-${group.id}`}
-                          className="interface-group-grid flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] items-stretch w-full max-w-full min-w-0"
-                        >
-                          {group.presets.map((preset) => (
-                            <ThemePresetCard
-                              key={preset.id}
-                              preset={preset}
-                              groupIcon={group.icon}
-                              groupLabel={isEn ? group.labelEn : group.label}
-                              meta={THEME_VISUAL_META[preset.id]}
-                              bgSpec={THEME_BACKGROUNDS[preset.id]}
-                              sampleProps={presetSampleStyles[preset.id]}
-                              isActive={cardStyle === preset.id}
-                              isEn={isEn}
-                              isVideoVisible={
-                                activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
-                              }
-                              hasVideoFailed={Boolean(failedVideoIds[preset.id])}
-                              displayPresetName={t(preset.name)}
-                              displayShortBadge={t(preset.shortBadge)}
-                              displayDesc={t(preset.desc)}
-                              onSelectTheme={handleSelectTheme}
-                              onToggleVideo={handleToggleVideoPreview}
-                              onVideoError={handleVideoPreviewError}
-                            />
-                          ))}
-                        </div>
-                      </section>
+                    return (
+                      <ThemePresetCard
+                        key={preset.id}
+                        preset={preset}
+                        groupIcon={groupIcon}
+                        groupLabel={groupLabel}
+                        meta={THEME_VISUAL_META[preset.id]}
+                        bgSpec={THEME_BACKGROUNDS[preset.id]}
+                        sampleProps={presetSampleStyles[preset.id]}
+                        isActive={cardStyle === preset.id}
+                        isEn={isEn}
+                        isVideoVisible={
+                          activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
+                        }
+                        hasVideoFailed={Boolean(failedVideoIds[preset.id])}
+                        displayPresetName={t(preset.name)}
+                        displayShortBadge={t(preset.shortBadge)}
+                        displayDesc={t(preset.desc)}
+                        lightModeId={lightId}
+                        darkModeId={darkId}
+                        onSelectTheme={handleSelectTheme}
+                        onToggleVideo={handleToggleVideoPreview}
+                        onVideoError={handleVideoPreviewError}
+                      />
                     );
                   })}
                 </div>

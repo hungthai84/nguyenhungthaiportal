@@ -873,8 +873,8 @@ export default function App() {
           minHeight: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
-          marginTop: '0px',
-          marginBottom: '0px',
+          paddingTop: currentTabIndex === 16 ? '0px' : '10px',
+          paddingBottom: currentTabIndex === 16 ? '0px' : '10px',
         }}
         className={`w-full ${
           currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-full'

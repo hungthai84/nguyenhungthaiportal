@@ -1,0 +1,1052 @@
+@layer base {
+  html {
+    font-family: var(--font-family-primary);
+    font-size: 16px;
+    line-height: var(--lh-body);
+    scroll-behavior: smooth;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html, body {
+    font-family: var(--font-family-primary);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-regular);
+    color: var(--color-text);
+    background-color: var(--app-bg-base, var(--color-bg));
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle cross-fade when switching between theme types */
+  html[data-theme-transitioning="true"] body,
+  html[data-theme-transitioning="true"] [data-main-card="true"],
+  html[data-theme-transitioning="true"] .bento-card,
+  html[data-theme-transitioning="true"] .glass-card,
+  html[data-theme-transitioning="true"] .banner-card,
+  html[data-theme-transitioning="true"] header,
+  html[data-theme-transitioning="true"] nav,
+  html[data-theme-transitioning="true"] .nav-pill,
+  html[data-theme-transitioning="true"] .banner-control-pill {
+    transition:
+      background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  #root {
+    font-family: var(--font-family-primary);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: var(--fw-regular);
+    color: var(--color-text);
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  /* Kế thừa font Play đồng bộ cho toàn bộ trang, Portal, Modal, Popup, Form */
+  body *:not(.fa):not(.fas):not(.far):not(.fab):not(.fa-solid):not(.fa-regular):not(.fa-brands):not([class*="fa-"]):not(.font-italianno):not(.font-handwriting):not(.font-moon-dance):not(.font-quote):not(.banner-quote) {
+    font-family: var(--font-family-primary);
+  }
+
+  *, #website-root, #global-content-viewport {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+    line-height: var(--lh-heading);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p, li, dd, blockquote, figcaption {
+    text-wrap: pretty;
+  }
+
+  p, span, li, td, th, label, button, input, select, textarea {
+    font-family: var(--font-family-body);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: max(16px, var(--fs-input, 16px));
+    line-height: var(--lh-input, 1.45);
+  }
+
+  /* Bold Vector Line & Font Icons Across All Themes & Interfaces */
+  svg:not([data-thin-stroke="true"]),
+  svg:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
+  svg.lucide:not([data-thin-stroke="true"]),
+  svg.lucide:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
+  .web-icon:not([data-thin-stroke="true"]),
+  .web-icon:not([data-thin-stroke="true"]) :is(path, line, polyline, polygon, circle, rect),
+  .card-header-sync svg:not([data-thin-stroke="true"]),
+  .subcard-header-sync svg:not([data-thin-stroke="true"]),
+  .card-title svg:not([data-thin-stroke="true"]),
+  .subcard-title-synced svg:not([data-thin-stroke="true"]),
+  [data-card-title] svg:not([data-thin-stroke="true"]),
+  [data-subcard-title] svg:not([data-thin-stroke="true"]),
+  .nav-pill svg:not([data-thin-stroke="true"]),
+  .theme-modal-header svg:not([data-thin-stroke="true"]),
+  .theme-modal-close svg:not([data-thin-stroke="true"]),
+  .banner-control-pill svg:not([data-thin-stroke="true"]) {
+    stroke-width: 2.85 !important;
+  }
+
+  i.fa,
+  i.fas,
+  i.far,
+  i.fa-solid,
+  i.fa-regular,
+  i[class*="fa-"],
+  .fa,
+  .fas,
+  .far,
+  .fa-solid,
+  .fa-regular {
+    font-weight: 900 !important;
+    -webkit-text-stroke: 0.45px currentColor;
+  }
+
+  .tabular-nums,
+  .font-mono,
+  table,
+  td,
+  th {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tabular-nums,
+  .font-mono {
+    font-family: var(--font-family-numeric);
+  }
+
+  .font-italianno,
+  .font-handwriting,
+  .font-moon-dance,
+  .font-quote,
+  .banner-quote {
+    font-family: var(--font-quote, 'Dancing Script', cursive);
+    font-size: var(--fs-quote, var(--fs-h3));
+    line-height: 1.38;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ========================================================================= */
+/* UNIVERSAL SCROLLBAR HIDING – PRESERVE 100% SCROLLING FUNCTIONALITY        */
+/* ========================================================================= */
+/* 1. Global Reset across all HTML elements & pseudo-elements */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+/* Chrome, Edge, Safari, Opera, Android WebView, iOS WebKit */
+*::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-track,
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner {
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+/* 2. Neutralize any lingering class-based scrollbars */
+.no-scrollbar,
+.glass-scrollbar,
+.custom-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.glass-scrollbar::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+/* 3. Smooth Horizontal Scroll & Touch/Drag Support (Hidden Scrollbar) */
+.horizontal-scroll-smooth {
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.horizontal-scroll-smooth.is-dragging,
+.horizontal-scroll-smooth.is-wheel-scrolling {
+  scroll-behavior: auto !important;
+}
+
+.horizontal-scroll-smooth.is-dragging {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
+.horizontal-scroll-smooth::-webkit-scrollbar,
+.horizontal-scroll-smooth::-webkit-scrollbar-track,
+.horizontal-scroll-smooth::-webkit-scrollbar-thumb {
+  height: 0px !important;
+  width: 0px !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+/* 3D Transform Utility Classes */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Marquee Scroll Animation (Right to Left seamless loop) */
+@keyframes marquee-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-scroll-ltr {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll 28s linear infinite;
+}
+
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll-ltr 28s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee-ltr:hover {
+  animation-play-state: paused;
+}
+
+/* Slide Transitions (GPU-composited translate3d) */
+@keyframes slideNext {
+  from { opacity: 0; transform: translate3d(20px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes slidePrev {
+  from { opacity: 0; transform: translate3d(-20px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes icon-floating {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -4px, 0); }
+}
+
+.animate-slide-next {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slideNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-prev {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: slidePrev 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-ping,
+  .animate-spin,
+  [class*="icon-floating"] {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================================================= */
+/* GLOBAL BACKGROUND SYSTEM – 5-LAYER UNIFIED AMBIENT GLASS & MICA           */
+/* ========================================================================= */
+#global-wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100dvh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--app-bg-base, var(--color-bg));
+  background-image: var(--app-bg-gradient, var(--ambient-base-bg));
+  transform: translateZ(0);
+  contain: layout paint style;
+}
+
+/* Layer 01 – Base Background: Multi-color smooth full-viewport gradient */
+.ambient-layer-base {
+  position: absolute;
+  inset: 0;
+  background-color: var(--app-bg-base, var(--color-bg));
+  background-image: var(--app-bg-gradient, var(--ambient-base-bg));
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease;
+}
+
+/* Layer 02 – Ambient Glow: Balanced diffused radial orbs */
+.ambient-layer-glow {
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+  opacity: var(--app-bg-opacity, var(--ambient-glow-opacity, 0.78));
+  transition: opacity 420ms ease;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(var(--app-bg-blur, var(--ambient-blur-orb, 72px)));
+  -webkit-filter: blur(var(--app-bg-blur, var(--ambient-blur-orb, 72px)));
+  will-change: transform, opacity;
+  transition: background 450ms ease;
+}
+
+.ambient-orb--1 {
+  width: clamp(280px, 44vw, 620px);
+  height: clamp(280px, 44vw, 620px);
+  top: -10%;
+  left: -6%;
+  background: radial-gradient(circle, var(--app-bg-glow-primary, var(--ambient-glow-1)) 0%, transparent 72%);
+  animation: ambientFloatA 24s ease-in-out infinite alternate;
+}
+
+.ambient-orb--2 {
+  width: clamp(260px, 42vw, 580px);
+  height: clamp(260px, 42vw, 580px);
+  top: -6%;
+  right: -8%;
+  background: radial-gradient(circle, var(--app-bg-glow-secondary, var(--ambient-glow-2)) 0%, transparent 72%);
+  animation: ambientFloatB 28s ease-in-out infinite alternate;
+}
+
+.ambient-orb--3 {
+  width: clamp(260px, 40vw, 560px);
+  height: clamp(260px, 40vw, 560px);
+  bottom: -14%;
+  right: 12%;
+  background: radial-gradient(circle, var(--app-bg-glow-accent, var(--ambient-glow-3)) 0%, transparent 72%);
+  animation: ambientFloatC 30s ease-in-out infinite alternate;
+}
+
+.ambient-orb--4 {
+  width: clamp(240px, 38vw, 520px);
+  height: clamp(240px, 38vw, 520px);
+  bottom: -10%;
+  left: 10%;
+  background: radial-gradient(circle, var(--app-bg-glow-cyan, var(--ambient-glow-4)) 0%, transparent 72%);
+  animation: ambientFloatB 26s ease-in-out infinite alternate-reverse;
+}
+
+/* Layer 03 – Abstract Light Shapes: Large soft low-opacity CSS curves */
+.ambient-layer-abstract {
+  position: absolute;
+  inset: -12%;
+  pointer-events: none;
+  opacity: var(--app-bg-shape-opacity, var(--ambient-wave-opacity, 0.65));
+  overflow: hidden;
+  transition: opacity 420ms ease;
+}
+
+.ambient-wave {
+  position: absolute;
+  border-radius: 44% 56% 62% 38% / 48% 36% 64% 52%;
+  filter: blur(var(--ambient-blur-wave, 38px));
+  -webkit-filter: blur(var(--ambient-blur-wave, 38px));
+  pointer-events: none;
+  transition: background 450ms ease;
+}
+
+.ambient-wave--1 {
+  width: 130vw;
+  height: 46vh;
+  top: 12%;
+  left: -15vw;
+  transform: rotate(-7deg);
+  background: linear-gradient(
+    95deg,
+    transparent 0%,
+    var(--ambient-wave-1) 28%,
+    var(--ambient-wave-2) 62%,
+    transparent 100%
+  );
+}
+
+.ambient-wave--2 {
+  width: 125vw;
+  height: 42vh;
+  bottom: 8%;
+  left: -12vw;
+  transform: rotate(6deg);
+  background: linear-gradient(
+    260deg,
+    transparent 0%,
+    var(--ambient-wave-3) 30%,
+    var(--ambient-wave-1) 66%,
+    transparent 100%
+  );
+}
+
+/* Layer 04 – Atmospheric Depth: Visual separation behind floating Glass/Mica surfaces */
+.ambient-layer-depth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--app-bg-depth-veil, var(--ambient-depth-veil));
+  transition: background 420ms ease;
+}
+
+/* Layer 05 – Background Transition: Seamless full-viewport continuity across routes & themes */
+.ambient-layer-transition {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--theme-bg-overlay, var(--app-bg-transition-scrim, transparent));
+  transition: background 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: background, opacity;
+}
+
+@keyframes ambientFloatA {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(3%, 4%, 0) scale(1.06); }
+}
+
+@keyframes ambientFloatB {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-3%, 3%, 0) scale(1.05); }
+}
+
+@keyframes ambientFloatC {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(2%, -4%, 0) scale(1.04); }
+}
+
+/* Responsive & Low-Power Device Safeguards */
+@media (max-width: 767px) {
+  .ambient-orb {
+    filter: blur(34px);
+    -webkit-filter: blur(34px);
+  }
+  .ambient-wave {
+    filter: blur(22px);
+    -webkit-filter: blur(22px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .ambient-orb,
+  .ambient-wave {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
+
+/* Crisp Zero-Blur Wallpaper Safeguard Across All Viewport Sizes */
+html[data-has-wallpaper="true"],
+html[data-has-wallpaper="true"] body {
+  --wallpaper-bg-blur: 0px;
+  --wallpaper-bg-dim: 0;
+  --app-bg-blur: 0px;
+  --ambient-blur-orb: 0px;
+  --ambient-blur-wave: 0px;
+}
+
+html[data-has-wallpaper="true"] #global-wallpaper-layer,
+#global-wallpaper-layer[data-has-wallpaper="true"],
+html[data-has-wallpaper="true"] #global-wallpaper-layer :is(img, video, iframe, canvas, div),
+#global-wallpaper-layer[data-has-wallpaper="true"] :is(img, video, iframe, canvas, div) {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-has-wallpaper="true"] #global-wallpaper-layer :is(.ambient-layer-base, .ambient-layer-glow, .ambient-layer-abstract, .ambient-layer-depth, .ambient-layer-transition, .ambient-orb, .ambient-wave),
+#global-wallpaper-layer[data-has-wallpaper="true"] :is(.ambient-layer-base, .ambient-layer-glow, .ambient-layer-abstract, .ambient-layer-depth, .ambient-layer-transition, .ambient-orb, .ambient-wave) {
+  display: none !important;
+  opacity: 0 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* ========================================================================= */
+/* PRISM WAVE ANIMATED GRADIENT WALLPAPER (4-STOP GRADIENT + 3 WAVE LAYERS)  */
+/* ========================================================================= */
+.wp-prism-wave-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  background: linear-gradient(
+    315deg,
+    rgba(101, 0, 94, 1) 3%,
+    rgba(60, 132, 206, 1) 38%,
+    rgba(48, 238, 226, 1) 68%,
+    rgba(255, 25, 25, 1) 98%
+  );
+  background-size: 400% 400%;
+  animation: wpPrismGradient 15s ease infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wp-prism-wave-stage--compact {
+  font-size: 4.5px;
+}
+
+.wp-prism-wave-ribbon {
+  background: rgb(255 255 255 / 25%);
+  border-radius: 1000% 1000% 0 0;
+  position: absolute;
+  width: 200%;
+  height: 12em;
+  left: 0;
+  bottom: 0;
+  opacity: 0.8;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.wp-prism-wave-ribbon--1 {
+  bottom: 0;
+  opacity: 0.8;
+  animation: wpPrismWave 10s -3s linear infinite;
+}
+
+.wp-prism-wave-ribbon--2 {
+  bottom: -1.25em;
+  opacity: 0.8;
+  animation: wpPrismWave 18s linear reverse infinite;
+}
+
+.wp-prism-wave-ribbon--3 {
+  bottom: -2.5em;
+  opacity: 0.9;
+  animation: wpPrismWave 20s -1s reverse infinite;
+}
+
+@keyframes wpPrismGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes wpPrismWave {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  25% {
+    transform: translate3d(-25%, 0, 0);
+  }
+  50% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  75% {
+    transform: translate3d(-25%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wp-prism-wave-stage,
+  .wp-prism-wave-ribbon,
+  .wp-sky-bubble,
+  .wp-confetti-ball,
+  .wp-teal-violet-stage,
+  .wp-hsl-particle,
+  .wp-cloud-band,
+  .wp-liquid-blob {
+    animation: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* 2. SKY RISING BUBBLES WALLPAPER                                           */
+/* ========================================================================= */
+.wp-sky-bubbles-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #29b6f6 0%, #38bdf8 55%, #0284c7 100%);
+  --bubble-scale: 1;
+  --bubble-rise-y: -120vh;
+}
+
+.wp-sky-bubbles-stage--compact {
+  --bubble-scale: 0.34;
+  --bubble-rise-y: -260px;
+}
+
+.wp-sky-bubbles-track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wp-sky-bubble {
+  position: absolute;
+  bottom: calc(-100px * var(--bubble-scale));
+  border-radius: 9999px;
+  background: rgba(241, 241, 241, 0.55);
+  box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.65);
+  opacity: 0.52;
+  will-change: transform, opacity;
+  animation: wpSkyBubbleRise 10s infinite ease-in;
+}
+
+.wp-sky-bubble--1 { width: calc(40px * var(--bubble-scale)); height: calc(40px * var(--bubble-scale)); left: 10%; animation-duration: 8s; }
+.wp-sky-bubble--2 { width: calc(20px * var(--bubble-scale)); height: calc(20px * var(--bubble-scale)); left: 20%; animation-duration: 5s; animation-delay: 1s; }
+.wp-sky-bubble--3 { width: calc(50px * var(--bubble-scale)); height: calc(50px * var(--bubble-scale)); left: 35%; animation-duration: 7s; animation-delay: 2s; }
+.wp-sky-bubble--4 { width: calc(80px * var(--bubble-scale)); height: calc(80px * var(--bubble-scale)); left: 50%; animation-duration: 11s; animation-delay: 0s; }
+.wp-sky-bubble--5 { width: calc(35px * var(--bubble-scale)); height: calc(35px * var(--bubble-scale)); left: 55%; animation-duration: 6s; animation-delay: 1s; }
+.wp-sky-bubble--6 { width: calc(45px * var(--bubble-scale)); height: calc(45px * var(--bubble-scale)); left: 65%; animation-duration: 8s; animation-delay: 3s; }
+.wp-sky-bubble--7 { width: calc(90px * var(--bubble-scale)); height: calc(90px * var(--bubble-scale)); left: 70%; animation-duration: 12s; animation-delay: 2s; }
+.wp-sky-bubble--8 { width: calc(25px * var(--bubble-scale)); height: calc(25px * var(--bubble-scale)); left: 80%; animation-duration: 6s; animation-delay: 2s; }
+.wp-sky-bubble--9 { width: calc(15px * var(--bubble-scale)); height: calc(15px * var(--bubble-scale)); left: 70%; animation-duration: 5s; animation-delay: 1s; }
+.wp-sky-bubble--10 { width: calc(90px * var(--bubble-scale)); height: calc(90px * var(--bubble-scale)); left: 25%; animation-duration: 10s; animation-delay: 4s; }
+
+@keyframes wpSkyBubbleRise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.52;
+  }
+  50% {
+    transform: translate3d(calc(90px * var(--bubble-scale)), calc(var(--bubble-rise-y) * 0.5), 0);
+    opacity: 0.62;
+  }
+  100% {
+    transform: translate3d(calc(-160px * var(--bubble-scale)), var(--bubble-rise-y), 0);
+    opacity: 0.25;
+  }
+}
+
+/* ========================================================================= */
+/* 3. CONFETTI FLOATING BALLS WALLPAPER                                      */
+/* ========================================================================= */
+.wp-confetti-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.wp-confetti-stage--compact {
+  font-size: 8px;
+}
+
+.wp-confetti-ball {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 0.7;
+  pointer-events: none;
+  will-change: transform;
+  animation: wpConfettiFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes wpConfettiFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(var(--ball-scale, 1));
+  }
+  100% {
+    transform: translate3d(var(--ball-tx, 4rem), var(--ball-ty, 6rem), 0) scale(var(--ball-scale, 1));
+  }
+}
+
+/* ========================================================================= */
+/* 4. CYAN CANVAS X & O WALLPAPER                                            */
+/* ========================================================================= */
+.wp-cyan-xo-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #04bbd3;
+}
+
+/* ========================================================================= */
+/* 5. TEAL BLUE VIOLET AURORA WALLPAPER                                      */
+/* ========================================================================= */
+.wp-teal-violet-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(253deg, #0cc898, #1797d2, #864fe1);
+  background-size: 300% 300%;
+  animation: wpTealVioletFlow 25s ease infinite;
+}
+
+.wp-teal-violet-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.16) 0%, transparent 64%);
+  background-size: 28px 28px, 100% 100%;
+}
+
+@keyframes wpTealVioletFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ========================================================================= */
+/* 6. SOFT MINT FLOATING HSL PARTICLES WALLPAPER                             */
+/* ========================================================================= */
+.wp-hsl-particles-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.wp-hsl-particle {
+  position: absolute;
+  left: var(--px-start, 10%);
+  top: var(--py-start, 10%);
+  border-radius: 9999px;
+  pointer-events: none;
+  will-change: left, top;
+  animation: wpHslParticleDrift 36s ease-in-out infinite alternate;
+}
+
+@keyframes wpHslParticleDrift {
+  0% {
+    left: var(--px-start, 10%);
+    top: var(--py-start, 10%);
+  }
+  100% {
+    left: var(--px-end, 80%);
+    top: var(--py-end, 75%);
+  }
+}
+
+/* ========================================================================= */
+/* 7. MOUNTAIN & DRIFTING CLOUDS WALLPAPER                                   */
+/* ========================================================================= */
+.wp-mountain-layers-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #61b2d8 0%, #9fc3eb 48%, #f9a4f2 100%);
+  --cloud-scale: 1;
+}
+
+.wp-mountain-layers-stage--compact {
+  --cloud-scale: 0.35;
+}
+
+.wp-mountain-svg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 76%;
+  pointer-events: none;
+}
+
+.wp-mountain-svg--3 { z-index: 6; }
+.wp-mountain-svg--2 { z-index: 8; }
+.wp-mountain-svg--1 { z-index: 10; }
+
+.wp-cloud-band {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: calc(110px * var(--cloud-scale));
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-size: 36% 100%;
+  background-image:
+    radial-gradient(ellipse 65% 58% at 22% 68%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 52% 48% at 48% 58%, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 60% 54% at 78% 66%, rgba(255, 255, 255, 0.52) 0%, rgba(255, 255, 255, 0) 70%);
+  will-change: transform;
+}
+
+.wp-cloud-band--3 {
+  bottom: calc(230px * var(--cloud-scale));
+  z-index: 5;
+  opacity: 0.58;
+  animation: wpCloudSweep 120s ease-out infinite;
+}
+
+.wp-cloud-band--2 {
+  bottom: calc(115px * var(--cloud-scale));
+  z-index: 7;
+  opacity: 0.64;
+  animation: wpCloudSweep 60s ease-in infinite;
+}
+
+.wp-cloud-band--1 {
+  bottom: calc(20px * var(--cloud-scale));
+  z-index: 9;
+  opacity: 0.62;
+  animation: wpCloudSweep 120s ease-out infinite;
+}
+
+.wp-mountain-pastel-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(97, 178, 216, 0.28) 0%, rgba(249, 164, 242, 0.34) 100%);
+}
+
+@keyframes wpCloudSweep {
+  from {
+    transform: translate3d(0%, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ========================================================================= */
+/* 8. INTERACTIVE LIQUID GRADIENT BLOBS WALLPAPER                            */
+/* ========================================================================= */
+.wp-liquid-blobs-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(40deg, #dff9fb, #ffffff);
+  --blob-circle: 135%;
+}
+
+.wp-liquid-blobs-stage--dark {
+  background: linear-gradient(40deg, #0b1120, #1e1b4b);
+}
+
+.wp-liquid-blobs-stage--compact {
+  --blob-circle: 150%;
+}
+
+.wp-liquid-blobs-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wp-liquid-blob {
+  position: absolute;
+  width: var(--blob-circle);
+  height: var(--blob-circle);
+  top: calc(50% - var(--blob-circle) / 2);
+  left: calc(50% - var(--blob-circle) / 2);
+  mix-blend-mode: hard-light;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.wp-liquid-blobs-stage--dark .wp-liquid-blob {
+  mix-blend-mode: screen;
+}
+
+.wp-liquid-blob--1 {
+  background: radial-gradient(circle at center, rgba(104, 109, 224, 0.72) 0, rgba(104, 109, 224, 0) 52%);
+  animation: wpBlobVertical 30s ease infinite;
+}
+
+.wp-liquid-blob--2 {
+  background: radial-gradient(circle at center, rgba(126, 214, 223, 0.76) 0, rgba(126, 214, 223, 0) 52%);
+  transform-origin: calc(50% - 260px) center;
+  animation: wpBlobOrbit 20s reverse infinite;
+}
+
+.wp-liquid-blob--3 {
+  background: radial-gradient(circle at center, rgba(167, 243, 208, 0.7) 0, rgba(167, 243, 208, 0) 52%);
+  transform-origin: calc(50% + 260px) center;
+  animation: wpBlobOrbit 40s linear infinite;
+}
+
+.wp-liquid-blob--4 {
+  background: radial-gradient(circle at center, rgba(255, 121, 121, 0.64) 0, rgba(255, 121, 121, 0) 52%);
+  transform-origin: calc(50% - 160px) center;
+  animation: wpBlobHorizontal 40s ease infinite;
+  opacity: 0.75;
+}
+
+.wp-liquid-blob--5 {
+  background: radial-gradient(circle at center, rgba(149, 175, 192, 0.72) 0, rgba(149, 175, 192, 0) 52%);
+  transform-origin: calc(50% - 360px) calc(50% + 140px);
+  animation: wpBlobOrbit 22s ease infinite;
+}
+
+.wp-liquid-blob-interactive {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: -45%;
+  left: -45%;
+  background: radial-gradient(circle at center, rgba(140, 100, 255, 0.65) 0, rgba(140, 100, 255, 0) 50%);
+  mix-blend-mode: hard-light;
+  opacity: 0.7;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.wp-liquid-blobs-stage--dark .wp-liquid-blob-interactive {
+  mix-blend-mode: screen;
+}
+
+@keyframes wpBlobOrbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wpBlobVertical {
+  0% {
+    transform: translate3d(0, -28%, 0);
+  }
+  50% {
+    transform: translate3d(0, 28%, 0);
+  }
+  100% {
+    transform: translate3d(0, -28%, 0);
+  }
+}
+
+@keyframes wpBlobHorizontal {
+  0% {
+    transform: translate3d(-28%, -8%, 0);
+  }
+  50% {
+    transform: translate3d(28%, 8%, 0);
+  }
+  100% {
+    transform: translate3d(-28%, -8%, 0);
+  }
+}
+
+/* ========================================================================= */
+/* 9. COSMIC BOKEH & LIGHT BEAMS WALLPAPER                                   */
+/* ========================================================================= */
+.wp-cosmic-bokeh-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #090d00;
+}
+
+

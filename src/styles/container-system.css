@@ -489,24 +489,46 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   display: grid !important;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   grid-auto-flow: row !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 @container core-values-card (max-width: 579px) {
   #core-values-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-    column-gap: 10px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   #core-values-grid [id^="core-val-"] {
-    padding: 10px !important;
-    gap: 6px !important;
+    padding: 12px !important;
+    gap: 8px !important;
   }
 }
 
 @container core-values-card (min-width: 580px) {
   #core-values-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@container principles-card (min-width: 560px) {
+  #card-three-principles .letter-principles-subgrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+}
+
+@container principles-card (max-width: 559px) {
+  #card-three-principles .letter-principles-subgrid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
   }
 }
 
@@ -579,13 +601,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #core-values-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-    column-gap: 10px !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   #core-values-grid [id^="core-val-"] {
-    padding: 10px !important;
-    gap: 6px !important;
+    padding: 12px !important;
+    gap: 8px !important;
   }
 
   #about-operating-pillars-card .grid,
@@ -690,15 +713,26 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid,
   #letter-slide-3-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
   }
 
-  /* Slide 4 stacks cleanly below 960px so long text isn't compressed */
+  /* Slide 4 adapts to 2-column row + full-width row (Responsive Bento for 3 cards) on medium widths */
   #letter-slide-4-bento-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
   }
 
-  #letter-slide-4-bento-grid > * {
+  #card-philosophy,
+  #card-three-principles {
+    grid-column: span 3 / span 3 !important;
+    height: 100% !important;
+  }
+
+  #bento-companion-letter {
     grid-column: 1 / -1 !important;
+    height: 100% !important;
   }
 
   /* About Card 1 duy trì tỷ lệ Video / Thông tin chi tiết co giản cân đối */
@@ -992,7 +1026,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #letter-slide-2-grid,
   #letter-slide-3-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
   }
 
   #letter-slide-4-bento-grid {

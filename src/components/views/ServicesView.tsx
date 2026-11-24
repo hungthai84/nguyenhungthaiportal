@@ -933,11 +933,10 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                           )}
                         </div>
 
-                        {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại */}
+                        {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại (không đóng khung) */}
                         <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
                           <div
-                            data-media-card="image"
-                            className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-1 bg-white/35 dark:bg-slate-900/35"
+                            className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-visible bg-transparent border-0 shadow-none p-0 rounded-none"
                           >
                             <img
                               src={serviceImage}
@@ -950,7 +949,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                   e.currentTarget.src = meta.fallbackIllustration;
                                 }
                               }}
-                              className="service-img-pop relative z-10 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none filter-none"
+                              className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
                               style={{ filter: 'none', WebkitFilter: 'none' }}
                             />
                           </div>

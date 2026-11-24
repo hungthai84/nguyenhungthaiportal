@@ -37,7 +37,7 @@
   .edu-bento-action-btn,
   .sys-bento-action-btn,
   [data-element-type="button"]
-):not(.absolute):not(.fixed):not(.sticky):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
+):not(.absolute):not(.fixed):not(.sticky):not(.news-slider-arrow):not(.news-slider-bullet):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
   position: relative;
 }
 

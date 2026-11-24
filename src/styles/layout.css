@@ -167,7 +167,7 @@
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
   overscroll-behavior-y: contain !important;
-  scroll-behavior: smooth !important;
+  scroll-behavior: auto !important;
 }
 
 #about-cards-track {
@@ -365,11 +365,12 @@
 #letter-cards-track > .page-main-card,
 #letter-cards-track > [data-main-card="true"] {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: var(--main-card-target-w, clamp(1000px, 78vw, 1380px)) !important;
+  max-width: min(100%, var(--main-card-target-w, clamp(1000px, 78vw, 1380px))) !important;
   min-width: 0 !important;
-  height: var(--letter-viewport-h, 100%) !important;
-  min-height: var(--letter-viewport-h, 100%) !important;
-  max-height: var(--letter-viewport-h, 100%) !important;
+  flex: 0 0 auto !important;
+  height: 100cqh !important;
+  min-height: 100cqh !important;
+  max-height: 100cqh !important;
   border-radius: 0px !important;
   margin-left: auto !important;
   margin-right: auto !important;

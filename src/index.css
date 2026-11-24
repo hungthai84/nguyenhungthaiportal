@@ -477,7 +477,33 @@ html #letter-cards-track #el-p1-div-85,
 html #el-p1-div-85,
 html #letter-cards-track #letter-slide-2-grid,
 html #letter-cards-track #letter-slide-3-grid,
-html #letter-cards-track #letter-slide-4-bento-grid,
+html #letter-cards-track #letter-slide-4-bento-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  align-items: stretch !important;
+  grid-auto-rows: auto !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  box-sizing: border-box !important;
+}
+
 html #services-main-content {
   width: 100% !important;
   max-width: 100% !important;
@@ -609,18 +635,22 @@ html #letter-slide-4-bento-grid [data-subcard="true"] {
 }
 
 html #el-p1-div-85 #card-core-values-pursued {
-  gap: 14px !important;
-  row-gap: 14px !important;
-  column-gap: 14px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   grid-auto-flow: row !important;
-  gap: 12px !important;
-  row-gap: 12px !important;
-  column-gap: 12px !important;
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   width: 100% !important;
   min-width: 0 !important;
 }
@@ -795,7 +825,7 @@ html.dark[data-card-style] #letter-cards-track {
   padding-top: 0px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
-  padding-bottom: 16px !important;
+  padding-bottom: 0px !important;
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
@@ -860,21 +890,30 @@ html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope
   box-sizing: border-box !important;
 }
 
+html:root body #letter-page-container #letter-cards-track > #letter-card-1,
+html:root[data-card-style] body #letter-page-container #letter-cards-track > #letter-card-1,
+html:root body #letter-page-container #letter-cards-track > #letter-card-4,
+html:root[data-card-style] body #letter-page-container #letter-cards-track > #letter-card-4,
 html #letter-cards-track > #letter-card-1,
 html[data-card-style] #letter-cards-track > #letter-card-1,
 html #letter-cards-track > #letter-card-4,
 html[data-card-style] #letter-cards-track > #letter-card-4 {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
-  flex: 0 0 100% !important;
+  height: var(--letter-viewport-h, 100cqh) !important;
+  height: 100cqh !important;
+  min-height: var(--letter-viewport-h, 100cqh) !important;
+  min-height: 100cqh !important;
+  max-height: var(--letter-viewport-h, 100cqh) !important;
+  max-height: 100cqh !important;
+  flex: 0 0 auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   margin: 0 auto !important;
-  padding: var(--main-card-padding, 15px) !important;
+  padding: var(--main-card-padding, 20px) !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -882,6 +921,14 @@ html[data-card-style] #letter-cards-track > #letter-card-4 {
   border-style: solid !important;
   border-radius: 0px !important;
   box-sizing: border-box !important;
+}
+
+html #letter-cards-track > #letter-card-1::-webkit-scrollbar,
+html #letter-cards-track > #letter-card-4::-webkit-scrollbar,
+html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3)::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
 }
 
 /* Horoscope Main Card 1 & Card 5 in Horizontal Top Row: 1000x600px, 14px radius, 10px gap */
@@ -931,7 +978,9 @@ html.dark[data-card-style] #horoscope-row-1-5-horizontal > #horoscope-card-5 {
   }
 }
 
-/* Letter Row 2-3 Horizontal Row (Card 3 Side-by-Side Right of Card 2 with 10px Gap) */
+/* Letter Row 2-3 Horizontal Row (Card 3 Side-by-Side Right of Card 2 with 10px Gap, same width & height as Home main card) */
+html:root body #letter-page-container #letter-cards-row-2-3,
+html:root[data-card-style] body #letter-page-container #letter-cards-row-2-3,
 html #letter-cards-row-2-3,
 html[data-card-style] #letter-cards-row-2-3,
 html.dark[data-card-style] #letter-cards-row-2-3 {
@@ -943,16 +992,24 @@ html.dark[data-card-style] #letter-cards-row-2-3 {
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
+  height: var(--letter-viewport-h, 100cqh) !important;
+  height: 100cqh !important;
+  min-height: var(--letter-viewport-h, 100cqh) !important;
+  min-height: 100cqh !important;
+  max-height: var(--letter-viewport-h, 100cqh) !important;
+  max-height: 100cqh !important;
   flex: 0 0 auto !important;
+  margin: 0 auto !important;
   padding-top: 0px !important;
   padding-bottom: 0px !important;
-  padding-left: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
-  padding-right: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  scroll-behavior: auto !important;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch !important;
   scrollbar-width: none !important;
@@ -966,21 +1023,25 @@ html #letter-cards-row-2-3::-webkit-scrollbar {
   height: 0px !important;
 }
 
+html:root body #letter-page-container #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
+html:root[data-card-style] body #letter-page-container #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
 html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
 html[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
 html.dark[data-card-style] #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  min-width: 0 !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
   height: 100% !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
   max-height: 100% !important;
   flex: 0 0 100% !important;
-  scroll-snap-align: center;
+  scroll-snap-align: start;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   margin: 0 !important;
-  padding: var(--main-card-padding, 15px) !important;
+  padding: var(--main-card-padding, 20px) !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -4990,6 +5051,15 @@ html:root.dark[data-card-style] body #horoscope-page-container {
   -ms-overflow-style: none !important;
 }
 
+html:root body #letter-page-container,
+html:root[data-card-style] body #letter-page-container,
+html:root.dark[data-card-style] body #letter-page-container {
+  flex: 1 1 0% !important;
+  max-height: 100% !important;
+  container-type: size !important;
+  container-name: letter-viewport !important;
+}
+
 /* ========================================================================= */
 /* ABSOLUTE FINAL OVERRIDE: PROJECT CARD BANNER TOP-ONLY TOKEN RADIUS        */
 /* ========================================================================= */
@@ -6025,20 +6095,32 @@ html[data-surface-depth="flat"] body :is(
 /* ========================================================================= */
 /* CODEPEN NEWS SLIDER STYLES & ANIMATED BACKGROUND CARD (.item-bg)          */
 /* ========================================================================= */
+#education-main-card[data-slider-mode="true"] #education-main-scroll-viewport,
+#education-main-card[data-slider-mode="true"] #education-main-wrapper {
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
 .news-slider-wrapper-container {
   position: relative;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   min-height: 0;
-  height: auto;
-  flex: 1 1 auto;
-  padding: clamp(14px, 2.2vh, 22px) 10px clamp(14px, 2vh, 20px);
+  height: 100%;
+  max-height: 100%;
+  flex: 1 1 0%;
+  padding: clamp(8px, 2cqh, 16px) 10px clamp(8px, 1.8cqh, 14px);
   border-radius: var(--radius-banner, 14px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: stretch;
+  align-items: stretch;
+  container-type: size;
+  container-name: edu-slider-stage;
   box-sizing: border-box;
 }
 
@@ -6075,15 +6157,24 @@ html[data-surface-depth="flat"] body :is(
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  margin: 0 auto;
+  flex: 1 1 0%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(6px, 2cqh, 14px);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .news-item-bg {
-  width: 312px;
+  width: clamp(260px, 27cqi, 304px);
   max-width: 100%;
-  height: 420px;
+  height: 100%;
+  max-height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -6099,6 +6190,26 @@ html[data-surface-depth="flat"] body :is(
   opacity: 1;
 }
 
+.news-slider-stage {
+  position: relative;
+  flex: 1 1 0%;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+}
+.news-slider-stage.is-dragging,
+.news-slider-stage:active {
+  cursor: grabbing;
+}
+
 .news-slider-wrp {
   display: flex;
   align-items: stretch;
@@ -6106,6 +6217,10 @@ html[data-surface-depth="flat"] body :is(
   z-index: 2;
   width: max-content;
   min-width: 100%;
+  flex: 1 1 0%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
   cursor: grab;
   user-select: none;
   touch-action: pan-y;
@@ -6115,13 +6230,22 @@ html[data-surface-depth="flat"] body :is(
 }
 
 .news-slider-slide {
-  width: 312px;
+  width: clamp(260px, 27cqi, 304px);
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
   flex-shrink: 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
   box-sizing: border-box;
+}
+.news-slider-slide.swiper-slide-peek {
+  opacity: 0.78;
+  pointer-events: auto;
 }
 .news-slider-slide.swiper-slide-prev,
 .news-slider-slide.swiper-slide-active,
@@ -6132,13 +6256,17 @@ html[data-surface-depth="flat"] body :is(
 }
 
 .news-card-item {
-  padding: clamp(16px, 2.4vh, 24px) 20px;
+  padding: clamp(10px, 2.8cqh, 22px) clamp(14px, 2.2cqi, 20px);
   height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex: 1 1 0%;
   color: #ffffff;
   border-radius: var(--radius-card, 12px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow: hidden;
   transition: color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
@@ -6171,36 +6299,39 @@ html[data-surface-depth="flat"] body :is(
 }
 
 .news-card-date {
-  padding-bottom: 14px;
-  margin-bottom: 14px;
+  padding-bottom: clamp(4px, 1.5cqh, 12px);
+  margin-bottom: clamp(4px, 1.5cqh, 12px);
   border-bottom: 2px solid currentColor;
   display: inline-block;
   align-self: flex-start;
+  flex-shrink: 0;
   opacity: 0.78;
   transition: opacity 0.3s ease, border-color 0.3s ease;
 }
 
 .news-card-date-title {
   display: block;
-  font-size: 26px;
-  line-height: 1.1;
-  margin-bottom: 4px;
+  font-size: clamp(18px, 4.4cqh, 26px);
+  line-height: 1.08;
+  margin-bottom: clamp(2px, 0.6cqh, 4px);
   font-weight: 700;
 }
 
 .news-card-date-txt {
-  font-size: 13.5px;
+  font-size: clamp(11px, 2.4cqh, 13.5px);
+  line-height: 1.25;
   font-weight: 600;
 }
 
 .news-card-title {
-  font-size: 19px;
+  font-size: clamp(14px, 3.3cqh, 19px);
   font-weight: 700;
-  line-height: 1.32;
+  line-height: 1.28;
   opacity: 0.88;
-  margin-top: 6px;
-  margin-bottom: 10px;
-  min-height: 2.64em;
+  margin-top: clamp(2px, 0.7cqh, 6px);
+  margin-bottom: clamp(4px, 1.1cqh, 8px);
+  min-height: 0;
+  flex-shrink: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -6210,10 +6341,11 @@ html[data-surface-depth="flat"] body :is(
 
 .news-card-txt {
   margin: 0 0 auto;
-  line-height: 1.55em;
-  font-size: 13.5px;
+  line-height: 1.45em;
+  font-size: clamp(11.5px, 2.4cqh, 13.5px);
   opacity: 0.78;
-  min-height: 4.65em;
+  min-height: 0;
+  flex-shrink: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -6224,10 +6356,12 @@ html[data-surface-depth="flat"] body :is(
 .news-card-img {
   border-radius: var(--radius-image, 10px);
   box-shadow: 0 6px 24px 4px rgba(0, 0, 0, 0.42);
-  height: clamp(104px, 16vh, 152px);
-  margin-top: clamp(10px, 1.8vh, 16px);
+  flex: 1 1 0%;
+  height: auto;
+  min-height: clamp(50px, 18cqh, 106px);
+  max-height: clamp(80px, 46cqh, 300px);
+  margin-top: clamp(6px, 1.8cqh, 14px);
   width: 100%;
-  flex-shrink: 0;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
 }
@@ -6248,7 +6382,8 @@ html[data-surface-depth="flat"] body :is(
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 18px;
+  flex-shrink: 0;
+  margin-top: 0;
 }
 
 .news-slider-arrow {
@@ -6259,18 +6394,20 @@ html[data-surface-depth="flat"] body :is(
   height: 44px;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.38);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.34);
   border-radius: 50%;
-  position: fixed;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #222222;
-  z-index: 18;
+  z-index: 25;
   transition: transform 0.25s ease, opacity 0.25s ease, box-shadow 0.25s ease;
 }
 .news-slider-container .news-slider-arrow {
-  position: absolute;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 .news-slider-arrow.news-slider-prev {
   left: 10px;
@@ -6285,6 +6422,7 @@ html[data-surface-depth="flat"] body :is(
 }
 .news-slider-arrow:hover:not(:disabled) {
   transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 .news-slider-arrow:disabled {
   opacity: 0.4;
@@ -6321,56 +6459,75 @@ html[data-surface-depth="flat"] body :is(
   background: #ffffff;
 }
 
+@container edu-slider-stage (max-height: 330px) {
+  .news-card-txt {
+    -webkit-line-clamp: 2;
+  }
+  .news-card-title {
+    -webkit-line-clamp: 1;
+  }
+}
+
+@container edu-slider-stage (max-height: 250px) {
+  .news-card-txt {
+    display: none;
+  }
+}
+
 @container education-main (min-width: 720px) and (max-width: 959px) {
   .news-slider-slide,
   .news-item-bg {
-    width: clamp(210px, 31cqi, 270px);
+    width: clamp(205px, 28cqi, 256px);
   }
 }
 
 @container education-main (max-width: 719px) {
   .news-slider-wrapper-container {
     min-height: 0;
-    padding: 14px 8px 16px;
+    padding: clamp(8px, 2cqh, 14px) 0px clamp(8px, 2cqh, 14px);
   }
   .news-slider-slide,
   .news-item-bg {
-    width: min(320px, calc(100cqi - 24px));
-    max-width: calc(100cqi - 24px);
+    width: clamp(220px, calc(100cqi - 76px), 292px);
+    max-width: calc(100cqi - 56px);
   }
   .news-slider-slide.swiper-slide-prev,
   .news-slider-slide.swiper-slide-next {
-    opacity: 0;
-    pointer-events: none;
+    opacity: 0.78;
+    pointer-events: auto;
   }
   .news-slider-slide.swiper-slide-active {
     opacity: 1;
     pointer-events: auto;
   }
   .news-card-item {
-    padding: 18px 16px;
+    padding: clamp(10px, 2.5cqh, 18px) 16px;
   }
   .news-slider-ctr {
-    gap: 12px;
-    margin-top: 12px;
+    gap: 8px;
+    margin-top: 0;
   }
   .news-slider-arrows {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
   }
   .news-slider-container .news-slider-arrow {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    transform: none;
-    width: 40px;
-    height: 40px;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: clamp(34px, 8cqh, 40px);
+    height: clamp(34px, 8cqh, 40px);
+  }
+  .news-slider-arrow.news-slider-prev {
+    left: 6px;
+  }
+  .news-slider-arrow.news-slider-next {
+    right: 6px;
   }
   .news-slider-arrow:hover:not(:disabled) {
-    transform: scale(1.08);
+    transform: translateY(-50%) scale(1.08) !important;
   }
   .news-slider-bullet.active-bullet {
     width: 34px;
@@ -6380,53 +6537,51 @@ html[data-surface-depth="flat"] body :is(
 @media screen and (max-width: 960px) {
   .news-slider-slide,
   .news-item-bg {
-    width: clamp(210px, 31cqi, 270px);
+    width: clamp(205px, 28cqi, 256px);
   }
 }
 
 @media screen and (max-width: 768px) {
   .news-slider-wrapper-container {
     min-height: 0;
-    padding: 14px 8px 16px;
+    padding: clamp(8px, 2cqh, 14px) 0px clamp(8px, 2cqh, 14px);
   }
   .news-slider-slide,
   .news-item-bg {
-    width: min(320px, calc(100cqi - 24px));
-    max-width: calc(100cqi - 24px);
+    width: clamp(220px, calc(100cqi - 76px), 292px);
+    max-width: calc(100cqi - 56px);
   }
   .news-slider-slide.swiper-slide-prev,
   .news-slider-slide.swiper-slide-next {
-    opacity: 0;
-    pointer-events: none;
+    opacity: 0.78;
+    pointer-events: auto;
   }
   .news-slider-slide.swiper-slide-active {
     opacity: 1;
     pointer-events: auto;
   }
   .news-card-item {
-    padding: 18px 16px;
+    padding: clamp(10px, 2.5cqh, 18px) 16px;
   }
   .news-slider-ctr {
-    gap: 12px;
-    margin-top: 12px;
-  }
-  .news-slider-arrows {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+    gap: 8px;
+    margin-top: 0;
   }
   .news-slider-container .news-slider-arrow {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    transform: none;
-    width: 40px;
-    height: 40px;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: clamp(34px, 8cqh, 40px);
+    height: clamp(34px, 8cqh, 40px);
+  }
+  .news-slider-arrow.news-slider-prev {
+    left: 6px;
+  }
+  .news-slider-arrow.news-slider-next {
+    right: 6px;
   }
   .news-slider-arrow:hover:not(:disabled) {
-    transform: scale(1.08);
+    transform: translateY(-50%) scale(1.08) !important;
   }
   .news-slider-bullet.active-bullet {
     width: 34px;
@@ -6465,6 +6620,7 @@ html:root body #experience-main-card,
 html:root body #contact-main-card,
 html:root body #letter-card-1,
 html:root body #letter-card-4,
+html:root body #letter-cards-row-2-3,
 html:root body #el-p0-div-98,
 html:root body #app-footer,
 html:root body #el-p0-div-98 > footer,
@@ -6480,6 +6636,7 @@ html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
 html:root[data-card-style] body #letter-card-1,
 html:root[data-card-style] body #letter-card-4,
+html:root[data-card-style] body #letter-cards-row-2-3,
 html:root[data-card-style] body #el-p0-div-98,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 > footer {

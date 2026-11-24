@@ -720,8 +720,8 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   transform: none !important;
 }
 
-.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
-[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not([id^="letter-card-"]),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not([id^="letter-card-"]),
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
@@ -3947,6 +3947,15 @@ html #education-courses-grid .education-course-card,
   max-height: none !important;
   align-self: stretch !important;
   justify-self: stretch !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  -webkit-clip-path: none !important;
+  clip-path: none !important;
+  padding: 0px !important;
+  overflow: visible !important;
 }
 
 #services-page-container .domain-card .service-title-text {
@@ -4014,13 +4023,30 @@ html #education-courses-grid .education-course-card,
     0 0 0 1px color-mix(in srgb, var(--reveal-accent, #818cf8) 32%, transparent) !important;
 }
 
-#services-page-container .domain-card .service-img-pop {
-  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+@keyframes serviceImgHoverMotion {
+  0% {
+    transform: translate3d(0px, -2px, 0) scale(1.15) rotate(-2deg);
+  }
+  50% {
+    transform: translate3d(3px, -7px, 0) scale(1.2) rotate(2.5deg);
+  }
+  100% {
+    transform: translate3d(-2px, -3px, 0) scale(1.16) rotate(-1.5deg);
+  }
 }
 
-#services-page-container .domain-card:hover .service-img-pop {
-  transform: scale(1.06);
+#services-page-container .domain-card .service-img-pop {
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center center;
+  will-change: transform;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+#services-page-container .domain-card:hover .service-img-pop,
+#services-page-container .domain-card:focus-visible .service-img-pop {
+  transform: translate3d(0px, -4px, 0) scale(1.16) !important;
+  animation: serviceImgHoverMotion 2.4s ease-in-out infinite alternate;
 }
 
 /* Subcard metric tiles inside domain card & expanded card */
@@ -4091,10 +4117,12 @@ html.dark #services-page-container .domain-card-sub {
   #services-page-container .domain-card,
   #services-page-container .domain-card .service-card-hover-flood,
   #services-page-container .domain-card .service-img-pop,
+  #services-page-container .domain-card:hover .service-img-pop,
   #services-page-container #services-expanded-card,
   #services-page-container #services-expanded-card.is-animating,
   #services-page-container #services-expanded-card .expanded-detail-content {
     transition: none !important;
+    animation: none !important;
     transform: none !important;
     transition-delay: 0s !important;
   }
@@ -5207,7 +5235,7 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, căn thẳng mép Header/Footer, chiều cao max full */
+/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, kích thước bằng main card trang chủ */
 #letter-cards-row-2-3 {
   display: flex !important;
   flex-direction: row !important;
@@ -5217,8 +5245,15 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   gap: 10px !important;
   row-gap: 10px !important;
   column-gap: 10px !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  height: 100cqh !important;
+  min-height: 100cqh !important;
+  max-height: 100cqh !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
   overflow-x: auto !important;
@@ -5239,11 +5274,11 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 #letter-cards-row-2-3 > #letter-card-2,
 #letter-cards-row-2-3 > #letter-card-3 {
   width: 100% !important;
-  min-width: 0 !important;
+  min-width: 100% !important;
   max-width: 100% !important;
-  height: var(--letter-viewport-h, 100%) !important;
-  min-height: var(--letter-viewport-h, 100%) !important;
-  max-height: var(--letter-viewport-h, 100%) !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   flex: 0 0 100% !important;
   border-radius: 0px !important;
   scroll-snap-align: start;
@@ -5299,8 +5334,9 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-/* Thẻ Dịch vụ: Chia 2 cột 50% / 50%, 3 hàng ảnh bên phải giữ nguyên màu gốc */
-#services-page-container .domain-card .service-card-illustration {
+/* Thẻ Dịch vụ: Chia 2 cột 70% / 30%, ảnh bên phải bỏ đóng khung, phóng to & chuyển động khi rê chuột */
+#services-page-container .domain-card .service-card-illustration,
+#services-page-container .domain-card .service-card-image-slot {
   align-self: stretch !important;
   justify-self: stretch !important;
   display: flex !important;
@@ -5309,20 +5345,30 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   width: 100% !important;
   min-height: 0 !important;
   max-height: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  padding: 0px !important;
+  overflow: visible !important;
 }
 
 #services-page-container .domain-card .service-img-pop {
   filter: none !important;
   -webkit-filter: none !important;
   box-shadow: none !important;
+  border-radius: 0px !important;
   object-fit: contain !important;
   width: 100% !important;
   height: 100% !important;
   max-height: 100% !important;
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
-#services-page-container .domain-card:hover .service-img-pop {
-  transform: scale(1.06) !important;
+#services-page-container .domain-card:hover .service-img-pop,
+#services-page-container .domain-card:focus-visible .service-img-pop {
+  transform: translate3d(0px, -4px, 0) scale(1.16) !important;
+  animation: serviceImgHoverMotion 2.4s ease-in-out infinite alternate !important;
   filter: none !important;
   -webkit-filter: none !important;
 }

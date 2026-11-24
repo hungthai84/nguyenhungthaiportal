@@ -263,92 +263,78 @@ const AudioWaveformVisualizer: React.FC<{
   );
 };
 
-// Animated Card Title Subcomponent
+// Adaptive layout mode selector based on sub-card count & visual hierarchy
+const resolveAdaptiveCardLayout = (
+  subCardCount: number,
+  hasAsymmetricFocalCard: boolean
+): 'bento' | 'grid' => {
+  if (hasAsymmetricFocalCard) return 'bento';
+  return subCardCount >= 2 ? 'grid' : 'bento';
+};
+
+// Animated Card Title Subcomponent (Keep icon/logo before title, no sub-title, no left-of-title extra content)
 const AnimatedCardTitle: React.FC<{
   iconName: string;
   title: string;
-  subtitle?: string;
   colorPreset?: 'emerald' | 'cyan' | 'purple' | 'rose' | 'orange' | 'blue';
   actionRight?: React.ReactNode;
   animateIcon?: boolean;
-  matchTitleColor?: boolean;
 }> = ({
   iconName,
   title,
-  subtitle,
   colorPreset = 'blue',
   actionRight,
   animateIcon = false,
-  matchTitleColor = false,
 }) => {
   const colorMap = {
     emerald: {
-      bg: 'bg-emerald-100/90 dark:bg-emerald-950/80 border border-emerald-200/80 dark:border-emerald-700/50',
       text: 'text-emerald-700 dark:text-emerald-300',
-      sub: 'text-emerald-700/90 dark:text-emerald-400',
     },
     cyan: {
-      bg: 'bg-cyan-100/90 dark:bg-cyan-950/80 border border-cyan-200/80 dark:border-cyan-700/50',
       text: 'text-cyan-700 dark:text-cyan-300',
-      sub: 'text-cyan-700/90 dark:text-cyan-400',
     },
     purple: {
-      bg: 'bg-purple-100/90 dark:bg-purple-950/80 border border-purple-200/80 dark:border-purple-700/50',
       text: 'text-purple-700 dark:text-purple-300',
-      sub: 'text-purple-700/90 dark:text-purple-400',
     },
     rose: {
-      bg: 'bg-rose-100/90 dark:bg-rose-950/80 border border-rose-200/80 dark:border-rose-700/50',
       text: 'text-rose-700 dark:text-rose-300',
-      sub: 'text-rose-700/90 dark:text-rose-400',
     },
     orange: {
-      bg: 'bg-orange-100/90 dark:bg-orange-950/80 border border-orange-200/80 dark:border-orange-700/50',
       text: 'text-orange-700 dark:text-orange-300',
-      sub: 'text-orange-700/90 dark:text-orange-400',
     },
     blue: {
-      bg: 'bg-blue-100/90 dark:bg-blue-950/80 border border-blue-200/80 dark:border-blue-700/50',
       text: 'text-blue-700 dark:text-blue-300',
-      sub: 'text-blue-700/90 dark:text-blue-400',
     },
   };
 
   const scheme = colorMap[colorPreset] || colorMap.blue;
 
   return (
-    <div className="w-full flex flex-col gap-2">
-      <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)]">
-        <div
-          className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight min-w-0 flex-1`}
+    <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0">
+      <div
+        className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight min-w-0 flex-1`}
+      >
+        <span
+          className={`inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none ${
+            animateIcon ? 'animate-[icon-floating_3s_ease-in-out_infinite]' : ''
+          }`}
+          style={{ width: '16px', height: '16px' }}
         >
-          <span
-            className={`inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none ${
-              animateIcon ? 'animate-[icon-floating_3s_ease-in-out_infinite]' : ''
-            }`}
+          <WebIcon
+            name={iconName}
+            size={16}
+            className="w-[16px] h-[16px] shrink-0 card-title-icon"
             style={{ width: '16px', height: '16px' }}
-          >
-            <WebIcon
-              name={iconName}
-              size={16}
-              className="w-[16px] h-[16px] shrink-0 card-title-icon"
-              style={{ width: '16px', height: '16px' }}
-            />
-          </span>
-          <h3
-            className={`card-title card-title-synced typo-h3 font-play tracking-tight ${scheme.text} break-words`}
-            data-card-title="true"
-          >
-            {formatCardTitle(title)}
-          </h3>
-        </div>
-        {actionRight && <div className="shrink-0">{actionRight}</div>}
+          />
+        </span>
+        <h3
+          className={`card-title card-title-synced typo-h3 font-play tracking-tight ${scheme.text} break-words`}
+          data-card-title="true"
+        >
+          {formatCardTitle(title)}
+        </h3>
       </div>
-      {subtitle && (
-        <p className="typo-caption text-[var(--text-secondary)] leading-snug break-words">
-          {subtitle}
-        </p>
-      )}
+      {actionRight && <div className="shrink-0">{actionRight}</div>}
     </div>
   );
 };
@@ -417,9 +403,17 @@ export const LetterView: React.FC<LetterViewProps> = ({
   // Slides and Presentation State
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const currentSlideRef = useRef<number>(0);
+  const lastRow23SlideRef = useRef<number>(1);
+  const [verticalPeekState, setVerticalPeekState] = useState<{
+    hasTopPeek: boolean;
+    hasBottomPeek: boolean;
+  }>({ hasTopPeek: false, hasBottomPeek: false });
 
   useEffect(() => {
     currentSlideRef.current = currentSlide;
+    if (currentSlide === 1 || currentSlide === 2) {
+      lastRow23SlideRef.current = currentSlide;
+    }
   }, [currentSlide]);
 
   // Vertical scroll container & Card 1 reference size sync for Cards 2..4
@@ -430,6 +424,91 @@ export const LetterView: React.FC<LetterViewProps> = ({
   const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const isProgrammaticScrollRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
+  const scrollAnimRafRef = useRef<number | null>(null);
+
+  const activeVerticalRow = currentSlide === 0 ? 0 : currentSlide === 3 ? 2 : 1;
+
+  const getStaticOffsetTop = useCallback((el: HTMLElement, container: HTMLElement): number => {
+    let offset = 0;
+    let cur: HTMLElement | null = el;
+    while (cur && cur !== container) {
+      offset += cur.offsetTop;
+      const nextParent = cur.offsetParent as HTMLElement | null;
+      if (!nextParent || !container.contains(nextParent)) {
+        if (nextParent === container) {
+          return offset;
+        }
+        return Math.max(
+          0,
+          Math.round(container.scrollTop + (el.getBoundingClientRect().top - container.getBoundingClientRect().top))
+        );
+      }
+      cur = nextParent;
+    }
+    return offset;
+  }, []);
+
+  const getExactRowTargetTop = useCallback(
+    (container: HTMLElement, slideIdx: number): number => {
+      const rowEl =
+        slideIdx === 0
+          ? document.getElementById('letter-card-1')
+          : slideIdx === 3
+            ? document.getElementById('letter-card-4')
+            : document.getElementById('letter-cards-row-2-3');
+      if (!rowEl) return 0;
+      const rowTop = getStaticOffsetTop(rowEl, container);
+      const maxTop = Math.max(0, container.scrollHeight - container.clientHeight);
+      const centeredTop = Math.round(rowTop - Math.max(0, (container.clientHeight - rowEl.offsetHeight) / 2));
+      return Math.max(0, Math.min(maxTop, centeredTop));
+    },
+    [getStaticOffsetTop]
+  );
+
+  const getExactRowTargetLeft = useCallback((row: HTMLElement, slideIdx: number): number => {
+    if (slideIdx !== 2) return 0;
+    const card2 = document.getElementById('letter-card-2');
+    const card3 = document.getElementById('letter-card-3');
+    const maxLeft = Math.max(0, row.scrollWidth - row.clientWidth);
+    if (card2 && card3) {
+      const dist = Math.round(card3.getBoundingClientRect().left - card2.getBoundingClientRect().left);
+      return Math.max(0, Math.min(maxLeft, dist));
+    }
+    return maxLeft;
+  }, []);
+
+  const updateVerticalPeekState = useCallback(() => {
+    const container = letterContainerRef.current;
+    if (!container) return;
+    const cRect = container.getBoundingClientRect();
+    const rowIdx = currentSlideRef.current === 0 ? 0 : currentSlideRef.current === 3 ? 2 : 1;
+    const rowEls = [
+      document.getElementById('letter-card-1'),
+      document.getElementById('letter-cards-row-2-3'),
+      document.getElementById('letter-card-4'),
+    ];
+
+    let hasTopPeek = false;
+    let hasBottomPeek = false;
+
+    if (rowIdx > 0 && rowEls[rowIdx - 1]) {
+      const prevRect = rowEls[rowIdx - 1]!.getBoundingClientRect();
+      const visiblePrev = Math.min(prevRect.bottom, cRect.bottom) - Math.max(prevRect.top, cRect.top);
+      hasTopPeek = visiblePrev >= 18;
+    }
+
+    if (rowIdx < 2 && rowEls[rowIdx + 1]) {
+      const nextRect = rowEls[rowIdx + 1]!.getBoundingClientRect();
+      const visibleNext = Math.min(nextRect.bottom, cRect.bottom) - Math.max(nextRect.top, cRect.top);
+      hasBottomPeek = visibleNext >= 18;
+    }
+
+    setVerticalPeekState((prev) =>
+      prev.hasTopPeek === hasTopPeek && prev.hasBottomPeek === hasBottomPeek
+        ? prev
+        : { hasTopPeek, hasBottomPeek }
+    );
+  }, []);
 
   useEffect(() => {
     const syncViewportHeight = () => {
@@ -437,7 +516,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
       if (!vp) return;
       const cs = window.getComputedStyle(vp);
       const padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
-      const h = Math.max(240, Math.round(vp.clientHeight - padY));
+      const rawH = (vp.getBoundingClientRect().height || vp.clientHeight) - padY;
+      const h = Math.max(120, Math.round(rawH));
       if (h > 0) {
         setViewportHeight((prev) => (prev === h ? prev : h));
       }
@@ -459,40 +539,29 @@ export const LetterView: React.FC<LetterViewProps> = ({
   useEffect(() => {
     const el = letterCard1Ref.current;
     if (!el) return;
-    const getCenteredScrollLeft = (row: HTMLElement, slideIdx: number) => {
-      const targetCard = document.getElementById(`letter-card-${slideIdx + 1}`);
-      if (targetCard) {
-        return Math.max(0, Math.round(targetCard.offsetLeft - (row.clientWidth - targetCard.offsetWidth) / 2));
-      }
-      return slideIdx === 2 ? Math.max(0, row.scrollWidth - row.clientWidth) : 0;
-    };
-    const getCenteredScrollTop = (container: HTMLElement, slideIdx: number) => {
-      const cardEl = document.getElementById(`letter-card-${slideIdx + 1}`);
-      if (!cardEl) return 0;
-      const containerRect = container.getBoundingClientRect();
-      const cardRect = cardEl.getBoundingClientRect();
-      return Math.max(
-        0,
-        Math.round(
-          container.scrollTop +
-            (cardRect.top - containerRect.top) -
-            (container.clientHeight - cardEl.offsetHeight) / 2
-        )
-      );
-    };
     const syncHorizontalRowPosition = () => {
+      if (isProgrammaticScrollRef.current) return;
       const row = letterCardsRow23Ref.current;
       const container = letterContainerRef.current;
       const slideIdx = currentSlideRef.current;
       if (row) {
         if (slideIdx === 1 || slideIdx === 2) {
-          row.scrollLeft = getCenteredScrollLeft(row, slideIdx);
-        } else {
+          const expectedLeft = getExactRowTargetLeft(row, slideIdx);
+          if (Math.abs(row.scrollLeft - expectedLeft) > 1) {
+            row.style.scrollSnapType = 'none';
+            row.scrollLeft = expectedLeft;
+            requestAnimationFrame(() => {
+              if (letterCardsRow23Ref.current) {
+                letterCardsRow23Ref.current.style.scrollSnapType = 'x mandatory';
+              }
+            });
+          }
+        } else if (slideIdx === 0 && row.scrollLeft !== 0) {
           row.scrollLeft = 0;
         }
       }
-      if (container && !isProgrammaticScrollRef.current) {
-        const expectedTop = getCenteredScrollTop(container, slideIdx);
+      if (container) {
+        const expectedTop = getExactRowTargetTop(container, slideIdx);
         if (Math.abs(container.scrollTop - expectedTop) > 1) {
           container.scrollTop = expectedTop;
         }
@@ -506,20 +575,24 @@ export const LetterView: React.FC<LetterViewProps> = ({
       setCard1Size((prev) =>
         prev && prev.width === width && prev.height === height ? prev : { width, height }
       );
-      requestAnimationFrame(syncHorizontalRowPosition);
+      requestAnimationFrame(() => {
+        syncHorizontalRowPosition();
+        updateVerticalPeekState();
+      });
     };
     measureCard1();
     let ro: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(measureCard1);
       ro.observe(el);
+      if (letterContainerRef.current) ro.observe(letterContainerRef.current);
     }
     window.addEventListener('resize', measureCard1);
     return () => {
       if (ro) ro.disconnect();
       window.removeEventListener('resize', measureCard1);
     };
-  }, [viewportHeight]);
+  }, [viewportHeight, updateVerticalPeekState, getExactRowTargetTop, getExactRowTargetLeft]);
 
   const row23TouchStartXRef = useRef<number | null>(null);
   const row23TouchStartYRef = useRef<number | null>(null);
@@ -527,6 +600,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
   useEffect(() => {
     return () => {
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      if (scrollAnimRafRef.current) window.cancelAnimationFrame(scrollAnimRafRef.current);
     };
   }, []);
 
@@ -538,6 +612,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
     (targetSlide: number, smooth = true) => {
       const clamped = Math.max(0, Math.min(3, targetSlide));
       const prev = currentSlideRef.current;
+      const prevRow = prev === 0 ? 0 : prev === 3 ? 2 : 1;
+      const targetRow = clamped === 0 ? 0 : clamped === 3 ? 2 : 1;
       if (clamped !== prev) {
         setSlideDirection(clamped > prev ? 'next' : 'prev');
       }
@@ -550,68 +626,107 @@ export const LetterView: React.FC<LetterViewProps> = ({
       const cardEl = document.getElementById(`letter-card-${clamped + 1}`);
       if (!cardEl) return;
 
-      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = null;
+      }
+      if (scrollAnimRafRef.current) {
+        window.cancelAnimationFrame(scrollAnimRafRef.current);
+        scrollAnimRafRef.current = null;
+      }
+
       isProgrammaticScrollRef.current = true;
 
-      const computeCenteredTop = () => {
-        const containerRect = container.getBoundingClientRect();
-        const cardRect = cardEl.getBoundingClientRect();
-        return Math.max(
-          0,
-          Math.round(
-            container.scrollTop +
-              (cardRect.top - containerRect.top) -
-              (container.clientHeight - cardEl.offsetHeight) / 2
-          )
-        );
+      const targetTop = getExactRowTargetTop(container, clamped);
+      const row = letterCardsRow23Ref.current;
+
+      // When moving into row 2-3 from another vertical row, align horizontal slot immediately before vertical scroll
+      let animateHorizontal = false;
+      let startLeft = row ? row.scrollLeft : 0;
+      let targetLeft = startLeft;
+
+      if (row && (clamped === 1 || clamped === 2)) {
+        targetLeft = getExactRowTargetLeft(row, clamped);
+        if (prevRow !== 1) {
+          row.style.scrollSnapType = 'none';
+          row.scrollLeft = targetLeft;
+          startLeft = targetLeft;
+        } else if (Math.abs(targetLeft - startLeft) > 0.5) {
+          animateHorizontal = true;
+        }
+      }
+
+      const startTop = container.scrollTop;
+      const animateVertical = Math.abs(targetTop - startTop) > 0.5;
+      const prefersReduced =
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const finishScroll = () => {
+        scrollAnimRafRef.current = null;
+        container.scrollTop = targetTop;
+        if (row && (clamped === 1 || clamped === 2)) {
+          row.scrollLeft = getExactRowTargetLeft(row, clamped);
+        }
+        currentSlideRef.current = clamped;
+        updateVerticalPeekState();
+        window.requestAnimationFrame(() => {
+          if (row) {
+            row.style.scrollSnapType = 'x mandatory';
+          }
+          currentSlideRef.current = clamped;
+          isProgrammaticScrollRef.current = false;
+          updateVerticalPeekState();
+          evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
+        });
       };
 
-      const computeCenteredLeft = (row: HTMLElement) =>
-        Math.max(0, Math.round(cardEl.offsetLeft - (row.clientWidth - cardEl.offsetWidth) / 2));
-
-      const targetTop = computeCenteredTop();
-
-      if (smooth) {
-        container.scrollTo({
-          top: targetTop,
-          behavior: 'smooth',
-        });
-      } else {
-        container.scrollTop = targetTop;
+      if (!smooth || prefersReduced || (!animateVertical && !animateHorizontal)) {
+        if (row) row.style.scrollSnapType = 'none';
+        finishScroll();
+        return;
       }
 
-      const row = letterCardsRow23Ref.current;
-      if (row && (clamped === 1 || clamped === 2)) {
-        const targetLeft = computeCenteredLeft(row);
-        if (smooth) {
-          row.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      if (row && targetRow === 1) {
+        row.style.scrollSnapType = 'none';
+      }
+
+      const durationMs = 260;
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / durationMs);
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        if (animateVertical) {
+          container.scrollTop = Math.round(startTop + (targetTop - startTop) * eased);
+        }
+        if (row && animateHorizontal) {
+          row.scrollLeft = Math.round(startLeft + (targetLeft - startLeft) * eased);
+        }
+
+        if (progress < 1) {
+          scrollAnimRafRef.current = window.requestAnimationFrame(step);
         } else {
-          row.scrollLeft = targetLeft;
+          finishScroll();
         }
-      } else if (row && clamped === 0) {
-        row.scrollLeft = 0;
-      }
+      };
 
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        const settledTop = computeCenteredTop();
-        if (Math.abs(container.scrollTop - settledTop) > 1) {
-          container.scrollTop = settledTop;
-        }
-        if (row && (clamped === 1 || clamped === 2)) {
-          const settledLeft = computeCenteredLeft(row);
-          if (Math.abs(row.scrollLeft - settledLeft) > 1) {
-            row.scrollLeft = settledLeft;
-          }
-        }
-        isProgrammaticScrollRef.current = false;
-        evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
-      }, smooth ? 560 : 60);
+      scrollAnimRafRef.current = window.requestAnimationFrame(step);
     },
-    []
+    [updateVerticalPeekState, getExactRowTargetTop, getExactRowTargetLeft]
   );
+
+  useEffect(() => {
+    const rafId = window.requestAnimationFrame(updateVerticalPeekState);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [currentSlide, viewportHeight, card1Size, updateVerticalPeekState]);
 
   const handleLetterContainerScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
+    updateVerticalPeekState();
     const container = letterContainerRef.current;
     if (!container) return;
     const containerRect = container.getBoundingClientRect();
@@ -637,7 +752,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
       currentSlideRef.current = nextSlide;
       setCurrentSlide(nextSlide);
     }
-  }, []);
+  }, [updateVerticalPeekState]);
 
   const handleRow23HorizontalScroll = useCallback(() => {
     if (isProgrammaticScrollRef.current) return;
@@ -1931,31 +2046,41 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
   return (
     <div
-      ref={letterContainerRef}
-      id="letter-page-container"
-      data-element-name="Trang Thư Ngỏ"
-      data-element-type="container"
-      data-element-page="letter"
-      data-element-parent="global-content-viewport"
-      data-no-wheel-horizontal="true"
-      onScroll={handleLetterContainerScroll}
-      style={{
-        width: '100%',
-        maxWidth: '100%',
-        marginLeft: '0px',
-        marginRight: '0px',
-        paddingTop: '0px',
-        paddingLeft: '0px',
-        paddingRight: '0px',
-        paddingBottom: '0px',
-        gap: '10px',
-        rowGap: '10px',
-        columnGap: '10px',
-        borderRadius: '0px',
-        background: 'transparent',
-      }}
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[10px] font-play text-left text-[var(--text-primary)] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 select-none box-border"
+      id="letter-page-shell"
+      className="relative w-full max-w-full min-w-0 h-full flex-1 flex flex-col items-center justify-start min-h-0 overflow-hidden bg-transparent"
     >
+      <div
+        ref={letterContainerRef}
+        id="letter-page-container"
+        data-element-name="Trang Thư Ngỏ"
+        data-element-type="container"
+        data-element-page="letter"
+        data-element-parent="global-content-viewport"
+        data-no-wheel-horizontal="true"
+        onScroll={handleLetterContainerScroll}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          height: '100%',
+          maxHeight: '100%',
+          minHeight: '0px',
+          flex: '1 1 0%',
+          marginLeft: '0px',
+          marginRight: '0px',
+          paddingTop: '0px',
+          paddingLeft: '0px',
+          paddingRight: '0px',
+          paddingBottom: '0px',
+          gap: '10px',
+          rowGap: '10px',
+          columnGap: '10px',
+          borderRadius: '0px',
+          background: 'transparent',
+          containerType: 'size',
+          containerName: 'letter-viewport',
+        }}
+        className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[10px] font-play text-left text-[var(--text-primary)] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar z-10 select-none box-border"
+      >
       <div
         id="letter-cards-track"
         data-element-name="Track Thư Ngỏ Hàng Dọc"
@@ -1993,7 +2118,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         className="flex flex-col items-center gap-[10px] w-full max-w-full mx-auto h-auto box-border"
       >
       {/* ========================================================================= */}
-      {/* HÀNG DỌC 1: CARD THƯ NGỎ 1 (CHUẨN 1000x600px, BO CONG 14px)               */}
+      {/* HÀNG DỌC 1: CARD THƯ NGỎ 1 (BẰNG 100% KÍCH THƯỚC MAIN CARD TRANG CHỦ)     */}
       {/* ========================================================================= */}
       <div
         id="letter-card-1"
@@ -2004,25 +2129,33 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-floating-surface="main"
         data-element-page="letter"
         data-element-parent="letter-cards-track"
+        onClick={() => {
+          if (activeVerticalRow !== 0) {
+            SoundEngine.playTap();
+            scrollToLetterCard(0, true);
+          }
+        }}
         style={{
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: 'var(--main-card-target-w, 1000px)',
           minWidth: '0px',
-          flex: '1 1 100%',
-          height: '100%',
-          minHeight: '0px',
-          maxHeight: '100%',
+          flex: '0 0 auto',
+          height: '100cqh',
+          minHeight: '100cqh',
+          maxHeight: '100cqh',
           padding: 'var(--main-card-padding, 15px)',
           gap: '15px',
           borderRadius: '0px',
         }}
-        className="group/letter page-main-card home-screen-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border opacity-100"
+        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
       >
                 <div
                   id="el-p1-div-85"
                   data-element-name="Lưới nội dung Thư ngỏ main card 1"
                   data-element-parent="letter-card-1"
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-1 grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
+                  data-card-layout={resolveAdaptiveCardLayout(5, true)}
+                  data-subcard-count={5}
+                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-none grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
                   style={{
                     width: '100%',
                     maxWidth: '100%',
@@ -2050,7 +2183,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[var(--radius-card,14px)] aspect-video md:aspect-auto min-h-[200px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col justify-center items-center p-0 box-border transition-colors duration-200 group/video text-left ${
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[var(--radius-card,14px)] aspect-video md:aspect-auto min-h-[200px] md:min-h-[240px] self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col justify-center items-center p-0 box-border transition-colors duration-200 group/video text-left ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
@@ -2086,7 +2219,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-section-card="true"
                         data-element-page="letter"
                         style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                        className={`bento-card glass-card flex-1 p-[15px] rounded-[14px] flex flex-col justify-between relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
+                        className={`bento-card glass-card h-auto flex-1 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px] relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
                           activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
                             ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
                             : ''
@@ -2112,7 +2245,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           </span>
                         </div>
 
-                        <div className="my-auto py-1 space-y-2.5 flex-1 flex flex-col justify-center text-left min-w-0">
+                        <div className="py-0 space-y-2.5 flex flex-col justify-start text-left min-w-0">
                           <h3
                             id="callout-salutation"
                             className="card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words text-[var(--text-primary)]"
@@ -2141,8 +2274,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-type="card"
                         data-section-card="true"
                         data-element-page="letter"
-                        style={{ padding: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                        className="partner-card bento-card glass-card shrink-0 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/marquee min-w-0"
+                        style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
+                        className="partner-card bento-card glass-card shrink-0 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px] transition-colors duration-200 group/marquee min-w-0"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
                           <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
@@ -2166,9 +2299,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                         <div
                           id="brands-bento-grid"
-                          className="flex flex-row flex-nowrap items-stretch gap-[10px] w-full overflow-hidden min-w-0 pb-1"
+                          className="flex flex-row flex-nowrap items-stretch gap-[15px] w-full overflow-hidden min-w-0 pb-1"
                         >
-                          <div className="animate-marquee-ltr flex flex-row items-center gap-[10px]">
+                          <div className="animate-marquee-ltr flex flex-row items-center gap-[15px]">
                             {[...EXPERIENCE_BRANDS_MARQUEE, ...EXPERIENCE_BRANDS_MARQUEE].map((item, idx) => (
                               <div
                                 key={`${item.id}-${idx}`}
@@ -2209,8 +2342,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '14px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-[15px] gap-[14px] transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()} ${
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start justify-start group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2224,7 +2357,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                       <div
                         id="core-values-grid"
-                        className="grid grid-cols-2 md:grid-cols-4 gap-[10px] sm:gap-[12px] auto-rows-fr items-stretch w-full flex-1 min-w-0"
+                        data-card-layout={resolveAdaptiveCardLayout(CORE_VALUES_DATA.length, false)}
+                        data-subcard-count={CORE_VALUES_DATA.length}
+                        className="grid grid-cols-2 md:grid-cols-4 gap-[15px] auto-rows-auto items-stretch w-full flex-none h-auto min-w-0"
+                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
                           const valIconName =
@@ -2362,8 +2498,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
             }
           }
         }}
-        className="w-full max-w-full mx-auto flex flex-row flex-nowrap gap-[10px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
+        className="relative w-full max-w-full mx-auto flex flex-row flex-nowrap gap-[10px] items-stretch overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
         style={{
+          position: 'relative',
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
@@ -2374,6 +2511,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
           columnGap: '10px',
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: 'var(--main-card-target-w, 1000px)',
+          height: '100cqh',
+          minHeight: '100cqh',
+          maxHeight: '100cqh',
+          flex: '0 0 auto',
           marginLeft: 'auto',
           marginRight: 'auto',
           paddingLeft: '0px',
@@ -2381,6 +2522,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           overflowX: 'auto',
           overflowY: 'hidden',
           scrollSnapType: 'x mandatory',
+          scrollBehavior: 'auto',
         }}
       >
         {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) */}
@@ -2392,6 +2534,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
           onClick={() => {
+            if (activeVerticalRow !== 1) {
+              SoundEngine.playTap();
+              scrollToLetterCard(lastRow23SlideRef.current, true);
+              return;
+            }
             const row = letterCardsRow23Ref.current;
             if (row && row.scrollLeft > 40) {
               scrollToLetterCard(1, true);
@@ -2399,24 +2546,26 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }}
           style={{
             width: '100%',
-            minWidth: '0px',
+            minWidth: '100%',
             maxWidth: '100%',
             flex: '0 0 100%',
             height: '100%',
-            minHeight: '0px',
+            minHeight: '100%',
             maxHeight: '100%',
-            scrollSnapAlign: 'center',
+            scrollSnapAlign: 'start',
             padding: 'var(--main-card-padding, 15px)',
             gap: '15px',
             borderRadius: '0px',
           }}
-          className="page-main-card home-screen-main-card shrink-0 snap-center relative z-10 flex flex-col justify-between overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border opacity-100"
+          className="page-main-card shrink-0 snap-start relative z-10 flex flex-col justify-start overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
         >
           <div
             id="letter-slide-2-grid"
             data-element-name="Lưới nội dung Thư ngỏ main card 2"
             data-element-parent="letter-card-2"
-            className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] p-0 items-stretch bg-transparent box-border"
+            data-card-layout={resolveAdaptiveCardLayout(4, false)}
+            data-subcard-count={4}
+            className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
             style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
           >
             {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
@@ -2434,6 +2583,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-element-page="letter"
           data-element-parent="letter-cards-row-2-3"
           onClick={() => {
+            if (activeVerticalRow !== 1) {
+              SoundEngine.playTap();
+              scrollToLetterCard(2, true);
+              return;
+            }
             const row = letterCardsRow23Ref.current;
             if (row && row.scrollLeft < 40) {
               scrollToLetterCard(2, true);
@@ -2441,24 +2595,26 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }}
           style={{
             width: '100%',
-            minWidth: '0px',
+            minWidth: '100%',
             maxWidth: '100%',
             flex: '0 0 100%',
             height: '100%',
-            minHeight: '0px',
+            minHeight: '100%',
             maxHeight: '100%',
-            scrollSnapAlign: 'center',
+            scrollSnapAlign: 'start',
             padding: 'var(--main-card-padding, 15px)',
             gap: '15px',
             borderRadius: '0px',
           }}
-          className="page-main-card home-screen-main-card shrink-0 snap-center relative z-10 flex flex-col justify-between overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border opacity-100"
+          className="page-main-card shrink-0 snap-start relative z-10 flex flex-col justify-start overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
         >
           <div
             id="letter-slide-3-grid"
             data-element-name="Lưới nội dung Thư ngỏ main card 3"
             data-element-parent="letter-card-3"
-            className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-[15px] p-0 items-stretch bg-transparent box-border"
+            data-card-layout={resolveAdaptiveCardLayout(4, false)}
+            data-subcard-count={4}
+            className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
             style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
           >
             {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
@@ -2478,25 +2634,33 @@ export const LetterView: React.FC<LetterViewProps> = ({
         data-main-card="true"
         data-element-page="letter"
         data-element-parent="letter-cards-track"
+        onClick={() => {
+          if (activeVerticalRow !== 2) {
+            SoundEngine.playTap();
+            scrollToLetterCard(3, true);
+          }
+        }}
         style={{
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: 'var(--main-card-target-w, 1000px)',
           minWidth: '0px',
-          flex: '1 1 100%',
-          height: '100%',
-          minHeight: '0px',
-          maxHeight: '100%',
+          flex: '0 0 auto',
+          height: '100cqh',
+          minHeight: '100cqh',
+          maxHeight: '100cqh',
           padding: 'var(--main-card-padding, 15px)',
           gap: '15px',
           borderRadius: '0px',
         }}
-        className="page-main-card home-screen-main-card relative z-10 shrink-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar font-play text-left select-none box-border opacity-100"
+        className="page-main-card relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
       >
         <div
           id="letter-slide-4-bento-grid"
           data-element-name="Lưới nội dung Thư ngỏ main card 4"
           data-element-parent="letter-card-4"
-          className="w-full max-w-full min-w-0 min-h-0 flex-1 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-[15px] p-0 items-stretch bg-transparent box-border"
+          data-card-layout={resolveAdaptiveCardLayout(3, true)}
+          data-subcard-count={3}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
         >
                     {/* BENTO CARD 1 (4/12 cols): TRIẾT LÝ QUẢN TRỊ */}
@@ -2505,17 +2669,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude' || activeTargetId === 'card-philosophy'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
                       }`}
                     >
-                      <div className="flex flex-col items-start text-left w-full gap-2.5 min-w-0">
+                      <div className="flex flex-col items-start text-left w-full gap-[15px] min-w-0">
                         <AnimatedCardTitle
                           iconName="sparkles"
                           title="Triết Lý Quản Trị"
-                          subtitle="Kiến tạo hệ thống phát triển bền vững"
                           colorPreset="purple"
                         />
 
@@ -2540,13 +2703,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
                     </div>
 
-                    {/* BENTO CARD 2 (4/12 cols): BA NGUYÊN TẮC CỐT LÕI (TÁCH RIÊNG THEO YÊU CẦU) */}
+                    {/* BENTO CARD 2 (4/12 cols): BA NGUYÊN TẮC CỐT LÕI */}
                     <div
                       id="card-three-principles"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)', containerType: 'inline-size', containerName: 'principles-card' }}
+                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-start transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-three-principles'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
@@ -2556,7 +2719,6 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         <AnimatedCardTitle
                           iconName="layers"
                           title="Nguyên Tắc Cốt Lõi"
-                          subtitle="Ba trụ cột vững chắc kiến tạo thành công"
                           colorPreset="blue"
                         />
 
@@ -2566,8 +2728,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
 
                       <div
-                        className="grid grid-cols-1 auto-rows-fr gap-[12px] w-full items-stretch min-w-0 flex-1 justify-between"
-                        style={{ gap: '12px' }}
+                        data-card-layout={resolveAdaptiveCardLayout(OPERATIONAL_PRINCIPLES_DATA.length, false)}
+                        data-subcard-count={OPERATIONAL_PRINCIPLES_DATA.length}
+                        className="letter-principles-subgrid grid grid-cols-1 auto-rows-auto gap-[15px] w-full items-stretch min-w-0 flex-none h-auto"
+                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
                       >
                         {OPERATIONAL_PRINCIPLES_DATA.map((principle, idx) => {
                           const iconName = idx === 0 ? 'layers' : idx === 1 ? 'users' : 'network';
@@ -2579,7 +2743,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               key={principle.id}
                               data-subcard="true"
                               style={{ padding: '12px 15px', borderRadius: 'var(--radius-subcard, 14px)' }}
-                              className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-between gap-1 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
+                              className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-start gap-1.5 transition-all hover:-translate-y-0.5 duration-200 min-w-0"
                             >
                               <div className="flex items-center justify-between gap-2 min-w-0">
                                 <div
@@ -2616,17 +2780,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-12 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-rose-500/70 dark:ring-cyan-400/70 shadow-[0_0_25px_rgba(244,63,94,0.18)]'
                           : ''
                       }`}
                     >
-                      <div className="flex flex-col gap-2.5 min-w-0">
+                      <div className="flex flex-col gap-[15px] min-w-0">
                         <AnimatedCardTitle
                           iconName="heart"
                           title="Tâm Thư Đồng Hành"
-                          subtitle="Công nghệ tự động hóa song hành cùng sự thấu hiểu con người"
                           colorPreset="rose"
                         />
 
@@ -2691,6 +2854,52 @@ export const LetterView: React.FC<LetterViewProps> = ({
         </div>
       </div>
       </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* NÚT TRÒN ĐIỀU HƯỚNG TRÊN / DƯỚI (HIỆN KHI KHÔNG THẤY NHÔ MÉP TRÊN/DƯỚI)   */}
+      {/* ========================================================================= */}
+      {(activeVerticalRow > 0 && !verticalPeekState.hasTopPeek) ||
+      (activeVerticalRow < 2 && !verticalPeekState.hasBottomPeek) ? (
+        <div
+          aria-label="Điều hướng thẻ dọc Thư ngỏ"
+          className="pointer-events-none absolute inset-0 z-30"
+          style={{ position: 'absolute', inset: 0 }}
+        >
+          {activeVerticalRow > 0 && !verticalPeekState.hasTopPeek && (
+            <button
+              type="button"
+              id="letter-nav-up-btn"
+              onClick={() => {
+                SoundEngine.playTap();
+                const targetSlide = activeVerticalRow === 2 ? lastRow23SlideRef.current : 0;
+                scrollToLetterCard(targetSlide, true);
+              }}
+              aria-label="Chuyển lên thẻ trên"
+              title="Lên thẻ trên"
+              className="pointer-events-auto absolute top-2 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white/95 dark:bg-slate-800/95 text-slate-800 dark:text-white border border-slate-200/80 dark:border-white/20 shadow-[0_6px_20px_rgba(15,23,42,0.22)] flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-108 active:scale-95"
+            >
+              <WebIcon name="chevron-up" className="w-5 h-5" />
+            </button>
+          )}
+          {activeVerticalRow < 2 && !verticalPeekState.hasBottomPeek && (
+            <button
+              type="button"
+              id="letter-nav-down-btn"
+              onClick={() => {
+                SoundEngine.playTap();
+                const targetSlide = activeVerticalRow === 0 ? lastRow23SlideRef.current : 3;
+                scrollToLetterCard(targetSlide, true);
+              }}
+              aria-label="Chuyển xuống thẻ dưới"
+              title="Xuống thẻ dưới"
+              className="pointer-events-auto absolute bottom-2 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white/95 dark:bg-slate-800/95 text-slate-800 dark:text-white border border-slate-200/80 dark:border-white/20 shadow-[0_6px_20px_rgba(15,23,42,0.22)] flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-108 active:scale-95"
+            >
+              <WebIcon name="chevron-down" className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+      ) : null}
 
       {/* ========================================================================= */}
       {/* THANH ĐIỀU KHIỂN THUYẾT TRÌNH TỰ ĐỘNG KÈM NHẠC NỀN LO-FI (AUTOPLAY DOCK)   */}

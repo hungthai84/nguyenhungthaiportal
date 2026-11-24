@@ -24,6 +24,7 @@ export interface ThemeVisualMeta {
   outlineStyle?: (isActive: boolean) => React.CSSProperties;
   demoVideoUrl: string;
   gradientBars: Array<{ label: string; width: string; gradient: string; glow?: string }>;
+  primaryPalette: Array<{ name: string; hex: string }>;
 }
 
 export interface ThemePresetCardProps {
@@ -105,8 +106,21 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       if (preset.id === 'dark-neon-glass') {
         return {
           ...sampleProps,
+          background: 'rgba(15, 23, 42, 0.42)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
+        };
+      }
+      if (preset.id === 'mica-fluent') {
+        return {
+          ...sampleProps,
           background:
-            'linear-gradient(145deg, rgba(10, 16, 38, 0.90) 0%, rgba(18, 14, 46, 0.88) 52%, rgba(12, 10, 34, 0.92) 100%)',
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%)',
+          backdropFilter: 'blur(11px)',
+          WebkitBackdropFilter: 'blur(11px)',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
+          color: '#1C0708',
         };
       }
       return sampleProps;
@@ -418,6 +432,39 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           <p className={`typo-body-sm leading-relaxed line-clamp-3 ${meta.bodyTextClass}`}>
             {displayDesc}
           </p>
+
+          {/* Nhóm màu chính của giao diện */}
+          {meta.primaryPalette && meta.primaryPalette.length > 0 && (
+            <div
+              className={`mt-1 pt-1.5 flex flex-col gap-1 ${
+                isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
+              }`}
+            >
+              <span className={`typo-badge font-semibold ${meta.accentTextClass}`}>
+                {isEn ? 'Primary palette' : 'Nhóm màu chính'}
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {meta.primaryPalette.map((swatch) => (
+                  <span
+                    key={`${preset.id}-${swatch.hex}-${swatch.name}`}
+                    title={`${swatch.name} (${swatch.hex})`}
+                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] leading-none font-mono ${
+                      preset.isDark
+                        ? 'bg-slate-900/55 text-slate-100 border border-white/15'
+                        : 'bg-white/65 text-slate-800 border border-slate-900/10'
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="w-2.5 h-2.5 rounded-full border border-white/60 shrink-0 shadow-2xs"
+                      style={{ backgroundColor: swatch.hex }}
+                    />
+                    <span>{swatch.hex}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Single Clear Card Footer Action */}

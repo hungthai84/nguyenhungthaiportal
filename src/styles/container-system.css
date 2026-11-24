@@ -150,10 +150,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     gap: 8px !important;
   }
 
-  #about-personal-info-card-right #about-copy-vcard-btn span {
-    display: none !important;
-  }
-
   #about-personal-info-grid > .about-info-subcard {
     padding: 7px 9px !important;
     gap: 4px !important;

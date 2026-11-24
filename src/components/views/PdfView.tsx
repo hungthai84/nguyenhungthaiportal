@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from '@/data/aboutData';
@@ -167,9 +168,44 @@ const PDF_OPEN_LETTER_PRINCIPLES = [
   { id: '3', text: 'Công nghệ tạo đòn bẩy.', icon: 'cpu', accent: '#7c3aed' },
 ];
 
+const PDF_TOC_SECTIONS = [
+  { id: 'cv-section-01-home', label: '01 · Tổng quan', icon: 'home' },
+  { id: 'cv-section-02-letter', label: '02 · Thư ngỏ', icon: 'mail' },
+  { id: 'cv-section-03-about', label: '03 · Giới thiệu', icon: 'user-round' },
+  { id: 'cv-section-04-education', label: '04 · Học vấn', icon: 'graduation' },
+  { id: 'cv-section-05-services', label: '05 · Dịch vụ', icon: 'heart-handshake' },
+  { id: 'cv-section-06-experience', label: '06 · Kinh nghiệm', icon: 'briefcase' },
+  { id: 'cv-section-07-skills', label: '07 · Kỹ năng', icon: 'brain' },
+  { id: 'cv-section-08-projects', label: '08 · Dự án', icon: 'folder' },
+  { id: 'cv-section-09-systems', label: '09 · Hệ thống', icon: 'server' },
+];
+
 export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigateTab }) => {
   const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [isTocOpen, setIsTocOpen] = useState<boolean>(false);
+  const [activeSectionId, setActiveSectionId] = useState<string>('cv-section-01-home');
   const containerRef = useRef<HTMLDivElement>(null);
+  const tocMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isTocOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tocMenuRef.current && !tocMenuRef.current.contains(event.target as Node)) {
+        setIsTocOpen(false);
+      }
+    };
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsTocOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isTocOpen]);
 
   const handlePrintOrExport = (mode: 'print' | 'download') => {
     SoundEngine.playTap();
@@ -277,7 +313,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         data-element-name="Banner card PDF"
         data-element-type="banner-card"
         data-section-card="true"
-        className="pdf-toolbar banner-card hero-banner group no-print w-full max-w-[1250px] mx-auto mb-4 p-[15px] rounded-[14px] relative overflow-hidden border text-[var(--text-primary)] flex flex-col gap-3 shrink-0 transition-all duration-300"
+        className="pdf-toolbar banner-card hero-banner group no-print w-full max-w-[1250px] mx-auto mb-4 p-[15px] rounded-[14px] relative overflow-visible border text-[var(--text-primary)] flex flex-col gap-3 shrink-0 z-30 transition-all duration-300"
       >
         <div
           className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
@@ -291,11 +327,87 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
-          <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
-            <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
-            <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
-              Hồ sơ năng lực
-            </h1>
+          <div className="flex items-center gap-2.5 flex-wrap min-w-0">
+            <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
+              <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
+              <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
+                Hồ sơ năng lực
+              </h1>
+            </div>
+
+            {/* Mục lục thu gọn thành 1 nút nằm gần Hồ sơ năng lực */}
+            <div ref={tocMenuRef} className="relative inline-block text-left shrink-0 z-30">
+              <button
+                id="pdf-toc-toggle-btn"
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setIsTocOpen((prev) => !prev);
+                }}
+                aria-expanded={isTocOpen}
+                aria-haspopup="menu"
+                aria-label="Mục lục điều hướng nhanh 9 phần"
+                title="Mục lục 9 phần CV"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play shrink-0"
+              >
+                <WebIcon name="list" size={15} className="text-blue-600 dark:text-sky-400 shrink-0" />
+                <span>Mục lục</span>
+                <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
+                  9
+                </span>
+                <WebIcon
+                  name="chevron-down"
+                  size={14}
+                  className={cn(
+                    'text-blue-600 dark:text-sky-400 transition-transform duration-200 shrink-0',
+                    isTocOpen && 'rotate-180'
+                  )}
+                />
+              </button>
+
+              <AnimatePresence>
+                {isTocOpen && (
+                  <motion.div
+                    id="pdf-toc-dropdown-menu"
+                    role="menu"
+                    aria-label="Mục lục các phần CV"
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.16 }}
+                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-[min(280px,calc(100vw-48px))] rounded-[14px] p-2 z-50 flex flex-col gap-1"
+                  >
+                    <div className="px-2.5 py-1 typo-label text-[var(--text-muted)] tracking-wider border-b border-[var(--border-subcard)] mb-1">
+                      Mục lục 9 phần CV
+                    </div>
+                    {PDF_TOC_SECTIONS.map((sec) => {
+                      const isCurrent = activeSectionId === sec.id;
+                      return (
+                        <button
+                          key={sec.id}
+                          type="button"
+                          role="menuitem"
+                          data-selected={isCurrent ? 'true' : 'false'}
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setActiveSectionId(sec.id);
+                            setIsTocOpen(false);
+                            document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }}
+                          className="theme-dropdown-option flex items-center justify-between gap-2 w-full px-3 py-2 rounded-[14px] typo-nav font-play text-left transition-all cursor-pointer"
+                        >
+                          <span className="inline-flex items-center gap-2 min-w-0">
+                            <WebIcon name={sec.icon} size={14} className="shrink-0" />
+                            <span className="truncate">{sec.label}</span>
+                          </span>
+                          {isCurrent && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">
@@ -329,41 +441,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </button>
           </div>
         </div>
-
-        {/* Mục lục điều hướng nhanh 9 phần */}
-        <nav
-          aria-label="Điều hướng nhanh các phần CV"
-          className="no-print flex items-center gap-1.5 overflow-x-auto horizontal-scroll-smooth pt-2 border-t border-[var(--border-subcard)]"
-        >
-          <span className="inline-flex items-center gap-1.5 px-2 py-1 typo-label font-play text-blue-600 dark:text-sky-400 whitespace-nowrap shrink-0">
-            <WebIcon name="list" size={14} className="text-blue-600 dark:text-sky-400 shrink-0" />
-            <span>Mục lục:</span>
-          </span>
-          {[
-            { id: 'cv-section-01-home', label: '01 · Tổng quan', icon: 'home' },
-            { id: 'cv-section-02-letter', label: '02 · Thư ngỏ', icon: 'mail' },
-            { id: 'cv-section-03-about', label: '03 · Giới thiệu', icon: 'user-round' },
-            { id: 'cv-section-04-education', label: '04 · Học vấn', icon: 'graduation' },
-            { id: 'cv-section-05-services', label: '05 · Dịch vụ', icon: 'heart-handshake' },
-            { id: 'cv-section-06-experience', label: '06 · Kinh nghiệm', icon: 'briefcase' },
-            { id: 'cv-section-07-skills', label: '07 · Kỹ năng', icon: 'brain' },
-            { id: 'cv-section-08-projects', label: '08 · Dự án', icon: 'folder' },
-            { id: 'cv-section-09-systems', label: '09 · Hệ thống', icon: 'server' },
-          ].map((sec) => (
-            <button
-              key={sec.id}
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }}
-              className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-label font-play whitespace-nowrap transition cursor-pointer shrink-0"
-            >
-              <WebIcon name={sec.icon} size={13} className="shrink-0" />
-              <span>{sec.label}</span>
-            </button>
-          ))}
-        </nav>
       </header>
 
       {/* PHẦN 01 – TỔNG QUAN NĂNG LỰC */}

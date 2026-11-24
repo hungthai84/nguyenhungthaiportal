@@ -7,7 +7,7 @@ import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallp
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
-import blackCowhideLeatherWallpaper from '@/assets/images/black_cowhide_leather_bg_1795346191975.jpg';
+import blackCowhideLeatherWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
@@ -51,8 +51,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
 > = {
   'liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'dark-liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
-  'multicolor-glass': { cardOpacity: 92, blurIntensity: 22 },
-  'dark-neon-glass': { cardOpacity: 58, blurIntensity: 24 },
+  'multicolor-glass': { cardOpacity: 15, blurIntensity: 16 },
+  'dark-neon-glass': { cardOpacity: 34, blurIntensity: 16 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
@@ -63,6 +63,7 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'dark-frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
+  'mica-fluent': { cardOpacity: 48, blurIntensity: 12 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -109,12 +110,12 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'black-cowhide-leather': {
     id: 'black-cowhide-leather',
     presetId: 'theme-bg-black-cowhide-leather',
-    label: 'Nền Da Bò Đen Chỉ Trắng',
+    label: 'Nền Vân Gỗ Óc Chó Cao Cấp',
     themeMode: 'dark',
     imagePath: blackCowhideLeatherWallpaper,
     fallbackGradient:
-      'radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(148, 163, 184, 0.09) 0%, transparent 54%), linear-gradient(145deg, #16181E 0%, #0B0C10 52%, #14171D 100%)',
-    overlayBg: 'rgba(10, 11, 15, 0.10)',
+      'radial-gradient(circle at 18% 18%, rgba(245, 196, 120, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(164, 102, 54, 0.18) 0%, transparent 54%), linear-gradient(145deg, #2A190F 0%, #160D08 52%, #22140C 100%)',
+    overlayBg: 'rgba(19, 11, 6, 0.14)',
   },
   'deep-ocean': {
     id: 'deep-ocean',
@@ -212,6 +213,16 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 16% 16%, rgba(30, 41, 59, 0.45) 0%, transparent 50%), radial-gradient(circle at 84% 84%, rgba(15, 23, 42, 0.65) 0%, transparent 52%), linear-gradient(135deg, #0A0E17 0%, #0F172A 50%, #060911 100%)',
     overlayBg: 'rgba(10, 14, 23, 0.15)',
   },
+  'mica-fluent': {
+    id: 'mica-fluent',
+    presetId: 'theme-bg-mica-fluent',
+    label: 'Nền Mica Fluent Kính Ấm',
+    themeMode: 'light',
+    imagePath: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 16%, rgba(232, 65, 24, 0.22) 0%, transparent 48%), radial-gradient(circle at 82% 20%, rgba(217, 179, 130, 0.42) 0%, transparent 52%), radial-gradient(circle at 52% 84%, rgba(82, 90, 101, 0.30) 0%, transparent 54%), linear-gradient(145deg, #d7c7b5 0%, #b8a391 48%, #736358 100%)',
+    overlayBg: 'radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%)',
+  },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
@@ -229,4 +240,5 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'dark-frost-ice-neu': THEME_BACKGROUNDS['dark-frost-ice-neu'].presetId,
   'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
   'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
+  'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
 };

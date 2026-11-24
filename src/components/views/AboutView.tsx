@@ -7,24 +7,16 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   <WebIcon name="linkedin" className={className || 'w-4 h-4'} strokeWidth={2.75} />
 );
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import QRCode from 'qrcode';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
-
-const Copy = createAnimatedIcon('copy');
-const Check = createAnimatedIcon('check');
-const QrCode = createAnimatedIcon('qr-code');
-const Download = createAnimatedIcon('download');
 
 const Sparkles = ({ className, style }: { className?: string; style?: React.CSSProperties }) => <WebIcon name="sparkles" className={className} style={style} />;
 const ChevronLeft = ({ className }: { className?: string }) => <WebIcon name="chevron-left" className={className} />;
-const ChevronRight = ({ className }: { className?: string }) => <WebIcon name="chevron-right" className={className} />;
 const Pause = ({ className }: { className?: string }) => <WebIcon name="pause" className={className} />;
 const Play = ({ className }: { className?: string }) => <WebIcon name="play" className={className} />;
 const MapPin = ({ className }: { className?: string }) => <WebIcon name="location" className={className} />;
@@ -681,6 +673,8 @@ export function AboutView({
   // Card Thông tin chi tiết: 2 Tabs (Tab 1: Thông tin cá nhân, Tab 2: Thông tin liên hệ + Form xác thực)
   const [detailInfoTab, setDetailInfoTab] = useState<'personal' | 'contact'>('personal');
   const [detailTabDirection, setDetailTabDirection] = useState<1 | -1>(1);
+  const personalTabRef = useRef<HTMLButtonElement | null>(null);
+  const contactTabRef = useRef<HTMLButtonElement | null>(null);
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -801,110 +795,6 @@ export function AboutView({
     },
     [contactForm, validateContactFields, showToast, onShowNotification]
   );
-
-  // Sao chép danh thiếp 1 chạm & mã QR vCard động
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const [qrMode, setQrMode] = useState<'vcard' | 'url'>('vcard');
-  const [qrDataUrl, setQrDataUrl] = useState<string>('');
-  const [isVCardCopied, setIsVCardCopied] = useState(false);
-
-  const ABOUT_VCARD_PAYLOAD = useMemo(
-    () =>
-      [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        'N:Nguyễn;Hùng Thái;;;',
-        'FN:Nguyễn Hùng Thái',
-        'TITLE:Head of CX & CS Operations (22+ Năm)',
-        'TEL;TYPE=CELL,VOICE:+84909097882',
-        'EMAIL;TYPE=INTERNET:hungthai84@gmail.com',
-        'URL:https://nguyenhungthai.powerservice.one/',
-        'ADR;TYPE=HOME:;;Chung Cư Tân Mỹ, Phường Tân Phú (Q7);TP. Hồ Chí Minh;;VN',
-        'ADR;TYPE=WORK:;;7D7 Hoàng Hoa Tám, Phường Mỹ Tho;Tỉnh Đồng Tháp;;VN',
-        'NOTE:LinkedIn: https://www.linkedin.com/in/hungthai84/ | Tu vi: Giap Ty 1984 (Hai Trung Kim)',
-        'END:VCARD',
-      ].join('\n'),
-    []
-  );
-
-  const ABOUT_CONTACT_SHARE_TEXT = useMemo(
-    () =>
-      [
-        'Nguyễn Hùng Thái — Head of CX & CS Operations (22+ Năm)',
-        '• Điện thoại / Zalo: +84 0909097882',
-        '• Hộp thư: hungthai84@gmail.com',
-        '• Website: https://nguyenhungthai.powerservice.one/',
-        '• LinkedIn: https://www.linkedin.com/in/hungthai84/',
-        '• Tạm trú: Chung Cư Tân Mỹ, P. Tân Phú (Q7), TP. Hồ Chí Minh',
-        '• Cư trú: 7D7 Hoàng Hoa Tám, P. Mỹ Tho, Tỉnh Đồng Tháp',
-      ].join('\n'),
-    []
-  );
-
-  useEffect(() => {
-    if (!isQrModalOpen) return;
-    let active = true;
-    const payload = qrMode === 'vcard' ? ABOUT_VCARD_PAYLOAD : 'https://nguyenhungthai.powerservice.one/';
-    QRCode.toDataURL(payload, {
-      width: 280,
-      margin: 2,
-      errorCorrectionLevel: 'M',
-      color: {
-        dark: '#0f172a',
-        light: '#ffffff',
-      },
-    })
-      .then((url) => {
-        if (active) setQrDataUrl(url);
-      })
-      .catch(() => {
-        if (active) setQrDataUrl('');
-      });
-    return () => {
-      active = false;
-    };
-  }, [isQrModalOpen, qrMode, ABOUT_VCARD_PAYLOAD]);
-
-  const handleCopyFullVCard = useCallback(
-    async (e?: React.MouseEvent) => {
-      if (e) e.stopPropagation();
-      SoundEngine.playPop();
-      try {
-        if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(ABOUT_CONTACT_SHARE_TEXT);
-        } else {
-          const textarea = document.createElement('textarea');
-          textarea.value = ABOUT_CONTACT_SHARE_TEXT;
-          textarea.style.position = 'fixed';
-          textarea.style.opacity = '0';
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-        }
-        setIsVCardCopied(true);
-        showToast('✓ Đã sao chép toàn bộ danh thiếp liên hệ!');
-        window.setTimeout(() => setIsVCardCopied(false), 2200);
-      } catch {
-        showToast('Không thể truy cập khay nhớ tạm, vui lòng thử lại.');
-      }
-    },
-    [ABOUT_CONTACT_SHARE_TEXT, showToast]
-  );
-
-  const handleDownloadVcf = useCallback(() => {
-    SoundEngine.playPop();
-    const blob = new Blob([ABOUT_VCARD_PAYLOAD], { type: 'text/vcard;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'Nguyen_Hung_Thai_CX.vcf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    showToast('✓ Đã tải danh thiếp điện tử (.vcf)');
-  }, [ABOUT_VCARD_PAYLOAD, showToast]);
 
   const toggleHeroMediaMode = useCallback(() => {
     SoundEngine.playPop();
@@ -1438,9 +1328,7 @@ export function AboutView({
       }
 
       if (e.key === 'Escape') {
-        if (isQrModalOpen) {
-          setIsQrModalOpen(false);
-        } else if (focusedBentoCard) {
+        if (focusedBentoCard) {
           handleCloseBentoFocus();
         } else if (isPlayingIntro) {
           handleCancelIntro();
@@ -1451,7 +1339,7 @@ export function AboutView({
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       const lowerKey = e.key.toLowerCase();
-      if (!isQrModalOpen && !focusedBentoCard) {
+      if (!focusedBentoCard) {
         if (lowerKey === 'm') {
           e.preventDefault();
           toggleHeroMediaMode();
@@ -1465,7 +1353,6 @@ export function AboutView({
     isPlayingIntro,
     viewMode,
     focusedBentoCard,
-    isQrModalOpen,
     handleCloseBentoFocus,
     toggleHeroMediaMode,
   ]);
@@ -2635,18 +2522,28 @@ export function AboutView({
                       className="card-header-sync flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 min-w-0 w-full"
                     >
                       <button
+                        ref={personalTabRef}
                         type="button"
                         role="tab"
                         id="about-tab-personal"
+                        tabIndex={detailInfoTab === 'personal' ? 0 : -1}
                         aria-selected={detailInfoTab === 'personal'}
-                        aria-controls="about-tabpanel-personal"
+                        aria-controls="about-detail-tabpanel"
                         data-card-title={detailInfoTab === 'personal' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('personal')}
                         onKeyDown={(e) => {
-                          if (e.key === 'ArrowRight') handleSwitchDetailTab('contact');
+                          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'End') {
+                            e.preventDefault();
+                            handleSwitchDetailTab('contact');
+                            contactTabRef.current?.focus();
+                          } else if (e.key === 'Home') {
+                            e.preventDefault();
+                            handleSwitchDetailTab('personal');
+                            personalTabRef.current?.focus();
+                          }
                         }}
                         className={cn(
-                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left',
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'personal'
                             ? 'text-blue-600 dark:text-cyan-400 font-bold'
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
@@ -2671,18 +2568,28 @@ export function AboutView({
                       <span aria-hidden="true" className="text-[var(--text-muted)] opacity-35 select-none font-normal">|</span>
 
                       <button
+                        ref={contactTabRef}
                         type="button"
                         role="tab"
                         id="about-tab-contact"
+                        tabIndex={detailInfoTab === 'contact' ? 0 : -1}
                         aria-selected={detailInfoTab === 'contact'}
-                        aria-controls="about-tabpanel-contact"
+                        aria-controls="about-detail-tabpanel"
                         data-card-title={detailInfoTab === 'contact' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('contact')}
                         onKeyDown={(e) => {
-                          if (e.key === 'ArrowLeft') handleSwitchDetailTab('personal');
+                          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Home') {
+                            e.preventDefault();
+                            handleSwitchDetailTab('personal');
+                            personalTabRef.current?.focus();
+                          } else if (e.key === 'End') {
+                            e.preventDefault();
+                            handleSwitchDetailTab('contact');
+                            contactTabRef.current?.focus();
+                          }
                         }}
                         className={cn(
-                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left',
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'contact'
                             ? 'text-blue-600 dark:text-cyan-400 font-bold'
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
@@ -2706,15 +2613,19 @@ export function AboutView({
                     </div>
                   </div>
 
-                  {/* Animated Tab Body (Slide + Fade) */}
-                  <div className="relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5">
+                  {/* Shared Accessible Tabpanel (Slide + Fade without navigating away) */}
+                  <div
+                    id="about-detail-tabpanel"
+                    role="tabpanel"
+                    aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
+                    tabIndex={0}
+                    className="relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-[12px]"
+                  >
                     <AnimatePresence mode="wait" initial={false}>
                       {detailInfoTab === 'personal' ? (
                         <motion.div
                           key="personal"
                           id="about-tabpanel-personal"
-                          role="tabpanel"
-                          aria-labelledby="about-tab-personal"
                           initial={
                             prefersReducedMotion
                               ? { opacity: 1 }
@@ -2828,47 +2739,11 @@ export function AboutView({
                               </div>
                             ))}
                           </div>
-
-                          {/* Thao tác nhanh danh thiếp & chuyển sang Tab Liên hệ */}
-                          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                            <div className="flex flex-wrap items-center gap-1.5">
-                              <button
-                                type="button"
-                                id="about-copy-vcard-btn"
-                                onClick={handleCopyFullVCard}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] bg-[var(--bg-subcard)] text-[var(--text-primary)] text-xs font-semibold cursor-pointer hover:opacity-90 transition whitespace-nowrap"
-                              >
-                                {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                                <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép vCard'}</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  SoundEngine.playPop();
-                                  setIsQrModalOpen(true);
-                                }}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[12px] bg-[var(--bg-subcard)] text-[var(--text-primary)] text-xs font-semibold cursor-pointer hover:opacity-90 transition whitespace-nowrap"
-                              >
-                                <QrCode className="w-3.5 h-3.5" />
-                                <span>Mã QR</span>
-                              </button>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => handleSwitchDetailTab('contact')}
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[12px] text-xs font-semibold text-blue-600 dark:text-cyan-400 hover:underline cursor-pointer whitespace-nowrap"
-                            >
-                              <span>Xem liên hệ</span>
-                              <ChevronRight className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
                         </motion.div>
                       ) : (
                         <motion.div
                           key="contact"
                           id="about-tabpanel-contact"
-                          role="tabpanel"
-                          aria-labelledby="about-tab-contact"
                           initial={
                             prefersReducedMotion
                               ? { opacity: 1 }
@@ -3499,120 +3374,6 @@ export function AboutView({
         maxWidth="5xl"
       >
         {renderFocusedCardContent()}
-      </Modal>
-
-      {/* Modal Mã QR Danh Thiếp Cá Nhân Động (vCard 3.0 / URL) */}
-      <Modal
-        isOpen={isQrModalOpen}
-        onClose={() => setIsQrModalOpen(false)}
-        title="Mã QR Danh Thiếp Cá Nhân"
-        subtitle="Quét mã bằng camera điện thoại để lưu thẳng liên hệ (vCard) vào danh bạ"
-        icon={<QrCode className="w-5 h-5 text-blue-600 dark:text-cyan-400" />}
-        maxWidth="lg"
-      >
-        <div className="flex flex-col gap-4">
-          {/* Segmented switcher: vCard vs Website */}
-          <div className="flex items-center justify-center gap-1.5 p-1 rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard)] self-center">
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setQrMode('vcard');
-              }}
-              style={
-                qrMode === 'vcard'
-                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                  : undefined
-              }
-              className={cn(
-                'px-3.5 py-1.5 rounded-full typo-button font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
-                qrMode === 'vcard'
-                  ? 'shadow-sm'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              )}
-            >
-              Lưu Danh Bạ (vCard)
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setQrMode('url');
-              }}
-              style={
-                qrMode === 'url'
-                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                  : undefined
-              }
-              className={cn(
-                'px-3.5 py-1.5 rounded-full typo-button font-semibold font-play transition-all cursor-pointer whitespace-nowrap',
-                qrMode === 'url'
-                  ? 'shadow-sm'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              )}
-            >
-              Mở Hồ Sơ Online
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-            {/* Khung mã QR nền trắng độ tương phản chuẩn */}
-            <div className="sm:col-span-5 flex flex-col items-center justify-center p-4 rounded-[14px] bg-white border border-slate-200 shadow-sm">
-              {qrDataUrl ? (
-                <img
-                  src={qrDataUrl}
-                  alt="Mã QR Danh thiếp Nguyễn Hùng Thái"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-44 h-44 object-contain"
-                />
-              ) : (
-                <div className="w-44 h-44 flex items-center justify-center typo-caption text-slate-600">
-                  Đang tạo mã QR...
-                </div>
-              )}
-              <span className="mt-2 typo-badge font-mono text-slate-700">
-                {qrMode === 'vcard' ? 'vCard 3.0 · Quét để lưu' : 'URL Hồ sơ chuyên gia'}
-              </span>
-            </div>
-
-            {/* Tóm tắt thông tin danh thiếp */}
-            <div className="sm:col-span-7 flex flex-col justify-between gap-3">
-              <div className="space-y-1.5 typo-body-sm">
-                <div className="typo-h4 font-bold text-[var(--text-primary)]">Nguyễn Hùng Thái</div>
-                <div className="typo-caption text-[var(--text-secondary)]">
-                  Head of CX &amp; CS Operations · 22+ Năm thực chiến
-                </div>
-                <div className="pt-2 border-t border-[var(--border-subcard)] space-y-1 typo-caption text-[var(--text-secondary)]">
-                  <div>Điện thoại: <strong className="text-[var(--text-primary)] tabular-nums">+84 0909097882</strong></div>
-                  <div>Hộp thư: <strong className="text-[var(--text-primary)]">hungthai84@gmail.com</strong></div>
-                  <div>Tạm trú: <strong className="text-[var(--text-primary)]">P. Tân Phú (Q7), TP. Hồ Chí Minh</strong></div>
-                  <div>Cư trú: <strong className="text-[var(--text-primary)]">P. Mỹ Tho, Tỉnh Đồng Tháp</strong></div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={handleDownloadVcf}
-                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer shadow-sm hover:opacity-95 transition whitespace-nowrap"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Tải file .vcf</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCopyFullVCard}
-                  className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full typo-button font-semibold cursor-pointer transition whitespace-nowrap"
-                >
-                  {isVCardCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{isVCardCopied ? 'Đã sao chép' : 'Sao chép text'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </Modal>
       </div>
     </div>

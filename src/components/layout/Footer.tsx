@@ -354,14 +354,26 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
           {CARD_STYLE_GROUPS.map((group) => {
             const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
-            const darkMode = group.darkMode || group.presets[group.presets.length - 1]?.id || lightMode;
+            const darkMode = group.darkMode;
+            const hasDualModes = Boolean(lightMode && darkMode && darkMode !== lightMode);
             const isLightActive = Boolean(lightMode && cardStyle === lightMode);
-            const isDarkActive = Boolean(darkMode && cardStyle === darkMode);
+            const isDarkActive = Boolean(hasDualModes && darkMode && cardStyle === darkMode);
             const isGroupActive = isLightActive || isDarkActive;
             const groupTitle = isEn ? group.labelEn : group.label;
             const itemColor = isGroupActive
               ? 'var(--text-link, var(--color-primary))'
               : 'var(--text-primary)';
+            const familySwatches: Record<string, string[]> = {
+              'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
+              'cowhide-leather': ['#D97706', '#F5C478', '#4E2F1B'],
+              'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
+              'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
+              'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#1A2433'],
+              'multicolor-glass': ['#4F46E5', '#22D3EE', '#EC4899'],
+              'flat-soft-ui': ['#4F46E5', '#3B82F6', '#2DD4BF'],
+              'mica-fluent': ['#E84118', '#1C0708', '#525A65'],
+            };
+            const swatches = familySwatches[group.id] || [];
 
             return (
               <div
@@ -378,7 +390,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <button
                   type="button"
                   onClick={() => {
-                    const preferred = isDark ? darkMode : lightMode;
+                    const preferred = hasDualModes && isDark && darkMode ? darkMode : lightMode;
                     if (preferred) applyThemeFromPopup(preferred);
                   }}
                   className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5"
@@ -389,17 +401,30 @@ export const Footer: React.FC<FooterProps> = ({
                     className="w-4 h-4 shrink-0"
                     style={{ color: itemColor, strokeWidth: 2.5 }}
                   />
-                  <span
-                    className="typo-body-sm font-bold truncate min-w-0"
-                    style={{ color: itemColor, fontWeight: 700 }}
-                  >
-                    {groupTitle}
-                  </span>
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span
+                      className="typo-body-sm font-bold truncate min-w-0"
+                      style={{ color: itemColor, fontWeight: 700 }}
+                    >
+                      {groupTitle}
+                    </span>
+                    {swatches.length > 0 && (
+                      <span className="inline-flex items-center gap-1 mt-0.5" aria-hidden="true">
+                        {swatches.map((hex) => (
+                          <span
+                            key={hex}
+                            className="w-2.5 h-2.5 rounded-full border border-white/50 shadow-2xs shrink-0"
+                            style={{ backgroundColor: hex }}
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </div>
                 </button>
 
                 <div
                   role="group"
-                  aria-label={`${groupTitle} ${isEn ? 'Light or Dark' : 'Sáng hoặc Tối'}`}
+                  aria-label={`${groupTitle} ${isEn ? 'Theme Mode' : 'Chế độ giao diện'}`}
                   className="inline-flex items-center gap-0.5 p-0.5 rounded-full border shrink-0"
                   style={{
                     background: 'var(--bg-card)',
@@ -436,7 +461,7 @@ export const Footer: React.FC<FooterProps> = ({
                     </button>
                   )}
 
-                  {darkMode && (
+                  {hasDualModes && darkMode && (
                     <button
                       type="button"
                       aria-pressed={isDarkActive}

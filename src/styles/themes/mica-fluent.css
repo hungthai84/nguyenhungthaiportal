@@ -1,0 +1,517 @@
+/* ========================================================================= */
+/* THEME SYSTEM: MICA FLUENT (KÍNH MICA PHẲNG · TACTILE ACRYLIC & WARM INK)  */
+/* Light Tactile Glass · Linear White Gradient (0.60 → 0.30) · Blur 11px→16px*/
+/* 1px Frosted Rim · Deep Wide Drop Shadow · Espresso Ink (#1C0708)          */
+/* Accent Crimson-Orange (#E84118 → #C23616) · Warm Cream Scrim              */
+/* ========================================================================= */
+
+.card-mica-fluent {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+  color: #1c0708;
+}
+
+.card-mica-fluent:hover {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+}
+
+html[data-card-style="mica-fluent"],
+html[data-card-style="mica-fluent"] body,
+html[data-theme="mica-fluent"] {
+  color-scheme: light;
+
+  --color-bg: #d7c7b5;
+  --color-bg-soft: #e6d8ca;
+  --color-surface: rgba(255, 255, 255, 0.52);
+  --color-surface-elevated: hsla(0, 0%, 98%, 0.84);
+
+  --color-heading: #1c0708;
+  --color-text: #1c0708;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #5c534f;
+  --color-primary: #e84118;
+  --color-secondary: #525a65;
+  --color-focus-ring: #e84118;
+
+  --text-primary: #1c0708;
+  --text-secondary: #4a4a4a;
+  --text-muted: #5c534f;
+  --text-heading: #1c0708;
+  --text-link: #c23616;
+  --text-accent: #e84118;
+  --text-input: #1c0708;
+  --text-placeholder: #5c534f;
+  --text-on-dark: #fdfdfd;
+  --text-button-primary: #fdfdfd;
+  --text-button-secondary: #1c0708;
+  --text-badge: #1c0708;
+  --text-highlight: #e84118;
+
+  --app-bg-base: #d7c7b5;
+  --app-bg-gradient:
+    radial-gradient(circle at 20% 22%, rgba(255, 245, 232, 0.48) 0%, transparent 52%),
+    radial-gradient(circle at 82% 24%, rgba(232, 65, 24, 0.14) 0%, transparent 48%),
+    radial-gradient(circle at 50% 82%, rgba(168, 134, 102, 0.28) 0%, transparent 56%),
+    linear-gradient(145deg, #dfd0bf 0%, #cdb9a3 52%, #bfa78e 100%);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(255, 244, 229, 0.42);
+  --ambient-glow-2: rgba(232, 65, 24, 0.14);
+  --ambient-glow-3: rgba(166, 130, 96, 0.24);
+  --ambient-glow-4: rgba(255, 255, 255, 0.28);
+  --ambient-wave-1: rgba(255, 255, 255, 0.22);
+  --ambient-wave-2: rgba(232, 65, 24, 0.08);
+  --ambient-depth-vignette: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
+  --app-bg-depth-veil: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
+  --ambient-wallpaper-opacity: 0.96;
+
+  /* Mica Fluent Tactile Rim & Soft Translucent Layering */
+  --liquid-specular-rim: rgba(255, 255, 255, 0.45);
+  --liquid-rim-soft: rgba(255, 255, 255, 0.25);
+  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --liquid-specular-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.60) 0%,
+    rgba(255, 255, 255, 0.30) 100%
+  );
+
+  --bg-main: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
+  --bg-header: linear-gradient(180deg, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.36) 100%);
+  --bg-footer: linear-gradient(180deg, rgba(255, 255, 255, 0.64) 0%, rgba(255, 255, 255, 0.36) 100%);
+  --bg-card: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
+  --bg-card-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0.38) 100%);
+  --bg-subcard: hsla(0, 0%, 98%, 0.78);
+  --bg-subcard-hover: hsla(0, 0%, 98%, 0.90);
+  --bg-nested-card: hsla(0, 0%, 98%, 0.84);
+  --bg-popup: hsla(0, 0%, 98%, 0.92);
+  --bg-dropdown: hsla(0, 0%, 98%, 0.94);
+  --bg-tooltip: rgba(28, 7, 8, 0.94);
+
+  --bg-nav-button-opaque: #fafafa;
+  --bg-nav-pill: hsla(0, 0%, 98%, 0.72);
+  --bg-nav-pill-hover: hsla(0, 0%, 99%, 0.88);
+  --bg-nav-arrow: hsla(0, 0%, 98%, 0.82);
+  --border-nav-arrow: rgba(255, 255, 255, 0.45);
+  --bg-button-primary: #e84118;
+  --bg-button-secondary: hsla(0, 0%, 96%, 0.85);
+  --bg-button-hover: hsla(0, 0%, 99%, 0.92);
+
+  --bg-input: hsla(0, 0%, 98%, 0.82);
+  --bg-badge: hsla(0, 0%, 96%, 0.85);
+  --bg-highlight: rgba(232, 65, 24, 0.12);
+  --bg-banner: rgba(255, 255, 255, 0.42);
+  --bg-banner-pill: hsla(0, 0%, 98%, 0.84);
+  --bg-banner-cta: #e84118;
+  --text-banner-cta: #fdfdfd;
+  --bg-banner-input: hsla(0, 0%, 98%, 0.88);
+  --bg-nested-badge: hsla(0, 0%, 96%, 0.85);
+
+  --border-color: rgba(255, 255, 255, 0.25);
+  --border-card: rgba(255, 255, 255, 0.25);
+  --border-subcard: rgba(255, 255, 255, 0.45);
+  --border-input: rgba(28, 7, 8, 0.16);
+  --border-popup: rgba(255, 255, 255, 0.55);
+  --border-banner-pill: rgba(255, 255, 255, 0.45);
+  --border-banner-input: rgba(255, 255, 255, 0.50);
+
+  --bg-blur: 11px;
+  --glass-blur: 11px;
+  --blur-subcard: 12px;
+  --blur-nav-pill: 12px;
+  --blur-modal: 16px;
+  --glass-saturate: 100%;
+  --card-border-width: 1px;
+
+  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
+  --shadow-card-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  --shadow-subcard: 0 12px 28px -8px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --shadow-subcard-hover: 0 18px 36px -10px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-nav-pill: 0 8px 20px -6px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --shadow-button: 0 10px 24px -6px rgba(232, 65, 24, 0.40);
+  --shadow-popup: 0 25px 50px -12px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+
+  /* Surface Layer Tokens */
+  --surface-primary-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.25);
+  --surface-primary-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
+  --surface-header-shadow: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
+  --surface-footer-shadow: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
+  --shadow-header: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
+  --shadow-main-card: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
+  --shadow-footer: 0 20px 44px -12px rgba(0, 0, 0, 0.42);
+  --surface-primary-blur: 11px;
+  --surface-primary-saturate: 100%;
+
+  --surface-secondary-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%);
+  --surface-secondary-border: rgba(255, 255, 255, 0.25);
+  --surface-secondary-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50);
+  --surface-secondary-blur: 11px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: hsla(0, 0%, 98%, 0.78);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.45);
+  --surface-tertiary-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.18);
+  --surface-tertiary-blur: 12px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-nested-bg: hsla(0, 0%, 98%, 0.84);
+  --surface-nested-border: rgba(255, 255, 255, 0.50);
+  --surface-nested-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --surface-nested-blur: 12px;
+  --surface-nested-saturate: 100%;
+
+  --surface-interactive-bg: hsla(0, 0%, 98%, 0.74);
+  --surface-interactive-hover: hsla(0, 0%, 99%, 0.90);
+  --surface-interactive-active: #e84118;
+  --surface-interactive-border: rgba(255, 255, 255, 0.45);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 12px;
+
+  --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-button: 999px;
+  --radius-pill: 999px;
+  --radius-badge: 999px;
+  --radius-input: 14px;
+
+  --text-header-title: #1c0708;
+  --text-header-sub: #4a4a4a;
+  --text-nav-default: #1c0708;
+  --text-nav-active: #fdfdfd;
+  --text-nav-arrow: #1c0708;
+  --text-banner-pill: #1c0708;
+  --text-banner-input: #1c0708;
+  --text-banner-placeholder: #5c534f;
+  --pillar-heading: #1c0708;
+  --pillar-body: #4a4a4a;
+  --pillar-progress-track: rgba(28, 7, 8, 0.14);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 1. SHELL, HEADER, FOOTER & LEVEL 1 SURFACES                               */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="mica-fluent"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: var(--surface-primary-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: var(--layer-l1-shadow, 0 25px 50px -12px rgba(0, 0, 0, 0.50)) !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
+  color: #1c0708 !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. MICA FLUENT CONTENT CARDS (LINEAR WHITE ACRYLIC + DEEP ELEVATION)      */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="mica-fluent"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .system-card-tile,
+  .exp-bento-surface-card,
+  .project-detail-section-card,
+  .domain-card,
+  .service-card
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  color: #1c0708 !important;
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 240ms ease,
+    box-shadow 240ms ease,
+    border-color 220ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="mica-fluent"] :is(
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .project-card,
+    .education-card,
+    .education-course-card,
+    .system-card-tile,
+    .exp-bento-surface-card,
+    .project-detail-section-card,
+    .domain-card,
+    .service-card
+  ):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]):hover {
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-color: rgba(255, 255, 255, 0.42) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
+  }
+}
+
+/* Subcards & Expanded Frosted Panels (hsla(0,0%,98%,0.78)) */
+html[data-card-style="mica-fluent"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .project-detail-subcard,
+  .pillar-gradient-card,
+  .experience-milestone-card,
+  #experience-job-detail-card,
+  .swot-quadrant-card
+) {
+  background: hsla(0, 0%, 98%, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.68) !important;
+  color: #1c0708 !important;
+}
+
+/* Banner Cards: Sharp Background Media + Mica Shell + Readable Contrast Plates */
+html[data-card-style="mica-fluent"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.56) 0%, rgba(255, 255, 255, 0.28) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
+  color: #1c0708 !important;
+}
+
+html[data-card-style="mica-fluent"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(180deg, rgba(246, 241, 236, 0.58) 0%, rgba(235, 224, 214, 0.42) 100%) !important;
+  opacity: 1 !important;
+}
+
+html[data-card-style="mica-fluent"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="mica-fluent"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .banner-quote {
+  color: #1c0708 !important;
+  text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85);
+}
+
+/* Primary Accent CTA (#E84118 -> #C23616) & Dark Contrast Chips */
+html[data-card-style="mica-fluent"] .banner-primary-cta,
+html[data-card-style="mica-fluent"] .project-card-btn-primary,
+html[data-card-style="mica-fluent"] #ai-assistant-submit-button {
+  background: #e84118 !important;
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  color: #fdfdfd !important;
+  box-shadow: 0 10px 24px -6px rgba(232, 65, 24, 0.42) !important;
+}
+
+html[data-card-style="mica-fluent"] .banner-primary-cta:hover,
+html[data-card-style="mica-fluent"] .project-card-btn-primary:hover,
+html[data-card-style="mica-fluent"] #ai-assistant-submit-button:hover {
+  background: #c23616 !important;
+}
+
+html[data-card-style="mica-fluent"] .project-card-order-badge {
+  background: linear-gradient(25deg, #525a65, #3b424c) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style="mica-fluent"] :is(.project-card-tag, .education-skill-chip, .project-detail-chip, .banner-count-pill) {
+  background: hsla(0, 0%, 96%, 0.85) !important;
+  border: 1px solid rgba(28, 7, 8, 0.12) !important;
+  color: #4a4a4a !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. NAVIGATION PILLS, CAPSULE, POPUPS, MODALS & INPUTS                     */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="mica-fluent"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #app-footer #footer-nav-capsule,
+  #el-p0-div-16,
+  .banner-control-pill,
+  .nav-arrow-btn,
+  .theme-prev-next-btn,
+  .theme-capsule-btn
+) {
+  background: hsla(0, 0%, 98%, 0.74) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: var(--surface-interactive-shadow), var(--liquid-rim-inset) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  color: #1c0708 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="mica-fluent"] :is(
+    #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+    #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+    button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]),
+    .banner-control-pill,
+    .nav-arrow-btn,
+    .theme-prev-next-btn
+  ):hover {
+    background: hsla(0, 0%, 99%, 0.90) !important;
+    border-color: rgba(232, 65, 24, 0.36) !important;
+  }
+}
+
+html[data-card-style="mica-fluent"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: #e84118 !important;
+  border-color: rgba(255, 255, 255, 0.42) !important;
+  color: #fdfdfd !important;
+  box-shadow: 0 10px 24px -6px rgba(232, 65, 24, 0.46) !important;
+}
+
+html[data-card-style="mica-fluent"] :is(
+  .banner-dropdown-menu,
+  [role="listbox"],
+  [role="dialog"] .glass-card,
+  .theme-popup,
+  .theme-modal-card,
+  .theme-pip-player,
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: hsla(0, 0%, 98%, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  color: #1c0708 !important;
+}
+
+html[data-card-style="mica-fluent"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  background: hsla(0, 0%, 98%, 0.85) !important;
+  border: 1px solid rgba(28, 7, 8, 0.16) !important;
+  color: #1c0708 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html[data-card-style="mica-fluent"] :is(input, textarea, select):focus,
+html[data-card-style="mica-fluent"] :is(button, a, input, [role="button"], [role="tab"]):focus-visible {
+  border-color: #e84118 !important;
+  outline: 2px solid #e84118 !important;
+  outline-offset: 2px !important;
+}
+
+/* Video Play Buttons under Mica Fluent */
+html[data-card-style="mica-fluent"] .video-play-btn {
+  --vp-backdrop: blur(12px);
+  --vp-border: rgba(255, 255, 255, 0.48);
+  --vp-text: #1c0708;
+  --vp-specular: rgba(255, 255, 255, 0.72);
+  --vp-chase-a: #e84118;
+  --vp-chase-b: #525a65;
+  --vp-shadow-ambient: 0 14px 28px -8px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --vp-shadow-hover: 0 18px 36px -8px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --vp-sound-bg: rgba(232, 65, 24, 0.12);
+  --vp-sound-border: rgba(232, 65, 24, 0.30);
+  --vp-sound-hover: rgba(232, 65, 24, 0.22);
+}
+
+html[data-card-style="mica-fluent"] .video-play-btn--home,
+html[data-card-style="mica-fluent"] .video-play-btn--about,
+html[data-card-style="mica-fluent"] .video-play-btn--interview,
+html[data-card-style="mica-fluent"] .video-play-btn--systems {
+  --vp-bg: hsla(0, 0%, 98%, 0.78);
+  --vp-bg-hover: hsla(0, 0%, 99%, 0.92);
+}
+
+html[data-card-style="mica-fluent"] .video-play-btn--letter {
+  --vp-bg: #e84118;
+  --vp-bg-hover: #c23616;
+  --vp-text: #fdfdfd;
+}
+
+/* Hardware & Accessibility Fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  html[data-card-style="mica-fluent"] :is(
+    #app-header,
+    #app-footer,
+    .page-main-card,
+    [data-main-card="true"],
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .hero-banner,
+    .banner-card,
+    .banner-dropdown-menu,
+    [role="listbox"],
+    .theme-popup
+  ) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #f5f2ee !important;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  html[data-card-style="mica-fluent"] :is(
+    #app-header,
+    #app-footer,
+    .page-main-card,
+    [data-main-card="true"],
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .hero-banner,
+    .banner-card,
+    .banner-dropdown-menu,
+    [role="listbox"],
+    .theme-popup
+  ) {
+    background: #f5f2ee !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="mica-fluent"] * {
+    transition-duration: 0.01ms !important;
+  }
+}

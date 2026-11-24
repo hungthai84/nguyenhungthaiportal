@@ -250,7 +250,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-4 sm:gap-6 lg:gap-8 px-4 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
                 {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
                 <div
-                  className="md:col-span-7 flex flex-col justify-center items-start gap-4 sm:gap-5 min-w-0 order-2 md:order-1"
+                  className="md:col-span-6 flex flex-col justify-center items-start gap-4 sm:gap-5 min-w-0 order-2 md:order-1"
                 >
                   <div
                     className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border typo-badge font-semibold"
@@ -394,14 +394,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   </div>
                 </div>
 
-                {/* Cột Phải: Khung chân dung vòng tròn đồng tâm & video toggle */}
+                {/* Cột Phải: Khung chân dung vòng tròn đồng tâm (+50% kích thước) & 6 icon bay xung quanh */}
                 <motion.div
                   initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
-                  className="md:col-span-5 flex items-center justify-center order-1 md:order-2 py-2"
+                  className="md:col-span-6 flex items-center justify-center order-1 md:order-2 py-3 sm:py-4"
                 >
-                  <div className="relative flex items-center justify-center w-[196px] h-[196px] sm:w-[250px] sm:h-[250px] md:w-[270px] md:h-[270px] lg:w-[310px] lg:h-[310px] shrink-0">
+                  <div
+                    id="el-p0-div-96"
+                    className="relative flex items-center justify-center w-[min(294px,74vw)] h-[min(294px,74vw)] sm:w-[min(375px,68vw)] sm:h-[min(375px,68vw)] md:w-[min(390px,42vw)] md:h-[min(390px,42vw)] lg:w-[min(450px,44vw,58vh)] lg:h-[min(450px,44vw,58vh)] xl:w-[min(465px,44vw,62vh)] xl:h-[min(465px,44vw,62vh)] shrink-0"
+                  >
                     <div
                       aria-hidden="true"
                       className="absolute inset-0 rounded-full border-[1.5px] pointer-events-none"
@@ -413,7 +416,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     />
                     <div
                       aria-hidden="true"
-                      className="absolute inset-[8px] sm:inset-[10px] rounded-full border-[1.5px] pointer-events-none"
+                      className="absolute inset-[12px] sm:inset-[14px] rounded-full border-[1.5px] pointer-events-none"
                       style={{
                         borderColor: isDark
                           ? 'rgba(255, 255, 255, 0.16)'
@@ -422,7 +425,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     />
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute -left-2.5 top-[48%] w-5 h-5 sm:w-7 sm:h-7 rounded-full blur-[5px]"
+                      className="pointer-events-none absolute -left-3 top-[48%] w-7 h-7 sm:w-9 sm:h-9 rounded-full blur-[6px]"
                       style={{
                         background: isDark
                           ? 'rgba(244, 114, 182, 0.55)'
@@ -431,7 +434,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     />
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute -right-2 top-[34%] w-6 h-6 sm:w-8 sm:h-8 rounded-full blur-[6px]"
+                      className="pointer-events-none absolute -right-2.5 top-[34%] w-8 h-8 sm:w-10 sm:h-10 rounded-full blur-[7px]"
                       style={{
                         background: isDark
                           ? 'rgba(96, 165, 250, 0.55)'
@@ -439,8 +442,98 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       }}
                     />
 
+                    {/* Các biểu tượng nổi bay quanh viền vòng tròn */}
+                    {[
+                      {
+                        id: 'home-orbit-icon-sparkles',
+                        icon: 'sparkles',
+                        posClass: '-top-2 left-[14%] sm:-top-2.5 sm:left-[15%]',
+                        floatY: [-5, 5, -5],
+                        floatX: [-2, 2, -2],
+                        duration: 4.2,
+                        delay: 0,
+                      },
+                      {
+                        id: 'home-orbit-icon-headphones',
+                        icon: 'headphones',
+                        posClass: 'top-[10%] -right-2 sm:top-[12%] sm:-right-2.5',
+                        floatY: [4, -5, 4],
+                        floatX: [2, -2, 2],
+                        duration: 4.8,
+                        delay: 0.35,
+                      },
+                      {
+                        id: 'home-orbit-icon-trending',
+                        icon: 'trending-up',
+                        posClass: 'top-[54%] -right-3 sm:-right-3.5',
+                        floatY: [-4, 4, -4],
+                        floatX: [3, -2, 3],
+                        duration: 5.1,
+                        delay: 0.7,
+                      },
+                      {
+                        id: 'home-orbit-icon-award',
+                        icon: 'award',
+                        posClass: 'bottom-[2%] left-[14%] sm:bottom-[3%] sm:left-[16%]',
+                        floatY: [5, -4, 5],
+                        floatX: [-2, 3, -2],
+                        duration: 4.5,
+                        delay: 0.5,
+                      },
+                      {
+                        id: 'home-orbit-icon-cpu',
+                        icon: 'cpu',
+                        posClass: 'top-[62%] -left-3 sm:-left-3.5',
+                        floatY: [-5, 4, -5],
+                        floatX: [-3, 2, -3],
+                        duration: 5.4,
+                        delay: 0.9,
+                      },
+                      {
+                        id: 'home-orbit-icon-heart',
+                        icon: 'heart-handshake',
+                        posClass: 'top-[16%] -left-2.5 sm:top-[18%] sm:-left-3',
+                        floatY: [4, -4, 4],
+                        floatX: [-2, 2, -2],
+                        duration: 4.6,
+                        delay: 0.2,
+                      },
+                    ].map((badge) => (
+                      <motion.div
+                        key={badge.id}
+                        aria-hidden="true"
+                        animate={
+                          prefersReducedMotion
+                            ? undefined
+                            : {
+                                y: badge.floatY,
+                                x: badge.floatX,
+                              }
+                        }
+                        transition={
+                          prefersReducedMotion
+                            ? undefined
+                            : {
+                                duration: badge.duration,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                                delay: badge.delay,
+                              }
+                        }
+                        style={{
+                          background: 'var(--bg-nav-pill, var(--surface-secondary-bg))',
+                          borderColor: 'var(--border-card, var(--surface-secondary-border))',
+                          color: 'var(--text-link, var(--color-primary))',
+                          boxShadow: 'var(--shadow-nav-pill, 0 8px 20px rgba(15, 23, 42, 0.14))',
+                        }}
+                        className={`pointer-events-none select-none absolute z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full border backdrop-blur-md flex items-center justify-center ${badge.posClass}`}
+                      >
+                        <WebIcon name={badge.icon} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                      </motion.div>
+                    ))}
+
                     <div
-                      className="relative w-[calc(100%-34px)] h-[calc(100%-34px)] sm:w-[calc(100%-42px)] sm:h-[calc(100%-42px)] rounded-full overflow-hidden flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
+                      className="relative w-[calc(100%-44px)] h-[calc(100%-44px)] sm:w-[calc(100%-56px)] sm:h-[calc(100%-56px)] rounded-full overflow-hidden flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
                       style={{
                         background: isDark
                           ? 'linear-gradient(145deg, rgba(30,41,59,0.72), rgba(51,65,85,0.45))'
@@ -476,7 +569,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
                           <WebIcon
                             name="user-round"
-                            className="w-14 h-14"
+                            className="w-16 h-16"
                             style={{ color: 'var(--color-primary)' }}
                           />
                           <span

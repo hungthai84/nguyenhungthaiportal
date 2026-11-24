@@ -32,7 +32,7 @@ const Heart = createAnimatedIcon('heart');
 const Building2 = createAnimatedIcon('building-2');
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { stopActiveSpeech } from '@/utils/speechVoice';
@@ -239,7 +239,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const { showToast } = useToast();
   const { language, t } = useLanguage();
 
-  // Horoscope Main Card Style (Chiều cao max full, không bo góc, padding 15px)
+  const shouldReduceMotion = useReducedMotion();
+
+  // Horoscope Main Card Style (Đồng bộ 100% kích thước & định dạng Main Card Trang chủ)
   const horoscopeMainCardStyle: React.CSSProperties = {
     background: 'var(--surface-primary-bg, var(--bg-main, #FFFFFF))',
     border: 'var(--surface-primary-border, 1px solid var(--border-color, #DCEAF4))',
@@ -247,25 +249,17 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     backdropFilter: 'blur(var(--surface-primary-blur, 16px)) saturate(var(--surface-primary-saturate, 140%))',
     WebkitBackdropFilter: 'blur(var(--surface-primary-blur, 16px)) saturate(var(--surface-primary-saturate, 140%))',
     borderRadius: '0px',
-    padding: '15px',
+    padding: 'var(--main-card-padding, 15px)',
+    gap: '12px',
     boxSizing: 'border-box',
-    width: '100%',
-    maxWidth: '1000px',
-    minWidth: 0,
+    width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+    maxWidth: 'var(--main-card-target-w, 1000px)',
+    minWidth: '0px',
     height: '100%',
     minHeight: '0px',
-    flex: '0 0 100%',
+    maxHeight: '100%',
+    flex: '1 1 100%',
     alignSelf: 'stretch',
-  };
-
-  const horoscopeStackedCardStyle: React.CSSProperties = {
-    ...horoscopeMainCardStyle,
-    height: 'var(--horoscope-main-card-1-h, 100%)',
-    minHeight: 'var(--horoscope-main-card-1-h, 100%)',
-    maxHeight: 'var(--horoscope-main-card-1-h, 100%)',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    flex: '0 0 auto',
   };
 
   const transparentLogoStyle: React.CSSProperties = {
@@ -291,272 +285,52 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     padding: '10px 12px',
   };
 
-  // Active Card State: 0..5 (6 sections matching HOROSCOPE_SLIDES)
+  // Active Card State: 0..5 (6 main cards matching HomeView single-card showcase + horizontal slide transition)
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
   const [leadershipQuoteIndex, setLeadershipQuoteIndex] = useState<number>(0);
   const activeCardIndexRef = useRef<number>(0);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const horoscopeBannerVideo = getDefaultBannerVideoConfig('horoscope');
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
+  const horoscopeContainerRef = useRef<HTMLDivElement>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const rafLayoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     activeCardIndexRef.current = activeCardIndex;
   }, [activeCardIndex]);
 
-  // Vertical & Top Horizontal scroll container state for Card tử vi 1..5
-  const horoscopeContainerRef = useRef<HTMLDivElement>(null);
-  const horoscopeTopRowRef = useRef<HTMLDivElement>(null);
-  const [mainCard1Height, setMainCard1Height] = useState<number | null>(null);
-  const isProgrammaticScrollRef = useRef(false);
-  const scrollTimeoutRef = useRef<number | null>(null);
-
-  // Đồng bộ chiều cao Thẻ chính tử vi 1 bằng chính xác chiều cao thẻ chính trang Dịch vụ (#service-main-card)
-  useEffect(() => {
-    const getHoroscopeTargetId = (idx: number) => {
-      const slideToIdMap: Record<number, string> = {
-        0: 'horoscope-card-1',
-        1: 'horoscope-card-2',
-        2: 'horoscope-card-3',
-        3: 'horoscope-card-pillars',
-        4: 'horoscope-card-4',
-        5: 'horoscope-card-5',
-      };
-      return slideToIdMap[idx] || `horoscope-card-${idx + 1}`;
-    };
-
-    const syncMainCardHeight = () => {
-      const viewportEl = document.getElementById('global-content-viewport');
-      const container = horoscopeContainerRef.current;
-      const targetEl = viewportEl || container;
-      if (!targetEl) return;
-      const cs = window.getComputedStyle(targetEl);
-      const padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
-      const h = Math.max(240, Math.round(targetEl.clientHeight - padY));
-      if (h > 0) {
-        setMainCard1Height(h);
-      }
-
-      if (container && !isProgrammaticScrollRef.current) {
-        requestAnimationFrame(() => {
-          const idx = activeCardIndexRef.current;
-          const topRow = horoscopeTopRowRef.current;
-          if (idx === 0 || idx === 5) {
-            if (topRow) {
-              const containerRect = container.getBoundingClientRect();
-              const rowRect = topRow.getBoundingClientRect();
-              const expectedTop = Math.max(
-                0,
-                Math.round(
-                  container.scrollTop +
-                    (rowRect.top - containerRect.top) -
-                    (container.clientHeight - topRow.offsetHeight) / 2
-                )
-              );
-              if (Math.abs(container.scrollTop - expectedTop) > 1) {
-                container.scrollTop = expectedTop;
-              }
-              const horizCard = document.getElementById(getHoroscopeTargetId(idx));
-              if (horizCard) {
-                const expectedLeft = Math.max(
-                  0,
-                  Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2)
-                );
-                if (Math.abs(topRow.scrollLeft - expectedLeft) > 1) {
-                  topRow.scrollLeft = expectedLeft;
-                }
-              }
-            }
-          } else {
-            const cardEl = document.getElementById(getHoroscopeTargetId(idx));
-            if (cardEl) {
-              const containerRect = container.getBoundingClientRect();
-              const cardRect = cardEl.getBoundingClientRect();
-              const expectedTop = Math.max(
-                0,
-                Math.round(
-                  container.scrollTop +
-                    (cardRect.top - containerRect.top) -
-                    (container.clientHeight - cardEl.offsetHeight) / 2
-                )
-              );
-              if (Math.abs(container.scrollTop - expectedTop) > 1) {
-                container.scrollTop = expectedTop;
-              }
-            }
-          }
-        });
-      }
-    };
-    syncMainCardHeight();
-    let ro: ResizeObserver | null = null;
-    const viewportEl = document.getElementById('global-content-viewport');
-    const observedEl = viewportEl || horoscopeContainerRef.current;
-    if (typeof ResizeObserver !== 'undefined' && observedEl) {
-      ro = new ResizeObserver(syncMainCardHeight);
-      ro.observe(observedEl);
-    }
-    window.addEventListener('resize', syncMainCardHeight);
-    return () => {
-      if (ro) ro.disconnect();
-      window.removeEventListener('resize', syncMainCardHeight);
-    };
-  }, []);
-
   useEffect(() => {
     return () => {
-      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+      if (rafLayoutRef.current) window.cancelAnimationFrame(rafLayoutRef.current);
     };
   }, []);
 
   const scrollToHoroscopeCard = useCallback(
-    (targetIdx: number, smooth = true) => {
-      const maxIdx = HOROSCOPE_SLIDES.length - 1;
+    (targetIdx: number, _smooth = true, forcedDirection?: 1 | -1) => {
+      const count = HOROSCOPE_SLIDES.length;
+      const maxIdx = count - 1;
       const clamped = Math.max(0, Math.min(maxIdx, targetIdx));
+      const prevIdx = activeCardIndexRef.current;
+
+      if (forcedDirection) {
+        setSlideDirection(forcedDirection);
+      } else if (clamped !== prevIdx) {
+        setSlideDirection(clamped > prevIdx ? 1 : -1);
+      }
+
       activeCardIndexRef.current = clamped;
       setActiveCardIndex(clamped);
 
-      const container = horoscopeContainerRef.current;
-      const topRow = horoscopeTopRowRef.current;
-      if (!container) return;
-
-      const behavior: ScrollBehavior = smooth ? 'smooth' : 'auto';
-      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
-      isProgrammaticScrollRef.current = true;
-
-      const slideToIdMap: Record<number, string> = {
-        0: 'horoscope-card-1',
-        1: 'horoscope-card-2',
-        2: 'horoscope-card-3',
-        3: 'horoscope-card-pillars',
-        4: 'horoscope-card-4',
-        5: 'horoscope-card-5',
-      };
-      const targetId = slideToIdMap[clamped] || `horoscope-card-${clamped + 1}`;
-
-      const computeCenteredTop = (targetEl: HTMLElement) => {
-        const containerRect = container.getBoundingClientRect();
-        const targetRect = targetEl.getBoundingClientRect();
-        return Math.max(
-          0,
-          Math.round(
-            container.scrollTop +
-              (targetRect.top - containerRect.top) -
-              (container.clientHeight - targetEl.offsetHeight) / 2
-          )
-        );
-      };
-
-      if (clamped === 0 || clamped === 5) {
-        const targetTop = topRow ? computeCenteredTop(topRow) : 0;
-        if (smooth) {
-          container.scrollTo({ top: targetTop, behavior: 'smooth' });
-        } else {
-          container.scrollTop = targetTop;
-        }
-        if (topRow) {
-          const horizCard = document.getElementById(targetId);
-          const targetLeft = horizCard
-            ? Math.max(0, Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2))
-            : clamped === 0
-              ? 0
-              : Math.max(0, topRow.scrollWidth - topRow.clientWidth);
-          if (smooth) {
-            topRow.scrollTo({ left: targetLeft, behavior });
-          } else {
-            topRow.scrollLeft = targetLeft;
-          }
-        }
-      } else {
-        const cardEl = document.getElementById(targetId);
-        if (cardEl) {
-          const targetScrollTop = computeCenteredTop(cardEl);
-          if (smooth) {
-            container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
-          } else {
-            container.scrollTop = targetScrollTop;
-          }
-        }
-      }
-
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        if (clamped === 0 || clamped === 5) {
-          if (topRow) {
-            const settledTop = computeCenteredTop(topRow);
-            if (Math.abs(container.scrollTop - settledTop) > 1) {
-              container.scrollTop = settledTop;
-            }
-            const horizCard = document.getElementById(targetId);
-            if (horizCard) {
-              const settledLeft = Math.max(
-                0,
-                Math.round(horizCard.offsetLeft - (topRow.clientWidth - horizCard.offsetWidth) / 2)
-              );
-              if (Math.abs(topRow.scrollLeft - settledLeft) > 1) {
-                topRow.scrollLeft = settledLeft;
-              }
-            }
-          }
-        } else {
-          const cardEl = document.getElementById(targetId);
-          if (cardEl) {
-            const settledTop = computeCenteredTop(cardEl);
-            if (Math.abs(container.scrollTop - settledTop) > 1) {
-              container.scrollTop = settledTop;
-            }
-          }
-        }
-        isProgrammaticScrollRef.current = false;
+      if (rafLayoutRef.current) window.cancelAnimationFrame(rafLayoutRef.current);
+      rafLayoutRef.current = window.requestAnimationFrame(() => {
         evaluateOverallLayoutTypography(document.getElementById('global-content-viewport'));
-      }, smooth ? 560 : 60);
+      });
     },
     []
   );
-
-  const syncActiveHoroscopeIndex = useCallback(() => {
-    if (isProgrammaticScrollRef.current) return;
-    const container = horoscopeContainerRef.current;
-    if (!container) return;
-    const topRow = horoscopeTopRowRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const containerCenterY = containerRect.top + containerRect.height / 2;
-
-    // If user is in the top horizontal row (Card 1 & Card 5)
-    if (topRow && container.scrollTop < Math.max(120, topRow.offsetHeight * 0.45)) {
-      const maxHorizontalScroll = Math.max(1, topRow.scrollWidth - topRow.clientWidth);
-      const nextIdx = topRow.scrollLeft > maxHorizontalScroll * 0.42 ? 5 : 0;
-      if (nextIdx !== activeCardIndexRef.current) {
-        activeCardIndexRef.current = nextIdx;
-        setActiveCardIndex(nextIdx);
-      }
-      return;
-    }
-
-    const verticalTargets: Array<{ id: string; idx: number }> = [
-      { id: 'horoscope-card-2', idx: 1 },
-      { id: 'horoscope-card-3', idx: 2 },
-      { id: 'horoscope-card-pillars', idx: 3 },
-      { id: 'horoscope-card-4', idx: 4 },
-    ];
-    let nextIdx = activeCardIndexRef.current;
-    let minDiff = Infinity;
-    verticalTargets.forEach(({ id, idx }) => {
-      const el = document.getElementById(id);
-      if (el) {
-        const r = el.getBoundingClientRect();
-        const diff = Math.abs(r.top + r.height / 2 - containerCenterY);
-        if (diff < minDiff) {
-          minDiff = diff;
-          nextIdx = idx;
-        }
-      }
-    });
-    if (nextIdx !== activeCardIndexRef.current) {
-      activeCardIndexRef.current = nextIdx;
-      setActiveCardIndex(nextIdx);
-    }
-  }, []);
-
-  const handleHoroscopeContainerScroll = syncActiveHoroscopeIndex;
 
   // Horoscope Commentary MP3 Audio State
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
@@ -715,14 +489,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     SoundEngine.playTap();
     const count = HOROSCOPE_SLIDES.length;
     const target = (activeCardIndexRef.current - 1 + count) % count;
-    scrollToHoroscopeCard(target, true);
+    scrollToHoroscopeCard(target, true, -1);
   }, [scrollToHoroscopeCard]);
 
   const handleNextHoroscopeCard = useCallback(() => {
     SoundEngine.playTap();
     const count = HOROSCOPE_SLIDES.length;
     const target = (activeCardIndexRef.current + 1) % count;
-    scrollToHoroscopeCard(target, true);
+    scrollToHoroscopeCard(target, true, 1);
   }, [scrollToHoroscopeCard]);
 
   // Keyboard navigation Left/Right through 6 cards
@@ -1622,100 +1396,136 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     </div>
   );
 
+  // Quick Header Action helper for Horoscope Cards 2..5 to jump back to Card 1 or step between cards
+  const renderCardHeaderQuickNav = (slideNumber: number) => (
+    <div className="flex items-center gap-1.5 shrink-0">
+      <button
+        type="button"
+        onClick={() => {
+          SoundEngine.playTap();
+          scrollToHoroscopeCard(0, true, -1);
+        }}
+        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors cursor-pointer"
+        title="Quay lại 1. Hồ sơ & Luận giải"
+      >
+        <span>← 1. Hồ sơ</span>
+      </button>
+      <span className="typo-badge px-2 py-0.5 rounded-full font-mono tabular-nums border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)]">
+        {slideNumber}/{HOROSCOPE_SLIDES.length}
+      </span>
+    </div>
+  );
+
   // =========================================================================
   // CARD 2: 2. PHONG CÁCH QUẢN TRỊ
   // =========================================================================
   const renderCard2PhongCachQuanTri = () => (
-    <div
+    <section
       id="horoscope-card-2"
       data-element-name="Card tử vi 2"
       data-element-type="card"
       data-main-card="true"
+      data-floating-surface="main"
       data-element-page="horoscope"
-      style={horoscopeStackedCardStyle}
-      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
+      data-element-parent="horoscope-cards-track"
+      style={horoscopeMainCardStyle}
+      className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
     >
-      <div className="w-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
-        <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
-          <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 shrink-0" />
-          <h3
-            className="card-title-synced typo-h3 tracking-wide font-play text-blue-600 dark:text-cyan-400 truncate"
-            data-card-title="true"
-          >
-            2. Phong Cách Quản Trị
-          </h3>
-        </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20 shrink-0">
-          4 Trụ Cột Quản Trị
-        </span>
-      </div>
-
-      <div className="w-full min-w-0 flex-1 grid grid-cols-1 sm:grid-cols-2 items-stretch gap-[15px] [grid-auto-flow:dense]">
-        {WORK_PERSONALITY_TRAITS.map((trait, index) => {
-          const palettes = [
-            { icon: Compass, text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
-            { icon: ShieldCheck, text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
-            { icon: Settings, text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
-            { icon: Users, text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
-          ];
-          const p = palettes[index % 4];
-          const TraitIcon = p.icon;
-          return (
-            <div
-              key={trait.id}
-              style={level2CardStyle}
-              className="transition-all duration-300 flex flex-col justify-between gap-3 min-w-0"
+      <div
+        id="horoscope-card-2-viewport"
+        className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+      >
+        <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+          <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
+            <Briefcase style={transparentLogoStyle} className="w-6 h-6 text-blue-600 dark:text-cyan-400 shrink-0" />
+            <h3
+              className="card-title-synced typo-h3 tracking-wide font-play text-blue-600 dark:text-cyan-400 truncate"
+              data-card-title="true"
             >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
-                  <div className={`card-header-sync flex items-center gap-2 min-w-0 ${p.text}`}>
-                    <TraitIcon className={`w-4 h-4 ${p.text} shrink-0`} />
-                    <h5
-                      className={`typo-h5 card-title-synced ${p.text} font-play truncate`}
-                      data-card-title="true"
-                    >
-                      {trait.title}
-                    </h5>
+              2. Phong Cách Quản Trị
+            </h3>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <span className="typo-badge px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20 shrink-0">
+              4 Trụ Cột Quản Trị
+            </span>
+            {renderCardHeaderQuickNav(2)}
+          </div>
+        </div>
+
+        <div className="w-full min-w-0 flex-1 grid grid-cols-1 sm:grid-cols-2 items-stretch gap-[15px] [grid-auto-flow:dense]">
+          {WORK_PERSONALITY_TRAITS.map((trait, index) => {
+            const palettes = [
+              { icon: Compass, text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-500/10', border: 'border-sky-500/25' },
+              { icon: ShieldCheck, text: 'text-violet-700 dark:text-violet-300', bg: 'bg-violet-500/10', border: 'border-violet-500/25' },
+              { icon: Settings, text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/25' },
+              { icon: Users, text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-500/10', border: 'border-amber-500/25' },
+            ];
+            const p = palettes[index % 4];
+            const TraitIcon = p.icon;
+            return (
+              <div
+                key={trait.id}
+                style={level2CardStyle}
+                className="transition-all duration-300 flex flex-col justify-between gap-3 min-w-0"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                    <div className={`card-header-sync flex items-center gap-2 min-w-0 ${p.text}`}>
+                      <TraitIcon className={`w-4 h-4 ${p.text} shrink-0`} />
+                      <h5
+                        className={`typo-h5 card-title-synced ${p.text} font-play truncate`}
+                        data-card-title="true"
+                      >
+                        {trait.title}
+                      </h5>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
+                      {trait.tag}
+                    </span>
                   </div>
-                  <span className={`px-2 py-0.5 rounded-full ${p.bg} ${p.text} border ${p.border} typo-badge shrink-0`}>
-                    {trait.tag}
-                  </span>
+                  <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
+                  <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed text-justify">
+                    {trait.description}
+                  </p>
                 </div>
-                <div className="typo-caption font-semibold text-[var(--text-secondary)]">{trait.subtitle}</div>
-                <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed text-justify">
-                  {trait.description}
-                </p>
+                <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
+                  {trait.highlights.map((h, hIdx) => (
+                    <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
+                      <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
+                      <span>{h}</span>
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="pt-2 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
-                {trait.highlights.map((h, hIdx) => (
-                  <span key={hIdx} className="project-detail-chip px-2 py-0.5 rounded-full typo-badge flex items-center gap-1">
-                    <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
-                    <span>{h}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 
   // =========================================================================
   // CARD 3: 3. CHÂN DUNG CÔNG VIỆC (A. 6 CUNG CỐT LÕI)
   // =========================================================================
   const renderCard3ChanDungVaTrietLy = () => (
-    <div
+    <section
       id="horoscope-card-3"
       data-element-name="Card tử vi 3"
       data-element-type="card"
       data-main-card="true"
+      data-floating-surface="main"
       data-element-page="horoscope"
-      style={horoscopeStackedCardStyle}
-      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden font-play box-border"
+      data-element-parent="horoscope-cards-track"
+      style={horoscopeMainCardStyle}
+      className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
     >
+      <div
+        id="horoscope-card-3-viewport"
+        className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+      >
       {/* Header Bar Card 3 */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
         <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
           <Target style={transparentLogoStyle} className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <h3
@@ -1725,9 +1535,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             3. Chân Dung Công Việc · 6 Cung Cốt Lõi
           </h3>
         </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shrink-0">
-          Tử Vi Thực Chiến
-        </span>
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <span className="typo-badge px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shrink-0">
+            Tử Vi Thực Chiến
+          </span>
+          {renderCardHeaderQuickNav(3)}
+        </div>
       </div>
 
       {/* 6 CUNG CỐT LÕI VẬN HÀNH SỰ NGHIỆP */}
@@ -1826,36 +1639,46 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           })}
         </div>
       </div>
-    </div>
+      </div>
+    </section>
   );
 
   // =========================================================================
   // MAIN CARD TÁCH RIÊNG: 6 TRỤ CỘT TRIẾT LÝ LÃNH ĐẠO & HÀNH ĐỘNG
   // =========================================================================
   const renderCardPillarsTrietLy = () => (
-    <div
+    <section
       id="horoscope-card-pillars"
       data-element-name="Card chính 6 Trụ Cột Triết Lý Lãnh Đạo & Hành Động"
       data-element-type="card"
       data-main-card="true"
+      data-floating-surface="main"
       data-element-page="horoscope"
-      style={horoscopeStackedCardStyle}
-      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden font-play box-border"
+      data-element-parent="horoscope-cards-track"
+      style={horoscopeMainCardStyle}
+      className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
-        <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0 text-amber-600 dark:text-amber-400">
-          <Award style={transparentLogoStyle} className="w-6 h-6 text-amber-600 dark:text-amber-400 shrink-0" />
-          <h3
-            className="card-title-synced typo-h3 font-play font-bold tracking-wide truncate"
-            data-card-title="true"
-          >
-            6 Trụ Cột Triết Lý Lãnh Đạo &amp; Hành Động
-          </h3>
+      <div
+        id="horoscope-card-pillars-viewport"
+        className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+          <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0 text-amber-600 dark:text-amber-400">
+            <Award style={transparentLogoStyle} className="w-6 h-6 text-amber-600 dark:text-amber-400 shrink-0" />
+            <h3
+              className="card-title-synced typo-h3 font-play font-bold tracking-wide truncate"
+              data-card-title="true"
+            >
+              6 Trụ Cột Triết Lý Lãnh Đạo &amp; Hành Động
+            </h3>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <span className="typo-badge px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 shrink-0">
+              Kim Chỉ Nam Điều Hành
+            </span>
+            {renderCardHeaderQuickNav(4)}
+          </div>
         </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 shrink-0">
-          Kim Chỉ Nam Điều Hành
-        </span>
-      </div>
 
       <div className="w-full p-3 rounded-[12px] border border-amber-500/25 bg-amber-500/10 flex items-start sm:items-center gap-2.5 shrink-0">
         <Sparkles className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
@@ -1896,36 +1719,46 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           );
         })}
       </div>
-    </div>
+      </div>
+    </section>
   );
 
   // =========================================================================
   // CARD 4: 4. KỸ NĂNG NGŨ HÀNH
   // =========================================================================
   const renderCard4KyNangNguHanh = () => (
-    <div
+    <section
       id="horoscope-card-4"
       data-element-name="Card tử vi 4"
       data-element-type="card"
       data-main-card="true"
+      data-floating-surface="main"
       data-element-page="horoscope"
-      style={horoscopeStackedCardStyle}
-      className="page-main-card bento-card glass-card w-full max-w-full flex flex-col items-stretch gap-[15px] p-[15px] rounded-[14px] box-border"
+      data-element-parent="horoscope-cards-track"
+      style={horoscopeMainCardStyle}
+      className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
     >
-      <div className="w-full flex items-center justify-between gap-2 pb-3.5 border-b border-[var(--border-subcard)] shrink-0">
-        <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
-          <Layers style={transparentLogoStyle} className="w-6 h-6 text-cyan-600 dark:text-cyan-400 shrink-0" />
-          <h3
-            className="card-title-synced typo-h3 tracking-wide font-play text-cyan-600 dark:text-cyan-400 truncate"
-            data-card-title="true"
-          >
-            4. Kỹ Năng Ngũ Hành
-          </h3>
+      <div
+        id="horoscope-card-4-viewport"
+        className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+      >
+        <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[var(--border-subcard)] shrink-0">
+          <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
+            <Layers style={transparentLogoStyle} className="w-6 h-6 text-cyan-600 dark:text-cyan-400 shrink-0" />
+            <h3
+              className="card-title-synced typo-h3 tracking-wide font-play text-cyan-600 dark:text-cyan-400 truncate"
+              data-card-title="true"
+            >
+              4. Kỹ Năng Ngũ Hành
+            </h3>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <span className="typo-badge px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20 shrink-0">
+              5 Hành &amp; Hợp Nhất
+            </span>
+            {renderCardHeaderQuickNav(5)}
+          </div>
         </div>
-        <span className="typo-badge px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20 shrink-0">
-          5 Hành &amp; Hợp Nhất
-        </span>
-      </div>
 
       <div className="w-full flex items-center justify-between flex-wrap gap-2 shrink-0">
         <div className="card-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
@@ -1994,7 +1827,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           );
         })}
       </div>
-    </div>
+      </div>
+    </section>
   );
 
   // =========================================================================
@@ -2010,32 +1844,22 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           : 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30';
 
     return (
-      <div
+      <section
         id="horoscope-card-5"
         data-element-name="Card tử vi 5"
         data-element-type="card"
         data-main-card="true"
+        data-floating-surface="main"
         data-element-page="horoscope"
-        data-element-parent="horoscope-row-1-5-horizontal"
-        onClick={() => {
-          const topRow = horoscopeTopRowRef.current;
-          if (topRow && topRow.scrollLeft < Math.max(24, (topRow.scrollWidth - topRow.clientWidth) * 0.25)) {
-            scrollToHoroscopeCard(5, true);
-          }
-        }}
-        style={
-          {
-            ...horoscopeMainCardStyle,
-            padding: '15px',
-            height: mainCard1Height ? `${mainCard1Height}px` : '100%',
-            minHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
-            maxHeight: mainCard1Height ? `${mainCard1Height}px` : undefined,
-            '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
-          } as React.CSSProperties
-        }
-        className="page-main-card bento-card glass-card shrink-0 snap-center grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch content-start gap-[15px] [grid-auto-flow:dense] p-[15px] rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+        data-element-parent="horoscope-cards-track"
+        style={horoscopeMainCardStyle}
+        className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
       >
-        <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-[var(--border-subcard)]">
+        <div
+          id="horoscope-card-5-viewport"
+          className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] items-stretch content-start gap-[15px] [grid-auto-flow:dense] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+        >
+        <div className="col-span-full flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border-subcard)]">
           <div className="card-header-sync flex items-center gap-2.5 text-left min-w-0">
             <Users style={transparentLogoStyle} className="w-6 h-6 text-purple-600 dark:text-purple-400 shrink-0" />
             <h3
@@ -2052,13 +1876,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 SoundEngine.playTap();
-                scrollToHoroscopeCard(0, true);
+                scrollToHoroscopeCard(0, true, -1);
               }}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors cursor-pointer"
               title="Quay lại Thẻ Tử Vi 1"
             >
-              <span>← Hồ sơ & Luận giải</span>
+              <span>← 1. Hồ sơ & Luận giải</span>
             </button>
+            <span className="typo-badge px-2 py-0.5 rounded-full font-mono tabular-nums border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)]">
+              6/{HOROSCOPE_SLIDES.length}
+            </span>
 
             {/* Bộ chuyển đổi 2 chế độ tra cứu: 12 Con Giáp & 4 Khối Phòng Ban */}
           <div
@@ -2470,8 +2297,104 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             </div>
           </>
         )}
-      </div>
+        </div>
+      </section>
     );
+  };
+
+  // =========================================================================
+  // CARD 1: 1. HỒ SƠ NGUYỄN HÙNG THÁI + BANNER + 6. LUẬN GIẢI LÁ SỐ TỬ VI
+  // =========================================================================
+  const renderCard1HoSoVaLuanGiaiMainCard = () => (
+    <section
+      id="horoscope-card-1"
+      data-element-name="Thẻ main chính tử vi 1"
+      data-element-type="card"
+      data-main-card="true"
+      data-floating-surface="main"
+      data-element-page="horoscope"
+      data-element-parent="horoscope-cards-track"
+      style={horoscopeMainCardStyle}
+      className="page-main-card floating-glass-surface floating-surface--main relative shrink-0 flex flex-col justify-start rounded-none overflow-hidden select-none font-play text-left box-border opacity-100"
+    >
+      <div
+        id="horoscope-card-1-viewport"
+        className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[10px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+      >
+        {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
+        {renderHeroBanner()}
+
+        {/* BỐ CỤC BENTO 12 CỘT RESPONSIVE: HỒ SƠ NGUYỄN HÙNG THÁI (7/12) & 6. LUẬN GIẢI LÁ SỐ TỬ VI (5/12) */}
+        <div
+          id="horoscope-row-1-horizontal"
+          className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[10px] items-stretch"
+        >
+          {/* Bento Left (7/12): Thẻ Hồ sơ Nguyễn Hùng Thái */}
+          <div
+            id="horoscope-card-profile"
+            data-element-name="Thẻ Hồ sơ Nguyễn Hùng Thái"
+            data-element-type="card"
+            data-subcard="true"
+            data-element-page="horoscope"
+            data-element-parent="horoscope-card-1"
+            style={level2CardStyle}
+            className="lg:col-span-7 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
+          >
+            {renderCard1HoSoTuViContent()}
+          </div>
+
+          {/* Bento Right (5/12): Thẻ 6. Luận giải lá số tử vi */}
+          <div
+            id="horoscope-card-6"
+            data-element-name="Card tử vi 6"
+            data-element-type="card"
+            data-subcard="true"
+            data-element-page="horoscope"
+            data-element-parent="horoscope-card-1"
+            style={level2CardStyle}
+            className="lg:col-span-5 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-hidden box-border"
+          >
+            {renderCard6LuanGiaiContent()}
+          </div>
+        </div>
+
+        {/* Bento Bottom Strip: Câu nói triết lý lãnh đạo */}
+        {renderCard1BottomLeadershipQuote()}
+      </div>
+    </section>
+  );
+
+  const renderActiveHoroscopeMainCard = () => {
+    switch (activeCardIndex) {
+      case 0:
+        return renderCard1HoSoVaLuanGiaiMainCard();
+      case 1:
+        return renderCard2PhongCachQuanTri();
+      case 2:
+        return renderCard3ChanDungVaTrietLy();
+      case 3:
+        return renderCardPillarsTrietLy();
+      case 4:
+        return renderCard4KyNangNguHanh();
+      case 5:
+      default:
+        return renderCard5KiemTraCongViec();
+    }
+  };
+
+  const cardSlideVariants = {
+    enter: (direction: 1 | -1) => ({
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : direction * 48,
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+    },
+    exit: (direction: 1 | -1) => ({
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : direction * -48,
+    }),
   };
 
   return (
@@ -2484,118 +2407,39 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         data-element-page="horoscope"
         data-element-parent="global-content-viewport"
         data-no-wheel-horizontal="true"
-        onScroll={handleHoroscopeContainerScroll}
+        onTouchStart={(e) => {
+          if (e.touches.length !== 1) return;
+          touchStartXRef.current = e.touches[0].clientX;
+          touchStartYRef.current = e.touches[0].clientY;
+        }}
+        onTouchEnd={(e) => {
+          const startX = touchStartXRef.current;
+          const startY = touchStartYRef.current;
+          touchStartXRef.current = null;
+          touchStartYRef.current = null;
+          if (startX === null || startY === null || e.changedTouches.length === 0) return;
+          const dx = e.changedTouches[0].clientX - startX;
+          const dy = e.changedTouches[0].clientY - startY;
+          if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+            if (dx < 0) {
+              handleNextHoroscopeCard();
+            } else {
+              handlePrevHoroscopeCard();
+            }
+          }
+        }}
         style={{
+          touchAction: 'pan-y',
           width: '100%',
           maxWidth: '100%',
           marginLeft: '0px',
           marginRight: '0px',
-          paddingTop: '0px',
-          paddingLeft: '0px',
-          paddingRight: '0px',
-          paddingBottom: '0px',
+          padding: '0px',
           borderRadius: '0px',
           background: 'transparent',
         }}
-        className="main-card relative w-full max-w-full min-w-0 h-full min-h-0 mx-0 flex-1 flex flex-col items-center justify-start p-0 gap-[10px] font-play text-left text-[var(--text-primary)] rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar z-10 box-border"
+        className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-center p-0 gap-[10px] overflow-hidden no-scrollbar select-none font-play text-left text-[var(--text-primary)] rounded-none z-10 box-border"
       >
-        {/* HÀNG NGANG TRÊN CÙNG: MAIN CARD TỬ VI 1 + CARD 5 KIỂM TRA TƯƠNG HỢP (NHÔ MỘT PHẦN BÊN PHẢI) */}
-        <div
-          ref={horoscopeTopRowRef}
-          id="horoscope-row-1-5-horizontal"
-          data-element-name="Hàng ngang Tử Vi 1 và Kiểm Tra Tương Hợp 5"
-          data-element-type="container"
-          data-element-page="horoscope"
-          data-element-parent="horoscope-page-container"
-          onScroll={syncActiveHoroscopeIndex}
-          style={{
-            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-          className="w-full max-w-full mx-auto flex flex-row flex-nowrap items-center gap-[10px] overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory shrink-0 box-border"
-        >
-          {/* MAIN CARD TỬ VI 1: NHÓM BANNER + HỒ SƠ NGUYỄN HÙNG THÁI + 6. LUẬN GIẢI LÁ SỐ TỬ VI (1000x600px) */}
-          <section
-            id="horoscope-card-1"
-            data-element-name="Thẻ main chính tử vi 1"
-            data-element-type="card"
-            data-main-card="true"
-            data-element-page="horoscope"
-            data-element-parent="horoscope-row-1-5-horizontal"
-            onClick={() => {
-              const topRow = horoscopeTopRowRef.current;
-              if (topRow && topRow.scrollLeft > 40) {
-                scrollToHoroscopeCard(0, true);
-              }
-            }}
-            style={
-              {
-                ...horoscopeMainCardStyle,
-                padding: '15px',
-                gap: '0px',
-                flex: '0 0 100%',
-                width: '100%',
-                maxWidth: '100%',
-                height: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                minHeight: mainCard1Height ? `${mainCard1Height}px` : '0px',
-                maxHeight: mainCard1Height ? `${mainCard1Height}px` : '100%',
-                '--horoscope-main-card-1-h': mainCard1Height ? `${mainCard1Height}px` : '100%',
-              } as React.CSSProperties
-            }
-            className="page-main-card shrink-0 snap-center relative flex flex-col justify-start p-[15px] gap-0 rounded-none overflow-hidden box-border"
-          >
-            <div
-              id="horoscope-card-1-viewport"
-              className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[10px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
-            >
-              {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
-              {renderHeroBanner()}
-
-              {/* BỐ CỤC BENTO 12 CỘT RESPONSIVE: HỒ SƠ NGUYỄN HÙNG THÁI (7/12) & 6. LUẬN GIẢI LÁ SỐ TỬ VI (5/12) */}
-              <div
-                id="horoscope-row-1-horizontal"
-                className="w-full flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-[10px] items-stretch"
-              >
-                {/* Bento Left (7/12): Thẻ Hồ sơ Nguyễn Hùng Thái */}
-                <div
-                  id="horoscope-card-profile"
-                  data-element-name="Thẻ Hồ sơ Nguyễn Hùng Thái"
-                  data-element-type="card"
-                  data-subcard="true"
-                  data-element-page="horoscope"
-                  data-element-parent="horoscope-card-1"
-                  style={level2CardStyle}
-                  className="lg:col-span-7 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar box-border"
-                >
-                  {renderCard1HoSoTuViContent()}
-                </div>
-
-                {/* Bento Right (5/12): Thẻ 6. Luận giải lá số tử vi */}
-                <div
-                  id="horoscope-card-6"
-                  data-element-name="Card tử vi 6"
-                  data-element-type="card"
-                  data-subcard="true"
-                  data-element-page="horoscope"
-                  data-element-parent="horoscope-card-1"
-                  style={level2CardStyle}
-                  className="lg:col-span-5 sub-card bento-card glass-card w-full h-full min-h-0 flex flex-col justify-between gap-2 p-3 rounded-[14px] overflow-hidden box-border"
-                >
-                  {renderCard6LuanGiaiContent()}
-                </div>
-              </div>
-
-              {/* Bento Bottom Strip: Câu nói triết lý lãnh đạo */}
-              {renderCard1BottomLeadershipQuote()}
-            </div>
-          </section>
-
-          {/* MAIN CARD TỬ VI 5: KIỂM TRA TƯƠNG HỢP CÔNG VIỆC (XẾP NGANG BÊN PHẢI CARD 1 VÀ NHÔ MỘT PHẦN) */}
-          {renderCard5KiemTraCongViec()}
-        </div>
-
         <div
           id="horoscope-cards-track"
           data-element-name="Track căn giữa Tử Vi"
@@ -2604,38 +2448,36 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-page-container"
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'stretch',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
             gap: '10px',
-            rowGap: '10px',
-            columnGap: '10px',
-            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            paddingLeft: '0px',
-            paddingRight: '0px',
-            paddingBottom: '0px',
+            height: '100%',
+            minHeight: '100%',
+            width: '100%',
+            maxWidth: '100%',
+            padding: '0px',
             boxSizing: 'border-box',
-            ...(mainCard1Height
-              ? ({
-                  '--horoscope-main-card-1-h': `${mainCard1Height}px`,
-                } as React.CSSProperties)
-              : {}),
           }}
-          className="page-cards-track flex flex-col items-stretch gap-[10px] mx-auto box-border"
+          className="page-cards-track flex flex-row items-center justify-center gap-[10px] w-full max-w-full h-full min-h-full overflow-hidden box-border"
         >
-          {/* MAIN CARD TỬ VI 2: PHONG CÁCH QUẢN TRỊ */}
-          {renderCard2PhongCachQuanTri()}
-
-          {/* MAIN CARD TỬ VI 3: CHÂN DUNG CÔNG VIỆC (6 CUNG CỐT LÕI) */}
-          {renderCard3ChanDungVaTrietLy()}
-
-          {/* MAIN CARD TÁCH RIÊNG: 6 TRỤ CỘT TRIẾT LÝ LÃNH ĐẠO & HÀNH ĐỘNG */}
-          {renderCardPillarsTrietLy()}
-
-          {/* MAIN CARD TỬ VI 4: KỸ NĂNG NGŨ HÀNH */}
-          {renderCard4KyNangNguHanh()}
+          <AnimatePresence mode="wait" initial={false} custom={slideDirection}>
+            <motion.div
+              key={activeCardIndex}
+              custom={slideDirection}
+              variants={cardSlideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                duration: shouldReduceMotion ? 0.12 : 0.24,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="w-full max-w-full h-full min-w-0 min-h-0 flex items-center justify-center overflow-hidden"
+            >
+              {renderActiveHoroscopeMainCard()}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

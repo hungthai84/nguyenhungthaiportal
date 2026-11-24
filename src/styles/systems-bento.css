@@ -115,13 +115,22 @@ html[data-card-style="cowhide-leather"] .sys-bento-tile {
 }
 
 html[data-card-style="black-cowhide-leather"] .sys-bento-tile {
-  background: linear-gradient(145deg, #242730 0%, #14161D 100%) !important;
-  border: 1.5px solid #08090C !important;
-  outline: 1px dashed rgba(255, 255, 255, 0.68);
-  outline-offset: -7px;
-  color: #ffffff !important;
+  background: linear-gradient(145deg, #3A2214 0%, #2A190F 52%, #1B1009 100%) !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.24);
+  outline-offset: -5px;
+  color: #FFFBF4 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="mica-fluent"] .sys-bento-tile {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  color: #1C0708 !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
 }
 
 html[data-card-style="neumorphism-beyond"] .sys-bento-tile,
@@ -187,9 +196,17 @@ html[data-card-style="cowhide-leather"] .sys-bento-subtile {
 }
 
 html[data-card-style="black-cowhide-leather"] .sys-bento-subtile {
-  background: rgba(16, 18, 24, 0.78) !important;
-  border-color: rgba(255, 255, 255, 0.24) !important;
-  color: #ffffff !important;
+  background: rgba(27, 16, 9, 0.84) !important;
+  border-color: rgba(245, 196, 120, 0.24) !important;
+  color: #FFFBF4 !important;
+}
+
+html[data-card-style="mica-fluent"] .sys-bento-subtile {
+  background: hsla(0, 0%, 98%, 0.78) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  color: #1C0708 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .sys-bento-media-frame {

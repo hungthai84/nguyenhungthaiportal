@@ -20,7 +20,8 @@ export type CardStyleMode =
   | 'frost-ice-neu'
   | 'dark-frost-ice-neu'
   | 'flat-soft-ui'
-  | 'dark-flat-soft-ui';
+  | 'dark-flat-soft-ui'
+  | 'mica-fluent';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
@@ -29,7 +30,8 @@ export type ThemeFamilyId =
   | 'neumorphism-beyond'
   | 'frost-ice-neu'
   | 'multicolor-glass'
-  | 'flat-soft-ui';
+  | 'flat-soft-ui'
+  | 'mica-fluent';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

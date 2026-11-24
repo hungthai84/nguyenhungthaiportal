@@ -806,13 +806,13 @@ html.dark[data-card-style] #horoscope-cards-track {
   box-sizing: border-box !important;
 }
 
-/* Vertical Scroll Track (Letter): Full Width with 10px Gap Between Main Cards */
+/* Vertical Scroll Track (Letter): Full Viewport Width Containment with 10px Gap */
 html #letter-cards-track,
 html[data-card-style] #letter-cards-track,
 html.dark[data-card-style] #letter-cards-track {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
+  align-items: stretch !important;
   justify-content: flex-start !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -820,73 +820,64 @@ html.dark[data-card-style] #letter-cards-track {
   height: auto !important;
   min-height: auto !important;
   flex: 0 0 auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-top: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0px !important;
+  margin: 0 !important;
+  padding: 0px !important;
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
+  overflow-x: hidden !important;
   box-sizing: border-box !important;
 }
 
-/* Horoscope Horizontal Top Row (Card 1 + Card 5 Side-by-Side with 10px Gap) */
-html #horoscope-row-1-5-horizontal,
-html[data-card-style] #horoscope-row-1-5-horizontal,
-html.dark[data-card-style] #horoscope-row-1-5-horizontal {
+/* Horoscope Cards Track & Cards 1..6: HomeView Main Card Dimensions (Full Height, 0px Radius, Unified Width) */
+html #horoscope-cards-track,
+html[data-card-style] #horoscope-cards-track,
+html.dark[data-card-style] #horoscope-cards-track {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  flex: 0 0 auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 100% !important;
+  margin: 0 !important;
+  padding: 0px !important;
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-  padding-left: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
-  padding-right: max(10px, calc((100% - var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) / 2)) !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
+  overflow: hidden !important;
   box-sizing: border-box !important;
 }
 
-html #horoscope-row-1-5-horizontal::-webkit-scrollbar {
-  display: none !important;
-  width: 0px !important;
-  height: 0px !important;
-}
-
-/* Horoscope Cards 2..4 inside vertical track stay 1000x600px, 14px radius */
-html #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4),
-html[data-card-style] #horoscope-cards-track > :is(#horoscope-card-2, #horoscope-card-3, #horoscope-card-4) {
+html #horoscope-cards-track .page-main-card,
+html[data-card-style] #horoscope-cards-track .page-main-card,
+html.dark[data-card-style] #horoscope-cards-track .page-main-card,
+html #horoscope-cards-track [data-main-card="true"],
+html[data-card-style] #horoscope-cards-track [data-main-card="true"],
+html.dark[data-card-style] #horoscope-cards-track [data-main-card="true"] {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  flex: 0 0 auto !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  margin: 0 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  flex: 1 1 100% !important;
+  overflow: hidden !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   padding: var(--main-card-padding, 15px) !important;
   gap: 12px !important;
   row-gap: 12px !important;
   column-gap: 12px !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -898,9 +889,9 @@ html #letter-cards-track > #letter-card-1,
 html[data-card-style] #letter-cards-track > #letter-card-1,
 html #letter-cards-track > #letter-card-4,
 html[data-card-style] #letter-cards-track > #letter-card-4 {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
-  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
   height: var(--letter-viewport-h, 100cqh) !important;
   height: 100cqh !important;
   min-height: var(--letter-viewport-h, 100cqh) !important;
@@ -912,7 +903,7 @@ html[data-card-style] #letter-cards-track > #letter-card-4 {
   overflow-x: hidden !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
   padding: var(--main-card-padding, 20px) !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -931,54 +922,7 @@ html #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3)::-webkit-scroll
   height: 0px !important;
 }
 
-/* Horoscope Main Card 1 & Card 5 in Horizontal Top Row: 1000x600px, 14px radius, 10px gap */
-html #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5),
-html[data-card-style] #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5),
-html.dark[data-card-style] #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5) {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
-  min-width: 0 !important;
-  flex: 0 0 var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  scroll-snap-align: center;
-  height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  margin: 0 !important;
-  padding: var(--main-card-padding, 15px) !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-radius: var(--radius-main, 14px) !important;
-  box-sizing: border-box !important;
-}
-
-html #horoscope-row-1-5-horizontal > #horoscope-card-1,
-html[data-card-style] #horoscope-row-1-5-horizontal > #horoscope-card-1,
-html.dark[data-card-style] #horoscope-row-1-5-horizontal > #horoscope-card-1 {
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-  gap: 0px !important;
-}
-
-html #horoscope-row-1-5-horizontal > #horoscope-card-5,
-html[data-card-style] #horoscope-row-1-5-horizontal > #horoscope-card-5,
-html.dark[data-card-style] #horoscope-row-1-5-horizontal > #horoscope-card-5 {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  gap: 12px !important;
-}
-
-@media (max-width: 1023px) {
-  html #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5),
-  html[data-card-style] #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5),
-  html.dark[data-card-style] #horoscope-row-1-5-horizontal > :is(#horoscope-card-1, #horoscope-card-5) {
-    height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-    min-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-    max-height: min(var(--main-card-target-h, 600px), var(--horoscope-main-card-1-h, 600px)) !important;
-  }
-}
-
-/* Letter Row 2-3 Horizontal Row (Card 3 Side-by-Side Right of Card 2 with 10px Gap, same width & height as Home main card) */
+/* Letter Row 2-3 Horizontal Row (Strictly 100% Track Width, Internal Horizontal Scroll) */
 html:root body #letter-page-container #letter-cards-row-2-3,
 html:root[data-card-style] body #letter-page-container #letter-cards-row-2-3,
 html #letter-cards-row-2-3,
@@ -992,9 +936,9 @@ html.dark[data-card-style] #letter-cards-row-2-3 {
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
-  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
   height: var(--letter-viewport-h, 100cqh) !important;
   height: 100cqh !important;
   min-height: var(--letter-viewport-h, 100cqh) !important;
@@ -1002,11 +946,8 @@ html.dark[data-card-style] #letter-cards-row-2-3 {
   max-height: var(--letter-viewport-h, 100cqh) !important;
   max-height: 100cqh !important;
   flex: 0 0 auto !important;
-  margin: 0 auto !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  margin: 0 !important;
+  padding: 0px !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   scroll-behavior: auto !important;
@@ -5020,14 +4961,11 @@ html:root[data-card-style] body :is(
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: LETTER & HOROSCOPE VERTICAL SCROLLING            */
+/* ABSOLUTE FINAL OVERRIDE: LETTER (VERTICAL) & HOROSCOPE (HOME-STYLE STAGE) */
 /* ========================================================================= */
 html:root body #letter-page-container,
-html:root body #horoscope-page-container,
 html:root[data-card-style] body #letter-page-container,
-html:root[data-card-style] body #horoscope-page-container,
-html:root.dark[data-card-style] body #letter-page-container,
-html:root.dark[data-card-style] body #horoscope-page-container {
+html:root.dark[data-card-style] body #letter-page-container {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -5036,6 +4974,8 @@ html:root.dark[data-card-style] body #horoscope-page-container {
   max-width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
+  flex: 1 1 0% !important;
+  max-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
   background: transparent !important;
@@ -5049,15 +4989,32 @@ html:root.dark[data-card-style] body #horoscope-page-container {
   touch-action: pan-y !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-}
-
-html:root body #letter-page-container,
-html:root[data-card-style] body #letter-page-container,
-html:root.dark[data-card-style] body #letter-page-container {
-  flex: 1 1 0% !important;
-  max-height: 100% !important;
   container-type: size !important;
   container-name: letter-viewport !important;
+}
+
+html:root body #horoscope-page-container,
+html:root[data-card-style] body #horoscope-page-container,
+html:root.dark[data-card-style] body #horoscope-page-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 /* ========================================================================= */
@@ -5677,8 +5634,8 @@ html:not([data-surface-depth="flat"]):root body :is(
   #experience-main-card,
   #contact-main-card,
   [id^="letter-card-"],
-  #horoscope-cards-track > .page-main-card,
-  #horoscope-row-1-5-horizontal > .page-main-card
+  #horoscope-cards-track .page-main-card,
+  #horoscope-cards-track [data-main-card="true"]
 ),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #app-header,
@@ -5692,8 +5649,8 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #experience-main-card,
   #contact-main-card,
   [id^="letter-card-"],
-  #horoscope-cards-track > .page-main-card,
-  #horoscope-row-1-5-horizontal > .page-main-card
+  #horoscope-cards-track .page-main-card,
+  #horoscope-cards-track [data-main-card="true"]
 ) {
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
@@ -6612,15 +6569,12 @@ html:root body #app-header-container,
 html:root body #app-header,
 html:root body #app-header-container > header,
 html:root body #global-content-viewport:not(:has(#pdf-page-container)),
-html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
-html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
+html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]),
 html:root body #about-intro-card-1,
 html:root body #about-intro-card-2,
 html:root body #experience-main-card,
 html:root body #contact-main-card,
-html:root body #letter-card-1,
-html:root body #letter-card-4,
-html:root body #letter-cards-row-2-3,
 html:root body #el-p0-div-98,
 html:root body #app-footer,
 html:root body #el-p0-div-98 > footer,
@@ -6628,15 +6582,12 @@ html:root[data-card-style] body #app-header-container,
 html:root[data-card-style] body #app-header,
 html:root[data-card-style] body #app-header-container > header,
 html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)),
-html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card):not(#horoscope-row-1-5-horizontal > .page-main-card):not(#letter-cards-row-2-3 > .page-main-card),
-html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]):not(#horoscope-row-1-5-horizontal > [data-main-card="true"]):not(#letter-cards-row-2-3 > [data-main-card="true"]),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]),
 html:root[data-card-style] body #about-intro-card-1,
 html:root[data-card-style] body #about-intro-card-2,
 html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
-html:root[data-card-style] body #letter-card-1,
-html:root[data-card-style] body #letter-card-4,
-html:root[data-card-style] body #letter-cards-row-2-3,
 html:root[data-card-style] body #el-p0-div-98,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 > footer {
@@ -6731,7 +6682,6 @@ html:root body :is(
   #home-page-container,
   #home-cards-track,
   #horoscope-page-container,
-  #horoscope-row-1-5-horizontal,
   #horoscope-cards-track,
   #letter-page-container,
   #letter-cards-track,
@@ -6742,7 +6692,6 @@ html:root[data-card-style] body :is(
   #home-page-container,
   #home-cards-track,
   #horoscope-page-container,
-  #horoscope-row-1-5-horizontal,
   #horoscope-cards-track,
   #letter-page-container,
   #letter-cards-track,
@@ -6755,10 +6704,10 @@ html:root[data-card-style] body :is(
 }
 
 /* MAIN CARD: CHIỀU CAO MAX FULL VÀ KHÔNG BO CONG (0PX) */
-html:root body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
-html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]):not([id^="letter-card-"]):not(#app-footer):not(#app-header) {
+html:root body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header),
+html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not([id^="letter-card-"]):not(#app-footer):not(#app-header) {
   height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
@@ -6775,7 +6724,9 @@ html:root body :is(
   #about-intro-card-2,
   #experience-main-card,
   #contact-main-card,
-  [id^="letter-card-"]
+  [id^="letter-card-"],
+  #horoscope-cards-track .page-main-card,
+  #horoscope-cards-track [data-main-card="true"]
 ),
 html:root[data-card-style] body :is(
   #global-content-viewport,
@@ -6787,8 +6738,100 @@ html:root[data-card-style] body :is(
   #about-intro-card-2,
   #experience-main-card,
   #contact-main-card,
-  [id^="letter-card-"]
+  [id^="letter-card-"],
+  #horoscope-cards-track .page-main-card,
+  #horoscope-cards-track [data-main-card="true"]
 ) {
+  border-radius: 0px !important;
+}
+
+/* ========================================================================= */
+/* LETTER TRACK STRICT CONTAINMENT: NO LATERAL PROTRUSION OR TRANSITION SHIFT */
+/* ========================================================================= */
+html:root body #letter-page-shell,
+html:root[data-card-style] body #letter-page-shell,
+html:root body #letter-page-container #letter-cards-track,
+html:root[data-card-style] body #letter-page-container #letter-cards-track {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #letter-page-container #letter-cards-track > *,
+html:root[data-card-style] body #letter-page-container #letter-cards-track > *,
+html:root body #letter-cards-track > #letter-card-1,
+html:root[data-card-style] body #letter-cards-track > #letter-card-1,
+html:root body #letter-cards-track > #letter-cards-row-2-3,
+html:root[data-card-style] body #letter-cards-track > #letter-cards-row-2-3,
+html:root body #letter-cards-track > #letter-card-4,
+html:root[data-card-style] body #letter-cards-track > #letter-card-4 {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  flex: 0 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
+html:root[data-card-style] body #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3) {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  margin: 0px !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* EXPERIENCE MAIN CARD & GIẤY XẾP: UNIFORM 0PX PADDING & 0PX GAP STRATEGY   */
+/* ========================================================================= */
+html:root body #experience-main-card,
+html:root[data-card-style] body #experience-main-card,
+html.dark:root[data-card-style] body #experience-main-card,
+html:root body #experience-main-card > #experience-timeline-board,
+html:root[data-card-style] body #experience-main-card > #experience-timeline-board,
+html.dark:root[data-card-style] body #experience-main-card > #experience-timeline-board,
+html:root body #experience-main-card #experience-timeline-board > .exp-chromatic-stage,
+html:root[data-card-style] body #experience-main-card #experience-timeline-board > .exp-chromatic-stage,
+html.dark:root[data-card-style] body #experience-main-card #experience-timeline-board > .exp-chromatic-stage,
+html:root body #experience-main-card #experience-chromatic-folds,
+html:root[data-card-style] body #experience-main-card #experience-chromatic-folds,
+html.dark:root[data-card-style] body #experience-main-card #experience-chromatic-folds,
+html:root body #experience-main-card .exp-chromatic-folds,
+html:root[data-card-style] body #experience-main-card .exp-chromatic-folds,
+html.dark:root[data-card-style] body #experience-main-card .exp-chromatic-folds,
+html:root body #experience-main-card .exp-fold-swatch,
+html:root[data-card-style] body #experience-main-card .exp-fold-swatch,
+html.dark:root[data-card-style] body #experience-main-card .exp-fold-swatch,
+html:root body #experience-main-card #experience-timeline-board > div.overflow-hidden,
+html:root[data-card-style] body #experience-main-card #experience-timeline-board > div.overflow-hidden,
+html:root body #experience-main-card #experience-timeline-board > div.overflow-hidden > div.flex,
+html:root[data-card-style] body #experience-main-card #experience-timeline-board > div.overflow-hidden > div.flex {
+  padding: 0px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #experience-main-card #experience-timeline-board .exp-fold-swatch,
+html:root[data-card-style] body #experience-main-card #experience-timeline-board .exp-fold-swatch,
+html.dark:root[data-card-style] body #experience-main-card #experience-timeline-board .exp-fold-swatch {
+  margin: 0px !important;
+  margin-right: 0px !important;
+  margin-left: 0px !important;
   border-radius: 0px !important;
 }
 

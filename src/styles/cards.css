@@ -3223,13 +3223,13 @@ html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-l
   color: #FDE68A !important;
 }
 
-/* Black cowhide leather (white stitching) surface & subcard styling */
+/* Walnut Wood Grain (Vân Gỗ Óc Chó) surface & subcard styling */
 html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
-  background: linear-gradient(145deg, #1E2128 0%, #121419 52%, #191C22 100%) !important;
-  border: 2px solid #08090C !important;
-  outline: 1.5px dashed rgba(255, 255, 255, 0.78);
-  outline-offset: -6px;
-  color: #FFFFFF !important;
+  background: linear-gradient(145deg, #3A2214 0%, #2A190F 52%, #1B1009 100%) !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.24);
+  outline-offset: -5px;
+  color: #FFFBF4 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -3237,11 +3237,11 @@ html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"]
 html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
 html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
 html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
-  background: linear-gradient(145deg, rgba(24, 27, 33, 0.96) 0%, rgba(12, 14, 18, 0.98) 100%) !important;
-  border: 1.5px solid #08090C !important;
-  outline: 1px dashed rgba(255, 255, 255, 0.72);
+  background: linear-gradient(145deg, rgba(46, 28, 17, 0.96) 0%, rgba(24, 14, 8, 0.98) 100%) !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.22);
   outline-offset: -4px;
-  color: #FFFFFF !important;
+  color: #FFFBF4 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -3249,7 +3249,27 @@ html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
 html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
 html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
 html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
-  color: #FFFFFF !important;
+  color: #F5C478 !important;
+}
+
+/* Mica Fluent surface & subcard styling for Systems modal/expanded, Detail panels & Languages */
+html[data-card-style="mica-fluent"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
+  color: #1C0708 !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
+}
+
+html[data-card-style="mica-fluent"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="mica-fluent"] #skills-languages-section [id^="skills-language-card-"],
+html[data-card-style="mica-fluent"] #el-p3-div-90 {
+  background: hsla(0, 0%, 98%, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #1C0708 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 html.dark #skills-languages-section #skills-language-card-vi :is(.skills-lang-title, .skills-lang-ring-arc) {
   color: #FB7185 !important;
@@ -4184,6 +4204,11 @@ html.dark #services-page-container .domain-card-sub {
   height: 100% !important;
   min-height: 0 !important;
   max-height: none !important;
+  padding: 6px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Hệ thống từ vị trí trỏ chuột / focus */
@@ -4567,36 +4592,36 @@ html[data-card-style="cowhide-leather"] .video-play-btn--interview {
   --vp-bg-hover: linear-gradient(145deg, #a6692f 0%, #713e15 100%);
 }
 
-/* --- Da bò đen chỉ trắng (Jet-Black Leather + White Stitch) --- */
+/* --- Vân gỗ óc chó (Walnut Wood Grain & Solid Brass Hairline) --- */
 html[data-card-style="black-cowhide-leather"] .video-play-btn::before {
   display: none !important;
   content: none !important;
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn {
   --vp-backdrop: none;
-  --vp-outline: 1.5px dashed rgba(255, 255, 255, 0.80);
-  --vp-outline-offset: -4px;
-  --vp-border: #08090C;
-  --vp-text: #FFFFFF;
-  --vp-specular: rgba(255, 255, 255, 0.24);
-  --vp-shadow-ambient: 0 10px 22px rgba(0, 0, 0, 0.72);
-  --vp-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.85);
-  --vp-sound-bg: rgba(255, 255, 255, 0.14);
-  --vp-sound-border: rgba(255, 255, 255, 0.42);
-  --vp-sound-hover: rgba(255, 255, 255, 0.28);
+  --vp-outline: 1px solid rgba(245, 196, 120, 0.28);
+  --vp-outline-offset: -3px;
+  --vp-border: #4E2F1B;
+  --vp-text: #FFFBF4;
+  --vp-specular: rgba(245, 196, 120, 0.24);
+  --vp-shadow-ambient: 0 10px 22px rgba(10, 5, 2, 0.72);
+  --vp-shadow-hover: 0 14px 30px rgba(10, 5, 2, 0.85);
+  --vp-sound-bg: rgba(245, 196, 120, 0.14);
+  --vp-sound-border: rgba(245, 196, 120, 0.40);
+  --vp-sound-hover: rgba(245, 196, 120, 0.26);
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn:hover,
 html[data-card-style="black-cowhide-leather"] .video-play-btn:focus-visible {
-  --vp-outline: 1.5px dashed #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.65) !important;
+  --vp-outline: 1px solid rgba(245, 196, 120, 0.56);
+  border-color: #F5C478 !important;
 }
 html[data-card-style="black-cowhide-leather"] .video-play-btn--home,
 html[data-card-style="black-cowhide-leather"] .video-play-btn--about,
 html[data-card-style="black-cowhide-leather"] .video-play-btn--letter,
 html[data-card-style="black-cowhide-leather"] .video-play-btn--systems,
 html[data-card-style="black-cowhide-leather"] .video-play-btn--interview {
-  --vp-bg: linear-gradient(145deg, #242730 0%, #111318 100%);
-  --vp-bg-hover: linear-gradient(145deg, #323642 0%, #1A1D24 100%);
+  --vp-bg: linear-gradient(145deg, #3A2214 0%, #24150C 100%);
+  --vp-bg-hover: linear-gradient(145deg, #4D2E1B 0%, #301C10 100%);
 }
 
 
@@ -4797,16 +4822,16 @@ html[data-card-style="dark-frost-ice-neu"] .video-play-btn--letter {
   animation: none !important;
 }
 
-/* --- Theme 14: Kính Đa Sắc (Multicolor Glass — Indigo Cyan Magenta) --- */
+/* --- Theme 14: Kính Mờ Đa Sắc (Multicolor Glassmorphism) --- */
 html[data-card-style="multicolor-glass"] .video-play-btn {
-  --vp-backdrop: blur(22px) saturate(185%);
-  --vp-border: rgba(255, 255, 255, 0.90);
+  --vp-backdrop: blur(16px);
+  --vp-border: rgba(255, 255, 255, 0.25);
   --vp-text: #0F172A;
-  --vp-specular: rgba(255, 255, 255, 0.95);
-  --vp-chase-a: #6366F1;
+  --vp-specular: rgba(255, 255, 255, 0.65);
+  --vp-chase-a: #4F46E5;
   --vp-chase-b: #EC4899;
-  --vp-shadow-ambient: 0 10px 26px rgba(99, 102, 241, 0.16), 0 4px 12px rgba(6, 182, 212, 0.12);
-  --vp-shadow-hover: 0 16px 34px rgba(99, 102, 241, 0.26), 0 6px 16px rgba(236, 72, 153, 0.18);
+  --vp-shadow-ambient: 0 14px 32px -6px rgba(15, 23, 42, 0.16);
+  --vp-shadow-hover: 0 18px 40px -6px rgba(79, 70, 229, 0.24);
   --vp-sound-bg: rgba(99, 102, 241, 0.12);
   --vp-sound-border: rgba(99, 102, 241, 0.28);
   --vp-sound-hover: rgba(236, 72, 153, 0.20);
@@ -4815,13 +4840,40 @@ html[data-card-style="multicolor-glass"] .video-play-btn--home,
 html[data-card-style="multicolor-glass"] .video-play-btn--about,
 html[data-card-style="multicolor-glass"] .video-play-btn--interview,
 html[data-card-style="multicolor-glass"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(245, 243, 255, 0.88) 100%);
-  --vp-bg-hover: linear-gradient(145deg, #FFFFFF 0%, #EEF2FF 100%);
+  --vp-bg: rgba(255, 255, 255, 0.28);
+  --vp-bg-hover: rgba(255, 255, 255, 0.46);
 }
 html[data-card-style="multicolor-glass"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #6366F1 0%, #06B6D4 55%, #EC4899 100%);
-  --vp-bg-hover: linear-gradient(135deg, #4F46E5 0%, #0891B2 55%, #DB2777 100%);
+  --vp-bg: linear-gradient(135deg, #4F46E5 0%, #0891B2 55%, #DB2777 100%);
+  --vp-bg-hover: linear-gradient(135deg, #4338CA 0%, #0E7490 55%, #BE185D 100%);
   --vp-text: #FFFFFF;
+}
+
+/* --- Theme 15: Mica Fluent (Kính Mica Phẳng) --- */
+html[data-card-style="mica-fluent"] .video-play-btn {
+  --vp-backdrop: blur(12px);
+  --vp-border: rgba(255, 255, 255, 0.48);
+  --vp-text: #1C0708;
+  --vp-specular: rgba(255, 255, 255, 0.72);
+  --vp-chase-a: #E84118;
+  --vp-chase-b: #525A65;
+  --vp-shadow-ambient: 0 14px 28px -8px rgba(0, 0, 0, 0.30);
+  --vp-shadow-hover: 0 18px 36px -8px rgba(0, 0, 0, 0.44);
+  --vp-sound-bg: rgba(232, 65, 24, 0.12);
+  --vp-sound-border: rgba(232, 65, 24, 0.30);
+  --vp-sound-hover: rgba(232, 65, 24, 0.22);
+}
+html[data-card-style="mica-fluent"] .video-play-btn--home,
+html[data-card-style="mica-fluent"] .video-play-btn--about,
+html[data-card-style="mica-fluent"] .video-play-btn--interview,
+html[data-card-style="mica-fluent"] .video-play-btn--systems {
+  --vp-bg: hsla(0, 0%, 98%, 0.78);
+  --vp-bg-hover: hsla(0, 0%, 99%, 0.92);
+}
+html[data-card-style="mica-fluent"] .video-play-btn--letter {
+  --vp-bg: #E84118;
+  --vp-bg-hover: #C23616;
+  --vp-text: #FDFDFD;
 }
 
 /* --- Theme 15: Flat Soft UI (Sáng & Tối) --- */

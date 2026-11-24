@@ -8,7 +8,7 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
   'multicolor-glass': { vi: 'Glass UI Đa Sắc', en: 'Multicolor Glass UI' },
   'dark-neon-glass': { vi: 'Glass UI Neon Tối', en: 'Dark Neon Glass UI' },
   'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Brown Leather Classic Edition' },
-  'black-cowhide-leather': { vi: 'Da Bò Đen Chỉ Trắng', en: 'Black Leather White Stitch' },
+  'black-cowhide-leather': { vi: 'Vân Gỗ Óc Chó', en: 'Premium Walnut Wood Grain' },
   'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean Dark Blue' },
   'light-deep-ocean': { vi: 'Light Ocean Navy', en: 'Light Ocean Navy Glass UI' },
   'neumorphism-beyond': {
@@ -34,6 +34,10 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
   'dark-flat-soft-ui': {
     vi: 'Flat Soft UI Tối',
     en: 'Flat Soft UI Dark',
+  },
+  'mica-fluent': {
+    vi: 'Mica Fluent Kính Ấm',
+    en: 'Mica Fluent Frosted Acrylic',
   },
 };
 
@@ -67,12 +71,12 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'cowhide-leather',
-    label: 'Da Bò cổ điển',
-    labelEn: 'Classic Cowhide Leather',
+    label: 'Da Bò & Gỗ Óc Chó',
+    labelEn: 'Heritage Leather & Walnut',
     description:
-      'Chất liệu da bò cổ điển màu nâu chỉ kem (Sáng) và phiên bản da bò đen tuyền khâu chỉ trắng sắc nét (Tối).',
+      'Chất liệu da bò cổ điển màu nâu chỉ kem (Sáng) và phiên bản Vân Gỗ Óc Chó Cao Cấp viền khảm đồng thanh lịch (Tối).',
     descriptionEn:
-      'Classic brown cowhide leather with cream stitching paired with jet-black full-grain leather accented by crisp white hand-stitching.',
+      'Classic brown cowhide leather with cream stitching paired with Premium Walnut Wood Grain accented by solid brass hairline inlay.',
     icon: 'briefcase',
     defaultMode: 'cowhide-leather',
     lightMode: 'cowhide-leather',
@@ -144,6 +148,19 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     defaultMode: 'flat-soft-ui',
     lightMode: 'flat-soft-ui',
     darkMode: 'dark-flat-soft-ui',
+  },
+  {
+    id: 'mica-fluent',
+    label: 'Mica Fluent',
+    labelEn: 'Mica Fluent',
+    description:
+      'Giao diện Mica Fluent Kính Ấm: vật liệu Acrylic trắng chuyển sắc mờ blur(11px), nền phụ #fafafa và điểm nhấn đỏ đất #e84118.',
+    descriptionEn:
+      'Mica Fluent Frosted Acrylic: warm linear acrylic glass cards (blur 11px), #1c0708 espresso ink, and #e84118 terracotta accents.',
+    icon: 'layers',
+    defaultMode: 'mica-fluent',
+    lightMode: 'mica-fluent',
+    colorMode: 'mica-fluent',
   },
 ];
 
@@ -286,43 +303,43 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'black-cowhide-leather',
     familyId: 'cowhide-leather',
-    familyLabel: 'Da Bò cổ điển',
-    familyLabelEn: 'Classic Cowhide Leather',
+    familyLabel: 'Da Bò & Gỗ Óc Chó',
+    familyLabelEn: 'Heritage Leather & Walnut',
     mechanism: 'dark',
     counterpartMode: 'cowhide-leather',
     cardClassName: 'card-black-cowhide-leather',
-    name: 'Da Bò Đen Chỉ Trắng',
-    label: 'Da Bò Đen Chỉ Trắng',
-    shortBadge: 'Da Đen Chỉ Trắng',
-    tagLabel: 'Da Bò Đen Tuyền · Chỉ trắng',
-    modeLabel: 'Da Bò Đen Chỉ Trắng',
+    name: 'Vân Gỗ Óc Chó Cao Cấp',
+    label: 'Vân Gỗ Óc Chó Cao Cấp',
+    shortBadge: 'Vân Gỗ Óc Chó',
+    tagLabel: 'Vân Gỗ Óc Chó · Khảm Đồng',
+    modeLabel: 'Vân Gỗ Óc Chó',
     isDark: true,
     icon: 'briefcase',
-    color: '#FFFFFF',
-    desc: 'Chất liệu da bò đen tuyền cao cấp (#22252D → #101217) kết hợp đường chỉ khâu tay màu trắng tinh khiết nổi bật và chữ trắng sắc nét.',
+    color: '#F5C478',
+    desc: 'Vân gỗ óc chó sẫm thủ công (#3A2214 → #1B1009) với đường khảm đồng mảnh liền nét, sắc chữ trắng ngà ấm áp và điểm nhấn hổ phách tinh tế.',
     cardSampleStyle: {
-      background: 'linear-gradient(145deg, #22252D 0%, #111318 50%, #1A1D24 100%)',
+      background: 'linear-gradient(145deg, #3A2214 0%, #24150C 50%, #160D07 100%)',
       borderRadius: '14px',
-      border: '2px solid #090A0E',
+      border: '1.5px solid #4E2F1B',
       boxShadow:
-        '0 18px 38px rgba(0, 0, 0, 0.62), inset 0 2px 4px rgba(255, 255, 255, 0.14), inset 0 -3px 6px rgba(0, 0, 0, 0.78)',
-      color: '#FFFFFF',
+        '0 18px 38px rgba(10, 5, 2, 0.58), inset 0 1px 0 rgba(245, 196, 120, 0.24), inset 0 -3px 6px rgba(0, 0, 0, 0.65)',
+      color: '#FFFBF4',
     },
     miniPreviewWrapStyle: {
-      background: 'linear-gradient(145deg, #1B1E25 0%, #0E1014 100%)',
-      borderColor: 'rgba(255, 255, 255, 0.72)',
-      borderStyle: 'dashed',
+      background: 'linear-gradient(145deg, #2A190F 0%, #150C06 100%)',
+      borderColor: 'rgba(245, 196, 120, 0.36)',
+      borderStyle: 'solid',
     },
     miniTabStyle: {
-      background: 'rgba(18, 20, 26, 0.92)',
-      color: '#FFFFFF',
-      borderColor: 'rgba(255, 255, 255, 0.65)',
+      background: 'rgba(42, 25, 15, 0.92)',
+      color: '#FFFBF4',
+      borderColor: 'rgba(245, 196, 120, 0.32)',
     },
     miniBtnStyle: {
-      background: 'linear-gradient(135deg, #FFFFFF 0%, #E4E4E7 100%)',
-      color: '#0B0C10',
+      background: 'linear-gradient(135deg, #F5C478 0%, #D97706 100%)',
+      color: '#1B1009',
     },
-    badgeColorClass: 'bg-[#14171D]/92 text-white border-white/70',
+    badgeColorClass: 'bg-[#2A190F]/92 text-[#F5C478] border-[#F5C478]/45',
     layerDepth: 100,
   },
   {
@@ -606,37 +623,37 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     name: 'Glass UI Đa Sắc',
     label: 'Glass UI Đa Sắc',
     shortBadge: 'Glass Đa Sắc',
-    tagLabel: 'Glass UI · Đa sắc trong suốt',
+    tagLabel: 'Glass UI · Kính Mờ Thẩm Thấu',
     modeLabel: 'Glass UI Đa Sắc',
     isDark: false,
     icon: 'sparkles',
     color: '#6366F1',
-    desc: 'Giao diện Glass UI nền card màu trắng kính mờ hiện đại kết hợp sắc độ đa sắc ở viền, bóng đổ và điểm nhấn Cyan, Tím Iris, Hồng Blush.',
+    desc: 'Bề mặt Glassmorphism chuẩn mực: các tấm kính mờ bán trong suốt rgba(255,255,255,0.12) với blur(16px), viền trắng 1px mờ mảnh và đổ bóng rộng đa tầng cho màu nền rực rỡ xuyên thấu.',
     cardSampleStyle: {
-      background: 'rgba(255, 255, 255, 0.92)',
-      backdropFilter: 'blur(22px) saturate(185%)',
-      WebkitBackdropFilter: 'blur(22px) saturate(185%)',
+      background: 'rgba(255, 255, 255, 0.12)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
       borderRadius: '14px',
-      border: '1px solid rgba(255, 255, 255, 0.94)',
+      border: '1px solid rgba(255, 255, 255, 0.25)',
       boxShadow:
-        '0 14px 34px -8px rgba(79, 70, 229, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.98)',
+        '0 20px 44px -12px rgba(15, 23, 42, 0.18), 0 8px 20px -6px rgba(99, 102, 241, 0.12)',
       color: '#0F172A',
     },
     miniPreviewWrapStyle: {
-      background: 'rgba(255, 255, 255, 0.92)',
-      borderColor: 'rgba(255, 255, 255, 0.94)',
+      background: 'rgba(255, 255, 255, 0.16)',
+      borderColor: 'rgba(255, 255, 255, 0.30)',
       borderWidth: '1px',
     },
     miniTabStyle: {
-      background: 'rgba(255, 255, 255, 0.96)',
+      background: 'rgba(255, 255, 255, 0.24)',
       color: '#0F172A',
-      borderColor: 'rgba(226, 232, 240, 0.85)',
+      borderColor: 'rgba(255, 255, 255, 0.35)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #6366F1 0%, #EC4899 52%, #06B6D4 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-white/75 text-[#4F46E5] border-white/85',
+    badgeColorClass: 'bg-white/30 text-[#0F172A] border-white/40',
     layerDepth: 100,
   },
   {
@@ -650,39 +667,37 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     name: 'Glass UI Neon Tối',
     label: 'Glass UI Neon Tối',
     shortBadge: 'Neon Glass Tối',
-    tagLabel: 'Glass UI · Neon Tối Đa Sắc',
+    tagLabel: 'Glass UI · Kính Tối Thẩm Thấu',
     modeLabel: 'Glass UI Neon Tối',
     isDark: true,
     icon: 'zap',
     color: '#22D3EE',
-    desc: 'Giao diện Glass UI Neon Tối hiện đại: bề mặt kính mờ obsidian sâu thẳm kết hợp viền neon Cyan, Tím Violet và Magenta sắc nét.',
+    desc: 'Glassmorphism tối sâu thẳm: tấm kính tối bán trong suốt kết hợp blur(16px), viền trắng sáng 1px rgba(255,255,255,0.25) và dải sắc độ neon xuyên qua bề mặt mọi thẻ nội dung.',
     cardSampleStyle: {
-      background:
-        'linear-gradient(145deg, rgba(10, 16, 38, 0.66) 0%, rgba(18, 14, 46, 0.60) 52%, rgba(12, 10, 34, 0.68) 100%)',
-      backdropFilter: 'blur(24px) saturate(185%)',
-      WebkitBackdropFilter: 'blur(24px) saturate(185%)',
+      background: 'rgba(15, 23, 42, 0.34)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
       borderRadius: '14px',
-      border: '1px solid rgba(34, 211, 238, 0.36)',
+      border: '1px solid rgba(255, 255, 255, 0.25)',
       boxShadow:
-        '0 16px 38px -8px rgba(2, 6, 23, 0.78), 0 0 22px -6px rgba(34, 211, 238, 0.24), inset 0 1px 0 rgba(165, 243, 252, 0.24)',
+        '0 22px 48px -12px rgba(2, 6, 23, 0.56), 0 8px 24px -6px rgba(34, 211, 238, 0.16)',
       color: '#F8FAFC',
     },
     miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(145deg, rgba(10, 18, 44, 0.78) 0%, rgba(20, 16, 50, 0.74) 52%, rgba(10, 14, 38, 0.80) 100%)',
-      borderColor: 'rgba(34, 211, 238, 0.38)',
+      background: 'rgba(15, 23, 42, 0.42)',
+      borderColor: 'rgba(255, 255, 255, 0.25)',
       borderWidth: '1px',
     },
     miniTabStyle: {
-      background: 'rgba(14, 24, 54, 0.78)',
+      background: 'rgba(255, 255, 255, 0.12)',
       color: '#F8FAFC',
-      borderColor: 'rgba(34, 211, 238, 0.38)',
+      borderColor: 'rgba(255, 255, 255, 0.25)',
     },
     miniBtnStyle: {
       background: 'linear-gradient(135deg, #06B6D4 0%, #6366F1 50%, #D946EF 100%)',
       color: '#FFFFFF',
     },
-    badgeColorClass: 'bg-[#091229]/90 text-[#67E8F9] border-cyan-400/40',
+    badgeColorClass: 'bg-[#091229]/70 text-[#67E8F9] border-white/25',
     layerDepth: 100,
   },
   {
@@ -773,6 +788,49 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#161F30] text-[#A5B4FC] border-slate-700/60 shadow-sm',
     layerDepth: 100,
   },
+  {
+    id: 'mica-fluent',
+    familyId: 'mica-fluent',
+    familyLabel: 'Mica Fluent',
+    familyLabelEn: 'Mica Fluent',
+    mechanism: 'light',
+    counterpartMode: 'mica-fluent',
+    cardClassName: 'card-mica-fluent',
+    name: 'Mica Fluent Kính Ấm',
+    label: 'Mica Fluent',
+    shortBadge: 'Mica Fluent',
+    tagLabel: 'Mica Fluent · Kính Mờ Ấm',
+    modeLabel: 'Mica Fluent',
+    isDark: false,
+    icon: 'layers',
+    color: '#e84118',
+    desc: 'Vật liệu kính mờ Acrylic Mica Fluent: lớp phủ gradient trắng mờ chuyển sắc (0.60 → 0.30) cùng blur(11px), bóng đổ sâu 50px, nền phụ #fafafa và nút đỏ đất #e84118.',
+    cardSampleStyle: {
+      background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%)',
+      backdropFilter: 'blur(11px)',
+      WebkitBackdropFilter: 'blur(11px)',
+      borderRadius: '14px',
+      border: '1px solid rgba(255, 255, 255, 0.25)',
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.50)',
+      color: '#1c0708',
+    },
+    miniPreviewWrapStyle: {
+      background: 'hsla(0, 0%, 98%, 0.78)',
+      borderColor: 'rgba(255, 255, 255, 0.45)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'linear-gradient(25deg, #525a65, #3b424c)',
+      color: '#FFFFFF',
+      borderColor: 'rgba(255, 255, 255, 0.28)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #e84118 0%, #c23616 100%)',
+      color: '#FDFDFD',
+    },
+    badgeColorClass: 'bg-[#fff3f0] text-[#c23616] border-[#e84118]/30 shadow-sm',
+    layerDepth: 100,
+  },
 ];
 
 export const VALID_CARD_STYLES: CardStyleMode[] = UNIFIED_INTERFACE_THEMES.map((theme) => theme.id);
@@ -818,10 +876,10 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'cowhide-leather': {
     familyId: 'cowhide-leather',
-    label: 'Da Bò cổ điển',
-    labelEn: 'Classic Cowhide Leather',
-    description: 'Da Bò Cổ Điển (nâu chỉ kem) và Da Bò Đen Chỉ Trắng cao cấp.',
-    descriptionEn: 'Classic brown leather and jet-black cowhide leather with white hand-stitching.',
+    label: 'Da Bò & Gỗ Óc Chó',
+    labelEn: 'Heritage Leather & Walnut',
+    description: 'Da Bò Cổ Điển (nâu chỉ kem) và Vân Gỗ Óc Chó Cao Cấp khảm đồng.',
+    descriptionEn: 'Classic brown leather and premium walnut wood grain with solid brass inlay.',
     icon: 'briefcase',
     light: CARD_STYLES_MAP['cowhide-leather'],
     dark: CARD_STYLES_MAP['black-cowhide-leather'],
@@ -882,6 +940,19 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['flat-soft-ui'],
     dark: CARD_STYLES_MAP['dark-flat-soft-ui'],
   },
+  'mica-fluent': {
+    familyId: 'mica-fluent',
+    label: 'Mica Fluent',
+    labelEn: 'Mica Fluent',
+    description:
+      'Mica Fluent Kính Ấm: vật liệu Acrylic chuyển sắc trắng mờ blur(11px), nền phụ #fafafa và điểm nhấn đỏ đất #e84118.',
+    descriptionEn:
+      'Mica Fluent Frosted Acrylic: warm gradient glass cards (blur 11px), crisp #1c0708 ink, and terracotta #e84118 actions.',
+    icon: 'layers',
+    light: CARD_STYLES_MAP['mica-fluent'],
+    dark: CARD_STYLES_MAP['mica-fluent'],
+    color: CARD_STYLES_MAP['mica-fluent'],
+  },
 };
 
 export const getCardStyleProperties = (styleId: CardStyleMode, _isDark?: boolean): CardStyleConfig => {
@@ -936,7 +1007,6 @@ const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
   'rainbow-glass': 'liquid-glass',
   'dark-rainbow-glass': 'dark-liquid-glass',
   'special-rainbow-glass': 'dark-liquid-glass',
-  'mica-fluent': 'neumorphism-beyond',
 };
 
 export const normalizeCardStyle = (raw: string | null | undefined): CardStyleMode => {

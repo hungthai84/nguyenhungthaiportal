@@ -61,7 +61,8 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
             rawFamily === 'neumorphism-beyond' ||
             rawFamily === 'frost-ice-neu' ||
             rawFamily === 'multicolor-glass' ||
-            rawFamily === 'flat-soft-ui'
+            rawFamily === 'flat-soft-ui' ||
+            rawFamily === 'mica-fluent'
           ? rawFamily
           : fallback.selectedFamilyFilter;
     return {
@@ -107,6 +108,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Lavender', width: '80%', gradient: 'linear-gradient(90deg, #A78BFA, #CFC5E9)', glow: '0 0 10px rgba(167, 139, 250, 0.28)' },
       { label: 'Cyan', width: '68%', gradient: 'linear-gradient(90deg, #0891B2, #A9E6E7)', glow: '0 0 10px rgba(8, 145, 178, 0.25)' },
     ],
+    primaryPalette: [
+      { name: 'Royal Violet', hex: '#6D28D9' },
+      { name: 'Indigo Iris', hex: '#4F46E5' },
+      { name: 'Ocean Cyan', hex: '#0891B2' },
+      { name: 'Pearl White', hex: '#F8F6F7' },
+    ],
   },
   'dark-liquid-glass': {
     radius: '14px',
@@ -132,23 +139,29 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Cyan', width: '82%', gradient: 'linear-gradient(90deg, #67E8F9, #4E9EAA)', glow: '0 0 12px rgba(103, 232, 249, 0.36)' },
       { label: 'Rose', width: '70%', gradient: 'linear-gradient(90deg, #F5A8B7, #9889EE)', glow: '0 0 12px rgba(245, 168, 183, 0.34)' },
     ],
+    primaryPalette: [
+      { name: 'Soft Lavender', hex: '#B5A7F4' },
+      { name: 'Frost Cyan', hex: '#67E8F9' },
+      { name: 'Rose Blush', hex: '#F5A8B7' },
+      { name: 'Deep Indigo', hex: '#101A2B' },
+    ],
   },
   'dark-neon-glass': {
     radius: '14px',
     activeRingColor: '#22D3EE',
     activeBorderClass: 'border-[#22D3EE]',
-    idleBorderClass: 'border-cyan-400/25 hover:border-fuchsia-400/60',
-    activeBadgeClass: 'bg-[#0B1026]/90 text-[#22D3EE] border-cyan-400/50 shadow-xs backdrop-blur-md',
+    idleBorderClass: 'border-white/25 hover:border-cyan-300/65',
+    activeBadgeClass: 'bg-slate-950/60 text-[#22D3EE] border-white/25 shadow-xs backdrop-blur-[16px]',
     iconColor: '#22D3EE',
     titleTextClass: 'text-[#F8FAFC]',
     bodyTextClass: 'text-[#CBD5E1]',
     accentTextClass: 'text-[#22D3EE]',
-    previewBorderClass: 'border-cyan-400/30',
-    dividerClass: 'border-cyan-400/20',
-    ctaIdleClass: 'bg-[#0D1430]/80 text-[#F8FAFC] hover:bg-[#141D42] border border-cyan-400/30 backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#22D3EE] via-[#A855F7] to-[#EC4899] text-[#050816] font-bold shadow-xs border border-cyan-200/60',
-    toggleTrackDarkClass: 'bg-[#060918] border-cyan-400/45',
-    toggleTrackLightClass: 'bg-indigo-50 border-white/80',
+    previewBorderClass: 'border-white/25',
+    dividerClass: 'border-white/25',
+    ctaIdleClass: 'bg-slate-950/45 text-[#F8FAFC] hover:bg-slate-900/60 border border-white/25 backdrop-blur-[16px]',
+    ctaActiveClass: 'bg-gradient-to-r from-[#22D3EE] via-[#A855F7] to-[#EC4899] text-[#050816] font-bold shadow-xs border border-white/40',
+    toggleTrackDarkClass: 'bg-[#060918] border-white/25',
+    toggleTrackLightClass: 'bg-indigo-50 border-white/45',
     toggleThumbDarkClass: 'bg-gradient-to-br from-[#22D3EE] via-[#A855F7] to-[#EC4899] text-[#050816]',
     toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
@@ -156,6 +169,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Neon Cyan', width: '96%', gradient: 'linear-gradient(90deg, #22D3EE, #06B6D4)', glow: '0 0 14px rgba(34, 211, 238, 0.55)' },
       { label: 'Neon Violet', width: '86%', gradient: 'linear-gradient(90deg, #A855F7, #EC4899)', glow: '0 0 14px rgba(168, 85, 247, 0.5)' },
       { label: 'Neon Mint', width: '74%', gradient: 'linear-gradient(90deg, #34D399, #22D3EE)', glow: '0 0 14px rgba(52, 211, 153, 0.45)' },
+    ],
+    primaryPalette: [
+      { name: 'Neon Cyan', hex: '#22D3EE' },
+      { name: 'Electric Violet', hex: '#A855F7' },
+      { name: 'Neon Pink', hex: '#EC4899' },
+      { name: 'Midnight Glass', hex: '#0F172A' },
     ],
   },
   'cowhide-leather': {
@@ -186,34 +205,46 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'B1', width: '88%', gradient: 'linear-gradient(90deg, #f59e0b, #fde68a)' },
       { label: 'B2', width: '72%', gradient: 'linear-gradient(90deg, #d97706, #fbbf24)' },
     ],
+    primaryPalette: [
+      { name: 'Saddle Cognac', hex: '#92400E' },
+      { name: 'Burnished Amber', hex: '#D97706' },
+      { name: 'Cream Stitch', hex: '#F5DEB3' },
+      { name: 'Warm Hide', hex: '#522E10' },
+    ],
   },
   'black-cowhide-leather': {
     radius: '14px',
-    activeRingColor: '#FFFFFF',
-    activeBorderClass: 'border-white',
-    idleBorderClass: 'border-[#08090C] hover:border-white/75',
-    activeBadgeClass: 'bg-gradient-to-r from-[#2D313D] to-[#14171F] text-white border-white/85',
-    iconColor: '#FFFFFF',
-    titleTextClass: 'text-white',
-    bodyTextClass: 'text-zinc-200',
-    accentTextClass: 'text-white',
-    previewBorderClass: 'border-white/75 border-dashed',
-    dividerClass: 'border-white/40 border-dashed',
-    ctaIdleClass: 'bg-[#14171D]/92 text-white hover:bg-[#232731] border border-white/55',
-    ctaActiveClass: 'bg-gradient-to-r from-[#FFFFFF] to-[#E4E4E7] text-[#0B0C10] font-bold shadow-xs border border-white',
-    toggleTrackDarkClass: 'bg-[#0D0F14] border-white/65',
+    activeRingColor: '#F5C478',
+    activeBorderClass: 'border-[#F5C478]',
+    idleBorderClass: 'border-[#4E2F1B] hover:border-[#F5C478]/80',
+    activeBadgeClass: 'bg-gradient-to-r from-[#5A341C] to-[#2B170C] text-[#FFFBF4] border-[#F5C478]/75',
+    iconColor: '#F5C478',
+    titleTextClass: 'text-[#FFFBF4]',
+    bodyTextClass: 'text-[#F5E9D6]',
+    accentTextClass: 'text-[#F5C478]',
+    previewBorderClass: 'border-[#F5C478]/35 border-solid',
+    dividerClass: 'border-[#F5C478]/25 border-solid',
+    ctaIdleClass: 'bg-[#2A190F]/92 text-[#FFFBF4] hover:bg-[#3A2214] border border-[#F5C478]/40',
+    ctaActiveClass: 'bg-gradient-to-r from-[#F5C478] to-[#D97706] text-[#1A0E07] font-bold shadow-xs border border-[#FDE68A]',
+    toggleTrackDarkClass: 'bg-[#1B1009] border-[#F5C478]/50',
     toggleTrackLightClass: 'bg-[#522E10] border-[#F5DEB3]/60',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FFFFFF] to-[#D4D4D8] text-[#0B0C10]',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#1A0E07]',
     toggleThumbLightClass: 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]',
     outlineStyle: (isActive) => ({
-      outline: isActive ? '2px dashed #FFFFFF' : '1.5px dashed rgba(255, 255, 255, 0.76)',
+      outline: isActive ? '1.5px solid #F5C478' : '1px solid rgba(245, 196, 120, 0.28)',
       outlineOffset: '-6px',
     }),
     demoVideoUrl:
       'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
     gradientBars: [
-      { label: 'Stitch', width: '92%', gradient: 'linear-gradient(90deg, #FFFFFF, #E4E4E7)' },
-      { label: 'Grain', width: '76%', gradient: 'linear-gradient(90deg, #A1A1AA, #F4F4F5)' },
+      { label: 'Grain', width: '92%', gradient: 'linear-gradient(90deg, #F5C478, #D97706)' },
+      { label: 'Walnut', width: '78%', gradient: 'linear-gradient(90deg, #8B5A2B, #F5C478)' },
+    ],
+    primaryPalette: [
+      { name: 'Brushed Brass', hex: '#F5C478' },
+      { name: 'Heartwood', hex: '#4E2F1B' },
+      { name: 'Dark Walnut', hex: '#2A190F' },
+      { name: 'Ivory Cream', hex: '#FFFBF4' },
     ],
   },
   'deep-ocean': {
@@ -243,6 +274,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'O1', width: '92%', gradient: 'linear-gradient(90deg, #06B6D4, #38BDF8)', glow: '0 0 10px rgba(6, 182, 212, 0.4)' },
       { label: 'O2', width: '78%', gradient: 'linear-gradient(90deg, #0284C7, #06B6D4)', glow: '0 0 10px rgba(2, 132, 199, 0.4)' },
     ],
+    primaryPalette: [
+      { name: 'Sonar Cyan', hex: '#38BDF8' },
+      { name: 'Trench Aqua', hex: '#06B6D4' },
+      { name: 'Abyssal Blue', hex: '#0284C7' },
+      { name: 'Deep Trench', hex: '#0A1128' },
+    ],
   },
   'light-deep-ocean': {
     radius: '14px',
@@ -271,23 +308,29 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Primary', width: '94%', gradient: 'linear-gradient(90deg, #1951FC, #3781FC)', glow: '0 0 10px rgba(25, 81, 252, 0.35)' },
       { label: 'Sky Cyan', width: '80%', gradient: 'linear-gradient(90deg, #3781FC, #73BFFF)', glow: '0 0 10px rgba(115, 191, 255, 0.38)' },
     ],
+    primaryPalette: [
+      { name: 'Cobalt Surf', hex: '#1951FC' },
+      { name: 'Cerulean Wave', hex: '#3781FC' },
+      { name: 'Coastal Sky', hex: '#73BFFF' },
+      { name: 'Marine Ink', hex: '#03195B' },
+    ],
   },
   'multicolor-glass': {
     radius: '14px',
     activeRingColor: '#4F46E5',
     activeBorderClass: 'border-[#4F46E5]',
-    idleBorderClass: 'border-white/80 hover:border-indigo-400/70',
-    activeBadgeClass: 'bg-indigo-50/90 text-[#4F46E5] border-indigo-400/45 shadow-xs backdrop-blur-md',
+    idleBorderClass: 'border-white/30 hover:border-white/55',
+    activeBadgeClass: 'bg-white/25 text-[#0F172A] border-white/35 shadow-xs backdrop-blur-[16px]',
     iconColor: '#4F46E5',
     titleTextClass: 'text-[#0F172A]',
-    bodyTextClass: 'text-[#334155]',
+    bodyTextClass: 'text-[#1E293B]',
     accentTextClass: 'text-[#4F46E5]',
-    previewBorderClass: 'border-white/80',
-    dividerClass: 'border-indigo-200/60',
-    ctaIdleClass: 'bg-white/75 text-[#4F46E5] hover:bg-white border border-white/85 shadow-xs backdrop-blur-md',
-    ctaActiveClass: 'bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white shadow-xs border border-white/80',
-    toggleTrackDarkClass: 'bg-[#0F172A] border-indigo-400/45',
-    toggleTrackLightClass: 'bg-indigo-50/95 border-white/90',
+    previewBorderClass: 'border-white/30',
+    dividerClass: 'border-white/25',
+    ctaIdleClass: 'bg-white/20 text-[#0F172A] hover:bg-white/35 border border-white/30 shadow-xs backdrop-blur-[16px]',
+    ctaActiveClass: 'bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white shadow-xs border border-white/40',
+    toggleTrackDarkClass: 'bg-[#0F172A] border-white/30',
+    toggleTrackLightClass: 'bg-white/25 border-white/40',
     toggleThumbDarkClass: 'bg-gradient-to-br from-[#818CF8] to-[#F472B6] text-slate-950',
     toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
     demoVideoUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
@@ -295,6 +338,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Indigo', width: '94%', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', glow: '0 0 10px rgba(79, 70, 229, 0.35)' },
       { label: 'Cyan', width: '82%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(14, 165, 233, 0.35)' },
       { label: 'Rose', width: '74%', gradient: 'linear-gradient(90deg, #DB2777, #F472B6)', glow: '0 0 10px rgba(236, 72, 153, 0.3)' },
+    ],
+    primaryPalette: [
+      { name: 'Prism Indigo', hex: '#4F46E5' },
+      { name: 'Sky Prism', hex: '#0EA5E9' },
+      { name: 'Rose Neon', hex: '#EC4899' },
+      { name: 'Frosted Tint', hex: '#FFFFFF' },
     ],
   },
   'neumorphism-beyond': {
@@ -324,6 +373,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Cyan', width: '80%', gradient: 'linear-gradient(90deg, #2AD8E6, #18C2D2)' },
       { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #52E0A8, #3ACF94)' },
     ],
+    primaryPalette: [
+      { name: 'Electric Blue', hex: '#4973FF' },
+      { name: 'Glass Magenta', hex: '#EE6AD2' },
+      { name: 'Aqua Glow', hex: '#2AD8E6' },
+      { name: 'Soft Mist', hex: '#EBF0F6' },
+    ],
   },
   'dark-neumorphism-beyond': {
     radius: '14px',
@@ -352,6 +407,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Cyan', width: '80%', gradient: 'linear-gradient(90deg, #2AD8E6, #18C2D2)' },
       { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #52E0A8, #3ACF94)' },
     ],
+    primaryPalette: [
+      { name: 'Ice Sky', hex: '#64B6FF' },
+      { name: 'Neon Pink', hex: '#EE6AD2' },
+      { name: 'Mint Teal', hex: '#52E0A8' },
+      { name: 'Charcoal Slate', hex: '#151B26' },
+    ],
   },
   'frost-ice-neu': {
     radius: '14px',
@@ -377,6 +438,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     gradientBars: [
       { label: 'Primary', width: '82%', gradient: '#5B57E8' },
       { label: 'Inset', width: '64%', gradient: '#433EC9' },
+    ],
+    primaryPalette: [
+      { name: 'Indigo Frost', hex: '#5B57E8' },
+      { name: 'Deep Periwinkle', hex: '#433EC9' },
+      { name: 'Ice Matte', hex: '#E0E8F2' },
+      { name: 'Frost Ink', hex: '#18273B' },
     ],
   },
   'dark-frost-ice-neu': {
@@ -404,6 +471,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Primary', width: '82%', gradient: '#6E6AF6' },
       { label: 'Inset', width: '64%', gradient: '#9B97FF' },
     ],
+    primaryPalette: [
+      { name: 'Glacier Violet', hex: '#6E6AF6' },
+      { name: 'Frost Lavender', hex: '#9B97FF' },
+      { name: 'Arctic Slate', hex: '#1A2433' },
+      { name: 'Arctic Ice', hex: '#F1F6FC' },
+    ],
   },
   'flat-soft-ui': {
     radius: '14px',
@@ -429,6 +502,12 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Blue', width: '76%', gradient: 'linear-gradient(90deg, #3B82F6, #60A5FA)' },
       { label: 'Teal', width: '64%', gradient: 'linear-gradient(90deg, #0D9488, #2DD4BF)' },
     ],
+    primaryPalette: [
+      { name: 'Studio Indigo', hex: '#4F46E5' },
+      { name: 'Azure Blue', hex: '#3B82F6' },
+      { name: 'Flat Teal', hex: '#0D9488' },
+      { name: 'Paper White', hex: '#F8FAFC' },
+    ],
   },
   'dark-flat-soft-ui': {
     radius: '14px',
@@ -453,6 +532,42 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { label: 'Indigo', width: '92%', gradient: 'linear-gradient(90deg, #6366F1, #818CF8)' },
       { label: 'Sky', width: '80%', gradient: 'linear-gradient(90deg, #38BDF8, #60A5FA)' },
       { label: 'Mint', width: '68%', gradient: 'linear-gradient(90deg, #2DD4BF, #34D399)' },
+    ],
+    primaryPalette: [
+      { name: 'Soft Indigo', hex: '#6366F1' },
+      { name: 'Sky Slate', hex: '#38BDF8' },
+      { name: 'Mint Emerald', hex: '#2DD4BF' },
+      { name: 'Obsidian Matte', hex: '#0F172A' },
+    ],
+  },
+  'mica-fluent': {
+    radius: '14px',
+    activeRingColor: '#E84118',
+    activeBorderClass: 'border-[#E84118]',
+    idleBorderClass: 'border-white/25 hover:border-[#E84118]/65',
+    activeBadgeClass: 'bg-[#FFF3F0] text-[#C23616] border-[#E84118]/35 shadow-xs backdrop-blur-[11px]',
+    iconColor: '#E84118',
+    titleTextClass: 'text-[#1C0708]',
+    bodyTextClass: 'text-[#3F292B]',
+    accentTextClass: 'text-[#C23616]',
+    previewBorderClass: 'border-white/35',
+    dividerClass: 'border-[#1C0708]/12',
+    ctaIdleClass: 'bg-[#FAFAFA]/85 text-[#1C0708] hover:bg-white border border-white/40 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#E84118] to-[#C23616] text-white shadow-xs border border-[#E84118]',
+    toggleTrackDarkClass: 'bg-[#525A65] border-[#3B424C]',
+    toggleTrackLightClass: 'bg-[#FAFAFA] border-white/40',
+    toggleThumbDarkClass: 'bg-[#3B424C] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#E84118] to-[#C23616] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Terracotta', width: '92%', gradient: 'linear-gradient(90deg, #E84118, #C23616)' },
+      { label: 'Espresso', width: '80%', gradient: 'linear-gradient(90deg, #525A65, #1C0708)' },
+    ],
+    primaryPalette: [
+      { name: 'Terracotta CTA', hex: '#E84118' },
+      { name: 'Crimson Deep', hex: '#C23616' },
+      { name: 'Warm Espresso', hex: '#1C0708' },
+      { name: 'Slate Graphite', hex: '#525A65' },
     ],
   },
 };
@@ -822,7 +937,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       SoundEngine.playTap();
                       setIsFamilyFilterOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-body font-normal font-play"
                     title={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-label={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-expanded={isFamilyFilterOpen}
@@ -1449,7 +1564,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     const groupIcon = groupMatch?.icon || 'palette';
                     const groupLabel = groupMatch ? (isEn ? groupMatch.labelEn : groupMatch.label) : 'Theme';
                     const lightId = groupMatch?.lightMode || groupMatch?.defaultMode || groupMatch?.presets[0]?.id;
-                    const darkId = groupMatch?.darkMode || groupMatch?.presets[groupMatch.presets.length - 1]?.id;
+                    const darkId =
+                      groupMatch?.darkMode && groupMatch.darkMode !== lightId
+                        ? groupMatch.darkMode
+                        : undefined;
 
                     return (
                       <ThemePresetCard

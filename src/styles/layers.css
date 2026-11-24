@@ -178,20 +178,24 @@ html:not([data-surface-depth="flat"]) :is(
   }
 
   html[data-card-style="dark-neon-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
-    border-color: rgba(34, 211, 238, 0.72) !important;
+    border-color: rgba(255, 255, 255, 0.42) !important;
     box-shadow:
-      0 18px 40px -8px rgba(2, 6, 23, 0.84),
-      0 0 26px -4px rgba(34, 211, 238, 0.28),
-      0 0 24px -6px rgba(168, 85, 247, 0.24),
-      inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
+      0 28px 66px -10px rgba(2, 6, 23, 0.78),
+      0 0 28px -6px rgba(168, 85, 247, 0.24) !important;
   }
 
   html[data-card-style="multicolor-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
-    border-color: rgba(167, 139, 250, 0.74) !important;
+    border-color: rgba(255, 255, 255, 0.48) !important;
     box-shadow:
-      0 16px 36px -6px rgba(99, 102, 241, 0.22),
-      0 6px 18px -4px rgba(236, 72, 153, 0.16),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
+      0 28px 64px -10px rgba(15, 23, 42, 0.24),
+      0 12px 28px -6px rgba(99, 102, 241, 0.18) !important;
+  }
+
+  html[data-card-style="mica-fluent"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(255, 255, 255, 0.42) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75) !important;
   }
 
   html[data-card-style="cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
@@ -200,8 +204,8 @@ html:not([data-surface-depth="flat"]) :is(
   }
 
   html[data-card-style="black-cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
-    border-color: rgba(255, 255, 255, 0.52) !important;
-    outline-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(245, 196, 120, 0.54) !important;
+    outline-color: rgba(245, 196, 120, 0.48) !important;
   }
 
   html[data-card-style="deep-ocean"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
@@ -236,7 +240,7 @@ html[data-surface-depth="flat"] :is(
 /* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
 /*  #home-achievements-card)                                                 */
 /* ========================================================================= */
-html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]):not([data-card-style="light-deep-ocean"]) :is(
+html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="multicolor-glass"]):not([data-card-style="dark-neon-glass"]):not([data-card-style="light-deep-ocean"]):not([data-card-style="mica-fluent"]) :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,
@@ -303,12 +307,12 @@ html[data-card-style="black-cowhide-leather"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(145deg, #242730 0%, #12141a 52%, #1a1d24 100%) !important;
-  border: 2px solid #08090c !important;
-  outline: 1.5px dashed rgba(255, 255, 255, 0.78) !important;
-  outline-offset: -7px !important;
+  background: linear-gradient(145deg, #3A2214 0%, #2A190F 52%, #1B1009 100%) !important;
+  border: 1.5px solid #4E2F1B !important;
+  outline: 1px solid rgba(245, 196, 120, 0.24) !important;
+  outline-offset: -5px !important;
   border-radius: var(--radius-card, 14px) !important;
-  color: #ffffff !important;
+  color: #FFFBF4 !important;
 }
 
 html[data-card-style="deep-ocean"] :is(
@@ -406,16 +410,15 @@ html[data-card-style="multicolor-glass"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(22px) saturate(185%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(185%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
   border-radius: var(--radius-card, 14px) !important;
   color: #0F172A !important;
   box-shadow:
-    0 14px 36px -8px rgba(79, 70, 229, 0.14),
-    0 4px 14px -4px rgba(6, 182, 212, 0.10),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
+    0 24px 60px -12px rgba(15, 23, 42, 0.18),
+    0 8px 24px -6px rgba(99, 102, 241, 0.14) !important;
 }
 
 html[data-card-style="dark-neon-glass"] :is(
@@ -425,22 +428,31 @@ html[data-card-style="dark-neon-glass"] :is(
   #home-capabilities-card,
   #home-achievements-card
 ) {
-  background: linear-gradient(
-    145deg,
-    rgba(10, 18, 44, 0.74) 0%,
-    rgba(18, 15, 48, 0.68) 52%,
-    rgba(12, 14, 38, 0.74) 100%
-  ) !important;
-  backdrop-filter: blur(24px) saturate(185%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(185%) !important;
-  border: 1px solid rgba(34, 211, 238, 0.34) !important;
+  background: rgba(15, 23, 42, 0.34) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
   border-radius: var(--radius-card, 14px) !important;
   color: #F8FAFC !important;
   box-shadow:
-    0 16px 40px -8px rgba(2, 6, 23, 0.78),
-    0 0 22px -6px rgba(34, 211, 238, 0.24),
-    0 0 24px -8px rgba(217, 70, 239, 0.18),
-    inset 0 1px 0 rgba(165, 243, 252, 0.22) !important;
+    0 24px 60px -12px rgba(2, 6, 23, 0.68),
+    0 0 24px -8px rgba(34, 211, 238, 0.18) !important;
+}
+
+html[data-card-style="mica-fluent"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.30) 100%) !important;
+  backdrop-filter: blur(11px) !important;
+  -webkit-backdrop-filter: blur(11px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  color: #1C0708 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.50) !important;
 }
 
 html[data-card-style="flat-soft-ui"] :is(

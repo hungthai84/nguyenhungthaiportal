@@ -157,8 +157,7 @@
   scroll-behavior: auto !important;
 }
 
-#letter-page-container,
-#horoscope-page-container {
+#letter-page-container {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -167,6 +166,16 @@
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
   overscroll-behavior-y: contain !important;
+  scroll-behavior: auto !important;
+}
+
+#horoscope-page-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   scroll-behavior: auto !important;
 }
 
@@ -305,30 +314,29 @@
 
 #horoscope-cards-track {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
   gap: var(--main-cards-gap, 10px) !important;
   row-gap: var(--main-cards-gap, 10px) !important;
   column-gap: var(--main-cards-gap, 10px) !important;
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: var(--main-card-target-w, clamp(1000px, 78vw, 1380px)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0px !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
   box-sizing: border-box !important;
-  flex: 0 0 auto !important;
+  flex: 1 1 100% !important;
 }
 
 #letter-cards-track {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
+  align-items: stretch !important;
   justify-content: flex-start !important;
   gap: 10px !important;
   row-gap: 10px !important;
@@ -338,42 +346,41 @@
   min-width: 0 !important;
   height: auto !important;
   min-height: auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
   box-sizing: border-box !important;
   flex: 0 0 auto !important;
 }
 
-#horoscope-cards-track > .page-main-card,
-#horoscope-cards-track > [data-main-card="true"] {
-  width: 100% !important;
-  max-width: 100% !important;
+#horoscope-cards-track .page-main-card,
+#horoscope-cards-track [data-main-card="true"] {
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
-  height: var(--horoscope-main-card-1-h, 100%) !important;
-  min-height: var(--horoscope-main-card-1-h, 100%) !important;
-  max-height: var(--horoscope-main-card-1-h, 100%) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
   border-radius: 0px !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
+#letter-cards-track > *,
 #letter-cards-track > .page-main-card,
 #letter-cards-track > [data-main-card="true"] {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: min(100%, var(--main-card-target-w, clamp(1000px, 78vw, 1380px))) !important;
-  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
   flex: 0 0 auto !important;
   height: 100cqh !important;
   min-height: 100cqh !important;
   max-height: 100cqh !important;
   border-radius: 0px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .page-main-card :is(.grid, .flex),
@@ -765,8 +772,9 @@
 
   #app-header,
   #app-footer,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container) {
+  #global-content-viewport:not(:has(#pdf-page-container)),
+  .page-main-card:not(#pdf-page-container):not(#letter-cards-row-2-3 > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#letter-cards-row-2-3 > [data-main-card="true"]) {
     max-width: var(--main-card-target-w, 1000px) !important;
     width: var(--main-card-target-w, 1000px) !important;
     margin-left: auto !important;

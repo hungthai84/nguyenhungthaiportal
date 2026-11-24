@@ -549,7 +549,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
 
   const getAccentColor = (id: string) => {
     if (cardStyle === 'black-cowhide-leather') {
-      return '#FFFFFF';
+      return '#F5C478';
     }
     if (isLeatherTheme) {
       return '#FDE68A';

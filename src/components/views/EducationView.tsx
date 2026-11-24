@@ -10,6 +10,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { EducationBookView } from './education/EducationBookView';
+import { EducationBookshelfView } from './education/EducationBookshelfView';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -252,8 +253,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  // Chế độ xem: 'grid' (Lưới chuẩn) hoặc 'css-tricks' (Cards - CSS-tricks Like Effect Hover/Focus)
-  const [viewMode, setViewMode] = useState<'grid' | 'css-tricks'>('css-tricks');
+  // Chế độ xem: 'grid' (Lưới chuẩn), 'css-tricks' (Slider Card), hoặc 'bookshelf' (Kệ sách)
+  const [viewMode, setViewMode] = useState<'grid' | 'css-tricks' | 'bookshelf'>('css-tricks');
   const [hoveredCourseId, setHoveredCourseId] = useState<string | null>(null);
   // Bộ lọc năm tốt nghiệp Timeline (2005 - 2026)
   const [maxYearFilter, setMaxYearFilter] = useState<number>(2026);
@@ -998,7 +999,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
               style={matchedControlWidth ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' } : { maxWidth: '100%' }}
-              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
+              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-body font-normal font-play group box-border"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
@@ -1090,7 +1091,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' }
                 : { maxWidth: '100%' }
             }
-            className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink"
+            className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex flex-wrap sm:flex-nowrap items-center gap-1 p-0.5 rounded-full box-border shrink"
           >
             <button
               type="button"
@@ -1107,7 +1108,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   : undefined
               }
               className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'grid'
                   ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1132,7 +1133,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   : undefined
               }
               className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-badge font-bold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'css-tricks'
                   ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1141,6 +1142,31 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             >
               <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
               <span className="whitespace-nowrap">Slider Card</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setViewMode('bookshelf');
+              }}
+              style={
+                viewMode === 'bookshelf'
+                  ? {
+                      background: 'var(--bg-button-primary)',
+                      color: 'var(--text-button-primary, #FFFFFF)',
+                    }
+                  : undefined
+              }
+              className={cn(
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                viewMode === 'bookshelf'
+                  ? 'shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              )}
+              title={isEn ? 'Bookshelf View' : 'Kệ sách'}
+            >
+              <WebIcon name="book-open" className="w-3.5 h-3.5 shrink-0" />
+              <span className="whitespace-nowrap">{isEn ? 'Bookshelf' : 'Kệ sách'}</span>
             </button>
           </div>
         </div>
@@ -1354,6 +1380,15 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </div>
           </div>
         </div>
+      ) : viewMode === 'bookshelf' ? (
+        <EducationBookshelfView
+          courses={filteredCourses}
+          getCourseColor={getCourseColor}
+          getShortCategoryLabel={getShortCategoryLabel}
+          isEn={isEn}
+          isDark={isDark}
+          onSelectCourse={handleOpenDetail}
+        />
       ) : (
         /* Grid View */
         <div

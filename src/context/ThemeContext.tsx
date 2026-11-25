@@ -19,12 +19,19 @@ import {
   DEFAULT_CARD_STYLE,
   DEFAULT_CORNER_RADIUS,
   DEFAULT_WAVE_MOTION,
+  DEFAULT_CARD_EFFECT,
   MIN_CORNER_RADIUS,
   MAX_CORNER_RADIUS,
   GLOBAL_CORNER_RADIUS_STORAGE_KEY,
   GLOBAL_CORNER_RADIUS_SYNC_EVENT,
   WAVE_MOTION_STORAGE_KEY,
   WAVE_MOTION_SYNC_EVENT,
+  CUSTOM_SURFACE_COLOR_STORAGE_KEY,
+  CUSTOM_SURFACE_COLOR_SYNC_EVENT,
+  CUSTOM_PRIMARY_COLOR_STORAGE_KEY,
+  CUSTOM_PRIMARY_COLOR_SYNC_EVENT,
+  CARD_EFFECT_STORAGE_KEY,
+  CARD_EFFECT_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
   LAYER_DEPTH_STORAGE_KEY,
@@ -40,6 +47,7 @@ import {
 } from '../config/ui/themeDefaults';
 import {
   AdaptiveAccentPalette,
+  CardEffectMode,
   CardStyleMode,
   ColorSchemeMode,
   GlassCustomization,
@@ -211,6 +219,169 @@ function applyGlobalCornerRadiusCssVariables(radius: number): void {
   }
 }
 
+function parseHexRgb(hex: string): { r: number; g: number; b: number } | null {
+  const clean = hex.trim().replace('#', '');
+  if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null;
+  return {
+    r: parseInt(clean.slice(0, 2), 16),
+    g: parseInt(clean.slice(2, 4), 16),
+    b: parseInt(clean.slice(4, 6), 16),
+  };
+}
+
+function getRelativeLum(r: number, g: number, b: number): number {
+  const lin = (v: number) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+}
+
+function clampByteVal(n: number): number {
+  return Math.max(0, Math.min(255, Math.round(n)));
+}
+
+function toHexColor(r: number, g: number, b: number): string {
+  return (
+    '#' +
+    [clampByteVal(r), clampByteVal(g), clampByteVal(b)]
+      .map((x) => x.toString(16).padStart(2, '0'))
+      .join('')
+      .toUpperCase()
+  );
+}
+
+function applyCustomSurfaceColorVariables(surfaceColor: string): void {
+  if (typeof document === 'undefined') return;
+  const targets: HTMLElement[] = [document.documentElement];
+  if (document.body) targets.push(document.body);
+
+  const props = [
+    '--bg-main',
+    '--bg-card',
+    '--bg-card-hover',
+    '--bg-subcard',
+    '--bg-subcard-hover',
+    '--bg-header',
+    '--bg-footer',
+    '--surface-primary-bg',
+    '--surface-secondary-bg',
+    '--surface-tertiary-bg',
+    '--glass-main-bg',
+    '--surface-card-glass',
+    '--text-primary',
+    '--text-heading',
+    '--text-secondary',
+    '--text-muted',
+    '--border-subcard',
+    '--border-color',
+  ];
+
+  const rgb = surfaceColor !== 'default' ? parseHexRgb(surfaceColor) : null;
+  if (!rgb) {
+    for (const el of targets) {
+      el.removeAttribute('data-custom-surface');
+      for (const prop of props) el.style.removeProperty(prop);
+    }
+    return;
+  }
+
+  const lum = getRelativeLum(rgb.r, rgb.g, rgb.b);
+  const darkSurface = lum < 0.42;
+  const mainBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.78 : 0.72})`;
+  const cardBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.84 : 0.80})`;
+  const cardHover = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.92 : 0.90})`;
+  const subR = darkSurface ? clampByteVal(rgb.r + 12) : clampByteVal(rgb.r - 4);
+  const subG = darkSurface ? clampByteVal(rgb.g + 14) : clampByteVal(rgb.g - 3);
+  const subB = darkSurface ? clampByteVal(rgb.b + 18) : clampByteVal(rgb.b - 1);
+  const subcardBg = `rgba(${subR}, ${subG}, ${subB}, ${darkSurface ? 0.88 : 0.88})`;
+  const subcardHover = `rgba(${subR}, ${subG}, ${subB}, 0.95)`;
+  const chromeBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.86 : 0.84})`;
+
+  const textPrimary = darkSurface ? '#F8FAFC' : '#0F172A';
+  const textHeading = darkSurface ? '#FFFFFF' : '#0F172A';
+  const textSecondary = darkSurface ? '#CBD5E1' : '#475569';
+  const textMuted = darkSurface ? '#94A3B8' : '#64748B';
+  const borderCol = darkSurface ? 'rgba(255, 255, 255, 0.16)' : 'rgba(15, 23, 42, 0.12)';
+
+  for (const el of targets) {
+    el.setAttribute('data-custom-surface', 'true');
+    el.style.setProperty('--bg-main', mainBg, 'important');
+    el.style.setProperty('--surface-primary-bg', mainBg, 'important');
+    el.style.setProperty('--glass-main-bg', mainBg, 'important');
+    el.style.setProperty('--bg-card', cardBg, 'important');
+    el.style.setProperty('--surface-secondary-bg', cardBg, 'important');
+    el.style.setProperty('--surface-card-glass', cardBg, 'important');
+    el.style.setProperty('--bg-card-hover', cardHover, 'important');
+    el.style.setProperty('--bg-subcard', subcardBg, 'important');
+    el.style.setProperty('--surface-tertiary-bg', subcardBg, 'important');
+    el.style.setProperty('--bg-subcard-hover', subcardHover, 'important');
+    el.style.setProperty('--bg-header', chromeBg, 'important');
+    el.style.setProperty('--bg-footer', chromeBg, 'important');
+    el.style.setProperty('--text-primary', textPrimary, 'important');
+    el.style.setProperty('--text-heading', textHeading, 'important');
+    el.style.setProperty('--text-secondary', textSecondary, 'important');
+    el.style.setProperty('--text-muted', textMuted, 'important');
+    el.style.setProperty('--border-subcard', borderCol, 'important');
+    el.style.setProperty('--border-color', borderCol, 'important');
+  }
+}
+
+function applyCustomPrimaryColorVariables(primaryColor: string, isThemeDark: boolean): void {
+  if (typeof document === 'undefined') return;
+  const targets: HTMLElement[] = [document.documentElement];
+  if (document.body) targets.push(document.body);
+
+  const props = [
+    '--color-primary',
+    '--color-accent',
+    '--color-focus-ring',
+    '--text-link',
+    '--text-accent',
+    '--text-badge',
+    '--bg-button-primary',
+    '--surface-interactive-active',
+    '--color-primary-rgb',
+    '--text-button-primary',
+  ];
+
+  const rgb = primaryColor !== 'default' ? parseHexRgb(primaryColor) : null;
+  if (!rgb) {
+    for (const el of targets) {
+      el.removeAttribute('data-custom-primary');
+      for (const prop of props) el.style.removeProperty(prop);
+    }
+    return;
+  }
+
+  const primaryHex = toHexColor(rgb.r, rgb.g, rgb.b);
+  const gradEnd = toHexColor(
+    rgb.r + (isThemeDark ? 24 : -18),
+    rgb.g + (isThemeDark ? 24 : -12),
+    rgb.b + (isThemeDark ? 28 : 16)
+  );
+  const linkHex = isThemeDark
+    ? toHexColor(rgb.r + (255 - rgb.r) * 0.32, rgb.g + (255 - rgb.g) * 0.32, rgb.b + (255 - rgb.b) * 0.32)
+    : primaryHex;
+  const btnLum = getRelativeLum(rgb.r, rgb.g, rgb.b);
+  const btnText = btnLum > 0.62 ? '#0F172A' : '#FFFFFF';
+  const btnGrad = `linear-gradient(135deg, ${primaryHex} 0%, ${gradEnd} 100%)`;
+
+  for (const el of targets) {
+    el.setAttribute('data-custom-primary', 'true');
+    el.style.setProperty('--color-primary', primaryHex, 'important');
+    el.style.setProperty('--color-accent', primaryHex, 'important');
+    el.style.setProperty('--color-focus-ring', primaryHex, 'important');
+    el.style.setProperty('--text-link', linkHex, 'important');
+    el.style.setProperty('--text-accent', linkHex, 'important');
+    el.style.setProperty('--text-badge', linkHex, 'important');
+    el.style.setProperty('--bg-button-primary', btnGrad, 'important');
+    el.style.setProperty('--surface-interactive-active', btnGrad, 'important');
+    el.style.setProperty('--color-primary-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`, 'important');
+    el.style.setProperty('--text-button-primary', btnText, 'important');
+  }
+}
+
 export interface ThemeContextType {
   isDark: boolean;
   colorSchemeMode: ColorSchemeMode;
@@ -247,6 +418,13 @@ export interface ThemeContextType {
   resetCornerRadius: () => void;
   waveMotion: WaveMotionMode;
   setWaveMotion: (mode: WaveMotionMode) => void;
+  customSurfaceColor: string;
+  setCustomSurfaceColor: (color: string) => void;
+  customPrimaryColor: string;
+  setCustomPrimaryColor: (color: string) => void;
+  cardEffect: CardEffectMode;
+  setCardEffect: (effect: CardEffectMode) => void;
+  resetInterfaceCustomColors: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -288,6 +466,9 @@ function ensureDefaultUiSeedSync(): void {
         GLASS_CUSTOMIZATION_STORAGE_KEY,
         LAYER_DEPTH_STORAGE_KEY,
         SURFACE_DEPTH_STORAGE_KEY,
+        CUSTOM_SURFACE_COLOR_STORAGE_KEY,
+        CUSTOM_PRIMARY_COLOR_STORAGE_KEY,
+        CARD_EFFECT_STORAGE_KEY,
         'hungthai_interface_ui_prefs_v1',
         'hungthai_about_view_mode',
         'hungthai_bento_palette',
@@ -438,6 +619,52 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return DEFAULT_WAVE_MOTION;
   });
 
+  const [customSurfaceColor, setCustomSurfaceColorState] = useState<string>(() => {
+    if (typeof window === 'undefined') return 'default';
+    try {
+      const saved = localStorage.getItem(CUSTOM_SURFACE_COLOR_STORAGE_KEY);
+      if (saved && (saved === 'default' || /^#[0-9a-fA-F]{6}$/.test(saved))) {
+        return saved;
+      }
+    } catch {
+      // ignore
+    }
+    return 'default';
+  });
+
+  const [customPrimaryColor, setCustomPrimaryColorState] = useState<string>(() => {
+    if (typeof window === 'undefined') return 'default';
+    try {
+      const saved = localStorage.getItem(CUSTOM_PRIMARY_COLOR_STORAGE_KEY);
+      if (saved && (saved === 'default' || /^#[0-9a-fA-F]{6}$/.test(saved))) {
+        return saved;
+      }
+    } catch {
+      // ignore
+    }
+    return 'default';
+  });
+
+  const [cardEffect, setCardEffectState] = useState<CardEffectMode>(() => {
+    if (typeof window === 'undefined') return DEFAULT_CARD_EFFECT;
+    try {
+      const saved = localStorage.getItem(CARD_EFFECT_STORAGE_KEY);
+      if (
+        saved === 'default' ||
+        saved === 'float' ||
+        saved === 'glow' ||
+        saved === 'shine' ||
+        saved === 'tilt' ||
+        saved === 'static'
+      ) {
+        return saved;
+      }
+    } catch {
+      // ignore
+    }
+    return DEFAULT_CARD_EFFECT;
+  });
+
   const setWaveMotion = useCallback((mode: WaveMotionMode) => {
     const valid: WaveMotionMode =
       mode === 'off' || mode === 'gentle' || mode === 'normal' || mode === 'vivid'
@@ -457,6 +684,76 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
     window.dispatchEvent(new CustomEvent(WAVE_MOTION_SYNC_EVENT, { detail: valid }));
   }, []);
+
+  const setCustomSurfaceColor = useCallback((rawColor: string) => {
+    const nextVal = rawColor !== 'default' && parseHexRgb(rawColor) ? rawColor.toUpperCase() : 'default';
+    setCustomSurfaceColorState(nextVal);
+    applyCustomSurfaceColorVariables(nextVal);
+    try {
+      if (nextVal === 'default') {
+        localStorage.removeItem(CUSTOM_SURFACE_COLOR_STORAGE_KEY);
+      } else {
+        localStorage.setItem(CUSTOM_SURFACE_COLOR_STORAGE_KEY, nextVal);
+      }
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(CUSTOM_SURFACE_COLOR_SYNC_EVENT, { detail: nextVal }));
+  }, []);
+
+  const setCustomPrimaryColor = useCallback(
+    (rawColor: string) => {
+      const nextVal = rawColor !== 'default' && parseHexRgb(rawColor) ? rawColor.toUpperCase() : 'default';
+      setCustomPrimaryColorState(nextVal);
+      applyCustomPrimaryColorVariables(nextVal, resolveCardStyleDark(cardStyleRef.current));
+      try {
+        if (nextVal === 'default') {
+          localStorage.removeItem(CUSTOM_PRIMARY_COLOR_STORAGE_KEY);
+        } else {
+          localStorage.setItem(CUSTOM_PRIMARY_COLOR_STORAGE_KEY, nextVal);
+        }
+      } catch {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent(CUSTOM_PRIMARY_COLOR_SYNC_EVENT, { detail: nextVal }));
+    },
+    []
+  );
+
+  const setCardEffect = useCallback((effect: CardEffectMode) => {
+    const valid: CardEffectMode =
+      effect === 'default' ||
+      effect === 'float' ||
+      effect === 'glow' ||
+      effect === 'shine' ||
+      effect === 'tilt' ||
+      effect === 'static'
+        ? effect
+        : DEFAULT_CARD_EFFECT;
+    setCardEffectState(valid);
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-card-effect', valid);
+      if (document.body) {
+        document.body.setAttribute('data-card-effect', valid);
+      }
+    }
+    try {
+      if (valid === 'default') {
+        localStorage.removeItem(CARD_EFFECT_STORAGE_KEY);
+      } else {
+        localStorage.setItem(CARD_EFFECT_STORAGE_KEY, valid);
+      }
+    } catch {
+      // ignore
+    }
+    window.dispatchEvent(new CustomEvent(CARD_EFFECT_SYNC_EVENT, { detail: valid }));
+  }, []);
+
+  const resetInterfaceCustomColors = useCallback(() => {
+    setCustomSurfaceColor('default');
+    setCustomPrimaryColor('default');
+    setCardEffect('default');
+  }, [setCustomSurfaceColor, setCustomPrimaryColor, setCardEffect]);
 
   const setCornerRadius = useCallback((rawRadius: number) => {
     const clamped = clampCornerRadius(rawRadius);
@@ -621,6 +918,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [waveMotion]);
 
   useEffect(() => {
+    applyCustomSurfaceColorVariables(customSurfaceColor);
+  }, [customSurfaceColor, cardStyle]);
+
+  useEffect(() => {
+    applyCustomPrimaryColorVariables(customPrimaryColor, isDark);
+  }, [customPrimaryColor, isDark, cardStyle]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute('data-card-effect', cardEffect);
+    if (document.body) {
+      document.body.setAttribute('data-card-effect', cardEffect);
+    }
+  }, [cardEffect]);
+
+  useEffect(() => {
     try {
       localStorage.removeItem('hungthai_font_scale_v1');
     } catch {
@@ -680,6 +993,31 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setWaveMotionState((prev) => (prev === detail ? prev : detail));
       }
     };
+    const handleCustomSurfaceSync = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (typeof detail === 'string') {
+        setCustomSurfaceColorState((prev) => (prev === detail ? prev : detail));
+      }
+    };
+    const handleCustomPrimarySync = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (typeof detail === 'string') {
+        setCustomPrimaryColorState((prev) => (prev === detail ? prev : detail));
+      }
+    };
+    const handleCardEffectSync = (e: Event) => {
+      const detail = (e as CustomEvent<CardEffectMode>).detail;
+      if (
+        detail === 'default' ||
+        detail === 'float' ||
+        detail === 'glow' ||
+        detail === 'shine' ||
+        detail === 'tilt' ||
+        detail === 'static'
+      ) {
+        setCardEffectState((prev) => (prev === detail ? prev : detail));
+      }
+    };
     window.addEventListener(WALLPAPER_SYNC_EVENT, handleSync);
     window.addEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
@@ -687,6 +1025,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     window.addEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
     window.addEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
     window.addEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
+    window.addEventListener(CUSTOM_SURFACE_COLOR_SYNC_EVENT, handleCustomSurfaceSync);
+    window.addEventListener(CUSTOM_PRIMARY_COLOR_SYNC_EVENT, handleCustomPrimarySync);
+    window.addEventListener(CARD_EFFECT_SYNC_EVENT, handleCardEffectSync);
     return () => {
       window.removeEventListener(WALLPAPER_SYNC_EVENT, handleSync);
       window.removeEventListener(CARD_STYLE_SYNC_EVENT, handleCardStyleSync);
@@ -695,6 +1036,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       window.removeEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
       window.removeEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
       window.removeEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
+      window.removeEventListener(CUSTOM_SURFACE_COLOR_SYNC_EVENT, handleCustomSurfaceSync);
+      window.removeEventListener(CUSTOM_PRIMARY_COLOR_SYNC_EVENT, handleCustomPrimarySync);
+      window.removeEventListener(CARD_EFFECT_SYNC_EVENT, handleCardEffectSync);
     };
   }, []);
 
@@ -1058,6 +1402,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         resetCornerRadius,
         waveMotion,
         setWaveMotion,
+        customSurfaceColor,
+        setCustomSurfaceColor,
+        customPrimaryColor,
+        setCustomPrimaryColor,
+        cardEffect,
+        setCardEffect,
+        resetInterfaceCustomColors,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { CardStyleMode, ThemeMechanismMode, WaveMotionMode } from './theme.types';
+import { CardEffectMode, CardStyleMode, ThemeMechanismMode, WaveMotionMode } from './theme.types';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
@@ -7,7 +7,7 @@ import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallp
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
-import blackCowhideLeatherWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
+import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
@@ -15,6 +15,7 @@ export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
 export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_CORNER_RADIUS = 14;
 export const DEFAULT_WAVE_MOTION: WaveMotionMode = 'normal';
+export const DEFAULT_CARD_EFFECT: CardEffectMode = 'default';
 export const MIN_CORNER_RADIUS = 0;
 export const MAX_CORNER_RADIUS = 28;
 
@@ -33,6 +34,9 @@ export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const GLOBAL_CORNER_RADIUS_STORAGE_KEY = 'hungthai_global_corner_radius_v1';
 export const WAVE_MOTION_STORAGE_KEY = 'hungthai_wave_motion_v1';
+export const CUSTOM_SURFACE_COLOR_STORAGE_KEY = 'hungthai_custom_surface_color_v1';
+export const CUSTOM_PRIMARY_COLOR_STORAGE_KEY = 'hungthai_custom_primary_color_v1';
+export const CARD_EFFECT_STORAGE_KEY = 'hungthai_card_effect_v1';
 export const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
 export const COLOR_SCHEME_MODE_SYNC_EVENT = 'hungthai:color-scheme-mode-changed';
 export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
@@ -44,6 +48,9 @@ export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 export const GLOBAL_CORNER_RADIUS_SYNC_EVENT = 'hungthai:global-corner-radius-changed';
 export const WAVE_MOTION_SYNC_EVENT = 'hungthai:wave-motion-changed';
+export const CUSTOM_SURFACE_COLOR_SYNC_EVENT = 'hungthai:custom-surface-color-changed';
+export const CUSTOM_PRIMARY_COLOR_SYNC_EVENT = 'hungthai:custom-primary-color-changed';
+export const CARD_EFFECT_SYNC_EVENT = 'hungthai:card-effect-changed';
 
 export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
   style === 'frost-ice-neu' || style === 'dark-frost-ice-neu';
@@ -57,7 +64,8 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'multicolor-glass': { cardOpacity: 15, blurIntensity: 16 },
   'dark-neon-glass': { cardOpacity: 34, blurIntensity: 16 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
-  'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'dark-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'walnut-wood': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
   'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
@@ -113,12 +121,22 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
   },
-  'black-cowhide-leather': {
-    id: 'black-cowhide-leather',
-    presetId: 'theme-bg-black-cowhide-leather',
+  'dark-cowhide-leather': {
+    id: 'dark-cowhide-leather',
+    presetId: 'theme-bg-dark-cowhide-leather',
+    label: 'Nền Da Bò Tối Màu',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 18%, rgba(229, 184, 126, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(161, 108, 63, 0.16) 0%, transparent 54%), linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%)',
+    overlayBg: 'rgba(13, 9, 8, 0.12)',
+  },
+  'walnut-wood': {
+    id: 'walnut-wood',
+    presetId: 'theme-bg-walnut-wood',
     label: 'Nền Vân Gỗ Óc Chó Cao Cấp',
     themeMode: 'dark',
-    imagePath: blackCowhideLeatherWallpaper,
+    imagePath: walnutWoodWallpaper,
     fallbackGradient:
       'radial-gradient(circle at 18% 18%, rgba(245, 196, 120, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(164, 102, 54, 0.18) 0%, transparent 54%), linear-gradient(145deg, #2A190F 0%, #160D08 52%, #22140C 100%)',
     overlayBg: 'rgba(19, 11, 6, 0.14)',
@@ -266,7 +284,8 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
   'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
-  'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
+  'dark-cowhide-leather': THEME_BACKGROUNDS['dark-cowhide-leather'].presetId,
+  'walnut-wood': THEME_BACKGROUNDS['walnut-wood'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
   'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
@@ -280,3 +299,93 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'dark-luxury': THEME_BACKGROUNDS['dark-luxury'].presetId,
   'minimalism': THEME_BACKGROUNDS['minimalism'].presetId,
 };
+
+export interface InterfaceColorPreset {
+  id: string;
+  labelVi: string;
+  labelEn: string;
+  hex: string;
+  previewBg: string;
+}
+
+export const INTERFACE_SURFACE_COLOR_PRESETS: InterfaceColorPreset[] = [
+  { id: 'surface-white', labelVi: 'Trắng tinh khiết', labelEn: 'Pure White', hex: '#FFFFFF', previewBg: 'linear-gradient(135deg, #FFFFFF, #F1F5F9)' },
+  { id: 'surface-cloud', labelVi: 'Xanh mây dịu', labelEn: 'Cloud Blue', hex: '#EFF6FF', previewBg: 'linear-gradient(135deg, #EFF6FF, #DBEAFE)' },
+  { id: 'surface-iris', labelVi: 'Tím oải hương', labelEn: 'Soft Lavender', hex: '#F5F3FF', previewBg: 'linear-gradient(135deg, #F5F3FF, #EDE9FE)' },
+  { id: 'surface-mint', labelVi: 'Bạc hà thanh mát', labelEn: 'Fresh Mint', hex: '#ECFDF5', previewBg: 'linear-gradient(135deg, #ECFDF5, #D1FAE5)' },
+  { id: 'surface-cream', labelVi: 'Kem lụa ấm', labelEn: 'Warm Silk', hex: '#FFFBEB', previewBg: 'linear-gradient(135deg, #FFFBEB, #FEF3C7)' },
+  { id: 'surface-rose', labelVi: 'Hồng phấn nhẹ', labelEn: 'Blush Rose', hex: '#FFF1F2', previewBg: 'linear-gradient(135deg, #FFF1F2, #FFE4E6)' },
+  { id: 'surface-slate-dark', labelVi: 'Xám đá tối', labelEn: 'Deep Slate', hex: '#1E293B', previewBg: 'linear-gradient(135deg, #1E293B, #0F172A)' },
+  { id: 'surface-navy-dark', labelVi: 'Xanh đêm thẳm', labelEn: 'Midnight Navy', hex: '#0F172A', previewBg: 'linear-gradient(135deg, #172554, #090D16)' },
+];
+
+export const INTERFACE_PRIMARY_COLOR_PRESETS: InterfaceColorPreset[] = [
+  { id: 'primary-violet', labelVi: 'Tím Hoàng Gia', labelEn: 'Royal Violet', hex: '#6D28D9', previewBg: 'linear-gradient(135deg, #6D28D9, #4F46E5)' },
+  { id: 'primary-blue', labelVi: 'Xanh Đại Dương', labelEn: 'Ocean Blue', hex: '#2563EB', previewBg: 'linear-gradient(135deg, #2563EB, #0284C7)' },
+  { id: 'primary-cyan', labelVi: 'Lam Ngọc Sáng', labelEn: 'Bright Cyan', hex: '#0891B2', previewBg: 'linear-gradient(135deg, #0891B2, #06B6D4)' },
+  { id: 'primary-emerald', labelVi: 'Ngọc Lục Bảo', labelEn: 'Emerald Mint', hex: '#059669', previewBg: 'linear-gradient(135deg, #059669, #10B981)' },
+  { id: 'primary-rose', labelVi: 'Hồng Năng Lượng', labelEn: 'Vibrant Rose', hex: '#E11D48', previewBg: 'linear-gradient(135deg, #E11D48, #EC4899)' },
+  { id: 'primary-amber', labelVi: 'Vàng Hổ Phách', labelEn: 'Warm Amber', hex: '#D97706', previewBg: 'linear-gradient(135deg, #D97706, #F59E0B)' },
+  { id: 'primary-indigo', labelVi: 'Chàm Hiện Đại', labelEn: 'Modern Indigo', hex: '#4F46E5', previewBg: 'linear-gradient(135deg, #4F46E5, #7C3AED)' },
+  { id: 'primary-slate', labelVi: 'Đen Tinh Tế', labelEn: 'Refined Ink', hex: '#1E293B', previewBg: 'linear-gradient(135deg, #1E293B, #475569)' },
+];
+
+export interface CardEffectPreset {
+  id: CardEffectMode;
+  labelVi: string;
+  labelEn: string;
+  descVi: string;
+  descEn: string;
+  icon: string;
+}
+
+export const CARD_EFFECT_PRESETS: CardEffectPreset[] = [
+  {
+    id: 'default',
+    labelVi: 'Mặc định',
+    labelEn: 'Default',
+    descVi: 'Theo thiết lập nguyên bản của giao diện đang bật',
+    descEn: 'Follows the active theme defaults',
+    icon: 'layers',
+  },
+  {
+    id: 'float',
+    labelVi: 'Nổi bật mượt',
+    labelEn: 'Soft Float',
+    descVi: 'Nâng nhẹ thẻ lên trên và tăng độ sâu bóng đổ khi chạm',
+    descEn: 'Lifts cards gently upward with deeper shadow on hover',
+    icon: 'arrow-up-right',
+  },
+  {
+    id: 'glow',
+    labelVi: 'Viền phát sáng',
+    labelEn: 'Aura Glow',
+    descVi: 'Tỏa ánh sáng viền dịu theo màu chính của giao diện',
+    descEn: 'Emits a soft perimeter aura in the active primary color',
+    icon: 'sparkles',
+  },
+  {
+    id: 'shine',
+    labelVi: 'Phản quang kính',
+    labelEn: 'Glass Sheen',
+    descVi: 'Lướt vệt sáng phản quang chéo qua bề mặt thẻ',
+    descEn: 'Sweeps a diagonal optical sheen across card surfaces',
+    icon: 'zap',
+  },
+  {
+    id: 'tilt',
+    labelVi: 'Nổi khối 3D',
+    labelEn: '3D Lift',
+    descVi: 'Nghiêng phối cảnh tinh tế và phóng nhẹ khi di chuột',
+    descEn: 'Subtle perspective tilt and gentle scale on hover',
+    icon: 'compass',
+  },
+  {
+    id: 'static',
+    labelVi: 'Tĩnh tối giản',
+    labelEn: 'Static Focus',
+    descVi: 'Giữ nguyên vị trí thẻ, tắt chuyển động khi di chuột',
+    descEn: 'Keeps cards stationary without hover motion',
+    icon: 'shield-check',
+  },
+];

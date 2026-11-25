@@ -207,7 +207,12 @@ html:not([data-surface-depth="flat"]) :is(
     outline-color: rgba(253, 230, 138, 0.85) !important;
   }
 
-  html[data-card-style="black-cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="dark-cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+    border-color: rgba(229, 184, 126, 0.62) !important;
+    outline-color: rgba(245, 222, 179, 0.68) !important;
+  }
+
+  html[data-card-style="walnut-wood"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(245, 196, 120, 0.54) !important;
     outline-color: rgba(245, 196, 120, 0.48) !important;
   }
@@ -304,7 +309,22 @@ html[data-card-style="cowhide-leather"] :is(
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] :is(
+html[data-card-style="dark-cowhide-leather"] :is(
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card
+) {
+  background: linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%) !important;
+  border: 2px solid #3E3028 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.46) !important;
+  outline-offset: -7px !important;
+  border-radius: var(--radius-card, 14px) !important;
+  color: #FFF8EE !important;
+}
+
+html[data-card-style="walnut-wood"] :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,

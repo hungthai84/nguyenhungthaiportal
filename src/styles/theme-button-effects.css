@@ -168,7 +168,8 @@
     [data-card-style="neumorphism-beyond"],
     [data-card-style="dark-neumorphism-beyond"],
     [data-card-style="cowhide-leather"],
-    [data-card-style="black-cowhide-leather"],
+    [data-card-style="dark-cowhide-leather"],
+    [data-card-style="walnut-wood"],
     [data-card-style="flat-soft-ui"],
     [data-card-style="dark-flat-soft-ui"],
     [data-card-style="mica-fluent"]
@@ -743,8 +744,67 @@ html[data-card-style="cowhide-leather"] :where(
 
 
 
+/* 4A-2. DARK COWHIDE LEATHER (Da Bò Tối Màu) — Warm Saddle Stitch & Amber Press */
+html[data-card-style="dark-cowhide-leather"] :where(
+  button,
+  a[role="button"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn,
+  .radial-contact-pill,
+  .education-skill-chip,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  [data-element-type="button"]
+):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
+  background: radial-gradient(
+    90px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
+    rgba(245, 222, 179, 0.24) 0%,
+    rgba(229, 184, 126, 0.12) 50%,
+    transparent 80%
+  );
+}
+
+html[data-card-style="dark-cowhide-leather"] :where(
+  button.nav-pill,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .radial-contact-pill
+)::after {
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(245, 222, 179, 0.24) 50%,
+    transparent 75%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="dark-cowhide-leather"] :where(
+    button,
+    a[role="button"],
+    .nav-pill,
+    .banner-control-pill,
+    .theme-capsule-btn,
+    .radial-contact-pill,
+    .education-skill-chip,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    [data-element-type="button"]
+  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
+    transform: translate3d(0, -1px, 0) !important;
+    border-color: rgba(245, 222, 179, 0.72) !important;
+    box-shadow:
+      0 8px 18px rgba(10, 6, 4, 0.64),
+      0 0 0 1px rgba(229, 184, 126, 0.28),
+      inset 0 1px 0 rgba(245, 222, 179, 0.24) !important;
+  }
+}
+
 /* 4B. WALNUT WOOD GRAIN (Vân Gỗ Óc Chó) — Honey Brass Inlay & Warm Timber Press */
-html[data-card-style="black-cowhide-leather"] :where(
+html[data-card-style="walnut-wood"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -764,7 +824,7 @@ html[data-card-style="black-cowhide-leather"] :where(
   );
 }
 
-html[data-card-style="black-cowhide-leather"] :where(
+html[data-card-style="walnut-wood"] :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -781,7 +841,7 @@ html[data-card-style="black-cowhide-leather"] :where(
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html[data-card-style="black-cowhide-leather"] :where(
+  html[data-card-style="walnut-wood"] :where(
     button,
     a[role="button"],
     .nav-pill,

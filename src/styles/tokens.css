@@ -735,7 +735,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="black-cowhide-leather"], html[data-card-style="black-cowhide-leather"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="dark-cowhide-leather"], html[data-card-style="dark-cowhide-leather"], [data-theme="walnut-wood"], html[data-card-style="walnut-wood"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;
@@ -1464,8 +1464,57 @@ html[data-card-style="cowhide-leather"] {
   --pill-counter-color: #FFFFFF;
 }
 
+/* 5B. DARK COWHIDE LEATHER (DA BÒ TỐI MÀU — CHARCOAL & CREAM STITCHING) */
+html[data-card-style="dark-cowhide-leather"] {
+  --color-primary: #E5B87E;
+  --color-secondary: #F5DEB3;
+  --color-accent: #C88A4B;
+  --color-focus-ring: #F5DEB3;
+  --color-bg: #140F0D;
+  --color-surface: #2B221E;
+  --color-surface-elevated: #3A2E28;
+  --color-heading: #FFF8EE;
+  --color-text: #FFF8EE;
+  --color-text-secondary: #E9DFD3;
+  --text-primary: #FFF8EE;
+  --text-secondary: #E9DFD3;
+  --text-muted: #CBBBA8;
+  --text-link: #F5DEB3;
+  --bg-card: #2B221E;
+  --bg-subcard: #1C1613;
+  --border-card: #3E3028;
+  --border-subcard: rgba(245, 222, 179, 0.28);
+  --nav-pill-accent: #E5B87E;
+  --pill-bg: linear-gradient(145deg, #3A2E28 0%, #241C18 52%, #2B221E 100%);
+  --pill-bg-hover: linear-gradient(145deg, #4A3B33 0%, #2E241F 52%, #3A2E28 100%);
+  --pill-border: #3E3028;
+  --pill-border-hover: rgba(245, 222, 179, 0.65);
+  --pill-text: #FFF8EE;
+  --pill-title-color: #F5DEB3;
+  --pill-shadow: 0 6px 14px rgba(10, 6, 4, 0.54), inset 0 1px 2px rgba(245, 222, 179, 0.14), inset 0 -2px 4px rgba(10, 6, 4, 0.60);
+  --pill-shadow-hover: 0 8px 18px rgba(10, 6, 4, 0.66), inset 0 1px 2px rgba(245, 222, 179, 0.22);
+  --pill-blur: 0px;
+  --pill-divider: rgba(245, 222, 179, 0.36);
+  --pill-badge-bg: #E5B87E;
+  --pill-badge-border: rgba(245, 222, 179, 0.68);
+  --pill-badge-icon: #140F0D;
+  --pill-badge-shadow: 0 2px 6px rgba(10, 6, 4, 0.42);
+  --pill-active-bg: linear-gradient(145deg, #5A4234 0%, #3A2E28 52%, #47372F 100%);
+  --pill-active-border: #F5DEB3;
+  --pill-active-text: #FFF8EE;
+  --pill-active-shadow: 0 10px 24px -4px rgba(10, 6, 4, 0.68), 0 0 16px rgba(229, 184, 126, 0.18), inset 0 1px 2px rgba(245, 222, 179, 0.28);
+  --pill-active-divider: rgba(245, 222, 179, 0.56);
+  --pill-active-badge-bg: linear-gradient(145deg, #3A2E28 0%, #1C1613 100%);
+  --pill-active-badge-icon: #F5DEB3;
+  --pill-arrow-bg: #1C1613;
+  --pill-arrow-hover: #3A2E28;
+  --pill-arrow-border: rgba(245, 222, 179, 0.45);
+  --pill-arrow-text: #F5DEB3;
+  --pill-counter-color: #F5DEB3;
+}
+
 /* 6. WALNUT WOOD GRAIN (VÂN GỖ ÓC CHÓ CAO CẤP) */
-html[data-card-style="black-cowhide-leather"] {
+html[data-card-style="walnut-wood"] {
   --color-primary: #F5C478;
   --color-secondary: #FDE68A;
   --color-accent: #D99B4E;

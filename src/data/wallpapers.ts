@@ -7,7 +7,7 @@ import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallp
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
-import blackCowhideLeatherWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
+import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
@@ -53,9 +53,15 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark:
       'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
   },
-  'black-cowhide-leather': {
-    light: blackCowhideLeatherWallpaper,
-    dark: blackCowhideLeatherWallpaper,
+  'dark-cowhide-leather': {
+    light:
+      'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
+    dark:
+      'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
+  },
+  'walnut-wood': {
+    light: walnutWoodWallpaper,
+    dark: walnutWoodWallpaper,
   },
   'deep-ocean': {
     light: wpLightDeepOcean,
@@ -400,15 +406,29 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000005,
   },
   {
-    id: 'theme-bg-black-cowhide-leather',
+    id: 'theme-bg-dark-cowhide-leather',
+    name: '💼 Nền Da Bò Tối Màu (Theme Background)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%);',
+    bg: 'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000007,
+  },
+  {
+    id: 'theme-bg-walnut-wood',
     name: '🪵 Nền Vân Gỗ Óc Chó Cao Cấp (Theme Background)',
     type: 'image',
-    value: blackCowhideLeatherWallpaper,
-    bg: `url('${blackCowhideLeatherWallpaper}') center/cover no-repeat`,
+    value: walnutWoodWallpaper,
+    bg: `url('${walnutWoodWallpaper}') center/cover no-repeat`,
     previewStyle: {
       background:
         'radial-gradient(circle at 22% 20%, rgba(245, 196, 120, 0.16) 0%, transparent 52%), linear-gradient(145deg, #3A2214 0%, #160D08 55%, #24150C 100%)',
-      backgroundImage: `url('${blackCowhideLeatherWallpaper}')`,
+      backgroundImage: `url('${walnutWoodWallpaper}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -1811,7 +1831,21 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794035601000,
   },
   {
-    id: 'css-black-cowhide-leather-craft',
+    id: 'css-dark-cowhide-leather-craft',
+    name: 'Da bò tối màu chỉ kem (Dark Cowhide Leather)',
+    type: 'css',
+    value:
+      'background: radial-gradient(circle at 20% 20%, rgba(229, 184, 126, 0.14) 0%, transparent 52%), radial-gradient(circle at 80% 78%, rgba(161, 108, 63, 0.16) 0%, transparent 54%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%);',
+    bg: 'linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 25% 25%, rgba(229, 184, 126, 0.16) 0%, transparent 55%), linear-gradient(145deg, #2B221E 0%, #140F0D 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794035603000,
+  },
+  {
+    id: 'css-walnut-wood-craft',
     name: 'Vân gỗ óc chó khảm đồng (Walnut Wood Grain)',
     type: 'css',
     value:

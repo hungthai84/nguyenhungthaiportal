@@ -79,7 +79,8 @@ html:is(
   [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"],
-  [data-card-style="black-cowhide-leather"]
+  [data-card-style="dark-cowhide-leather"],
+  [data-card-style="walnut-wood"]
 ) .sys-bento-tile::before {
   background: linear-gradient(
     90deg,
@@ -114,7 +115,17 @@ html[data-card-style="cowhide-leather"] .sys-bento-tile {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .sys-bento-tile {
+html[data-card-style="dark-cowhide-leather"] .sys-bento-tile {
+  background: linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%) !important;
+  border: 1.5px solid #3E3028 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.42);
+  outline-offset: -7px;
+  color: #FFF8EE !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="walnut-wood"] .sys-bento-tile {
   background: linear-gradient(145deg, #3A2214 0%, #2A190F 52%, #1B1009 100%) !important;
   border: 1.5px solid #4E2F1B !important;
   outline: 1px solid rgba(245, 196, 120, 0.24);
@@ -195,7 +206,13 @@ html[data-card-style="cowhide-leather"] .sys-bento-subtile {
   color: #ffffff !important;
 }
 
-html[data-card-style="black-cowhide-leather"] .sys-bento-subtile {
+html[data-card-style="dark-cowhide-leather"] .sys-bento-subtile {
+  background: rgba(28, 22, 19, 0.86) !important;
+  border-color: rgba(245, 222, 179, 0.26) !important;
+  color: #FFF8EE !important;
+}
+
+html[data-card-style="walnut-wood"] .sys-bento-subtile {
   background: rgba(27, 16, 9, 0.84) !important;
   border-color: rgba(245, 196, 120, 0.24) !important;
   color: #FFFBF4 !important;

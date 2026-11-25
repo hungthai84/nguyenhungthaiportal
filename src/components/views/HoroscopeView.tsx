@@ -927,7 +927,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         id="horoscope-hero-banner-header"
         className="relative z-10 flex items-center justify-start w-full min-w-0"
       >
-        <div className="card-header-sync flex items-center min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+          <WebIcon name="compass" className="w-5 h-5 shrink-0" />
           <h1
             id="horoscope-hero-banner-title"
             className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate m-0"
@@ -950,7 +951,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         ref={filterMenuRef}
       >
         <div className="flex flex-wrap items-center gap-2 max-w-full min-w-0">
-          {/* Dropdown Menu chuyển thẻ phân tích Tử vi */}
+          {/* Dropdown Menu chuyển thẻ phân tích Tử vi (Nút bộ lọc duy nhất) */}
           <div className="relative inline-block text-left max-w-full min-w-0">
             <button
               id="horoscope-filter-toggle-btn"
@@ -1024,40 +1025,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-
-          {/* Thanh 6 nút chuyển nhanh giữa 6 Thẻ chính Tử vi */}
-          <div className="hidden md:flex items-center gap-1 flex-wrap" role="tablist" aria-label="Chuyển nhanh 6 thẻ chính Tử vi">
-            {HOROSCOPE_SLIDES.map((slide) => {
-              const isCurrent = activeCardIndex === slide.idx;
-              return (
-                <button
-                  key={slide.idx}
-                  type="button"
-                  role="tab"
-                  aria-selected={isCurrent}
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    scrollToHoroscopeCard(slide.idx, true);
-                  }}
-                  title={slide.label}
-                  className={cn(
-                    'banner-control-pill h-8 px-2.5 rounded-full typo-badge font-play transition-all cursor-pointer inline-flex items-center gap-1',
-                    isCurrent && 'font-bold ring-1 ring-amber-400/70'
-                  )}
-                  style={
-                    isCurrent
-                      ? {
-                          background: 'var(--bg-button-primary)',
-                          color: 'var(--text-button-primary, #FFFFFF)',
-                        }
-                      : undefined
-                  }
-                >
-                  <span>{slide.idx + 1}. {slide.shortLabel}</span>
-                </button>
-              );
-            })}
           </div>
         </div>
 
@@ -1196,6 +1163,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
       {/* Bento 6-Column Asymmetric Responsive Sub-Grid inside Profile Bento (15px gap, equal row heights, fit content) */}
       <div
+        id="horoscope-profile-subgrid"
         data-card-layout={resolveAdaptiveCardLayout(6, true)}
         data-subcard-count={6}
         className="grid grid-cols-1 sm:grid-cols-6 auto-rows-auto items-stretch gap-[15px] w-full min-w-0 flex-none h-auto"
@@ -1241,7 +1209,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           style={level2InnerCardStyle}
           className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] sm:col-span-2 w-full h-full min-w-0 flex flex-col justify-between gap-1.5"
         >
-          <h5 className="typo-label font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 truncate m-0">
+          <h5 className="typo-label font-play font-semibold tracking-wide text-amber-600 dark:text-amber-400 whitespace-normal break-words m-0">
             Giờ sinh can chi
           </h5>
           <div className="min-w-0 flex flex-col gap-0.5">
@@ -1258,7 +1226,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           style={level2InnerCardStyle}
           className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] sm:col-span-2 w-full h-full min-w-0 flex flex-col justify-between gap-1.5"
         >
-          <h5 className="typo-label font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 truncate m-0">
+          <h5 className="typo-label font-play font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 whitespace-normal break-words m-0">
             Năm sinh nạp âm
           </h5>
           <div className="min-w-0 flex flex-col gap-0.5">
@@ -1275,7 +1243,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           style={level2InnerCardStyle}
           className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] sm:col-span-2 w-full h-full min-w-0 flex flex-col justify-between gap-1.5"
         >
-          <h5 className="typo-label font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 truncate m-0">
+          <h5 className="typo-label font-play font-semibold tracking-wide text-rose-600 dark:text-rose-400 whitespace-normal break-words m-0">
             Cục vận hàm số
           </h5>
           <div className="min-w-0 flex flex-col gap-0.5">
@@ -1475,7 +1443,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${p.text}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${p.text} font-play font-bold tracking-tight truncate m-0`}
+                        className={`card-title subcard-title-synced typo-h4 ${p.text} font-play font-bold tracking-tight break-words leading-snug m-0`}
                         data-subcard-title="true"
                       >
                         {trait.title}
@@ -1583,7 +1551,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${titleColor}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${titleColor} font-play font-bold tracking-tight truncate m-0`}
+                        className={`card-title subcard-title-synced typo-h4 ${titleColor} font-play font-bold tracking-tight break-words leading-snug m-0`}
                         data-subcard-title="true"
                       >
                         {palace.name}
@@ -1610,9 +1578,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
                 <div className="space-y-1.5 pt-2.5 border-t border-[var(--border-subcard)]">
                   {palace.bullets.map((b, bIdx) => (
-                    <div key={bIdx} className="flex items-center gap-1.5 typo-body-sm font-medium text-[var(--text-primary)]">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span className="truncate">{b}</span>
+                    <div key={bIdx} className="flex items-start gap-1.5 typo-body-sm font-medium text-[var(--text-primary)]">
+                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
+                      <span className="break-words leading-snug">{b}</span>
                     </div>
                   ))}
                 </div>
@@ -1696,7 +1664,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${card.color}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${card.color} font-play font-bold tracking-tight truncate m-0`}
+                        className={`card-title subcard-title-synced typo-h4 ${card.color} font-play font-bold tracking-tight break-words leading-snug m-0`}
                         data-subcard-title="true"
                       >
                         {card.title}
@@ -1786,11 +1754,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
               >
                 <div className="w-full flex flex-col gap-2.5 min-w-0">
-                  <div className="pb-2.5 border-b border-[var(--border-subcard)] flex items-center justify-between gap-2">
+                  <div className="pb-2.5 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-1.5">
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${item.theme.iconColor}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${item.theme.iconColor} tracking-tight font-play font-bold truncate m-0`}
+                        className={`card-title subcard-title-synced typo-h4 ${item.theme.iconColor} tracking-tight font-play font-bold break-words leading-snug m-0`}
                         data-subcard-title="true"
                       >
                         {item.title}
@@ -1967,7 +1935,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-indigo-600 dark:text-indigo-300">
                       <WebIcon name="search" className="w-4 h-4 shrink-0" />
                       <h4
-                        className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight truncate m-0"
+                        className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight break-words leading-snug m-0"
                         data-subcard-title="true"
                       >
                         Tra Cứu Tuổi Làm Việc Chung
@@ -2004,7 +1972,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className="typo-label font-play font-semibold text-[var(--text-secondary)]">
                       Hoặc chọn nhanh 12 Con Giáp:
                     </div>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-[10px]">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-[10px]">
                       {ZODIAC_SIGNS.map((z) => {
                         const isSel = signInfo.key === z.key;
                         return (
@@ -2053,7 +2021,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-300">
                       <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                       <h4
-                        className="card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight text-purple-600 dark:text-purple-300 truncate m-0"
+                        className="card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight text-purple-600 dark:text-purple-300 break-words leading-snug m-0"
                         data-subcard-title="true"
                       >
                         Kết Quả Đối Chiếu Với Giáp Tý 1984
@@ -2067,7 +2035,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     style={level2InnerCardStyle}
                     className="sub-card letter-subcard flex flex-col gap-2 rounded-[var(--radius-subcard,14px)]"
                   >
-                    <h5 className="typo-h5 font-play font-bold text-[var(--text-heading)] truncate m-0">
+                    <h5 className="typo-h5 font-play font-bold text-[var(--text-heading)] break-words leading-snug m-0">
                       Tuổi {signInfo.name} ({activeLookupYear} • {currentCanChiResult.canChi} • Mệnh {currentCanChiResult.element})
                     </h5>
                     <div className="flex flex-wrap gap-1.5">
@@ -2146,7 +2114,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-indigo-600 dark:text-indigo-300">
                       <WebIcon name="building-2" className="w-4 h-4 shrink-0" />
                       <h4
-                        className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight truncate m-0"
+                        className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight break-words leading-snug m-0"
                         data-subcard-title="true"
                       >
                         Chọn Khối Phòng Ban
@@ -2175,12 +2143,22 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                             isSel ? 'shadow-sm ring-1 ring-[var(--color-primary)]/40' : 'hover:opacity-95'
                           }`}
                         >
-                          <div className={`typo-body-sm font-bold truncate ${dept.accentColor}`}>
-                            {dept.shortName}
+                          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+                            <div className={`typo-body-sm font-bold break-words leading-snug ${dept.accentColor}`}>
+                              {dept.shortName}
+                            </div>
+                            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+                              {dept.element}
+                            </div>
                           </div>
-                          <span className={`px-2.5 py-0.5 rounded-full typo-badge font-mono font-bold border shrink-0 ${dept.badgeBg}`}>
-                            {dept.matchScore}%
-                          </span>
+                          <div className="flex flex-col items-end gap-1 shrink-0">
+                            <span className={`px-2.5 py-0.5 rounded-full typo-badge font-mono font-bold border shrink-0 ${dept.badgeBg}`}>
+                              {dept.matchScore}%
+                            </span>
+                            <span className="typo-badge font-mono text-[var(--text-muted)]">
+                              {dept.elementSymbol}
+                            </span>
+                          </div>
                         </button>
                       );
                     })}
@@ -2204,7 +2182,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${activeDepartment.accentColor}`}>
                       <WebIcon name="network" className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight truncate m-0 ${activeDepartment.accentColor}`}
+                        className={`card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight break-words leading-snug m-0 ${activeDepartment.accentColor}`}
                         data-subcard-title="true"
                       >
                         {activeDepartment.name}
@@ -2352,7 +2330,11 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             data-section-card="true"
             data-element-page="horoscope"
             data-element-parent="horoscope-card-1"
-            style={level2CardStyle}
+            style={{
+              ...level2CardStyle,
+              containerType: 'inline-size',
+              containerName: 'horoscope-profile-card',
+            }}
             className="md:col-span-6 lg:col-span-7 bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] overflow-hidden box-border text-left"
           >
             {renderCard1HoSoTuViContent()}

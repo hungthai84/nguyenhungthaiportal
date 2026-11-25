@@ -8,13 +8,16 @@ export type SurfaceDepthMode = 'flat' | 'depth';
 
 export type WaveMotionMode = 'off' | 'gentle' | 'normal' | 'vivid';
 
+export type CardEffectMode = 'default' | 'float' | 'glow' | 'shine' | 'tilt' | 'static';
+
 export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
   | 'multicolor-glass'
   | 'dark-neon-glass'
   | 'cowhide-leather'
-  | 'black-cowhide-leather'
+  | 'dark-cowhide-leather'
+  | 'walnut-wood'
   | 'deep-ocean'
   | 'light-deep-ocean'
   | 'neumorphism-beyond'
@@ -31,6 +34,7 @@ export type CardStyleMode =
 export type ThemeFamilyId =
   | 'liquid-glass'
   | 'cowhide-leather'
+  | 'walnut-wood'
   | 'deep-ocean'
   | 'neumorphism-beyond'
   | 'frost-ice-neu'

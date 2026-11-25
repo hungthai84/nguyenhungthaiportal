@@ -86,7 +86,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         effectiveStyle === 'dark-liquid-glass' ||
         effectiveStyle === 'dark-neon-glass' ||
         effectiveStyle === 'cowhide-leather' ||
-        effectiveStyle === 'black-cowhide-leather' ||
+        effectiveStyle === 'dark-cowhide-leather' ||
+        effectiveStyle === 'walnut-wood' ||
         effectiveStyle === 'deep-ocean' ||
         effectiveStyle === 'dark-neumorphism-beyond' ||
         effectiveStyle === 'dark-frost-ice-neu';

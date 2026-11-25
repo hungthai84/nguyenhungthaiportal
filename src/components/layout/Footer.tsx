@@ -11,7 +11,8 @@ const UNIFORM_RIGHT_PILL_WIDTH = 157;
 
 const FAMILY_SWATCHES: Record<string, string[]> = {
   'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
-  'cowhide-leather': ['#D97706', '#F5C478', '#4E2F1B'],
+  'cowhide-leather': ['#8B5A2B', '#2B221E', '#E5B87E'],
+  'walnut-wood': ['#F5C478', '#4E2F1B', '#2A190F'],
   'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
   'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
   'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#1A2433'],

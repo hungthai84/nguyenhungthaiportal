@@ -104,6 +104,8 @@ export function buildInstantViToEnMap(): Map<string, string> {
     registerPair(m.yearLabelVi, m.yearLabelEn);
     registerPair(m.roleVi, m.roleEn);
     registerPair(m.roleTitle, m.roleEn);
+    registerPair(m.managementVi, m.managementEn);
+    registerPair(m.workVi, m.workEn);
   });
 
   CORE_VALUES_DATA.forEach((c) => {

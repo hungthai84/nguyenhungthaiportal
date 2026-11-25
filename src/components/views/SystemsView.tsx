@@ -587,12 +587,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-cowhide-leather' ||
+    currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond' ||
     currentTheme === 'dark-frost-ice-neu';
   const isLight = !isDark;
-  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -754,8 +755,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
   const getAccentColor = useCallback(
     (id: string) => {
-      if (cardStyle === 'black-cowhide-leather') {
+      if (cardStyle === 'walnut-wood') {
         return '#F5C478';
+      }
+      if (cardStyle === 'dark-cowhide-leather') {
+        return '#E5B87E';
       }
       if (isLeatherTheme) {
         return '#FDE68A';

@@ -29,7 +29,8 @@ interface OrigamiUnfoldStageProps {
   compact: boolean;
   isDarkSurface: boolean;
   isBrownLeather: boolean;
-  isBlackLeather: boolean;
+  isDarkLeather: boolean;
+  isWalnutWood: boolean;
 }
 
 /**
@@ -45,7 +46,8 @@ export const OrigamiUnfoldStage: React.FC<OrigamiUnfoldStageProps> = ({
   compact,
   isDarkSurface,
   isBrownLeather,
-  isBlackLeather,
+  isDarkLeather,
+  isWalnutWood,
 }) => {
   const prefersReducedMotion = Boolean(useReducedMotion());
   const custom: OrigamiPanelMotionCustom = {
@@ -56,54 +58,68 @@ export const OrigamiUnfoldStage: React.FC<OrigamiUnfoldStageProps> = ({
   const isUnfolding = mode === 'unfolding';
   const activeSet = isUnfolding ? fullUnfoldVariants : foldingVariants;
 
-  const isLeather = isBrownLeather || isBlackLeather;
-  const paperFrontBg = isBlackLeather
+  const isLeather = isBrownLeather || isDarkLeather;
+  const paperFrontBg = isWalnutWood
     ? 'linear-gradient(145deg, #321E12 0%, #1C1009 100%)'
-    : isBrownLeather
-      ? 'linear-gradient(145deg, #6E3F19 0%, #4A280E 100%)'
-      : isDarkSurface
-        ? 'linear-gradient(155deg, rgba(19, 29, 48, 0.96) 0%, rgba(12, 19, 34, 0.98) 100%)'
-        : 'var(--surface-secondary-bg, var(--bg-card, rgba(248, 250, 252, 0.96)))';
+    : isDarkLeather
+      ? 'linear-gradient(145deg, #2B221E 0%, #140F0D 100%)'
+      : isBrownLeather
+        ? 'linear-gradient(145deg, #6E3F19 0%, #4A280E 100%)'
+        : isDarkSurface
+          ? 'linear-gradient(155deg, rgba(19, 29, 48, 0.96) 0%, rgba(12, 19, 34, 0.98) 100%)'
+          : 'var(--surface-secondary-bg, var(--bg-card, rgba(248, 250, 252, 0.96)))';
 
-  const paperWingBg = isBlackLeather
+  const paperWingBg = isWalnutWood
     ? 'linear-gradient(145deg, #29180E 0%, #170D07 100%)'
-    : isBrownLeather
-      ? 'linear-gradient(145deg, #623716 0%, #42220B 100%)'
-      : isDarkSurface
-        ? 'linear-gradient(155deg, rgba(24, 36, 58, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%)'
-        : 'var(--bg-subcard, var(--surface-tertiary-bg, rgba(241, 245, 249, 0.96)))';
+    : isDarkLeather
+      ? 'linear-gradient(145deg, #231B17 0%, #120E0C 100%)'
+      : isBrownLeather
+        ? 'linear-gradient(145deg, #623716 0%, #42220B 100%)'
+        : isDarkSurface
+          ? 'linear-gradient(155deg, rgba(24, 36, 58, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%)'
+          : 'var(--bg-subcard, var(--surface-tertiary-bg, rgba(241, 245, 249, 0.96)))';
 
-  const paperBackBg = isBlackLeather
+  const paperBackBg = isWalnutWood
     ? 'linear-gradient(135deg, #1A0F08 0%, #2D1A0E 100%)'
-    : isBrownLeather
-      ? 'linear-gradient(135deg, #4B280D 0%, #73441D 100%)'
-      : milestone.blockGradient;
+    : isDarkLeather
+      ? 'linear-gradient(135deg, #140F0D 0%, #2B221E 100%)'
+      : isBrownLeather
+        ? 'linear-gradient(135deg, #4B280D 0%, #73441D 100%)'
+        : milestone.blockGradient;
 
-  const creaseBorderColor = isBlackLeather
+  const creaseBorderColor = isWalnutWood
     ? 'rgba(245, 196, 120, 0.28)'
-    : isBrownLeather
-      ? 'rgba(245, 222, 179, 0.36)'
-      : isDarkSurface
-        ? 'rgba(148, 163, 184, 0.22)'
-        : 'var(--border-subcard, rgba(15, 23, 42, 0.12))';
+    : isDarkLeather
+      ? 'rgba(245, 222, 179, 0.34)'
+      : isBrownLeather
+        ? 'rgba(245, 222, 179, 0.36)'
+        : isDarkSurface
+          ? 'rgba(148, 163, 184, 0.22)'
+          : 'var(--border-subcard, rgba(15, 23, 42, 0.12))';
 
-  const headingColor = isBlackLeather
+  const headingColor = isWalnutWood
     ? '#FFFBF4'
-    : isBrownLeather
-      ? '#FFF8DC'
-      : 'var(--text-primary)';
+    : isDarkLeather
+      ? '#FFF8EE'
+      : isBrownLeather
+        ? '#FFF8DC'
+        : 'var(--text-primary)';
 
-  const subTextColor = isBlackLeather
+  const subTextColor = isWalnutWood
     ? '#F5E9D6'
-    : isBrownLeather
-      ? '#F5DEB3'
-      : 'var(--text-secondary)';
+    : isDarkLeather
+      ? '#E9DFD3'
+      : isBrownLeather
+        ? '#F5DEB3'
+        : 'var(--text-secondary)';
 
-  const accentColor = isBlackLeather
+  const accentColor = isWalnutWood
     ? '#F5C478'
-    : isBrownLeather
-      ? '#FDE68A'
-      : milestone.accentColor;
+    : isDarkLeather
+      ? '#E5B87E'
+      : isBrownLeather
+        ? '#FDE68A'
+        : milestone.accentColor;
 
   // Bias initial/final horizontal spine anchor smoothly toward the clicked milestone slot
   const normalizedRatio = totalSlots > 1 ? slotIndex / (totalSlots - 1) : 0.5;

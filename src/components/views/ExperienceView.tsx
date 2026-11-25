@@ -354,15 +354,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-cowhide-leather' ||
+    currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond' ||
     currentTheme === 'dark-frost-ice-neu';
   const isBrownLeather = cardStyle === 'cowhide-leather';
-  const isBlackLeather = cardStyle === 'black-cowhide-leather';
-  const isLeather = isBrownLeather || isBlackLeather;
-  const isDarkSurface = isDark && !isLeather;
-  const isDarkCardText = isDarkSurface || isLeather;
+  const isDarkLeather = cardStyle === 'dark-cowhide-leather';
+  const isWalnutWood = cardStyle === 'walnut-wood';
+  const isLeather = isBrownLeather || isDarkLeather;
+  const isDarkSurface = isDark && !isLeather && !isWalnutWood;
+  const isDarkCardText = isDarkSurface || isLeather || isWalnutWood;
 
   const [internalActiveKey, setInternalActiveKey] = useState<string>(activeKeyProp || '2013');
   const [internalShowJobCard, setInternalShowJobCard] = useState<boolean>(Boolean(showJobCardProp));
@@ -1228,12 +1230,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         ? derivedServicesList.join(' · ')
         : milestoneData?.tag || item.productSummary;
 
-    const frameCardStyle: React.CSSProperties = isBlackLeather
+    const frameCardStyle: React.CSSProperties = isWalnutWood
       ? {
-          background: 'rgba(20, 23, 29, 0.88)',
-          borderColor: 'rgba(255, 255, 255, 0.22)',
+          background: 'rgba(34, 20, 12, 0.88)',
+          borderColor: 'rgba(245, 196, 120, 0.26)',
         }
-      : isBrownLeather
+      : isDarkLeather
+        ? {
+            background: 'rgba(28, 22, 19, 0.90)',
+            borderColor: 'rgba(245, 222, 179, 0.28)',
+          }
+        : isBrownLeather
         ? {
             background: 'rgba(82, 46, 16, 0.72)',
             borderColor: 'rgba(245, 222, 179, 0.30)',
@@ -1566,7 +1573,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             compact={isMobileFoldView}
             isDarkSurface={isDarkSurface}
             isBrownLeather={isBrownLeather}
-            isBlackLeather={isBlackLeather}
+            isDarkLeather={isDarkLeather}
+            isWalnutWood={isWalnutWood}
           />
         );
       })()}
@@ -1593,7 +1601,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           onTouchStart={(e) => handlePointerDown(e.touches[0].clientX, e.touches[0].clientY, e.target)}
           onTouchEnd={(e) => handlePointerUp(e.changedTouches[0].clientX, e.changedTouches[0].clientY)}
           style={
-            isBlackLeather
+            isWalnutWood
               ? {
                   background: 'linear-gradient(145deg, #2A190F 0%, #1B1009 100%)',
                   border: 'none',
@@ -1601,19 +1609,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   outlineOffset: '-7px',
                   borderRadius: 'inherit',
                 }
-              : isBrownLeather
+              : isDarkLeather
                 ? {
-                    background: 'linear-gradient(145deg, #653A17 0%, #4A280E 100%)',
+                    background: 'linear-gradient(145deg, #231B17 0%, #140F0D 100%)',
                     border: 'none',
-                    outline: '1.5px dashed rgba(245, 222, 179, 0.52)',
+                    outline: '1.5px dashed rgba(245, 222, 179, 0.44)',
                     outlineOffset: '-7px',
                     borderRadius: 'inherit',
                   }
-                : {
-                    background: 'transparent',
-                    border: 'none',
-                    borderRadius: 'inherit',
-                  }
+                : isBrownLeather
+                  ? {
+                      background: 'linear-gradient(145deg, #653A17 0%, #4A280E 100%)',
+                      border: 'none',
+                      outline: '1.5px dashed rgba(245, 222, 179, 0.52)',
+                      outlineOffset: '-7px',
+                      borderRadius: 'inherit',
+                    }
+                  : {
+                      background: 'transparent',
+                      border: 'none',
+                      borderRadius: 'inherit',
+                    }
           }
           className={cn(
             'group/board relative w-full h-full min-h-0 flex-1 rounded-[inherit] overflow-hidden select-none flex flex-col box-border z-[1]',
@@ -1632,22 +1648,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   className="w-5 h-5 sm:w-[22px] sm:h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
                   strokeWidth={2.75}
                   style={{
-                    color: isBlackLeather
-                      ? '#FFFFFF'
-                      : isBrownLeather
-                        ? '#FDE68A'
-                        : 'var(--color-primary, #0284C7)',
+                    color: isWalnutWood
+                      ? '#F5C478'
+                      : isDarkLeather
+                        ? '#E5B87E'
+                        : isBrownLeather
+                          ? '#FDE68A'
+                          : 'var(--color-primary, #0284C7)',
                   }}
                 />
                 <h1
                   id="experience-board-title"
                   data-card-title="true"
                   style={{
-                    color: isBlackLeather
-                      ? '#FFFFFF'
-                      : isBrownLeather
-                        ? '#FFF8DC'
-                        : 'var(--text-heading, var(--text-primary))',
+                    color: isWalnutWood
+                      ? '#FFFBF4'
+                      : isDarkLeather
+                        ? '#FFF8EE'
+                        : isBrownLeather
+                          ? '#FFF8DC'
+                          : 'var(--text-heading, var(--text-primary))',
                   }}
                   className="typo-h3 sm:typo-h2 md:typo-h1 card-title-synced font-bold tracking-[0.04em] leading-none m-0 whitespace-nowrap"
                 >
@@ -1680,7 +1700,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx <= 0) || (isMobileFoldView && currentNavIdx <= 0)}
             aria-label="Chuyển tới mốc trước"
             style={
-              !isLeather
+              !(isLeather || isWalnutWood)
                 ? {
                     background: 'var(--bg-nav-arrow, var(--bg-nav-pill, var(--bg-card)))',
                     color: 'var(--text-nav-arrow, var(--text-primary))',
@@ -1690,11 +1710,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             }
             className={cn(
               'nav-arrow-btn theme-prev-next-btn absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110',
-              isBlackLeather
-                ? 'bg-[#14171D]/95 text-white border-white/70 hover:bg-[#272B35]'
-                : isBrownLeather
-                  ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : ''
+              isWalnutWood
+                ? 'bg-[#2A190F]/95 text-[#FFFBF4] border-[#F5C478]/55 hover:bg-[#3A2214]'
+                : isDarkLeather
+                  ? 'bg-[#1C1613]/95 text-[#FFF8EE] border-[#F5DEB3]/45 hover:bg-[#2B221E]'
+                  : isBrownLeather
+                    ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
+                    : ''
             )}
           >
             <ChevronLeft className="w-5 h-5" />
@@ -1706,7 +1728,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx >= maxFoldIdx) || (isMobileFoldView && currentNavIdx >= maxFoldIdx)}
             aria-label="Chuyển tới mốc tiếp theo"
             style={
-              !isLeather
+              !(isLeather || isWalnutWood)
                 ? {
                     background: 'var(--bg-nav-arrow, var(--bg-nav-pill, var(--bg-card)))',
                     color: 'var(--text-nav-arrow, var(--text-primary))',
@@ -1716,11 +1738,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             }
             className={cn(
               'nav-arrow-btn theme-prev-next-btn absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-[35] w-10 h-10 sm:w-11 sm:h-11 rounded-full aspect-square backdrop-blur-md border flex items-center justify-center transition-all duration-300 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110',
-              isBlackLeather
+              isWalnutWood
                 ? 'bg-[#2A190F]/95 text-[#FFFBF4] border-[#F5C478]/55 hover:bg-[#3A2214]'
-                : isBrownLeather
-                  ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
-                  : ''
+                : isDarkLeather
+                  ? 'bg-[#1C1613]/95 text-[#FFF8EE] border-[#F5DEB3]/45 hover:bg-[#2B221E]'
+                  : isBrownLeather
+                    ? 'bg-[#522E10]/95 text-[#FFF8DC] border-[#F5DEB3]/50 hover:bg-[#D97706]'
+                    : ''
             )}
           >
             <ChevronRight className="w-5 h-5" />
@@ -1745,35 +1769,45 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   const foldNum = String(idx + 1).padStart(2, '0');
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
 
-                  const colBackground = isBlackLeather
+                  const colBackground = isWalnutWood
                     ? isEven
                       ? 'linear-gradient(145deg, #3A2214 0%, #20120A 100%)'
                       : 'linear-gradient(145deg, #2D1A0F 0%, #170D07 100%)'
-                    : isBrownLeather
-                      ? item.colBgGradientLeather
-                      : isEven
-                        ? 'var(--surface-secondary-bg, var(--bg-card))'
-                        : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
+                    : isDarkLeather
+                      ? isEven
+                        ? 'linear-gradient(145deg, #2B221E 0%, #18120F 100%)'
+                        : 'linear-gradient(145deg, #231B17 0%, #120E0C 100%)'
+                      : isBrownLeather
+                        ? item.colBgGradientLeather
+                        : isEven
+                          ? 'var(--surface-secondary-bg, var(--bg-card))'
+                          : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
 
-                  const resolvedAccent = isBlackLeather
+                  const resolvedAccent = isWalnutWood
                     ? '#F5C478'
-                    : isBrownLeather
-                      ? '#FDE68A'
-                      : isDarkSurface
-                        ? item.darkAccentColor
-                        : item.accentColor;
+                    : isDarkLeather
+                      ? '#E5B87E'
+                      : isBrownLeather
+                        ? '#FDE68A'
+                        : isDarkSurface
+                          ? item.darkAccentColor
+                          : item.accentColor;
 
-                  const primaryTextColor = isBlackLeather
+                  const primaryTextColor = isWalnutWood
                     ? '#FFFBF4'
-                    : isBrownLeather
-                      ? '#FFF8DC'
-                      : 'var(--text-primary)';
+                    : isDarkLeather
+                      ? '#FFF8EE'
+                      : isBrownLeather
+                        ? '#FFF8DC'
+                        : 'var(--text-primary)';
 
-                  const secondaryTextColor = isBlackLeather
+                  const secondaryTextColor = isWalnutWood
                     ? '#F5E9D6'
-                    : isBrownLeather
-                      ? '#F5DEB3'
-                      : 'var(--text-secondary)';
+                    : isDarkLeather
+                      ? '#E9DFD3'
+                      : isBrownLeather
+                        ? '#F5DEB3'
+                        : 'var(--text-secondary)';
 
                   return (
                     <div
@@ -1961,32 +1995,42 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 {roadmapCards.map((item, idx) => {
                   const isEven = idx % 2 === 0;
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
-                  const colBackground = isBlackLeather
+                  const colBackground = isWalnutWood
                     ? isEven
                       ? 'linear-gradient(145deg, #3A2214 0%, #20120A 100%)'
                       : 'linear-gradient(145deg, #2D1A0F 0%, #170D07 100%)'
-                    : isBrownLeather
-                      ? item.colBgGradientLeather
-                      : isEven
-                        ? 'var(--surface-secondary-bg, var(--bg-card))'
-                        : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
-                  const resolvedAccent = isBlackLeather
+                    : isDarkLeather
+                      ? isEven
+                        ? 'linear-gradient(145deg, #2B221E 0%, #18120F 100%)'
+                        : 'linear-gradient(145deg, #231B17 0%, #120E0C 100%)'
+                      : isBrownLeather
+                        ? item.colBgGradientLeather
+                        : isEven
+                          ? 'var(--surface-secondary-bg, var(--bg-card))'
+                          : 'var(--bg-subcard, var(--surface-tertiary-bg, var(--bg-card)))';
+                  const resolvedAccent = isWalnutWood
                     ? '#F5C478'
-                    : isBrownLeather
-                      ? '#FDE68A'
-                      : isDarkSurface
-                        ? item.darkAccentColor
-                        : item.accentColor;
-                  const primaryTextColor = isBlackLeather
+                    : isDarkLeather
+                      ? '#E5B87E'
+                      : isBrownLeather
+                        ? '#FDE68A'
+                        : isDarkSurface
+                          ? item.darkAccentColor
+                          : item.accentColor;
+                  const primaryTextColor = isWalnutWood
                     ? '#FFFBF4'
-                    : isBrownLeather
-                      ? '#FFF8DC'
-                      : 'var(--text-primary)';
-                  const secondaryTextColor = isBlackLeather
+                    : isDarkLeather
+                      ? '#FFF8EE'
+                      : isBrownLeather
+                        ? '#FFF8DC'
+                        : 'var(--text-primary)';
+                  const secondaryTextColor = isWalnutWood
                     ? '#F5E9D6'
-                    : isBrownLeather
-                      ? '#F5DEB3'
-                      : 'var(--text-secondary)';
+                    : isDarkLeather
+                      ? '#E9DFD3'
+                      : isBrownLeather
+                        ? '#F5DEB3'
+                        : 'var(--text-secondary)';
 
                   return (
                     <div
@@ -2050,7 +2094,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           >
             <div
               style={
-                !isLeather
+                !(isLeather || isWalnutWood)
                   ? {
                       background: 'var(--bg-nav-pill, var(--bg-card))',
                       borderColor: 'var(--border-color)',
@@ -2059,11 +2103,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               }
               className={cn(
                 'pointer-events-auto mx-auto flex items-center gap-1.5 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm border',
-                isBlackLeather
+                isWalnutWood
                   ? 'bg-[#2A190F]/92 border-[#F5C478]/50'
-                  : isBrownLeather
-                    ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
-                    : ''
+                  : isDarkLeather
+                    ? 'bg-[#1C1613]/92 border-[#E5B87E]/45'
+                    : isBrownLeather
+                      ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
+                      : ''
               )}
             >
               {roadmapCards.map((card, idx) => {
@@ -2085,7 +2131,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     aria-label={`Chọn mốc ${card.yearBadge}`}
                     title={`${card.yearBadge} — ${card.shortName}`}
                     style={
-                      !isLeather
+                      !(isLeather || isWalnutWood)
                         ? {
                             background: isDotActive
                               ? card.accentColor
@@ -2096,16 +2142,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     className={cn(
                       'h-1.5 rounded-full transition-all duration-300 cursor-pointer',
                       isDotActive
-                        ? isBlackLeather
+                        ? isWalnutWood
                           ? 'w-5 bg-[#F5C478]'
-                          : isBrownLeather
-                            ? 'w-5 bg-[#FDE68A]'
-                            : 'w-5'
-                        : isBlackLeather
+                          : isDarkLeather
+                            ? 'w-5 bg-[#E5B87E]'
+                            : isBrownLeather
+                              ? 'w-5 bg-[#FDE68A]'
+                              : 'w-5'
+                        : isWalnutWood
                           ? 'w-1.5 bg-[#F5E9D6]/40 hover:bg-[#F5E9D6]/80'
-                          : isBrownLeather
-                            ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                            : 'w-1.5 hover:opacity-80'
+                          : isDarkLeather
+                            ? 'w-1.5 bg-[#E9DFD3]/40 hover:bg-[#E9DFD3]/80'
+                            : isBrownLeather
+                              ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
+                              : 'w-1.5 hover:opacity-80'
                     )}
                   />
                 );
@@ -2494,13 +2544,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 aria-label="Đóng chi tiết công việc"
                 className={cn(
                   'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 border backdrop-blur-md shrink-0',
-                  isBlackLeather
-                    ? 'bg-[#14171D] border-white/65 text-white hover:bg-[#232731]'
-                    : isBrownLeather
-                      ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                      : isDarkSurface
-                        ? 'bg-slate-900/90 border-white/25 text-white hover:bg-slate-800'
-                        : 'bg-white/95 border-slate-200/90 text-slate-900 hover:bg-slate-100'
+                  isWalnutWood
+                    ? 'bg-[#2A190F] border-[#F5C478]/60 text-[#FFFBF4] hover:bg-[#3A2214]'
+                    : isDarkLeather
+                      ? 'bg-[#1C1613] border-[#F5DEB3]/55 text-[#FFF8EE] hover:bg-[#2B221E]'
+                      : isBrownLeather
+                        ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
+                        : isDarkSurface
+                          ? 'bg-slate-900/90 border-white/25 text-white hover:bg-slate-800'
+                          : 'bg-white/95 border-slate-200/90 text-slate-900 hover:bg-slate-100'
                 )}
               >
                 <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -2611,13 +2663,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           <div
                             className={cn(
                               'px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-2xs flex items-center gap-1.5 max-w-full border shrink-0',
-                              isBlackLeather
-                                ? 'bg-[#14171D] border-white/65 text-white'
-                                : isBrownLeather
-                                  ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
-                                  : isDarkSurface
-                                    ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white'
-                                    : 'bg-white/95 backdrop-blur-md border-slate-200/90 text-slate-900'
+                              isWalnutWood
+                                ? 'bg-[#2A190F] border-[#F5C478]/55 text-[#FFFBF4]'
+                                : isDarkLeather
+                                  ? 'bg-[#1C1613] border-[#F5DEB3]/50 text-[#FFF8EE]'
+                                  : isBrownLeather
+                                    ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
+                                    : isDarkSurface
+                                      ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white'
+                                      : 'bg-white/95 backdrop-blur-md border-slate-200/90 text-slate-900'
                             )}
                           >
                             <Calendar className={cn('w-3.5 h-3.5 shrink-0', isDarkCardText ? 'text-rose-400' : 'text-red-600')} />
@@ -2999,11 +3053,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                   count <= 2 ? 'h-full min-h-[150px]' : 'aspect-[16/10]',
                                   isDarkSurface
                                     ? 'bg-slate-800 border-slate-700/70'
-                                    : isBlackLeather
-                                      ? 'bg-[#14171D] border-white/45'
-                                      : isBrownLeather
-                                        ? 'bg-[#522E10] border-[#F5DEB3]/35'
-                                        : 'bg-white/80 border-slate-200/90 shadow-xs',
+                                    : isWalnutWood
+                                      ? 'bg-[#2A190F] border-[#F5C478]/40'
+                                      : isDarkLeather
+                                        ? 'bg-[#1C1613] border-[#F5DEB3]/40'
+                                        : isBrownLeather
+                                          ? 'bg-[#522E10] border-[#F5DEB3]/35'
+                                          : 'bg-white/80 border-slate-200/90 shadow-xs',
                                   borderHover,
                                   isOddHero && 'col-span-2 max-h-[210px]'
                                 )}
@@ -3027,11 +3083,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                       'w-full h-full flex flex-col items-center justify-center gap-[12px] p-[12px]',
                                       isDarkSurface
                                         ? 'bg-slate-800 text-slate-300'
-                                        : isBlackLeather
-                                          ? 'bg-[#14171D] text-white'
-                                          : isBrownLeather
-                                            ? 'bg-[#522E10] text-[#FFF8DC]'
-                                            : 'bg-slate-100 text-slate-700'
+                                        : isWalnutWood
+                                          ? 'bg-[#2A190F] text-[#FFFBF4]'
+                                          : isDarkLeather
+                                            ? 'bg-[#1C1613] text-[#FFF8EE]'
+                                            : isBrownLeather
+                                              ? 'bg-[#522E10] text-[#FFF8DC]'
+                                              : 'bg-slate-100 text-slate-700'
                                     )}
                                   >
                                     <Camera
@@ -3061,11 +3119,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             'flex-1 min-h-[140px] rounded-[var(--radius-subcard,16px)] border p-[15px] flex items-center justify-center',
                             isDarkSurface
                               ? 'bg-slate-800/70 border-slate-700 text-slate-300'
-                              : isBlackLeather
+                              : isWalnutWood
                                 ? 'bg-[#2A190F] border-[#F5C478]/40 text-[#FFFBF4]'
-                                : isBrownLeather
-                                  ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
-                                  : 'bg-white/75 border-slate-200/80 text-slate-700'
+                                : isDarkLeather
+                                  ? 'bg-[#1C1613] border-[#F5DEB3]/35 text-[#FFF8EE]'
+                                  : isBrownLeather
+                                    ? 'bg-[#522E10] border-[#F5DEB3]/35 text-[#FFF8DC]'
+                                    : 'bg-white/75 border-slate-200/80 text-slate-700'
                           )}
                         >
                           <span className="typo-body-sm">
@@ -3259,13 +3319,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       className={cn(
                         'card-header-sync flex items-center gap-2.5 relative z-10',
-                        isBlackLeather
+                        isWalnutWood
                           ? 'text-[#F5C478]'
-                          : isBrownLeather
-                            ? 'text-amber-300'
-                            : isDarkSurface
-                              ? 'text-teal-300'
-                              : 'text-teal-700'
+                          : isDarkLeather
+                            ? 'text-[#E5B87E]'
+                            : isBrownLeather
+                              ? 'text-amber-300'
+                              : isDarkSurface
+                                ? 'text-teal-300'
+                                : 'text-teal-700'
                       )}
                     >
                       <ShieldCheck className="w-6 h-6 shrink-0" />
@@ -3281,21 +3343,25 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       {commitmentsList.map((cmtText, cIdx) => {
                         const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
                         const cmtSubtone = cIdx % 2 === 0 ? 'amber' : 'teal';
-                        const cmtIconColor = isBlackLeather
+                        const cmtIconColor = isWalnutWood
                           ? cIdx % 2 === 0
                             ? 'text-[#F5C478]'
                             : 'text-[#F5E9D6]'
-                          : isBrownLeather
+                          : isDarkLeather
                             ? cIdx % 2 === 0
-                              ? 'text-amber-300'
-                              : 'text-cyan-200'
-                            : isDarkSurface
+                              ? 'text-[#E5B87E]'
+                              : 'text-[#E9DFD3]'
+                            : isBrownLeather
                               ? cIdx % 2 === 0
                                 ? 'text-amber-300'
-                                : 'text-teal-300'
-                              : cIdx % 2 === 0
-                                ? 'text-amber-600'
-                                : 'text-teal-700';
+                                : 'text-cyan-200'
+                              : isDarkSurface
+                                ? cIdx % 2 === 0
+                                  ? 'text-amber-300'
+                                  : 'text-teal-300'
+                                : cIdx % 2 === 0
+                                  ? 'text-amber-600'
+                                  : 'text-teal-700';
                         return (
                           <div
                             key={cIdx}

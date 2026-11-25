@@ -658,7 +658,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card bento-card glass-card group w-full min-h-[170px] lg:min-h-0 lg:w-[235px] lg:min-w-[235px] lg:max-w-[235px] lg:flex-[0_0_235px] xl:w-[255px] xl:min-w-[255px] xl:max-w-[255px] xl:flex-[0_0_255px] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
+        className="banner-card bento-card glass-card group w-full min-h-[170px] lg:min-h-0 lg:w-[30%] lg:min-w-[30%] lg:max-w-[30%] lg:flex-[0_0_30%] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
         style={{
           padding: '15px',
           borderRadius: 'var(--radius-banner, 24px)',
@@ -734,9 +734,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
         data-ai-responding={isAiResponding ? 'true' : 'false'}
-        className="bento-card glass-card min-w-0 min-h-0 flex-1 lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card min-w-0 min-h-0 lg:w-[70%] lg:min-w-[70%] lg:max-w-[70%] lg:flex-[0_0_70%] lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
-          flex: '1 1 0%',
+          flex: '0 0 70%',
           minWidth: 0,
           maxWidth: '100%',
           alignSelf: 'stretch',

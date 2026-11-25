@@ -242,7 +242,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
+    currentTheme === 'dark-cowhide-leather' ||
+    currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond' ||
     currentTheme === 'dark-frost-ice-neu';

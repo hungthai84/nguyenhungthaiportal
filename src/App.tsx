@@ -100,7 +100,7 @@ export default function App() {
   const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
     0: 1,
-    1: 4,
+    1: 1,
     2: 1,
     5: 1,
     10: 6,

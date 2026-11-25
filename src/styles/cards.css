@@ -584,7 +584,31 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #el-p1-div-85,
 #letter-slide-2-grid,
 #letter-slide-3-grid,
-#letter-slide-4-bento-grid,
+#letter-slide-4-bento-grid {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+
 #services-main-content {
   box-sizing: border-box !important;
   width: 100% !important;
@@ -688,30 +712,6 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   max-height: 100% !important;
   align-self: stretch !important;
   box-sizing: border-box !important;
-}
-
-#letter-slide-2-card,
-#letter-slide-3-card,
-#letter-slide-4-card {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: 0 !important;
-  transform: none !important;
 }
 
 .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -1300,7 +1300,7 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   -webkit-backdrop-filter: none !important;
 }
 
-html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"])
+html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"])
   #skills-swot-grid .swot-quadrant-card[data-swot] {
   background: linear-gradient(
     145deg,
@@ -1521,7 +1521,7 @@ html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-letter 
   text-shadow: 0 0 12px var(--swot-accent);
 }
 
-/* Cowhide Leather & Black Cowhide Leather */
+/* Cowhide Leather, Dark Cowhide Leather & Walnut Wood */
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .swot-corner-outer {
   background: color-mix(in srgb, var(--swot-accent) 32%, rgba(120, 66, 22, 0.82));
   border: 1.5px solid color-mix(in srgb, var(--swot-accent) 55%, #522E10);
@@ -1543,7 +1543,7 @@ html[data-card-style="cowhide-leather"] .swot-quadrant-card .swot-corner-letter 
   text-shadow: 0 2px 4px rgba(42, 18, 4, 0.72);
 }
 
-html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-outer {
+html:is([data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) .swot-quadrant-card .swot-corner-outer {
   background: color-mix(in srgb, var(--swot-accent) 28%, rgba(24, 24, 27, 0.88));
   border: 1.5px solid color-mix(in srgb, var(--swot-accent) 58%, rgba(245, 196, 120, 0.42));
   outline: 1px dashed rgba(245, 196, 120, 0.45);
@@ -1551,7 +1551,7 @@ html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-o
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-inner {
+html:is([data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) .swot-quadrant-card .swot-corner-inner {
   background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 72%, #27272A) 0%, color-mix(in srgb, var(--swot-accent) 55%, #09090B) 100%);
   border: 1.5px solid #F5C478;
   outline: 1px dashed rgba(245, 196, 120, 0.55);
@@ -1559,7 +1559,7 @@ html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-i
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-letter {
+html:is([data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) .swot-quadrant-card .swot-corner-letter {
   color: #FFFFFF;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
 }
@@ -3138,70 +3138,70 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
 }
 
 /* Chi tiết công việc (#experience-job-detail-card): Đa màu nền cho từng subcard trên các giao diện kính/sáng/tối (trừ da bò) */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
   background: linear-gradient(145deg, rgba(238, 242, 255, 0.78) 0%, rgba(224, 231, 255, 0.64) 100%) !important;
   border: 1px solid rgba(165, 180, 252, 0.56) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
   background: linear-gradient(145deg, rgba(239, 246, 255, 0.80) 0%, rgba(219, 234, 254, 0.66) 100%) !important;
   border: 1px solid rgba(147, 197, 253, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
   background: linear-gradient(145deg, rgba(240, 249, 255, 0.82) 0%, rgba(224, 242, 254, 0.68) 100%) !important;
   border: 1px solid rgba(125, 211, 252, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
   background: linear-gradient(145deg, rgba(255, 247, 237, 0.82) 0%, rgba(254, 243, 199, 0.68) 100%) !important;
   border: 1px solid rgba(252, 211, 77, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
   background: linear-gradient(145deg, rgba(236, 253, 245, 0.80) 0%, rgba(209, 250, 229, 0.66) 100%) !important;
   border: 1px solid rgba(110, 231, 183, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
   background: linear-gradient(145deg, rgba(236, 254, 255, 0.80) 0%, rgba(204, 251, 241, 0.66) 100%) !important;
   border: 1px solid rgba(94, 234, 212, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
   background: linear-gradient(145deg, rgba(245, 243, 255, 0.80) 0%, rgba(237, 233, 254, 0.66) 100%) !important;
   border: 1px solid rgba(196, 181, 253, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
   background: linear-gradient(145deg, rgba(253, 242, 248, 0.80) 0%, rgba(252, 231, 243, 0.66) 100%) !important;
   border: 1px solid rgba(249, 168, 212, 0.58) !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
   background: linear-gradient(145deg, rgba(30, 27, 75, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(129, 140, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
   background: linear-gradient(145deg, rgba(23, 37, 84, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(96, 165, 250, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
   background: linear-gradient(145deg, rgba(12, 74, 110, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
   background: linear-gradient(145deg, rgba(69, 26, 3, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 191, 36, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
   background: linear-gradient(145deg, rgba(6, 78, 59, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(52, 211, 153, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
   background: linear-gradient(145deg, rgba(19, 78, 74, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(45, 212, 191, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
   background: linear-gradient(145deg, rgba(46, 16, 101, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(192, 132, 252, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
   background: linear-gradient(145deg, rgba(80, 7, 36, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 113, 133, 0.30) !important;
 }
@@ -3425,8 +3425,37 @@ html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-l
   color: #FDE68A !important;
 }
 
+/* Dark Cowhide Leather (Da Bò Tối Màu) surface & subcard styling */
+html[data-card-style="dark-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
+  background: linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%) !important;
+  border: 1.5px solid #3E3028 !important;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.42);
+  outline-offset: -7px;
+  color: #FFF8EE !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="dark-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
+html[data-card-style="dark-cowhide-leather"] #el-p3-div-90 {
+  background: linear-gradient(145deg, rgba(36, 28, 24, 0.96) 0%, rgba(20, 15, 13, 0.98) 100%) !important;
+  border: 1.5px solid #3E3028 !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.30);
+  outline-offset: -5px;
+  color: #FFF8EE !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
+html[data-card-style="dark-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
+html[data-card-style="dark-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
+  color: #E5B87E !important;
+}
+
 /* Walnut Wood Grain (Vân Gỗ Óc Chó) surface & subcard styling */
-html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
+html[data-card-style="walnut-wood"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"], #skills-languages-section) {
   background: linear-gradient(145deg, #3A2214 0%, #2A190F 52%, #1B1009 100%) !important;
   border: 1.5px solid #4E2F1B !important;
   outline: 1px solid rgba(245, 196, 120, 0.24);
@@ -3436,9 +3465,9 @@ html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"]
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
-html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
+html[data-card-style="walnut-wood"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="walnut-wood"] #skills-languages-section [id^="skills-language-card-"],
+html[data-card-style="walnut-wood"] #el-p3-div-90 {
   background: linear-gradient(145deg, rgba(46, 28, 17, 0.96) 0%, rgba(24, 14, 8, 0.98) 100%) !important;
   border: 1.5px solid #4E2F1B !important;
   outline: 1px solid rgba(245, 196, 120, 0.22);
@@ -3448,9 +3477,9 @@ html[data-card-style="black-cowhide-leather"] #el-p3-div-90 {
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
-html[data-card-style="black-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
+html[data-card-style="walnut-wood"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-title,
+html[data-card-style="walnut-wood"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-ring-arc,
+html[data-card-style="walnut-wood"] #skills-languages-section [id^="skills-language-card-"] .skills-lang-level {
   color: #F5C478 !important;
 }
 
@@ -4346,11 +4375,11 @@ html.dark #services-page-container .domain-card .service-card-hover-flood::befor
 }
 
 /* Tinh chỉnh vật liệu Liquid Color Reveal đồng bộ ảnh trên các họ Theme đặc thù */
-html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) #services-page-container .domain-card .service-card-hover-image-aura {
+html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) #services-page-container .domain-card .service-card-hover-image-aura {
   opacity: 0.34;
   filter: blur(36px) saturate(1.25) brightness(0.75);
 }
-html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) #services-page-container .domain-card .service-card-hover-flood::before {
+html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) #services-page-container .domain-card .service-card-hover-flood::before {
   background: radial-gradient(
     circle at var(--hover-x, 50%) var(--hover-y, 50%),
     color-mix(in srgb, var(--service-card-accent-dark, #F5C478) 28%, rgba(66, 36, 14, 0.42)) 0%,
@@ -4358,7 +4387,7 @@ html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-lea
     rgba(28, 16, 8, 0.72) 100%
   );
 }
-html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) #services-page-container {
+html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) #services-page-container {
   --service-expanded-surface: var(--bg-card);
   --service-expanded-border: var(--border-strong, #522E10);
 }
@@ -4893,12 +4922,44 @@ html[data-card-style="cowhide-leather"] .video-play-btn--interview {
   --vp-bg-hover: linear-gradient(145deg, #a6692f 0%, #713e15 100%);
 }
 
-/* --- Vân gỗ óc chó (Walnut Wood Grain & Solid Brass Hairline) --- */
-html[data-card-style="black-cowhide-leather"] .video-play-btn::before {
+/* --- Da bò tối màu (Dark Cowhide Leather & Cream Stitch) --- */
+html[data-card-style="dark-cowhide-leather"] .video-play-btn::before {
   display: none !important;
   content: none !important;
 }
-html[data-card-style="black-cowhide-leather"] .video-play-btn {
+html[data-card-style="dark-cowhide-leather"] .video-play-btn {
+  --vp-backdrop: none;
+  --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.48);
+  --vp-outline-offset: -3px;
+  --vp-border: #3E3028;
+  --vp-text: #FFF8EE;
+  --vp-specular: rgba(245, 222, 179, 0.22);
+  --vp-shadow-ambient: 0 10px 22px rgba(10, 6, 4, 0.70);
+  --vp-shadow-hover: 0 14px 30px rgba(10, 6, 4, 0.84);
+  --vp-sound-bg: rgba(229, 184, 126, 0.16);
+  --vp-sound-border: rgba(245, 222, 179, 0.42);
+  --vp-sound-hover: rgba(229, 184, 126, 0.28);
+}
+html[data-card-style="dark-cowhide-leather"] .video-play-btn:hover,
+html[data-card-style="dark-cowhide-leather"] .video-play-btn:focus-visible {
+  --vp-outline: 1.5px dashed rgba(245, 222, 179, 0.82);
+  border-color: #E5B87E !important;
+}
+html[data-card-style="dark-cowhide-leather"] .video-play-btn--home,
+html[data-card-style="dark-cowhide-leather"] .video-play-btn--about,
+html[data-card-style="dark-cowhide-leather"] .video-play-btn--letter,
+html[data-card-style="dark-cowhide-leather"] .video-play-btn--systems,
+html[data-card-style="dark-cowhide-leather"] .video-play-btn--interview {
+  --vp-bg: linear-gradient(145deg, #3A2E28 0%, #1C1613 100%);
+  --vp-bg-hover: linear-gradient(145deg, #4A3B33 0%, #2B221E 100%);
+}
+
+/* --- Vân gỗ óc chó (Walnut Wood Grain & Solid Brass Hairline) --- */
+html[data-card-style="walnut-wood"] .video-play-btn::before {
+  display: none !important;
+  content: none !important;
+}
+html[data-card-style="walnut-wood"] .video-play-btn {
   --vp-backdrop: none;
   --vp-outline: 1px solid rgba(245, 196, 120, 0.28);
   --vp-outline-offset: -3px;
@@ -4911,16 +4972,16 @@ html[data-card-style="black-cowhide-leather"] .video-play-btn {
   --vp-sound-border: rgba(245, 196, 120, 0.40);
   --vp-sound-hover: rgba(245, 196, 120, 0.26);
 }
-html[data-card-style="black-cowhide-leather"] .video-play-btn:hover,
-html[data-card-style="black-cowhide-leather"] .video-play-btn:focus-visible {
+html[data-card-style="walnut-wood"] .video-play-btn:hover,
+html[data-card-style="walnut-wood"] .video-play-btn:focus-visible {
   --vp-outline: 1px solid rgba(245, 196, 120, 0.56);
   border-color: #F5C478 !important;
 }
-html[data-card-style="black-cowhide-leather"] .video-play-btn--home,
-html[data-card-style="black-cowhide-leather"] .video-play-btn--about,
-html[data-card-style="black-cowhide-leather"] .video-play-btn--letter,
-html[data-card-style="black-cowhide-leather"] .video-play-btn--systems,
-html[data-card-style="black-cowhide-leather"] .video-play-btn--interview {
+html[data-card-style="walnut-wood"] .video-play-btn--home,
+html[data-card-style="walnut-wood"] .video-play-btn--about,
+html[data-card-style="walnut-wood"] .video-play-btn--letter,
+html[data-card-style="walnut-wood"] .video-play-btn--systems,
+html[data-card-style="walnut-wood"] .video-play-btn--interview {
   --vp-bg: linear-gradient(145deg, #3A2214 0%, #24150C 100%);
   --vp-bg-hover: linear-gradient(145deg, #4D2E1B 0%, #301C10 100%);
 }
@@ -5275,7 +5336,7 @@ html[data-card-style="dark-flat-soft-ui"] .video-play-btn--letter {
     background-color 200ms ease;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhide-leather"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
   button[data-element-type="button"],
   .banner-control-pill,
   .nav-arrow-btn,
@@ -5498,9 +5559,9 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45) !important;
 }
 
-/* Thư ngỏ 2 và 3: Không tô màu nền sub-card & Logo tròn tràn viền trong suốt */
-#letter-card-2 .bento-view-card,
-#letter-card-3 .bento-view-card,
+/* Thư ngỏ: Không tô màu nền sub-card các mốc sự nghiệp & Logo tròn tràn viền trong suốt */
+#letter-main-card #letter-slide-2-grid .bento-view-card,
+#letter-main-card #letter-slide-3-grid .bento-view-card,
 #letter-slide-2-grid article,
 #letter-slide-3-grid article {
   background: transparent !important;
@@ -5511,8 +5572,7 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 }
 
 #letter-page-container .partner-logo-badge,
-#letter-card-2 .w-11.h-11,
-#letter-card-3 .w-11.h-11 {
+#letter-main-card .w-11.h-11 {
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   background-color: var(--surface-secondary-bg, var(--bg-card)) !important;
   border: none !important;
@@ -5521,8 +5581,7 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 }
 
 #letter-page-container .partner-logo-img,
-#letter-card-2 .w-11.h-11 img,
-#letter-card-3 .w-11.h-11 img {
+#letter-main-card .w-11.h-11 img {
   width: 100% !important;
   height: 100% !important;
   border-radius: 50% !important;
@@ -5590,56 +5649,37 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   font-weight: 700 !important;
 }
 
-/* THƯ NGỎ HÀNG 2: Card 3 nằm ngang bên phải Card 2 với khoảng cách 10px, kích thước bằng main card trang chủ */
-#letter-cards-row-2-3 {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
-  gap: 10px !important;
-  row-gap: 10px !important;
-  column-gap: 10px !important;
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
+/* THẺ CHÍNH DUY NHẤT TRANG THƯ NGỎ: Khớp chiều cao & kích thước Main Card toàn hệ thống */
+#letter-main-card {
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
-  flex: 0 0 auto !important;
-  height: 100cqh !important;
-  min-height: 100cqh !important;
-  max-height: 100cqh !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+#letter-main-scroll-viewport {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
   box-sizing: border-box !important;
 }
 
-#letter-cards-row-2-3::-webkit-scrollbar {
+#letter-main-scroll-viewport::-webkit-scrollbar {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
-}
-
-#letter-cards-row-2-3 > #letter-card-2,
-#letter-cards-row-2-3 > #letter-card-3 {
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
-  flex: 0 0 100% !important;
-  border-radius: 0px !important;
-  scroll-snap-align: start;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  box-sizing: border-box !important;
 }
 
 /* THẺ DỰ ÁN: Đồng bộ Box Shadow 3 tầng mượt mà & Hover Lift */
@@ -5746,10 +5786,25 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   column-gap: 15px !important;
 }
 
+@media (min-width: 1360px) {
+  #interface-themes-grid:not([data-cols="4"]) {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #interface-themes-grid[data-cols="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  #interface-themes-grid[data-cols="5"] {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
 @media (max-width: 1199px) {
   #interface-page-container .interface-group-grid,
   #interface-page-container .interface-themes-grid,
-  #interface-themes-grid {
+  #interface-themes-grid:not([data-cols="4"]):not([data-cols="5"]) {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
@@ -5766,6 +5821,61 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 #interface-themes-grid > .theme-preset-card {
   height: 100% !important;
   min-width: 0 !important;
+}
+
+/* ========================================================================= */
+/* GLOBAL CARD EFFECTS (data-card-effect: float | glow | shine | tilt | static) */
+/* ========================================================================= */
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-effect="float"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
+    transform: translate3d(0, -4px, 0) !important;
+    box-shadow: 0 18px 36px -10px rgba(15, 23, 42, 0.22), 0 6px 14px -4px rgba(var(--color-primary-rgb, 109, 40, 217), 0.16) !important;
+  }
+
+  html[data-card-effect="glow"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
+    border-color: var(--color-primary, #6D28D9) !important;
+    box-shadow: 0 0 0 1px rgba(var(--color-primary-rgb, 109, 40, 217), 0.45), 0 12px 28px -6px rgba(var(--color-primary-rgb, 109, 40, 217), 0.34) !important;
+  }
+
+  html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover) {
+    position: relative;
+    overflow: hidden;
+  }
+
+  html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, transparent 22%, rgba(255, 255, 255, 0.32) 50%, transparent 78%);
+    transform: translate3d(-120%, 0, 0);
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 2;
+  }
+
+  html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover::after {
+    transform: translate3d(120%, 0, 0);
+  }
+
+  html[data-card-effect="tilt"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
+    transform: perspective(900px) rotateX(1.6deg) rotateY(-1.6deg) translate3d(0, -3px, 0) scale(1.01) !important;
+    box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.20) !important;
+  }
+}
+
+html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):hover {
+  transform: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-effect] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):hover {
+    transform: none !important;
+    animation: none !important;
+  }
+  html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card)::after {
+    display: none !important;
+  }
 }
 
 /* ========================================================================= */

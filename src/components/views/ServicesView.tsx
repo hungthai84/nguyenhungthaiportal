@@ -301,7 +301,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isEn = language === 'en';
-  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
   const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
 
   // Controlled interaction state machine: idle | hovered | expanding | expanded | closing

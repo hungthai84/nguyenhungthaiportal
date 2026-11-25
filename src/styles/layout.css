@@ -843,8 +843,8 @@
   #app-header,
   #app-footer,
   #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
-  .page-main-card:not(#pdf-page-container):not(#letter-cards-row-2-3 > .page-main-card):not(#horoscope-cards-track > .page-main-card),
-  [data-main-card="true"]:not(#pdf-page-container):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]) {
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]) {
     max-width: var(--main-card-target-w, 1000px) !important;
     width: var(--main-card-target-w, 1000px) !important;
     margin-left: auto !important;

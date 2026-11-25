@@ -180,6 +180,40 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Midnight Glass', hex: '#0F172A' },
     ],
   },
+  'light-cowhide-leather': {
+    radius: '15px',
+    activeRingColor: '#DAA06D',
+    activeBorderClass: 'border-[#DAA06D]',
+    idleBorderClass: 'border-[#DAA06D] hover:border-[#DAA06D]',
+    activeBadgeClass: 'bg-[#EADDCA] text-[#DAA06D] border-[#DAA06D]',
+    iconColor: '#DAA06D',
+    titleTextClass: 'text-[#DAA06D]',
+    bodyTextClass: 'text-[#DAA06D]',
+    accentTextClass: 'text-[#DAA06D]',
+    previewBorderClass: 'border-[#DAA06D] border-dashed',
+    dividerClass: 'border-[#DAA06D]/50 border-dashed',
+    ctaIdleClass: 'bg-[#EADDCA] text-[#DAA06D] hover:bg-[#D5C5B0] border border-[#DAA06D]',
+    ctaActiveClass: 'bg-[#EADDCA] text-[#DAA06D] font-bold shadow-xs border-2 border-[#DAA06D]',
+    toggleTrackDarkClass: 'bg-[#EADDCA] border-[#DAA06D]',
+    toggleTrackLightClass: 'bg-[#EADDCA] border-[#DAA06D]',
+    toggleThumbDarkClass: 'bg-[#EADDCA] text-[#DAA06D]',
+    toggleThumbLightClass: 'bg-[#EADDCA] text-[#DAA06D]',
+    outlineStyle: (isActive) => ({
+      outline: isActive ? '2px dashed #DAA06D' : '2px dashed #DAA06D',
+      outlineOffset: '-6px',
+    }),
+    demoVideoUrl: 'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
+    gradientBars: [
+      { label: 'Parchment', width: '90%', gradient: 'linear-gradient(90deg, #DAA06D, #EADDCA)' },
+      { label: 'Leather Light', width: '75%', gradient: 'linear-gradient(90deg, #C88E5A, #DAA06D)' },
+    ],
+    primaryPalette: [
+      { name: 'Tan Gold', hex: '#DAA06D' },
+      { name: 'Parchment Cream', hex: '#EADDCA' },
+      { name: 'Warm Cashew', hex: '#D5C5B0' },
+      { name: 'Classic Brown', hex: '#8B5A2B' },
+    ],
+  },
   'cowhide-leather': {
     radius: '14px',
     activeRingColor: '#F5DEB3',
@@ -1679,7 +1713,9 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     disabled={!isSelectedGroupBlurCustom}
                     onClick={() => {
                       SoundEngine.playGlassChime();
-                      resetGroupGlassSettings(selectedBlurGroupId);
+                      if (selectedBlurGroupId) {
+                        resetGroupGlassSettings(selectedBlurGroupId);
+                      }
                       onShowNotification?.(
                         isEn
                           ? `✓ Restored default Main Card blur for ${selectedBlurGroup.labelEn}`
@@ -1724,10 +1760,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         isDark && selectedBlurGroup.darkMode
                           ? selectedBlurGroup.darkMode
                           : selectedBlurGroup.lightMode || selectedBlurGroup.defaultMode;
-                      handleSelectTheme(
-                        targetMode,
-                        isEn ? selectedBlurGroup.labelEn : selectedBlurGroup.label
-                      );
+                      if (targetMode) {
+                        handleSelectTheme(
+                          targetMode,
+                          isEn ? selectedBlurGroup.labelEn : selectedBlurGroup.label
+                        );
+                      }
                     }}
                     className="typo-badge font-bold underline underline-offset-2 cursor-pointer"
                     style={{ color: 'var(--text-link, var(--color-primary))' }}

@@ -57,6 +57,7 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'multicolor-glass': { cardOpacity: 15, blurIntensity: 16 },
   'dark-neon-glass': { cardOpacity: 34, blurIntensity: 16 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
+  'light-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'black-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
   'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
@@ -102,6 +103,15 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     fallbackGradient:
       'radial-gradient(ellipse 66% 56% at 14% 16%, rgba(152, 137, 238, 0.24) 0px, transparent 56%), radial-gradient(ellipse 64% 54% at 86% 14%, rgba(103, 232, 249, 0.16) 0px, transparent 52%), radial-gradient(ellipse 62% 56% at 76% 84%, rgba(181, 167, 244, 0.18) 0px, transparent 54%), linear-gradient(140deg, #101A2B 0%, #171F33 52%, #131B2E 100%)',
     overlayBg: 'rgba(16, 26, 43, 0.16)',
+  },
+  'light-cowhide-leather': {
+    id: 'light-cowhide-leather',
+    presetId: 'theme-bg-light-cowhide-leather',
+    label: 'Nền Da Bò Cổ Điển Sáng (#EADDCA)',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient: 'linear-gradient(145deg, #EADDCA 0%, #D5C5B0 100%)',
+    overlayBg: 'rgba(0, 0, 0, 0.05)',
   },
   'cowhide-leather': {
     id: 'cowhide-leather',
@@ -266,6 +276,7 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
   'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
+  'light-cowhide-leather': THEME_BACKGROUNDS['light-cowhide-leather'].presetId,
   'black-cowhide-leather': THEME_BACKGROUNDS['black-cowhide-leather'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,

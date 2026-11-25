@@ -78,6 +78,7 @@ body {
 @import "./styles/cards.css";
 @import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
+@import "./styles/themes/light-cowhide-leather.css";
 @import "./styles/themes/black-cowhide-leather.css";
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/light-deep-ocean.css";

@@ -6806,10 +6806,12 @@ html.dark:root[data-card-style] body :is(#app-header, #app-header:hover, #app-he
 /* KHU VỰC CHÍNH GIỮA: PADDING TOP 10PX, PADDING BOT 10PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
 html:root body #global-content-viewport,
 html:root[data-card-style] body #global-content-viewport {
-  flex: 0 0 auto !important;
-  height: calc(100dvh - 104px) !important;
-  min-height: 520px !important;
+  flex: 1 1 0% !important;
+  height: 0 !important;
+  min-height: 0 !important;
   max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   padding-left: 0px !important;
@@ -8065,7 +8067,36 @@ html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-fros
   #ai-assistant-main-card,
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"]
-):is(*, :hover, :focus-within, :active),
+),
+html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="minimalism"]):not([data-card-style="mica-fluent"]) body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #systems-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"]
+) :is(*, :hover, :focus-within, :active),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="minimalism"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-card-1,
   #letter-card-2,
@@ -8094,7 +8125,36 @@ html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card
   #ai-assistant-main-card,
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"]
-):is(*, :hover, :focus-within, :active),
+),
+html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="minimalism"]):not([data-card-style="mica-fluent"]) body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #systems-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"]
+) :is(*, :hover, :focus-within, :active),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="minimalism"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-card-1,
   #letter-card-2,
@@ -8123,7 +8183,36 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
   #ai-assistant-main-card,
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"]
-):is(*, :hover, :focus-within, :active) {
+),
+html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="minimalism"]):not([data-card-style="mica-fluent"]) body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #systems-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"]
+) :is(*, :hover, :focus-within, :active) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
@@ -8197,8 +8286,7 @@ html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice
   #horoscope-cards-track > [data-main-card="true"]
 ):is(*, :hover, :focus-within, :active) {
   background: var(--surface-primary-bg, var(--color-surface)) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background-color: var(--surface-primary-bg, var(--color-surface)) !important;
   color: var(--text-primary) !important;
 }
 

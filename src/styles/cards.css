@@ -5803,7 +5803,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 /* EXPERIENCE VIEW: 3D ORIGAMI FOLD & UNFOLD (8 CỘT MỐC XẾP GIẤY 3D)        */
 /* ========================================================================= */
 #experience-timeline-board .exp-chromatic-stage {
-  --accordion-angle: -2.4deg;
+  --accordion-angle: -8deg;
   --fold-label-angle: 90deg;
   position: relative;
   flex: 1 1 0%;
@@ -5813,22 +5813,22 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 !important;
+  padding: 16px 22px !important;
   overflow: hidden;
   box-sizing: border-box;
-  perspective: 1800px;
+  perspective: 2200px;
 }
 
 #experience-timeline-board .exp-chromatic-folds {
   display: flex;
-  width: calc(100% - 28px);
-  height: calc(100% - 108px);
-  margin: 64px auto 44px;
+  width: calc(100% - 44px);
+  height: calc(100% - 120px);
+  margin: 58px auto 38px;
   flex: 0 0 auto;
   min-height: 0;
   max-height: none;
   isolation: isolate;
-  transform: rotate(var(--accordion-angle, -2.4deg));
+  transform: rotate(var(--accordion-angle, -8deg));
   transform-origin: center center;
   transform-style: preserve-3d;
   transition:

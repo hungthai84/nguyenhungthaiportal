@@ -191,144 +191,84 @@ export const HomeView: React.FC<HomeViewProps> = ({
     </div>
   );
 
-  // Kho biểu tượng đa sắc được chọn ngẫu nhiên quanh vòng tròn Trang chủ (tránh góc dưới phải của nút phát video)
-  const orbitBadges = useMemo(() => {
-    const iconPool = [
+  // Các chỉ số đặc biệt và nổi trội bay quanh vòng tròn Trang chủ
+  const orbitMetrics = useMemo(() => {
+    const metricsList = [
       {
-        icon: 'sparkles',
+        value: '22+ Năm',
+        label: isEn ? 'CX & CC Experience' : 'Thực chiến CSKH & CX',
+        icon: 'award',
         gradient: 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
         glow: '0 10px 24px rgba(236, 72, 153, 0.42)',
       },
       {
-        icon: 'headphones',
+        value: '31M+',
+        label: isEn ? 'Users Served' : 'Người dùng phục vụ',
+        icon: 'users',
         gradient: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)',
         glow: '0 10px 24px rgba(59, 130, 246, 0.42)',
       },
       {
-        icon: 'trending-up',
+        value: '98.6%',
+        label: isEn ? 'SLA Compliance' : 'Chỉ số SLA dịch vụ',
+        icon: 'gauge',
         gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
         glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
       },
       {
-        icon: 'award',
+        value: '130+',
+        label: isEn ? 'Team Headcount' : 'Nhân sự quản trị',
+        icon: 'briefcase',
         gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
         glow: '0 10px 24px rgba(245, 158, 11, 0.44)',
       },
       {
-        icon: 'cpu',
+        value: '96%+',
+        label: isEn ? 'CSAT Rating' : 'Độ hài lòng CSAT',
+        icon: 'sparkles',
         gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
         glow: '0 10px 24px rgba(139, 92, 246, 0.42)',
       },
       {
-        icon: 'heart-handshake',
-        gradient: 'linear-gradient(135deg, #F43F5E 0%, #A855F7 100%)',
-        glow: '0 10px 24px rgba(244, 63, 94, 0.42)',
-      },
-      {
-        icon: 'shield-check',
+        value: '24/7',
+        label: isEn ? 'AI & CRM Operations' : 'Vận hành AI & CRM',
+        icon: 'cpu',
         gradient: 'linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%)',
         glow: '0 10px 24px rgba(14, 165, 233, 0.42)',
       },
-      {
-        icon: 'bar-chart-3',
-        gradient: 'linear-gradient(135deg, #6366F1 0%, #06B6D4 100%)',
-        glow: '0 10px 24px rgba(99, 102, 241, 0.42)',
-      },
-      {
-        icon: 'target',
-        gradient: 'linear-gradient(135deg, #EF4444 0%, #F97316 100%)',
-        glow: '0 10px 24px rgba(239, 68, 68, 0.42)',
-      },
-      {
-        icon: 'crown',
-        gradient: 'linear-gradient(135deg, #D97706 0%, #FACC15 100%)',
-        glow: '0 10px 24px rgba(217, 119, 6, 0.44)',
-      },
-      {
-        icon: 'globe',
-        gradient: 'linear-gradient(135deg, #0891B2 0%, #10B981 100%)',
-        glow: '0 10px 24px rgba(8, 145, 178, 0.42)',
-      },
-      {
-        icon: 'compass',
-        gradient: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)',
-        glow: '0 10px 24px rgba(124, 58, 237, 0.42)',
-      },
-      {
-        icon: 'layers',
-        gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-        glow: '0 10px 24px rgba(37, 99, 235, 0.42)',
-      },
-      {
-        icon: 'users',
-        gradient: 'linear-gradient(135deg, #059669 0%, #34D399 100%)',
-        glow: '0 10px 24px rgba(5, 150, 105, 0.42)',
-      },
-      {
-        icon: 'briefcase',
-        gradient: 'linear-gradient(135deg, #EA580C 0%, #EC4899 100%)',
-        glow: '0 10px 24px rgba(234, 88, 12, 0.42)',
-      },
-      {
-        icon: 'brain',
-        gradient: 'linear-gradient(135deg, #9333EA 0%, #3B82F6 100%)',
-        glow: '0 10px 24px rgba(147, 51, 234, 0.42)',
-      },
-      {
-        icon: 'trophy',
-        gradient: 'linear-gradient(135deg, #EAB308 0%, #F97316 100%)',
-        glow: '0 10px 24px rgba(234, 179, 8, 0.44)',
-      },
-      {
-        icon: 'workflow',
-        gradient: 'linear-gradient(135deg, #14B8A6 0%, #0284C7 100%)',
-        glow: '0 10px 24px rgba(20, 184, 166, 0.42)',
-      },
     ];
 
-    // Xáo trộn Fisher-Yates để mỗi lần vào Trang chủ chọn 6 biểu tượng & màu sắc ngẫu nhiên
-    const shuffled = [...iconPool];
-    for (let i = shuffled.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    const picked = shuffled.slice(0, 6);
-
-    // Phân bổ ngẫu nhiên trên cung tròn an toàn (104° → 364°, tránh vùng nút Phát & Âm thanh ở góc dưới phải ~15°–95°)
     const arcStartDeg = 104;
     const arcSpanDeg = 260;
-    const sectorStep = arcSpanDeg / picked.length;
+    const sectorStep = arcSpanDeg / metricsList.length;
 
-    return picked.map((item, idx) => {
-      const jitterDeg = (Math.random() - 0.5) * (sectorStep * 0.52);
+    return metricsList.map((item, idx) => {
+      const jitterDeg = (Math.random() - 0.5) * (sectorStep * 0.4);
       const angleDeg = arcStartDeg + (idx + 0.5) * sectorStep + jitterDeg;
       const angleRad = (angleDeg * Math.PI) / 180;
-      // Bán kính ngẫu nhiên nhẹ quanh viền vòng tròn ngoài (47.5% – 51.5%)
-      const radiusPct = 47.5 + Math.random() * 4;
+      const radiusPct = 48 + Math.random() * 3.5;
       const leftPct = 50 + Math.cos(angleRad) * radiusPct;
       const topPct = 50 + Math.sin(angleRad) * radiusPct;
 
-      const ampY = 3.5 + Math.random() * 3.5;
-      const ampX = 2 + Math.random() * 2.5;
+      const ampY = 3 + Math.random() * 3;
+      const ampX = 2 + Math.random() * 2;
       const dirY = Math.random() > 0.5 ? 1 : -1;
       const dirX = Math.random() > 0.5 ? 1 : -1;
-      const rotAmp = (Math.random() > 0.5 ? 1 : -1) * (4 + Math.random() * 5);
+      const rotAmp = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 3);
 
       return {
-        id: `home-orbit-icon-${item.icon}-${idx}`,
-        icon: item.icon,
+        id: `home-orbit-metric-${idx}`,
+        ...item,
         leftPct: `${leftPct.toFixed(2)}%`,
         topPct: `${topPct.toFixed(2)}%`,
-        gradient: item.gradient,
-        glow: item.glow,
         floatY: [dirY * -ampY, dirY * ampY, dirY * -ampY],
         floatX: [dirX * -ampX, dirX * ampX, dirX * -ampX],
         floatRotate: [-rotAmp, rotAmp, -rotAmp],
-        duration: Number((4.0 + Math.random() * 1.8).toFixed(2)),
-        delay: Number((Math.random() * 0.9).toFixed(2)),
+        duration: Number((4.2 + Math.random() * 1.6).toFixed(2)),
+        delay: Number((Math.random() * 0.8).toFixed(2)),
       };
     });
-  }, []);
+  }, [isEn]);
 
   const mainCardInlineStyle: React.CSSProperties = {
     width: '100%',
@@ -593,48 +533,55 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     }}
                   />
 
-                  {/* 6 biểu tượng đa sắc ngẫu nhiên bay quanh viền vòng tròn */}
-                  {orbitBadges.map((badge) => (
+                  {/* Các chỉ số đặc biệt và nổi trội bay quanh vòng tròn Trang chủ */}
+                  {orbitMetrics.map((metric) => (
                     <div
-                      key={badge.id}
+                      key={metric.id}
                       style={{
-                        left: badge.leftPct,
-                        top: badge.topPct,
+                        left: metric.leftPct,
+                        top: metric.topPct,
                         transform: 'translate(-50%, -50%)',
                       }}
                       className="pointer-events-none select-none absolute z-10"
                     >
                       <motion.div
-                        id={badge.id}
+                        id={metric.id}
                         aria-hidden="true"
                         animate={
                           prefersReducedMotion
                             ? undefined
                             : {
-                                y: badge.floatY,
-                                x: badge.floatX,
-                                rotate: badge.floatRotate,
+                                y: metric.floatY,
+                                x: metric.floatX,
+                                rotate: metric.floatRotate,
                               }
                         }
                         transition={
                           prefersReducedMotion
                             ? undefined
                             : {
-                                duration: badge.duration,
+                                duration: metric.duration,
                                 repeat: Infinity,
                                 ease: 'easeInOut',
-                                delay: badge.delay,
+                                delay: metric.delay,
                               }
                         }
                         style={{
-                          background: badge.gradient,
-                          borderColor: 'rgba(255, 255, 255, 0.85)',
-                          color: '#FFFFFF',
-                          boxShadow: badge.glow,
+                          background: metric.gradient,
+                          borderColor: 'rgba(255, 255, 255, 0.88)',
+                          boxShadow: metric.glow,
                         }}
-                        className="w-11 h-11 sm:w-[52px] sm:h-[52px] rounded-full border-2 flex items-center justify-center"
+                        className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border-2 flex items-center gap-1.5 sm:gap-2 backdrop-blur-md text-white shadow-lg whitespace-nowrap"
                       >
-                        <WebIcon name={badge.icon} className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-xs" />
+                        <WebIcon name={metric.icon} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0 drop-shadow-xs" />
+                        <div className="flex flex-col text-left">
+                          <span className="font-play font-extrabold text-[11px] sm:text-[12px] leading-tight text-white tracking-tight drop-shadow-xs">
+                            {metric.value}
+                          </span>
+                          <span className="font-play font-medium text-[9px] sm:text-[9.5px] leading-none text-white/95">
+                            {metric.label}
+                          </span>
+                        </div>
                       </motion.div>
                     </div>
                   ))}

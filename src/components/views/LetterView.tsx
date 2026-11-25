@@ -2170,7 +2170,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     maxWidth: '100%',
                     minHeight: '0px',
                     height: '100%',
-                    marginLeft: 'auto',
+                    marginLeft: '10px',
                     marginRight: 'auto',
                     paddingTop: '0px',
                     paddingRight: '0px',

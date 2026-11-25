@@ -168,7 +168,6 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   padding: 0 !important;
 }
 
-#horoscope-card-profile,
 #horoscope-card-management-style,
 #horoscope-card-career-portrait,
 #horoscope-card-five-elements,
@@ -715,8 +714,8 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   transform: none !important;
 }
 
-.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not([id^="letter-card-"]),
-[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not([id^="letter-card-"]),
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
@@ -736,15 +735,20 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  background: var(--surface-primary-bg, var(--bg-main)) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0px !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: 0px !important;
   transform: none !important;
   animation: none !important;
-  transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
+  transition: none !important;
 }
 
 #home-main-card,
@@ -1227,6 +1231,11 @@ h3.card-title,
 /* ========================================================================= */
 #app-header nav button.nav-pill:hover:not(:active):not([data-btn-pressed="true"]),
 #header-btn-hungthai-avatar:hover:not(:active):not([data-btn-pressed="true"]),
+#app-footer button.nav-pill:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-lang-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-appearance-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-wallpaper-btn:hover:not(:active):not([data-btn-pressed="true"]),
+#footer-ai-btn:hover:not(:active):not([data-btn-pressed="true"]),
 .radial-contact-pill:hover:not(:active):not([data-btn-pressed="true"]) {
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;
@@ -1238,17 +1247,32 @@ h3.card-title,
 #app-header nav button.nav-pill::before,
 #app-header nav button.nav-pill::after,
 #header-btn-hungthai-avatar::before,
-#header-btn-hungthai-avatar::after {
+#header-btn-hungthai-avatar::after,
+#app-footer button.nav-pill::before,
+#app-footer button.nav-pill::after,
+#footer-lang-btn::before,
+#footer-lang-btn::after,
+#footer-appearance-btn::before,
+#footer-appearance-btn::after,
+#footer-wallpaper-btn::before,
+#footer-wallpaper-btn::after,
+#footer-ai-btn::before,
+#footer-ai-btn::after {
   display: none !important;
   content: none !important;
   opacity: 0 !important;
 }
 
 /* ========================================================================= */
-/* HIỆU ỨNG NHẤN NÚT LÚN XUỐNG CHO MENU ICON (ĐÃ LOẠI TRỪ FOOTER #el-p0-div-98) */
+/* HIỆU ỨNG CHUYỂN TIẾP CHO MENU ICON HEADER & NÚT BÊN PHẢI FOOTER           */
 /* ========================================================================= */
 #app-header nav button.nav-pill,
 #header-btn-hungthai-avatar,
+#app-footer button.nav-pill,
+#footer-lang-btn,
+#footer-appearance-btn,
+#footer-wallpaper-btn,
+#footer-ai-btn,
 .nav-arrow-btn,
 .radial-contact-pill {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -1265,28 +1289,65 @@ h3.card-title,
 /* ========================================================================= */
 [data-swot="S"] {
   --swot-accent: #1480C0;
-  --swot-accent-soft: rgba(20, 128, 192, 0.12);
-  --swot-accent-border: rgba(20, 128, 192, 0.34);
+  --swot-accent-soft: rgba(20, 128, 192, 0.14);
+  --swot-accent-border: rgba(20, 128, 192, 0.38);
 }
 [data-swot="W"] {
   --swot-accent: #16A34A;
-  --swot-accent-soft: rgba(22, 163, 74, 0.12);
-  --swot-accent-border: rgba(22, 163, 74, 0.34);
+  --swot-accent-soft: rgba(22, 163, 74, 0.14);
+  --swot-accent-border: rgba(22, 163, 74, 0.38);
 }
 [data-swot="O"] {
   --swot-accent: #EA580C;
-  --swot-accent-soft: rgba(234, 88, 12, 0.12);
-  --swot-accent-border: rgba(234, 88, 12, 0.34);
+  --swot-accent-soft: rgba(234, 88, 12, 0.14);
+  --swot-accent-border: rgba(234, 88, 12, 0.38);
 }
 [data-swot="T"] {
   --swot-accent: #E11D48;
-  --swot-accent-soft: rgba(225, 29, 72, 0.12);
-  --swot-accent-border: rgba(225, 29, 72, 0.34);
+  --swot-accent-soft: rgba(225, 29, 72, 0.14);
+  --swot-accent-border: rgba(225, 29, 72, 0.38);
+}
+
+/* Mỗi thẻ S - W - O - T áp dụng đúng chất liệu giao diện đang chọn nhưng mang sắc thái màu riêng biệt */
+#skills-swot-grid .swot-quadrant-card[data-swot] {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--swot-accent) 12%, var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.78)))) 0%,
+    color-mix(in srgb, var(--swot-accent) 5%, var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.78)))) 100%
+  ) !important;
+  border: var(--card-border-width, 1px) solid
+    color-mix(in srgb, var(--swot-accent) 42%, var(--surface-secondary-border, var(--border-card, rgba(255, 255, 255, 0.6)))) !important;
+  box-shadow: var(--elev-card-l2, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%));
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%));
+}
+
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"])
+  #skills-swot-grid .swot-quadrant-card[data-swot] {
+  background: color-mix(in srgb, var(--swot-accent) 8%, var(--surface-secondary-bg, var(--bg-card))) !important;
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 32%, var(--surface-secondary-border, transparent)) !important;
+  box-shadow: var(--neu-raised-shadow, var(--elev-card-l2)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"])
+  #skills-swot-grid .swot-quadrant-card[data-swot] {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--swot-accent) 16%, var(--bg-card)) 0%,
+    color-mix(in srgb, var(--swot-accent) 8%, var(--bg-card)) 100%
+  ) !important;
+  border: 2px solid color-mix(in srgb, var(--swot-accent) 48%, var(--border-default)) !important;
+  outline: 1px dashed color-mix(in srgb, var(--swot-accent) 45%, var(--leather-stitch, rgba(245, 222, 179, 0.5))) !important;
+  outline-offset: -6px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .swot-quadrant-icon,
 .swot-quadrant-title {
-  color: var(--swot-accent);
+  color: var(--swot-accent) !important;
 }
 
 .skill-swot-subcard,
@@ -1296,14 +1357,10 @@ h3.card-title,
 .skill-swot-subcard[data-expanded="true"],
 [id^="skill-item-"][data-expanded="true"] {
   padding: 10px 12px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
+  background: color-mix(in srgb, var(--swot-accent) 6%, var(--bg-subcard, transparent)) !important;
   border: 1px solid var(--swot-accent-border, var(--border-subcard, var(--color-border-soft))) !important;
-  border-radius: 14px !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  border-radius: var(--radius-subcard, 14px) !important;
+  box-shadow: var(--elev-subcard-l1, none) !important;
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
 }
@@ -1370,7 +1427,7 @@ h3.card-title,
 }
 
 /* ========================================================================= */
-/* SWOT CENTER CIRCLE QUADRANT: ÁP DỤNG ĐỒNG BỘ GIAO DIỆN ĐANG CHỌN          */
+/* SWOT CENTER CIRCLE QUADRANT: ÁP DỤNG GIAO DIỆN + 4 MÀU SẮC KHÁC NHAU      */
 /* ========================================================================= */
 .swot-quadrant-card .swot-corner-quadrant {
   isolation: isolate;
@@ -1379,13 +1436,13 @@ h3.card-title,
 .swot-quadrant-card .swot-corner-outer {
   background: color-mix(
     in srgb,
-    var(--color-primary, var(--swot-accent)) 18%,
+    var(--swot-accent) 22%,
     var(--surface-secondary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.72)))
   );
   border: var(--card-border-width, 1px) solid
     color-mix(
       in srgb,
-      var(--color-primary, var(--swot-accent)) 32%,
+      var(--swot-accent) 44%,
       var(--surface-secondary-border, var(--border-subcard, rgba(255, 255, 255, 0.55)))
     );
   box-shadow:
@@ -1398,12 +1455,12 @@ h3.card-title,
 .swot-quadrant-card .swot-corner-inner {
   background: linear-gradient(
     145deg,
-    color-mix(in srgb, var(--color-primary, var(--swot-accent)) 84%, #ffffff 16%) 0%,
-    var(--color-primary, var(--swot-accent)) 56%,
-    color-mix(in srgb, var(--color-secondary, var(--color-primary, var(--swot-accent))) 78%, #0f172a 22%) 100%
+    color-mix(in srgb, var(--swot-accent) 86%, #ffffff 14%) 0%,
+    var(--swot-accent) 56%,
+    color-mix(in srgb, var(--swot-accent) 78%, #0f172a 22%) 100%
   );
   border: var(--card-border-width, 1px) solid
-    color-mix(in srgb, var(--glass-highlight, rgba(255, 255, 255, 0.7)) 68%, var(--color-primary, var(--swot-accent)));
+    color-mix(in srgb, var(--glass-highlight, rgba(255, 255, 255, 0.7)) 68%, var(--swot-accent));
   box-shadow:
     var(--shadow-card, 0 12px 28px -8px rgba(15, 23, 42, 0.28)),
     inset 0 1px 0 rgba(255, 255, 255, 0.42);
@@ -1412,7 +1469,7 @@ h3.card-title,
 }
 
 .swot-quadrant-card .swot-corner-letter {
-  color: var(--text-button-primary, #FFFFFF);
+  color: #FFFFFF;
   text-shadow: 0 2px 8px rgba(15, 23, 42, 0.28);
 }
 
@@ -1420,12 +1477,12 @@ h3.card-title,
 html.dark .swot-quadrant-card .swot-corner-outer {
   background: color-mix(
     in srgb,
-    var(--color-primary, var(--swot-accent)) 22%,
+    var(--swot-accent) 26%,
     var(--surface-secondary-bg, rgba(15, 23, 42, 0.68))
   );
   border-color: color-mix(
     in srgb,
-    var(--color-primary, var(--swot-accent)) 42%,
+    var(--swot-accent) 48%,
     rgba(255, 255, 255, 0.16)
   );
   box-shadow:
@@ -1435,14 +1492,14 @@ html.dark .swot-quadrant-card .swot-corner-outer {
 
 /* Frosted Mica Fluent */
 html[data-card-style="mica-fluent"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(255, 255, 255, 0.34);
-  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: color-mix(in srgb, var(--swot-accent) 22%, rgba(255, 255, 255, 0.34));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 42%, rgba(255, 255, 255, 0.48));
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(22px) saturate(150%);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
 }
 html[data-card-style="mica-fluent"] .swot-quadrant-card .swot-corner-inner {
-  background: color-mix(in srgb, var(--color-primary, #2563EB) 68%, rgba(255, 255, 255, 0.32));
+  background: color-mix(in srgb, var(--swot-accent) 78%, rgba(255, 255, 255, 0.22));
   border: 1px solid rgba(255, 255, 255, 0.56);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -1450,62 +1507,62 @@ html[data-card-style="mica-fluent"] .swot-quadrant-card .swot-corner-inner {
 
 /* Neumorphism & Frost Ice Neumorphism */
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-outer {
-  background: var(--surface-secondary-bg, var(--bg-card));
-  border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.65));
+  background: color-mix(in srgb, var(--swot-accent) 14%, var(--surface-secondary-bg, var(--bg-card)));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 32%, var(--surface-secondary-border, rgba(255, 255, 255, 0.65)));
   box-shadow: var(--neu-raised-shadow, 6px 6px 14px rgba(163, 177, 198, 0.52), -6px -6px 14px rgba(255, 255, 255, 0.85));
 }
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-inner {
-  background: var(--surface-primary-bg, var(--bg-main));
-  border: 1px solid color-mix(in srgb, var(--color-primary, #4F46E5) 28%, rgba(255, 255, 255, 0.72));
+  background: color-mix(in srgb, var(--swot-accent) 22%, var(--surface-primary-bg, var(--bg-main)));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 44%, rgba(255, 255, 255, 0.72));
   box-shadow: var(--neu-inset-shadow, inset 4px 4px 10px rgba(163, 177, 198, 0.45), inset -4px -4px 10px rgba(255, 255, 255, 0.88));
 }
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-letter {
-  color: var(--color-primary, var(--text-heading));
+  color: var(--swot-accent);
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-outer {
-  background: var(--surface-secondary-bg, var(--bg-card));
-  border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.10));
+  background: color-mix(in srgb, var(--swot-accent) 18%, var(--surface-secondary-bg, var(--bg-card)));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 38%, var(--surface-secondary-border, rgba(255, 255, 255, 0.10)));
   box-shadow: var(--neu-raised-shadow, 6px 6px 14px rgba(2, 6, 23, 0.68), -5px -5px 12px rgba(255, 255, 255, 0.06));
 }
 html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-inner {
-  background: var(--surface-primary-bg, var(--bg-main));
-  border: 1px solid color-mix(in srgb, var(--color-primary, #38BDF8) 38%, rgba(255, 255, 255, 0.10));
+  background: color-mix(in srgb, var(--swot-accent) 28%, var(--surface-primary-bg, var(--bg-main)));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 52%, rgba(255, 255, 255, 0.10));
   box-shadow: var(--neu-inset-shadow, inset 4px 4px 10px rgba(2, 6, 23, 0.7), inset -3px -3px 8px rgba(255, 255, 255, 0.06));
 }
 html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-letter {
-  color: var(--color-primary, #7DD3FC);
-  text-shadow: 0 0 12px color-mix(in srgb, var(--color-primary, #38BDF8) 45%, transparent);
+  color: #FFFFFF;
+  text-shadow: 0 0 12px var(--swot-accent);
 }
 
 /* Dark Neon Glass */
 html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(15, 23, 42, 0.56);
-  border: 1px solid rgba(34, 211, 238, 0.44);
-  box-shadow: 0 0 22px -4px rgba(34, 211, 238, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  background: color-mix(in srgb, var(--swot-accent) 26%, rgba(15, 23, 42, 0.56));
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 65%, rgba(34, 211, 238, 0.44));
+  box-shadow: 0 0 22px -4px var(--swot-accent), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.32) 0%, rgba(99, 102, 241, 0.42) 55%, rgba(232, 121, 249, 0.36) 100%);
-  border: 1px solid rgba(34, 211, 238, 0.65);
-  box-shadow: 0 0 26px -4px rgba(34, 211, 238, 0.52), inset 0 0 14px rgba(232, 121, 249, 0.22);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--swot-accent) 72%, rgba(15, 23, 42, 0.6)) 0%, var(--swot-accent) 100%);
+  border: 1px solid color-mix(in srgb, var(--swot-accent) 80%, #FFFFFF);
+  box-shadow: 0 0 26px -4px var(--swot-accent);
 }
 html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-letter {
-  color: #ECFEFF;
-  text-shadow: 0 0 12px rgba(34, 211, 238, 0.85);
+  color: #FFFFFF;
+  text-shadow: 0 0 12px var(--swot-accent);
 }
 
 /* Cowhide Leather & Black Cowhide Leather */
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(120, 66, 22, 0.76);
-  border: 1.5px solid #522E10;
-  outline: 1px dashed rgba(245, 222, 179, 0.48);
+  background: color-mix(in srgb, var(--swot-accent) 32%, rgba(120, 66, 22, 0.82));
+  border: 1.5px solid color-mix(in srgb, var(--swot-accent) 55%, #522E10);
+  outline: 1px dashed rgba(245, 222, 179, 0.52);
   outline-offset: -4px;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 html[data-card-style="cowhide-leather"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(145deg, #9A5520 0%, #6B3610 100%);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 68%, #9A5520) 0%, color-mix(in srgb, var(--swot-accent) 58%, #6B3610) 100%);
   border: 1.5px solid #F5C478;
   outline: 1px dashed rgba(245, 222, 179, 0.55);
   outline-offset: -5px;
@@ -1518,15 +1575,15 @@ html[data-card-style="cowhide-leather"] .swot-quadrant-card .swot-corner-letter 
 }
 
 html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(24, 24, 27, 0.88);
-  border: 1.5px solid rgba(245, 196, 120, 0.42);
-  outline: 1px dashed rgba(245, 196, 120, 0.38);
+  background: color-mix(in srgb, var(--swot-accent) 28%, rgba(24, 24, 27, 0.88));
+  border: 1.5px solid color-mix(in srgb, var(--swot-accent) 58%, rgba(245, 196, 120, 0.42));
+  outline: 1px dashed rgba(245, 196, 120, 0.45);
   outline-offset: -4px;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(145deg, #27272A 0%, #09090B 100%);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 72%, #27272A) 0%, color-mix(in srgb, var(--swot-accent) 55%, #09090B) 100%);
   border: 1.5px solid #F5C478;
   outline: 1px dashed rgba(245, 196, 120, 0.55);
   outline-offset: -5px;
@@ -1534,26 +1591,26 @@ html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-i
   -webkit-backdrop-filter: none;
 }
 html[data-card-style="black-cowhide-leather"] .swot-quadrant-card .swot-corner-letter {
-  color: #F5C478;
+  color: #FFFFFF;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
 }
 
 /* Deep Ocean & Light Deep Ocean */
 html[data-card-style="deep-ocean"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(14, 116, 144, 0.34);
-  border-color: rgba(56, 189, 248, 0.42);
+  background: color-mix(in srgb, var(--swot-accent) 32%, rgba(14, 116, 144, 0.38));
+  border-color: color-mix(in srgb, var(--swot-accent) 62%, rgba(56, 189, 248, 0.42));
 }
 html[data-card-style="deep-ocean"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(145deg, rgba(56, 189, 248, 0.55) 0%, rgba(14, 116, 144, 0.88) 100%);
-  border-color: rgba(125, 211, 252, 0.65);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 82%, #38BDF8) 0%, var(--swot-accent) 100%);
+  border-color: rgba(255, 255, 255, 0.65);
 }
 
 html[data-card-style="light-deep-ocean"] .swot-quadrant-card .swot-corner-outer {
-  background: rgba(186, 230, 253, 0.58);
-  border-color: rgba(56, 189, 248, 0.52);
+  background: color-mix(in srgb, var(--swot-accent) 24%, rgba(186, 230, 253, 0.58));
+  border-color: color-mix(in srgb, var(--swot-accent) 52%, rgba(56, 189, 248, 0.52));
 }
 html[data-card-style="light-deep-ocean"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(145deg, #38BDF8 0%, #0284C7 100%);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 86%, #FFFFFF) 0%, var(--swot-accent) 100%);
   border-color: rgba(255, 255, 255, 0.72);
 }
 
@@ -5263,11 +5320,13 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="black-cowhid
 }
 
 /* ========================================================================= */
-/* THEME-AWARE TIER RADII ACROSS ALL THEMES (DEFAULT 14PX, LIQUID GLASS 5-T) */
+/* THEME-AWARE TIER RADII ACROSS ALL THEMES (DEFAULT 14PX, CUSTOM RADIUS)    */
 /* ========================================================================= */
 .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
-[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer) {
-  border-radius: 0px !important;
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+.page-cards-track,
+[id$="-cards-track"] {
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
 [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#weather-card):not(.weather-card),
@@ -5744,7 +5803,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 /* EXPERIENCE VIEW: 3D ORIGAMI FOLD & UNFOLD (8 CỘT MỐC XẾP GIẤY 3D)        */
 /* ========================================================================= */
 #experience-timeline-board .exp-chromatic-stage {
-  --accordion-angle: 0deg;
+  --accordion-angle: -2.4deg;
   --fold-label-angle: 90deg;
   position: relative;
   flex: 1 1 0%;
@@ -5752,8 +5811,8 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: stretch;
-  justify-content: stretch;
+  align-items: center;
+  justify-content: center;
   padding: 0 !important;
   overflow: hidden;
   box-sizing: border-box;
@@ -5762,15 +5821,29 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 
 #experience-timeline-board .exp-chromatic-folds {
   display: flex;
-  width: 100%;
-  height: 100%;
-  flex: 1 1 0%;
+  width: calc(100% - 28px);
+  height: calc(100% - 108px);
+  margin: 64px auto 44px;
+  flex: 0 0 auto;
   min-height: 0;
   max-height: none;
   isolation: isolate;
-  transform: none;
+  transform: rotate(var(--accordion-angle, -2.4deg));
   transform-origin: center center;
   transform-style: preserve-3d;
+  transition:
+    width 0.56s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 0.56s cubic-bezier(0.2, 0.8, 0.2, 1),
+    margin 0.56s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.56s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#experience-timeline-board[data-fold-phase="partial"] .exp-chromatic-folds,
+#experience-timeline-board[data-fold-phase="unfolding"] .exp-chromatic-folds {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  transform: rotate(0deg);
 }
 
 #experience-timeline-board .exp-fold-swatch {
@@ -5788,20 +5861,20 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   border-radius: 0 !important;
   overflow: hidden;
   cursor: pointer;
-  clip-path: none;
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
   transform-style: preserve-3d;
-  transform-origin: left center;
-  transform: perspective(1600px) rotateY(8deg);
+  transform-origin: center center;
   box-shadow:
     inset 1px 0 0 rgba(255, 255, 255, 0.24),
     inset -1px 0 0 rgba(15, 23, 42, 0.22);
   transition:
-    flex 0.56s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1),
+    clip-path 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 0.38s ease,
     filter 0.3s ease;
-  will-change: flex, transform, opacity;
+  will-change: flex, clip-path, transform, opacity;
 }
 
 #experience-timeline-board .exp-fold-swatch:last-child {
@@ -5809,25 +5882,18 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 }
 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) {
-  clip-path: none;
-  transform-origin: right center;
-  transform: perspective(1600px) rotateY(-8deg);
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
 }
 
 @media (hover: hover) and (pointer: fine) {
   #experience-timeline-board[data-fold-phase="folded"] .exp-fold-swatch:hover,
   #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:not(.is-partial):hover {
-    transform: perspective(1600px) rotateY(3deg) translateZ(10px);
+    flex: 3 1 0%;
     box-shadow:
       inset 1px 0 0 rgba(255, 255, 255, 0.4),
       inset -1px 0 0 rgba(15, 23, 42, 0.22),
       0 10px 26px -8px rgba(15, 23, 42, 0.28);
     z-index: 18;
-  }
-
-  #experience-timeline-board[data-fold-phase="folded"] .exp-fold-swatch:nth-child(even):hover,
-  #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:nth-child(even):not(.is-partial):hover {
-    transform: perspective(1600px) rotateY(-3deg) translateZ(10px);
   }
 }
 
@@ -5838,28 +5904,27 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-/* State 2: Partial Unfold (Single Click) */
+/* State 2: Partial Unfold (Single Click / Chosen) */
 #experience-timeline-board .exp-fold-swatch.is-partial,
 #experience-timeline-board .exp-fold-swatch.is-expanded {
   flex: 7.2 1 0%;
   z-index: 25;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   transform-origin: center center;
-  transform: perspective(1600px) rotateY(0deg) translateZ(14px);
+  transform: translateZ(14px);
   box-shadow:
     inset 1px 0 0 rgba(255, 255, 255, 0.22),
     inset -1px 0 0 rgba(15, 23, 42, 0.14),
     0 18px 38px -12px rgba(15, 23, 42, 0.26);
 }
 
-/* Neighboring folded pleats react gently when an adjacent paper opens partially */
+/* Neighboring folded pleats stay angled as crisp accordion tabs when an adjacent swatch opens */
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-left {
-  transform-origin: right center;
-  transform: perspective(1500px) rotateY(15deg);
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
 }
 
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-right {
-  transform-origin: left center;
-  transform: perspective(1500px) rotateY(-15deg);
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch,
@@ -5871,17 +5936,18 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:not(.is-unfolding) {
   flex: 0.25 1 0%;
   opacity: 0.24;
-  transform: perspective(1400px) rotateY(32deg);
+  transform: perspective(1400px) rotateY(24deg);
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:nth-child(even):not(.is-unfolding) {
-  transform: perspective(1400px) rotateY(-32deg);
+  transform: perspective(1400px) rotateY(-24deg);
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch.is-unfolding {
   flex: 8 1 100%;
   z-index: 30;
-  transform: perspective(1600px) rotateY(0deg);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transform: none;
 }
 
 #experience-timeline-board .exp-fold-swatch:focus-visible {
@@ -5889,7 +5955,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   outline-offset: -3px;
 }
 
-/* Ánh sáng & bóng nếp gấp giấy Origami 3D */
+/* Ánh sáng & bóng nếp gấp giấy Chromatic Folds */
 #experience-timeline-board .exp-fold-shading {
   position: absolute;
   inset: 0;
@@ -5897,28 +5963,26 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   z-index: 12;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.24) 0%,
-    rgba(255, 255, 255, 0.04) 24%,
-    transparent 52%,
-    rgba(0, 0, 0, 0.14) 88%,
+    rgba(255, 255, 255, 0.20) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.20) 95%,
     rgba(0, 0, 0, 0.34) 100%
   );
-  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) .exp-fold-shading {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.1) 18%,
-    transparent 58%,
-    rgba(255, 255, 255, 0.22) 100%
+    rgba(0, 0, 0, 0.28) 0%,
+    transparent 65%,
+    rgba(255, 255, 255, 0.20) 100%
   );
 }
 
 #experience-timeline-board .exp-fold-swatch.is-partial .exp-fold-shading,
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-shading {
-  opacity: 0.22;
+  opacity: 0.16;
 }
 
 /* Đường nếp gấp tinh tế bên trong tờ giấy mở hé */
@@ -5946,7 +6010,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   opacity: 0.72;
 }
 
-/* Mặt gáy gấp gọn (State 1: Folded) */
+/* Mặt gáy gấp gọn (State 1: Folded) — tự nghiêng theo --fold-angle như Chromatic Folds */
 #experience-timeline-board .exp-fold-spine {
   position: absolute;
   inset: 0;
@@ -5955,18 +6019,24 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 62px 4px 38px;
+  padding: 28px 4px 28px;
   gap: 6px;
   pointer-events: none;
-  transition: opacity 0.26s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: skewY(var(--fold-angle, 6deg));
+  transition: opacity 0.26s ease, transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
+}
+
+#experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:not(.is-partial) .exp-fold-spine {
+  padding-top: 66px;
+  padding-bottom: 36px;
 }
 
 #experience-timeline-board .exp-fold-swatch.is-partial .exp-fold-spine,
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-spine {
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.96);
+  transform: skewY(0deg) scale(0.96);
 }
 
 #experience-timeline-board .exp-fold-spine-top {
@@ -6379,7 +6449,47 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
+/* ========================================================================= */
+/* EXPERIENCE QUICK FILTER BAR & MATCH HIGHLIGHT / DIM STATES                */
+/* ========================================================================= */
+#experience-timeline-board .exp-filter-bar {
+  max-width: min(100%, 620px);
+}
+
+#experience-timeline-board .exp-fold-swatch.is-filter-match:not(.is-partial):not(.is-expanded) {
+  flex: 1.55 1 0%;
+  filter: brightness(1.06) saturate(1.12);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.85),
+    inset 1px 0 0 rgba(255, 255, 255, 0.38),
+    inset -1px 0 0 rgba(15, 23, 42, 0.22),
+    0 10px 24px -10px rgba(15, 23, 42, 0.32);
+  z-index: 16;
+}
+
+#experience-timeline-board .exp-fold-swatch.is-filter-dimmed:not(.is-partial):not(.is-expanded) {
+  flex: 0.72 1 0%;
+  opacity: 0.42;
+  filter: saturate(0.45) brightness(0.92);
+}
+
+#experience-timeline-board .exp-fold-swatch.is-filter-dimmed:not(.is-partial):not(.is-expanded):hover {
+  opacity: 0.88;
+  filter: saturate(0.9) brightness(1);
+}
+
+#experience-timeline-board .exp-fold-swatch.is-partial .exp-fold-sheet {
+  padding-top: 64px;
+}
+
+@media (max-width: 960px) {
+  #experience-timeline-board .exp-fold-swatch.is-partial .exp-fold-sheet {
+    padding-top: 84px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  #experience-timeline-board .exp-chromatic-folds,
   #experience-timeline-board .exp-fold-swatch,
   #experience-timeline-board .exp-fold-shading,
   #experience-timeline-board .exp-fold-spine,
@@ -6388,7 +6498,6 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   #experience-job-detail-card.exp-detail-unfold-in {
     transition: none !important;
     animation: none !important;
-    transform: none !important;
   }
 }
 

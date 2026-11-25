@@ -667,6 +667,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #horoscope-row-1-horizontal,
   #horoscope-card-1-grid,
+  #horoscope-card-2-grid,
+  #horoscope-card-3-grid,
+  #horoscope-card-pillars-grid,
+  #horoscope-card-4-grid,
+  #horoscope-card-5-grid,
   #horoscope-card-profile,
   #horoscope-card-management-style,
   #horoscope-card-career-portrait,
@@ -678,7 +683,13 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #horoscope-card-1-grid > * {
+  #horoscope-row-1-horizontal > *,
+  #horoscope-card-1-grid > *,
+  #horoscope-card-2-grid > *,
+  #horoscope-card-3-grid > *,
+  #horoscope-card-pillars-grid > *,
+  #horoscope-card-4-grid > *,
+  #horoscope-card-5-grid > * {
     grid-column: 1 / -1 !important;
   }
 }
@@ -824,29 +835,39 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
-  /* Horoscope Card 1 stacks Profile Bento & Luận giải Bento cleanly below 960px */
-  #horoscope-row-1-horizontal,
-  #horoscope-card-1-grid,
-  #horoscope-card-management-style,
-  #horoscope-card-career-portrait,
-  #horoscope-card-leadership-philosophy,
-  #horoscope-card-work-synergy-check,
-  #horoscope-pillars-container,
-  #horoscope-slide-3 {
-    grid-template-columns: minmax(0, 1fr) !important;
+  /* Horoscope Card 1..6 match LetterView Bento grid proportions on medium container widths (600px-959px) */
+  #horoscope-row-1-horizontal {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
   }
 
-  #horoscope-row-1-horizontal > #horoscope-card-profile,
+  #horoscope-row-1-horizontal > #horoscope-card-profile {
+    grid-column: span 6 / span 6 !important;
+    height: 100% !important;
+  }
+
   #horoscope-row-1-horizontal > #horoscope-card-6 {
-    grid-column: 1 / -1 !important;
-    height: auto !important;
+    grid-column: span 6 / span 6 !important;
+    height: 100% !important;
   }
 
-  #horoscope-card-1-grid > *,
-  #horoscope-card-management-style > *,
-  #horoscope-pillars-container > *,
-  #horoscope-slide-3 > * {
-    grid-column: 1 / -1 !important;
+  #horoscope-card-2-grid,
+  #horoscope-card-3-grid,
+  #horoscope-card-pillars-grid,
+  #horoscope-card-4-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-5-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-5-grid > .bento-view-card {
+    grid-column: span 6 / span 6 !important;
+    height: 100% !important;
   }
 }
 
@@ -979,10 +1000,31 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #horoscope-row-1-horizontal > #horoscope-card-profile {
     grid-column: span 7 / span 7 !important;
+    height: 100% !important;
   }
 
   #horoscope-row-1-horizontal > #horoscope-card-6 {
     grid-column: span 5 / span 5 !important;
+    height: 100% !important;
+  }
+
+  #horoscope-card-2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-3-grid,
+  #horoscope-card-pillars-grid,
+  #horoscope-card-4-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-5-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
   }
 
   #horoscope-card-1-grid {
@@ -1129,10 +1171,31 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #horoscope-row-1-horizontal > #horoscope-card-profile {
     grid-column: span 7 / span 7 !important;
+    height: 100% !important;
   }
 
   #horoscope-row-1-horizontal > #horoscope-card-6 {
     grid-column: span 5 / span 5 !important;
+    height: 100% !important;
+  }
+
+  #horoscope-card-2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-3-grid,
+  #horoscope-card-pillars-grid,
+  #horoscope-card-4-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: auto !important;
+    align-items: stretch !important;
+  }
+
+  #horoscope-card-5-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
   }
 
   #horoscope-card-1-grid {

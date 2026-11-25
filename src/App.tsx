@@ -17,8 +17,6 @@ import {
   evaluateOverallLayoutTypography,
 } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
-import { resolveGravityStage } from './config/gravityPalettes';
-import { DotGridWavesCanvas } from './components/ui/DotGridWavesCanvas';
 import {
   AnimatedSceneWallpaper,
   isAnimatedSceneWallpaper,
@@ -35,11 +33,6 @@ const MilestoneModal = React.lazy(() =>
 );
 const XRayInspector = React.lazy(() =>
   import('./components/common/XRayInspector').then((m) => ({ default: m.XRayInspector }))
-);
-const GravityBackgroundCanvas = React.lazy(() =>
-  import('./components/backgrounds/GravityBackgroundCanvas').then((m) => ({
-    default: m.GravityBackgroundCanvas,
-  }))
 );
 
 const LetterView = React.lazy(() =>
@@ -109,7 +102,7 @@ export default function App() {
   // Thứ tự trang theo Menu Icon trên Header (0..11, PDF 16, Hùng Thái 12) rồi tới các trang tiện ích Footer (15, 14, 13)
   const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
-    0: 3,
+    0: 1,
     1: 4,
     2: 1,
     5: 1,
@@ -321,10 +314,11 @@ export default function App() {
     };
   }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
-  // Đồng bộ chính xác chiều cao thanh Header bằng đúng chiều cao thực tế của Footer trên mọi màn hình
+  // Đồng bộ chính xác chiều cao thanh Header và Footer trên mọi màn hình
   useEffect(() => {
     if (currentTabIndex === 16) return;
     const rootEl = document.getElementById('website-root');
+    const headerEl = document.getElementById('app-header');
     const footerEl = document.getElementById('app-footer');
     if (!rootEl || !footerEl) return;
 
@@ -332,11 +326,19 @@ export default function App() {
     const syncBarHeight = () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const measured = Math.round(footerEl.getBoundingClientRect().height);
-        if (measured > 0) {
-          const val = `${measured}px`;
-          rootEl.style.setProperty('--shell-bar-h', val);
-          document.documentElement.style.setProperty('--shell-bar-h', val);
+        const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 52;
+        const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
+        if (headerMeasured > 0) {
+          const hVal = `${headerMeasured}px`;
+          rootEl.style.setProperty('--header-bar-h', hVal);
+          document.documentElement.style.setProperty('--header-bar-h', hVal);
+        }
+        if (footerMeasured > 0) {
+          const fVal = `${footerMeasured}px`;
+          rootEl.style.setProperty('--footer-bar-h', fVal);
+          document.documentElement.style.setProperty('--footer-bar-h', fVal);
+          rootEl.style.setProperty('--shell-bar-h', fVal);
+          document.documentElement.style.setProperty('--shell-bar-h', fVal);
         }
       });
     };
@@ -347,6 +349,7 @@ export default function App() {
       typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(() => syncBarHeight())
         : null;
+    if (headerEl) ro?.observe(headerEl);
     ro?.observe(footerEl);
     window.addEventListener('resize', syncBarHeight, { passive: true });
 
@@ -727,61 +730,6 @@ export default function App() {
                   className="w-full h-full min-w-full min-h-full object-cover banner-video-sharp"
                 />
               )
-            ) : activeWallpaper.type === 'webgl' ? (
-              activeWallpaper.id === 'webgl-dot-grid-waves' ? (
-                <div
-                  key={activeWallpaper.id}
-                  className="relative w-full h-full overflow-hidden"
-                >
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full pointer-events-none"
-                    style={{
-                      background: isDark ? '#07080D' : '#F4F2EE',
-                      transition: 'background 0.5s ease',
-                    }}
-                  />
-                  <DotGridWavesCanvas isDark={isDark} />
-                </div>
-              ) : (
-                (() => {
-                  const gConfig = activeWallpaper.gravityConfig;
-                  const paletteId = gConfig?.paletteId || 'autoMorph';
-                  const morphOnPageChange = false;
-                  const activeSlide = pageSlides[currentTabIndex] ?? 0;
-                  const resolvedStage = resolveGravityStage(
-                    paletteId,
-                    currentTabIndex,
-                    activeSlide,
-                    morphOnPageChange
-                  );
-                  return (
-                    <div
-                      key={activeWallpaper.id}
-                      className="relative w-full h-full overflow-hidden"
-                    >
-                      <div
-                        id="gravity-gradient-backdrop"
-                        aria-hidden="true"
-                        className="absolute inset-0 w-full h-full pointer-events-none"
-                        style={{
-                          background: resolvedStage.bgGradient,
-                          transition: 'background 1.2s cubic-bezier(0.65, 0, 0.35, 1)',
-                        }}
-                      />
-                      <Suspense fallback={null}>
-                        <GravityBackgroundCanvas
-                          paletteId={paletteId}
-                          pageIndex={currentTabIndex}
-                          slideIndex={activeSlide}
-                          morphOnPageChange={morphOnPageChange}
-                          isDark={isDark}
-                        />
-                      </Suspense>
-                    </div>
-                  );
-                })()
-              )
             ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
               isAnimatedSceneWallpaper(activeWallpaper.id) ? (
                 <AnimatedSceneWallpaper
@@ -929,7 +877,10 @@ export default function App() {
           maxWidth: currentTabIndex === 16 ? '1250px' : 'var(--main-card-target-w, 1000px)',
           boxSizing: 'border-box',
           flex: '0 0 auto',
-          height: currentTabIndex === 16 ? 'auto' : 'calc(100dvh - var(--shell-bar-h, 52px) * 2)',
+          height:
+            currentTabIndex === 16
+              ? 'auto'
+              : 'calc(100dvh - var(--header-bar-h, 52px) - var(--footer-bar-h, 62px))',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '520px',
           minWidth: 0,
           marginLeft: 'auto',

@@ -216,56 +216,6 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
             ) : (
               <LazyWallpaperVideo src={wp.value} />
             )
-          ) : wp.type === 'webgl' ? (
-            <div
-              className="relative w-full h-full rounded-[inherit] overflow-hidden"
-              style={
-                wp.previewStyle && Object.keys(wp.previewStyle).length > 0
-                  ? wp.previewStyle
-                  : { background: wp.value || wp.bg }
-              }
-            >
-              {/* Cụm cầu 3D thu nhỏ đại diện cho trường hấp dẫn GRAVITY */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {(
-                  wp.gravityConfig?.previewSpheres || [
-                    '#2F69FF',
-                    '#A8C1FF',
-                    '#4D80FF',
-                    '#ECEFFF',
-                  ]
-                ).map((sphereColor, sIdx) => {
-                  const positions = [
-                    'w-14 h-14 -translate-x-7 -translate-y-2',
-                    'w-10 h-10 translate-x-6 -translate-y-4',
-                    'w-12 h-12 translate-x-2 translate-y-3',
-                    'w-8 h-8 -translate-x-2 translate-y-4',
-                  ];
-                  const isGlassOrb = sIdx === 3;
-                  return (
-                    <span
-                      key={`${wp.id}-orb-${sIdx}`}
-                      className={`absolute rounded-full ${
-                        positions[sIdx % positions.length]
-                      }`}
-                      style={
-                        isGlassOrb
-                          ? {
-                              background: `radial-gradient(circle at 30% 28%, rgba(255,255,255,0.95) 0%, ${sphereColor}55 48%, ${sphereColor}88 100%)`,
-                              border: '1px solid rgba(255,255,255,0.75)',
-                              boxShadow: `inset 0 2px 6px rgba(255,255,255,0.85), 0 8px 18px ${sphereColor}55`,
-                              backdropFilter: 'blur(4px)',
-                            }
-                          : {
-                              background: `radial-gradient(circle at 32% 28%, #ffffff 0%, ${sphereColor} 58%, rgba(15,23,42,0.28) 100%)`,
-                              boxShadow: `inset -3px -4px 8px rgba(15,23,42,0.14), 0 8px 18px ${sphereColor}50`,
-                            }
-                      }
-                    />
-                  );
-                })}
-              </div>
-            </div>
           ) : wp.type === 'css' || wp.type === 'gradient' ? (
             isAnimatedSceneWallpaper(wp.id) ? (
               <AnimatedSceneWallpaper
@@ -325,10 +275,6 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
                 ? isEn
                   ? 'System'
                   : 'Hệ thống'
-                : wp.type === 'webgl'
-                ? isEn
-                  ? '3D · Morph'
-                  : '3D · Qua trang'
                 : wp.type}
             </span>
 

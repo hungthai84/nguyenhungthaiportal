@@ -310,7 +310,7 @@ const AnimatedCardTitle: React.FC<{
   const scheme = colorMap[colorPreset] || colorMap.blue;
 
   return (
-    <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0">
+    <div className="w-full flex flex-wrap items-center justify-between gap-2 shrink-0 border-0">
       <div
         className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight min-w-0 flex-1`}
       >
@@ -1890,6 +1890,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
       : rawTitle;
     const displayTitle = cleanTitle;
 
+    const yearText = /^\s*năm\s+/i.test(item.yearLabelVi)
+      ? item.yearLabelVi
+      : `Năm ${item.yearLabelVi}`;
+
     return (
       <article
         key={item.id}
@@ -1898,8 +1902,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
         aria-label={`${displayTitle} - ${item.roleVi}`}
         data-element-type="card"
         data-section-card="true"
-        style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 24px)', background: 'transparent', backgroundColor: 'transparent' }}
-        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] bg-transparent ${bentoSpan} ${
+        style={{ gap: '6px', padding: '12px', borderRadius: 'var(--radius-card, 24px)', background: 'transparent', backgroundColor: 'transparent' }}
+        className={`bento-view-card bento-card glass-card flex flex-col justify-between p-[12px] gap-[6px] relative transition-colors duration-200 overflow-hidden group/mcard w-full mx-auto h-full min-h-0 min-w-0 cursor-default text-left rounded-[14px] bg-transparent ${bentoSpan} ${
           isSelected
             ? 'ring-2 ring-cyan-400 dark:ring-cyan-300 z-10'
             : ''
@@ -1913,51 +1917,54 @@ export const LetterView: React.FC<LetterViewProps> = ({
           }}
         />
 
-        {/* 1. HEADER ZONE: Focal Point (Logo 1:1, Title, Role Metadata & Year) */}
-        <div className="w-full flex items-start justify-between gap-3 pb-3 border-b border-[var(--border-subcard)] shrink-0 relative z-10 min-w-0">
-          <div className="flex items-center gap-3 min-w-0 flex-1 text-left">
-            <div
-              style={{
-                background: 'var(--surface-secondary-bg, var(--bg-card))',
-                border: 'none',
-              }}
-              className="w-11 h-11 aspect-square rounded-full overflow-hidden border-0 shrink-0 flex items-center justify-center p-0 shadow-none transition-transform duration-200 group-hover/mcard:scale-105"
+        {/* 1. HEADER ZONE: Year - Icon & Title on Left, Logo 1:1 on Right */}
+        <div className="w-full flex items-center justify-between gap-2.5 shrink-0 relative z-10 min-w-0 border-0">
+          <div className="min-w-0 flex-1 subcard-header-sync text-left" style={{ color: item.color }}>
+            <h4
+              className="card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words flex flex-wrap items-center gap-1.5 min-w-0"
+              data-subcard-title="true"
+              style={{ color: item.color }}
+              title={!hideYear ? `${yearText} - ${displayTitle}` : displayTitle}
             >
-              <img
-                src={item.logo}
-                alt={item.company}
-                className="w-full h-full object-cover rounded-full"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="min-w-0 flex-1 subcard-header-sync" style={{ color: item.color }}>
-              <h4
-                className="card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words flex items-center gap-1.5"
-                data-subcard-title="true"
-                style={{ color: item.color }}
-                title={displayTitle}
-              >
-                <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: item.color }} />
-                <span>{displayTitle}</span>
-              </h4>
-            </div>
+              {!hideYear && (
+                <>
+                  <span
+                    className="font-bold font-play tabular-nums tracking-wide shrink-0 whitespace-nowrap"
+                    style={{ color: item.color }}
+                  >
+                    {yearText}
+                  </span>
+                  <span className="font-bold shrink-0" style={{ color: item.color }}>
+                    -
+                  </span>
+                </>
+              )}
+              <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: item.color }} />
+              <span className="min-w-0 break-words">{displayTitle}</span>
+            </h4>
           </div>
 
-          {!hideYear && (
-            <span
-              className="typo-badge font-bold font-play tabular-nums tracking-wide shrink-0 whitespace-nowrap pt-0.5"
-              style={{ color: item.color }}
-            >
-              {/^\s*năm\s+/i.test(item.yearLabelVi) ? item.yearLabelVi : `Năm ${item.yearLabelVi}`}
-            </span>
-          )}
+          <div
+            style={{
+              background: 'var(--surface-secondary-bg, var(--bg-card))',
+              border: 'none',
+            }}
+            className="w-8 h-8 sm:w-9 sm:h-9 aspect-square rounded-full overflow-hidden border-0 shrink-0 flex items-center justify-center p-0 shadow-none transition-transform duration-200 group-hover/mcard:scale-105 ml-auto"
+          >
+            <img
+              src={item.logo}
+              alt={item.company}
+              className="w-full h-full object-cover rounded-full"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
 
-        {/* 2. BODY ZONE: Supporting Content with Generous Whitespace (Single-Elevation) */}
-        <div className="w-full flex-1 text-left relative z-10 flex flex-col justify-start gap-2.5 min-h-0 min-w-0 py-0.5">
-          <div className="flex flex-col gap-1.5 pb-2 border-b border-[var(--border-subcard)] typo-body-sm">
+        {/* 2. BODY ZONE: Supporting Content */}
+        <div className="w-full flex-1 text-left relative z-10 flex flex-col justify-start gap-1.5 min-h-0 min-w-0">
+          <div className="flex flex-col gap-0.5 typo-body-sm border-0">
             <div className="flex items-start gap-1.5 leading-snug">
               <span
                 className="font-bold shrink-0 inline-flex items-center gap-1"
@@ -1985,7 +1992,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
               </div>
             )}
           </div>
-          <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words [overflow-wrap:anywhere]">
+          <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-snug text-left break-words [overflow-wrap:anywhere]">
             {renderFormattedText(item.descVi, {
               isCardReading: isCardBeingRead,
               keywordOffset: 0,
@@ -1993,7 +2000,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             })}
           </p>
           {item.descViPart2 && (
-            <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words [overflow-wrap:anywhere] pt-2 border-t border-[var(--border-subcard)]">
+            <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-snug text-left break-words [overflow-wrap:anywhere] border-0">
               {renderFormattedText(item.descViPart2, {
                 isCardReading: isCardBeingRead,
                 keywordOffset: part1KwCount,
@@ -2003,7 +2010,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           )}
 
           {isExpanded && (
-            <p className="card-body-text typo-body-sm text-[var(--text-muted)] italic mt-1 pt-2 border-t border-[var(--border-subcard)] break-words [overflow-wrap:anywhere]">
+            <p className="card-body-text typo-body-sm text-[var(--text-muted)] italic mt-0.5 break-words [overflow-wrap:anywhere] border-0">
               {item.descEn}
             </p>
           )}
@@ -2015,7 +2022,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                 e.stopPropagation();
                 setExpandedCard((prev) => ({ ...prev, [item.id]: !prev[item.id] }));
               }}
-              className="card-tag typo-button font-bold text-rose-600 dark:text-rose-400 hover:underline mt-1 inline-flex items-center gap-1 cursor-pointer self-start shrink-0"
+              className="card-tag typo-button font-bold text-rose-600 dark:text-rose-400 mt-0.5 inline-flex items-center gap-1 cursor-pointer self-start shrink-0"
             >
               {isExpanded ? (
                 <>
@@ -2030,7 +2037,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         </div>
 
         {/* 3. FOOTER & HIGHLIGHT ZONE */}
-        <div className="w-full pt-2.5 border-t border-[var(--border-subcard)] flex items-center justify-between gap-2 typo-body-sm font-semibold relative z-10 shrink-0 min-w-0">
+        <div className="w-full flex items-center justify-between gap-2 typo-body-sm font-semibold relative z-10 shrink-0 min-w-0 border-0">
           <div className="flex items-start gap-1.5 min-w-0 flex-1" style={{ color: item.color }}>
             <WebIcon name={highlightIcon} className="w-4 h-4 shrink-0 mt-0.5" />
             <span className="whitespace-normal break-words leading-snug text-left" title={item.highlightVi}>
@@ -2146,10 +2153,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
           marginLeft: '0px',
           marginRight: '0px',
           padding: 'var(--main-card-padding, 15px)',
-          gap: '15px',
+          gap: '12px',
           borderRadius: '0px',
         }}
-        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
+        className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full shrink-0 flex flex-col justify-start p-[15px] gap-[12px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
       >
                 <div
                   id="el-p1-div-85"
@@ -2157,21 +2164,21 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   data-element-parent="letter-card-1"
                   data-card-layout={resolveAdaptiveCardLayout(5, true)}
                   data-subcard-count={5}
-                  className="w-full max-w-full mx-auto min-h-0 h-auto flex-none grid grid-cols-1 md:grid-cols-12 gap-[15px] items-stretch auto-rows-auto p-0 rounded-none box-border"
+                  className="w-full max-w-full mx-auto min-h-0 h-full flex-1 grid grid-cols-1 md:grid-cols-12 gap-[12px] items-stretch auto-rows-auto p-0 rounded-none box-border"
                   style={{
                     width: '100%',
                     maxWidth: '100%',
                     minHeight: '0px',
-                    height: 'auto',
+                    height: '100%',
                     marginLeft: 'auto',
                     marginRight: 'auto',
                     paddingTop: '0px',
                     paddingRight: '0px',
                     paddingBottom: '0px',
                     paddingLeft: '0px',
-                    gap: '15px',
-                    rowGap: '15px',
-                    columnGap: '15px',
+                    gap: '12px',
+                    rowGap: '12px',
+                    columnGap: '12px',
                     borderRadius: '0px',
                   }}
                 >
@@ -2185,7 +2192,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-page="letter"
                       data-element-parent="letter-card-1"
                       style={{ padding: '0px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[var(--radius-card,14px)] aspect-video md:aspect-auto min-h-[200px] md:min-h-[240px] self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col justify-center items-center p-0 box-border transition-colors duration-200 group/video text-left ${
+                      className={`bento-card glass-card col-span-1 md:col-span-6 lg:col-span-7 rounded-[var(--radius-card,14px)] aspect-video md:aspect-auto min-h-[180px] md:min-h-0 self-stretch w-full h-full min-w-0 relative overflow-hidden flex flex-col justify-center items-center p-0 box-border transition-colors duration-200 group/video text-left ${
                         activeTargetId === 'bento-experience-intro' || activeTargetId === 'callout-salutation'
                           ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.3)]'
                           : ''
@@ -2210,8 +2217,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     {/* CỘT PHẢI HÀNG 1 (5/12 cột trên Desktop): Thông Điệp Hợp Tác + Thương Hiệu Đồng Hành */}
                     <div
                       id="letter-intro-right-stack"
-                      className="letter-right-stack col-span-1 md:col-span-6 lg:col-span-5 flex flex-col gap-[15px] w-full h-full min-w-0"
-                      style={{ gap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none' }}
+                      className="letter-right-stack col-span-1 md:col-span-6 lg:col-span-5 flex flex-col gap-[12px] w-full h-full min-h-0 min-w-0"
+                      style={{ gap: '12px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none' }}
                     >
                       {/* THẺ BENTO 2: Thông Điệp Hợp Tác */}
                       <article
@@ -2220,14 +2227,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-type="card"
                         data-section-card="true"
                         data-element-page="letter"
-                        style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                        className={`bento-card glass-card h-auto flex-1 p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px] relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
+                        style={{ padding: '12px', gap: '8px', borderRadius: 'var(--radius-card, 24px)' }}
+                        className={`bento-card glass-card h-auto flex-1 min-h-0 p-[12px] rounded-[14px] flex flex-col justify-between gap-[8px] relative overflow-hidden transition-colors duration-200 w-full min-w-0 ${
                           activeTargetId === 'callout-salutation' || activeTargetId === 'bento-experience-intro' || activeTargetId === 'bento-commitment'
                             ? 'ring-2 ring-cyan-500/80 shadow-[0_0_24px_rgba(6,182,212,0.25)]'
                             : ''
                         }`}
                       >
-                        <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard)] shrink-0 gap-2 min-w-0">
+                        <div className="flex items-center justify-between shrink-0 gap-2 min-w-0 border-0">
                           <div className="card-header-sync inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-300 leading-tight min-w-0">
                             <WebIcon
                               name="book"
@@ -2247,7 +2254,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           </span>
                         </div>
 
-                        <div className="py-0 space-y-2.5 flex flex-col justify-start text-left min-w-0">
+                        <div className="py-0 space-y-1.5 flex flex-col justify-start text-left min-w-0">
                           <h3
                             id="callout-salutation"
                             className="card-title typo-h4 font-play tracking-tight transition-all duration-300 break-words text-[var(--text-primary)]"
@@ -2255,7 +2262,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             Kính chào {companyDisplay}!
                           </h3>
 
-                          <p className="card-body typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
+                          <p className="card-body typo-body-sm leading-snug text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
                             Tôi là{' '}
                             <strong className="font-bold text-[var(--text-primary)]">
                               Nguyễn Hùng Thái
@@ -2276,10 +2283,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         data-element-type="card"
                         data-section-card="true"
                         data-element-page="letter"
-                        style={{ padding: '15px', gap: '15px', borderRadius: 'var(--radius-card, 24px)' }}
-                        className="partner-card bento-card glass-card shrink-0 w-full h-auto p-[15px] rounded-[14px] flex flex-col justify-start gap-[15px] transition-colors duration-200 group/marquee min-w-0"
+                        style={{ padding: '12px', gap: '8px', borderRadius: 'var(--radius-card, 24px)' }}
+                        className="partner-card bento-card glass-card shrink-0 w-full h-auto p-[12px] rounded-[14px] flex flex-col justify-start gap-[8px] transition-colors duration-200 group/marquee min-w-0"
                       >
-                        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] shrink-0 min-w-0">
+                        <div className="flex flex-wrap items-center justify-between gap-2 shrink-0 min-w-0 border-0">
                           <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
                             <WebIcon
                               name="briefcase"
@@ -2301,18 +2308,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                         <div
                           id="brands-bento-grid"
-                          className="flex flex-row flex-nowrap items-stretch gap-[15px] w-full overflow-hidden min-w-0 pb-1"
+                          className="flex flex-row flex-nowrap items-stretch gap-[12px] w-full overflow-hidden min-w-0"
                         >
-                          <div className="animate-marquee-ltr flex flex-row items-center gap-[15px]">
+                          <div className="animate-marquee-ltr flex flex-row items-center gap-[12px]">
                             {[...EXPERIENCE_BRANDS_MARQUEE, ...EXPERIENCE_BRANDS_MARQUEE].map((item, idx) => (
                               <div
                                 key={`${item.id}-${idx}`}
                                 data-subcard="true"
-                                className="sub-card letter-subcard partner-brand-tile group/logo shrink-0 inline-flex flex-row flex-nowrap items-center gap-2 whitespace-nowrap p-2 rounded-[var(--radius-subcard,16px)] transition-colors duration-200"
+                                className="sub-card letter-subcard partner-brand-tile group/logo shrink-0 inline-flex flex-row flex-nowrap items-center gap-2 whitespace-nowrap px-2.5 py-1.5 rounded-[var(--radius-subcard,16px)] transition-colors duration-200"
                                 title={item.company}
                               >
                                 <div
-                                  className="partner-logo-badge w-7 h-7 sm:w-8 sm:h-8 aspect-square rounded-full border-0 shadow-none group-hover/logo:scale-105 transition-all duration-300 relative shrink-0 p-0 overflow-hidden"
+                                  className="partner-logo-badge w-6 h-6 sm:w-7 sm:h-7 aspect-square rounded-full border-0 shadow-none group-hover/logo:scale-105 transition-all duration-300 relative shrink-0 p-0 overflow-hidden"
                                   style={{
                                     borderRadius: '9999px',
                                     background: 'var(--surface-secondary-bg, var(--bg-card))',
@@ -2344,8 +2351,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-core-values-pursued"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full p-[15px] gap-[15px] transition-all duration-200 flex flex-col items-start justify-start group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()} ${
+                      style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full min-h-0 p-[12px] gap-[10px] transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()} ${
                         activeTargetId === 'card-core-values-pursued'
                           ? 'ring-2 ring-amber-400 dark:ring-cyan-400 shadow-[0_0_24px_rgba(251,191,36,0.35)]'
                           : ''
@@ -2361,8 +2368,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         id="core-values-grid"
                         data-card-layout={resolveAdaptiveCardLayout(CORE_VALUES_DATA.length, false)}
                         data-subcard-count={CORE_VALUES_DATA.length}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-[15px] auto-rows-auto items-stretch w-full flex-none h-auto min-w-0"
-                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+                        className="grid grid-cols-2 md:grid-cols-4 gap-[10px] auto-rows-auto items-stretch w-full flex-1 min-h-0 min-w-0"
+                        style={{ gap: '10px', rowGap: '10px', columnGap: '10px' }}
                       >
                         {CORE_VALUES_DATA.map((val) => {
                           const valIconName =
@@ -2415,7 +2422,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                               </div>
 
                               <div className="flex-1 flex items-start relative z-10 text-left min-w-0">
-                                <p className="card-body-text typo-body text-[var(--text-secondary)] font-normal leading-snug sm:leading-relaxed break-words">
+                                <p className="card-body-text typo-body-sm text-[var(--text-secondary)] font-normal leading-snug break-words">
                                   {val.descVi}
                                 </p>
                               </div>
@@ -2432,19 +2439,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-[15px] flex flex-col justify-between gap-[15px] transition-colors duration-200 group/quote w-full h-full min-w-0 ${
+                      style={{ padding: '12px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-[12px] flex flex-col justify-between gap-[10px] transition-colors duration-200 group/quote w-full h-full min-h-0 min-w-0 ${
                         activeTargetId === 'quote-banner-slide-1'
                           ? 'ring-2 ring-sky-500/50 dark:ring-cyan-400/50'
                           : ''
                       }`}
                     >
                       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
-                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
                         <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full" />
                       </div>
 
-                      <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)] relative z-10 min-w-0 shrink-0">
+                      <div className="flex items-center justify-between gap-2 relative z-10 min-w-0 shrink-0 border-0">
                         <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
                           <WebIcon
                             name="sparkles"
@@ -2528,7 +2534,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
           scrollBehavior: 'auto',
         }}
       >
-        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2011) */}
+        {/* Card 2: Hành trình khởi đầu sự nghiệp (2002 - 2013) */}
         <div
           id="letter-card-2"
           data-element-name="Thư ngỏ main card 2"
@@ -2559,7 +2565,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             margin: '0px',
             scrollSnapAlign: 'start',
             padding: 'var(--main-card-padding, 15px)',
-            gap: '15px',
+            gap: '12px',
             borderRadius: '0px',
           }}
           className="page-main-card floating-glass-surface floating-surface--main shrink-0 snap-start relative z-10 flex flex-col justify-start overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
@@ -2570,8 +2576,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
             data-element-parent="letter-card-2"
             data-card-layout={resolveAdaptiveCardLayout(4, false)}
             data-subcard-count={4}
-            className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
-            style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+            className="w-full max-w-full min-w-0 min-h-0 flex-1 h-full grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[12px] p-0 items-stretch bg-transparent box-border"
+            style={{ gap: '12px', rowGap: '12px', columnGap: '12px', padding: '0px', background: 'transparent', width: '100%', height: '100%', minHeight: '0px' }}
           >
             {CAREER_MILESTONES_DATA.slice(0, 4).map((item) =>
               renderCareerCard(item, 'min-w-0 col-span-1', false)
@@ -2610,7 +2616,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             margin: '0px',
             scrollSnapAlign: 'start',
             padding: 'var(--main-card-padding, 15px)',
-            gap: '15px',
+            gap: '12px',
             borderRadius: '0px',
           }}
           className="page-main-card floating-glass-surface floating-surface--main shrink-0 snap-start relative z-10 flex flex-col justify-start overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
@@ -2621,8 +2627,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
             data-element-parent="letter-card-3"
             data-card-layout={resolveAdaptiveCardLayout(4, false)}
             data-subcard-count={4}
-            className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
-            style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+            className="w-full max-w-full min-w-0 min-h-0 flex-1 h-full grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[12px] p-0 items-stretch bg-transparent box-border"
+            style={{ gap: '12px', rowGap: '12px', columnGap: '12px', padding: '0px', background: 'transparent', width: '100%', height: '100%', minHeight: '0px' }}
           >
             {CAREER_MILESTONES_DATA.slice(4, 8).map((item) =>
               renderCareerCard(item, 'min-w-0 col-span-1', false)
@@ -2659,10 +2665,10 @@ export const LetterView: React.FC<LetterViewProps> = ({
           marginLeft: '0px',
           marginRight: '0px',
           padding: 'var(--main-card-padding, 15px)',
-          gap: '15px',
+          gap: '12px',
           borderRadius: '0px',
         }}
-        className="page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[12px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100"
       >
         <div
           id="letter-slide-4-bento-grid"
@@ -2670,41 +2676,41 @@ export const LetterView: React.FC<LetterViewProps> = ({
           data-element-parent="letter-card-4"
           data-card-layout={resolveAdaptiveCardLayout(3, true)}
           data-subcard-count={3}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-1 h-full grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-auto gap-[12px] p-0 items-stretch bg-transparent box-border"
+          style={{ gap: '12px', rowGap: '12px', columnGap: '12px', padding: '0px', background: 'transparent', width: '100%', height: '100%', minHeight: '0px' }}
         >
                     {/* BENTO CARD 1 (4/12 cols): TRIẾT LÝ QUẢN TRỊ */}
                     <div
                       id="card-philosophy"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-colors duration-200 ${getGlassCardClass()} ${
+                      style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-h-0 min-w-0 relative overflow-hidden p-[12px] gap-[10px] rounded-[14px] group text-left flex flex-col justify-between transition-colors duration-200 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude' || activeTargetId === 'card-philosophy'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
                       }`}
                     >
-                      <div className="flex flex-col items-start text-left w-full gap-[15px] min-w-0">
+                      <div className="flex flex-col items-start text-left w-full gap-[10px] min-w-0">
                         <AnimatedCardTitle
                           iconName="sparkles"
                           title="Triết Lý Quản Trị"
                           colorPreset="purple"
                         />
 
-                        <p className="card-body-text typo-body leading-relaxed text-[var(--text-primary)] break-words [overflow-wrap:anywhere]">
+                        <p className="card-body-text typo-body-sm leading-snug text-[var(--text-primary)] break-words [overflow-wrap:anywhere]">
                           Qua hơn hai thập kỷ làm việc trong nhiều lĩnh vực khác nhau, tôi nhận ra rằng chăm sóc khách hàng không chỉ là giải quyết vấn đề mà là xây dựng một hệ thống giúp doanh nghiệp phát triển bền vững.
                         </p>
 
-                        <p className="card-body-text typo-body leading-relaxed text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
+                        <p className="card-body-text typo-body-sm leading-snug text-[var(--text-secondary)] break-words [overflow-wrap:anywhere]">
                           Một dịch vụ xuất sắc bắt nguồn từ sự thấu hiểu sâu sắc hành trình khách hàng, chuẩn hóa các điểm chạm và tối ưu hóa năng suất vận hành toàn diện.
                         </p>
                       </div>
 
                       <div
                         data-subcard="true"
-                        style={{ padding: '12px 15px', borderRadius: 'var(--radius-subcard, 14px)' }}
-                        className="sub-card letter-subcard w-full p-[15px] rounded-[var(--radius-subcard,14px)] flex items-center gap-2.5 min-w-0"
+                        style={{ padding: '10px 12px', borderRadius: 'var(--radius-subcard, 14px)' }}
+                        className="sub-card letter-subcard w-full p-[10px] rounded-[var(--radius-subcard,14px)] flex items-center gap-2.5 min-w-0"
                       >
                         <WebIcon name="target" className="w-4 h-4 text-purple-600 dark:text-cyan-400 shrink-0" />
                         <span className="typo-caption font-semibold text-purple-700 dark:text-cyan-300">
@@ -2718,14 +2724,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="card-three-principles"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)', containerType: 'inline-size', containerName: 'principles-card' }}
-                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-start transition-colors duration-200 ${getGlassCardClass()} ${
+                      style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-card, 14px)', containerType: 'inline-size', containerName: 'principles-card' }}
+                      className={`bento-view-card col-span-1 md:col-span-3 lg:col-span-4 w-full h-full min-h-0 min-w-0 relative overflow-hidden p-[12px] gap-[10px] rounded-[14px] group text-left flex flex-col justify-between transition-colors duration-200 ${getGlassCardClass()} ${
                         activeTargetId === 'card-three-principles'
                           ? 'ring-2 ring-purple-500/80 dark:ring-cyan-400/80 shadow-[0_0_25px_rgba(168,85,247,0.22)]'
                           : ''
                       }`}
                     >
-                      <div className="flex flex-col items-start text-left w-full gap-2.5 min-w-0">
+                      <div className="flex flex-col items-start text-left w-full gap-1.5 min-w-0">
                         <AnimatedCardTitle
                           iconName="layers"
                           title="Nguyên Tắc Cốt Lõi"
@@ -2740,8 +2746,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       <div
                         data-card-layout={resolveAdaptiveCardLayout(OPERATIONAL_PRINCIPLES_DATA.length, false)}
                         data-subcard-count={OPERATIONAL_PRINCIPLES_DATA.length}
-                        className="letter-principles-subgrid grid grid-cols-1 auto-rows-auto gap-[15px] w-full items-stretch min-w-0 flex-none h-auto"
-                        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+                        className="letter-principles-subgrid grid grid-cols-1 auto-rows-auto gap-[10px] w-full items-stretch min-w-0 flex-1 min-h-0"
+                        style={{ gap: '10px', rowGap: '10px', columnGap: '10px' }}
                       >
                         {OPERATIONAL_PRINCIPLES_DATA.map((principle, idx) => {
                           const iconName = idx === 0 ? 'layers' : idx === 1 ? 'users' : 'network';
@@ -2752,8 +2758,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             <div
                               key={principle.id}
                               data-subcard="true"
-                              style={{ padding: '12px 15px', borderRadius: 'var(--radius-subcard, 14px)' }}
-                              className="sub-card letter-subcard h-full p-[15px] rounded-[14px] text-left flex flex-col justify-start gap-1.5 transition-colors duration-200 min-w-0"
+                              style={{ padding: '10px 12px', borderRadius: 'var(--radius-subcard, 14px)' }}
+                              className="sub-card letter-subcard h-full p-[10px] rounded-[14px] text-left flex flex-col justify-center gap-1 transition-colors duration-200 min-w-0"
                             >
                               <div className="flex items-center justify-between gap-2 min-w-0">
                                 <div
@@ -2789,21 +2795,21 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       id="bento-companion-letter"
                       data-element-type="card"
                       data-section-card="true"
-                      style={{ gap: '15px', padding: '15px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-w-0 relative overflow-hidden p-[15px] gap-[15px] rounded-[14px] group text-left flex flex-col justify-between transition-colors duration-200 ${getGlassCardClass()} ${
+                      style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`bento-view-card col-span-1 md:col-span-6 lg:col-span-4 w-full h-full min-h-0 min-w-0 relative overflow-hidden p-[12px] gap-[10px] rounded-[14px] group text-left flex flex-col justify-between transition-colors duration-200 ${getGlassCardClass()} ${
                         activeTargetId === 'card-philosophy-gratitude'
                           ? 'ring-2 ring-rose-500/70 dark:ring-cyan-400/70 shadow-[0_0_25px_rgba(244,63,94,0.18)]'
                           : ''
                       }`}
                     >
-                      <div className="flex flex-col gap-[15px] min-w-0">
+                      <div className="flex flex-col gap-[8px] min-w-0">
                         <AnimatedCardTitle
                           iconName="heart"
                           title="Tâm Thư Đồng Hành"
                           colorPreset="rose"
                         />
 
-                        <div className="card-body-text typo-body leading-relaxed text-[var(--text-secondary)] space-y-2 break-words [overflow-wrap:anywhere]">
+                        <div className="card-body-text typo-body-sm leading-snug text-[var(--text-secondary)] space-y-1.5 break-words [overflow-wrap:anywhere]">
                           <p>
                             Từ đó, tôi tập trung xây dựng các hệ thống{' '}
                             <strong className="font-bold text-blue-600 dark:text-cyan-400">CRM</strong>,{' '}
@@ -2830,18 +2836,18 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       {/* Quote box synthesis Bento Sub-card */}
                       <div
                         data-subcard="true"
-                        style={{ padding: '15px', borderRadius: 'var(--radius-subcard, 14px)' }}
-                        className="sub-card letter-subcard w-full p-[15px] rounded-[var(--radius-subcard,14px)] relative flex items-center gap-3 min-w-0"
+                        style={{ padding: '10px 12px', borderRadius: 'var(--radius-subcard, 14px)' }}
+                        className="sub-card letter-subcard w-full p-[10px] rounded-[var(--radius-subcard,14px)] relative flex items-center gap-2.5 min-w-0"
                       >
                         <span className="text-amber-600 dark:text-amber-400 font-play font-bold text-xl leading-none shrink-0">
                           “
                         </span>
-                        <p className="card-body-text typo-body text-amber-900 dark:text-amber-300 font-semibold italic leading-relaxed break-words [overflow-wrap:anywhere]">
+                        <p className="card-body-text typo-body-sm text-amber-900 dark:text-amber-300 font-semibold italic leading-snug break-words [overflow-wrap:anywhere]">
                           &ldquo;Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.&rdquo;
                         </p>
                       </div>
 
-                      <div className="card-body-text typo-body leading-relaxed text-[var(--text-secondary)] space-y-1.5 break-words [overflow-wrap:anywhere]">
+                      <div className="card-body-text typo-body-sm leading-snug text-[var(--text-secondary)] space-y-1 break-words [overflow-wrap:anywhere]">
                         <p>
                           Tôi mong muốn được đồng hành cùng{' '}
                           <strong className="font-bold text-[var(--text-primary)]">{companyDisplay}</strong> trong việc xây dựng một hệ thống chăm sóc khách hàng hiện đại, lấy khách hàng làm trung tâm, tối ưu hiệu quả vận hành và tạo ra giá trị phát triển bền vững.
@@ -2852,7 +2858,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       </div>
 
                       {/* Bottom - Signature Block */}
-                      <div className="w-full flex flex-wrap items-center justify-between gap-2 relative z-10 text-left pt-2.5 border-t border-[var(--border-subcard)]">
+                      <div className="w-full flex flex-wrap items-center justify-between gap-2 relative z-10 text-left border-0">
                         <div className="flex items-center gap-3">
                           <div className="-ml-1 shrink-0">
                             <SignatureSvg />

@@ -44,6 +44,7 @@ import {
   ColorSchemeMode,
   GlassCustomization,
   SurfaceDepthMode,
+  ThemeFamilyId,
   WallpaperOverlaySettings,
   WaveMotionMode,
 } from '../config/ui/theme.types';
@@ -57,6 +58,7 @@ import {
   getLayerDepthForTheme,
 } from '../config/ui/layerDepth';
 import {
+  CARD_STYLE_GROUPS,
   CARD_STYLES_MAP,
   VALID_CARD_STYLES,
   getCardStyleProperties,
@@ -106,6 +108,7 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
   if (isCustomBlur) {
     const blur = settings.blurIntensity;
     root.setAttribute('data-custom-blur', 'true');
+    root.setAttribute('data-custom-blur-active', blur > 0 ? 'true' : 'false');
     root.style.setProperty('--bg-blur', `${blur}px`);
     root.style.setProperty('--glass-blur', `${blur}px`);
     root.style.setProperty('--blur-subcard', `${Math.round(blur * 0.8)}px`);
@@ -117,6 +120,7 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
     root.style.setProperty('--surface-interactive-blur', `${Math.round(blur * 0.85)}px`);
   } else {
     root.removeAttribute('data-custom-blur');
+    root.removeAttribute('data-custom-blur-active');
     root.style.removeProperty('--bg-blur');
     root.style.removeProperty('--glass-blur');
     root.style.removeProperty('--blur-subcard');
@@ -217,6 +221,7 @@ export interface ThemeContextType {
   setColorSchemeMode: (mode: ColorSchemeMode) => void;
   currentWallpaper: string;
   activeWallpaper: WallpaperPreset;
+  committedWallpaper: WallpaperPreset;
   setWallpaper: (wpOrBg: WallpaperPreset | string) => void;
   wallpaperOverlay: WallpaperOverlaySettings;
   updateWallpaperOverlay: (patch: Partial<WallpaperOverlaySettings>) => void;
@@ -225,18 +230,27 @@ export interface ThemeContextType {
   setAdaptiveAccentEnabled: (enabled: boolean) => void;
   suggestedAccent: AdaptiveAccentPalette | null;
   cardStyle: CardStyleMode;
+  committedCardStyle: CardStyleMode;
+  previewCardStyle: CardStyleMode | null;
+  setPreviewCardStyle: (mode: CardStyleMode | null) => void;
   setCardStyle: (mode: CardStyleMode) => void;
   toggleLightDark: (targetDark?: boolean) => void;
   getCardStyleProps: (mode?: CardStyleMode) => React.CSSProperties;
   glassSettings: GlassCustomization;
   getGlassSettingsForMode: (mode: CardStyleMode) => GlassCustomization;
+  getGlassSettingsForGroup: (familyId: ThemeFamilyId) => GlassCustomization;
   isGlassCustomized: (mode?: CardStyleMode) => boolean;
+  isGroupGlassCustomized: (familyId: ThemeFamilyId) => boolean;
   updateGlassSettings: (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => void;
+  updateGroupGlassSettings: (familyId: ThemeFamilyId, patch: Partial<GlassCustomization>) => void;
   resetGlassSettings: (targetMode?: CardStyleMode) => void;
+  resetGroupGlassSettings: (familyId: ThemeFamilyId) => void;
   surfaceDepth: SurfaceDepthMode;
+  committedSurfaceDepth: SurfaceDepthMode;
   setSurfaceDepth: (mode: SurfaceDepthMode) => void;
   toggleSurfaceDepth: () => void;
   layerDepth: number;
+  committedLayerDepth: number;
   setLayerDepth: (depth: number) => void;
   resetLayerDepth: () => void;
   autoTimeTheme: boolean;
@@ -411,8 +425,29 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
+  const [previewCardStyleState, setPreviewCardStyleState] = useState<CardStyleMode | null>(null);
+
   const layerDepth = customLayerDepth !== null ? customLayerDepth : getLayerDepthForTheme(cardStyle);
   const surfaceDepth: SurfaceDepthMode = layerDepth === 0 ? 'flat' : 'depth';
+
+  const effectiveCardStyle: CardStyleMode = previewCardStyleState ?? cardStyle;
+  const effectiveIsDark: boolean = resolveCardStyleDark(effectiveCardStyle);
+  const effectiveLayerDepth =
+    customLayerDepth !== null ? customLayerDepth : getLayerDepthForTheme(effectiveCardStyle);
+  const effectiveSurfaceDepth: SurfaceDepthMode = effectiveLayerDepth === 0 ? 'flat' : 'depth';
+  const effectiveWallpaper: WallpaperPreset = React.useMemo(
+    () => (previewCardStyleState ? getDefaultWallpaperForTheme(previewCardStyleState) : activeWallpaper),
+    [previewCardStyleState, activeWallpaper]
+  );
+
+  const setPreviewCardStyle = useCallback((mode: CardStyleMode | null) => {
+    if (mode === null) {
+      setPreviewCardStyleState((prev) => (prev === null ? prev : null));
+      return;
+    }
+    const normalized = normalizeCardStyle(mode);
+    setPreviewCardStyleState((prev) => (prev === normalized ? prev : normalized));
+  }, []);
 
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
     try {
@@ -513,7 +548,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     cardStyleRef.current = cardStyle;
   }, [cardStyle]);
 
-  const isDark = resolveCardStyleDark(cardStyle);
+  const isDark = effectiveIsDark;
 
   const getGlassSettingsForMode = useCallback(
     (mode: CardStyleMode): GlassCustomization => {
@@ -524,27 +559,52 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [glassCustomizations]
   );
 
-  const glassSettings = getGlassSettingsForMode(cardStyle);
+  const glassSettings = getGlassSettingsForMode(effectiveCardStyle);
 
   const isGlassCustomized = useCallback(
     (mode?: CardStyleMode): boolean => {
-      const target = mode || cardStyle;
+      const target = mode || effectiveCardStyle;
       const defaults = THEME_DEFAULT_GLASS_SETTINGS[target];
       const current = getGlassSettingsForMode(target);
       return current.cardOpacity !== defaults.cardOpacity || current.blurIntensity !== defaults.blurIntensity;
     },
-    [cardStyle, getGlassSettingsForMode]
+    [effectiveCardStyle, getGlassSettingsForMode]
+  );
+
+  const getGroupModes = useCallback((familyId: ThemeFamilyId): CardStyleMode[] => {
+    const group = CARD_STYLE_GROUPS.find((g) => g.id === familyId);
+    if (!group) return [DEFAULT_CARD_STYLE];
+    return group.presets.map((p) => p.id);
+  }, []);
+
+  const getGlassSettingsForGroup = useCallback(
+    (familyId: ThemeFamilyId): GlassCustomization => {
+      const modes = getGroupModes(familyId);
+      const preferred =
+        modes.find((m) => m === effectiveCardStyle) ||
+        modes.find((m) => Boolean(glassCustomizations[m])) ||
+        modes[0];
+      return getGlassSettingsForMode(preferred);
+    },
+    [effectiveCardStyle, getGlassSettingsForMode, getGroupModes, glassCustomizations]
+  );
+
+  const isGroupGlassCustomized = useCallback(
+    (familyId: ThemeFamilyId): boolean => {
+      return getGroupModes(familyId).some((m) => isGlassCustomized(m));
+    },
+    [getGroupModes, isGlassCustomized]
   );
 
   useEffect(() => {
-    applyGlassCssVariables(cardStyle, glassSettings);
-  }, [cardStyle, glassSettings]);
+    applyGlassCssVariables(effectiveCardStyle, glassSettings);
+  }, [effectiveCardStyle, glassSettings]);
 
   useEffect(() => {
     applyWallpaperOverlayCssVariables(wallpaperOverlay);
   }, [wallpaperOverlay]);
 
-  const effectiveAccentTarget = activeWallpaper;
+  const effectiveAccentTarget = effectiveWallpaper;
 
   useEffect(() => {
     let cancelled = false;
@@ -566,12 +626,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [effectiveAccentTarget, adaptiveAccentEnabled]);
 
   useEffect(() => {
-    applyAdaptiveAccentVariables(suggestedAccent, adaptiveAccentEnabled, isDark);
-  }, [suggestedAccent, adaptiveAccentEnabled, isDark]);
+    applyAdaptiveAccentVariables(suggestedAccent, adaptiveAccentEnabled, effectiveIsDark);
+  }, [suggestedAccent, adaptiveAccentEnabled, effectiveIsDark]);
 
-  // Sync cardStyle & single-mode theme attributes to HTML root & Body
+  // Persist ONLY committed cardStyle changes to localStorage
   useEffect(() => {
-    const nextDark = resolveCardStyleDark(cardStyle);
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, cardStyle);
       const isNeu = isNeumorphismCardStyle(cardStyle);
@@ -583,34 +642,38 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch (e) {
       // ignore
     }
+  }, [cardStyle]);
 
-    const mechanism = CARD_STYLES_MAP[cardStyle]?.mechanism || (nextDark ? 'dark' : 'light');
+  // Sync effective cardStyle (committed or live hover preview) & theme attributes to HTML root & Body
+  useEffect(() => {
+    const nextDark = resolveCardStyleDark(effectiveCardStyle);
+    const mechanism = CARD_STYLES_MAP[effectiveCardStyle]?.mechanism || (nextDark ? 'dark' : 'light');
 
     if (nextDark) {
       document.documentElement.classList.add('dark');
-      document.documentElement.setAttribute('data-theme', cardStyle);
+      document.documentElement.setAttribute('data-theme', effectiveCardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.setAttribute('data-theme', cardStyle);
+      document.documentElement.setAttribute('data-theme', effectiveCardStyle);
       document.documentElement.setAttribute('data-theme-mode', 'light');
     }
 
     document.documentElement.setAttribute('data-theme-mechanism', mechanism);
-    document.documentElement.setAttribute('data-card-style', cardStyle);
+    document.documentElement.setAttribute('data-card-style', effectiveCardStyle);
     if (document.body) {
-      document.body.setAttribute('data-card-style', cardStyle);
+      document.body.setAttribute('data-card-style', effectiveCardStyle);
       document.body.setAttribute('data-theme-mechanism', mechanism);
     }
-  }, [cardStyle]);
+  }, [effectiveCardStyle]);
 
   useEffect(() => {
-    applyLayerDepthCssVariables(layerDepth, cardStyle);
-  }, [layerDepth, cardStyle]);
+    applyLayerDepthCssVariables(effectiveLayerDepth, effectiveCardStyle);
+  }, [effectiveLayerDepth, effectiveCardStyle]);
 
   useEffect(() => {
     applyGlobalCornerRadiusCssVariables(cornerRadius);
-  }, [cornerRadius, cardStyle]);
+  }, [cornerRadius, effectiveCardStyle]);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -698,19 +761,22 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     };
   }, []);
 
-  // Update wallpaper styles on body & sync --theme-bg-* CSS custom properties
+  // Persist ONLY committed activeWallpaper to localStorage
   useEffect(() => {
-    const themeBgSpec = THEME_BACKGROUNDS[cardStyle] || THEME_BACKGROUNDS[DEFAULT_CARD_STYLE];
-    const root = document.documentElement;
-    root.style.setProperty('--theme-bg-fallback', themeBgSpec.fallbackGradient);
-    root.style.setProperty('--theme-bg-overlay', themeBgSpec.overlayBg);
-
     try {
       localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(activeWallpaper));
       localStorage.setItem('theme_wallpaper', activeWallpaper.value || activeWallpaper.bg || '');
     } catch (e) {
       // ignore
     }
+  }, [activeWallpaper]);
+
+  // Update wallpaper styles on body & sync --theme-bg-* CSS custom properties (supports live preview)
+  useEffect(() => {
+    const themeBgSpec = THEME_BACKGROUNDS[effectiveCardStyle] || THEME_BACKGROUNDS[DEFAULT_CARD_STYLE];
+    const root = document.documentElement;
+    root.style.setProperty('--theme-bg-fallback', themeBgSpec.fallbackGradient);
+    root.style.setProperty('--theme-bg-overlay', themeBgSpec.overlayBg);
 
     document.body.style.background = '';
     document.body.style.backgroundImage = '';
@@ -719,16 +785,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     document.body.style.backgroundPosition = '';
     document.body.style.backgroundRepeat = '';
 
-    let activeWpToRender = activeWallpaper;
+    let activeWpToRender = effectiveWallpaper;
     if (
-      activeWallpaper.type === 'image' &&
-      !activeWallpaper.isCustom &&
-      activeWallpaper.id.startsWith('theme-bg-') &&
-      activeWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[cardStyle]
+      effectiveWallpaper.type === 'image' &&
+      !effectiveWallpaper.isCustom &&
+      effectiveWallpaper.id.startsWith('theme-bg-') &&
+      effectiveWallpaper.id === THEME_DEFAULT_WALLPAPER_ID[effectiveCardStyle]
     ) {
-      const autoBgUrl = getThemeBackgroundForMode(cardStyle, isDark);
+      const autoBgUrl = getThemeBackgroundForMode(effectiveCardStyle, effectiveIsDark);
       activeWpToRender = {
-        ...activeWallpaper,
+        ...effectiveWallpaper,
         value: autoBgUrl,
         bg: `url('${autoBgUrl}') center/cover no-repeat`,
       };
@@ -791,7 +857,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       root.style.setProperty('--theme-bg-image', 'none');
       document.body.style.background = 'var(--app-bg-gradient, var(--ambient-base-bg, var(--theme-bg-fallback)))';
     }
-  }, [activeWallpaper, cardStyle, isDark]);
+  }, [effectiveWallpaper, effectiveCardStyle, effectiveIsDark]);
 
   const setWallpaper = useCallback((wpOrBg: WallpaperPreset | string) => {
     let nextWp: WallpaperPreset;
@@ -830,14 +896,17 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const applyCardStyleInternal = useCallback((mode: CardStyleMode, schemeOverride?: ColorSchemeMode) => {
     const normalized = normalizeCardStyle(mode);
-    if (cardStyleRef.current !== normalized) {
-      triggerThemeCrossFade();
-    }
+    const prevDark = resolveCardStyleDark(cardStyleRef.current);
     const nextDark = resolveCardStyleDark(normalized);
+    if (cardStyleRef.current !== normalized) {
+      const direction = prevDark !== nextDark ? (nextDark ? 'to-dark' : 'to-light') : 'switch';
+      triggerThemeCrossFade(340, direction);
+    }
     const defaultWp = getDefaultWallpaperForTheme(normalized);
     const resolvedScheme: ColorSchemeMode = schemeOverride || (nextDark ? 'dark' : 'light');
 
     cardStyleRef.current = normalized;
+    setPreviewCardStyleState(null);
     setCardStyleState(normalized);
     setColorSchemeModeState(resolvedScheme);
     activeWallpaperIdRef.current = defaultWp.id;
@@ -938,8 +1007,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 
   const getCardStyleProps = useCallback((mode?: CardStyleMode) => {
-    return getCardStyleProperties(mode || cardStyle);
-  }, [cardStyle]);
+    return getCardStyleProperties(mode || effectiveCardStyle);
+  }, [effectiveCardStyle]);
 
   const updateGlassSettings = useCallback(
     (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => {
@@ -988,6 +1057,61 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [cardStyle]
   );
 
+  const updateGroupGlassSettings = useCallback(
+    (familyId: ThemeFamilyId, patch: Partial<GlassCustomization>) => {
+      const modes = getGroupModes(familyId);
+      setGlassCustomizations((prev) => {
+        const nextMap: GlassCustomizationMap = { ...prev };
+        for (const mode of modes) {
+          const defaults = THEME_DEFAULT_GLASS_SETTINGS[mode];
+          const current = prev[mode] || defaults;
+          const nextForMode = clampGlassSettings({ ...current, ...patch }, defaults);
+          if (
+            nextForMode.cardOpacity === defaults.cardOpacity &&
+            nextForMode.blurIntensity === defaults.blurIntensity
+          ) {
+            delete nextMap[mode];
+          } else {
+            nextMap[mode] = nextForMode;
+          }
+        }
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [getGroupModes]
+  );
+
+  const resetGroupGlassSettings = useCallback(
+    (familyId: ThemeFamilyId) => {
+      const modes = getGroupModes(familyId);
+      setGlassCustomizations((prev) => {
+        let changed = false;
+        const nextMap: GlassCustomizationMap = { ...prev };
+        for (const mode of modes) {
+          if (nextMap[mode]) {
+            delete nextMap[mode];
+            changed = true;
+          }
+        }
+        if (!changed) return prev;
+        try {
+          localStorage.setItem(GLASS_CUSTOMIZATION_STORAGE_KEY, JSON.stringify(nextMap));
+        } catch {
+          // ignore
+        }
+        window.dispatchEvent(new CustomEvent(GLASS_CUSTOMIZATION_SYNC_EVENT, { detail: nextMap }));
+        return nextMap;
+      });
+    },
+    [getGroupModes]
+  );
+
   const setLayerDepth = useCallback((rawDepth: number) => {
     const clamped = Math.max(0, Math.min(200, Math.round(Number(rawDepth) || 0)));
     setCustomLayerDepth(clamped);
@@ -1023,11 +1147,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <ThemeContext.Provider
       value={{
-        isDark,
+        isDark: effectiveIsDark,
         colorSchemeMode,
         setColorSchemeMode,
-        currentWallpaper: activeWallpaper.value || activeWallpaper.bg || '',
-        activeWallpaper,
+        currentWallpaper: effectiveWallpaper.value || effectiveWallpaper.bg || '',
+        activeWallpaper: effectiveWallpaper,
+        committedWallpaper: activeWallpaper,
         setWallpaper,
         wallpaperOverlay,
         updateWallpaperOverlay,
@@ -1035,19 +1160,28 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         adaptiveAccentEnabled,
         setAdaptiveAccentEnabled,
         suggestedAccent,
-        cardStyle,
+        cardStyle: effectiveCardStyle,
+        committedCardStyle: cardStyle,
+        previewCardStyle: previewCardStyleState,
+        setPreviewCardStyle,
         setCardStyle,
         toggleLightDark,
         getCardStyleProps,
         glassSettings,
         getGlassSettingsForMode,
+        getGlassSettingsForGroup,
         isGlassCustomized,
+        isGroupGlassCustomized,
         updateGlassSettings,
+        updateGroupGlassSettings,
         resetGlassSettings,
-        surfaceDepth,
+        resetGroupGlassSettings,
+        surfaceDepth: effectiveSurfaceDepth,
+        committedSurfaceDepth: surfaceDepth,
         setSurfaceDepth,
         toggleSurfaceDepth,
-        layerDepth,
+        layerDepth: effectiveLayerDepth,
+        committedLayerDepth: layerDepth,
         setLayerDepth,
         resetLayerDepth,
         autoTimeTheme,

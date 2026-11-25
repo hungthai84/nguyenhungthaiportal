@@ -20,6 +20,187 @@ export interface MemoriesViewProps {
   currentTheme?: string;
 }
 
+interface LazyMemoryImageProps {
+  src: string;
+  alt: string;
+  priority?: boolean;
+  scrollRootRef?: React.RefObject<HTMLElement | null>;
+}
+
+const LazyMemoryImage: React.FC<LazyMemoryImageProps> = React.memo(
+  ({ src, alt, priority = false, scrollRootRef }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [shouldLoad, setShouldLoad] = useState<boolean>(false);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
+
+    useEffect(() => {
+      setIsLoaded(false);
+      setHasError(false);
+    }, [src]);
+
+    useEffect(() => {
+      if (shouldLoad) return;
+
+      // Defer even priority images by one animation frame so page transition completes smoothly first
+      if (priority) {
+        const rafId = window.requestAnimationFrame(() => {
+          setShouldLoad(true);
+        });
+        return () => window.cancelAnimationFrame(rafId);
+      }
+
+      const el = containerRef.current;
+      if (!el || typeof IntersectionObserver === 'undefined') {
+        setShouldLoad(true);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setShouldLoad(true);
+              observer.disconnect();
+              break;
+            }
+          }
+        },
+        {
+          root: scrollRootRef?.current || null,
+          rootMargin: '260px 0px',
+          threshold: 0.01,
+        }
+      );
+
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, [priority, shouldLoad, scrollRootRef, src]);
+
+    return (
+      <div
+        ref={containerRef}
+        style={{ borderRadius: 'var(--radius-image, 14px)' }}
+        className={cn(
+          'relative w-full overflow-hidden rounded-[inherit]',
+          !isLoaded && !hasError ? 'min-h-[190px]' : 'min-h-0'
+        )}
+      >
+        {!isLoaded && !hasError && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 rounded-[inherit] animate-pulse bg-gradient-to-br from-slate-400/15 via-slate-500/10 to-slate-400/20"
+          />
+        )}
+        {hasError && (
+          <div
+            aria-hidden="true"
+            className="w-full min-h-[190px] rounded-[inherit] flex items-center justify-center bg-gradient-to-br from-slate-900/55 to-slate-800/75 text-white/60"
+          >
+            <WebIcon name="image" className="w-7 h-7 opacity-60" />
+          </div>
+        )}
+        {shouldLoad && !hasError && (
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            fetchPriority={priority ? 'high' : 'low'}
+            referrerPolicy="no-referrer"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+            style={{ borderRadius: 'var(--radius-image, 14px)' }}
+            className={cn(
+              'memory-crisp-img w-full h-auto object-cover block rounded-[inherit] transition-all duration-300 group-hover:scale-[1.02]',
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            )}
+          />
+        )}
+      </div>
+    );
+  }
+);
+LazyMemoryImage.displayName = 'LazyMemoryImage';
+
+interface LazyFilmstripThumbProps {
+  src: string;
+  alt: string;
+  isActive: boolean;
+  isNearActive: boolean;
+  filmstripRootRef?: React.RefObject<HTMLElement | null>;
+}
+
+const LazyFilmstripThumb: React.FC<LazyFilmstripThumbProps> = React.memo(
+  ({ src, alt, isActive, isNearActive, filmstripRootRef }) => {
+    const thumbRef = useRef<HTMLDivElement>(null);
+    const [shouldLoad, setShouldLoad] = useState<boolean>(isActive || isNearActive);
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+    useEffect(() => {
+      if (isActive || isNearActive) {
+        setShouldLoad(true);
+      }
+    }, [isActive, isNearActive]);
+
+    useEffect(() => {
+      if (shouldLoad) return;
+      const el = thumbRef.current;
+      if (!el || typeof IntersectionObserver === 'undefined') {
+        setShouldLoad(true);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setShouldLoad(true);
+              observer.disconnect();
+              break;
+            }
+          }
+        },
+        {
+          root: filmstripRootRef?.current || null,
+          rootMargin: '0px 160px',
+          threshold: 0.01,
+        }
+      );
+
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, [shouldLoad, filmstripRootRef]);
+
+    return (
+      <div ref={thumbRef} className="relative w-full h-full rounded-[inherit] overflow-hidden">
+        {!isLoaded && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 animate-pulse bg-slate-500/20 rounded-[inherit]"
+          />
+        )}
+        {shouldLoad && (
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            fetchPriority={isActive ? 'high' : 'low'}
+            referrerPolicy="no-referrer"
+            onLoad={() => setIsLoaded(true)}
+            className={cn(
+              'w-full h-full object-cover rounded-[inherit] transition-opacity duration-200',
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            )}
+          />
+        )}
+      </div>
+    );
+  }
+);
+LazyFilmstripThumb.displayName = 'LazyFilmstripThumb';
+
 export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
@@ -31,7 +212,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
+  const [isLightboxImgLoaded, setIsLightboxImgLoaded] = useState<boolean>(false);
   const memoriesBannerVideo = getDefaultBannerVideoConfig('memories');
+  const mainCardScrollRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
@@ -69,6 +252,10 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
 
   const activePhoto: MemoryPhoto | null =
     activeLightboxIdx !== null ? filteredMemories[activeLightboxIdx] || null : null;
+
+  useEffect(() => {
+    setIsLightboxImgLoaded(false);
+  }, [activePhoto?.imageUrl]);
 
   // Auto-scroll active photo thumbnail into view in lightbox filmstrip
   useEffect(() => {
@@ -152,6 +339,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         className="page-cards-track"
       >
         <div
+          ref={mainCardScrollRef}
           id="memories-main-card"
           data-main-card="true"
           data-element-name="Thẻ chính Trang Kỷ Niệm"
@@ -431,23 +619,12 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   'themed-image-card memory-photo-item pinterest-pin-card break-inside-avoid mb-[16px] relative rounded-[var(--radius-image,14px)] overflow-hidden block group transition-all duration-300 p-0 shadow-sm border border-[var(--border-subcard)] hover:shadow-2xl'
                 )}
               >
-                {/* HÌNH ẢNH PINTEREST GIỮ NGUYÊN TỶ LỆ TỰ NHIÊN (WATERFALL MASONRY) */}
-                <img
+                {/* HÌNH ẢNH PINTEREST GIỮ NGUYÊN TỶ LỆ TỰ NHIÊN (WATERFALL MASONRY + LAZY LOADING) */}
+                <LazyMemoryImage
                   src={item.imageUrl}
                   alt={item.titleVi}
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    e.currentTarget.style.opacity = '0';
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      parent.style.backgroundImage =
-                        'linear-gradient(135deg, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.75) 100%)';
-                    }
-                  }}
-                  style={{ borderRadius: 'var(--radius-image, 14px)' }}
-                  className="memory-crisp-img w-full h-auto object-cover block rounded-[inherit] transition-all duration-300 group-hover:scale-[1.02]"
+                  priority={idx < 4}
+                  scrollRootRef={mainCardScrollRef}
                 />
 
                 {/* LỚP PHỦ PINTEREST THEO GIAO DIỆN — HIỆN TRƠN TRU KHI RÊ CHUỘT HOẶC FOCUS */}
@@ -550,12 +727,24 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 isDark ? 'bg-[#0B1220]' : 'bg-slate-100'
               )}
             >
+              {!isLightboxImgLoaded && (
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-500/15 via-slate-400/10 to-slate-500/20"
+                />
+              )}
               <img
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
+                loading="lazy"
                 decoding="async"
+                fetchPriority="high"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-contain rounded-[inherit] select-none"
+                onLoad={() => setIsLightboxImgLoaded(true)}
+                className={cn(
+                  'w-full h-full object-contain rounded-[inherit] select-none transition-opacity duration-200',
+                  isLightboxImgLoaded ? 'opacity-100' : 'opacity-0'
+                )}
               />
               <div
                 className={cn(
@@ -682,7 +871,15 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                       : 'border-transparent opacity-65 hover:opacity-100'
                   }`}
                 >
-                  <img src={thumb.imageUrl} alt={thumb.titleVi} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="w-full h-full object-cover rounded-[inherit]" />
+                  <LazyFilmstripThumb
+                    src={thumb.imageUrl}
+                    alt={thumb.titleVi}
+                    isActive={activeLightboxIdx === tIdx}
+                    isNearActive={
+                      activeLightboxIdx !== null && Math.abs(activeLightboxIdx - tIdx) <= 3
+                    }
+                    filmstripRootRef={filmstripRef}
+                  />
                 </button>
               ))}
             </div>

@@ -672,13 +672,31 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     resetGlassSettings,
     setAutoTimeTheme,
     isDark,
+    colorSchemeMode,
+    setColorSchemeMode,
     cornerRadius,
     setCornerRadius,
     resetCornerRadius,
+    getGlassSettingsForGroup,
+    isGroupGlassCustomized,
+    updateGroupGlassSettings,
+    resetGroupGlassSettings,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
   const activePreset = getCardStyleConfig(cardStyle);
+  const [selectedBlurGroupId, setSelectedBlurGroupId] = useState<ThemeFamilyId>(activePreset.familyId);
+
+  useEffect(() => {
+    setSelectedBlurGroupId(activePreset.familyId);
+  }, [activePreset.familyId]);
+
+  const selectedBlurGroup = useMemo(
+    () => CARD_STYLE_GROUPS.find((g) => g.id === selectedBlurGroupId) || CARD_STYLE_GROUPS[0],
+    [selectedBlurGroupId]
+  );
+  const selectedGroupGlass = getGlassSettingsForGroup(selectedBlurGroupId);
+  const isSelectedGroupBlurCustom = isGroupGlassCustomized(selectedBlurGroupId);
 
   const initialPrefs = useMemo(() => readInterfaceUiPrefs(), []);
   const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'all' | ThemeFamilyId>(
@@ -1422,6 +1440,302 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   );
                 })}
               </div>
+            </div>
+
+            {/* Đường phân cách tinh tế */}
+            <div className="w-full h-px my-1" style={{ background: 'var(--border-subcard)' }} />
+
+            {/* Tùy chỉnh 2: Chế độ Sáng / Tối đồng bộ & Độ mờ kính Main Card theo từng nhóm giao diện */}
+            <div
+              id="interface-group-blur-section"
+              className="flex flex-col gap-3"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
+                    style={{
+                      background: 'var(--bg-button-secondary, var(--bg-card))',
+                      color: 'var(--text-link, var(--color-primary))',
+                    }}
+                  >
+                    <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3
+                      className="typo-h5 font-bold tracking-tight truncate card-title-synced"
+                      data-card-title="true"
+                      style={{ color: 'var(--text-link, var(--color-primary))' }}
+                    >
+                      {isEn
+                        ? 'Synced Light/Dark & Main Card Glass Blur'
+                        : 'Chế độ Sáng/Tối & Độ mờ kính Main Card theo nhóm'}
+                    </h3>
+                    <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
+                      {isEn
+                        ? 'Smooth synchronized cross-fade between Light/Dark and per-theme-group glass blur (0–40px)'
+                        : 'Chuyển tiếp mượt giữa Sáng/Tối và lưu riêng độ mờ kính Main Card cho từng nhóm giao diện'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bộ chuyển nhanh Sáng / Tối / Hệ thống đồng bộ */}
+                <div
+                  role="group"
+                  aria-label={isEn ? 'Color scheme mode' : 'Chế độ Sáng Tối đồng bộ'}
+                  className={`inline-flex items-center gap-1 p-1 rounded-full shrink-0 ${
+                    isNeumorphismActive ? 'border-0' : 'border'
+                  }`}
+                  style={{
+                    background: 'var(--bg-card)',
+                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                  }}
+                >
+                  {(
+                    [
+                      { id: 'light' as const, icon: 'sun', labelVi: 'Sáng', labelEn: 'Light' },
+                      { id: 'dark' as const, icon: 'moon', labelVi: 'Tối', labelEn: 'Dark' },
+                      { id: 'system' as const, icon: 'settings', labelVi: 'Hệ thống', labelEn: 'Auto' },
+                    ]
+                  ).map((modeItem) => {
+                    const isActiveMode = colorSchemeMode === modeItem.id;
+                    return (
+                      <button
+                        key={modeItem.id}
+                        type="button"
+                        aria-pressed={isActiveMode}
+                        onClick={() => {
+                          SoundEngine.playGlassChime();
+                          setColorSchemeMode(modeItem.id);
+                          onShowNotification?.(
+                            isEn
+                              ? `✓ Switched color mode to ${modeItem.labelEn}`
+                              : `✓ Đã chuyển chế độ hiển thị: ${modeItem.labelVi}`
+                          );
+                        }}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer whitespace-nowrap"
+                        style={
+                          isActiveMode
+                            ? {
+                                background: 'var(--bg-button-primary)',
+                                color: 'var(--text-button-primary, #FFFFFF)',
+                              }
+                            : { color: 'var(--text-secondary)' }
+                        }
+                      >
+                        <WebIcon name={modeItem.icon} className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? modeItem.labelEn : modeItem.labelVi}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Thanh chọn Nhóm giao diện để chỉnh độ mờ kính Main Card */}
+              <div
+                role="tablist"
+                aria-label={isEn ? 'Select theme family for blur customization' : 'Chọn nhóm giao diện để chỉnh độ mờ kính'}
+                className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"
+              >
+                {CARD_STYLE_GROUPS.map((grp) => {
+                  const isEditingGroup = selectedBlurGroupId === grp.id;
+                  const isCurrentThemeGroup = activePreset.familyId === grp.id;
+                  const grpCustom = isGroupGlassCustomized(grp.id);
+                  const grpBlur = getGlassSettingsForGroup(grp.id).blurIntensity;
+                  return (
+                    <button
+                      key={grp.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isEditingGroup}
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setSelectedBlurGroupId(grp.id);
+                      }}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                        isNeumorphismActive ? 'border-0' : 'border'
+                      }`}
+                      style={
+                        isEditingGroup
+                          ? {
+                              background: 'var(--bg-button-primary)',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                              ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
+                            }
+                          : {
+                              background: 'var(--bg-card)',
+                              color: isCurrentThemeGroup
+                                ? 'var(--text-link, var(--color-primary))'
+                                : 'var(--text-primary)',
+                              ...(isNeumorphismActive
+                                ? {}
+                                : {
+                                    borderColor: isCurrentThemeGroup
+                                      ? 'var(--color-primary)'
+                                      : 'var(--border-subcard)',
+                                  }),
+                            }
+                      }
+                    >
+                      <WebIcon name={grp.icon} className="w-3 h-3 shrink-0" />
+                      <span>{isEn ? grp.labelEn : grp.label}</span>
+                      <span className="font-mono text-[10px] opacity-80 tabular-nums">
+                        {grpBlur}px{grpCustom ? '•' : ''}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Thanh trượt độ mờ kính Main Card + Preset nhanh + Reset mặc định nhóm */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                  <span
+                    className="typo-badge font-mono tabular-nums shrink-0"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    0px
+                  </span>
+                  <input
+                    id="interface-group-blur-slider"
+                    type="range"
+                    min={0}
+                    max={40}
+                    step={1}
+                    value={selectedGroupGlass.blurIntensity}
+                    onChange={(e) => {
+                      updateGroupGlassSettings(selectedBlurGroupId, {
+                        blurIntensity: Number(e.target.value),
+                      });
+                    }}
+                    aria-label={
+                      isEn
+                        ? `Main Card glass blur for ${selectedBlurGroup.labelEn} in pixels`
+                        : `Độ mờ kính Main Card cho nhóm ${selectedBlurGroup.label} (px)`
+                    }
+                    className="w-full h-2 rounded-full cursor-pointer accent-[var(--color-primary)]"
+                  />
+                  <span
+                    className="typo-badge font-mono tabular-nums shrink-0"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    40px
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+                  <span
+                    id="interface-group-blur-value"
+                    className={`px-2.5 py-1 rounded-full typo-badge font-mono font-bold tabular-nums whitespace-nowrap ${
+                      isNeumorphismActive ? 'border-0' : 'border'
+                    }`}
+                    style={{
+                      background: 'var(--bg-card)',
+                      color: 'var(--text-link, var(--color-primary))',
+                      ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                    }}
+                  >
+                    {selectedGroupGlass.blurIntensity}px
+                  </span>
+
+                  {[0, 10, 18, 24, 32].map((presetBlur) => {
+                    const isSelectedBlur = selectedGroupGlass.blurIntensity === presetBlur;
+                    return (
+                      <button
+                        key={presetBlur}
+                        type="button"
+                        aria-pressed={isSelectedBlur}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          updateGroupGlassSettings(selectedBlurGroupId, {
+                            blurIntensity: presetBlur,
+                          });
+                        }}
+                        className={`px-2 py-1 rounded-full typo-badge font-mono font-bold tabular-nums transition-all cursor-pointer whitespace-nowrap ${
+                          isNeumorphismActive ? 'border-0' : 'border'
+                        }`}
+                        style={
+                          isSelectedBlur
+                            ? {
+                                background: 'var(--bg-button-primary)',
+                                color: 'var(--text-button-primary, #FFFFFF)',
+                                ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
+                              }
+                            : {
+                                background: 'var(--bg-card)',
+                                color: 'var(--text-primary)',
+                                ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                              }
+                        }
+                      >
+                        {presetBlur}px
+                      </button>
+                    );
+                  })}
+
+                  <button
+                    id="interface-group-blur-reset-btn"
+                    type="button"
+                    disabled={!isSelectedGroupBlurCustom}
+                    onClick={() => {
+                      SoundEngine.playGlassChime();
+                      resetGroupGlassSettings(selectedBlurGroupId);
+                      onShowNotification?.(
+                        isEn
+                          ? `✓ Restored default Main Card blur for ${selectedBlurGroup.labelEn}`
+                          : `✓ Đã khôi phục độ mờ kính mặc định cho nhóm ${selectedBlurGroup.label}`
+                      );
+                    }}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
+                      isNeumorphismActive ? 'border-0' : 'border'
+                    } ${
+                      !isSelectedGroupBlurCustom
+                        ? 'opacity-45 cursor-not-allowed'
+                        : 'cursor-pointer hover:opacity-90'
+                    }`}
+                    style={{
+                      background: 'var(--bg-card)',
+                      color: 'var(--text-primary)',
+                      ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
+                    }}
+                    title={
+                      isEn
+                        ? `Reset blur for ${selectedBlurGroup.labelEn}`
+                        : `Đặt lại độ mờ mặc định của nhóm ${selectedBlurGroup.label}`
+                    }
+                  >
+                    <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+                    <span>{isEn ? 'Reset' : 'Mặc định'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {selectedBlurGroupId !== activePreset.familyId && (
+                <div className="flex flex-wrap items-center justify-between gap-2 typo-caption" style={{ color: 'var(--text-muted)' }}>
+                  <span>
+                    {isEn
+                      ? `Editing saved blur for "${selectedBlurGroup.labelEn}". Apply this theme group to preview live.`
+                      : `Đang chỉnh độ mờ đã lưu cho nhóm "${selectedBlurGroup.label}". Chọn áp dụng nhóm này để xem trực tiếp.`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const targetMode =
+                        isDark && selectedBlurGroup.darkMode
+                          ? selectedBlurGroup.darkMode
+                          : selectedBlurGroup.lightMode || selectedBlurGroup.defaultMode;
+                      handleSelectTheme(
+                        targetMode,
+                        isEn ? selectedBlurGroup.labelEn : selectedBlurGroup.label
+                      );
+                    }}
+                    className="typo-badge font-bold underline underline-offset-2 cursor-pointer"
+                    style={{ color: 'var(--text-link, var(--color-primary))' }}
+                  >
+                    {isEn ? 'Switch to this group' : 'Chuyển sang nhóm này'}
+                  </button>
+                </div>
+              )}
             </div>
           </section>
 

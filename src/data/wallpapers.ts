@@ -172,7 +172,7 @@ export function parseCssStringToStyle(cssText: string): React.CSSProperties {
 }
 
 /**
- * Kiểm tra một hình nền có thuộc dạng CodePen hay không để loại bỏ khỏi danh sách
+ * Kiểm tra một hình nền có thuộc dạng CodePen hoặc 3D · Qua trang (WebGL) đã gỡ bỏ hay không
  */
 export function isCodePenWallpaper(wp?: Partial<WallpaperPreset> & { type?: string } | null): boolean {
   if (!wp) return false;
@@ -183,6 +183,9 @@ export function isCodePenWallpaper(wp?: Partial<WallpaperPreset> & { type?: stri
   const bgStr = String(wp.bg || '').toLowerCase();
   return (
     typeStr === 'codepen' ||
+    typeStr === 'webgl' ||
+    idStr.startsWith('gravity-') ||
+    idStr === 'webgl-dot-grid-waves' ||
     idStr.includes('codepen') ||
     nameStr.includes('codepen') ||
     valueStr.includes('codepen.io') ||
@@ -381,102 +384,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1795400000008,
-  },
-  {
-    id: 'gravity-auto-morph',
-    name: 'Gravity 3D — Chuyển Sắc Theo Trang (Auto Morph)',
-    type: 'webgl',
-    value: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
-    bg: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 22% 24%, rgba(47, 105, 255, 0.25) 0%, transparent 45%), radial-gradient(circle at 78% 28%, rgba(225, 252, 3, 0.28) 0%, transparent 45%), radial-gradient(circle at 54% 82%, rgba(255, 166, 179, 0.35) 0%, transparent 50%), radial-gradient(circle at center, #ffffff 0%, #ecefff 40%, #c2d1ff 100%)',
-    },
-    gravityConfig: {
-      paletteId: 'autoMorph',
-      morphOnPageChange: false,
-      swatchColor: '#2F69FF',
-      secondaryColor: '#FFA6B3',
-      previewSpheres: ['#2F69FF', '#E1FC03', '#FFA6B3', '#96E5FF'],
-    },
-    isCustom: false,
-    createdAt: 1794400000001,
-  },
-  {
-    id: 'gravity-royal-blue',
-    name: 'Gravity 3D — Royal Blue & Pearl (#2F69FF)',
-    type: 'webgl',
-    value: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
-    bg: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
-    previewStyle: {
-      background: 'radial-gradient(circle at center, #ffffff 0%, #ecefff 35%, #c2d1ff 100%)',
-    },
-    gravityConfig: {
-      paletteId: 'roseGold',
-      morphOnPageChange: false,
-      swatchColor: '#2F69FF',
-      secondaryColor: '#A8C1FF',
-      previewSpheres: ['#0A33BF', '#2F69FF', '#A8C1FF', '#4D80FF'],
-    },
-    isCustom: false,
-    createdAt: 1794400000002,
-  },
-  {
-    id: 'gravity-rose-blush',
-    name: 'Gravity 3D — Rose Blush & Crème (#FFC5C2)',
-    type: 'webgl',
-    value: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
-    bg: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
-    previewStyle: {
-      background: 'radial-gradient(circle at center, #ffffff 0%, #fff0f1 38%, #ffd1d5 100%)',
-    },
-    gravityConfig: {
-      paletteId: 'pinkBlush',
-      morphOnPageChange: false,
-      swatchColor: '#FFA6B3',
-      secondaryColor: '#FF4D6D',
-      previewSpheres: ['#FF4D6D', '#FFA6B3', '#FFECEB', '#FFC5C2'],
-    },
-    isCustom: false,
-    createdAt: 1794400000003,
-  },
-  {
-    id: 'gravity-volt-lime',
-    name: 'Gravity 3D — Volt Lime & Slate (#E1FC03)',
-    type: 'webgl',
-    value: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
-    bg: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
-    previewStyle: {
-      background: 'radial-gradient(circle at center, #ffffff 0%, #fbffe5 38%, #e8ff9c 100%)',
-    },
-    gravityConfig: {
-      paletteId: 'voltLime',
-      morphOnPageChange: false,
-      swatchColor: '#E1FC03',
-      secondaryColor: '#B1E200',
-      previewSpheres: ['#B1E200', '#E1FC03', '#EFFE69', '#DCFF32'],
-    },
-    isCustom: false,
-    createdAt: 1794400000004,
-  },
-  {
-    id: 'gravity-arctic-blue',
-    name: 'Gravity 3D — Arctic Sky & Crystal (#96E5FF)',
-    type: 'webgl',
-    value: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
-    bg: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
-    previewStyle: {
-      background: 'radial-gradient(circle at center, #ffffff 0%, #effaff 38%, #c9f1ff 100%)',
-    },
-    gravityConfig: {
-      paletteId: 'arcticBlue',
-      morphOnPageChange: false,
-      swatchColor: '#96E5FF',
-      secondaryColor: '#2BA5FF',
-      previewSpheres: ['#2BA5FF', '#96E5FF', '#C9F1FF', '#98E4FF'],
-    },
-    isCustom: false,
-    createdAt: 1794400000005,
   },
   {
     id: 'theme-bg-cowhide-leather',
@@ -2150,17 +2057,5 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794500000016,
-  },
-  {
-    id: 'webgl-dot-grid-waves',
-    name: 'Lưới chấm sóng tương tác (Dot Grid Waves #363)',
-    type: 'webgl',
-    value: 'dot-grid-waves',
-    bg: 'radial-gradient(circle at center, rgba(106,87,242,0.12) 0%, transparent 70%), var(--ux-surface, #13141C)',
-    previewStyle: {
-      background: 'radial-gradient(circle at center, rgba(106,87,242,0.18) 0%, #13141C 100%)',
-    },
-    isCustom: false,
-    createdAt: 1794500000017,
   },
 ];

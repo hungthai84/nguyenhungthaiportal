@@ -7,7 +7,7 @@ import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
-const UNIFORM_RIGHT_PILL_WIDTH = 157;
+const UNIFORM_RIGHT_PILL_WIDTH = 154;
 
 const FAMILY_SWATCHES: Record<string, string[]> = {
   'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
@@ -140,7 +140,33 @@ const FooterComponent: React.FC<FooterProps> = ({
     );
   };
 
-  const { cardStyle, setCardStyle, isDark } = useTheme();
+  const {
+    cardStyle,
+    committedCardStyle,
+    previewCardStyle,
+    setPreviewCardStyle,
+    setCardStyle,
+    isDark,
+    toggleLightDark,
+    getGlassSettingsForGroup,
+    isGroupGlassCustomized,
+    updateGroupGlassSettings,
+    resetGroupGlassSettings,
+  } = useTheme();
+  const savedCardStyle = committedCardStyle;
+
+  useEffect(() => {
+    if (!isThemeMenuOpen) {
+      setPreviewCardStyle(null);
+    }
+  }, [isThemeMenuOpen, setPreviewCardStyle]);
+
+  useEffect(() => {
+    return () => {
+      setPreviewCardStyle(null);
+    };
+  }, [setPreviewCardStyle]);
+
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -155,7 +181,7 @@ const FooterComponent: React.FC<FooterProps> = ({
     WebkitBackdropFilter: _fwbf,
     ...cleanFooterStyle
   } = footerCardStyle as unknown as Record<string, unknown>;
-  const activeThemeConfig = getCardStyleConfig(cardStyle);
+  const activeThemeConfig = getCardStyleConfig(savedCardStyle);
 
   // Theo dõi chiều rộng viewport tối ưu bằng requestAnimationFrame (không gây layout thrashing khi đổi trang)
   useEffect(() => {
@@ -284,6 +310,7 @@ const FooterComponent: React.FC<FooterProps> = ({
         ? THEME_FOUR_WORD_NAMES[mode]?.en || t(getCardStyleConfig(mode).name)
         : THEME_FOUR_WORD_NAMES[mode]?.vi || getCardStyleConfig(mode).name;
       SoundEngine.playGlassChime();
+      setPreviewCardStyle(null);
       setCardStyle(mode);
       setIsThemeMenuOpen(false);
       setHoveredRightBtn(null);
@@ -296,12 +323,19 @@ const FooterComponent: React.FC<FooterProps> = ({
       );
     };
 
+    const previewThemeName = previewCardStyle
+      ? isEn
+        ? THEME_FOUR_WORD_NAMES[previewCardStyle]?.en || t(getCardStyleConfig(previewCardStyle).name)
+        : THEME_FOUR_WORD_NAMES[previewCardStyle]?.vi || getCardStyleConfig(previewCardStyle).name
+      : null;
+
     return (
       <div
         id="footer-theme-popup"
         role="listbox"
         aria-label={isEn ? 'Select Theme' : 'Chọn giao diện'}
         ref={themePopupRef}
+        onMouseLeave={() => setPreviewCardStyle(null)}
         style={{ background: 'var(--bg-popup)' }}
         className={`theme-popup absolute bottom-[calc(100%+12px)] ${
           mobilePlacement
@@ -309,16 +343,77 @@ const FooterComponent: React.FC<FooterProps> = ({
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
         } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
       >
-        <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
+        <div
+          className="px-2.5 py-1 typo-badge font-semibold border-b flex items-center justify-between gap-2 min-w-0"
+          style={{
+            color: previewThemeName
+              ? 'var(--text-link, var(--color-primary))'
+              : 'var(--text-secondary)',
+            borderColor: 'var(--border-subcard)',
+          }}
+        >
+          <span className="truncate">
+            {previewThemeName
+              ? isEn
+                ? `Preview: ${previewThemeName}`
+                : `Xem trước: ${previewThemeName}`
+              : isEn
+                ? 'Hover to preview 18 themes live'
+                : 'Rê chuột xem trước 18 giao diện'}
+          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {previewThemeName && (
+              <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]" aria-hidden="true" />
+            )}
+            <button
+              id="footer-popup-light-dark-toggle"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                SoundEngine.playGlassChime();
+                setPreviewCardStyle(null);
+                toggleLightDark();
+                onShowNotification(
+                  isEn
+                    ? isDark
+                      ? '✓ Switched smoothly to Light mode'
+                      : '✓ Switched smoothly to Dark mode'
+                    : isDark
+                      ? '✓ Đã chuyển mượt sang chế độ Sáng'
+                      : '✓ Đã chuyển mượt sang chế độ Tối'
+                );
+              }}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border typo-badge font-bold cursor-pointer transition-colors whitespace-nowrap"
+              style={{
+                background: 'var(--bg-card)',
+                borderColor: 'var(--border-subcard)',
+                color: 'var(--text-link, var(--color-primary))',
+              }}
+              title={isEn ? 'Toggle Light / Dark mode' : 'Chuyển nhanh Sáng / Tối'}
+            >
+              <WebIcon name={isDark ? 'sun' : 'moon'} className="w-3 h-3 shrink-0" />
+              <span>{isEn ? (isDark ? 'Light' : 'Dark') : isDark ? 'Sáng' : 'Tối'}</span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          onMouseLeave={() => setPreviewCardStyle(null)}
+          className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1"
+        >
           {CARD_STYLE_GROUPS.map((group) => {
             const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
             const darkMode = group.darkMode;
             const hasDualModes = Boolean(lightMode && darkMode && darkMode !== lightMode);
-            const isLightActive = Boolean(lightMode && cardStyle === lightMode);
-            const isDarkActive = Boolean(hasDualModes && darkMode && cardStyle === darkMode);
+            const isLightActive = Boolean(lightMode && savedCardStyle === lightMode);
+            const isDarkActive = Boolean(hasDualModes && darkMode && savedCardStyle === darkMode);
             const isGroupActive = isLightActive || isDarkActive;
+            const isLightPreviewing = Boolean(lightMode && previewCardStyle === lightMode);
+            const isDarkPreviewing = Boolean(hasDualModes && darkMode && previewCardStyle === darkMode);
+            const isGroupPreviewing = isLightPreviewing || isDarkPreviewing;
+            const rowPreferredMode = hasDualModes && isDark && darkMode ? darkMode : lightMode;
             const groupTitle = isEn ? group.labelEn : group.label;
-            const itemColor = isGroupActive
+            const itemColor = isGroupActive || isGroupPreviewing
               ? 'var(--text-link, var(--color-primary))'
               : 'var(--text-primary)';
             const swatches = FAMILY_SWATCHES[group.id] || [];
@@ -327,19 +422,29 @@ const FooterComponent: React.FC<FooterProps> = ({
               <div
                 key={group.id}
                 data-selected={isGroupActive ? 'true' : undefined}
-                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border min-w-0 ${
-                  isGroupActive ? '' : 'theme-dropdown-option border-transparent'
+                data-previewing={isGroupPreviewing ? 'true' : undefined}
+                onMouseEnter={() => {
+                  if (rowPreferredMode) setPreviewCardStyle(rowPreferredMode);
+                }}
+                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border min-w-0 transition-colors duration-150 ${
+                  isGroupActive || isGroupPreviewing ? '' : 'theme-dropdown-option border-transparent'
                 }`}
                 style={{
-                  background: isGroupActive ? 'var(--bg-subcard)' : undefined,
-                  borderColor: isGroupActive ? 'var(--color-primary)' : 'transparent',
+                  background: isGroupActive || isGroupPreviewing ? 'var(--bg-subcard)' : undefined,
+                  borderColor: isGroupActive
+                    ? 'var(--color-primary)'
+                    : isGroupPreviewing
+                      ? 'color-mix(in srgb, var(--color-primary) 55%, transparent)'
+                      : 'transparent',
                 }}
               >
                 <button
                   type="button"
+                  onFocus={() => {
+                    if (rowPreferredMode) setPreviewCardStyle(rowPreferredMode);
+                  }}
                   onClick={() => {
-                    const preferred = hasDualModes && isDark && darkMode ? darkMode : lightMode;
-                    if (preferred) applyThemeFromPopup(preferred);
+                    if (rowPreferredMode) applyThemeFromPopup(rowPreferredMode);
                   }}
                   className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5"
                   style={{ color: itemColor }}
@@ -383,6 +488,11 @@ const FooterComponent: React.FC<FooterProps> = ({
                     <button
                       type="button"
                       aria-pressed={isLightActive}
+                      onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        setPreviewCardStyle(lightMode);
+                      }}
+                      onFocus={() => setPreviewCardStyle(lightMode)}
                       onClick={(e) => {
                         e.stopPropagation();
                         applyThemeFromPopup(lightMode);
@@ -392,11 +502,11 @@ const FooterComponent: React.FC<FooterProps> = ({
                           ? THEME_FOUR_WORD_NAMES[lightMode]?.en
                           : THEME_FOUR_WORD_NAMES[lightMode]?.vi
                       }
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap ${
-                        isLightActive ? '' : 'opacity-75'
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap transition-colors ${
+                        isLightActive || isLightPreviewing ? '' : 'opacity-75'
                       }`}
                       style={
-                        isLightActive
+                        isLightActive || isLightPreviewing
                           ? {
                               background: 'var(--bg-button-primary)',
                               color: 'var(--text-button-primary, #FFFFFF)',
@@ -413,6 +523,11 @@ const FooterComponent: React.FC<FooterProps> = ({
                     <button
                       type="button"
                       aria-pressed={isDarkActive}
+                      onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        setPreviewCardStyle(darkMode);
+                      }}
+                      onFocus={() => setPreviewCardStyle(darkMode)}
                       onClick={(e) => {
                         e.stopPropagation();
                         applyThemeFromPopup(darkMode);
@@ -422,11 +537,11 @@ const FooterComponent: React.FC<FooterProps> = ({
                           ? THEME_FOUR_WORD_NAMES[darkMode]?.en
                           : THEME_FOUR_WORD_NAMES[darkMode]?.vi
                       }
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap ${
-                        isDarkActive ? '' : 'opacity-75'
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer whitespace-nowrap transition-colors ${
+                        isDarkActive || isDarkPreviewing ? '' : 'opacity-75'
                       }`}
                       style={
-                        isDarkActive
+                        isDarkActive || isDarkPreviewing
                           ? {
                               background: 'var(--bg-button-primary)',
                               color: 'var(--text-button-primary, #FFFFFF)',
@@ -443,6 +558,74 @@ const FooterComponent: React.FC<FooterProps> = ({
             );
           })}
         </div>
+
+        {/* Thanh chỉnh nhanh độ mờ kính Main Card cho nhóm giao diện đang dùng */}
+        {(() => {
+          const activeFamilyId = activeThemeConfig.familyId;
+          const activeGroupMeta = CARD_STYLE_GROUPS.find((g) => g.id === activeFamilyId);
+          const groupGlass = getGlassSettingsForGroup(activeFamilyId);
+          const isGroupCustom = isGroupGlassCustomized(activeFamilyId);
+          return (
+            <div
+              id="footer-popup-group-blur"
+              className="mt-1 pt-2 px-2 pb-1 border-t flex flex-col gap-1.5"
+              style={{ borderColor: 'var(--border-subcard)' }}
+              onMouseEnter={() => setPreviewCardStyle(null)}
+            >
+              <div className="flex items-center justify-between gap-2 min-w-0">
+                <span
+                  className="typo-badge font-semibold truncate inline-flex items-center gap-1"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  <WebIcon name="sparkles" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
+                  <span className="truncate">
+                    {isEn
+                      ? `Main Card Blur · ${activeGroupMeta?.labelEn || activeFamilyId}`
+                      : `Độ mờ kính · ${activeGroupMeta?.label || activeFamilyId}`}
+                  </span>
+                </span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span
+                    className="typo-badge font-mono font-bold tabular-nums"
+                    style={{ color: 'var(--text-link, var(--color-primary))' }}
+                  >
+                    {groupGlass.blurIntensity}px
+                  </span>
+                  {isGroupCustom && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        SoundEngine.playTap();
+                        resetGroupGlassSettings(activeFamilyId);
+                      }}
+                      className="p-0.5 rounded-full cursor-pointer opacity-80 hover:opacity-100"
+                      style={{ color: 'var(--text-secondary)' }}
+                      title={isEn ? 'Reset blur to default' : 'Đặt lại độ mờ mặc định'}
+                      aria-label={isEn ? 'Reset blur to default' : 'Đặt lại độ mờ mặc định'}
+                    >
+                      <WebIcon name="rotate-ccw" className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={40}
+                step={1}
+                value={groupGlass.blurIntensity}
+                onChange={(e) => {
+                  updateGroupGlassSettings(activeFamilyId, {
+                    blurIntensity: Number(e.target.value),
+                  });
+                }}
+                aria-label={isEn ? 'Main Card glass blur intensity' : 'Độ mờ kính Main Card'}
+                className="w-full h-1.5 rounded-full cursor-pointer accent-[var(--color-primary)]"
+              />
+            </div>
+          );
+        })()}
       </div>
     );
   };
@@ -458,25 +641,25 @@ const FooterComponent: React.FC<FooterProps> = ({
         ...cleanFooterStyle,
         maxWidth: 'var(--main-card-target-w, 1000px)',
         width: '100%',
-        height: 'auto',
-        minHeight: 0,
+        height: '100%',
+        minHeight: '100%',
         boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '5px',
-        paddingBottom: '5px',
+        paddingTop: '10px',
+        paddingBottom: '10px',
         borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
         borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
       }}
-      className="mx-auto h-auto min-h-0 py-[5px] flex flex-nowrap items-center justify-between px-[10px] sm:px-[15px] z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto w-full h-full min-h-full py-[10px] flex flex-nowrap items-center justify-between px-[10px] sm:px-[15px] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
     >
       <div
-        className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
+        className={`w-full h-full relative flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
           isCompactMobile
             ? 'overflow-x-auto overflow-y-hidden horizontal-scroll-smooth'
             : 'overflow-visible'
@@ -485,7 +668,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       {/* Area 1: Weather Widget */}
       <div
         id="el-p0-div-109"
-        className="w-auto md:max-w-[calc(50%-92px)] h-full flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
+        className="w-auto md:max-w-[calc(50%-92px)] h-auto flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
         style={{
           paddingRight: '0px',
           paddingBottom: '0px',
@@ -497,7 +680,7 @@ const FooterComponent: React.FC<FooterProps> = ({
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md */}
       <div
-        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 flex items-center justify-center shrink-0 transition-opacity duration-200 ease-out ${
+        className={`w-auto h-auto relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 flex items-center justify-center shrink-0 transition-opacity duration-200 ease-out ${
           hideCenterNavCapsule
             ? 'opacity-0 pointer-events-none'
             : 'opacity-100 pointer-events-auto'
@@ -594,11 +777,11 @@ const FooterComponent: React.FC<FooterProps> = ({
             setFocusedRightBtn(null);
           }
         }}
-        className="w-auto md:max-w-[calc(50%-88px)] h-full flex items-center justify-end overflow-visible md:pl-2 min-w-0 relative z-20 shrink-0"
+        className="w-auto md:max-w-[calc(50%-88px)] h-auto flex items-center justify-end overflow-visible md:pl-2 min-w-0 relative z-20 shrink-0"
       >
         <div
           id="el-p0-div-113"
-          className={`relative flex flex-nowrap items-center justify-end py-0.5 overflow-visible ${
+          className={`relative flex flex-nowrap items-center justify-end py-0 overflow-visible ${
             isCompactMobile ? 'gap-1.5' : ''
           }`}
         >
@@ -607,10 +790,10 @@ const FooterComponent: React.FC<FooterProps> = ({
             ref={langMenuRef}
             onPointerEnter={(e) => handleRightBtnPointerEnter(0, e)}
             style={getDeckItemStyle(0, isLangMenuOpen)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+            className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
           >
             <div
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between self-center my-auto rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
               style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
@@ -619,6 +802,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }}
                 id="footer-lang-btn"
                 type="button"
+                role="button"
                 data-active={isLangMenuOpen ? 'true' : 'false'}
                 aria-haspopup="listbox"
                 aria-controls="footer-lang-popup"
@@ -634,26 +818,32 @@ const FooterComponent: React.FC<FooterProps> = ({
                     : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                 }
                 aria-expanded={isLangMenuOpen}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
                 style={
                   {
                     '--nav-pill-accent': '#10B981',
+                    '--nav-pill-wipe-bg': 'linear-gradient(82.3deg, #047857 10.8%, #059669 52%, #10B981 94.3%)',
                     width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
+                    height: 'auto',
+                    minHeight: '0px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
+                    paddingBottom: '8px',
+                    paddingLeft: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="languages" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon
+                    name="languages"
+                    isActive={isLangMenuOpen}
+                    className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
+                  />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                   <span
                     data-no-translate="true"
                     style={{ fontWeight: 'bold' }}
@@ -674,10 +864,10 @@ const FooterComponent: React.FC<FooterProps> = ({
             ref={themeMenuRef}
             onPointerEnter={(e) => handleRightBtnPointerEnter(1, e)}
             style={getDeckItemStyle(1, isThemeMenuOpen)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+            className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
           >
             <div
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between self-center my-auto rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
               style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
@@ -686,86 +876,93 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }}
                 id="footer-appearance-btn"
                 type="button"
+                role="button"
                 aria-haspopup="listbox"
                 aria-controls="footer-theme-popup"
-                    aria-current={currentTabIndex === 15 ? 'page' : undefined}
-                    data-active={currentTabIndex === 15 || isThemeMenuOpen ? 'true' : 'false'}
-                    onFocus={() => setFocusedRightBtn(1)}
-                    onClick={(e) => {
-                      setIsLangMenuOpen(false);
-                      const now = Date.now();
-                      const isRapidSecondClick =
-                        e.detail >= 2 || now - themeLastClickTimeRef.current <= 320;
-                      if (isRapidSecondClick) {
-                        themeDblHandledRef.current = true;
-                        themeLastClickTimeRef.current = 0;
-                        e.currentTarget.blur();
-                        handleOpenAppearancePage();
-                        return;
-                      }
-                      themeDblHandledRef.current = false;
-                      themeLastClickTimeRef.current = now;
-                      SoundEngine.playTap();
-                      setIsThemeMenuOpen((prev) => !prev);
-                    }}
-                    onDoubleClick={(e) => {
-                      e.stopPropagation();
-                      e.currentTarget.blur();
-                      if (themeDblHandledRef.current) {
-                        themeDblHandledRef.current = false;
-                        return;
-                      }
-                      themeLastClickTimeRef.current = 0;
-                      handleOpenAppearancePage();
-                    }}
-                    title={
-                      isEn
-                        ? `Theme (${t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
-                        : `Giao diện (${THEME_FOUR_WORD_NAMES[cardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
-                    }
-                    aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
-                    style={
-                      {
-                        '--nav-pill-accent': '#6366F1',
-                        width: '154px',
-                        height: '42px',
-                        paddingTop: '6px',
-                        paddingBottom: '6px',
-                        paddingLeft: '10px',
-                        paddingRight: '10px',
-                        fontWeight: 'normal',
-                        borderWidth: '1px',
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
-                    </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                    <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                      <span
-                        style={{ fontWeight: 'bold' }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
-                      >
-                        {isEn ? 'Theme' : 'Giao Diện'}
-                      </span>
-                    </div>
-                  </button>
+                aria-current={currentTabIndex === 15 ? 'page' : undefined}
+                data-active={currentTabIndex === 15 || isThemeMenuOpen ? 'true' : 'false'}
+                onFocus={() => setFocusedRightBtn(1)}
+                onClick={(e) => {
+                  setIsLangMenuOpen(false);
+                  const now = Date.now();
+                  const isRapidSecondClick =
+                    e.detail >= 2 || now - themeLastClickTimeRef.current <= 320;
+                  if (isRapidSecondClick) {
+                    themeDblHandledRef.current = true;
+                    themeLastClickTimeRef.current = 0;
+                    e.currentTarget.blur();
+                    handleOpenAppearancePage();
+                    return;
+                  }
+                  themeDblHandledRef.current = false;
+                  themeLastClickTimeRef.current = now;
+                  SoundEngine.playTap();
+                  setIsThemeMenuOpen((prev) => !prev);
+                }}
+                onDoubleClick={(e) => {
+                  e.stopPropagation();
+                  e.currentTarget.blur();
+                  if (themeDblHandledRef.current) {
+                    themeDblHandledRef.current = false;
+                    return;
+                  }
+                  themeLastClickTimeRef.current = 0;
+                  handleOpenAppearancePage();
+                }}
+                title={
+                  isEn
+                    ? `Theme (${t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
+                    : `Giao diện (${THEME_FOUR_WORD_NAMES[savedCardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
+                }
+                aria-expanded={isThemeMenuOpen}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
+                style={
+                  {
+                    '--nav-pill-accent': '#6366F1',
+                    '--nav-pill-wipe-bg': 'linear-gradient(82.3deg, #4338CA 10.8%, #6366F1 52%, #818CF8 94.3%)',
+                    width: '154px',
+                    height: 'auto',
+                    minHeight: '0px',
+                    paddingTop: '8px',
+                    paddingRight: '10px',
+                    paddingBottom: '8px',
+                    paddingLeft: '10px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
+                  } as React.CSSProperties
+                }
+              >
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon
+                    name="layers"
+                    isActive={currentTabIndex === 15 || isThemeMenuOpen}
+                    className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
+                  />
                 </div>
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
+                  <span
+                    style={{ fontWeight: 'bold' }}
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
+                  >
+                    {isEn ? 'Theme' : 'Giao Diện'}
+                  </span>
+                </div>
+              </button>
+            </div>
 
-                {/* Popup Menu Giao Diện (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
-                {!isCompactMobile && isThemeMenuOpen && renderThemePopup(false)}
-              </div>
+            {/* Popup Menu Giao Diện (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
+            {!isCompactMobile && isThemeMenuOpen && renderThemePopup(false)}
+          </div>
 
           {/* Button 2: Hình Nền */}
           <div
             onPointerEnter={(e) => handleRightBtnPointerEnter(2, e)}
             style={getDeckItemStyle(2)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+            className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
           >
             <div
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between self-center my-auto rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
               style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
@@ -774,6 +971,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }}
                 id="footer-wallpaper-btn"
                 type="button"
+                role="button"
                 aria-current={currentTabIndex === 14 ? 'page' : undefined}
                 data-active={currentTabIndex === 14 ? 'true' : 'false'}
                 onFocus={() => setFocusedRightBtn(2)}
@@ -782,26 +980,32 @@ const FooterComponent: React.FC<FooterProps> = ({
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
                 style={
                   {
                     '--nav-pill-accent': '#F43F5E',
+                    '--nav-pill-wipe-bg': 'linear-gradient(82.3deg, #BE123C 10.8%, #E11D48 52%, #F43F5E 94.3%)',
                     width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
+                    height: 'auto',
+                    minHeight: '0px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
+                    paddingBottom: '8px',
+                    paddingLeft: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="image" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon
+                    name="image"
+                    isActive={currentTabIndex === 14}
+                    className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
+                  />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                   <span
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
@@ -817,10 +1021,10 @@ const FooterComponent: React.FC<FooterProps> = ({
           <div
             onPointerEnter={(e) => handleRightBtnPointerEnter(3, e)}
             style={getDeckItemStyle(3)}
-            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+            className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
           >
             <div
-              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between self-center my-auto rounded-[999px] select-none w-max h-auto p-0 bg-transparent border-0"
               style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
@@ -829,6 +1033,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }}
                 id="footer-ai-btn"
                 type="button"
+                role="button"
                 aria-current={currentTabIndex === 13 ? 'page' : undefined}
                 data-active={currentTabIndex === 13 ? 'true' : 'false'}
                 aria-label={isEn ? 'Open AI Tri Nhan (24/7 Support)' : 'Mở AI Trí Nhân (Hỗ trợ 24/7)'}
@@ -843,26 +1048,32 @@ const FooterComponent: React.FC<FooterProps> = ({
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
                 style={
                   {
                     '--nav-pill-accent': '#0EA5E9',
+                    '--nav-pill-wipe-bg': 'linear-gradient(82.3deg, #0369A1 10.8%, #0284C7 52%, #0EA5E9 94.3%)',
                     width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
+                    height: 'auto',
+                    minHeight: '0px',
+                    paddingTop: '8px',
                     paddingRight: '10px',
+                    paddingBottom: '8px',
+                    paddingLeft: '10px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="bot" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon
+                    name="bot"
+                    isActive={currentTabIndex === 13}
+                    className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
+                  />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                   <span
                     style={{ fontWeight: 'bold' }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"

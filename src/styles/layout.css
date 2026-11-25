@@ -60,6 +60,9 @@
   top: auto !important;
   bottom: auto !important;
   flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
   height: auto !important;
   max-height: none !important;
   min-height: 0 !important;
@@ -73,12 +76,15 @@
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 auto !important;
-  height: auto !important;
+  flex: 1 1 auto !important;
+  align-self: stretch !important;
+  height: 100% !important;
   max-height: none !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
   box-sizing: border-box !important;
 }
 
@@ -95,7 +101,7 @@
   max-width: var(--main-card-target-w, 1000px);
   box-sizing: border-box !important;
   flex: 0 0 auto !important;
-  height: calc(100dvh - var(--shell-bar-h, 52px) * 2) !important;
+  height: calc(100dvh - var(--header-bar-h, 52px) - var(--footer-bar-h, 62px)) !important;
   min-height: 520px !important;
   margin-left: auto;
   margin-right: auto;
@@ -120,9 +126,7 @@
 }
 
 @media (max-height: 580px) {
-  #app-header button.nav-pill,
   #app-footer button.nav-pill,
-  button#header-btn-hungthai-avatar,
   #app-footer #footer-nav-capsule,
   #app-footer #weather-widget-card {
     height: 36px !important;
@@ -215,26 +219,6 @@
   justify-content: flex-start !important;
   overflow: hidden !important;
   scroll-behavior: auto !important;
-}
-
-#about-cards-track {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
-  width: 100% !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  background: transparent !important;
-  overflow: visible !important;
 }
 
 #about-intro-card-1 {
@@ -341,14 +325,14 @@
 .page-main-card > *,
 [data-main-card="true"] > *,
 #pdf-page-container > *,
-.main-card > *:not(.page-cards-track):not([id$="-cards-track"]):not(#about-cards-track) {
+.main-card > *:not(.page-cards-track):not([id$="-cards-track"]) {
   max-width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
 
-.page-cards-track:not(#about-cards-track):not(#letter-cards-track),
-[id$="-cards-track"]:not(#about-cards-track):not(#letter-cards-track) {
+.page-cards-track:not(#letter-cards-track),
+[id$="-cards-track"]:not(#letter-cards-track) {
   width: max-content !important;
   max-width: none !important;
   flex: 0 0 auto !important;
@@ -600,11 +584,15 @@
 #el-p0-div-98 > footer {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: auto !important;
-  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 100% !important;
   max-height: none !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 10px 15px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
@@ -618,10 +606,14 @@
 
 @media (max-width: 639px) {
   #app-header,
-  #app-header-container > header,
+  #app-header-container > header {
+    padding: 5px 10px !important;
+  }
   #app-footer,
   #el-p0-div-98 > footer {
-    padding: 5px 10px !important;
+    padding: 10px 10px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
 }
 
@@ -980,13 +972,104 @@
   }
 }
 
-/* Hide Hero Banners automatically when viewport width is below 1200px */
-@media (max-width: 1199px) {
-  .hero-banner:not(#interview-questions-card):not(#project-detail-banner),
-  .banner-card:not(#interview-questions-card):not(#project-detail-banner),
-  [data-element-type="banner-card"]:not(#interview-questions-card):not(#project-detail-banner),
-  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) {
+/* Khi kích thước thay đổi (<1200px hoặc chiều cao hẹp), ẩn phần nền banner media/quote và hiển thị thanh thay thế:
+   Bên trái: Bộ lọc & Dạng view | Bên phải: Icon & Tên tiêu đề | Bên dưới: Line gạch ngang */
+@media (max-width: 1199px), (max-height: 700px) {
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner),
+  [data-element-type="banner-card"]:not(#interview-questions-card):not(#project-detail-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner):not(#contact-hero-banner):not(#ai-assistant-hero-banner) {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 2px 4px 10px 4px !important;
+    margin: 0 0 4px 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.38)) !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-media,
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-scrim,
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) .banner-quote,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-media,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-scrim,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) .banner-quote,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-media,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) > .project-detail-banner-scrim,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) .banner-quote {
     display: none !important;
+  }
+
+  /* Bên phải: Icon và Tên tiêu đề */
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(3),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(3),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(3) {
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+    margin: 0 0 0 auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync {
+    width: auto !important;
+    justify-content: flex-end !important;
+    text-align: right !important;
+    margin: 0 !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync h1,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync h1,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync h1 {
+    font-size: clamp(16px, 2.2vw, 20px) !important;
+    color: var(--text-heading, var(--text-primary)) !important;
+    text-shadow: none !important;
+  }
+
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync .banner-header-icon,
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync .banner-header-icon,
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) .card-header-sync .banner-header-icon {
+    color: var(--text-link, var(--color-primary)) !important;
+    filter: none !important;
+  }
+
+  /* Bên trái: Bộ lọc và Dạng view */
+  .hero-banner:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(4),
+  .banner-card:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(4),
+  [id$="-hero-banner"]:not(#interview-questions-card):not(#project-detail-banner) > div:nth-of-type(4) {
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+    margin: 0 auto 0 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
   }
 }
 

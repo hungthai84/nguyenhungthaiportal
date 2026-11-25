@@ -181,15 +181,15 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [inquiries, setInquiries] = useState<CloudInquiryItem[]>([]);
 
   const {
-    cardStyle,
+    committedCardStyle: cardStyle,
     setCardStyle,
-    surfaceDepth,
+    committedSurfaceDepth: surfaceDepth,
     setSurfaceDepth,
-    layerDepth,
+    committedLayerDepth: layerDepth,
     setLayerDepth,
     autoTimeTheme,
     setAutoTimeTheme,
-    activeWallpaper,
+    committedWallpaper: activeWallpaper,
     setWallpaper,
   } = useTheme();
   const { language, setLanguageMode } = useLanguage();

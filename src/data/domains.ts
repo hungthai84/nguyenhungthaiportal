@@ -38,7 +38,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Call center management, 24/7 contact center operations, incident resolution, and customer service standardization.',
     color: 'cyan',
     icon: 'tower',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
+    customIllustrationUrl: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
     metrics: [
       { label: 'SLA tiếp nhận cuộc gọi', value: '> 98%' },
       { label: 'CSAT', value: '96,5%' },
@@ -91,26 +91,26 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'MobiFone',
-        logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
+        logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+        fallbackLogo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
         url: 'https://www.mobifone.vn',
       },
       {
         name: 'Viễn Liên V247',
-        logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
+        logo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+        fallbackLogo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
         url: 'https://v247.com',
       },
       {
         name: 'LBC',
-        logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
+        logo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+        fallbackLogo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
         url: 'https://www.htvc.com.vn',
       },
       {
         name: 'HTVC',
-        logo: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
+        logo: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+        fallbackLogo: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
         url: 'https://www.htvc.com.vn',
       },
     ],
@@ -145,7 +145,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Omnichannel experience management, buyer and seller support, customer journey and service quality optimization.',
     color: 'orange',
     icon: 'shopping-cart',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
+    customIllustrationUrl: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
     metrics: [
       { label: 'Thời gian chờ Chat', value: 'Dưới 30 giây' },
       { label: 'CSAT', value: '88% → 96,5%' },
@@ -195,20 +195,20 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Shopee',
-        logo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
+        logo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+        fallbackLogo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
         url: 'https://shopee.vn',
       },
       {
         name: 'ShopeePay',
-        logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
+        logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+        fallbackLogo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
         url: 'https://shopeepay.vn',
       },
       {
         name: 'Finviet',
-        logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
         url: 'https://finviet.com.vn',
       },
     ],
@@ -243,7 +243,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Gaming support operations, community management, fraud prevention, and online game service development.',
     color: 'indigo',
     icon: 'game',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
+    customIllustrationUrl: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
     metrics: [
       { label: 'Phản hồi ban đầu Ticket/Chat', value: 'Dưới 30 giây' },
       { label: 'CSAT', value: 'Đạt 96%' },
@@ -293,20 +293,20 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Garena',
-        logo: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
+        logo: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+        fallbackLogo: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
         url: 'https://www.garena.vn',
       },
       {
         name: 'VED',
-        logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ',
+        logo: 'https://i.postimg.cc/NF9j6b6x/VED.png',
+        fallbackLogo: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
         url: 'https://www.garena.vn',
       },
       {
         name: 'GCafe',
-        logo: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
+        logo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+        fallbackLogo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
         url: 'https://gcafe.vn',
       },
     ],
@@ -341,7 +341,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Financial and insurance service governance, quality control, process standardization, and trust building.',
     color: 'rose',
     icon: 'shield-check',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
+    customIllustrationUrl: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
     metrics: [
       { label: 'Thời gian xử lý yêu cầu hợp đồng', value: 'Rút ngắn 45%' },
       { label: 'Giải quyết ngay lần đầu (FCR)', value: 'Trên 92%' },
@@ -391,14 +391,14 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Prudential Vietnam',
-        logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+        logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+        fallbackLogo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
         url: 'https://www.prudential.com.vn',
       },
       {
         name: 'Finviet',
-        logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
         url: 'https://finviet.com.vn',
       },
     ],
@@ -433,7 +433,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Digital payment service optimization, transaction support, dispute handling, and user experience enhancement.',
     color: 'purple',
     icon: 'credit-card',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
+    customIllustrationUrl: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
     metrics: [
       { label: 'Thời gian hoàn tiền (RPA)', value: '48 giờ → ~90 giây' },
       { label: 'CSAT', value: '98,2%' },
@@ -483,20 +483,20 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'MoMo',
-        logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
+        logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+        fallbackLogo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
         url: 'https://momo.vn',
       },
       {
         name: 'ShopeePay',
-        logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
+        logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+        fallbackLogo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
         url: 'https://shopeepay.vn',
       },
       {
         name: 'Ví ECO (Finviet)',
-        logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
         url: 'https://finviet.com.vn',
       },
     ],
@@ -533,7 +533,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Design and development of CRM, Dashboard, KPI, SOP, AI Chatbots, and automation to optimize management and efficiency.',
     color: 'emerald',
     icon: 'settings',
-    customIllustrationUrl: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
+    customIllustrationUrl: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
     metrics: [
       { label: 'Hệ thống tài liệu SOP/KPI', value: 'Chuẩn hóa đồng bộ' },
       { label: 'Thời gian Onboarding', value: 'Rút ngắn 65%' },
@@ -585,8 +585,8 @@ export const DOMAINS_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Power Service',
-        logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
-        fallbackLogo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
+        logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+        fallbackLogo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
         url: 'https://powerservice.vn',
       },
     ],

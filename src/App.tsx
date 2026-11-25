@@ -2,7 +2,6 @@ import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react
 import { MotionConfig } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { PullCord } from './components/ui/PullCord';
 import { HomeView } from './components/views/HomeView';
 
 import { MapLocation } from './data/aboutData';
@@ -10,7 +9,6 @@ import { ExperienceMilestone } from './data/experience';
 import { TABS_DATA } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
-import { usePeripheralClearance } from './hooks/usePeripheralClearance';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
 import {
   applyTypographyScaleToDocument,
@@ -86,7 +84,6 @@ const PdfView = React.lazy(() =>
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
-  const peripheralClearance = usePeripheralClearance(currentTabIndex !== 16);
 
   const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
   const [bentoFocusKey, setBentoFocusKey] = useState<string | null>(null);
@@ -644,8 +641,9 @@ export default function App() {
         display: 'flex',
         flexDirection: 'column',
         overflowX: 'hidden',
-        overflowY: 'visible',
+        overflowY: 'auto',
         position: 'relative',
+        boxSizing: 'border-box',
       }}
       className="w-full min-h-screen overflow-x-hidden flex flex-col items-center m-0 p-0 select-text relative"
     >
@@ -821,14 +819,6 @@ export default function App() {
         );
       })()}
 
-      {/* ĐÈN KÉO DÂY (PULL CORD) Ở GÓC TRÊN BÊN TRÁI HEADER — TỰ ẨN KHI KHÔNG ĐỦ CHỖ TRỐNG */}
-      {currentTabIndex !== 16 && (
-        <PullCord
-          visible={peripheralClearance.showLeftLamp}
-          leftOffsetPx={peripheralClearance.lampLeftOffsetPx}
-        />
-      )}
-
       {/* HEADER: Chiều cao bằng Footer, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
@@ -873,15 +863,21 @@ export default function App() {
         data-element-page="global"
         data-element-parent="website-root"
         style={{
-          width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-          maxWidth: currentTabIndex === 16 ? '1250px' : 'var(--main-card-target-w, 1000px)',
-          boxSizing: 'border-box',
-          flex: '0 0 auto',
-          height:
+          width:
+            currentTabIndex === 10
+              ? '100%'
+              : 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+          maxWidth:
             currentTabIndex === 16
-              ? 'auto'
-              : 'calc(100dvh - var(--header-bar-h, 52px) - var(--footer-bar-h, 62px))',
-          minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '520px',
+              ? '1250px'
+              : currentTabIndex === 10
+                ? '100%'
+                : 'var(--main-card-target-w, 1000px)',
+          boxSizing: 'border-box',
+          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
+          height: 'auto',
+          minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '0px',
+          maxHeight: currentTabIndex === 16 ? 'none' : '100%',
           minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -891,8 +887,12 @@ export default function App() {
           paddingBottom: '10px',
         }}
         className={`w-full ${
-          currentTabIndex === 16 ? 'max-w-[1250px]' : 'max-w-[1000px]'
-        } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between overflow-visible shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+          currentTabIndex === 16
+            ? 'max-w-[1250px] overflow-visible'
+            : currentTabIndex === 10
+              ? 'max-w-full overflow-hidden'
+              : 'max-w-[1000px] overflow-visible'
+        } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <div
           key={`page-view-${currentTabIndex}`}

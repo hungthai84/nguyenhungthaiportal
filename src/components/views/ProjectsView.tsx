@@ -1332,7 +1332,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                                     e.currentTarget.src = bannerInfo.fallbackUrl;
                                   } else {
                                     e.currentTarget.src =
-                                      'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
+                                      'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
                                   }
                                 }}
                               />
@@ -1443,7 +1443,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           e.currentTarget.src = bannerInfo.fallbackUrl;
                         } else {
                           e.currentTarget.src =
-                            'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
+                            'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
                         }
                       }}
                       className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"

@@ -22,7 +22,7 @@ export const FEATURED_PROJECT_1_1: ProjectData = {
     progressPercent: 100,
     role: "Trưởng phòng Chăm sóc Khách hàng",
     hashtags: ["#CS_Strategy", "#Structure", "#CấuTrúc", "#LãnhĐạo", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv",
+    image: "https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png",
     mindmap: "https://lh3.googleusercontent.com/d/1gnj8GXGixU37wiMKvIdcDD8IPRmYmqC5",
     quote: "Xây dựng hệ thống để vận hành hiệu quả, phát triển con người để phục vụ tốt hơn và lấy trải nghiệm khách hàng làm nền tảng cho sự phát triển bền vững.",
     star: {
@@ -286,7 +286,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 80,
     role: "Trưởng bộ phận CX / Điều hành CSKH",
     hashtags: ["#CS_Strategy", "#OKR", "#KPI", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1gxj_0izu0yQSuZXlEBFrDCHK75Zqykx0",
+    image: "https://i.postimg.cc/pTNhLpgM/1-2-Thiet-lap-muc-tieu-phong-ban.png",
     mindmap: "https://lh3.googleusercontent.com/d/1gCAdAln2lijX6iyrnM6UhhFNPTTznb_t",
     quote: "Mục tiêu rõ ràng, dữ liệu minh bạch, vận hành đột phá.",
     star: {
@@ -319,7 +319,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "Kiến trúc sư & Trưởng nhóm Trải nghiệm Khách hàng",
     hashtags: ["#CS_Strategy", "#CXDesign", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1e0Oo1yNKQWJgCxIZfqpAnbZ-wHV3Xa2c",
+    image: "https://i.postimg.cc/B6WLnXdJ/1-3-Nang-cao-trai-nghiem-khach-hang.png",
     mindmap: "https://lh3.googleusercontent.com/d/1ypdHvXQN8cUKp5ITglXgpRuVzURbtVv1",
     quote: "Thấu cảm từng điểm chạm, nâng tầm trải nghiệm 5 sao.",
     star: {
@@ -351,7 +351,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "Quản lý Dự án / Trưởng dự án CSKH",
     hashtags: ["#CS_Strategy", "#ProjectManagement", "#Agile", "#Kanban", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1HU4eNMMrhZLw5f82EghLztUXiOC3BNcy",
+    image: "https://i.postimg.cc/tT0Z4YLp/1-4-Quan-ly-du-an-CSKH.png",
     mindmap: "https://lh3.googleusercontent.com/d/1KVJ6SX0S3jnU3lmG3XuZfUuVM9hLcqoz",
     quote: "Điều hành khoa học, tiến độ chuẩn xác, tối ưu giá trị vận hành.",
     star: {
@@ -386,7 +386,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 82,
     role: "Trưởng nhóm Chiến lược Tiếng nói Khách hàng",
     hashtags: ["#CS_Strategy", "#VoiceOfCustomer", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/19vlcJ_sRkh-H9wWn3zsMnSMsyJoBu1Il",
+    image: "https://i.postimg.cc/B6x8LJ0K/1-5-Thuc-day-cai-tien-san-pham.png",
     mindmap: "https://lh3.googleusercontent.com/d/1LnPKlNi6LKkT0zGS7qRivRo-cTYNpFTY",
     quote: "Lắng nghe tiếng nói thực địa, liên tục hoàn thiện sản phẩm.",
     star: {
@@ -418,7 +418,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Chỉ huy Ứng phó Khủng hoảng Dịch vụ",
     hashtags: ["#CSStrategy", "#CrisisManagement", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1QQJWbw4Ysw8_Xj3Zo5pIOli3YqtigX5r",
+    image: "https://i.postimg.cc/HxQJcTgX/1-6-Quan-ly-khung-hoang-va-giam-khach-hang-roi-bo.png",
     mindmap: "https://i.ibb.co/nMJCLcjz/1-6-Qu-n-l-kh-ng-ho-ng-v-gi-m-kh-ch-h-ng-r-i-b.jpg",
     quote: "Bản lĩnh trước sóng gió, bảo vệ trọn vẹn niềm tin thương hiệu.",
     star: {
@@ -449,7 +449,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 90,
     role: "Chuyên gia Chuẩn hóa Quy trình Vận hành",
     hashtags: ["#CS_Operations", "#SOP", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/192THDLvQaHtJVFAT2GYxfirfbX-w7Gfs",
+    image: "https://i.postimg.cc/9MG4Rchd/2-1-Chuan-hoa-quy-trinh-CSKH.png",
     mindmap: "https://lh3.googleusercontent.com/d/1FRDdgabqoDl6oRtT6AlMbcCqJfY5cDsC",
     quote: "Quy trình chuẩn hóa, vận hành mượt mà, chất lượng đồng nhất.",
     star: {
@@ -480,7 +480,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Trưởng nhóm Vận hành Hỗ trợ Đa kênh",
     hashtags: ["#CS_Operations", "#OmniChannel", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1oj9ml7FNZl21Ye5qY_cnUuQ-SGeElo0y",
+    image: "https://i.postimg.cc/SsWX2mhd/2-2-Toi-uu-hoa-kenh-ho-tro.png",
     mindmap: "https://lh3.googleusercontent.com/d/1CgLKcbwiZiyGVmTsJLAILPjqe8yCQlaq",
     quote: "Hợp nhất điểm chạm, trải nghiệm mượt mà, tối ưu chi phí.",
     star: {
@@ -511,7 +511,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 50,
     role: "Trưởng nhóm Tự động hóa Quy trình",
     hashtags: ["#CS_Operations", "#Automation", "#RPA", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1RqBnHWXVpj8fseeSmlnRvlv8dGpgM55y",
+    image: "https://i.postimg.cc/kGq2WLJN/2-3-Trien-khai-tu-dong-hoa-(2).png",
     mindmap: "https://lh3.googleusercontent.com/d/1BVwzaqHNZHmd7E_6Hw7e6LpBRpzbuMDx",
     quote: "Tự động hóa thao tác, giải phóng tư duy, nâng tầm giá trị.",
     star: {
@@ -541,7 +541,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Quản lý Chiến dịch Chăm sóc Chủ động",
     hashtags: ["#CS_Operations", "#OutboundCS", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1Wo1g3ht16kZKovN8OBXUL3CJ-BbXNOYj",
+    image: "https://i.postimg.cc/QChFcv8m/2-4-Quan-ly-chien-dich-Outbound.png",
     mindmap: "https://lh3.googleusercontent.com/d/1vpNzK6dzL6XbL_eqOPlkkgvPFP4-XIoI",
     quote: "Chủ động kết nối, thấu hiểu nhu cầu, gia tăng gắn kết.",
     star: {
@@ -571,7 +571,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 85,
     role: "Trưởng nhóm Quản trị Đối tác Thuê ngoài (BPO)",
     hashtags: ["#BPO", "#QualityManagement", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1PFmwHDS4Lu-yKxunts6xp9PShxgcWiNW",
+    image: "https://i.postimg.cc/90CDysmL/2-5-Quan-ly-doi-tac-thue-ngoai-cham-soc-khach-hang.png",
     mindmap: "https://lh3.googleusercontent.com/d/1vpNzK6dzL6XbL_eqOPlkkgvPFP4-XIoI",
     quote: "Quản trị minh bạch, đối tác đồng hành, chất lượng vượt trội.",
     star: {
@@ -601,7 +601,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Chủ sở hữu & Kiến trúc sư Hệ thống CRM",
     hashtags: ["#CS_TechData", "#CRM", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1s0iJoRD2_9_9DbrgAmIM7lY2qxgk63GO",
+    image: "https://i.postimg.cc/SRkncHST/3-1-Xay-dung-he-thong-CRM.png",
     mindmap: "https://lh3.googleusercontent.com/d/1E_tkqH1Ufa4-hnCEM2nPtkbFupHVPNS0",
     quote: "Dữ liệu tập trung, thấu hiểu khách hàng, hỗ trợ tức thì.",
     star: {
@@ -631,7 +631,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Trưởng nhóm Hệ thống Phân tích & Báo cáo BI",
     hashtags: ["#CS_TechData", "#Insight", "#PowerBI", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1ilPz9Y8JeMtuPAtRif0De8DIaIWqFlsA",
+    image: "https://i.postimg.cc/rsMD57V7/3-2-Phan-tich-Bao-cao.png",
     mindmap: "https://lh3.googleusercontent.com/d/1u6fPVAbS1KAkiaiDtmzIoXJ1eQqkaw0f",
     quote: "Số liệu minh bạch, quyết định tức thì, vận hành chủ động.",
     star: {
@@ -661,7 +661,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 80,
     role: "Quản lý Chương trình Đo lường Trải nghiệm",
     hashtags: ["#CS_TechData", "#Survey", "#CSAT", "#NPS", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1omxermozpnwDRahy8yHDpBJ0yrPpK8PJ",
+    image: "https://i.postimg.cc/vTb45CYK/3-3-Khao-sat-Danh-gia-khach-hang.jpg",
     mindmap: "https://lh3.googleusercontent.com/d/15Ztt4QkMA44OycOXUgskOZDaEmkpPFUP",
     quote: "Lắng nghe đo lường, phản hồi kịp thời, giữ trọn niềm tin.",
     star: {
@@ -691,7 +691,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 75,
     role: "Chủ sở hữu Sản phẩm Trợ lý AI CSKH",
     hashtags: ["#CS_TechData", "#Chatbot", "#AI", "#RAG", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1ykTpxRrgnhGOUBDAv7f-_tEzoaJm2AZJ",
+    image: "https://i.postimg.cc/2yr1ngks/3-4-Xay-dung-AI-Bot.png",
     mindmap: "https://lh3.googleusercontent.com/d/1uBurTLw7HMzCTkcRBqEqwHBcL3tNR4mQ",
     quote: "Trợ lý AI thông minh, hỗ trợ tức thì 24/7, tối ưu nguồn lực.",
     star: {
@@ -721,7 +721,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Giám đốc Học viện Đào tạo CSKH",
     hashtags: ["#CS_Learning", "#CSAcademy", "#LMS", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1_ywo-wgWjADotWPTREb3yswj6qSC0j-B",
+    image: "https://i.postimg.cc/5ybX8D9d/4-1-Phat-trien-dao-tao-truc-tuyen.png",
     mindmap: "https://lh3.googleusercontent.com/d/1t5wWWZnL4X_3ZLqTlEIa5dZJl1qBllvv",
     quote: "Đào tạo chủ động, kiến thức vững vàng, tự tin phục vụ.",
     star: {
@@ -751,7 +751,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Trưởng nhóm Phát triển Nhân sự & Văn hóa CSKH",
     hashtags: ["#CSLearning", "#CareerPath", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1TThpm_UUhxsWzM7N1jhSNMHIgTg-KBAH",
+    image: "https://i.postimg.cc/cChrhTCp/4-2-Xay-dung-khung-nang-luc-va-lo-trinh-phat-trien.png",
     mindmap: "https://i.ibb.co/kVtqcFW8/4-2-X-y-d-ng-khung-n-ng-l-c-v-l-tr-nh-ph-t-tri-n.png",
     quote: "Lộ trình rõ ràng, phát triển bản thân, gắn kết bền vững.",
     star: {
@@ -781,7 +781,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 70,
     role: "Quản lý Trung tâm Hỗ trợ & Tri thức",
     hashtags: ["#CS_SelfService", "#HelpDesk", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1FpTtnORo5RZtBmaY21YxF_bdm-MyEqTI",
+    image: "https://i.postimg.cc/tJkYkDJ8/5-1-Thanh-lap-trung-tam-ho-tro.png",
     mindmap: "https://lh3.googleusercontent.com/d/1JASPG_MfCaiMg4QbE7TyFZq2dhWdTsoO",
     quote: "Tự phục vụ thông minh, chủ động giải đáp, nâng tầm trải nghiệm.",
     star: {
@@ -811,7 +811,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 82,
     role: "Giám đốc Quản trị Chất lượng Dịch vụ",
     hashtags: ["#CustomerCentric", "#Culture", "#TQA", "#COPC", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/18KRBnFWPc9oPbiv2fUxKpEcpmodZACDM",
+    image: "https://i.postimg.cc/gjsns4rm/6-1-Khach-hang-la-trung-tam.png",
     mindmap: "https://lh3.googleusercontent.com/d/1D2q5OShioYAOz76WPsaGCJCoqOXkdCRU",
     quote: "Tiêu chuẩn quốc tế, chất lượng đồng nhất, tận tâm phụng sự.",
     star: {
@@ -842,7 +842,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 100,
     role: "Trưởng nhóm Quản trị Thay đổi Dịch vụ",
     hashtags: ["#CustomerCentric", "#CrisisManagement", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1SQecc8riLUTRwdd6wv_Mr7OpmFeaTKMB",
+    image: "https://i.postimg.cc/SRdJdVjh/6-2-Quan-tri-su-thay-doi-va-khung-hoang-dich-vu.png",
     mindmap: "https://i.ibb.co/xq60FfQk/6-2-Qu-n-tr-s-thay-i-v-kh-ng-ho-ng-d-ch-v.png",
     quote: "Chủ động thích ứng, thông tin minh bạch, biến đổi thành công.",
     star: {
@@ -873,7 +873,7 @@ const RAW_PROJECTS_DATA: ProjectData[] = [
     progressPercent: 95,
     role: "Giám đốc Đổi mới & Ứng dụng Trí tuệ Nhân tạo",
     hashtags: ["#CustomerCentric", "#GenerativeAI", "#AutoQA", "#STAR_CaseStudy"],
-    image: "https://lh3.googleusercontent.com/d/1DjS312PhAPMEdwptdhToDo-946vow9dP",
+    image: "https://i.postimg.cc/yxjkjnW6/6-3-Ung-dung-tri-tue-nhan-tao-nang-cao-hieu-suat-CSKH.png",
     mindmap: "https://i.ibb.co/wFZ1qXFt/6-3-ng-d-ng-tr-tu-nh-n-t-o-n-ng-cao-hi-u-su-t-CSKH.png",
     quote: "Trí tuệ nhân tạo, đột phá hiệu suất, quản trị toàn diện.",
     star: {

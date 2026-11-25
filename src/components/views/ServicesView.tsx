@@ -61,8 +61,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(56, 189, 248, 0.38)',
     pillTextLight: '#0369a1',
     pillTextDark: '#7dd3fc',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1EZTKZuFTA5EjI56gGwEQ_4pdjfg-hBZE',
+    illustrationSrc: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
+    fallbackIllustration: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
     frontMetrics: [
       { label: 'SLA & CSAT', labelEn: 'SLA & CSAT', value: '>98% · 96,5%' },
       { label: 'Quy mô ca kíp', labelEn: 'Operations Scale', value: '50–130+ · 24/7' },
@@ -91,8 +91,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(251, 146, 60, 0.38)',
     pillTextLight: '#c2410c',
     pillTextDark: '#fdba74',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1szhpY7ClmC9DLMhLw4M-On2bKC_L27Mz',
+    illustrationSrc: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
+    fallbackIllustration: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
     frontMetrics: [
       { label: 'CSKH & Fraud', labelEn: 'CS & Fraud Team', value: '>100 nhân sự', valueEn: '100+ Staff' },
       { label: 'CSAT & Chat', labelEn: 'CSAT & Chat', value: '88% → 96,5%' },
@@ -121,8 +121,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(251, 113, 133, 0.38)',
     pillTextLight: '#be123c',
     pillTextDark: '#fda4af',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1j1HNT64M4jaAtvUaUUHAEUxlgr1WLfH7',
+    illustrationSrc: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
+    fallbackIllustration: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
     frontMetrics: [
       { label: 'Xử lý yêu cầu', labelEn: 'Cycle Reduction', value: 'Giảm 45%', valueEn: '-45% Time' },
       { label: 'FCR & Retention', labelEn: 'FCR & Retention', value: '>92% · +15%' },
@@ -151,8 +151,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(192, 132, 252, 0.38)',
     pillTextLight: '#6d28d9',
     pillTextDark: '#d8b4fe',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1N9hGfjN9XABOs43QqxZNRhlC5_LZsy1Q',
+    illustrationSrc: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
+    fallbackIllustration: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
     frontMetrics: [
       { label: 'Lưu lượng xử lý', labelEn: 'Ticket Volume', value: '>50.000/ngày', valueEn: '>50K / day' },
       { label: 'Phản hồi & CSAT', labelEn: 'Response & CSAT', value: '<30s · 96%' },
@@ -181,8 +181,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(129, 140, 248, 0.38)',
     pillTextLight: '#3730a3',
     pillTextDark: '#a5b4fc',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1hxfswQ7LzGpdFCddUOFoHiK29EBWuk67',
+    illustrationSrc: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
+    fallbackIllustration: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
     frontMetrics: [
       { label: 'Hoàn tiền RPA', labelEn: 'RPA Refund', value: '48h → 90 giây', valueEn: '48h → 90s' },
       { label: 'CSAT & BPO SLA', labelEn: 'CSAT & BPO SLA', value: '98,2% · 98,6%' },
@@ -211,8 +211,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(52, 211, 153, 0.38)',
     pillTextLight: '#047857',
     pillTextDark: '#6ee7b7',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
-    fallbackIllustration: 'https://lh3.googleusercontent.com/d/1RuoLQ4l2n8LNiVv6ntj251Y_1E6cLIpk',
+    illustrationSrc: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
+    fallbackIllustration: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
     frontMetrics: [
       { label: 'Chuẩn hóa', labelEn: 'Standardization', value: '100% SOP/KPI' },
       { label: 'Onboarding & Perf', labelEn: 'Onboarding & Perf', value: '-65% · +40%' },
@@ -837,10 +837,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           <span className="service-card-hover-image-aura" />
                         </span>
 
-                        {/* Bố cục Thẻ dịch vụ 2 phần 70% / 30% giữ nguyên dữ liệu & cấu trúc */}
-                        <div className="service-card-split-grid relative z-10 grid grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 w-full items-stretch">
-                          {/* CỘT BÊN TRÁI (70%) - HÀNG 1: Icon & Tiêu đề */}
-                          <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-center">
+                        {/* Bố cục Thẻ dịch vụ 3 phần: Top (icon + tiêu đề), Center (2 cột: mô tả + hình ảnh), Bottom (logo công ty) */}
+                        <div className="relative z-10 flex flex-col gap-3 w-full min-w-0">
+                          {/* TOP: Icon & Tiêu đề dịch vụ */}
+                          <div className="flex items-center gap-2 min-w-0">
                             {renderDomainIcon(
                               meta.iconKey,
                               'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
@@ -856,21 +856,41 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             </h3>
                           </div>
 
-                          {/* CỘT BÊN TRÁI (70%) - HÀNG 2: Mô tả */}
-                          <div className="col-start-1 row-start-2 min-w-0 flex items-start">
-                            <p
-                              id={`service-card-desc-${domain.id}`}
-                              className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
-                              title={summaryText}
-                            >
-                              {summaryText}
-                            </p>
+                          {/* CENTER: Chia làm 2 cột (Cột trái: Mô tả dịch vụ, Cột phải: Hình ảnh dịch vụ) */}
+                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-center min-w-0 w-full">
+                            {/* Cột bên trái: Chứa mô tả dịch vụ */}
+                            <div className="min-w-0 flex items-start">
+                              <p
+                                id={`service-card-desc-${domain.id}`}
+                                className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
+                                title={summaryText}
+                              >
+                                {summaryText}
+                              </p>
+                            </div>
+
+                            {/* Cột bên phải: Hình ảnh dịch vụ */}
+                            <div className="w-[84px] h-[72px] sm:w-[96px] sm:h-[82px] shrink-0 relative flex items-center justify-center">
+                              <img
+                                src={serviceImage}
+                                alt={cardTitle}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                onError={(e) => {
+                                  if (e.currentTarget.src !== meta.fallbackIllustration) {
+                                    e.currentTarget.src = meta.fallbackIllustration;
+                                  }
+                                }}
+                                className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none"
+                              />
+                            </div>
                           </div>
 
-                          {/* CỘT BÊN TRÁI (70%) - HÀNG 3: Logo đối tác căn trái */}
+                          {/* BOTTOM: Chứa logo công ty */}
                           <div
                             className={cn(
-                              'service-divider col-start-1 row-start-3 pt-2 flex items-center justify-start gap-2 min-w-0',
+                              'service-divider pt-2.5 flex items-center justify-start gap-2 min-w-0',
                               isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
                             )}
                           >
@@ -884,7 +904,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                       background: 'var(--surface-secondary-bg, var(--bg-card))',
                                       border: 'none',
                                     }}
-                                    className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                    className="w-[38px] h-[38px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
                                   >
                                     <img
                                       src={partner.logo}
@@ -908,26 +928,6 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                 ))}
                               </div>
                             )}
-                          </div>
-
-                          {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại */}
-                          <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
-                            <div className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-visible bg-transparent border-0 shadow-none p-0 rounded-none">
-                              <img
-                                src={serviceImage}
-                                alt={cardTitle}
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                onError={(e) => {
-                                  if (e.currentTarget.src !== meta.fallbackIllustration) {
-                                    e.currentTarget.src = meta.fallbackIllustration;
-                                  }
-                                }}
-                                className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
-                                style={{ filter: 'none', WebkitFilter: 'none' }}
-                              />
-                            </div>
                           </div>
                         </div>
                       </motion.div>

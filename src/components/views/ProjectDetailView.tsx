@@ -696,7 +696,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          'https://lh3.googleusercontent.com/d/1idi7Ljxt3SlD8io3yIXN823qkCjmxQGv';
+                          'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-transparent flex flex-col justify-end p-[15px]">

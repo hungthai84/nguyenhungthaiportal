@@ -49,12 +49,12 @@
   z-index: 999 !important;
 }
 
-[data-section-card="true"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-[data-element-type="card"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2),
-[data-ui="card"]:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-section-card="true"]:not(.home-hero-card):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+[data-element-type="card"]:not(.home-hero-card):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2),
+[data-ui="card"]:not(.home-hero-card):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
 article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container),
-.glass-card:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
-.bento-card:not(.home-hero-card):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+.glass-card:not(.home-hero-card):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
+.bento-card:not(.home-hero-card):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container),
 .system-item:not(#app-header):not(#app-footer),
 #about-unified-bento-card,
 #about-hero-video-container,
@@ -190,12 +190,12 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   box-sizing: border-box !important;
 }
 
-[data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
-[data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2):hover,
-[data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+[data-section-card="true"]:not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+[data-element-type="card"]:not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):not(#about-intro-card-1):not(#about-intro-card-2):hover,
+[data-ui="card"]:not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
 article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#contact-info-container):hover,
-.glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
-.bento-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+.glass-card:not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
+.bento-card:not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.project-card):not([id^="project-card-"]):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#contact-info-container):hover,
 .system-item:not(#app-header):not(#app-footer):hover,
 #about-unified-bento-card:hover,
 #about-hero-video-container:hover,
@@ -735,20 +735,9 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  border-width: 0px !important;
-  border-color: transparent !important;
   outline: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: 0px !important;
   transform: none !important;
   animation: none !important;
-  transition: none !important;
 }
 
 #home-main-card,
@@ -6430,4 +6419,45 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
     transform: none !important;
   }
 }
+
+#experience-page-container #experience-timeline-board.grid-dimmed {
+  opacity: 0.12 !important;
+  transform: scale(0.96) !important;
+  filter: blur(2px);
+  pointer-events: none !important;
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
+}
+
+#experience-page-container #experience-job-detail-card {
+  position: absolute;
+  z-index: 40;
+  border-radius: var(--radius-card, 14px);
+  border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55));
+  background: var(--surface-secondary-bg, var(--bg-card));
+  box-shadow: var(--lg-clear-shadow, 0 32px 64px -16px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.28) inset);
+  backdrop-filter: var(--lg-clear-backdrop, blur(28px) saturate(145%));
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(28px) saturate(145%));
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  will-change: top, left, width, height, border-radius;
+}
+
+#experience-page-container #experience-job-detail-card.is-open {
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-main, 14px) !important;
+}
+
+#experience-page-container #experience-job-detail-card.is-animating {
+  transition:
+    top 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.72s ease;
+}
+
 

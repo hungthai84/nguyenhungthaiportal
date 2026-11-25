@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
@@ -393,6 +393,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
   const prefersReducedMotionHook = useReducedMotion();
 
+  const experienceMainCardRef = useRef<HTMLDivElement | null>(null);
+  const milestoneRefs = useRef<Record<string, HTMLElement | null>>({});
+  const [morphRect, setMorphRect] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
+  const [animPhase, setAnimPhase] = useState<'idle' | 'entering' | 'open' | 'closing'>('idle');
+  const [originMilestoneKey, setOriginMilestoneKey] = useState<string | null>(null);
+  const [isBoardDimmed, setIsBoardDimmed] = useState<boolean>(false);
+
+  const computeTargetBounds = useCallback(() => {
+    const hostEl = experienceMainCardRef.current;
+    if (!hostEl) return null;
+    return {
+      top: 0,
+      left: 0,
+      width: hostEl.clientWidth,
+      height: hostEl.clientHeight,
+    };
+  }, []);
+
   // Unified 5-state 3D Origami machine: folded -> partial -> unfolding -> expanded -> folding -> folded
   const [foldPhase, setFoldPhase] = useState<OrigamiFoldPhase>(() =>
     Boolean(showJobCardProp) ? 'expanded' : 'folded'
@@ -461,7 +479,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches));
 
   const handleCloseJobCard = () => {
-    if (foldPhase === 'folding' || !showJobCard) return;
+    if (animPhase === 'closing' || !showJobCard) return;
     if (singleClickTimerRef.current !== null) {
       window.clearTimeout(singleClickTimerRef.current);
       singleClickTimerRef.current = null;
@@ -469,36 +487,55 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
     SoundEngine.playTap();
     const reduced = isReducedMotionActive();
+    const hostEl = experienceMainCardRef.current;
+    const targetKey = originMilestoneKey || activeKey;
 
-    if (reduced) {
+    setIsBoardDimmed(false);
+
+    if (reduced || !hostEl) {
       clearOrigamiTimers();
       setIsClosingDetailContent(false);
       setShowJobCard(false);
+      setAnimPhase('idle');
+      setMorphRect(null);
+      setOriginMilestoneKey(null);
       setFoldPhase('folded');
       setSelectedFoldIdx(null);
       return;
     }
 
-    // Phase 1: Fade out detail content cleanly before reverse 3D origami fold-back
-    setFoldPhase('folding');
-    setIsClosingDetailContent(true);
-
-    foldExitTimerRef.current = window.setTimeout(() => {
-      foldExitTimerRef.current = null;
-      setShowJobCard(false);
-      setIsClosingDetailContent(false);
-
-      // Phase 2: Sequential reverse 3D origami panels fold back to original Timeline slot
-      const foldDuration = isMobileFoldView
-        ? ORIGAMI_TIMINGS.foldBackMobileMs
-        : ORIGAMI_TIMINGS.foldBackDesktopMs;
-
-      foldBackTimerRef.current = window.setTimeout(() => {
-        foldBackTimerRef.current = null;
+    window.requestAnimationFrame(() => {
+      const originEl = milestoneRefs.current[targetKey] || document.getElementById(`milestone-card-${targetKey}`);
+      if (!originEl) {
+        setShowJobCard(false);
+        setAnimPhase('idle');
+        setMorphRect(null);
+        setOriginMilestoneKey(null);
         setFoldPhase('folded');
         setSelectedFoldIdx(null);
-      }, foldDuration);
-    }, ORIGAMI_TIMINGS.detailExitMs);
+        return;
+      }
+
+      const hostRect = hostEl.getBoundingClientRect();
+      const cardRect = originEl.getBoundingClientRect();
+
+      setAnimPhase('closing');
+      setMorphRect({
+        top: cardRect.top - hostRect.top,
+        left: cardRect.left - hostRect.left,
+        width: cardRect.width,
+        height: cardRect.height,
+      });
+
+      window.setTimeout(() => {
+        setShowJobCard(false);
+        setAnimPhase('idle');
+        setMorphRect(null);
+        setOriginMilestoneKey(null);
+        setFoldPhase('folded');
+        setSelectedFoldIdx(null);
+      }, 720);
+    });
   };
 
   useEffect(() => {
@@ -552,25 +589,56 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     setOrigamiTargetIdx(resolvedIdx);
     setActiveKey(key);
     setIsClosingDetailContent(false);
+    setOriginMilestoneKey(key);
 
-    if (isReducedMotionActive() || matchedIdx < 0) {
+    const hostEl = experienceMainCardRef.current;
+    const originEl = milestoneRefs.current[key] || document.getElementById(`milestone-card-${key}`);
+    const targetBounds = computeTargetBounds();
+
+    const prefersReducedMotion = isReducedMotionActive();
+
+    if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
+      setMorphRect(targetBounds ? targetBounds : null);
+      setAnimPhase('open');
+      setIsBoardDimmed(true);
       setFoldPhase('expanded');
       setShowJobCard(true);
       showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
       return;
     }
 
-    setFoldPhase('unfolding');
-    const unfoldDurationMs = isMobileFoldView
-      ? ORIGAMI_TIMINGS.unfoldMobileMs
-      : ORIGAMI_TIMINGS.unfoldDesktopMs;
+    const hostRect = hostEl.getBoundingClientRect();
+    const cardRect = originEl.getBoundingClientRect();
 
-    unfoldTimerRef.current = window.setTimeout(() => {
-      unfoldTimerRef.current = null;
-      setFoldPhase('expanded');
-      setShowJobCard(true);
-      showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
-    }, unfoldDurationMs);
+    setAnimPhase('entering');
+    setMorphRect({
+      top: cardRect.top - hostRect.top,
+      left: cardRect.left - hostRect.left,
+      width: cardRect.width,
+      height: cardRect.height,
+    });
+    setIsBoardDimmed(true);
+
+    window.requestAnimationFrame(() => {
+      if (detailCardRef.current) {
+        void detailCardRef.current.offsetHeight;
+      }
+      const liveBounds = computeTargetBounds() || targetBounds;
+      window.requestAnimationFrame(() => {
+        setAnimPhase('open');
+        if (liveBounds) {
+          setMorphRect({
+            top: liveBounds.top,
+            left: liveBounds.left,
+            width: liveBounds.width,
+            height: liveBounds.height,
+          });
+        }
+        setFoldPhase('expanded');
+        setShowJobCard(true);
+        showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
+      });
+    });
   };
 
   const handleDesktopFoldClick = (itemKey: string, idx: number) => {
@@ -628,15 +696,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Nhân viên CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2002']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
+      logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
       productSummary: 'MobiFone Di Động',
       products: [
-        { name: 'MobiFone', logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX' },
+        { name: 'MobiFone', logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
-          fallback: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX',
+          src: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+          fallback: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
           alt: 'Logo Mobifone',
         },
       ],
@@ -656,15 +724,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Giám sát CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2007']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
+      logo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
       productSummary: 'Call 247 Quốc Tế',
       products: [
-        { name: 'Call 247', logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r' },
+        { name: 'Call 247', logo: 'https://i.postimg.cc/wMyjXFXc/V247.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
-          fallback: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r',
+          src: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+          fallback: 'https://i.postimg.cc/wMyjXFXc/V247.png',
           alt: 'Logo V247',
         },
       ],
@@ -684,20 +752,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng (Quy mô nhỏ)',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2011']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
+      logo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
       productSummary: 'Truyền hình Cáp HTVC',
       products: [
-        { name: 'HTVC', logo: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_' },
+        { name: 'HTVC', logo: 'https://i.postimg.cc/V6HN02C6/HTVC.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
-          fallback: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH',
+          src: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+          fallback: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
           alt: 'Logo LBC',
         },
         {
-          src: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
-          fallback: 'https://lh3.googleusercontent.com/d/1eZFAQSz3jBKymiWy_vhswUjO7HF0bBE_',
+          src: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+          fallback: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
           alt: 'Logo HTVC',
         },
       ],
@@ -717,39 +785,39 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '129–130 Nhân sự',
       description: EXPERIENCE_MILESTONES['2013']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
+      logo: 'https://i.postimg.cc/NF9j6b6x/VED.png',
       productSummary: 'Shopee · Garena · AirPay · GCafe',
       products: [
-        { name: 'VED', logo: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL' },
-        { name: 'Garena', logo: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7' },
-        { name: 'GCafe', logo: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj' },
-        { name: 'ShopeePay', logo: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC' },
-        { name: 'Shopee', logo: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP' },
+        { name: 'VED', logo: 'https://i.postimg.cc/NF9j6b6x/VED.png' },
+        { name: 'Garena', logo: 'https://i.postimg.cc/QC9dQSQs/Garena.png' },
+        { name: 'GCafe', logo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png' },
+        { name: 'ShopeePay', logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png' },
+        { name: 'Shopee', logo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1Mr7QbcTxwqb2h_RRzMzxHqs3kFORpbYL',
-          fallback: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ',
+          src: 'https://i.postimg.cc/NF9j6b6x/VED.png',
+          fallback: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
           alt: 'Logo VED',
         },
         {
-          src: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
-          fallback: 'https://lh3.googleusercontent.com/d/1xlSa23bzlZKpRB1Pc4NxoLckK--PUAa7',
+          src: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+          fallback: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
           alt: 'Logo Garena',
         },
         {
-          src: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
-          fallback: 'https://lh3.googleusercontent.com/d/1-CTafAdaDF5JJZAeUcWwWNIULmm10ZIj',
+          src: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+          fallback: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
           alt: 'Logo GCafe',
         },
         {
-          src: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
-          fallback: 'https://lh3.googleusercontent.com/d/1cJWJPhsaihMHclFOYHJromAEGYIUoOAC',
+          src: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+          fallback: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
           alt: 'Logo AirPay ShopeePay',
         },
         {
-          src: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
-          fallback: 'https://lh3.googleusercontent.com/d/1V_wb5gQTZAIWB2vA2iBjk5KMyf0PUOjP',
+          src: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+          fallback: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
           alt: 'Logo Shopee',
         },
       ],
@@ -769,15 +837,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CallCenter',
       headcountLabel: '12 NS + 40 Tư vấn',
       description: EXPERIENCE_MILESTONES['2016']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+      logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
       productSummary: 'Bảo hiểm PruLife',
       products: [
-        { name: 'Prudential', logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT' },
+        { name: 'Prudential', logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
-          fallback: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT',
+          src: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+          fallback: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
           alt: 'Logo Prudential Vietnam',
         },
       ],
@@ -797,15 +865,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '60+ NS & BPO',
       description: EXPERIENCE_MILESTONES['2018']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
+      logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
       productSummary: 'Siêu ứng dụng Ví MoMo',
       products: [
-        { name: 'Ví MoMo', logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd' },
+        { name: 'Ví MoMo', logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
-          fallback: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd',
+          src: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+          fallback: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
           alt: 'Logo MoMo',
         },
       ],
@@ -825,15 +893,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CSKH',
       headcountLabel: '17 Nhân sự',
       description: EXPERIENCE_MILESTONES['2023']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+      logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
       productSummary: 'Chợ Số Finviet',
       products: [
-        { name: 'Finviet', logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R' },
+        { name: 'Finviet', logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
-          fallback: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R',
+          src: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+          fallback: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
           alt: 'Logo Finviet',
         },
       ],
@@ -853,15 +921,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng / GĐ CX',
       headcountLabel: '100–150+ Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
-      logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
+      logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
       productSummary: 'Power Service • CS Strategy',
       products: [
-        { name: 'Power Service', logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH' },
+        { name: 'Power Service', logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png' },
       ],
       logos: [
         {
-          src: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
-          fallback: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH',
+          src: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+          fallback: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
           alt: 'Logo Power Service',
         },
       ],

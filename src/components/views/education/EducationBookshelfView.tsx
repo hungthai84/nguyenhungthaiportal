@@ -496,9 +496,9 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       {/* Active Titles Section */}
       <div className="disc-titles" aria-live="polite">
         <div className="disc-title-item">
-          <h3>{displayTitle}</h3>
+          <h3 title={displayTitle}>{displayTitle}</h3>
           <p>
-            {currentCourse?.issuer} · {currentCourse?.year} · {getShortCategoryLabel(currentCourse?.category)}
+            · {currentCourse?.issuer} · {currentCourse?.year} · {getShortCategoryLabel(currentCourse?.category)}
           </p>
         </div>
       </div>

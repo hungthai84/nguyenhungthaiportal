@@ -67,14 +67,14 @@ export interface PdfViewProps {
 }
 
 const PARTNER_BRANDS = [
-  { id: 'mobifone', company: 'MobiFone', logo: 'https://lh3.googleusercontent.com/d/16eGo8HBN14fjf9g3iPz6YjZdJCPrmLLX' },
-  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://lh3.googleusercontent.com/d/1bRIA01aG_FBN5nrFyQczwOBEPXl1lO0r' },
-  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://lh3.googleusercontent.com/d/1abaPHlTrYu7tZl6vSCtEruWQ_qUUCdBH' },
-  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://lh3.googleusercontent.com/d/1v-FBxPLdWKF45qqt2nrmga_2aw2v20nZ' },
-  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://lh3.googleusercontent.com/d/1KKp9w_6Exn0eBziB0nElwULaU_3wPGFT' },
-  { id: 'momo', company: 'Ví MoMo', logo: 'https://lh3.googleusercontent.com/d/1JvZTySLhkS3fNGFhFVlimFGvU0epanMd' },
-  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://lh3.googleusercontent.com/d/1Zw2HIF5rsE5ZroMHNXA4KGdguyKgyH9R' },
-  { id: 'powerservice', company: 'Power Service', logo: 'https://lh3.googleusercontent.com/d/1LELjpA_3miO67AJKokZ1HW-Doo3g_gEH' },
+  { id: 'mobifone', company: 'MobiFone', logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png' },
+  { id: 'v247', company: 'Viễn Liên V247', logo: 'https://i.postimg.cc/wMyjXFXc/V247.png' },
+  { id: 'lbc', company: 'LBC – HTVC', logo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png' },
+  { id: 'ved', company: 'VED (Garena / Shopee)', logo: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif' },
+  { id: 'prudential', company: 'Prudential Việt Nam', logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png' },
+  { id: 'momo', company: 'Ví MoMo', logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png' },
+  { id: 'finviet', company: 'Finviet (Ví ECO)', logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png' },
+  { id: 'powerservice', company: 'Power Service', logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png' },
 ];
 
 const DISTINCT_COURSE_PALETTE = [

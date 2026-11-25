@@ -706,15 +706,7 @@ html.dark[data-card-style] #about-intro-card-2 {
   gap: 12px !important;
   row-gap: 12px !important;
   column-gap: 12px !important;
-  border: none !important;
-  border-width: 0px !important;
-  border-style: none !important;
-  border-color: transparent !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
   box-sizing: border-box !important;
 }
 
@@ -1226,9 +1218,9 @@ html #about-intro-card-2-scroll-viewport {
 
 html #about-intro-grid-1,
 html[data-card-style] #about-intro-grid-1 {
-  background: var(--surface-primary-bg, var(--bg-main)) !important;
-  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
-  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: var(--radius-main, 14px) !important;
 }
 
@@ -5743,8 +5735,6 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
 
 /* 5B. Card Hierarchy Tier 2 -> Tier 3 Hover: All Content, Hero Split, Bento, Service, Domain, Project, System, Education & Theme Cards */
 html:not([data-surface-depth="flat"]):root body :is(
-  .home-split-hero-card,
-  [id^="home-hero-stage-"],
   .card,
   .bento-card,
   .bento-view-card,
@@ -5773,10 +5763,8 @@ html:not([data-surface-depth="flat"]):root body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)),
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
-  .home-split-hero-card,
-  [id^="home-hero-stage-"],
   .card,
   .bento-card,
   .bento-view-card,
@@ -5805,14 +5793,12 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)) {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)) {
   box-shadow: var(--elev-card-l2) !important;
   transition: box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
 
 html:not([data-surface-depth="flat"]):root body :is(
-  .home-split-hero-card,
-  [id^="home-hero-stage-"],
   .card,
   .bento-card,
   .bento-view-card,
@@ -5841,10 +5827,8 @@ html:not([data-surface-depth="flat"]):root body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover,
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover,
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
-  .home-split-hero-card,
-  [id^="home-hero-stage-"],
   .card,
   .bento-card,
   .bento-view-card,
@@ -5873,8 +5857,26 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-job-detail-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover {
   box-shadow: var(--elev-card-l2-hover) !important;
+}
+
+/* Keep #home-hero-stage-1 strictly transparent so #home-main-card-1 controls Home background across all 18 themes */
+html:root body :is(#home-hero-stage-1, [id^="home-hero-stage-"]),
+html:root[data-card-style] body :is(#home-hero-stage-1, [id^="home-hero-stage-"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html:root body :is(#home-hero-stage-1, [id^="home-hero-stage-"])::before,
+html:root body :is(#home-hero-stage-1, [id^="home-hero-stage-"])::after {
+  content: none !important;
+  display: none !important;
 }
 
 /* 6. Card Hierarchy Tier 1 -> Tier 2 Hover: Nested Sub-cards */
@@ -6688,11 +6690,19 @@ html[data-surface-depth="flat"] body :is(
   box-sizing: border-box !important;
 }
 
+#website-root:has(#pdf-page-container) {
+  height: auto !important;
+  min-height: 100dvh !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
 /* ĐỒNG BỘ CHIỀU NGANG HEADER, MAIN CARD, FOOTER Ở MỌI KÍCH THƯỚC VÀ MỌI GIAO DIỆN */
 html:root body #app-header-container,
 html:root body #app-header,
 html:root body #app-header-container > header,
-html:root body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
 html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
 html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root body #about-intro-card-1,
@@ -6705,7 +6715,7 @@ html:root body #el-p0-div-98 > footer,
 html:root[data-card-style] body #app-header-container,
 html:root[data-card-style] body #app-header,
 html:root[data-card-style] body #app-header-container > header,
-html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)),
+html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
 html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > .page-main-card):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
 html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root[data-card-style] body #about-intro-card-1,
@@ -6720,6 +6730,16 @@ html:root[data-card-style] body #el-p0-div-98 > footer {
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+html:root body #global-content-viewport:has(#horoscope-page-shell),
+html:root[data-card-style] body #global-content-viewport:has(#horoscope-page-shell) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  overflow: hidden !important;
 }
 
 /* KHOẢNG CÁCH HEADER VÀ FOOTER ĐẾN MAIN CARD = 0PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
@@ -6793,13 +6813,13 @@ html.dark:root[data-card-style] body :is(#app-header, #app-header:hover, #app-he
   border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
 }
 
-/* KHU VỰC CHÍNH GIỮA: PADDING TOP 10PX, PADDING BOT 10PX (ÁP DỤNG CHUNG TẤT CẢ GIAO DIỆN) */
+/* KHU VỰC CHÍNH GIỮA: TỰ ĐỘNG CO GIÃN KHÍT GIỮA HEADER VÀ FOOTER, PADDING TOP/BOT 10PX */
 html:root body #global-content-viewport,
 html:root[data-card-style] body #global-content-viewport {
-  flex: 0 0 auto !important;
-  height: calc(100dvh - 104px) !important;
-  min-height: 520px !important;
-  max-height: none !important;
+  flex: 1 1 0% !important;
+  height: auto !important;
+  min-height: 0px !important;
+  max-height: 100% !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   padding-left: 0px !important;
@@ -6809,8 +6829,10 @@ html:root[data-card-style] body #global-content-viewport {
 
 html:root body #global-content-viewport:has(#pdf-page-container),
 html:root[data-card-style] body #global-content-viewport:has(#pdf-page-container) {
+  flex: 0 0 auto !important;
   height: auto !important;
   min-height: calc(100dvh - 30px) !important;
+  max-height: none !important;
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
@@ -6944,6 +6966,16 @@ html:root[data-card-style] body #horoscope-page-shell {
   padding: 0px !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
+}
+
+html:root body #horoscope-page-container,
+html:root[data-card-style] body #horoscope-page-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 html:root body #horoscope-page-container #horoscope-cards-track,
@@ -7197,17 +7229,20 @@ html:root[data-card-style] body #app-header .nav-pill-wrapper {
 }
 
 /* Menu icon header: nút có chiều cao bằng đúng nội dung bên trong nút */
+div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-container:nth-of-type(2) > header#app-header:nth-of-type(1) > nav#header-center:nth-of-type(1) div button#nav-item-0,
 html:root body #app-header :is(button.nav-pill, button#header-btn-hungthai-avatar),
 html:root[data-card-style] body #app-header :is(button.nav-pill, button#header-btn-hungthai-avatar),
-html:root.dark[data-card-style] body #app-header :is(button.nav-pill, button#header-btn-hungthai-avatar) {
+html:root.dark[data-card-style] body #app-header :is(button.nav-pill, button#header-btn-hungthai-avatar),
+html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn),
+html:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) {
   display: inline-flex !important;
   align-items: center !important;
   align-self: center !important;
   height: auto !important;
   min-height: 0px !important;
   max-height: none !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
   margin-top: auto !important;
   margin-bottom: auto !important;
 }
@@ -7454,32 +7489,63 @@ html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover::a
   animation: none !important;
 }
 
-/* Responsive Golden Ratio Typography Adjustments */
-@media (max-width: 1199px) {
-  :root {
-    --fs-display: 38px;
-    --fs-h1: 30px;
-    --fs-h2: 23px;
-    --fs-h3: 18.5px;
-    --fs-h4: 15.5px;
-    --fs-body-lg: 16.5px;
-    --fs-body: 15px;
-    --fs-body-sm: 13.5px;
+/* ========================================================================= */
+/* MENU ICON ANIMATION: HIỆU ỨNG CHUYỂN ĐỘNG ICON KHI TRANG ĐƯỢC CHỌN        */
+/* ========================================================================= */
+@keyframes navPillActiveIconMotion {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) scale(1.12) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(0px) scale(1.18) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-1.5px) scale(1.12) rotate(4deg);
   }
 }
 
-@media (max-width: 767px) {
-  :root {
-    --fs-display: 32px;
-    --fs-h1: 26px;
-    --fs-h2: 21px;
-    --fs-h3: 17px;
-    --fs-h4: 14.5px;
-    --fs-body-lg: 15.5px;
-    --fs-body: 14px;
-    --fs-body-sm: 12.5px;
+@keyframes navPillActiveBadgeGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 10px 2px var(--nav-pill-accent, rgba(99, 102, 241, 0.7));
   }
 }
+
+html:root body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg,
+html:root[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg,
+html:root.dark[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg,
+html:root body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge img,
+html:root[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge img {
+  animation: navPillActiveIconMotion 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite !important;
+  transform-origin: center center !important;
+  will-change: transform;
+}
+
+html:root body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  animation: navPillActiveBadgeGlow 2.4s ease-in-out infinite !important;
+}
+
+/* Đồng bộ thêm cho nút Footer khi trang đang active (Hình nền, Giao diện, AI Hỗ trợ) */
+html:root body #app-footer button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg,
+html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
+  animation: navPillActiveIconMotion 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite !important;
+  transform-origin: center center !important;
+  will-change: transform;
+}
+
+html:root body #app-footer button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  animation: navPillActiveBadgeGlow 2.4s ease-in-out infinite !important;
+}
+
 
 /* ========================================================================= */
 /* TRANG DỰ ÁN: ĐỒNG BỘ KHUNG SLIDER (#el-p7-div-92) & NỘI DUNG THEO THEME   */
@@ -7689,9 +7755,9 @@ html:root[data-card-style] body :is(
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
-/* Main Card đặt phẳng (Flat), xóa line viền, bo cong chỉnh theo tùy chỉnh, đồng bộ bề mặt 18 giao diện */
+/* Main Card đặt phẳng (Flat), đồng bộ chính xác nền, viền & hiệu ứng kính mờ giống Header (#app-header) trên đủ 18 giao diện */
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) > div#el-p1-div-76:nth-of-type(1) > div#letter-page-shell:nth-of-type(1) > div#letter-page-container:nth-of-type(1) > div#letter-cards-track:nth-of-type(1) > div#letter-card-1:nth-of-type(1),
-html:root body :is(
+html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-card-1,
   #letter-card-2,
   #letter-card-3,
@@ -7706,20 +7772,24 @@ html:root body :is(
   [id^="home-main-card-"],
   .home-screen-main-card,
   #education-main-card,
+  #service-main-card,
   #services-main-card,
   #experience-main-card,
   #skills-main-card,
   #projects-main-card,
   #interview-main-card,
   #memories-main-card,
+  #wallpaper-main-card,
   #systems-main-card,
   #interface-main-card,
   #contact-main-card,
   #ai-assistant-main-card,
+  [id$="-main-card"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   #horoscope-cards-track > .page-main-card,
-  #horoscope-cards-track > [data-main-card="true"]
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"]
 ),
-html:root[data-card-style] body :is(
+html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-card-1,
   #letter-card-2,
   #letter-card-3,
@@ -7734,52 +7804,178 @@ html:root[data-card-style] body :is(
   [id^="home-main-card-"],
   .home-screen-main-card,
   #education-main-card,
+  #service-main-card,
   #services-main-card,
   #experience-main-card,
   #skills-main-card,
   #projects-main-card,
   #interview-main-card,
   #memories-main-card,
+  #wallpaper-main-card,
   #systems-main-card,
   #interface-main-card,
   #contact-main-card,
   #ai-assistant-main-card,
+  [id$="-main-card"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   #horoscope-cards-track > .page-main-card,
-  #horoscope-cards-track > [data-main-card="true"]
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"]
+),
+html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #systems-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  [id$="-main-card"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"]
 ) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  box-shadow: none !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
-  border: none !important;
-  border-width: 0px !important;
-  border-style: none !important;
-  border-color: transparent !important;
-  outline: none !important;
-  box-shadow: none !important;
+  color: var(--text-primary) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
   transform: none !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
 html:root[data-card-style="mica-fluent"] body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
-  [id^="letter-card-"],
-  #horoscope-cards-track > [data-main-card="true"]
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #systems-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  [id$="-main-card"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"]
 ) {
   background: rgba(255, 255, 255, 0.30) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: none !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
-html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"]) body :is(
+@media screen {
+  html:root[data-card-style="mica-fluent"] body #pdf-page-container {
+    background: rgba(255, 255, 255, 0.30) !important;
+    background-color: rgba(255, 255, 255, 0.30) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  }
+}
+
+html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body :is(
+  #letter-card-1,
+  #letter-card-2,
+  #letter-card-3,
+  #letter-card-4,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
-  [id^="letter-card-"],
-  #horoscope-cards-track > [data-main-card="true"]
+  .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #systems-main-card,
+  #interface-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  [id$="-main-card"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"]
 ) {
-  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  background: var(--surface-primary-bg, var(--color-surface)) !important;
+  border: 1px solid var(--border-muted, rgba(148, 163, 184, 0.24)) !important;
+  box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+}
+
+@media screen {
+  html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body #pdf-page-container {
+    background: var(--surface-primary-bg, var(--color-surface)) !important;
+    border: 1px solid var(--border-muted, rgba(148, 163, 184, 0.24)) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  }
 }
 
 html:root body :is(
@@ -7788,6 +7984,10 @@ html:root body :is(
   #letter-card-3,
   #letter-card-4,
   [id^="letter-card-"],
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  [id^="horoscope-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer)
@@ -7798,6 +7998,10 @@ html:root body :is(
   #letter-card-3,
   #letter-card-4,
   [id^="letter-card-"],
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  [id^="horoscope-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer)

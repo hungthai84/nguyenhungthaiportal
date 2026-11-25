@@ -22,6 +22,11 @@
 #website-root:has(#pdf-page-container) {
   --shell-section-gap: 0px;
   gap: 0 !important;
+  height: auto !important;
+  min-height: 100dvh !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 #app-header-container {
@@ -76,15 +81,15 @@
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 1 1 auto !important;
-  align-self: stretch !important;
-  height: 100% !important;
+  flex: 0 0 auto !important;
+  align-self: auto !important;
+  height: auto !important;
   max-height: none !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
   box-sizing: border-box !important;
 }
 
@@ -100,9 +105,10 @@
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
   max-width: var(--main-card-target-w, 1000px);
   box-sizing: border-box !important;
-  flex: 0 0 auto !important;
-  height: calc(100dvh - var(--header-bar-h, 52px) - var(--footer-bar-h, 62px)) !important;
-  min-height: 520px !important;
+  flex: 1 1 0% !important;
+  height: auto !important;
+  min-height: 0px !important;
+  max-height: 100% !important;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0 !important;
@@ -116,9 +122,18 @@
 }
 
 @media screen {
+  #global-content-viewport:has(#horoscope-page-shell) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
   #global-content-viewport:has(#pdf-page-container) {
+    flex: 0 0 auto !important;
     height: auto !important;
     min-height: calc(100dvh - 30px) !important;
+    max-height: none !important;
     max-width: calc(var(--container-max-w, 1250px) + 30px) !important;
     padding: 15px !important;
     box-sizing: border-box !important;
@@ -584,15 +599,15 @@
 #el-p0-div-98 > footer {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  flex: 1 1 auto !important;
-  align-self: stretch !important;
-  height: 100% !important;
-  min-height: 100% !important;
+  flex: 0 0 auto !important;
+  align-self: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
   max-height: none !important;
   box-sizing: border-box !important;
-  padding: 10px 15px !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding: 5px 15px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
@@ -611,9 +626,9 @@
   }
   #app-footer,
   #el-p0-div-98 > footer {
-    padding: 10px 10px !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    padding: 5px 10px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
   }
 }
 
@@ -827,13 +842,19 @@
 
   #app-header,
   #app-footer,
-  #global-content-viewport:not(:has(#pdf-page-container)),
+  #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
   .page-main-card:not(#pdf-page-container):not(#letter-cards-row-2-3 > .page-main-card):not(#horoscope-cards-track > .page-main-card),
   [data-main-card="true"]:not(#pdf-page-container):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]) {
     max-width: var(--main-card-target-w, 1000px) !important;
     width: var(--main-card-target-w, 1000px) !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  #global-content-viewport:has(#horoscope-page-shell) {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
   }
 }
 

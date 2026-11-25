@@ -108,6 +108,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
     label: string;
     href?: string;
     external?: boolean;
+    gradient: string;
+    glow: string;
+    borderColor: string;
     onClick?: (e: React.MouseEvent) => void;
   }> = [
     {
@@ -115,6 +118,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       icon: 'mail',
       label: 'Email · hungthai84@gmail.com',
       href: 'mailto:hungthai84@gmail.com',
+      gradient: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)',
+      glow: '0 6px 16px rgba(244, 63, 94, 0.34)',
+      borderColor: 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-phone',
@@ -122,6 +128,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'Zalo & Điện thoại · +84 0909097882',
       href: 'https://zalo.me/0909097882',
       external: true,
+      gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+      glow: '0 6px 16px rgba(16, 185, 129, 0.34)',
+      borderColor: 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-linkedin',
@@ -129,6 +138,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'LinkedIn · linkedin.com/in/hungthai84',
       href: 'https://www.linkedin.com/in/hungthai84/',
       external: true,
+      gradient: 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)',
+      glow: '0 6px 16px rgba(14, 165, 233, 0.34)',
+      borderColor: 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-website',
@@ -136,47 +148,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'Trang web · nguyenhungthai.powerservice.one',
       href: 'https://nguyenhungthai.powerservice.one/',
       external: true,
+      gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+      glow: '0 6px 16px rgba(139, 92, 246, 0.34)',
+      borderColor: 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-pdf',
       icon: 'file-text',
       label: isEn ? 'View & Download CV Profile' : 'Xem & Tải Hồ sơ năng lực',
+      gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
+      glow: '0 6px 16px rgba(245, 158, 11, 0.34)',
+      borderColor: 'rgba(255, 255, 255, 0.42)',
       onClick: handleQuickNavigatePdf,
     },
   ];
 
-  // Aurora pastel background gradient layer
-  const renderAuroraLayer = () => (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
-    >
-      <div
-        className="absolute -left-24 -top-24 w-[360px] h-[360px] rounded-full blur-[72px] opacity-60"
-        style={{
-          background: isDark
-            ? 'radial-gradient(circle, rgba(236, 72, 153, 0.22) 0%, rgba(168, 85, 247, 0.14) 50%, transparent 75%)'
-            : 'radial-gradient(circle, rgba(244, 114, 182, 0.34) 0%, rgba(192, 132, 252, 0.22) 48%, transparent 76%)',
-        }}
-      />
-      <div
-        className="absolute right-[-60px] top-[15%] w-[380px] h-[380px] rounded-full blur-[80px] opacity-55"
-        style={{
-          background: isDark
-            ? 'radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, rgba(99, 102, 241, 0.12) 55%, transparent 78%)'
-            : 'radial-gradient(circle, rgba(196, 181, 253, 0.34) 0%, rgba(147, 197, 253, 0.22) 52%, transparent 78%)',
-        }}
-      />
-      <div
-        className="absolute left-[38%] -bottom-24 w-[320px] h-[260px] rounded-full blur-[70px] opacity-50"
-        style={{
-          background: isDark
-            ? 'radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, transparent 75%)'
-            : 'radial-gradient(circle, rgba(254, 215, 170, 0.32) 0%, rgba(251, 207, 232, 0.18) 55%, transparent 78%)',
-        }}
-      />
-    </div>
-  );
 
   // Enlarged vivid multi-color orbiting badges around portrait frame
   const orbitBadges = [
@@ -308,16 +294,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
         >
           <div
             id="home-hero-stage-1"
-            data-section-card="true"
-            data-element-name="Card chính Trang chủ 2 cột ngang"
-            data-element-type="card"
+            data-element-name="Bố cục Trang chủ 2 cột ngang"
+            data-element-type="container"
             data-element-page="home"
             data-element-parent="home-main-card-1"
-            className="bento-card glass-card home-split-hero-card relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-center overflow-y-auto md:overflow-hidden no-scrollbar rounded-[var(--radius-card,14px)] box-border text-left !p-0"
-            style={{ borderRadius: 'var(--radius-card, 14px)' }}
+            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-center overflow-y-auto md:overflow-hidden no-scrollbar rounded-[var(--radius-card,14px)] box-border text-left !p-0 bg-transparent border-0 shadow-none"
+            style={{
+              borderRadius: 'var(--radius-card, 14px)',
+              background: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
+            }}
           >
-            {renderAuroraLayer()}
-
             <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-4 sm:gap-6 lg:gap-8 px-4 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
               {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
               <div className="md:col-span-6 flex flex-col justify-center items-start gap-4 sm:gap-5 min-w-0 order-2 md:order-1">
@@ -415,15 +405,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 >
                   {contactSocialLinks.map((item) => {
                     const sharedClasses =
-                      'w-9 h-9 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 cursor-pointer border';
-                    const sharedStyle: React.CSSProperties = {
-                      background: isDark
-                        ? 'rgba(255, 255, 255, 0.08)'
-                        : 'rgba(255, 255, 255, 0.56)',
-                      borderColor: isDark
-                        ? 'rgba(255, 255, 255, 0.16)'
-                        : 'rgba(255, 255, 255, 0.85)',
-                      color: 'var(--text-heading, var(--text-primary))',
+                      'w-9 h-9 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:brightness-110 cursor-pointer border';
+                    const itemStyle: React.CSSProperties = {
+                      background: item.gradient,
+                      borderColor: item.borderColor,
+                      boxShadow: item.glow,
+                      color: '#FFFFFF',
                     };
 
                     if (item.href) {
@@ -438,9 +425,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                           title={item.label}
                           onClick={() => SoundEngine.playTap()}
                           className={sharedClasses}
-                          style={sharedStyle}
+                          style={itemStyle}
                         >
-                          <WebIcon name={item.icon} className="w-[17px] h-[17px]" />
+                          <WebIcon name={item.icon} className="w-[17px] h-[17px] text-white" />
                         </a>
                       );
                     }
@@ -454,9 +441,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         title={item.label}
                         onClick={item.onClick}
                         className={sharedClasses}
-                        style={sharedStyle}
+                        style={itemStyle}
                       >
-                        <WebIcon name={item.icon} className="w-[17px] h-[17px]" />
+                        <WebIcon name={item.icon} className="w-[17px] h-[17px] text-white" />
                       </button>
                     );
                   })}

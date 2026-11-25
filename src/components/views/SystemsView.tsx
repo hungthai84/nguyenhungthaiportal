@@ -272,7 +272,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#a16207',
     darkAccent: '#facc15',
     iconName: 'globe',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1_zCMxIls3Se9t1z6Ydpdqi0ghcRZDa_a',
+    illustrationSrc: 'https://i.postimg.cc/0QpLLBYy/SDP-Cong-lam-viec-CSKH.png',
     cardTheme: '#EAB308',
   },
   csc: {
@@ -289,7 +289,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0369a1',
     darkAccent: '#38bdf8',
     iconName: 'headphones',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1r0Pl_hzX7DILkQyIj9Fv0kNuoja1x9lS',
+    illustrationSrc: 'https://i.postimg.cc/wvKC4psP/CSC-Trung-tam-Cham-soc-Khach-hang.png',
     cardTheme: '#0EA5E9',
   },
   crm: {
@@ -306,7 +306,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#047857',
     darkAccent: '#34d399',
     iconName: 'users',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/13Dtp99V1A4HXoChWsZEp9UK-TGsEKDxy',
+    illustrationSrc: 'https://i.postimg.cc/W3RBYvJH/CRM-Quan-ly-Quan-he-Khach-hang.png',
     cardTheme: '#10B981',
   },
   clp: {
@@ -323,7 +323,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#be123c',
     darkAccent: '#fb7185',
     iconName: 'gift',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1fOKwCICmG8PCy6EYoNkG64C5nQUsShyT',
+    illustrationSrc: 'https://i.postimg.cc/fL4GqN0c/CLP-Khach-hang-Than-thiet.png',
     cardTheme: '#F43F5E',
   },
   pos: {
@@ -340,7 +340,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0e7490',
     darkAccent: '#22d3ee',
     iconName: 'shopping-cart',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1IKzIg6pkzYQhqIu0eumxYctIkZvYm6vq',
+    illustrationSrc: 'https://i.postimg.cc/264PPKQY/POS-Quan-ly-Ban-hang-tai-Quay.png',
     cardTheme: '#06B6D4',
   },
   erp: {
@@ -357,7 +357,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0f766e',
     darkAccent: '#2dd4bf',
     iconName: 'chart',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/17pVP6aKtDX3Czvox2qmtoJ3aamgYWah6',
+    illustrationSrc: 'https://i.postimg.cc/Y9c5DHmT/ERP-Tai-chinh-ke-toan.png',
     cardTheme: '#14B8A6',
   },
   hrm: {
@@ -374,7 +374,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#c2410c',
     darkAccent: '#fb923c',
     iconName: 'briefcase',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1xpG5XkjxgYeV1OK1-u82x3PmH7A-Y69k',
+    illustrationSrc: 'https://i.postimg.cc/B6xddVxh/HRM-Quan-ly-Nguon-nhan-luc.png',
     cardTheme: '#F97316',
   },
   bpm: {
@@ -391,7 +391,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#6d28d9',
     darkAccent: '#c084fc',
     iconName: 'file-text',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1UGN6bAdd_B5gkn56rl9ymm3C61VESuLd',
+    illustrationSrc: 'https://i.postimg.cc/hjFkZB71/BPM-Quan-ly-Quy-trinh-Nghiep-vu.png',
     cardTheme: '#8B5CF6',
   },
   okr: {
@@ -408,7 +408,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#15803d',
     darkAccent: '#4ade80',
     iconName: 'target',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/11HTbjVNXWn_Q9l79qZVXneM0RJhqn_U8',
+    illustrationSrc: 'https://i.postimg.cc/Jnb992bf/OKR-Quan-ly-Muc-tieu-Ket-qua.png',
     cardTheme: '#22C55E',
   },
   lms: {
@@ -425,7 +425,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#1d4ed8',
     darkAccent: '#60a5fa',
     iconName: 'graduation',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1nlAazLnCH8_fYSXns1gX0tJpDbnXYPrL',
+    illustrationSrc: 'https://i.postimg.cc/DZqttMqt/LMS-Quan-ly-Dao-tao.png',
     cardTheme: '#2563EB',
   },
   bi: {
@@ -442,7 +442,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#7e22ce',
     darkAccent: '#d8b4fe',
     iconName: 'trending',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/10EuOHcVkQ8iuDovIVCZCLf1S0iS_4O_L',
+    illustrationSrc: 'https://i.postimg.cc/1txk7QNB/BI-Dashboard-Bao-cao-Phan-tich.png',
     cardTheme: '#9333EA',
   },
   ai: {
@@ -459,7 +459,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#4338ca',
     darkAccent: '#818cf8',
     iconName: 'robot',
-    illustrationSrc: 'https://lh3.googleusercontent.com/d/1KYjQYOTnsbDqiQ2T8Gm5F7Mra_eRH2ln',
+    illustrationSrc: 'https://i.postimg.cc/4dCD2ghv/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.png',
     cardTheme: '#4F46E5',
   },
 };

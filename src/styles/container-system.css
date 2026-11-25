@@ -156,11 +156,11 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #about-personal-info-grid > .about-info-subcard .about-info-label {
-    font-size: 11px !important;
+    font-size: var(--fs-caption, 12px) !important;
   }
 
   #about-personal-info-grid > .about-info-subcard .about-info-value {
-    font-size: 12px !important;
+    font-size: var(--fs-body-sm, 14px) !important;
   }
 }
 

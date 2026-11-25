@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
@@ -38,6 +38,7 @@ import {
   type DomainIconKey,
   type KpiIconKey,
   type DomainUiMeta,
+  type ServiceInteractionState,
 } from '@/components/views/services/ServiceExpandedDetail';
 
 export interface ServicesViewProps {
@@ -293,224 +294,170 @@ const getCardDomId = (id: string) => {
   }
 };
 
-export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
-  const { cardStyle, isDark: themeIsDark } = useTheme();
+export const ServicesView: React.FC<ServicesViewProps> = () => {
+  const { cardStyle } = useTheme();
   const { language, t } = useLanguage();
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = Boolean(useReducedMotion());
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
-  const isDark =
-    themeIsDark ||
-    currentTheme === 'dark-liquid-glass' ||
-    currentTheme === 'dark-neon-glass' ||
-    currentTheme === 'cowhide-leather' ||
-    currentTheme === 'black-cowhide-leather' ||
-    currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond' ||
-    currentTheme === 'dark-frost-ice-neu';
-  const isLight = !isDark;
   const isEn = language === 'en';
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'black-cowhide-leather';
   const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
 
-  const [expandedDomain, setExpandedDomain] = useState<DomainData | null>(null);
-  const [originDomainId, setOriginDomainId] = useState<string | null>(null);
-  const [animPhase, setAnimPhase] = useState<'idle' | 'entering' | 'open' | 'closing'>('idle');
-  const [isGridDimmed, setIsGridDimmed] = useState(false);
-  const [morphRect, setMorphRect] = useState<{
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-  } | null>(null);
-  const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
+  // Controlled interaction state machine: idle | hovered | expanding | expanded | closing
+  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
+  const [interactionState, setInteractionState] = useState<ServiceInteractionState>('idle');
+  const [hoveredDomainId, setHoveredDomainId] = useState<string | null>(null);
+  const [gridNaturalHeight, setGridNaturalHeight] = useState<number | undefined>(undefined);
+  const [isGridLayerHidden, setIsGridLayerHidden] = useState<boolean>(false);
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
+  const scrollViewportRef = useRef<HTMLDivElement | null>(null);
   const cardsWrapperRef = useRef<HTMLDivElement | null>(null);
   const cardsGridRef = useRef<HTMLDivElement | null>(null);
   const expandedCardRef = useRef<HTMLDivElement | null>(null);
   const expandedBodyRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const animTimerRef = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
+  const timersRef = useRef<number[]>([]);
 
   const clearTimers = useCallback(() => {
-    if (animTimerRef.current !== null) {
-      window.clearTimeout(animTimerRef.current);
-      animTimerRef.current = null;
-    }
-    if (rafRef.current !== null) {
-      window.cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
+    timersRef.current.forEach((id) => window.clearTimeout(id));
+    timersRef.current = [];
+  }, []);
+
+  const scheduleTimer = useCallback((fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((tId) => tId !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
   }, []);
 
   useEffect(() => clearTimers, [clearTimers]);
 
-  const computeTargetBounds = useCallback(() => {
-    const wrapperEl = cardsWrapperRef.current;
-    const gridEl = cardsGridRef.current;
-    const targetEl = gridEl || wrapperEl;
-    if (!targetEl) return null;
-
-    const width = targetEl.offsetWidth || targetEl.clientWidth;
-    const height = targetEl.offsetHeight || targetEl.clientHeight;
-
-    return {
-      top: 0,
-      left: 0,
-      width,
-      height,
-      needsWrapperMinHeight: height,
-    };
-  }, []);
+  const expandedDomain = selectedDomainId
+    ? DOMAINS_DATA.find((d) => d.id === selectedDomainId) || null
+    : null;
+  const expandedMeta = expandedDomain
+    ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01']
+    : null;
 
   const openExpandedCard = useCallback(
-    (domain: DomainData, explicitCardEl?: HTMLDivElement | null) => {
+    (domain: DomainData) => {
+      if (interactionState === 'expanding' || interactionState === 'closing') return;
+      if (selectedDomainId === domain.id) return;
+
       clearTimers();
       SoundEngine.playTap();
 
-      const hostEl = cardsWrapperRef.current || mainCardRef.current;
-      const originEl = explicitCardEl || cardRefs.current[domain.id];
-      const targetBounds = computeTargetBounds();
-
-      const prefersReducedMotion =
-        typeof window !== 'undefined' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      setActiveCategory(domain.id);
-      setOriginDomainId(domain.id);
-      setExpandedDomain(domain);
-
-      if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
-        if (targetBounds) {
-          setMorphRect({
-            top: targetBounds.top,
-            left: targetBounds.left,
-            width: targetBounds.width,
-            height: targetBounds.height,
-          });
-          setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
+      if (cardsGridRef.current && !isGridLayerHidden) {
+        const measuredHeight = cardsGridRef.current.offsetHeight;
+        if (measuredHeight > 0) {
+          setGridNaturalHeight(measuredHeight);
         }
-        setAnimPhase('open');
-        setIsGridDimmed(true);
+      }
+
+      setHoveredDomainId(null);
+      setActiveCategory(domain.id);
+      setSelectedDomainId(domain.id);
+
+      // Giữ vùng thẻ mở rộng trong tầm nhìn trên mobile/tablet
+      if (scrollViewportRef.current && cardsWrapperRef.current) {
+        const vpRect = scrollViewportRef.current.getBoundingClientRect();
+        const wrapRect = cardsWrapperRef.current.getBoundingClientRect();
+        if (wrapRect.top < vpRect.top) {
+          scrollViewportRef.current.scrollTo({
+            top: Math.max(0, scrollViewportRef.current.scrollTop + (wrapRect.top - vpRect.top)),
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          });
+        }
+      }
+
+      if (prefersReducedMotion) {
+        setIsGridLayerHidden(true);
+        setInteractionState('expanded');
+        scheduleTimer(() => {
+          closeButtonRef.current?.focus({ preventScroll: true });
+        }, 20);
         return;
       }
 
-      const hostRect = hostEl.getBoundingClientRect();
-      const cardRect = originEl.getBoundingClientRect();
+      setIsGridLayerHidden(false);
+      setInteractionState('expanding');
 
-      setWrapperMinHeight(targetBounds.needsWrapperMinHeight);
-      setAnimPhase('entering');
-      setMorphRect({
-        top: cardRect.top - hostRect.top,
-        left: cardRect.left - hostRect.left,
-        width: cardRect.width,
-        height: cardRect.height,
-      });
+      // Sau khi 5 card còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy để không dư chiều cao
+      scheduleTimer(() => {
+        setIsGridLayerHidden(true);
+      }, 280);
 
-      rafRef.current = window.requestAnimationFrame(() => {
-        if (expandedCardRef.current) {
-          void expandedCardRef.current.offsetHeight;
-        }
-        rafRef.current = window.requestAnimationFrame(() => {
-          setIsGridDimmed(true);
-          setAnimPhase('open');
-          setMorphRect({
-            top: targetBounds.top,
-            left: targetBounds.left,
-            width: targetBounds.width,
-            height: targetBounds.height,
-          });
-        });
-      });
+      scheduleTimer(() => {
+        setInteractionState('expanded');
+        closeButtonRef.current?.focus({ preventScroll: true });
+      }, 420);
     },
-    [clearTimers, computeTargetBounds]
+    [interactionState, selectedDomainId, clearTimers, isGridLayerHidden, prefersReducedMotion, scheduleTimer]
   );
 
   const closeExpandedCard = useCallback(() => {
-    if (!expandedDomain || animPhase === 'idle' || animPhase === 'closing') return;
+    if (!selectedDomainId || interactionState === 'closing' || interactionState === 'idle') return;
+
     clearTimers();
     SoundEngine.playTap();
 
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const hostEl = cardsWrapperRef.current || mainCardRef.current;
-    const targetId = originDomainId || expandedDomain.id;
-    const originEl = cardRefs.current[targetId];
-
-    setIsGridDimmed(false);
+    const closingId = selectedDomainId;
     setActiveCategory('ALL');
+    setHoveredDomainId(null);
 
-    if (prefersReducedMotion || !hostEl || !originEl) {
-      setExpandedDomain(null);
-      setOriginDomainId(null);
-      setAnimPhase('idle');
-      setMorphRect(null);
-      setWrapperMinHeight(undefined);
+    if (prefersReducedMotion) {
+      setIsGridLayerHidden(false);
+      setSelectedDomainId(null);
+      setInteractionState('idle');
+      setGridNaturalHeight(undefined);
+      scheduleTimer(() => {
+        cardRefs.current[closingId]?.focus({ preventScroll: true });
+      }, 20);
       return;
     }
 
-    const hostRect = hostEl.getBoundingClientRect();
-    const cardRect = originEl.getBoundingClientRect();
+    // Bước 1: Fade out nội dung chi tiết & bật lại tầng lưới nền để sẵn sàng đón Card thu nhỏ về ô cũ
+    setInteractionState('closing');
+    setIsGridLayerHidden(false);
 
-    setAnimPhase('closing');
-    setMorphRect({
-      top: cardRect.top - hostRect.top,
-      left: cardRect.left - hostRect.left,
-      width: cardRect.width,
-      height: cardRect.height,
-    });
+    // Bước 2: Motion LayoutId FLIP morph Card trở về đúng vị trí trong lưới & 5 Card còn lại fade in
+    scheduleTimer(() => {
+      setSelectedDomainId(null);
+    }, 170);
 
-    animTimerRef.current = window.setTimeout(() => {
-      setExpandedDomain(null);
-      setOriginDomainId(null);
-      setAnimPhase('idle');
-      setMorphRect(null);
-      setWrapperMinHeight(undefined);
-    }, 820);
-  }, [expandedDomain, animPhase, clearTimers, originDomainId]);
+    // Bước 3: Hoàn tất khôi phục trạng thái Idle & trả focus bàn phím về đúng Card nguồn
+    scheduleTimer(() => {
+      setInteractionState('idle');
+      setGridNaturalHeight(undefined);
+      cardRefs.current[closingId]?.focus({ preventScroll: true });
+    }, 620);
+  }, [selectedDomainId, interactionState, clearTimers, prefersReducedMotion, scheduleTimer]);
 
   const switchExpandedDomain = useCallback(
     (domain: DomainData) => {
+      if (interactionState === 'closing' || domain.id === selectedDomainId) return;
       SoundEngine.playTap();
-      setExpandedDomain(domain);
-      setOriginDomainId(domain.id);
+      setSelectedDomainId(domain.id);
       setActiveCategory(domain.id);
+      setInteractionState('expanded');
+      setIsGridLayerHidden(true);
       if (expandedBodyRef.current) {
-        expandedBodyRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        expandedBodyRef.current.scrollTo({
+          top: 0,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
       }
     },
-    []
+    [interactionState, selectedDomainId, prefersReducedMotion]
   );
-
-  // Sync expanded bounds dynamically on 6-card grid resize
-  useEffect(() => {
-    const hostEl = cardsGridRef.current || cardsWrapperRef.current;
-    if (!hostEl || typeof ResizeObserver === 'undefined') return;
-
-    const observer = new ResizeObserver(() => {
-      if (animPhase !== 'open') return;
-      const bounds = computeTargetBounds();
-      if (!bounds) return;
-      setMorphRect({
-        top: bounds.top,
-        left: bounds.left,
-        width: bounds.width,
-        height: bounds.height,
-      });
-      setWrapperMinHeight(bounds.needsWrapperMinHeight);
-    });
-
-    observer.observe(hostEl);
-    return () => observer.disconnect();
-  }, [animPhase, computeTargetBounds]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -529,13 +476,13 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
       if (e.key !== 'Escape') return;
       if (isFilterOpen) {
         setIsFilterOpen(false);
-      } else if (expandedDomain) {
+      } else if (selectedDomainId) {
         closeExpandedCard();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isFilterOpen, expandedDomain, closeExpandedCard]);
+  }, [isFilterOpen, selectedDomainId, closeExpandedCard]);
 
   const filterCategories = [
     { id: 'ALL', label: isEn ? 'All 6 Domains' : 'Tất cả 6 lĩnh vực', icon: 'grid' },
@@ -547,20 +494,11 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
     { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng Hệ thống', icon: 'layers' },
   ];
 
-  const getAccentColor = (id: string) => {
-    if (cardStyle === 'black-cowhide-leather') {
-      return '#F5C478';
-    }
-    if (isLeatherTheme) {
-      return '#FDE68A';
-    }
-    const meta = DOMAIN_UI_META[id] || DOMAIN_UI_META['01'];
-    return isLight ? meta.accentLight : meta.accentDark;
-  };
-
-
-  const expandedMeta = expandedDomain ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01'] : null;
-  const expandedAccent = expandedDomain ? getAccentColor(expandedDomain.id) : '#0284c7';
+  const themeAccent = 'var(--text-link, var(--color-primary))';
+  const layoutSpring = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 215, damping: 27, mass: 0.95 };
+  const isAnyCardExpanded = Boolean(selectedDomainId);
 
   return (
     <div
@@ -594,6 +532,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
         >
           <div
             id="services-main-scroll-viewport"
+            ref={scrollViewportRef}
             className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
           <div
@@ -725,7 +664,7 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
                                 } else {
                                   const found = DOMAINS_DATA.find((d) => d.id === cat.id);
                                   if (!found) return;
-                                  if (expandedDomain && animPhase === 'open') {
+                                  if (expandedDomain && interactionState === 'expanded') {
                                     switchExpandedDomain(found);
                                   } else {
                                     openExpandedCard(found);
@@ -762,227 +701,266 @@ export const ServicesView: React.FC<ServicesViewProps> = ({ currentTheme = 'liqu
               </div>
             </motion.div>
 
-            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC (BỐ CỤC FORMAT GIỐNG TRANG HỆ THỐNG) */}
-            <div
-              id="services-cards-wrapper"
-              ref={cardsWrapperRef}
-              className="relative w-full flex flex-col"
-              style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
-            >
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & EXPANDING SERVICE CARD (MOTION LAYOUT ANIMATION TRONG DÒNG CHẢY THẬT) */}
+            <LayoutGroup id="services-cards-layout-group">
               <div
-                id="services-cards-grid"
-                ref={cardsGridRef}
-                className={cn(
-                  'services-cards-grid card-grid w-full min-w-0',
-                  isGridDimmed && 'grid-dimmed'
-                )}
+                id="services-cards-wrapper"
+                ref={cardsWrapperRef}
+                data-interaction-state={interactionState}
+                className="relative w-full"
+                style={
+                  isAnyCardExpanded && gridNaturalHeight
+                    ? { minHeight: `${gridNaturalHeight}px` }
+                    : undefined
+                }
               >
-                {DOMAINS_DATA.map((domain, idx) => {
-                  const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
-                  const accentColor = getAccentColor(domain.id);
-                  const cardTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
-                  const shortCardTitle = isEn
-                    ? meta.shortTitleEn
-                    : domain.title;
-                  const summaryText = isEn
-                    ? domain.descEn || domain.subtitleEn
-                    : domain.desc || domain.subtitle || domain.coreCompetency;
-                  const driveServiceImg =
-                    serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
-                  const serviceImage =
-                    driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
+                <div
+                  id="services-cards-grid"
+                  ref={cardsGridRef}
+                  aria-hidden={isAnyCardExpanded}
+                  className={cn(
+                    'services-cards-grid card-grid w-full min-w-0',
+                    isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
+                    isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
+                  )}
+                >
+                  {DOMAINS_DATA.map((domain, idx) => {
+                    const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
+                    const cardTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
+                    const shortCardTitle = isEn ? meta.shortTitleEn : domain.title;
+                    const summaryText = isEn
+                      ? domain.descEn || domain.subtitleEn
+                      : domain.desc || domain.subtitle || domain.coreCompetency;
+                    const driveServiceImg =
+                      serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
+                    const serviceImage =
+                      driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
 
-                  const hoverFloodBg = isLeatherTheme
-                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.30) 0%, rgba(217, 145, 58, 0.22) 52%, rgba(120, 72, 24, 0.14) 100%)'
-                    : isLight
-                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 38%, transparent) 0%, color-mix(in srgb, ${accentColor} 22%, ${meta.tintBgLight}) 55%, color-mix(in srgb, ${accentColor} 18%, rgba(255,255,255,0.92)) 100%)`
-                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 42%, transparent) 0%, color-mix(in srgb, ${accentColor} 24%, ${meta.tintBgDark}) 58%, color-mix(in srgb, ${accentColor} 22%, rgba(15,23,42,0.92)) 100%)`;
+                    const isSelectedCard = selectedDomainId === domain.id;
+                    const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
 
-                  const updateHoverOrigin = (e: React.MouseEvent<HTMLDivElement>) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    if (!rect.width || !rect.height) return;
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
-                    e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
-                  };
-
-                  return (
-                    <motion.div
-                      key={domain.id}
-                      ref={(el) => {
-                        cardRefs.current[domain.id] = el;
-                      }}
-                      id={getCardDomId(domain.id)}
-                      data-element-type="card"
-                      data-section-card="true"
-                      role="button"
-                      tabIndex={0}
-                      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.01 }}
-                      transition={{
-                        duration: prefersReducedMotion ? 0 : 0.55,
-                        delay: prefersReducedMotion ? 0 : idx * 0.075,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                      onMouseEnter={updateHoverOrigin}
-                      onMouseMove={updateHoverOrigin}
-                      onClick={(e) => openExpandedCard(domain, e.currentTarget)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          openExpandedCard(domain, e.currentTarget);
-                        }
-                      }}
-                      style={{
-                        height: 'auto',
-                        background: isLeatherTheme
-                          ? undefined
-                          : isLight
-                            ? meta.cardBgLight
-                            : meta.cardBgDark,
-                        borderColor: isLeatherTheme
-                          ? undefined
-                          : isLight
-                            ? meta.borderLight
-                            : meta.borderDark,
-                        ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
-                      }}
-                      className="service-card domain-card bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left"
-                    >
-                      {/* Lớp Color Reveal lan màu dần khắp thẻ theo vị trí trỏ chuột */}
-                      <span
-                        aria-hidden="true"
-                        className="service-card-hover-flood"
-                        style={{ background: hoverFloodBg }}
-                      />
-
-                      {/* Bố cục Thẻ dịch vụ 2 phần 70% / 30%:
-                          Cột bên trái 70% (H1: Icon & Tiêu đề, H2: Mô tả, H3: Logo)
-                          Cột bên phải 30% (H1-H3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại) */}
-                      <div className="service-card-split-grid relative z-10 grid grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 w-full items-stretch">
-                        {/* CỘT BÊN TRÁI (70%) - HÀNG 1: Icon & Tiêu đề */}
-                        <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-center">
-                          {renderDomainIcon(
-                            meta.iconKey,
-                            'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
-                            accentColor
-                          )}
-                          <h3
-                            className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 line-clamp-2"
-                            data-card-title="true"
-                            style={{ color: accentColor }}
-                            title={cardTitle}
-                          >
-                            {isEn ? shortCardTitle : domain.title}
-                          </h3>
-                        </div>
-
-                        {/* CỘT BÊN TRÁI (70%) - HÀNG 2: Mô tả */}
-                        <div className="col-start-1 row-start-2 min-w-0 flex items-start">
-                          <p
-                            id={`service-card-desc-${domain.id}`}
-                            className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
-                            title={summaryText}
-                          >
-                            {summaryText}
-                          </p>
-                        </div>
-
-                        {/* CỘT BÊN TRÁI (70%) - HÀNG 3: Logo đối tác căn trái */}
+                    // Khi Card này đang mở rộng: giữ một placeholder vô hình cùng ô để 5 Card còn lại không nhảy bố cục khi fade out
+                    if (isSelectedCard) {
+                      return (
                         <div
-                          className={cn(
-                            'service-divider col-start-1 row-start-3 pt-2 flex items-center justify-start gap-2 min-w-0',
-                            isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
-                          )}
-                        >
-                          {(domain.companyLogos || []).length > 0 && (
-                            <div className="flex items-center flex-wrap gap-2 min-w-0">
-                              {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
-                                <div
-                                  key={partner.name || pIdx}
-                                  title={partner.name}
-                                  style={{
-                                    background: 'var(--surface-secondary-bg, var(--bg-card))',
-                                    border: 'none',
-                                  }}
-                                  className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
-                                >
-                                  <img
-                                    src={partner.logo}
-                                    alt={partner.name}
-                                    loading="lazy"
-                                    decoding="async"
-                                    referrerPolicy="no-referrer"
-                                    className="w-full h-full object-cover rounded-full"
-                                    onError={(e) => {
-                                      if (
-                                        partner.fallbackLogo &&
-                                        e.currentTarget.src !== partner.fallbackLogo
-                                      ) {
-                                        e.currentTarget.src = partner.fallbackLogo;
-                                      } else {
-                                        e.currentTarget.src = serviceImage;
-                                      }
-                                    }}
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+                          key={`placeholder-${domain.id}`}
+                          aria-hidden="true"
+                          className="invisible pointer-events-none select-none min-h-[148px]"
+                        />
+                      );
+                    }
 
-                        {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại (không đóng khung) */}
-                        <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
+                    const updateHoverOrigin = (e: React.PointerEvent<HTMLDivElement>) => {
+                      if (e.pointerType !== 'mouse' || isAnyCardExpanded) return;
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      if (!rect.width || !rect.height) return;
+                      const x = ((e.clientX - rect.left) / rect.width) * 100;
+                      const y = ((e.clientY - rect.top) / rect.height) * 100;
+                      e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
+                      e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
+                    };
+
+                    return (
+                      <motion.div
+                        key={domain.id}
+                        layoutId={`service-card-shell-${domain.id}`}
+                        layout="position"
+                        ref={(el) => {
+                          cardRefs.current[domain.id] = el;
+                        }}
+                        id={getCardDomId(domain.id)}
+                        data-element-type="card"
+                        data-section-card="true"
+                        data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
+                        data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
+                        role="button"
+                        tabIndex={isAnyCardExpanded ? -1 : 0}
+                        aria-expanded={false}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                        animate={
+                          isOtherDimmed
+                            ? { opacity: 0, scale: prefersReducedMotion ? 1 : 0.96, y: 0 }
+                            : { opacity: 1, scale: 1, y: 0 }
+                        }
+                        transition={{
+                          layout: layoutSpring,
+                          opacity: {
+                            duration: prefersReducedMotion ? 0 : isOtherDimmed ? 0.24 : 0.34,
+                            delay: prefersReducedMotion || isOtherDimmed || interactionState !== 'idle' ? 0 : idx * 0.04,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                          scale: {
+                            duration: prefersReducedMotion ? 0 : 0.28,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                          y: {
+                            duration: prefersReducedMotion ? 0 : 0.38,
+                            delay: prefersReducedMotion ? 0 : idx * 0.04,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                        }}
+                        onPointerEnter={(e) => {
+                          if (e.pointerType !== 'mouse' || isAnyCardExpanded) return;
+                          updateHoverOrigin(e);
+                          setHoveredDomainId(domain.id);
+                          if (interactionState === 'idle') {
+                            setInteractionState('hovered');
+                          }
+                        }}
+                        onPointerMove={updateHoverOrigin}
+                        onPointerLeave={(e) => {
+                          if (e.pointerType !== 'mouse') return;
+                          setHoveredDomainId((prev) => (prev === domain.id ? null : prev));
+                          setInteractionState((prev) => (prev === 'hovered' ? 'idle' : prev));
+                        }}
+                        onClick={() => openExpandedCard(domain)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            openExpandedCard(domain);
+                          }
+                        }}
+                        style={{
+                          height: 'auto',
+                          '--service-card-accent': meta.accentLight,
+                          '--service-card-accent-dark': meta.accentDark,
+                          '--service-card-tint-light': meta.tintBgLight,
+                          '--service-card-tint-dark': meta.tintBgDark,
+                          '--service-card-border-light': meta.borderLight,
+                          '--service-card-border-dark': meta.borderDark,
+                          '--service-card-img-url': `url("${serviceImage}")`,
+                        } as React.CSSProperties}
+                        className="service-card domain-card bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left"
+                      >
+                        {/* Hiệu ứng 1: Lớp Liquid Color Reveal đồng bộ sắc độ từ hình ảnh minh họa của chính thẻ dịch vụ */}
+                        <span aria-hidden="true" className="service-card-hover-flood">
+                          <span className="service-card-hover-image-aura" />
+                        </span>
+
+                        {/* Bố cục Thẻ dịch vụ 2 phần 70% / 30% giữ nguyên dữ liệu & cấu trúc */}
+                        <div className="service-card-split-grid relative z-10 grid grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 w-full items-stretch">
+                          {/* CỘT BÊN TRÁI (70%) - HÀNG 1: Icon & Tiêu đề */}
+                          <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2 self-center">
+                            {renderDomainIcon(
+                              meta.iconKey,
+                              'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
+                              themeAccent
+                            )}
+                            <h3
+                              className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 line-clamp-2"
+                              data-card-title="true"
+                              style={{ color: themeAccent }}
+                              title={cardTitle}
+                            >
+                              {isEn ? shortCardTitle : domain.title}
+                            </h3>
+                          </div>
+
+                          {/* CỘT BÊN TRÁI (70%) - HÀNG 2: Mô tả */}
+                          <div className="col-start-1 row-start-2 min-w-0 flex items-start">
+                            <p
+                              id={`service-card-desc-${domain.id}`}
+                              className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
+                              title={summaryText}
+                            >
+                              {summaryText}
+                            </p>
+                          </div>
+
+                          {/* CỘT BÊN TRÁI (70%) - HÀNG 3: Logo đối tác căn trái */}
                           <div
-                            className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-visible bg-transparent border-0 shadow-none p-0 rounded-none"
+                            className={cn(
+                              'service-divider col-start-1 row-start-3 pt-2 flex items-center justify-start gap-2 min-w-0',
+                              isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
+                            )}
                           >
-                            <img
-                              src={serviceImage}
-                              alt={cardTitle}
-                              loading="lazy"
-                              decoding="async"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => {
-                                if (e.currentTarget.src !== meta.fallbackIllustration) {
-                                  e.currentTarget.src = meta.fallbackIllustration;
-                                }
-                              }}
-                              className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
-                              style={{ filter: 'none', WebkitFilter: 'none' }}
-                            />
+                            {(domain.companyLogos || []).length > 0 && (
+                              <div className="flex items-center flex-wrap gap-2 min-w-0">
+                                {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
+                                  <div
+                                    key={partner.name || pIdx}
+                                    title={partner.name}
+                                    style={{
+                                      background: 'var(--surface-secondary-bg, var(--bg-card))',
+                                      border: 'none',
+                                    }}
+                                    className="w-[42px] h-[42px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                  >
+                                    <img
+                                      src={partner.logo}
+                                      alt={partner.name}
+                                      loading="lazy"
+                                      decoding="async"
+                                      referrerPolicy="no-referrer"
+                                      className="w-full h-full object-cover rounded-full"
+                                      onError={(e) => {
+                                        if (
+                                          partner.fallbackLogo &&
+                                          e.currentTarget.src !== partner.fallbackLogo
+                                        ) {
+                                          e.currentTarget.src = partner.fallbackLogo;
+                                        } else {
+                                          e.currentTarget.src = serviceImage;
+                                        }
+                                      }}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* CỘT BÊN PHẢI (30%) - HÀNG 1, 2, 3: Hình ảnh duy nhất cao bằng 3 hàng cộng lại */}
+                          <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
+                            <div className="service-card-illustration service-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-visible bg-transparent border-0 shadow-none p-0 rounded-none">
+                              <img
+                                src={serviceImage}
+                                alt={cardTitle}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                onError={(e) => {
+                                  if (e.currentTarget.src !== meta.fallbackIllustration) {
+                                    e.currentTarget.src = meta.fallbackIllustration;
+                                  }
+                                }}
+                                className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none filter-none"
+                                style={{ filter: 'none', WebkitFilter: 'none' }}
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
 
-              {/* 3. THẺ CHI TIẾT MỞ RỘNG FLIP MORPH (TĂNG KÍCH THƯỚC TỪ TỪ BẰNG ĐÚNG 6 THẺ CỘNG LẠI) */}
-              {expandedDomain && expandedMeta && morphRect && (
-                <ServiceExpandedDetail
-                  expandedDomain={expandedDomain}
-                  expandedMeta={expandedMeta}
-                  expandedAccent={expandedAccent}
-                  allDomains={DOMAINS_DATA}
-                  domainMetaMap={DOMAIN_UI_META}
-                  serviceAssignments={serviceAssignments}
-                  animPhase={animPhase}
-                  morphRect={morphRect}
-                  isEn={isEn}
-                  isLight={isLight}
-                  isLeatherTheme={isLeatherTheme}
-                  expandedCardRef={expandedCardRef}
-                  expandedBodyRef={expandedBodyRef}
-                  onClose={closeExpandedCard}
-                  onSwitchDomain={switchExpandedDomain}
-                  renderDomainIcon={renderDomainIcon}
-                  renderKpiIcon={renderKpiIcon}
-                />
-              )}
-            </div>
+                {/* 3. HIỆU ỨNG 2: THẺ CHI TIẾT MỞ RỘNG BẰNG MOTION LAYOUT ANIMATION */}
+                <AnimatePresence>
+                  {expandedDomain && expandedMeta && (
+                    <ServiceExpandedDetail
+                      key="services-expanded-detail-panel"
+                      expandedDomain={expandedDomain}
+                      expandedMeta={expandedMeta}
+                      allDomains={DOMAINS_DATA}
+                      serviceAssignments={serviceAssignments}
+                      interactionState={interactionState}
+                      minHeightPx={gridNaturalHeight}
+                      prefersReducedMotion={prefersReducedMotion}
+                      isEn={isEn}
+                      isLeatherTheme={isLeatherTheme}
+                      expandedCardRef={expandedCardRef}
+                      expandedBodyRef={expandedBodyRef}
+                      closeButtonRef={closeButtonRef}
+                      onClose={closeExpandedCard}
+                      onSwitchDomain={switchExpandedDomain}
+                      renderDomainIcon={renderDomainIcon}
+                      renderKpiIcon={renderKpiIcon}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
+            </LayoutGroup>
           </div>
           </div>
         </div>

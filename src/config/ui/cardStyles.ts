@@ -36,8 +36,20 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
     en: 'Flat Soft UI Dark',
   },
   'mica-fluent': {
-    vi: 'Frosted Mica Effect',
-    en: 'Frosted Mica Effect',
+    vi: 'Mica / Fluent Design',
+    en: 'Mica / Fluent Design',
+  },
+  'gradient-dopamine': {
+    vi: 'Gradient / Dopamine UI – Đa sắc',
+    en: 'Gradient / Dopamine UI – Multicolor',
+  },
+  'dark-luxury': {
+    vi: 'Dark Luxury – Sang trọng tối màu',
+    en: 'Dark Luxury – Metallic Obsidian',
+  },
+  'minimalism': {
+    vi: 'Minimalism – Tối giản',
+    en: 'Minimalism – Pure Editorial',
   },
 };
 
@@ -151,16 +163,53 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'mica-fluent',
-    label: 'Frosted Mica Effect',
-    labelEn: 'Frosted Mica Effect',
+    label: 'Mica / Fluent Design',
+    labelEn: 'Mica / Fluent Design',
     description:
-      'Giao diện Frosted Mica Effect: lớp kính mờ trắng trong suốt (0.30) kết hợp làm mờ nền 20px và bóng đổ dịu nhẹ trên header, thẻ và chân trang.',
+      'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
-      'Frosted Mica Effect: luminous frosted glass (rgba(255,255,255,0.30)) with 20px backdrop blur and subtle elevation across header, cards, and footer.',
+      'Mica / Fluent Design: translucent layered material, soft ambient illumination, refined window hierarchy, and subtle modern Windows surfaces.',
     icon: 'layers',
     defaultMode: 'mica-fluent',
     lightMode: 'mica-fluent',
     colorMode: 'mica-fluent',
+  },
+  {
+    id: 'gradient-dopamine',
+    label: 'Gradient / Dopamine UI – Đa sắc',
+    labelEn: 'Gradient / Dopamine UI',
+    description:
+      'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
+    descriptionEn:
+      'Gradient / Dopamine UI: vivid color transitions, vibrant multi-hue surfaces, and high-energy dopamine color palettes.',
+    icon: 'sparkles',
+    defaultMode: 'gradient-dopamine',
+    lightMode: 'gradient-dopamine',
+    colorMode: 'gradient-dopamine',
+  },
+  {
+    id: 'dark-luxury',
+    label: 'Dark Luxury – Sang trọng tối màu',
+    labelEn: 'Dark Luxury Edition',
+    description:
+      'Nền tối, typography tinh tế, điểm nhấn ánh kim và tương phản cao.',
+    descriptionEn:
+      'Dark Luxury: deep obsidian surfaces, refined editorial typography, metallic champagne-gold accents, and high contrast.',
+    icon: 'award',
+    defaultMode: 'dark-luxury',
+    darkMode: 'dark-luxury',
+  },
+  {
+    id: 'minimalism',
+    label: 'Minimalism – Tối giản',
+    labelEn: 'Minimalism UI',
+    description:
+      'Hạn chế trang trí, tập trung nội dung, typography rõ ràng và nhiều khoảng trắng.',
+    descriptionEn:
+      'Minimalism: restrained ornament, content-first hierarchy, crisp typography, and generous breathing whitespace.',
+    icon: 'layout',
+    defaultMode: 'minimalism',
+    lightMode: 'minimalism',
   },
 ];
 
@@ -791,20 +840,20 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'mica-fluent',
     familyId: 'mica-fluent',
-    familyLabel: 'Frosted Mica Effect',
-    familyLabelEn: 'Frosted Mica Effect',
+    familyLabel: 'Mica / Fluent Design',
+    familyLabelEn: 'Mica / Fluent Design',
     mechanism: 'light',
     counterpartMode: 'mica-fluent',
     cardClassName: 'card-mica-fluent',
-    name: 'Frosted Mica Effect',
-    label: 'Frosted Mica Effect',
-    shortBadge: 'Frosted Mica Effect',
-    tagLabel: 'Frosted Mica Effect · Kính mờ 20px',
-    modeLabel: 'Frosted Mica Effect',
+    name: 'Mica / Fluent Design',
+    label: 'Mica / Fluent Design',
+    shortBadge: 'Mica / Fluent',
+    tagLabel: 'Mica / Fluent · Windows hiện đại',
+    modeLabel: 'Mica / Fluent Design',
     isDark: false,
     icon: 'layers',
     color: '#e84118',
-    desc: 'Hiệu ứng kính mờ Frosted Mica Effect với nền trắng trong suốt 30%, làm mờ nền 20px và bóng đổ dịu nhẹ đồng bộ trên đầu trang, thẻ chính, thẻ con và chân trang.',
+    desc: 'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     cardSampleStyle: {
       background: 'rgba(255, 255, 255, 0.30)',
       backdropFilter: 'blur(20px)',
@@ -829,6 +878,140 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FDFDFD',
     },
     badgeColorClass: 'bg-[#fff3f0] text-[#c23616] border-[#e84118]/30 shadow-sm',
+    layerDepth: 100,
+  },
+  {
+    id: 'gradient-dopamine',
+    familyId: 'gradient-dopamine',
+    familyLabel: 'Gradient / Dopamine UI – Đa sắc',
+    familyLabelEn: 'Gradient / Dopamine UI',
+    mechanism: 'color',
+    counterpartMode: 'gradient-dopamine',
+    cardClassName: 'card-gradient-dopamine',
+    name: 'Gradient / Dopamine UI – Đa sắc',
+    label: 'Gradient / Dopamine UI – Đa sắc',
+    shortBadge: 'Dopamine UI',
+    tagLabel: 'Gradient chuyển màu · Đa sắc năng lượng',
+    modeLabel: 'Gradient / Dopamine UI – Đa sắc',
+    isDark: false,
+    icon: 'sparkles',
+    color: '#FF2E93',
+    desc: 'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 240, 248, 0.84) 48%, rgba(240, 247, 255, 0.86) 100%)',
+      backdropFilter: 'blur(18px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+      borderRadius: '18px',
+      border: '1.5px solid rgba(255, 46, 147, 0.35)',
+      boxShadow:
+        '0 16px 36px -10px rgba(255, 46, 147, 0.22), 0 8px 20px -6px rgba(124, 58, 237, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
+      color: '#181028',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'linear-gradient(135deg, rgba(255, 46, 147, 0.14) 0%, rgba(124, 58, 237, 0.14) 50%, rgba(0, 210, 255, 0.14) 100%)',
+      borderColor: 'rgba(255, 46, 147, 0.35)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.90)',
+      color: '#181028',
+      borderColor: 'rgba(255, 46, 147, 0.32)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #FF2E93 0%, #7C3AED 52%, #FF6B00 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-pink-50 text-[#FF2E93] border-pink-300/70 shadow-xs',
+    layerDepth: 100,
+  },
+  {
+    id: 'dark-luxury',
+    familyId: 'dark-luxury',
+    familyLabel: 'Dark Luxury – Sang trọng tối màu',
+    familyLabelEn: 'Dark Luxury Edition',
+    mechanism: 'dark',
+    counterpartMode: 'dark-luxury',
+    cardClassName: 'card-dark-luxury',
+    name: 'Dark Luxury – Sang trọng tối màu',
+    label: 'Dark Luxury – Sang trọng tối màu',
+    shortBadge: 'Dark Luxury',
+    tagLabel: 'Nền tối · Ánh kim · Tương phản cao',
+    modeLabel: 'Dark Luxury – Sang trọng tối màu',
+    isDark: true,
+    icon: 'award',
+    color: '#D4AF37',
+    desc: 'Nền tối, typography tinh tế, điểm nhấn ánh kim và tương phản cao.',
+    cardSampleStyle: {
+      background:
+        'linear-gradient(145deg, rgba(20, 22, 31, 0.96) 0%, rgba(12, 14, 20, 0.96) 55%, rgba(8, 9, 13, 0.98) 100%)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      borderRadius: '18px',
+      border: '1px solid rgba(212, 175, 55, 0.42)',
+      boxShadow:
+        '0 20px 44px -10px rgba(0, 0, 0, 0.85), 0 0 24px -8px rgba(212, 175, 55, 0.22), inset 0 1px 0 rgba(243, 229, 171, 0.26)',
+      color: '#FAF8F5',
+    },
+    miniPreviewWrapStyle: {
+      background: 'linear-gradient(145deg, #161822 0%, #0B0C10 100%)',
+      borderColor: 'rgba(212, 175, 55, 0.38)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(24, 26, 36, 0.95)',
+      color: '#F3E5AB',
+      borderColor: 'rgba(212, 175, 55, 0.36)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #F3E5AB 0%, #D4AF37 52%, #AA7C11 100%)',
+      color: '#090A0F',
+    },
+    badgeColorClass: 'bg-[#14161F] text-[#F3E5AB] border-[#D4AF37]/45',
+    layerDepth: 100,
+  },
+  {
+    id: 'minimalism',
+    familyId: 'minimalism',
+    familyLabel: 'Minimalism – Tối giản',
+    familyLabelEn: 'Minimalism UI',
+    mechanism: 'light',
+    counterpartMode: 'minimalism',
+    cardClassName: 'card-minimalism',
+    name: 'Minimalism – Tối giản',
+    label: 'Minimalism – Tối giản',
+    shortBadge: 'Minimalism',
+    tagLabel: 'Tối giản · Typography rõ ràng · Khoảng trắng',
+    modeLabel: 'Minimalism – Tối giản',
+    isDark: false,
+    icon: 'layout',
+    color: '#111111',
+    desc: 'Hạn chế trang trí, tập trung nội dung, typography rõ ràng và nhiều khoảng trắng.',
+    cardSampleStyle: {
+      background: '#FFFFFF',
+      backdropFilter: 'none',
+      WebkitBackdropFilter: 'none',
+      borderRadius: '18px',
+      border: '1px solid #E4E4E7',
+      boxShadow: '0 1px 2px rgba(17, 17, 17, 0.03)',
+      color: '#111111',
+    },
+    miniPreviewWrapStyle: {
+      background: '#FAFAFA',
+      borderColor: '#E4E4E7',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: '#FFFFFF',
+      color: '#111111',
+      borderColor: '#E4E4E7',
+    },
+    miniBtnStyle: {
+      background: '#111111',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-zinc-100 text-zinc-900 border-zinc-300',
     layerDepth: 100,
   },
 ];
@@ -942,16 +1125,53 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'mica-fluent': {
     familyId: 'mica-fluent',
-    label: 'Frosted Mica Effect',
-    labelEn: 'Frosted Mica Effect',
+    label: 'Mica / Fluent Design',
+    labelEn: 'Mica / Fluent Design',
     description:
-      'Frosted Mica Effect: lớp kính mờ trắng trong suốt 30% kèm làm mờ nền 20px và bóng đổ dịu nhẹ.',
+      'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
-      'Frosted Mica Effect: frosted glass rgba(255,255,255,0.30) with blur(20px) and soft elevation.',
+      'Mica / Fluent Design: translucent layered material, soft ambient illumination, refined window hierarchy, and subtle modern Windows surfaces.',
     icon: 'layers',
     light: CARD_STYLES_MAP['mica-fluent'],
     dark: CARD_STYLES_MAP['mica-fluent'],
     color: CARD_STYLES_MAP['mica-fluent'],
+  },
+  'gradient-dopamine': {
+    familyId: 'gradient-dopamine',
+    label: 'Gradient / Dopamine UI – Đa sắc',
+    labelEn: 'Gradient / Dopamine UI',
+    description:
+      'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
+    descriptionEn:
+      'Gradient / Dopamine UI: vivid color transitions, vibrant multi-hue surfaces, and high-energy dopamine color palettes.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['gradient-dopamine'],
+    dark: CARD_STYLES_MAP['gradient-dopamine'],
+    color: CARD_STYLES_MAP['gradient-dopamine'],
+  },
+  'dark-luxury': {
+    familyId: 'dark-luxury',
+    label: 'Dark Luxury – Sang trọng tối màu',
+    labelEn: 'Dark Luxury Edition',
+    description:
+      'Nền tối, typography tinh tế, điểm nhấn ánh kim và tương phản cao.',
+    descriptionEn:
+      'Dark Luxury: deep obsidian surfaces, refined editorial typography, metallic champagne-gold accents, and high contrast.',
+    icon: 'award',
+    light: CARD_STYLES_MAP['dark-luxury'],
+    dark: CARD_STYLES_MAP['dark-luxury'],
+  },
+  'minimalism': {
+    familyId: 'minimalism',
+    label: 'Minimalism – Tối giản',
+    labelEn: 'Minimalism UI',
+    description:
+      'Hạn chế trang trí, tập trung nội dung, typography rõ ràng và nhiều khoảng trắng.',
+    descriptionEn:
+      'Minimalism: restrained ornament, content-first hierarchy, crisp typography, and generous breathing whitespace.',
+    icon: 'layout',
+    light: CARD_STYLES_MAP['minimalism'],
+    dark: CARD_STYLES_MAP['minimalism'],
   },
 };
 

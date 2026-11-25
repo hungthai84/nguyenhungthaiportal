@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { EducationCourse } from '@/data/education';
 import { formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { WebIcon } from '@/components/ui/WebIcon';
 
 export interface EducationBookshelfViewProps {
   courses: EducationCourse[];
@@ -19,14 +20,15 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   getCourseColor,
   getShortCategoryLabel,
   isEn,
-  isDark,
+  isDark: _isDark,
   onSelectCourse,
 }) => {
   const [sel, setSel] = useState<number>(0);
   const [open, setOpen] = useState<number>(0);
-  const [shelfSize, setShelfSize] = useState<{ width: number; height: number }>({ width: 760, height: 320 });
+  const [shelfSize, setShelfSize] = useState<{ width: number; height: number }>({ width: 880, height: 420 });
   const shelfRef = useRef<HTMLElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
+  const dragMovedRef = useRef<boolean>(false);
   const sel0Ref = useRef<number>(0);
   const wheelCooldownRef = useRef<number>(0);
 
@@ -43,7 +45,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     }
   }, [sel, lastIdx]);
 
-  // Measure shelf dimensions to keep 3D books cleanly bounded within 25px card inset
+  // Measure shelf stage dimensions to scale 3D portrait books generously to fill the container
   useEffect(() => {
     const el = shelfRef.current;
     if (!el) return;
@@ -59,20 +61,23 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       ro = new ResizeObserver(measure);
       ro.observe(el);
     }
-    window.addEventListener('resize', measure);
+    window.addEventListener('resize', measure, { passive: true });
     return () => {
       if (ro) ro.disconnect();
       window.removeEventListener('resize', measure);
     };
   }, []);
 
-  const bookSize = Math.round(
-    Math.max(84, Math.min(186, shelfSize.height * 0.62, shelfSize.width * 0.24))
+  // Tỉ lệ bìa sách dọc chuẩn (0.72) tăng kích thước sách lên 1 chút và giảm nhẹ độ dày gáy sách
+  const bookHeight = Math.round(
+    Math.max(188, Math.min(shelfSize.height * 0.93, shelfSize.width * 0.62, 445))
   );
-  const firstGap = Math.round(bookSize * 0.86);
-  const sideStep = Math.max(20, Math.round(bookSize * 0.22));
-  const openShift = Math.round(bookSize * 0.22);
-  const maxHalfReach = Math.max(80, shelfSize.width / 2 - bookSize * 0.32);
+  const bookWidth = Math.round(bookHeight * 0.72);
+  const bookSpine = Math.max(11, Math.min(20, Math.round(bookWidth * 0.072)));
+  const firstGap = Math.round(bookWidth * 0.92);
+  const sideStep = Math.max(22, Math.round(bookWidth * 0.25));
+  const openShift = Math.round(bookWidth * 0.34);
+  const maxHalfReach = Math.max(110, shelfSize.width / 2 - bookWidth * 0.2);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -145,12 +150,16 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   const handleDragStart = (clientX: number) => {
     if (open === 1) return;
     dragStartXRef.current = clientX;
+    dragMovedRef.current = false;
     sel0Ref.current = safeSel;
   };
 
   const handleDragMove = (clientX: number) => {
     if (dragStartXRef.current === null || open === 1) return;
     const deltaX = clientX - dragStartXRef.current;
+    if (Math.abs(deltaX) > 8) {
+      dragMovedRef.current = true;
+    }
     const step = Math.round(-deltaX / 64);
     const newSel = Math.max(0, Math.min(lastIdx, sel0Ref.current + step));
     if (newSel !== safeSel) {
@@ -160,6 +169,99 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
 
   const handleDragEnd = () => {
     dragStartXRef.current = null;
+    window.setTimeout(() => {
+      dragMovedRef.current = false;
+    }, 60);
+  };
+
+  const themeAccent = 'var(--text-link, var(--color-primary))';
+
+  const renderEducationBookCover = (
+    course: EducationCourse,
+    idx: number,
+    showGlint: boolean
+  ) => {
+    const courseTitle = formatCardTitle(course.title);
+    const categoryLabel = getShortCategoryLabel(course.category);
+
+    return (
+      <div className="disc-out edu-shelf-book-cover">
+        {showGlint && <div className="disc-glint" />}
+        <div className="edu-shelf-cover-wash" aria-hidden="true" />
+        <div className="edu-shelf-cover-spine-strip" aria-hidden="true" />
+
+        <div className="edu-shelf-cover-inner">
+          {/* Thanh metadata đỉnh bìa sách học vấn */}
+          <div className="edu-shelf-cover-top">
+            <span
+              className="inline-flex items-center gap-1 font-semibold truncate"
+              style={{ color: themeAccent }}
+            >
+              <WebIcon name="book" className="w-3 h-3 shrink-0" />
+              <span className="truncate">
+                {isEn ? 'Education Book' : 'Bìa sách · Học vấn'}
+              </span>
+            </span>
+            <span className="font-mono font-semibold tabular-nums text-[var(--text-muted)] shrink-0">
+              {course.code || `Năm ${course.year}`}
+            </span>
+          </div>
+
+          {/* Khung ảnh bìa sách tỷ lệ 16:10 đồng bộ EducationBookView */}
+          <div className="edu-shelf-cover-media">
+            <img
+              src={course.image}
+              alt=""
+              loading={idx === safeSel ? 'eager' : 'lazy'}
+              decoding="async"
+              referrerPolicy="no-referrer"
+            />
+            <div className="edu-shelf-cover-media-scrim" />
+            <div className="edu-shelf-cover-media-meta">
+              <span className="truncate">{course.issuer}</span>
+              <span className="font-mono shrink-0 tabular-nums">Năm {course.year}</span>
+            </div>
+          </div>
+
+          {/* Nội dung tiêu đề, phân loại, mô tả & kết quả */}
+          <div className="edu-shelf-cover-body">
+            <div className="edu-shelf-cover-category">
+              <span style={{ color: themeAccent }}>{course.type}</span>
+              <span className="mx-1 text-[var(--text-muted)]">·</span>
+              <span className="text-[var(--text-muted)]">{categoryLabel}</span>
+            </div>
+
+            <h4 className="edu-shelf-cover-title" style={{ color: themeAccent }}>
+              {courseTitle}
+            </h4>
+
+            <p className="edu-shelf-cover-desc">
+              {course.desc || 'Thông tin chưa được cung cấp.'}
+            </p>
+
+            {course.result && (
+              <div
+                className="edu-shelf-cover-result"
+                style={{ color: 'var(--text-badge, var(--text-link, var(--color-primary)))' }}
+              >
+                {course.result}
+              </div>
+            )}
+          </div>
+
+          {/* Chân bìa sách: nút Mở sách */}
+          <div className="edu-shelf-cover-footer">
+            <span className="text-[var(--text-muted)] truncate font-medium">
+              {isEn ? 'Click to read' : 'Chạm để mở sách'}
+            </span>
+            <span className="edu-shelf-cover-open-pill">
+              <span>{isEn ? 'Open' : 'Mở sách'}</span>
+              <WebIcon name="arrow-right" className="w-2.5 h-2.5 shrink-0" />
+            </span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -170,30 +272,18 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         '--disc-sel': safeSel,
         '--disc-open': open,
         '--last': lastIdx,
-        '--W': `${bookSize}px`,
-        '--H': `${bookSize}px`,
+        '--W': `${bookWidth}px`,
+        '--H': `${bookHeight}px`,
+        '--S': `${bookSpine}px`,
       } as React.CSSProperties}
     >
-      {/* Background Backdrops */}
-      <div className="disc-backdrops" aria-hidden="true">
-        {courses.map((course, idx) => (
-          <div
-            key={course.id}
-            style={{
-              '--bg-img': `url('${course.image}')`,
-              opacity: idx === safeSel ? 1 : 0,
-            } as React.CSSProperties}
-          />
-        ))}
-      </div>
-
       {/* Top Bar */}
       <header className="disc-top w-full flex items-center justify-between">
-        <p className="disc-brand flex items-center gap-2">
+        <p className="disc-brand flex items-center gap-2 m-0">
           <i aria-hidden="true" />
           <span>{isEn ? '3D Interactive Bookshelf' : 'Kệ Sách 3D Tương Tác'}</span>
         </p>
-        <p className="disc-count">
+        <p className="disc-count m-0">
           <b>{safeSel + 1}</b> / {courses.length}
         </p>
       </header>
@@ -220,6 +310,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             const R = d > 0 ? 1 : 0;
             const C = d === 0 ? 1 : 0;
             const courseTitle = formatCardTitle(course.title);
+            const courseAccent = getCourseColor(course, idx);
 
             const x =
               R * (firstGap + (d - 1) * sideStep) -
@@ -231,6 +322,8 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
               <li
                 key={course.id}
                 className="disc-case"
+                data-center={C === 1 ? 'true' : 'false'}
+                data-open={C === 1 && open === 1 ? 'true' : 'false'}
                 style={{
                   '--disc-d': d,
                   '--disc-ad': ad,
@@ -239,14 +332,19 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                   '--disc-C': C,
                   '--disc-vis': isWithinBounds ? 1 : 0,
                   '--x': `${x}px`,
+                  '--book-accent': courseAccent,
                   zIndex: C ? 10 : 10 - ad,
                   pointerEvents: isWithinBounds ? 'auto' : 'none',
                 } as React.CSSProperties}
                 onClick={() => {
+                  if (dragMovedRef.current) return;
                   if (open === 0) {
-                    setSel(idx);
-                    setOpen(1);
-                    SoundEngine.playBookOpen?.();
+                    if (C === 1) {
+                      onSelectCourse(course);
+                    } else {
+                      setSel(idx);
+                      SoundEngine.playTap?.();
+                    }
                   } else if (C === 1) {
                     onSelectCourse(course);
                   }
@@ -260,20 +358,14 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                 />
                 <div className="disc-box" aria-hidden="true">
                   <div className="disc-cover">
-                    <div className="disc-out">
-                      {idx === safeSel && open === 1 && <div className="disc-glint" />}
-                      <img src={course.image} alt="" loading={idx === safeSel ? 'eager' : 'lazy'} />
-                      <i className="disc-hinge" />
-                      <p className="disc-art">
-                        <b>{courseTitle}</b>
-                        <span>{course.issuer}</span>
-                      </p>
-                    </div>
+                    {renderEducationBookCover(course, idx, idx === safeSel && open === 1)}
                     <div className="disc-in">
-                      <p className="disc-notes-title">{courseTitle}</p>
+                      <p className="disc-notes-title" style={{ color: themeAccent }}>
+                        {courseTitle}
+                      </p>
                       <ol>
                         <li>
-                          <span>{course.code}</span>
+                          <span>{course.code || 'EDU'}</span>
                           <small>{course.year}</small>
                         </li>
                         <li>
@@ -281,7 +373,9 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                           <small>{getShortCategoryLabel(course.category)}</small>
                         </li>
                       </ol>
-                      <p className="text-xs opacity-70 mt-2">{course.desc}</p>
+                      <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed m-0 line-clamp-5">
+                        {course.desc}
+                      </p>
                     </div>
                   </div>
                   <div className="disc-spine">
@@ -291,10 +385,35 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                   <div className="disc-edge" />
                   <div className="disc-lid" />
                   <div className="disc-base" />
-                  <div className="disc-tray">
-                    <div className="disc-item-disc">
-                      <img src={course.image} alt="" />
-                      <i style={idx === safeSel && open === 1 ? { animation: 'discSpin 5s linear infinite' } : undefined} />
+                  <div className="disc-tray edu-shelf-inner-page">
+                    <div className="flex flex-col gap-1.5 min-w-0">
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-wider"
+                        style={{ color: themeAccent }}
+                      >
+                        {isEn ? 'Curriculum Preview' : 'Nội dung đào tạo'}
+                      </span>
+                      <p className="text-[11px] font-bold text-[var(--text-primary)] m-0 leading-snug line-clamp-2">
+                        {course.result || courseTitle}
+                      </p>
+                      <ul className="m-0 p-0 list-none flex flex-col gap-1">
+                        {(course.modules || []).slice(0, 4).map((mod, mIdx) => (
+                          <li
+                            key={mIdx}
+                            className="text-[10px] text-[var(--text-secondary)] leading-snug truncate"
+                          >
+                            {mIdx + 1}. {mod}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="pt-2 border-t border-[var(--border-subcard)] flex items-center justify-between text-[10px] font-semibold">
+                      <span className="text-[var(--text-muted)]">
+                        {course.issuer}
+                      </span>
+                      <span className="edu-shelf-cover-open-pill">
+                        {isEn ? 'Read full book' : 'Đọc toàn bộ'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -313,6 +432,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
               const R = d > 0 ? 1 : 0;
               const C = d === 0 ? 1 : 0;
               const courseTitle = formatCardTitle(course.title);
+              const courseAccent = getCourseColor(course, idx);
               const x =
                 R * (firstGap + (d - 1) * sideStep) -
                 L * (firstGap + (ad - 1) * sideStep) +
@@ -331,13 +451,12 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                     '--disc-C': C,
                     '--disc-vis': isWithinBounds ? 1 : 0,
                     '--x': `${x}px`,
+                    '--book-accent': courseAccent,
                   } as React.CSSProperties}
                 >
                   <div className="disc-box" aria-hidden="true">
                     <div className="disc-cover">
-                      <div className="disc-out">
-                        <img src={course.image} alt="" />
-                      </div>
+                      {renderEducationBookCover(course, idx, false)}
                     </div>
                     <div className="disc-spine">
                       <b>{courseTitle}</b>
@@ -354,14 +473,23 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
           className="disc-open-hit"
           type="button"
           onClick={() => {
-            if (open === 0) {
-              setOpen(1);
+            if (dragMovedRef.current) return;
+            if (currentCourse) {
               SoundEngine.playBookOpen?.();
-            } else {
               onSelectCourse(currentCourse);
             }
           }}
-          aria-label={open === 0 ? 'Open book' : 'View book details'}
+          style={{
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            backgroundImage: 'none',
+            border: 'none',
+            boxShadow: 'none',
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none',
+            outline: 'none',
+          }}
+          aria-label={isEn ? `Open ${displayTitle}` : `Mở sách ${displayTitle}`}
         />
       </section>
 
@@ -374,22 +502,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
           </p>
         </div>
       </div>
-
-      {/* Key Bar / Hints */}
-      <footer className="disc-keys" aria-hidden="true">
-        <span>
-          <kbd>←</kbd> <kbd>→</kbd> {isEn ? 'Browse' : 'Duyệt'}
-        </span>
-        {open === 0 ? (
-          <span>
-            <kbd>Enter</kbd> {isEn ? 'Open' : 'Mở sách'}
-          </span>
-        ) : (
-          <span>
-            <kbd>Esc</kbd> {isEn ? 'Close' : 'Đóng'}
-          </span>
-        )}
-      </footer>
     </div>
   );
 };

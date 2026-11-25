@@ -87,7 +87,6 @@
             'da-ca-sau-trang': 'liquid-glass',
             'da-den': 'dark-liquid-glass',
             'da-bo': 'cowhide-leather',
-            'mica-fluent': 'neumorphism-beyond',
             'noi-khoi-kinh-mo': 'neumorphism-beyond',
             'flat-soft': 'flat-soft-ui',
             'dark-flat-soft': 'dark-flat-soft-ui'
@@ -106,7 +105,11 @@
             'frost-ice-neu',
             'dark-frost-ice-neu',
             'flat-soft-ui',
-            'dark-flat-soft-ui'
+            'dark-flat-soft-ui',
+            'mica-fluent',
+            'gradient-dopamine',
+            'dark-luxury',
+            'minimalism'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
@@ -120,9 +123,10 @@
             'deep-ocean',
             'dark-neumorphism-beyond',
             'dark-frost-ice-neu',
-            'dark-flat-soft-ui'
+            'dark-flat-soft-ui',
+            'dark-luxury'
           ];
-          var colorThemes = ['cowhide-leather', 'multicolor-glass'];
+          var colorThemes = ['cowhide-leather', 'multicolor-glass', 'gradient-dopamine'];
           var mechanism = colorThemes.indexOf(cardStyle) !== -1
             ? 'color'
             : darkThemes.indexOf(cardStyle) !== -1

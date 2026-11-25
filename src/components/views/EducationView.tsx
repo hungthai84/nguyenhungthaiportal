@@ -253,8 +253,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  // Chế độ xem: 'grid' (Lưới chuẩn), 'css-tricks' (Slider Card), hoặc 'bookshelf' (Kệ sách)
-  const [viewMode, setViewMode] = useState<'grid' | 'css-tricks' | 'bookshelf'>('css-tricks');
+  // Chế độ xem: 'grid' (Lưới chuẩn), 'css-tricks' (Slider Card), hoặc 'bookshelf' (Kệ sách 3D)
+  const [viewMode, setViewMode] = useState<'grid' | 'css-tricks' | 'bookshelf'>('bookshelf');
   const [hoveredCourseId, setHoveredCourseId] = useState<string | null>(null);
   // Bộ lọc năm tốt nghiệp Timeline (2005 - 2026)
   const [maxYearFilter, setMaxYearFilter] = useState<number>(2026);

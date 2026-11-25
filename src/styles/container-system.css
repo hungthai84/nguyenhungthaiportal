@@ -247,6 +247,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   align-content: start !important;
 }
 
+.card-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 15px;
+  align-items: stretch;
+}
+
+.card {
+  min-width: 0;
+  height: 100%;
+  padding: 15px;
+  border-radius: 18px;
+}
+
 /* ========================================================================= */
 /* HOROSCOPE RESPONSIVE BENTO AUTO-FIT SMART WHITESPACE SYSTEM               */
 /* ========================================================================= */

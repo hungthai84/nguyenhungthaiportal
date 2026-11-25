@@ -2833,7 +2833,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         style={{ padding: '15px', borderRadius: 'var(--radius-subcard, 14px)' }}
                         className="sub-card letter-subcard w-full p-[15px] rounded-[var(--radius-subcard,14px)] relative flex items-center gap-3 min-w-0"
                       >
-                        <span className="text-amber-600 dark:text-amber-400 font-serif font-bold text-xl leading-none shrink-0">
+                        <span className="text-amber-600 dark:text-amber-400 font-play font-bold text-xl leading-none shrink-0">
                           “
                         </span>
                         <p className="card-body-text typo-body text-amber-900 dark:text-amber-300 font-semibold italic leading-relaxed break-words [overflow-wrap:anywhere]">

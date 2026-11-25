@@ -153,8 +153,15 @@
   }
 
   .tabular-nums,
-  .font-mono {
-    font-family: var(--font-family-numeric);
+  .font-mono,
+  .font-serif,
+  .font-sans,
+  .font-play,
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-family-numeric, "Play", sans-serif);
   }
 
   .font-italianno,

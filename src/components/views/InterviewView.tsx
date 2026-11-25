@@ -480,10 +480,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           data-element-parent="interview-cards-track"
           className="page-main-card relative flex flex-col p-[15px] rounded-[var(--radius-main,14px)] gap-0 justify-start select-none text-[var(--text-primary)] overflow-hidden font-play text-left box-border"
         >
-          <div
-            id="interview-main-scroll-viewport"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
-          >
       {/* Main Content Row: Video + Answer Detail always on 1 row & equal height at all sizes */}
       <div
         id="interview-main-content"
@@ -1033,7 +1029,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
           </div>
         </div>
       </div>
-          </div>
         </div>
       </div>
     </div>

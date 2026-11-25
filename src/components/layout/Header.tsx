@@ -272,7 +272,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const headerPages = [...orderedPages, ...extraPages];
 
-  const { cardStyle, cornerRadius = 14 } = useTheme();
+  const { cardStyle } = useTheme();
   void currentTheme;
 
   const headerRef = useRef<HTMLElement>(null);
@@ -280,7 +280,6 @@ export const Header: React.FC<HeaderProps> = ({
   const pillWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null);
   const [focusedNavIndex, setFocusedNavIndex] = useState<number | null>(null);
   const [isRadialMenuOpen, setIsRadialMenuOpen] = useState(false);
   const [uniformPillWidth, setUniformPillWidth] = useState<number | null>(null);
@@ -368,16 +367,6 @@ export const Header: React.FC<HeaderProps> = ({
     };
   }, [language, cardStyle, headerPages.length, currentPage]);
 
-  const handleHeaderMouseLeave = () => {
-    setHoveredNavIndex(null);
-  };
-
-  // Hover handler with page-specific sound feedback
-  const handleItemMouseEnter = (index: number, pageId: number) => {
-    setHoveredNavIndex(index);
-    SoundEngine.playPageSpecificSound(pageId);
-  };
-
   const toggleRadialMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
     SoundEngine.playTap();
@@ -387,7 +376,6 @@ export const Header: React.FC<HeaderProps> = ({
   // Tự động đóng menu phụ & cuộn mượt nút đang chọn vào chính giữa thanh Header trên máy tính bảng / điện thoại
   useEffect(() => {
     setIsRadialMenuOpen(false);
-    setHoveredNavIndex(null);
     setFocusedNavIndex(null);
   }, [currentPage]);
 
@@ -431,11 +419,7 @@ export const Header: React.FC<HeaderProps> = ({
   }, [headerPages, currentPage, isRadialMenuOpen]);
 
   const revealedNavIndex =
-    hoveredNavIndex !== null
-      ? hoveredNavIndex
-      : focusedNavIndex !== null
-        ? focusedNavIndex
-        : selectedNavIndex;
+    focusedNavIndex !== null ? focusedNavIndex : selectedNavIndex;
 
   const getRevealOverlapPx = (prevIdx: number) => {
     const trailingGap = trailingGapByIdx[prevIdx];
@@ -454,12 +438,12 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-type="container"
       data-element-page="global"
       data-element-parent="website-root"
-      onMouseLeave={handleHeaderMouseLeave}
       style={{
         maxWidth: 'var(--main-card-target-w, 1000px)',
-        width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
-        height: 'auto',
-        minHeight: 0,
+        width: '100%',
+        height: 'var(--shell-bar-h, auto)',
+        minHeight: 'var(--shell-bar-h, 52px)',
+        boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
@@ -469,11 +453,11 @@ export const Header: React.FC<HeaderProps> = ({
         zIndex: isRadialMenuOpen ? 99999 : 40,
         borderTopLeftRadius: '0px',
         borderTopRightRadius: '0px',
-        borderBottomLeftRadius: 'var(--radius-global, 14px)',
-        borderBottomRightRadius: 'var(--radius-global, 14px)',
-        borderRadius: '0 0 var(--radius-global, 14px) var(--radius-global, 14px)',
+        borderBottomLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
       }}
-      className={`neonav-bar mx-auto h-auto min-h-0 py-[5px] flex items-center justify-between px-2 sm:px-3 ${
+      className={`neonav-bar mx-auto py-[5px] flex items-center justify-between px-[10px] sm:px-[15px] ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -516,7 +500,6 @@ export const Header: React.FC<HeaderProps> = ({
           return (
             <div
               key={page.id}
-              onMouseEnter={() => handleItemMouseEnter(index, page.id)}
               className="relative pointer-events-auto shrink-0"
               style={{
                 marginLeft: itemMarginLeft,
@@ -622,10 +605,6 @@ export const Header: React.FC<HeaderProps> = ({
             <div
               key="header-hungthai-avatar-pill"
               ref={avatarPillRef}
-              onMouseEnter={() => {
-                setHoveredNavIndex(avatarNavIndex);
-                SoundEngine.playGlassChime();
-              }}
               className="relative pointer-events-auto shrink-0"
               style={{
                 marginLeft: itemMarginLeft,

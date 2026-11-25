@@ -493,15 +493,19 @@ export function BookModal({
 export interface TuViBookCardProps {
   isDark?: boolean;
   fitToHeight?: boolean;
+  isActive?: boolean;
 }
 
 /**
  * Thành phần chính: Bìa Sách Tử Vi Đẩu Số - Âm Dương Bát Quái 3D
  */
-export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }: TuViBookCardProps) {
+function TuViBookCardInner({ isDark: isDarkProp, fitToHeight = false, isActive: isCardActive = true }: TuViBookCardProps) {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [isExpandedReader, setIsExpandedReader] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [stageScale, setStageScale] = useState<number>(0.48);
+  const [expandedScale, setExpandedScale] = useState<number>(1);
   const [isDarkState, setIsDarkState] = useState(() => {
     if (typeof document === 'undefined') return false;
     return (
@@ -531,9 +535,55 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
   const isDark = isDarkProp ?? isDarkState;
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const stageWrapperRef = useRef<HTMLDivElement>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const natCardRef = useRef<HTMLDivElement>(null);
-  void fitToHeight;
+
+  // Tự động đo kích thước khung chứa để co giãn sân khấu 3D (820x600) vừa vặn tuyệt đối, không bị cắt cạnh
+  useEffect(() => {
+    const updateScales = () => {
+      const wrapperEl = stageWrapperRef.current || containerRef.current;
+      if (wrapperEl) {
+        const rect = wrapperEl.getBoundingClientRect();
+        const availW = Math.max(200, rect.width - 8);
+        const widthScale = availW / 820;
+        const maxInlineScale = fitToHeight ? 0.85 : 1;
+        const computed = Math.max(0.28, Math.min(maxInlineScale, widthScale));
+        setStageScale((prev) => (Math.abs(prev - computed) < 0.005 ? prev : computed));
+      }
+      if (typeof window !== 'undefined') {
+        const vw = Math.max(320, window.innerWidth - 36);
+        const vh = Math.max(320, window.innerHeight - 110);
+        const modalScale = Math.max(0.36, Math.min(1.06, vw / 820, vh / 600));
+        setExpandedScale((prev) => (Math.abs(prev - modalScale) < 0.005 ? prev : modalScale));
+      }
+    };
+
+    updateScales();
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(updateScales);
+      if (stageWrapperRef.current) ro.observe(stageWrapperRef.current);
+      if (containerRef.current) ro.observe(containerRef.current);
+    }
+    window.addEventListener('resize', updateScales, { passive: true });
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateScales);
+    };
+  }, [fitToHeight]);
+
+  // Hỗ trợ phím Escape để đóng chế độ đọc sách phóng to
+  useEffect(() => {
+    if (!isExpandedReader) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !activeModal) {
+        setIsExpandedReader(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isExpandedReader, activeModal]);
 
   // Đóng sách / tắt trạng thái active khi bấm ra ngoài khu vực sách
   useEffect(() => {
@@ -544,7 +594,8 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
         target &&
         !natCardRef.current.contains(target) &&
         !target.closest('.nat-lettore') &&
-        !target.closest('.nws-modal')
+        !target.closest('.nws-modal') &&
+        !target.closest('.tuvi-expanded-root')
       ) {
         setIsBookOpen(false);
         setIsActive(false);
@@ -623,7 +674,7 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
   return (
     <div
       ref={containerRef}
-      className={`tuvi-app-root ${isDark ? 'dark-theme' : ''} ${fitToHeight ? 'tuvi-fit-height' : ''}`}
+      className={`tuvi-app-root ${isDark ? 'dark-theme' : ''} ${fitToHeight ? 'tuvi-fit-height' : ''} ${!isCardActive && !isExpandedReader ? 'tuvi-paused' : ''}`}
       style={
         fitToHeight
           ? {
@@ -637,17 +688,22 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
       }
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
-
         .tuvi-app-root, .tuvi-app-root *,
-        .tuvi-modal-root, .tuvi-modal-root * {
+        .tuvi-modal-root, .tuvi-modal-root *,
+        .tuvi-expanded-root, .tuvi-expanded-root * {
           box-sizing: border-box;
           font-family: 'Play', sans-serif;
+        }
+        .tuvi-app-root.tuvi-paused .nat-anello,
+        .tuvi-app-root.tuvi-paused .nat-brilla > g > *,
+        .tuvi-app-root.tuvi-paused .spin-slow {
+          animation-play-state: paused !important;
         }
 
         /* ================= BIẾN MÀU GIAO DIỆN SÁNG (MẶC ĐỊNH) ================= */
         .tuvi-app-root,
-        .tuvi-modal-root {
+        .tuvi-modal-root,
+        .tuvi-expanded-root {
           --bg-page: radial-gradient(circle at center, #fbf6ec 0%, #eadcc3 100%);
           --dot-gold: rgba(168, 121, 42, 0.12);
           --dot-red: rgba(168, 50, 40, 0.08);
@@ -697,7 +753,8 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
 
         /* ================= BIẾN MÀU GIAO DIỆN TỐI ================= */
         .tuvi-app-root.dark-theme,
-        .tuvi-modal-root.dark-theme {
+        .tuvi-modal-root.dark-theme,
+        .tuvi-expanded-root.dark-theme {
           --bg-page: radial-gradient(circle at center, #14110e 0%, #070605 100%);
           --dot-gold: rgba(212, 168, 83, 0.06);
           --dot-red: rgba(180, 70, 50, 0.04);
@@ -748,8 +805,7 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
 
         .nat-stage {
           width: 100%;
-          overflow-x: auto;
-          overflow-y: visible;
+          overflow: hidden;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -765,7 +821,69 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
           outline: none;
           flex-shrink: 0;
           transform-origin: center center;
-          transition: transform 0.2s ease;
+          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .tuvi-expanded-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9990;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+          animation: modalFadeIn 0.25s ease;
+        }
+        .tuvi-expanded-backdrop {
+          position: absolute;
+          inset: 0;
+          background: var(--modal-backdrop);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          cursor: pointer;
+        }
+        .tuvi-expanded-panel {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          max-width: 100%;
+          max-height: 100%;
+        }
+        .tuvi-expanded-toolbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 6px 14px;
+          border-radius: 9999px;
+          background: var(--btn-bg);
+          border: 1px solid var(--book-border);
+          color: var(--nat-chiaro);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+          z-index: 10;
+        }
+        .tuvi-action-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 10px;
+          border-radius: 9999px;
+          border: 1px solid var(--book-border);
+          background: var(--btn-bg);
+          color: var(--nat-vang-sang);
+          font-size: 11px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .tuvi-action-chip:hover {
+          border-color: var(--nat-chu-sa);
+          color: var(--nat-chu-sa);
         }
 
         /* ================= LA BÀN BÁT QUÁI PHÍA SAU ================= */
@@ -1396,7 +1514,7 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
         .nws-modal {
           position: fixed;
           inset: 0;
-          z-index: 9999;
+          z-index: 10010;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1546,165 +1664,245 @@ export default function TuViBookCard({ isDark: isDarkProp, fitToHeight = false }
         }
       `}</style>
 
-      {/* ================= SÂN KHẤU BÌA SÁCH TỬ VI ================= */}
-      <div className="nat-stage" style={{ height: '600px' }}>
-        <div
-          ref={natCardRef}
-          className={`nat ${isActive ? 'is-active' : ''} ${isBookOpen ? 'is-book-open' : ''}`}
-          style={{ transform: 'none' }}
-          tabIndex={0}
-        >
-          {/* Vòng la bàn Bát Quái xoay phía sau */}
-          <CompassBackdrop />
-
-          {/* 3 Thẻ bài bên trái & Thẻ luận giải bên phải (bung ra khi hover bìa đóng) */}
-          <LeftTalismanCards />
-          <RightSummaryCard onOpenModal={setActiveModal} />
-
-          {/* ================= KHỐI SÁCH 3D CÓ HIỆU ỨNG MỞ BÌA ================= */}
-          <div className="book-3d-scene">
-            {/* Hào quang tỏa sáng khi mở bìa sách */}
-            <div className="book-open-glow" aria-hidden="true" />
-
-            {/* Mép dày các trang giấy bên phải */}
-            <div className="book-pages-edge" aria-hidden="true" />
-
-            {/* TRANG PHẢI BÊN TRONG SÁCH */}
-            <div className="book-right-page">
-              <div className="inner-page-border">
-                <div className="inner-page-header">
-                  <div>
-                    <span className="nat-nome" style={{ fontSize: 12.5 }}>NGUYỄN HÙNG THÁI</span>
-                    <span className="tv-meta">22/06/1984 · 17h00 (Quý Dậu)</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="inner-close-btn"
-                    onClick={handleToggleBook}
-                  >
-                    Đóng ✕
-                  </button>
-                </div>
-
-                <div className="inner-scroll-body">
-                  <div className="chart-grid" style={{ marginTop: 2 }}>
-                    <div className="chart-item"><b>Âm Lịch</b>23/05/Giáp Tý</div>
-                    <div className="chart-item"><b>Âm Dương</b>Dương Nam</div>
-                    <div className="chart-item"><b>Nạp Âm Mệnh</b>Hải Trung Kim</div>
-                    <div className="chart-item"><b>Cung Phi</b>Đoài (Tây Tứ)</div>
-                  </div>
-
-                  <p style={{ marginBottom: 10 }}>
-                    Đương số <span className="tv-highlight">Nguyễn Hùng Thái</span> sinh năm{' '}
-                    <span className="tv-gold">Giáp Tý (1984)</span>, bản mệnh{' '}
-                    <span className="tv-red">Hải Trung Kim</span> (Vàng trong biển lớn) — tượng trưng cho trí tuệ thâm trầm, nội lực vững vàng và khí chất kiên định ẩn sau vẻ ngoài điềm đạm.
-                  </p>
-                  <p style={{ marginBottom: 10 }}>
-                    Tứ trụ: Năm <span className="tv-highlight">Giáp Tý</span>, tháng{' '}
-                    <span className="tv-highlight">Canh Ngọ</span>, ngày{' '}
-                    <span className="tv-highlight">Bính Thân</span>, giờ{' '}
-                    <span className="tv-highlight">Quý Dậu</span>. Hỏa Kim tương luyện tạo nên tư duy sắc bén, trọng chữ tín, hậu vận từ trung niên trở đi càng thêm hanh thông.
-                  </p>
-
-                  <div style={{ textAlign: 'center', marginTop: 6 }}>
-                    <button type="button" className="nws-link" onClick={() => setActiveModal('taichi')}>
-                      ☯ Khai Quẻ Thái Cực Song Ngư ☯
-                    </button>
-                  </div>
-                </div>
-
-                <div className="nat-link" style={{ borderRadius: 4, marginTop: 8 }}>
-                  <button type="button" className="nat-link-btn" onClick={() => setActiveModal('nguhanh')}>Ngũ Hành</button>
-                  {' · '}
-                  <button type="button" className="nat-link-btn" onClick={() => setActiveModal('batquai')}>Bát Quái</button>
-                  {' · '}
-                  <button type="button" className="nat-link-btn" onClick={() => setActiveModal('menhly')}>Mệnh Lý</button>
-                </div>
-              </div>
-            </div>
-
-            {/* Các lớp trang giấy lót lật nối tiếp khi mở sách */}
-            <div className="book-flip-sheet sheet-1" aria-hidden="true" />
-            <div className="book-flip-sheet sheet-2" aria-hidden="true" />
-
-            {/* BÌA SÁCH LẬT 3D (MẶT NGOÀI + TRANG TRÁI BÊN TRONG) */}
-            <div className="book-cover-wrapper">
-              {/* MẶT BÌA NGOÀI */}
-              <div className="book-face book-cover-front" onClick={handlePortraitClick}>
-                <div className="book-frame">
-                  <div className="book-title-box">
-                    <div className="book-title-main">TỬ VI ĐẨU SỐ</div>
-                    <div className="book-subtitle">Nguyễn Hùng Thái · 1984</div>
-                  </div>
-
-                  {/* Biểu tượng Bát Quái: Bấm vào đây để mở bìa sách 3D */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                    <YinYangBaguaEmblem onClick={handleToggleBook} size={158} interactive />
-                    <span className="click-bagua-hint">✦ Bấm Bát Quái để mở sách ✦</span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, zIndex: 3 }}>
-                    <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: 1, color: 'var(--nat-vang-sang)' }}>
-                      22/06/1984 · 17H00
-                    </span>
-                    <div className="book-seal">GIÁP TÝ<br />BÍ TRUYỀN</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* MẶT TRONG BÌA (TRANG TRÁI KHI MỞ SÁCH) */}
+      {/* ================= SÂN KHẤU BÌA SÁCH TỬ VI (TỰ ĐỘNG CO GIÃN VỪA KHUNG) ================= */}
+      {(() => {
+        const renderBookStage = (
+          scaleValue: number,
+          attachMainRef: boolean
+        ) => {
+          const scaledHeight = Math.max(180, Math.ceil(600 * scaleValue));
+          return (
+            <div
+              className="nat-stage"
+              style={{
+                height: `${scaledHeight}px`,
+                minHeight: `${scaledHeight}px`,
+              }}
+            >
               <div
-                className="book-face book-cover-back"
-                onClick={handleToggleBook}
-                title="Bấm vào trang trái để đóng sách"
+                ref={attachMainRef ? natCardRef : undefined}
+                className={`nat ${isActive ? 'is-active' : ''} ${isBookOpen ? 'is-book-open' : ''}`}
+                style={{
+                  transform: `scale(${scaleValue})`,
+                  transformOrigin: 'center center',
+                }}
+                tabIndex={0}
               >
-                <div className="inner-page-border" style={{ alignItems: 'center', textAlign: 'center' }}>
-                  <div>
-                    <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--nat-chu-sa)', fontWeight: 700 }}>
-                      THIÊN CƠ BÍ LỤC
-                    </div>
-                    <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 2, color: 'var(--nat-vang-sang)', marginTop: 4 }}>
-                      ÂM DƯƠNG BÁT QUÁI
+                {/* Vòng la bàn Bát Quái xoay phía sau */}
+                <CompassBackdrop />
+
+                {/* 3 Thẻ bài bên trái & Thẻ luận giải bên phải (bung ra khi hover bìa đóng) */}
+                <LeftTalismanCards />
+                <RightSummaryCard onOpenModal={setActiveModal} />
+
+                {/* ================= KHỐI SÁCH 3D CÓ HIỆU ỨNG MỞ BÌA ================= */}
+                <div className="book-3d-scene">
+                  {/* Hào quang tỏa sáng khi mở bìa sách */}
+                  <div className="book-open-glow" aria-hidden="true" />
+
+                  {/* Mép dày các trang giấy bên phải */}
+                  <div className="book-pages-edge" aria-hidden="true" />
+
+                  {/* TRANG PHẢI BÊN TRONG SÁCH */}
+                  <div className="book-right-page">
+                    <div className="inner-page-border">
+                      <div className="inner-page-header">
+                        <div>
+                          <span className="nat-nome" style={{ fontSize: 12.5 }}>NGUYỄN HÙNG THÁI</span>
+                          <span className="tv-meta">22/06/1984 · 17h00 (Quý Dậu)</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="inner-close-btn"
+                          onClick={handleToggleBook}
+                        >
+                          Đóng ✕
+                        </button>
+                      </div>
+
+                      <div className="inner-scroll-body">
+                        <div className="chart-grid" style={{ marginTop: 2 }}>
+                          <div className="chart-item"><b>Âm Lịch</b>23/05/Giáp Tý</div>
+                          <div className="chart-item"><b>Âm Dương</b>Dương Nam</div>
+                          <div className="chart-item"><b>Nạp Âm Mệnh</b>Hải Trung Kim</div>
+                          <div className="chart-item"><b>Cung Phi</b>Đoài (Tây Tứ)</div>
+                        </div>
+
+                        <p style={{ marginBottom: 10 }}>
+                          Đương số <span className="tv-highlight">Nguyễn Hùng Thái</span> sinh năm{' '}
+                          <span className="tv-gold">Giáp Tý (1984)</span>, bản mệnh{' '}
+                          <span className="tv-red">Hải Trung Kim</span> (Vàng trong biển lớn) — tượng trưng cho trí tuệ thâm trầm, nội lực vững vàng và khí chất kiên định ẩn sau vẻ ngoài điềm đạm.
+                        </p>
+                        <p style={{ marginBottom: 10 }}>
+                          Tứ trụ: Năm <span className="tv-highlight">Giáp Tý</span>, tháng{' '}
+                          <span className="tv-highlight">Canh Ngọ</span>, ngày{' '}
+                          <span className="tv-highlight">Bính Thân</span>, giờ{' '}
+                          <span className="tv-highlight">Quý Dậu</span>. Hỏa Kim tương luyện tạo nên tư duy sắc bén, trọng chữ tín, hậu vận từ trung niên trở đi càng thêm hanh thông.
+                        </p>
+
+                        <div style={{ textAlign: 'center', marginTop: 6 }}>
+                          <button type="button" className="nws-link" onClick={() => setActiveModal('taichi')}>
+                            ☯ Khai Quẻ Thái Cực Song Ngư ☯
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="nat-link" style={{ borderRadius: 4, marginTop: 8 }}>
+                        <button type="button" className="nat-link-btn" onClick={() => setActiveModal('nguhanh')}>Ngũ Hành</button>
+                        {' · '}
+                        <button type="button" className="nat-link-btn" onClick={() => setActiveModal('batquai')}>Bát Quái</button>
+                        {' · '}
+                        <button type="button" className="nat-link-btn" onClick={() => setActiveModal('menhly')}>Mệnh Lý</button>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="spin-slow" style={{ margin: '6px 0' }}>
-                    <YinYangBaguaEmblem size={150} interactive={false} />
-                  </div>
+                  {/* Các lớp trang giấy lót lật nối tiếp khi mở sách */}
+                  <div className="book-flip-sheet sheet-1" aria-hidden="true" />
+                  <div className="book-flip-sheet sheet-2" aria-hidden="true" />
 
-                  <div style={{ padding: '0 8px' }}>
-                    <p style={{ fontSize: 11.5, lineHeight: 1.6, color: 'var(--nat-testo)', fontStyle: 'italic' }}>
-                      "Vàng trong biển đợi thời triều dâng, rồng ẩn mây chờ sấm dậy. Giữ tâm tĩnh lặng giữa biến động chính là đạo của người quân tử."
-                    </p>
-                    <div className="book-seal" style={{ display: 'inline-block', marginTop: 12 }}>
-                      HẢI TRUNG KIM · 1984
+                  {/* BÌA SÁCH LẬT 3D (MẶT NGOÀI + TRANG TRÁI BÊN TRONG) */}
+                  <div className="book-cover-wrapper">
+                    {/* MẶT BÌA NGOÀI */}
+                    <div className="book-face book-cover-front" onClick={handlePortraitClick}>
+                      <div className="book-frame">
+                        <div className="book-title-box">
+                          <div className="book-title-main">TỬ VI ĐẨU SỐ</div>
+                          <div className="book-subtitle">Nguyễn Hùng Thái · 1984</div>
+                        </div>
+
+                        {/* Biểu tượng Bát Quái: Bấm vào đây để mở bìa sách 3D */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                          <YinYangBaguaEmblem onClick={handleToggleBook} size={158} interactive />
+                          <span className="click-bagua-hint">✦ Bấm Bát Quái để mở sách ✦</span>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, zIndex: 3 }}>
+                          <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: 1, color: 'var(--nat-vang-sang)' }}>
+                            22/06/1984 · 17H00
+                          </span>
+                          <div className="book-seal">GIÁP TÝ<br />BÍ TRUYỀN</div>
+                        </div>
+                      </div>
                     </div>
-                    <div style={{ fontSize: 9.5, color: 'var(--nat-spento)', marginTop: 10 }}>
-                      (Bấm vào trang này để gấp sách lại)
+
+                    {/* MẶT TRONG BÌA (TRANG TRÁI KHI MỞ SÁCH) */}
+                    <div
+                      className="book-face book-cover-back"
+                      onClick={handleToggleBook}
+                      title="Bấm vào trang trái để đóng sách"
+                    >
+                      <div className="inner-page-border" style={{ alignItems: 'center', textAlign: 'center' }}>
+                        <div>
+                          <div style={{ fontSize: 10, letterSpacing: 2, color: 'var(--nat-chu-sa)', fontWeight: 700 }}>
+                            THIÊN CƠ BÍ LỤC
+                          </div>
+                          <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: 2, color: 'var(--nat-vang-sang)', marginTop: 4 }}>
+                            ÂM DƯƠNG BÁT QUÁI
+                          </div>
+                        </div>
+
+                        <div className="spin-slow" style={{ margin: '6px 0' }}>
+                          <YinYangBaguaEmblem size={150} interactive={false} />
+                        </div>
+
+                        <div style={{ padding: '0 8px' }}>
+                          <p style={{ fontSize: 11.5, lineHeight: 1.6, color: 'var(--nat-testo)', fontStyle: 'italic' }}>
+                            "Vàng trong biển đợi thời triều dâng, rồng ẩn mây chờ sấm dậy. Giữ tâm tĩnh lặng giữa biến động chính là đạo của người quân tử."
+                          </p>
+                          <div className="book-seal" style={{ display: 'inline-block', marginTop: 12 }}>
+                            HẢI TRUNG KIM · 1984
+                          </div>
+                          <div style={{ fontSize: 9.5, color: 'var(--nat-spento)', marginTop: 10 }}>
+                            (Bấm vào trang này để gấp sách lại)
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                {/* Chữ phát sáng bên gáy sách */}
+                <div className="nat-netanel">ÂM DƯƠNG BÁT QUÁI</div>
+                <div className="nat-netanel-oriz">☯ THÁI CỰC SINH LƯỠNG NGHI · GIÁP TÝ 1984 ☯</div>
               </div>
             </div>
-          </div>
+          );
+        };
 
-          {/* Chữ phát sáng bên gáy sách */}
-          <div className="nat-netanel">ÂM DƯƠNG BÁT QUÁI</div>
-          <div className="nat-netanel-oriz">☯ THÁI CỰC SINH LƯỠNG NGHI · GIÁP TÝ 1984 ☯</div>
-        </div>
-      </div>
+        return (
+          <>
+            <div ref={stageWrapperRef} style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              {renderBookStage(stageScale, true)}
+            </div>
 
-      {/* ================= GỢI Ý TƯƠNG TÁC ================= */}
-      <div className="nat-lettore">
-        <div className="nat-hint">
-          {isBookOpen
-            ? 'Đang mở cổ thư · Chọn Ngũ Hành / Bát Quái / Mệnh Lý để luận giải chi tiết'
-            : 'Bấm vào biểu tượng Bát Quái trên bìa để lật mở sách 3D'}
-        </div>
-      </div>
+            {/* ================= GỢI Ý TƯƠNG TÁC & NÚT PHÓNG TO ĐỌC SÁCH ================= */}
+            <div className="nat-lettore" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <div className="nat-hint" style={{ marginTop: 0 }}>
+                {isBookOpen
+                  ? 'Đang mở cổ thư · Chọn Ngũ Hành / Bát Quái / Mệnh Lý'
+                  : 'Bấm Bát Quái trên bìa để lật mở sách 3D'}
+              </div>
+              <button
+                type="button"
+                className="tuvi-action-chip"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  playZenChime();
+                  setIsBookOpen(true);
+                  setIsExpandedReader(true);
+                }}
+                title="Mở Sách Tử Vi 3D toàn màn hình để đọc rõ nét"
+              >
+                Phóng to đọc sách
+              </button>
+            </div>
+
+            {/* ================= CHẾ ĐỘ ĐỌC SÁCH 3D PHÓNG TO (PORTAL TOÀN KHUNG NHÌN) ================= */}
+            {isExpandedReader && typeof document !== 'undefined' && createPortal(
+              <div className={`tuvi-expanded-root ${isDark ? 'dark-theme' : ''}`}>
+                <div className="tuvi-expanded-overlay" role="dialog" aria-modal="true" aria-label="Sách Tử Vi Đẩu Số 3D phóng to">
+                  <div className="tuvi-expanded-backdrop" onClick={() => setIsExpandedReader(false)} />
+                  <div className="tuvi-expanded-panel" onClick={(e) => e.stopPropagation()}>
+                    <div className="tuvi-expanded-toolbar">
+                      <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.4px' }}>
+                        Sách Tử Vi Đẩu Số 3D · Nguyễn Hùng Thái
+                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <button
+                          type="button"
+                          className="tuvi-action-chip"
+                          onClick={handleToggleBook}
+                        >
+                          {isBookOpen ? 'Gấp bìa sách' : 'Mở 2 trang sách'}
+                        </button>
+                        <button
+                          type="button"
+                          className="tuvi-action-chip"
+                          onClick={() => setIsExpandedReader(false)}
+                          aria-label="Đóng chế độ đọc phóng to"
+                        >
+                          Đóng ✕
+                        </button>
+                      </div>
+                    </div>
+                    <div style={{ width: `${Math.ceil(820 * expandedScale)}px`, maxWidth: '100%' }}>
+                      {renderBookStage(expandedScale, false)}
+                    </div>
+                  </div>
+                </div>
+              </div>,
+              document.body
+            )}
+          </>
+        );
+      })()}
 
       {/* ================= CỬA SỔ MODAL LUẬN GIẢI ================= */}
       <BookModal activeModal={activeModal} onClose={() => setActiveModal(null)} isDark={isDark} />
     </div>
   );
 }
+
+const TuViBookCard = React.memo(TuViBookCardInner);
+export default TuViBookCard;

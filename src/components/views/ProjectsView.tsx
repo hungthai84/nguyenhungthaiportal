@@ -1215,15 +1215,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             </div>
           ) : viewMode === 'slider' ? (
             <div
-              className="news-slider-wrapper-container relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
+              data-section-card="true"
+              data-element-type="card"
+              className="news-slider-wrapper-container projects-themed-slider bento-card glass-card relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
               onMouseLeave={() => setHoveredSlotIdx(null)}
             >
-              <div className="news-slider-bg" aria-hidden="true">
-                <img
-                  src="https://res.cloudinary.com/muhammederdem/image/upload/q_60/v1537132206/news-slider/background.webp"
-                  alt=""
-                />
-              </div>
+              <div className="news-slider-bg" aria-hidden="true" />
 
               <div ref={containerRef} className="news-slider-container">
                 <div
@@ -1231,7 +1228,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   onPointerDown={handleSliderPointerDown}
                   onDragStart={(e) => e.preventDefault()}
                 >
-                  <div ref={bgRef} className="news-item-bg" aria-hidden="true" />
+                  <div ref={bgRef} className="news-item-bg projects-themed-item-bg" aria-hidden="true" />
 
                   <div
                     ref={wrpRef}

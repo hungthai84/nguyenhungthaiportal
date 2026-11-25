@@ -67,6 +67,9 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
   'mica-fluent': { cardOpacity: 30, blurIntensity: 20 },
+  'gradient-dopamine': { cardOpacity: 82, blurIntensity: 18 },
+  'dark-luxury': { cardOpacity: 94, blurIntensity: 16 },
+  'minimalism': { cardOpacity: 100, blurIntensity: 0 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -219,12 +222,41 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'mica-fluent': {
     id: 'mica-fluent',
     presetId: 'theme-bg-mica-fluent',
-    label: 'Nền Frosted Mica Effect Kính Mờ',
+    label: 'Nền Mica / Fluent Design (Windows hiện đại)',
     themeMode: 'light',
     imagePath: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     fallbackGradient:
       'radial-gradient(circle at 18% 16%, rgba(232, 65, 24, 0.22) 0%, transparent 48%), radial-gradient(circle at 82% 20%, rgba(217, 179, 130, 0.42) 0%, transparent 52%), radial-gradient(circle at 52% 84%, rgba(82, 90, 101, 0.30) 0%, transparent 54%), linear-gradient(145deg, #d7c7b5 0%, #b8a391 48%, #736358 100%)',
     overlayBg: 'radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%)',
+  },
+  'gradient-dopamine': {
+    id: 'gradient-dopamine',
+    presetId: 'theme-bg-gradient-dopamine',
+    label: 'Nền Gradient / Dopamine UI – Đa sắc',
+    themeMode: 'color',
+    imagePath: multicolorGlassWallpaper,
+    fallbackGradient:
+      'radial-gradient(circle at 12% 16%, rgba(255, 46, 147, 0.48) 0%, transparent 50%), radial-gradient(circle at 88% 18%, rgba(0, 210, 255, 0.46) 0%, transparent 48%), radial-gradient(circle at 80% 84%, rgba(255, 107, 0, 0.42) 0%, transparent 52%), radial-gradient(circle at 18% 82%, rgba(124, 58, 237, 0.44) 0%, transparent 50%), linear-gradient(135deg, #FFF0F7 0%, #F3E8FF 38%, #E0F7FF 72%, #FFF5EB 100%)',
+    overlayBg: 'rgba(255, 255, 255, 0.05)',
+  },
+  'dark-luxury': {
+    id: 'dark-luxury',
+    presetId: 'theme-bg-dark-luxury',
+    label: 'Nền Dark Luxury – Sang trọng tối màu',
+    themeMode: 'dark',
+    imagePath: wpDarkFlatSoftUi,
+    fallbackGradient:
+      'radial-gradient(ellipse 64% 52% at 18% 14%, rgba(212, 175, 55, 0.18) 0%, transparent 54%), radial-gradient(ellipse 60% 50% at 84% 82%, rgba(243, 229, 171, 0.12) 0%, transparent 56%), linear-gradient(145deg, #090A0F 0%, #11131C 50%, #07080C 100%)',
+    overlayBg: 'rgba(7, 8, 12, 0.24)',
+  },
+  'minimalism': {
+    id: 'minimalism',
+    presetId: 'theme-bg-minimalism',
+    label: 'Nền Minimalism – Tối giản',
+    themeMode: 'light',
+    imagePath: '',
+    fallbackGradient: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+    overlayBg: 'transparent',
   },
 };
 
@@ -244,4 +276,7 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
   'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
   'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
+  'gradient-dopamine': THEME_BACKGROUNDS['gradient-dopamine'].presetId,
+  'dark-luxury': THEME_BACKGROUNDS['dark-luxury'].presetId,
+  'minimalism': THEME_BACKGROUNDS['minimalism'].presetId,
 };

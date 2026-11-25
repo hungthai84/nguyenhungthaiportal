@@ -60,11 +60,11 @@ const getWebSkillIconName = (name: string): string => {
 };
 
 // =========================================================================
-// CORNER SWOT QUADRANT SECTOR SVG (CHÍNH XÁC THEO MÔ HÌNH SWOT THAM KHẢO)
-// Tái hiện góc tư hình tròn gồm:
-// - Vòng cung ngoài (outer concentric pastel ring)
-// - Cung góc trong đặc màu (inner vibrant colored quadrant)
-// - Chữ cái in hoa màu trắng (S, W, O, T)
+// CORNER SWOT QUADRANT SECTOR (ÁP DỤNG ĐỒNG BỘ GIAO DIỆN ĐANG CHỌN)
+// Tái hiện góc tư hình tròn đồng tâm bằng chất liệu thực của Theme hiện tại:
+// - Vòng cung ngoài (.swot-corner-outer): Đồng bộ bề mặt kính/nhựa/da/neu của theme
+// - Cung góc trong (.swot-corner-inner): Đồng bộ sắc độ & chiều sâu của theme đang chọn
+// - Chữ cái in hoa (.swot-corner-letter): S, W, O, T rõ nét tương phản cao
 // =========================================================================
 interface SwotCornerQuadrantProps {
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
@@ -81,151 +81,72 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
   innerColor,
   outerColor,
 }) => {
-  // SVG size 130 x 130
-  // R_inner = 92, R_outer = 126
+  const cornerRadiusClass =
+    position === 'bottom-right'
+      ? 'rounded-tl-full'
+      : position === 'bottom-left'
+        ? 'rounded-tr-full'
+        : position === 'top-right'
+          ? 'rounded-bl-full'
+          : 'rounded-br-full';
+
+  const anchorClass =
+    position === 'bottom-right'
+      ? 'bottom-0 right-0'
+      : position === 'bottom-left'
+        ? 'bottom-0 left-0'
+        : position === 'top-right'
+          ? 'top-0 right-0'
+          : 'top-0 left-0';
+
+  const letterPosClass =
+    position === 'bottom-right'
+      ? 'bottom-[17%] right-[20%]'
+      : position === 'bottom-left'
+        ? 'bottom-[17%] left-[20%]'
+        : position === 'top-right'
+          ? 'top-[17%] right-[20%]'
+          : 'top-[17%] left-[20%]';
+
   return (
     <div
       aria-hidden="true"
+      data-swot-corner={position}
+      data-swot-letter={letter}
+      style={{
+        '--swot-fallback-inner': innerColor,
+        '--swot-fallback-outer': outerColor,
+      } as React.CSSProperties}
       className={cn(
-        "absolute w-20 h-20 sm:w-32 sm:h-32 z-20 select-none pointer-events-none",
-        position === 'bottom-right' && "bottom-0 right-0",
-        position === 'bottom-left' && "bottom-0 left-0",
-        position === 'top-right' && "top-0 right-0",
-        position === 'top-left' && "top-0 left-0"
+        'swot-corner-quadrant absolute w-20 h-20 sm:w-32 sm:h-32 z-20 select-none pointer-events-none overflow-hidden',
+        anchorClass
       )}
     >
-      <svg
-        viewBox="0 0 100 100"
-        className="w-full h-full drop-shadow-md overflow-visible"
+      {/* Vành ngoài đồng tâm đồng bộ giao diện đang chọn */}
+      <div
+        className={cn(
+          'swot-corner-outer absolute w-full h-full transition-all duration-300',
+          anchorClass,
+          cornerRadiusClass
+        )}
+      />
+      {/* Cung góc trong đồng tâm đồng bộ màu & chất liệu giao diện đang chọn */}
+      <div
+        className={cn(
+          'swot-corner-inner absolute w-[72%] h-[72%] transition-all duration-300',
+          anchorClass,
+          cornerRadiusClass
+        )}
+      />
+      {/* Ký tự S / W / O / T */}
+      <span
+        className={cn(
+          'swot-corner-letter absolute z-10 font-play font-black leading-none select-none text-[22px] sm:text-[34px] tracking-tight',
+          letterPosClass
+        )}
       >
-        {position === 'bottom-right' && (
-          // Cung góc dưới phải (cho thẻ STRENGTHS trên-trái)
-          // Tâm vòng tròn đặt tại (100, 100)
-          <g>
-            {/* Vành ngoài màu nhạt */}
-            <path
-              d="M 0 100 A 100 100 0 0 1 100 0 L 100 24 A 76 76 0 0 0 24 100 Z"
-              className="swot-corner-outer"
-              fill={outerColor}
-            />
-            {/* Cung góc trong màu đậm */}
-            <path
-              d="M 28 100 A 72 72 0 0 1 100 28 L 100 100 Z"
-              className="swot-corner-inner"
-              fill={innerColor}
-            />
-            {/* Ký tự S */}
-            <text
-              x="70"
-              y="74"
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill="#FFFFFF"
-              fontSize="30"
-              fontWeight="900"
-              fontFamily="var(--font-main), sans-serif"
-            >
-              {letter}
-            </text>
-          </g>
-        )}
-
-        {position === 'bottom-left' && (
-          // Cung góc dưới trái (cho thẻ WEAKNESSES trên-phải)
-          // Tâm vòng tròn đặt tại (0, 100)
-          <g>
-            {/* Vành ngoài màu nhạt */}
-            <path
-              d="M 0 0 A 100 100 0 0 1 100 100 L 76 100 A 76 76 0 0 0 0 24 Z"
-              className="swot-corner-outer"
-              fill={outerColor}
-            />
-            {/* Cung góc trong màu đậm */}
-            <path
-              d="M 0 28 A 72 72 0 0 1 72 100 L 0 100 Z"
-              className="swot-corner-inner"
-              fill={innerColor}
-            />
-            {/* Ký tự W */}
-            <text
-              x="30"
-              y="74"
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill="#FFFFFF"
-              fontSize="28"
-              fontWeight="900"
-              fontFamily="var(--font-main), sans-serif"
-            >
-              {letter}
-            </text>
-          </g>
-        )}
-
-        {position === 'top-right' && (
-          // Cung góc trên phải (cho thẻ OPPORTUNITIES dưới-trái)
-          // Tâm vòng tròn đặt tại (100, 0)
-          <g>
-            {/* Vành ngoài màu nhạt */}
-            <path
-              d="M 100 100 A 100 100 0 0 1 0 0 L 24 0 A 76 76 0 0 0 100 76 Z"
-              className="swot-corner-outer"
-              fill={outerColor}
-            />
-            {/* Cung góc trong màu đậm */}
-            <path
-              d="M 100 72 A 72 72 0 0 1 28 0 L 100 0 Z"
-              className="swot-corner-inner"
-              fill={innerColor}
-            />
-            {/* Ký tự O */}
-            <text
-              x="70"
-              y="30"
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill="#FFFFFF"
-              fontSize="30"
-              fontWeight="900"
-              fontFamily="var(--font-main), sans-serif"
-            >
-              {letter}
-            </text>
-          </g>
-        )}
-
-        {position === 'top-left' && (
-          // Cung góc trên trái (cho thẻ THREATS dưới-phải)
-          // Tâm vòng tròn đặt tại (0, 0)
-          <g>
-            {/* Vành ngoài màu nhạt */}
-            <path
-              d="M 100 0 A 100 100 0 0 1 0 100 L 0 76 A 76 76 0 0 0 76 0 Z"
-              className="swot-corner-outer"
-              fill={outerColor}
-            />
-            {/* Cung góc trong màu đậm */}
-            <path
-              d="M 72 0 A 72 72 0 0 1 0 72 L 0 0 Z"
-              className="swot-corner-inner"
-              fill={innerColor}
-            />
-            {/* Ký tự T */}
-            <text
-              x="30"
-              y="30"
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill="#FFFFFF"
-              fontSize="30"
-              fontWeight="900"
-              fontFamily="var(--font-main), sans-serif"
-            >
-              {letter}
-            </text>
-          </g>
-        )}
-      </svg>
+        {letter}
+      </span>
     </div>
   );
 };
@@ -423,13 +344,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
   ];
 
   const skillsMainBody = (
-    <div
-      id="skills-main-wrapper"
-      className={cn(
-        "w-full flex-grow flex flex-col gap-[15px] justify-start",
-        selectedSwot && "h-full flex-1 min-h-0 gap-0"
-      )}
-    >
+    <>
         {/* Banner trang kỹ năng - Ẩn khi hiển thị chi tiết kỹ năng */}
         {!selectedSwot && (
           <motion.div
@@ -879,7 +794,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               </div>
             </div>
 
-            <div id="skills-languages-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
+            <div id="skills-languages-grid" className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
               {LANGUAGES_DATA.map((langItem) => {
                 return (
                   <div 
@@ -889,7 +804,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
                     style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
-                    className="sub-card exp-detail-subcard w-full h-full min-w-0 flex flex-col justify-center gap-[12px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
+                    className="sub-card card exp-detail-subcard w-full h-full min-w-0 flex flex-col justify-center gap-[12px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
                   >
                     <div className="skills-lang-main-row flex flex-row items-center gap-[14px] w-full min-w-0">
                       <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
@@ -943,7 +858,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             </div>
           </motion.div>
         )}
-      </div>
+    </>
   );
 
   if (embedded) {

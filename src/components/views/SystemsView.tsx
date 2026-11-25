@@ -1820,7 +1820,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         aria-hidden="true"
                         className={cn(
                           'system-card-hover-flood',
-                          (isHovered || isDemoActive) && item.videoUrl && 'opacity-0'
+                          isDemoActive && item.videoUrl && 'opacity-0'
                         )}
                         style={{ background: hoverFloodBg }}
                       />
@@ -1898,66 +1898,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* Video sắc nét lấp đầy thẻ khi rê chuột vào hình: KHÔNG phủ mờ tối, KHÔNG hiển thị tiêu đề */}
-                      {isHovered && item.videoUrl && !isDemoActive && (
-                        <div className="absolute inset-0 z-20 w-full h-full rounded-[inherit] overflow-hidden bg-black pointer-events-none transition-opacity duration-200">
-                          <video
-                            src={item.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            controls={false}
-                            disablePictureInPicture
-                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                            aria-hidden="true"
-                            tabIndex={-1}
-                            onLoadedMetadata={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              v.controls = false;
-                              v.disablePictureInPicture = true;
-                              (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                              if (v.paused) v.play().catch(() => {});
-                            }}
-                            onCanPlay={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              if (v.paused) v.play().catch(() => {});
-                            }}
-                            onEnded={(e) => {
-                              const v = e.currentTarget;
-                              v.currentTime = 0;
-                              v.play().catch(() => {});
-                            }}
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              width: '100%',
-                              height: '100%',
-                              minWidth: '100%',
-                              minHeight: '100%',
-                              objectFit: 'cover',
-                              transform: 'translateZ(0)',
-                              backfaceVisibility: 'hidden',
-                              filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
-                            }}
-                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp opacity-100"
-                          />
-                        </div>
-                      )}
-
-                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Hàng 1 Tên viết tắt, Hàng 2 Icon & Tên đầy đủ, Hàng 3 Mô tả 3 dòng; Phải: Hình ảnh thu gọn vừa vặn) */}
+                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Hàng 1 Tên viết tắt, Hàng 2 Icon & Tên đầy đủ, Hàng 3 Mô tả 3 dòng; Phải: Hình ảnh & phát video ngay tại cột phải khi rê chuột vào hình) */}
                       {(() => {
                         const systemFullName = isEn
                           ? meta.subtitle || item.nameEn || item.name
                           : SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.nameVi || item.name;
                         const primaryImg = meta.illustrationSrc || item.imageUrl;
+                        const isRightHoverVideoPlaying = isHovered && Boolean(item.videoUrl) && !isDemoActive;
 
                         const handleRightMediaEnter = () => {
                           if (item.videoUrl) setHoveredCardVideoId(item.id);
@@ -1989,12 +1936,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             )}
                           >
                             {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Tiêu đề viết tắt hệ thống */}
-                            <div
-                              className={cn(
-                                'col-start-1 row-start-1 min-w-0 flex items-center self-center transition-opacity duration-200',
-                                isHovered && item.videoUrl && 'opacity-0'
-                              )}
-                            >
+                            <div className="col-start-1 row-start-1 min-w-0 flex items-center self-center">
                               <h3
                                 className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
                                 data-card-title="true"
@@ -2005,12 +1947,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             </div>
 
                             {/* CỘT BÊN TRÁI (50%) - HÀNG 2: Icon phía trước & Tên hệ thống đầy đủ */}
-                            <div
-                              className={cn(
-                                'col-start-1 row-start-2 min-w-0 flex items-center gap-1.5 transition-opacity duration-200',
-                                isHovered && item.videoUrl && 'opacity-0'
-                              )}
-                            >
+                            <div className="col-start-1 row-start-2 min-w-0 flex items-center gap-1.5">
                               <WebIcon
                                 name={meta.iconName}
                                 className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
@@ -2025,12 +1962,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             </div>
 
                             {/* CỘT BÊN TRÁI (50%) - HÀNG 3: Mô tả ngắn gọn hệ thống công dụng khoảng 3 hàng */}
-                            <div
-                              className={cn(
-                                'col-start-1 row-start-3 min-w-0 flex items-start transition-opacity duration-200',
-                                isHovered && item.videoUrl && 'opacity-0'
-                              )}
-                            >
+                            <div className="col-start-1 row-start-3 min-w-0 flex items-start">
                               <p
                                 className="typo-body-sm font-normal text-[var(--text-secondary)] m-0 leading-[1.45] line-clamp-3"
                                 title={localizedDesc}
@@ -2039,7 +1971,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </p>
                             </div>
 
-                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1..3: Hình ảnh thu gọn vừa vặn không mất góc */}
+                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1..3: Hình ảnh thu gọn vừa vặn & phát video trực tiếp tại cột bên phải khi di chuột vào hình */}
                             <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
                               <div
                                 role={item.videoUrl ? 'button' : undefined}
@@ -2051,8 +1983,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 title={
                                   item.videoUrl
                                     ? isEn
-                                      ? 'Click image to play full-card video (hover to preview)'
-                                      : 'Bấm vào hình để xem video toàn thẻ (rê chuột để xem video lấp đầy)'
+                                      ? 'Hover image to play video in right column (click for full-card video)'
+                                      : 'Rê chuột vào hình để phát video ở cột bên phải (bấm để xem video toàn thẻ)'
                                     : systemFullName
                                 }
                                 aria-label={
@@ -2062,7 +1994,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                       : `Xem video ${item.abbr}`
                                     : systemFullName
                                 }
-                                data-media-card="image"
+                                data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
                                 className={cn(
                                   'system-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-2.5 sm:p-3 bg-white/35 dark:bg-slate-900/35 transition-transform duration-300',
                                   item.videoUrl && 'cursor-pointer hover:scale-[1.02]'
@@ -2079,9 +2011,63 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                   }}
                                   className={cn(
                                     'system-img-pop w-[88%] h-[88%] max-w-[88%] max-h-[88%] object-contain m-auto rounded-[inherit] select-none pointer-events-none transition-opacity duration-200',
-                                    isHovered && item.videoUrl && 'opacity-0'
+                                    isRightHoverVideoPlaying && 'opacity-0'
                                   )}
                                 />
+
+                                {/* Video phát trực tiếp trong cột bên phải khi rê chuột vào hình */}
+                                {isRightHoverVideoPlaying && (
+                                  <div className="absolute inset-0 z-10 w-full h-full rounded-[inherit] overflow-hidden bg-black pointer-events-none transition-opacity duration-200">
+                                    <video
+                                      src={item.videoUrl}
+                                      autoPlay
+                                      loop
+                                      muted
+                                      playsInline
+                                      preload="auto"
+                                      controls={false}
+                                      disablePictureInPicture
+                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                                      aria-hidden="true"
+                                      tabIndex={-1}
+                                      onLoadedMetadata={(e) => {
+                                        const v = e.currentTarget;
+                                        v.defaultMuted = true;
+                                        v.muted = true;
+                                        v.loop = true;
+                                        v.controls = false;
+                                        v.disablePictureInPicture = true;
+                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                        if (v.paused) v.play().catch(() => {});
+                                      }}
+                                      onCanPlay={(e) => {
+                                        const v = e.currentTarget;
+                                        v.defaultMuted = true;
+                                        v.muted = true;
+                                        v.loop = true;
+                                        if (v.paused) v.play().catch(() => {});
+                                      }}
+                                      onEnded={(e) => {
+                                        const v = e.currentTarget;
+                                        v.currentTime = 0;
+                                        v.play().catch(() => {});
+                                      }}
+                                      style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        minWidth: '100%',
+                                        minHeight: '100%',
+                                        objectFit: 'cover',
+                                        transform: 'translateZ(0)',
+                                        backfaceVisibility: 'hidden',
+                                        filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
+                                      }}
+                                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp opacity-100"
+                                    />
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>

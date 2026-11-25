@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
@@ -11,15 +12,18 @@ const ChevronLeft = createAnimatedIcon('chevron-left');
 const ChevronRight = createAnimatedIcon('chevron-right');
 const ExternalLink = createAnimatedIcon('external-link');
 const Layers = createAnimatedIcon('layers');
-const Minimize2 = createAnimatedIcon('minimize-2');
 const Sparkles = createAnimatedIcon('sparkles');
 const Tag = createAnimatedIcon('tag');
 const TrendingUp = createAnimatedIcon('trending-up');
 const UserCheck = createAnimatedIcon('user-check');
 const Wrench = createAnimatedIcon('wrench');
+const X = createAnimatedIcon('x');
+
 import { DomainData } from '@/types';
 import { ServiceAssignmentsMap } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
+
+export type ServiceInteractionState = 'idle' | 'hovered' | 'expanding' | 'expanded' | 'closing';
 
 export type DomainIconKey =
   | 'smartphone'
@@ -79,22 +83,16 @@ export interface DomainUiMeta {
 interface ServiceExpandedDetailProps {
   expandedDomain: DomainData;
   expandedMeta: DomainUiMeta;
-  expandedAccent: string;
   allDomains: DomainData[];
-  domainMetaMap: Record<string, DomainUiMeta>;
   serviceAssignments: ServiceAssignmentsMap;
-  animPhase: 'idle' | 'entering' | 'open' | 'closing';
-  morphRect: {
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-  };
+  interactionState: ServiceInteractionState;
+  minHeightPx?: number;
+  prefersReducedMotion: boolean;
   isEn: boolean;
-  isLight: boolean;
   isLeatherTheme: boolean;
   expandedCardRef: React.RefObject<HTMLDivElement | null>;
   expandedBodyRef: React.RefObject<HTMLDivElement | null>;
+  closeButtonRef: React.RefObject<HTMLButtonElement | null>;
   onClose: () => void;
   onSwitchDomain: (domain: DomainData) => void;
   renderDomainIcon: (key: DomainIconKey, className?: string, color?: string) => React.ReactNode;
@@ -104,17 +102,16 @@ interface ServiceExpandedDetailProps {
 export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   expandedDomain,
   expandedMeta,
-  expandedAccent,
   allDomains,
-  domainMetaMap,
   serviceAssignments,
-  animPhase,
-  morphRect,
+  interactionState,
+  minHeightPx,
+  prefersReducedMotion,
   isEn,
-  isLight,
   isLeatherTheme,
   expandedCardRef,
   expandedBodyRef,
+  closeButtonRef,
   onClose,
   onSwitchDomain,
   renderDomainIcon,
@@ -132,56 +129,66 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
   const domainTitle =
     isEn && expandedDomain.titleEn ? expandedDomain.titleEn : expandedDomain.title;
+  const domainSubtitle = isEn
+    ? expandedDomain.subtitleEn || expandedDomain.descEn
+    : expandedDomain.subtitle || expandedDomain.desc;
 
   const illustrationUrl =
     serviceAssignments[expandedDomain.id as ServiceDomainKey]?.directImageUrl ||
     expandedDomain.customIllustrationUrl ||
     expandedMeta.illustrationSrc;
 
+  // Tất cả màu nhấn & bề mặt lấy tự động từ Global Theme Tokens hiện hành
+  const themeAccent = 'var(--text-link, var(--color-primary))';
+  const themeTintBg = isLeatherTheme
+    ? 'rgba(253, 230, 138, 0.12)'
+    : 'color-mix(in srgb, var(--color-primary, #6D28D9) 10%, var(--bg-subcard, transparent))';
+  const themeTintBorder = isLeatherTheme
+    ? 'var(--border-subcard)'
+    : 'color-mix(in srgb, var(--color-primary, #6D28D9) 28%, var(--border-subcard, rgba(255,255,255,0.4)))';
+
+  const isClosing = interactionState === 'closing';
+  const layoutTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 215, damping: 27, mass: 0.95 };
+
   return (
-    <div
+    <motion.div
       id="services-expanded-card"
       ref={expandedCardRef}
+      layoutId={`service-card-shell-${expandedDomain.id}`}
+      layout
+      transition={{ layout: layoutTransition }}
       data-element-type="card"
+      data-interaction-state={interactionState}
       role="region"
       aria-label={domainTitle}
-      className={`domain-card-expanded ${
-        animPhase === 'entering'
-          ? ''
-          : animPhase === 'open'
-            ? 'is-animating is-open'
-            : animPhase === 'closing'
-              ? 'is-animating is-closing'
-              : ''
-      }`}
-      style={{
-        top: `${morphRect.top}px`,
-        left: `${morphRect.left}px`,
-        width: `${morphRect.width}px`,
-        height: `${morphRect.height}px`,
-        borderRadius:
-          animPhase === 'open'
-            ? '14px'
-            : 'var(--radius-card, 14px)',
-        zIndex: 50,
-      }}
+      className="domain-card-expanded w-full min-w-0 md:max-h-[max(var(--services-expanded-min-h,540px),68vh)]"
+      style={
+        {
+          minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
+          ['--services-expanded-min-h' as string]: minHeightPx ? `${minHeightPx}px` : '540px',
+          borderRadius: 'var(--radius-main, 14px)',
+        } as React.CSSProperties
+      }
     >
-      {/* 1. HEADER: Cân đối, rõ phân cấp, tích hợp điều hướng trước/sau */}
-      <div
-        className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-2.5 sm:gap-4"
-        style={{
-          background: isLeatherTheme
-            ? undefined
-            : isLight
-              ? expandedMeta.tintBgLight
-              : expandedMeta.tintBgDark,
+      {/* 1. HEADER: Icon + Hình ảnh + Tiêu đề + Điều hướng Trước/Sau + Nút Đóng góc trên bên phải */}
+      <motion.div
+        layout="position"
+        initial={prefersReducedMotion ? false : { opacity: 0.6 }}
+        animate={{ opacity: isClosing ? 0 : 1 }}
+        transition={{
+          duration: prefersReducedMotion ? 0 : isClosing ? 0.14 : 0.28,
+          ease: [0.22, 1, 0.36, 1],
         }}
+        className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-2.5 sm:gap-4"
+        style={{ background: themeTintBg }}
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="relative w-11 h-11 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
+          <div className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center">
             <div
-              className="absolute inset-0 rounded-full blur-md opacity-50 pointer-events-none"
-              style={{ background: expandedMeta.gradient }}
+              className="absolute inset-0 rounded-full blur-md opacity-35 pointer-events-none"
+              style={{ background: 'var(--color-primary)' }}
             />
             <img
               src={illustrationUrl}
@@ -199,15 +206,21 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           </div>
 
           <div className="min-w-0 flex-1">
-            <div className="card-header-sync min-w-0" style={{ color: expandedAccent }}>
+            <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: themeAccent }}>
+              {renderDomainIcon(expandedMeta.iconKey, 'w-5 h-5 shrink-0 stroke-[2.2]', themeAccent)}
               <h2
                 className="typo-h3 sm:typo-h2 card-title-synced font-play font-bold tracking-tight truncate m-0"
                 data-card-title="true"
-                style={{ color: expandedAccent }}
+                style={{ color: themeAccent }}
               >
                 {domainTitle}
               </h2>
             </div>
+            {domainSubtitle && (
+              <p className="typo-caption text-[var(--text-secondary)] truncate m-0 mt-0.5">
+                {domainSubtitle}
+              </p>
+            )}
           </div>
         </div>
 
@@ -236,24 +249,37 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           )}
 
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 shadow-sm"
-            style={{ background: expandedMeta.gradient }}
-            aria-label={isEn ? 'Minimize domain details' : 'Thu nhỏ chi tiết lĩnh vực'}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold cursor-pointer transition hover:opacity-95 shadow-sm border border-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
+            style={{
+              background: 'var(--bg-button-primary, var(--color-primary))',
+              color: 'var(--text-button-primary, #FFFFFF)',
+            }}
+            aria-label={isEn ? 'Close domain details' : 'Đóng chi tiết lĩnh vực'}
+            title={isEn ? 'Close (Esc)' : 'Đóng (Esc)'}
           >
-            <Minimize2 className="w-3.5 h-3.5" />
-            <span>{isEn ? 'Minimize' : 'Thu nhỏ'}</span>
+            <X className="w-3.5 h-3.5 shrink-0" />
+            <span>{isEn ? 'Close' : 'Đóng'}</span>
           </button>
         </div>
-      </div>
+      </motion.div>
 
-      {/* 2. THÂN NỘI DUNG BENTO AUTO-FIT SMART WHITESPACE (Cuộn nội bộ mượt mà, đầy đủ dữ liệu thực chiến) */}
-      <div
+      {/* 2. THÂN NỘI DUNG CHI TIẾT (Fade & Rise mượt sau khi Card có đủ không gian, cuộn nội bộ) */}
+      <motion.div
+        key={expandedDomain.id}
         ref={expandedBodyRef}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+        animate={isClosing ? { opacity: 0, y: 8 } : { opacity: 1, y: 0 }}
+        transition={{
+          duration: prefersReducedMotion ? 0 : isClosing ? 0.16 : 0.34,
+          delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.12,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
       >
-        {/* TẦNG 1: 4 Thẻ KPI Trọng Tâm (Compact Auto-Fit Strip) */}
+        {/* TẦNG 1: 4 Thẻ KPI Trọng Tâm */}
         <div className="grid grid-cols-1 min-[380px]:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch shrink-0">
           {expandedMeta.detailKpis.map((kpi, kIdx) => (
             <div
@@ -264,19 +290,15 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <div className="flex items-start justify-between gap-2 min-w-0">
                 <div
                   className="typo-h3 sm:typo-h2 font-bold leading-tight truncate tabular-nums tracking-tight"
-                  style={{ color: expandedAccent }}
+                  style={{ color: themeAccent }}
                 >
                   {isEn && kpi.valueEn ? kpi.valueEn : kpi.value}
                 </div>
                 <span
                   className="inline-flex items-center justify-center w-8 h-8 rounded-xl shrink-0"
                   style={{
-                    backgroundColor: isLeatherTheme
-                      ? 'rgba(253, 230, 138, 0.14)'
-                      : isLight
-                        ? expandedMeta.tintBgLight
-                        : expandedMeta.tintBgDark,
-                    color: expandedAccent,
+                    backgroundColor: themeTintBg,
+                    color: themeAccent,
                   }}
                 >
                   {renderKpiIcon(kpi.icon, 'w-4 h-4 shrink-0')}
@@ -294,24 +316,13 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           data-subcard="true"
           className="domain-card-sub services-detail-overview-subcard rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full shrink-0"
           style={{
-            backgroundColor: isLeatherTheme
-              ? undefined
-              : isLight
-                ? expandedMeta.tintBgLight
-                : expandedMeta.tintBgDark,
-            borderColor: isLeatherTheme
-              ? 'var(--border-subcard)'
-              : isLight
-                ? expandedMeta.borderLight
-                : expandedMeta.borderDark,
+            background: themeTintBg,
+            borderColor: themeTintBorder,
           }}
         >
           <div className="subcard-header-sync flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
-              <Award
-                className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
-              />
+              <Award className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
               <h3
                 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                 data-subcard-title="true"
@@ -325,17 +336,9 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <span
                 className="typo-badge font-bold px-2.5 py-0.5 rounded-full border shrink-0"
                 style={{
-                  backgroundColor: isLeatherTheme
-                    ? 'rgba(253, 230, 138, 0.14)'
-                    : isLight
-                      ? 'rgba(255, 255, 255, 0.72)'
-                      : expandedMeta.tintBgDark,
-                  borderColor: isLeatherTheme
-                    ? 'var(--border-subcard)'
-                    : isLight
-                      ? expandedMeta.borderLight
-                      : expandedMeta.borderDark,
-                  color: expandedAccent,
+                  background: 'var(--bg-badge, var(--bg-subcard))',
+                  borderColor: 'var(--border-badge, var(--border-subcard))',
+                  color: themeAccent,
                 }}
               >
                 {expandedDomain.serviceCode} · {isEn ? expandedMeta.shortTitleEn : expandedMeta.shortTitle}
@@ -346,8 +349,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
               <div className="flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                <Layers className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
                   {isEn
                     ? 'Operational Capability'
                     : expandedDomain.operationalCapabilityLabel || 'Năng lực vận hành'}
@@ -362,8 +365,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
             <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
               <div className="flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                <Sparkles className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
                   {isEn ? 'Core Expertise' : 'Năng lực chuyên môn'}
                 </span>
               </div>
@@ -376,8 +379,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
             <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                <span className="typo-badge font-bold" style={{ color: expandedAccent }}>
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
                   {isEn ? 'Field Experience' : 'Kinh nghiệm thực chiến'}
                 </span>
               </div>
@@ -391,9 +394,9 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
           {expandedDomain.valueDelivered && (
             <div className="rounded-xl px-3.5 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/75 flex items-start gap-2.5 min-w-0">
-              <TrendingUp className="w-4 h-4 shrink-0 mt-0.5" style={{ color: expandedAccent }} />
+              <TrendingUp className="w-4 h-4 shrink-0 mt-0.5" style={{ color: themeAccent }} />
               <div className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                <span className="font-bold mr-1.5" style={{ color: expandedAccent }}>
+                <span className="font-bold mr-1.5" style={{ color: themeAccent }}>
                   {isEn ? 'Strategic Value:' : 'Giá trị chuyển đổi:'}
                 </span>
                 <span className="text-[var(--text-secondary)]">{expandedDomain.valueDelivered}</span>
@@ -402,7 +405,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           )}
         </div>
 
-        {/* TẦNG 3: Lưới Bento Đa Kích Thước Dense (7/5 · 6/6 · 7/5 trên Desktop, 2 cột Tablet, 1 cột Mobile) */}
+        {/* TẦNG 3: Lưới Bento Đa Kích Thước Dense */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-[15px] [grid-auto-flow:dense] items-stretch min-w-0">
           {/* Tile 1 (Wide 7 cols): Quy mô & Phạm vi vận hành */}
           <div
@@ -411,14 +414,11 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           >
             <div className="flex flex-col gap-3 min-w-0">
               <div className="subcard-header-sync flex items-center gap-2">
-                <CheckCircle2
-                  className="w-4 h-4 shrink-0"
-                  style={{ color: expandedAccent }}
-                />
+                <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
                 <h3
                   className="typo-h4 subcard-title-synced font-play font-bold m-0"
                   data-subcard-title="true"
-                  style={{ color: expandedAccent }}
+                  style={{ color: themeAccent }}
                 >
                   {isEn ? 'Operational Scale & Scope' : 'Quy mô & Phạm vi vận hành'}
                 </h3>
@@ -431,7 +431,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   >
                     <span
                       className="font-semibold shrink-0 sm:min-w-[145px]"
-                      style={{ color: expandedAccent }}
+                      style={{ color: themeAccent }}
                     >
                       {item.label}
                     </span>
@@ -453,7 +453,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <WebIcon
                 name="shield-alert"
                 className="w-4 h-4 shrink-0"
-                style={{ color: expandedAccent }}
+                style={{ color: themeAccent }}
               />
               <h3
                 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
@@ -477,12 +477,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   <span
                     className="inline-flex items-center justify-center w-5 h-5 rounded-md typo-badge font-bold tabular-nums shrink-0 mt-0.5"
                     style={{
-                      backgroundColor: isLeatherTheme
-                        ? 'rgba(253, 230, 138, 0.16)'
-                        : isLight
-                          ? expandedMeta.tintBgLight
-                          : expandedMeta.tintBgDark,
-                      color: expandedAccent,
+                      backgroundColor: themeTintBg,
+                      color: themeAccent,
                     }}
                   >
                     {String(cIdx + 1).padStart(2, '0')}
@@ -493,17 +489,14 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             </ul>
           </div>
 
-          {/* Tile 3 (Balanced 6 cols): Điểm nhấn thực chiến (experienceItems) */}
+          {/* Tile 3 (Balanced 6 cols): Điểm nhấn thực chiến */}
           {(expandedDomain.experienceItems || []).length > 0 && (
             <div
               data-subcard="true"
               className="domain-card-sub xl:col-span-6 rounded-2xl p-[15px] flex flex-col justify-start gap-3 w-full min-w-0 h-full"
             >
               <div className="subcard-header-sync flex items-center gap-2">
-                <Sparkles
-                  className="w-4 h-4 shrink-0"
-                  style={{ color: expandedAccent }}
-                />
+                <Sparkles className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
                 <h3
                   className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                   data-subcard-title="true"
@@ -519,7 +512,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   >
                     <CheckCircle2
                       className="w-4 h-4 shrink-0 mt-0.5"
-                      style={{ color: expandedAccent }}
+                      style={{ color: themeAccent }}
                     />
                     <span className="min-w-0">{exp}</span>
                   </li>
@@ -536,10 +529,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             >
               <div className="flex flex-col gap-3 min-w-0">
                 <div className="subcard-header-sync flex items-center gap-2">
-                  <TrendingUp
-                    className="w-4 h-4 shrink-0"
-                    style={{ color: expandedAccent }}
-                  />
+                  <TrendingUp className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
                   <h3
                     className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                     data-subcard-title="true"
@@ -560,7 +550,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                         </span>
                         <span
                           className="typo-body-sm font-bold leading-snug"
-                          style={{ color: expandedAccent }}
+                          style={{ color: themeAccent }}
                         >
                           {res.outcome}
                         </span>
@@ -588,10 +578,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           >
             <div className="flex flex-col gap-3">
               <div className="subcard-header-sync flex items-center gap-2">
-                <Wrench
-                  className="w-4 h-4 shrink-0"
-                  style={{ color: expandedAccent }}
-                />
+                <Wrench className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
                 <h3
                   className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                   data-subcard-title="true"
@@ -611,7 +598,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                     >
                       <span
                         className="typo-body-sm font-semibold leading-snug"
-                        style={{ color: expandedAccent }}
+                        style={{ color: themeAccent }}
                       >
                         {sol.name}
                       </span>
@@ -646,10 +633,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2.5">
                 <div className="subcard-header-sync flex items-center gap-2">
-                  <Building2
-                    className="w-4 h-4 shrink-0"
-                    style={{ color: expandedAccent }}
-                  />
+                  <Building2 className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
                   <h3
                     className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
                     data-subcard-title="true"
@@ -722,7 +706,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               {(expandedDomain.rolesHeld || []).length > 0 && (
                 <div className="flex flex-col gap-1.5 pt-2 border-t border-[var(--border-subcard)]/70">
                   <div className="flex items-center gap-1.5">
-                    <UserCheck className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
+                    <UserCheck className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
                     <span className="typo-caption font-bold text-[var(--text-primary)]">
                       {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
                     </span>
@@ -749,27 +733,15 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
             {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).length > 0 && (
               <div className="flex items-center gap-1.5 flex-wrap pt-2 border-t border-[var(--border-subcard)]/70">
-                <Tag className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
+                <Tag className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
                 {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
                   <span
                     key={tag}
                     className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
                     style={{
-                      backgroundColor: isLeatherTheme
-                        ? 'rgba(253, 230, 138, 0.14)'
-                        : isLight
-                          ? expandedMeta.tintBgLight
-                          : expandedMeta.tintBgDark,
-                      borderColor: isLeatherTheme
-                        ? 'var(--border-subcard)'
-                        : isLight
-                          ? expandedMeta.borderLight
-                          : expandedMeta.borderDark,
-                      color: isLeatherTheme
-                        ? '#FDE68A'
-                        : isLight
-                          ? expandedMeta.pillTextLight
-                          : expandedMeta.pillTextDark,
+                      background: 'var(--bg-badge, var(--bg-subcard))',
+                      borderColor: 'var(--border-badge, var(--border-subcard))',
+                      color: themeAccent,
                     }}
                   >
                     {tag}
@@ -779,8 +751,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             )}
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

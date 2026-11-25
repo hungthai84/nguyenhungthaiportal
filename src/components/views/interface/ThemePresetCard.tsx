@@ -127,6 +127,35 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           color: '#1C0708',
         };
       }
+      if (preset.id === 'gradient-dopamine') {
+        return {
+          ...sampleProps,
+          background:
+            'linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 240, 248, 0.86) 48%, rgba(240, 247, 255, 0.88) 100%)',
+          backdropFilter: 'blur(18px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
+          border: '1.5px solid rgba(255, 46, 147, 0.35)',
+          color: '#181028',
+        };
+      }
+      if (preset.id === 'dark-luxury') {
+        return {
+          ...sampleProps,
+          background:
+            'linear-gradient(145deg, rgba(20, 22, 31, 0.96) 0%, rgba(12, 14, 20, 0.96) 55%, rgba(8, 9, 13, 0.98) 100%)',
+          border: '1px solid rgba(212, 175, 55, 0.42)',
+          color: '#FAF8F5',
+        };
+      }
+      if (preset.id === 'minimalism') {
+        return {
+          ...sampleProps,
+          background: '#FFFFFF',
+          border: '1px solid #E4E4E7',
+          boxShadow: '0 1px 2px rgba(17, 17, 17, 0.03)',
+          color: '#111111',
+        };
+      }
       return sampleProps;
     })();
 
@@ -179,7 +208,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         title={isEn ? 'Double-click to apply theme' : 'Nhấp đúp để áp dụng giao diện'}
         style={{
           ...safeSampleStyle,
-          borderRadius: 'var(--radius-card, 14px)',
+          borderRadius: 'var(--radius-card, 18px)',
           padding: '15px',
           cursor: 'pointer',
           ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
@@ -194,7 +223,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
               }
             : {}),
         }}
-        className={`theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out min-w-0 overflow-hidden motion-safe:hover:-translate-y-0.5 ${preset.cardClassName} ${
+        className={`card theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out min-w-0 overflow-hidden motion-safe:hover:-translate-y-0.5 ${preset.cardClassName} ${
           isMatteNeu
             ? 'border-0'
             : `border ${isActive ? meta.activeBorderClass : meta.idleBorderClass}`
@@ -360,6 +389,12 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       Teal: 'Ngọc lam',
                       Terracotta: 'Đất nung',
                       Espresso: 'Cà phê',
+                      Dopamine: 'Đa sắc',
+                      Energy: 'Năng lượng',
+                      Gold: 'Ánh kim',
+                      Obsidian: 'Đen huyền',
+                      Ink: 'Mực đen',
+                      Space: 'Khoảng trắng',
                     };
                     const localizedBarLabel = isEn ? bar.label : barLabelViMap[bar.label] || bar.label;
                     return (

@@ -321,6 +321,43 @@ export default function App() {
     };
   }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
+  // Đồng bộ chính xác chiều cao thanh Header bằng đúng chiều cao thực tế của Footer trên mọi màn hình
+  useEffect(() => {
+    if (currentTabIndex === 16) return;
+    const rootEl = document.getElementById('website-root');
+    const footerEl = document.getElementById('app-footer');
+    if (!rootEl || !footerEl) return;
+
+    let rafId: number | null = null;
+    const syncBarHeight = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const measured = Math.round(footerEl.getBoundingClientRect().height);
+        if (measured > 0) {
+          const val = `${measured}px`;
+          rootEl.style.setProperty('--shell-bar-h', val);
+          document.documentElement.style.setProperty('--shell-bar-h', val);
+        }
+      });
+    };
+
+    syncBarHeight();
+    const settleTimer = window.setTimeout(syncBarHeight, 160);
+    const ro =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => syncBarHeight())
+        : null;
+    ro?.observe(footerEl);
+    window.addEventListener('resize', syncBarHeight, { passive: true });
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.clearTimeout(settleTimer);
+      ro?.disconnect();
+      window.removeEventListener('resize', syncBarHeight);
+    };
+  }, [currentTabIndex, cardStyle, isDark]);
+
   // Tự động rà soát và gắn ID định danh cho toàn bộ các đối tượng DOM hiển thị chưa có ID
   useEffect(() => {
     const rootEl = document.getElementById('website-root');
@@ -844,7 +881,7 @@ export default function App() {
         />
       )}
 
-      {/* HEADER: Chiều cao responsive theo breakpoint, chiều ngang bằng main card (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: Chiều cao bằng Footer, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
@@ -854,6 +891,7 @@ export default function App() {
             maxHeight: 'none',
             minHeight: 0,
             padding: '0px',
+            boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1000px)',
             width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             marginLeft: 'auto',
@@ -862,9 +900,9 @@ export default function App() {
             marginBottom: '0px',
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
-            borderBottomLeftRadius: 'var(--radius-global, 14px)',
-            borderBottomRightRadius: 'var(--radius-global, 14px)',
-            borderRadius: '0 0 var(--radius-global, 14px) var(--radius-global, 14px)',
+            borderBottomLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
@@ -889,8 +927,9 @@ export default function App() {
         style={{
           width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
           maxWidth: currentTabIndex === 16 ? '1250px' : 'var(--main-card-target-w, 1000px)',
+          boxSizing: 'border-box',
           flex: '0 0 auto',
-          height: currentTabIndex === 16 ? 'auto' : 'calc(100dvh - 104px)',
+          height: currentTabIndex === 16 ? 'auto' : 'calc(100dvh - var(--shell-bar-h, 52px) * 2)',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '520px',
           minWidth: 0,
           marginLeft: 'auto',
@@ -920,7 +959,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang bằng main card (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -933,17 +972,18 @@ export default function App() {
             maxHeight: 'none',
             minHeight: 0,
             padding: '0px',
+            boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1000px)',
             width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
             marginBottom: '0px',
-            borderTopLeftRadius: 'var(--radius-global, 14px)',
-            borderTopRightRadius: 'var(--radius-global, 14px)',
+            borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
-            borderRadius: 'var(--radius-global, 14px) var(--radius-global, 14px) 0 0',
+            borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >

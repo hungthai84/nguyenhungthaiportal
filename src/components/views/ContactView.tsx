@@ -159,9 +159,8 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
         >
           <div
             id="contact-main-scroll-viewport"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col lg:flex-row items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
-          <div className="flex-1 min-h-full w-full flex flex-col lg:flex-row items-stretch gap-[15px]">
             {/* 1. HERO BANNER TRANG LIÊN HỆ */}
             <section
               id="contact-hero-banner"
@@ -619,7 +618,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 </div>
               )}
             </div>
-          </div>
           </div>
         </div>
       </div>

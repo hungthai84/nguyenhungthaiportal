@@ -516,6 +516,32 @@
   --main-card-w: clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px));
   --main-card-h: min(var(--main-card-target-h, 100%), 100%);
   --shared-frame-w: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px)));
+
+  /* Services Card Liquid Color Reveal & Expanded Card Semantic Tokens (Auto-derived from Active Theme) */
+  --service-hover-surface: radial-gradient(
+    circle at var(--hover-x, 50%) var(--hover-y, 50%),
+    color-mix(in srgb, var(--color-primary, #6D28D9) 28%, transparent) 0%,
+    color-mix(in srgb, var(--color-secondary, var(--color-primary, #4F46E5)) 18%, var(--bg-subcard, rgba(255, 255, 255, 0.78))) 56%,
+    color-mix(in srgb, var(--color-primary, #6D28D9) 14%, var(--bg-card, rgba(255, 255, 255, 0.88))) 100%
+  );
+  --service-hover-glow: radial-gradient(
+    circle at var(--hover-x, 50%) var(--hover-y, 50%),
+    color-mix(in srgb, var(--glass-highlight, rgba(255, 255, 255, 0.85)) 42%, transparent) 0%,
+    transparent 62%
+  );
+  --service-hover-border: color-mix(in srgb, var(--color-primary, #6D28D9) 56%, var(--border-strong, rgba(255, 255, 255, 0.65)));
+  --service-hover-shadow:
+    0 20px 42px -12px color-mix(in srgb, var(--color-primary, #4F46E5) 28%, rgba(15, 23, 42, 0.22)),
+    0 0 0 1px color-mix(in srgb, var(--color-primary, #6D28D9) 32%, transparent),
+    inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.75));
+  --service-hover-text: var(--text-heading, var(--text-primary));
+  --service-hover-icon: var(--text-link, var(--color-primary));
+  --service-expanded-surface: color-mix(in srgb, var(--surface-secondary-bg, var(--bg-card, #ffffff)) 90%, var(--bg-card, #ffffff));
+  --service-expanded-border: color-mix(in srgb, var(--color-primary, #6D28D9) 34%, var(--surface-secondary-border, var(--border-default, rgba(255, 255, 255, 0.55))));
+  --service-expanded-shadow:
+    var(--shadow-card-hover, 0 28px 60px -14px rgba(15, 23, 42, 0.28)),
+    0 0 0 1px color-mix(in srgb, var(--color-primary, #6D28D9) 18%, transparent),
+    inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.6));
 }
 
 @media (min-width: 1600px) {
@@ -1938,6 +1964,171 @@ html[data-card-style="mica-fluent"],
   --pill-arrow-border: rgba(255, 255, 255, 0.45);
   --pill-arrow-text: #E84118;
   --pill-counter-color: #1C0708;
+}
+
+/* ========================================================================= */
+/* 10. GRADIENT / DOPAMINE UI — ĐA SẮC                                       */
+/* ========================================================================= */
+html[data-card-style="gradient-dopamine"],
+html[data-theme="gradient-dopamine"] {
+  --app-bg-base: #FFF5F8;
+  --color-primary: #FF2E93;
+  --color-primary-hover: #E01B7B;
+  --color-primary-active: #BE1265;
+  --color-secondary: #7928CA;
+  --color-accent: #FF8A00;
+  --color-focus-ring: #FF2E93;
+  --color-bg: #FFF5F8;
+  --color-surface: rgba(255, 255, 255, 0.86);
+  --color-surface-elevated: rgba(255, 255, 255, 0.94);
+  --color-heading: #190A28;
+  --color-text: #190A28;
+  --color-text-secondary: #4A256B;
+  --text-primary: #190A28;
+  --text-secondary: #4A256B;
+  --text-muted: #7B529E;
+  --text-link: #FF2E93;
+  --bg-card: rgba(255, 255, 255, 0.86);
+  --bg-subcard: rgba(255, 255, 255, 0.92);
+  --border-card: rgba(255, 46, 147, 0.28);
+  --border-subcard: rgba(121, 40, 202, 0.22);
+  --nav-pill-accent: #FF2E93;
+  --pill-bg: rgba(255, 255, 255, 0.88);
+  --pill-bg-hover: rgba(255, 255, 255, 0.98);
+  --pill-border: rgba(255, 46, 147, 0.30);
+  --pill-border-hover: rgba(255, 46, 147, 0.52);
+  --pill-text: #190A28;
+  --pill-title-color: #190A28;
+  --pill-shadow: 0 8px 20px -6px rgba(255, 46, 147, 0.18), 0 4px 12px -2px rgba(121, 40, 202, 0.12);
+  --pill-shadow-hover: 0 12px 26px -6px rgba(255, 46, 147, 0.26);
+  --pill-blur: 20px;
+  --pill-divider: rgba(121, 40, 202, 0.18);
+  --pill-badge-bg: linear-gradient(135deg, #FF2E93 0%, #7928CA 55%, #FF8A00 100%);
+  --pill-badge-border: rgba(255, 255, 255, 0.65);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 4px 12px rgba(255, 46, 147, 0.35);
+  --pill-active-bg: linear-gradient(135deg, #FF2E93 0%, #7928CA 52%, #FF8A00 100%);
+  --pill-active-border: rgba(255, 255, 255, 0.72);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 24px -4px rgba(255, 46, 147, 0.45);
+  --pill-active-divider: rgba(255, 255, 255, 0.50);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #FF2E93;
+  --pill-arrow-bg: rgba(255, 255, 255, 0.90);
+  --pill-arrow-hover: #FFFFFF;
+  --pill-arrow-border: rgba(255, 46, 147, 0.32);
+  --pill-arrow-text: #FF2E93;
+  --pill-counter-color: #190A28;
+}
+
+/* ========================================================================= */
+/* 11. DARK LUXURY — SANG TRỌNG TỐI MÀU                                      */
+/* ========================================================================= */
+html[data-card-style="dark-luxury"],
+html[data-theme="dark-luxury"] {
+  --app-bg-base: #0B0A0E;
+  --color-primary: #D4AF37;
+  --color-primary-hover: #E5C158;
+  --color-primary-active: #B89323;
+  --color-secondary: #AA771C;
+  --color-accent: #F3E5AB;
+  --color-focus-ring: #D4AF37;
+  --color-bg: #0B0A0E;
+  --color-surface: rgba(20, 18, 24, 0.92);
+  --color-surface-elevated: rgba(28, 25, 34, 0.96);
+  --color-heading: #FBF7EE;
+  --color-text: #F5EFE6;
+  --color-text-secondary: #C8BFA8;
+  --text-primary: #FBF7EE;
+  --text-secondary: #C8BFA8;
+  --text-muted: #9A8F76;
+  --text-link: #E5C158;
+  --bg-card: rgba(20, 18, 24, 0.92);
+  --bg-subcard: rgba(28, 25, 34, 0.94);
+  --border-card: rgba(212, 175, 55, 0.34);
+  --border-subcard: rgba(212, 175, 55, 0.24);
+  --nav-pill-accent: #D4AF37;
+  --pill-bg: rgba(22, 20, 27, 0.92);
+  --pill-bg-hover: rgba(32, 29, 38, 0.98);
+  --pill-border: rgba(212, 175, 55, 0.35);
+  --pill-border-hover: rgba(212, 175, 55, 0.62);
+  --pill-text: #F5EFE6;
+  --pill-title-color: #FBF7EE;
+  --pill-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.72), 0 0 14px rgba(212, 175, 55, 0.12);
+  --pill-shadow-hover: 0 14px 30px -6px rgba(0, 0, 0, 0.85), 0 0 18px rgba(212, 175, 55, 0.22);
+  --pill-blur: 18px;
+  --pill-divider: rgba(212, 175, 55, 0.24);
+  --pill-badge-bg: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA771C 100%);
+  --pill-badge-border: rgba(251, 247, 238, 0.48);
+  --pill-badge-icon: #0B0A0E;
+  --pill-badge-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+  --pill-active-bg: linear-gradient(135deg, #E5C158 0%, #D4AF37 52%, #9A6F18 100%);
+  --pill-active-border: rgba(251, 247, 238, 0.65);
+  --pill-active-text: #0B0A0E;
+  --pill-active-shadow: 0 10px 26px -4px rgba(212, 175, 55, 0.45);
+  --pill-active-divider: rgba(11, 10, 14, 0.32);
+  --pill-active-badge-bg: #0B0A0E;
+  --pill-active-badge-icon: #E5C158;
+  --pill-arrow-bg: rgba(26, 24, 32, 0.94);
+  --pill-arrow-hover: rgba(38, 34, 46, 0.98);
+  --pill-arrow-border: rgba(212, 175, 55, 0.40);
+  --pill-arrow-text: #E5C158;
+  --pill-counter-color: #F3E5AB;
+}
+
+/* ========================================================================= */
+/* 12. MINIMALISM — TỐI GIẢN                                                 */
+/* ========================================================================= */
+html[data-card-style="minimalism"],
+html[data-theme="minimalism"] {
+  --app-bg-base: #FAFAFA;
+  --color-primary: #111111;
+  --color-primary-hover: #262626;
+  --color-primary-active: #000000;
+  --color-secondary: #525252;
+  --color-accent: #171717;
+  --color-focus-ring: #111111;
+  --color-bg: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-heading: #0A0A0A;
+  --color-text: #111111;
+  --color-text-secondary: #525252;
+  --text-primary: #0A0A0A;
+  --text-secondary: #404040;
+  --text-muted: #737373;
+  --text-link: #111111;
+  --bg-card: #FFFFFF;
+  --bg-subcard: #FAFAFA;
+  --border-card: #E5E5E5;
+  --border-subcard: #EAEAEA;
+  --nav-pill-accent: #111111;
+  --pill-bg: #FFFFFF;
+  --pill-bg-hover: #F5F5F5;
+  --pill-border: #E5E5E5;
+  --pill-border-hover: #A3A3A3;
+  --pill-text: #111111;
+  --pill-title-color: #0A0A0A;
+  --pill-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --pill-shadow-hover: 0 3px 8px rgba(0, 0, 0, 0.07);
+  --pill-blur: 0px;
+  --pill-divider: #E5E5E5;
+  --pill-badge-bg: #111111;
+  --pill-badge-border: #262626;
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: none;
+  --pill-active-bg: #111111;
+  --pill-active-border: #111111;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --pill-active-divider: rgba(255, 255, 255, 0.28);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #111111;
+  --pill-arrow-bg: #FFFFFF;
+  --pill-arrow-hover: #F5F5F5;
+  --pill-arrow-border: #E5E5E5;
+  --pill-arrow-text: #111111;
+  --pill-counter-color: #111111;
 }
 
 @media (max-width: 639px) {

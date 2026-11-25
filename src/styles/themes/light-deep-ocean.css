@@ -526,16 +526,14 @@ html[data-card-style="light-deep-ocean"] .nav-pill[data-active="true"] {
   box-shadow: 0 6px 18px rgba(3, 25, 91, 0.26), inset 0 1px 1px rgba(255, 255, 255, 0.55) !important;
 }
 
-/* Education, Systems, Services & Horoscope Glossy Liquid Glass Surfaces */
+/* Education, Systems & Services Glossy Liquid Glass Surfaces */
 html[data-card-style="light-deep-ocean"] :is(
   .edu-bento-tile,
   .sys-bento-tile,
   .system-card-tile,
   #services-page-container .domain-card,
   #services-page-container #services-expanded-card,
-  #systems-page-container #systems-expanded-card,
-  #horoscope-cards-track > .page-main-card,
-  #horoscope-card-5
+  #systems-page-container #systems-expanded-card
 ) {
   background: linear-gradient(
     145deg,

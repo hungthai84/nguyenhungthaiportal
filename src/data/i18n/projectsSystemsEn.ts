@@ -130,7 +130,7 @@ export const PROJECTS_SYSTEMS_EN: Record<string, string> = {
   'Hạng mục 6': 'Workstream 6',
   'Hạng mục 7': 'Workstream 7',
 
-  // SystemsView & Postcard & systems.ts / systemsData.ts
+  // SystemsView & Postcard & systems.ts
   'Hệ thống vận hành': 'Enterprise Systems',
   '"Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡"': '"Intelligent systems, lean and synchronized operations ♡"',
   'Banner Hệ thống': 'Systems Banner',

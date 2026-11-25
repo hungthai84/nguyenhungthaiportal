@@ -62,7 +62,10 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
             rawFamily === 'frost-ice-neu' ||
             rawFamily === 'multicolor-glass' ||
             rawFamily === 'flat-soft-ui' ||
-            rawFamily === 'mica-fluent'
+            rawFamily === 'mica-fluent' ||
+            rawFamily === 'gradient-dopamine' ||
+            rawFamily === 'dark-luxury' ||
+            rawFamily === 'minimalism'
           ? rawFamily
           : fallback.selectedFamilyFilter;
     return {
@@ -541,7 +544,7 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
     ],
   },
   'mica-fluent': {
-    radius: '14px',
+    radius: '18px',
     activeRingColor: '#E84118',
     activeBorderClass: 'border-[#E84118]',
     idleBorderClass: 'border-white/25 hover:border-[#E84118]/65',
@@ -568,6 +571,96 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Crimson Deep', hex: '#C23616' },
       { name: 'Warm Espresso', hex: '#1C0708' },
       { name: 'Slate Graphite', hex: '#525A65' },
+    ],
+  },
+  'gradient-dopamine': {
+    radius: '18px',
+    activeRingColor: '#FF2E93',
+    activeBorderClass: 'border-[#FF2E93]',
+    idleBorderClass: 'border-pink-300/60 hover:border-[#FF2E93]',
+    activeBadgeClass: 'bg-pink-50/90 text-[#FF2E93] border-pink-300/75 shadow-xs backdrop-blur-md',
+    iconColor: '#FF2E93',
+    titleTextClass: 'text-[#181028]',
+    bodyTextClass: 'text-[#3B2654]',
+    accentTextClass: 'text-[#FF2E93]',
+    previewBorderClass: 'border-pink-300/55',
+    dividerClass: 'border-pink-200/70',
+    ctaIdleClass: 'bg-white/90 text-[#FF2E93] hover:bg-white border border-pink-200/80 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#FF2E93] via-[#7C3AED] to-[#FF6B00] text-white shadow-xs border border-white/60',
+    toggleTrackDarkClass: 'bg-[#181028] border-pink-400/50',
+    toggleTrackLightClass: 'bg-pink-50 border-pink-200',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FF2E93] to-[#00D2FF] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#FF2E93] via-[#7C3AED] to-[#FF6B00] text-white',
+    demoVideoUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
+    gradientBars: [
+      { label: 'Dopamine', width: '96%', gradient: 'linear-gradient(90deg, #FF2E93, #7C3AED, #00D2FF)', glow: '0 0 12px rgba(255, 46, 147, 0.42)' },
+      { label: 'Energy', width: '84%', gradient: 'linear-gradient(90deg, #FF6B00, #FF2E93)', glow: '0 0 12px rgba(255, 107, 0, 0.38)' },
+    ],
+    primaryPalette: [
+      { name: 'Hot Magenta', hex: '#FF2E93' },
+      { name: 'Electric Violet', hex: '#7C3AED' },
+      { name: 'Sunset Coral', hex: '#FF6B00' },
+      { name: 'Cyber Cyan', hex: '#00D2FF' },
+    ],
+  },
+  'dark-luxury': {
+    radius: '18px',
+    activeRingColor: '#D4AF37',
+    activeBorderClass: 'border-[#D4AF37]',
+    idleBorderClass: 'border-[#D4AF37]/35 hover:border-[#F3E5AB]',
+    activeBadgeClass: 'bg-[#14161F] text-[#F3E5AB] border-[#D4AF37]/55 shadow-xs',
+    iconColor: '#D4AF37',
+    titleTextClass: 'text-[#FAF8F5]',
+    bodyTextClass: 'text-[#D6D1C7]',
+    accentTextClass: 'text-[#F3E5AB]',
+    previewBorderClass: 'border-[#D4AF37]/40',
+    dividerClass: 'border-[#D4AF37]/25',
+    ctaIdleClass: 'bg-[#14161F]/90 text-[#F3E5AB] hover:bg-[#1C1F2B] border border-[#D4AF37]/40 shadow-xs',
+    ctaActiveClass: 'bg-gradient-to-r from-[#F3E5AB] via-[#D4AF37] to-[#AA7C11] text-[#090A0F] font-bold shadow-xs border border-[#F3E5AB]',
+    toggleTrackDarkClass: 'bg-[#090A0F] border-[#D4AF37]/45',
+    toggleTrackLightClass: 'bg-[#14161F] border-[#D4AF37]/50',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#F3E5AB] to-[#D4AF37] text-[#090A0F]',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#D4AF37] to-[#AA7C11] text-[#090A0F]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Gold', width: '94%', gradient: 'linear-gradient(90deg, #F3E5AB, #D4AF37, #AA7C11)', glow: '0 0 12px rgba(212, 175, 55, 0.42)' },
+      { label: 'Obsidian', width: '78%', gradient: 'linear-gradient(90deg, #2A2D3D, #D4AF37)' },
+    ],
+    primaryPalette: [
+      { name: 'Champagne Gold', hex: '#D4AF37' },
+      { name: 'Metallic Silk', hex: '#F3E5AB' },
+      { name: 'Velvet Onyx', hex: '#14161F' },
+      { name: 'Royal Obsidian', hex: '#090A0F' },
+    ],
+  },
+  'minimalism': {
+    radius: '18px',
+    activeRingColor: '#111111',
+    activeBorderClass: 'border-[#111111]',
+    idleBorderClass: 'border-zinc-200 hover:border-zinc-900',
+    activeBadgeClass: 'bg-zinc-100 text-[#111111] border-zinc-300',
+    iconColor: '#111111',
+    titleTextClass: 'text-[#111111]',
+    bodyTextClass: 'text-[#52525B]',
+    accentTextClass: 'text-[#111111]',
+    previewBorderClass: 'border-zinc-200',
+    dividerClass: 'border-zinc-200',
+    ctaIdleClass: 'bg-white text-[#111111] hover:bg-zinc-50 border border-zinc-200',
+    ctaActiveClass: 'bg-[#111111] text-white border border-[#111111]',
+    toggleTrackDarkClass: 'bg-zinc-900 border-zinc-800',
+    toggleTrackLightClass: 'bg-zinc-100 border-zinc-300',
+    toggleThumbDarkClass: 'bg-white text-[#111111]',
+    toggleThumbLightClass: 'bg-[#111111] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Ink', width: '90%', gradient: 'linear-gradient(90deg, #111111, #3F3F46)' },
+      { label: 'Space', width: '72%', gradient: 'linear-gradient(90deg, #71717A, #D4D4D8)' },
+    ],
+    primaryPalette: [
+      { name: 'Editorial Ink', hex: '#111111' },
+      { name: 'Neutral Zinc', hex: '#52525B' },
+      { name: 'Hairline Gray', hex: '#E4E4E7' },
+      { name: 'Pure Canvas', hex: '#FFFFFF' },
     ],
   },
 };
@@ -1560,7 +1653,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   data-element-name="Danh sách tất cả thẻ giao diện"
                   data-element-type="container"
                   data-element-page="interface"
-                  className="interface-themes-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch w-full max-w-full min-w-0"
+                  className="interface-themes-grid card-grid w-full max-w-full min-w-0"
                 >
                   {visibleGroups.map((group) => {
                     const lightId = group.lightMode || group.defaultMode || group.presets[0]?.id;

@@ -63,6 +63,13 @@ const DID_CLIENT_KEY = 'ck_aNohELomFnIRmYfOmUR4u';
 const DID_SHARE_URL =
   'https://studio.d-id.com/agents/share?id=v2_agt_1tkm8qYc&utm_source=copy&key=WjI5dloyeGxMVzloZFhSb01ud3hNRGMzTkRnMk5qUTNPVGt4T1RZeU16QTJOVFk2UkVkNldUaDFXR3R3VEUxTGVWTlpObkp5VUU1UQ==';
 
+// Video nền khung chat AI Hỗ trợ (luôn tắt tiếng - muted)
+const AI_CHAT_IDLE_VIDEO_URL =
+  'https://cdn.scena.ai/project/10223/c81ba72750f77882cc06ff84414c9117c0705d99efc1e6e0ad519af88a4fc731.mp4';
+const AI_CHAT_RESPONDING_VIDEO_URL =
+  'https://cdn.scena.ai/project/10223/9daae10f4c2a9811e992cf36d580ba22f8dffdaabcda99959b1b5f6bea4c8424.mp4';
+const AI_RESPONSE_VIDEO_HOLD_MS = 7000;
+
 interface DidAgentModule {
   init: (config: Record<string, unknown>) => Promise<{ destroy?: () => void }> | { destroy?: () => void };
   getAuth?: (opts: { clientKey: string }) => unknown;
@@ -75,8 +82,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const isEn = language === 'en';
   const { isDark } = useTheme();
 
-  // Chế độ hiển thị trong khung trò chuyện: 'did' (Nhúng trực tiếp D-ID AI Agent) hoặc 'trinhan' (Hỏi đáp 47 câu hỏi & giọng Puck)
-  const [chatViewMode, setChatViewMode] = useState<'did' | 'trinhan'>('did');
+  // Chế độ hiển thị trong khung trò chuyện: 'trinhan' (Hỏi đáp Trí Nhân + video nền động) hoặc 'did' (Nhúng trực tiếp D-ID AI Agent)
+  const [chatViewMode, setChatViewMode] = useState<'did' | 'trinhan'>('trinhan');
   const [didStatus, setDidStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [didErrorMsg, setDidErrorMsg] = useState<string>('');
   const [didMountNonce, setDidMountNonce] = useState<number>(0);
@@ -84,6 +91,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isReplyVideoActive, setIsReplyVideoActive] = useState(false);
 
   // Drop-up 8 nhóm chủ đề & 47 câu hỏi mẫu
   const [isSampleDropdownOpen, setIsSampleDropdownOpen] = useState<boolean>(false);
@@ -98,9 +106,77 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [isAutoVoiceEnabled] = useState<boolean>(true);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
 
+  const idleBgVideoRef = useRef<HTMLVideoElement | null>(null);
+  const respondingBgVideoRef = useRef<HTMLVideoElement | null>(null);
+  const replyVideoTimerRef = useRef<number | null>(null);
+
+  const isAiResponding = isLoading || isReplyVideoActive || speakingMessageId !== null;
+
+  const triggerAiResponseVideo = () => {
+    setIsReplyVideoActive(true);
+    if (replyVideoTimerRef.current !== null) {
+      window.clearTimeout(replyVideoTimerRef.current);
+    }
+    replyVideoTimerRef.current = window.setTimeout(() => {
+      setIsReplyVideoActive(false);
+      replyVideoTimerRef.current = null;
+    }, AI_RESPONSE_VIDEO_HOLD_MS);
+  };
+
   useEffect(() => {
     setVoiceLanguage(language);
   }, [language]);
+
+  // Đồng bộ phát/tạm dừng mượt giữa video màn hình chờ và video AI phản hồi (luôn muted)
+  useEffect(() => {
+    const idleEl = idleBgVideoRef.current;
+    const respondingEl = respondingBgVideoRef.current;
+    if (idleEl) {
+      idleEl.muted = true;
+      idleEl.defaultMuted = true;
+    }
+    if (respondingEl) {
+      respondingEl.muted = true;
+      respondingEl.defaultMuted = true;
+    }
+
+    if (chatViewMode !== 'trinhan') {
+      idleEl?.pause();
+      respondingEl?.pause();
+      return;
+    }
+
+    const activeEl = isAiResponding ? respondingEl : idleEl;
+    const inactiveEl = isAiResponding ? idleEl : respondingEl;
+
+    if (activeEl) {
+      activeEl.muted = true;
+      const playPromise = activeEl.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Bỏ qua nếu trình duyệt chặn autoplay tạm thời trước tương tác
+        });
+      }
+    }
+
+    const pauseTimer = window.setTimeout(() => {
+      if (inactiveEl && !inactiveEl.paused) {
+        inactiveEl.pause();
+      }
+    }, 520);
+
+    return () => {
+      window.clearTimeout(pauseTimer);
+    };
+  }, [isAiResponding, chatViewMode]);
+
+  useEffect(() => {
+    return () => {
+      if (replyVideoTimerRef.current !== null) {
+        window.clearTimeout(replyVideoTimerRef.current);
+      }
+    };
+  }, []);
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const dropTopMenuRef = useRef<HTMLDivElement>(null);
@@ -494,6 +570,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       };
 
       setMessages((prev) => [...prev, aiMsg]);
+      triggerAiResponseVideo();
       showToast(isEn ? '✓ Tri Nhan answered your question!' : '✓ Trí Nhân đã giải đáp câu hỏi!');
 
       if (isAutoVoiceEnabled) {
@@ -511,6 +588,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         retryQuery: text,
       };
       setMessages((prev) => [...prev, aiMsg]);
+      triggerAiResponseVideo();
       showToast(
         isEn
           ? 'Connection notice: Used verified local portfolio data.'
@@ -655,6 +733,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
+        data-ai-responding={isAiResponding ? 'true' : 'false'}
         className="bento-card glass-card min-w-0 min-h-0 flex-1 lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
           flex: '1 1 0%',
@@ -667,31 +746,57 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           boxSizing: 'border-box',
         }}
       >
-        {/* Thanh chuyển chế độ trong khung chat: AI Trực quan D-ID <-> Hỏi đáp Trí Nhân */}
+        {/* Hình nền video động 2 trạng thái cho khung chat AI Hỗ trợ (Màn hình chờ <-> AI phản hồi, luôn mute) */}
+        {chatViewMode === 'trinhan' && (
+          <div
+            id="ai-assistant-chat-video-bg"
+            aria-hidden="true"
+            className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[inherit]"
+          >
+            {/* Video màn hình chờ (Idle) */}
+            <video
+              ref={idleBgVideoRef}
+              src={AI_CHAT_IDLE_VIDEO_URL}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                isAiResponding ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+            {/* Video khi AI phản hồi chat (Responding) */}
+            <video
+              ref={respondingBgVideoRef}
+              src={AI_CHAT_RESPONDING_VIDEO_URL}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+                isAiResponding ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+            {/* Lớp phủ dịu giữ rõ hình nền video đồng thời bảo toàn độ tương phản nội dung chat */}
+            <div
+              className="absolute inset-0 rounded-[inherit] transition-colors duration-300"
+              style={{
+                background: isDark
+                  ? 'linear-gradient(180deg, rgba(6, 12, 24, 0.34) 0%, rgba(6, 12, 24, 0.22) 48%, rgba(6, 12, 24, 0.42) 100%)'
+                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.14) 48%, rgba(15, 23, 42, 0.22) 100%)',
+              }}
+            />
+          </div>
+        )}
+
+        {/* Thanh chuyển chế độ trong khung chat: Hỏi đáp Trí Nhân <-> AI Trực quan D-ID */}
         <div
           id="ai-assistant-mode-bar"
-          className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0"
+          className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0"
         >
-          <div className="inline-flex items-center gap-1.5 p-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/70">
-            <button
-              id="ai-mode-tab-did"
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setChatViewMode('did');
-              }}
-              aria-pressed={chatViewMode === 'did'}
-              style={
-                chatViewMode === 'did'
-                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                  : { color: 'var(--text-primary)' }
-              }
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
-            >
-              <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
-              <span>{isEn ? 'AI Support Agent (D-ID)' : 'Trợ lý AI Hỗ trợ (D-ID)'}</span>
-            </button>
-
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 backdrop-blur-md">
             <button
               id="ai-mode-tab-trinhan"
               type="button"
@@ -713,6 +818,25 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   ? `Tri Nhan Q&A (${ALL_SAMPLE_QUESTIONS.length})`
                   : `Hỏi đáp Trí Nhân (${ALL_SAMPLE_QUESTIONS.length})`}
               </span>
+            </button>
+
+            <button
+              id="ai-mode-tab-did"
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                setChatViewMode('did');
+              }}
+              aria-pressed={chatViewMode === 'did'}
+              style={
+                chatViewMode === 'did'
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                  : { color: 'var(--text-primary)' }
+              }
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
+            >
+              <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'AI Support Agent (D-ID)' : 'Trợ lý AI Hỗ trợ (D-ID)'}</span>
             </button>
           </div>
 
@@ -760,7 +884,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               className={`w-8 h-8 rounded-full border border-[var(--border-subcard)] flex items-center justify-center transition-colors cursor-ew-resize touch-none select-none ${
                 isChatExpanded || isDraggingExpand
                   ? 'shadow-xs'
-                  : 'bg-[var(--bg-subcard)] text-[var(--text-muted)] hover:text-[var(--color-primary)]'
+                  : 'bg-[var(--bg-subcard)]/85 backdrop-blur-md text-[var(--text-muted)] hover:text-[var(--color-primary)]'
               }`}
             >
               <WebIcon
@@ -776,7 +900,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           <div
             id="did-agent-embed-wrapper"
             data-element-name="Khung nhúng AI Hỗ trợ D-ID Agent"
-            className="relative flex-1 min-h-[340px] lg:min-h-0 w-full rounded-[14px] overflow-hidden border border-[var(--border-subcard)] bg-slate-950/90 flex flex-col"
+            className="relative z-10 flex-1 min-h-[340px] lg:min-h-0 w-full rounded-[14px] overflow-hidden border border-[var(--border-subcard)] bg-slate-950/90 flex flex-col"
           >
             {/* Vùng DOM mount ShadowRoot của D-ID SDK v2 (mode: full, agentId: v2_agt_1tkm8qYc) */}
             <div
@@ -862,10 +986,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         ) : (
           /* CHẾ ĐỘ 2: HỘI THOẠI TRÍ NHÂN Q&A VỚI 47 CÂU HỎI MẪU & GIỌNG ĐỌC PUCK */
           <>
-            <div className="relative flex-1 min-h-0 flex flex-col">
+            <div className="relative z-10 flex-1 min-h-0 flex flex-col">
               <div
                 id="ai-assistant-messages-viewport"
-                className="flex-1 overflow-y-auto no-scrollbar rounded-[14px] space-y-3.5 pr-1 min-h-0"
+                className="flex-1 overflow-y-auto no-scrollbar rounded-[14px] space-y-3.5 pr-1 min-h-0 bg-transparent"
               >
                 {messages.map((m) => {
                   const displayTitle =
@@ -1015,7 +1139,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 e.preventDefault();
                 handleSend();
               }}
-              className="flex items-center gap-1.5 sm:gap-2.5 pt-1 relative shrink-0"
+              className="relative z-10 flex items-center gap-1.5 sm:gap-2.5 pt-1 shrink-0"
             >
               <div ref={dropTopMenuRef} id="ai-assistant-droptop-wrapper" className="shrink-0 flex items-center">
                 <SampleQuestionButton

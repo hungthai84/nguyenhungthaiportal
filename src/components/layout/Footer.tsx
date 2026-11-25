@@ -1,12 +1,27 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { TABS_DATA } from '../../data/tabs';
 import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
-import { isNeumorphismCardStyle } from '@/config/ui/themeDefaults';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+
+const UNIFORM_RIGHT_PILL_WIDTH = 157;
+
+const FAMILY_SWATCHES: Record<string, string[]> = {
+  'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
+  'cowhide-leather': ['#D97706', '#F5C478', '#4E2F1B'],
+  'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
+  'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
+  'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#1A2433'],
+  'multicolor-glass': ['#4F46E5', '#22D3EE', '#EC4899'],
+  'flat-soft-ui': ['#4F46E5', '#3B82F6', '#2DD4BF'],
+  'mica-fluent': ['#E84118', '#1C0708', '#525A65'],
+  'gradient-dopamine': ['#FF2E93', '#7C3AED', '#00D2FF'],
+  'dark-luxury': ['#D4AF37', '#F3E5AB', '#0B0C10'],
+  'minimalism': ['#111111', '#71717A', '#FAFAFA'],
+};
 
 interface FooterProps {
   currentTabIndex: number;
@@ -17,7 +32,7 @@ interface FooterProps {
   onOpenWallpaper?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({
+const FooterComponent: React.FC<FooterProps> = ({
   currentTabIndex,
   onNavigate,
   onSelectTab: _onSelectTab,
@@ -27,12 +42,8 @@ export const Footer: React.FC<FooterProps> = ({
 }) => {
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [hoveredRightBtn, setHoveredRightBtn] = useState<number | null>(null);
   const [focusedRightBtn, setFocusedRightBtn] = useState<number | null>(null);
-  const [aiAvatarError, setAiAvatarError] = useState(false);
-  const [uniformRightWidth, setUniformRightWidth] = useState<number | null>(null);
-  const [uniformRightBtnSize, setUniformRightBtnSize] = useState<{ width: number; height: number } | null>(null);
   const [viewportWidth, setViewportWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1280
   );
@@ -40,7 +51,6 @@ export const Footer: React.FC<FooterProps> = ({
   const langMenuRef = useRef<HTMLDivElement>(null);
   const themePopupRef = useRef<HTMLDivElement>(null);
   const langPopupRef = useRef<HTMLDivElement>(null);
-  const rightPillWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const themeLastClickTimeRef = useRef<number>(0);
   const themeDblHandledRef = useRef<boolean>(false);
@@ -48,13 +58,12 @@ export const Footer: React.FC<FooterProps> = ({
   useEffect(() => {
     setIsThemeMenuOpen(false);
     setIsLangMenuOpen(false);
-    setIsPdfModalOpen(false);
     setHoveredRightBtn(null);
     setFocusedRightBtn(null);
   }, [currentTabIndex]);
 
   useEffect(() => {
-    if (!isThemeMenuOpen && !isLangMenuOpen && !isPdfModalOpen) return;
+    if (!isThemeMenuOpen && !isLangMenuOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as Node;
       if (
@@ -76,7 +85,6 @@ export const Footer: React.FC<FooterProps> = ({
       if (e.key === 'Escape') {
         setIsThemeMenuOpen(false);
         setIsLangMenuOpen(false);
-        setIsPdfModalOpen(false);
       }
     };
     document.addEventListener('mousedown', handleOutsideClick);
@@ -85,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isThemeMenuOpen, isLangMenuOpen, isPdfModalOpen]);
+  }, [isThemeMenuOpen, isLangMenuOpen]);
 
   const { language, browserLocale, setLanguageMode, t } = useLanguage();
   const isEn = language === 'en';
@@ -132,12 +140,7 @@ export const Footer: React.FC<FooterProps> = ({
     );
   };
 
-  const {
-    cardStyle,
-    setCardStyle,
-    isDark,
-    cornerRadius = 14,
-  } = useTheme();
+  const { cardStyle, setCardStyle, isDark } = useTheme();
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -151,97 +154,48 @@ export const Footer: React.FC<FooterProps> = ({
     backdropFilter: _fbf,
     WebkitBackdropFilter: _fwbf,
     ...cleanFooterStyle
-  } = footerCardStyle as any;
-  const glassBorderVal = 'var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color))';
+  } = footerCardStyle as unknown as Record<string, unknown>;
   const activeThemeConfig = getCardStyleConfig(cardStyle);
 
-  // Đo chiều ngang nội dung tự nhiên của 4 nút bên phải Footer và đồng bộ chiều ngang bằng nút rộng nhất
-  useLayoutEffect(() => {
-    const measureRightPills = () => {
-      if (typeof window !== 'undefined') {
-        setViewportWidth(window.innerWidth);
-      }
-      rightPillWrapperRefs.current = rightPillWrapperRefs.current.slice(0, 4);
-      rightPillBtnRefs.current = rightPillBtnRefs.current.slice(0, 4);
-      const wrappers = rightPillWrapperRefs.current.filter(Boolean) as HTMLDivElement[];
-      const btns = rightPillBtnRefs.current.filter(Boolean) as HTMLButtonElement[];
-      if (wrappers.length === 0 || btns.length === 0) return;
-
-      wrappers.forEach((w) => {
-        w.style.width = 'max-content';
+  // Theo dõi chiều rộng viewport tối ưu bằng requestAnimationFrame (không gây layout thrashing khi đổi trang)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    let rafId: number | null = null;
+    const handleResize = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        const w = window.innerWidth;
+        setViewportWidth((prev) => (prev !== w ? w : prev));
       });
-
-      let maxW = 0;
-      wrappers.forEach((w) => {
-        const rectW = Math.ceil(w.getBoundingClientRect().width);
-        if (rectW > maxW) maxW = rectW;
-      });
-
-      wrappers.forEach((w) => {
-        w.style.width = maxW > 0 ? `${maxW}px` : '';
-      });
-
-      if (maxW > 0) {
-        setUniformRightWidth((prev) => (prev !== maxW ? maxW : prev));
-      }
-
-      let maxBtnW = 0;
-      let maxBtnH = 0;
-      btns.forEach((b) => {
-        const rect = b.getBoundingClientRect();
-        const bw = Math.ceil(rect.width);
-        const bh = Math.ceil(rect.height);
-        if (bw > maxBtnW) maxBtnW = bw;
-        if (bh > maxBtnH) maxBtnH = bh;
-      });
-      if (maxBtnW > 0 && maxBtnH > 0) {
-        setUniformRightBtnSize((prev) =>
-          prev && prev.width === maxBtnW && prev.height === maxBtnH
-            ? prev
-            : { width: maxBtnW, height: maxBtnH }
-        );
-      }
     };
-
-    measureRightPills();
-    let cancelled = false;
-    if (typeof document !== 'undefined' && document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        if (!cancelled) measureRightPills();
-      });
-    }
-    window.addEventListener('resize', measureRightPills);
+    handleResize();
+    window.addEventListener('resize', handleResize, { passive: true });
     return () => {
-      cancelled = true;
-      window.removeEventListener('resize', measureRightPills);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [language, cardStyle, isDark, currentTabIndex]);
+  }, []);
 
   const isCompactMobile = viewportWidth < 768;
-  const openUtilityIndex = isLangMenuOpen
-    ? 0
-    : isThemeMenuOpen
-      ? 1
-      : null;
+  const openUtilityIndex = isLangMenuOpen ? 0 : isThemeMenuOpen ? 1 : null;
   const activeRightIndex =
     hoveredRightBtn !== null
       ? hoveredRightBtn
       : focusedRightBtn !== null
         ? focusedRightBtn
         : openUtilityIndex;
+  // Chỉ tạm ẩn thanh trang ở giữa trên tablet/desktop hẹp (768px–1199px) khi cụm nút phải bung ra; desktop rộng >= 1200px luôn giữ hiển thị
   const hideCenterNavCapsule =
     !isCompactMobile &&
-    (hoveredRightBtn !== null ||
-      focusedRightBtn !== null ||
-      openUtilityIndex !== null);
+    viewportWidth < 1200 &&
+    (hoveredRightBtn !== null || focusedRightBtn !== null || openUtilityIndex !== null);
 
   const exposedRightWidth = viewportWidth < 768 ? 40 : viewportWidth < 1024 ? 36 : 46;
-  const overlapRightPx = uniformRightWidth
-    ? Math.max(0, uniformRightWidth - exposedRightWidth)
-    : viewportWidth >= 1280
-      ? 96
-      : 88;
-  const handleRightBtnMouseEnter = (index: number) => {
+  const overlapRightPx = Math.max(0, UNIFORM_RIGHT_PILL_WIDTH - exposedRightWidth);
+
+  const handleRightBtnPointerEnter = (index: number, e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== 'mouse') return;
     setHoveredRightBtn(index);
     if (index === 0) SoundEngine.playPageSpecificSound(12);
     else if (index === 1) SoundEngine.playPageSpecificSound(15);
@@ -270,6 +224,8 @@ export const Footer: React.FC<FooterProps> = ({
   const renderLangPopup = (mobilePlacement: boolean) => (
     <div
       id="footer-lang-popup"
+      role="listbox"
+      aria-label={isEn ? 'Select Language' : 'Chọn ngôn ngữ'}
       ref={langPopupRef}
       style={{ background: 'var(--bg-popup)' }}
       className={`theme-popup absolute bottom-[calc(100%+12px)] ${
@@ -343,6 +299,8 @@ export const Footer: React.FC<FooterProps> = ({
     return (
       <div
         id="footer-theme-popup"
+        role="listbox"
+        aria-label={isEn ? 'Select Theme' : 'Chọn giao diện'}
         ref={themePopupRef}
         style={{ background: 'var(--bg-popup)' }}
         className={`theme-popup absolute bottom-[calc(100%+12px)] ${
@@ -363,17 +321,7 @@ export const Footer: React.FC<FooterProps> = ({
             const itemColor = isGroupActive
               ? 'var(--text-link, var(--color-primary))'
               : 'var(--text-primary)';
-            const familySwatches: Record<string, string[]> = {
-              'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
-              'cowhide-leather': ['#D97706', '#F5C478', '#4E2F1B'],
-              'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
-              'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
-              'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#1A2433'],
-              'multicolor-glass': ['#4F46E5', '#22D3EE', '#EC4899'],
-              'flat-soft-ui': ['#4F46E5', '#3B82F6', '#2DD4BF'],
-              'mica-fluent': ['#E84118', '#1C0708', '#525A65'],
-            };
-            const swatches = familySwatches[group.id] || [];
+            const swatches = FAMILY_SWATCHES[group.id] || [];
 
             return (
               <div
@@ -509,22 +457,23 @@ export const Footer: React.FC<FooterProps> = ({
       style={{
         ...cleanFooterStyle,
         maxWidth: 'var(--main-card-target-w, 1000px)',
-        width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+        width: '100%',
         height: 'auto',
         minHeight: 0,
+        boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
         paddingTop: '5px',
         paddingBottom: '5px',
-        borderTopLeftRadius: 'var(--radius-global, 14px)',
-        borderTopRightRadius: 'var(--radius-global, 14px)',
+        borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
-        borderRadius: 'var(--radius-global, 14px) var(--radius-global, 14px) 0 0',
+        borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
       }}
-      className="mx-auto h-auto min-h-0 p-[10px] flex flex-nowrap items-center justify-between px-2 sm:px-4 z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto h-auto min-h-0 py-[5px] flex flex-nowrap items-center justify-between px-[10px] sm:px-[15px] z-50 relative flex-shrink-0 mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
@@ -546,9 +495,9 @@ export const Footer: React.FC<FooterProps> = ({
         <WeatherWidget onShowNotification={onShowNotification} />
       </div>
 
-      {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md (tạm ẩn trên desktop khi nút bên phải bung ra) */}
+      {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md */}
       <div
-        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 pointer-events-auto flex items-center justify-center shrink-0 ${
+        className={`w-auto h-full relative md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 z-50 flex items-center justify-center shrink-0 transition-opacity duration-200 ease-out ${
           hideCenterNavCapsule
             ? 'opacity-0 pointer-events-none'
             : 'opacity-100 pointer-events-auto'
@@ -569,9 +518,7 @@ export const Footer: React.FC<FooterProps> = ({
             paddingLeft: '4px',
             paddingRight: '4px',
           }}
-          className={`theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold ${
-            hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
+          className="theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold"
         >
           {/* Prev Button */}
           <button
@@ -639,7 +586,9 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Area 3: Utility Buttons (Ngôn ngữ + Giao diện + Hình Nền + AI Hỗ trợ) */}
       <div
         id="el-p0-div-112"
-        onMouseLeave={() => setHoveredRightBtn(null)}
+        onPointerLeave={(e) => {
+          if (e.pointerType === 'mouse') setHoveredRightBtn(null);
+        }}
         onBlur={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node)) {
             setFocusedRightBtn(null);
@@ -649,103 +598,96 @@ export const Footer: React.FC<FooterProps> = ({
       >
         <div
           id="el-p0-div-113"
-          onMouseLeave={() => setHoveredRightBtn(null)}
           className={`relative flex flex-nowrap items-center justify-end py-0.5 overflow-visible ${
             isCompactMobile ? 'gap-1.5' : ''
           }`}
         >
           {/* Button 0: Ngôn Ngữ */}
           <div
-                ref={langMenuRef}
-                onMouseEnter={() => handleRightBtnMouseEnter(0)}
-                style={getDeckItemStyle(0, isLangMenuOpen)}
-                className="relative pointer-events-auto shrink-0"
+            ref={langMenuRef}
+            onPointerEnter={(e) => handleRightBtnPointerEnter(0, e)}
+            style={getDeckItemStyle(0, isLangMenuOpen)}
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+          >
+            <div
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+            >
+              <button
+                ref={(el) => {
+                  rightPillBtnRefs.current[0] = el;
+                }}
+                id="footer-lang-btn"
+                type="button"
+                data-active={isLangMenuOpen ? 'true' : 'false'}
+                aria-haspopup="listbox"
+                aria-controls="footer-lang-popup"
+                onFocus={() => setFocusedRightBtn(0)}
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setIsThemeMenuOpen(false);
+                  setIsLangMenuOpen((prev) => !prev);
+                }}
+                title={
+                  isEn
+                    ? `Language: ${activeLangTitle} (${activeLangSub})`
+                    : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
+                }
+                aria-expanded={isLangMenuOpen}
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                style={
+                  {
+                    '--nav-pill-accent': '#10B981',
+                    width: '154px',
+                    height: '42px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
+                    fontWeight: 'normal',
+                    borderWidth: '1px',
+                  } as React.CSSProperties
+                }
               >
-                <div
-                  ref={(el) => {
-                    rightPillWrapperRefs.current[0] = el;
-                  }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
-                  style={{
-                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                  }}
-                >
-                  <button
-                    ref={(el) => {
-                      rightPillBtnRefs.current[0] = el;
-                    }}
-                    id="footer-lang-btn"
-                    type="button"
-                    data-active={isLangMenuOpen ? 'true' : 'false'}
-                    onFocus={() => setFocusedRightBtn(0)}
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setIsThemeMenuOpen(false);
-                      setIsLangMenuOpen((prev) => !prev);
-                    }}
-                    title={
-                      isEn
-                        ? `Language: ${activeLangTitle} (${activeLangSub})`
-                        : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
-                    }
-                    aria-expanded={isLangMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
-                    style={
-                      {
-                        '--nav-pill-accent': '#10B981',
-                        width: '154px',
-                        height: '42px',
-                        paddingTop: '6px',
-                        paddingBottom: '6px',
-                        paddingLeft: '10px',
-                        paddingRight: '10px',
-                        fontWeight: 'normal',
-                        borderWidth: '1px',
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="languages" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
-                    </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                    <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                      <span
-                        data-no-translate="true"
-                        style={{ fontWeight: 'bold' }}
-                        className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
-                      >
-                        {activeLangTitle}
-                      </span>
-                    </div>
-                  </button>
+                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="languages" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
                 </div>
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                  <span
+                    data-no-translate="true"
+                    style={{ fontWeight: 'bold' }}
+                    className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
+                  >
+                    {activeLangTitle}
+                  </span>
+                </div>
+              </button>
+            </div>
 
-                {/* Popup Danh sách Ngôn Ngữ (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
-                {!isCompactMobile && isLangMenuOpen && renderLangPopup(false)}
-              </div>
+            {/* Popup Danh sách Ngôn Ngữ (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
+            {!isCompactMobile && isLangMenuOpen && renderLangPopup(false)}
+          </div>
 
           {/* Button 1: Giao diện */}
           <div
-                ref={themeMenuRef}
-                onMouseEnter={() => handleRightBtnMouseEnter(1)}
-                style={getDeckItemStyle(1, isThemeMenuOpen)}
-                className="relative pointer-events-auto shrink-0"
-              >
-                <div
-                  ref={(el) => {
-                    rightPillWrapperRefs.current[1] = el;
-                  }}
-                  className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
-                  style={{
-                    width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-                  }}
-                >
-                  <button
-                    ref={(el) => {
-                      rightPillBtnRefs.current[1] = el;
-                    }}
-                    id="footer-appearance-btn"
-                    type="button"
+            ref={themeMenuRef}
+            onPointerEnter={(e) => handleRightBtnPointerEnter(1, e)}
+            style={getDeckItemStyle(1, isThemeMenuOpen)}
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
+          >
+            <div
+              className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
+              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+            >
+              <button
+                ref={(el) => {
+                  rightPillBtnRefs.current[1] = el;
+                }}
+                id="footer-appearance-btn"
+                type="button"
+                aria-haspopup="listbox"
+                aria-controls="footer-theme-popup"
                     aria-current={currentTabIndex === 15 ? 'page' : undefined}
                     data-active={currentTabIndex === 15 || isThemeMenuOpen ? 'true' : 'false'}
                     onFocus={() => setFocusedRightBtn(1)}
@@ -818,18 +760,13 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Button 2: Hình Nền */}
           <div
-            onMouseEnter={() => handleRightBtnMouseEnter(2)}
+            onPointerEnter={(e) => handleRightBtnPointerEnter(2, e)}
             style={getDeckItemStyle(2)}
-            className="relative pointer-events-auto shrink-0"
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
           >
             <div
-              ref={(el) => {
-                rightPillWrapperRefs.current[2] = el;
-              }}
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
-              style={{
-                width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-              }}
+              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
                 ref={(el) => {
@@ -878,18 +815,13 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Button 3: AI Hỗ trợ */}
           <div
-            onMouseEnter={() => handleRightBtnMouseEnter(3)}
+            onPointerEnter={(e) => handleRightBtnPointerEnter(3, e)}
             style={getDeckItemStyle(3)}
-            className="relative pointer-events-auto shrink-0"
+            className="relative pointer-events-auto shrink-0 transition-[margin] duration-250 ease-out"
           >
             <div
-              ref={(el) => {
-                rightPillWrapperRefs.current[3] = el;
-              }}
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-[1.5px]"
-              style={{
-                width: uniformRightWidth ? `${uniformRightWidth}px` : undefined,
-              }}
+              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
             >
               <button
                 ref={(el) => {
@@ -948,187 +880,11 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Mobile/Compact Popups (< 768px): gắn trực tiếp vào #app-footer để không bị cắt bởi thanh cuộn ngang */}
       {isCompactMobile && isLangMenuOpen && renderLangPopup(true)}
       {isCompactMobile && isThemeMenuOpen && renderThemePopup(true)}
-
-      {/* PDF Download Modal */}
-      {isPdfModalOpen && (
-        <div
-          className="fixed inset-0 z-[10000] flex items-center justify-center backdrop-blur-md p-4 animate-fadeIn font-play pointer-events-auto"
-          style={{ background: 'var(--bg-modal-backdrop, rgba(11, 18, 32, 0.72))' }}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label={isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
-            className="theme-modal-card rounded-[var(--radius-modal,24px)] w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
-          >
-            {/* Modal Header */}
-            <div className="theme-modal-header px-6 py-4 flex items-center justify-between gap-3">
-              <div className="card-header-sync flex items-center gap-2.5 min-w-0">
-                <WebIcon
-                  name="file-text"
-                  className="w-5 h-5 shrink-0"
-                  style={{ color: 'var(--accent-blue, #2563EB)' }}
-                />
-                <h3
-                  className="typo-popup-title card-title-synced truncate"
-                  data-card-title="true"
-                  style={{ color: 'var(--accent-blue, #2563EB)' }}
-                >
-                  {isEn ? 'Download CV Resume — Nguyễn Hùng Thái' : 'Tải Hồ Sơ CV — Nguyễn Hùng Thái'}
-                </h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsPdfModalOpen(false)}
-                aria-label={isEn ? 'Close' : 'Đóng'}
-                className="theme-modal-close w-9 h-9 rounded-full flex items-center justify-center transition cursor-pointer shrink-0"
-              >
-                <WebIcon name="x" className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6 overflow-y-auto space-y-5 flex-1 text-left">
-              <p className="typo-caption opacity-85" style={{ color: 'var(--text-secondary)' }}>
-                {isEn
-                  ? 'PDF Format / Customer Service Operations & Digital Transformation Expert'
-                  : 'Định dạng PDF / Chuyên gia Vận hành CSKH & Chuyển đổi số'}
-              </p>
-              <div className="theme-modal-subcard p-4 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <span
-                    className="inline-block px-2.5 py-0.5 rounded-full typo-badge font-bold border"
-                    style={{
-                      background: 'var(--bg-badge)',
-                      borderColor: 'var(--border-badge)',
-                      color: 'var(--text-badge, var(--text-link, var(--color-primary)))',
-                    }}
-                  >
-                    {isEn ? 'Official 2026 Edition' : 'Bản chính thức 2026'}
-                  </span>
-                  <h4 className="typo-h4 font-bold flex items-center gap-2">
-                    <WebIcon
-                      name="award"
-                      className="w-4 h-4 shrink-0"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    />
-                    <span>{isEn ? 'Capability Profile & Work Experience' : 'Hồ Sơ Năng Lực & Kinh Nghiệm Công Tác'}</span>
-                  </h4>
-                  <p className="typo-caption" style={{ color: 'var(--text-secondary)' }}>
-                    {isEn
-                      ? 'Size: ~2.4 MB • Last updated: Nov 2026'
-                      : 'Dung lượng: ~2.4 MB • Cập nhật lần cuối: Tháng 11/2026'}
-                  </p>
-                </div>
-                <a
-                  href="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
-                  download="Nguyen_Hung_Thai_CV.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    onShowNotification(
-                      isEn ? '✓ Downloading CV Resume file...' : '✓ Đang tải xuống file Hồ sơ CV...'
-                    );
-                  }}
-                  style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                  className="px-5 py-2.5 rounded-full hover:opacity-90 font-bold typo-button shadow-md inline-flex items-center gap-2 transition cursor-pointer shrink-0"
-                >
-                  <WebIcon name="file-text" className="w-4 h-4" />
-                  <span>{isEn ? 'Download PDF' : 'Tải Xuống PDF'}</span>
-                </a>
-              </div>
-
-              {/* Overview content preview inside modal */}
-              <div className="theme-modal-subcard rounded-[var(--radius-subcard,16px)] p-4 space-y-3">
-                <div className="flex items-center justify-between border-b border-current/15 pb-2">
-                  <span className="typo-label font-bold opacity-80">
-                    {isEn ? 'Profile Summary' : 'Tóm tắt thông tin hồ sơ'}
-                  </span>
-                  <span
-                    className="typo-badge font-bold flex items-center gap-1"
-                    style={{ color: 'var(--semantic-success, #047857)' }}
-                  >
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ background: 'var(--semantic-success, #047857)' }}
-                    />
-                    {isEn ? 'Verified' : 'Đã xác thực'}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 typo-body-sm">
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Full Name:' : 'Họ & Tên:'}
-                    </span>
-                    <span className="font-bold typo-body-sm">Nguyễn Hùng Thái</span>
-                  </div>
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Primary Title:' : 'Chức danh chính:'}
-                    </span>
-                    <span className="font-bold typo-body-sm">
-                      {isEn ? 'Head of Customer Service Operations' : 'Trưởng Phòng Vận Hành CSKH'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Experience:' : 'Kinh nghiệm:'}
-                    </span>
-                    <span className="font-bold">
-                      {isEn ? '22+ Years in CS Management' : '22+ Năm Quản Lý CSKH'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Education:' : 'Trình độ:'}
-                    </span>
-                    <span className="font-bold">
-                      {isEn ? 'Master of Business Administration (MBA)' : 'Thạc Sĩ Quản Trị Kinh Doanh'}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Contact Email:' : 'Email liên hệ:'}
-                    </span>
-                    <span className="font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>hungthai84@gmail.com</span>
-                  </div>
-                  <div>
-                    <span className="opacity-75 block typo-label">
-                      {isEn ? 'Phone / Zalo:' : 'Điện thoại / Zalo:'}
-                    </span>
-                    <span className="font-bold" style={{ color: 'var(--text-link, var(--color-primary))' }}>+84 0909097882</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="theme-modal-footer px-6 py-3 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => {
-                  window.print();
-                }}
-                className="theme-modal-close px-4 py-2 rounded-[999px] typo-button font-bold transition cursor-pointer flex items-center gap-2"
-              >
-                <WebIcon name="file-text" className="w-4 h-4" />
-                <span>{isEn ? 'Print / Save PDF' : 'In PDF / Print'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsPdfModalOpen(false)}
-                className="theme-modal-close px-5 py-2 rounded-[999px] typo-button font-bold transition cursor-pointer"
-              >
-                {isEn ? 'Close' : 'Đóng cửa sổ'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </footer>
   );
 
   return footerElement;
 };
+
+export const Footer = React.memo(FooterComponent);
+

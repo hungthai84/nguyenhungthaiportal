@@ -52,12 +52,15 @@ body {
   }
 }
 
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="dark-neon-glass"], [data-theme="dark-neon-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="black-cowhide-leather"], [data-theme="black-cowhide-leather"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-frost-ice-neu"], [data-theme="dark-frost-ice-neu"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *, [data-theme="dark-luxury"], [data-theme="dark-luxury"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
   --font-sans: "Play", sans-serif;
+  --font-serif: "Play", sans-serif;
   --font-mono: "Play", sans-serif;
+  --font-quote: "Dancing Script", cursive;
+  --font-handwriting: var(--font-quote, "Dancing Script", cursive);
   --font-italianno: var(--font-quote, "Dancing Script", cursive);
   --font-moon-dance: var(--font-quote, "Dancing Script", cursive);
 }
@@ -67,119 +70,6 @@ body {
   font-weight: 600 !important;
 }
 
-
-/* AiMascotWidget: 10s GPU-composited nhún nhảy bounce sequence (zero layout shifts / zero JS timers) */
-@keyframes aiMascotNhunNhayLoop {
-  0%, 82% {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
-  }
-  20%, 60% {
-    transform: translate3d(0, -2.5px, 0) scale3d(1, 1, 1) rotate(0deg);
-  }
-  40% {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
-  }
-  85% {
-    transform: translate3d(0, 2.5px, 0) scale3d(1.045, 0.94, 1) rotate(-1.5deg);
-  }
-  88.5% {
-    transform: translate3d(0, -11px, 0) scale3d(0.96, 1.05, 1) rotate(2.2deg);
-  }
-  92% {
-    transform: translate3d(0, 1px, 0) scale3d(1.03, 0.965, 1) rotate(-1.4deg);
-  }
-  95.5% {
-    transform: translate3d(0, -6.5px, 0) scale3d(0.98, 1.025, 1) rotate(1.1deg);
-  }
-  98.2% {
-    transform: translate3d(0, 0.5px, 0) scale3d(1.01, 0.99, 1) rotate(-0.4deg);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
-  }
-}
-
-.ai-mascot-btn {
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  transform-origin: 50% 92%;
-  will-change: transform;
-}
-.ai-mascot-btn:hover {
-  transform: none;
-}
-.ai-mascot-motion-layer {
-  transform-origin: 50% 92%;
-  will-change: transform;
-  animation: aiMascotNhunNhayLoop 10s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-/* PottedPlantWidget: GPU-composited leaf-falling sequence & subtle breeze flex */
-@keyframes leafFallingDrift {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) rotate(var(--leaf-rot-start, 0deg)) scale(calc(var(--leaf-scale, 1) * 0.65));
-  }
-  12% {
-    opacity: 1;
-    transform: translate3d(calc(var(--leaf-drift-x, 12px) * 0.25), calc(var(--leaf-drop-y, 90px) * 0.14), 0)
-      rotate(calc(var(--leaf-rot-start, 0deg) + 40deg)) scale(var(--leaf-scale, 1));
-  }
-  48% {
-    opacity: 0.94;
-    transform: translate3d(calc(var(--leaf-drift-x, 12px) * -0.22), calc(var(--leaf-drop-y, 90px) * 0.48), 0)
-      rotate(calc(var(--leaf-rot-end, 160deg) * 0.55)) scale(calc(var(--leaf-scale, 1) * 0.94));
-  }
-  82% {
-    opacity: 0.65;
-    transform: translate3d(calc(var(--leaf-drift-x, 12px) * 0.85), calc(var(--leaf-drop-y, 90px) * 0.85), 0)
-      rotate(calc(var(--leaf-rot-end, 160deg) * 0.92)) scale(calc(var(--leaf-scale, 1) * 0.82));
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--leaf-drift-x, 12px), var(--leaf-drop-y, 90px), 0)
-      rotate(var(--leaf-rot-end, 160deg)) scale(calc(var(--leaf-scale, 1) * 0.7));
-  }
-}
-
-@keyframes plantCanopyBreeze {
-  0% { transform: scale3d(1, 1, 1); }
-  25% { transform: scale3d(1.015, 0.985, 1) rotate(-0.8deg); }
-  58% { transform: scale3d(0.992, 1.012, 1) rotate(0.7deg); }
-  100% { transform: scale3d(1, 1, 1); }
-}
-
-.plant-widget-btn {
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  transform-origin: 50% 92%;
-  will-change: transform;
-}
-.plant-widget-btn:hover {
-  transform: none;
-}
-.plant-canopy-breeze {
-  transform-origin: 50% 85%;
-  animation: plantCanopyBreeze 780ms cubic-bezier(0.22, 1, 0.36, 1) 1;
-}
-.plant-falling-leaf.leaf-falling {
-  will-change: transform, opacity;
-  animation-name: leafFallingDrift;
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation-fill-mode: forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-mascot-motion-layer,
-  .plant-canopy-breeze,
-  .plant-falling-leaf.leaf-falling {
-    animation: none !important;
-    transform: none !important;
-  }
-  .ai-mascot-btn,
-  .plant-widget-btn {
-    transition: none !important;
-    transform: none !important;
-  }
-}
 
 /* UI Architecture Modular CSS Imports */
 @import "./styles/tokens.css";
@@ -198,11 +88,43 @@ body {
 @import "./styles/themes/multicolor-glass.css";
 @import "./styles/themes/dark-neon-glass.css";
 @import "./styles/themes/flat-soft-ui.css";
+@import "./styles/themes/mica-fluent.css";
+@import "./styles/themes/gradient-dopamine.css";
+@import "./styles/themes/dark-luxury.css";
+@import "./styles/themes/minimalism.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
 @import "./styles/education-bento.css";
 @import "./styles/systems-bento.css";
 @import "./styles/theme-button-effects.css";
+
+/* ========================================================================= */
+/* RESPONSIVE AUTO-FIT CARD GRID & UNIFIED FONT ENFORCEMENT                  */
+/* ========================================================================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 15px;
+  align-items: stretch;
+}
+
+.card {
+  min-width: 0;
+  height: 100%;
+  padding: 15px;
+  border-radius: 18px;
+}
+
+.font-play,
+.font-sans,
+.font-serif,
+.font-mono,
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-family-primary, "Play", sans-serif) !important;
+}
 
 /* ========================================================================= */
 /* UNIFIED MOTION UTILITY SYSTEM — GPU-SAFE TRANSITIONS & CURVES             */
@@ -712,11 +634,8 @@ html [id$="-page-container"]:not(#pdf-page-container)::after {
 }
 
 html #letter-page-container,
-html #horoscope-page-container,
 html[data-card-style] #letter-page-container,
-html[data-card-style] #horoscope-page-container,
-html.dark[data-card-style] #letter-page-container,
-html.dark[data-card-style] #horoscope-page-container {
+html.dark[data-card-style] #letter-page-container {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -743,12 +662,12 @@ html [data-no-wheel-horizontal="true"] {
 }
 
 /* Centered Inner Main Cards (Level 01): Unified 1000x600px, 14px radius, 10px gap Across All Pages */
-html .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
-html[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
-html.dark[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
-html [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
-html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
-html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html.dark[data-card-style] .page-main-card:not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
+html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars):not(#letter-card-1):not(#letter-card-2):not(#letter-card-3):not(#letter-card-4),
 html #about-intro-card-1,
 html #about-intro-card-2,
 html[data-card-style] #about-intro-card-1,
@@ -781,29 +700,67 @@ html.dark[data-card-style] #about-intro-card-2 {
   box-sizing: border-box !important;
 }
 
-/* Vertical Scroll Tracks (Horoscope): Always Centered & 1000px Main Card Width + 10px Gap */
+/* Full-Viewport Horizontal Carousel Shell (Horoscope): 6 Separate Horizontal Cards with 10px Gap & Peeking Sides */
+html #horoscope-page-shell,
+html[data-card-style] #horoscope-page-shell,
+html.dark[data-card-style] #horoscope-page-shell {
+  position: relative !important;
+  align-self: center !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  left: auto !important;
+  transform: none !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+html #horoscope-page-container,
+html[data-card-style] #horoscope-page-container,
+html.dark[data-card-style] #horoscope-page-container {
+  width: 100% !important;
+  max-width: 100vw !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+/* Horizontal Centered Peeking Carousel Track (Horoscope): Matches Home Main Card Width + 10px Gap */
 html #horoscope-cards-track,
 html[data-card-style] #horoscope-cards-track,
 html.dark[data-card-style] #horoscope-cards-track {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
   justify-content: flex-start !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: max-content !important;
+  max-width: none !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   flex: 0 0 auto !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding-top: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 16px !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
 }
 
@@ -830,56 +787,53 @@ html.dark[data-card-style] #letter-cards-track {
   box-sizing: border-box !important;
 }
 
-/* Horoscope Cards Track & Cards 1..6: HomeView Main Card Dimensions (Full Height, 0px Radius, Unified Width) */
-html #horoscope-cards-track,
-html[data-card-style] #horoscope-cards-track,
-html.dark[data-card-style] #horoscope-cards-track {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
+/* Horoscope Main Cards 1..6: Synced with Letter Main Cards Format & Active Theme Surface */
+html #horoscope-cards-track > .page-main-card,
+html[data-card-style] #horoscope-cards-track > .page-main-card,
+html.dark[data-card-style] #horoscope-cards-track > .page-main-card,
+html #horoscope-cards-track > [data-main-card="true"],
+html[data-card-style] #horoscope-cards-track > [data-main-card="true"],
+html.dark[data-card-style] #horoscope-cards-track > [data-main-card="true"] {
+  flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
-  flex: 1 1 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   margin: 0 !important;
-  padding: 0px !important;
-  gap: var(--main-cards-gap, 10px) !important;
-  row-gap: var(--main-cards-gap, 10px) !important;
-  column-gap: var(--main-cards-gap, 10px) !important;
-  overflow: hidden !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: var(--main-card-padding, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-radius: 0px !important;
   box-sizing: border-box !important;
 }
 
-html #horoscope-cards-track .page-main-card,
-html[data-card-style] #horoscope-cards-track .page-main-card,
-html.dark[data-card-style] #horoscope-cards-track .page-main-card,
-html #horoscope-cards-track [data-main-card="true"],
-html[data-card-style] #horoscope-cards-track [data-main-card="true"],
-html.dark[data-card-style] #horoscope-cards-track [data-main-card="true"] {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
-  flex: 1 1 100% !important;
-  overflow: hidden !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: var(--main-card-padding, 15px) !important;
-  gap: 12px !important;
-  row-gap: 12px !important;
-  column-gap: 12px !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-radius: 0px !important;
-  box-sizing: border-box !important;
+#horoscope-page-shell,
+#horoscope-page-container,
+#horoscope-cards-track,
+#horoscope-cards-track > .page-main-card,
+#horoscope-cards-track > [data-main-card="true"],
+#horoscope-page-shell .main-card-scroll-viewport,
+#horoscope-page-shell [data-subcard="true"] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+#horoscope-page-shell::-webkit-scrollbar,
+#horoscope-page-container::-webkit-scrollbar,
+#horoscope-cards-track::-webkit-scrollbar,
+#horoscope-cards-track > .page-main-card::-webkit-scrollbar,
+#horoscope-cards-track > [data-main-card="true"]::-webkit-scrollbar,
+#horoscope-page-shell .main-card-scroll-viewport::-webkit-scrollbar,
+#horoscope-page-shell [data-subcard="true"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 html:root body #letter-page-container #letter-cards-track > #letter-card-1,
@@ -1303,8 +1257,8 @@ html :is(
 
 /* Enforce 0px border-radius, 100% transparent background & 0px padding on all outer page containers */
 html :is(
-  .main-card:not(#pdf-page-container),
-  [id$="-page-container"]:not(#pdf-page-container),
+  .main-card:not(#pdf-page-container):not(#horoscope-page-container),
+  [id$="-page-container"]:not(#pdf-page-container):not(#horoscope-page-container),
   [id$="-page-root"]
 ) {
   background: transparent !important;
@@ -1790,26 +1744,26 @@ html #about-cards-track,
 html #about-cards-track:hover,
 html #about-cards-track:focus,
 html #about-cards-track:active,
-html .page-cards-track,
-html .page-cards-track:hover,
-html .page-cards-track:focus,
-html .page-cards-track:active,
-html [id$="-cards-track"],
-html [id$="-cards-track"]:hover,
-html [id$="-cards-track"]:focus,
-html [id$="-cards-track"]:active,
-html[data-card-style] .page-cards-track,
-html[data-card-style] .page-cards-track:hover,
+html .page-cards-track:not(#horoscope-cards-track),
+html .page-cards-track:not(#horoscope-cards-track):hover,
+html .page-cards-track:not(#horoscope-cards-track):focus,
+html .page-cards-track:not(#horoscope-cards-track):active,
+html [id$="-cards-track"]:not(#horoscope-cards-track),
+html [id$="-cards-track"]:not(#horoscope-cards-track):hover,
+html [id$="-cards-track"]:not(#horoscope-cards-track):focus,
+html [id$="-cards-track"]:not(#horoscope-cards-track):active,
+html[data-card-style] .page-cards-track:not(#horoscope-cards-track),
+html[data-card-style] .page-cards-track:not(#horoscope-cards-track):hover,
 html[data-card-style] #about-cards-track,
 html[data-card-style] #about-cards-track:hover,
-html[data-card-style] [id$="-cards-track"],
-html[data-card-style] [id$="-cards-track"]:hover,
-html.dark .page-cards-track,
-html.dark .page-cards-track:hover,
+html[data-card-style] [id$="-cards-track"]:not(#horoscope-cards-track),
+html[data-card-style] [id$="-cards-track"]:not(#horoscope-cards-track):hover,
+html.dark .page-cards-track:not(#horoscope-cards-track),
+html.dark .page-cards-track:not(#horoscope-cards-track):hover,
 html.dark #about-cards-track,
 html.dark #about-cards-track:hover,
-html.dark [id$="-cards-track"],
-html.dark [id$="-cards-track"]:hover {
+html.dark [id$="-cards-track"]:not(#horoscope-cards-track),
+html.dark [id$="-cards-track"]:not(#horoscope-cards-track):hover {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -1976,8 +1930,8 @@ html:not([data-surface-depth="depth"]) :is(
   #website-root > div:has(> #app-footer),
   #app-footer,
   #letter-cards-track,
-  .page-cards-track,
-  [id$="-cards-track"]
+  .page-cards-track:not(#horoscope-cards-track),
+  [id$="-cards-track"]:not(#horoscope-cards-track)
 ),
 html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #el-p0-div-14,
@@ -1989,8 +1943,8 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #website-root > div:has(> #app-footer),
   #app-footer,
   #letter-cards-track,
-  .page-cards-track,
-  [id$="-cards-track"]
+  .page-cards-track:not(#horoscope-cards-track),
+  [id$="-cards-track"]:not(#horoscope-cards-track)
 ),
 html:not([data-surface-depth="depth"]) :is(
   #el-p0-div-14,
@@ -2002,8 +1956,8 @@ html:not([data-surface-depth="depth"]) :is(
   #website-root > div:has(> #app-footer),
   #app-footer,
   #letter-cards-track,
-  .page-cards-track,
-  [id$="-cards-track"]
+  .page-cards-track:not(#horoscope-cards-track),
+  [id$="-cards-track"]:not(#horoscope-cards-track)
 ):is(:hover, :focus, :focus-within, :active),
 html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #el-p0-div-14,
@@ -2015,8 +1969,8 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #website-root > div:has(> #app-footer),
   #app-footer,
   #letter-cards-track,
-  .page-cards-track,
-  [id$="-cards-track"]
+  .page-cards-track:not(#horoscope-cards-track),
+  [id$="-cards-track"]:not(#horoscope-cards-track)
 ):is(:hover, :focus, :focus-within, :active) {
   box-shadow: none !important;
   filter: none !important;
@@ -3832,8 +3786,6 @@ html[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-styl
 }
 
 html:root :is(
-  #app-header,
-  #app-footer,
   .page-main-card:not(#pdf-page-container),
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
@@ -3845,8 +3797,6 @@ html:root :is(
   [id^="letter-card-"]
 ),
 html[data-card-style] :is(
-  #app-header,
-  #app-footer,
   .page-main-card:not(#pdf-page-container),
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
@@ -4998,11 +4948,11 @@ html:root body #horoscope-page-container,
 html:root[data-card-style] body #horoscope-page-container,
 html:root.dark[data-card-style] body #horoscope-page-container {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
   justify-content: flex-start !important;
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: 100vw !important;
   height: 100% !important;
   min-height: 0 !important;
   flex: 1 1 0% !important;
@@ -5012,16 +4962,12 @@ html:root.dark[data-card-style] body #horoscope-page-container {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: 0px !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior-y: contain !important;
-  touch-action: pan-y !important;
+  overflow: hidden !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  container-type: size !important;
-  container-name: horoscope-viewport !important;
 }
 
 /* ========================================================================= */
@@ -6863,16 +6809,12 @@ html:root[data-card-style] body :is(
 }
 
 /* ========================================================================= */
-/* LETTER & HOROSCOPE TRACK STRICT CONTAINMENT: VERTICAL 100CQH CARDS        */
+/* LETTER TRACK STRICT CONTAINMENT: VERTICAL 100CQH CARDS                    */
 /* ========================================================================= */
 html:root body #letter-page-shell,
 html:root[data-card-style] body #letter-page-shell,
-html:root body #horoscope-page-shell,
-html:root[data-card-style] body #horoscope-page-shell,
 html:root body #letter-page-container #letter-cards-track,
-html:root[data-card-style] body #letter-page-container #letter-cards-track,
-html:root body #horoscope-page-container #horoscope-cards-track,
-html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track {
+html:root[data-card-style] body #letter-page-container #letter-cards-track {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -6891,23 +6833,12 @@ html:root[data-card-style] body #letter-cards-track > #letter-card-1,
 html:root body #letter-cards-track > #letter-cards-row-2-3,
 html:root[data-card-style] body #letter-cards-track > #letter-cards-row-2-3,
 html:root body #letter-cards-track > #letter-card-4,
-html:root[data-card-style] body #letter-cards-track > #letter-card-4,
-html:root body #horoscope-page-container #horoscope-cards-track > *,
-html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track > *,
-html:root body #horoscope-cards-track > [id^="horoscope-card-"],
-html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"] {
+html:root[data-card-style] body #letter-cards-track > #letter-card-4 {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 100% !important;
   flex: 0 0 auto !important;
   box-sizing: border-box !important;
-}
-
-html:root body #horoscope-cards-track > [id^="horoscope-card-"],
-html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"] {
-  height: 100cqh !important;
-  min-height: 100cqh !important;
-  max-height: 100cqh !important;
 }
 
 html:root body #letter-cards-row-2-3 > :is(#letter-card-2, #letter-card-3),
@@ -6918,6 +6849,106 @@ html:root[data-card-style] body #letter-cards-row-2-3 > :is(#letter-card-2, #let
   flex: 0 0 100% !important;
   margin: 0px !important;
   box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* HOROSCOPE HORIZONTAL 6-CARD TRACK: FULL-VIEWPORT SEPARATION & LETTER PARITY */
+/* ========================================================================= */
+html:root body #horoscope-page-shell,
+html:root[data-card-style] body #horoscope-page-shell {
+  position: relative !important;
+  align-self: center !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: 0 !important;
+  left: auto !important;
+  transform: none !important;
+  height: 100% !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #horoscope-page-container #horoscope-cards-track,
+html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: max-content !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  gap: 10px !important;
+  row-gap: 10px !important;
+  column-gap: 10px !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+  transform: translate3d(var(--horoscope-track-x, 0px), 0, 0) !important;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  will-change: transform !important;
+  box-sizing: border-box !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body #horoscope-page-container #horoscope-cards-track,
+  html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track {
+    transition: none !important;
+  }
+}
+
+html:root body #horoscope-cards-track > .page-main-card,
+html:root[data-card-style] body #horoscope-cards-track > .page-main-card,
+html:root body #horoscope-cards-track > [data-main-card="true"],
+html:root[data-card-style] body #horoscope-cards-track > [data-main-card="true"],
+html:root body #horoscope-cards-track > [id^="horoscope-card-"],
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"] {
+  width: var(--horoscope-card-w, var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) !important;
+  min-width: var(--horoscope-card-w, var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))) !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  flex: 0 0 auto !important;
+  margin: 0px !important;
+  padding: var(--main-card-padding, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  border-radius: 0px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="false"],
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="false"] {
+  opacity: 0.72 !important;
+  filter: saturate(0.84);
+}
+
+html:root body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="false"]:hover,
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="false"]:hover,
+html:root body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="true"],
+html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"][data-active-slide="true"] {
+  opacity: 1 !important;
+  filter: none;
 }
 
 /* ========================================================================= */
@@ -6966,24 +6997,12 @@ html.dark:root[data-card-style] body #experience-main-card #experience-timeline-
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: HEADER WITHOUT LAYER CHROME OR FLOAT EFFECT      */
-/* (Frosted Mica Effect explicitly applies frosted glass surface to Header)  */
+/* ABSOLUTE FINAL OVERRIDE: HEADER MATCHES MAIN CARD & FOOTER SURFACE        */
+/* + ZERO MOUSE-OVER HOVER EFFECTS ACROSS ENTIRE HEADER AREA                 */
 /* ========================================================================= */
-html:root:not([data-card-style="mica-fluent"]) body #app-header-container,
-html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container,
-html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container,
-html:root:not([data-card-style="mica-fluent"]) body #app-header,
-html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header,
-html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header,
-html:root:not([data-card-style="mica-fluent"]) body #app-header:hover,
-html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:hover,
-html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:hover,
-html:root:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
-html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
-html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header:focus-within,
-html:root:not([data-card-style="mica-fluent"]) body #app-header-container > header,
-html:root[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container > header,
-html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-header-container > header {
+html:root body #app-header-container,
+html:root[data-card-style] body #app-header-container,
+html:root.dark[data-card-style] body #app-header-container {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -6996,22 +7015,186 @@ html:root.dark[data-card-style]:not([data-card-style="mica-fluent"]) body #app-h
   transform: none !important;
 }
 
+/* Header (#app-header) đồng bộ chiều ngang/chiều cao/đệm/bo góc đối xứng với Main Card & Footer, dạng PHẲNG (Flat: không đổ bóng nổi, không ánh bóng 3D) */
+html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header),
+html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header),
+html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header) {
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: var(--shell-bar-h, auto) !important;
+  min-height: var(--shell-bar-h, 52px) !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
+  background: var(--surface-primary-bg, var(--bg-main)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  box-shadow: none !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  color: var(--text-primary) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header) {
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: var(--shell-bar-h, auto) !important;
+  min-height: var(--shell-bar-h, 52px) !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
   background: rgba(255, 255, 255, 0.30) !important;
   background-color: rgba(255, 255, 255, 0.30) !important;
   background-image: none !important;
   border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
+  box-shadow: none !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
   animation: none !important;
   transform: none !important;
+  transition: none !important;
 }
 
-html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper),
-html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper),
-html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper):hover,
-html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper):hover {
+html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container > header) {
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: var(--shell-bar-h, auto) !important;
+  min-height: var(--shell-bar-h, 52px) !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
+  background: var(--surface-primary-bg, var(--color-surface)) !important;
+  border: 1px solid var(--border-muted, rgba(148, 163, 184, 0.24)) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Chế độ phẳng tuyệt đối cho Header & các nút điều hướng bên trong (không đổ bóng, không viền sáng 3D) */
+html:root body #app-header::before,
+html:root body #app-header::after,
+html:root[data-card-style] body #app-header::before,
+html:root[data-card-style] body #app-header::after {
+  content: none !important;
+  display: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+html:root body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
+html:root[data-card-style] body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
+html:root.dark[data-card-style] body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge) {
+  box-shadow: none !important;
+}
+
+/* Footer (#app-footer) giữ đối xứng gương hoàn hảo với Header (bo 2 góc trên, sát mép dưới 0px, cùng width & padding) */
+html:root body :is(#app-footer, #el-p0-div-98 > footer),
+html:root[data-card-style] body :is(#app-footer, #el-p0-div-98 > footer),
+html:root.dark[data-card-style] body :is(#app-footer, #el-p0-div-98 > footer) {
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
+  border-top-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-top-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0 !important;
+}
+
+@media (max-width: 639px) {
+  html:root body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer),
+  html:root[data-card-style] body :is(#app-header, #app-header-container > header, #app-footer, #el-p0-div-98 > footer) {
+    padding: 5px 10px !important;
+  }
+}
+
+/* HEADER: XÓA HOÀN TOÀN MỌI HIỆU ỨNG RÊ CHUỘT (MOUSE OVER / :HOVER) TRÊN TOÀN BỘ KHU VỰC HEADER */
+html:root body #app-header-container:hover,
+html:root[data-card-style] body #app-header-container:hover,
+html:root body #app-header:hover,
+html:root[data-card-style] body #app-header:hover,
+html:root body #app-header *:hover,
+html:root[data-card-style] body #app-header *:hover,
+html:root.dark[data-card-style] body #app-header *:hover,
+html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper, .nav-pill-icon-badge, .nav-pill-icon-svg),
+html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper, .nav-pill-icon-badge, .nav-pill-icon-svg),
+html:root body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper, .nav-pill-icon-badge, .nav-pill-icon-svg):hover,
+html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hungthai-avatar, .nav-pill-wrapper, .nav-pill-icon-badge, .nav-pill-icon-svg):hover,
+html:root[data-card-style] body #app-header button.nav-pill:hover .nav-pill-icon-badge,
+html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover .nav-pill-icon-badge,
+html:root[data-card-style] body #app-header button.nav-pill:hover .nav-pill-icon-svg,
+html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover .nav-pill-icon-svg {
+  transform: none !important;
+  animation: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* Khóa trạng thái nút không active khi rê chuột (giữ nguyên 100% trạng thái nghỉ phẳng) */
+html:root body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+html:root[data-card-style] body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
+html:root.dark[data-card-style] body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
+  background: var(--pill-bg, var(--bg-nav-pill)) !important;
+  border-color: var(--pill-border, var(--border-default)) !important;
+  box-shadow: none !important;
+  color: var(--pill-text, var(--text-primary)) !important;
+  opacity: 1 !important;
+}
+
+/* Khóa trạng thái nút đang active & nút avatar khi rê chuột (giữ phẳng, không đổ bóng/scale) */
+html:root body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover,
+html:root[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover,
+html:root.dark[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover {
+  background: var(--bg-nav-pill-active, var(--bg-button-primary, var(--color-primary))) !important;
+  border-color: var(--border-nav-pill-active, transparent) !important;
+  box-shadow: none !important;
+  color: var(--text-nav-pill-active, var(--text-button-primary, #FFFFFF)) !important;
+  opacity: 1 !important;
+}
+
+html:root body #app-header button#header-btn-hungthai-avatar:hover,
+html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:hover,
+html:root.dark[data-card-style] body #app-header button#header-btn-hungthai-avatar:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html:root body #app-header button.nav-pill:hover::before,
+html:root[data-card-style] body #app-header button.nav-pill:hover::before,
+html:root body #app-header button.nav-pill:hover::after,
+html:root[data-card-style] body #app-header button.nav-pill:hover::after,
+html:root body #app-header #header-btn-hungthai-avatar:hover::before,
+html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover::before,
+html:root body #app-header #header-btn-hungthai-avatar:hover::after,
+html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover::after {
+  opacity: 0 !important;
   transform: none !important;
   animation: none !important;
 }
@@ -7043,6 +7226,198 @@ html:root[data-card-style] body #app-header :is(button.nav-pill, #header-btn-hun
   }
 }
 
+/* ========================================================================= */
+/* TRANG DỰ ÁN: ĐỒNG BỘ KHUNG SLIDER (#el-p7-div-92) & NỘI DUNG THEO THEME   */
+/* Áp dụng toàn diện nền, viền, đổ bóng, thẻ active, chữ, ảnh, nút & chấm    */
+/* theo đúng giao diện (data-card-style / data-theme) đang được chọn         */
+/* ========================================================================= */
+
+#projects-main-card .projects-themed-slider {
+  background: var(--surface-secondary-bg, var(--bg-subcard, var(--bg-card)));
+  border: var(--card-border-width, 1px) solid var(--border-subcard, var(--border-default, rgba(148, 163, 184, 0.28)));
+  border-radius: var(--radius-banner, var(--radius-card, 14px));
+  box-shadow: var(--shadow-subcard, var(--shadow-card));
+  color: var(--text-primary);
+  backdrop-filter: blur(var(--blur-subcard, var(--glass-card-blur, 14px))) saturate(var(--glass-subcard-saturate, 130%));
+  -webkit-backdrop-filter: blur(var(--blur-subcard, var(--glass-card-blur, 14px))) saturate(var(--glass-subcard-saturate, 130%));
+  isolation: isolate;
+}
+
+#projects-main-card .projects-themed-slider:hover {
+  transform: none !important;
+}
+
+/* Nền trang trí nhẹ đồng bộ màu chủ đạo của giao diện đang chọn (thay thế ảnh/gradient đỏ-xanh cố định) */
+#projects-main-card .projects-themed-slider .news-slider-bg {
+  background: transparent;
+}
+#projects-main-card .projects-themed-slider .news-slider-bg:after {
+  background-image:
+    radial-gradient(62% 70% at 14% 16%, color-mix(in srgb, var(--color-primary, #6366f1) 14%, transparent) 0%, transparent 66%),
+    radial-gradient(58% 68% at 86% 84%, color-mix(in srgb, var(--color-secondary, var(--color-primary, #38bdf8)) 12%, transparent) 0%, transparent 68%);
+  opacity: 0.9;
+}
+
+#projects-main-card .projects-themed-slider .news-slider-container {
+  z-index: 3;
+}
+
+/* Thẻ nền nổi di chuyển theo thẻ Dự án đang focus / hover */
+#projects-main-card .projects-themed-slider .news-item-bg {
+  background: var(--bg-card, var(--color-surface, #ffffff));
+  border: var(--card-border-width, 1px) solid var(--border-strong, var(--border-subcard, var(--border-default)));
+  border-radius: var(--radius-card, 14px);
+  box-shadow: var(--shadow-card, 0 12px 30px rgba(15, 23, 42, 0.16));
+  backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(var(--glass-card-saturate, 135%));
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(var(--glass-card-saturate, 135%));
+}
+
+/* Nội dung thẻ Dự án: đồng bộ màu chữ & trạng thái thường / active / hover theo theme */
+#projects-main-card .projects-themed-slider .news-card-item {
+  color: var(--text-primary);
+  border-radius: var(--radius-card, 14px);
+}
+
+#projects-main-card .projects-themed-slider .news-card-date {
+  color: var(--text-link, var(--color-primary));
+  border-bottom-color: color-mix(in srgb, var(--color-primary, #6366f1) 46%, transparent);
+  opacity: 0.88;
+}
+
+#projects-main-card .projects-themed-slider .news-card-date-title {
+  color: var(--text-link, var(--color-primary));
+}
+
+#projects-main-card .projects-themed-slider .news-card-date-txt {
+  color: var(--text-secondary);
+}
+
+#projects-main-card .projects-themed-slider .news-card-title {
+  color: var(--text-heading, var(--text-primary));
+  opacity: 0.92;
+}
+
+#projects-main-card .projects-themed-slider .news-card-txt {
+  color: var(--text-secondary);
+  opacity: 0.86;
+}
+
+#projects-main-card .projects-themed-slider .news-card-img {
+  border-radius: var(--radius-image, 12px);
+  border: 1px solid var(--border-image-card, var(--border-subcard, rgba(148, 163, 184, 0.28)));
+  box-shadow: var(--shadow-image-card, var(--shadow-subcard));
+  background: var(--bg-nested-card, var(--bg-subcard));
+}
+
+#projects-main-card .projects-themed-slider .news-card-img img {
+  border-radius: calc(var(--radius-image, 12px) - 1px);
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active,
+#projects-main-card .projects-themed-slider .news-card-item:hover {
+  color: var(--text-primary);
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date {
+  opacity: 1;
+  color: var(--text-link, var(--color-primary));
+  border-bottom-color: var(--color-primary, var(--text-link));
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date-title,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date-title {
+  color: var(--text-link, var(--color-primary));
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date-txt,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date-txt {
+  color: var(--text-secondary);
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-title,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-title {
+  opacity: 1;
+  color: var(--text-heading, var(--text-primary));
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-txt,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-txt {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+
+#projects-main-card .projects-themed-slider .news-card-item.active .news-card-img,
+#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-img {
+  border-color: color-mix(in srgb, var(--color-primary, #6366f1) 42%, var(--border-image-card, transparent));
+  box-shadow: var(--shadow-nested, 0 4px 14px rgba(15, 23, 42, 0.14));
+}
+
+/* Nút mũi tên điều hướng trái/phải theo giao diện đang chọn */
+#projects-main-card .projects-themed-slider .news-slider-arrow {
+  background: var(--bg-nav-arrow, var(--bg-banner-pill, var(--bg-card))) !important;
+  color: var(--text-nav-arrow, var(--text-primary)) !important;
+  border: 1px solid var(--border-nav-arrow, var(--border-subcard, var(--border-default))) !important;
+  box-shadow: var(--shadow-nav-arrow, var(--shadow-subcard)) !important;
+  backdrop-filter: blur(var(--blur-nav-pill, 14px));
+  -webkit-backdrop-filter: blur(var(--blur-nav-pill, 14px));
+}
+
+#projects-main-card .projects-themed-slider .news-slider-arrow:hover:not(:disabled) {
+  border-color: var(--color-primary, var(--border-strong)) !important;
+  color: var(--color-primary, var(--text-primary)) !important;
+  box-shadow: var(--shadow-card, 0 10px 24px rgba(15, 23, 42, 0.22)) !important;
+}
+
+/* Thanh chấm chỉ báo trang (Pagination Bullets) theo màu chủ đạo theme */
+#projects-main-card .projects-themed-slider .news-slider-bullet {
+  background: color-mix(in srgb, var(--text-secondary, #64748b) 42%, transparent);
+  opacity: 0.72;
+}
+
+#projects-main-card .projects-themed-slider .news-slider-bullet:hover {
+  background: color-mix(in srgb, var(--color-primary, #6366f1) 70%, transparent);
+  opacity: 0.95;
+}
+
+#projects-main-card .projects-themed-slider .news-slider-bullet.active-bullet {
+  background: var(--bg-button-primary, var(--color-primary));
+  opacity: 1;
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-primary, #6366f1) 38%, transparent);
+}
+
+/* Tinh chỉnh chất liệu đặc thù cho các nhóm theme đặc biệt (Da bò, Dark Neon Glass, Neumorphism) */
+html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"])
+  #projects-main-card .projects-themed-slider .news-slider-bg:after {
+  opacity: 0.22;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-card-style="black-cowhide-leather"])
+  #projects-main-card .projects-themed-slider .news-item-bg {
+  background: var(--bg-card);
+  border: 2px solid var(--border-default);
+  outline: 1px dashed var(--leather-stitch, rgba(245, 222, 179, 0.45));
+  outline-offset: -6px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-card-style="dark-neon-glass"]
+  #projects-main-card .projects-themed-slider .news-item-bg {
+  background: rgba(15, 23, 42, 0.62);
+  border-color: rgba(34, 211, 238, 0.42);
+  box-shadow:
+    0 18px 42px -10px rgba(2, 6, 23, 0.78),
+    0 0 24px -6px rgba(34, 211, 238, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"])
+  #projects-main-card .projects-themed-slider .news-item-bg {
+  box-shadow: var(--neu-raised-shadow, var(--shadow-card));
+}
+
 /* End of index.css */
+
 
 

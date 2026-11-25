@@ -30,6 +30,9 @@ export const THEME_LAYER_DEPTH_MAP: Record<CardStyleMode, number> = {
   'flat-soft-ui': 100,
   'dark-flat-soft-ui': 100,
   'mica-fluent': 100,
+  'gradient-dopamine': 100,
+  'dark-luxury': 100,
+  'minimalism': 100,
 };
 
 export function getLayerDepthForTheme(styleId: CardStyleMode): number {

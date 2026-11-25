@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
+import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
+import {
+  type OrigamiFoldPhase,
+  ORIGAMI_TIMINGS,
+  contentRevealVariants,
+} from './experience/origamiMotion';
 
 const Calendar = createAnimatedIcon('calendar');
 const Building2 = createAnimatedIcon('building-2');
@@ -68,10 +75,10 @@ const CircularLogo: React.FC<{
 
   const sizeClass =
     total >= 4
-      ? 'w-[30px] h-[30px] sm:w-[34px] sm:h-[34px]'
+      ? 'w-[60px] h-[60px] sm:w-[68px] sm:h-[68px]'
       : total > 1
-        ? 'w-[38px] h-[38px] sm:w-[40px] sm:h-[40px]'
-        : 'w-[46px] h-[46px]';
+        ? 'w-[76px] h-[76px] sm:w-[80px] sm:h-[80px]'
+        : 'w-[92px] h-[92px]';
 
   const initials = logo.alt.replace(/^Logo\s+/i, '').trim().slice(0, 4) || 'Logo';
 
@@ -84,7 +91,7 @@ const CircularLogo: React.FC<{
         onOpenDetail();
       }}
       style={{
-        marginTop: isStacked && index > 0 ? (total >= 4 ? '-10px' : '-12px') : '0px',
+        marginLeft: isStacked && index > 0 ? (total >= 4 ? '-16px' : '-18px') : '0px',
         zIndex: total - index,
         background: 'var(--surface-secondary-bg, var(--bg-card))',
         border: 'none',
@@ -94,7 +101,7 @@ const CircularLogo: React.FC<{
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30 cursor-pointer focus-visible:outline-none'
+        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105 hover:z-30 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -384,11 +391,21 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [carouselSlideIdx, setCarouselSlideIdx] = useState<number>(0);
   const [isPhotoLightboxOpen, setIsPhotoLightboxOpen] = useState<boolean>(false);
 
-  // States cho Timeline hiệu ứng xếp giấy Chromatic Folds
-  const [chosenFoldIdx, setChosenFoldIdx] = useState<number>(0);
-  const [unfoldingFoldIdx, setUnfoldingFoldIdx] = useState<number | null>(null);
+  const prefersReducedMotionHook = useReducedMotion();
+
+  // Unified 5-state 3D Origami machine: folded -> partial -> unfolding -> expanded -> folding -> folded
+  const [foldPhase, setFoldPhase] = useState<OrigamiFoldPhase>(() =>
+    Boolean(showJobCardProp) ? 'expanded' : 'folded'
+  );
+  const [selectedFoldIdx, setSelectedFoldIdx] = useState<number | null>(null);
+  const [mobileSlideIdx, setMobileSlideIdx] = useState<number>(0);
+  const [origamiTargetIdx, setOrigamiTargetIdx] = useState<number>(0);
+  const [isClosingDetailContent, setIsClosingDetailContent] = useState<boolean>(false);
   const [isMobileFoldView, setIsMobileFoldView] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  const isFoldLocked = foldPhase === 'unfolding' || foldPhase === 'folding';
+  const unfoldingFoldIdx = foldPhase === 'unfolding' ? origamiTargetIdx : null;
 
   const boardRef = useRef<HTMLElement | null>(null);
   const detailCardRef = useRef<HTMLElement | null>(null);
@@ -397,20 +414,92 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const didDragRef = useRef<boolean>(false);
   const lastWheelTimeRef = useRef<number>(0);
   const unfoldTimerRef = useRef<number | null>(null);
+  const foldExitTimerRef = useRef<number | null>(null);
+  const foldBackTimerRef = useRef<number | null>(null);
+  const singleClickTimerRef = useRef<number | null>(null);
+
+  const clearOrigamiTimers = () => {
+    if (unfoldTimerRef.current !== null) {
+      window.clearTimeout(unfoldTimerRef.current);
+      unfoldTimerRef.current = null;
+    }
+    if (foldExitTimerRef.current !== null) {
+      window.clearTimeout(foldExitTimerRef.current);
+      foldExitTimerRef.current = null;
+    }
+    if (foldBackTimerRef.current !== null) {
+      window.clearTimeout(foldBackTimerRef.current);
+      foldBackTimerRef.current = null;
+    }
+    if (singleClickTimerRef.current !== null) {
+      window.clearTimeout(singleClickTimerRef.current);
+      singleClickTimerRef.current = null;
+    }
+  };
 
   useEffect(() => {
     return () => {
-      if (unfoldTimerRef.current !== null) {
-        window.clearTimeout(unfoldTimerRef.current);
-      }
+      clearOrigamiTimers();
     };
   }, []);
 
+  // Sync external showJobCard prop if toggled externally
   useEffect(() => {
-    if (!showJobCard) {
-      setUnfoldingFoldIdx(null);
+    if (showJobCard && foldPhase !== 'expanded' && foldPhase !== 'folding') {
+      setFoldPhase('expanded');
+      setIsClosingDetailContent(false);
+    } else if (!showJobCard && foldPhase === 'expanded') {
+      setFoldPhase('folded');
+      setSelectedFoldIdx(null);
+      setIsClosingDetailContent(false);
     }
-  }, [showJobCard]);
+  }, [showJobCard, foldPhase]);
+
+  const isReducedMotionActive = () =>
+    Boolean(prefersReducedMotionHook) ||
+    (typeof window !== 'undefined' &&
+      Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches));
+
+  const handleCloseJobCard = () => {
+    if (foldPhase === 'folding' || !showJobCard) return;
+    if (singleClickTimerRef.current !== null) {
+      window.clearTimeout(singleClickTimerRef.current);
+      singleClickTimerRef.current = null;
+    }
+
+    SoundEngine.playTap();
+    const reduced = isReducedMotionActive();
+
+    if (reduced) {
+      clearOrigamiTimers();
+      setIsClosingDetailContent(false);
+      setShowJobCard(false);
+      setFoldPhase('folded');
+      setSelectedFoldIdx(null);
+      return;
+    }
+
+    // Phase 1: Fade out detail content cleanly before reverse 3D origami fold-back
+    setFoldPhase('folding');
+    setIsClosingDetailContent(true);
+
+    foldExitTimerRef.current = window.setTimeout(() => {
+      foldExitTimerRef.current = null;
+      setShowJobCard(false);
+      setIsClosingDetailContent(false);
+
+      // Phase 2: Sequential reverse 3D origami panels fold back to original Timeline slot
+      const foldDuration = isMobileFoldView
+        ? ORIGAMI_TIMINGS.foldBackMobileMs
+        : ORIGAMI_TIMINGS.foldBackDesktopMs;
+
+      foldBackTimerRef.current = window.setTimeout(() => {
+        foldBackTimerRef.current = null;
+        setFoldPhase('folded');
+        setSelectedFoldIdx(null);
+      }, foldDuration);
+    }, ORIGAMI_TIMINGS.detailExitMs);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -419,14 +508,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           setIsPhotoLightboxOpen(false);
           return;
         }
-        if (showJobCard) {
-          setShowJobCard(false);
+        if (showJobCard && foldPhase === 'expanded') {
+          handleCloseJobCard();
+          return;
+        }
+        if (!showJobCard && foldPhase === 'partial') {
+          SoundEngine.playTap();
+          setSelectedFoldIdx(null);
+          setFoldPhase('folded');
         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showJobCard, isPhotoLightboxOpen]);
+  }, [showJobCard, isPhotoLightboxOpen, foldPhase]);
 
   const activeMilestone = EXPERIENCE_MILESTONES[activeKey] || EXPERIENCE_MILESTONES['2013'];
 
@@ -443,40 +538,83 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   }, [activeKey, showJobCard]);
 
   const handleOpenJobCard = (key: string, idxOverride?: number) => {
-    if (unfoldTimerRef.current !== null) {
-      window.clearTimeout(unfoldTimerRef.current);
-      unfoldTimerRef.current = null;
-    }
+    if (isFoldLocked) return;
+    clearOrigamiTimers();
 
     const matchedIdx =
       typeof idxOverride === 'number'
         ? idxOverride
         : roadmapCards.findIndex((c) => c.key === key || (key === '2014' && c.key === '2013'));
 
-    if (matchedIdx >= 0) {
-      setChosenFoldIdx(matchedIdx);
-    }
+    const resolvedIdx = matchedIdx >= 0 ? matchedIdx : 0;
+    setSelectedFoldIdx(resolvedIdx);
+    setMobileSlideIdx(resolvedIdx);
+    setOrigamiTargetIdx(resolvedIdx);
     setActiveKey(key);
+    setIsClosingDetailContent(false);
 
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion || matchedIdx < 0) {
-      setUnfoldingFoldIdx(null);
+    if (isReducedMotionActive() || matchedIdx < 0) {
+      setFoldPhase('expanded');
       setShowJobCard(true);
       showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
       return;
     }
 
-    setUnfoldingFoldIdx(matchedIdx);
-    const unfoldDurationMs = isMobileFoldView ? 260 : 540;
+    setFoldPhase('unfolding');
+    const unfoldDurationMs = isMobileFoldView
+      ? ORIGAMI_TIMINGS.unfoldMobileMs
+      : ORIGAMI_TIMINGS.unfoldDesktopMs;
+
     unfoldTimerRef.current = window.setTimeout(() => {
-      setUnfoldingFoldIdx(null);
-      setShowJobCard(true);
       unfoldTimerRef.current = null;
+      setFoldPhase('expanded');
+      setShowJobCard(true);
       showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
     }, unfoldDurationMs);
+  };
+
+  const handleDesktopFoldClick = (itemKey: string, idx: number) => {
+    if (didDragRef.current || isFoldLocked) return;
+
+    // If clicking a folded milestone: immediately open partially (State 1 -> State 2)
+    if (selectedFoldIdx !== idx || foldPhase !== 'partial') {
+      if (singleClickTimerRef.current !== null) {
+        window.clearTimeout(singleClickTimerRef.current);
+        singleClickTimerRef.current = null;
+      }
+      SoundEngine.playTap();
+      setSelectedFoldIdx(idx);
+      setMobileSlideIdx(idx);
+      setActiveKey(itemKey);
+      setFoldPhase('partial');
+      return;
+    }
+
+    // Already in partial unfold: debounce single click so Double Click unfolds fully without folding back first
+    if (singleClickTimerRef.current !== null) {
+      window.clearTimeout(singleClickTimerRef.current);
+      singleClickTimerRef.current = null;
+      SoundEngine.playTap();
+      handleOpenJobCard(itemKey, idx);
+      return;
+    }
+
+    singleClickTimerRef.current = window.setTimeout(() => {
+      singleClickTimerRef.current = null;
+      SoundEngine.playTap();
+      setSelectedFoldIdx(null);
+      setFoldPhase('folded');
+    }, ORIGAMI_TIMINGS.doubleClickWindowMs);
+  };
+
+  const handleDesktopFoldDoubleClick = (itemKey: string, idx: number) => {
+    if (didDragRef.current || isFoldLocked) return;
+    if (singleClickTimerRef.current !== null) {
+      window.clearTimeout(singleClickTimerRef.current);
+      singleClickTimerRef.current = null;
+    }
+    SoundEngine.playTap();
+    handleOpenJobCard(itemKey, idx);
   };
 
   // Giữ nguyên 100% dữ liệu 8 cột mốc từ website, áp dụng hệ màu & bố cục từ mẫu đính kèm
@@ -757,19 +895,41 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   }, [showJobCard]);
 
   const maxFoldIdx = roadmapCards.length - 1;
-  const activeFoldIdx = chosenFoldIdx;
+  const activeFoldIdx = selectedFoldIdx;
+  const currentNavIdx = selectedFoldIdx !== null ? selectedFoldIdx : mobileSlideIdx;
+
+  const selectPartialMilestone = (nextIdx: number) => {
+    if (isFoldLocked) return;
+    const clamped = Math.max(0, Math.min(maxFoldIdx, nextIdx));
+    setSelectedFoldIdx(clamped);
+    setMobileSlideIdx(clamped);
+    setFoldPhase('partial');
+    const card = roadmapCards[clamped];
+    if (card) setActiveKey(card.key);
+  };
 
   const handlePrev = () => {
+    if (isFoldLocked) return;
     SoundEngine.playTap();
-    setChosenFoldIdx((prev) => Math.max(0, prev - 1));
+    if (selectedFoldIdx === null && !isMobileFoldView) {
+      selectPartialMilestone(Math.max(0, mobileSlideIdx));
+      return;
+    }
+    selectPartialMilestone(Math.max(0, currentNavIdx - 1));
   };
 
   const handleNext = () => {
+    if (isFoldLocked) return;
     SoundEngine.playTap();
-    setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
+    if (selectedFoldIdx === null && !isMobileFoldView) {
+      selectPartialMilestone(Math.min(maxFoldIdx, mobileSlideIdx));
+      return;
+    }
+    selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
   };
 
   const handleWheelScroll = (e: React.WheelEvent<HTMLElement>) => {
+    if (isFoldLocked) return;
     const isVerticalWheel = Math.abs(e.deltaY) >= Math.abs(e.deltaX);
     if (isVerticalWheel && e.target instanceof Element) {
       const scrollArea = e.target.closest('.exp-milestone-scroll') as HTMLElement | null;
@@ -791,14 +951,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     lastWheelTimeRef.current = now;
 
     if (dominantDelta > 0) {
-      setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
+      selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
     } else {
-      setChosenFoldIdx((prev) => Math.max(0, prev - 1));
+      selectPartialMilestone(Math.max(0, currentNavIdx - 1));
     }
   };
 
   const handlePointerDown = (clientX: number, clientY: number, target: EventTarget | null) => {
     didDragRef.current = false;
+    if (isFoldLocked) return;
     if ((target as HTMLElement | null)?.closest('button')) return;
     dragStartXRef.current = clientX;
     dragStartYRef.current = clientY;
@@ -812,11 +973,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
       didDragRef.current = true;
     }
-    if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+    if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) && !isFoldLocked) {
       if (diffX > 0) {
-        setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
+        selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
       } else {
-        setChosenFoldIdx((prev) => Math.max(0, prev - 1));
+        selectPartialMilestone(Math.max(0, currentNavIdx - 1));
       }
     }
     dragStartXRef.current = null;
@@ -825,20 +986,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   };
 
   useEffect(() => {
-    if (showJobCard) return;
+    if (showJobCard || isFoldLocked) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
       if (e.key === 'ArrowLeft') {
-        setChosenFoldIdx((prev) => Math.max(0, prev - 1));
+        selectPartialMilestone(Math.max(0, currentNavIdx - 1));
       }
       if (e.key === 'ArrowRight') {
-        setChosenFoldIdx((prev) => Math.min(maxFoldIdx, prev + 1));
+        selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showJobCard, maxFoldIdx]);
+  }, [showJobCard, isFoldLocked, currentNavIdx, maxFoldIdx]);
 
   const normalizedActiveKey = activeKey.startsWith('2013') || activeKey === '2014-airpay' ? '2013' : activeKey;
 
@@ -1019,19 +1180,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     return (
       <div
         data-no-wheel-horizontal="true"
-        style={{ padding: '10px' }}
+        style={{ padding: '15px' }}
         className={cn(
-          'exp-milestone-scroll flex-1 min-h-0 flex flex-col justify-between gap-1.5 overflow-y-auto overscroll-y-contain touch-pan-y glass-scrollbar p-[10px]'
+          'exp-milestone-scroll flex-1 min-h-0 flex flex-col justify-start gap-2 overflow-y-auto overscroll-y-contain touch-pan-y glass-scrollbar p-[15px]'
         )}
       >
-        <div className="flex flex-col gap-1.5 min-w-0">
-          {/* 1. KHUNG BANNER */}
+        <div className="flex flex-col gap-2 min-w-0">
+          {/* 1. KHUNG BANNER (Tăng gấp đôi chiều cao) */}
           <div
             style={{
               borderColor: frameCardStyle.borderColor,
               background: item.blockGradient,
             }}
-            className="exp-bento-item-card relative w-full h-[70px] sm:h-[82px] shrink-0 rounded-[var(--radius-subcard,14px)] overflow-hidden border shadow-xs"
+            className="exp-bento-item-card relative w-full h-[140px] sm:h-[164px] shrink-0 rounded-[var(--radius-subcard,14px)] overflow-hidden border shadow-xs"
           >
             {!hasBannerFailed && milestoneData?.bannerUrl ? (
               <img
@@ -1057,14 +1218,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             />
           </div>
 
-          {/* 2. KHUNG TÊN CÔNG TY (Bên trái: Logo & Tên công ty | Bên phải: Năm & Dịch vụ) */}
+          {/* 2. KHUNG TÊN CÔNG TY (Bên trái: Logo & Tên công ty tăng gấp đôi | Bên phải: Năm & Dịch vụ) */}
           <div
             style={frameCardStyle}
-            className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border px-2.5 py-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 min-w-0"
+            className="exp-bento-item-card w-full shrink-0 rounded-[var(--radius-subcard,14px)] border px-3 py-2.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 min-w-0"
           >
-            {/* Bên trái: Logo và tên công ty */}
-            <div className="flex items-center gap-2 min-w-0 flex-1">
-              <div className="flex flex-col items-center justify-center shrink-0">
+            {/* Bên trái: Logo và tên công ty (tăng gấp đôi kích thước) */}
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <div className="flex flex-row items-center justify-start shrink-0">
                 {item.logos.map((logo, logoIdx) => (
                   <CircularLogo
                     key={logoIdx}
@@ -1078,12 +1239,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 ))}
               </div>
               <h3
-                style={{ color: primaryTextColor }}
+                style={{
+                  color: primaryTextColor,
+                  fontSize: 'calc(var(--fs-body-sm, 13.5px) * 2)',
+                  lineHeight: 1.18,
+                }}
                 data-subcard-title="true"
-                className="subcard-title-synced typo-body-sm font-bold leading-[1.22] break-words flex flex-col justify-center min-w-0 flex-1 select-none m-0"
+                className="subcard-title-synced font-bold break-words flex flex-col justify-center min-w-0 flex-1 select-none m-0"
               >
-                <span className="leading-tight flex items-center gap-1 min-w-0">
-                  <Building2 className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                <span className="leading-tight flex items-center gap-1.5 min-w-0">
+                  <Building2 className="w-7 h-7 shrink-0 opacity-80" />
                   <span className="truncate">{item.companyLine1}</span>
                 </span>
                 {item.companyLine2 && <span className="block leading-tight truncate">{item.companyLine2}</span>}
@@ -1270,38 +1435,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             )}
           </div>
         </div>
-
-        {/* Nút Xem chi tiết */}
-        <div className="pt-0.5 flex items-center justify-end shrink-0">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              SoundEngine.playTap();
-              handleOpenJobCard(item.key, idx);
-            }}
-            style={
-              !isLeather
-                ? {
-                    color: resolvedAccent,
-                    background: 'var(--bg-nav-pill, var(--bg-subcard))',
-                    borderColor: 'var(--border-subcard, var(--border-color))',
-                  }
-                : { color: resolvedAccent }
-            }
-            className={cn(
-              'exp-bento-rect-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-[14px] typo-caption font-bold border transition-all cursor-pointer',
-              isBlackLeather
-                ? 'bg-[#2A190F]/92 border-[#F5C478]/55 hover:bg-[#3A2214]'
-                : isBrownLeather
-                  ? 'bg-[#522E10]/85 border-[#F5DEB3]/45 hover:bg-[#522E10]'
-                  : ''
-            )}
-          >
-            <span className="text-current">Xem chi tiết</span>
-            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-          </button>
-        </div>
       </div>
     );
   };
@@ -1342,11 +1475,40 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             gap: '0px',
           }}
         >
-      {/* KHUNG TIMELINE BÌA GẤP 3D (CHỌN LOGO ĐỂ XEM CHI TIẾT CÔNG VIỆC — LẤP ĐẦY 100% THẺ CHÍNH) */}
+      {/* 3D ORIGAMI MULTI-PANEL STAGE (UNFOLDING / FOLDING BACK SEQUENCE) */}
+      {(foldPhase === 'unfolding' || (foldPhase === 'folding' && !showJobCard)) && (() => {
+        const stageCard = roadmapCards[origamiTargetIdx] || roadmapCards[0];
+        const stageMilestone = EXPERIENCE_MILESTONES[stageCard.key];
+        return (
+          <OrigamiUnfoldStage
+            key={`origami-stage-${foldPhase}-${stageCard.key}`}
+            mode={foldPhase === 'unfolding' ? 'unfolding' : 'folding'}
+            milestone={{
+              key: stageCard.key,
+              yearBadge: stageCard.yearBadge,
+              shortName: stageCard.shortName,
+              roleSummary: stageCard.roleSummary,
+              tenure: stageMilestone?.tenure,
+              logo: stageCard.logo,
+              accentColor: stageCard.accentColor,
+              blockGradient: stageCard.blockGradient,
+            }}
+            slotIndex={origamiTargetIdx}
+            totalSlots={roadmapCards.length}
+            compact={isMobileFoldView}
+            isDarkSurface={isDarkSurface}
+            isBrownLeather={isBrownLeather}
+            isBlackLeather={isBlackLeather}
+          />
+        );
+      })()}
+
+      {/* KHUNG TIMELINE BÌA GẤP 3D ORIGAMI (CLICK MỞ HÉ · DOUBLE CLICK BUNG TOÀN PHẦN) */}
       {!showJobCard && (
         <section
           ref={boardRef}
           id="experience-timeline-board"
+          data-fold-phase={foldPhase}
           data-unfolding={unfoldingFoldIdx !== null ? 'true' : 'false'}
           data-element-name="Bảng Timeline Hành trình sự nghiệp"
           data-element-type="section"
@@ -1447,7 +1609,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <button
             type="button"
             onClick={handlePrev}
-            disabled={chosenFoldIdx <= 0}
+            disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx <= 0) || (isMobileFoldView && currentNavIdx <= 0)}
             aria-label="Chuyển tới mốc trước"
             style={
               !isLeather
@@ -1473,7 +1635,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <button
             type="button"
             onClick={handleNext}
-            disabled={chosenFoldIdx >= maxFoldIdx}
+            disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx >= maxFoldIdx) || (isMobileFoldView && currentNavIdx >= maxFoldIdx)}
             aria-label="Chuyển tới mốc tiếp theo"
             style={
               !isLeather
@@ -1496,7 +1658,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* HIỆU ỨNG XẾP GIẤY CHROMATIC FOLDS (DESKTOP/TABLET) & SLIDER RÕ NÉT TRÊN MOBILE */}
+          {/* HIỆU ỨNG XẾP GIẤY 3D ORIGAMI (DESKTOP/TABLET) & SLIDER RÕ NÉT TRÊN MOBILE */}
           {!isMobileFoldView ? (
             <div className="exp-chromatic-stage">
               <div
@@ -1506,7 +1668,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 {roadmapCards.map((item, idx) => {
                   const isEven = idx % 2 === 0;
                   const isUnfolding = unfoldingFoldIdx === idx;
-                  const isExpanded = unfoldingFoldIdx !== null ? isUnfolding : activeFoldIdx === idx;
+                  const isPartial = foldPhase === 'partial' && activeFoldIdx === idx;
+                  const isExpanded = isUnfolding || isPartial;
+                  const isAdjacentLeft =
+                    foldPhase === 'partial' && activeFoldIdx !== null && idx === activeFoldIdx - 1;
+                  const isAdjacentRight =
+                    foldPhase === 'partial' && activeFoldIdx !== null && idx === activeFoldIdx + 1;
                   const foldNum = String(idx + 1).padStart(2, '0');
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
 
@@ -1545,31 +1712,28 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       key={item.key}
                       id={`milestone-card-${item.key}`}
                       data-num={foldNum}
+                      data-fold-state={isUnfolding ? 'unfolding' : isPartial ? 'partial' : 'folded'}
                       data-expanded={isExpanded ? 'true' : 'false'}
                       data-unfolding={isUnfolding ? 'true' : 'false'}
                       role="button"
                       tabIndex={0}
-                      aria-label={`${item.yearBadge} — ${item.shortName}`}
-                      aria-pressed={chosenFoldIdx === idx}
-                      onFocus={() => {
-                        if (unfoldingFoldIdx === null) setChosenFoldIdx(idx);
-                      }}
-                      onClick={() => {
-                        if (didDragRef.current || unfoldingFoldIdx !== null) return;
-                        SoundEngine.playTap();
-                        if (!isExpanded) {
-                          setChosenFoldIdx(idx);
-                          return;
-                        }
-                        handleOpenJobCard(item.key, idx);
+                      aria-label={`${item.yearBadge} — ${item.shortName}. Nhấn một lần để mở hé, nhấp đúp để bung toàn bộ chi tiết.`}
+                      aria-expanded={isExpanded}
+                      onClick={() => handleDesktopFoldClick(item.key, idx)}
+                      onDoubleClick={(e) => {
+                        e.stopPropagation();
+                        handleDesktopFoldDoubleClick(item.key, idx);
                       }}
                       onKeyDown={(e) => {
-                        if (e.target !== e.currentTarget) return;
+                        if (e.target !== e.currentTarget || isFoldLocked) return;
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           SoundEngine.playTap();
-                          if (!isExpanded) {
-                            setChosenFoldIdx(idx);
+                          if (!isPartial) {
+                            setSelectedFoldIdx(idx);
+                            setMobileSlideIdx(idx);
+                            setActiveKey(item.key);
+                            setFoldPhase('partial');
                             return;
                           }
                           handleOpenJobCard(item.key, idx);
@@ -1585,16 +1749,21 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       }
                       className={cn(
                         'exp-fold-swatch group',
+                        isPartial && 'is-partial',
                         isExpanded && 'is-expanded',
-                        isUnfolding && 'is-unfolding'
+                        isUnfolding && 'is-unfolding',
+                        isAdjacentLeft && 'is-adjacent-left',
+                        isAdjacentRight && 'is-adjacent-right'
                       )}
                     >
-                      {/* Lớp bóng đổ nếp gấp giấy Chromatic Folds */}
+                      {/* Lớp bóng đổ nếp gấp giấy 3D Origami */}
                       <div aria-hidden="true" className="exp-fold-shading" />
+                      {/* Đường nếp gấp tinh tế khi mở hé */}
+                      <div aria-hidden="true" className="exp-fold-crease-line" />
 
-                      {/* GÁY XẾP GIẤY KHI GẤP GỌN: CHIA 3 PHẦN (TOP: Icon lịch & Năm & năm | CENTER 1: Logo căn bot & CENTER 2: Tên công ty căn top | BOTTOM: Số lượng năm) */}
+                      {/* GÁY XẾP GIẤY KHI GẤP GỌN (TRẠNG THÁI 1: FOLDED) */}
                       <div className="exp-fold-spine" aria-hidden={isExpanded}>
-                        {/* TOP: Icon lịch & Năm & năm */}
+                        {/* TOP: Icon lịch & Năm */}
                         <div className="exp-fold-spine-top">
                           <div className="exp-fold-num">
                             <div className="inline-flex items-center justify-center gap-1 leading-none">
@@ -1607,7 +1776,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           </div>
                         </div>
 
-                        {/* CENTER: Center 1 (Logo căn bot) & Center 2 (Tên công ty căn top) */}
+                        {/* CENTER: Logo + Tên doanh nghiệp + Chức danh */}
                         <div className="exp-fold-spine-center">
                           <div className="exp-fold-spine-center-1">
                             {item.logos.length > 0 && (
@@ -1646,6 +1815,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             <span className="exp-fold-spine-label">
                               {item.shortName}
                             </span>
+                            <span className="exp-fold-spine-role">
+                              {item.roleSummary}
+                            </span>
                           </div>
                         </div>
 
@@ -1659,7 +1831,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                       </div>
 
-                      {/* NỘI DUNG ĐẦY ĐỦ CỦA CỘT MỐC THEO CHIỀU DỌC: BANNER -> TÊN CÔNG TY -> THÔNG TIN -> MÔ TẢ -> HÌNH ẢNH KỶ NIỆM */}
+                      {/* NỘI DUNG MỞ HÉ (TRẠNG THÁI 2: PARTIAL UNFOLD) */}
                       <div className="exp-fold-sheet pt-[54px] sm:pt-[58px] pb-[24px]">
                         {renderMilestoneColumnFrames({
                           item,
@@ -1670,6 +1842,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           secondaryTextColor,
                           isMobileMode: false,
                         })}
+                        {/* Chỉ dẫn tương tác nhẹ nhàng + nút mở chi tiết dành riêng cho thiết bị cảm ứng */}
+                        <div className="px-[15px] pt-1 flex items-center justify-between gap-2 shrink-0">
+                          <span
+                            style={{ color: secondaryTextColor }}
+                            className="typo-caption opacity-75 truncate"
+                          >
+                            Nhấp đúp vào tờ giấy hoặc nhấn logo để bung toàn bộ chi tiết
+                          </span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              SoundEngine.playTap();
+                              handleOpenJobCard(item.key, idx);
+                            }}
+                            style={{
+                              background: 'var(--bg-button-primary, var(--color-primary))',
+                              color: 'var(--text-button-primary, #FFFFFF)',
+                            }}
+                            className="origami-touch-only-btn items-center gap-1 px-3 py-1.5 rounded-lg typo-caption font-bold shrink-0 cursor-pointer"
+                          >
+                            <span>Mở chi tiết</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );
@@ -1677,12 +1873,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </div>
           ) : (
-            /* CHẾ ĐỘ MOBILE (< 768PX): TRƯỢT TỪNG TỜ XẾP GIẤY ĐẦY ĐỦ NỘI DUNG */
+            /* CHẾ ĐỘ MOBILE (< 768PX): TRƯỢT TỪNG TỜ XẾP GIẤY ĐẦY ĐỦ NỘI DUNG + NÚT MỞ CHI TIẾT CẢM ỨNG */
             <div className="relative w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden">
               <div
                 className="flex w-full h-full flex-1 min-h-0 transition-transform duration-500 ease-out"
                 style={{
-                  transform: `translateX(-${chosenFoldIdx * 100}%)`,
+                  transform: `translateX(-${mobileSlideIdx * 100}%)`,
                 }}
               >
                 {roadmapCards.map((item, idx) => {
@@ -1722,7 +1918,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       role="button"
                       tabIndex={0}
                       onClick={() => {
-                        if (didDragRef.current || unfoldingFoldIdx !== null) return;
+                        if (didDragRef.current || isFoldLocked) return;
                         SoundEngine.playTap();
                         handleOpenJobCard(item.key, idx);
                       }}
@@ -1745,6 +1941,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         secondaryTextColor,
                         isMobileMode: true,
                       })}
+                      <div className="px-[15px] pt-1.5 flex items-center justify-end shrink-0">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            SoundEngine.playTap();
+                            handleOpenJobCard(item.key, idx);
+                          }}
+                          style={{
+                            background: 'var(--bg-button-primary, var(--color-primary))',
+                            color: 'var(--text-button-primary, #FFFFFF)',
+                          }}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg typo-caption font-bold cursor-pointer min-h-[40px]"
+                        >
+                          <span>Mở chi tiết</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
@@ -1775,42 +1989,50 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     : ''
               )}
             >
-              {roadmapCards.map((card, idx) => (
-                <button
-                  key={card.key}
-                  type="button"
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setChosenFoldIdx(idx);
-                  }}
-                  aria-label={`Chọn mốc ${card.yearBadge}`}
-                  title={`${card.yearBadge} — ${card.shortName}`}
-                  style={
-                    !isLeather
-                      ? {
-                          background:
-                            activeFoldIdx === idx
+              {roadmapCards.map((card, idx) => {
+                const isDotActive = activeFoldIdx === idx || (isMobileFoldView && mobileSlideIdx === idx);
+                return (
+                  <button
+                    key={card.key}
+                    type="button"
+                    onClick={() => {
+                      if (isFoldLocked) return;
+                      SoundEngine.playTap();
+                      if (!isMobileFoldView && activeFoldIdx === idx) {
+                        setSelectedFoldIdx(null);
+                        setFoldPhase('folded');
+                      } else {
+                        selectPartialMilestone(idx);
+                      }
+                    }}
+                    aria-label={`Chọn mốc ${card.yearBadge}`}
+                    title={`${card.yearBadge} — ${card.shortName}`}
+                    style={
+                      !isLeather
+                        ? {
+                            background: isDotActive
                               ? card.accentColor
                               : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
-                        }
-                      : undefined
-                  }
-                  className={cn(
-                    'h-1.5 rounded-full transition-all duration-300 cursor-pointer',
-                    activeFoldIdx === idx
-                      ? isBlackLeather
-                        ? 'w-5 bg-[#F5C478]'
-                        : isBrownLeather
-                          ? 'w-5 bg-[#FDE68A]'
-                          : 'w-5'
-                      : isBlackLeather
-                        ? 'w-1.5 bg-[#F5E9D6]/40 hover:bg-[#F5E9D6]/80'
-                        : isBrownLeather
-                          ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                          : 'w-1.5 hover:opacity-80'
-                  )}
-                />
-              ))}
+                          }
+                        : undefined
+                    }
+                    className={cn(
+                      'h-1.5 rounded-full transition-all duration-300 cursor-pointer',
+                      isDotActive
+                        ? isBlackLeather
+                          ? 'w-5 bg-[#F5C478]'
+                          : isBrownLeather
+                            ? 'w-5 bg-[#FDE68A]'
+                            : 'w-5'
+                        : isBlackLeather
+                          ? 'w-1.5 bg-[#F5E9D6]/40 hover:bg-[#F5E9D6]/80'
+                          : isBrownLeather
+                            ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
+                            : 'w-1.5 hover:opacity-80'
+                    )}
+                  />
+                );
+              })}
             </div>
           </div>
         </section>
@@ -2165,9 +2387,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
         return (
           <>
-            <main
+            <motion.main
               ref={detailCardRef}
               id="experience-job-detail-card"
+              variants={contentRevealVariants}
+              initial="hidden"
+              animate={isClosingDetailContent ? 'exit' : 'visible'}
               data-no-wheel-horizontal="true"
               data-scrollable="true"
               data-element-name="Chi tiết thẻ công việc"
@@ -2183,15 +2408,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               id="experience-job-detail-toolbar"
               className="w-full flex items-center justify-end mb-[15px]"
             >
-              {/* Nút X Close nằm gọn cùng hàng điều khiển */}
+              {/* Nút X Close gấp giấy 3D Origami trở lại Timeline */}
               <button
                 id="experience-job-detail-close-btn"
                 type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setShowJobCard(false);
-                }}
-                title="Đóng chi tiết công việc (hoặc nhấn phím Esc)"
+                onClick={handleCloseJobCard}
+                title="Đóng chi tiết công việc và xếp giấy trở lại (hoặc nhấn phím Esc)"
                 aria-label="Đóng chi tiết công việc"
                 className={cn(
                   'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 border backdrop-blur-md shrink-0',
@@ -3178,7 +3400,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
 
             </div>
-          </main>
+          </motion.main>
         </>
       );
     })()}

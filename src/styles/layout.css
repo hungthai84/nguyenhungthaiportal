@@ -24,8 +24,7 @@
   gap: 0 !important;
 }
 
-#app-header-container,
-#app-header {
+#app-header-container {
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
@@ -36,6 +35,7 @@
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 0 !important;
+  box-sizing: border-box !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
@@ -43,7 +43,32 @@
   animation: none !important;
 }
 
-#el-p0-div-98,
+#app-header {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  flex: 0 0 auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-sizing: border-box !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+#el-p0-div-98 {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
 #app-footer {
   position: relative !important;
   top: auto !important;
@@ -54,7 +79,7 @@
   min-height: 0 !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 #home-cards-track {
@@ -68,8 +93,9 @@
 #global-content-viewport {
   width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
   max-width: var(--main-card-target-w, 1000px);
+  box-sizing: border-box !important;
   flex: 0 0 auto !important;
-  height: calc(100dvh - 104px) !important;
+  height: calc(100dvh - var(--shell-bar-h, 52px) * 2) !important;
   min-height: 520px !important;
   margin-left: auto;
   margin-right: auto;
@@ -184,13 +210,10 @@
 
 #horoscope-page-container {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
   justify-content: flex-start !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior-y: contain !important;
+  overflow: hidden !important;
   scroll-behavior: auto !important;
 }
 
@@ -265,6 +288,10 @@
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
+}
+
+.page-cards-track:not(#horoscope-cards-track),
+[id$="-cards-track"]:not(#horoscope-cards-track) {
   transition: none !important;
   animation: none !important;
   transform: none !important;
@@ -320,8 +347,8 @@
   box-sizing: border-box !important;
 }
 
-.page-cards-track:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track),
-[id$="-cards-track"]:not(#about-cards-track):not(#horoscope-cards-track):not(#letter-cards-track) {
+.page-cards-track:not(#about-cards-track):not(#letter-cards-track),
+[id$="-cards-track"]:not(#about-cards-track):not(#letter-cards-track) {
   width: max-content !important;
   max-width: none !important;
   flex: 0 0 auto !important;
@@ -329,20 +356,22 @@
 
 #horoscope-cards-track {
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
   align-items: stretch !important;
   justify-content: flex-start !important;
   gap: 10px !important;
   row-gap: 10px !important;
   column-gap: 10px !important;
-  width: 100% !important;
-  max-width: 100% !important;
+  width: max-content !important;
+  max-width: none !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow-x: hidden !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
   flex: 0 0 auto !important;
 }
@@ -370,15 +399,23 @@
 #horoscope-cards-track > *,
 #horoscope-cards-track > .page-main-card,
 #horoscope-cards-track > [data-main-card="true"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 100% !important;
+  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  min-width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   flex: 0 0 auto !important;
-  height: 100cqh !important;
-  min-height: 100cqh !important;
-  max-height: 100cqh !important;
-  overflow: hidden !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+  touch-action: pan-y !important;
   border-radius: 0px !important;
+  padding: var(--main-card-padding, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   box-sizing: border-box !important;
@@ -505,20 +542,20 @@
 
 #app-header,
 #app-header-container > header {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: var(--main-card-target-w, clamp(1000px, 78vw, 1380px)) !important;
-  height: auto !important;
-  min-height: 0 !important;
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  height: var(--shell-bar-h, auto) !important;
+  min-height: var(--shell-bar-h, 52px) !important;
   max-height: none !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  border-bottom-left-radius: var(--radius-global, 14px) !important;
-  border-bottom-right-radius: var(--radius-global, 14px) !important;
-  border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
+  border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
 }
 
 #home-page-container {
@@ -561,22 +598,31 @@
 
 #app-footer,
 #el-p0-div-98 > footer {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: var(--main-card-target-w, clamp(1000px, 78vw, 1380px)) !important;
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  box-sizing: border-box !important;
+  padding: 5px 15px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  border-top-left-radius: var(--radius-global, 14px) !important;
-  border-top-right-radius: var(--radius-global, 14px) !important;
+  border-top-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  border-top-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
-  border-radius: var(--radius-global, 14px) var(--radius-global, 14px) 0 0 !important;
+  border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0 !important;
   overflow: visible !important;
   z-index: 50 !important;
+}
+
+@media (max-width: 639px) {
+  #app-header,
+  #app-header-container > header,
+  #app-footer,
+  #el-p0-div-98 > footer {
+    padding: 5px 10px !important;
+  }
 }
 
 #footer-nav-capsule {
@@ -790,8 +836,8 @@
   #app-header,
   #app-footer,
   #global-content-viewport:not(:has(#pdf-page-container)),
-  .page-main-card:not(#pdf-page-container):not(#letter-cards-row-2-3 > .page-main-card),
-  [data-main-card="true"]:not(#pdf-page-container):not(#letter-cards-row-2-3 > [data-main-card="true"]) {
+  .page-main-card:not(#pdf-page-container):not(#letter-cards-row-2-3 > .page-main-card):not(#horoscope-cards-track > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#letter-cards-row-2-3 > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]) {
     max-width: var(--main-card-target-w, 1000px) !important;
     width: var(--main-card-target-w, 1000px) !important;
     margin-left: auto !important;
@@ -963,13 +1009,13 @@
   }
 }
 
-/* Horoscope Page Grid Stretch & Clean Vertical Flow */
+/* Horoscope Page Grid Stretch & Clean Vertical Flow (15px Internal Gap matching Letter Main Cards) */
 #horoscope-page-container .grid,
 #horoscope-page-container [class*="grid"] {
   align-items: stretch !important;
-  gap: var(--mc-gap, 15px) !important;
-  row-gap: var(--mc-gap, 15px) !important;
-  column-gap: var(--mc-gap, 15px) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
 }
 
 #horoscope-page-container .grid > *,

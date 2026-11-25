@@ -101,6 +101,18 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     dark: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
   },
+  'gradient-dopamine': {
+    light: multicolorGlassWallpaper,
+    dark: multicolorGlassWallpaper,
+  },
+  'dark-luxury': {
+    light: wpDarkFlatSoftUi,
+    dark: wpDarkFlatSoftUi,
+  },
+  'minimalism': {
+    light: '#FAFAFA',
+    dark: '#FAFAFA',
+  },
 };
 
 export function getThemeBackgroundForMode(themeId: string, isDark: boolean): string {
@@ -498,7 +510,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-mica-fluent',
-    name: '🪟 Nền Frosted Mica Effect (Theme Background)',
+    name: '🪟 Nền Mica / Fluent Design (Theme Background)',
     type: 'image',
     value: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     bg: "url('https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg') center/cover no-repeat",
@@ -511,6 +523,50 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000007,
+  },
+  {
+    id: 'theme-bg-gradient-dopamine',
+    name: '🌈 Nền Gradient / Dopamine UI – Đa sắc (Theme Background)',
+    type: 'image',
+    value: multicolorGlassWallpaper,
+    bg: `url('${multicolorGlassWallpaper}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 14% 16%, rgba(255, 46, 147, 0.45) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(0, 210, 255, 0.42) 0%, transparent 48%), linear-gradient(135deg, #FFF0F7 0%, #F3E8FF 50%, #E0F7FF 100%)',
+      backgroundImage: `url('${multicolorGlassWallpaper}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000008,
+  },
+  {
+    id: 'theme-bg-dark-luxury',
+    name: '👑 Nền Dark Luxury – Sang trọng tối màu (Theme Background)',
+    type: 'image',
+    value: wpDarkFlatSoftUi,
+    bg: `url('${wpDarkFlatSoftUi}') center/cover no-repeat`,
+    previewStyle: {
+      background:
+        'radial-gradient(circle at 20% 18%, rgba(212, 175, 55, 0.22) 0%, transparent 52%), linear-gradient(145deg, #090A0F 0%, #11131C 52%, #07080C 100%)',
+      backgroundImage: `url('${wpDarkFlatSoftUi}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    isCustom: false,
+    createdAt: 1794300000009,
+  },
+  {
+    id: 'theme-bg-minimalism',
+    name: '◻️ Nền Minimalism – Tối giản (Theme Background)',
+    type: 'gradient',
+    value: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+    bg: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+    previewStyle: {
+      background: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000010,
   },
   {
     id: 'theme-bg-liquid-glass',

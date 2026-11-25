@@ -2492,20 +2492,14 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-0 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
+              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
             >
-                  {/* File Folder Tabs Shell: Header Tab Ears + Connected Folder Body */}
-                  <div
-                    id="about-folder-tabs-shell"
-                    data-active-tab={detailInfoTab}
-                    className="w-full flex-1 min-h-0 flex flex-col gap-0"
-                  >
-                    {/* File Folder Tab Bar */}
+                  {/* Header Bento Box Bar: Tab chuyển thành tiêu đề của thẻ */}
+                  <div className="w-full flex items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 min-w-0 shrink-0">
                     <div
-                      id="about-folder-tablist"
                       role="tablist"
                       aria-label="Thông tin chi tiết"
-                      className="about-folder-tablist card-header-sync flex items-end gap-1.5 relative z-20 -mb-[1px] px-0 min-w-0 w-full shrink-0"
+                      className="card-header-sync flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 min-w-0 w-full"
                     >
                       <button
                         ref={personalTabRef}
@@ -2515,7 +2509,6 @@ export function AboutView({
                         tabIndex={detailInfoTab === 'personal' ? 0 : -1}
                         aria-selected={detailInfoTab === 'personal'}
                         aria-controls="about-detail-tabpanel"
-                        data-active={detailInfoTab === 'personal' ? 'true' : 'false'}
                         data-card-title={detailInfoTab === 'personal' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('personal')}
                         onKeyDown={(e) => {
@@ -2530,22 +2523,29 @@ export function AboutView({
                           }
                         }}
                         className={cn(
-                          'folder-tab-btn typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer leading-tight whitespace-nowrap shrink-0 text-left select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
-                          detailInfoTab === 'personal' ? 'is-active' : 'is-inactive'
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          detailInfoTab === 'personal'
+                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
                         )}
                       >
-                        <span aria-hidden="true" className="folder-tab-accent-bar" />
                         <WebIcon
                           name="user"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0 transition-colors',
-                            detailInfoTab === 'personal'
-                              ? 'text-blue-600 dark:text-cyan-400'
-                              : 'text-current opacity-80'
+                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
+                            detailInfoTab === 'personal' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
                           )}
                         />
                         <span>Cá nhân</span>
+                        {detailInfoTab === 'personal' && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
+                          />
+                        )}
                       </button>
+
+                      <span aria-hidden="true" className="text-[var(--text-muted)] opacity-35 select-none font-normal">|</span>
 
                       <button
                         ref={contactTabRef}
@@ -2555,7 +2555,6 @@ export function AboutView({
                         tabIndex={detailInfoTab === 'contact' ? 0 : -1}
                         aria-selected={detailInfoTab === 'contact'}
                         aria-controls="about-detail-tabpanel"
-                        data-active={detailInfoTab === 'contact' ? 'true' : 'false'}
                         data-card-title={detailInfoTab === 'contact' ? 'true' : undefined}
                         onClick={() => handleSwitchDetailTab('contact')}
                         onKeyDown={(e) => {
@@ -2570,38 +2569,38 @@ export function AboutView({
                           }
                         }}
                         className={cn(
-                          'folder-tab-btn typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 sm:gap-2 cursor-pointer leading-tight whitespace-nowrap shrink-0 text-left select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
-                          detailInfoTab === 'contact' ? 'is-active' : 'is-inactive'
+                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          detailInfoTab === 'contact'
+                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
                         )}
                       >
-                        <span aria-hidden="true" className="folder-tab-accent-bar" />
                         <WebIcon
                           name="phone"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0 transition-colors',
-                            detailInfoTab === 'contact'
-                              ? 'text-blue-600 dark:text-cyan-400'
-                              : 'text-current opacity-80'
+                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
+                            detailInfoTab === 'contact' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
                           )}
                         />
                         <span>Liên hệ</span>
+                        {detailInfoTab === 'contact' && (
+                          <span
+                            aria-hidden="true"
+                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
+                          />
+                        )}
                       </button>
                     </div>
+                  </div>
 
-                    {/* Connected File Folder Body Sheet (Slide + Fade without navigating away) */}
-                    <div
-                      id="about-detail-tabpanel"
-                      role="tabpanel"
-                      aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
-                      data-active-tab={detailInfoTab}
-                      tabIndex={0}
-                      className={cn(
-                        'about-folder-tabpanel relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar p-2.5 sm:p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
-                        detailInfoTab === 'personal'
-                          ? 'rounded-tl-none rounded-tr-[14px] rounded-br-[14px] rounded-bl-[14px]'
-                          : 'rounded-[14px]'
-                      )}
-                    >
+                  {/* Shared Accessible Tabpanel (Slide + Fade without navigating away) */}
+                  <div
+                    id="about-detail-tabpanel"
+                    role="tabpanel"
+                    aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
+                    tabIndex={0}
+                    className="relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-[12px]"
+                  >
                     <AnimatePresence mode="wait" initial={false}>
                       {detailInfoTab === 'personal' ? (
                         <motion.div
@@ -3003,7 +3002,6 @@ export function AboutView({
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    </div>
                   </div>
                 </motion.div>
 

@@ -527,15 +527,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const horoscopeContainerRef = useRef<HTMLDivElement>(null);
   const horoscopeCard1Ref = useRef<HTMLElement>(null);
-  const touchStartRef = useRef<{
-    x: number;
-    y: number;
-    startTime: number;
-    isHorizontal: boolean | null;
-  } | null>(null);
-  const dragOffsetXRef = useRef<number>(0);
-  const [dragOffsetX, setDragOffsetX] = useState<number>(0);
-  const [isDraggingTouch, setIsDraggingTouch] = useState<boolean>(false);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const rafLayoutRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -599,9 +591,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     0,
     carouselMetrics.containerWidth - (carouselMetrics.alignLeftOffset + carouselMetrics.cardWidth)
   );
-  const baseTrackOffsetX =
+  const trackOffsetX =
     carouselMetrics.alignLeftOffset - activeCardIndex * (carouselMetrics.cardWidth + HOROSCOPE_CARD_GAP_PX);
-  const trackOffsetX = baseTrackOffsetX + dragOffsetX;
   const canShowSidePeek =
     carouselMetrics.alignLeftOffset - HOROSCOPE_CARD_GAP_PX >= 24 &&
     rightPeekSpacePx - HOROSCOPE_CARD_GAP_PX >= 24;
@@ -641,113 +632,32 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   );
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length > 1) return;
-    const target = e.target as HTMLElement | null;
-    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT')) {
-      return;
-    }
     const touch = e.touches[0];
     if (!touch) return;
-    touchStartRef.current = {
-      x: touch.clientX,
-      y: touch.clientY,
-      startTime: typeof performance !== 'undefined' ? performance.now() : Date.now(),
-      isHorizontal: null,
-    };
-    dragOffsetXRef.current = 0;
-    setDragOffsetX(0);
-    setIsDraggingTouch(false);
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
   }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      const start = touchStartRef.current;
-      if (!start) return;
-      const touch = e.touches[0];
-      if (!touch) return;
-      const dx = touch.clientX - start.x;
-      const dy = touch.clientY - start.y;
-
-      if (start.isHorizontal === null) {
-        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-        if (Math.abs(dx) > Math.abs(dy) * 1.15) {
-          start.isHorizontal = true;
-          setIsDraggingTouch(true);
-        } else {
-          start.isHorizontal = false;
-          return;
-        }
-      }
-
-      if (!start.isHorizontal) return;
-
-      const idx = activeCardIndexRef.current;
-      const isPullingPastStart = idx === 0 && dx > 0;
-      const isPullingPastEnd = idx === HOROSCOPE_SLIDES.length - 1 && dx < 0;
-      const resistedDx = isPullingPastStart || isPullingPastEnd ? dx * 0.28 : dx;
-      const maxDrag = Math.max(120, carouselMetrics.cardWidth * 0.92);
-      const clampedDx = Math.max(-maxDrag, Math.min(maxDrag, resistedDx));
-
-      dragOffsetXRef.current = clampedDx;
-      setDragOffsetX(clampedDx);
-    },
-    [carouselMetrics.cardWidth]
-  );
-
-  const finishTouchSwipe = useCallback(
-    (e?: React.TouchEvent<HTMLDivElement>) => {
-      const start = touchStartRef.current;
-      touchStartRef.current = null;
-      const wasHorizontal = start?.isHorizontal === true;
-      const fallbackDx = dragOffsetXRef.current;
-      dragOffsetXRef.current = 0;
-      setDragOffsetX(0);
-      setIsDraggingTouch(false);
-
-      if (!start || start.isHorizontal === false) return;
-
-      const touch = e?.changedTouches?.[0];
-      const dx = touch ? touch.clientX - start.x : fallbackDx;
-      const dy = touch ? touch.clientY - start.y : 0;
-      const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
-      const elapsed = Math.max(16, now - start.startTime);
-      const velocityX = dx / elapsed;
-      const distanceThreshold = Math.min(72, Math.max(40, carouselMetrics.cardWidth * 0.16));
-      const hasIntent =
-        wasHorizontal ||
-        (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.2);
-
-      if (
-        hasIntent &&
-        (Math.abs(dx) >= distanceThreshold || (Math.abs(velocityX) >= 0.35 && Math.abs(dx) > 18))
-      ) {
-        if (dx < 0 && activeCardIndexRef.current < HOROSCOPE_SLIDES.length - 1) {
-          SoundEngine.playTap();
-          scrollToHoroscopeCard(activeCardIndexRef.current + 1, true, 1);
-          return;
-        }
-        if (dx > 0 && activeCardIndexRef.current > 0) {
-          SoundEngine.playTap();
-          scrollToHoroscopeCard(activeCardIndexRef.current - 1, true, -1);
-          return;
-        }
-      }
-      // Snap smoothly back to centered current card
-      scrollToHoroscopeCard(activeCardIndexRef.current, true);
-    },
-    [carouselMetrics.cardWidth, scrollToHoroscopeCard]
-  );
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
-      finishTouchSwipe(e);
+      const start = touchStartRef.current;
+      touchStartRef.current = null;
+      if (!start) return;
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+        if (dx < 0 && activeCardIndexRef.current < HOROSCOPE_SLIDES.length - 1) {
+          SoundEngine.playTap();
+          scrollToHoroscopeCard(activeCardIndexRef.current + 1, true, 1);
+        } else if (dx > 0 && activeCardIndexRef.current > 0) {
+          SoundEngine.playTap();
+          scrollToHoroscopeCard(activeCardIndexRef.current - 1, true, -1);
+        }
+      }
     },
-    [finishTouchSwipe]
+    [scrollToHoroscopeCard]
   );
-
-  const handleTouchCancel = useCallback(() => {
-    finishTouchSwipe();
-  }, [finishTouchSwipe]);
 
   // Horoscope Commentary MP3 Audio State
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
@@ -2480,9 +2390,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         data-element-parent="global-content-viewport"
         data-no-wheel-horizontal="true"
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchCancel}
         style={{
           width: '100%',
           maxWidth: '100%',
@@ -2500,7 +2408,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           borderRadius: '0px',
           background: 'transparent',
           overflow: 'hidden',
-          touchAction: 'pan-y',
         }}
         className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 font-play text-left text-[var(--text-primary)] rounded-none overflow-hidden no-scrollbar z-10 select-none box-border"
       >
@@ -2510,7 +2417,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-type="container"
           data-element-page="horoscope"
           data-element-parent="horoscope-page-container"
-          data-dragging={isDraggingTouch ? 'true' : 'false'}
           style={
             {
               display: 'flex',
@@ -2524,10 +2430,9 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               '--horoscope-card-w': `${carouselMetrics.cardWidth}px`,
               '--horoscope-track-x': `${trackOffsetX}px`,
               transform: `translate3d(${trackOffsetX}px, 0, 0)`,
-              transition:
-                shouldReduceMotion || isDraggingTouch
-                  ? 'none'
-                  : 'transform 380ms cubic-bezier(0.22, 1, 0.36, 1)',
+              transition: shouldReduceMotion
+                ? 'none'
+                : 'transform 380ms cubic-bezier(0.22, 1, 0.36, 1)',
               willChange: 'transform',
               boxSizing: 'border-box',
             } as React.CSSProperties

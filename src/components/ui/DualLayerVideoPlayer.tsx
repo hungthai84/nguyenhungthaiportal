@@ -1,15 +1,9 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback, useImperativeHandle } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
-
-export interface DualLayerVideoPlayerHandle {
-  playIntro: () => void;
-  cancelIntro: () => void;
-  toggleMute: () => void;
-}
 
 export interface DualLayerVideoPlayerProps {
   video1Id?: string;
@@ -20,8 +14,6 @@ export interface DualLayerVideoPlayerProps {
   muteVideo1?: boolean;
   loopVideo1?: boolean;
   capsuleVariant?: 'home' | 'about';
-  hideCapsule?: boolean;
-  onStateChange?: (state: { isPlayingIntro: boolean; isAudioOn: boolean }) => void;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -41,27 +33,18 @@ const normalizeMediaSrc = (src?: string): string | undefined => {
   return trimmed;
 };
 
-export const DualLayerVideoPlayer = React.forwardRef<
-  DualLayerVideoPlayerHandle,
-  DualLayerVideoPlayerProps
->(
-  (
-    {
-      video1Id = DEFAULT_VIDEO_1_ID,
-      video1Src,
-      video2Id = DEFAULT_VIDEO_2_ID,
-      video2Src,
-      autoPlayVideo1 = true,
-      muteVideo1 = true,
-      loopVideo1 = true,
-      capsuleVariant = 'about',
-      hideCapsule = false,
-      onStateChange,
-      className,
-      style,
-    },
-    ref
-  ) => {
+export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
+  video1Id = DEFAULT_VIDEO_1_ID,
+  video1Src,
+  video2Id = DEFAULT_VIDEO_2_ID,
+  video2Src,
+  autoPlayVideo1 = true,
+  muteVideo1 = true,
+  loopVideo1 = true,
+  capsuleVariant = 'about',
+  className,
+  style,
+}) => {
   const { showToast } = useToast();
   const video1Ref = useRef<HTMLVideoElement | null>(null);
   const video2Ref = useRef<HTMLVideoElement | null>(null);
@@ -424,20 +407,6 @@ export const DualLayerVideoPlayer = React.forwardRef<
     showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
   }, [enforceVideoAttributes, handlePlayIntro, showToast, tryStartVideo2]);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      playIntro: handlePlayIntro,
-      cancelIntro: handleCancelIntro,
-      toggleMute: toggleVideoMute,
-    }),
-    [handlePlayIntro, handleCancelIntro, toggleVideoMute]
-  );
-
-  useEffect(() => {
-    onStateChange?.({ isPlayingIntro, isAudioOn });
-  }, [isPlayingIntro, isAudioOn, onStateChange]);
-
   const sharedVideoStyle: React.CSSProperties = {
     position: 'absolute',
     inset: 0,
@@ -634,88 +603,84 @@ export const DualLayerVideoPlayer = React.forwardRef<
       </div>
 
       {/* Bottom Capsule Control */}
-      {!hideCapsule && (
-        <div
-          style={{ borderRadius: '999px' }}
+      <div
+        style={{ borderRadius: '999px' }}
+        className={cn(
+          'theme-video-capsule video-play-btn',
+          capsuleVariant === 'home'
+            ? 'video-play-btn--home bottom-3 left-1/2 -translate-x-1/2 sm:bottom-4'
+            : 'video-play-btn--about bottom-3 right-3 sm:bottom-4 sm:right-4',
+          isPlayingIntro ? 'is-playing' : '',
+          'absolute z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
+        )}
+      >
+        {/* Speaker Toggle Button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleVideoMute();
+          }}
           className={cn(
-            'theme-video-capsule video-play-btn',
-            capsuleVariant === 'home'
-              ? 'video-play-btn--home bottom-3 left-1/2 -translate-x-1/2 sm:bottom-4'
-              : 'video-play-btn--about bottom-3 right-3 sm:bottom-4 sm:right-4',
-            isPlayingIntro ? 'is-playing' : '',
-            'absolute z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
+            'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+            isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
           )}
+          title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+          aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+          aria-pressed={isAudioOn}
         >
-          {/* Speaker Toggle Button */}
+          <span className="flex items-center justify-center">
+            {isAudioOn ? (
+              <WebIcon name="volume-2" className="w-4 h-4 text-current" />
+            ) : (
+              <WebIcon name="volume-x" className="w-4 h-4 text-white" />
+            )}
+          </span>
+        </button>
+
+        <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
+
+        {/* Play / Cancel Toggle Button */}
+        {!isPlayingIntro ? (
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              toggleVideoMute();
+              handlePlayIntro();
             }}
-            className={cn(
-              'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
-              isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
-            )}
-            title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-pressed={isAudioOn}
+            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+            title="Bấm để phát video"
           >
             <span className="flex items-center justify-center">
-              {isAudioOn ? (
-                <WebIcon name="volume-2" className="w-4 h-4 text-current" />
-              ) : (
-                <WebIcon name="volume-x" className="w-4 h-4 text-white" />
-              )}
+              <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+            </span>
+            <span className="typo-button text-current whitespace-nowrap font-play text-left">
+              Phát Video
             </span>
           </button>
-
-          <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
-
-          {/* Play / Cancel Toggle Button */}
-          {!isPlayingIntro ? (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePlayIntro();
-              }}
-              style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-              className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
-              title="Bấm để phát video"
-            >
-              <span className="flex items-center justify-center">
-                <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
-              </span>
-              <span className="typo-button text-current whitespace-nowrap font-play text-left">
-                Phát Video
-              </span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleCancelIntro();
-              }}
-              style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-              className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
-              title="Bấm để hủy phát video"
-            >
-              <span className="flex items-center justify-center">
-                <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
-              </span>
-              <span className="typo-button text-current whitespace-nowrap font-play text-left">
-                Hủy Phát
-              </span>
-            </button>
-          )}
-        </div>
-      )}
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancelIntro();
+            }}
+            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+            title="Bấm để hủy phát video"
+          >
+            <span className="flex items-center justify-center">
+              <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+            </span>
+            <span className="typo-button text-current whitespace-nowrap font-play text-left">
+              Hủy Phát
+            </span>
+          </button>
+        )}
+      </div>
     </div>
   );
-});
-
-DualLayerVideoPlayer.displayName = 'DualLayerVideoPlayer';
+};
 
 export default DualLayerVideoPlayer;

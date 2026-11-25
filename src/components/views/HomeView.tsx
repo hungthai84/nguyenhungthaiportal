@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SiteTheme } from '@/types';
@@ -8,7 +8,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
-import { DualLayerVideoPlayer, type DualLayerVideoPlayerHandle } from '@/components/ui/DualLayerVideoPlayer';
+import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import { getCardStyleConfig, normalizeCardStyle } from '@/config/ui/cardStyles';
 
 export interface HomeViewProps {
@@ -40,19 +40,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const prefersReducedMotion = useReducedMotion();
 
   const homeContainerRef = useRef<HTMLDivElement | null>(null);
-  const homeVideoRef = useRef<DualLayerVideoPlayerHandle | null>(null);
-  const [homeVideoState, setHomeVideoState] = useState<{ isPlayingIntro: boolean; isAudioOn: boolean }>({
-    isPlayingIntro: false,
-    isAudioOn: false,
-  });
-  const handleHomeVideoStateChange = useCallback(
-    (next: { isPlayingIntro: boolean; isAudioOn: boolean }) => {
-      setHomeVideoState((prev) =>
-        prev.isPlayingIntro === next.isPlayingIntro && prev.isAudioOn === next.isAudioOn ? prev : next
-      );
-    },
-    []
-  );
   const isDark = themeIsDark || getCardStyleConfig(normalizeCardStyle(currentTheme)).isDark;
 
   // Broadcast active slide state (single screen on Home)
@@ -191,84 +178,75 @@ export const HomeView: React.FC<HomeViewProps> = ({
     </div>
   );
 
-  // Các chỉ số đặc biệt và nổi trội bay quanh vòng tròn Trang chủ
-  const orbitMetrics = useMemo(() => {
-    const metricsList = [
-      {
-        value: '22+ Năm',
-        label: isEn ? 'CX & CC Experience' : 'Thực chiến CSKH & CX',
-        icon: 'award',
-        gradient: 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
-        glow: '0 10px 24px rgba(236, 72, 153, 0.42)',
-      },
-      {
-        value: '31M+',
-        label: isEn ? 'Users Served' : 'Người dùng phục vụ',
-        icon: 'users',
-        gradient: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)',
-        glow: '0 10px 24px rgba(59, 130, 246, 0.42)',
-      },
-      {
-        value: '98.6%',
-        label: isEn ? 'SLA Compliance' : 'Chỉ số SLA dịch vụ',
-        icon: 'gauge',
-        gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
-        glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
-      },
-      {
-        value: '130+',
-        label: isEn ? 'Team Headcount' : 'Nhân sự quản trị',
-        icon: 'briefcase',
-        gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
-        glow: '0 10px 24px rgba(245, 158, 11, 0.44)',
-      },
-      {
-        value: '96%+',
-        label: isEn ? 'CSAT Rating' : 'Độ hài lòng CSAT',
-        icon: 'sparkles',
-        gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
-        glow: '0 10px 24px rgba(139, 92, 246, 0.42)',
-      },
-      {
-        value: '24/7',
-        label: isEn ? 'AI & CRM Operations' : 'Vận hành AI & CRM',
-        icon: 'cpu',
-        gradient: 'linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%)',
-        glow: '0 10px 24px rgba(14, 165, 233, 0.42)',
-      },
-    ];
-
-    const arcStartDeg = 104;
-    const arcSpanDeg = 260;
-    const sectorStep = arcSpanDeg / metricsList.length;
-
-    return metricsList.map((item, idx) => {
-      const jitterDeg = (Math.random() - 0.5) * (sectorStep * 0.4);
-      const angleDeg = arcStartDeg + (idx + 0.5) * sectorStep + jitterDeg;
-      const angleRad = (angleDeg * Math.PI) / 180;
-      const radiusPct = 48 + Math.random() * 3.5;
-      const leftPct = 50 + Math.cos(angleRad) * radiusPct;
-      const topPct = 50 + Math.sin(angleRad) * radiusPct;
-
-      const ampY = 3 + Math.random() * 3;
-      const ampX = 2 + Math.random() * 2;
-      const dirY = Math.random() > 0.5 ? 1 : -1;
-      const dirX = Math.random() > 0.5 ? 1 : -1;
-      const rotAmp = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 3);
-
-      return {
-        id: `home-orbit-metric-${idx}`,
-        ...item,
-        leftPct: `${leftPct.toFixed(2)}%`,
-        topPct: `${topPct.toFixed(2)}%`,
-        floatY: [dirY * -ampY, dirY * ampY, dirY * -ampY],
-        floatX: [dirX * -ampX, dirX * ampX, dirX * -ampX],
-        floatRotate: [-rotAmp, rotAmp, -rotAmp],
-        duration: Number((4.2 + Math.random() * 1.6).toFixed(2)),
-        delay: Number((Math.random() * 0.8).toFixed(2)),
-      };
-    });
-  }, [isEn]);
+  // Enlarged vivid multi-color orbiting badges around portrait frame
+  const orbitBadges = [
+    {
+      id: 'home-orbit-icon-sparkles',
+      icon: 'sparkles',
+      posClass: '-top-3 left-[13%] sm:-top-4 sm:left-[14%]',
+      gradient: 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
+      glow: '0 10px 24px rgba(236, 72, 153, 0.42)',
+      floatY: [-5, 5, -5],
+      floatX: [-2, 2, -2],
+      duration: 4.2,
+      delay: 0,
+    },
+    {
+      id: 'home-orbit-icon-headphones',
+      icon: 'headphones',
+      posClass: 'top-[10%] -right-3 sm:top-[11%] sm:-right-4',
+      gradient: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)',
+      glow: '0 10px 24px rgba(59, 130, 246, 0.42)',
+      floatY: [4, -5, 4],
+      floatX: [2, -2, 2],
+      duration: 4.8,
+      delay: 0.35,
+    },
+    {
+      id: 'home-orbit-icon-trending',
+      icon: 'trending-up',
+      posClass: 'top-[54%] -right-4 sm:-right-5',
+      gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
+      glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
+      floatY: [-4, 4, -4],
+      floatX: [3, -2, 3],
+      duration: 5.1,
+      delay: 0.7,
+    },
+    {
+      id: 'home-orbit-icon-award',
+      icon: 'award',
+      posClass: 'bottom-[1%] left-[13%] sm:bottom-[2%] sm:left-[15%]',
+      gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
+      glow: '0 10px 24px rgba(245, 158, 11, 0.44)',
+      floatY: [5, -4, 5],
+      floatX: [-2, 3, -2],
+      duration: 4.5,
+      delay: 0.5,
+    },
+    {
+      id: 'home-orbit-icon-cpu',
+      icon: 'cpu',
+      posClass: 'top-[62%] -left-4 sm:-left-5',
+      gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+      glow: '0 10px 24px rgba(139, 92, 246, 0.42)',
+      floatY: [-5, 4, -5],
+      floatX: [-3, 2, -3],
+      duration: 5.4,
+      delay: 0.9,
+    },
+    {
+      id: 'home-orbit-icon-heart',
+      icon: 'heart-handshake',
+      posClass: 'top-[15%] -left-3.5 sm:top-[17%] sm:-left-4',
+      gradient: 'linear-gradient(135deg, #F43F5E 0%, #A855F7 100%)',
+      glow: '0 10px 24px rgba(244, 63, 94, 0.42)',
+      floatY: [4, -4, 4],
+      floatX: [-2, 2, -2],
+      duration: 4.6,
+      delay: 0.2,
+    },
+  ];
 
   const mainCardInlineStyle: React.CSSProperties = {
     width: '100%',
@@ -533,57 +511,40 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     }}
                   />
 
-                  {/* Các chỉ số đặc biệt và nổi trội bay quanh vòng tròn Trang chủ */}
-                  {orbitMetrics.map((metric) => (
-                    <div
-                      key={metric.id}
+                  {/* 6 biểu tượng đa sắc kích thước lớn bay quanh viền vòng tròn */}
+                  {orbitBadges.map((badge) => (
+                    <motion.div
+                      key={badge.id}
+                      id={badge.id}
+                      aria-hidden="true"
+                      animate={
+                        prefersReducedMotion
+                          ? undefined
+                          : {
+                              y: badge.floatY,
+                              x: badge.floatX,
+                            }
+                      }
+                      transition={
+                        prefersReducedMotion
+                          ? undefined
+                          : {
+                              duration: badge.duration,
+                              repeat: Infinity,
+                              ease: 'easeInOut',
+                              delay: badge.delay,
+                            }
+                      }
                       style={{
-                        left: metric.leftPct,
-                        top: metric.topPct,
-                        transform: 'translate(-50%, -50%)',
+                        background: badge.gradient,
+                        borderColor: 'rgba(255, 255, 255, 0.85)',
+                        color: '#FFFFFF',
+                        boxShadow: badge.glow,
                       }}
-                      className="pointer-events-none select-none absolute z-10"
+                      className={`pointer-events-none select-none absolute z-10 w-11 h-11 sm:w-[52px] sm:h-[52px] rounded-full border-2 flex items-center justify-center ${badge.posClass}`}
                     >
-                      <motion.div
-                        id={metric.id}
-                        aria-hidden="true"
-                        animate={
-                          prefersReducedMotion
-                            ? undefined
-                            : {
-                                y: metric.floatY,
-                                x: metric.floatX,
-                                rotate: metric.floatRotate,
-                              }
-                        }
-                        transition={
-                          prefersReducedMotion
-                            ? undefined
-                            : {
-                                duration: metric.duration,
-                                repeat: Infinity,
-                                ease: 'easeInOut',
-                                delay: metric.delay,
-                              }
-                        }
-                        style={{
-                          background: metric.gradient,
-                          borderColor: 'rgba(255, 255, 255, 0.88)',
-                          boxShadow: metric.glow,
-                        }}
-                        className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border-2 flex items-center gap-1.5 sm:gap-2 backdrop-blur-md text-white shadow-lg whitespace-nowrap"
-                      >
-                        <WebIcon name={metric.icon} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0 drop-shadow-xs" />
-                        <div className="flex flex-col text-left">
-                          <span className="font-play font-extrabold text-[11px] sm:text-[12px] leading-tight text-white tracking-tight drop-shadow-xs">
-                            {metric.value}
-                          </span>
-                          <span className="font-play font-medium text-[9px] sm:text-[9.5px] leading-none text-white/95">
-                            {metric.label}
-                          </span>
-                        </div>
-                      </motion.div>
-                    </div>
+                      <WebIcon name={badge.icon} className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-xs" />
+                    </motion.div>
                   ))}
 
                   <div
@@ -598,7 +559,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     }}
                   >
                     <DualLayerVideoPlayer
-                      ref={homeVideoRef}
                       video1Id={HOME_VIDEO_1_ID}
                       video1Src={HOME_VIDEO_1_SRC}
                       video2Id={HOME_VIDEO_2_ID}
@@ -607,99 +567,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       muteVideo1={true}
                       loopVideo1={true}
                       capsuleVariant="home"
-                      hideCapsule={true}
-                      onStateChange={handleHomeVideoStateChange}
                       className="absolute inset-0 z-0 pointer-events-auto rounded-full"
                     />
                   </div>
-
-                  {/* Nút bật/tắt âm thanh tròn nhỏ vệ tinh cạnh nút phát chính */}
-                  <button
-                    id="home-video-circle-sound-btn"
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      SoundEngine.playTap();
-                      homeVideoRef.current?.toggleMute();
-                    }}
-                    style={{ borderRadius: '9999px' }}
-                    className={`video-play-btn__sound absolute bottom-1 right-[74px] sm:bottom-2 sm:right-[88px] lg:right-[96px] z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border shadow-md backdrop-blur-md transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${
-                      homeVideoState.isAudioOn
-                        ? 'bg-sky-500/90 border-white/80 text-white'
-                        : 'bg-rose-600/95 border-white/75 text-white'
-                    }`}
-                    title={
-                      homeVideoState.isAudioOn
-                        ? isEn
-                          ? 'Mute video'
-                          : 'Tắt âm thanh video'
-                        : isEn
-                          ? 'Unmute video'
-                          : 'Bật âm thanh video'
-                    }
-                    aria-label={
-                      homeVideoState.isAudioOn
-                        ? isEn
-                          ? 'Mute video'
-                          : 'Tắt âm thanh video'
-                        : isEn
-                          ? 'Unmute video'
-                          : 'Bật âm thanh video'
-                    }
-                    aria-pressed={homeVideoState.isAudioOn}
-                  >
-                    <WebIcon
-                      name={homeVideoState.isAudioOn ? 'volume-2' : 'volume-x'}
-                      className="w-4 h-4 text-white"
-                    />
-                  </button>
-
-                  {/* Nút Phát Video hình tròn lớn bên góc dưới mép bên phải */}
-                  <button
-                    id="home-video-circle-play-btn"
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      SoundEngine.playPop();
-                      if (homeVideoState.isPlayingIntro) {
-                        homeVideoRef.current?.cancelIntro();
-                      } else {
-                        homeVideoRef.current?.playIntro();
-                      }
-                    }}
-                    style={{ borderRadius: '9999px' }}
-                    className={`video-play-btn video-play-btn--home home-video-circle-play ${
-                      homeVideoState.isPlayingIntro ? 'is-playing' : ''
-                    } absolute bottom-1 right-1 sm:bottom-2 sm:right-2 z-30 w-16 h-16 sm:w-[74px] sm:h-[74px] lg:w-[82px] lg:h-[82px] rounded-full aspect-square p-0 flex items-center justify-center cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400`}
-                    title={
-                      homeVideoState.isPlayingIntro
-                        ? isEn
-                          ? 'Stop intro video'
-                          : 'Hủy phát video giới thiệu'
-                        : isEn
-                          ? 'Play intro video'
-                          : 'Bấm để phát video giới thiệu'
-                    }
-                    aria-label={
-                      homeVideoState.isPlayingIntro
-                        ? isEn
-                          ? 'Stop intro video'
-                          : 'Hủy phát video giới thiệu'
-                        : isEn
-                          ? 'Play intro video'
-                          : 'Phát Video giới thiệu'
-                    }
-                    aria-pressed={homeVideoState.isPlayingIntro}
-                  >
-                    <WebIcon
-                      name={homeVideoState.isPlayingIntro ? 'cancel' : 'play'}
-                      className={
-                        homeVideoState.isPlayingIntro
-                          ? 'w-7 h-7 sm:w-8 sm:h-8 stroke-[2.6] text-current shrink-0'
-                          : 'w-7 h-7 sm:w-8 sm:h-8 translate-x-[2px] fill-current text-current shrink-0'
-                      }
-                    />
-                  </button>
                 </div>
               </motion.div>
             </div>

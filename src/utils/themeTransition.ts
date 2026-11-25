@@ -1,15 +1,10 @@
-export type ThemeTransitionDirection = 'to-dark' | 'to-light' | 'switch';
-
 let crossFadeResetTimer: number | null = null;
 
 /**
- * Triggers a brief, GPU-friendly synchronized cross-fade transition attribute on <html>
+ * Triggers a brief, GPU-friendly cross-fade transition attribute on <html>
  * when switching between theme styles or light/dark modes.
  */
-export function triggerThemeCrossFade(
-  durationMs = 340,
-  direction: ThemeTransitionDirection = 'switch'
-): void {
+export function triggerThemeCrossFade(durationMs = 280): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   try {
@@ -30,10 +25,8 @@ export function triggerThemeCrossFade(
   }
 
   root.setAttribute('data-theme-transitioning', 'true');
-  root.setAttribute('data-theme-transition-dir', direction);
   crossFadeResetTimer = window.setTimeout(() => {
     root.removeAttribute('data-theme-transitioning');
-    root.removeAttribute('data-theme-transition-dir');
     crossFadeResetTimer = null;
   }, durationMs);
 }

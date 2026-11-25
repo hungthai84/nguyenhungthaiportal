@@ -56,34 +56,6 @@ import { useTheme } from '@/hooks/useTheme';
 import { saveMutedPref } from '@/utils/audioPreference';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 
-type ExperienceFilterDimension = 'industry' | 'role';
-
-const EXPERIENCE_INDUSTRY_FILTERS = [
-  { id: 'all', label: 'Tất cả' },
-  { id: 'telecom', label: 'Viễn thông' },
-  { id: 'esports-ecom', label: 'eSports & TMĐT' },
-  { id: 'fintech', label: 'FinTech & Ví' },
-  { id: 'insurance-cx', label: 'Bảo hiểm & CX' },
-] as const;
-
-const EXPERIENCE_ROLE_FILTERS = [
-  { id: 'all', label: 'Tất cả' },
-  { id: 'ops-sup', label: 'Thực thi & Giám sát' },
-  { id: 'manager', label: 'Trưởng phòng' },
-  { id: 'senior-cx', label: 'Quản lý cấp cao & CX' },
-] as const;
-
-const MILESTONE_FILTER_TAGS: Record<string, { industries: string[]; roles: string[] }> = {
-  '2002': { industries: ['telecom'], roles: ['ops-sup'] },
-  '2007': { industries: ['telecom'], roles: ['ops-sup'] },
-  '2011': { industries: ['telecom'], roles: ['manager'] },
-  '2013': { industries: ['esports-ecom', 'fintech'], roles: ['senior-cx'] },
-  '2016': { industries: ['insurance-cx'], roles: ['manager'] },
-  '2018': { industries: ['fintech'], roles: ['senior-cx'] },
-  '2023': { industries: ['fintech', 'esports-ecom', 'insurance-cx'], roles: ['manager'] },
-  '2026': { industries: ['insurance-cx'], roles: ['senior-cx'] },
-};
-
 interface MilestoneLogoItem {
   src: string;
   fallback: string;
@@ -436,7 +408,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const unfoldingFoldIdx = foldPhase === 'unfolding' ? origamiTargetIdx : null;
 
   const boardRef = useRef<HTMLElement | null>(null);
-  const foldsContainerRef = useRef<HTMLDivElement | null>(null);
   const detailCardRef = useRef<HTMLElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
   const dragStartYRef = useRef<number | null>(null);
@@ -557,18 +528,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [failedPhotoSrcs, setFailedPhotoSrcs] = useState<Record<string, boolean>>({});
   const [failedBannerKeys, setFailedBannerKeys] = useState<Record<string, boolean>>({});
   const [bannerImgError, setBannerImgError] = useState<boolean>(false);
-
-  // Bộ lọc nhanh theo Ngành nghề / Vai trò (chỉ highlight trực quan, không xóa hay thay đổi dữ liệu)
-  const [filterDimension, setFilterDimension] = useState<ExperienceFilterDimension>('industry');
-  const [activeFilterId, setActiveFilterId] = useState<string>('all');
-
-  // Trạng thái vuốt ngang thời gian thực trên di động
-  const [touchOffsetPx, setTouchOffsetPx] = useState<number>(0);
-  const [isTouchSwiping, setIsTouchSwiping] = useState<boolean>(false);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
-  const touchStartTimeRef = useRef<number>(0);
-  const touchAxisRef = useRef<'horizontal' | 'vertical' | null>(null);
 
   useEffect(() => {
     setFailedPhotoSrcs({});
@@ -935,52 +894,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     };
   }, [showJobCard]);
 
-  // Chromatic Folds dynamic --fold-angle calculation (pure visual paper pleat angle)
-  useEffect(() => {
-    if (showJobCard || isMobileFoldView || typeof ResizeObserver === 'undefined') return;
-    const container = foldsContainerRef.current;
-    if (!container) return;
-
-    const swatches = Array.from(container.querySelectorAll<HTMLElement>('.exp-fold-swatch'));
-    if (swatches.length === 0) return;
-
-    const updateAngle = (target: HTMLElement) => {
-      const direction = Number(target.dataset.num) % 2 ? 1 : -1;
-      const angle =
-        direction *
-        Math.atan2(target.offsetHeight * 0.05, Math.max(1, target.offsetWidth)) *
-        (180 / Math.PI);
-      target.style.setProperty('--fold-angle', `${angle.toFixed(2)}deg`);
-    };
-
-    swatches.forEach(updateAngle);
-    const foldObserver = new ResizeObserver((entries) => {
-      for (const { target } of entries) {
-        updateAngle(target as HTMLElement);
-      }
-    });
-    swatches.forEach((swatch) => foldObserver.observe(swatch));
-    return () => foldObserver.disconnect();
-  }, [showJobCard, isMobileFoldView]);
-
   const maxFoldIdx = roadmapCards.length - 1;
   const activeFoldIdx = selectedFoldIdx;
   const currentNavIdx = selectedFoldIdx !== null ? selectedFoldIdx : mobileSlideIdx;
-  const isFilterActive = activeFilterId !== 'all';
-
-  const doesCardMatchFilter = (key: string) => {
-    if (!isFilterActive) return true;
-    const tags = MILESTONE_FILTER_TAGS[key];
-    if (!tags) return false;
-    return filterDimension === 'industry'
-      ? tags.industries.includes(activeFilterId)
-      : tags.roles.includes(activeFilterId);
-  };
-
-  const matchedIndices = roadmapCards.reduce<number[]>((acc, card, idx) => {
-    if (doesCardMatchFilter(card.key)) acc.push(idx);
-    return acc;
-  }, []);
 
   const selectPartialMilestone = (nextIdx: number) => {
     if (isFoldLocked) return;
@@ -992,72 +908,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     if (card) setActiveKey(card.key);
   };
 
-  const stepMilestone = (direction: -1 | 1) => {
+  const handlePrev = () => {
     if (isFoldLocked) return;
-    const pool = isFilterActive && matchedIndices.length > 0 ? matchedIndices : roadmapCards.map((_, i) => i);
+    SoundEngine.playTap();
     if (selectedFoldIdx === null && !isMobileFoldView) {
-      const target = direction > 0 ? pool[0] : pool[pool.length - 1];
-      SoundEngine.playTap();
-      selectPartialMilestone(target);
+      selectPartialMilestone(Math.max(0, mobileSlideIdx));
       return;
     }
-
-    const pos = pool.indexOf(currentNavIdx);
-    let nextIdx: number | null = null;
-    if (pos !== -1) {
-      const nextPos = pos + direction;
-      if (nextPos >= 0 && nextPos < pool.length) {
-        nextIdx = pool[nextPos];
-      }
-    } else if (direction > 0) {
-      nextIdx = pool.find((i) => i > currentNavIdx) ?? pool[pool.length - 1];
-    } else {
-      const prevMatches = pool.filter((i) => i < currentNavIdx);
-      nextIdx = prevMatches.length > 0 ? prevMatches[prevMatches.length - 1] : pool[0];
-    }
-
-    if (nextIdx !== null && nextIdx !== currentNavIdx) {
-      SoundEngine.playTap();
-      selectPartialMilestone(nextIdx);
-    }
-  };
-
-  const handleSelectQuickFilter = (filterId: string) => {
-    SoundEngine.playTap();
-    setActiveFilterId(filterId);
-    if (filterId === 'all') return;
-
-    const firstMatchIdx = roadmapCards.findIndex((card) => {
-      const tags = MILESTONE_FILTER_TAGS[card.key];
-      if (!tags) return false;
-      return filterDimension === 'industry'
-        ? tags.industries.includes(filterId)
-        : tags.roles.includes(filterId);
-    });
-
-    if (firstMatchIdx >= 0) {
-      const currentMatches = (() => {
-        const currentCard = roadmapCards[currentNavIdx];
-        if (!currentCard) return false;
-        const tags = MILESTONE_FILTER_TAGS[currentCard.key];
-        if (!tags) return false;
-        return filterDimension === 'industry'
-          ? tags.industries.includes(filterId)
-          : tags.roles.includes(filterId);
-      })();
-
-      if (!currentMatches && (selectedFoldIdx !== null || isMobileFoldView)) {
-        selectPartialMilestone(firstMatchIdx);
-      }
-    }
-  };
-
-  const handlePrev = () => {
-    stepMilestone(-1);
+    selectPartialMilestone(Math.max(0, currentNavIdx - 1));
   };
 
   const handleNext = () => {
-    stepMilestone(1);
+    if (isFoldLocked) return;
+    SoundEngine.playTap();
+    if (selectedFoldIdx === null && !isMobileFoldView) {
+      selectPartialMilestone(Math.min(maxFoldIdx, mobileSlideIdx));
+      return;
+    }
+    selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
   };
 
   const handleWheelScroll = (e: React.WheelEvent<HTMLElement>) => {
@@ -1083,16 +951,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     lastWheelTimeRef.current = now;
 
     if (dominantDelta > 0) {
-      stepMilestone(1);
+      selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
     } else {
-      stepMilestone(-1);
+      selectPartialMilestone(Math.max(0, currentNavIdx - 1));
     }
   };
 
   const handlePointerDown = (clientX: number, clientY: number, target: EventTarget | null) => {
     didDragRef.current = false;
     if (isFoldLocked) return;
-    if ((target as HTMLElement | null)?.closest('button, #experience-board-header, #experience-board-pagination')) return;
+    if ((target as HTMLElement | null)?.closest('button')) return;
     dragStartXRef.current = clientX;
     dragStartYRef.current = clientY;
     setIsDragging(true);
@@ -1107,9 +975,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     }
     if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) && !isFoldLocked) {
       if (diffX > 0) {
-        stepMilestone(1);
+        selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
       } else {
-        stepMilestone(-1);
+        selectPartialMilestone(Math.max(0, currentNavIdx - 1));
       }
     }
     dragStartXRef.current = null;
@@ -1117,138 +985,21 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     setIsDragging(false);
   };
 
-  const handleBoardTouchStart = (e: React.TouchEvent<HTMLElement>) => {
-    if (isFoldLocked || e.touches.length !== 1) return;
-    const targetEl = e.target as HTMLElement | null;
-    if (targetEl?.closest('#experience-board-header, #experience-board-pagination')) return;
-    didDragRef.current = false;
-    touchStartXRef.current = e.touches[0].clientX;
-    touchStartYRef.current = e.touches[0].clientY;
-    touchStartTimeRef.current = performance.now();
-    touchAxisRef.current = null;
-    setTouchOffsetPx(0);
-    setIsTouchSwiping(false);
-  };
-
-  const handleBoardTouchMove = (e: React.TouchEvent<HTMLElement>) => {
-    if (isFoldLocked || touchStartXRef.current === null || touchStartYRef.current === null || e.touches.length !== 1) {
-      return;
-    }
-    const dx = e.touches[0].clientX - touchStartXRef.current;
-    const dy = e.touches[0].clientY - touchStartYRef.current;
-
-    if (touchAxisRef.current === null) {
-      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-      touchAxisRef.current = Math.abs(dx) > Math.abs(dy) * 1.1 ? 'horizontal' : 'vertical';
-    }
-
-    if (touchAxisRef.current !== 'horizontal') return;
-
-    didDragRef.current = true;
-    if (!isTouchSwiping) setIsTouchSwiping(true);
-
-    if (isMobileFoldView) {
-      const atStart = mobileSlideIdx <= 0 && dx > 0;
-      const atEnd = mobileSlideIdx >= maxFoldIdx && dx < 0;
-      const damped = atStart || atEnd ? dx * 0.28 : dx;
-      setTouchOffsetPx(damped);
-    }
-  };
-
-  const handleBoardTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
-    if (touchStartXRef.current === null) return;
-    const endX = e.changedTouches[0]?.clientX ?? touchStartXRef.current;
-    const dx = endX - touchStartXRef.current;
-    const elapsedMs = Math.max(1, performance.now() - touchStartTimeRef.current);
-    const velocityX = Math.abs(dx) / elapsedMs;
-    const boardW = boardRef.current?.clientWidth || 360;
-    const distThreshold = Math.min(54, boardW * 0.16);
-
-    if (
-      touchAxisRef.current === 'horizontal' &&
-      !isFoldLocked &&
-      (Math.abs(dx) >= distThreshold || (velocityX > 0.35 && Math.abs(dx) >= 22))
-    ) {
-      if (dx < 0) {
-        stepMilestone(1);
-      } else {
-        stepMilestone(-1);
-      }
-    }
-
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-    touchAxisRef.current = null;
-    setTouchOffsetPx(0);
-    setIsTouchSwiping(false);
-  };
-
-  const handleBoardTouchCancel = () => {
-    touchStartXRef.current = null;
-    touchStartYRef.current = null;
-    touchAxisRef.current = null;
-    setTouchOffsetPx(0);
-    setIsTouchSwiping(false);
-  };
-
   useEffect(() => {
     if (showJobCard || isFoldLocked) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable)
-      ) {
-        return;
-      }
-
+      if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
       if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        stepMilestone(-1);
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        stepMilestone(1);
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        const firstIdx = isFilterActive && matchedIndices.length > 0 ? matchedIndices[0] : 0;
-        SoundEngine.playTap();
-        selectPartialMilestone(firstIdx);
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        const lastIdx =
-          isFilterActive && matchedIndices.length > 0
-            ? matchedIndices[matchedIndices.length - 1]
-            : maxFoldIdx;
-        SoundEngine.playTap();
-        selectPartialMilestone(lastIdx);
-      } else if (
-        e.key === 'Enter' &&
-        selectedFoldIdx !== null &&
-        foldPhase === 'partial' &&
-        !target?.closest('button, a')
-      ) {
-        const currentCard = roadmapCards[selectedFoldIdx];
-        if (currentCard) {
-          e.preventDefault();
-          SoundEngine.playTap();
-          handleOpenJobCard(currentCard.key, selectedFoldIdx);
-        }
+        selectPartialMilestone(Math.max(0, currentNavIdx - 1));
+      }
+      if (e.key === 'ArrowRight') {
+        selectPartialMilestone(Math.min(maxFoldIdx, currentNavIdx + 1));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [
-    showJobCard,
-    isFoldLocked,
-    currentNavIdx,
-    maxFoldIdx,
-    selectedFoldIdx,
-    foldPhase,
-    isFilterActive,
-    activeFilterId,
-    filterDimension,
-    isMobileFoldView,
-  ]);
+  }, [showJobCard, isFoldLocked, currentNavIdx, maxFoldIdx]);
 
   const normalizedActiveKey = activeKey.startsWith('2013') || activeKey === '2014-airpay' ? '2013' : activeKey;
 
@@ -1771,10 +1522,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             dragStartYRef.current = null;
             setIsDragging(false);
           }}
-          onTouchStart={handleBoardTouchStart}
-          onTouchMove={handleBoardTouchMove}
-          onTouchEnd={handleBoardTouchEnd}
-          onTouchCancel={handleBoardTouchCancel}
+          onTouchStart={(e) => handlePointerDown(e.touches[0].clientX, e.touches[0].clientY, e.target)}
+          onTouchEnd={(e) => handlePointerUp(e.changedTouches[0].clientX, e.changedTouches[0].clientY)}
           style={
             isBlackLeather
               ? {
@@ -1803,13 +1552,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           )}
         >
-          {/* HEADER TRÊN CÙNG + THANH LỌC NHANH NGÀNH NGHỀ / VAI TRÒ */}
+          {/* HEADER TRÊN CÙNG DẠNG NỔI KHÔNG CHIẾM KHÔNG GIAN: GIẤY XẾP LẤP ĐẦY 100% CHIỀU CAO & CHIỀU RỘNG THẺ CHÍNH */}
           <div
             id="experience-board-header"
-            className="absolute top-0 left-0 right-0 z-[35] pointer-events-none flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 px-[14px] sm:px-[20px] lg:px-[2.4%] pt-[10px] pb-[6px]"
+            className="absolute top-0 left-0 right-0 z-[35] pointer-events-none flex items-center justify-between gap-2 px-[18px] sm:px-[24px] lg:px-[2.4%] pt-[12px] pb-[6px]"
           >
             {/* Tiêu đề Icon + 4 chữ "Thời Gian Công Tác" cùng 1 hàng + 5 chấm màu + gạch chân hồng */}
-            <header className="min-w-0 pointer-events-auto shrink-0">
+            <header className="min-w-0 pointer-events-auto">
               <div className="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-0">
                 <Briefcase
                   className="w-5 h-5 sm:w-[22px] sm:h-[22px] shrink-0 bg-transparent border-0 p-0 shadow-none"
@@ -1854,155 +1603,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <span className="w-[44px] h-[2px] bg-[#EE2A7B] ml-1" />
               </div>
             </header>
-
-            {/* Thanh lọc nhanh theo Ngành nghề / Vai trò làm nổi bật nhóm nếp gấp tương ứng */}
-            <div
-              id="experience-quick-filter-bar"
-              role="region"
-              aria-label="Lọc nhanh nếp gấp kinh nghiệm theo ngành nghề hoặc vai trò"
-              style={
-                !isLeather
-                  ? {
-                      background: 'var(--bg-nav-pill, var(--bg-card))',
-                      borderColor: 'var(--border-color)',
-                    }
-                  : undefined
-              }
-              className={cn(
-                'exp-filter-bar pointer-events-auto flex items-center gap-1.5 px-2 py-1 rounded-full border backdrop-blur-md shadow-xs max-w-full overflow-x-auto no-scrollbar',
-                isBlackLeather
-                  ? 'bg-[#2A190F]/92 border-[#F5C478]/45'
-                  : isBrownLeather
-                    ? 'bg-[#522E10]/90 border-[#F5DEB3]/45'
-                    : ''
-              )}
-            >
-              {/* Nút chuyển nhóm lọc: Ngành nghề | Vai trò */}
-              <div
-                role="tablist"
-                aria-label="Chọn tiêu chí lọc"
-                className="inline-flex items-center gap-0.5 p-0.5 rounded-full shrink-0"
-                style={{
-                  background: isLeather
-                    ? 'rgba(0, 0, 0, 0.25)'
-                    : 'var(--bg-subcard, rgba(148, 163, 184, 0.15))',
-                }}
-              >
-                {(
-                  [
-                    { id: 'industry' as const, label: 'Ngành nghề' },
-                    { id: 'role' as const, label: 'Vai trò' },
-                  ]
-                ).map((dim) => {
-                  const isDimActive = filterDimension === dim.id;
-                  return (
-                    <button
-                      key={dim.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={isDimActive}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        SoundEngine.playTap();
-                        setFilterDimension(dim.id);
-                        setActiveFilterId('all');
-                      }}
-                      style={
-                        isDimActive
-                          ? {
-                              background: isLeather
-                                ? '#F5C478'
-                                : 'var(--bg-button-primary, var(--color-primary))',
-                              color: isLeather
-                                ? '#1B1009'
-                                : 'var(--text-button-primary, #FFFFFF)',
-                            }
-                          : {
-                              color: isLeather ? '#F5E9D6' : 'var(--text-secondary)',
-                            }
-                      }
-                      className="px-2 py-0.5 rounded-full text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap"
-                    >
-                      {dim.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <span
-                aria-hidden="true"
-                className="w-[1px] h-3.5 shrink-0 opacity-35"
-                style={{ background: isLeather ? '#F5DEB3' : 'var(--text-muted)' }}
-              />
-
-              {/* Danh sách chip lọc nhanh */}
-              <div className="flex items-center gap-1 shrink-0">
-                {(filterDimension === 'industry'
-                  ? EXPERIENCE_INDUSTRY_FILTERS
-                  : EXPERIENCE_ROLE_FILTERS
-                ).map((chip) => {
-                  const isChipActive = activeFilterId === chip.id;
-                  return (
-                    <button
-                      key={chip.id}
-                      type="button"
-                      aria-pressed={isChipActive}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectQuickFilter(chip.id);
-                      }}
-                      style={
-                        isChipActive
-                          ? {
-                              background: isLeather
-                                ? '#FDE68A'
-                                : 'var(--bg-button-primary, var(--color-primary))',
-                              color: isLeather
-                                ? '#1B1009'
-                                : 'var(--text-button-primary, #FFFFFF)',
-                            }
-                          : {
-                              color: isLeather ? '#FFF8DC' : 'var(--text-primary)',
-                            }
-                      }
-                      className={cn(
-                        'exp-filter-chip px-2 py-0.5 rounded-full text-[11px] font-semibold transition-all cursor-pointer whitespace-nowrap',
-                        isChipActive ? 'shadow-2xs' : 'opacity-80 hover:opacity-100'
-                      )}
-                    >
-                      {chip.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Bộ đếm số nếp gấp nổi bật */}
-              <span
-                className="px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold tabular-nums shrink-0"
-                style={{
-                  background: isLeather
-                    ? 'rgba(245, 196, 120, 0.2)'
-                    : 'var(--bg-subcard, rgba(148, 163, 184, 0.18))',
-                  color: isLeather ? '#FDE68A' : 'var(--text-link, var(--color-primary))',
-                }}
-                title={`${matchedIndices.length} trên ${roadmapCards.length} cột mốc phù hợp`}
-              >
-                {matchedIndices.length}/{roadmapCards.length}
-              </span>
-            </div>
           </div>
 
           {/* NÚT NỔI CHUYỂN ĐỔI QUA LẠI CÁC NẾP GẤP */}
           <button
             type="button"
             onClick={handlePrev}
-            disabled={
-              isFoldLocked ||
-              (isFilterActive
-                ? matchedIndices.length <= 1 || currentNavIdx <= matchedIndices[0]
-                : (selectedFoldIdx !== null && currentNavIdx <= 0) ||
-                  (isMobileFoldView && currentNavIdx <= 0))
-            }
+            disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx <= 0) || (isMobileFoldView && currentNavIdx <= 0)}
             aria-label="Chuyển tới mốc trước"
             style={
               !isLeather
@@ -2028,14 +1635,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           <button
             type="button"
             onClick={handleNext}
-            disabled={
-              isFoldLocked ||
-              (isFilterActive
-                ? matchedIndices.length <= 1 ||
-                  currentNavIdx >= matchedIndices[matchedIndices.length - 1]
-                : (selectedFoldIdx !== null && currentNavIdx >= maxFoldIdx) ||
-                  (isMobileFoldView && currentNavIdx >= maxFoldIdx))
-            }
+            disabled={isFoldLocked || (selectedFoldIdx !== null && currentNavIdx >= maxFoldIdx) || (isMobileFoldView && currentNavIdx >= maxFoldIdx)}
             aria-label="Chuyển tới mốc tiếp theo"
             style={
               !isLeather
@@ -2062,7 +1662,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           {!isMobileFoldView ? (
             <div className="exp-chromatic-stage">
               <div
-                ref={foldsContainerRef}
                 id="experience-chromatic-folds"
                 className="exp-chromatic-folds"
               >
@@ -2108,9 +1707,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       ? '#F5DEB3'
                       : 'var(--text-secondary)';
 
-                  const isFilterMatch = doesCardMatchFilter(item.key);
-                  const isFilterDimmed = isFilterActive && !isFilterMatch;
-
                   return (
                     <div
                       key={item.key}
@@ -2119,13 +1715,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       data-fold-state={isUnfolding ? 'unfolding' : isPartial ? 'partial' : 'folded'}
                       data-expanded={isExpanded ? 'true' : 'false'}
                       data-unfolding={isUnfolding ? 'true' : 'false'}
-                      data-filter-active={isFilterActive ? 'true' : 'false'}
-                      data-filter-match={isFilterMatch ? 'true' : 'false'}
                       role="button"
                       tabIndex={0}
                       aria-label={`${item.yearBadge} — ${item.shortName}. Nhấn một lần để mở hé, nhấp đúp để bung toàn bộ chi tiết.`}
                       aria-expanded={isExpanded}
-                      aria-pressed={isExpanded}
                       onMouseEnter={() => {
                         if (isFoldLocked || showJobCard || isMobileFoldView) return;
                         if (selectedFoldIdx !== idx || foldPhase === 'folded') {
@@ -2166,12 +1759,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       className={cn(
                         'exp-fold-swatch group',
                         isPartial && 'is-partial',
-                        isExpanded && 'is-expanded chosen',
+                        isExpanded && 'is-expanded',
                         isUnfolding && 'is-unfolding',
                         isAdjacentLeft && 'is-adjacent-left',
-                        isAdjacentRight && 'is-adjacent-right',
-                        isFilterActive && isFilterMatch && 'is-filter-match',
-                        isFilterDimmed && 'is-filter-dimmed'
+                        isAdjacentRight && 'is-adjacent-right'
                       )}
                     >
                       {/* Lớp bóng đổ nếp gấp giấy 3D Origami */}
@@ -2291,32 +1882,17 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </div>
           ) : (
-            /* CHẾ ĐỘ MOBILE (< 768PX): VUỐT NGANG THỜI GIAN THỰC TỪNG TỜ XẾP GIẤY + NÚT MỞ CHI TIẾT CẢM ỨNG */
-            <div
-              className="relative w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden"
-              style={{ perspective: '1200px', touchAction: 'pan-y' }}
-            >
+            /* CHẾ ĐỘ MOBILE (< 768PX): TRƯỢT TỪNG TỜ XẾP GIẤY ĐẦY ĐỦ NỘI DUNG + NÚT MỞ CHI TIẾT CẢM ỨNG */
+            <div className="relative w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden">
               <div
-                className={cn(
-                  'flex w-full h-full flex-1 min-h-0',
-                  isTouchSwiping
-                    ? 'transition-none'
-                    : 'transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]'
-                )}
+                className="flex w-full h-full flex-1 min-h-0 transition-transform duration-500 ease-out"
                 style={{
-                  transform: `translate3d(calc(-${mobileSlideIdx * 100}% + ${touchOffsetPx}px), 0, 0)`,
-                  willChange: 'transform',
+                  transform: `translateX(-${mobileSlideIdx * 100}%)`,
                 }}
               >
                 {roadmapCards.map((item, idx) => {
                   const isEven = idx % 2 === 0;
                   const milestoneData = EXPERIENCE_MILESTONES[item.key];
-                  const isFilterMatch = doesCardMatchFilter(item.key);
-                  const isFilterDimmed = isFilterActive && !isFilterMatch;
-                  const swipeTiltDeg =
-                    isTouchSwiping && idx === mobileSlideIdx
-                      ? Math.max(-7, Math.min(7, touchOffsetPx * 0.045))
-                      : 0;
                   const colBackground = isBlackLeather
                     ? isEven
                       ? 'linear-gradient(145deg, #3A2214 0%, #20120A 100%)'
@@ -2348,7 +1924,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       key={item.key}
                       id={`milestone-card-${item.key}`}
-                      data-filter-match={isFilterMatch ? 'true' : 'false'}
                       role="button"
                       tabIndex={0}
                       onClick={() => {
@@ -2360,14 +1935,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         flex: '0 0 100%',
                         width: '100%',
                         background: colBackground,
-                        transform:
-                          swipeTiltDeg !== 0
-                            ? `rotateY(${swipeTiltDeg.toFixed(2)}deg)`
-                            : undefined,
-                        opacity: isFilterDimmed ? 0.58 : 1,
                       }}
                       className={cn(
-                        'relative h-full min-h-0 flex flex-col pt-[92px] pb-10 cursor-pointer transition-[transform,opacity] duration-300',
+                        'relative h-full min-h-0 flex flex-col pt-[64px] pb-10 cursor-pointer transition-transform duration-300',
                         unfoldingFoldIdx === idx && 'scale-[1.015]'
                       )}
                     >
@@ -2430,7 +2000,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             >
               {roadmapCards.map((card, idx) => {
                 const isDotActive = activeFoldIdx === idx || (isMobileFoldView && mobileSlideIdx === idx);
-                const isDotMatch = doesCardMatchFilter(card.key);
                 return (
                   <button
                     key={card.key}
@@ -2452,14 +2021,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         ? {
                             background: isDotActive
                               ? card.accentColor
-                              : isFilterActive && isDotMatch
-                                ? card.accentColor
-                                : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
-                            opacity: isFilterActive && !isDotMatch && !isDotActive ? 0.3 : 1,
+                              : 'var(--divider-nav-pill, rgba(148, 163, 184, 0.45))',
                           }
-                        : {
-                            opacity: isFilterActive && !isDotMatch && !isDotActive ? 0.3 : 1,
-                          }
+                        : undefined
                     }
                     className={cn(
                       'h-1.5 rounded-full transition-all duration-300 cursor-pointer',
@@ -2469,13 +2033,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           : isBrownLeather
                             ? 'w-5 bg-[#FDE68A]'
                             : 'w-5'
-                        : isFilterActive && isDotMatch
-                          ? 'w-2.5'
-                          : isBlackLeather
-                            ? 'w-1.5 bg-[#F5E9D6]/40 hover:bg-[#F5E9D6]/80'
-                            : isBrownLeather
-                              ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
-                              : 'w-1.5 hover:opacity-80'
+                        : isBlackLeather
+                          ? 'w-1.5 bg-[#F5E9D6]/40 hover:bg-[#F5E9D6]/80'
+                          : isBrownLeather
+                            ? 'w-1.5 bg-[#F5DEB3]/40 hover:bg-[#F5DEB3]/75'
+                            : 'w-1.5 hover:opacity-80'
                     )}
                   />
                 );

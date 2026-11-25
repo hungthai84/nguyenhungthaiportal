@@ -14,7 +14,6 @@ export type CardStyleMode =
   | 'multicolor-glass'
   | 'dark-neon-glass'
   | 'cowhide-leather'
-  | 'light-cowhide-leather'
   | 'black-cowhide-leather'
   | 'deep-ocean'
   | 'light-deep-ocean'
@@ -32,7 +31,6 @@ export type CardStyleMode =
 export type ThemeFamilyId =
   | 'liquid-glass'
   | 'cowhide-leather'
-  | 'walnut-wood'
   | 'deep-ocean'
   | 'neumorphism-beyond'
   | 'frost-ice-neu'

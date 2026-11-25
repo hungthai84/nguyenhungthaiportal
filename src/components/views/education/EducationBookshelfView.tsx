@@ -249,6 +249,16 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             )}
           </div>
 
+          {/* Chân bìa sách: nút Mở sách */}
+          <div className="edu-shelf-cover-footer">
+            <span className="text-[var(--text-muted)] truncate font-medium">
+              {isEn ? 'Click to read' : 'Chạm để mở sách'}
+            </span>
+            <span className="edu-shelf-cover-open-pill">
+              <span>{isEn ? 'Open' : 'Mở sách'}</span>
+              <WebIcon name="arrow-right" className="w-2.5 h-2.5 shrink-0" />
+            </span>
+          </div>
         </div>
       </div>
     );
@@ -487,7 +497,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       <div className="disc-titles" aria-live="polite">
         <div className="disc-title-item">
           <h3>{displayTitle}</h3>
-          <span className="disc-title-sep" aria-hidden="true">·</span>
           <p>
             {currentCourse?.issuer} · {currentCourse?.year} · {getShortCategoryLabel(currentCourse?.category)}
           </p>

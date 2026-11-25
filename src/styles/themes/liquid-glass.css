@@ -168,7 +168,7 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --lg-clear-bg: rgba(255, 255, 255, 0.56);
   --lg-clear-bg-hover: rgba(255, 255, 255, 0.72);
   --lg-clear-border: rgba(255, 255, 255, 0.84);
-  --lg-clear-backdrop: blur(var(--surface-primary-blur, 18px)) saturate(var(--surface-primary-saturate, 165%));
+  --lg-clear-backdrop: blur(18px) saturate(165%);
   --lg-clear-shadow: var(--elevation-primary-surface);
   --main-card-deep-shadow: var(--elevation-primary-surface);
   --main-card-deep-shadow-dark: var(--elevation-primary-surface);
@@ -318,7 +318,7 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --shadow-popup: 0 24px 54px -12px rgba(30, 41, 59, 0.18), 0 8px 22px -6px rgba(79, 70, 229, 0.12), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
 
   /* Surface Tokens */
-  --surface-primary-bg: rgba(255, 255, 255, var(--card-alpha, 0.56));
+  --surface-primary-bg: rgba(255, 255, 255, 0.56);
   --surface-primary-border: rgba(255, 255, 255, 0.84);
   --surface-primary-shadow: var(--elevation-primary-surface);
   --surface-header-shadow: var(--elevation-primary-surface);
@@ -419,7 +419,7 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --lg-clear-bg: rgba(20, 30, 50, 0.68);
   --lg-clear-bg-hover: rgba(30, 44, 72, 0.78);
   --lg-clear-border: rgba(255, 255, 255, 0.18);
-  --lg-clear-backdrop: blur(var(--surface-primary-blur, 22px)) saturate(var(--surface-primary-saturate, 165%));
+  --lg-clear-backdrop: blur(22px) saturate(165%);
   --lg-clear-shadow: var(--elevation-primary-surface);
   --main-card-deep-shadow: var(--elevation-primary-surface);
   --main-card-deep-shadow-dark: var(--elevation-primary-surface);
@@ -564,7 +564,7 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --shadow-button: 0 10px 24px -4px rgba(152, 137, 238, 0.40);
   --shadow-popup: 0 26px 60px -12px rgba(2, 6, 23, 0.80), 0 0 28px -8px rgba(181, 167, 244, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 
-  --surface-primary-bg: rgba(19, 29, 48, var(--card-alpha, 0.68));
+  --surface-primary-bg: rgba(19, 29, 48, 0.68);
   --surface-primary-border: rgba(255, 255, 255, 0.16);
   --surface-primary-shadow: var(--elevation-primary-surface);
   --surface-header-shadow: var(--elevation-primary-surface);

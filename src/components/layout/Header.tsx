@@ -245,17 +245,6 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
 };
 
-function buildWipeGradient(gradientClasses: string, fallbackAccent: string): string {
-  const hexes = gradientClasses.match(/#[0-9A-Fa-f]{6}/g);
-  if (hexes && hexes.length >= 3) {
-    return `linear-gradient(82.3deg, ${hexes[0]} 10.8%, ${hexes[1]} 52%, ${hexes[2]} 94.3%)`;
-  }
-  if (hexes && hexes.length === 2) {
-    return `linear-gradient(82.3deg, ${hexes[0]} 10.8%, ${hexes[1]} 94.3%)`;
-  }
-  return `linear-gradient(82.3deg, ${fallbackAccent} 10.8%, ${fallbackAccent} 94.3%)`;
-}
-
 // Danh sách các trang hiển thị trên menu icon Header (Ẩn: 12 - Liên hệ / Đặt lịch, 13 - Trợ lý AI, 14 - Hình nền, 15 - Giao diện)
 const HIDDEN_HEADER_PAGE_IDS = [12, 13, 14, 15];
 const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -545,17 +534,16 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
-                      '--nav-pill-wipe-bg': buildWipeGradient(styleCfg.gradient, styleCfg.accentColor),
                       width: '154px',
                       height: 'auto',
                       minHeight: '0px',
-                      paddingTop: '8px',
+                      paddingTop: '0px',
                       paddingRight: '10px',
-                      paddingBottom: '8px',
+                      paddingBottom: '0px',
                       paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
@@ -585,9 +573,9 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
 
-                  <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
+                  <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
                       style={{ fontWeight: 'bold' }}
                       className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
@@ -661,17 +649,16 @@ export const Header: React.FC<HeaderProps> = ({
                       ? 'Expert Nguyen Hung Thai · Booking & CS'
                       : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border overflow-hidden"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': '#4F46E5',
-                      '--nav-pill-wipe-bg': 'linear-gradient(82.3deg, #312E81 10.8%, #4338CA 52%, #6366F1 94.3%)',
                       width: '154px',
                       height: 'auto',
                       minHeight: '0px',
-                      paddingTop: '8px',
+                      paddingTop: '0px',
                       paddingRight: '10px',
-                      paddingBottom: '8px',
+                      paddingBottom: '0px',
                       paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
@@ -690,8 +677,8 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                     />
                   </div>
-                  <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
-                  <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
+                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                  <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
                       style={{ fontWeight: 'bold' }}
                       className="nav-pill-title typo-nav leading-tight font-play truncate"

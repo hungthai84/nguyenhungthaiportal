@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
-import { MotionConfig } from 'motion/react';
+import { motion, MotionConfig } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeView } from './components/views/HomeView';
@@ -894,8 +894,11 @@ export default function App() {
               : 'max-w-[1000px] overflow-visible'
         } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
-        <div
+        <motion.div
           key={`page-view-${currentTabIndex}`}
+          initial={{ opacity: 0, y: 10, scale: 0.995 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
         >
           <Suspense
@@ -907,7 +910,7 @@ export default function App() {
           >
             {renderActiveView()}
           </Suspense>
-        </div>
+        </motion.div>
       </main>
 
       {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}

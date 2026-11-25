@@ -275,7 +275,7 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'dark-frost-ice-neu': THEME_BACKGROUNDS['dark-frost-ice-neu'].presetId,
   'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
   'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
-  'mica-fluent': THEME_BACKGROUNDS['mica-fluent'].presetId,
+  'mica-fluent': 'img-wp-18',
   'gradient-dopamine': THEME_BACKGROUNDS['gradient-dopamine'].presetId,
   'dark-luxury': THEME_BACKGROUNDS['dark-luxury'].presetId,
   'minimalism': THEME_BACKGROUNDS['minimalism'].presetId,

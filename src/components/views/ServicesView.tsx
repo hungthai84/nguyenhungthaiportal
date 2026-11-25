@@ -841,11 +841,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         <div className="relative z-10 flex flex-col gap-3 w-full min-w-0">
                           {/* TOP: Icon & Tiêu đề dịch vụ */}
                           <div className="flex items-center gap-2 min-w-0">
-                            {renderDomainIcon(
-                              meta.iconKey,
-                              'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
-                              themeAccent
-                            )}
+                            <div
+                              className="inline-flex items-center justify-center p-2 rounded-xl shrink-0 shadow-xs border"
+                              style={{
+                                background: 'var(--surface-secondary-bg, rgba(255, 255, 255, 0.82))',
+                                borderColor: 'var(--border-subcard, rgba(255, 255, 255, 0.3))',
+                              }}
+                            >
+                              {renderDomainIcon(
+                                meta.iconKey,
+                                'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
+                                themeAccent
+                              )}
+                            </div>
                             <h3
                               className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 line-clamp-2"
                               data-card-title="true"
@@ -856,10 +864,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             </h3>
                           </div>
 
-                          {/* CENTER: Chia làm 2 cột (Cột trái: Mô tả dịch vụ, Cột phải: Hình ảnh dịch vụ) */}
-                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-center min-w-0 w-full">
-                            {/* Cột bên trái: Chứa mô tả dịch vụ */}
-                            <div className="min-w-0 flex items-start">
+                          {/* CENTER: Chia làm 2 cột 50% / 50% (Cột trái: Mô tả, Cột phải: Hình ảnh có kích thước bằng chiều cao hàng mô tả) */}
+                          <div className="grid grid-cols-2 gap-3 items-stretch min-w-0 w-full">
+                            {/* Cột bên trái (50%): Chứa mô tả dịch vụ */}
+                            <div className="col-span-1 min-w-0 flex items-center">
                               <p
                                 id={`service-card-desc-${domain.id}`}
                                 className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
@@ -869,8 +877,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                               </p>
                             </div>
 
-                            {/* Cột bên phải: Hình ảnh dịch vụ */}
-                            <div className="w-[84px] h-[72px] sm:w-[96px] sm:h-[82px] shrink-0 relative flex items-center justify-center">
+                            {/* Cột bên phải (50%): Hình ảnh dịch vụ (kích thước hình ảnh bằng chiều cao mô tả) */}
+                            <div className="col-span-1 min-w-0 relative flex items-center justify-center self-stretch">
                               <img
                                 src={serviceImage}
                                 alt={cardTitle}
@@ -882,7 +890,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     e.currentTarget.src = meta.fallbackIllustration;
                                   }
                                 }}
-                                className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none"
+                                className="service-img-pop relative z-10 w-full h-full max-h-[88px] object-contain select-none pointer-events-none"
                               />
                             </div>
                           </div>

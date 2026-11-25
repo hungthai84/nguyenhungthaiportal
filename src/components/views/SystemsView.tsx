@@ -1931,12 +1931,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         return (
                           <div
                             className={cn(
-                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 grid-rows-[auto_auto_auto] gap-x-3 gap-y-2 min-w-0 items-stretch transition-opacity duration-200',
+                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 grid-rows-[auto_auto] gap-x-3 gap-y-2.5 min-w-0 items-stretch transition-opacity duration-200',
                               isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                             )}
                           >
-                            {/* CỘT BÊN TRÁI (50%) - HÀNG 1: Tiêu đề viết tắt hệ thống */}
-                            <div className="col-start-1 row-start-1 min-w-0 flex items-center self-center">
+                            {/* CỘT BÊN TRÁI (50%) - HÀNG 1: icon dùng chung cho tiêu đề & Tiêu đề viết tắt hệ thống */}
+                            <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2">
+                              <WebIcon
+                                name={meta.iconName}
+                                className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                style={{ color: accentColor }}
+                              />
                               <h3
                                 className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
                                 data-card-title="true"
@@ -1946,11 +1951,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </h3>
                             </div>
 
-                            {/* CỘT BÊN TRÁI (50%) - HÀNG 2: Icon phía trước & Tên hệ thống đầy đủ */}
-                            <div className="col-start-1 row-start-2 min-w-0 flex items-center gap-1.5">
+                            {/* CỘT BÊN TRÁI (50%) - HÀNG 2: icon dùng chung cho tên đầy đủ & Tên đầy đủ */}
+                            <div className="col-start-1 row-start-2 min-w-0 flex items-center gap-2">
                               <WebIcon
-                                name={meta.iconName}
-                                className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                name="server"
+                                className="w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none opacity-80"
                                 style={{ color: accentColor }}
                               />
                               <h4
@@ -1961,18 +1966,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </h4>
                             </div>
 
-                            {/* CỘT BÊN TRÁI (50%) - HÀNG 3: Mô tả ngắn gọn hệ thống công dụng khoảng 3 hàng */}
-                            <div className="col-start-1 row-start-3 min-w-0 flex items-start">
-                              <p
-                                className="typo-body-sm font-normal text-[var(--text-secondary)] m-0 leading-[1.45] line-clamp-3"
-                                title={localizedDesc}
-                              >
-                                {localizedDesc}
-                              </p>
-                            </div>
-
-                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1..3: Hình ảnh thu gọn vừa vặn & phát video trực tiếp tại cột bên phải khi di chuột vào hình */}
-                            <div className="col-start-2 row-start-1 row-span-3 min-w-0 relative self-stretch">
+                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1 & 2: Hình ảnh (kích thước hình ảnh bằng 2 hàng cộng lại) */}
+                            <div className="col-start-2 row-start-1 row-span-2 min-w-0 relative self-stretch">
                               <div
                                 role={item.videoUrl ? 'button' : undefined}
                                 tabIndex={item.videoUrl ? 0 : undefined}

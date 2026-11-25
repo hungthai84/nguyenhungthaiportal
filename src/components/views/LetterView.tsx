@@ -2439,27 +2439,26 @@ export const LetterView: React.FC<LetterViewProps> = ({
                       data-element-type="card"
                       data-section-card="true"
                       data-element-page="letter"
-                      style={{ padding: '12px', borderRadius: 'var(--radius-card, 14px)' }}
-                      className={`motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-[12px] flex flex-col justify-between gap-[10px] transition-colors duration-200 group/quote w-full h-full min-h-0 min-w-0 ${
+                      style={{ padding: '16px', borderRadius: 'var(--radius-card, 14px)' }}
+                      className={`motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-4 flex flex-col justify-between gap-3 transition-colors duration-200 group/quote w-full h-full min-h-0 min-w-0 ${
                         activeTargetId === 'quote-banner-slide-1'
                           ? 'ring-2 ring-sky-500/50 dark:ring-cyan-400/50'
                           : ''
                       }`}
                     >
                       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
-                        <div className="absolute -top-10 -left-10 w-28 h-28 bg-sky-400/15 blur-3xl rounded-full" />
+                        <div className="absolute -top-10 -left-10 w-32 h-32 bg-amber-400/15 blur-3xl rounded-full" />
                       </div>
 
                       <div className="flex items-center justify-between gap-2 relative z-10 min-w-0 shrink-0 border-0">
-                        <div className="card-header-sync inline-flex items-center gap-2 text-amber-600 dark:text-amber-300 leading-tight min-w-0">
+                        <div className="card-header-sync inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 leading-tight min-w-0">
                           <WebIcon
-                            name="sparkles"
-                            size={16}
-                            className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-600 dark:text-amber-300"
-                            style={{ width: '16px', height: '16px' }}
+                            name="quote"
+                            size={14}
+                            className="w-[14px] h-[14px] shrink-0 text-amber-600 dark:text-amber-300"
                           />
                           <h3
-                            className="card-title card-title-synced typo-h3 font-play text-amber-600 dark:text-amber-300 whitespace-normal break-words"
+                            className="card-title card-title-synced typo-badge font-play font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider whitespace-normal break-words"
                             data-card-title="true"
                           >
                             Châm ngôn phụng sự
@@ -2467,12 +2466,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                         </div>
                       </div>
 
-                      <p
-                        className="motto-quote-text typo-h3 font-handwriting font-quote font-bold tracking-wide text-amber-700 dark:text-amber-200 text-left drop-shadow-xs select-none relative z-10 my-auto"
-                        style={{ fontFamily: "var(--font-quote, 'Dancing Script', cursive)" }}
-                      >
-                        &ldquo;Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.&rdquo;
-                      </p>
+                      <div className="relative z-10 my-auto py-2 px-1 flex flex-col gap-2">
+                        <span className="text-3xl font-serif text-amber-500/40 dark:text-amber-400/30 leading-none select-none">“</span>
+                        <p
+                          className="motto-quote-text typo-h3 font-handwriting font-quote font-bold tracking-wide text-amber-800 dark:text-amber-100 text-left drop-shadow-xs select-none relative z-10 -mt-3 pl-3 italic"
+                          style={{ fontFamily: "var(--font-quote, 'Dancing Script', cursive)" }}
+                        >
+                          Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.
+                        </p>
+                        <span className="text-3xl font-serif text-amber-500/40 dark:text-amber-400/30 leading-none select-none text-right">”</span>
+                      </div>
                     </article>
                 </div>
       </div>

@@ -558,7 +558,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         260,
         Math.min(containerW, hasValidAnchor && anchorRect ? Math.round(anchorRect.width) : fallbackW)
       );
-      const alignLeftOffset = Math.max(0, Math.round((containerW - resolvedCardW) / 2));
+      const alignLeftOffset =
+        hasValidAnchor && anchorRect
+          ? Math.max(0, Math.round(anchorRect.left - containerRect.left))
+          : Math.max(0, Math.round((containerW - resolvedCardW) / 2));
 
       setCarouselMetrics((prev) =>
         prev.containerWidth === containerW &&

@@ -598,9 +598,11 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
   }, [canTurn, disableWheelNav, go]);
 
   const local = (event: ReactPointerEvent): Pt => {
-    const rect = bookRef.current?.getBoundingClientRect();
+    const book = bookRef.current;
+    const rect = book?.getBoundingClientRect();
+    const k = book && rect && book.offsetWidth ? rect.width / book.offsetWidth : 1;
     return rect
-      ? { x: event.clientX - rect.left, y: event.clientY - rect.top }
+      ? { x: (event.clientX - rect.left) / k, y: (event.clientY - rect.top) / k }
       : { x: 0, y: 0 };
   };
 
@@ -756,7 +758,7 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
   return (
     <div
       className={cn(
-        'flex w-full flex-col items-center justify-center overflow-hidden',
+        'flex w-full flex-col items-center justify-center overflow-x-clip',
         className
       )}
       style={frameStyle}
@@ -854,7 +856,7 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
       </div>
 
       {showFooterNav && (
-        <div className="mt-3 flex items-center gap-3 typo-caption">
+        <div className="mt-4 flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
           <NavButton
             disabled={spread === 0}
             isDark={isDark}
@@ -866,7 +868,7 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
           </NavButton>
           <span
             aria-live="polite"
-            className="min-w-24 text-center tabular-nums font-medium text-[var(--text-secondary)]"
+            className="min-w-24 text-center tabular-nums font-medium"
           >
             {displayFirst === displayLast
               ? `${displayFirst}`
@@ -906,15 +908,18 @@ function Paper({
   return (
     <div
       className={cn(
-        '@container education-book-paper glass-card absolute top-0 h-full w-1/2 origin-top-left overflow-hidden text-[var(--text-primary)]',
-        back ? 'education-book-paper--back' : 'education-book-paper--front',
+        '@container education-book-paper absolute top-0 h-full w-1/2 origin-top-left overflow-hidden text-zinc-900 dark:text-zinc-100',
+        back
+          ? 'education-book-paper--back bg-[#f1efe9] dark:bg-zinc-800'
+          : 'education-book-paper--front bg-[#fbfaf7] dark:bg-zinc-900',
         side === 'left'
-          ? 'left-0 rounded-l-[14px] rounded-r-none shadow-[inset_-1px_0_0_var(--border-subcard,rgba(148,163,184,0.22))]'
-          : 'left-1/2 rounded-r-[14px] rounded-l-none shadow-[inset_1px_0_0_var(--border-subcard,rgba(148,163,184,0.22))]'
+          ? 'left-0 rounded-l-sm shadow-[inset_-1px_0_0_rgb(0_0_0/0.06)]'
+          : 'left-1/2 rounded-r-sm shadow-[inset_1px_0_0_rgb(0_0_0/0.06)]',
+        'ring-1 ring-black/5 dark:ring-white/10'
       )}
       style={{
         ...style,
-        borderColor: accentColor ? `var(--border-modal, ${accentColor}38)` : undefined,
+        outlineColor: accentColor ? `${accentColor}22` : undefined,
       }}
     >
       {/* The back of a page reads the right way round once it's folded over. */}
@@ -926,7 +931,7 @@ function Paper({
         aria-hidden="true"
         className={cn(
           'pointer-events-none absolute inset-y-0 w-[8%] to-transparent',
-          isDark ? 'from-black/40' : 'from-black/[0.08]',
+          isDark ? 'from-black/40' : 'from-black/[0.07]',
           side === 'left' ? 'right-0 bg-gradient-to-l' : 'left-0 bg-gradient-to-r'
         )}
       />
@@ -952,7 +957,7 @@ function NavButton({
     <button
       aria-disabled={disabled || undefined}
       aria-label={label}
-      className="nav-arrow-btn flex size-8 items-center justify-center rounded-full transition-colors duration-150 ease-out cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none"
+      className="flex size-8 items-center justify-center rounded-full text-zinc-600 ring-1 ring-black/10 transition-colors duration-150 ease-out hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-700/50 aria-disabled:cursor-default aria-disabled:text-zinc-300 aria-disabled:hover:bg-transparent aria-disabled:hover:text-zinc-300 dark:text-zinc-300 dark:ring-white/15 dark:aria-disabled:text-zinc-600 dark:hover:bg-white/10 dark:hover:text-white dark:aria-disabled:hover:bg-transparent dark:aria-disabled:hover:text-zinc-600 cursor-pointer"
       onClick={disabled ? undefined : onClick}
       onKeyDown={onKeyDown}
       type="button"
@@ -964,7 +969,7 @@ function NavButton({
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={1.6}
+        strokeWidth={1.5}
         viewBox="0 0 16 16"
       >
         {children}

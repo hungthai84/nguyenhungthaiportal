@@ -3,6 +3,7 @@ import {
   type SampleQuestionItem,
   TRINHAN_SAMPLE_QUESTION_CATEGORIES,
 } from './aiSampleQuestions.ts';
+import { PROJECTS_DATA } from './projects';
 
 export const TRI_NHAN_FALLBACK_MISSING_VI =
   'Trí Nhân hiện chưa có đủ thông tin xác thực trong hồ sơ đang được cung cấp để trả lời chính xác nội dung này. Bạn có thể tham khảo thêm hồ sơ năng lực của anh Nguyễn Hùng Thái hoặc gửi câu hỏi cụ thể hơn để Trí Nhân hỗ trợ.';
@@ -47,6 +48,26 @@ HỒ SƠ NĂNG LỰC CHÍNH THỨC CỦA ANH NGUYỄN HÙNG THÁI (NGUỒN XÁC 
 - Ngôn ngữ: Tiếng Việt (bản xứ), Tiếng Anh (giao tiếp văn phòng 60%), kết hợp công cụ dịch thuật & trợ lý AI thời gian thực.
 `.trim();
 
+function buildProjectsKnowledgeBlock(): string {
+  return PROJECTS_DATA.map((proj) => {
+    const actions = (proj.star?.actions || [])
+      .map((a) => `    + ${a.step} - ${a.title}: ${a.desc}`)
+      .join('\n');
+    const results = (proj.star?.results || [])
+      .map((r) => `    + ${r}`)
+      .join('\n');
+    return `[Dự án ${proj.code || proj.number}: ${proj.title}]
+  - Nhóm: ${proj.groupTitle} | Vai trò của anh Nguyễn Hùng Thái: ${proj.role}
+  - Tóm tắt: ${proj.description}
+  - Bối cảnh & Thách thức: ${proj.star?.situation || ''}
+  - Phương pháp tiếp cận: ${proj.star?.approach || ''}
+  - Các bước thực hiện chính:
+${actions}
+  - Kết quả đạt được:
+${results}`;
+  }).join('\n\n');
+}
+
 function buildQaReferenceBlock(): string {
   return TRINHAN_SAMPLE_QUESTION_CATEGORIES.map((cat) => {
     const itemsText = cat.items
@@ -58,6 +79,7 @@ function buildQaReferenceBlock(): string {
 
 export function buildTriNhanSystemPrompt(language: 'vi' | 'en' = 'vi'): string {
   const qaBlock = buildQaReferenceBlock();
+  const projectsBlock = buildProjectsKnowledgeBlock();
   const langDirective =
     language === 'en'
       ? 'Respond in clear, natural, professional English. Always keep proper names unchanged (Trí Nhân, Nguyễn Hùng Thái, MobiFone, V247, LBC, HTVC, Garena, VED, Shopee, Prudential Vietnam, MoMo, Finviet, Ví ECO, Power Service).'
@@ -75,7 +97,7 @@ PHONG CÁCH TRẢ LỜI:
 - Thân thiện, điềm đạm, chuyên nghiệp, am hiểu sâu sắc về Quản trị Trải nghiệm Khách hàng (CX), Dịch vụ Khách hàng (CSKH), Contact Center, CRM và AI/Tự động hóa.
 - Mở đầu linh hoạt theo đúng ngữ cảnh câu hỏi (không lặp lại cùng một câu chào máy móc ở mỗi lượt).
 - Trình bày mạch lạc, dễ đọc trên màn hình chat: đoạn ngắn gọn, gạch đầu dòng rõ ý khi cần liệt kê, nhấn mạnh ý chính bằng **in đậm** vừa phải.
-- Nếu là câu hỏi về xử lý tình huống hoặc khủng hoảng (như khủng hoảng tại MoMo), hãy trình bày rõ ràng theo 4 bước **Mô hình STAR**: Tình huống (Situation), Nhiệm vụ (Task), Hành động (Action), Kết quả (Result).
+- Nếu là câu hỏi về dự án thực chiến hoặc xử lý tình huống/khủng hoảng (như khủng hoảng tại MoMo, triển khai RPA, CRM, AI Bot...), hãy trình bày rõ ràng theo 4 bước **Mô hình STAR**: Tình huống (Situation), Nhiệm vụ (Task), Hành động (Action), Kết quả (Result).
 - Tận dụng lịch sử hội thoại để hiểu câu hỏi nối tiếp (follow-up) của người dùng.
 - ${langDirective}
 
@@ -86,6 +108,9 @@ NGUYÊN TẮC TRUNG THỰC & CHỐNG BỊA ĐẶT (TUYỆT ĐỐI):
   "${language === 'en' ? TRI_NHAN_FALLBACK_MISSING_EN : TRI_NHAN_FALLBACK_MISSING_VI}"
 
 ${PORTFOLIO_VERIFIED_FACTS}
+
+HỆ THỐNG 21 DỰ ÁN THỰC CHIẾN CHÍNH THỨC CỦA ANH NGUYỄN HÙNG THÁI:
+${projectsBlock}
 
 BỘ 47 CÂU HỎI – TRẢ LỜI CHUYÊN SÂU CHÍNH THỨC:
 ${qaBlock}
@@ -176,7 +201,129 @@ export function findVerifiedFallbackAnswer(
     };
   }
 
-  // 4. Verified profile summary fallback for general introduction/contact queries
+  // 4. In-depth Project Query Matching (21 projects in PROJECTS_DATA)
+  // Check exact project code match like "1.1", "dự án 1.1", "p1_1", "4.3", "dự án rpa", "dự án crm", etc.
+  const codeMatch = norm.match(/(?:dự án|project|code|mã)?\s*([1-5]\.[1-6])/i);
+  const targetCode = codeMatch ? codeMatch[1] : null;
+
+  let matchedProject = targetCode
+    ? PROJECTS_DATA.find((p) => p.code === targetCode || p.number === targetCode)
+    : null;
+
+  if (!matchedProject) {
+    // Keyword-based project matching
+    if (normAscii.includes('rpa') || normAscii.includes('hoan tien') || normAscii.includes('tu dong hoa')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p2_3') || null;
+    } else if (normAscii.includes('crm') || normAscii.includes('ho so 360')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p4_1') || null;
+    } else if (normAscii.includes('cjm') || normAscii.includes('hanh trinh khach hang')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p3_1') || null;
+    } else if (normAscii.includes('voc') || normAscii.includes('tieng noi khach hang') || normAscii.includes('phan hoi')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p3_3') || null;
+    } else if (normAscii.includes('chatbot') || normAscii.includes('chat bot') || normAscii.includes('ai bot') || normAscii.includes('voicebot')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p4_4') || null;
+    } else if (normAscii.includes('bpo') || normAscii.includes('doi tac bpo')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p2_4') || null;
+    } else if (normAscii.includes('visual sop') || normAscii.includes('chuan hoa sop')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p2_1') || null;
+    } else if (normAscii.includes('academy') || normAscii.includes('dao tao truc tuyen') || normAscii.includes('lms')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p5_1') || null;
+    } else if (normAscii.includes('copc') || normAscii.includes('customer centric') || normAscii.includes('van hoa phung su')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p5_4') || null;
+    } else if (normAscii.includes('omnichannel') || normAscii.includes('da kenh')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p2_2') || null;
+    } else if (normAscii.includes('okr') || normAscii.includes('kpi phong')) {
+      matchedProject = PROJECTS_DATA.find((p) => p.id === 'p1_2') || null;
+    }
+  }
+
+  if (matchedProject) {
+    const p = matchedProject;
+    const actionsList = (p.star?.actions || [])
+      .map((a) => `- **${a.step} · ${a.title}**: ${a.desc}`)
+      .join('\n');
+    const resultsList = (p.star?.results || [])
+      .map((r) => `- ✓ ${r}`)
+      .join('\n');
+
+    const replyVi = `Trí Nhân xin chia sẻ thông tin chuyên sâu về **Dự án ${p.code || p.number}: ${p.title}** của anh Nguyễn Hùng Thái:
+
+- **Nhóm dự án**: ${p.groupTitle}
+- **Vai trò của anh Thái**: ${p.role}
+- **Mục tiêu cốt lõi**: ${p.tagline || p.description}
+
+### 1. Bối cảnh & Thách thức (Situation)
+${p.star?.situation || p.description}
+
+### 2. Phương pháp tiếp cận & Kiến trúc (Approach)
+${p.star?.approach || 'Áp dụng quản trị dữ liệu, chuẩn hóa quy trình và lấy trải nghiệm khách hàng làm trung tâm.'}
+
+### 3. Các hạng mục hành động chính (Actions)
+${actionsList}
+
+### 4. Kết quả đạt được (Results)
+${resultsList}
+
+> *Bạn có thể xem bản đồ tư duy (Mindmap) và sơ đồ kiến trúc trực quan của dự án này tại **Mục Thực chiến (Tab 7)** trên thanh menu!*`;
+
+    const replyEn = `Tri Nhan is delighted to provide in-depth details on **Project ${p.code || p.number}: ${p.title}** by Mr. Nguyen Hung Thai:
+
+- **Project Group**: ${p.groupTitle}
+- **Role**: ${p.role}
+- **Core Value**: ${p.tagline || p.description}
+
+### 1. Situation & Challenges
+${p.star?.situation || p.description}
+
+### 2. Approach & Architecture
+${p.star?.approach || 'Data-driven governance, SOP standardization, and customer-centric design.'}
+
+### 3. Key Actions
+${actionsList}
+
+### 4. Achievements & Results
+${resultsList}
+
+> *You can also inspect the visual Mindmap and detailed architecture in the **Projects View (Tab 7)**!*`;
+
+    return {
+      matchedTitle: `Dự án ${p.code || p.number} · ${p.title}`,
+      reply: language === 'en' ? replyEn : replyVi,
+    };
+  }
+
+  // General project overview inquiry
+  if (
+    normAscii.includes('du an') ||
+    normAscii.includes('projects') ||
+    normAscii.includes('thuc chien')
+  ) {
+    const summaryVi = `Trí Nhân xin chia sẻ hệ thống **21 Dự án thực chiến tiêu biểu** được đúc kết qua hơn 22 năm quản trị CSKH & CX của anh Nguyễn Hùng Thái:
+
+1. **Chiến lược & Cấu trúc Vận hành** (Dự án 1.1 – 1.3): Xây dựng phòng CSKH chuyên nghiệp, Thiết lập OKR/KPI phòng ban, Quản trị dự án cải tiến.
+2. **Chuẩn hóa Quy trình & Vận hành Xuất sắc** (Dự án 2.1 – 2.5): Visual SOP chuẩn hóa, Kênh Omnichannel, Tự động hóa RPA MoMo, Quản trị đối tác BPO, Ứng phó khủng hoảng.
+3. **Thiết kế Trải nghiệm Khách hàng - CX** (Dự án 3.1 – 3.5): Bản đồ hành trình CJM, Phân tích tiếng nói khách hàng VoC, Kiểm soát rời bỏ, Đo lường CSAT/NPS/CES, Văn hóa Customer-Centric.
+4. **Công nghệ, Dữ liệu & AI** (Dự án 4.1 – 4.5): Nền tảng CRM 360°, Báo cáo phân tích BI, RPA tự động hóa hoàn tiền, Chatbot AI Bot 24/7, AI Copilot & Auto-QA.
+5. **Đào tạo, Phát triển & Hệ sinh thái** (Dự án 5.1 – 5.3): CS Academy, Khung năng lực ASK, Trung tâm hỗ trợ tự phục vụ.
+
+Bạn có thể hỏi chi tiết bất kỳ dự án nào (ví dụ: *"Dự án 1.1"*, *"Dự án RPA"*, *"Dự án CRM"* hoặc *"Dự án VoC"*) để Trí Nhân giải thích cụ thể theo mô hình STAR nhé!`;
+
+    const summaryEn = `Tri Nhan is pleased to introduce Mr. Nguyen Hung Thai’s **21 practical flagship projects** across 5 strategic pillars:
+1. **Strategy & Operations Structure** (1.1 - 1.3)
+2. **SOP & Operational Excellence** (2.1 - 2.5)
+3. **Customer Experience (CX) Design** (3.1 - 3.5)
+4. **Tech, Data & AI Systems** (4.1 - 4.5)
+5. **CS Academy & Service Culture** (5.1 - 5.3)
+
+Feel free to ask about any specific project (e.g., *"Project 1.1"*, *"RPA project"*, *"CRM platform"* or *"VoC project"*) for complete STAR case studies!`;
+
+    return {
+      matchedTitle: 'Hệ thống 21 Dự án Thực chiến',
+      reply: language === 'en' ? summaryEn : summaryVi,
+    };
+  }
+
+  // 5. Verified profile summary fallback for general introduction/contact queries
   if (
     normAscii.includes('lien he') ||
     normAscii.includes('email') ||
@@ -213,7 +360,7 @@ export function findVerifiedFallbackAnswer(
     };
   }
 
-  // 5. Honest fallback when question is outside verified scope
+  // 6. Honest fallback when question is outside verified scope
   return {
     reply: language === 'en' ? TRI_NHAN_FALLBACK_MISSING_EN : TRI_NHAN_FALLBACK_MISSING_VI,
   };

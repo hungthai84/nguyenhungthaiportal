@@ -714,12 +714,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-sizing: border-box !important;
 }
 
-.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
-[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   min-width: 0 !important;
   flex-shrink: 0 !important;
@@ -730,7 +730,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
   scroll-behavior: smooth !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   padding: var(--main-card-padding, 15px) !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -4528,34 +4528,54 @@ html.dark #services-page-container .domain-card-sub {
 #systems-page-container .system-card-tile .system-card-split-grid {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-  grid-template-rows: auto auto auto !important;
+  grid-template-rows: auto 1fr !important;
   column-gap: 12px !important;
   row-gap: 8px !important;
   width: 100% !important;
   min-width: 0 !important;
   height: 100% !important;
-  align-items: stretch !important;
+  align-items: center !important;
 }
 
 #systems-page-container .system-card-tile .system-card-image-slot {
-  position: absolute !important;
-  inset: 0 !important;
+  position: relative !important;
+  inset: auto !important;
   width: 100% !important;
   height: 100% !important;
-  min-height: 0 !important;
+  min-height: 110px !important;
   max-height: none !important;
-  padding: 6px !important;
+  padding: 0 !important;
+  background: transparent !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: var(--radius-image, 12px) !important;
-  transition: background-color 0.32s ease, transform 0.3s ease !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+  transition: opacity 0.3s ease !important;
 }
 
 #systems-page-container .system-card-tile .system-card-image-slot:hover,
 #systems-page-container .system-card-tile:hover .system-card-image-slot {
-  background-color: #000000 !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#systems-page-container .system-card-tile img,
+#systems-page-container .system-card-tile .system-card-image-slot img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
 }
 
 /* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Hệ thống từ vị trí trỏ chuột / focus */
@@ -5447,20 +5467,27 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   clip-path: inset(0 round var(--radius-image, 14px)) !important;
 }
 
-/* Sách học vấn: đồng bộ 100% bề mặt, viền, blur và độ sâu theo Theme đang chọn */
+/* Sách học vấn: bề mặt giấy sách ấm mịn, đục hoàn toàn để hiệu ứng lật góc Kokonut UI sắc nét */
 #education-book-view .education-book-paper {
-  background: var(--bg-modal, var(--bg-card)) !important;
-  border: var(--card-border-width, 1px) solid var(--border-modal, var(--border-card, var(--border-color))) !important;
-  box-shadow: var(--shadow-modal, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--blur-modal, var(--blur-card, 16px))) saturate(170%) !important;
-  -webkit-backdrop-filter: blur(var(--blur-modal, var(--blur-card, 16px))) saturate(170%) !important;
-  outline: var(--outline-subcard, none);
-  outline-offset: -6px;
-  color: var(--text-primary) !important;
+  background: #fbfaf7 !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  outline: none !important;
+  color: #18181b !important;
+}
+
+html.dark #education-book-view .education-book-paper {
+  background: #18181b !important;
+  color: #f4f4f5 !important;
 }
 
 #education-book-view .education-book-paper--back {
-  background: var(--bg-subcard, var(--bg-modal, var(--bg-card))) !important;
+  background: #f1efe9 !important;
+}
+
+html.dark #education-book-view .education-book-paper--back {
+  background: #27272a !important;
 }
 
 .project-detail-banner-media,
@@ -5965,6 +5992,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 /* ========================================================================= */
 #experience-timeline-board .exp-chromatic-stage {
   --accordion-angle: 0deg;
+  --fold-angle: 0deg;
   --fold-label-angle: 90deg;
   position: relative;
   flex: 1 1 0%;
@@ -5988,7 +6016,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   min-height: 0;
   max-height: none;
   isolation: isolate;
-  transform: rotate(var(--accordion-angle, 0deg));
+  transform: none;
   transform-origin: center center;
   transform-style: preserve-3d;
 }
@@ -6008,14 +6036,14 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   border-radius: 0 !important;
   overflow: hidden;
   cursor: pointer;
-  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   transform-style: preserve-3d;
-  transform-origin: left center;
+  transform-origin: center center;
   transform: none;
   box-sizing: border-box;
   box-shadow:
     inset 1px 0 0 rgba(255, 255, 255, 0.24),
-    inset -1px 0 0 rgba(15, 23, 42, 0.22);
+    inset -1px 0 0 rgba(15, 23, 42, 0.2);
   transition:
     flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1),
     clip-path 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -6031,8 +6059,8 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 }
 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) {
-  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-  transform-origin: right center;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transform-origin: center center;
   transform: none;
 }
 
@@ -6077,15 +6105,15 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
     0 18px 38px -12px rgba(15, 23, 42, 0.26);
 }
 
-/* Neighboring folded pleats react gently when an adjacent paper opens partially */
+/* Neighboring folded pleats remain upright facing directly outward when adjacent paper opens partially */
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-left {
-  transform-origin: right center;
-  transform: perspective(1500px) rotateY(8deg);
+  transform-origin: center center;
+  transform: none;
 }
 
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-right {
-  transform-origin: left center;
-  transform: perspective(1500px) rotateY(-8deg);
+  transform-origin: center center;
+  transform: none;
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch,
@@ -6097,11 +6125,11 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:not(.is-unfolding) {
   flex: 0.25 1 0%;
   opacity: 0.24;
-  transform: perspective(1400px) rotateY(22deg);
+  transform: none;
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:nth-child(even):not(.is-unfolding) {
-  transform: perspective(1400px) rotateY(-22deg);
+  transform: none;
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch.is-unfolding {
@@ -6116,7 +6144,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   outline-offset: -3px;
 }
 
-/* Ánh sáng & bóng nếp gấp giấy Chromatic Folds */
+/* Ánh sáng & bóng nếp gấp thẳng đứng hướng trực tiếp ra ngoài */
 #experience-timeline-board .exp-fold-shading {
   position: absolute;
   inset: 0;
@@ -6124,10 +6152,10 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   z-index: 12;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.22) 0%,
-    transparent 40%,
-    rgba(0, 0, 0, 0.18) 95%,
-    rgba(0, 0, 0, 0.32) 100%
+    rgba(255, 255, 255, 0.14) 0%,
+    transparent 16%,
+    transparent 84%,
+    rgba(15, 23, 42, 0.14) 100%
   );
   transition: opacity 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -6135,9 +6163,10 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) .exp-fold-shading {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.26) 0%,
-    transparent 65%,
-    rgba(255, 255, 255, 0.2) 100%
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 16%,
+    transparent 84%,
+    rgba(15, 23, 42, 0.14) 100%
   );
 }
 
@@ -6218,7 +6247,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   text-align: center;
   white-space: nowrap;
   flex-shrink: 0;
-  transform: skewY(var(--fold-angle, 6deg));
+  transform: none;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -6251,7 +6280,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
-  transform: skewY(var(--fold-angle, 6deg));
+  transform: none;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -6329,7 +6358,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   line-height: 1.15;
   text-align: center;
   white-space: nowrap;
-  transform: skewY(var(--fold-angle, 6deg));
+  transform: none;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 

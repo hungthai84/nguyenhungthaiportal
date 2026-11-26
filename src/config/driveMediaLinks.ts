@@ -24,7 +24,7 @@ export const DRIVE_SERVICE_IMAGES = {
   ecommerce: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png', // Thương mại điện tử.png
   ewallet: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png', // Thanh toán điện tử.png
   systemBuild: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png', // Xây dựng hệ thống.png
-  esports: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png', // Thể thao điện tử.png
+  esports: '/assets/services/the-thao-dien-tu.png', // Thể thao điện tử.png
   telecom: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png', // Viễn thông di động.png
   insurance: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png', // Dịch vụ bảo hiểm.png
 } as const;

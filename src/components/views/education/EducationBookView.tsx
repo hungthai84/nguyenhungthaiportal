@@ -25,7 +25,6 @@ export interface EducationBookViewProps {
   disableKeyboardNav?: boolean;
 }
 
-
 function handleDriveImageFallback(e: React.SyntheticEvent<HTMLImageElement>) {
   const img = e.currentTarget;
   const currentSrc = img.getAttribute('src') || '';
@@ -56,7 +55,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
   const verifyInfo = CREDENTIAL_VERIFICATION_MAP[course.id];
 
-  // Đo chính xác kích thước khung thẻ chi tiết học vấn để sách luôn nằm gọn 100% ở mọi kích thước
+  // Đo chính xác kích thước khung thẻ chi tiết học vấn để sách và thanh điều hướng luôn nằm gọn 100%
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
@@ -73,13 +72,14 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Tính kích thước sách tối ưu luôn lọt lòng thẻ ở mọi độ rộng & chiều cao (cả 2 trang đối xứng và 1 trang hẹp)
+  // Tỷ lệ khung sách chuẩn Kokonut UI (3:2 trang đôi = 1.5, 3:4 trang đơn = 0.75), chừa chỗ cho thanh điều hướng phía dưới
+  const navBarReserve = 52;
   const fittedBook = useMemo(() => {
     const padX = stageBounds.w >= 640 ? 28 : 12;
-    const padTop = stageBounds.w < 680 ? 48 : 20;
-    const padBottom = stageBounds.h >= 480 ? 20 : 12;
-    const availW = Math.max(120, stageBounds.w - padX * 2);
-    const availH = Math.max(140, stageBounds.h - padTop - padBottom);
+    const padTop = stageBounds.w < 680 ? 44 : 16;
+    const padBottom = stageBounds.h >= 480 ? 16 : 8;
+    const availW = Math.max(140, stageBounds.w - padX * 2);
+    const availH = Math.max(160, stageBounds.h - padTop - padBottom - navBarReserve);
     const isSingle = availW < 520;
 
     if (isSingle) {
@@ -92,13 +92,13 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       }
       return {
         isSingle: true,
-        frameWidth: Math.min(availW, Math.max(120, Math.floor(pageW))),
-        bookHeight: Math.min(availH, Math.max(140, Math.floor(pageH))),
+        frameWidth: Math.min(availW, Math.max(140, Math.floor(pageW))),
+        bookHeight: Math.min(availH, Math.max(160, Math.floor(pageH))),
       };
     }
 
-    const targetRatio = 16 / 10; // 1.6 cho trang đôi đối xứng
-    let bookW = Math.min(availW, 980);
+    const targetRatio = 3 / 2; // 1.5 chuẩn Kokonut UI aspect-[3/2]
+    let bookW = Math.min(availW, 880);
     let bookH = bookW / targetRatio;
     if (bookH > availH) {
       bookH = availH;
@@ -106,12 +106,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     }
     return {
       isSingle: false,
-      frameWidth: Math.min(availW, Math.max(220, Math.floor(bookW))),
-      bookHeight: Math.min(availH, Math.max(140, Math.floor(bookH))),
+      frameWidth: Math.min(availW, Math.max(240, Math.floor(bookW))),
+      bookHeight: Math.min(availH, Math.max(160, Math.floor(bookH))),
     };
   }, [stageBounds.h, stageBounds.w]);
 
-  // Hỗ trợ lăn chuột mở trang ngay cả khi con trỏ nằm ở khoảng trống hai bên sách trong thẻ chi tiết
+  // Hỗ trợ lăn chuột mở trang ngay cả khi con trỏ nằm ở khoảng trống hai bên sách
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage || disableKeyboardNav) return;
@@ -124,7 +124,6 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
       const dir: 1 | -1 = dominantDelta > 0 ? 1 : -1;
 
-      // Nếu đang cuộn nội dung chữ bên trong trang sách và chưa chạm biên, ưu tiên cuộn nội dung trang
       if (Math.abs(event.deltaY) >= Math.abs(event.deltaX)) {
         let el = event.target as HTMLElement | null;
         while (el && el !== stage) {
@@ -155,7 +154,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     return () => stage.removeEventListener('wheel', handleStageWheel);
   }, [disableKeyboardNav]);
 
-  // Click vùng trống bên trái/phải của sân khấu sách cũng mở/lật trang mượt mà
+  // Click vùng trống bên trái/phải của sân khấu sách để mở/lật trang
   const handleStageBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -168,215 +167,166 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     bookHandleRef.current?.go(clickX >= rect.width / 2 ? 1 : -1);
   };
 
-  // Đồng bộ bảng màu nội bộ sách học vấn theo giao diện (Theme) đang chọn
-  const inkPrimary = 'text-[var(--text-primary)]';
-  const inkSecondary = 'text-[var(--text-secondary)]';
-  const inkMuted = 'text-[var(--text-muted)]';
-  const themeAccent = 'var(--text-link, var(--color-primary))';
-  const paperBox = 'theme-modal-subcard';
-  const paperDivider = 'border-[var(--border-subcard)]';
+  // Bảng màu mực trên giấy sách ấm (Kokonut UI Editorial Paper Palette)
+  const inkPrimary = 'text-zinc-900 dark:text-zinc-100';
+  const inkSecondary = 'text-zinc-600 dark:text-zinc-300';
+  const inkMuted = 'text-zinc-500 dark:text-zinc-400';
+  const paperDivider = 'border-zinc-200 dark:border-zinc-700/80';
+  const paperSubBox = 'bg-black/[0.03] dark:bg-white/[0.04] border-zinc-200/80 dark:border-zinc-700/70';
 
   const bookPages = useMemo<React.ReactNode[]>(() => {
-    // ================= PAGE 0: BÌA SÁCH (THẺ HỌC VẤN) =================
+    const cleanTitle = formatCardTitle(course.title);
+    const coverBgStyle: React.CSSProperties = {
+      background: `linear-gradient(155deg, color-mix(in srgb, ${courseColor} 78%, #064e3b) 0%, color-mix(in srgb, ${courseColor} 58%, #022c22) 100%)`,
+    };
+
+    // ================= PAGE 0: BÌA TRƯỚC (KOKONUT UI HARDCOVER EDITORIAL) =================
     const coverPage = (
       <div
         key={`cover-${course.id}`}
-        className="education-book-cover relative flex size-full flex-col justify-between gap-2.5 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
-        style={{
-          background:
-            'linear-gradient(155deg, color-mix(in srgb, var(--text-link, var(--color-primary)) 14%, transparent) 0%, transparent 60%)',
-        }}
+        className="education-book-cover relative flex size-full flex-col items-center justify-between px-[8cqw] pt-[7cqw] pb-[6cqw] text-center text-[#f3efe4] select-none overflow-hidden"
+        style={coverBgStyle}
       >
-        {/* Dải gáy bìa sách tạo chiều sâu */}
+        {/* Viền gáy sách bìa cứng */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-2.5"
-          style={{
-            background:
-              'linear-gradient(90deg, color-mix(in srgb, var(--text-link, var(--color-primary)) 36%, transparent) 0%, color-mix(in srgb, var(--text-link, var(--color-primary)) 12%, transparent) 70%, transparent 100%)',
-          }}
+          className="pointer-events-none absolute inset-y-0 left-0 w-[3cqw] bg-gradient-to-r from-black/30 via-black/10 to-transparent"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-[3.5cqw] rounded-sm border border-[#f3efe4]/20"
         />
 
-        {/* Thanh metadata đỉnh bìa */}
-        <div className="relative z-10 flex items-center justify-between gap-2 flex-wrap pl-1">
-          <span
-            className="inline-flex items-center gap-1.5 typo-badge font-semibold"
-            style={{ color: themeAccent }}
-          >
-            <WebIcon name="book" className="w-3.5 h-3.5 shrink-0" />
-            <span>{isEn ? 'Education Monograph' : 'Bìa sách · Thẻ học vấn'}</span>
-          </span>
-          <span className={cn('typo-badge font-mono font-semibold tabular-nums', inkMuted)}>
+        {/* Dòng metadata đỉnh bìa */}
+        <div className="relative z-10 w-full flex items-center justify-between gap-2 text-[3.1cqw] tracking-[0.08em] opacity-85 px-[1.5cqw]">
+          <span className="truncate">{categoryLabel}</span>
+          <span className="font-mono tabular-nums shrink-0">
             {course.code || `Năm ${course.year}`}
           </span>
         </div>
 
-        {/* Ảnh thẻ học vấn */}
-        <div
-          data-media-card="image"
-          style={{ borderRadius: '14px', padding: '0px' }}
-          className={cn(
-            'education-book-media-rounded relative w-full aspect-[16/10] overflow-hidden rounded-[14px] border shrink-0 p-0',
-            paperDivider
-          )}
-        >
-          <img
-            src={course.image}
-            alt={formatCardTitle(course.title)}
-            style={{ borderRadius: '14px' }}
-            className="education-book-media-img w-full h-full object-cover object-center block rounded-[14px]"
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onError={handleDriveImageFallback}
-          />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
-          <div className="absolute bottom-2 left-2.5 right-2.5 z-10 flex items-center justify-between gap-2 text-white">
-            <span className="typo-badge font-semibold truncate drop-shadow-xs">
-              {course.issuer}
-            </span>
-            <span className="typo-badge font-mono font-semibold shrink-0 tabular-nums drop-shadow-xs">
-              Năm {course.year}
-            </span>
-          </div>
-        </div>
-
-        {/* Tiêu đề, mô tả & kết quả */}
-        <div className="relative z-10 flex flex-col gap-1.5 pl-1 min-w-0">
-          <div className="flex items-center gap-1.5 typo-caption font-medium">
-            <span style={{ color: themeAccent }}>{course.type}</span>
-            <span aria-hidden="true" className={inkMuted}>·</span>
-            <span className={inkMuted}>{categoryLabel}</span>
-          </div>
-
-          <h3
-            className="typo-h3 font-play font-bold leading-snug break-words m-0"
-            style={{ color: themeAccent }}
+        {/* Khối trung tâm bìa: Ảnh minh họa + Tiêu đề + Đơn vị cấp */}
+        <div className="relative z-10 flex flex-col items-center justify-center gap-[3.5cqw] w-full my-auto px-[2cqw]">
+          <div
+            data-media-card="image"
+            className="education-book-media-rounded relative w-[78%] aspect-[16/10] overflow-hidden rounded-[12px] ring-1 ring-[#f3efe4]/30 shadow-lg bg-black/25 shrink-0"
           >
-            {formatCardTitle(course.title)}
-          </h3>
+            <img
+              src={course.image}
+              alt={cleanTitle}
+              className="education-book-media-img w-full h-full object-cover object-center block"
+              loading="eager"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              onError={handleDriveImageFallback}
+            />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+            <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between gap-2 text-[2.8cqw] text-[#f3efe4]/95">
+              <span className="truncate font-medium">{course.issuer}</span>
+              <span className="font-mono shrink-0 tabular-nums">Năm {course.year}</span>
+            </div>
+          </div>
 
-          <p className={cn('typo-caption leading-relaxed line-clamp-2 m-0', inkSecondary)}>
-            {course.desc || 'Thông tin chưa được cung cấp.'}
-          </p>
-
-          {course.result && (
-            <div
-              className="mt-1 px-2.5 py-2 rounded-[10px] border flex items-start gap-2 min-w-0"
-              style={{
-                background: 'var(--bg-badge, var(--bg-subcard))',
-                borderColor: 'var(--border-badge, var(--border-subcard))',
-              }}
-            >
-              <p
-                className="typo-caption font-semibold m-0 line-clamp-2 break-words"
-                style={{ color: 'var(--text-badge, var(--text-link, var(--color-primary)))' }}
-              >
+          <div className="flex flex-col items-center gap-[1.8cqw] max-w-full">
+            <h3 className="font-play font-bold text-[5.6cqw] leading-[1.18] tracking-tight text-[#f3efe4] line-clamp-2 m-0">
+              {cleanTitle}
+            </h3>
+            <p className="text-[3.2cqw] tracking-[0.12em] opacity-80 m-0 truncate max-w-full">
+              {course.type || categoryLabel} · {course.issuer}
+            </p>
+            {course.result && (
+              <p className="text-[3cqw] px-[3cqw] py-[1cqw] rounded-full bg-white/15 border border-white/20 text-[#f3efe4]/95 line-clamp-1 max-w-full m-0">
                 {course.result}
               </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
+        {/* Lời mời lật góc trang sách ở chân bìa */}
+        <p className="relative z-10 text-[3cqw] tracking-wide opacity-70 m-0 flex items-center gap-1.5">
+          <span>{isEn ? 'Turn the corner to open' : 'Lật góc sách để mở'}</span>
+          <WebIcon name="arrow-right" className="w-[3.2cqw] h-[3.2cqw]" />
+        </p>
       </div>
     );
 
-    // ================= PAGE 1: THÔNG TIN MÔ TẢ KHÓA HỌC =================
+    // ================= PAGE 1: MÔ TẢ KHÓA HỌC & THÔNG TIN CHUNG =================
     const page1 = (
       <div
         key={`page1-${course.id}`}
-        className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
+        className="flex size-full flex-col px-[8cqw] pt-[7cqw] pb-[5.5cqw] overflow-y-auto no-scrollbar text-left"
       >
-        <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
-            <WebIcon name="book-open" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
-              {isEn ? 'Page 1 · Course Description' : 'Trang 1 · Mô tả khóa học'}
-            </h3>
+        <p className={cn('text-[3.1cqw] font-semibold tracking-[0.14em] m-0', inkMuted)}>
+          {isEn ? 'Course Description' : 'Mô tả khóa học'}
+        </p>
+        <div
+          className="mt-[2.2cqw] h-px w-[12cqw] shrink-0"
+          style={{ backgroundColor: `${courseColor}80` }}
+        />
+
+        <h3 className={cn('mt-[3.5cqw] font-play font-bold text-[5.2cqw] leading-snug tracking-tight break-words m-0', inkPrimary)}>
+          {cleanTitle}
+        </h3>
+
+        <p className={cn('mt-[2.5cqw] text-[3.5cqw] leading-relaxed break-words m-0', inkSecondary)}>
+          {course.desc || 'Thông tin chưa được cung cấp.'}
+        </p>
+
+        {course.orientation && course.orientation !== course.desc && (
+          <div className={cn('mt-[3cqw] pt-[2.2cqw] border-t flex flex-col gap-[0.8cqw]', paperDivider)}>
+            <span className="text-[3.1cqw] font-semibold" style={{ color: courseColor }}>
+              Định hướng đào tạo
+            </span>
+            <p className={cn('text-[3.2cqw] leading-relaxed m-0 break-words', inkSecondary)}>
+              {course.orientation}
+            </p>
           </div>
-          <span className={cn('typo-badge font-mono tabular-nums shrink-0', inkMuted)}>01 / 04</span>
-        </div>
+        )}
 
-        <div className={cn('p-3 rounded-[10px] border flex flex-col gap-2', paperBox)}>
-          <h4 className={cn('typo-h4 font-play font-bold m-0 leading-snug break-words', inkPrimary)}>
-            {formatCardTitle(course.title)}
-          </h4>
-          <p className={cn('typo-body-sm leading-relaxed m-0 break-words', inkSecondary)}>
-            {course.desc || 'Thông tin chưa được cung cấp.'}
-          </p>
-
-          {course.orientation && course.orientation !== course.desc && (
-            <div className={cn('pt-2 border-t flex flex-col gap-0.5', paperDivider)}>
-              <span className="typo-caption font-semibold" style={{ color: themeAccent }}>
-                Định hướng đào tạo
-              </span>
-              <p className={cn('typo-caption leading-relaxed m-0 break-words', inkSecondary)}>
-                {course.orientation}
-              </p>
-            </div>
-          )}
-
-          {course.focus && (
-            <div className={cn('pt-2 border-t flex flex-col gap-0.5', paperDivider)}>
-              <span className="typo-caption font-semibold" style={{ color: themeAccent }}>
-                Trọng tâm chuyên môn
-              </span>
-              <p className={cn('typo-caption leading-relaxed m-0 break-words', inkSecondary)}>
-                {course.focus}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Bảng thông tin chuẩn */}
-        <div className="grid grid-cols-2 gap-2 min-w-0 mt-auto">
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1" style={{ color: 'var(--accent-sky, var(--text-link))' }}>
-              <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
-              <span className="typo-caption font-semibold truncate">Năm học &amp; Mã</span>
-            </div>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className={cn('typo-caption font-semibold tabular-nums', inkPrimary)}>
-                Năm {course.year}
-              </span>
-              {course.code && (
-                <span className="typo-caption font-mono" style={{ color: 'var(--text-link)' }}>
-                  · {course.code}
-                </span>
-              )}
-            </div>
+        {course.focus && (
+          <div className={cn('mt-[2.5cqw] pt-[2.2cqw] border-t flex flex-col gap-[0.8cqw]', paperDivider)}>
+            <span className="text-[3.1cqw] font-semibold" style={{ color: courseColor }}>
+              Trọng tâm chuyên môn
+            </span>
+            <p className={cn('text-[3.2cqw] leading-relaxed m-0 break-words', inkSecondary)}>
+              {course.focus}
+            </p>
           </div>
+        )}
 
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1" style={{ color: 'var(--accent-indigo, var(--text-link))' }}>
-              <WebIcon name="building-2" className="w-3.5 h-3.5 shrink-0" />
-              <span className="typo-caption font-semibold truncate">Đơn vị đào tạo</span>
-            </div>
-            <span className={cn('typo-caption font-semibold break-words leading-snug', inkPrimary)}>
+        {/* Bảng thông tin kiểu Kokonut UI Dotted-Leader */}
+        <dl className="mt-auto pt-[3cqw] flex flex-col gap-[2.2cqw] text-[3.2cqw]">
+          <div className="flex items-baseline gap-[1.5cqw]">
+            <dt className={cn('shrink-0', inkMuted)}>Năm học</dt>
+            <span className="mb-[0.6cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+            <dd className={cn('font-semibold tabular-nums m-0', inkPrimary)}>
+              Năm {course.year} {course.code ? `· ${course.code}` : ''}
+            </dd>
+          </div>
+          <div className="flex items-baseline gap-[1.5cqw]">
+            <dt className={cn('shrink-0', inkMuted)}>Đơn vị</dt>
+            <span className="mb-[0.6cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+            <dd className={cn('font-semibold text-right truncate m-0 max-w-[68%]', inkPrimary)}>
               {course.issuer || 'Thông tin chưa được cung cấp.'}
-            </span>
+            </dd>
           </div>
-
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1" style={{ color: 'var(--accent-teal, var(--text-link))' }}>
-              <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
-              <span className="typo-caption font-semibold truncate">Hình thức đào tạo</span>
-            </div>
-            <span className={cn('typo-caption font-semibold break-words leading-snug', inkPrimary)}>
+          <div className="flex items-baseline gap-[1.5cqw]">
+            <dt className={cn('shrink-0', inkMuted)}>Hình thức</dt>
+            <span className="mb-[0.6cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+            <dd className={cn('font-semibold text-right truncate m-0 max-w-[68%]', inkPrimary)}>
               {course.type || 'Thông tin chưa được cung cấp.'}
-            </span>
+            </dd>
           </div>
+          <div className="flex items-baseline gap-[1.5cqw]">
+            <dt className={cn('shrink-0', inkMuted)}>Lĩnh vực</dt>
+            <span className="mb-[0.6cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+            <dd className={cn('font-semibold m-0', inkPrimary)}>{categoryLabel}</dd>
+          </div>
+        </dl>
 
-          <div className={cn('p-2.5 rounded-[10px] border flex flex-col gap-1', paperBox)}>
-            <div className="flex items-center gap-1" style={{ color: 'var(--accent-amber, var(--text-link))' }}>
-              <WebIcon name="tag" className="w-3.5 h-3.5 shrink-0" />
-              <span className="typo-caption font-semibold truncate">Nhóm lĩnh vực</span>
-            </div>
-            <span className={cn('typo-caption font-semibold break-words leading-snug', inkPrimary)}>
-              {categoryLabel}
-            </span>
-          </div>
-        </div>
+        <p className={cn('mt-[3cqw] text-center text-[2.9cqw] tabular-nums m-0', inkMuted)}>
+          1
+        </p>
       </div>
     );
 
@@ -384,63 +334,52 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     const page2 = (
       <div
         key={`page2-${course.id}`}
-        className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
+        className="flex size-full flex-col px-[8cqw] pt-[7cqw] pb-[5.5cqw] overflow-y-auto no-scrollbar text-left"
       >
-        <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
-            <WebIcon name="list-filter" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
-              {isEn ? 'Page 2 · Curriculum' : 'Trang 2 · Danh mục khóa học'}
-            </h3>
-          </div>
-          <span className={cn('typo-badge font-mono tabular-nums shrink-0', inkMuted)}>02 / 04</span>
-        </div>
+        <p className={cn('text-[3.1cqw] font-semibold tracking-[0.14em] m-0', inkMuted)}>
+          {isEn ? 'Curriculum & Modules' : 'Danh mục chuyên đề'}
+        </p>
+        <div
+          className="mt-[2.2cqw] h-px w-[12cqw] shrink-0"
+          style={{ backgroundColor: `${courseColor}80` }}
+        />
 
-        <div className="flex flex-col gap-2 min-w-0">
-          <span className={cn('typo-body-sm font-semibold', inkPrimary)}>
-            Nội dung chuyên đề đào tạo ({course.modules?.length || 0} chuyên đề)
+        <div className="mt-[3.5cqw] flex flex-col gap-[2.2cqw] min-w-0">
+          <span className={cn('text-[3.4cqw] font-semibold', inkPrimary)}>
+            Nội dung đào tạo ({course.modules?.length || 0} chuyên đề)
           </span>
 
           {course.modules && course.modules.length > 0 ? (
-            <ul className="flex flex-col gap-1.5 list-none p-0 m-0 w-full">
+            <ul className="flex flex-col gap-[2.2cqw] list-none p-0 m-0 w-full">
               {course.modules.map((mod, idx) => (
-                <li
-                  key={idx}
-                  className={cn('w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[10px] border min-w-0', paperBox)}
-                >
+                <li key={idx} className="flex items-baseline gap-[2cqw] min-w-0">
                   <span
-                    className="w-6 h-6 rounded-full flex items-center justify-center typo-badge font-mono font-bold shrink-0"
-                    style={{
-                      background: 'var(--bg-button-primary)',
-                      color: 'var(--text-button-primary, #FFFFFF)',
-                    }}
+                    className="text-[3.1cqw] font-mono font-bold tabular-nums shrink-0"
+                    style={{ color: courseColor }}
                   >
-                    {idx + 1}
+                    {String(idx + 1).padStart(2, '0')}.
                   </span>
-                  <span className={cn('typo-caption font-semibold flex-1 min-w-0 break-words leading-snug', inkPrimary)}>
+                  <span className={cn('text-[3.4cqw] font-medium leading-snug break-words flex-1', inkPrimary)}>
                     {mod}
                   </span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className={cn('typo-caption font-semibold', inkMuted)}>
+            <p className={cn('text-[3.2cqw] font-medium', inkMuted)}>
               Thông tin chưa được cung cấp.
             </p>
           )}
         </div>
 
         {/* Từ khóa kỹ năng đầu ra */}
-        <div className={cn('pt-2 border-t flex flex-col gap-2 min-w-0 mt-auto', paperDivider)}>
-          <div className="flex items-center gap-1.5" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
-            <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" />
-            <span className="typo-caption font-semibold">
-              Từ khóa kỹ năng (Nhấn để xem trên Ma trận SWOT)
-            </span>
-          </div>
+        <div className={cn('mt-auto pt-[3cqw] border-t flex flex-col gap-[2cqw] min-w-0', paperDivider)}>
+          <span className="text-[3cqw] font-semibold" style={{ color: courseColor }}>
+            Từ khóa kỹ năng (Nhấn để xem trên Ma trận SWOT)
+          </span>
 
           {course.skills && course.skills.length > 0 ? (
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex items-center gap-[1.5cqw] flex-wrap">
               {course.skills.map((skill, sIdx) => (
                 <button
                   key={sIdx}
@@ -448,121 +387,119 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
                   onClick={() => onNavigateSkillToSwot(skill)}
                   title={isEn ? `View ${skill} in Core Skills SWOT` : `Xem kỹ năng "${skill}" trong Ma trận Kỹ năng SWOT`}
                   style={{
-                    background: 'var(--bg-badge, var(--bg-button-secondary))',
-                    borderColor: 'var(--border-badge, var(--border-subcard))',
-                    color: 'var(--text-badge, var(--text-link))',
+                    borderColor: `${courseColor}40`,
+                    color: courseColor,
+                    backgroundColor: `${courseColor}10`,
                   }}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-caption font-semibold border cursor-pointer transition-all hover:opacity-90"
+                  className="inline-flex items-center gap-1 px-[2.4cqw] py-[1cqw] rounded-full text-[3cqw] font-semibold border cursor-pointer transition-all hover:opacity-85"
                 >
-                  <WebIcon name={getSkillTagIcon(skill)} className="w-3 h-3 shrink-0" />
+                  <WebIcon name={getSkillTagIcon(skill)} className="w-[3cqw] h-[3cqw] shrink-0" />
                   <span>{skill}</span>
-                  <WebIcon name="arrow-right" className="w-2.5 h-2.5 opacity-65 shrink-0" />
+                  <WebIcon name="arrow-right" className="w-[2.4cqw] h-[2.4cqw] opacity-65 shrink-0" />
                 </button>
               ))}
             </div>
           ) : (
-            <span className={cn('typo-caption font-semibold', inkMuted)}>
+            <span className={cn('text-[3.2cqw] font-medium', inkMuted)}>
               Thông tin chưa được cung cấp.
             </span>
           )}
         </div>
+
+        <p className={cn('mt-[3cqw] text-center text-[2.9cqw] tabular-nums m-0', inkMuted)}>
+          2
+        </p>
       </div>
     );
 
-    // ================= PAGE 3: KẾT QUẢ ĐẠT ĐƯỢC =================
+    // ================= PAGE 3: KẾT QUẢ ĐẠT ĐƯỢC & XÁC THỰC =================
     const page3 = (
       <div
         key={`page3-${course.id}`}
-        className="flex size-full flex-col gap-3 p-4 sm:p-5 overflow-y-auto no-scrollbar text-left"
+        className="flex size-full flex-col px-[8cqw] pt-[7cqw] pb-[5.5cqw] overflow-y-auto no-scrollbar text-left"
       >
-        <div className={cn('flex items-center justify-between gap-2 pb-2 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
-            <WebIcon name="trophy" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
-              {isEn ? 'Page 3 · Outcomes' : 'Trang 3 · Kết quả đạt được'}
-            </h3>
-          </div>
-          <span className={cn('typo-badge font-mono tabular-nums shrink-0', inkMuted)}>03 / 04</span>
-        </div>
+        <p className={cn('text-[3.1cqw] font-semibold tracking-[0.14em] m-0', inkMuted)}>
+          {isEn ? 'Outcomes & Verification' : 'Kết quả đạt được'}
+        </p>
+        <div
+          className="mt-[2.2cqw] h-px w-[12cqw] shrink-0"
+          style={{ backgroundColor: `${courseColor}80` }}
+        />
 
         {/* Chứng nhận đánh giá */}
         <div
-          className="p-3 rounded-[10px] border flex flex-col gap-1.5"
+          className="mt-[3.5cqw] p-[3cqw] rounded-[10px] border flex flex-col gap-[1.2cqw]"
           style={{
-            background: 'var(--bg-badge, var(--bg-subcard))',
-            borderColor: 'var(--border-badge, var(--border-subcard))',
+            backgroundColor: `${courseColor}10`,
+            borderColor: `${courseColor}35`,
           }}
         >
-          <div className="flex items-center gap-1.5" style={{ color: themeAccent }}>
-            <WebIcon name="shield-check" className="w-4 h-4 shrink-0" />
-            <span className="typo-body-sm font-bold">Chứng nhận đánh giá</span>
+          <div className="flex items-center gap-1.5" style={{ color: courseColor }}>
+            <WebIcon name="shield-check" className="w-[3.5cqw] h-[3.5cqw] shrink-0" />
+            <span className="text-[3.3cqw] font-bold">Chứng nhận đánh giá</span>
           </div>
-          <p className={cn('typo-body-sm font-semibold m-0 break-words leading-snug', inkPrimary)}>
+          <p className={cn('text-[3.5cqw] font-semibold m-0 break-words leading-snug', inkPrimary)}>
             {course.result || 'Thông tin chưa được cung cấp.'}
           </p>
         </div>
 
         {/* Ứng dụng thực tiễn */}
-        <div className={cn('p-3 rounded-[10px] border flex flex-col gap-1.5', paperBox)}>
-          <div className="flex items-center gap-1.5" style={{ color: 'var(--accent-teal, var(--text-link))' }}>
-            <WebIcon name="target" className="w-4 h-4 shrink-0" />
-            <span className="typo-body-sm font-bold">Ứng dụng thực tiễn</span>
+        <div className={cn('mt-[2.8cqw] p-[3cqw] rounded-[10px] border flex flex-col gap-[1.2cqw]', paperSubBox)}>
+          <div className="flex items-center gap-1.5" style={{ color: courseColor }}>
+            <WebIcon name="target" className="w-[3.5cqw] h-[3.5cqw] shrink-0" />
+            <span className="text-[3.3cqw] font-bold">Ứng dụng thực tiễn</span>
           </div>
-          <p className={cn('typo-caption leading-relaxed m-0 break-words', inkSecondary)}>
+          <p className={cn('text-[3.3cqw] leading-relaxed m-0 break-words', inkSecondary)}>
             {course.application || 'Thông tin chưa được cung cấp.'}
           </p>
         </div>
 
         {/* Hồ sơ xác thực chứng chỉ số */}
         {verifyInfo && (
-          <div className={cn('p-3 rounded-[10px] border flex flex-col gap-2.5 mt-auto', paperBox)}>
+          <div className={cn('mt-auto pt-[2.8cqw] border-t flex flex-col gap-[2cqw]', paperDivider)}>
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-1.5" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
-                <WebIcon name="check-circle-02" className="w-4 h-4 shrink-0" />
-                <span className="typo-body-sm font-bold">Xác thực chứng chỉ</span>
-              </div>
+              <span className="text-[3.2cqw] font-bold inline-flex items-center gap-1.5" style={{ color: courseColor }}>
+                <WebIcon name="check-circle-02" className="w-[3.4cqw] h-[3.4cqw] shrink-0" />
+                <span>Xác thực chứng chỉ</span>
+              </span>
               <button
                 type="button"
                 onClick={(e) => onOpenVerifyModal(course, e)}
-                style={{
-                  background: 'var(--bg-button-primary)',
-                  color: 'var(--text-button-primary, #FFFFFF)',
-                }}
-                className="px-2.5 py-1 rounded-full typo-caption font-semibold hover:opacity-90 transition inline-flex items-center gap-1 cursor-pointer"
+                style={{ backgroundColor: courseColor, color: '#ffffff' }}
+                className="px-[2.6cqw] py-[1cqw] rounded-full text-[2.9cqw] font-semibold hover:opacity-90 transition inline-flex items-center gap-1 cursor-pointer"
               >
-                <WebIcon name="shield-check" className="w-3 h-3" />
+                <WebIcon name="shield-check" className="w-[2.8cqw] h-[2.8cqw]" />
                 <span>Tra cứu số</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 typo-caption">
-              <div className="min-w-0">
-                <span className={cn('block', inkMuted)}>Mã chứng chỉ số</span>
-                <code className={cn('font-mono font-semibold break-all', inkPrimary)}>
-                  {verifyInfo.credentialId}
-                </code>
+            <dl className="flex flex-col gap-[1.5cqw] text-[3cqw] m-0">
+              <div className="flex items-baseline gap-[1.5cqw]">
+                <dt className={cn('shrink-0', inkMuted)}>Mã số</dt>
+                <span className="mb-[0.5cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+                <dd className={cn('font-mono font-semibold m-0', inkPrimary)}>{verifyInfo.credentialId}</dd>
               </div>
-              <div className="min-w-0">
-                <span className={cn('block', inkMuted)}>Hệ thống đăng ký</span>
-                <span className={cn('font-semibold break-words', inkPrimary)}>
+              <div className="flex items-baseline gap-[1.5cqw]">
+                <dt className={cn('shrink-0', inkMuted)}>Đăng ký</dt>
+                <span className="mb-[0.5cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+                <dd className={cn('font-semibold text-right truncate max-w-[68%] m-0', inkPrimary)}>
                   {verifyInfo.registryName}
-                </span>
+                </dd>
               </div>
-              <div className="min-w-0">
-                <span className={cn('block', inkMuted)}>Tổ chức cấp</span>
-                <span className={cn('font-semibold break-words', inkPrimary)}>
-                  {verifyInfo.organization}
-                </span>
-              </div>
-              <div className="min-w-0">
-                <span className={cn('block', inkMuted)}>Trạng thái</span>
-                <span className="font-semibold" style={{ color: 'var(--semantic-success, var(--text-link))' }}>
+              <div className="flex items-baseline gap-[1.5cqw]">
+                <dt className={cn('shrink-0', inkMuted)}>Trạng thái</dt>
+                <span className="mb-[0.5cqw] flex-1 border-b border-dotted border-zinc-300 dark:border-zinc-700" />
+                <dd className="font-semibold m-0" style={{ color: courseColor }}>
                   {verifyInfo.status}
-                </span>
+                </dd>
               </div>
-            </div>
+            </dl>
           </div>
         )}
+
+        <p className={cn('mt-[3cqw] text-center text-[2.9cqw] tabular-nums m-0', inkMuted)}>
+          3
+        </p>
       </div>
     );
 
@@ -570,38 +507,36 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     const page4 = (
       <div
         key={`page4-${course.id}`}
-        className="flex size-full flex-col gap-2 p-3 sm:p-4 overflow-hidden text-left"
+        className="flex size-full flex-col px-[7.5cqw] pt-[7cqw] pb-[5.5cqw] overflow-hidden text-left"
       >
-        <div className={cn('flex items-center justify-between gap-2 pb-1.5 border-b shrink-0', paperDivider)}>
-          <div className="flex items-center gap-1.5 min-w-0" style={{ color: themeAccent }}>
-            <WebIcon name="image" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-            <h3 className="typo-h4 font-play font-bold m-0 truncate" style={{ color: themeAccent }}>
-              {isEn ? 'Page 4 · Photos & Certificate' : 'Trang 4 · Hình khóa học & Bằng cấp'}
-            </h3>
-          </div>
-          <span className={cn('typo-badge font-mono tabular-nums shrink-0', inkMuted)}>04 / 04</span>
-        </div>
+        <p className={cn('text-[3.1cqw] font-semibold tracking-[0.14em] m-0', inkMuted)}>
+          {isEn ? 'Photos & Certificate' : 'Hình khóa học & Bằng cấp'}
+        </p>
+        <div
+          className="mt-[2.2cqw] h-px w-[12cqw] shrink-0"
+          style={{ backgroundColor: `${courseColor}80` }}
+        />
 
-        <div className="flex-1 min-h-0 grid grid-rows-2 gap-2">
+        <div className="mt-[3cqw] flex-1 min-h-0 grid grid-rows-2 gap-[2.5cqw]">
           {/* Hình khóa học */}
-          <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: 'var(--accent-purple, var(--text-link))' }}>
-              <div className="flex items-center gap-1.5 min-w-0">
-                <WebIcon name="image" className="w-3.5 h-3.5 shrink-0" />
-                <span className="typo-caption font-semibold truncate">Hình ảnh khóa học</span>
-              </div>
+          <div className={cn('h-full min-h-0 p-[2cqw] rounded-[10px] border flex flex-col gap-[1.4cqw] min-w-0', paperSubBox)}>
+            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: courseColor }}>
+              <span className="text-[3cqw] font-semibold truncate flex items-center gap-1">
+                <WebIcon name="image" className="w-[3cqw] h-[3cqw] shrink-0" />
+                <span>Hình ảnh khóa học</span>
+              </span>
               <button
                 type="button"
                 onClick={(e) =>
                   onOpenLightbox(
                     course.courseImg || course.image,
-                    `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${formatCardTitle(course.title)}`,
+                    `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${cleanTitle}`,
                     e
                   )
                 }
-                className="typo-caption font-semibold inline-flex items-center gap-1 hover:underline cursor-pointer shrink-0"
+                className="text-[2.9cqw] font-semibold inline-flex items-center gap-1 hover:underline cursor-pointer shrink-0"
               >
-                <WebIcon name="maximize" className="w-3 h-3" />
+                <WebIcon name="maximize" className="w-[2.8cqw] h-[2.8cqw]" />
                 <span>Phóng to</span>
               </button>
             </div>
@@ -610,22 +545,20 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               onClick={(e) =>
                 onOpenLightbox(
                   course.courseImg || course.image,
-                  `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${formatCardTitle(course.title)}`,
+                  `${isEn ? 'Course photo' : 'Hình ảnh khóa học'}: ${cleanTitle}`,
                   e
                 )
               }
-              style={{ borderRadius: '14px', padding: '0px' }}
               className={cn(
-                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[14px] overflow-hidden bg-slate-950/90 border cursor-zoom-in block p-0',
+                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[10px] overflow-hidden bg-zinc-950/90 border cursor-zoom-in block p-0',
                 paperDivider
               )}
               title="Nhấn để phóng to hình ảnh khóa học"
             >
               <img
                 src={course.courseImg || course.image}
-                alt={`Hình khóa học ${formatCardTitle(course.title)}`}
-                style={{ borderRadius: '14px' }}
-                className="education-book-media-img w-full h-full object-cover object-top block rounded-[14px]"
+                alt={`Hình khóa học ${cleanTitle}`}
+                className="education-book-media-img w-full h-full object-cover object-top block"
                 loading="lazy"
                 decoding="async"
                 referrerPolicy="no-referrer"
@@ -635,24 +568,24 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
 
           {/* Hình bằng cấp */}
-          <div className={cn('h-full min-h-0 p-2 rounded-[10px] border flex flex-col gap-1.5 min-w-0', paperBox)}>
-            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: 'var(--accent-rose, var(--text-link))' }}>
-              <div className="flex items-center gap-1.5 min-w-0">
-                <WebIcon name="award" className="w-3.5 h-3.5 shrink-0" />
-                <span className="typo-caption font-semibold truncate">Hình ảnh bằng cấp</span>
-              </div>
+          <div className={cn('h-full min-h-0 p-[2cqw] rounded-[10px] border flex flex-col gap-[1.4cqw] min-w-0', paperSubBox)}>
+            <div className="flex items-center justify-between gap-2 shrink-0" style={{ color: courseColor }}>
+              <span className="text-[3cqw] font-semibold truncate flex items-center gap-1">
+                <WebIcon name="award" className="w-[3cqw] h-[3cqw] shrink-0" />
+                <span>Hình ảnh bằng cấp</span>
+              </span>
               <button
                 type="button"
                 onClick={(e) =>
                   onOpenLightbox(
                     course.certImg || course.image,
-                    `${isEn ? 'Certificate' : 'Hình ảnh bằng cấp'}: ${formatCardTitle(course.title)}`,
+                    `${isEn ? 'Certificate' : 'Hình ảnh bằng cấp'}: ${cleanTitle}`,
                     e
                   )
                 }
-                className="typo-caption font-semibold inline-flex items-center gap-1 hover:underline cursor-pointer shrink-0"
+                className="text-[2.9cqw] font-semibold inline-flex items-center gap-1 hover:underline cursor-pointer shrink-0"
               >
-                <WebIcon name="maximize" className="w-3 h-3" />
+                <WebIcon name="maximize" className="w-[2.8cqw] h-[2.8cqw]" />
                 <span>Xem bằng</span>
               </button>
             </div>
@@ -661,22 +594,20 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               onClick={(e) =>
                 onOpenLightbox(
                   course.certImg || course.image,
-                  `${isEn ? 'Certificate' : 'Hình ảnh bằng cấp'}: ${formatCardTitle(course.title)}`,
+                  `${isEn ? 'Certificate' : 'Hình ảnh bằng cấp'}: ${cleanTitle}`,
                   e
                 )
               }
-              style={{ borderRadius: '14px', padding: '0px' }}
               className={cn(
-                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[14px] overflow-hidden bg-slate-950/90 border cursor-zoom-in block p-0',
+                'education-book-media-rounded relative flex-1 min-h-0 w-full rounded-[10px] overflow-hidden bg-zinc-950/90 border cursor-zoom-in block p-0',
                 paperDivider
               )}
               title="Nhấn để phóng to hình ảnh bằng cấp"
             >
               <img
                 src={course.certImg || course.image}
-                alt={`Hình bằng cấp ${formatCardTitle(course.title)}`}
-                style={{ borderRadius: '14px' }}
-                className="education-book-media-img w-full h-full object-cover object-center block rounded-[14px]"
+                alt={`Hình bằng cấp ${cleanTitle}`}
+                className="education-book-media-img w-full h-full object-cover object-center block"
                 loading="lazy"
                 decoding="async"
                 referrerPolicy="no-referrer"
@@ -686,43 +617,62 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           </div>
         </div>
 
-        {verifyInfo && (
-          <div className={cn('pt-2 border-t flex items-center justify-between gap-2 flex-wrap shrink-0', paperDivider)}>
-            <span className={cn('typo-caption truncate', inkMuted)}>
-              Mã: <strong className={cn('font-mono', inkPrimary)}>{verifyInfo.credentialId}</strong>
-            </span>
-            <button
-              type="button"
-              onClick={(e) => onOpenVerifyModal(course, e)}
-              style={{
-                background: 'var(--bg-button-primary)',
-                color: 'var(--text-button-primary, #FFFFFF)',
-              }}
-              className="px-2.5 py-1 rounded-full typo-caption font-semibold hover:opacity-90 transition inline-flex items-center gap-1 cursor-pointer shrink-0"
-            >
-              <WebIcon name="shield-check" className="w-3 h-3" />
-              <span>Kiểm tra trực tuyến</span>
-            </button>
-          </div>
-        )}
+        <p className={cn('mt-[2.5cqw] text-center text-[2.9cqw] tabular-nums m-0', inkMuted)}>
+          4
+        </p>
       </div>
     );
 
-    return [coverPage, page1, page2, page3, page4];
+    // ================= PAGE 5: BÌA SAU (KHÉP SÁCH CĂN GIỮA NHƯ KOKONUT UI) =================
+    const backCover = (
+      <div
+        key={`back-${course.id}`}
+        className="relative flex size-full flex-col items-center justify-center px-[9cqw] text-center text-[#f3efe4] select-none overflow-hidden"
+        style={coverBgStyle}
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-[3.5cqw] rounded-sm border border-[#f3efe4]/20"
+        />
+        <WebIcon name="award" className="w-[10cqw] h-[10cqw] opacity-85 mb-[3cqw]" />
+        <p className="font-play font-bold text-[5.2cqw] leading-tight tracking-tight m-0">
+          {course.issuer}
+        </p>
+        <p className="mt-[2.5cqw] text-[3.2cqw] leading-relaxed opacity-80 m-0">
+          {cleanTitle}
+          <br />
+          Năm {course.year} {verifyInfo ? `· ${verifyInfo.credentialId}` : ''}
+        </p>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            SoundEngine.playBookClose();
+            onClose();
+          }}
+          className="mt-[6cqw] px-[4.5cqw] py-[1.8cqw] rounded-full bg-white/15 hover:bg-white/25 border border-[#f3efe4]/35 text-[3.1cqw] font-semibold text-[#f3efe4] transition-all cursor-pointer"
+        >
+          {isEn ? 'Back to bookshelf' : 'Quay lại kệ sách'}
+        </button>
+      </div>
+    );
+
+    return [coverPage, page1, page2, page3, page4, backCover];
   }, [
     categoryLabel,
     course,
+    courseColor,
     getSkillTagIcon,
     inkMuted,
     inkPrimary,
     inkSecondary,
     isEn,
+    onClose,
     onNavigateSkillToSwot,
     onOpenLightbox,
     onOpenVerifyModal,
-    paperBox,
     paperDivider,
-    themeAccent,
+    paperSubBox,
     verifyInfo,
   ]);
 
@@ -755,7 +705,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         <WebIcon name="x" className="w-4 h-4" />
       </button>
 
-      {/* CHỈ HIỂN THỊ SÁCH — LUÔN VỪA KHÍT TRONG THẺ CHI TIẾT HỌC VẤN Ở MỌI KÍCH THƯỚC */}
+      {/* SÁCH 3D PHONG CÁCH KOKONUT UI — VỪA KHÍT KHUNG THẺ Ở MỌI KÍCH THƯỚC */}
       {stageBounds.w > 0 && stageBounds.h > 0 && (
         <PageFlip
           key={`pageflip-${course.id}`}
@@ -766,14 +716,18 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           disableKeyboardNav={disableKeyboardNav}
           disableWheelNav={true}
           forceSingle={fittedBook.isSingle}
-          showFooterNav={false}
+          showFooterNav={true}
+          labels={{
+            prev: isEn ? 'Previous page' : 'Trang trước',
+            next: isEn ? 'Next page' : 'Trang sau',
+            of: '/',
+          }}
           soundEnabled={true}
           className="mx-auto my-auto max-w-full max-h-full"
           frameStyle={{
             width: `${fittedBook.frameWidth}px`,
-            height: `${fittedBook.bookHeight}px`,
           }}
-          bookClassName="aspect-auto w-full h-full"
+          bookClassName="aspect-auto w-full"
           bookStyle={{
             height: `${fittedBook.bookHeight}px`,
           }}

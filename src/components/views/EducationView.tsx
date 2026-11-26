@@ -734,69 +734,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </AnimatePresence>
           </div>
 
-          {/* Nút chuyển chế độ xem (Dạng view): đồng bộ kích thước cùng nút Bộ lọc khóa học */}
-          <div
-            id="education-view-mode-switcher"
-            role="group"
-            aria-label={isEn ? 'View mode' : 'Dạng view'}
-            style={
-              matchedControlWidth
-                ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' }
-                : { maxWidth: '100%' }
-            }
-            className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex flex-wrap sm:flex-nowrap items-center gap-1 p-0.5 rounded-full box-border shrink"
-          >
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setViewMode('grid');
-              }}
-              style={
-                viewMode === 'grid'
-                  ? {
-                      background: 'var(--bg-button-primary)',
-                      color: 'var(--text-button-primary, #FFFFFF)',
-                    }
-                  : undefined
-              }
-              className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
-                viewMode === 'grid'
-                  ? 'shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              )}
-              title={isEn ? 'Grid View' : 'Dạng lưới'}
-            >
-              <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-              <span className="whitespace-nowrap">{isEn ? 'Grid' : 'Dạng lưới'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setViewMode('bookshelf');
-              }}
-              style={
-                viewMode === 'bookshelf'
-                  ? {
-                      background: 'var(--bg-button-primary)',
-                      color: 'var(--text-button-primary, #FFFFFF)',
-                    }
-                  : undefined
-              }
-              className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
-                viewMode === 'bookshelf'
-                  ? 'shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              )}
-              title={isEn ? 'Bookshelf View' : 'Kệ sách'}
-            >
-              <WebIcon name="book-open" className="w-3.5 h-3.5 shrink-0" />
-              <span className="whitespace-nowrap">{isEn ? 'Bookshelf' : 'Kệ sách'}</span>
-            </button>
-          </div>
         </div>
       </section>
       )}
@@ -829,7 +766,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         <>
 
 
-      {/* 4. NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC KỆ SÁCH (KHÔNG ĐỔI DATA) */}
+      {/* 4. NỘI DUNG CHÍNH: KỆ SÁCH 3D (ĐÃ XÓA DẠNG LƯỚI THEO YÊU CẦU) */}
       {filteredCourses.length === 0 ? (
         <div
           className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
@@ -844,131 +781,16 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             Hiển thị tất cả 14 chứng chỉ
           </button>
         </div>
-      ) : viewMode === 'bookshelf' ? (
+      ) : (
         <EducationBookshelfView
           courses={filteredCourses}
           getCourseColor={getCourseColor}
           getShortCategoryLabel={getShortCategoryLabel}
+          getCourseIcon={getEducationIconByTitle}
           isEn={isEn}
           isDark={isDark}
           onSelectCourse={handleOpenDetail}
         />
-      ) : (
-        /* Grid View */
-        <div
-          id="education-courses-grid"
-          className="education-responsive-grid card-grid w-full min-w-0 items-stretch"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
-        >
-          {filteredCourses.map((course, idx) => {
-            const localizedCourseTitle = t(course.title);
-            const displayTitle = localizedCourseTitle;
-            const cardColor = getCourseColor(course, idx);
-
-            return (
-              <motion.article
-                id={`education-card-${course.id}`}
-                key={course.id}
-                layoutId={`education-card-${course.id}`}
-                data-element-type="card"
-                data-distinct-bg="true"
-                role="button"
-                tabIndex={0}
-                onClick={() => handleOpenDetail(course)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleOpenDetail(course);
-                  }
-                }}
-                className="education-course-card card card-item bento-card glass-card group relative select-none font-play min-w-0 cursor-pointer border-l-0 p-[10px] flex flex-col justify-between rounded-[var(--radius-card,14px)] border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
-                style={
-                  {
-                    borderColor: isDark
-                      ? 'rgba(56, 189, 248, 0.32)'
-                      : 'rgba(255, 255, 255, 0.85)',
-                    background: isDark
-                      ? `linear-gradient(155deg, ${cardColor}38 0%, ${cardColor}18 42%, rgba(15, 23, 42, 0.95) 100%)`
-                      : `linear-gradient(155deg, ${cardColor}28 0%, ${cardColor}10 40%, rgba(255, 255, 255, 0.96) 100%)`,
-                    boxShadow: isDark
-                      ? '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px -3px rgba(56, 189, 248, 0.15)'
-                      : '0 10px 25px -5px rgba(30, 58, 138, 0.08), 0 0 15px -3px rgba(56, 189, 248, 0.12)',
-                  } as React.CSSProperties
-                }
-              >
-                <div
-                  data-media-card="image"
-                  style={{ borderRadius: 'var(--radius-image, 14px)', padding: '0px' }}
-                  className="education-card-banner themed-image-frame relative w-full overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img border border-[var(--border-subcard)] m-0 p-0 shadow-xs aspect-[16/10] rounded-[var(--radius-image,14px)]"
-                >
-                  <img
-                    src={course.image}
-                    alt={localizedCourseTitle}
-                    style={{ borderRadius: 'var(--radius-image, 14px)' }}
-                    className="w-full h-full object-cover object-center rounded-[inherit] block m-0 p-0"
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
-                  <div className="absolute bottom-2 left-2.5 right-2.5 z-20 flex items-center justify-between gap-2 text-white">
-                    <span className="typo-badge font-semibold truncate drop-shadow-xs max-w-[62%]">
-                      {course.issuer}
-                    </span>
-                    <span className="typo-badge font-mono font-semibold shrink-0 tabular-nums drop-shadow-xs">
-                      Năm {course.year}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="card-heading flex flex-col justify-start items-start text-left gap-1 min-w-0 w-full flex-1">
-                  <h3
-                    className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug break-words m-0 p-0 flex items-start justify-start text-left gap-1.5 w-full"
-                    data-card-title="true"
-                    style={{ color: cardColor, textAlign: 'left' }}
-                    title={displayTitle}
-                  >
-                    <WebIcon
-                      name={getEducationIconByTitle(displayTitle)}
-                      className="w-4 h-4 shrink-0 mt-0.5"
-                      style={{ color: cardColor }}
-                    />
-                    <span className="text-left">{displayTitle}</span>
-                  </h3>
-
-                  {course.desc && (
-                    <p className="typo-caption leading-relaxed line-clamp-2 m-0 text-left text-[var(--text-secondary)] w-full">
-                      {course.desc}
-                    </p>
-                  )}
-
-                  {course.result && (
-                    <div
-                      className="mt-1 px-2.5 py-1 rounded-[10px] border flex items-start gap-1.5 min-w-0 max-w-full shadow-xs self-start text-left"
-                      style={{
-                        backgroundColor: `${cardColor}12`,
-                        borderColor: `${cardColor}35`,
-                      }}
-                    >
-                      <p className="typo-caption font-semibold font-play whitespace-normal break-words min-w-0 line-clamp-1 m-0 text-left" style={{ color: cardColor }}>
-                        {course.result}
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute bottom-0 right-0 w-0 h-0 group-hover:w-7 group-hover:h-7 transition-all duration-300 ease-out rounded-tl-[8px] z-20"
-                  style={{
-                    background: `linear-gradient(135deg, ${cardColor}45 0%, ${cardColor}20 48%, transparent 52%)`,
-                    boxShadow: '-2px -2px 6px rgba(15, 23, 42, 0.14)',
-                  }}
-                />
-              </motion.article>
-            );
-          })}
-        </div>
       )}
         </>
       )}

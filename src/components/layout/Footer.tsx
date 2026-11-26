@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { TABS_DATA } from '../../data/tabs';
 import { WeatherWidget } from '../common/WeatherWidget';
+import { VoiceNavigation } from '../common/VoiceNavigation';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
@@ -483,10 +484,10 @@ const FooterComponent: React.FC<FooterProps> = ({
             : 'overflow-visible'
         }`}
       >
-      {/* Area 1: Weather Widget */}
+      {/* Area 1: Weather Widget & Voice Navigation */}
       <div
         id="el-p0-div-109"
-        className="w-auto md:max-w-[calc(50%-92px)] h-auto flex items-center justify-start gap-1.5 min-w-0 relative z-10 shrink-0"
+        className="w-auto md:max-w-[calc(50%-92px)] h-auto flex items-center justify-start gap-2 min-w-0 relative z-10 shrink-0"
         style={{
           paddingRight: '0px',
           paddingBottom: '0px',
@@ -494,6 +495,7 @@ const FooterComponent: React.FC<FooterProps> = ({
         }}
       >
         <WeatherWidget onShowNotification={onShowNotification} />
+        <VoiceNavigation currentTabIndex={currentTabIndex} onSelectTab={_onSelectTab} onShowNotification={onShowNotification} />
       </div>
 
       {/* Area 2: Navigation Capsule centered on md+, responsive flow on <md */}

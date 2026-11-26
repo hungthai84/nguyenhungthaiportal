@@ -152,8 +152,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     borderDark: 'rgba(192, 132, 252, 0.38)',
     pillTextLight: '#6d28d9',
     pillTextDark: '#d8b4fe',
-    illustrationSrc: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
-    fallbackIllustration: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
+    illustrationSrc: '/assets/services/the-thao-dien-tu.png',
+    fallbackIllustration: '/assets/services/the-thao-dien-tu.png',
     frontMetrics: [
       { label: 'Lưu lượng xử lý', labelEn: 'Ticket Volume', value: '>50.000/ngày', valueEn: '>50K / day' },
       { label: 'Phản hồi & CSAT', labelEn: 'Response & CSAT', value: '<30s · 96%' },
@@ -777,11 +777,6 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 ref={cardsWrapperRef}
                 data-interaction-state={interactionState}
                 className="relative w-full"
-                style={
-                  isAnyCardExpanded && gridNaturalHeight
-                    ? { minHeight: `${gridNaturalHeight}px` }
-                    : undefined
-                }
               >
                 <div
                   id="services-cards-grid"

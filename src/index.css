@@ -392,9 +392,11 @@ html:not([data-card-style="light-deep-ocean"]):not([data-surface-depth="flat"]) 
 }
 
 /* Unified Full-Width Viewport, Outer Page Container (100% Transparent, 0px, 1px Border) & Centered Level-01 .page-main-card */
-html #global-content-viewport:not(:has(#pdf-page-container)) {
-  width: 100% !important;
-  max-width: 100% !important;
+html #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)) {
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 html #letter-cards-track #el-p1-div-85,
@@ -541,6 +543,11 @@ html #horoscope-card-5-grid > :is(article, div) {
 }
 
 html #el-p1-div-85 #card-core-values-pursued {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: start !important;
+  justify-content: flex-start !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -550,8 +557,10 @@ html #el-p1-div-85 #card-core-values-pursued #core-values-grid {
   display: grid !important;
   grid-auto-flow: row !important;
   grid-auto-rows: auto !important;
-  align-items: stretch !important;
+  align-items: start !important;
+  align-content: start !important;
   height: auto !important;
+  min-height: 0 !important;
   flex: 0 0 auto !important;
   gap: 15px !important;
   row-gap: 15px !important;
@@ -564,6 +573,11 @@ html #el-p1-div-85 #card-core-values-pursued [data-subcard="true"] {
   padding: 12px !important;
   gap: 8px !important;
   margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: start !important;
+  justify-content: flex-start !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
@@ -591,7 +605,8 @@ html.dark[data-card-style] [id$="-page-root"] {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  overflow-x: auto !important;
+  justify-content: center !important;
+  overflow-x: hidden !important;
   overflow-y: hidden !important;
   background: transparent !important;
   background-color: transparent !important;
@@ -647,7 +662,7 @@ html[data-card-style] #about-intro-card-1,
 html[data-card-style] #about-intro-card-2,
 html.dark[data-card-style] #about-intro-card-1,
 html.dark[data-card-style] #about-intro-card-2 {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  width: 100% !important;
   max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
   height: min(var(--main-card-target-h, 600px), 100%) !important;
@@ -6608,32 +6623,51 @@ html[data-surface-depth="flat"] body :is(
 
 /* ĐỒNG BỘ CHIỀU NGANG HEADER, MAIN CARD, FOOTER Ở MỌI KÍCH THƯỚC VÀ MỌI GIAO DIỆN */
 html:root body #app-header-container,
+html:root body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
+html:root body #el-p0-div-98,
+html:root[data-card-style] body #app-header-container,
+html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
+html:root[data-card-style] body #el-p0-div-98 {
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1000px)) !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (max-width: 639px) {
+  html:root body #app-header-container,
+  html:root body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
+  html:root body #el-p0-div-98,
+  html:root[data-card-style] body #app-header-container,
+  html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
+  html:root[data-card-style] body #el-p0-div-98 {
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+  }
+}
+
 html:root body #app-header,
 html:root body #app-header-container > header,
-html:root body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
 html:root body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
 html:root body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root body #about-intro-card-1,
 html:root body #about-intro-card-2,
 html:root body #experience-main-card,
 html:root body #contact-main-card,
-html:root body #el-p0-div-98,
 html:root body #app-footer,
 html:root body #el-p0-div-98 > footer,
-html:root[data-card-style] body #app-header-container,
 html:root[data-card-style] body #app-header,
 html:root[data-card-style] body #app-header-container > header,
-html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
 html:root[data-card-style] body .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-track > .page-main-card):not(#horoscope-cards-track > .page-main-card),
 html:root[data-card-style] body [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#letter-cards-track > [data-main-card="true"]):not(#horoscope-cards-track > [data-main-card="true"]),
 html:root[data-card-style] body #about-intro-card-1,
 html:root[data-card-style] body #about-intro-card-2,
 html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
-html:root[data-card-style] body #el-p0-div-98,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 > footer {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  width: 100% !important;
   max-width: min(100%, var(--main-card-target-w, 1000px)) !important;
   min-width: 0 !important;
   margin-left: auto !important;
@@ -8167,19 +8201,34 @@ html:root[data-card-style] body #letter-page-container .h-px {
 
   html:root body #letter-main-card #el-p1-div-85 #core-values-grid,
   html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-grid {
-    flex: 1 1 0% !important;
+    flex: 0 0 auto !important;
     height: auto !important;
     min-height: 0 !important;
     gap: 10px !important;
     row-gap: 10px !important;
     column-gap: 10px !important;
-    align-items: stretch !important;
+    align-items: start !important;
+    align-content: start !important;
+  }
+
+  html:root body #letter-main-card #el-p1-div-85 #card-core-values-pursued,
+  html:root[data-card-style] body #letter-main-card #el-p1-div-85 #card-core-values-pursued,
+  html:root body #letter-main-card #el-p1-div-85 #quote-banner-slide-1,
+  html:root[data-card-style] body #letter-main-card #el-p1-div-85 #quote-banner-slide-1 {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    align-self: start !important;
+    justify-content: flex-start !important;
   }
 
   html:root body #letter-main-card #el-p1-div-85 #core-values-grid [data-subcard="true"],
   html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-grid [data-subcard="true"] {
-    height: 100% !important;
+    height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
+    align-self: start !important;
+    justify-content: flex-start !important;
     padding: 10px !important;
     gap: 6px !important;
   }
@@ -8394,8 +8443,14 @@ html:root body #letter-main-card [data-media-card="video"] img {
 /* Focus mode targeted styling for #home-cards-track and similar page tracks */
 div#root > div#website-root > main#global-content-viewport > div#el-p0-div-76 > div#home-page-container > div#home-cards-track,
 #home-cards-track,
-.page-cards-track {
-  margin-left: 10px !important;
+.page-cards-track:not(#horoscope-cards-track) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  justify-content: center !important;
   background: transparent !important;
   background-color: transparent !important;
   border-radius: 14px !important;
@@ -8469,7 +8524,11 @@ div#root > div#website-root > main#global-content-viewport > div#el-p0-div-76 > 
   pointer-events: auto !important;
 }
 
-/* LetterView: Thẻ Giá trị cốt lõi & Châm ngôn phụng sự có kích thước bằng nội dung bên trong */
+/* LetterView: Thẻ Giá trị cốt lõi, các sub card Giá trị cốt lõi & Thẻ Châm ngôn phụng sự có kích thước bằng đúng nội dung bên trong */
+html:root body #letter-page-container #card-core-values-pursued,
+html:root[data-card-style] body #letter-page-container #card-core-values-pursued,
+html:root body #letter-page-container #quote-banner-slide-1,
+html:root[data-card-style] body #letter-page-container #quote-banner-slide-1,
 #letter-page-container #card-core-values-pursued,
 #letter-page-container #quote-banner-slide-1,
 #card-core-values-pursued,
@@ -8477,25 +8536,46 @@ div#root > div#website-root > main#global-content-viewport > div#el-p0-div-76 > 
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
+  flex: 0 0 auto !important;
   align-self: start !important;
+  justify-content: flex-start !important;
 }
 
+html:root body #letter-page-container #card-core-values-pursued #core-values-grid,
+html:root[data-card-style] body #letter-page-container #card-core-values-pursued #core-values-grid,
 #core-values-grid,
 #card-core-values-pursued #core-values-grid {
   height: auto !important;
   min-height: 0 !important;
+  max-height: none !important;
+  flex: 0 0 auto !important;
+  grid-auto-rows: auto !important;
   align-items: start !important;
+  align-content: start !important;
 }
 
+html:root body #letter-page-container #core-values-grid [data-subcard="true"],
+html:root[data-card-style] body #letter-page-container #core-values-grid [data-subcard="true"],
+html:root body #letter-main-card #el-p1-div-85 #core-values-grid [data-subcard="true"],
+html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-grid [data-subcard="true"],
 #core-values-grid [data-subcard="true"],
 #core-values-grid [id^="core-val-"] {
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
+  flex: 0 0 auto !important;
+  align-self: start !important;
+  justify-content: flex-start !important;
 }
 
 /* LetterView: Fluid layout eliminating empty gaps on all container/viewport resizes */
-#letter-page-container #el-p1-div-85,
+#letter-page-container #el-p1-div-85 {
+  grid-auto-flow: dense !important;
+  align-items: stretch !important;
+  grid-auto-rows: auto !important;
+  width: 100% !important;
+}
+
 #letter-page-container #letter-slide-2-grid,
 #letter-page-container #letter-slide-3-grid,
 #letter-page-container #letter-slide-4-bento-grid {

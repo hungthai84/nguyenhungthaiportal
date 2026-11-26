@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
+import { ExperienceSliderView } from './experience/ExperienceSliderView';
 import {
   type OrigamiFoldPhase,
   ORIGAMI_TIMINGS,
@@ -423,6 +424,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [isClosingDetailContent, setIsClosingDetailContent] = useState<boolean>(false);
   const [isMobileFoldView, setIsMobileFoldView] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [experienceViewMode, setExperienceViewMode] = useState<'origami' | 'slider'>('origami');
 
   const isFoldLocked = foldPhase === 'unfolding' || foldPhase === 'folding';
   const unfoldingFoldIdx = foldPhase === 'unfolding' ? origamiTargetIdx : null;
@@ -964,31 +966,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     };
   }, [showJobCard]);
 
-  // Chromatic Folds: Dynamic --fold-angle synchronization via ResizeObserver
+  // Chromatic Folds: Keep --fold-angle at 0deg so paper pleats stand straight vertically facing directly outward
   useEffect(() => {
     if (showJobCard || isMobileFoldView) return;
     const container = boardRef.current?.querySelector('#experience-chromatic-folds');
-    if (!container || typeof ResizeObserver === 'undefined') return;
+    if (!container) return;
     const swatches = Array.from(container.querySelectorAll<HTMLElement>('.exp-fold-swatch'));
-    if (swatches.length === 0) return;
-
-    const computeAngle = (target: HTMLElement) => {
-      const direction = Number(target.dataset.num) % 2 ? 1 : -1;
-      const angle =
-        direction *
-        Math.atan2(target.offsetHeight * 0.05, Math.max(1, target.offsetWidth)) *
-        (180 / Math.PI);
-      target.style.setProperty('--fold-angle', `${angle.toFixed(3)}deg`);
-    };
-
-    swatches.forEach(computeAngle);
-    const foldObserver = new ResizeObserver((entries) => {
-      for (const { target } of entries) {
-        computeAngle(target as HTMLElement);
-      }
+    swatches.forEach((swatch) => {
+      swatch.style.setProperty('--fold-angle', '0deg');
     });
-    swatches.forEach((swatch) => foldObserver.observe(swatch));
-    return () => foldObserver.disconnect();
   }, [showJobCard, isMobileFoldView, roadmapCards.length]);
 
   const maxFoldIdx = roadmapCards.length - 1;
@@ -1606,10 +1592,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         );
       })()}
 
-      {/* KHUNG TIMELINE BÌA GẤP 3D ORIGAMI (CLICK MỞ HÉ · DOUBLE CLICK BUNG TOÀN PHẦN) */}
+      {/* KHUNG TIMELINE BÌA GẤP 3D ORIGAMI / SLIDER CARD */}
       {!showJobCard && (
-        <section
-          ref={boardRef}
+        experienceViewMode === 'slider' ? (
+          <ExperienceSliderView
+            roadmapCards={roadmapCards}
+            activeKey={activeKey}
+            onSelectMilestone={(key, idx) => {
+              handleOpenJobCard(key, idx);
+            }}
+            onSwitchViewMode={(mode) => {
+              setExperienceViewMode(mode);
+            }}
+            viewMode={experienceViewMode}
+            isDarkSurface={isDarkSurface}
+            isWalnutWood={isWalnutWood}
+            isDarkLeather={isDarkLeather}
+            isBrownLeather={isBrownLeather}
+          />
+        ) : (
+          <section
+            ref={boardRef}
           id="experience-timeline-board"
           data-fold-phase={foldPhase}
           data-unfolding={unfoldingFoldIdx !== null ? 'true' : 'false'}
@@ -1718,6 +1721,44 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <span className="w-[44px] h-[2px] bg-[#EE2A7B] ml-1" />
               </div>
             </header>
+
+            {/* View Mode Toggle Switcher */}
+            <div className="flex items-center gap-1.5 p-1 rounded-full bg-[var(--surface-secondary-bg)] border border-[var(--border-subcard)] pointer-events-auto backdrop-blur-md shadow-xs">
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap?.();
+                  setExperienceViewMode('origami');
+                }}
+                className={cn(
+                  'px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer',
+                  experienceViewMode === 'origami'
+                    ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                )}
+                title="Bản đồ Origami 3D"
+              >
+                <WebIcon name="layers" className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Bản đồ Origami</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap?.();
+                  setExperienceViewMode('slider');
+                }}
+                className={cn(
+                  'px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer',
+                  (experienceViewMode as string) === 'slider'
+                    ? 'bg-[var(--color-primary)] text-white shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                )}
+                title="Thẻ Slider"
+              >
+                <WebIcon name="layout-grid" className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Thẻ Slider</span>
+              </button>
+            </div>
           </div>
 
           {/* NÚT NỔI CHUYỂN ĐỔI QUA LẠI CÁC NẾP GẤP */}
@@ -2181,6 +2222,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </div>
           </div>
         </section>
+        )
       )}
 
       {/* =====================================================================

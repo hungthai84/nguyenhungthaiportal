@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
-import { motion, MotionConfig } from 'motion/react';
+import { motion, MotionConfig, AnimatePresence } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeView } from './components/views/HomeView';
@@ -831,7 +831,7 @@ export default function App() {
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1000px)',
-            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            width: 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
@@ -866,7 +866,7 @@ export default function App() {
           width:
             currentTabIndex === 10
               ? '100%'
-              : 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+              : 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
           maxWidth:
             currentTabIndex === 16
               ? '1250px'
@@ -894,23 +894,33 @@ export default function App() {
               : 'max-w-[1000px] overflow-visible'
         } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
-        <motion.div
-          key={`page-view-${currentTabIndex}`}
-          initial={{ opacity: 0, y: 10, scale: 0.995 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
-        >
-          <Suspense
-            fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="w-8 h-8 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
-              </div>
-            }
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={`page-view-${currentTabIndex}`}
+            layoutId="shared-main-content-host"
+            initial={{ opacity: 0, y: 12, scale: 0.992, filter: 'blur(3px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -10, scale: 0.995, filter: 'blur(2px)' }}
+            transition={{
+              layout: { type: 'spring', damping: 28, stiffness: 220 },
+              opacity: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+              y: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+              scale: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+              filter: { duration: 0.24, ease: 'easeOut' },
+            }}
+            className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
           >
-            {renderActiveView()}
-          </Suspense>
-        </motion.div>
+            <Suspense
+              fallback={
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+                </div>
+              }
+            >
+              {renderActiveView()}
+            </Suspense>
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
@@ -928,7 +938,7 @@ export default function App() {
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1000px)',
-            width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)))',
+            width: 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',

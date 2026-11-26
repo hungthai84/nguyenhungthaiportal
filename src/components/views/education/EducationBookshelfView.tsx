@@ -10,23 +10,149 @@ export interface EducationBookshelfViewProps {
   courses: EducationCourse[];
   getCourseColor: (course: EducationCourse, idx: number) => string;
   getShortCategoryLabel: (category: EducationCourse['category']) => string;
+  getCourseIcon?: (title: string) => string;
   isEn: boolean;
   isDark: boolean;
   onSelectCourse: (course: EducationCourse) => void;
+}
+
+const DISTINCT_BOOK_FALLBACK_COLORS = [
+  '#10B981', // Emerald
+  '#0EA5E9', // Sky
+  '#8B5CF6', // Violet
+  '#F59E0B', // Amber
+  '#EC4899', // Pink
+  '#06B6D4', // Cyan
+  '#3B82F6', // Royal Blue
+  '#14B8A6', // Teal
+  '#F97316', // Orange
+  '#A855F7', // Purple
+  '#6366F1', // Indigo
+  '#E11D48', // Crimson
+  '#059669', // Jade
+  '#D97706', // Ochre
+];
+
+function parseHexRgb(hex: string): [number, number, number] {
+  const clean = hex.trim().replace(/^#/, '');
+  if (clean.length === 3) {
+    const r = parseInt(clean[0] + clean[0], 16);
+    const g = parseInt(clean[1] + clean[1], 16);
+    const b = parseInt(clean[2] + clean[2], 16);
+    if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) return [r, g, b];
+  } else if (clean.length >= 6) {
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) return [r, g, b];
+  }
+  return [99, 102, 241];
+}
+
+function mixRgb(
+  c1: [number, number, number],
+  c2: [number, number, number],
+  weight1: number
+): [number, number, number] {
+  const w1 = Math.max(0, Math.min(1, weight1));
+  const w2 = 1 - w1;
+  return [
+    Math.round(c1[0] * w1 + c2[0] * w2),
+    Math.round(c1[1] * w1 + c2[1] * w2),
+    Math.round(c1[2] * w1 + c2[2] * w2),
+  ];
+}
+
+function toHex([r, g, b]: [number, number, number]): string {
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
+function relativeLuminance([r, g, b]: [number, number, number]): number {
+  const lin = [r, g, b].map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+}
+
+function computeBookCoverPalette(accentHex: string, isDarkEnv: boolean) {
+  const accentRgb = parseHexRgb(accentHex);
+  const envBase: [number, number, number] = isDarkEnv ? [15, 23, 42] : [255, 255, 255];
+  const envDeep: [number, number, number] = isDarkEnv ? [9, 13, 28] : [241, 245, 249];
+
+  // Rich distinct cover tone per book while respecting Light/Dark surrounding environment
+  const coverTopRgb = mixRgb(accentRgb, envBase, isDarkEnv ? 0.34 : 0.22);
+  const coverMidRgb = mixRgb(accentRgb, envBase, isDarkEnv ? 0.44 : 0.30);
+  const coverBotRgb = mixRgb(accentRgb, envDeep, isDarkEnv ? 0.52 : 0.38);
+
+  // Evaluate average cover surface luminance for WCAG contrast
+  const avgLum = relativeLuminance(coverMidRgb);
+  const darkInk: [number, number, number] = [15, 23, 42];
+  const whiteInk: [number, number, number] = [255, 255, 255];
+  const darkContrast = (Math.max(avgLum, 0.0072) + 0.05) / (Math.min(avgLum, 0.0072) + 0.05);
+  const lightContrast = (Math.max(avgLum, 1.0) + 0.05) / (Math.min(avgLum, 1.0) + 0.05);
+  const useLightText = lightContrast >= darkContrast;
+
+  const primaryText = useLightText ? '#FFFFFF' : '#0F172A';
+  const subText = useLightText ? 'rgba(248, 250, 252, 0.92)' : '#1E293B';
+  const mutedText = useLightText ? 'rgba(226, 232, 240, 0.88)' : '#334155';
+
+  // Crisp accent text & title icon ink tuned directly against cover surface + environment
+  const accentInkRgb = useLightText
+    ? mixRgb(accentRgb, whiteInk, 0.32)
+    : mixRgb(accentRgb, darkInk, 0.48);
+  const accentInk = toHex(accentInkRgb);
+
+  const iconBg = useLightText
+    ? `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.34)`
+    : `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.16)`;
+  const iconBorder = useLightText
+    ? 'rgba(255, 255, 255, 0.42)'
+    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.38)`;
+
+  const badgeBg = useLightText
+    ? 'rgba(15, 23, 42, 0.42)'
+    : 'rgba(255, 255, 255, 0.78)';
+  const badgeBorder = useLightText
+    ? 'rgba(255, 255, 255, 0.32)'
+    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.32)`;
+
+  const coverBorder = isDarkEnv
+    ? `rgba(${Math.min(255, accentRgb[0] + 60)}, ${Math.min(255, accentRgb[1] + 60)}, ${Math.min(255, accentRgb[2] + 60)}, 0.48)`
+    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.36)`;
+
+  const coverAura = `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, ${isDarkEnv ? 0.38 : 0.28})`;
+
+  return {
+    bgGradient: `linear-gradient(155deg, ${toHex(coverTopRgb)} 0%, ${toHex(coverMidRgb)} 52%, ${toHex(coverBotRgb)} 100%)`,
+    primaryText,
+    subText,
+    mutedText,
+    accentInk,
+    iconBg,
+    iconBorder,
+    badgeBg,
+    badgeBorder,
+    coverBorder,
+    coverAura,
+  };
 }
 
 export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   courses,
   getCourseColor,
   getShortCategoryLabel,
+  getCourseIcon,
   isEn,
-  isDark: _isDark,
+  isDark,
   onSelectCourse,
 }) => {
   const [sel, setSel] = useState<number>(0);
   const [open, setOpen] = useState<number>(0);
   const [shelfSize, setShelfSize] = useState<{ width: number; height: number }>({ width: 880, height: 420 });
   const shelfRef = useRef<HTMLElement | null>(null);
+  const timelineScrollRef = useRef<HTMLDivElement | null>(null);
+  const timelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const dragStartXRef = useRef<number | null>(null);
   const dragMovedRef = useRef<boolean>(false);
   const sel0Ref = useRef<number>(0);
@@ -68,9 +194,21 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     };
   }, []);
 
-  // Tỉ lệ bìa sách dọc chuẩn (0.72) tăng kích thước sách lên 1 chút và giảm nhẹ độ dày gáy sách
+  // Keep active timeline milestone centered horizontally inside timeline scroll bar
+  useEffect(() => {
+    const container = timelineScrollRef.current;
+    const node = timelineNodeRefs.current[safeSel];
+    if (!container || !node) return;
+    const targetLeft = node.offsetLeft - container.clientWidth / 2 + node.offsetWidth / 2;
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth',
+    });
+  }, [safeSel, courses.length]);
+
+  // Tỉ lệ bìa sách dọc chuẩn (0.72) tự co giãn cân đối với không gian kệ sách
   const bookHeight = Math.round(
-    Math.max(188, Math.min(shelfSize.height * 0.93, shelfSize.width * 0.62, 445))
+    Math.max(165, Math.min(shelfSize.height * 0.90, shelfSize.width * 0.60, 430))
   );
   const bookWidth = Math.round(bookHeight * 0.72);
   const bookSpine = Math.max(11, Math.min(20, Math.round(bookWidth * 0.072)));
@@ -176,16 +314,33 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
 
   const themeAccent = 'var(--text-link, var(--color-primary))';
 
+  const getDistinctBookColor = (course: EducationCourse, idx: number): string => {
+    const base = getCourseColor(course, idx);
+    if (base && base.startsWith('#')) {
+      return base;
+    }
+    return DISTINCT_BOOK_FALLBACK_COLORS[idx % DISTINCT_BOOK_FALLBACK_COLORS.length];
+  };
+
   const renderEducationBookCover = (
     course: EducationCourse,
     idx: number,
-    showGlint: boolean
+    showGlint: boolean,
+    palette: ReturnType<typeof computeBookCoverPalette>
   ) => {
     const courseTitle = formatCardTitle(course.title);
     const categoryLabel = getShortCategoryLabel(course.category);
+    const courseIconName = getCourseIcon ? getCourseIcon(course.title) : 'book';
 
     return (
-      <div className="disc-out edu-shelf-book-cover">
+      <div
+        className="disc-out edu-shelf-book-cover"
+        style={{
+          background: palette.bgGradient,
+          color: palette.primaryText,
+          borderColor: palette.coverBorder,
+        }}
+      >
         {showGlint && <div className="disc-glint" />}
         <div className="edu-shelf-cover-wash" aria-hidden="true" />
         <div className="edu-shelf-cover-spine-strip" aria-hidden="true" />
@@ -194,21 +349,32 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
           {/* Thanh metadata đỉnh bìa sách học vấn */}
           <div className="edu-shelf-cover-top">
             <span
-              className="inline-flex items-center gap-1 font-semibold truncate"
-              style={{ color: themeAccent }}
+              className="inline-flex items-center gap-1 font-bold truncate"
+              style={{ color: palette.accentInk }}
             >
               <WebIcon name="book" className="w-3 h-3 shrink-0" />
               <span className="truncate">
                 {isEn ? 'Education Book' : 'Bìa sách · Học vấn'}
               </span>
             </span>
-            <span className="font-mono font-semibold tabular-nums text-[var(--text-muted)] shrink-0">
+            <span
+              className="font-mono font-bold tabular-nums shrink-0"
+              style={{ color: palette.mutedText }}
+            >
               {course.code || `Năm ${course.year}`}
             </span>
           </div>
 
-          {/* Khung ảnh bìa sách tỷ lệ 16:10 đồng bộ EducationBookView */}
-          <div className="edu-shelf-cover-media">
+          {/* Khung ảnh bìa sách bo cong đồng bộ bo cong tùy chỉnh và lấp đầy không gian thừa */}
+          <div
+            data-media-card="image"
+            className="edu-shelf-cover-media"
+            style={{
+              borderRadius: 'var(--radius-image, var(--radius-global, var(--radius-card, 14px)))',
+              padding: '0px',
+              borderColor: palette.coverBorder,
+            }}
+          >
             <img
               src={course.image}
               alt=""
@@ -223,26 +389,48 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             </div>
           </div>
 
-          {/* Nội dung tiêu đề, phân loại, mô tả & kết quả */}
+          {/* Nội dung tiêu đề kèm icon sắc nét, phân loại, mô tả & kết quả */}
           <div className="edu-shelf-cover-body">
             <div className="edu-shelf-cover-category">
-              <span style={{ color: themeAccent }}>{course.type}</span>
-              <span className="mx-1 text-[var(--text-muted)]">·</span>
-              <span className="text-[var(--text-muted)]">{categoryLabel}</span>
+              <span className="font-bold" style={{ color: palette.accentInk }}>
+                {course.type}
+              </span>
+              <span className="mx-1" style={{ color: palette.mutedText }}>·</span>
+              <span className="font-semibold" style={{ color: palette.mutedText }}>
+                {categoryLabel}
+              </span>
             </div>
 
-            <h4 className="edu-shelf-cover-title" style={{ color: themeAccent }}>
-              {courseTitle}
+            <h4 className="edu-shelf-cover-title" style={{ color: palette.primaryText }}>
+              <span
+                className="edu-shelf-cover-title-icon-badge"
+                style={{
+                  background: palette.iconBg,
+                  borderColor: palette.iconBorder,
+                  color: palette.accentInk,
+                }}
+                aria-hidden="true"
+              >
+                <WebIcon
+                  name={courseIconName}
+                  className="edu-shelf-cover-title-icon"
+                />
+              </span>
+              <span className="edu-shelf-cover-title-text">{courseTitle}</span>
             </h4>
 
-            <p className="edu-shelf-cover-desc">
+            <p className="edu-shelf-cover-desc" style={{ color: palette.subText }}>
               {course.desc || 'Thông tin chưa được cung cấp.'}
             </p>
 
             {course.result && (
               <div
                 className="edu-shelf-cover-result"
-                style={{ color: 'var(--text-badge, var(--text-link, var(--color-primary)))' }}
+                style={{
+                  color: palette.primaryText,
+                  background: palette.badgeBg,
+                  borderColor: palette.badgeBorder,
+                }}
               >
                 {course.result}
               </div>
@@ -252,6 +440,8 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       </div>
     );
   };
+
+  const currentCourseIconName = currentCourse && getCourseIcon ? getCourseIcon(currentCourse.title) : 'book';
 
   return (
     <div
@@ -266,9 +456,47 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         '--S': `${bookSpine}px`,
       } as React.CSSProperties}
     >
-      {/* Top Bar */}
-      <header className="disc-top w-full flex items-center justify-end">
-        <p className="disc-count m-0">
+      {/* Top Timeline Bar (Year + Course Name) & Book Counter */}
+      <header className="disc-top edu-shelf-timeline-header w-full">
+        <div
+          ref={timelineScrollRef}
+          className="edu-shelf-timeline-scroll"
+          role="navigation"
+          aria-label={isEn ? 'Course Timeline' : 'Dòng thời gian các khóa học'}
+        >
+          <div className="edu-shelf-timeline-track">
+            <span className="edu-shelf-timeline-line" aria-hidden="true" />
+            {courses.map((course, idx) => {
+              const isActive = idx === safeSel;
+              const nodeTitle = formatCardTitle(course.title);
+              return (
+                <button
+                  key={`timeline-${course.id}`}
+                  ref={(el) => {
+                    timelineNodeRefs.current[idx] = el;
+                  }}
+                  type="button"
+                  data-active={isActive ? 'true' : 'false'}
+                  onClick={() => {
+                    setSel(idx);
+                    setOpen(0);
+                    SoundEngine.playTap?.();
+                  }}
+                  className="edu-shelf-timeline-node"
+                  aria-current={isActive ? 'step' : undefined}
+                  title={`${course.year} · ${nodeTitle}`}
+                >
+                  <span className="edu-shelf-timeline-year">{course.year}</span>
+                  <span className="edu-shelf-timeline-dot-wrap" aria-hidden="true">
+                    <span className="edu-shelf-timeline-dot" />
+                  </span>
+                  <span className="edu-shelf-timeline-name">{nodeTitle}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <p className="disc-count m-0 shrink-0 pl-2">
           <b>{safeSel + 1}</b> / {courses.length}
         </p>
       </header>
@@ -289,13 +517,14 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       >
         <ol className="disc-cases">
           {courses.map((course, idx) => {
+            const courseTitle = formatCardTitle(course.title);
             const d = idx - safeSel;
             const ad = Math.abs(d);
             const L = d < 0 ? 1 : 0;
             const R = d > 0 ? 1 : 0;
             const C = d === 0 ? 1 : 0;
-            const courseTitle = formatCardTitle(course.title);
-            const courseAccent = getCourseColor(course, idx);
+            const courseAccent = getDistinctBookColor(course, idx);
+            const palette = computeBookCoverPalette(courseAccent, isDark);
 
             const x =
               R * (firstGap + (d - 1) * sideStep) -
@@ -343,7 +572,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                 />
                 <div className="disc-box" aria-hidden="true">
                   <div className="disc-cover">
-                    {renderEducationBookCover(course, idx, idx === safeSel && open === 1)}
+                    {renderEducationBookCover(course, idx, idx === safeSel && open === 1, palette)}
                     <div className="disc-in">
                       <p className="disc-notes-title" style={{ color: themeAccent }}>
                         {courseTitle}
@@ -406,53 +635,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             );
           })}
         </ol>
-
-        {/* Glossy Floor Reflection */}
-        <div className="disc-mirror" aria-hidden="true">
-          <ol className="disc-cases reflect">
-            {courses.map((course, idx) => {
-              const d = idx - safeSel;
-              const ad = Math.abs(d);
-              const L = d < 0 ? 1 : 0;
-              const R = d > 0 ? 1 : 0;
-              const C = d === 0 ? 1 : 0;
-              const courseTitle = formatCardTitle(course.title);
-              const courseAccent = getCourseColor(course, idx);
-              const x =
-                R * (firstGap + (d - 1) * sideStep) -
-                L * (firstGap + (ad - 1) * sideStep) +
-                C * open * openShift;
-              const isWithinBounds = C === 1 || Math.abs(x) <= maxHalfReach;
-
-              return (
-                <li
-                  key={`ref-${course.id}`}
-                  className="disc-case"
-                  style={{
-                    '--disc-d': d,
-                    '--disc-ad': ad,
-                    '--disc-L': L,
-                    '--disc-R': R,
-                    '--disc-C': C,
-                    '--disc-vis': isWithinBounds ? 1 : 0,
-                    '--x': `${x}px`,
-                    '--book-accent': courseAccent,
-                  } as React.CSSProperties}
-                >
-                  <div className="disc-box" aria-hidden="true">
-                    <div className="disc-cover">
-                      {renderEducationBookCover(course, idx, false)}
-                    </div>
-                    <div className="disc-spine">
-                      <b>{courseTitle}</b>
-                      <span>{course.year}</span>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
 
         <button
           className="disc-open-hit"

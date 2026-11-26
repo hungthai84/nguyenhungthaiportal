@@ -102,7 +102,7 @@
 }
 
 #global-content-viewport {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px)));
+  width: var(--main-card-w, clamp(260px, calc(100% - 32px), var(--main-card-target-w, 1000px)));
   max-width: var(--main-card-target-w, 1000px);
   box-sizing: border-box !important;
   flex: 1 1 0% !important;
@@ -186,14 +186,14 @@
   scroll-behavior: smooth;
 }
 
-.main-card:not(#pdf-page-container),
-[id$="-page-container"]:not(#pdf-page-container),
+.main-card:not(#pdf-page-container):not(#horoscope-page-container),
+[id$="-page-container"]:not(#pdf-page-container):not(#horoscope-page-container),
 [id$="-page-root"] {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   height: 100%;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   gap: var(--main-cards-gap, 10px);
   row-gap: var(--main-cards-gap, 10px);
@@ -201,8 +201,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  overflow-x: auto;
+  justify-content: center;
+  overflow-x: hidden;
   overflow-y: hidden;
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -234,7 +234,7 @@
 }
 
 #about-intro-card-1 {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px)) !important;
+  width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   height: 100% !important;
   min-height: 0 !important;
@@ -316,16 +316,16 @@
   box-sizing: border-box !important;
 }
 
-.page-cards-track > .page-main-card:not(#pdf-page-container),
-.page-cards-track > [data-main-card="true"]:not(#pdf-page-container),
-.main-card > .page-main-card:not(#pdf-page-container),
-.main-card > [data-main-card="true"]:not(#pdf-page-container),
+.page-cards-track:not(#horoscope-cards-track) > .page-main-card:not(#pdf-page-container),
+.page-cards-track:not(#horoscope-cards-track) > [data-main-card="true"]:not(#pdf-page-container),
+.main-card:not(#horoscope-page-container) > .page-main-card:not(#pdf-page-container),
+.main-card:not(#horoscope-page-container) > [data-main-card="true"]:not(#pdf-page-container),
 #tab-content > .page-main-card:not(#pdf-page-container),
 #tab-content > [data-main-card="true"]:not(#pdf-page-container),
 .tab-content-host > .page-main-card:not(#pdf-page-container),
 .tab-content-host > [data-main-card="true"]:not(#pdf-page-container) {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, clamp(1000px, 78vw, 1380px)))) !important;
-  max-width: var(--main-card-target-w, clamp(1000px, 78vw, 1380px)) !important;
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1000px) !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -343,11 +343,17 @@
   box-sizing: border-box !important;
 }
 
-.page-cards-track:not(#letter-cards-track),
-[id$="-cards-track"]:not(#letter-cards-track) {
-  width: max-content !important;
-  max-width: none !important;
-  flex: 0 0 auto !important;
+.page-cards-track:not(#horoscope-cards-track),
+[id$="-cards-track"]:not(#horoscope-cards-track) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  justify-content: center !important;
+  flex: 1 1 0% !important;
 }
 
 #horoscope-cards-track {
@@ -396,8 +402,8 @@
 #horoscope-cards-track > *,
 #horoscope-cards-track > .page-main-card,
 #horoscope-cards-track > [data-main-card="true"] {
-  width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
-  min-width: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1000px))) !important;
+  width: var(--horoscope-card-w, 100%) !important;
+  min-width: var(--horoscope-card-w, 100%) !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   flex: 0 0 auto !important;
   height: 100% !important;

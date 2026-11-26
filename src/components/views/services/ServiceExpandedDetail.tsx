@@ -1,15 +1,17 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
 const Award = createAnimatedIcon('award');
 const Building2 = createAnimatedIcon('building-2');
 const CheckCircle2 = createAnimatedIcon('check-circle');
+const ChevronDown = createAnimatedIcon('chevron-down');
 const ChevronLeft = createAnimatedIcon('chevron-left');
 const ChevronRight = createAnimatedIcon('chevron-right');
+const ChevronUp = createAnimatedIcon('chevron-up');
 const ExternalLink = createAnimatedIcon('external-link');
 const Layers = createAnimatedIcon('layers');
 const Sparkles = createAnimatedIcon('sparkles');
@@ -80,6 +82,8 @@ export interface DomainUiMeta {
   tagsEn: string[];
 }
 
+type CompactSectionKey = 'overview' | 'scaleChallenges' | 'outcomesTech';
+
 interface ServiceExpandedDetailProps {
   expandedDomain: DomainData;
   expandedMeta: DomainUiMeta;
@@ -105,7 +109,6 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   allDomains,
   serviceAssignments,
   interactionState,
-  minHeightPx,
   prefersReducedMotion,
   isEn,
   isLeatherTheme,
@@ -117,6 +120,26 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   renderDomainIcon,
   renderKpiIcon,
 }) => {
+  const [openSections, setOpenSections] = useState<Partial<Record<CompactSectionKey, boolean>>>({});
+
+  useEffect(() => {
+    setOpenSections({});
+  }, [expandedDomain.id]);
+
+  const toggleSection = (key: CompactSectionKey) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const allSectionKeys: CompactSectionKey[] = ['overview', 'scaleChallenges', 'outcomesTech'];
+  const areAllExpanded = allSectionKeys.every((k) => Boolean(openSections[k]));
+  const toggleAllSections = () => {
+    if (areAllExpanded) {
+      setOpenSections({});
+    } else {
+      setOpenSections({ overview: true, scaleChallenges: true, outcomesTech: true });
+    }
+  };
+
   const currentIndex = allDomains.findIndex((d) => d.id === expandedDomain.id);
   const prevDomain =
     allDomains.length > 1
@@ -132,13 +155,15 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   const domainSubtitle = isEn
     ? expandedDomain.subtitleEn || expandedDomain.descEn
     : expandedDomain.subtitle || expandedDomain.desc;
+  const domainSummaryDesc = isEn
+    ? expandedDomain.descEn || expandedDomain.subtitleEn
+    : expandedDomain.desc || expandedDomain.subtitle;
 
   const illustrationUrl =
     serviceAssignments[expandedDomain.id as ServiceDomainKey]?.directImageUrl ||
     expandedDomain.customIllustrationUrl ||
     expandedMeta.illustrationSrc;
 
-  // Tất cả màu nhấn & bề mặt lấy tự động từ Global Theme Tokens hiện hành
   const themeAccent = 'var(--text-link, var(--color-primary))';
   const themeTintBg = isLeatherTheme
     ? 'rgba(253, 230, 138, 0.12)'
@@ -152,6 +177,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     ? { duration: 0 }
     : { type: 'spring' as const, stiffness: 215, damping: 27, mass: 0.95 };
 
+  const activeTags = isEn ? expandedMeta.tagsEn : expandedMeta.tags;
+
   return (
     <motion.div
       id="services-expanded-card"
@@ -160,34 +187,31 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
       layout
       transition={{ layout: layoutTransition }}
       data-element-type="card"
+      data-compact-service-card="true"
       data-interaction-state={interactionState}
       role="region"
       aria-label={domainTitle}
-      className="domain-card-expanded w-full min-w-0 md:max-h-[max(var(--services-expanded-min-h,540px),68vh)]"
-      style={
-        {
-          minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
-          ['--services-expanded-min-h' as string]: minHeightPx ? `${minHeightPx}px` : '540px',
-          borderRadius: 'var(--radius-main, 14px)',
-        } as React.CSSProperties
-      }
+      className="domain-card-expanded domain-card-compact w-full min-w-0 h-fit"
+      style={{
+        borderRadius: 'var(--radius-main, 14px)',
+      }}
     >
-      {/* 1. HEADER: Icon + Hình ảnh + Tiêu đề + Điều hướng Trước/Sau + Nút Đóng góc trên bên phải */}
+      {/* 1. COMPACT HEADER */}
       <motion.div
         layout="position"
         initial={prefersReducedMotion ? false : { opacity: 0.6 }}
         animate={{ opacity: isClosing ? 0 : 1 }}
         transition={{
-          duration: prefersReducedMotion ? 0 : isClosing ? 0.14 : 0.28,
+          duration: prefersReducedMotion ? 0 : isClosing ? 0.14 : 0.24,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-2.5 sm:gap-4"
+        className="expanded-detail-content shrink-0 px-3.5 sm:px-4 py-2.5 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-2.5"
         style={{ background: themeTintBg }}
       >
-        <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div className="relative w-10 h-10 shrink-0 flex items-center justify-center">
             <div
-              className="absolute inset-0 rounded-full blur-md opacity-35 pointer-events-none"
+              className="absolute inset-0 rounded-full blur-md opacity-30 pointer-events-none"
               style={{ background: 'var(--color-primary)' }}
             />
             <img
@@ -201,20 +225,32 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   e.currentTarget.src = expandedMeta.fallbackIllustration;
                 }
               }}
-              className="relative z-10 w-full h-full object-contain drop-shadow-md select-none"
+              className="relative z-10 w-full h-full object-contain drop-shadow-sm select-none"
             />
           </div>
 
           <div className="min-w-0 flex-1">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: themeAccent }}>
-              {renderDomainIcon(expandedMeta.iconKey, 'w-5 h-5 shrink-0 stroke-[2.2]', themeAccent)}
+              {renderDomainIcon(expandedMeta.iconKey, 'w-4 h-4 shrink-0 stroke-[2.2]', themeAccent)}
               <h2
-                className="typo-h3 sm:typo-h2 card-title-synced font-play font-bold tracking-tight truncate m-0"
+                className="typo-h4 sm:typo-h3 card-title-synced font-play font-bold tracking-tight truncate m-0"
                 data-card-title="true"
                 style={{ color: themeAccent }}
               >
                 {domainTitle}
               </h2>
+              {expandedDomain.serviceCode && (
+                <span
+                  className="hidden sm:inline-flex typo-badge font-bold px-2 py-0.5 rounded-full border shrink-0"
+                  style={{
+                    background: 'var(--bg-badge, var(--bg-subcard))',
+                    borderColor: 'var(--border-badge, var(--border-subcard))',
+                    color: themeAccent,
+                  }}
+                >
+                  {expandedDomain.serviceCode}
+                </span>
+              )}
             </div>
             {domainSubtitle && (
               <p className="typo-caption text-[var(--text-secondary)] truncate m-0 mt-0.5">
@@ -224,7 +260,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
           {prevDomain && nextDomain && (
             <div className="inline-flex items-center gap-1">
               <button
@@ -249,15 +285,46 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           )}
 
           <button
+            type="button"
+            onClick={toggleAllSections}
+            className="banner-control-pill inline-flex items-center gap-1 px-3 py-1.5 rounded-full typo-caption font-play font-semibold cursor-pointer transition border border-[var(--border-subcard)]"
+            aria-expanded={areAllExpanded}
+            title={
+              areAllExpanded
+                ? isEn
+                  ? 'Collapse all sections'
+                  : 'Thu gọn tất cả mục'
+                : isEn
+                  ? 'Expand all sections'
+                  : 'Mở rộng tất cả mục'
+            }
+          >
+            {areAllExpanded ? (
+              <ChevronUp className="w-3.5 h-3.5 shrink-0" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5 shrink-0" />
+            )}
+            <span>
+              {areAllExpanded
+                ? isEn
+                  ? 'Collapse'
+                  : 'Thu gọn'
+                : isEn
+                  ? 'Expand details'
+                  : 'Xem chi tiết'}
+            </span>
+          </button>
+
+          <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-play font-semibold cursor-pointer transition hover:opacity-95 shadow-sm border border-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full typo-button font-play font-semibold cursor-pointer transition hover:opacity-95 shadow-sm border border-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
             style={{
               background: 'var(--bg-button-primary, var(--color-primary))',
               color: 'var(--text-button-primary, #FFFFFF)',
             }}
-            aria-label={isEn ? 'Close domain details' : 'Đóng chi tiết lĩnh vực'}
+            aria-label={isEn ? 'Close compact service card' : 'Đóng thẻ dịch vụ'}
             title={isEn ? 'Close (Esc)' : 'Đóng (Esc)'}
           >
             <X className="w-3.5 h-3.5 shrink-0" />
@@ -266,478 +333,144 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         </div>
       </motion.div>
 
-      {/* 2. THÂN NỘI DUNG CHI TIẾT (Fade & Rise mượt sau khi Card có đủ không gian, cuộn nội bộ) */}
+      {/* 2. COMPACT CORE SUMMARY + COLLAPSIBLE ACCORDION SECTIONS */}
       <motion.div
         key={expandedDomain.id}
         ref={expandedBodyRef}
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-        animate={isClosing ? { opacity: 0, y: 8 } : { opacity: 1, y: 0 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
+        animate={isClosing ? { opacity: 0, y: 6 } : { opacity: 1, y: 0 }}
         transition={{
-          duration: prefersReducedMotion ? 0 : isClosing ? 0.16 : 0.34,
-          delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.12,
+          duration: prefersReducedMotion ? 0 : isClosing ? 0.14 : 0.26,
+          delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.08,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
+        className="expanded-detail-content p-3.5 sm:p-4 flex flex-col gap-3 h-fit"
       >
-        {/* TẦNG 1: 4 Thẻ KPI Trọng Tâm */}
-        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 lg:grid-cols-4 gap-[15px] items-stretch shrink-0">
+        {/* KPI Tóm Tắt (4 chỉ số gọn trong 1 hàng) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 items-stretch">
           {expandedMeta.detailKpis.map((kpi, kIdx) => (
             <div
               key={kIdx}
               data-subcard="true"
-              className="domain-card-sub rounded-2xl p-3.5 flex flex-col justify-between gap-2 min-w-0 h-full"
+              className="domain-card-sub rounded-xl p-2.5 flex flex-col justify-between gap-1 min-w-0"
             >
-              <div className="flex items-start justify-between gap-2 min-w-0">
-                <div
-                  className="typo-h3 sm:typo-h2 font-bold leading-tight truncate tabular-nums tracking-tight"
+              <div className="flex items-center justify-between gap-1.5 min-w-0">
+                <span
+                  className="typo-h4 font-bold leading-tight truncate tabular-nums tracking-tight"
                   style={{ color: themeAccent }}
                 >
                   {isEn && kpi.valueEn ? kpi.valueEn : kpi.value}
-                </div>
+                </span>
                 <span
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-xl shrink-0"
+                  className="inline-flex items-center justify-center w-6 h-6 rounded-lg shrink-0"
                   style={{
                     backgroundColor: themeTintBg,
                     color: themeAccent,
                   }}
                 >
-                  {renderKpiIcon(kpi.icon, 'w-4 h-4 shrink-0')}
+                  {renderKpiIcon(kpi.icon, 'w-3.5 h-3.5 shrink-0')}
                 </span>
               </div>
-              <div className="typo-caption font-medium text-[var(--text-secondary)] leading-snug line-clamp-2">
+              <span className="typo-caption font-medium text-[var(--text-secondary)] leading-snug line-clamp-1">
                 {isEn ? kpi.labelEn : kpi.label}
-              </div>
+              </span>
             </div>
           ))}
         </div>
 
-        {/* TẦNG 2: Feature Wide Bento Card — Năng lực vận hành, Chuyên môn, Kinh nghiệm & Giá trị chuyển đổi */}
+        {/* Thẻ Tóm Tắt Trọng Tâm & Doanh Nghiệp Tiêu Biểu */}
         <div
           data-subcard="true"
-          className="domain-card-sub services-detail-overview-subcard rounded-2xl p-[15px] flex flex-col gap-3 h-fit w-full shrink-0"
+          className="domain-card-sub rounded-xl p-3 flex flex-col gap-2.5 min-w-0"
           style={{
             background: themeTintBg,
             borderColor: themeTintBorder,
           }}
         >
-          <div className="subcard-header-sync flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <Award className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                data-subcard-title="true"
-              >
-                {isEn
-                  ? 'Operational, Core Competency & Field Experience'
-                  : 'Năng lực vận hành, Chuyên môn & Kinh nghiệm thực chiến'}
-              </h3>
-            </div>
-            {expandedDomain.serviceCode && (
-              <span
-                className="typo-badge font-bold px-2.5 py-0.5 rounded-full border shrink-0"
-                style={{
-                  background: 'var(--bg-badge, var(--bg-subcard))',
-                  borderColor: 'var(--border-badge, var(--border-subcard))',
-                  color: themeAccent,
-                }}
-              >
-                {expandedDomain.serviceCode} · {isEn ? expandedMeta.shortTitleEn : expandedMeta.shortTitle}
-              </span>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
-                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
-                  {isEn
-                    ? 'Operational Capability'
-                    : expandedDomain.operationalCapabilityLabel || 'Năng lực vận hành'}
-                </span>
-              </div>
-              <p className="typo-body-sm text-[var(--text-secondary)] leading-relaxed m-0">
-                {isEn
-                  ? expandedDomain.subtitleEn || expandedDomain.descEn
-                  : expandedDomain.operationalCapability || expandedDomain.desc}
-              </p>
-            </div>
-
-            <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
-                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
-                  {isEn ? 'Core Expertise' : 'Năng lực chuyên môn'}
-                </span>
-              </div>
-              <p className="typo-body-sm text-[var(--text-secondary)] leading-relaxed m-0">
-                {isEn
-                  ? expandedDomain.subtitleEn || expandedDomain.descEn
-                  : expandedDomain.coreCompetency || expandedDomain.subtitle}
-              </p>
-            </div>
-
-            <div className="rounded-xl p-3 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 flex flex-col gap-1.5 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
-                <span className="typo-badge font-bold" style={{ color: themeAccent }}>
-                  {isEn ? 'Field Experience' : 'Kinh nghiệm thực chiến'}
-                </span>
-              </div>
-              <p className="typo-body-sm text-[var(--text-secondary)] leading-relaxed m-0">
-                {isEn
-                  ? expandedDomain.descEn
-                  : expandedDomain.experienceAndScale || expandedDomain.desc}
-              </p>
-            </div>
-          </div>
+          {domainSummaryDesc && (
+            <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
+              {domainSummaryDesc}
+            </p>
+          )}
 
           {expandedDomain.valueDelivered && (
-            <div className="rounded-xl px-3.5 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/75 flex items-start gap-2.5 min-w-0">
-              <TrendingUp className="w-4 h-4 shrink-0 mt-0.5" style={{ color: themeAccent }} />
-              <div className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                <span className="font-bold mr-1.5" style={{ color: themeAccent }}>
+            <div className="flex items-start gap-2 rounded-lg px-2.5 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/70 typo-caption leading-relaxed">
+              <TrendingUp className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: themeAccent }} />
+              <div className="min-w-0">
+                <span className="font-bold mr-1" style={{ color: themeAccent }}>
                   {isEn ? 'Strategic Value:' : 'Giá trị chuyển đổi:'}
                 </span>
                 <span className="text-[var(--text-secondary)]">{expandedDomain.valueDelivered}</span>
               </div>
             </div>
           )}
-        </div>
 
-        {/* TẦNG 3: Lưới Bento Đa Kích Thước Dense */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-[15px] [grid-auto-flow:dense] items-stretch min-w-0">
-          {/* Tile 1 (Wide 7 cols): Quy mô & Phạm vi vận hành */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub xl:col-span-7 rounded-2xl p-[15px] flex flex-col justify-between gap-3 w-full min-w-0 h-full"
-          >
-            <div className="flex flex-col gap-3 min-w-0">
-              <div className="subcard-header-sync flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-                <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                  data-subcard-title="true"
-                  style={{ color: themeAccent }}
-                >
-                  {isEn ? 'Operational Scale & Scope' : 'Quy mô & Phạm vi vận hành'}
-                </h3>
-              </div>
-              <div className="flex flex-col divide-y divide-[var(--border-subcard)]/70">
-                {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
-                  <div
-                    key={sIdx}
-                    className="py-2 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2.5 typo-body-sm"
-                  >
-                    <span
-                      className="font-semibold shrink-0 sm:min-w-[145px]"
-                      style={{ color: themeAccent }}
-                    >
-                      {item.label}
-                    </span>
-                    <span className="text-[var(--text-secondary)] leading-relaxed min-w-0">
-                      {item.content}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Tile 2 (Standard 5 cols): Thách thức đặc thù */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub xl:col-span-5 rounded-2xl p-[15px] flex flex-col justify-start gap-3 w-full min-w-0 h-full"
-          >
-            <div className="flex items-center gap-2 subcard-header-sync">
-              <WebIcon
-                name="shield-alert"
-                className="w-4 h-4 shrink-0"
-                style={{ color: themeAccent }}
-              />
-              <h3
-                className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                data-subcard-title="true"
-              >
-                {expandedDomain.id === '06'
-                  ? isEn
-                    ? 'Strategic Transformation Scope'
-                    : 'Bài toán chuyển đổi đặc thù'
-                  : isEn
-                    ? 'Specific Operational Challenges'
-                    : 'Thách thức đặc thù'}
-              </h3>
-            </div>
-            <ul className="space-y-2.5 m-0 p-0 list-none">
-              {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
-                <li
-                  key={cIdx}
-                  className="flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
-                >
-                  <span
-                    className="inline-flex items-center justify-center w-5 h-5 rounded-md typo-badge font-bold tabular-nums shrink-0 mt-0.5"
-                    style={{
-                      backgroundColor: themeTintBg,
-                      color: themeAccent,
-                    }}
-                  >
-                    {String(cIdx + 1).padStart(2, '0')}
-                  </span>
-                  <span className="min-w-0">{ch}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Tile 3 (Balanced 6 cols): Điểm nhấn thực chiến */}
-          {(expandedDomain.experienceItems || []).length > 0 && (
-            <div
-              data-subcard="true"
-              className="domain-card-sub xl:col-span-6 rounded-2xl p-[15px] flex flex-col justify-start gap-3 w-full min-w-0 h-full"
-            >
-              <div className="subcard-header-sync flex items-center gap-2">
-                <Sparkles className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-                <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                  data-subcard-title="true"
-                >
-                  {isEn ? 'Executive Execution Highlights' : 'Điểm nhấn kinh nghiệm thực chiến'}
-                </h3>
-              </div>
-              <ul className="space-y-2 m-0 p-0 list-none">
-                {(expandedDomain.experienceItems || []).map((exp, eIdx) => (
-                  <li
-                    key={eIdx}
-                    className="rounded-xl px-3 py-2 border border-[var(--border-subcard)]/75 bg-[var(--bg-card)]/55 flex items-start gap-2.5 typo-body-sm text-[var(--text-secondary)] leading-relaxed"
-                  >
-                    <CheckCircle2
-                      className="w-4 h-4 shrink-0 mt-0.5"
-                      style={{ color: themeAccent }}
-                    />
-                    <span className="min-w-0">{exp}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Tile 4 (Balanced 6 cols): Kết quả định lượng & Đánh giá tổng hợp */}
-          {((expandedDomain.operationalResults || []).length > 0 || expandedDomain.summaryNote) && (
-            <div
-              data-subcard="true"
-              className="domain-card-sub xl:col-span-6 rounded-2xl p-[15px] flex flex-col justify-between gap-3 w-full min-w-0 h-full"
-            >
-              <div className="flex flex-col gap-3 min-w-0">
-                <div className="subcard-header-sync flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-                  <h3
-                    className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                    data-subcard-title="true"
-                  >
-                    {isEn ? 'Quantified Outcomes & Impact' : 'Kết quả định lượng & Hiệu quả'}
-                  </h3>
-                </div>
-
-                {(expandedDomain.operationalResults || []).length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {(expandedDomain.operationalResults || []).map((res, rIdx) => (
-                      <div
-                        key={rIdx}
-                        className="rounded-xl px-3 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-0.5 min-w-0"
-                      >
-                        <span className="typo-caption font-medium text-[var(--text-secondary)] leading-snug">
-                          {res.indicator}
-                        </span>
-                        <span
-                          className="typo-body-sm font-bold leading-snug"
-                          style={{ color: themeAccent }}
-                        >
-                          {res.outcome}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {expandedDomain.summaryNote && (
-                <div className="rounded-xl px-3 py-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-subcard)]/75 typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
-                  <span className="font-semibold text-[var(--text-primary)] mr-1">
-                    {isEn ? 'Summary:' : 'Tổng kết:'}
-                  </span>
-                  {expandedDomain.summaryNote}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Tile 5 (Wide 7 cols): Giải pháp & Công nghệ quản trị */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub xl:col-span-7 rounded-2xl p-[15px] flex flex-col justify-between gap-3 w-full min-w-0 h-full"
-          >
-            <div className="flex flex-col gap-3">
-              <div className="subcard-header-sync flex items-center gap-2">
-                <Wrench className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-                <h3
-                  className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                  data-subcard-title="true"
-                >
-                  {isEn
-                    ? 'Technology & Management Solutions'
-                    : 'Giải pháp & Công nghệ quản trị'}
-                </h3>
-              </div>
-
-              {(expandedDomain.techSolutions || []).length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {(expandedDomain.techSolutions || []).map((sol, solIdx) => (
+          {/* Hàng Doanh nghiệp tiêu biểu + Thẻ từ khóa gọn */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-[var(--border-subcard)]/70">
+            <div className="flex flex-wrap items-center gap-1.5 min-w-0">
+              <span className="inline-flex items-center gap-1 typo-caption font-semibold text-[var(--text-muted)] mr-1">
+                <Building2 className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                <span>{isEn ? 'Enterprises:' : 'Tiêu biểu:'}</span>
+              </span>
+              {(expandedDomain.companyLogos || []).map((partner, pIdx) => {
+                const badge = (
+                  <>
                     <div
-                      key={solIdx}
-                      className="rounded-xl px-3 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex flex-col gap-0.5 min-w-0"
+                      className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0"
+                      style={{ background: 'var(--surface-secondary-bg, var(--bg-card))' }}
                     >
-                      <span
-                        className="typo-body-sm font-semibold leading-snug"
-                        style={{ color: themeAccent }}
-                      >
-                        {sol.name}
-                      </span>
-                      <span className="typo-caption text-[var(--text-secondary)] leading-relaxed">
-                        {sol.desc}
-                      </span>
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover rounded-full"
+                        onError={(e) => {
+                          if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
+                            e.currentTarget.src = partner.fallbackLogo;
+                          } else {
+                            e.currentTarget.style.display = 'none';
+                          }
+                        }}
+                      />
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {(expandedDomain.tools || []).length > 0 && (
-              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subcard)]/70">
-                {(expandedDomain.tools || []).map((tool, tIdx) => (
-                  <span
-                    key={tIdx}
-                    className="typo-caption font-semibold px-2.5 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Tile 6 (Standard 5 cols): Doanh nghiệp tiêu biểu, Vai trò đảm nhiệm & Thẻ chuyên môn */}
-          <div
-            data-subcard="true"
-            className="domain-card-sub xl:col-span-5 rounded-2xl p-[15px] flex flex-col justify-between gap-3 w-full min-w-0 h-full"
-          >
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-2.5">
-                <div className="subcard-header-sync flex items-center gap-2">
-                  <Building2 className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
-                  <h3
-                    className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]"
-                    data-subcard-title="true"
-                  >
-                    {isEn ? 'Representative Enterprises' : 'Doanh nghiệp tiêu biểu'}
-                  </h3>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  {(expandedDomain.companyLogos || []).map((partner, pIdx) => {
-                    const content = (
-                      <>
-                        <div
-                          className="w-7 h-7 rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0"
-                          style={{
-                            background: 'var(--surface-secondary-bg, var(--bg-card))',
-                            border: 'none',
-                          }}
-                        >
-                          <img
-                            src={partner.logo}
-                            alt={partner.name}
-                            loading="lazy"
-                            decoding="async"
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover rounded-full"
-                            onError={(e) => {
-                              if (
-                                partner.fallbackLogo &&
-                                e.currentTarget.src !== partner.fallbackLogo
-                              ) {
-                                e.currentTarget.src = partner.fallbackLogo;
-                              } else {
-                                e.currentTarget.style.display = 'none';
-                              }
-                            }}
-                          />
-                        </div>
-                        <span className="typo-caption font-semibold text-[var(--text-primary)]">
-                          {partner.name}
-                        </span>
-                        {partner.url && (
-                          <ExternalLink className="w-3 h-3 text-[var(--text-muted)] shrink-0" />
-                        )}
-                      </>
-                    );
-
-                    return partner.url ? (
-                      <a
-                        key={partner.name || pIdx}
-                        href={partner.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] hover:border-[var(--color-primary)] transition-colors"
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      <div
-                        key={partner.name || pIdx}
-                        className="inline-flex items-center gap-2 pr-3 pl-1 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
-                      >
-                        {content}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {(expandedDomain.rolesHeld || []).length > 0 && (
-                <div className="flex flex-col gap-1.5 pt-2 border-t border-[var(--border-subcard)]/70">
-                  <div className="flex items-center gap-1.5">
-                    <UserCheck className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
-                    <span className="typo-caption font-bold text-[var(--text-primary)]">
-                      {isEn ? 'Leadership Roles Held' : 'Vai trò đảm nhiệm'}
+                    <span className="typo-caption font-semibold text-[var(--text-primary)]">
+                      {partner.name}
                     </span>
+                    {partner.url && (
+                      <ExternalLink className="w-2.5 h-2.5 text-[var(--text-muted)] shrink-0" />
+                    )}
+                  </>
+                );
+                return partner.url ? (
+                  <a
+                    key={partner.name || pIdx}
+                    href={partner.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 pr-2 pl-1 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-card)]/75 hover:border-[var(--color-primary)] transition-colors"
+                  >
+                    {badge}
+                  </a>
+                ) : (
+                  <div
+                    key={partner.name || pIdx}
+                    className="inline-flex items-center gap-1.5 pr-2 pl-1 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-card)]/75"
+                  >
+                    {badge}
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {(expandedDomain.rolesHeld || []).map((role, roleIdx) => (
-                      <span
-                        key={roleIdx}
-                        className="typo-caption font-medium px-2.5 py-0.5 rounded-lg border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 text-[var(--text-secondary)]"
-                      >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {expandedDomain.ecosystemNote && (
-                <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0 pt-2 border-t border-[var(--border-subcard)]/70">
-                  {expandedDomain.ecosystemNote}
-                </p>
-              )}
+                );
+              })}
             </div>
 
-            {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).length > 0 && (
-              <div className="flex items-center gap-1.5 flex-wrap pt-2 border-t border-[var(--border-subcard)]/70">
-                <Tag className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
-                {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).map((tag) => (
+            {activeTags.length > 0 && (
+              <div className="flex items-center gap-1 flex-wrap">
+                <Tag className="w-3 h-3 shrink-0" style={{ color: themeAccent }} />
+                {activeTags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="typo-badge font-semibold px-2.5 py-0.5 rounded-full border"
+                    className="typo-caption font-semibold px-2 py-0.5 rounded-full border"
                     style={{
                       background: 'var(--bg-badge, var(--bg-subcard))',
                       borderColor: 'var(--border-badge, var(--border-subcard))',
@@ -749,6 +482,308 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                 ))}
               </div>
             )}
+          </div>
+        </div>
+
+        {/* 3 MỤC CHI TIẾT THU GỌN (Nhấn để mở rộng từng phần) */}
+        <div className="flex flex-col gap-2 min-w-0">
+          {/* Mục 1: Năng lực vận hành, Chuyên môn & Kinh nghiệm thực chiến */}
+          <div
+            data-subcard="true"
+            className="domain-card-sub rounded-xl border border-[var(--border-subcard)] overflow-hidden"
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection('overview')}
+              aria-expanded={Boolean(openSections.overview)}
+              className="w-full px-3 py-2 flex items-center justify-between gap-2 text-left cursor-pointer hover:bg-[var(--bg-subcard)]/50 transition-colors"
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                <Award className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-body-sm font-bold text-[var(--text-primary)] truncate">
+                  {isEn
+                    ? 'Operational Capability & Core Expertise'
+                    : 'Năng lực vận hành, Chuyên môn & Thực chiến'}
+                </span>
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 shrink-0 text-[var(--text-muted)] transition-transform duration-200 ${
+                  openSections.overview ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            <AnimatePresence initial={false}>
+              {openSections.overview && (
+                <motion.div
+                  initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden border-t border-[var(--border-subcard)]/70"
+                >
+                  <div className="p-3 grid grid-cols-1 md:grid-cols-3 gap-2.5">
+                    <div className="rounded-lg p-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <Layers className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                        <span className="typo-badge font-bold" style={{ color: themeAccent }}>
+                          {isEn
+                            ? 'Operational Capability'
+                            : expandedDomain.operationalCapabilityLabel || 'Năng lực vận hành'}
+                        </span>
+                      </div>
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
+                        {isEn
+                          ? expandedDomain.subtitleEn || expandedDomain.descEn
+                          : expandedDomain.operationalCapability || expandedDomain.desc}
+                      </p>
+                    </div>
+
+                    <div className="rounded-lg p-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                        <span className="typo-badge font-bold" style={{ color: themeAccent }}>
+                          {isEn ? 'Core Expertise' : 'Năng lực chuyên môn'}
+                        </span>
+                      </div>
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
+                        {isEn
+                          ? expandedDomain.subtitleEn || expandedDomain.descEn
+                          : expandedDomain.coreCompetency || expandedDomain.subtitle}
+                      </p>
+                    </div>
+
+                    <div className="rounded-lg p-2.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                        <span className="typo-badge font-bold" style={{ color: themeAccent }}>
+                          {isEn ? 'Field Experience' : 'Kinh nghiệm thực chiến'}
+                        </span>
+                      </div>
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
+                        {isEn
+                          ? expandedDomain.descEn
+                          : expandedDomain.experienceAndScale || expandedDomain.desc}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Mục 2: Quy mô, Phạm vi & Thách thức đặc thù */}
+          <div
+            data-subcard="true"
+            className="domain-card-sub rounded-xl border border-[var(--border-subcard)] overflow-hidden"
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection('scaleChallenges')}
+              aria-expanded={Boolean(openSections.scaleChallenges)}
+              className="w-full px-3 py-2 flex items-center justify-between gap-2 text-left cursor-pointer hover:bg-[var(--bg-subcard)]/50 transition-colors"
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                <WebIcon name="shield-alert" className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-body-sm font-bold text-[var(--text-primary)] truncate">
+                  {expandedDomain.id === '06'
+                    ? isEn
+                      ? 'Operational Scale & Transformation Scope'
+                      : 'Quy mô & Bài toán chuyển đổi đặc thù'
+                    : isEn
+                      ? 'Operational Scale & Specific Challenges'
+                      : 'Quy mô, Phạm vi & Thách thức đặc thù'}
+                </span>
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 shrink-0 text-[var(--text-muted)] transition-transform duration-200 ${
+                  openSections.scaleChallenges ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            <AnimatePresence initial={false}>
+              {openSections.scaleChallenges && (
+                <motion.div
+                  initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden border-t border-[var(--border-subcard)]/70"
+                >
+                  <div className="p-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+                    <div className="flex flex-col divide-y divide-[var(--border-subcard)]/70 min-w-0">
+                      {(expandedDomain.scaleAndScope || []).map((item, sIdx) => (
+                        <div
+                          key={sIdx}
+                          className="py-1.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 typo-caption"
+                        >
+                          <span className="font-semibold shrink-0 sm:min-w-[130px]" style={{ color: themeAccent }}>
+                            {item.label}
+                          </span>
+                          <span className="text-[var(--text-secondary)] leading-relaxed min-w-0">
+                            {item.content}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <ul className="space-y-1.5 m-0 p-0 list-none min-w-0">
+                      {(expandedDomain.operationalChallenges || []).map((ch, cIdx) => (
+                        <li
+                          key={cIdx}
+                          className="flex items-start gap-2 typo-caption text-[var(--text-secondary)] leading-relaxed"
+                        >
+                          <span
+                            className="inline-flex items-center justify-center w-4.5 h-4.5 rounded typo-caption font-bold tabular-nums shrink-0 mt-0.5"
+                            style={{ backgroundColor: themeTintBg, color: themeAccent }}
+                          >
+                            {String(cIdx + 1).padStart(2, '0')}
+                          </span>
+                          <span className="min-w-0">{ch}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Mục 3: Điểm nhấn thực chiến, Kết quả, Công nghệ & Vai trò */}
+          <div
+            data-subcard="true"
+            className="domain-card-sub rounded-xl border border-[var(--border-subcard)] overflow-hidden"
+          >
+            <button
+              type="button"
+              onClick={() => toggleSection('outcomesTech')}
+              aria-expanded={Boolean(openSections.outcomesTech)}
+              className="w-full px-3 py-2 flex items-center justify-between gap-2 text-left cursor-pointer hover:bg-[var(--bg-subcard)]/50 transition-colors"
+            >
+              <span className="flex items-center gap-2 min-w-0">
+                <Wrench className="w-4 h-4 shrink-0" style={{ color: themeAccent }} />
+                <span className="typo-body-sm font-bold text-[var(--text-primary)] truncate">
+                  {isEn
+                    ? 'Execution Highlights, Outcomes, Tech & Roles'
+                    : 'Điểm nhấn thực chiến, Kết quả, Công nghệ & Vai trò'}
+                </span>
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 shrink-0 text-[var(--text-muted)] transition-transform duration-200 ${
+                  openSections.outcomesTech ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            <AnimatePresence initial={false}>
+              {openSections.outcomesTech && (
+                <motion.div
+                  initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden border-t border-[var(--border-subcard)]/70"
+                >
+                  <div className="p-3 flex flex-col gap-3">
+                    {(expandedDomain.experienceItems || []).length > 0 && (
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-1.5 m-0 p-0 list-none">
+                        {(expandedDomain.experienceItems || []).map((exp, eIdx) => (
+                          <li
+                            key={eIdx}
+                            className="rounded-lg px-2.5 py-1.5 border border-[var(--border-subcard)]/75 bg-[var(--bg-card)]/55 flex items-start gap-2 typo-caption text-[var(--text-secondary)] leading-relaxed"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: themeAccent }} />
+                            <span className="min-w-0">{exp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {(expandedDomain.operationalResults || []).length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                        {(expandedDomain.operationalResults || []).map((res, rIdx) => (
+                          <div
+                            key={rIdx}
+                            className="rounded-lg px-2.5 py-1.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/65 flex flex-col gap-0.5 min-w-0"
+                          >
+                            <span className="typo-caption font-medium text-[var(--text-secondary)] leading-snug">
+                              {res.indicator}
+                            </span>
+                            <span className="typo-caption font-bold leading-snug" style={{ color: themeAccent }}>
+                              {res.outcome}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {expandedDomain.summaryNote && (
+                      <div className="rounded-lg px-2.5 py-2 border border-[var(--border-subcard)]/80 bg-[var(--bg-subcard)]/75 typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
+                        <span className="font-semibold text-[var(--text-primary)] mr-1">
+                          {isEn ? 'Summary:' : 'Tổng kết:'}
+                        </span>
+                        {expandedDomain.summaryNote}
+                      </div>
+                    )}
+
+                    {(expandedDomain.techSolutions || []).length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {(expandedDomain.techSolutions || []).map((sol, solIdx) => (
+                          <div
+                            key={solIdx}
+                            className="rounded-lg px-2.5 py-1.5 border border-[var(--border-subcard)]/80 bg-[var(--bg-card)]/55 flex flex-col gap-0.5 min-w-0"
+                          >
+                            <span className="typo-caption font-semibold leading-snug" style={{ color: themeAccent }}>
+                              {sol.name}
+                            </span>
+                            <span className="typo-caption text-[var(--text-secondary)] leading-relaxed">
+                              {sol.desc}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {((expandedDomain.tools || []).length > 0 || (expandedDomain.rolesHeld || []).length > 0) && (
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subcard)]/70">
+                        {(expandedDomain.rolesHeld || []).length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <UserCheck className="w-3.5 h-3.5 shrink-0" style={{ color: themeAccent }} />
+                            {(expandedDomain.rolesHeld || []).map((role, roleIdx) => (
+                              <span
+                                key={roleIdx}
+                                className="typo-caption font-medium px-2 py-0.5 rounded-md border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 text-[var(--text-secondary)]"
+                              >
+                                {role}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        {(expandedDomain.tools || []).length > 0 && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {(expandedDomain.tools || []).map((tool, tIdx) => (
+                              <span
+                                key={tIdx}
+                                className="typo-caption font-semibold px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-primary)]"
+                              >
+                                {tool}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {expandedDomain.ecosystemNote && (
+                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
+                        {expandedDomain.ecosystemNote}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </motion.div>

@@ -243,7 +243,7 @@ export const DOMAINS_DATA: DomainData[] = [
     descEn: 'Gaming support operations, community management, fraud prevention, and online game service development.',
     color: 'indigo',
     icon: 'game',
-    customIllustrationUrl: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
+    customIllustrationUrl: '/assets/services/the-thao-dien-tu.png',
     metrics: [
       { label: 'Phản hồi ban đầu Ticket/Chat', value: 'Dưới 30 giây' },
       { label: 'CSAT', value: 'Đạt 96%' },

@@ -1850,8 +1850,8 @@ export function AboutView({
         data-element-page="about"
         data-element-parent="about-page-container"
         style={{
-          width: 'var(--main-card-w, clamp(260px, calc(100vw - 32px), 1000px))',
-          maxWidth: '1000px',
+          width: '100%',
+          maxWidth: 'var(--main-card-target-w, 1000px)',
           height: '100%',
           minHeight: '0px',
           maxHeight: '100%',
@@ -1865,7 +1865,7 @@ export function AboutView({
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
-        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-[1000px] shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-full shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-grid-1"
@@ -2367,7 +2367,7 @@ export function AboutView({
                   </div>
                   </motion.div>
 
-            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (2 TABS + ANIMATION + VALIDATION) */}
+            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (FORMAT TAB BÌA FOLDER) */}
             <motion.div
               id="about-personal-info-card-right"
               data-framer-bento="true"
@@ -2382,14 +2382,15 @@ export function AboutView({
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
-              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-2 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar"
+              className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-0 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-hidden"
             >
-                  {/* Header Bento Box Bar: Tab chuyển thành tiêu đề của thẻ */}
-                  <div className="w-full flex items-center justify-between gap-2 border-b border-[var(--border-subcard)] pb-2 min-w-0 shrink-0">
+                  {/* Folder Wrapper: Đảm bảo Tab bìa folder và mặt giấy folder luôn gắn liền 0px gap trên mọi kích thước */}
+                  <div className="flex flex-col gap-0 flex-1 min-h-0 w-full">
+                    {/* Folder Cover Tab Strip (Tab bìa folder gắn liền mặt giấy bên dưới) */}
                     <div
                       role="tablist"
                       aria-label="Thông tin chi tiết"
-                      className="card-header-sync flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 min-w-0 w-full"
+                      className="card-header-sync relative z-20 flex items-end gap-1.5 pl-1 pr-2 min-w-0 shrink-0"
                     >
                       <button
                         ref={personalTabRef}
@@ -2412,30 +2413,33 @@ export function AboutView({
                             personalTabRef.current?.focus();
                           }
                         }}
+                        style={{
+                          borderColor: 'var(--border-subcard)',
+                          borderBottomWidth: '0px',
+                          borderTopLeftRadius: '10px',
+                          borderTopRightRadius: '10px',
+                          borderBottomLeftRadius: '0px',
+                          borderBottomRightRadius: '0px',
+                          background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                        }}
                         className={cn(
-                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border border-b-0 transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'personal'
-                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
+                            ? 'z-20 -mb-[1px] pb-[9px] text-blue-600 dark:text-cyan-400 font-bold opacity-100'
+                            : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >
                         <WebIcon
                           name="user"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
+                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0',
                             detailInfoTab === 'personal' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
                           )}
                         />
                         <span>Cá nhân</span>
-                        {detailInfoTab === 'personal' && (
-                          <span
-                            aria-hidden="true"
-                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
-                          />
-                        )}
                       </button>
-
-                      <span aria-hidden="true" className="text-[var(--text-muted)] opacity-35 select-none font-normal">|</span>
 
                       <button
                         ref={contactTabRef}
@@ -2458,39 +2462,52 @@ export function AboutView({
                             contactTabRef.current?.focus();
                           }
                         }}
+                        style={{
+                          borderColor: 'var(--border-subcard)',
+                          borderBottomWidth: '0px',
+                          borderTopLeftRadius: '10px',
+                          borderTopRightRadius: '10px',
+                          borderBottomLeftRadius: '0px',
+                          borderBottomRightRadius: '0px',
+                          background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                        }}
                         className={cn(
-                          'typo-h3 card-title-synced font-play relative inline-flex items-center gap-1.5 bg-transparent border-0 px-0 pt-0 pb-0.5 shadow-none transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border border-b-0 transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'contact'
-                            ? 'text-blue-600 dark:text-cyan-400 font-bold'
-                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-65 hover:opacity-100'
+                            ? 'z-20 -mb-[1px] pb-[9px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100'
+                            : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >
                         <WebIcon
                           name="phone"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[18px] sm:h-[18px] shrink-0',
-                            detailInfoTab === 'contact' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
+                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0',
+                            detailInfoTab === 'contact' ? 'text-emerald-600 dark:text-emerald-400' : 'text-current'
                           )}
                         />
                         <span>Liên hệ</span>
-                        {detailInfoTab === 'contact' && (
-                          <span
-                            aria-hidden="true"
-                            className="absolute left-0 right-0 -bottom-[9px] h-[2px] rounded-full bg-blue-600 dark:bg-cyan-400"
-                          />
-                        )}
                       </button>
                     </div>
-                  </div>
 
-                  {/* Shared Accessible Tabpanel (Slide + Fade without navigating away) */}
-                  <div
-                    id="about-detail-tabpanel"
-                    role="tabpanel"
-                    aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
-                    tabIndex={0}
-                    className="relative flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar pr-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-[12px]"
-                  >
+                    {/* Shared Folder Cover Sheet Body */}
+                    <div
+                      id="about-detail-tabpanel"
+                      role="tabpanel"
+                      aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
+                      tabIndex={0}
+                      style={{
+                        background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
+                        backdropFilter: 'blur(12px)',
+                        WebkitBackdropFilter: 'blur(12px)',
+                        borderColor: 'var(--border-subcard)',
+                      }}
+                      className={cn(
+                        'relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar p-2.5 sm:p-3 border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-b-[12px] rounded-tr-[10px]',
+                        detailInfoTab === 'personal' ? 'rounded-tl-[4px]' : 'rounded-tl-[10px]'
+                      )}
+                    >
                     <AnimatePresence mode="wait" initial={false}>
                       {detailInfoTab === 'personal' ? (
                         <motion.div
@@ -2758,6 +2775,7 @@ export function AboutView({
                         </motion.div>
                       )}
                     </AnimatePresence>
+                    </div>
                   </div>
                 </motion.div>
 

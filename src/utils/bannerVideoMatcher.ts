@@ -363,7 +363,7 @@ export const SERVICE_DOMAINS_META: ServiceDomainMeta[] = [
     titleEn: 'Gaming & eSports CX',
     expectedFilename: 'Thể thao điện tử.png',
     keywords: ['the-thao-dien-tu', 'esports', 'e-sports', 'game', 'garena'],
-    defaultImageUrl: 'https://i.postimg.cc/Nf7j1dSk/The-thao-dien-tu.png',
+    defaultImageUrl: '/assets/services/the-thao-dien-tu.png',
     accentGradient: 'from-violet-500 to-indigo-600',
     taglineVi: 'Điều phối hỗ trợ cộng đồng game thủ 24/7, giải đấu & an toàn tài khoản.',
   },

@@ -2147,7 +2147,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             </div>
 
                             {/* CỘT BÊN PHẢI (50%) - HÀNG 1 & 2: Hình ảnh (kích thước hình ảnh bằng 2 hàng cộng lại) */}
-                            <div className="col-start-2 row-start-1 row-span-2 min-w-0 relative self-stretch">
+                            <div className="col-start-2 row-start-1 row-span-2 min-w-0 relative flex items-center justify-center self-stretch h-full min-h-[110px]">
                               <div
                                 role={item.videoUrl ? 'button' : undefined}
                                 tabIndex={item.videoUrl ? 0 : undefined}
@@ -2171,8 +2171,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 }
                                 data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
                                 className={cn(
-                                  'system-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-2.5 sm:p-3 bg-white/35 dark:bg-slate-900/35 hover:!bg-black transition-all duration-300',
-                                  item.videoUrl && 'cursor-pointer hover:scale-[1.02]'
+                                  'system-card-image-slot relative w-full h-full min-h-[110px] flex items-center justify-center p-0 m-0 bg-transparent border-0 shadow-none',
+                                  item.videoUrl && 'cursor-pointer'
                                 )}
                               >
                                 <img
@@ -2185,7 +2185,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     e.currentTarget.style.display = 'none';
                                   }}
                                   className={cn(
-                                    'system-img-pop w-[88%] h-[88%] max-w-[88%] max-h-[88%] object-contain m-auto rounded-[inherit] select-none pointer-events-none transition-opacity duration-200',
+                                    'w-full h-full object-contain m-0 p-0 rounded-[inherit] select-none pointer-events-none transition-opacity duration-200',
                                     isRightHoverVideoPlaying && 'opacity-0'
                                   )}
                                 />

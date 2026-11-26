@@ -34,8 +34,6 @@ import {
   CARD_EFFECT_SYNC_EVENT,
   GLASS_CUSTOMIZATION_STORAGE_KEY,
   GLASS_CUSTOMIZATION_SYNC_EVENT,
-  LAYER_DEPTH_STORAGE_KEY,
-  SURFACE_DEPTH_STORAGE_KEY,
   AUTO_TIME_THEME_STORAGE_KEY,
   AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
@@ -45,6 +43,7 @@ import {
   WALLPAPER_MANUAL_STORAGE_KEY,
   WALLPAPER_OVERLAY_STORAGE_KEY,
   ADAPTIVE_ACCENT_STORAGE_KEY,
+  getThemeNativeSurfaceDepth,
 } from '../config/ui/themeDefaults';
 import {
   AdaptiveAccentPalette,
@@ -62,16 +61,21 @@ import {
   getInstantWallpaperAccent,
 } from '../utils/wallpaperColorAnalyzer';
 import {
-  applyLayerDepthCssVariables,
-  getLayerDepthForTheme,
-} from '../config/ui/layerDepth';
-import {
   CARD_STYLES_MAP,
   VALID_CARD_STYLES,
   getCardStyleProperties,
   getLightDarkCounterpart,
   normalizeCardStyle,
 } from '../config/ui/cardStyles';
+import {
+  applyThemeStudioConfigToDocument,
+  clearThemeStudioVariablesFromDocument,
+  isIridescentTheme,
+  loadStudioConfigForTheme,
+  THEME_STUDIO_SYNC_EVENT,
+  ThemeStudioConfig,
+} from '../config/ui/iridescentConfig';
+import { SoundEngine } from '../components/ui/SoundEngine';
 
 const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 const CARD_STYLE_SYNC_EVENT = 'hungthai:card-style-changed';
@@ -406,11 +410,6 @@ export interface ThemeContextType {
   updateGlassSettings: (patch: Partial<GlassCustomization>, targetMode?: CardStyleMode) => void;
   resetGlassSettings: (targetMode?: CardStyleMode) => void;
   surfaceDepth: SurfaceDepthMode;
-  setSurfaceDepth: (mode: SurfaceDepthMode) => void;
-  toggleSurfaceDepth: () => void;
-  layerDepth: number;
-  setLayerDepth: (depth: number) => void;
-  resetLayerDepth: () => void;
   autoTimeTheme: boolean;
   setAutoTimeTheme: (enabled: boolean) => void;
   toggleAutoTimeTheme: () => void;
@@ -465,8 +464,8 @@ function ensureDefaultUiSeedSync(): void {
         ADAPTIVE_ACCENT_STORAGE_KEY,
         AUTO_TIME_THEME_STORAGE_KEY,
         GLASS_CUSTOMIZATION_STORAGE_KEY,
-        LAYER_DEPTH_STORAGE_KEY,
-        SURFACE_DEPTH_STORAGE_KEY,
+        'hungthai_layer_depth_v1',
+        'hungthai_surface_depth_v1',
         CUSTOM_SURFACE_COLOR_STORAGE_KEY,
         CUSTOM_PRIMARY_COLOR_STORAGE_KEY,
         CARD_EFFECT_STORAGE_KEY,
@@ -484,8 +483,8 @@ function ensureDefaultUiSeedSync(): void {
     if (localStorage.getItem(DEFAULT_OVERLAY_RESET_SEED_KEY) !== '1') {
       localStorage.removeItem(WALLPAPER_OVERLAY_STORAGE_KEY);
       localStorage.removeItem(ADAPTIVE_ACCENT_STORAGE_KEY);
-      localStorage.removeItem(LAYER_DEPTH_STORAGE_KEY);
-      localStorage.removeItem(SURFACE_DEPTH_STORAGE_KEY);
+      localStorage.removeItem('hungthai_layer_depth_v1');
+      localStorage.removeItem('hungthai_surface_depth_v1');
       localStorage.setItem(DEFAULT_OVERLAY_RESET_SEED_KEY, '1');
     }
   } catch {
@@ -519,7 +518,7 @@ function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode
     if (!savedStyle) {
       const savedVisualMode = localStorage.getItem(VISUAL_THEME_MODE_STORAGE_KEY);
       if (savedVisualMode === 'neumorphism') {
-        baseStyle = initialSchemeMode === 'dark' ? 'dark-frost-ice-neu' : 'frost-ice-neu';
+        baseStyle = 'frost-ice-neu';
       }
     }
     if (initialSchemeMode === 'system') {
@@ -582,19 +581,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     readStoredGlassCustomizations()
   );
 
-  const [customLayerDepth, setCustomLayerDepth] = useState<number | null>(() => {
-    try {
-      const saved = localStorage.getItem(LAYER_DEPTH_STORAGE_KEY);
-      if (saved === null || saved === '') return null;
-      const num = Number(saved);
-      return Number.isFinite(num) ? Math.max(0, Math.min(200, Math.round(num))) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  const layerDepth = customLayerDepth !== null ? customLayerDepth : getLayerDepthForTheme(cardStyle);
-  const surfaceDepth: SurfaceDepthMode = layerDepth === 0 ? 'flat' : 'depth';
+  const surfaceDepth: SurfaceDepthMode = getThemeNativeSurfaceDepth(cardStyle);
 
   const [autoTimeTheme, setAutoTimeThemeState] = useState<boolean>(() => {
     try {
@@ -904,9 +891,65 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [cardStyle]);
 
+  // Sync Iridescent Liquid Glass per-theme studio CSS variables & sound settings globally
   useEffect(() => {
-    applyLayerDepthCssVariables(layerDepth, cardStyle);
-  }, [layerDepth, cardStyle]);
+    const syncStudio = (overrideConfig?: ThemeStudioConfig) => {
+      if (isIridescentTheme(cardStyle)) {
+        const cfg = overrideConfig || loadStudioConfigForTheme(cardStyle);
+        applyThemeStudioConfigToDocument(cfg, cardStyle);
+        SoundEngine.configureStudioSound(cfg.sound);
+      } else {
+        clearThemeStudioVariablesFromDocument();
+        SoundEngine.configureStudioSound(null);
+      }
+    };
+
+    syncStudio();
+
+    const handleStudioEvent = (e: Event) => {
+      const detail = (e as CustomEvent<{ themeId?: CardStyleMode; config?: ThemeStudioConfig }>).detail;
+      if (detail?.themeId && detail.themeId === cardStyle && detail.config) {
+        syncStudio(detail.config);
+      } else {
+        syncStudio();
+      }
+    };
+
+    window.addEventListener(THEME_STUDIO_SYNC_EVENT, handleStudioEvent);
+    return () => {
+      window.removeEventListener(THEME_STUDIO_SYNC_EVENT, handleStudioEvent);
+    };
+  }, [cardStyle]);
+
+  // Sync theme-native surface depth ('flat' for Flat Soft UI & Minimalism, 'depth' for volumetric themes)
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const targets: HTMLElement[] = [document.documentElement];
+    if (document.body) targets.push(document.body);
+    try {
+      localStorage.removeItem('hungthai_layer_depth_v1');
+      localStorage.removeItem('hungthai_surface_depth_v1');
+    } catch {
+      // ignore
+    }
+    const staleProps = [
+      '--layer-depth-scale',
+      '--layer-l1-shadow',
+      '--layer-l2-shadow',
+      '--layer-l2-hover-shadow',
+      '--layer-l3-shadow',
+      '--layer-l3-hover-shadow',
+      '--layer-l2-lift',
+      '--layer-l3-lift',
+    ];
+    for (const el of targets) {
+      el.setAttribute('data-surface-depth', surfaceDepth);
+      el.removeAttribute('data-layer-depth');
+      for (const prop of staleProps) {
+        el.style.removeProperty(prop);
+      }
+    }
+  }, [surfaceDepth, cardStyle]);
 
   useEffect(() => {
     applyGlobalCornerRadiusCssVariables(cornerRadius);
@@ -1352,34 +1395,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     [cardStyle]
   );
 
-  const setLayerDepth = useCallback((rawDepth: number) => {
-    const clamped = Math.max(0, Math.min(200, Math.round(Number(rawDepth) || 0)));
-    setCustomLayerDepth(clamped);
-    try {
-      localStorage.setItem(LAYER_DEPTH_STORAGE_KEY, String(clamped));
-      localStorage.setItem(SURFACE_DEPTH_STORAGE_KEY, clamped === 0 ? 'flat' : 'depth');
-    } catch {
-      // ignore
-    }
-  }, []);
-  const resetLayerDepth = useCallback(() => {
-    setCustomLayerDepth(null);
-    try {
-      localStorage.removeItem(LAYER_DEPTH_STORAGE_KEY);
-      localStorage.removeItem(SURFACE_DEPTH_STORAGE_KEY);
-    } catch {
-      // ignore
-    }
-  }, []);
-  const setSurfaceDepth = useCallback(
-    (mode: SurfaceDepthMode) => {
-      setLayerDepth(mode === 'flat' ? 0 : getLayerDepthForTheme(cardStyle));
-    },
-    [cardStyle, setLayerDepth]
-  );
-  const toggleSurfaceDepth = useCallback(() => {
-    setLayerDepth(layerDepth === 0 ? getLayerDepthForTheme(cardStyle) : 0);
-  }, [cardStyle, layerDepth, setLayerDepth]);
   const updateWallpaperOverlay = useCallback((_patch: Partial<WallpaperOverlaySettings>) => {}, []);
   const resetWallpaperOverlay = useCallback(() => {}, []);
   const setAdaptiveAccentEnabled = useCallback((_enabled: boolean) => {}, []);
@@ -1409,11 +1424,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         updateGlassSettings,
         resetGlassSettings,
         surfaceDepth,
-        setSurfaceDepth,
-        toggleSurfaceDepth,
-        layerDepth,
-        setLayerDepth,
-        resetLayerDepth,
         autoTimeTheme,
         setAutoTimeTheme,
         toggleAutoTimeTheme,

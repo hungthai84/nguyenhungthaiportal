@@ -922,7 +922,33 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
             data-no-wheel-horizontal="true"
             className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3"
           >
-            {/* Asker (Đã đưa thẻ thời gian vào chung thẻ câu hỏi) */}
+            {/* Sub card 1: Thời gian câu hỏi */}
+            <div
+              id="interview-time-card"
+              data-element-type="card"
+              data-subcard="true"
+              style={{ borderRadius: '14px' }}
+              className="exp-detail-subcard p-[15px] rounded-[14px] border flex items-center justify-between gap-2 flex-wrap shrink-0"
+            >
+              <div className="interview-time-heading subcard-header-sync typo-h4 flex items-center gap-2 text-sky-600 dark:text-sky-400">
+                <WebIcon name="clock" className="w-4 h-4 shrink-0" />
+                <span className="subcard-title-synced tracking-wide text-sky-600 dark:text-sky-400" data-subcard-title="true">
+                  Thời gian câu hỏi
+                </span>
+              </div>
+              <div
+                id="interview-time-badge"
+                className="inline-flex items-center gap-1.5 font-mono typo-label shrink-0 tabular-nums text-[var(--text-heading)]"
+              >
+                <span className="font-semibold">{currentQ.timestamp}</span>
+                <span className="opacity-45">·</span>
+                <span className="typo-badge font-mono tabular-nums text-[var(--text-muted)]">
+                  {Math.round(currentQ.endSec - currentQ.startSec)}s
+                </span>
+              </div>
+            </div>
+
+            {/* Sub card 2: Câu hỏi */}
             <div
               id="interview-asker-card"
               data-element-type="card"
@@ -930,25 +956,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               style={{ borderRadius: '14px' }}
               className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-2 shrink-0"
             >
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-2 flex-wrap text-indigo-600 dark:text-indigo-400">
-                  <WebIcon name="circle-help" className="w-4 h-4 shrink-0" />
-                  <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
-                    Câu hỏi {String(currentQ.stt).padStart(2, '0')}: {currentQ.askerVi}
-                  </span>
-                </div>
-                {/* Thẻ thời gian lồng trực tiếp bên trong thẻ câu hỏi */}
-                <div
-                  id="interview-time-badge"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] font-mono typo-label shrink-0 tabular-nums shadow-xs"
-                >
-                  <WebIcon name="clock" className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                  <span className="font-semibold">{currentQ.timestamp}</span>
-                  <span className="opacity-40">·</span>
-                  <span className="typo-badge font-mono tabular-nums text-[var(--text-muted)]">
-                    {Math.round(currentQ.endSec - currentQ.startSec)}s
-                  </span>
-                </div>
+              <div className="interview-asker-heading subcard-header-sync typo-h4 flex items-center gap-2 flex-wrap text-indigo-600 dark:text-indigo-400">
+                <WebIcon name="circle-help" className="w-4 h-4 shrink-0" />
+                <span className="subcard-title-synced tracking-wide text-indigo-600 dark:text-indigo-400 break-words" data-subcard-title="true">
+                  Câu hỏi {String(currentQ.stt).padStart(2, '0')} Phỏng vấn
+                </span>
               </div>
               <h3
                 id="interview-question-title"
@@ -958,7 +970,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               </h3>
             </div>
 
-            {/* Answerer */}
+            {/* Sub card 3: Câu trả lời */}
             <div
               id="interview-answerer-card"
               data-element-type="card"
@@ -969,7 +981,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
               <div className="interview-answerer-heading subcard-header-sync typo-h4 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
                 <WebIcon name="user-round" className="w-4 h-4 shrink-0" />
                 <span className="subcard-title-synced tracking-wide text-emerald-700 dark:text-emerald-400" data-subcard-title="true">
-                  Trả lời: {currentQ.answererVi}
+                  Câu trả lời : Hùng Thái
                 </span>
               </div>
               <p className="typo-body text-[var(--text-secondary)] leading-relaxed break-words m-0">

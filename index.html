@@ -14,10 +14,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Google Fonts: Play (Primary System Font), Dancing Script (Vietnamese Handwritten Banner Quotes & Signatures) -->
+    <!-- Google Fonts: Play (Primary System Font), Plus Jakarta Sans (Vietnamese-native 3D Book Cover Display), Dancing Script (Handwritten Quotes & Signatures) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Play:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Play:wght@400;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <script>
       (function() {
         try {
@@ -97,7 +97,8 @@
             'multicolor-glass',
             'dark-neon-glass',
             'cowhide-leather',
-            'black-cowhide-leather',
+            'dark-cowhide-leather',
+            'walnut-wood',
             'deep-ocean',
             'light-deep-ocean',
             'neumorphism-beyond',
@@ -109,9 +110,15 @@
             'mica-fluent',
             'gradient-dopamine',
             'dark-luxury',
-            'minimalism'
+            'minimalism',
+            'bento-multicolor',
+            'iridescent-liquid-glass',
+            'dark-iridescent-liquid-glass'
           ];
           var cardStyle = rawStyle && aliasMap[rawStyle] ? aliasMap[rawStyle] : rawStyle;
+          if (cardStyle === 'black-cowhide-leather') {
+            cardStyle = 'dark-cowhide-leather';
+          }
           if (!cardStyle || validStyles.indexOf(cardStyle) === -1) {
             cardStyle = DEFAULT_THEME;
           }
@@ -119,14 +126,19 @@
           var darkThemes = [
             'dark-liquid-glass',
             'dark-neon-glass',
-            'black-cowhide-leather',
+            'cowhide-leather',
+            'dark-cowhide-leather',
+            'walnut-wood',
             'deep-ocean',
             'dark-neumorphism-beyond',
             'dark-frost-ice-neu',
             'dark-flat-soft-ui',
-            'dark-luxury'
+            'dark-luxury',
+            'bento-multicolor',
+            'dark-iridescent-liquid-glass'
           ];
-          var colorThemes = ['cowhide-leather', 'multicolor-glass', 'gradient-dopamine'];
+          var colorThemes = ['cowhide-leather', 'multicolor-glass', 'gradient-dopamine', 'bento-multicolor'];
+          var flatThemes = ['flat-soft-ui', 'dark-flat-soft-ui', 'minimalism'];
           var mechanism = colorThemes.indexOf(cardStyle) !== -1
             ? 'color'
             : darkThemes.indexOf(cardStyle) !== -1
@@ -146,14 +158,11 @@
             document.documentElement.setAttribute('data-theme', cardStyle);
             document.documentElement.setAttribute('data-theme-mode', 'light');
           }
-          var savedDepth = localStorage.getItem('hungthai_surface_depth_v1');
-          var savedLayerRaw = localStorage.getItem('hungthai_layer_depth_v1');
-          var savedLayer = savedLayerRaw !== null ? Number(savedLayerRaw) : NaN;
-          var resolvedSurface = (savedDepth === 'flat' || savedLayer === 0) ? 'flat' : 'depth';
+          var resolvedSurface = flatThemes.indexOf(cardStyle) !== -1 ? 'flat' : 'depth';
+          localStorage.removeItem('hungthai_surface_depth_v1');
+          localStorage.removeItem('hungthai_layer_depth_v1');
           document.documentElement.setAttribute('data-surface-depth', resolvedSurface);
-          if (!isNaN(savedLayer) && isFinite(savedLayer)) {
-            document.documentElement.setAttribute('data-layer-depth', String(Math.max(0, Math.min(200, Math.round(savedLayer)))));
-          }
+          document.documentElement.removeAttribute('data-layer-depth');
           document.documentElement.style.setProperty('--wallpaper-bg-blur', '0px');
           document.documentElement.style.setProperty('--wallpaper-bg-dim', '0');
           document.documentElement.style.setProperty('--wallpaper-bg-scale', '1');

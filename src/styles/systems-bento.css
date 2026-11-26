@@ -75,9 +75,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
-  [data-card-style="dark-neon-glass"],
   [data-card-style="dark-neumorphism-beyond"],
-  [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"],
   [data-card-style="dark-cowhide-leather"],
   [data-card-style="walnut-wood"]
@@ -96,9 +94,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
-  [data-card-style="dark-neon-glass"],
   [data-card-style="dark-neumorphism-beyond"],
-  [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-tile {
   background: var(--surface-secondary-bg, rgba(15, 23, 42, 0.56)) !important;
@@ -192,9 +188,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
-  [data-card-style="dark-neon-glass"],
   [data-card-style="dark-neumorphism-beyond"],
-  [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-subtile {
   background: var(--bg-subcard, rgba(15, 23, 42, 0.46));

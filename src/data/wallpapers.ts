@@ -2,11 +2,9 @@ import React from 'react';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import wpLightDeepOcean from '@/assets/images/wp_light_deep_ocean_1795447885624.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
-import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
@@ -64,11 +62,7 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: walnutWoodWallpaper,
   },
   'deep-ocean': {
-    light: wpLightDeepOcean,
-    dark: deepOceanWallpaper,
-  },
-  'light-deep-ocean': {
-    light: wpLightDeepOcean,
+    light: deepOceanWallpaper,
     dark: deepOceanWallpaper,
   },
   'neumorphism-beyond': {
@@ -81,19 +75,7 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   },
   'frost-ice-neu': {
     light: '#E0E8F2',
-    dark: '#1A2433',
-  },
-  'dark-frost-ice-neu': {
-    light: '#E0E8F2',
-    dark: '#1A2433',
-  },
-  'multicolor-glass': {
-    light: multicolorGlassWallpaper,
-    dark: darkNeonGlassWallpaper,
-  },
-  'dark-neon-glass': {
-    light: multicolorGlassWallpaper,
-    dark: darkNeonGlassWallpaper,
+    dark: '#E0E8F2',
   },
   'flat-soft-ui': {
     light: wpFlatSoftUi,
@@ -111,13 +93,17 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: multicolorGlassWallpaper,
     dark: multicolorGlassWallpaper,
   },
-  'dark-luxury': {
-    light: wpDarkFlatSoftUi,
-    dark: wpDarkFlatSoftUi,
+  'iridescent-liquid-glass': {
+    light:
+      'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
+    dark:
+      'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
   },
-  'minimalism': {
-    light: '#FAFAFA',
-    dark: '#FAFAFA',
+  'dark-iridescent-liquid-glass': {
+    light:
+      'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
+    dark:
+      'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
   },
 };
 
@@ -468,32 +454,32 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000008,
   },
   {
-    id: 'theme-bg-dark-luxury',
-    name: '👑 Nền Dark Luxury – Sang trọng tối màu (Theme Background)',
-    type: 'image',
-    value: wpDarkFlatSoftUi,
-    bg: `url('${wpDarkFlatSoftUi}') center/cover no-repeat`,
+    id: 'theme-bg-iridescent-liquid-glass',
+    name: '✨ Nền Iridescent Liquid Glass Sáng (Ánh Xà Cừ)',
+    type: 'gradient',
+    value:
+      'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), radial-gradient(ellipse 60% 54% at 80% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 54%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
+    bg: 'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), radial-gradient(ellipse 60% 54% at 80% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 54%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
     previewStyle: {
       background:
-        'radial-gradient(circle at 20% 18%, rgba(212, 175, 55, 0.22) 0%, transparent 52%), linear-gradient(145deg, #090A0F 0%, #11131C 52%, #07080C 100%)',
-      backgroundImage: `url('${wpDarkFlatSoftUi}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+        'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.42) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.36) 0%, transparent 54%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 50%, #FDF2FA 100%)',
     },
     isCustom: false,
-    createdAt: 1794300000009,
+    createdAt: 1794300000012,
   },
   {
-    id: 'theme-bg-minimalism',
-    name: '◻️ Nền Minimalism – Tối giản (Theme Background)',
+    id: 'theme-bg-dark-iridescent-liquid-glass',
+    name: '🌌 Nền Iridescent Liquid Glass Tối (Chrome Xà Cừ)',
     type: 'gradient',
-    value: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
-    bg: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+    value:
+      'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
+    bg: 'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
     previewStyle: {
-      background: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
+      background:
+        'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.36) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.26) 0%, transparent 52%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
     },
     isCustom: false,
-    createdAt: 1794300000010,
+    createdAt: 1794300000013,
   },
   {
     id: 'theme-bg-liquid-glass',
@@ -544,22 +530,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000020,
   },
   {
-    id: 'theme-bg-light-deep-ocean',
-    name: '🌊 Nền Ocean Navy Light – Glossy Liquid Glass (Giao diện riêng)',
-    type: 'image',
-    value: wpLightDeepOcean,
-    bg: `url('${wpLightDeepOcean}') center/cover no-repeat`,
-    previewStyle: {
-      background:
-        'radial-gradient(ellipse at 15% 10%, rgba(115, 191, 255, 0.65), transparent 40%), linear-gradient(135deg, #1951FC 0%, #3781FC 48%, #73BFFF 100%)',
-      backgroundImage: `url('${wpLightDeepOcean}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000021,
-  },
-  {
     id: 'theme-bg-neumorphism-beyond',
     name: '🧊 Nền Nổi Khối Kính Mờ (Giao diện riêng)',
     type: 'image',
@@ -600,50 +570,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000025,
-  },
-  {
-    id: 'theme-bg-dark-frost-ice-neu',
-    name: '🌌 Nền Băng Tuyết Nổi Khối Tối (Giao diện riêng)',
-    type: 'css',
-    value: 'background: #1A2433;',
-    bg: '#1A2433',
-    previewStyle: {
-      background: '#1A2433',
-    },
-    isCustom: false,
-    createdAt: 1794300000026,
-  },
-  {
-    id: 'theme-bg-multicolor-glass',
-    name: '✨ Nền Glass UI Đa Sắc Hiện Đại (Giao diện riêng)',
-    type: 'image',
-    value: multicolorGlassWallpaper,
-    bg: `url('${multicolorGlassWallpaper}') center/cover no-repeat`,
-    previewStyle: {
-      background:
-        'radial-gradient(at 14% 16%, rgba(56, 189, 248, 0.34) 0px, transparent 50%), radial-gradient(at 86% 16%, rgba(192, 132, 252, 0.32) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 146, 60, 0.24) 0px, transparent 52%), linear-gradient(135deg, #edf6ff 0%, #f4eeff 50%, #fff0f7 100%)',
-      backgroundImage: `url('${multicolorGlassWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000027,
-  },
-  {
-    id: 'theme-bg-dark-neon-glass',
-    name: '🌌 Nền Glass UI Neon Tối (Giao diện riêng)',
-    type: 'image',
-    value: darkNeonGlassWallpaper,
-    bg: `url('${darkNeonGlassWallpaper}') center/cover no-repeat`,
-    previewStyle: {
-      background:
-        'radial-gradient(at 16% 18%, rgba(34, 211, 238, 0.24) 0px, transparent 50%), radial-gradient(at 84% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%), linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%)',
-      backgroundImage: `url('${darkNeonGlassWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000023,
   },
   {
     id: 'theme-bg-flat-soft-ui',

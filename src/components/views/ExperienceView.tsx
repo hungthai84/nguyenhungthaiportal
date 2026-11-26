@@ -352,13 +352,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
-    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond' ||
-    currentTheme === 'dark-frost-ice-neu';
+    currentTheme === 'dark-neumorphism-beyond';
   const isBrownLeather = cardStyle === 'cowhide-leather';
   const isDarkLeather = cardStyle === 'dark-cowhide-leather';
   const isWalnutWood = cardStyle === 'walnut-wood';
@@ -423,13 +421,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const [isClosingDetailContent, setIsClosingDetailContent] = useState<boolean>(false);
   const [isMobileFoldView, setIsMobileFoldView] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [experienceViewMode, setExperienceViewMode] = useState<'origami' | 'slider'>('origami');
+  const [experienceViewMode, setExperienceViewMode] = useState<'origami' | 'slider'>('slider');
 
   const isFoldLocked = foldPhase === 'unfolding' || foldPhase === 'folding';
   const unfoldingFoldIdx = foldPhase === 'unfolding' ? origamiTargetIdx : null;
 
   const boardRef = useRef<HTMLElement | null>(null);
-  const detailCardRef = useRef<HTMLDivElement | null>(null);
+  const detailCardRef = experienceMainCardRef;
   const dragStartXRef = useRef<number | null>(null);
   const dragStartYRef = useRef<number | null>(null);
   const didDragRef = useRef<boolean>(false);
@@ -1545,6 +1543,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         className="page-cards-track"
       >
         <div
+          ref={experienceMainCardRef}
           id="experience-main-card"
           data-main-card="true"
           data-detail-open={showJobCard ? 'true' : 'false'}
@@ -1553,7 +1552,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full overflow-hidden',
+            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
+            showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden',
             'p-0 gap-0'
           )}
           style={{
@@ -1595,7 +1595,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       {!showJobCard && (
         experienceViewMode === 'slider' ? (
           <ExperienceSliderView
-            roadmapCards={roadmapCards}
+            roadmapCards={roadmapCards.map((card) => {
+              const milestone = EXPERIENCE_MILESTONES[card.key];
+              return {
+                ...card,
+                period: milestone?.period,
+                tenure: milestone?.tenure,
+                roleTitle: milestone?.roleTitle || card.roleSummary,
+                bannerUrl: milestone?.bannerUrl || card.logo,
+              };
+            })}
             activeKey={activeKey}
             onSelectMilestone={(key, idx) => {
               handleOpenJobCard(key, idx);
@@ -1691,12 +1700,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   data-card-title="true"
                   style={{
                     color: isWalnutWood
-                      ? '#FFFBF4'
+                      ? '#F5C478'
                       : isDarkLeather
-                        ? '#FFF8EE'
+                        ? '#E5B87E'
                         : isBrownLeather
-                          ? '#FFF8DC'
-                          : 'var(--text-heading, var(--text-primary))',
+                          ? '#FDE68A'
+                          : 'var(--color-primary, #0284C7)',
                   }}
                   className="typo-h3 sm:typo-h2 md:typo-h1 card-title-synced font-bold tracking-[0.04em] leading-none m-0 whitespace-nowrap"
                 >
@@ -2572,21 +2581,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         };
 
         return (
-            <motion.div
-              ref={detailCardRef}
-              id="experience-job-detail-card"
-              variants={contentRevealVariants}
-              initial="hidden"
-              animate={isClosingDetailContent ? 'exit' : 'visible'}
-              data-no-wheel-horizontal="true"
-              data-scrollable="true"
-              data-element-name="Chi tiết công việc"
-              data-element-type="container"
-              data-element-page="experience"
-              data-element-parent="experience-main-card"
-              className="exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar block w-full min-w-0 p-[15px] font-play box-border bg-transparent border-0 shadow-none"
-              style={{ padding: '15px' }}
-            >
+            <>
             {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Nút thu gọn / đóng ở góc trên bên phải */}
             <div
               id="experience-job-detail-toolbar"
@@ -2969,7 +2964,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       )}
                       data-card-title="true"
                     >
-                      <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                      <BookOpen className={cn("w-5 h-5 sm:w-6 sm:h-6 shrink-0", isDarkCardText ? 'text-rose-300' : 'text-rose-700')} />
                       <span>Giới thiệu hành trình</span>
                     </h2>
                     <span
@@ -3402,7 +3397,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 : 'text-teal-700'
                       )}
                     >
-                      <ShieldCheck className="w-6 h-6 shrink-0" />
+                      <ShieldCheck className={cn("w-6 h-6 shrink-0", isWalnutWood ? 'text-[#F5C478]' : isDarkLeather ? 'text-[#E5B87E]' : isBrownLeather ? 'text-amber-300' : isDarkSurface ? 'text-teal-300' : 'text-teal-700')} />
                       <h2
                         className="card-title-synced typo-h4 font-bold"
                         data-card-title="true"
@@ -3615,7 +3610,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
 
             </div>
-          </motion.div>
+          </>
       );
     })()}
         </div>

@@ -19,6 +19,7 @@ import {
   AnimatedSceneWallpaper,
   isAnimatedSceneWallpaper,
 } from './components/backgrounds/AnimatedSceneWallpaper';
+import { LiquidGlassCursor } from './components/ui/LiquidGlassCursor';
 
 const MapModal = React.lazy(() =>
   import('./components/common/MapModal').then((m) => ({ default: m.MapModal }))
@@ -898,15 +899,13 @@ export default function App() {
           <motion.div
             key={`page-view-${currentTabIndex}`}
             layoutId="shared-main-content-host"
-            initial={{ opacity: 0, y: 12, scale: 0.992, filter: 'blur(3px)' }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -10, scale: 0.995, filter: 'blur(2px)' }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{
               layout: { type: 'spring', damping: 28, stiffness: 220 },
-              opacity: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-              y: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
-              scale: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
-              filter: { duration: 0.24, ease: 'easeOut' },
+              opacity: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
+              y: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
             }}
             className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
           >
@@ -978,6 +977,7 @@ export default function App() {
         )}
         <XRayInspector onShowNotification={showNotification} />
       </Suspense>
+      <LiquidGlassCursor />
     </div>
     </MotionConfig>
   );

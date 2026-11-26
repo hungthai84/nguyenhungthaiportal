@@ -84,13 +84,11 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
         effectiveStyle === 'dark-liquid-glass' ||
-        effectiveStyle === 'dark-neon-glass' ||
         effectiveStyle === 'cowhide-leather' ||
         effectiveStyle === 'dark-cowhide-leather' ||
         effectiveStyle === 'walnut-wood' ||
         effectiveStyle === 'deep-ocean' ||
-        effectiveStyle === 'dark-neumorphism-beyond' ||
-        effectiveStyle === 'dark-frost-ice-neu';
+        effectiveStyle === 'dark-neumorphism-beyond';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {

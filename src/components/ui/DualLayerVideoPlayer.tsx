@@ -430,7 +430,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       ref={rootRef}
       className={cn(
         !hasPositionClass && 'relative',
-        'w-full h-full min-w-full min-h-full overflow-hidden rounded-[inherit] flex items-center justify-center',
+        capsuleVariant === 'home' ? 'overflow-visible' : 'overflow-hidden',
+        'w-full h-full min-w-full min-h-full rounded-[inherit] flex items-center justify-center',
         className
       )}
       style={style}
@@ -602,35 +603,68 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         )}
       </div>
 
-      {/* Bottom Video Play Control */}
+      {/* Bottom-Right Rim Video Play (large circle) & Sound Toggle (small circle) */}
       {capsuleVariant === 'home' ? (
-        <button
-          id="home-hero-video-play-btn"
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (isPlayingIntro) {
-              handleCancelIntro();
-            } else {
-              handlePlayIntro();
-            }
-          }}
-          style={{ borderRadius: '9999px' }}
-          className={cn(
-            'video-play-btn video-play-btn--home bottom-3 left-1/2 -translate-x-1/2 sm:bottom-4',
-            isPlayingIntro ? 'is-playing' : '',
-            'absolute z-30 w-12 h-12 sm:w-[52px] sm:h-[52px] aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
-          )}
-          title={isPlayingIntro ? 'Bấm để hủy phát video' : 'Bấm để phát video'}
-          aria-label={isPlayingIntro ? 'Hủy phát video' : 'Phát video'}
-          aria-pressed={isPlayingIntro}
-        >
-          {isPlayingIntro ? (
-            <WebIcon name="cancel" className="w-5 h-5 stroke-[2.6] text-current shrink-0" />
-          ) : (
-            <WebIcon name="play" className="w-5 h-5 fill-current text-current translate-x-[1px] shrink-0" />
-          )}
-        </button>
+        <>
+          <button
+            id="home-hero-video-play-btn"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isPlayingIntro) {
+                handleCancelIntro();
+              } else {
+                handlePlayIntro();
+              }
+            }}
+            style={{ borderRadius: '9999px' }}
+            className={cn(
+              'video-play-btn video-play-btn--home bottom-[7%] right-[5%] sm:bottom-[8%] sm:right-[6%]',
+              isPlayingIntro ? 'is-playing' : '',
+              'absolute z-30 w-[52px] h-[52px] sm:w-[58px] sm:h-[58px] aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+            )}
+            title={isPlayingIntro ? 'Bấm để hủy phát video' : 'Bấm để phát video'}
+            aria-label={isPlayingIntro ? 'Hủy phát video' : 'Phát video'}
+            aria-pressed={isPlayingIntro}
+          >
+            {isPlayingIntro ? (
+              <WebIcon name="cancel" className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.6] text-current shrink-0" />
+            ) : (
+              <WebIcon name="play" className="w-5 h-5 sm:w-6 sm:h-6 fill-current text-current translate-x-[1.5px] shrink-0" />
+            )}
+          </button>
+
+          <button
+            id="home-hero-video-mute-btn"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleVideoMute();
+            }}
+            style={{ borderRadius: '9999px' }}
+            className={cn(
+              'video-play-btn video-play-btn--home bottom-[-1%] right-[20%] sm:bottom-[-1.5%] sm:right-[21%]',
+              isAudioOn ? 'is-playing' : '',
+              'absolute z-30 w-9 h-9 sm:w-10 sm:h-10 aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+            )}
+            title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+            aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+            aria-pressed={isAudioOn}
+          >
+            <span
+              className={cn(
+                'video-play-btn__sound w-full h-full rounded-full flex items-center justify-center',
+                isAudioOn ? 'text-current' : 'is-muted text-white'
+              )}
+            >
+              {isAudioOn ? (
+                <WebIcon name="volume-2" className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-current shrink-0" />
+              ) : (
+                <WebIcon name="volume-x" className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-white shrink-0" />
+              )}
+            </span>
+          </button>
+        </>
       ) : (
         <div
           style={{ borderRadius: '999px' }}

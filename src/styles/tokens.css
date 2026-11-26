@@ -735,7 +735,7 @@
 }
 
 /* Dark Mode Overrides (Soft Liquid Glass 3D Custom Dark Palette) */
-html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="dark-neon-glass"], html[data-card-style="dark-neon-glass"], [data-theme="cowhide-leather"], [data-theme="dark-cowhide-leather"], html[data-card-style="dark-cowhide-leather"], [data-theme="walnut-wood"], html[data-card-style="walnut-wood"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-frost-ice-neu"], html[data-card-style="dark-frost-ice-neu"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
+html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="cowhide-leather"], [data-theme="dark-cowhide-leather"], html[data-card-style="dark-cowhide-leather"], [data-theme="walnut-wood"], html[data-card-style="walnut-wood"], [data-theme="deep-ocean"], html[data-card-style="deep-ocean"], [data-theme="dark-neumorphism-beyond"], html[data-card-style="dark-neumorphism-beyond"], [data-theme="dark-flat-soft-ui"], html[data-card-style="dark-flat-soft-ui"] {
   --color-bg: #101A2B;
   --color-bg-soft: #171F33;
   --color-bg-blue: #202A40;
@@ -1317,104 +1317,6 @@ html[data-card-style="dark-liquid-glass"] {
   --pill-counter-color: #B5A7F4;
 }
 
-/* 3. MULTICOLOR GLASSMORPHISM (SÁNG) */
-html[data-card-style="multicolor-glass"] {
-  --color-primary: #4F46E5;
-  --color-secondary: #0891B2;
-  --color-accent: #EC4899;
-  --color-focus-ring: #4F46E5;
-  --color-bg: #E6EFFF;
-  --color-surface: rgba(255, 255, 255, 0.12);
-  --color-surface-elevated: rgba(255, 255, 255, 0.22);
-  --color-heading: #0F172A;
-  --color-text: #0F172A;
-  --color-text-secondary: #1E293B;
-  --text-primary: #0F172A;
-  --text-secondary: #1E293B;
-  --text-muted: #334155;
-  --text-link: #4338CA;
-  --bg-card: rgba(255, 255, 255, 0.12);
-  --bg-subcard: rgba(255, 255, 255, 0.18);
-  --border-card: rgba(255, 255, 255, 0.25);
-  --border-subcard: rgba(255, 255, 255, 0.25);
-  --nav-pill-accent: #4F46E5;
-  --pill-bg: rgba(255, 255, 255, 0.22);
-  --pill-bg-hover: rgba(255, 255, 255, 0.38);
-  --pill-border: rgba(255, 255, 255, 0.25);
-  --pill-border-hover: rgba(255, 255, 255, 0.55);
-  --pill-text: #0F172A;
-  --pill-title-color: var(--nav-pill-accent, #4338CA);
-  --pill-shadow: 0 10px 26px -8px rgba(15, 23, 42, 0.16);
-  --pill-shadow-hover: 0 14px 30px -6px rgba(79, 70, 229, 0.22);
-  --pill-blur: 16px;
-  --pill-divider: color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 24%, rgba(148, 163, 184, 0.30));
-  --pill-badge-bg: var(--nav-pill-accent, #4F46E5);
-  --pill-badge-border: rgba(255, 255, 255, 0.45);
-  --pill-badge-icon: #FFFFFF;
-  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 28%, transparent);
-  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 88%, #ffffff) 0%, var(--nav-pill-accent, #4F46E5) 55%, color-mix(in srgb, var(--nav-pill-accent, #EC4899) 76%, #312e81) 100%);
-  --pill-active-border: rgba(255, 255, 255, 0.42);
-  --pill-active-text: #FFFFFF;
-  --pill-active-shadow: 0 10px 24px -4px color-mix(in srgb, var(--nav-pill-accent, #4F46E5) 42%, rgba(15, 23, 42, 0.20));
-  --pill-active-divider: rgba(255, 255, 255, 0.58);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: var(--nav-pill-accent, #4338CA);
-  --pill-arrow-bg: rgba(255, 255, 255, 0.36);
-  --pill-arrow-hover: rgba(255, 255, 255, 0.56);
-  --pill-arrow-border: rgba(255, 255, 255, 0.25);
-  --pill-arrow-text: #4338CA;
-  --pill-counter-color: #4338CA;
-}
-
-/* 4. DARK NEON GLASSMORPHISM (TỐI) */
-html[data-card-style="dark-neon-glass"] {
-  --color-primary: #22D3EE;
-  --color-secondary: #E879F9;
-  --color-accent: #A855F7;
-  --color-focus-ring: #22D3EE;
-  --color-bg: #070B1A;
-  --color-surface: rgba(15, 23, 42, 0.34);
-  --color-surface-elevated: rgba(15, 23, 42, 0.56);
-  --color-heading: #F8FAFC;
-  --color-text: #F8FAFC;
-  --color-text-secondary: #E2E8F0;
-  --text-primary: #F8FAFC;
-  --text-secondary: #E2E8F0;
-  --text-muted: #CBD5E1;
-  --text-link: #38BDF8;
-  --bg-card: rgba(15, 23, 42, 0.34);
-  --bg-subcard: rgba(15, 23, 42, 0.42);
-  --border-card: rgba(255, 255, 255, 0.25);
-  --border-subcard: rgba(255, 255, 255, 0.25);
-  --nav-pill-accent: #22D3EE;
-  --pill-bg: rgba(15, 23, 42, 0.42);
-  --pill-bg-hover: rgba(30, 41, 59, 0.62);
-  --pill-border: rgba(255, 255, 255, 0.25);
-  --pill-border-hover: rgba(103, 232, 249, 0.56);
-  --pill-text: #F8FAFC;
-  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 82%, #FFFFFF);
-  --pill-shadow: 0 10px 26px -8px rgba(2, 6, 23, 0.58);
-  --pill-shadow-hover: 0 14px 30px -6px rgba(34, 211, 238, 0.26);
-  --pill-blur: 16px;
-  --pill-divider: rgba(255, 255, 255, 0.25);
-  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 82%, #FFFFFF);
-  --pill-badge-border: rgba(255, 255, 255, 0.35);
-  --pill-badge-icon: #090E1A;
-  --pill-badge-shadow: 0 0 12px color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 28%, transparent);
-  --pill-active-bg: linear-gradient(135deg, color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 84%, #ffffff) 0%, var(--nav-pill-accent, #06B6D4) 52%, color-mix(in srgb, var(--nav-pill-accent, #A855F7) 78%, #1e1b4b) 100%);
-  --pill-active-border: rgba(255, 255, 255, 0.42);
-  --pill-active-text: #FFFFFF;
-  --pill-active-shadow: 0 10px 26px -4px color-mix(in srgb, var(--nav-pill-accent, #22D3EE) 44%, rgba(2, 6, 23, 0.65));
-  --pill-active-divider: rgba(255, 255, 255, 0.56);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: var(--nav-pill-accent, #0891B2);
-  --pill-arrow-bg: rgba(15, 23, 42, 0.48);
-  --pill-arrow-hover: rgba(30, 41, 59, 0.70);
-  --pill-arrow-border: rgba(255, 255, 255, 0.25);
-  --pill-arrow-text: #67E8F9;
-  --pill-counter-color: #67E8F9;
-}
-
 /* 5. COWHIDE LEATHER (DA BÒ CỔ ĐIỂN) */
 html[data-card-style="cowhide-leather"] {
   --color-primary: #F5DEB3;
@@ -1611,65 +1513,6 @@ html[data-card-style="deep-ocean"] {
   --pill-counter-color: #38BDF8;
 }
 
-/* 8. LIGHT OCEAN NAVY – GLOSSY LIQUID GLASS UI (MASTER PROMPT) */
-html[data-card-style="light-deep-ocean"],
-[data-theme="light-deep-ocean"] {
-  --color-primary: #1951FC;
-  --color-secondary: #3781FC;
-  --color-accent: #73BFFF;
-  --color-teal: #35C9B0;
-  --color-navy: #03195B;
-  --color-ocean: #0B2CB1;
-  --color-cyan: #73BFFF;
-  --color-focus-ring: #3781FC;
-  --color-bg: #1951FC;
-  --color-bg-soft: #3781FC;
-  --color-bg-blue: #CBE9FD;
-  --color-surface: rgba(115, 191, 255, 0.36);
-  --color-surface-elevated: rgba(203, 233, 253, 0.85);
-  --color-heading: #03195B;
-  --color-text: #082B70;
-  --color-text-secondary: #1E40AF;
-  --color-text-muted: #3B60A8;
-  --text-primary: #082B70;
-  --text-heading: #03195B;
-  --text-secondary: #1E40AF;
-  --text-muted: #3B60A8;
-  --text-link: #0B2CB1;
-  --bg-card: rgba(115, 191, 255, 0.38);
-  --bg-subcard: rgba(203, 233, 253, 0.56);
-  --border-card: rgba(255, 255, 255, 0.55);
-  --border-subcard: rgba(255, 255, 255, 0.50);
-  --border-hover: rgba(255, 255, 255, 0.88);
-  --nav-pill-accent: #1951FC;
-  --pill-bg: linear-gradient(145deg, rgba(235, 246, 255, 0.78) 0%, rgba(203, 233, 253, 0.62) 100%);
-  --pill-bg-hover: linear-gradient(145deg, rgba(248, 252, 255, 0.94) 0%, rgba(203, 233, 253, 0.82) 100%);
-  --pill-border: rgba(255, 255, 255, 0.74);
-  --pill-border-hover: rgba(255, 255, 255, 0.94);
-  --pill-text: #03195B;
-  --pill-title-color: #03195B;
-  --pill-shadow: 0 6px 18px rgba(3, 25, 91, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.82);
-  --pill-shadow-hover: 0 10px 24px rgba(3, 25, 91, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.94);
-  --pill-blur: 18px;
-  --pill-divider: rgba(25, 81, 252, 0.24);
-  --pill-badge-bg: var(--pill-title-color, #03195B);
-  --pill-badge-border: rgba(255, 255, 255, 0.45);
-  --pill-badge-icon: #FFFFFF;
-  --pill-badge-shadow: 0 2px 7px rgba(3, 25, 91, 0.24);
-  --pill-active-bg: linear-gradient(135deg, #0B2CB1 0%, #1951FC 55%, #3781FC 100%);
-  --pill-active-border: rgba(255, 255, 255, 0.82);
-  --pill-active-text: #FFFFFF;
-  --pill-active-shadow: 0 8px 20px rgba(3, 25, 91, 0.26), inset 0 1px 1px rgba(255, 255, 255, 0.56);
-  --pill-active-divider: rgba(255, 255, 255, 0.56);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: #1951FC;
-  --pill-arrow-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(203, 233, 253, 0.78) 100%);
-  --pill-arrow-hover: #FFFFFF;
-  --pill-arrow-border: rgba(255, 255, 255, 0.92);
-  --pill-arrow-text: #0B2CB1;
-  --pill-counter-color: #0B2CB1;
-}
-
 /* 9. NEUMORPHISM BEYOND (NỔI KHỐI KÍNH MỜ SÁNG) */
 html[data-card-style="neumorphism-beyond"] {
   --color-primary: #4973FF;
@@ -1815,56 +1658,6 @@ html[data-card-style="frost-ice-neu"] {
   --pill-arrow-border: transparent;
   --pill-arrow-text: #4B46D6;
   --pill-counter-color: #4B46D6;
-}
-
-/* 12. DARK FROST ICE NEUMORPHISM (BĂNG TUYẾT NỔI KHỐI TỐI · MATTE SOFT UI) */
-html[data-card-style="dark-frost-ice-neu"] {
-  --color-primary: #6E6AF6;
-  --color-secondary: #8B87FF;
-  --color-accent: #6E6AF6;
-  --color-focus-ring: #9B97FF;
-  --color-bg: #1A2433;
-  --color-surface: #1A2433;
-  --color-surface-elevated: #1A2433;
-  --color-heading: #F1F6FC;
-  --color-text: #DCE7F5;
-  --color-text-secondary: #A7BAD0;
-  --text-primary: #F1F6FC;
-  --text-secondary: #DCE7F5;
-  --text-muted: #94ABC5;
-  --text-link: #A5A2FF;
-  --bg-card: #1A2433;
-  --bg-subcard: #1A2433;
-  --border-card: transparent;
-  --border-subcard: transparent;
-  --nav-pill-accent: #6E6AF6;
-  --pill-bg: #1A2433;
-  --pill-bg-hover: #1A2433;
-  --pill-border: transparent;
-  --pill-border-hover: transparent;
-  --pill-text: #DCE7F5;
-  --pill-title-color: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #FFFFFF);
-  --pill-shadow: -5px -5px 10px rgba(38, 52, 74, 0.68), 5px 5px 10px rgba(10, 15, 24, 0.76);
-  --pill-shadow-hover: -6px -6px 13px rgba(45, 62, 88, 0.76), 6px 6px 13px rgba(8, 12, 20, 0.84);
-  --pill-blur: 0px;
-  --pill-divider: rgba(167, 186, 208, 0.24);
-  --pill-badge-bg: color-mix(in srgb, var(--nav-pill-accent, #8B87FF) 82%, #FFFFFF);
-  --pill-badge-border: transparent;
-  --pill-badge-icon: #090E1A;
-  --pill-badge-shadow: -3px -3px 6px rgba(38, 52, 74, 0.68), 3px 3px 6px rgba(10, 15, 24, 0.74);
-  --pill-active-bg: #6E6AF6;
-  --pill-active-border: transparent;
-  --pill-active-text: #FFFFFF;
-  --pill-active-shadow: -4px -4px 10px rgba(42, 58, 82, 0.65), 5px 5px 12px rgba(8, 12, 20, 0.82);
-  --pill-active-divider: rgba(255, 255, 255, 0.54);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: #6E6AF6;
-  --pill-arrow-bg: #1A2433;
-  --pill-arrow-hover: #1A2433;
-  --pill-arrow-border: transparent;
-  --pill-arrow-text: #A5A2FF;
-  --pill-counter-color: #A5A2FF;
-  --neu-raised-hover-shadow: -7px -7px 14px rgba(45, 62, 88, 0.76), 7px 7px 14px rgba(8, 12, 20, 0.84);
 }
 
 /* 13. FLAT SOFT UI (SÁNG · MATTE PORCELAIN + INDIGO & TEAL) */
@@ -2073,113 +1866,128 @@ html[data-theme="gradient-dopamine"] {
 }
 
 /* ========================================================================= */
-/* 11. DARK LUXURY — SANG TRỌNG TỐI MÀU                                      */
+/* 11. IRIDESCENT LIQUID GLASS — LIGHT & DARK (KÍNH LỎNG ÁNH XÀ CỪ ĐA SẮC)   */
 /* ========================================================================= */
-html[data-card-style="dark-luxury"],
-html[data-theme="dark-luxury"] {
-  --app-bg-base: #0B0A0E;
-  --color-primary: #D4AF37;
-  --color-primary-hover: #E5C158;
-  --color-primary-active: #B89323;
-  --color-secondary: #AA771C;
-  --color-accent: #F3E5AB;
-  --color-focus-ring: #D4AF37;
-  --color-bg: #0B0A0E;
-  --color-surface: rgba(20, 18, 24, 0.92);
-  --color-surface-elevated: rgba(28, 25, 34, 0.96);
-  --color-heading: #FBF7EE;
-  --color-text: #F5EFE6;
-  --color-text-secondary: #C8BFA8;
-  --text-primary: #FBF7EE;
-  --text-secondary: #C8BFA8;
-  --text-muted: #9A8F76;
-  --text-link: #E5C158;
-  --bg-card: rgba(20, 18, 24, 0.92);
-  --bg-subcard: rgba(28, 25, 34, 0.94);
-  --border-card: rgba(212, 175, 55, 0.34);
-  --border-subcard: rgba(212, 175, 55, 0.24);
-  --nav-pill-accent: #D4AF37;
-  --pill-bg: rgba(22, 20, 27, 0.92);
-  --pill-bg-hover: rgba(32, 29, 38, 0.98);
-  --pill-border: rgba(212, 175, 55, 0.35);
-  --pill-border-hover: rgba(212, 175, 55, 0.62);
-  --pill-text: #F5EFE6;
-  --pill-title-color: #FBF7EE;
-  --pill-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.72), 0 0 14px rgba(212, 175, 55, 0.12);
-  --pill-shadow-hover: 0 14px 30px -6px rgba(0, 0, 0, 0.85), 0 0 18px rgba(212, 175, 55, 0.22);
-  --pill-blur: 18px;
-  --pill-divider: rgba(212, 175, 55, 0.24);
-  --pill-badge-bg: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA771C 100%);
-  --pill-badge-border: rgba(251, 247, 238, 0.48);
-  --pill-badge-icon: #0B0A0E;
-  --pill-badge-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
-  --pill-active-bg: linear-gradient(135deg, #E5C158 0%, #D4AF37 52%, #9A6F18 100%);
-  --pill-active-border: rgba(251, 247, 238, 0.65);
-  --pill-active-text: #0B0A0E;
-  --pill-active-shadow: 0 10px 26px -4px rgba(212, 175, 55, 0.45);
-  --pill-active-divider: rgba(11, 10, 14, 0.32);
-  --pill-active-badge-bg: #0B0A0E;
-  --pill-active-badge-icon: #E5C158;
-  --pill-arrow-bg: rgba(26, 24, 32, 0.94);
-  --pill-arrow-hover: rgba(38, 34, 46, 0.98);
-  --pill-arrow-border: rgba(212, 175, 55, 0.40);
-  --pill-arrow-text: #E5C158;
-  --pill-counter-color: #F3E5AB;
+html[data-card-style="iridescent-liquid-glass"],
+html[data-theme="iridescent-liquid-glass"] {
+  --app-bg-base: #F6F8FC;
+  --color-primary: #06B6D4;
+  --color-primary-hover: #0891B2;
+  --color-primary-active: #0E7490;
+  --color-secondary: #FB923C;
+  --color-accent: #8B5CF6;
+  --color-focus-ring: #06B6D4;
+  --color-bg: #F6F8FC;
+  --color-surface: rgba(255, 255, 255, 0.78);
+  --color-surface-elevated: rgba(255, 255, 255, 0.88);
+  --color-heading: #0F172A;
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
+  --text-primary: #0F172A;
+  --text-heading: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-link: #0284C7;
+  --bg-main: rgba(255, 255, 255, 0.72);
+  --bg-header: rgba(255, 255, 255, 0.78);
+  --bg-footer: rgba(255, 255, 255, 0.78);
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --bg-card-hover: rgba(255, 255, 255, 0.90);
+  --bg-subcard: rgba(255, 255, 255, 0.66);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.84);
+  --bg-button-primary: linear-gradient(135deg, #06B6D4 0%, #3B82F6 52%, #FB923C 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.72);
+  --text-button-primary: #FFFFFF;
+  --border-card: rgba(255, 255, 255, 0.78);
+  --border-subcard: rgba(148, 163, 184, 0.24);
+  --nav-pill-accent: #06B6D4;
+  --pill-bg: rgba(255, 255, 255, 0.78);
+  --pill-bg-hover: rgba(255, 255, 255, 0.94);
+  --pill-border: rgba(6, 182, 212, 0.34);
+  --pill-border-hover: rgba(251, 146, 60, 0.56);
+  --pill-text: #0F172A;
+  --pill-title-color: #0F172A;
+  --pill-shadow: 0 10px 26px -8px rgba(6, 182, 212, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --pill-shadow-hover: 0 14px 32px -8px rgba(251, 146, 60, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --pill-blur: 22px;
+  --pill-divider: rgba(148, 163, 184, 0.24);
+  --pill-badge-bg: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 55%, #FB923C 100%);
+  --pill-badge-border: rgba(255, 255, 255, 0.85);
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: 0 4px 14px rgba(6, 182, 212, 0.36);
+  --pill-active-bg: linear-gradient(135deg, #06B6D4 0%, #3B82F6 55%, #FB923C 100%);
+  --pill-active-border: rgba(255, 255, 255, 0.85);
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: 0 10px 26px -4px rgba(6, 182, 212, 0.42);
+  --pill-active-divider: rgba(255, 255, 255, 0.45);
+  --pill-active-badge-bg: rgba(255, 255, 255, 0.94);
+  --pill-active-badge-icon: #0284C7;
+  --pill-arrow-bg: rgba(255, 255, 255, 0.82);
+  --pill-arrow-hover: rgba(255, 255, 255, 0.96);
+  --pill-arrow-border: rgba(6, 182, 212, 0.32);
+  --pill-arrow-text: #0284C7;
+  --pill-counter-color: #0284C7;
 }
 
-/* ========================================================================= */
-/* 12. MINIMALISM — TỐI GIẢN                                                 */
-/* ========================================================================= */
-html[data-card-style="minimalism"],
-html[data-theme="minimalism"] {
-  --app-bg-base: #FAFAFA;
-  --color-primary: #111111;
-  --color-primary-hover: #262626;
-  --color-primary-active: #000000;
-  --color-secondary: #525252;
-  --color-accent: #171717;
-  --color-focus-ring: #111111;
-  --color-bg: #FAFAFA;
-  --color-surface: #FFFFFF;
-  --color-surface-elevated: #FFFFFF;
-  --color-heading: #0A0A0A;
-  --color-text: #111111;
-  --color-text-secondary: #525252;
-  --text-primary: #0A0A0A;
-  --text-secondary: #404040;
-  --text-muted: #737373;
-  --text-link: #111111;
-  --bg-card: #FFFFFF;
-  --bg-subcard: #FAFAFA;
-  --border-card: #E5E5E5;
-  --border-subcard: #EAEAEA;
-  --nav-pill-accent: #111111;
-  --pill-bg: #FFFFFF;
-  --pill-bg-hover: #F5F5F5;
-  --pill-border: #E5E5E5;
-  --pill-border-hover: #A3A3A3;
-  --pill-text: #111111;
-  --pill-title-color: #0A0A0A;
-  --pill-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --pill-shadow-hover: 0 3px 8px rgba(0, 0, 0, 0.07);
-  --pill-blur: 0px;
-  --pill-divider: #E5E5E5;
-  --pill-badge-bg: #111111;
-  --pill-badge-border: #262626;
+html[data-card-style="dark-iridescent-liquid-glass"],
+html[data-theme="dark-iridescent-liquid-glass"] {
+  --app-bg-base: #070B14;
+  --color-primary: #22D3EE;
+  --color-primary-hover: #67E8F9;
+  --color-primary-active: #06B6D4;
+  --color-secondary: #FB923C;
+  --color-accent: #C084FC;
+  --color-focus-ring: #22D3EE;
+  --color-bg: #070B14;
+  --color-surface: rgba(15, 23, 42, 0.68);
+  --color-surface-elevated: rgba(22, 33, 58, 0.78);
+  --color-heading: #F8FAFC;
+  --color-text: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --text-primary: #F8FAFC;
+  --text-heading: #FFFFFF;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #38BDF8;
+  --bg-main: rgba(10, 16, 30, 0.68);
+  --bg-header: rgba(15, 23, 42, 0.74);
+  --bg-footer: rgba(15, 23, 42, 0.74);
+  --bg-card: rgba(15, 23, 42, 0.66);
+  --bg-card-hover: rgba(23, 35, 62, 0.80);
+  --bg-subcard: rgba(20, 30, 54, 0.56);
+  --bg-subcard-hover: rgba(30, 44, 76, 0.72);
+  --bg-button-primary: linear-gradient(135deg, #22D3EE 0%, #6366F1 52%, #FB923C 100%);
+  --bg-button-secondary: rgba(30, 41, 59, 0.66);
+  --text-button-primary: #FFFFFF;
+  --border-card: rgba(255, 255, 255, 0.18);
+  --border-subcard: rgba(255, 255, 255, 0.14);
+  --nav-pill-accent: #22D3EE;
+  --pill-bg: rgba(15, 23, 42, 0.76);
+  --pill-bg-hover: rgba(30, 41, 59, 0.90);
+  --pill-border: rgba(34, 211, 238, 0.36);
+  --pill-border-hover: rgba(251, 146, 60, 0.56);
+  --pill-text: #F8FAFC;
+  --pill-title-color: #FFFFFF;
+  --pill-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --pill-shadow-hover: 0 16px 34px -8px rgba(34, 211, 238, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  --pill-blur: 24px;
+  --pill-divider: rgba(255, 255, 255, 0.14);
+  --pill-badge-bg: linear-gradient(135deg, #22D3EE 0%, #8B5CF6 55%, #FB923C 100%);
+  --pill-badge-border: rgba(255, 255, 255, 0.35);
   --pill-badge-icon: #FFFFFF;
-  --pill-badge-shadow: none;
-  --pill-active-bg: #111111;
-  --pill-active-border: #111111;
+  --pill-badge-shadow: 0 4px 14px rgba(34, 211, 238, 0.42);
+  --pill-active-bg: linear-gradient(135deg, #06B6D4 0%, #6366F1 55%, #FB923C 100%);
+  --pill-active-border: rgba(103, 232, 249, 0.65);
   --pill-active-text: #FFFFFF;
-  --pill-active-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  --pill-active-divider: rgba(255, 255, 255, 0.28);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: #111111;
-  --pill-arrow-bg: #FFFFFF;
-  --pill-arrow-hover: #F5F5F5;
-  --pill-arrow-border: #E5E5E5;
-  --pill-arrow-text: #111111;
-  --pill-counter-color: #111111;
+  --pill-active-shadow: 0 12px 28px -4px rgba(34, 211, 238, 0.46);
+  --pill-active-divider: rgba(255, 255, 255, 0.32);
+  --pill-active-badge-bg: #22D3EE;
+  --pill-active-badge-icon: #070B14;
+  --pill-arrow-bg: rgba(15, 23, 42, 0.78);
+  --pill-arrow-hover: rgba(30, 41, 59, 0.92);
+  --pill-arrow-border: rgba(34, 211, 238, 0.34);
+  --pill-arrow-text: #67E8F9;
+  --pill-counter-color: #67E8F9;
 }
 
 @media (max-width: 639px) {

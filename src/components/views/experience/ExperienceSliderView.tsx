@@ -11,13 +11,18 @@ const Briefcase = createAnimatedIcon('briefcase');
 export interface RoadmapCardItem {
   key: string;
   yearBadge: string;
+  period?: string;
+  tenure?: string;
   companyLine1: string;
   companyLine2: string;
   shortName: string;
   roleSummary: string;
+  roleTitle?: string;
   headcountLabel: string;
   description: string;
   logo: string;
+  bannerUrl?: string;
+  logos?: Array<{ src: string; fallback?: string; alt: string }>;
   productSummary: string;
   accentColor: string;
   darkAccentColor?: string;
@@ -453,7 +458,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   }, [totalCards, handleNextCarousel, handlePrevCarousel]);
 
   return (
-    <div className="w-full h-full min-h-0 flex-1 flex flex-col justify-between overflow-hidden relative">
+    <div className="exp-slider-view-root w-full h-full min-h-0 flex-1 flex flex-col justify-between overflow-hidden relative">
       {/* Top Header with Title and View Switcher */}
       <div className="w-full flex items-center justify-between gap-3 px-[18px] sm:px-[24px] pt-[12px] pb-[8px] z-20 shrink-0">
         <header className="min-w-0">
@@ -475,12 +480,12 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
               className="typo-h3 sm:typo-h2 md:typo-h1 font-bold tracking-[0.04em] leading-none m-0 whitespace-nowrap"
               style={{
                 color: isWalnutWood
-                  ? '#FFFBF4'
+                  ? '#F5C478'
                   : isDarkLeather
-                    ? '#FFF8EE'
+                    ? '#E5B87E'
                     : isBrownLeather
-                      ? '#FFF8DC'
-                      : 'var(--text-heading, var(--text-primary))',
+                      ? '#FDE68A'
+                      : 'var(--color-primary, #0284C7)',
               }}
             >
               Thời gian công tác
@@ -623,30 +628,85 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           onSelectMilestone(item.key, origIdx);
                         }
                       }}
-                      className={cn('news-card-item', isHighlighted && 'active')}
+                      className={cn('news-card-item h-full flex flex-col justify-between gap-2.5', isHighlighted && 'active')}
                     >
-                      <div className="news-card-date">
-                        <span className="news-card-date-title">{item.yearBadge}</span>
-                        <span className="news-card-date-txt">{item.headcountLabel}</span>
-                      </div>
-                      <div className="news-card-title" title={item.shortName}>
-                        {item.shortName}
-                      </div>
-                      <p className="news-card-txt" title={item.description}>
-                        <span className="font-bold text-[var(--color-primary)] block mb-1">
-                          {item.roleSummary}
+                      <div className="news-card-date !mb-0 flex flex-col gap-1.5 shrink-0">
+                        <div className="flex items-center justify-between gap-2 w-full">
+                          <span className="news-card-date-title inline-flex items-center gap-1.5 !mb-0">
+                            <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                            <span>{item.yearBadge}</span>
+                          </span>
+                          {/* Group logo bên phải năm */}
+                          <div className="flex items-center -space-x-1.5 shrink-0">
+                            {(item.logos && item.logos.length > 0
+                              ? item.logos
+                              : [{ src: item.logo, alt: item.shortName }]
+                            ).map((lg, lgIdx) => (
+                              <div
+                                key={`${item.key}-logo-${lgIdx}`}
+                                className="w-7 h-7 rounded-full bg-white/95 border border-[var(--border-subcard)] p-0.5 shadow-xs overflow-hidden flex items-center justify-center shrink-0"
+                                title={lg.alt}
+                              >
+                                <img
+                                  src={lg.src}
+                                  alt={lg.alt}
+                                  loading="lazy"
+                                  decoding="async"
+                                  referrerPolicy="no-referrer"
+                                  draggable={false}
+                                  className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <span className="news-card-date-txt !text-[12px] font-semibold opacity-90 block">
+                          {item.period && item.tenure
+                            ? `${item.period} : ${item.tenure}`
+                            : item.period || item.tenure || item.yearBadge}
                         </span>
-                        {item.description}
-                      </p>
-                      <div className="news-card-img company-logo-surface flex items-center justify-center p-3">
+                      </div>
+
+                      <div className="news-card-title !mb-0 flex items-start gap-1.5 shrink-0" title={item.shortName}>
+                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 mt-0.5 text-[var(--color-primary)]" />
+                        <span className="leading-snug">{item.shortName}</span>
+                      </div>
+
+                      <div className="news-card-txt !mb-0 flex flex-col gap-1.5 text-[12.5px] leading-snug shrink-0">
+                        <div className="flex items-start gap-1.5">
+                          <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[var(--color-primary)]" />
+                          <span className="min-w-0">
+                            <strong className="font-bold">Chức vụ:</strong>{' '}
+                            <span className="font-semibold text-[var(--color-primary)]">
+                              {item.roleTitle || item.roleSummary}
+                            </span>
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
+                          <span className="min-w-0">
+                            <strong className="font-bold">Quản lý:</strong>{' '}
+                            <span>{item.headcountLabel}</span>
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-1.5" title={item.description}>
+                          <WebIcon name="file-text" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+                          <span className="min-w-0 line-clamp-3">
+                            <strong className="font-bold">Giới thiệu:</strong>{' '}
+                            <span>{item.description}</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="news-card-img !mt-auto flex-1 min-h-[140px] w-full p-0 overflow-hidden rounded-[12px] relative bg-black/5">
                         <img
-                          src={item.logo}
-                          alt={item.shortName}
+                          src={item.bannerUrl || item.logo}
+                          alt={`Banner công việc ${item.shortName}`}
                           loading="lazy"
                           decoding="async"
                           referrerPolicy="no-referrer"
                           draggable={false}
-                          className="w-full h-full object-contain filter drop-shadow-md select-none pointer-events-none"
+                          className="w-full h-full object-cover select-none pointer-events-none"
                         />
                       </div>
                     </div>

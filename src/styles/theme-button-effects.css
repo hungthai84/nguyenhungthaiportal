@@ -161,10 +161,7 @@
   html:is(
     [data-card-style="liquid-glass"],
     [data-card-style="dark-liquid-glass"],
-    [data-card-style="multicolor-glass"],
-    [data-card-style="dark-neon-glass"],
     [data-card-style="deep-ocean"],
-    [data-card-style="light-deep-ocean"],
     [data-card-style="neumorphism-beyond"],
     [data-card-style="dark-neumorphism-beyond"],
     [data-card-style="cowhide-leather"],
@@ -306,8 +303,8 @@ html[data-card-style="dark-neumorphism-beyond"] :where(
   }
 }
 
-/* 1C. FROST ICE NEUMORPHISM (Light & Dark — Pure Matte, Zero Gloss, Dual Soft Shadows) */
-html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+/* 1C. FROST ICE NEUMORPHISM (Pure Matte, Zero Gloss, Dual Soft Shadows) */
+html[data-card-style="frost-ice-neu"] :where(
   button,
   a[role="button"],
   .nav-pill,
@@ -319,7 +316,7 @@ html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"
   .sys-bento-action-btn,
   [data-element-type="button"]
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before,
-html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+html[data-card-style="frost-ice-neu"] :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -331,7 +328,7 @@ html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"
   content: none !important;
 }
 
-html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) :where(
+html[data-card-style="frost-ice-neu"] :where(
   button,
   a[role="button"],
   [role="tab"],
@@ -375,29 +372,6 @@ html:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"
       -6px -6px 13px rgba(255, 255, 255, 0.92),
       6px 6px 13px rgba(163, 179, 199, 0.64) !important;
   }
-
-  html[data-card-style="dark-frost-ice-neu"] :where(
-    button,
-    a[role="button"],
-    [role="tab"],
-    [role="option"],
-    [role="switch"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([aria-pressed="true"]):not([disabled]):hover {
-    transform: none !important;
-    border: none !important;
-    border-width: 0 !important;
-    box-shadow:
-      -6px -6px 13px rgba(45, 62, 88, 0.76),
-      6px 6px 13px rgba(8, 12, 20, 0.84) !important;
-  }
 }
 
 html[data-card-style="frost-ice-neu"] :where(
@@ -421,29 +395,6 @@ html[data-card-style="frost-ice-neu"] :where(
   box-shadow:
     inset 4px 4px 8px rgba(163, 179, 199, 0.60),
     inset -4px -4px 8px rgba(255, 255, 255, 0.88) !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] :where(
-  button,
-  a[role="button"],
-  [role="tab"],
-  [role="option"],
-  [role="switch"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([aria-current="page"]):not([data-active="true"]):not([disabled]):is(:active, [aria-pressed="true"]) {
-  transform: none !important;
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    inset 4px 4px 8px rgba(10, 15, 24, 0.80),
-    inset -4px -4px 8px rgba(38, 52, 74, 0.66) !important;
 }
 
 
@@ -552,132 +503,7 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
 
 
 
-/* ------------------------------------------------------------------------- */
-/* 3. MULTICOLOR GLASS — Prismatic Tri-Color Glow Lift & Elastic Frosted Press*/
-/* ------------------------------------------------------------------------- */
-html[data-card-style="multicolor-glass"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    105px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(56, 189, 248, 0.26) 0%,
-    rgba(192, 132, 252, 0.22) 38%,
-    rgba(244, 114, 182, 0.16) 64%,
-    transparent 82%
-  );
-}
 
-html[data-card-style="multicolor-glass"] :where(
-  button.nav-pill,
-  .banner-control-pill,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  .radial-contact-pill
-)::after {
-  background: linear-gradient(
-    115deg,
-    transparent 15%,
-    rgba(56, 189, 248, 0.28) 38%,
-    rgba(192, 132, 252, 0.30) 54%,
-    rgba(244, 114, 182, 0.26) 70%,
-    transparent 85%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html[data-card-style="multicolor-glass"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(167, 139, 250, 0.78) !important;
-    box-shadow:
-      0 10px 24px -5px rgba(139, 92, 246, 0.26),
-      0 4px 12px -3px rgba(6, 182, 212, 0.22),
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.96) !important;
-  }
-}
-
-
-
-/* 3B. DARK NEON GLASS — Cyan/Violet Cyber Rim & Press Shockwave */
-html[data-card-style="dark-neon-glass"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    105px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(34, 211, 238, 0.30) 0%,
-    rgba(168, 85, 247, 0.22) 48%,
-    rgba(236, 72, 153, 0.14) 70%,
-    transparent 84%
-  );
-}
-
-html[data-card-style="dark-neon-glass"] :where(
-  button.nav-pill,
-  .banner-control-pill,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  .radial-contact-pill
-)::after {
-  background: linear-gradient(
-    115deg,
-    transparent 18%,
-    rgba(34, 211, 238, 0.34) 44%,
-    rgba(168, 85, 247, 0.30) 60%,
-    transparent 84%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html[data-card-style="dark-neon-glass"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(34, 211, 238, 0.78) !important;
-    box-shadow:
-      0 10px 26px -4px rgba(34, 211, 238, 0.34),
-      0 4px 16px -4px rgba(168, 85, 247, 0.28),
-      inset 0 1px 0 rgba(165, 243, 252, 0.34) !important;
-  }
-}
 
 
 
@@ -986,66 +812,7 @@ html[data-card-style="deep-ocean"] :where(
 
 
 
-/* ------------------------------------------------------------------------- */
-/* 6. OCEAN NAVY LIGHT – GLOSSY LIQUID GLASS UI (MASTER PROMPT)              */
-/* ------------------------------------------------------------------------- */
-html[data-card-style="light-deep-ocean"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(255, 255, 255, 0.85) 0%,
-    rgba(115, 191, 255, 0.32) 48%,
-    transparent 78%
-  );
-}
 
-html[data-card-style="light-deep-ocean"] :where(
-  .banner-control-pill,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  .radial-contact-pill
-)::after {
-  background: linear-gradient(
-    110deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.75) 45%,
-    rgba(115, 191, 255, 0.34) 55%,
-    transparent 80%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html[data-card-style="light-deep-ocean"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -1.5px, 0) !important;
-    border-color: rgba(255, 255, 255, 0.88) !important;
-    box-shadow:
-      0 10px 24px -4px rgba(25, 81, 252, 0.28),
-      0 4px 12px rgba(115, 191, 255, 0.22),
-      inset 0 1px 1.5px rgba(255, 255, 255, 0.96) !important;
-  }
-}
 
 
 

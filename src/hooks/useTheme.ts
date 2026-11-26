@@ -14,8 +14,6 @@ import {
   CARD_STYLE_STORAGE_KEY,
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
-  LAYER_DEPTH_STORAGE_KEY,
-  LAYER_DEPTH_SYNC_EVENT,
 } from '../config/ui/themeDefaults';
 import { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeMechanismMode } from '../config/ui/theme.types';
 import { useThemeContext } from '../context/ThemeContext';
@@ -33,8 +31,6 @@ export {
   CARD_STYLE_STORAGE_KEY,
   COLOR_SCHEME_MODE_STORAGE_KEY,
   COLOR_SCHEME_MODE_SYNC_EVENT,
-  LAYER_DEPTH_STORAGE_KEY,
-  LAYER_DEPTH_SYNC_EVENT,
 };
 export type { CardStyleMode, ColorSchemeMode, SurfaceDepthMode, ThemeFamilyGroupMeta, ThemeMechanismMode };
 

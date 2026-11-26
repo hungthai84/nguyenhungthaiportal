@@ -203,7 +203,7 @@ article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):no
 #about-operating-pillars-card:hover,
 #about-core-values-card:hover,
 #about-philosophy-card:hover,
-#experience-job-detail-card:hover,
+#experience-main-card:hover,
 #systems-admin-card:hover,
 #systems-workflow-card:hover,
 #systems-tech-card:hover,
@@ -758,7 +758,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 [id^="home-main-card-"],
 .home-screen-main-card,
 #experience-main-card:has(#experience-timeline-board),
-#experience-main-card:has(#experience-job-detail-card) {
+#experience-main-card:has(#experience-main-card) {
   overflow: hidden !important;
   position: relative !important;
 }
@@ -1109,8 +1109,8 @@ h3.card-title,
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
-  border-radius: 0px !important;
-  border: 1px solid var(--surface-primary-border, var(--glass-main-border, rgba(255, 255, 255, 0.4))) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  border: none !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -1118,8 +1118,7 @@ h3.card-title,
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
+  overflow: visible !important;
   scroll-behavior: smooth;
   transition: none !important;
   animation: none !important;
@@ -1291,7 +1290,7 @@ h3.card-title,
   -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%));
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"])
+html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-neumorphism-beyond"])
   #skills-swot-grid .swot-quadrant-card[data-swot] {
   background: color-mix(in srgb, var(--swot-accent) 8%, var(--surface-secondary-bg, var(--bg-card))) !important;
   border: 1px solid color-mix(in srgb, var(--swot-accent) 32%, var(--surface-secondary-border, transparent)) !important;
@@ -1490,33 +1489,17 @@ html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75);
 }
 
-html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-outer {
+html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-outer {
   background: color-mix(in srgb, var(--swot-accent) 18%, var(--surface-secondary-bg, var(--bg-card)));
   border: 1px solid color-mix(in srgb, var(--swot-accent) 38%, var(--surface-secondary-border, rgba(255, 255, 255, 0.10)));
   box-shadow: var(--neu-raised-shadow, 6px 6px 14px rgba(2, 6, 23, 0.68), -5px -5px 12px rgba(255, 255, 255, 0.06));
 }
-html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-inner {
+html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-inner {
   background: color-mix(in srgb, var(--swot-accent) 28%, var(--surface-primary-bg, var(--bg-main)));
   border: 1px solid color-mix(in srgb, var(--swot-accent) 52%, rgba(255, 255, 255, 0.10));
   box-shadow: var(--neu-inset-shadow, inset 4px 4px 10px rgba(2, 6, 23, 0.7), inset -3px -3px 8px rgba(255, 255, 255, 0.06));
 }
-html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) .swot-quadrant-card .swot-corner-letter {
-  color: #FFFFFF;
-  text-shadow: 0 0 12px var(--swot-accent);
-}
-
-/* Dark Neon Glass */
-html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-outer {
-  background: color-mix(in srgb, var(--swot-accent) 26%, rgba(15, 23, 42, 0.56));
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 65%, rgba(34, 211, 238, 0.44));
-  box-shadow: 0 0 22px -4px var(--swot-accent), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-}
-html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--swot-accent) 72%, rgba(15, 23, 42, 0.6)) 0%, var(--swot-accent) 100%);
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 80%, #FFFFFF);
-  box-shadow: 0 0 26px -4px var(--swot-accent);
-}
-html[data-card-style="dark-neon-glass"] .swot-quadrant-card .swot-corner-letter {
+html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-letter {
   color: #FFFFFF;
   text-shadow: 0 0 12px var(--swot-accent);
 }
@@ -1564,7 +1547,7 @@ html:is([data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
 }
 
-/* Deep Ocean & Light Deep Ocean */
+/* Deep Ocean */
 html[data-card-style="deep-ocean"] .swot-quadrant-card .swot-corner-outer {
   background: color-mix(in srgb, var(--swot-accent) 32%, rgba(14, 116, 144, 0.38));
   border-color: color-mix(in srgb, var(--swot-accent) 62%, rgba(56, 189, 248, 0.42));
@@ -1572,15 +1555,6 @@ html[data-card-style="deep-ocean"] .swot-quadrant-card .swot-corner-outer {
 html[data-card-style="deep-ocean"] .swot-quadrant-card .swot-corner-inner {
   background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 82%, #38BDF8) 0%, var(--swot-accent) 100%);
   border-color: rgba(255, 255, 255, 0.65);
-}
-
-html[data-card-style="light-deep-ocean"] .swot-quadrant-card .swot-corner-outer {
-  background: color-mix(in srgb, var(--swot-accent) 24%, rgba(186, 230, 253, 0.58));
-  border-color: color-mix(in srgb, var(--swot-accent) 52%, rgba(56, 189, 248, 0.52));
-}
-html[data-card-style="light-deep-ocean"] .swot-quadrant-card .swot-corner-inner {
-  background: linear-gradient(145deg, color-mix(in srgb, var(--swot-accent) 86%, #FFFFFF) 0%, var(--swot-accent) 100%);
-  border-color: rgba(255, 255, 255, 0.72);
 }
 
 /* ========================================================================= */
@@ -1612,29 +1586,7 @@ html[data-card-style="light-deep-ocean"] .swot-quadrant-card .swot-corner-inner 
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease !important;
 }
 
-html[data-card-style="light-deep-ocean"] :is(
-  .hero-banner,
-  .banner-card,
-  [data-element-type="banner-card"],
-  #services-hero-banner,
-  #project-detail-banner,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  #pdf-hero-banner,
-  [id$="-hero-banner"]
-) {
-  background: linear-gradient(145deg, rgba(240, 249, 255, 0.90) 0%, rgba(224, 242, 254, 0.84) 100%) !important;
-  border: 1px solid rgba(56, 189, 248, 0.38) !important;
-  box-shadow:
-    0 14px 34px -8px rgba(2, 132, 199, 0.18),
-    0 4px 14px -2px rgba(18, 59, 99, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.94),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.40) !important;
-  backdrop-filter: blur(20px) saturate(155%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(155%) !important;
-}
-
-html:is([data-card-style="deep-ocean"], [data-card-style="dark-neon-glass"]) :is(
+html[data-card-style="deep-ocean"] :is(
   .hero-banner,
   .banner-card,
   [data-element-type="banner-card"],
@@ -1689,24 +1641,6 @@ html[data-card-style="neumorphism-beyond"] :is(
   box-shadow:
     var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))),
     0 18px 40px -8px rgba(18, 59, 99, 0.22),
-    0 6px 16px -2px rgba(18, 59, 99, 0.10),
-    inset 0 1px 0 rgba(255, 255, 255, 0.96),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.45) !important;
-}
-
-html[data-card-style="light-deep-ocean"] :is(
-  .hero-banner,
-  .banner-card,
-  [data-element-type="banner-card"],
-  #services-hero-banner,
-  #project-detail-banner,
-  #contact-hero-banner,
-  #ai-assistant-hero-banner,
-  #pdf-hero-banner,
-  [id$="-hero-banner"]
-):hover {
-  box-shadow:
-    0 18px 40px -8px rgba(2, 132, 199, 0.22),
     0 6px 16px -2px rgba(18, 59, 99, 0.10),
     inset 0 1px 0 rgba(255, 255, 255, 0.96),
     inset 0 0 0 1px rgba(255, 255, 255, 0.45) !important;
@@ -2059,40 +1993,6 @@ html[data-card-style="dark-liquid-glass"] .themed-image-card-badge {
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: var(--shadow-nav-pill);
   color: #f1f5f9;
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-scrim {
-  background: linear-gradient(
-    to top,
-    rgba(6, 10, 26, 0.95) 0%,
-    rgba(14, 16, 44, 0.66) 52%,
-    rgba(6, 10, 26, 0.20) 100%
-  );
-  backdrop-filter: blur(12px) saturate(165%);
-  -webkit-backdrop-filter: blur(12px) saturate(165%);
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-title {
-  color: #f8fafc;
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-subtext {
-  color: #cbd5e1;
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-kicker {
-  color: #22d3ee;
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-divider {
-  border-color: rgba(34, 211, 238, 0.24);
-}
-
-html[data-card-style="dark-neon-glass"] .themed-image-card-badge {
-  background: rgba(10, 18, 44, 0.88);
-  border: 1px solid rgba(34, 211, 238, 0.36);
-  box-shadow: var(--shadow-nav-pill);
-  color: #67e8f9;
 }
 
 /* Theme 02: Chất liệu da (màu nâu) */
@@ -3018,11 +2918,11 @@ button:focus-visible,
 /* ========================================================================= */
 /* EXPERIENCE DETAIL BENTO GRID BUTTONS, SCROLLING & THEME CONTRAST SAFETY   */
 /* ========================================================================= */
-#experience-job-detail-card button.exp-bento-rect-btn {
+#experience-main-card button.exp-bento-rect-btn {
   border-radius: var(--radius-subcard, 14px) !important;
 }
 
-#experience-job-detail-card .exp-bento-hero-banner {
+#experience-main-card .exp-bento-hero-banner {
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
 }
@@ -3053,8 +2953,8 @@ html[data-card-style="cowhide-leather"] #experience-dedicated-company-card .exp-
   background: rgba(82, 46, 16, 0.10) !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card,
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-bento-surface-card,
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-bento-item-card {
   background: linear-gradient(145deg, rgba(122, 74, 32, 0.92) 0%, rgba(82, 46, 16, 0.96) 100%) !important;
   border: 1.5px solid #522E10 !important;
   outline: 1px dashed rgba(245, 222, 179, 0.45);
@@ -3062,28 +2962,28 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-i
   color: #FFFFFF !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-item-card {
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-bento-item-card {
   background: linear-gradient(145deg, rgba(96, 56, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
   border-color: rgba(245, 222, 179, 0.32) !important;
   outline-offset: -4px;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-light-chip {
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-bento-light-chip {
   background: rgba(58, 32, 11, 0.88) !important;
   border-color: rgba(245, 222, 179, 0.42) !important;
   color: #FDE68A !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-bento-surface-card :where(h1, h2, h3, p, span, li):not(.exp-bento-preserve-color):not(.card-title-synced):not(.subcard-title-synced):not([data-card-title]):not([data-subcard-title]) {
   color: #FFFFFF;
 }
 
 
 
-/* Chi tiết thẻ công việc (#experience-job-detail-card) — Bento Grid cuộn dọc mượt mà trên toàn bộ 5 theme */
-#experience-job-detail-card,
-html[data-card-style] #experience-job-detail-card,
-html[data-card-style] #experience-job-detail-card:hover {
+/* Chi tiết thẻ công việc (#experience-main-card) — Bento Grid cuộn dọc mượt mà trên toàn bộ 5 theme */
+#experience-main-card,
+html[data-card-style] #experience-main-card,
+html[data-card-style] #experience-main-card:hover {
   display: block !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -3107,8 +3007,8 @@ html[data-card-style] #experience-job-detail-card:hover {
   transform: none !important;
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card,
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card:hover {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-main-card,
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-main-card:hover {
   background: var(--lg-clear-bg, var(--surface-secondary-bg, var(--bg-card))) !important;
   border: 1px solid rgba(255, 255, 255, 0.26) !important;
   box-shadow: var(--lg-clear-shadow, var(--surface-secondary-shadow, var(--shadow-card))) !important;
@@ -3117,8 +3017,8 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
   color: var(--text-primary) !important;
 }
 
-html[data-card-style="cowhide-leather"] #experience-job-detail-card,
-html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
+html[data-card-style="cowhide-leather"] #experience-main-card,
+html[data-card-style="cowhide-leather"] #experience-main-card:hover {
   background: linear-gradient(145deg, rgba(105, 62, 25, 0.96) 0%, rgba(70, 38, 12, 0.98) 100%) !important;
   border: 2px solid #3d210b !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.45) !important;
@@ -3127,85 +3027,85 @@ html[data-card-style="cowhide-leather"] #experience-job-detail-card:hover {
   color: #ffffff !important;
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card .exp-bento-surface-card:not([data-multicolor-bento="true"]) {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-main-card .exp-bento-surface-card:not([data-multicolor-bento="true"]) {
   background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
   color: var(--text-primary) !important;
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card .exp-bento-item-card:not([data-bento-subtone]) {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-main-card .exp-bento-item-card:not([data-bento-subtone]) {
   background: var(--surface-nested-bg, var(--bg-nested-card)) !important;
   border: 1px solid var(--surface-nested-border, var(--border-subcard)) !important;
   box-shadow: var(--surface-nested-shadow, var(--shadow-subcard)) !important;
   color: var(--text-primary) !important;
 }
 
-/* Chi tiết công việc (#experience-job-detail-card): Đa màu nền cho từng subcard trên các giao diện kính/sáng/tối (trừ da bò) */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
+/* Chi tiết công việc (#experience-main-card): Đa màu nền cho từng subcard trên các giao diện kính/sáng/tối (trừ da bò) */
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="indigo"] {
   background: linear-gradient(145deg, rgba(238, 242, 255, 0.78) 0%, rgba(224, 231, 255, 0.64) 100%) !important;
   border: 1px solid rgba(165, 180, 252, 0.56) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="blue"] {
   background: linear-gradient(145deg, rgba(239, 246, 255, 0.80) 0%, rgba(219, 234, 254, 0.66) 100%) !important;
   border: 1px solid rgba(147, 197, 253, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="sky"] {
   background: linear-gradient(145deg, rgba(240, 249, 255, 0.82) 0%, rgba(224, 242, 254, 0.68) 100%) !important;
   border: 1px solid rgba(125, 211, 252, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="amber"] {
   background: linear-gradient(145deg, rgba(255, 247, 237, 0.82) 0%, rgba(254, 243, 199, 0.68) 100%) !important;
   border: 1px solid rgba(252, 211, 77, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="emerald"] {
   background: linear-gradient(145deg, rgba(236, 253, 245, 0.80) 0%, rgba(209, 250, 229, 0.66) 100%) !important;
   border: 1px solid rgba(110, 231, 183, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="teal"],
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="cyan"] {
   background: linear-gradient(145deg, rgba(236, 254, 255, 0.80) 0%, rgba(204, 251, 241, 0.66) 100%) !important;
   border: 1px solid rgba(94, 234, 212, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="purple"] {
   background: linear-gradient(145deg, rgba(245, 243, 255, 0.80) 0%, rgba(237, 233, 254, 0.66) 100%) !important;
   border: 1px solid rgba(196, 181, 253, 0.58) !important;
 }
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="pink"] {
   background: linear-gradient(145deg, rgba(253, 242, 248, 0.80) 0%, rgba(252, 231, 243, 0.66) 100%) !important;
   border: 1px solid rgba(249, 168, 212, 0.58) !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="indigo"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="indigo"] {
   background: linear-gradient(145deg, rgba(30, 27, 75, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(129, 140, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="blue"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="blue"] {
   background: linear-gradient(145deg, rgba(23, 37, 84, 0.64) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(96, 165, 250, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="sky"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="sky"] {
   background: linear-gradient(145deg, rgba(12, 74, 110, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="amber"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="amber"] {
   background: linear-gradient(145deg, rgba(69, 26, 3, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 191, 36, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="emerald"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="emerald"] {
   background: linear-gradient(145deg, rgba(6, 78, 59, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(52, 211, 153, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="teal"],
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="cyan"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="teal"],
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="cyan"] {
   background: linear-gradient(145deg, rgba(19, 78, 74, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(45, 212, 191, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="purple"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="purple"] {
   background: linear-gradient(145deg, rgba(46, 16, 101, 0.62) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(192, 132, 252, 0.30) !important;
 }
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="dark-neon-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-job-detail-card .exp-bento-item-card[data-bento-subtone="pink"] {
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]) #experience-main-card .exp-bento-item-card[data-bento-subtone="pink"] {
   background: linear-gradient(145deg, rgba(80, 7, 36, 0.60) 0%, rgba(15, 23, 42, 0.72) 100%) !important;
   border: 1px solid rgba(251, 113, 133, 0.30) !important;
 }
@@ -3234,7 +3134,7 @@ html[data-card-style] .service-card .service-card-title-header .card-header-sync
   }
 }
 
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-job-detail-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"]) #experience-main-card button.exp-bento-rect-btn.exp-bento-item-card:hover {
   background: var(--bg-subcard-hover, var(--surface-interactive-hover)) !important;
   box-shadow: var(--shadow-subcard-hover, var(--shadow-subcard)) !important;
 }
@@ -4400,24 +4300,11 @@ html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leat
   --service-expanded-border: var(--border-strong, #522E10);
 }
 
-html[data-card-style="dark-neon-glass"] #services-page-container {
-  --service-expanded-surface: rgba(11, 18, 36, 0.88);
-  --service-expanded-border: rgba(34, 211, 238, 0.38);
-}
-
-html[data-card-style="multicolor-glass"] #services-page-container {
-  --service-expanded-surface: rgba(255, 255, 255, 0.86);
-}
-
 html[data-card-style="deep-ocean"] #services-page-container {
   --service-expanded-surface: rgba(11, 25, 50, 0.90);
 }
 
-html[data-card-style="light-deep-ocean"] #services-page-container {
-  --service-expanded-surface: rgba(235, 246, 255, 0.90);
-}
-
-html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-flat-soft-ui"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-frost-ice-neu"]) #services-page-container {
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-flat-soft-ui"], [data-card-style="dark-neumorphism-beyond"]) #services-page-container {
   --service-expanded-surface: color-mix(in srgb, var(--bg-card, #141c2b) 94%, #0b1120);
 }
 
@@ -5051,33 +4938,6 @@ html[data-card-style="deep-ocean"] .video-play-btn--letter {
   --vp-text: #FFFFFF;
 }
 
-/* --- Theme 10: Đại Dương Sâu Thẳm Sáng (Ocean Navy Light Glossy Glass) --- */
-html[data-card-style="light-deep-ocean"] .video-play-btn {
-  --vp-backdrop: blur(18px) saturate(160%);
-  --vp-border: rgba(255, 255, 255, 0.65);
-  --vp-text: #03195B;
-  --vp-specular: rgba(255, 255, 255, 0.92);
-  --vp-chase-a: #1951FC;
-  --vp-chase-b: #73BFFF;
-  --vp-shadow-ambient: 0 8px 24px rgba(3, 25, 91, 0.14);
-  --vp-shadow-hover: 0 14px 32px rgba(3, 25, 91, 0.22), 0 0 18px rgba(115, 191, 255, 0.28);
-  --vp-sound-bg: rgba(25, 81, 252, 0.12);
-  --vp-sound-border: rgba(25, 81, 252, 0.28);
-  --vp-sound-hover: rgba(55, 129, 252, 0.22);
-}
-html[data-card-style="light-deep-ocean"] .video-play-btn--home,
-html[data-card-style="light-deep-ocean"] .video-play-btn--about,
-html[data-card-style="light-deep-ocean"] .video-play-btn--interview,
-html[data-card-style="light-deep-ocean"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, rgba(203, 233, 253, 0.88) 0%, rgba(115, 191, 255, 0.70) 100%);
-  --vp-bg-hover: linear-gradient(145deg, #ffffff 0%, #CBE9FD 100%);
-}
-html[data-card-style="light-deep-ocean"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #0B2CB1 0%, #1951FC 55%, #3781FC 100%);
-  --vp-bg-hover: linear-gradient(135deg, #03195B 0%, #0B2CB1 55%, #1951FC 100%);
-  --vp-text: #FFFFFF;
-}
-
 /* --- Theme 11: Nổi Khối Kính Mờ (Neumorphism, Glassmorphism & Beyond — Matte Anti-Glare) --- */
 html[data-card-style="neumorphism-beyond"] .video-play-btn {
   --vp-backdrop: blur(12px) saturate(105%);
@@ -5187,65 +5047,6 @@ html[data-card-style="frost-ice-neu"] .video-play-btn--letter {
   --vp-bg-hover: #4B46D6;
   --vp-text: #FFFFFF;
   animation: none !important;
-}
-
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn {
-  --vp-backdrop: none;
-  --vp-border: transparent;
-  --vp-text: #DCE7F5;
-  --vp-specular: transparent;
-  --vp-chase-a: transparent;
-  --vp-chase-b: transparent;
-  --vp-shadow-ambient: -5px -5px 10px rgba(38, 52, 74, 0.68), 5px 5px 10px rgba(10, 15, 24, 0.76);
-  --vp-shadow-hover: -6px -6px 13px rgba(45, 62, 88, 0.76), 6px 6px 13px rgba(8, 12, 20, 0.84);
-  --vp-sound-bg: #1A2433;
-  --vp-sound-border: transparent;
-  --vp-sound-hover: #1A2433;
-  animation: none !important;
-}
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn::before {
-  display: none !important;
-  content: none !important;
-}
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn--home,
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn--about,
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn--interview,
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn--systems {
-  --vp-bg: #1A2433;
-  --vp-bg-hover: #1A2433;
-}
-html[data-card-style="dark-frost-ice-neu"] .video-play-btn--letter {
-  --vp-bg: #6E6AF6;
-  --vp-bg-hover: #7B77FA;
-  --vp-text: #FFFFFF;
-  animation: none !important;
-}
-
-/* --- Theme 14: Kính Mờ Đa Sắc (Multicolor Glassmorphism) --- */
-html[data-card-style="multicolor-glass"] .video-play-btn {
-  --vp-backdrop: blur(16px);
-  --vp-border: rgba(255, 255, 255, 0.25);
-  --vp-text: #0F172A;
-  --vp-specular: rgba(255, 255, 255, 0.65);
-  --vp-chase-a: #4F46E5;
-  --vp-chase-b: #EC4899;
-  --vp-shadow-ambient: 0 14px 32px -6px rgba(15, 23, 42, 0.16);
-  --vp-shadow-hover: 0 18px 40px -6px rgba(79, 70, 229, 0.24);
-  --vp-sound-bg: rgba(99, 102, 241, 0.12);
-  --vp-sound-border: rgba(99, 102, 241, 0.28);
-  --vp-sound-hover: rgba(236, 72, 153, 0.20);
-}
-html[data-card-style="multicolor-glass"] .video-play-btn--home,
-html[data-card-style="multicolor-glass"] .video-play-btn--about,
-html[data-card-style="multicolor-glass"] .video-play-btn--interview,
-html[data-card-style="multicolor-glass"] .video-play-btn--systems {
-  --vp-bg: rgba(255, 255, 255, 0.28);
-  --vp-bg-hover: rgba(255, 255, 255, 0.46);
-}
-html[data-card-style="multicolor-glass"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #4F46E5 0%, #0891B2 55%, #DB2777 100%);
-  --vp-bg-hover: linear-gradient(135deg, #4338CA 0%, #0E7490 55%, #BE185D 100%);
-  --vp-text: #FFFFFF;
 }
 
 /* --- Theme 15: Mica Fluent (Kính Mica Phẳng) --- */
@@ -5373,7 +5174,7 @@ html[data-card-style="dark-flat-soft-ui"] .video-play-btn--letter {
     background-color 200ms ease;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]) :is(
   button[data-element-type="button"],
   .banner-control-pill,
   .nav-arrow-btn,
@@ -5683,10 +5484,8 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
   box-sizing: border-box !important;
 }
 
-#systems-page-container .system-card-tile,
-#systems-page-container .system-card-tile p,
-#systems-page-container .system-card-tile span {
-  font-weight: 600 !important;
+#systems-page-container .system-card-tile p.system-desc-text {
+  font-weight: 400 !important;
 }
 
 #systems-page-container .system-card-tile h3 {
@@ -6595,7 +6394,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, transparent 18%, transparent 82%, rgba(0, 0, 0, 0.2) 100%);
 }
 
-#experience-job-detail-card.exp-detail-unfold-in {
+#experience-main-card.exp-detail-unfold-in {
   width: 100% !important;
   max-width: 100% !important;
   transform-origin: center center;
@@ -6646,7 +6445,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   #experience-timeline-board .exp-fold-spine,
   #experience-timeline-board .exp-fold-sheet,
   #experience-timeline-board .exp-fold-crease-line,
-  #experience-job-detail-card.exp-detail-unfold-in {
+  #experience-main-card.exp-detail-unfold-in {
     transition: none !important;
     animation: none !important;
     transform: none !important;
@@ -6661,7 +6460,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
 }
 
-#experience-page-container #experience-job-detail-card {
+#experience-page-container #experience-main-card {
   position: absolute;
   z-index: 40;
   border-radius: var(--radius-card, 14px);
@@ -6677,13 +6476,13 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   will-change: top, left, width, height, border-radius;
 }
 
-#experience-page-container #experience-job-detail-card.is-open {
+#experience-page-container #experience-main-card.is-open {
   border: 0 !important;
   box-shadow: none !important;
   border-radius: var(--radius-main, 14px) !important;
 }
 
-#experience-page-container #experience-job-detail-card.is-animating {
+#experience-page-container #experience-main-card.is-animating {
   transition:
     top 0.72s cubic-bezier(0.22, 1, 0.36, 1),
     left 0.72s cubic-bezier(0.22, 1, 0.36, 1),

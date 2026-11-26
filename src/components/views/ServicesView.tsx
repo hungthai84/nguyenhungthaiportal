@@ -5,6 +5,7 @@ import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/r
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
+const ArrowRight = createAnimatedIcon('arrow-right');
 const Smartphone = createAnimatedIcon('smartphone');
 const ShoppingBag = createAnimatedIcon('shopping-bag');
 const ShieldCheck = createAnimatedIcon('shield-check');
@@ -22,12 +23,11 @@ const Layers = createAnimatedIcon('layers');
 const Award = createAnimatedIcon('award');
 const HeartHandshake = createAnimatedIcon('heart-handshake');
 const RotateCcw = createAnimatedIcon('rotate-ccw');
-import { DOMAINS_DATA, DOMAINS_INTRO, SERVICES_DATA, SERVICES_INTRO } from '@/data/services';
+import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/services';
 import { DomainData, SiteTheme } from '@/types';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
-import { isNeumorphismCardStyle } from '@/config/ui/themeDefaults';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
@@ -36,6 +36,7 @@ import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import {
   ServiceExpandedDetail,
+  formatFourWordSentenceCase,
   type DomainIconKey,
   type KpiIconKey,
   type DomainUiMeta,
@@ -48,26 +49,16 @@ export interface ServicesViewProps {
 
 const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
   '01': {
-    shortTitle: 'Viễn thông',
-    shortTitleEn: 'Telecom Services',
+    shortTitle: 'Dịch vụ viễn thông',
+    shortTitleEn: 'Telecom contact center ops',
     iconKey: 'smartphone',
-    accentLight: '#0284c7',
-    accentDark: '#38bdf8',
-    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 242, 254, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(12, 74, 110, 0.56) 100%)',
-    tintBgLight: 'rgba(224, 242, 254, 0.58)',
-    tintBgDark: 'rgba(14, 116, 144, 0.22)',
-    borderLight: 'rgba(14, 165, 233, 0.34)',
-    borderDark: 'rgba(56, 189, 248, 0.38)',
-    pillTextLight: '#0369a1',
-    pillTextDark: '#7dd3fc',
+    accentLight: '#7c3aed',
+    accentDark: '#a78bfa',
+    cardGradient: 'linear-gradient(135deg, rgba(147, 51, 234, 0.92) 0%, rgba(55, 48, 163, 0.95) 100%)',
+    tintBg: 'rgba(168, 85, 247, 0.28)',
+    isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
     fallbackIllustration: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
-    frontMetrics: [
-      { label: 'SLA & CSAT', labelEn: 'SLA & CSAT', value: '>98% · 96,5%' },
-      { label: 'Quy mô ca kíp', labelEn: 'Operations Scale', value: '50–130+ · 24/7' },
-    ],
     detailKpis: [
       { icon: 'shield-check', value: '> 98%', label: 'SLA tiếp nhận cuộc gọi', labelEn: 'Call Answer SLA' },
       { icon: 'smile', value: '96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Customer Satisfaction' },
@@ -78,29 +69,19 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     tagsEn: ['#ContactCenter', '#TelecomCX', '#24x7Ops', '#QASOP'],
   },
   '02': {
-    shortTitle: 'TMĐT',
-    shortTitleEn: 'Digital Commerce',
+    shortTitle: 'Thương mại điện tử',
+    shortTitleEn: 'Digital commerce support ops',
     iconKey: 'shopping-bag',
-    accentLight: '#ea580c',
-    accentDark: '#fb923c',
-    gradient: 'linear-gradient(135deg, #f97316 0%, #f59e0b 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 237, 213, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(124, 45, 18, 0.56) 100%)',
-    tintBgLight: 'rgba(255, 237, 213, 0.58)',
-    tintBgDark: 'rgba(194, 65, 12, 0.22)',
-    borderLight: 'rgba(249, 115, 22, 0.34)',
-    borderDark: 'rgba(251, 146, 60, 0.38)',
-    pillTextLight: '#c2410c',
-    pillTextDark: '#fdba74',
-    illustrationSrc: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
-    fallbackIllustration: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
-    frontMetrics: [
-      { label: 'CSKH & Fraud', labelEn: 'CS & Fraud Team', value: '>100 nhân sự', valueEn: '100+ Staff' },
-      { label: 'CSAT & Chat', labelEn: 'CSAT & Chat', value: '88% → 96,5%' },
-    ],
+    accentLight: '#d97706',
+    accentDark: '#fbbf24',
+    cardGradient: 'linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 88, 12, 0.95) 100%)',
+    tintBg: 'rgba(251, 191, 36, 0.32)',
+    isLightCard: true,
+    illustrationSrc: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
+    fallbackIllustration: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
     detailKpis: [
-      { icon: 'clock', value: '< 30 giây', valueEn: '< 30s', label: 'Thời gian chờ kênh Chat', labelEn: 'Chat Queue Wait Time' },
-      { icon: 'smile', value: '88% → 96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'CSAT Improvement' },
+      { icon: 'clock', value: '< 30s', valueEn: '< 30s', label: 'Thời gian chờ kênh Chat', labelEn: 'Chat Queue Wait Time' },
+      { icon: 'smile', value: '96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'CSAT Improvement' },
       { icon: 'rotate-ccw', value: '-30%', label: 'Tỷ lệ hủy đơn chậm hỗ trợ', labelEn: 'Support-Delay Cancellations' },
       { icon: 'trending-up', value: '-25%', label: 'Chi phí Cost-to-Serve', labelEn: 'Cost-to-Serve Savings' },
     ],
@@ -108,26 +89,16 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     tagsEn: ['#Omnichannel', '#MegaSale', '#FraudControl', '#DisputeOps'],
   },
   '03': {
-    shortTitle: 'Bảo hiểm',
-    shortTitleEn: 'Finance Insurance',
+    shortTitle: 'Tài chính bảo hiểm',
+    shortTitleEn: 'Finance insurance quality ops',
     iconKey: 'shield-check',
-    accentLight: '#e11d48',
-    accentDark: '#fb7185',
-    gradient: 'linear-gradient(135deg, #f43f5e 0%, #db2777 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 228, 230, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(136, 19, 55, 0.56) 100%)',
-    tintBgLight: 'rgba(255, 228, 230, 0.58)',
-    tintBgDark: 'rgba(190, 18, 60, 0.22)',
-    borderLight: 'rgba(244, 63, 94, 0.34)',
-    borderDark: 'rgba(251, 113, 133, 0.38)',
-    pillTextLight: '#be123c',
-    pillTextDark: '#fda4af',
-    illustrationSrc: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
-    fallbackIllustration: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
-    frontMetrics: [
-      { label: 'Xử lý yêu cầu', labelEn: 'Cycle Reduction', value: 'Giảm 45%', valueEn: '-45% Time' },
-      { label: 'FCR & Retention', labelEn: 'FCR & Retention', value: '>92% · +15%' },
-    ],
+    accentLight: '#059669',
+    accentDark: '#34d399',
+    cardGradient: 'linear-gradient(90deg, rgba(34, 197, 94, 0.92) 0%, rgba(4, 120, 87, 0.95) 100%)',
+    tintBg: 'rgba(16, 185, 129, 0.28)',
+    isLightCard: false,
+    illustrationSrc: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
+    fallbackIllustration: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
     detailKpis: [
       { icon: 'zap', value: '-45%', label: 'Rút ngắn thời gian xử lý', labelEn: 'Contract Cycle Time' },
       { icon: 'shield-check', value: '> 92%', label: 'Giải quyết lần đầu (FCR)', labelEn: 'First Contact Resolution' },
@@ -138,56 +109,36 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     tagsEn: ['#FinanceQA', '#Compliance', '#InsuranceCX', '#RiskControl'],
   },
   '04': {
-    shortTitle: 'eSports',
-    shortTitleEn: 'Esports Gaming',
+    shortTitle: 'Thể thao điện tử',
+    shortTitleEn: 'Esports gaming support ops',
     iconKey: 'gamepad-2',
-    accentLight: '#7c3aed',
-    accentDark: '#c084fc',
-    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(237, 233, 254, 0.74) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(76, 29, 149, 0.58) 100%)',
-    tintBgLight: 'rgba(237, 233, 254, 0.62)',
-    tintBgDark: 'rgba(109, 40, 217, 0.24)',
-    borderLight: 'rgba(139, 92, 246, 0.34)',
-    borderDark: 'rgba(192, 132, 252, 0.38)',
-    pillTextLight: '#6d28d9',
-    pillTextDark: '#d8b4fe',
-    illustrationSrc: '/assets/services/the-thao-dien-tu.png',
-    fallbackIllustration: '/assets/services/the-thao-dien-tu.png',
-    frontMetrics: [
-      { label: 'Lưu lượng xử lý', labelEn: 'Ticket Volume', value: '>50.000/ngày', valueEn: '>50K / day' },
-      { label: 'Phản hồi & CSAT', labelEn: 'Response & CSAT', value: '<30s · 96%' },
-    ],
+    accentLight: '#db2777',
+    accentDark: '#f472b6',
+    cardGradient: 'linear-gradient(135deg, rgba(236, 72, 153, 0.92) 0%, rgba(147, 51, 234, 0.95) 100%)',
+    tintBg: 'rgba(236, 72, 153, 0.28)',
+    isLightCard: false,
+    illustrationSrc: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
+    fallbackIllustration: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
     detailKpis: [
-      { icon: 'users', value: '~130', label: 'Nhân sự Game Support & Fraud', labelEn: 'Game Support & Fraud Team' },
+      { icon: 'users', value: '~130', label: 'Nhân sự Game Support', labelEn: 'Game Support & Fraud Team' },
       { icon: 'activity', value: '> 50.000', label: 'Yêu cầu hỗ trợ mỗi ngày', labelEn: 'Daily Support Tickets' },
-      { icon: 'clock', value: '< 30 giây', valueEn: '< 30s', label: 'Phản hồi đầu Ticket/Chat', labelEn: 'First Response Time' },
+      { icon: 'clock', value: '< 30s', valueEn: '< 30s', label: 'Phản hồi đầu Ticket/Chat', labelEn: 'First Response Time' },
       { icon: 'smile', value: '96%', label: 'Chỉ số hài lòng người chơi', labelEn: 'Player CSAT Score' },
     ],
     tags: ['#GameSupport', '#AccountSecurity', '#CongDong', '#EsportsOps'],
     tagsEn: ['#GameSupport', '#AccountSecurity', '#Community', '#EsportsOps'],
   },
   '05': {
-    shortTitle: 'Ví điện tử',
-    shortTitleEn: 'Digital Payments',
+    shortTitle: 'Thanh toán ví điện',
+    shortTitleEn: 'Fintech digital payment ops',
     iconKey: 'wallet',
-    accentLight: '#4338ca',
-    accentDark: '#818cf8',
-    gradient: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(224, 231, 255, 0.74) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(49, 46, 129, 0.58) 100%)',
-    tintBgLight: 'rgba(224, 231, 255, 0.62)',
-    tintBgDark: 'rgba(67, 56, 202, 0.24)',
-    borderLight: 'rgba(99, 102, 241, 0.34)',
-    borderDark: 'rgba(129, 140, 248, 0.38)',
-    pillTextLight: '#3730a3',
-    pillTextDark: '#a5b4fc',
-    illustrationSrc: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
-    fallbackIllustration: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
-    frontMetrics: [
-      { label: 'Hoàn tiền RPA', labelEn: 'RPA Refund', value: '48h → 90 giây', valueEn: '48h → 90s' },
-      { label: 'CSAT & BPO SLA', labelEn: 'CSAT & BPO SLA', value: '98,2% · 98,6%' },
-    ],
+    accentLight: '#2563eb',
+    accentDark: '#60a5fa',
+    cardGradient: 'linear-gradient(135deg, rgba(37, 99, 235, 0.92) 0%, rgba(55, 48, 163, 0.95) 100%)',
+    tintBg: 'rgba(59, 130, 246, 0.28)',
+    isLightCard: false,
+    illustrationSrc: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
+    fallbackIllustration: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
     detailKpis: [
       { icon: 'zap', value: '48h → 90s', label: 'Tự động hoàn tiền bằng RPA', labelEn: 'Automated RPA Refund' },
       { icon: 'smile', value: '98,2%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Digital Finance CSAT' },
@@ -198,28 +149,18 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     tagsEn: ['#FintechOps', '#EWallet', '#DigitalPay', '#CoreBanking'],
   },
   '06': {
-    shortTitle: 'Xây hệ thống',
-    shortTitleEn: 'System Architecture',
+    shortTitle: 'Xây dựng hệ thống',
+    shortTitleEn: 'System architecture cx ops',
     iconKey: 'cpu',
-    accentLight: '#059669',
-    accentDark: '#34d399',
-    gradient: 'linear-gradient(135deg, #10b981 0%, #0d9488 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.88) 0%, rgba(209, 250, 229, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(6, 78, 59, 0.56) 100%)',
-    tintBgLight: 'rgba(209, 250, 229, 0.58)',
-    tintBgDark: 'rgba(4, 120, 87, 0.22)',
-    borderLight: 'rgba(16, 185, 129, 0.34)',
-    borderDark: 'rgba(52, 211, 153, 0.38)',
-    pillTextLight: '#047857',
-    pillTextDark: '#6ee7b7',
-    illustrationSrc: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
-    fallbackIllustration: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
-    frontMetrics: [
-      { label: 'Chuẩn hóa', labelEn: 'Standardization', value: '100% SOP/KPI' },
-      { label: 'Onboarding & Perf', labelEn: 'Onboarding & Perf', value: '-65% · +40%' },
-    ],
+    accentLight: '#334155',
+    accentDark: '#94a3b8',
+    cardGradient: 'linear-gradient(135deg, rgba(31, 41, 55, 0.94) 0%, rgba(17, 24, 39, 0.97) 100%)',
+    tintBg: 'rgba(99, 102, 241, 0.24)',
+    isLightCard: false,
+    illustrationSrc: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
+    fallbackIllustration: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
     detailKpis: [
-      { icon: 'layers', value: '10–150+', label: 'Quy mô Contact Center thiết lập', labelEn: 'Contact Center Seats Built' },
+      { icon: 'layers', value: '10–150+', label: 'Quy mô Contact Center', labelEn: 'Contact Center Seats Built' },
       { icon: 'clock', value: '-65%', label: 'Rút ngắn thời gian Onboarding', labelEn: 'Onboarding Time Saved' },
       { icon: 'trending-up', value: '+40%', label: 'Cải thiện hiệu suất vận hành', labelEn: 'Operational Efficiency' },
       { icon: 'award', value: 'Value Center', label: 'Chuyển đổi Cost → Value', labelEn: 'Cost-to-Value Shift' },
@@ -296,14 +237,13 @@ const getCardDomId = (id: string) => {
 };
 
 export const ServicesView: React.FC<ServicesViewProps> = () => {
-  const { cardStyle } = useTheme();
+  const { cardStyle, isDark } = useTheme();
   const { language, t } = useLanguage();
   const prefersReducedMotion = Boolean(useReducedMotion());
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isEn = language === 'en';
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
-  const isNeumorphismActive = isNeumorphismCardStyle(cardStyle);
 
   // Controlled interaction state machine: idle | hovered | expanding | expanded | closing
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
@@ -508,7 +448,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
       data-element-type="container"
       data-element-page="services"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border"
     >
       <div
         id="services-cards-track"
@@ -528,8 +468,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
-          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden box-border"
-          style={{ padding: '15px', gap: '0px', borderRadius: 'var(--radius-main, 14px)' }}
+          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-global,var(--radius-main,14px))] overflow-hidden box-border"
+          style={{ padding: '15px', gap: '0px', borderRadius: 'var(--radius-global, var(--radius-main, 14px))' }}
         >
           <div
             id="services-main-scroll-viewport"
@@ -710,7 +650,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         transition={{ duration: 0.16 }}
                         id="services-filter-dropdown"
                         role="listbox"
-                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                        className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[var(--radius-popup,var(--radius-global,14px))] py-2 px-2 z-50 flex flex-col gap-1"
                       >
                         {filterCategories.map((cat) => {
                           const isActive = activeCategory === cat.id;
@@ -790,15 +730,29 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 >
                   {DOMAINS_DATA.map((domain, idx) => {
                     const meta = DOMAIN_UI_META[domain.id] || DOMAIN_UI_META['01'];
-                    const cardTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
-                    const shortCardTitle = isEn ? meta.shortTitleEn : domain.title;
+                    const fullTitle = isEn && domain.titleEn ? domain.titleEn : domain.title;
+                    const displayTitle = formatFourWordSentenceCase(
+                      isEn ? meta.shortTitleEn : meta.shortTitle
+                    );
                     const summaryText = isEn
-                      ? domain.descEn || domain.subtitleEn
+                      ? domain.descEn || domain.subtitleEn || domain.desc
                       : domain.desc || domain.subtitle || domain.coreCompetency;
                     const driveServiceImg =
                       serviceAssignments[domain.id as ServiceDomainKey]?.directImageUrl;
                     const serviceImage =
                       driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
+
+                    const isLightCard = Boolean(meta.isLightCard);
+                    const primaryInk = isLightCard ? '#111827' : '#ffffff';
+                    const secondaryInk = isLightCard
+                      ? 'rgba(17, 24, 39, 0.86)'
+                      : 'rgba(255, 255, 255, 0.88)';
+                    const dividerBorder = isLightCard
+                      ? 'rgba(17, 24, 39, 0.16)'
+                      : 'rgba(255, 255, 255, 0.2)';
+                    const pillBg = isLightCard
+                      ? 'rgba(17, 24, 39, 0.12)'
+                      : 'rgba(255, 255, 255, 0.18)';
 
                     const isSelectedCard = selectedDomainId === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
@@ -809,7 +763,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         <div
                           key={`placeholder-${domain.id}`}
                           aria-hidden="true"
-                          className="invisible pointer-events-none select-none min-h-[148px]"
+                          className="invisible pointer-events-none select-none min-h-[220px]"
                         />
                       );
                     }
@@ -834,7 +788,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         }}
                         id={getCardDomId(domain.id)}
                         data-element-type="card"
-                        data-section-card="true"
+                        data-light-card={isLightCard ? 'true' : 'false'}
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
@@ -885,67 +839,69 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           }
                         }}
                         style={{
-                          height: 'auto',
+                          '--service-card-gradient': meta.cardGradient,
                           '--service-card-accent': meta.accentLight,
                           '--service-card-accent-dark': meta.accentDark,
-                          '--service-card-tint-light': meta.tintBgLight,
-                          '--service-card-tint-dark': meta.tintBgDark,
-                          '--service-card-border-light': meta.borderLight,
-                          '--service-card-border-dark': meta.borderDark,
+                          '--service-card-tint': meta.tintBg,
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
-                        className="service-card domain-card bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left"
+                        className="service-card domain-card service-vibrant-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-5 box-border w-full h-full flex flex-col text-left cursor-pointer"
                       >
-                        {/* Hiệu ứng 1: Lớp Liquid Color Reveal đồng bộ sắc độ từ hình ảnh minh họa của chính thẻ dịch vụ */}
-                        <span aria-hidden="true" className="service-card-hover-flood">
-                          <span className="service-card-hover-image-aura" />
-                        </span>
+                        {/* Ambient Top-Right Glow Orb */}
+                        <div
+                          aria-hidden="true"
+                          className="absolute -top-10 -right-10 w-36 h-36 rounded-full blur-2xl opacity-25 pointer-events-none"
+                          style={{
+                            background: isLightCard ? '#ffffff' : 'rgba(255, 255, 255, 0.6)',
+                          }}
+                        />
 
-                        {/* Bố cục Thẻ dịch vụ 3 phần: Top (icon + tiêu đề), Center (2 cột: mô tả + hình ảnh), Bottom (logo công ty) */}
-                        <div className="relative z-10 flex flex-col gap-3 w-full min-w-0">
-                          {/* TOP: Icon & Tiêu đề dịch vụ */}
-                          <div className="flex items-center gap-2 min-w-0">
-                            <div
-                              className="inline-flex items-center justify-center p-2 rounded-xl shrink-0 shadow-xs border"
-                              style={{
-                                background: 'var(--surface-secondary-bg, rgba(255, 255, 255, 0.82))',
-                                borderColor: 'var(--border-subcard, rgba(255, 255, 255, 0.3))',
-                              }}
-                            >
-                              {renderDomainIcon(
-                                meta.iconKey,
-                                'w-[18px] h-[18px] shrink-0 stroke-[2.2]',
-                                themeAccent
-                              )}
-                            </div>
+                        {/* Pointer-Tracking Radial Hover Flood */}
+                        <span aria-hidden="true" className="service-card-hover-flood" />
+
+                        {/* 3-Part Flexible Card Body matching System Card 3-tier layout */}
+                        <div className="service-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0">
+                          {/* TOP: Unframed Icon + Short Title + (English Title) */}
+                          <div className="service-card-header flex items-start gap-2 min-w-0 shrink-0">
+                            {renderDomainIcon(
+                              meta.iconKey,
+                              'w-5 h-5 mt-0.5 shrink-0 stroke-[2.2]',
+                              primaryInk
+                            )}
                             <h3
-                              className="service-title-text card-title-synced typo-h4 font-play font-bold tracking-tight leading-snug m-0 min-w-0 line-clamp-2"
-                              data-card-title="true"
-                              style={{ color: themeAccent }}
-                              title={cardTitle}
+                              className="service-title-text font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 [text-wrap:balance]"
+                              style={{ color: primaryInk }}
+                              title={fullTitle}
                             >
-                              {isEn ? shortCardTitle : domain.title}
+                              <span>{displayTitle}</span>{' '}
+                              {!isEn && meta.shortTitleEn && (
+                                <span
+                                  className="text-[12.5px] font-medium opacity-85"
+                                  style={{ color: secondaryInk }}
+                                >
+                                  ({meta.shortTitleEn})
+                                </span>
+                              )}
                             </h3>
                           </div>
 
-                          {/* CENTER: Chia làm 2 cột 50% / 50% (Cột trái: Mô tả, Cột phải: Hình ảnh có kích thước bằng chiều cao 4 dòng mô tả) */}
-                          <div className="grid grid-cols-2 gap-3 items-center min-w-0 w-full">
-                            {/* Cột bên trái (50%): Chứa mô tả dịch vụ */}
-                            <div className="col-span-1 min-w-0 flex items-center">
+                          {/* CENTER: Left Body-Text Description + Right Frameless Illustration */}
+                          <div className="service-card-middle flex-1 min-w-0 w-full">
+                            <div className="service-card-copy min-w-0 flex items-center">
                               <p
                                 id={`service-card-desc-${domain.id}`}
-                                className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-body-sm font-normal"
+                                className="service-desc-text relative z-10 m-0 leading-[1.52] text-[13px] font-normal line-clamp-4 break-words"
+                                style={{ color: secondaryInk }}
                                 title={summaryText}
                               >
                                 {summaryText}
                               </p>
                             </div>
 
-                            {/* Cột bên phải (50%): Hình ảnh dịch vụ tăng gấp 2 lần (chiều cao 160px, gấp đôi ban đầu) */}
-                            <div className="service-card-image-box col-span-1 min-w-0 relative flex items-center justify-center h-[160px] min-h-[160px] max-h-[160px] w-full">
+                            <div className="service-card-image-box min-w-0 relative flex items-center justify-center w-full">
                               <img
                                 src={serviceImage}
-                                alt={cardTitle}
+                                alt={fullTitle}
                                 loading="lazy"
                                 decoding="async"
                                 referrerPolicy="no-referrer"
@@ -954,28 +910,43 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     e.currentTarget.src = meta.fallbackIllustration;
                                   }
                                 }}
-                                className="service-img-pop relative z-10 w-full h-[160px] max-h-[160px] object-contain select-none pointer-events-none"
+                                className="service-img-pop relative z-10 w-full object-contain select-none pointer-events-none"
                               />
                             </div>
                           </div>
 
-                          {/* BOTTOM: Chứa logo công ty */}
+                          {/* BOTTOM: Full Name + Partner Logos + Explore Pill */}
                           <div
-                            className={cn(
-                              'service-divider pt-2.5 flex items-center justify-start gap-2 min-w-0',
-                              isNeumorphismActive ? 'border-0' : 'border-t border-[var(--border-subcard)]'
-                            )}
+                            className="service-divider mt-auto pt-2.5 flex flex-col gap-2 min-w-0 shrink-0"
+                            style={{ borderTop: `1px solid ${dividerBorder}` }}
                           >
+                            <div className="flex items-center justify-between gap-2 min-w-0">
+                              <h4
+                                className="font-play text-[12.5px] font-bold m-0 leading-snug line-clamp-1 min-w-0 flex-1 text-left"
+                                style={{ color: primaryInk }}
+                                title={fullTitle}
+                              >
+                                {fullTitle}
+                              </h4>
+                              <span
+                                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide shrink-0 whitespace-nowrap transition-transform duration-200 group-hover:translate-x-0.5"
+                                style={{
+                                  background: pillBg,
+                                  color: primaryInk,
+                                }}
+                              >
+                                <span>{isEn ? 'Explore' : 'Chi tiết'}</span>
+                                <ArrowRight className="w-3 h-3 shrink-0" />
+                              </span>
+                            </div>
+
                             {(domain.companyLogos || []).length > 0 && (
-                              <div className="flex items-center flex-wrap gap-2 min-w-0">
+                              <div className="flex items-center flex-wrap gap-1.5 min-w-0">
                                 {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    style={{
-                                      border: 'none',
-                                    }}
-                                    className="company-logo-surface w-[38px] h-[38px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-sm bg-white/95 ring-1 ring-white/30"
                                   >
                                     <img
                                       src={partner.logo}
@@ -1019,6 +990,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       minHeightPx={gridNaturalHeight}
                       prefersReducedMotion={prefersReducedMotion}
                       isEn={isEn}
+                      isDarkMode={isDark}
                       isLeatherTheme={isLeatherTheme}
                       expandedCardRef={expandedCardRef}
                       expandedBodyRef={expandedBodyRef}

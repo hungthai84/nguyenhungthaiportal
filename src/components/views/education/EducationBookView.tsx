@@ -10,11 +10,18 @@ import {
   CREDENTIAL_VERIFICATION_MAP,
   EducationCourse,
 } from '@/data/education';
+import {
+  BOOK_COVER_BODY_FONT,
+  BOOK_COVER_DISPLAY_FONT,
+  EducationBookCoverArt,
+  getBookCoverTheme,
+} from './EducationBookCoverArt';
 
 export interface EducationBookViewProps {
   course: EducationCourse;
   courseColor: string;
   categoryLabel: string;
+  getCourseIcon?: (title: string) => string;
   isEn: boolean;
   isDark: boolean;
   getSkillTagIcon: (tag: string) => string;
@@ -39,6 +46,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
   course,
   courseColor,
   categoryLabel,
+  getCourseIcon,
   isEn,
   isDark,
   getSkillTagIcon,
@@ -176,78 +184,23 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
   const bookPages = useMemo<React.ReactNode[]>(() => {
     const cleanTitle = formatCardTitle(course.title);
-    const coverBgStyle: React.CSSProperties = {
-      background: `linear-gradient(155deg, color-mix(in srgb, ${courseColor} 78%, #064e3b) 0%, color-mix(in srgb, ${courseColor} 58%, #022c22) 100%)`,
-    };
+    const courseIconName = getCourseIcon ? getCourseIcon(course.title) : 'code';
+    const bookCoverTheme = getBookCoverTheme(course, courseColor);
 
-    // ================= PAGE 0: BÌA TRƯỚC (KOKONUT UI HARDCOVER EDITORIAL) =================
+    // ================= PAGE 0: BÌA TRƯỚC (2 THẺ KÍNH LỎNG GLOSSY TÁCH KHỐI + BANNER RIÊNG TỪNG SÁCH) =================
     const coverPage = (
-      <div
+      <EducationBookCoverArt
         key={`cover-${course.id}`}
-        className="education-book-cover relative flex size-full flex-col items-center justify-between px-[8cqw] pt-[7cqw] pb-[6cqw] text-center text-[#f3efe4] select-none overflow-hidden"
-        style={coverBgStyle}
-      >
-        {/* Viền gáy sách bìa cứng */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-[3cqw] bg-gradient-to-r from-black/30 via-black/10 to-transparent"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-[3.5cqw] rounded-sm border border-[#f3efe4]/20"
-        />
-
-        {/* Dòng metadata đỉnh bìa */}
-        <div className="relative z-10 w-full flex items-center justify-between gap-2 text-[3.1cqw] tracking-[0.08em] opacity-85 px-[1.5cqw]">
-          <span className="truncate">{categoryLabel}</span>
-          <span className="font-mono tabular-nums shrink-0">
-            {course.code || `Năm ${course.year}`}
-          </span>
-        </div>
-
-        {/* Khối trung tâm bìa: Ảnh minh họa + Tiêu đề + Đơn vị cấp */}
-        <div className="relative z-10 flex flex-col items-center justify-center gap-[3.5cqw] w-full my-auto px-[2cqw]">
-          <div
-            data-media-card="image"
-            className="education-book-media-rounded relative w-[78%] aspect-[16/10] overflow-hidden rounded-[12px] ring-1 ring-[#f3efe4]/30 shadow-lg bg-black/25 shrink-0"
-          >
-            <img
-              src={course.image}
-              alt={cleanTitle}
-              className="education-book-media-img w-full h-full object-cover object-center block"
-              loading="eager"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              onError={handleDriveImageFallback}
-            />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-            <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between gap-2 text-[2.8cqw] text-[#f3efe4]/95">
-              <span className="truncate font-medium">{course.issuer}</span>
-              <span className="font-mono shrink-0 tabular-nums">Năm {course.year}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center gap-[1.8cqw] max-w-full">
-            <h3 className="font-play font-bold text-[5.6cqw] leading-[1.18] tracking-tight text-[#f3efe4] line-clamp-2 m-0">
-              {cleanTitle}
-            </h3>
-            <p className="text-[3.2cqw] tracking-[0.12em] opacity-80 m-0 truncate max-w-full">
-              {course.type || categoryLabel} · {course.issuer}
-            </p>
-            {course.result && (
-              <p className="text-[3cqw] px-[3cqw] py-[1cqw] rounded-full bg-white/15 border border-white/20 text-[#f3efe4]/95 line-clamp-1 max-w-full m-0">
-                {course.result}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Lời mời lật góc trang sách ở chân bìa */}
-        <p className="relative z-10 text-[3cqw] tracking-wide opacity-70 m-0 flex items-center gap-1.5">
-          <span>{isEn ? 'Turn the corner to open' : 'Lật góc sách để mở'}</span>
-          <WebIcon name="arrow-right" className="w-[3.2cqw] h-[3.2cqw]" />
-        </p>
-      </div>
+        course={course}
+        courseColor={courseColor}
+        categoryLabel={categoryLabel}
+        courseIconName={courseIconName}
+        isEn={isEn}
+        variant="book"
+        showSpine={true}
+        imageLoading="eager"
+        onImageError={handleDriveImageFallback}
+      />
     );
 
     // ================= PAGE 1: MÔ TẢ KHÓA HỌC & THÔNG TIN CHUNG =================
@@ -623,26 +576,104 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       </div>
     );
 
-    // ================= PAGE 5: BÌA SAU (KHÉP SÁCH CĂN GIỮA NHƯ KOKONUT UI) =================
+    // ================= PAGE 5: BÌA SAU (KHÔNG ĐÓNG KHUNG, PADDING 15PX ĐỒNG BỘ BÌA TRƯỚC) =================
     const backCover = (
       <div
         key={`back-${course.id}`}
-        className="relative flex size-full flex-col items-center justify-center px-[9cqw] text-center text-[#f3efe4] select-none overflow-hidden"
-        style={coverBgStyle}
+        className="relative flex size-full flex-col items-center justify-center text-center text-white select-none overflow-hidden box-border"
+        style={{
+          background: bookCoverTheme.bottomGradient,
+          padding: '15px',
+          fontFamily: BOOK_COVER_BODY_FONT,
+        }}
       >
+        {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-[3.5cqw] rounded-sm border border-[#f3efe4]/20"
+          className="pointer-events-none absolute inset-y-0 right-0 z-30 w-[3.6cqw]"
+          style={{
+            background:
+              'linear-gradient(270deg, rgba(4, 10, 28, 0.42) 0%, rgba(4, 10, 28, 0.16) 40%, rgba(255, 255, 255, 0.18) 58%, transparent 100%)',
+          }}
         />
-        <WebIcon name="award" className="w-[10cqw] h-[10cqw] opacity-85 mb-[3cqw]" />
-        <p className="font-play font-bold text-[5.2cqw] leading-tight tracking-tight m-0">
-          {course.issuer}
+
+        {/* Soft seamless studio glass reflection */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 84% 50% at 18% 6%, rgba(255, 255, 255, 0.22) 0%, transparent 60%), radial-gradient(ellipse 68% 52% at 86% 90%, rgba(255, 255, 255, 0.10) 0%, transparent 56%)',
+          }}
+        />
+
+        {/* Subtle bottom iridescent aurora accent */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 400 72"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[14%] opacity-75"
+        >
+          <defs>
+            <linearGradient
+              id={`back-wave-${course.id}`}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor={bookCoverTheme.wave1} stopOpacity="0.80" />
+              <stop offset="52%" stopColor={bookCoverTheme.wave2} stopOpacity="0.68" />
+              <stop offset="100%" stopColor={bookCoverTheme.wave3} stopOpacity="0.82" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,48 C104,24 190,70 284,52 C340,40 374,22 400,28 L400,72 L0,72 Z"
+            fill={`url(#back-wave-${course.id})`}
+            opacity="0.52"
+          />
+        </svg>
+
+        <WebIcon
+          name="award"
+          className="relative z-10 w-[10cqw] h-[10cqw] text-white/95 mb-[3.2cqw] drop-shadow-[0_2px_10px_rgba(2,10,32,0.35)]"
+        />
+
+        <p
+          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] text-white/80 m-0"
+          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
+        >
+          {categoryLabel}
         </p>
-        <p className="mt-[2.5cqw] text-[3.2cqw] leading-relaxed opacity-80 m-0">
+
+        <p
+          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] text-white m-0 drop-shadow-[0_2px_10px_rgba(2,10,32,0.40)]"
+          style={{
+            fontFamily: BOOK_COVER_DISPLAY_FONT,
+            textWrap: 'balance',
+          }}
+        >
           {cleanTitle}
-          <br />
-          Năm {course.year} {verifyInfo ? `· ${verifyInfo.credentialId}` : ''}
         </p>
+
+        <div
+          className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed text-white/90"
+          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
+        >
+          <span className="font-semibold">{course.issuer}</span>
+          <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] text-white/82 tabular-nums">
+            <span>{isEn ? `Year ${course.year}` : `Năm ${course.year}`}</span>
+            {verifyInfo?.credentialId && (
+              <>
+                <span aria-hidden="true" className="text-white/50 font-bold">
+                  ·
+                </span>
+                <span>{verifyInfo.credentialId}</span>
+              </>
+            )}
+          </span>
+        </div>
+
         <button
           type="button"
           onClick={(e) => {
@@ -650,9 +681,15 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
             SoundEngine.playBookClose();
             onClose();
           }}
-          className="mt-[6cqw] px-[4.5cqw] py-[1.8cqw] rounded-full bg-white/15 hover:bg-white/25 border border-[#f3efe4]/35 text-[3.1cqw] font-semibold text-[#f3efe4] transition-all cursor-pointer"
+          className="relative z-10 mt-[6cqw] inline-flex items-center gap-[1.8cqw] px-[5cqw] py-[2cqw] rounded-full text-[3.05cqw] font-semibold text-white bg-white/16 hover:bg-white/24 transition-all hover:scale-[1.03] active:scale-[0.98] cursor-pointer border-0"
+          style={{
+            fontFamily: BOOK_COVER_BODY_FONT,
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+          }}
         >
-          {isEn ? 'Back to bookshelf' : 'Quay lại kệ sách'}
+          <WebIcon name="arrow-left" className="w-[3cqw] h-[3cqw] text-white" />
+          <span>{isEn ? 'Back to bookshelf' : 'Quay lại kệ sách'}</span>
         </button>
       </div>
     );

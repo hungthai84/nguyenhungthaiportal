@@ -913,8 +913,8 @@ function Paper({
           ? 'education-book-paper--back bg-[#f1efe9] dark:bg-zinc-800'
           : 'education-book-paper--front bg-[#fbfaf7] dark:bg-zinc-900',
         side === 'left'
-          ? 'left-0 rounded-l-sm shadow-[inset_-1px_0_0_rgb(0_0_0/0.06)]'
-          : 'left-1/2 rounded-r-sm shadow-[inset_1px_0_0_rgb(0_0_0/0.06)]',
+          ? 'left-0 rounded-l-[12px] rounded-r-[2px] shadow-[inset_-1px_0_0_rgb(0_0_0/0.06)]'
+          : 'left-1/2 rounded-r-[12px] rounded-l-[2px] shadow-[inset_1px_0_0_rgb(0_0_0/0.06)]',
         'ring-1 ring-black/5 dark:ring-white/10'
       )}
       style={{

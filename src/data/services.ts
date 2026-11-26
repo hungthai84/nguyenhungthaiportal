@@ -147,7 +147,7 @@ export const SERVICES_DATA: DomainData[] = [
     descEn: 'Omnichannel experience management, buyer and seller support, customer journey and service quality optimization.',
     color: 'orange',
     icon: 'shopping-cart',
-    customIllustrationUrl: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png',
+    customIllustrationUrl: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
     metrics: [
       { label: 'Thời gian chờ Chat', value: 'Dưới 30 giây' },
       { label: 'CSAT', value: '88% → 96,5%' },
@@ -245,7 +245,7 @@ export const SERVICES_DATA: DomainData[] = [
     descEn: 'Gaming support operations, community management, fraud prevention, and online game service development.',
     color: 'indigo',
     icon: 'game',
-    customIllustrationUrl: '/assets/services/the-thao-dien-tu.png',
+    customIllustrationUrl: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
     metrics: [
       { label: 'Phản hồi ban đầu Ticket/Chat', value: 'Dưới 30 giây' },
       { label: 'CSAT', value: 'Đạt 96%' },
@@ -343,7 +343,7 @@ export const SERVICES_DATA: DomainData[] = [
     descEn: 'Financial and insurance service governance, quality control, process standardization, and trust building.',
     color: 'rose',
     icon: 'shield-check',
-    customIllustrationUrl: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png',
+    customIllustrationUrl: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
     metrics: [
       { label: 'Thời gian xử lý yêu cầu hợp đồng', value: 'Rút ngắn 45%' },
       { label: 'Giải quyết ngay lần đầu (FCR)', value: 'Trên 92%' },
@@ -435,7 +435,7 @@ export const SERVICES_DATA: DomainData[] = [
     descEn: 'Digital payment service optimization, transaction support, dispute handling, and user experience enhancement.',
     color: 'purple',
     icon: 'credit-card',
-    customIllustrationUrl: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png',
+    customIllustrationUrl: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
     metrics: [
       { label: 'Thời gian hoàn tiền (RPA)', value: '48 giờ → ~90 giây' },
       { label: 'CSAT', value: '98,2%' },
@@ -535,7 +535,7 @@ export const SERVICES_DATA: DomainData[] = [
     descEn: 'Design and development of CRM, Dashboard, KPI, SOP, AI Chatbots, and automation to optimize management and efficiency.',
     color: 'emerald',
     icon: 'settings',
-    customIllustrationUrl: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png',
+    customIllustrationUrl: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
     metrics: [
       { label: 'Hệ thống tài liệu SOP/KPI', value: 'Chuẩn hóa đồng bộ' },
       { label: 'Thời gian Onboarding', value: 'Rút ngắn 65%' },

@@ -1,0 +1,478 @@
+/* ========================================================================= */
+/* THEME SYSTEM: IRIDESCENT LIQUID GLASS UI (KÍNH LỎNG ÁNH XÀ CỪ ĐA SẮC)     */
+/* Light (Pearl White · Ice Blue · Cyan · Lavender · Aqua · Soft Orange)     */
+/* Dark (Obsidian Crystal · Chrome Rainbow Refraction · Luminous Cyan)       */
+/* Full Design-Token Variable Sync (--website-*, --card-*, --glass-*, etc.)  */
+/* ========================================================================= */
+
+@keyframes iridBorderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes iridGlassShimmer {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes iridFloatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Preview card thumbnail styling in ThemePresetCard */
+.card-iridescent-liquid-glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(232, 246, 255, 0.82) 38%,
+    rgba(243, 232, 255, 0.78) 72%,
+    rgba(255, 241, 226, 0.82) 100%
+  );
+  border: 1.5px solid rgba(255, 255, 255, 0.86);
+  box-shadow:
+    0 14px 34px -10px rgba(56, 189, 248, 0.28),
+    0 6px 18px -6px rgba(167, 139, 250, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+}
+
+.card-dark-iridescent-liquid-glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    140deg,
+    rgba(15, 23, 42, 0.86) 0%,
+    rgba(20, 30, 56, 0.88) 48%,
+    rgba(24, 18, 46, 0.90) 100%
+  );
+  border: 1.5px solid rgba(103, 232, 249, 0.36);
+  box-shadow:
+    0 18px 40px -12px rgba(0, 0, 0, 0.65),
+    0 0 22px -6px rgba(34, 211, 238, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  color: #f8fafc;
+}
+
+/* ========================================================================= */
+/* LIGHT MODE: IRIDESCENT LIQUID GLASS                                       */
+/* ========================================================================= */
+html[data-card-style="iridescent-liquid-glass"],
+html[data-card-style="iridescent-liquid-glass"] body,
+html[data-theme="iridescent-liquid-glass"] {
+  color-scheme: light;
+
+  --color-bg: var(--website-background, #f4f8ff);
+  --color-bg-soft: #eef5ff;
+  --color-surface: var(--card-background, rgba(255, 255, 255, 0.66));
+  --color-surface-elevated: rgba(255, 255, 255, 0.82);
+
+  --color-heading: var(--website-text, #0f172a);
+  --color-text: var(--website-text, #0f172a);
+  --color-text-secondary: var(--website-muted, #334155);
+  --color-text-muted: #64748b;
+  --color-primary: var(--website-primary, #06b6d4);
+  --color-secondary: var(--website-secondary, #8b5cf6);
+  --color-accent: var(--website-accent, #fb923c);
+  --color-focus-ring: var(--website-primary, #06b6d4);
+
+  --text-primary: var(--website-text, #0f172a);
+  --text-secondary: var(--website-muted, #334155);
+  --text-muted: #64748b;
+  --text-heading: var(--website-text, #0f172a);
+  --text-link: var(--website-primary, #0891b2);
+  --text-accent: var(--website-secondary, #7c3aed);
+  --text-input: var(--website-text, #0f172a);
+  --text-placeholder: #64748b;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #0f172a;
+  --text-badge: #0e7490;
+  --text-highlight: #7c3aed;
+
+  --app-bg-base: #f4f8ff;
+  --app-bg-gradient: var(
+    --irid-wallpaper-bg,
+    radial-gradient(ellipse 72% 58% at 12% 14%, rgba(125, 211, 252, 0.45) 0%, transparent 56%),
+    radial-gradient(ellipse 64% 54% at 88% 16%, rgba(196, 181, 253, 0.42) 0%, transparent 54%),
+    radial-gradient(ellipse 58% 52% at 82% 84%, rgba(253, 186, 116, 0.34) 0%, transparent 54%),
+    radial-gradient(ellipse 60% 54% at 18% 84%, rgba(110, 231, 183, 0.34) 0%, transparent 56%),
+    linear-gradient(135deg, #fbfbff 0%, #f0f8ff 46%, #f6f0ff 76%, #fff7f0 100%)
+  );
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(56, 189, 248, 0.32);
+  --ambient-glow-2: rgba(167, 139, 250, 0.30);
+  --ambient-glow-3: rgba(251, 146, 60, 0.24);
+  --ambient-glow-4: rgba(52, 211, 153, 0.24);
+
+  --bg-main: var(--irid-main-card-bg, rgba(255, 255, 255, 0.66));
+  --bg-header: var(--website-header-bg, rgba(255, 255, 255, 0.72));
+  --bg-footer: var(--irid-footer-bg, rgba(255, 255, 255, 0.74));
+  --bg-card: var(--irid-content-card-bg, rgba(255, 255, 255, 0.64));
+  --bg-card-hover: rgba(255, 255, 255, 0.80);
+  --bg-subcard: rgba(255, 255, 255, 0.56);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.76);
+  --bg-nested-card: rgba(255, 255, 255, 0.52);
+  --bg-popup: var(--irid-modal-bg, rgba(255, 255, 255, 0.88));
+  --bg-dropdown: rgba(255, 255, 255, 0.92);
+  --bg-tooltip: rgba(15, 23, 42, 0.94);
+
+  --bg-nav-pill: rgba(255, 255, 255, 0.72);
+  --bg-nav-pill-hover: rgba(255, 255, 255, 0.94);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.78);
+  --border-nav-arrow: rgba(255, 255, 255, 0.85);
+
+  --bg-button-primary: linear-gradient(
+    135deg,
+    var(--website-gradient-start, #06b6d4) 0%,
+    var(--website-gradient-end, #8b5cf6) 100%
+  );
+  --bg-button-secondary: rgba(255, 255, 255, 0.74);
+  --bg-button-hover: rgba(255, 255, 255, 0.92);
+
+  --bg-input: rgba(255, 255, 255, 0.72);
+  --bg-badge: rgba(6, 182, 212, 0.14);
+  --bg-highlight: rgba(139, 92, 246, 0.14);
+  --bg-banner: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(224, 242, 254, 0.68) 52%, rgba(243, 232, 255, 0.66) 100%);
+  --bg-banner-pill: rgba(255, 255, 255, 0.78);
+  --bg-banner-cta: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+  --text-banner-cta: #ffffff;
+
+  --border-color: var(--card-border-color, rgba(255, 255, 255, 0.78));
+  --border-card: var(--card-border-color, rgba(255, 255, 255, 0.78));
+  --border-subcard: rgba(255, 255, 255, 0.72);
+  --border-input: rgba(148, 163, 184, 0.34);
+  --border-popup: rgba(255, 255, 255, 0.82);
+
+  --bg-blur: var(--card-blur, 24px);
+  --glass-blur: var(--card-blur, 24px);
+  --blur-subcard: 18px;
+  --glass-saturate: var(--card-saturation, 185%);
+
+  --shadow-card: var(
+    --card-shadow,
+    0 18px 40px -14px rgba(56, 189, 248, 0.22),
+    0 8px 20px -8px rgba(139, 92, 246, 0.14),
+    inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.88))
+  );
+  --shadow-card-hover:
+    0 24px 48px -12px var(--glass-glow, rgba(6, 182, 212, 0.30)),
+    0 10px 24px -8px rgba(139, 92, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --shadow-subcard:
+    0 10px 24px -8px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --shadow-button: 0 10px 22px -6px var(--glass-glow, rgba(6, 182, 212, 0.40));
+  --shadow-popup: 0 24px 52px -12px rgba(15, 23, 42, 0.20);
+
+  --surface-primary-bg: var(--bg-main);
+  --surface-primary-border: var(--border-card);
+  --surface-primary-shadow: var(--shadow-card);
+  --surface-primary-blur: var(--card-blur, 24px);
+  --surface-primary-saturate: var(--card-saturation, 185%);
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: var(--border-card);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: var(--border-subcard);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+
+  --radius-main: var(--card-radius, 18px);
+  --radius-card: var(--card-radius, 16px);
+  --radius-subcard: 14px;
+  --radius-banner: var(--card-radius, 16px);
+}
+
+/* ========================================================================= */
+/* DARK MODE: DARK IRIDESCENT LIQUID GLASS                                   */
+/* ========================================================================= */
+html[data-card-style="dark-iridescent-liquid-glass"],
+html[data-card-style="dark-iridescent-liquid-glass"] body,
+html[data-theme="dark-iridescent-liquid-glass"] {
+  color-scheme: dark;
+
+  --color-bg: var(--website-background, #090d1a);
+  --color-bg-soft: #11182d;
+  --color-surface: var(--card-background, rgba(15, 23, 42, 0.68));
+  --color-surface-elevated: rgba(24, 34, 60, 0.78);
+
+  --color-heading: var(--website-text, #f8fafc);
+  --color-text: var(--website-text, #f8fafc);
+  --color-text-secondary: var(--website-muted, #cbd5e1);
+  --color-text-muted: #94a3b8;
+  --color-primary: var(--website-primary, #22d3ee);
+  --color-secondary: var(--website-secondary, #c084fc);
+  --color-accent: var(--website-accent, #fb923c);
+  --color-focus-ring: var(--website-primary, #22d3ee);
+
+  --text-primary: var(--website-text, #f8fafc);
+  --text-secondary: var(--website-muted, #cbd5e1);
+  --text-muted: #94a3b8;
+  --text-heading: #ffffff;
+  --text-link: var(--website-primary, #67e8f9);
+  --text-accent: var(--website-secondary, #d8b4fe);
+  --text-input: #f8fafc;
+  --text-placeholder: #94a3b8;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #f8fafc;
+  --text-badge: #67e8f9;
+  --text-highlight: #e9d5ff;
+
+  --app-bg-base: #090d1a;
+  --app-bg-gradient: var(
+    --irid-wallpaper-bg,
+    radial-gradient(ellipse 72% 58% at 12% 14%, rgba(34, 211, 238, 0.28) 0%, transparent 56%),
+    radial-gradient(ellipse 64% 54% at 88% 16%, rgba(167, 139, 250, 0.28) 0%, transparent 54%),
+    radial-gradient(ellipse 58% 52% at 82% 84%, rgba(251, 146, 60, 0.20) 0%, transparent 54%),
+    radial-gradient(ellipse 60% 54% at 18% 84%, rgba(45, 212, 191, 0.22) 0%, transparent 56%),
+    linear-gradient(135deg, #070b16 0%, #0d1429 48%, #15102b 78%, #121222 100%)
+  );
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(34, 211, 238, 0.26);
+  --ambient-glow-2: rgba(167, 139, 250, 0.26);
+  --ambient-glow-3: rgba(251, 146, 60, 0.20);
+  --ambient-glow-4: rgba(45, 212, 191, 0.20);
+
+  --bg-main: var(--irid-main-card-bg, rgba(15, 23, 42, 0.68));
+  --bg-header: var(--website-header-bg, rgba(17, 24, 45, 0.74));
+  --bg-footer: var(--irid-footer-bg, rgba(17, 24, 45, 0.76));
+  --bg-card: var(--irid-content-card-bg, rgba(15, 23, 42, 0.64));
+  --bg-card-hover: rgba(24, 36, 66, 0.78);
+  --bg-subcard: rgba(30, 41, 70, 0.52);
+  --bg-subcard-hover: rgba(40, 54, 90, 0.68);
+  --bg-nested-card: rgba(12, 18, 34, 0.62);
+  --bg-popup: var(--irid-modal-bg, rgba(15, 23, 42, 0.90));
+  --bg-dropdown: rgba(15, 23, 42, 0.94);
+  --bg-tooltip: rgba(8, 12, 24, 0.96);
+
+  --bg-nav-pill: rgba(24, 34, 62, 0.72);
+  --bg-nav-pill-hover: rgba(38, 52, 88, 0.88);
+  --bg-nav-arrow: rgba(24, 34, 62, 0.78);
+  --border-nav-arrow: rgba(103, 232, 249, 0.34);
+
+  --bg-button-primary: linear-gradient(
+    135deg,
+    var(--website-gradient-start, #22d3ee) 0%,
+    var(--website-gradient-end, #c084fc) 100%
+  );
+  --bg-button-secondary: rgba(30, 41, 70, 0.76);
+  --bg-button-hover: rgba(44, 58, 96, 0.92);
+
+  --bg-input: rgba(15, 23, 42, 0.72);
+  --bg-badge: rgba(34, 211, 238, 0.18);
+  --bg-highlight: rgba(192, 132, 252, 0.18);
+  --bg-banner: linear-gradient(135deg, rgba(18, 28, 56, 0.80) 0%, rgba(28, 20, 58, 0.84) 52%, rgba(15, 23, 42, 0.86) 100%);
+  --bg-banner-pill: rgba(255, 255, 255, 0.14);
+  --bg-banner-cta: linear-gradient(135deg, #fb923c 0%, #ec4899 100%);
+  --text-banner-cta: #ffffff;
+
+  --border-color: var(--card-border-color, rgba(147, 197, 253, 0.28));
+  --border-card: var(--card-border-color, rgba(147, 197, 253, 0.28));
+  --border-subcard: rgba(255, 255, 255, 0.14);
+  --border-input: rgba(103, 232, 249, 0.32);
+  --border-popup: rgba(103, 232, 249, 0.36);
+
+  --bg-blur: var(--card-blur, 24px);
+  --glass-blur: var(--card-blur, 24px);
+  --blur-subcard: 18px;
+  --glass-saturate: var(--card-saturation, 185%);
+
+  --shadow-card: var(
+    --card-shadow,
+    0 22px 46px -14px rgba(0, 0, 0, 0.65),
+    0 0 24px -8px var(--glass-glow, rgba(34, 211, 238, 0.26)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24)
+  );
+  --shadow-card-hover:
+    0 26px 54px -12px rgba(0, 0, 0, 0.72),
+    0 0 32px -6px var(--glass-glow, rgba(34, 211, 238, 0.42)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  --shadow-subcard:
+    0 12px 26px -8px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --shadow-button: 0 12px 26px -6px var(--glass-glow, rgba(34, 211, 238, 0.42));
+  --shadow-popup: 0 26px 56px -12px rgba(0, 0, 0, 0.78);
+
+  --surface-primary-bg: var(--bg-main);
+  --surface-primary-border: var(--border-card);
+  --surface-primary-shadow: var(--shadow-card);
+  --surface-primary-blur: var(--card-blur, 24px);
+  --surface-primary-saturate: var(--card-saturation, 185%);
+  --surface-secondary-bg: var(--bg-card);
+  --surface-secondary-border: var(--border-card);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-tertiary-bg: var(--bg-subcard);
+  --surface-tertiary-border: var(--border-subcard);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+
+  --radius-main: var(--card-radius, 18px);
+  --radius-card: var(--card-radius, 16px);
+  --radius-subcard: 14px;
+  --radius-banner: var(--card-radius, 16px);
+}
+
+/* ========================================================================= */
+/* SHARED IRIDESCENT LIQUID GLASS SURFACE, REFRACTION & CHROME RIM ENGINE    */
+/* ========================================================================= */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]) :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .sub-card,
+  [data-subcard="true"],
+  .project-card,
+  .education-course-card,
+  .theme-modal-card,
+  .theme-popup
+):not(.theme-preset-card):not(.theme-preset-card *):not(.service-vibrant-card) {
+  backdrop-filter: blur(var(--card-blur, 24px)) saturate(var(--card-saturation, 185%)) !important;
+  -webkit-backdrop-filter: blur(var(--card-blur, 24px)) saturate(var(--card-saturation, 185%)) !important;
+  border-width: var(--card-border-width, 1px) !important;
+  transition:
+    transform var(--motion-hover-duration, 220ms) var(--motion-easing, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow var(--motion-hover-duration, 220ms) ease,
+    border-color var(--motion-hover-duration, 220ms) ease,
+    background-color var(--motion-duration, 280ms) ease !important;
+}
+
+/* Iridescent Chrome Rainbow Rim when data-irid-border="on" (or default) */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]):not([data-irid-border="off"]) :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  .bento-card:not(.theme-preset-card),
+  .project-card,
+  .education-course-card
+) {
+  position: relative;
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.75)),
+    inset 0 -1px 0 rgba(56, 189, 248, 0.22),
+    0 0 0 1px rgba(192, 132, 252, 0.20) !important;
+}
+
+/* Specular Top Glossy Reflection */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"])[data-irid-glossy="on"] :is(
+  .bento-card,
+  .project-card,
+  .education-course-card,
+  .hero-banner
+):not(.theme-preset-card):not(.service-vibrant-card)::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 46%;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, calc(var(--glass-glossiness, 0.72) * 0.34)) 0%,
+    rgba(255, 255, 255, 0.04) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Floating Card Animation toggle */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"])[data-irid-float="on"]:not([data-irid-motion="off"]) :is(
+  .bento-card,
+  .project-card,
+  .education-course-card
+):not(.theme-preset-card) {
+  animation: iridFloatSlow 5.2s ease-in-out infinite;
+}
+
+/* Interactive Card Hover Lift & Tilt */
+@media (hover: hover) and (pointer: fine) {
+  html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]):not([data-irid-card-lift="off"]) :is(
+    .bento-card,
+    .project-card,
+    .education-course-card
+  ):not(.page-main-card):not(.theme-preset-card):not(.service-vibrant-card):hover {
+    transform: translateY(calc(-1 * var(--card-hover-elevation, 5px))) !important;
+    box-shadow: var(--shadow-card-hover) !important;
+  }
+
+  html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"])[data-irid-card-tilt="on"] :is(
+    .bento-card,
+    .project-card,
+    .education-course-card
+  ):not(.page-main-card):not(.theme-preset-card):hover {
+    transform: perspective(900px) translateY(calc(-1 * var(--card-hover-elevation, 5px))) rotateX(1.6deg) rotateY(-1.6deg) !important;
+  }
+}
+
+/* Interactive Glossy Capsule Active Nav Pills */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]) :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(
+    135deg,
+    var(--website-gradient-start, #06b6d4) 0%,
+    var(--website-gradient-end, #8b5cf6) 62%,
+    var(--website-accent, #fb923c) 100%
+  ) !important;
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 10px 24px -6px var(--interaction-glow, rgba(6, 182, 212, 0.50)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Button Press Depth */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]):not([data-irid-btn-press="off"]) button:active {
+  transform: scale(0.97);
+}
+
+/* Input Glass Focus Glow */
+html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]):not([data-irid-input-glow="off"]) :is(input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--website-primary, #06b6d4), 0 0 18px -2px var(--interaction-glow, rgba(6, 182, 212, 0.45)) !important;
+}
+
+/* Respect OS prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]) * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Graceful Fallback when browser does not support backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-card-style="iridescent-liquid-glass"] :is(.page-main-card, .bento-card, .sub-card, #app-header, #app-footer) {
+    background: rgba(248, 250, 255, 0.96) !important;
+  }
+  html[data-card-style="dark-iridescent-liquid-glass"] :is(.page-main-card, .bento-card, .sub-card, #app-header, #app-footer) {
+    background: rgba(15, 23, 42, 0.96) !important;
+  }
+}

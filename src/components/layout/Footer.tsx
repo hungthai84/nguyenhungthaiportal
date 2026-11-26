@@ -15,13 +15,11 @@ const FAMILY_SWATCHES: Record<string, string[]> = {
   'walnut-wood': ['#F5C478', '#4E2F1B', '#2A190F'],
   'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
   'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
-  'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#1A2433'],
-  'multicolor-glass': ['#4F46E5', '#22D3EE', '#EC4899'],
+  'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#94A3B8'],
   'flat-soft-ui': ['#4F46E5', '#3B82F6', '#2DD4BF'],
   'mica-fluent': ['#E84118', '#1C0708', '#525A65'],
   'gradient-dopamine': ['#FF2E93', '#7C3AED', '#00D2FF'],
-  'dark-luxury': ['#D4AF37', '#F3E5AB', '#0B0C10'],
-  'minimalism': ['#111111', '#71717A', '#FAFAFA'],
+  'iridescent-liquid-glass': ['#06B6D4', '#FB923C', '#8B5CF6', '#EC4899'],
 };
 
 interface FooterProps {
@@ -200,8 +198,9 @@ const FooterComponent: React.FC<FooterProps> = ({
     setHoveredRightBtn(index);
     if (index === 0) SoundEngine.playPageSpecificSound(12);
     else if (index === 1) SoundEngine.playPageSpecificSound(15);
-    else if (index === 2) SoundEngine.playPageSpecificSound(14);
-    else if (index === 3) SoundEngine.playPageSpecificSound(13);
+    else if (index === 2) SoundEngine.playPageSpecificSound(15);
+    else if (index === 3) SoundEngine.playPageSpecificSound(14);
+    else if (index === 4) SoundEngine.playPageSpecificSound(13);
   };
 
   const getDeckItemStyle = (index: number, isPopupOpen = false): React.CSSProperties => {

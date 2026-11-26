@@ -44,6 +44,7 @@ export interface ThemePresetCardProps {
   isVideoVisible: boolean;
   hasVideoFailed: boolean;
   displayPresetName: string;
+  displayEnglishName?: string;
   displayShortBadge?: string;
   displayDesc: string;
   lightModeId?: CardStyleMode;
@@ -53,6 +54,7 @@ export interface ThemePresetCardProps {
   onSelectTheme: (mode: CardStyleMode, label: string) => void;
   onToggleVideo: (id: CardStyleMode) => void;
   onVideoError: (id: CardStyleMode) => void;
+  onOpenStudio?: (mode: CardStyleMode) => void;
 }
 
 export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
@@ -68,6 +70,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     isVideoVisible,
     hasVideoFailed,
     displayPresetName,
+    displayEnglishName,
     displayDesc,
     lightModeId,
     darkModeId,
@@ -76,8 +79,11 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     onSelectTheme,
     onToggleVideo,
     onVideoError,
+    onOpenStudio,
   }) => {
     const [isFlipped, setIsFlipped] = useState(false);
+    const [isMediaHovered, setIsMediaHovered] = useState(false);
+    const showHoverVideo = (isVideoVisible || isMediaHovered) && !hasVideoFailed && Boolean(meta.demoVideoUrl);
 
     const mechanismMode = preset.mechanism || (preset.isDark ? 'dark' : 'light');
     const mechanismLabel = isEn
@@ -118,22 +124,6 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
             'linear-gradient(145deg, rgba(26, 38, 62, 0.88) 0%, rgba(23, 31, 51, 0.90) 55%, rgba(16, 26, 43, 0.94) 100%)',
         };
       }
-      if (preset.id === 'light-deep-ocean') {
-        return {
-          ...sampleProps,
-          background:
-            'linear-gradient(145deg, rgba(219, 238, 255, 0.92), rgba(167, 214, 255, 0.86), rgba(226, 243, 255, 0.90))',
-        };
-      }
-      if (preset.id === 'dark-neon-glass') {
-        return {
-          ...sampleProps,
-          background: 'rgba(15, 23, 42, 0.42)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-        };
-      }
       if (preset.id === 'mica-fluent') {
         return {
           ...sampleProps,
@@ -156,28 +146,36 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           color: '#181028',
         };
       }
-      if (preset.id === 'dark-luxury') {
+      if (preset.id === 'iridescent-liquid-glass') {
         return {
           ...sampleProps,
           background:
-            'linear-gradient(145deg, rgba(20, 22, 31, 0.96) 0%, rgba(12, 14, 20, 0.96) 55%, rgba(8, 9, 13, 0.98) 100%)',
-          border: '1px solid rgba(212, 175, 55, 0.42)',
-          color: '#FAF8F5',
+            'linear-gradient(145deg, rgba(255, 255, 255, 0.90) 0%, rgba(236, 254, 255, 0.84) 45%, rgba(245, 243, 255, 0.86) 76%, rgba(255, 247, 237, 0.88) 100%)',
+          backdropFilter: 'blur(24px) saturate(190%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+          border: '1.5px solid rgba(6, 182, 212, 0.42)',
+          boxShadow:
+            '0 14px 32px -10px rgba(6, 182, 212, 0.28), inset 0 1.5px 0 rgba(255, 255, 255, 0.95)',
+          color: '#0F172A',
         };
       }
-      if (preset.id === 'minimalism') {
+      if (preset.id === 'dark-iridescent-liquid-glass') {
         return {
           ...sampleProps,
-          background: '#FFFFFF',
-          border: '1px solid #E4E4E7',
-          boxShadow: '0 1px 2px rgba(17, 17, 17, 0.03)',
-          color: '#111111',
+          background:
+            'linear-gradient(145deg, rgba(15, 23, 42, 0.90) 0%, rgba(17, 24, 52, 0.88) 52%, rgba(24, 18, 46, 0.92) 100%)',
+          backdropFilter: 'blur(24px) saturate(190%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+          border: '1.5px solid rgba(34, 211, 238, 0.45)',
+          boxShadow:
+            '0 16px 34px -10px rgba(34, 211, 238, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.24)',
+          color: '#F8FAFC',
         };
       }
       return sampleProps;
     })();
 
-    const isMatteNeu = preset.id === 'frost-ice-neu' || preset.id === 'dark-frost-ice-neu';
+    const isMatteNeu = preset.id === 'frost-ice-neu';
 
     const safeMiniWrapStyle: React.CSSProperties | undefined = (() => {
       if (!preset.miniPreviewWrapStyle) return undefined;
@@ -197,20 +195,29 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           border: 'none',
         };
       }
-      if (preset.id === 'light-deep-ocean') {
-        return {
-          ...preset.miniPreviewWrapStyle,
-          background:
-            'linear-gradient(145deg, rgba(235, 246, 255, 0.88) 0%, rgba(203, 233, 253, 0.82) 100%)',
-          border: 'none',
-        };
-      }
       if (isMatteNeu) {
         return {
           ...preset.miniPreviewWrapStyle,
           border: 'none',
           backdropFilter: 'none',
           WebkitBackdropFilter: 'none',
+        };
+      }
+      if (preset.id === 'iridescent-liquid-glass') {
+        return {
+          ...preset.miniPreviewWrapStyle,
+          background:
+            'linear-gradient(135deg, rgba(255,255,255,0.82) 0%, rgba(103,232,249,0.28) 46%, rgba(251,146,60,0.26) 100%)',
+          border: '1px solid rgba(255,255,255,0.85)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.9)',
+        };
+      }
+      if (preset.id === 'dark-iridescent-liquid-glass') {
+        return {
+          ...preset.miniPreviewWrapStyle,
+          background:
+            'linear-gradient(135deg, rgba(15,23,42,0.78) 0%, rgba(34,211,238,0.22) 52%, rgba(251,146,60,0.22) 100%)',
+          border: '1px solid rgba(103,232,249,0.42)',
         };
       }
       return { ...preset.miniPreviewWrapStyle, border: 'none' };
@@ -267,7 +274,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
               transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
             }}
           >
-            {/* ==================== MẶT TRƯỚC: HÌNH MẪU, MÔ TẢ & CHUYỂN NHANH ==================== */}
+            {/* ==================== MẶT TRƯỚC: BỐ CỤC 3 TẦNG GIỐNG CARD TRANG HỆ THỐNG ==================== */}
             <div
               aria-hidden={isFlipped}
               style={{
@@ -279,299 +286,82 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
               }}
               className={faceSurfaceClass}
             >
-              {/* Top Visual Specimen Stage: Wallpaper & Surface / Demo Video */}
-              <div
-                style={{
-                  borderRadius: 'var(--radius-subcard, 14px)',
-                  backgroundImage: bgSpec?.imagePath
-                    ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
-                    : bgSpec?.fallbackGradient,
-                  backgroundColor: isMatteNeu ? (preset.isDark ? '#1A2433' : '#E0E8F2') : undefined,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-                className={`relative h-[146px] shrink-0 overflow-hidden p-2 flex flex-col justify-between shadow-none ${
-                  isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
-                }`}
-              >
+              {/* TOP: Icon + Tên giao diện + (Chế độ / Nhóm) */}
+              <div className="theme-card-header flex items-start justify-between gap-2 min-w-0 shrink-0">
                 <div
-                  className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 rounded-[var(--radius-subcard,14px)] ${
-                    isMatteNeu ? '' : 'bg-black/25 dark:bg-black/40 backdrop-blur-xs'
-                  }`}
-                  style={safeMiniWrapStyle}
+                  className="card-header-sync flex items-start gap-2 min-w-0 flex-1"
+                  style={{ color: meta.iconColor }}
                 >
-                  <div className="flex items-center justify-between gap-2 min-w-0">
-                    <span className={`typo-caption font-semibold truncate ${meta.titleTextClass}`}>
-                      {isEn ? 'Wallpaper & Surface' : 'Hình nền & Vật liệu'}
+                  <WebIcon
+                    name={groupIcon}
+                    className="w-5 h-5 mt-0.5 shrink-0"
+                    style={{ color: meta.iconColor }}
+                  />
+                  <h4
+                    className="font-play text-[15px] sm:text-[16px] font-bold leading-snug min-w-0 flex-1 line-clamp-2 card-title-synced m-0"
+                    data-card-title="true"
+                    style={{ color: meta.iconColor }}
+                    title={`${displayPresetName} (${groupLabel} · ${mechanismLabel})`}
+                  >
+                    <span>{displayPresetName}</span>{' '}
+                    <span className={`text-[12px] font-medium opacity-80 ${meta.bodyTextClass}`}>
+                      ({!isEn && displayEnglishName ? displayEnglishName : `${groupLabel} · ${mechanismLabel}`})
                     </span>
+                  </h4>
+                </div>
+
+                {lightModeId && darkModeId && (
+                  <div
+                    role="group"
+                    aria-label={isEn ? 'Light / Dark mode tab' : 'Chuyển chế độ Sáng hoặc Tối'}
+                    className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
+                  >
                     <button
                       type="button"
                       tabIndex={isFlipped ? -1 : 0}
                       onClick={(e) => {
                         e.stopPropagation();
-                        onToggleVideo(preset.id);
+                        onVariantChange?.('light');
+                        if (lightModeId) onSelectTheme(lightModeId, displayPresetName);
                       }}
-                      title={
-                        hasVideoFailed
-                          ? isEn
-                            ? 'Retry demo video'
-                            : 'Thử tải lại video minh họa'
-                          : undefined
-                      }
-                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-semibold cursor-pointer transition-opacity hover:opacity-90 shrink-0 whitespace-nowrap ${
-                        isMatteNeu ? 'border-0' : 'border'
-                      } ${meta.ctaIdleClass}`}
-                    >
-                      <WebIcon
-                        name={isVideoVisible ? 'x' : hasVideoFailed ? 'rotate-ccw' : 'play'}
-                        className="w-3 h-3 shrink-0"
-                      />
-                      <span>
-                        {isVideoVisible
-                          ? isEn
-                            ? 'Close'
-                            : 'Đóng'
-                          : hasVideoFailed
-                            ? isEn
-                              ? 'Retry'
-                              : 'Thử lại'
-                            : isEn
-                              ? 'Demo'
-                              : 'Video'}
-                      </span>
-                    </button>
-                  </div>
-
-                  {isVideoVisible ? (
-                    <div
-                      data-media-card="video"
-                      style={{
-                        padding: '0px',
-                        borderRadius: 'var(--radius-video, 14px)',
-                      }}
-                      className={`relative w-full h-[88px] overflow-hidden bg-slate-950/60 box-border ${
-                        isMatteNeu ? 'border-0' : 'border border-white/20'
+                      className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                        currentVariant === 'light'
+                          ? 'bg-white text-slate-900 shadow-xs'
+                          : 'text-current opacity-70 hover:opacity-100'
                       }`}
                     >
-                      <video
-                        src={meta.demoVideoUrl}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        controls={false}
-                        disablePictureInPicture
-                        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                        aria-hidden="true"
-                        tabIndex={-1}
-                        onLoadedMetadata={(e) => {
-                          const v = e.currentTarget;
-                          v.defaultMuted = true;
-                          v.muted = true;
-                          v.loop = true;
-                          v.controls = false;
-                          v.disablePictureInPicture = true;
-                          (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                        }}
-                        onCanPlay={(e) => {
-                          const v = e.currentTarget;
-                          v.defaultMuted = true;
-                          v.muted = true;
-                          v.loop = true;
-                          if (v.paused) v.play().catch(() => {});
-                        }}
-                        onEnded={(e) => {
-                          const v = e.currentTarget;
-                          v.currentTime = 0;
-                          v.play().catch(() => {});
-                        }}
-                        onError={() => onVideoError(preset.id)}
-                        style={{
-                          objectFit: 'cover',
-                          transform: 'translateZ(0) scale(1.005)',
-                          backfaceVisibility: 'hidden',
-                        }}
-                        className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between gap-1.5">
-                        <span
-                          style={preset.miniTabStyle}
-                          className={`px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full text-center ${
-                            isMatteNeu ? 'border-0' : 'border'
-                          }`}
-                        >
-                          {isEn ? 'Header · Tab' : 'Tiêu đề · Thẻ mẫu'}
-                        </span>
-                        <span
-                          style={preset.miniBtnStyle}
-                          className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0 whitespace-nowrap"
-                        >
-                          {isEn ? 'Accent' : 'Nút Nhấn'}
-                        </span>
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        {meta.gradientBars.slice(0, 2).map((bar) => {
-                          const barLabelViMap: Record<string, string> = {
-                            Purple: 'Tím',
-                            Lavender: 'Oải hương',
-                            Cyan: 'Lục lam',
-                            Rose: 'Hồng phấn',
-                            'Neon Cyan': 'Lam sáng',
-                            'Neon Violet': 'Tím sáng',
-                            'Neon Mint': 'Bạc hà',
-                            B1: 'Sắc 1',
-                            B2: 'Sắc 2',
-                            Grain: 'Vân gỗ',
-                            Walnut: 'Óc chó',
-                            O1: 'Sắc 1',
-                            O2: 'Sắc 2',
-                            Primary: 'Chính',
-                            'Sky Cyan': 'Lam trời',
-                            Indigo: 'Chàm',
-                            Sky: 'Xanh trời',
-                            Blue: 'Xanh lam',
-                            Pink: 'Hồng',
-                            Mint: 'Bạc hà',
-                            Inset: 'Nhấn lõm',
-                            Teal: 'Ngọc lam',
-                            Terracotta: 'Đất nung',
-                            Espresso: 'Cà phê',
-                            Dopamine: 'Đa sắc',
-                            Energy: 'Năng lượng',
-                            Gold: 'Ánh kim',
-                            Obsidian: 'Đen huyền',
-                            Ink: 'Mực đen',
-                            Space: 'Khoảng trắng',
-                          };
-                          const localizedBarLabel = isEn
-                            ? bar.label
-                            : barLabelViMap[bar.label] || bar.label;
-                          return (
-                            <div key={bar.label} className="flex items-center gap-2">
-                              <span
-                                className={`w-16 shrink-0 typo-badge font-mono truncate ${meta.accentTextClass}`}
-                              >
-                                {localizedBarLabel}
-                              </span>
-                              <div
-                                className="flex-1 h-2 rounded-full overflow-hidden"
-                                style={{
-                                  background: isMatteNeu
-                                    ? preset.isDark
-                                      ? '#1A2433'
-                                      : '#E0E8F2'
-                                    : preset.isDark
-                                      ? 'rgba(15, 23, 42, 0.55)'
-                                      : 'rgba(148, 163, 184, 0.22)',
-                                  boxShadow: isMatteNeu
-                                    ? preset.isDark
-                                      ? 'inset -2px -2px 4px rgba(38, 52, 74, 0.65), inset 2px 2px 4px rgba(10, 15, 24, 0.78)'
-                                      : 'inset -2px -2px 4px rgba(255, 255, 255, 0.85), inset 2px 2px 4px rgba(163, 179, 199, 0.58)'
-                                    : undefined,
-                                }}
-                              >
-                                <div
-                                  className="h-full rounded-full"
-                                  style={{
-                                    width: bar.width,
-                                    background: bar.gradient,
-                                    boxShadow: bar.glow,
-                                  }}
-                                />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                      {isEn ? 'Light' : 'Sáng'}
+                    </button>
+                    <button
+                      type="button"
+                      tabIndex={isFlipped ? -1 : 0}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onVariantChange?.('dark');
+                        if (darkModeId) onSelectTheme(darkModeId, displayPresetName);
+                      }}
+                      className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                        currentVariant === 'dark'
+                          ? 'bg-slate-900 text-white shadow-xs'
+                          : 'text-current opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      {isEn ? 'Dark' : 'Tối'}
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {/* Middle Card Body: Group Kicker + Title + Description */}
-              <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-2 min-w-0">
-                  <span className={`typo-caption font-semibold truncate ${meta.accentTextClass}`}>
-                    {groupLabel} · {mechanismLabel}
-                  </span>
-                  {lightModeId && darkModeId && (
-                    <div
-                      role="group"
-                      aria-label={isEn ? 'Light / Dark mode tab' : 'Chuyển chế độ Sáng hoặc Tối'}
-                      className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
-                    >
-                      <button
-                        type="button"
-                        tabIndex={isFlipped ? -1 : 0}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onVariantChange?.('light');
-                          if (lightModeId) onSelectTheme(lightModeId, displayPresetName);
-                        }}
-                        className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                          currentVariant === 'light'
-                            ? 'bg-white text-slate-900 shadow-xs'
-                            : 'text-current opacity-70 hover:opacity-100'
-                        }`}
-                      >
-                        {isEn ? 'Light' : 'Sáng'}
-                      </button>
-                      <button
-                        type="button"
-                        tabIndex={isFlipped ? -1 : 0}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onVariantChange?.('dark');
-                          if (darkModeId) onSelectTheme(darkModeId, displayPresetName);
-                        }}
-                        className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                          currentVariant === 'dark'
-                            ? 'bg-slate-900 text-white shadow-xs'
-                            : 'text-current opacity-70 hover:opacity-100'
-                        }`}
-                      >
-                        {isEn ? 'Dark' : 'Tối'}
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                <div
-                  className="card-header-sync flex items-center gap-2 min-w-0"
-                  style={{ color: meta.iconColor }}
-                >
-                  <WebIcon
-                    name={groupIcon}
-                    className="w-4 h-4 shrink-0"
-                    style={{ color: meta.iconColor }}
-                  />
-                  <h4
-                    className="typo-h5 font-bold leading-snug min-w-0 truncate card-title-synced"
-                    data-card-title="true"
-                    style={{ color: meta.iconColor }}
-                  >
-                    {displayPresetName}
-                  </h4>
-                </div>
-
-                <p className={`typo-body-sm leading-relaxed line-clamp-3 ${meta.bodyTextClass}`}>
-                  {displayDesc}
-                </p>
-
-                {/* Nhóm màu chính của giao diện + Hiệu ứng đặc trưng */}
-                {themeSpec && (
-                  <div
-                    className={`mt-1 pt-1.5 flex items-center justify-between gap-2 ${
-                      isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
-                    }`}
-                  >
+              {/* CENTER: Trái = Mô tả + Bảng màu, Phải = Mẫu trực quan / Video hover giống cột phải trang Hệ thống */}
+              <div className="theme-card-middle flex-1 min-w-0 w-full">
+                {/* CENTER LEFT: Mô tả nội dung dạng body-text + nhóm màu đặc trưng */}
+                <div className="flex flex-col justify-center gap-2 min-w-0">
+                  <p className={`theme-desc-text m-0 font-normal text-[13px] leading-[1.52] line-clamp-4 break-words ${meta.bodyTextClass}`}>
+                    {displayDesc}
+                  </p>
+                  <div className="flex items-center flex-wrap gap-1.5 min-w-0">
                     <span className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
-                      {isEn ? themeSpec.cardEffectKindEn : themeSpec.cardEffectKindVi}
+                      {groupLabel} · {mechanismLabel}
                     </span>
                     <div className="flex items-center gap-1 shrink-0">
                       {meta.primaryPalette.slice(0, 4).map((swatch) => (
@@ -584,54 +374,224 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       ))}
                     </div>
                   </div>
-                )}
+                </div>
+
+                {/* CENTER RIGHT: Khung mẫu trực quan & phát video ngay vị trí khi rê chuột / bấm Demo */}
+                <div
+                  role="button"
+                  tabIndex={isFlipped ? -1 : 0}
+                  onMouseEnter={() => setIsMediaHovered(true)}
+                  onMouseLeave={() => setIsMediaHovered(false)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleVideo(preset.id);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onToggleVideo(preset.id);
+                    }
+                  }}
+                  title={
+                    hasVideoFailed
+                      ? isEn
+                        ? 'Click to retry preview video'
+                        : 'Bấm để thử tải lại video minh họa'
+                      : isEn
+                        ? 'Hover or click to preview demo video'
+                        : 'Rê chuột hoặc bấm để xem video minh họa'
+                  }
+                  style={{
+                    borderRadius: 'var(--radius-subcard, 14px)',
+                    backgroundImage: bgSpec?.imagePath
+                      ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
+                      : bgSpec?.fallbackGradient,
+                    backgroundColor: isMatteNeu ? (preset.isDark ? '#1A2433' : '#E0E8F2') : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                  className={`theme-card-media-slot relative w-full overflow-hidden p-1.5 flex flex-col justify-between cursor-pointer ${
+                    isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
+                  }`}
+                >
+                  {showHoverVideo ? (
+                    <video
+                      src={meta.demoVideoUrl}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      controls={false}
+                      disablePictureInPicture
+                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                      onLoadedMetadata={(e) => {
+                        const v = e.currentTarget;
+                        v.defaultMuted = true;
+                        v.muted = true;
+                        v.loop = true;
+                        v.controls = false;
+                        v.disablePictureInPicture = true;
+                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                      }}
+                      onCanPlay={(e) => {
+                        const v = e.currentTarget;
+                        v.defaultMuted = true;
+                        v.muted = true;
+                        v.loop = true;
+                        if (v.paused) v.play().catch(() => {});
+                      }}
+                      onEnded={(e) => {
+                        const v = e.currentTarget;
+                        v.currentTime = 0;
+                        v.play().catch(() => {});
+                      }}
+                      onError={() => onVideoError(preset.id)}
+                      className="absolute inset-0 z-20 w-full h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
+                    />
+                  ) : (
+                    <div
+                      className={`relative z-10 h-full w-full p-2 flex flex-col justify-between gap-1.5 rounded-[var(--radius-subcard,12px)] ${
+                        isMatteNeu ? '' : 'bg-black/25 dark:bg-black/40 backdrop-blur-xs'
+                      }`}
+                      style={safeMiniWrapStyle}
+                    >
+                      <div className="flex items-center justify-between gap-1">
+                        <span
+                          style={preset.miniTabStyle}
+                          className={`px-1.5 py-0.5 text-[10px] font-bold flex-1 truncate rounded-full text-center ${
+                            isMatteNeu ? 'border-0' : 'border'
+                          }`}
+                        >
+                          {isEn ? 'Tab' : 'Thẻ'}
+                        </span>
+                        <span
+                          style={preset.miniBtnStyle}
+                          className="px-1.5 py-0.5 text-[10px] font-bold rounded-full shadow-2xs shrink-0 whitespace-nowrap"
+                        >
+                          CTA
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1.5 my-auto">
+                        {meta.gradientBars.slice(0, 2).map((bar) => (
+                          <div
+                            key={bar.label}
+                            className="w-full h-1.5 rounded-full overflow-hidden"
+                            style={{
+                              background: isMatteNeu
+                                ? preset.isDark
+                                  ? '#1A2433'
+                                  : '#E0E8F2'
+                                : preset.isDark
+                                  ? 'rgba(15, 23, 42, 0.55)'
+                                  : 'rgba(148, 163, 184, 0.25)',
+                            }}
+                          >
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: bar.width,
+                                background: bar.gradient,
+                                boxShadow: bar.glow,
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center justify-between gap-1">
+                        <span className={`text-[10px] font-semibold truncate opacity-85 ${meta.titleTextClass}`}>
+                          {isEn ? 'Preview' : 'Mẫu thẻ'}
+                        </span>
+                        <WebIcon
+                          name={hasVideoFailed ? 'rotate-ccw' : 'play'}
+                          className="w-3 h-3 shrink-0 opacity-85"
+                          style={{ color: meta.iconColor }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Front Footer: Apply & Flip Button */}
+              {/* BOTTOM: Hiệu ứng đặc trưng + Áp dụng + Tùy chỉnh + Lật 4 mục */}
               <div
-                className={`mt-auto pt-2 flex items-center justify-between gap-2 ${
+                className={`mt-auto pt-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0 shrink-0 ${
                   isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
                 }`}
               >
-                <button
-                  type="button"
-                  tabIndex={isFlipped ? -1 : 0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectTheme(preset.id, displayPresetName);
-                  }}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all truncate ${
-                    isActive ? meta.ctaActiveClass : meta.ctaIdleClass
-                  }`}
-                >
-                  <WebIcon name={isActive ? 'check' : 'palette'} className="w-3 h-3 shrink-0" />
-                  <span className="truncate">
-                    {isActive
-                      ? isEn
-                        ? 'Active'
-                        : 'Đang bật'
-                      : isEn
-                        ? 'Apply'
-                        : 'Áp dụng'}
-                  </span>
-                </button>
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <button
+                    type="button"
+                    tabIndex={isFlipped ? -1 : 0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectTheme(preset.id, displayPresetName);
+                    }}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
+                      isActive ? meta.ctaActiveClass : meta.ctaIdleClass
+                    }`}
+                  >
+                    <WebIcon name={isActive ? 'check' : 'palette'} className="w-3 h-3 shrink-0" />
+                    <span>
+                      {isActive
+                        ? isEn
+                          ? 'Active'
+                          : 'Đang bật'
+                        : isEn
+                          ? 'Apply'
+                          : 'Áp dụng'}
+                    </span>
+                  </button>
 
-                <button
-                  type="button"
-                  tabIndex={isFlipped ? -1 : 0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsFlipped(true);
-                  }}
-                  onDoubleClick={(e) => e.stopPropagation()}
-                  className={`theme-flip-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
-                    isMatteNeu ? 'border-0' : 'border'
-                  } ${meta.ctaIdleClass}`}
-                  aria-label={isEn ? 'Flip card to view 4 theme specs' : 'Lật thẻ xem 4 thông số giao diện'}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
-                  <span>{isEn ? 'Specs · 4' : 'Lật · 4 mục'}</span>
-                </button>
+                  {themeSpec && (
+                    <span className={`typo-badge font-semibold truncate hidden sm:inline ${meta.accentTextClass}`}>
+                      {isEn ? themeSpec.cardEffectKindEn : themeSpec.cardEffectKindVi}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {onOpenStudio && (
+                    <button
+                      type="button"
+                      tabIndex={isFlipped ? -1 : 0}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenStudio(preset.id);
+                      }}
+                      onDoubleClick={(e) => e.stopPropagation()}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
+                        isMatteNeu ? 'border-0' : 'border'
+                      } ${meta.ctaIdleClass}`}
+                      aria-label={isEn ? 'Preview & Customize studio' : 'Xem trước & Tùy chỉnh giao diện'}
+                    >
+                      <WebIcon name="sliders" className="w-3 h-3 shrink-0" />
+                      <span>{isEn ? 'Studio' : 'Tùy chỉnh'}</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    tabIndex={isFlipped ? -1 : 0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFlipped(true);
+                    }}
+                    onDoubleClick={(e) => e.stopPropagation()}
+                    className={`theme-flip-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
+                      isMatteNeu ? 'border-0' : 'border'
+                    } ${meta.ctaIdleClass}`}
+                    aria-label={isEn ? 'Flip card to view 4 theme specs' : 'Lật thẻ xem 4 thông số giao diện'}
+                  >
+                    <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+                    <span>{isEn ? 'Specs · 4' : 'Lật · 4 mục'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 

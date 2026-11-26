@@ -1,18 +1,15 @@
-import { CardEffectMode, CardStyleMode, ThemeMechanismMode, WaveMotionMode } from './theme.types';
+import { CardEffectMode, CardStyleMode, SurfaceDepthMode, ThemeMechanismMode, WaveMotionMode } from './theme.types';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import wpLightDeepOcean from '@/assets/images/wp_light_deep_ocean_1795447885624.jpg';
 import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
 import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
-import darkNeonGlassWallpaper from '@/assets/images/dark_neon_multicolor_bg_1794884146586.jpg';
 import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
 
 export const DEFAULT_CARD_STYLE: CardStyleMode = 'liquid-glass';
-export const DEFAULT_LAYER_DEPTH = 100;
 export const DEFAULT_CORNER_RADIUS = 14;
 export const DEFAULT_WAVE_MOTION: WaveMotionMode = 'normal';
 export const DEFAULT_CARD_EFFECT: CardEffectMode = 'default';
@@ -29,8 +26,6 @@ export const WALLPAPER_MANUAL_STORAGE_KEY = 'hungthai_wallpaper_manual_v2';
 export const GLASS_CUSTOMIZATION_STORAGE_KEY = 'hungthai_glass_customization_v1';
 export const WALLPAPER_OVERLAY_STORAGE_KEY = 'hungthai_wallpaper_overlay_v1';
 export const ADAPTIVE_ACCENT_STORAGE_KEY = 'hungthai_adaptive_accent_v1';
-export const SURFACE_DEPTH_STORAGE_KEY = 'hungthai_surface_depth_v1';
-export const LAYER_DEPTH_STORAGE_KEY = 'hungthai_layer_depth_v1';
 export const AUTO_TIME_THEME_STORAGE_KEY = 'hungthai_auto_time_theme_v1';
 export const GLOBAL_CORNER_RADIUS_STORAGE_KEY = 'hungthai_global_corner_radius_v1';
 export const WAVE_MOTION_STORAGE_KEY = 'hungthai_wave_motion_v1';
@@ -43,8 +38,6 @@ export const WALLPAPER_SYNC_EVENT = 'hungthai:wallpaper-changed';
 export const GLASS_CUSTOMIZATION_SYNC_EVENT = 'hungthai:glass-customization-changed';
 export const WALLPAPER_OVERLAY_SYNC_EVENT = 'hungthai:wallpaper-overlay-changed';
 export const ADAPTIVE_ACCENT_SYNC_EVENT = 'hungthai:adaptive-accent-changed';
-export const SURFACE_DEPTH_SYNC_EVENT = 'hungthai:surface-depth-changed';
-export const LAYER_DEPTH_SYNC_EVENT = 'hungthai:layer-depth-changed';
 export const AUTO_TIME_THEME_SYNC_EVENT = 'hungthai:auto-time-theme-changed';
 export const GLOBAL_CORNER_RADIUS_SYNC_EVENT = 'hungthai:global-corner-radius-changed';
 export const WAVE_MOTION_SYNC_EVENT = 'hungthai:wave-motion-changed';
@@ -52,8 +45,29 @@ export const CUSTOM_SURFACE_COLOR_SYNC_EVENT = 'hungthai:custom-surface-color-ch
 export const CUSTOM_PRIMARY_COLOR_SYNC_EVENT = 'hungthai:custom-primary-color-changed';
 export const CARD_EFFECT_SYNC_EVENT = 'hungthai:card-effect-changed';
 
+export const THEME_NATIVE_SURFACE_DEPTH: Record<CardStyleMode, SurfaceDepthMode> = {
+  'liquid-glass': 'depth',
+  'dark-liquid-glass': 'depth',
+  'cowhide-leather': 'depth',
+  'dark-cowhide-leather': 'depth',
+  'walnut-wood': 'depth',
+  'deep-ocean': 'depth',
+  'neumorphism-beyond': 'depth',
+  'dark-neumorphism-beyond': 'depth',
+  'frost-ice-neu': 'depth',
+  'flat-soft-ui': 'flat',
+  'dark-flat-soft-ui': 'flat',
+  'mica-fluent': 'depth',
+  'gradient-dopamine': 'depth',
+  'iridescent-liquid-glass': 'depth',
+  'dark-iridescent-liquid-glass': 'depth',
+};
+
+export const getThemeNativeSurfaceDepth = (style: CardStyleMode): SurfaceDepthMode =>
+  THEME_NATIVE_SURFACE_DEPTH[style] ?? 'depth';
+
 export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
-  style === 'frost-ice-neu' || style === 'dark-frost-ice-neu';
+  style === 'frost-ice-neu';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
@@ -61,23 +75,19 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
 > = {
   'liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'dark-liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
-  'multicolor-glass': { cardOpacity: 15, blurIntensity: 16 },
-  'dark-neon-glass': { cardOpacity: 34, blurIntensity: 16 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'dark-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'walnut-wood': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
-  'light-deep-ocean': { cardOpacity: 84, blurIntensity: 22 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
   'dark-neumorphism-beyond': { cardOpacity: 92, blurIntensity: 14 },
   'frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
-  'dark-frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
   'mica-fluent': { cardOpacity: 30, blurIntensity: 20 },
   'gradient-dopamine': { cardOpacity: 82, blurIntensity: 18 },
-  'dark-luxury': { cardOpacity: 94, blurIntensity: 16 },
-  'minimalism': { cardOpacity: 100, blurIntensity: 0 },
+  'iridescent-liquid-glass': { cardOpacity: 64, blurIntensity: 24 },
+  'dark-iridescent-liquid-glass': { cardOpacity: 66, blurIntensity: 24 },
 };
 
 export interface ThemeBackgroundSpec {
@@ -151,16 +161,6 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
     overlayBg: 'rgba(5, 11, 20, 0.22)',
   },
-  'light-deep-ocean': {
-    id: 'light-deep-ocean',
-    presetId: 'theme-bg-light-deep-ocean',
-    label: 'Nền Ocean Navy Light – Glossy Liquid Glass',
-    themeMode: 'light',
-    imagePath: wpLightDeepOcean,
-    fallbackGradient:
-      'radial-gradient(ellipse at 15% 10%, rgba(115, 191, 255, 0.65), transparent 40%), radial-gradient(ellipse at 85% 85%, rgba(3, 25, 91, 0.30), transparent 45%), linear-gradient(135deg, #1951FC 0%, #3781FC 48%, #73BFFF 100%)',
-    overlayBg: 'rgba(25, 81, 252, 0.10)',
-  },
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
     presetId: 'theme-bg-neumorphism-beyond',
@@ -187,35 +187,6 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     imagePath: '',
     fallbackGradient: '#E0E8F2',
     overlayBg: 'transparent',
-  },
-  'dark-frost-ice-neu': {
-    id: 'dark-frost-ice-neu',
-    presetId: 'theme-bg-dark-frost-ice-neu',
-    label: 'Nền Băng Tuyết Nổi Khối (Tối)',
-    themeMode: 'dark',
-    imagePath: '',
-    fallbackGradient: '#1A2433',
-    overlayBg: 'transparent',
-  },
-  'multicolor-glass': {
-    id: 'multicolor-glass',
-    presetId: 'theme-bg-multicolor-glass',
-    label: 'Nền Glass UI Đa Sắc Hiện Đại',
-    themeMode: 'color',
-    imagePath: multicolorGlassWallpaper,
-    fallbackGradient:
-      'radial-gradient(at 14% 16%, rgba(56, 189, 248, 0.34) 0px, transparent 50%), radial-gradient(at 86% 16%, rgba(192, 132, 252, 0.32) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(251, 146, 60, 0.24) 0px, transparent 52%), radial-gradient(at 20% 82%, rgba(52, 211, 153, 0.28) 0px, transparent 50%), linear-gradient(135deg, #edf6ff 0%, #f4eeff 50%, #fff0f7 100%)',
-    overlayBg: 'rgba(244, 247, 255, 0.08)',
-  },
-  'dark-neon-glass': {
-    id: 'dark-neon-glass',
-    presetId: 'theme-bg-dark-neon-glass',
-    label: 'Nền Glass UI Neon Tối',
-    themeMode: 'dark',
-    imagePath: darkNeonGlassWallpaper,
-    fallbackGradient:
-      'radial-gradient(at 16% 18%, rgba(34, 211, 238, 0.24) 0px, transparent 50%), radial-gradient(at 84% 18%, rgba(217, 70, 239, 0.22) 0px, transparent 48%), radial-gradient(at 78% 84%, rgba(99, 102, 241, 0.20) 0px, transparent 52%), linear-gradient(145deg, #050814 0%, #090e24 50%, #0d0822 100%)',
-    overlayBg: 'rgba(5, 8, 20, 0.20)',
   },
   'flat-soft-ui': {
     id: 'flat-soft-ui',
@@ -257,47 +228,44 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
       'radial-gradient(circle at 12% 16%, rgba(255, 46, 147, 0.48) 0%, transparent 50%), radial-gradient(circle at 88% 18%, rgba(0, 210, 255, 0.46) 0%, transparent 48%), radial-gradient(circle at 80% 84%, rgba(255, 107, 0, 0.42) 0%, transparent 52%), radial-gradient(circle at 18% 82%, rgba(124, 58, 237, 0.44) 0%, transparent 50%), linear-gradient(135deg, #FFF0F7 0%, #F3E8FF 38%, #E0F7FF 72%, #FFF5EB 100%)',
     overlayBg: 'rgba(255, 255, 255, 0.05)',
   },
-  'dark-luxury': {
-    id: 'dark-luxury',
-    presetId: 'theme-bg-dark-luxury',
-    label: 'Nền Dark Luxury – Sang trọng tối màu',
-    themeMode: 'dark',
-    imagePath: wpDarkFlatSoftUi,
-    fallbackGradient:
-      'radial-gradient(ellipse 64% 52% at 18% 14%, rgba(212, 175, 55, 0.18) 0%, transparent 54%), radial-gradient(ellipse 60% 50% at 84% 82%, rgba(243, 229, 171, 0.12) 0%, transparent 56%), linear-gradient(145deg, #090A0F 0%, #11131C 50%, #07080C 100%)',
-    overlayBg: 'rgba(7, 8, 12, 0.24)',
-  },
-  'minimalism': {
-    id: 'minimalism',
-    presetId: 'theme-bg-minimalism',
-    label: 'Nền Minimalism – Tối giản',
+  'iridescent-liquid-glass': {
+    id: 'iridescent-liquid-glass',
+    presetId: 'theme-bg-iridescent-liquid-glass',
+    label: 'Nền Kính Lỏng Ánh Xà Cừ (Sáng)',
     themeMode: 'light',
     imagePath: '',
-    fallbackGradient: 'linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%)',
-    overlayBg: 'transparent',
+    fallbackGradient:
+      'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), radial-gradient(ellipse 60% 54% at 80% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 54%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
+    overlayBg: 'rgba(255, 255, 255, 0.06)',
+  },
+  'dark-iridescent-liquid-glass': {
+    id: 'dark-iridescent-liquid-glass',
+    presetId: 'theme-bg-dark-iridescent-liquid-glass',
+    label: 'Nền Kính Lỏng Ánh Xà Cừ (Tối)',
+    themeMode: 'dark',
+    imagePath: '',
+    fallbackGradient:
+      'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
+    overlayBg: 'rgba(7, 11, 22, 0.14)',
   },
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'liquid-glass': 'custom-wp-1788112774646',
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
-  'multicolor-glass': THEME_BACKGROUNDS['multicolor-glass'].presetId,
-  'dark-neon-glass': THEME_BACKGROUNDS['dark-neon-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'dark-cowhide-leather': THEME_BACKGROUNDS['dark-cowhide-leather'].presetId,
   'walnut-wood': THEME_BACKGROUNDS['walnut-wood'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
-  'light-deep-ocean': THEME_BACKGROUNDS['light-deep-ocean'].presetId,
   'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
   'dark-neumorphism-beyond': THEME_BACKGROUNDS['dark-neumorphism-beyond'].presetId,
   'frost-ice-neu': THEME_BACKGROUNDS['frost-ice-neu'].presetId,
-  'dark-frost-ice-neu': THEME_BACKGROUNDS['dark-frost-ice-neu'].presetId,
   'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
   'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
   'mica-fluent': 'img-wp-18',
   'gradient-dopamine': THEME_BACKGROUNDS['gradient-dopamine'].presetId,
-  'dark-luxury': THEME_BACKGROUNDS['dark-luxury'].presetId,
-  'minimalism': THEME_BACKGROUNDS['minimalism'].presetId,
+  'iridescent-liquid-glass': THEME_BACKGROUNDS['iridescent-liquid-glass'].presetId,
+  'dark-iridescent-liquid-glass': THEME_BACKGROUNDS['dark-iridescent-liquid-glass'].presetId,
 };
 
 export interface InterfaceColorPreset {
@@ -439,32 +407,6 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectDescVi: 'Phản quang ánh kính dịu mắt trên nền tối trong suốt',
     cardEffectDescEn: 'Soft specular sweep across dark translucent glass',
   },
-  'multicolor-glass': {
-    surfaceColorHex: '#EDF6FF',
-    surfaceColorNameVi: 'Kính mờ đa sắc',
-    surfaceColorNameEn: 'Prismatic Frost Glass',
-    primaryColorHex: '#4F46E5',
-    primaryColorNameVi: 'Chàm Lăng Kính',
-    primaryColorNameEn: 'Prism Indigo',
-    defaultCardEffect: 'shine',
-    cardEffectKindVi: 'Nổi phản quang đa sắc',
-    cardEffectKindEn: 'Prism Sheen',
-    cardEffectDescVi: 'Kính nổi phản quang lướt sáng nhiều lớp quang phổ',
-    cardEffectDescEn: 'Multi-hue optical glass with luminous surface sweep',
-  },
-  'dark-neon-glass': {
-    surfaceColorHex: '#0F172A',
-    surfaceColorNameVi: 'Kính đêm Obsidian',
-    surfaceColorNameEn: 'Obsidian Night Glass',
-    primaryColorHex: '#22D3EE',
-    primaryColorNameVi: 'Lam Neon Sáng',
-    primaryColorNameEn: 'Neon Cyan',
-    defaultCardEffect: 'glow',
-    cardEffectKindVi: 'Nổi phát sáng viền',
-    cardEffectKindEn: 'Neon Aura Glow',
-    cardEffectDescVi: 'Tỏa quầng sáng viền neon cyan sắc nét khi tương tác',
-    cardEffectDescEn: 'Radiates crisp cyan perimeter glow on hover',
-  },
   'cowhide-leather': {
     surfaceColorHex: '#653A17',
     surfaceColorNameVi: 'Da bò nâu cognac',
@@ -517,19 +459,6 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectDescVi: 'Phát sáng viền xanh lam sâu dịu theo nhịp đại dương',
     cardEffectDescEn: 'Soft deep-sea cyan edge glow on hover',
   },
-  'light-deep-ocean': {
-    surfaceColorHex: '#CBE9FD',
-    surfaceColorNameVi: 'Kính xanh biển sáng',
-    surfaceColorNameEn: 'Coastal Sky Glass',
-    primaryColorHex: '#1951FC',
-    primaryColorNameVi: 'Xanh Cobalt biển',
-    primaryColorNameEn: 'Cobalt Surf',
-    defaultCardEffect: 'shine',
-    cardEffectKindVi: 'Nổi ánh kính mặt biển',
-    cardEffectKindEn: 'Glossy Wave Sheen',
-    cardEffectDescVi: 'Mặt kính bóng bẩy phản quang ánh sáng biển xanh',
-    cardEffectDescEn: 'Glossy ocean surface with crisp specular reflection',
-  },
   'neumorphism-beyond': {
     surfaceColorHex: '#EBF0F6',
     surfaceColorNameVi: 'Xám băng nổi khối',
@@ -569,44 +498,31 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectDescVi: 'Không viền, nhấn lún chìm trực tiếp vào nền băng lì',
     cardEffectDescEn: 'Borderless tactile press sinking directly into matte ice',
   },
-  'dark-frost-ice-neu': {
-    surfaceColorHex: '#1A2433',
-    surfaceColorNameVi: 'Băng đêm lì tối',
-    surfaceColorNameEn: 'Arctic Night Matte',
-    primaryColorHex: '#6E6AF6',
-    primaryColorNameVi: 'Tím băng Bắc Cực',
-    primaryColorNameEn: 'Glacier Violet',
-    defaultCardEffect: 'inset',
-    cardEffectKindVi: 'Lún khối băng đêm',
-    cardEffectKindEn: 'Borderless Dark Inset',
-    cardEffectDescVi: 'Không viền, đổ bóng lõm đều hai chiều trên nền đêm',
-    cardEffectDescEn: 'Borderless dual-shadow recessed press on arctic slate',
-  },
   'flat-soft-ui': {
     surfaceColorHex: '#FFFFFF',
-    surfaceColorNameVi: 'Trắng mịn thanh lịch',
-    surfaceColorNameEn: 'Crisp Paper White',
+    surfaceColorNameVi: 'Trắng mịn phẳng lì',
+    surfaceColorNameEn: 'Crisp Matte White',
     primaryColorHex: '#4F46E5',
     primaryColorNameVi: 'Chàm Studio',
     primaryColorNameEn: 'Studio Indigo',
-    defaultCardEffect: 'float',
-    cardEffectKindVi: 'Nổi phẳng nhẹ nhàng',
-    cardEffectKindEn: 'Feather Soft Float',
-    cardEffectDescVi: 'Bề mặt phẳng mịn nâng nhẹ 4px với bóng đổ dịu',
-    cardEffectDescEn: 'Clean flat plane lifting smoothly with feather shadow',
+    defaultCardEffect: 'static',
+    cardEffectKindVi: 'Phẳng mịn thuần chất',
+    cardEffectKindEn: 'Pure Flat Matte',
+    cardEffectDescVi: 'Bề mặt phẳng mịn tinh khiết, không đổ bóng gắt hay nổi khối thừa',
+    cardEffectDescEn: 'Clean matte flat plane with crisp border hierarchy and zero heavy shadow',
   },
   'dark-flat-soft-ui': {
     surfaceColorHex: '#131B2A',
-    surfaceColorNameVi: 'Xám đêm phẳng mịn',
+    surfaceColorNameVi: 'Xám đêm phẳng lì',
     surfaceColorNameEn: 'Obsidian Flat Matte',
     primaryColorHex: '#6366F1',
     primaryColorNameVi: 'Chàm đêm dịu',
     primaryColorNameEn: 'Soft Indigo',
-    defaultCardEffect: 'float',
-    cardEffectKindVi: 'Nổi phẳng nền tối',
-    cardEffectKindEn: 'Dark Soft Float',
-    cardEffectDescVi: 'Nâng nhẹ êm ái, giữ độ tương phản chữ tối ưu',
-    cardEffectDescEn: 'Smooth gentle lift preserving low-glare readability',
+    defaultCardEffect: 'static',
+    cardEffectKindVi: 'Phẳng tối êm dịu',
+    cardEffectKindEn: 'Dark Flat Matte',
+    cardEffectDescVi: 'Bề mặt phẳng tối mịn chống chói, tương phản chữ sắc nét dễ đọc',
+    cardEffectDescEn: 'Smooth low-glare dark flat plane with crisp editorial legibility',
   },
   'mica-fluent': {
     surfaceColorHex: '#F5EFEA',
@@ -634,30 +550,30 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectDescVi: 'Tỏa viền rực rỡ giàu năng lượng theo bảng màu đa sắc',
     cardEffectDescEn: 'Energetic vibrant aura highlight on interaction',
   },
-  'dark-luxury': {
-    surfaceColorHex: '#14161F',
-    surfaceColorNameVi: 'Nhung đen Obsidian',
-    surfaceColorNameEn: 'Velvet Onyx',
-    primaryColorHex: '#D4AF37',
-    primaryColorNameVi: 'Vàng Champagne ánh kim',
-    primaryColorNameEn: 'Champagne Gold',
-    defaultCardEffect: 'tilt',
-    cardEffectKindVi: 'Nổi 3D ánh kim',
-    cardEffectKindEn: 'Luxury 3D Lift',
-    cardEffectDescVi: 'Nổi khối 3D thanh lịch kết hợp đường viền ánh vàng kim',
-    cardEffectDescEn: 'Refined 3D perspective lift with metallic gold trim',
+  'iridescent-liquid-glass': {
+    surfaceColorHex: '#F4F8FF',
+    surfaceColorNameVi: 'Kính trắng sữa ánh xà cừ',
+    surfaceColorNameEn: 'Pearl Iridescent Glass',
+    primaryColorHex: '#06B6D4',
+    primaryColorNameVi: 'Xanh Cyan & Chrome Cầu Vồng',
+    primaryColorNameEn: 'Aurora Cyan & Prism Chrome',
+    defaultCardEffect: 'shine',
+    cardEffectKindVi: 'Kính lỏng khúc xạ ánh xà cừ',
+    cardEffectKindEn: 'Iridescent Liquid Refraction',
+    cardEffectDescVi: 'Bề mặt Glossy bóng kính, viền Chrome cầu vồng và khúc xạ ánh sáng 3D',
+    cardEffectDescEn: 'Glossy liquid surface with rainbow chrome rims and optical light refraction',
   },
-  'minimalism': {
-    surfaceColorHex: '#FFFFFF',
-    surfaceColorNameVi: 'Trắng tinh giản',
-    surfaceColorNameEn: 'Pure Canvas White',
-    primaryColorHex: '#111111',
-    primaryColorNameVi: 'Mực đen tối giản',
-    primaryColorNameEn: 'Editorial Ink',
-    defaultCardEffect: 'static',
-    cardEffectKindVi: 'Phẳng tĩnh tối giản',
-    cardEffectKindEn: 'Minimal Static',
-    cardEffectDescVi: 'Giữ nguyên vị trí tĩnh, tập trung tối đa vào nội dung',
-    cardEffectDescEn: 'Zero hover displacement to keep focus strictly on content',
+  'dark-iridescent-liquid-glass': {
+    surfaceColorHex: '#0F172A',
+    surfaceColorNameVi: 'Kính tối ánh xà cừ',
+    surfaceColorNameEn: 'Midnight Iridescent Glass',
+    primaryColorHex: '#22D3EE',
+    primaryColorNameVi: 'Cyan Neon & Prism Chrome',
+    primaryColorNameEn: 'Prism Cyan & Sunset Orange',
+    defaultCardEffect: 'glow',
+    cardEffectKindVi: 'Kính tối phản xạ xà cừ',
+    cardEffectKindEn: 'Dark Prism Chrome Glow',
+    cardEffectDescVi: 'Thẻ kính tối bán trong suốt viền Chrome ánh cầu vồng và hào quang phản xạ',
+    cardEffectDescEn: 'Translucent dark glossy glass with rainbow chrome bevels and specular glow',
   },
 };

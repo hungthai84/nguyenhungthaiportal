@@ -136,24 +136,6 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     unlitBulbShadow: '0 0 10px rgba(56, 189, 248, 0.25), inset 0 1px 2px rgba(186, 230, 253, 0.35)',
     accentDotColor: '#38BDF8',
   },
-  'dark-neon-glass': {
-    bracketBg: 'rgba(15, 23, 42, 0.42)',
-    bracketBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    wireStroke: '#22D3EE',
-    capBg: 'rgba(15, 23, 42, 0.46)',
-    capBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    shadeBg: 'rgba(15, 23, 42, 0.38)',
-    shadeBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    shadeShadow:
-      '0 18px 40px -12px rgba(2, 6, 23, 0.56), inset 0 1px 0 rgba(255, 255, 255, 0.16)',
-    cordStroke: '#22D3EE',
-    beadBg: 'linear-gradient(180deg, #22D3EE 0%, #A855F7 55%, #EC4899 100%)',
-    beadBorder: '1px solid rgba(255, 255, 255, 0.35)',
-    beadShadow: '0 4px 14px rgba(34, 211, 238, 0.45), 0 0 12px rgba(236, 72, 153, 0.3)',
-    unlitBulbBg: 'rgba(34, 211, 238, 0.42)',
-    unlitBulbShadow: '0 0 12px rgba(34, 211, 238, 0.34), inset 0 1px 2px rgba(207, 250, 254, 0.4)',
-    accentDotColor: '#22D3EE',
-  },
   'cowhide-leather': {
     bracketBg: 'linear-gradient(145deg, #8B5A2B 0%, #522E10 100%)',
     bracketBorder: '1px solid rgba(245, 222, 179, 0.45)',
@@ -227,24 +209,6 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     unlitBulbShadow: '0 0 10px rgba(56, 189, 248, 0.25), inset 0 1px 2px rgba(186, 230, 253, 0.3)',
     accentDotColor: '#38BDF8',
   },
-  'light-deep-ocean': {
-    bracketBg: 'linear-gradient(145deg, #F0F9FF 0%, #E0F2FE 100%)',
-    bracketBorder: '1px solid rgba(2, 132, 199, 0.28)',
-    wireStroke: '#0284C7',
-    capBg: 'linear-gradient(145deg, #FFFFFF 0%, #E0F2FE 100%)',
-    capBorder: '1px solid rgba(2, 132, 199, 0.30)',
-    shadeBg: 'linear-gradient(145deg, rgba(248, 252, 255, 0.94) 0%, rgba(224, 242, 254, 0.90) 100%)',
-    shadeBorder: '1px solid rgba(2, 132, 199, 0.28)',
-    shadeShadow:
-      '0 10px 24px rgba(2, 132, 199, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.96)',
-    cordStroke: '#0284C7',
-    beadBg: 'linear-gradient(180deg, #0EA5E9 0%, #0284C7 100%)',
-    beadBorder: '1px solid rgba(255, 255, 255, 0.88)',
-    beadShadow: '0 4px 10px rgba(2, 132, 199, 0.30)',
-    unlitBulbBg: 'rgba(14, 165, 233, 0.65)',
-    unlitBulbShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.78)',
-    accentDotColor: '#0284C7',
-  },
   'neumorphism-beyond': {
     bracketBg: 'linear-gradient(145deg, #EAEFF6 0%, #E0E7F1 100%)',
     bracketBorder: '1px solid rgba(196, 209, 226, 0.74)',
@@ -298,42 +262,6 @@ const PULL_CORD_THEME_VISUALS: Record<string, PullCordThemeVisual> = {
     unlitBulbBg: '#C8D4E3',
     unlitBulbShadow: 'inset 2px 2px 5px rgba(163, 179, 199, 0.58), inset -2px -2px 5px rgba(255, 255, 255, 0.86)',
     accentDotColor: '#5B57E8',
-  },
-  'dark-frost-ice-neu': {
-    bracketBg: '#1A2433',
-    bracketBorder: '1px solid transparent',
-    wireStroke: '#6E6AF6',
-    capBg: '#1A2433',
-    capBorder: '1px solid transparent',
-    shadeBg: '#1A2433',
-    shadeBorder: '1px solid transparent',
-    shadeShadow:
-      '-6px -6px 14px rgba(38, 52, 74, 0.70), 6px 6px 14px rgba(10, 15, 24, 0.78)',
-    cordStroke: '#6E6AF6',
-    beadBg: '#6E6AF6',
-    beadBorder: '1px solid transparent',
-    beadShadow: '-3px -3px 7px rgba(38, 52, 74, 0.65), 3px 3px 8px rgba(8, 12, 22, 0.76)',
-    unlitBulbBg: '#273549',
-    unlitBulbShadow: 'inset 2px 2px 5px rgba(10, 15, 24, 0.78), inset -2px -2px 5px rgba(38, 52, 74, 0.65)',
-    accentDotColor: '#6E6AF6',
-  },
-  'multicolor-glass': {
-    bracketBg: 'rgba(255, 255, 255, 0.16)',
-    bracketBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    wireStroke: '#4F46E5',
-    capBg: 'rgba(255, 255, 255, 0.18)',
-    capBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    shadeBg: 'rgba(255, 255, 255, 0.14)',
-    shadeBorder: '1px solid rgba(255, 255, 255, 0.25)',
-    shadeShadow:
-      '0 18px 40px -12px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.30)',
-    cordStroke: '#6366F1',
-    beadBg: 'linear-gradient(180deg, #6366F1 0%, #EC4899 52%, #06B6D4 100%)',
-    beadBorder: '1px solid rgba(255, 255, 255, 0.45)',
-    beadShadow: '0 4px 12px rgba(99, 102, 241, 0.34)',
-    unlitBulbBg: 'rgba(148, 163, 184, 0.65)',
-    unlitBulbShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.78)',
-    accentDotColor: '#6366F1',
   },
   'flat-soft-ui': {
     bracketBg: '#FFFFFF',
@@ -790,8 +718,7 @@ export const PullCord: React.FC<PullCordProps> = ({
   const isGlowDisabledTheme =
     cardStyle === 'neumorphism-beyond' ||
     cardStyle === 'dark-neumorphism-beyond' ||
-    cardStyle === 'frost-ice-neu' ||
-    cardStyle === 'dark-frost-ice-neu';
+    cardStyle === 'frost-ice-neu';
 
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]
@@ -810,17 +737,13 @@ export const PullCord: React.FC<PullCordProps> = ({
         backgroundColor:
           cardStyle === 'frost-ice-neu'
             ? '#5B57E8'
-            : cardStyle === 'dark-frost-ice-neu'
-              ? '#6E6AF6'
-              : isGlowDisabledTheme
-                ? '#4973FF'
-                : activeBulbStop.core,
+            : isGlowDisabledTheme
+              ? '#4973FF'
+              : activeBulbStop.core,
         boxShadow: isGlowDisabledTheme
           ? cardStyle === 'frost-ice-neu'
             ? '-2px -2px 5px rgba(255, 255, 255, 0.85), 3px 3px 7px rgba(91, 87, 232, 0.38)'
-            : cardStyle === 'dark-frost-ice-neu'
-              ? '-2px -2px 5px rgba(38, 52, 74, 0.65), 3px 3px 7px rgba(8, 12, 22, 0.75)'
-              : '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
+            : '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
           : `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
         transition: 'background-color 900ms ease, box-shadow 900ms ease, opacity 300ms ease',
       }

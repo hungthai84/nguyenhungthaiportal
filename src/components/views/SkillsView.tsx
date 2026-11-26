@@ -840,8 +840,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="bento-card glass-card w-full p-[15px] rounded-[var(--radius-card,24px)] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
-            style={{ borderRadius: 'var(--radius-card, 24px)', padding: '15px' }}
+            className="bento-card glass-card w-full h-auto min-h-0 shrink-0 p-[15px] rounded-[var(--radius-card,24px)] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
+            style={{ borderRadius: 'var(--radius-card, 24px)', padding: '15px', height: 'auto' }}
           >
             <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
               <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
@@ -852,7 +852,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               </div>
             </div>
 
-            <div id="skills-languages-grid" className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-stretch w-full min-w-0" style={{ gap: "15px" }}>
+            <div id="skills-languages-grid" className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-start w-full min-w-0" style={{ gap: "15px" }}>
               {LANGUAGES_DATA.map((langItem) => {
                 return (
                   <div 
@@ -861,8 +861,8 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                     data-subcard="true"
                     data-element-name={`Thẻ ngôn ngữ: ${langItem.nameVi}`}
                     data-element-page="skills"
-                    style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px' }}
-                    className="sub-card card exp-detail-subcard w-full h-full min-w-0 flex flex-col justify-center gap-[12px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
+                    style={{ borderRadius: 'var(--radius-subcard, 16px)', padding: '15px', height: 'auto' }}
+                    className="sub-card card exp-detail-subcard w-full h-auto min-h-0 self-start min-w-0 flex flex-col justify-start gap-[12px] p-[15px] rounded-[var(--radius-subcard,16px)] transition-all duration-300 hover:scale-[1.012] hover:shadow-md cursor-default select-none box-border"
                   >
                     <div className="skills-lang-main-row flex flex-row items-center gap-[14px] w-full min-w-0">
                       <div className="relative w-14 h-14 flex items-center justify-center shrink-0">

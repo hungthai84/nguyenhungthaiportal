@@ -256,6 +256,10 @@ interface SystemDesignMeta {
   iconName: string;
   illustrationSrc: string;
   cardTheme: string;
+  vibrantBg: string;
+  isLightCard: boolean;
+  videoBg: string;
+  videoIsLight: boolean;
 }
 
 const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
@@ -275,6 +279,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'globe',
     illustrationSrc: 'https://i.postimg.cc/0QpLLBYy/SDP-Cong-lam-viec-CSKH.png',
     cardTheme: '#EAB308',
+    vibrantBg: 'linear-gradient(135deg, #fde047 0%, #facc15 52%, #f59e0b 100%)',
+    isLightCard: true,
+    videoBg: '#1c1917',
+    videoIsLight: false,
   },
   csc: {
     displayTitle: 'Trung Tâm Chăm Sóc Khách Hàng Đa Kênh',
@@ -292,6 +300,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'headphones',
     illustrationSrc: 'https://i.postimg.cc/wvKC4psP/CSC-Trung-tam-Cham-soc-Khach-hang.png',
     cardTheme: '#0EA5E9',
+    vibrantBg: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 52%, #2563eb 100%)',
+    isLightCard: false,
+    videoBg: '#082f49',
+    videoIsLight: false,
   },
   crm: {
     displayTitle: 'Hệ Thống Quản Trị Quan Hệ Khách Hàng 360°',
@@ -309,6 +321,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'users',
     illustrationSrc: 'https://i.postimg.cc/W3RBYvJH/CRM-Quan-ly-Quan-he-Khach-hang.png',
     cardTheme: '#10B981',
+    vibrantBg: 'linear-gradient(135deg, #059669 0%, #10b981 52%, #047857 100%)',
+    isLightCard: false,
+    videoBg: '#064e3b',
+    videoIsLight: false,
   },
   clp: {
     displayTitle: 'Hệ Thống Chăm Sóc Khách Hàng Thân Thiết',
@@ -326,6 +342,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'gift',
     illustrationSrc: 'https://i.postimg.cc/fL4GqN0c/CLP-Khach-hang-Than-thiet.png',
     cardTheme: '#F43F5E',
+    vibrantBg: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 52%, #be185d 100%)',
+    isLightCard: false,
+    videoBg: '#4c0519',
+    videoIsLight: false,
   },
   pos: {
     displayTitle: 'Hệ Thống Quản Lý Bán Hàng & Thanh Toán Tại Quầy',
@@ -343,6 +363,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'shopping-cart',
     illustrationSrc: 'https://i.postimg.cc/264PPKQY/POS-Quan-ly-Ban-hang-tai-Quay.png',
     cardTheme: '#06B6D4',
+    vibrantBg: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 52%, #0369a1 100%)',
+    isLightCard: false,
+    videoBg: '#083344',
+    videoIsLight: false,
   },
   erp: {
     displayTitle: 'Hệ Thống Hoạch Định Nguồn Lực Doanh Nghiệp',
@@ -360,6 +384,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'chart',
     illustrationSrc: 'https://i.postimg.cc/Y9c5DHmT/ERP-Tai-chinh-ke-toan.png',
     cardTheme: '#14B8A6',
+    vibrantBg: 'linear-gradient(135deg, #0f766e 0%, #14b8a6 52%, #0d9488 100%)',
+    isLightCard: false,
+    videoBg: '#134e4a',
+    videoIsLight: false,
   },
   hrm: {
     displayTitle: 'Hệ Thống Quản Trị Nguồn Nhân Lực Toàn Diện',
@@ -377,6 +405,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'briefcase',
     illustrationSrc: 'https://i.postimg.cc/B6xddVxh/HRM-Quan-ly-Nguon-nhan-luc.png',
     cardTheme: '#F97316',
+    vibrantBg: 'linear-gradient(135deg, #ea580c 0%, #f97316 52%, #c2410c 100%)',
+    isLightCard: false,
+    videoBg: '#431407',
+    videoIsLight: false,
   },
   bpm: {
     displayTitle: 'Hệ Thống Số Hóa & Tự Động Hóa Quy Trình',
@@ -394,6 +426,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'file-text',
     illustrationSrc: 'https://i.postimg.cc/hjFkZB71/BPM-Quan-ly-Quy-trinh-Nghiep-vu.png',
     cardTheme: '#8B5CF6',
+    vibrantBg: 'linear-gradient(135deg, #6d28d9 0%, #8b5cf6 52%, #4f46e5 100%)',
+    isLightCard: false,
+    videoBg: '#2e1065',
+    videoIsLight: false,
   },
   okr: {
     displayTitle: 'Hệ Thống Quản Trị Mục Tiêu & Kết Quả Then Chốt',
@@ -411,6 +447,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'target',
     illustrationSrc: 'https://i.postimg.cc/Jnb992bf/OKR-Quan-ly-Muc-tieu-Ket-qua.png',
     cardTheme: '#22C55E',
+    vibrantBg: 'linear-gradient(135deg, #15803d 0%, #22c55e 52%, #166534 100%)',
+    isLightCard: false,
+    videoBg: '#052e16',
+    videoIsLight: false,
   },
   lms: {
     displayTitle: 'Hệ Thống Quản Lý Đào Tạo Trực Tuyến',
@@ -428,6 +468,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'graduation',
     illustrationSrc: 'https://i.postimg.cc/DZqttMqt/LMS-Quan-ly-Dao-tao.png',
     cardTheme: '#2563EB',
+    vibrantBg: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 52%, #1e40af 100%)',
+    isLightCard: false,
+    videoBg: '#172554',
+    videoIsLight: false,
   },
   bi: {
     displayTitle: 'Hệ Thống Báo Cáo & Phân Tích Dữ Liệu',
@@ -445,6 +489,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'trending',
     illustrationSrc: 'https://i.postimg.cc/1txk7QNB/BI-Dashboard-Bao-cao-Phan-tich.png',
     cardTheme: '#9333EA',
+    vibrantBg: 'linear-gradient(135deg, #7e22ce 0%, #9333ea 52%, #6b21a8 100%)',
+    isLightCard: false,
+    videoBg: '#3b0764',
+    videoIsLight: false,
   },
   ai: {
     displayTitle: 'Trợ Lý Trí Tuệ Nhân Tạo Đa Nhiệm 24/7',
@@ -462,6 +510,10 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     iconName: 'robot',
     illustrationSrc: 'https://i.postimg.cc/4dCD2ghv/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.png',
     cardTheme: '#4F46E5',
+    vibrantBg: 'linear-gradient(135deg, #4338ca 0%, #4f46e5 52%, #0284c7 100%)',
+    isLightCard: false,
+    videoBg: '#1e1b4b',
+    videoIsLight: false,
   },
 };
 
@@ -586,13 +638,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
-    currentTheme === 'dark-neon-glass' ||
+    currentTheme === 'dark-iridescent-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond' ||
-    currentTheme === 'dark-frost-ice-neu';
+    currentTheme === 'dark-flat-soft-ui';
   const isLight = !isDark;
   const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
 
@@ -1164,7 +1216,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       data-element-type="container"
       data-element-page="systems"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-none text-[var(--text-primary)] box-border"
+      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border"
     >
       <div
         id="systems-cards-track"
@@ -1930,18 +1982,31 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               >
                 {filteredSystems.map((item) => {
                   const meta = SYSTEM_DESIGN_MAP[item.id] || SYSTEM_DESIGN_MAP.sdp;
-                  const accentColor = getAccentColor(item.id);
                   const localizedDesc = isEn
                     ? item.descEn || item.description
                     : item.descVi || item.description;
                   const isDemoActive = activeCardDemoId === item.id;
                   const isHovered = hoveredCardVideoId === item.id;
-
-                  const hoverFloodBg = isLeatherTheme
-                    ? 'radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), rgba(253, 230, 138, 0.30) 0%, rgba(217, 145, 58, 0.22) 52%, rgba(120, 72, 24, 0.14) 100%)'
-                    : isLight
-                      ? `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 38%, transparent) 0%, color-mix(in srgb, ${accentColor} 22%, ${meta.tintBgLight}) 55%, color-mix(in srgb, ${accentColor} 18%, rgba(255,255,255,0.92)) 100%)`
-                      : `radial-gradient(circle at var(--hover-x, 50%) var(--hover-y, 50%), color-mix(in srgb, ${accentColor} 42%, transparent) 0%, color-mix(in srgb, ${accentColor} 24%, ${meta.tintBgDark}) 58%, color-mix(in srgb, ${accentColor} 22%, rgba(15,23,42,0.92)) 100%)`;
+                  const primaryImg = meta.illustrationSrc || item.imageUrl;
+                  const isRightHoverVideoPlaying = isHovered && Boolean(item.videoUrl) && !isDemoActive;
+                  const activeIsLight = isRightHoverVideoPlaying ? meta.videoIsLight : meta.isLightCard;
+                  const primaryInk = activeIsLight ? '#111827' : '#ffffff';
+                  const secondaryInk = activeIsLight
+                    ? 'rgba(17, 24, 39, 0.86)'
+                    : 'rgba(255, 255, 255, 0.88)';
+                  const mutedInk = activeIsLight
+                    ? 'rgba(17, 24, 39, 0.72)'
+                    : 'rgba(255, 255, 255, 0.76)';
+                  const dividerBorder = activeIsLight
+                    ? 'rgba(17, 24, 39, 0.16)'
+                    : 'rgba(255, 255, 255, 0.20)';
+                  const pillBg = activeIsLight
+                    ? 'rgba(17, 24, 39, 0.12)'
+                    : 'rgba(255, 255, 255, 0.18)';
+                  const systemFullName = isEn
+                    ? item.nameEn || meta.subtitle || item.name
+                    : item.nameVi || SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.name;
+                  const englishSubName = item.nameEn || meta.subtitle;
 
                   const updateHoverOrigin = (e: React.MouseEvent<HTMLElement>) => {
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -1950,6 +2015,28 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     const y = ((e.clientY - rect.top) / rect.height) * 100;
                     e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
                     e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
+                  };
+
+                  const handleRightMediaEnter = () => {
+                    if (item.videoUrl) setHoveredCardVideoId(item.id);
+                  };
+                  const handleRightMediaLeave = () => {
+                    setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
+                  };
+                  const handleRightMediaClick = (e: React.MouseEvent) => {
+                    if (!item.videoUrl) return;
+                    e.stopPropagation();
+                    SoundEngine.playTap();
+                    setActiveCardDemoId(item.id);
+                  };
+                  const handleRightMediaKeyDown = (e: React.KeyboardEvent) => {
+                    if (!item.videoUrl) return;
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      SoundEngine.playTap();
+                      setActiveCardDemoId(item.id);
+                    }
                   };
 
                   return (
@@ -1964,6 +2051,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       data-section-card="true"
                       data-element-page="systems"
                       data-element-parent="systems-cards-grid"
+                      data-light-card={activeIsLight ? 'true' : 'false'}
+                      data-video-hover={isRightHoverVideoPlaying ? 'true' : 'false'}
                       role="button"
                       tabIndex={0}
                       onClick={(e) => openExpandedSystem(item, e.currentTarget)}
@@ -1979,32 +2068,29 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           openExpandedSystem(item, e.currentTarget);
                         }
                       }}
-                      style={{
-                        background: isLeatherTheme
-                          ? undefined
-                          : isLight
-                            ? meta.cardBgLight
-                            : meta.cardBgDark,
-                        borderColor: isLeatherTheme
-                          ? undefined
-                          : isLight
-                            ? meta.borderLight
-                            : meta.borderDark,
-                        height: 'auto',
-                        ['--reveal-accent' as string]: isLeatherTheme ? '#fbbf24' : accentColor,
-                      }}
-                      className="system-card-tile system-item card-item bento-card glass-card group relative rounded-[14px] p-4 box-border w-full h-auto flex flex-col justify-start text-left font-semibold overflow-hidden cursor-pointer"
+                      style={
+                        {
+                          '--showcase-card-bg': meta.vibrantBg,
+                          '--showcase-card-accent': meta.cardTheme,
+                          '--system-card-video-bg': meta.videoBg,
+                        } as React.CSSProperties
+                      }
+                      className="system-card-tile system-vibrant-card system-item card-item group relative rounded-[var(--radius-card,var(--radius-global,14px))] box-border w-full h-full flex flex-col text-left overflow-hidden cursor-pointer"
                     >
-                      {/* Lớp Color Reveal lan màu dần khắp thẻ Hệ thống khi di chuột / focus */}
-                      <span
+                      {/* Ambient Top-Right Glow Orb */}
+                      <div
                         aria-hidden="true"
-                        className={cn(
-                          'system-card-hover-flood',
-                          isDemoActive && item.videoUrl && 'opacity-0'
-                        )}
-                        style={{ background: hoverFloodBg }}
+                        className="absolute -top-10 -right-10 w-36 h-36 rounded-full blur-2xl opacity-25 pointer-events-none transition-opacity duration-300"
+                        style={{
+                          background: activeIsLight ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
+                          opacity: isRightHoverVideoPlaying ? 0.08 : 0.25,
+                        }}
                       />
-                      {/* Full-Card Video Overlay khi Click: Hiển thị video lấp đầy thẻ và KHÔNG hiển thị tiêu đề hay các thành phần khác */}
+
+                      {/* Pointer-Tracking Radial Hover Flood */}
+                      <span aria-hidden="true" className="system-card-hover-flood" />
+
+                      {/* Full-Card Video Overlay khi Click */}
                       {isDemoActive && item.videoUrl && (
                         <div
                           role="button"
@@ -2023,7 +2109,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           }}
                           title={isEn ? 'Click to return to card view' : 'Bấm vào video để quay lại thẻ'}
                           aria-label={isEn ? `Close ${item.abbr} video` : `Đóng video ${item.abbr}`}
-                          className="absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden bg-black cursor-pointer"
+                          className="absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden cursor-pointer"
+                          style={{ backgroundColor: meta.videoBg }}
                         >
                           <video
                             src={item.videoUrl}
@@ -2058,19 +2145,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               v.currentTime = 0;
                               v.play().catch(() => {});
                             }}
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              width: '100%',
-                              height: '100%',
-                              minWidth: '100%',
-                              minHeight: '100%',
-                              objectFit: 'cover',
-                              transform: 'translateZ(0)',
-                              backfaceVisibility: 'hidden',
-                              filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
-                            }}
-                            className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp"
+                            className="absolute inset-0 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
                           />
                           <div className="absolute top-2.5 right-2.5 z-40 p-1.5 rounded-full bg-black/60 text-white/85 hover:text-white transition-all">
                             <Minimize2 className="w-3.5 h-3.5" />
@@ -2078,187 +2153,155 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* Nội dung thẻ hệ thống: 2 phần 50% / 50% (Trái: Hàng 1 Tên viết tắt, Hàng 2 Icon & Tên đầy đủ, Hàng 3 Mô tả 3 dòng; Phải: Hình ảnh & phát video ngay tại cột phải khi rê chuột vào hình) */}
-                      {(() => {
-                        const systemFullName = isEn
-                          ? meta.subtitle || item.nameEn || item.name
-                          : SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.nameVi || item.name;
-                        const primaryImg = meta.illustrationSrc || item.imageUrl;
-                        const isRightHoverVideoPlaying = isHovered && Boolean(item.videoUrl) && !isDemoActive;
+                      {/* 3-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image/Hover Video), Bottom (Full Vietnamese Name) */}
+                      <div
+                        className={cn(
+                          'system-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0 transition-opacity duration-200',
+                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                        )}
+                      >
+                        {/* TOP: Icon + Tên viết tắt + (English Name) */}
+                        <div className="flex items-start gap-2 min-w-0 shrink-0">
+                          <WebIcon
+                            name={meta.iconName}
+                            className="w-5 h-5 mt-0.5 shrink-0 bg-transparent border-0 p-0 shadow-none transition-colors duration-300"
+                            style={{ color: primaryInk }}
+                          />
+                          <h3
+                            className="font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 transition-colors duration-300"
+                            data-card-title="true"
+                            style={{ color: primaryInk }}
+                            title={`${item.abbr} (${englishSubName})`}
+                          >
+                            <span>{item.abbr}</span>{' '}
+                            <span
+                              className="text-[12.5px] font-medium opacity-90"
+                              style={{ color: mutedInk }}
+                            >
+                              ({englishSubName})
+                            </span>
+                          </h3>
+                        </div>
 
-                        const handleRightMediaEnter = () => {
-                          if (item.videoUrl) setHoveredCardVideoId(item.id);
-                        };
-                        const handleRightMediaLeave = () => {
-                          setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
-                        };
-                        const handleRightMediaClick = (e: React.MouseEvent) => {
-                          if (!item.videoUrl) return;
-                          e.stopPropagation();
-                          SoundEngine.playTap();
-                          setActiveCardDemoId(item.id);
-                        };
-                        const handleRightMediaKeyDown = (e: React.KeyboardEvent) => {
-                          if (!item.videoUrl) return;
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            SoundEngine.playTap();
-                            setActiveCardDemoId(item.id);
-                          }
-                        };
+                        {/* CENTER: Left Body-Text Description + Right Frameless Image / Auto-Aligned Hover Video */}
+                        <div className="system-card-middle flex-1 min-w-0 w-full">
+                          <div className="min-w-0 flex items-center">
+                            <p
+                              className="system-desc-text m-0 font-normal leading-[1.52] text-[13px] line-clamp-4 break-words text-left transition-colors duration-300"
+                              style={{ color: secondaryInk }}
+                              title={localizedDesc}
+                            >
+                              {localizedDesc}
+                            </p>
+                          </div>
 
-                        return (
                           <div
+                            role={item.videoUrl ? 'button' : undefined}
+                            tabIndex={item.videoUrl ? 0 : undefined}
+                            onMouseEnter={handleRightMediaEnter}
+                            onMouseLeave={handleRightMediaLeave}
+                            onClick={handleRightMediaClick}
+                            onKeyDown={handleRightMediaKeyDown}
+                            title={
+                              item.videoUrl
+                                ? isEn
+                                  ? 'Hover to preview video (click for full view)'
+                                  : 'Rê chuột vào hình để phát video (bấm để xem toàn thẻ)'
+                                : systemFullName
+                            }
+                            aria-label={
+                              item.videoUrl
+                                ? isEn
+                                  ? `Play ${item.abbr} video`
+                                  : `Xem video ${item.abbr}`
+                                : systemFullName
+                            }
+                            data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
                             className={cn(
-                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 gap-x-3 gap-y-2 min-w-0 items-stretch transition-opacity duration-200 min-h-[140px]',
-                              isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                              'system-card-image-slot relative flex items-center justify-center bg-transparent border-0 shadow-none outline-none ring-0',
+                              item.videoUrl && 'cursor-pointer'
                             )}
                           >
-                            {/* CỘT BÊN TRÁI: TOP: Tiêu đề viết tắt; CENTER: Mô tả; BOTTOM: Tên hệ thống (màu giống icon) */}
-                            <div className="col-start-1 flex flex-col justify-between self-stretch min-w-0 h-full py-0.5 gap-2">
-                              {/* TOP: Tiêu đề viết tắt hệ thống + Icon */}
-                              <div className="min-w-0 flex items-center gap-2 shrink-0">
-                                <WebIcon
-                                  name={meta.iconName}
-                                  className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                                  style={{ color: accentColor }}
-                                />
-                                <h3
-                                  className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
-                                  data-card-title="true"
-                                  style={{ color: accentColor }}
-                                >
-                                  {item.abbr}
-                                </h3>
-                              </div>
+                            <img
+                              src={primaryImg}
+                              alt={systemFullName}
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                              className={cn(
+                                'relative z-10 w-full h-full object-contain p-0 m-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-300',
+                                isRightHoverVideoPlaying && 'opacity-0'
+                              )}
+                            />
 
-                              {/* CENTER: Mô tả nằm center bên trái */}
-                              <div className="my-auto flex items-center min-w-0 py-1">
-                                <p className="typo-body-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed text-left m-0">
-                                  {isEn ? (item.descEn || item.description) : (item.descVi || item.description)}
-                                </p>
-                              </div>
-
-                              {/* BOTTOM: Tên hệ thống nằm dưới bottom (tiêu đề có màu giống màu icon) */}
-                              <div className="min-w-0 flex items-center gap-1.5 mt-auto shrink-0">
-                                <WebIcon
-                                  name="server"
-                                  className="w-3.5 h-3.5 shrink-0 bg-transparent border-0 p-0 shadow-none opacity-85"
-                                  style={{ color: accentColor }}
-                                />
-                                <h4
-                                  className="typo-h5 font-play font-bold m-0 leading-snug line-clamp-2 min-w-0 text-left"
-                                  style={{ color: accentColor }}
-                                  title={systemFullName}
-                                >
-                                  {systemFullName}
-                                </h4>
-                              </div>
-                            </div>
-
-                            {/* CỘT BÊN PHẢI: Hình ảnh giảm 1/3 kích thước (~67%), KHÔNG tạo khung cho hình */}
-                            <div className="col-start-2 min-w-0 relative flex items-center justify-center self-stretch h-full min-h-[120px] bg-transparent border-0 shadow-none p-0 overflow-visible">
-                              <div
-                                role={item.videoUrl ? 'button' : undefined}
-                                tabIndex={item.videoUrl ? 0 : undefined}
-                                onMouseEnter={handleRightMediaEnter}
-                                onMouseLeave={handleRightMediaLeave}
-                                onClick={handleRightMediaClick}
-                                onKeyDown={handleRightMediaKeyDown}
-                                title={
-                                  item.videoUrl
-                                    ? isEn
-                                      ? 'Hover image to play video in right column (click for full-card video)'
-                                      : 'Rê chuột vào hình để phát video ở cột bên phải (bấm để xem video toàn thẻ)'
-                                    : systemFullName
-                                }
-                                aria-label={
-                                  item.videoUrl
-                                    ? isEn
-                                      ? `Play ${item.abbr} video`
-                                      : `Xem video ${item.abbr}`
-                                    : systemFullName
-                                }
-                                data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
-                                className={cn(
-                                  'system-card-image-slot relative w-full h-full min-h-[120px] flex items-center justify-center p-0 m-0 bg-transparent border-0 shadow-none outline-none ring-0',
-                                  item.videoUrl && 'cursor-pointer'
-                                )}
-                              >
-                                <img
-                                  src={primaryImg}
-                                  alt={systemFullName}
-                                  referrerPolicy="no-referrer"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                  }}
-                                  className={cn(
-                                    'w-[67%] h-[67%] max-w-[67%] max-h-[67%] object-contain m-auto p-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-200',
-                                    isRightHoverVideoPlaying && 'opacity-0'
-                                  )}
-                                />
-
-                                {/* Video phát trực tiếp trong cột bên phải khi rê chuột vào hình */}
-                                {isRightHoverVideoPlaying && (
-                                  <div className="absolute inset-0 z-10 w-full h-full rounded-[inherit] overflow-hidden bg-black pointer-events-none transition-opacity duration-200">
-                                    <video
-                                      src={item.videoUrl}
-                                      autoPlay
-                                      loop
-                                      muted
-                                      playsInline
-                                      preload="auto"
-                                      controls={false}
-                                      disablePictureInPicture
-                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                      aria-hidden="true"
-                                      tabIndex={-1}
-                                      onLoadedMetadata={(e) => {
-                                        const v = e.currentTarget;
-                                        v.defaultMuted = true;
-                                        v.muted = true;
-                                        v.loop = true;
-                                        v.controls = false;
-                                        v.disablePictureInPicture = true;
-                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                        if (v.paused) v.play().catch(() => {});
-                                      }}
-                                      onCanPlay={(e) => {
-                                        const v = e.currentTarget;
-                                        v.defaultMuted = true;
-                                        v.muted = true;
-                                        v.loop = true;
-                                        if (v.paused) v.play().catch(() => {});
-                                      }}
-                                      onEnded={(e) => {
-                                        const v = e.currentTarget;
-                                        v.currentTime = 0;
-                                        v.play().catch(() => {});
-                                      }}
-                                      style={{
-                                        position: 'absolute',
-                                        inset: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        minWidth: '100%',
-                                        minHeight: '100%',
-                                        objectFit: 'cover',
-                                        transform: 'translateZ(0)',
-                                        backfaceVisibility: 'hidden',
-                                        filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
-                                      }}
-                                      className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none banner-video-sharp opacity-100"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
+                            {isRightHoverVideoPlaying && (
+                              <video
+                                src={item.videoUrl}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="auto"
+                                controls={false}
+                                disablePictureInPicture
+                                controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                                aria-hidden="true"
+                                tabIndex={-1}
+                                onLoadedMetadata={(e) => {
+                                  const v = e.currentTarget;
+                                  v.defaultMuted = true;
+                                  v.muted = true;
+                                  v.loop = true;
+                                  v.controls = false;
+                                  v.disablePictureInPicture = true;
+                                  (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                                  if (v.paused) v.play().catch(() => {});
+                                }}
+                                onCanPlay={(e) => {
+                                  const v = e.currentTarget;
+                                  v.defaultMuted = true;
+                                  v.muted = true;
+                                  v.loop = true;
+                                  if (v.paused) v.play().catch(() => {});
+                                }}
+                                onEnded={(e) => {
+                                  const v = e.currentTarget;
+                                  v.currentTime = 0;
+                                  v.play().catch(() => {});
+                                }}
+                                className="absolute inset-0 z-20 w-full h-full object-contain bg-transparent border-0 outline-none shadow-none select-none pointer-events-none"
+                              />
+                            )}
                           </div>
-                        );
-                      })()}
+                        </div>
+
+                        {/* BOTTOM: Tên đầy đủ Tiếng Việt + nút Chi tiết */}
+                        <div
+                          className="mt-auto pt-2.5 flex items-center justify-between gap-2 min-w-0 shrink-0 transition-colors duration-300"
+                          style={{ borderTop: `1px solid ${dividerBorder}` }}
+                        >
+                          <h4
+                            className="font-play text-[13px] font-bold m-0 leading-snug line-clamp-1 min-w-0 flex-1 text-left transition-colors duration-300"
+                            style={{ color: primaryInk }}
+                            title={systemFullName}
+                          >
+                            {systemFullName}
+                          </h4>
+                          <span
+                            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide shrink-0 whitespace-nowrap transition-transform duration-200 group-hover:translate-x-0.5"
+                            style={{
+                              background: pillBg,
+                              color: primaryInk,
+                            }}
+                          >
+                            <span>{isEn ? 'Details' : 'Chi tiết'}</span>
+                            <WebIcon name="arrow-right" className="w-3 h-3 shrink-0" />
+                          </span>
+                        </div>
+                      </div>
                     </article>
                   );
                 })}

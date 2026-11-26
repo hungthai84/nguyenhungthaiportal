@@ -39,6 +39,8 @@ import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { ThemePresetCard, ThemeVisualMeta } from './interface/ThemePresetCard';
+import { IridescentStudioPanel } from './interface/IridescentStudioPanel';
+import { isIridescentTheme } from '@/config/ui/iridescentConfig';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
@@ -66,23 +68,19 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
     const parsed = JSON.parse(raw) as Partial<InterfaceUiPrefs>;
     const rawFamily = parsed.selectedFamilyFilter as string | undefined;
     const migratedFamily: 'all' | ThemeFamilyId =
-      rawFamily === 'dark-neon-glass'
-        ? 'multicolor-glass'
-        : rawFamily === 'all' ||
-            rawFamily === 'liquid-glass' ||
-            rawFamily === 'cowhide-leather' ||
-            rawFamily === 'walnut-wood' ||
-            rawFamily === 'deep-ocean' ||
-            rawFamily === 'neumorphism-beyond' ||
-            rawFamily === 'frost-ice-neu' ||
-            rawFamily === 'multicolor-glass' ||
-            rawFamily === 'flat-soft-ui' ||
-            rawFamily === 'mica-fluent' ||
-            rawFamily === 'gradient-dopamine' ||
-            rawFamily === 'dark-luxury' ||
-            rawFamily === 'minimalism'
-          ? rawFamily
-          : fallback.selectedFamilyFilter;
+      rawFamily === 'all' ||
+      rawFamily === 'liquid-glass' ||
+      rawFamily === 'cowhide-leather' ||
+      rawFamily === 'walnut-wood' ||
+      rawFamily === 'deep-ocean' ||
+      rawFamily === 'neumorphism-beyond' ||
+      rawFamily === 'frost-ice-neu' ||
+      rawFamily === 'flat-soft-ui' ||
+      rawFamily === 'mica-fluent' ||
+      rawFamily === 'gradient-dopamine' ||
+      rawFamily === 'iridescent-liquid-glass'
+        ? rawFamily
+        : fallback.selectedFamilyFilter;
     const validGridCols: 'auto' | 4 | 5 =
       parsed.gridColumns === 4 || parsed.gridColumns === 5 || parsed.gridColumns === 'auto'
         ? parsed.gridColumns
@@ -167,37 +165,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Frost Cyan', hex: '#67E8F9' },
       { name: 'Rose Blush', hex: '#F5A8B7' },
       { name: 'Deep Indigo', hex: '#101A2B' },
-    ],
-  },
-  'dark-neon-glass': {
-    radius: '14px',
-    activeRingColor: '#22D3EE',
-    activeBorderClass: 'border-[#22D3EE]',
-    idleBorderClass: 'border-white/25 hover:border-cyan-300/65',
-    activeBadgeClass: 'bg-slate-950/60 text-[#22D3EE] border-white/25 shadow-xs backdrop-blur-[16px]',
-    iconColor: '#22D3EE',
-    titleTextClass: 'text-[#F8FAFC]',
-    bodyTextClass: 'text-[#CBD5E1]',
-    accentTextClass: 'text-[#22D3EE]',
-    previewBorderClass: 'border-white/25',
-    dividerClass: 'border-white/25',
-    ctaIdleClass: 'bg-slate-950/45 text-[#F8FAFC] hover:bg-slate-900/60 border border-white/25 backdrop-blur-[16px]',
-    ctaActiveClass: 'bg-gradient-to-r from-[#22D3EE] via-[#A855F7] to-[#EC4899] text-[#050816] font-bold shadow-xs border border-white/40',
-    toggleTrackDarkClass: 'bg-[#060918] border-white/25',
-    toggleTrackLightClass: 'bg-indigo-50 border-white/45',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#22D3EE] via-[#A855F7] to-[#EC4899] text-[#050816]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
-    gradientBars: [
-      { label: 'Neon Cyan', width: '96%', gradient: 'linear-gradient(90deg, #22D3EE, #06B6D4)', glow: '0 0 14px rgba(34, 211, 238, 0.55)' },
-      { label: 'Neon Violet', width: '86%', gradient: 'linear-gradient(90deg, #A855F7, #EC4899)', glow: '0 0 14px rgba(168, 85, 247, 0.5)' },
-      { label: 'Neon Mint', width: '74%', gradient: 'linear-gradient(90deg, #34D399, #22D3EE)', glow: '0 0 14px rgba(52, 211, 153, 0.45)' },
-    ],
-    primaryPalette: [
-      { name: 'Neon Cyan', hex: '#22D3EE' },
-      { name: 'Electric Violet', hex: '#A855F7' },
-      { name: 'Neon Pink', hex: '#EC4899' },
-      { name: 'Midnight Glass', hex: '#0F172A' },
     ],
   },
   'cowhide-leather': {
@@ -339,71 +306,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Deep Trench', hex: '#0A1128' },
     ],
   },
-  'light-deep-ocean': {
-    radius: '14px',
-    activeRingColor: '#1951FC',
-    activeBorderClass: 'border-[#1951FC]',
-    idleBorderClass: 'border-white/65 hover:border-[#73BFFF]',
-    activeBadgeClass: 'bg-gradient-to-r from-[#1951FC] to-[#3781FC] text-white border-white/75',
-    iconColor: '#1951FC',
-    titleTextClass: 'text-[#03195B]',
-    bodyTextClass: 'text-[#082B70]',
-    accentTextClass: 'text-[#1951FC]',
-    previewBorderClass: 'border-white/70 border-solid',
-    dividerClass: 'border-[#73BFFF]/55 border-solid',
-    ctaIdleClass: 'bg-[#CBE9FD]/85 text-[#03195B] hover:bg-white border border-white/75',
-    ctaActiveClass: 'bg-gradient-to-r from-[#1951FC] via-[#3781FC] to-[#73BFFF] text-white shadow-xs border border-white/75',
-    toggleTrackDarkClass: 'bg-[#03195B] border-[#3781FC]/55',
-    toggleTrackLightClass: 'bg-[#CBE9FD] border-[#73BFFF]',
-    toggleThumbDarkClass: 'bg-[#73BFFF] text-[#03195B]',
-    toggleThumbLightClass: 'bg-[#1951FC] text-white',
-    outlineStyle: (isActive) => ({
-      outline: isActive ? '2px solid rgba(255, 255, 255, 0.90)' : '1px solid rgba(255, 255, 255, 0.55)',
-      outlineOffset: '-6px',
-    }),
-    demoVideoUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
-    gradientBars: [
-      { label: 'Primary', width: '94%', gradient: 'linear-gradient(90deg, #1951FC, #3781FC)', glow: '0 0 10px rgba(25, 81, 252, 0.35)' },
-      { label: 'Sky Cyan', width: '80%', gradient: 'linear-gradient(90deg, #3781FC, #73BFFF)', glow: '0 0 10px rgba(115, 191, 255, 0.38)' },
-    ],
-    primaryPalette: [
-      { name: 'Cobalt Surf', hex: '#1951FC' },
-      { name: 'Cerulean Wave', hex: '#3781FC' },
-      { name: 'Coastal Sky', hex: '#73BFFF' },
-      { name: 'Marine Ink', hex: '#03195B' },
-    ],
-  },
-  'multicolor-glass': {
-    radius: '14px',
-    activeRingColor: '#4F46E5',
-    activeBorderClass: 'border-[#4F46E5]',
-    idleBorderClass: 'border-white/30 hover:border-white/55',
-    activeBadgeClass: 'bg-white/25 text-[#0F172A] border-white/35 shadow-xs backdrop-blur-[16px]',
-    iconColor: '#4F46E5',
-    titleTextClass: 'text-[#0F172A]',
-    bodyTextClass: 'text-[#1E293B]',
-    accentTextClass: 'text-[#4F46E5]',
-    previewBorderClass: 'border-white/30',
-    dividerClass: 'border-white/25',
-    ctaIdleClass: 'bg-white/20 text-[#0F172A] hover:bg-white/35 border border-white/30 shadow-xs backdrop-blur-[16px]',
-    ctaActiveClass: 'bg-gradient-to-r from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white shadow-xs border border-white/40',
-    toggleTrackDarkClass: 'bg-[#0F172A] border-white/30',
-    toggleTrackLightClass: 'bg-white/25 border-white/40',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#818CF8] to-[#F472B6] text-slate-950',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#4F46E5] via-[#0EA5E9] to-[#EC4899] text-white',
-    demoVideoUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
-    gradientBars: [
-      { label: 'Indigo', width: '94%', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', glow: '0 0 10px rgba(79, 70, 229, 0.35)' },
-      { label: 'Cyan', width: '82%', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', glow: '0 0 10px rgba(14, 165, 233, 0.35)' },
-      { label: 'Rose', width: '74%', gradient: 'linear-gradient(90deg, #DB2777, #F472B6)', glow: '0 0 10px rgba(236, 72, 153, 0.3)' },
-    ],
-    primaryPalette: [
-      { name: 'Prism Indigo', hex: '#4F46E5' },
-      { name: 'Sky Prism', hex: '#0EA5E9' },
-      { name: 'Rose Neon', hex: '#EC4899' },
-      { name: 'Frosted Tint', hex: '#FFFFFF' },
-    ],
-  },
   'neumorphism-beyond': {
     radius: '14px',
     activeRingColor: '#4973FF',
@@ -502,38 +404,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Deep Periwinkle', hex: '#433EC9' },
       { name: 'Ice Matte', hex: '#E0E8F2' },
       { name: 'Frost Ink', hex: '#18273B' },
-    ],
-  },
-  'dark-frost-ice-neu': {
-    radius: '14px',
-    activeRingColor: '#6E6AF6',
-    activeBorderClass: 'border-0',
-    idleBorderClass: 'border-0',
-    activeBadgeClass: 'bg-[#1A2433] text-[#B8B6FF] border-0 shadow-[-4px_-4px_8px_rgba(38,52,74,0.68),4px_4px_8px_rgba(10,15,24,0.76)]',
-    iconColor: '#9B97FF',
-    titleTextClass: 'text-[#F1F6FC]',
-    bodyTextClass: 'text-[#A7BAD0]',
-    accentTextClass: 'text-[#A5A2FF]',
-    previewBorderClass: 'border-0',
-    dividerClass: 'border-0',
-    ctaIdleClass:
-      'bg-[#1A2433] text-[#DCE7F5] hover:text-white border-0 shadow-[-4px_-4px_9px_rgba(38,52,74,0.70),4px_4px_9px_rgba(10,15,24,0.78)] hover:shadow-[-5px_-5px_11px_rgba(45,62,88,0.76),5px_5px_11px_rgba(8,12,20,0.84)] active:shadow-[inset_3px_3px_6px_rgba(10,15,24,0.80),inset_-3px_-3px_6px_rgba(38,52,74,0.66)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9B97FF]',
-    ctaActiveClass:
-      'bg-[#6E6AF6] text-white border-0 shadow-[-3px_-3px_8px_rgba(38,52,74,0.65),4px_4px_10px_rgba(8,12,22,0.78),inset_1px_1px_2px_rgba(255,255,255,0.22),inset_-1px_-1px_3px_rgba(10,15,24,0.30)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9B97FF]',
-    toggleTrackDarkClass: 'bg-[#1A2433] border-0',
-    toggleTrackLightClass: 'bg-[#6E6AF6] border-0',
-    toggleThumbDarkClass: 'bg-[#1A2433] text-[#9B97FF]',
-    toggleThumbLightClass: 'bg-[#F1F6FC] text-[#1A2433]',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Primary', width: '82%', gradient: '#6E6AF6' },
-      { label: 'Inset', width: '64%', gradient: '#9B97FF' },
-    ],
-    primaryPalette: [
-      { name: 'Glacier Violet', hex: '#6E6AF6' },
-      { name: 'Frost Lavender', hex: '#9B97FF' },
-      { name: 'Arctic Slate', hex: '#1A2433' },
-      { name: 'Arctic Ice', hex: '#F1F6FC' },
     ],
   },
   'flat-soft-ui': {
@@ -658,64 +528,64 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Cyber Cyan', hex: '#00D2FF' },
     ],
   },
-  'dark-luxury': {
-    radius: '18px',
-    activeRingColor: '#D4AF37',
-    activeBorderClass: 'border-[#D4AF37]',
-    idleBorderClass: 'border-[#D4AF37]/35 hover:border-[#F3E5AB]',
-    activeBadgeClass: 'bg-[#14161F] text-[#F3E5AB] border-[#D4AF37]/55 shadow-xs',
-    iconColor: '#D4AF37',
-    titleTextClass: 'text-[#FAF8F5]',
-    bodyTextClass: 'text-[#D6D1C7]',
-    accentTextClass: 'text-[#F3E5AB]',
-    previewBorderClass: 'border-[#D4AF37]/40',
-    dividerClass: 'border-[#D4AF37]/25',
-    ctaIdleClass: 'bg-[#14161F]/90 text-[#F3E5AB] hover:bg-[#1C1F2B] border border-[#D4AF37]/40 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#F3E5AB] via-[#D4AF37] to-[#AA7C11] text-[#090A0F] font-bold shadow-xs border border-[#F3E5AB]',
-    toggleTrackDarkClass: 'bg-[#090A0F] border-[#D4AF37]/45',
-    toggleTrackLightClass: 'bg-[#14161F] border-[#D4AF37]/50',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#F3E5AB] to-[#D4AF37] text-[#090A0F]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#D4AF37] to-[#AA7C11] text-[#090A0F]',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
-    gradientBars: [
-      { label: 'Gold', width: '94%', gradient: 'linear-gradient(90deg, #F3E5AB, #D4AF37, #AA7C11)', glow: '0 0 12px rgba(212, 175, 55, 0.42)' },
-      { label: 'Obsidian', width: '78%', gradient: 'linear-gradient(90deg, #2A2D3D, #D4AF37)' },
-    ],
-    primaryPalette: [
-      { name: 'Champagne Gold', hex: '#D4AF37' },
-      { name: 'Metallic Silk', hex: '#F3E5AB' },
-      { name: 'Velvet Onyx', hex: '#14161F' },
-      { name: 'Royal Obsidian', hex: '#090A0F' },
-    ],
-  },
-  'minimalism': {
-    radius: '18px',
-    activeRingColor: '#111111',
-    activeBorderClass: 'border-[#111111]',
-    idleBorderClass: 'border-zinc-200 hover:border-zinc-900',
-    activeBadgeClass: 'bg-zinc-100 text-[#111111] border-zinc-300',
-    iconColor: '#111111',
-    titleTextClass: 'text-[#111111]',
-    bodyTextClass: 'text-[#52525B]',
-    accentTextClass: 'text-[#111111]',
-    previewBorderClass: 'border-zinc-200',
-    dividerClass: 'border-zinc-200',
-    ctaIdleClass: 'bg-white text-[#111111] hover:bg-zinc-50 border border-zinc-200',
-    ctaActiveClass: 'bg-[#111111] text-white border border-[#111111]',
-    toggleTrackDarkClass: 'bg-zinc-900 border-zinc-800',
-    toggleTrackLightClass: 'bg-zinc-100 border-zinc-300',
-    toggleThumbDarkClass: 'bg-white text-[#111111]',
-    toggleThumbLightClass: 'bg-[#111111] text-white',
+  'iridescent-liquid-glass': {
+    radius: '16px',
+    activeRingColor: '#06B6D4',
+    activeBorderClass: 'border-[#06B6D4]',
+    idleBorderClass: 'border-cyan-300/60 hover:border-orange-300/80',
+    activeBadgeClass: 'bg-cyan-50/90 text-[#0284C7] border-cyan-300/60 shadow-xs backdrop-blur-md',
+    iconColor: '#0284C7',
+    titleTextClass: 'text-[#0F172A]',
+    bodyTextClass: 'text-[#475569]',
+    accentTextClass: 'text-[#0284C7]',
+    previewBorderClass: 'border-white/85',
+    dividerClass: 'border-cyan-200/55',
+    ctaIdleClass: 'bg-white/85 text-[#0284C7] hover:bg-white border border-cyan-200/75 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#06B6D4] via-[#3B82F6] to-[#FB923C] text-white font-bold shadow-xs border border-white/80',
+    toggleTrackDarkClass: 'bg-[#070B14] border-cyan-400/45',
+    toggleTrackLightClass: 'bg-[#F4F8FF] border-cyan-300/75',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#22D3EE] to-[#FB923C] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#06B6D4] to-[#FB923C] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Ink', width: '90%', gradient: 'linear-gradient(90deg, #111111, #3F3F46)' },
-      { label: 'Space', width: '72%', gradient: 'linear-gradient(90deg, #71717A, #D4D4D8)' },
+      { label: 'Cyan', width: '92%', gradient: 'linear-gradient(90deg, #06B6D4, #3B82F6, #8B5CF6)', glow: '0 0 12px rgba(6, 182, 212, 0.42)' },
+      { label: 'Chrome', width: '80%', gradient: 'linear-gradient(90deg, #FB923C, #EC4899, #22D3EE)', glow: '0 0 12px rgba(251, 146, 60, 0.36)' },
     ],
     primaryPalette: [
-      { name: 'Editorial Ink', hex: '#111111' },
-      { name: 'Neutral Zinc', hex: '#52525B' },
-      { name: 'Hairline Gray', hex: '#E4E4E7' },
-      { name: 'Pure Canvas', hex: '#FFFFFF' },
+      { name: 'Aurora Cyan', hex: '#06B6D4' },
+      { name: 'Glossy Orange', hex: '#FB923C' },
+      { name: 'Prism Violet', hex: '#8B5CF6' },
+      { name: 'Pearl White', hex: '#FFFFFF' },
+    ],
+  },
+  'dark-iridescent-liquid-glass': {
+    radius: '16px',
+    activeRingColor: '#22D3EE',
+    activeBorderClass: 'border-[#22D3EE]',
+    idleBorderClass: 'border-cyan-400/35 hover:border-orange-400/65',
+    activeBadgeClass: 'bg-slate-900/90 text-[#67E8F9] border-cyan-400/45 shadow-xs backdrop-blur-md',
+    iconColor: '#67E8F9',
+    titleTextClass: 'text-[#F8FAFC]',
+    bodyTextClass: 'text-[#CBD5E1]',
+    accentTextClass: 'text-[#67E8F9]',
+    previewBorderClass: 'border-cyan-400/30',
+    dividerClass: 'border-white/15',
+    ctaIdleClass: 'bg-slate-900/80 text-[#67E8F9] hover:bg-slate-800 border border-cyan-400/35 shadow-xs backdrop-blur-md',
+    ctaActiveClass: 'bg-gradient-to-r from-[#22D3EE] via-[#6366F1] to-[#FB923C] text-white font-bold shadow-xs border border-white/35',
+    toggleTrackDarkClass: 'bg-[#070B14] border-cyan-400/45',
+    toggleTrackLightClass: 'bg-[#F4F8FF] border-cyan-300/75',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#22D3EE] to-[#FB923C] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#06B6D4] to-[#FB923C] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Neon Cyan', width: '94%', gradient: 'linear-gradient(90deg, #22D3EE, #6366F1, #C084FC)', glow: '0 0 12px rgba(34, 211, 238, 0.48)' },
+      { label: 'Prism', width: '84%', gradient: 'linear-gradient(90deg, #FB923C, #F472B6, #22D3EE)', glow: '0 0 12px rgba(251, 146, 60, 0.40)' },
+    ],
+    primaryPalette: [
+      { name: 'Liquid Cyan', hex: '#22D3EE' },
+      { name: 'Sunset Orange', hex: '#FB923C' },
+      { name: 'Prism Indigo', hex: '#6366F1' },
+      { name: 'Deep Glass', hex: '#0F172A' },
     ],
   },
 };
@@ -773,6 +643,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   });
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
+  const [isIridescentStudioOpen, setIsIridescentStudioOpen] = useState<boolean>(() =>
+    isIridescentTheme(cardStyle)
+  );
+  const [iridescentStudioMode, setIridescentStudioMode] = useState<'light' | 'dark'>(() =>
+    cardStyle === 'dark-iridescent-liquid-glass' ? 'dark' : 'light'
+  );
   const interfaceBannerVideo = getDefaultBannerVideoConfig('interface');
   const [neuSliders, setNeuSliders] = useState<number[]>(initialPrefs.neuSliders);
 
@@ -869,7 +745,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       } catch {
         // ignore storage errors
       }
-      const targetNeuStyle: CardStyleMode = isDark ? 'dark-frost-ice-neu' : 'frost-ice-neu';
+      const targetNeuStyle: CardStyleMode = 'frost-ice-neu';
       const targetCfg = getCardStyleConfig(targetNeuStyle);
       setCardStyle(targetNeuStyle);
       onShowNotification?.(
@@ -895,6 +771,10 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         // ignore storage errors
       }
       setCardStyle(mode);
+      if (isIridescentTheme(mode)) {
+        setIridescentStudioMode(mode === 'dark-iridescent-liquid-glass' ? 'dark' : 'light');
+        setIsIridescentStudioOpen(true);
+      }
       if (onShowNotification) {
         onShowNotification(
           isEn
@@ -905,6 +785,17 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     },
     [isEn, onShowNotification, setCardStyle, t]
   );
+
+  const handleOpenIridescentStudio = useCallback((mode: CardStyleMode) => {
+    setIridescentStudioMode(mode === 'dark-iridescent-liquid-glass' ? 'dark' : 'light');
+    setIsIridescentStudioOpen(true);
+    setTimeout(() => {
+      document.getElementById('iridescent-liquid-glass-studio')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 60);
+  }, []);
 
   const handleToggleVideoPreview = useCallback(
     (id: CardStyleMode) => {
@@ -1510,11 +1401,14 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="subcard"
             data-element-page="interface"
             data-subcard="true"
-            className={`sub-card flex flex-col gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] transition-all duration-200 ${
+            className={`sub-card w-full h-auto min-h-0 shrink-0 self-start flex flex-col gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] transition-all duration-200 ${
               isNeumorphismActive ? 'border-0' : 'border'
             }`}
             style={{
               background: 'var(--bg-subcard)',
+              height: 'auto',
+              minHeight: 0,
+              flex: '0 0 auto',
               ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
             }}
           >
@@ -1923,11 +1817,15 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                             ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
                             : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name
                         }
+                        displayEnglishName={THEME_FOUR_WORD_NAMES[preset.id]?.en || preset.name}
                         displayShortBadge={isEn ? t(preset.shortBadge) : preset.shortBadge}
                         displayDesc={isEn ? t(preset.desc) : preset.desc}
                         onSelectTheme={handleSelectTheme}
                         onToggleVideo={handleToggleVideoPreview}
                         onVideoError={handleVideoPreviewError}
+                        onOpenStudio={
+                          isIridescentTheme(preset.id) ? handleOpenIridescentStudio : undefined
+                        }
                       />
                     );
                   })}
@@ -1935,6 +1833,18 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               </>
             )}
           </div>
+
+          {/* 3. Studio Tùy Chỉnh 9 Nhóm Iridescent Liquid Glass (Mở khi chọn giao diện hoặc bấm Tùy chỉnh) */}
+          {isIridescentStudioOpen && (
+            <IridescentStudioPanel
+              activeCardStyle={cardStyle}
+              targetMode={iridescentStudioMode}
+              isEn={isEn}
+              onApplyCardStyle={handleSelectTheme}
+              onClose={() => setIsIridescentStudioOpen(false)}
+              onShowNotification={onShowNotification}
+            />
+          )}
 
           {/* 4. Bộ thành phần Neumorphism Soft UI Kit (Thu gọn mặc định, tuân thủ 100% không viền + bóng nổi/lõm kép) */}
           {isSandboxOpen && (

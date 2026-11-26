@@ -180,7 +180,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
     {
       id: 'home-orbit-icon-trending',
       icon: 'trending-up',
-      posClass: 'bottom-[12%] right-[4%] sm:bottom-[13%] sm:right-[5%]',
+      posClass: 'bottom-[26%] right-[0.5%] sm:bottom-[27%] sm:right-[1%]',
       gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
       glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
       floatY: [-4, 4, -4],
@@ -502,7 +502,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   ))}
 
                   <div
-                    className="relative w-[calc(100%-44px)] h-[calc(100%-44px)] sm:w-[calc(100%-56px)] sm:h-[calc(100%-56px)] rounded-full overflow-hidden flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
+                    className="relative w-[calc(100%-44px)] h-[calc(100%-44px)] sm:w-[calc(100%-56px)] sm:h-[calc(100%-56px)] rounded-full overflow-visible flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
                     style={{
                       background: isDark
                         ? 'linear-gradient(145deg, rgba(30,41,59,0.72), rgba(51,65,85,0.45))'

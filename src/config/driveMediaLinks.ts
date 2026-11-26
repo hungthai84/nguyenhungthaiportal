@@ -21,12 +21,12 @@ export const DRIVE_BANNER_VIDEOS = {
 } as const;
 
 export const DRIVE_SERVICE_IMAGES = {
-  ecommerce: 'https://i.postimg.cc/bNHwQm4j/Thuong-mai-dien-tu.png', // Thương mại điện tử.png
-  ewallet: 'https://i.postimg.cc/rFCwSf3j/Thanh-toan-dien-tu.png', // Thanh toán điện tử.png
-  systemBuild: 'https://i.postimg.cc/QxkdpfvL/Xay-dung-he-thong.png', // Xây dựng hệ thống.png
-  esports: '/assets/services/the-thao-dien-tu.png', // Thể thao điện tử.png
+  ecommerce: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif', // Thương mại điện tử.gif
+  ewallet: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif', // Thanh toán điện tử.gif
+  systemBuild: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif', // Xây dựng hệ thống.gif
+  esports: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif', // Thể thao điện tử.gif
   telecom: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png', // Viễn thông di động.png
-  insurance: 'https://i.postimg.cc/RVQZcgyT/Dich-vu-bao-hiem.png', // Dịch vụ bảo hiểm.png
+  insurance: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif', // Tài chính bảo hiểm.gif
 } as const;
 
 export const DRIVE_AVATARS = {

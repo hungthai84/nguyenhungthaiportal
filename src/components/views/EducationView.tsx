@@ -245,13 +245,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
-    currentTheme === 'dark-neon-glass' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond' ||
-    currentTheme === 'dark-frost-ice-neu';
+    currentTheme === 'dark-neumorphism-beyond';
 
   const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -748,6 +746,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             course={course}
             courseColor={courseColor}
             categoryLabel={getShortCategoryLabel(course.category)}
+            getCourseIcon={getEducationIconByTitle}
             isEn={isEn}
             isDark={isDark}
             getSkillTagIcon={getSkillTagIcon}

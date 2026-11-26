@@ -1302,21 +1302,17 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: #E5B87E !important;
             }
 
-            /* Dark Glass, Dark Neon, Deep Ocean & Dark Flat/Neu Themes inside Ecosystem Diagram Modal */
+            /* Dark Glass, Deep Ocean & Dark Flat/Neu Themes inside Ecosystem Diagram Modal */
             html:is(
               [data-card-style="dark-liquid-glass"],
-              [data-card-style="dark-neon-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
-              [data-card-style="dark-frost-ice-neu"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal .glass-flat,
             html:is(
               [data-card-style="dark-liquid-glass"],
-              [data-card-style="dark-neon-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
-              [data-card-style="dark-frost-ice-neu"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
               background: var(--surface-secondary-bg, var(--bg-card)) !important;
@@ -1326,20 +1322,16 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
             }
             html:is(
               [data-card-style="dark-liquid-glass"],
-              [data-card-style="dark-neon-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
-              [data-card-style="dark-frost-ice-neu"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
               color: var(--text-primary) !important;
             }
             html:is(
               [data-card-style="dark-liquid-glass"],
-              [data-card-style="dark-neon-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
-              [data-card-style="dark-frost-ice-neu"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
               background-color: var(--surface-tertiary-bg, var(--bg-subcard)) !important;

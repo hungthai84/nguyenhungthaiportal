@@ -13,37 +13,31 @@ export type CardEffectMode = 'default' | 'float' | 'inset' | 'glow' | 'shine' | 
 export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
-  | 'multicolor-glass'
-  | 'dark-neon-glass'
   | 'cowhide-leather'
   | 'dark-cowhide-leather'
   | 'walnut-wood'
   | 'deep-ocean'
-  | 'light-deep-ocean'
   | 'neumorphism-beyond'
   | 'dark-neumorphism-beyond'
   | 'frost-ice-neu'
-  | 'dark-frost-ice-neu'
   | 'flat-soft-ui'
   | 'dark-flat-soft-ui'
   | 'mica-fluent'
   | 'gradient-dopamine'
-  | 'dark-luxury'
-  | 'minimalism';
+  | 'iridescent-liquid-glass'
+  | 'dark-iridescent-liquid-glass';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
+  | 'iridescent-liquid-glass'
   | 'cowhide-leather'
   | 'walnut-wood'
   | 'deep-ocean'
   | 'neumorphism-beyond'
   | 'frost-ice-neu'
-  | 'multicolor-glass'
   | 'flat-soft-ui'
   | 'mica-fluent'
-  | 'gradient-dopamine'
-  | 'dark-luxury'
-  | 'minimalism';
+  | 'gradient-dopamine';
 
 export interface CardStyleConfig {
   id: CardStyleMode;
@@ -67,7 +61,6 @@ export interface CardStyleConfig {
   miniTabStyle?: React.CSSProperties;
   miniBtnStyle?: React.CSSProperties;
   badgeColorClass?: string;
-  layerDepth?: number;
 }
 
 export interface DesignTokens {

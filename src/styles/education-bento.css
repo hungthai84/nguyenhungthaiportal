@@ -71,9 +71,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
-  [data-card-style="dark-neon-glass"],
   [data-card-style="dark-neumorphism-beyond"],
-  [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"],
   [data-card-style="dark-cowhide-leather"],
   [data-card-style="walnut-wood"]
@@ -127,14 +125,6 @@ html[data-card-style="frost-ice-neu"] .edu-bento-tile {
     7px 7px 16px rgba(163, 179, 199, 0.58) !important;
 }
 
-html[data-card-style="dark-frost-ice-neu"] .edu-bento-tile {
-  border: none !important;
-  border-width: 0 !important;
-  box-shadow:
-    -7px -7px 16px rgba(38, 52, 74, 0.70),
-    7px 7px 16px rgba(10, 15, 24, 0.78) !important;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .edu-bento-tile:hover {
     transform: translate3d(0, -3px, 0) !important;
@@ -158,15 +148,6 @@ html[data-card-style="dark-frost-ice-neu"] .edu-bento-tile {
       -9px -9px 18px rgba(255, 255, 255, 0.92),
       9px 9px 18px rgba(163, 179, 199, 0.64) !important;
   }
-
-  html[data-card-style="dark-frost-ice-neu"] .edu-bento-tile:hover {
-    transform: none !important;
-    border: none !important;
-    border-width: 0 !important;
-    box-shadow:
-      -9px -9px 18px rgba(45, 62, 88, 0.76),
-      9px 9px 18px rgba(8, 12, 20, 0.84) !important;
-  }
 }
 
 .edu-bento-subtile {
@@ -181,9 +162,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
-  [data-card-style="dark-neon-glass"],
   [data-card-style="dark-neumorphism-beyond"],
-  [data-card-style="dark-frost-ice-neu"],
   [data-card-style="dark-flat-soft-ui"]
 ) .edu-bento-subtile {
   background: var(--bg-subcard, rgba(15, 23, 42, 0.46));

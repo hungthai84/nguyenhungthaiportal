@@ -184,9 +184,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     cardStyle,
     setCardStyle,
     surfaceDepth,
-    setSurfaceDepth,
-    layerDepth,
-    setLayerDepth,
     autoTimeTheme,
     setAutoTimeTheme,
     activeWallpaper,
@@ -196,11 +193,9 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const isHydratingFromCloudRef = useRef<boolean>(false);
   const userDocReadyUidRef = useRef<string | null>(null);
-  const layerDepthSupportedRef = useRef<boolean>(true);
   const latestUiRef = useRef({
     cardStyle,
     surfaceDepth,
-    layerDepth,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
@@ -208,7 +203,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   latestUiRef.current = {
     cardStyle,
     surfaceDepth,
-    layerDepth,
     autoTimeTheme,
     language,
     activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
@@ -237,15 +231,13 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const buildFreshDocPayload = (
       safeName: string,
       safePhoto: string,
-      safeWpId: string,
-      includeLayerDepth: boolean
+      safeWpId: string
     ) => {
       const ui = latestUiRef.current;
       const normalizedCardStyle = normalizeCardStyle(ui.cardStyle);
       const safeSurfaceDepth = ui.surfaceDepth === 'flat' ? 'flat' : 'depth';
       const safeLanguage = ui.language === 'en' ? 'en' : 'vi';
-      const safeLayerDepth = Math.max(0, Math.min(200, Math.round(ui.layerDepth)));
-      const base: Record<string, unknown> = {
+      return {
         uid: user.uid,
         displayName: safeName,
         photoUrl: safePhoto,
@@ -257,24 +249,10 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      if (includeLayerDepth) {
-        base.layerDepth = safeLayerDepth;
-      }
-      return base;
     };
 
     const createFreshUserDoc = async (safeName: string, safePhoto: string, safeWpId: string) => {
-      const tryLayerDepth = layerDepthSupportedRef.current;
-      try {
-        await setDoc(userRef, buildFreshDocPayload(safeName, safePhoto, safeWpId, tryLayerDepth));
-      } catch (err) {
-        if (tryLayerDepth && isPermissionDeniedError(err)) {
-          layerDepthSupportedRef.current = false;
-          await setDoc(userRef, buildFreshDocPayload(safeName, safePhoto, safeWpId, false));
-        } else {
-          throw err;
-        }
-      }
+      await setDoc(userRef, buildFreshDocPayload(safeName, safePhoto, safeWpId));
     };
 
     const bootstrapUserDoc = async () => {
@@ -360,7 +338,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     return () => {
       cancelled = true;
     };
-  }, [authReady, user, setCardStyle, setSurfaceDepth, setLayerDepth, setAutoTimeTheme, setLanguageMode, setWallpaper]);
+  }, [authReady, user, setCardStyle, setAutoTimeTheme, setLanguageMode, setWallpaper]);
 
   // Persist UI preference updates to /users/{uid} (Action 2 affectedKeys) when signed in
   useEffect(() => {
@@ -371,8 +349,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const userPath = `users/${user.uid}`;
     const timer = setTimeout(() => {
       const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'custom-wp-1788112774646', 'theme-bg');
-      const safeLayerDepth = Math.max(0, Math.min(200, Math.round(layerDepth)));
-      const basePayload: Record<string, unknown> = {
+      const prefPayload: Record<string, unknown> = {
         cardStyle: normalizeCardStyle(cardStyle),
         surfaceDepth: surfaceDepth === 'flat' ? 'flat' : 'depth',
         autoTimeTheme: Boolean(autoTimeTheme),
@@ -380,22 +357,8 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
         activeWallpaperId: safeWpId,
         updatedAt: serverTimestamp(),
       };
-      const tryLayerDepth = layerDepthSupportedRef.current;
-      const prefPayload = tryLayerDepth
-        ? { ...basePayload, layerDepth: safeLayerDepth }
-        : basePayload;
 
       updateDoc(doc(db, 'users', user.uid), prefPayload).catch((error) => {
-        if (tryLayerDepth && isPermissionDeniedError(error)) {
-          layerDepthSupportedRef.current = false;
-          updateDoc(doc(db, 'users', user.uid), basePayload).catch((retryErr) => {
-            console.warn(
-              `Firestore preference sync skipped (${userPath}):`,
-              retryErr instanceof Error ? retryErr.message : String(retryErr)
-            );
-          });
-          return;
-        }
         console.warn(
           `Firestore preference sync skipped (${userPath}):`,
           error instanceof Error ? error.message : String(error)
@@ -404,7 +367,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [authReady, user, cardStyle, surfaceDepth, layerDepth, autoTimeTheme, language, activeWallpaper?.id]);
+  }, [authReady, user, cardStyle, surfaceDepth, autoTimeTheme, language, activeWallpaper?.id]);
 
   // Live listener for user's custom wallpapers (/users/{uid}/wallpapers)
   useEffect(() => {

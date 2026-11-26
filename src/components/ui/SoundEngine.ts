@@ -1,9 +1,186 @@
+export type SoundThemeProfile = 'soft-glass' | 'crystal' | 'liquid' | 'digital' | 'futuristic' | 'minimal';
+export type StudioSoundEvent =
+  | 'buttonClick'
+  | 'buttonHover'
+  | 'toggleOn'
+  | 'toggleOff'
+  | 'tabChange'
+  | 'cardSelect'
+  | 'popupOpen'
+  | 'popupClose'
+  | 'notification'
+  | 'success'
+  | 'error';
+
+export interface SoundEngineSettings {
+  enabled: boolean;
+  volume: number; // 0..100
+  theme: SoundThemeProfile;
+  hoverSound: boolean;
+  clickSound: boolean;
+  notificationSound: boolean;
+  events: Record<StudioSoundEvent, boolean>;
+}
+
 class SoundEngineClass {
   private ctx: AudioContext | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private lastTapTime: number = 0;
+  private lastHoverTime: number = 0;
   private lastFlipTime: number = 0;
   private lastBookSoundTime: number = 0;
+  private studioOverrideActive: boolean = false;
+  private settings: SoundEngineSettings = {
+    enabled: false,
+    volume: 45,
+    theme: 'soft-glass',
+    hoverSound: false,
+    clickSound: true,
+    notificationSound: true,
+    events: {
+      buttonClick: true,
+      buttonHover: false,
+      toggleOn: true,
+      toggleOff: true,
+      tabChange: true,
+      cardSelect: true,
+      popupOpen: true,
+      popupClose: true,
+      notification: true,
+      success: true,
+      error: true,
+    },
+  };
+
+  configureStudioSound(settings: SoundEngineSettings | null) {
+    if (!settings) {
+      this.studioOverrideActive = false;
+      return;
+    }
+    this.studioOverrideActive = true;
+    this.settings = {
+      ...settings,
+      events: { ...settings.events },
+    };
+  }
+
+  private getVolumeGain(base: number): number {
+    if (!this.studioOverrideActive) return base;
+    if (!this.settings.enabled) return 0;
+    return base * Math.max(0, Math.min(1, this.settings.volume / 100)) * 1.4;
+  }
+
+  private getThemeOscType(): OscillatorType {
+    switch (this.settings.theme) {
+      case 'crystal':
+        return 'triangle';
+      case 'digital':
+        return 'square';
+      case 'futuristic':
+        return 'sawtooth';
+      case 'liquid':
+      case 'minimal':
+      case 'soft-glass':
+      default:
+        return 'sine';
+    }
+  }
+
+  playEvent(event: StudioSoundEvent, forcePreview = false) {
+    try {
+      if (!forcePreview) {
+        if (this.studioOverrideActive && !this.settings.enabled) return;
+        if (this.studioOverrideActive && !this.settings.events[event]) return;
+        if (event === 'buttonHover' && this.studioOverrideActive && !this.settings.hoverSound) return;
+        if ((event === 'buttonClick' || event === 'cardSelect') && this.studioOverrideActive && !this.settings.clickSound) return;
+        if ((event === 'notification' || event === 'success' || event === 'error') && this.studioOverrideActive && !this.settings.notificationSound) return;
+      }
+
+      const now = Date.now();
+      if (event === 'buttonHover') {
+        if (now - this.lastHoverTime < 140) return;
+        this.lastHoverTime = now;
+      }
+
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const volScale = forcePreview
+        ? Math.max(0.15, Math.min(1, this.settings.volume / 100))
+        : this.studioOverrideActive
+          ? Math.max(0, Math.min(1, this.settings.volume / 100))
+          : 0.5;
+      if (volScale <= 0) return;
+
+      const type = this.getThemeOscType();
+      const pitchShift =
+        this.settings.theme === 'crystal'
+          ? 1.28
+          : this.settings.theme === 'futuristic'
+            ? 1.12
+            : this.settings.theme === 'liquid'
+              ? 0.88
+              : this.settings.theme === 'minimal'
+                ? 0.78
+                : 1;
+
+      const t = ctx.currentTime;
+      const playTone = (startFreq: number, endFreq: number, dur: number, offset = 0, peak = 0.09) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(startFreq * pitchShift, t + offset);
+        osc.frequency.exponentialRampToValueAtTime(Math.max(60, endFreq * pitchShift), t + offset + dur);
+        gain.gain.setValueAtTime(0.001, t + offset);
+        gain.gain.linearRampToValueAtTime(peak * volScale, t + offset + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + offset + dur);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t + offset);
+        osc.stop(t + offset + dur + 0.01);
+      };
+
+      switch (event) {
+        case 'buttonClick':
+          playTone(760, 480, 0.06, 0, 0.11);
+          break;
+        case 'buttonHover':
+          playTone(980, 1120, 0.035, 0, 0.045);
+          break;
+        case 'toggleOn':
+          playTone(540, 880, 0.08, 0, 0.1);
+          break;
+        case 'toggleOff':
+          playTone(780, 440, 0.08, 0, 0.09);
+          break;
+        case 'tabChange':
+          playTone(620, 790, 0.07, 0, 0.085);
+          break;
+        case 'cardSelect':
+          playTone(680, 960, 0.09, 0, 0.095);
+          break;
+        case 'popupOpen':
+          playTone(480, 760, 0.09, 0, 0.085);
+          playTone(760, 1080, 0.12, 0.045, 0.075);
+          break;
+        case 'popupClose':
+          playTone(840, 520, 0.09, 0, 0.085);
+          break;
+        case 'notification':
+          playTone(880, 1180, 0.11, 0, 0.09);
+          playTone(1180, 1480, 0.14, 0.07, 0.07);
+          break;
+        case 'success':
+          playTone(587, 784, 0.09, 0, 0.09);
+          playTone(784, 1175, 0.16, 0.07, 0.095);
+          break;
+        case 'error':
+          playTone(340, 220, 0.11, 0, 0.11);
+          playTone(260, 175, 0.14, 0.09, 0.1);
+          break;
+      }
+    } catch {}
+  }
 
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
@@ -53,6 +230,8 @@ class SoundEngineClass {
 
   playPop() {
     try {
+      const vol = this.getVolumeGain(0.12);
+      if (vol <= 0) return;
       const ctx = this.getContext();
       if (!ctx) return;
       const osc = ctx.createOscillator();
@@ -60,7 +239,7 @@ class SoundEngineClass {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(600, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.06);
-      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.setValueAtTime(vol, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
       osc.connect(gain);
       gain.connect(ctx.destination);
@@ -71,6 +250,10 @@ class SoundEngineClass {
 
   playTap() {
     try {
+      if (this.studioOverrideActive) {
+        this.playEvent('buttonClick');
+        return;
+      }
       const now = Date.now();
       if (now - this.lastTapTime < 55) return;
       this.lastTapTime = now;
@@ -92,6 +275,10 @@ class SoundEngineClass {
 
   playGlassChime() {
     try {
+      if (this.studioOverrideActive) {
+        this.playEvent('cardSelect');
+        return;
+      }
       const ctx = this.getContext();
       if (!ctx) return;
       [1200, 1600, 2000].forEach((freq, i) => {
@@ -111,6 +298,10 @@ class SoundEngineClass {
 
   playPageFlip() {
     try {
+      if (this.studioOverrideActive) {
+        this.playEvent('tabChange');
+        return;
+      }
       const now = Date.now();
       if (now - this.lastFlipTime < 80) return;
       this.lastFlipTime = now;
@@ -341,6 +532,8 @@ class SoundEngineClass {
 
   playPageSpecificSound(pageId: number) {
     try {
+      const vol = this.getVolumeGain(0.08);
+      if (vol <= 0) return;
       const now = Date.now();
       if (now - this.lastTapTime < 50) return;
       this.lastTapTime = now;
@@ -374,7 +567,7 @@ class SoundEngineClass {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.15, ctx.currentTime + 0.05);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.setValueAtTime(vol, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
       
       osc.connect(gain);

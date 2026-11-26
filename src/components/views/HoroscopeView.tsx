@@ -544,7 +544,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       const containerRect = container.getBoundingClientRect();
       const docW = document.documentElement.clientWidth || window.innerWidth || 1000;
       const containerW = Math.max(260, Math.round(containerRect.width || docW));
-      const anchorEl = document.getElementById('app-header') || document.getElementById('app-footer');
+      const anchorEl =
+        document.getElementById('letter-main-card') ||
+        document.getElementById('app-header') ||
+        document.getElementById('app-footer');
       const anchorRect = anchorEl ? anchorEl.getBoundingClientRect() : null;
       const fallbackW = Math.max(260, Math.min(1000, docW - (docW < 640 ? 16 : 32)));
       const hasValidAnchor = Boolean(anchorRect && anchorRect.width > 240);
@@ -572,8 +575,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     if (typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(measureCarousel);
       ro.observe(container);
+      const viewportEl = document.getElementById('global-content-viewport');
       const headerEl = document.getElementById('app-header');
       const footerEl = document.getElementById('app-footer');
+      if (viewportEl) ro.observe(viewportEl);
       if (headerEl) ro.observe(headerEl);
       if (footerEl) ro.observe(footerEl);
     }
@@ -1280,7 +1285,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >
@@ -1386,7 +1391,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >
@@ -1508,7 +1513,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >
@@ -1602,7 +1607,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >
@@ -1725,7 +1730,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >
@@ -2197,7 +2202,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-none overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
           !isActive && 'cursor-pointer'
         )}
       >

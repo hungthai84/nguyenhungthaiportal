@@ -6,6 +6,12 @@ import { formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { WebIcon } from '@/components/ui/WebIcon';
 
+import {
+  BOOK_COVER_DISPLAY_FONT,
+  EducationBookCoverArt,
+  getBookCoverTheme,
+} from './EducationBookCoverArt';
+
 export interface EducationBookshelfViewProps {
   courses: EducationCourse[];
   getCourseColor: (course: EducationCourse, idx: number) => string;
@@ -33,98 +39,6 @@ const DISTINCT_BOOK_FALLBACK_COLORS = [
   '#D97706', // Ochre
 ];
 
-function parseHexRgb(hex: string): [number, number, number] {
-  const clean = hex.trim().replace(/^#/, '');
-  if (clean.length === 3) {
-    const r = parseInt(clean[0] + clean[0], 16);
-    const g = parseInt(clean[1] + clean[1], 16);
-    const b = parseInt(clean[2] + clean[2], 16);
-    if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) return [r, g, b];
-  } else if (clean.length >= 6) {
-    const r = parseInt(clean.slice(0, 2), 16);
-    const g = parseInt(clean.slice(2, 4), 16);
-    const b = parseInt(clean.slice(4, 6), 16);
-    if (!Number.isNaN(r) && !Number.isNaN(g) && !Number.isNaN(b)) return [r, g, b];
-  }
-  return [99, 102, 241];
-}
-
-function mixRgb(
-  c1: [number, number, number],
-  c2: [number, number, number],
-  weight1: number
-): [number, number, number] {
-  const w1 = Math.max(0, Math.min(1, weight1));
-  const w2 = 1 - w1;
-  return [
-    Math.round(c1[0] * w1 + c2[0] * w2),
-    Math.round(c1[1] * w1 + c2[1] * w2),
-    Math.round(c1[2] * w1 + c2[2] * w2),
-  ];
-}
-
-function toHex([r, g, b]: [number, number, number]): string {
-  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
-}
-
-function relativeLuminance([r, g, b]: [number, number, number]): number {
-  const lin = [r, g, b].map((c) => {
-    const s = c / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
-}
-
-function computeBookCoverPalette(accentHex: string, isDarkEnv: boolean) {
-  const accentRgb = parseHexRgb(accentHex);
-  const darkInk: [number, number, number] = [15, 23, 42];
-  const whiteInk: [number, number, number] = [255, 255, 255];
-  const useLightText = isDarkEnv;
-
-  const primaryText = 'var(--text-primary, ' + (useLightText ? '#FFFFFF' : '#0F172A') + ')';
-  const subText = 'var(--text-secondary, ' + (useLightText ? 'rgba(248, 250, 252, 0.92)' : '#1E293B') + ')';
-  const mutedText = 'var(--text-muted, ' + (useLightText ? 'rgba(226, 232, 240, 0.88)' : '#334155') + ')';
-
-  // Crisp accent text & title icon ink tuned directly against transparent surface + Light/Dark environment
-  const accentInkRgb = useLightText
-    ? mixRgb(accentRgb, whiteInk, 0.36)
-    : mixRgb(accentRgb, darkInk, 0.45);
-  const accentInk = toHex(accentInkRgb);
-
-  const iconBg = useLightText
-    ? `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.24)`
-    : `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.14)`;
-  const iconBorder = useLightText
-    ? 'rgba(255, 255, 255, 0.36)'
-    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.36)`;
-
-  const badgeBg = useLightText
-    ? 'rgba(15, 23, 42, 0.38)'
-    : 'rgba(255, 255, 255, 0.72)';
-  const badgeBorder = useLightText
-    ? 'rgba(255, 255, 255, 0.28)'
-    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.3)`;
-
-  const coverBorder = isDarkEnv
-    ? `rgba(${Math.min(255, accentRgb[0] + 60)}, ${Math.min(255, accentRgb[1] + 60)}, ${Math.min(255, accentRgb[2] + 60)}, 0.45)`
-    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.35)`;
-
-  const coverAura = `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, ${isDarkEnv ? 0.32 : 0.22})`;
-
-  return {
-    bgGradient: 'transparent',
-    primaryText,
-    subText,
-    mutedText,
-    accentInk,
-    iconBg,
-    iconBorder,
-    badgeBg,
-    badgeBorder,
-    coverBorder,
-    coverAura,
-  };
-}
 
 export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   courses,
@@ -314,11 +228,11 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     course: EducationCourse,
     idx: number,
     showGlint: boolean,
-    palette: ReturnType<typeof computeBookCoverPalette>
+    distinctColor: string,
+    glowShadow: string
   ) => {
-    const courseTitle = formatCardTitle(course.title);
     const categoryLabel = getShortCategoryLabel(course.category);
-    const courseIconName = getCourseIcon ? getCourseIcon(course.title) : 'book';
+    const courseIconName = getCourseIcon ? getCourseIcon(course.title) : 'code';
 
     return (
       <div
@@ -326,107 +240,22 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         style={{
           background: 'transparent',
           backgroundColor: 'transparent',
-          color: palette.primaryText,
-          borderColor: palette.coverBorder,
-          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+          border: 'none',
+          boxShadow: `0 22px 44px -14px rgba(2, 8, 28, 0.50), 0 10px 24px -10px ${glowShadow}`,
+          containerType: 'inline-size',
         }}
       >
-        {showGlint && <div className="disc-glint" />}
-        <div className="edu-shelf-cover-wash" aria-hidden="true" />
-        <div className="edu-shelf-cover-spine-strip" aria-hidden="true" />
-
-        <div className="edu-shelf-cover-inner">
-          {/* Thanh metadata đỉnh bìa sách học vấn */}
-          <div className="edu-shelf-cover-top">
-            <span
-              className="inline-flex items-center gap-1 font-bold truncate"
-              style={{ color: palette.accentInk }}
-            >
-              <WebIcon name="book" className="w-3 h-3 shrink-0" />
-              <span className="truncate">
-                {isEn ? 'Education Book' : 'Bìa sách · Học vấn'}
-              </span>
-            </span>
-            <span
-              className="font-mono font-bold tabular-nums shrink-0"
-              style={{ color: palette.mutedText }}
-            >
-              {course.code || `Năm ${course.year}`}
-            </span>
-          </div>
-
-          {/* Khung ảnh bìa sách bo cong đồng bộ bo cong tùy chỉnh và lấp đầy không gian thừa */}
-          <div
-            data-media-card="image"
-            className="edu-shelf-cover-media"
-            style={{
-              borderRadius: 'var(--radius-image, var(--radius-global, var(--radius-card, 14px)))',
-              padding: '0px',
-              borderColor: palette.coverBorder,
-            }}
-          >
-            <img
-              src={course.image}
-              alt=""
-              loading={idx === safeSel ? 'eager' : 'lazy'}
-              decoding="async"
-              referrerPolicy="no-referrer"
-            />
-            <div className="edu-shelf-cover-media-scrim" />
-            <div className="edu-shelf-cover-media-meta">
-              <span className="truncate">{course.issuer}</span>
-              <span className="font-mono shrink-0 tabular-nums">Năm {course.year}</span>
-            </div>
-          </div>
-
-          {/* Nội dung tiêu đề kèm icon sắc nét, phân loại, mô tả & kết quả */}
-          <div className="edu-shelf-cover-body">
-            <div className="edu-shelf-cover-category">
-              <span className="font-bold" style={{ color: palette.accentInk }}>
-                {course.type}
-              </span>
-              <span className="mx-1" style={{ color: palette.mutedText }}>·</span>
-              <span className="font-semibold" style={{ color: palette.mutedText }}>
-                {categoryLabel}
-              </span>
-            </div>
-
-            <h4 className="edu-shelf-cover-title" style={{ color: palette.primaryText }}>
-              <span
-                className="edu-shelf-cover-title-icon-badge"
-                style={{
-                  background: palette.iconBg,
-                  borderColor: palette.iconBorder,
-                  color: palette.accentInk,
-                }}
-                aria-hidden="true"
-              >
-                <WebIcon
-                  name={courseIconName}
-                  className="edu-shelf-cover-title-icon"
-                />
-              </span>
-              <span className="edu-shelf-cover-title-text">{courseTitle}</span>
-            </h4>
-
-            <p className="edu-shelf-cover-desc" style={{ color: palette.subText }}>
-              {course.desc || 'Thông tin chưa được cung cấp.'}
-            </p>
-
-            {course.result && (
-              <div
-                className="edu-shelf-cover-result"
-                style={{
-                  color: palette.primaryText,
-                  background: palette.badgeBg,
-                  borderColor: palette.badgeBorder,
-                }}
-              >
-                {course.result}
-              </div>
-            )}
-          </div>
-        </div>
+        <EducationBookCoverArt
+          course={course}
+          courseColor={distinctColor}
+          categoryLabel={categoryLabel}
+          courseIconName={courseIconName}
+          isEn={isEn}
+          variant="shelf"
+          showSpine={true}
+          showGlint={showGlint}
+          imageLoading={idx === safeSel ? 'eager' : 'lazy'}
+        />
       </div>
     );
   };
@@ -514,7 +343,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             const R = d > 0 ? 1 : 0;
             const C = d === 0 ? 1 : 0;
             const courseAccent = getDistinctBookColor(course, idx);
-            const palette = computeBookCoverPalette(courseAccent, isDark);
+            const coverTheme = getBookCoverTheme(course, courseAccent);
 
             const x =
               R * (firstGap + (d - 1) * sideStep) -
@@ -562,7 +391,13 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                 />
                 <div className="disc-box" aria-hidden="true">
                   <div className="disc-cover">
-                    {renderEducationBookCover(course, idx, idx === safeSel && open === 1, palette)}
+                    {renderEducationBookCover(
+                      course,
+                      idx,
+                      idx === safeSel && open === 1,
+                      courseAccent,
+                      coverTheme.glowShadow
+                    )}
                     <div className="disc-in">
                       <p className="disc-notes-title" style={{ color: themeAccent }}>
                         {courseTitle}
@@ -582,9 +417,15 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                       </p>
                     </div>
                   </div>
-                  <div className="disc-spine">
+                  <div
+                    className="disc-spine"
+                    style={{
+                      background: coverTheme.spineGradient,
+                      fontFamily: BOOK_COVER_DISPLAY_FONT,
+                    }}
+                  >
                     <b>{courseTitle}</b>
-                    <span>{course.year}</span>
+                    <span className="tabular-nums">{course.year}</span>
                   </div>
                   <div className="disc-edge" />
                   <div className="disc-lid" />
@@ -653,8 +494,10 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       {/* Active Titles Section */}
       <div className="disc-titles" aria-live="polite">
         <div className="disc-title-item">
-          <h3 title={displayTitle}>{displayTitle}</h3>
-          <p>
+          <h3 title={displayTitle} style={{ fontFamily: BOOK_COVER_DISPLAY_FONT }}>
+            {displayTitle}
+          </h3>
+          <p className="tabular-nums">
             · {currentCourse?.issuer} · {currentCourse?.year} · {getShortCategoryLabel(currentCourse?.category)}
           </p>
         </div>

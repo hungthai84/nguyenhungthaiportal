@@ -217,9 +217,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
                   Thư ngỏ
                 </h2>
               </div>
-              <div className="nht-wax-seal nht-wax-seal--sm text-[10px] shrink-0">
-                <span>NHT</span>
-              </div>
+
             </div>
 
             <div className="space-y-2.5 text-slate-700 dark:text-slate-300 text-[12.5px] sm:text-[13.5px] leading-[1.62]">
@@ -324,18 +322,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
             </svg>
           </div>
 
-          <button
-            id="waxSealTrigger"
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenEnvelope();
-            }}
-            className="no-theme-btn nht-envelope-center-seal nht-wax-seal nht-wax-seal--lg text-xs"
-            aria-label="Mở bao thư"
-          >
-            <span>NHT</span>
-          </button>
+
         </div>
 
         <div className="nht-envelope-cta-area">
@@ -454,45 +441,19 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           padding-bottom: 6px;
         }
 
-        /* Ruled Stationery Letter Card */
+        /* Theme-Synchronized Open Letter Container (inherits #letter-main-card surface) */
         .nht-letter-sheet {
           display: block;
           width: 100%;
           height: auto !important;
           min-height: max-content;
           flex: 0 0 auto;
-          background-color: #ffffff;
-          background-image: linear-gradient(
-            to bottom,
-            transparent 31px,
-            rgba(148, 163, 184, 0.14) 32px
-          );
-          background-size: 100% 32px;
-          border-radius: var(--radius-card, 24px);
-          border: 1.5px solid #e2e8f0;
-          box-shadow:
-            0 20px 50px -15px rgba(15, 23, 42, 0.1),
-            0 8px 20px -8px rgba(99, 102, 241, 0.08),
-            inset 0 0 0 5px #ffffff,
-            inset 0 0 0 6px rgba(203, 213, 225, 0.65);
+          background: transparent;
+          border-radius: var(--radius-subcard, 16px);
+          border: 1px solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.24)));
           position: relative;
           overflow: hidden;
-          color: #1e293b;
-        }
-
-        html.dark .nht-letter-sheet {
-          background-color: rgba(15, 23, 42, 0.92);
-          background-image: linear-gradient(
-            to bottom,
-            transparent 31px,
-            rgba(148, 163, 184, 0.08) 32px
-          );
-          border-color: rgba(148, 163, 184, 0.22);
-          box-shadow:
-            0 24px 55px -15px rgba(2, 6, 23, 0.65),
-            inset 0 0 0 5px rgba(15, 23, 42, 0.85),
-            inset 0 0 0 6px rgba(148, 163, 184, 0.18);
-          color: #e2e8f0;
+          color: var(--text-primary, inherit);
         }
 
         .nht-letter-top-border {
@@ -1174,12 +1135,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                                 trong lĩnh vực xây dựng, vận hành và phát triển dịch vụ khách hàng.
                               </p>
                             </div>
-                            <div
-                              className="nht-wax-seal shrink-0 hidden sm:inline-flex text-[11px]"
-                              title="Thư ngỏ Hồ sơ Năng lực"
-                            >
-                              <span>NHT</span>
-                            </div>
+
                           </div>
                         </div>
                       </div>

@@ -286,10 +286,9 @@ export const OrigamiUnfoldStage: React.FC<OrigamiUnfoldStageProps> = ({
             >
               {milestone.logo && (
                 <div
-                  className="origami-spine-logo"
+                  className="origami-spine-logo company-logo-surface"
                   style={{
                     borderColor: creaseBorderColor,
-                    background: 'var(--surface-secondary-bg, var(--bg-card))',
                   }}
                 >
                   <img

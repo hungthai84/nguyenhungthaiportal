@@ -2111,43 +2111,54 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         return (
                           <div
                             className={cn(
-                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 grid-rows-[auto_auto] gap-x-3 gap-y-2.5 min-w-0 items-stretch transition-opacity duration-200',
+                              'system-card-split-grid relative z-10 w-full grid grid-cols-2 gap-x-3 gap-y-2 min-w-0 items-stretch transition-opacity duration-200 min-h-[140px]',
                               isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                             )}
                           >
-                            {/* CỘT BÊN TRÁI (50%) - HÀNG 1: icon dùng chung cho tiêu đề & Tiêu đề viết tắt hệ thống */}
-                            <div className="col-start-1 row-start-1 min-w-0 flex items-center gap-2">
-                              <WebIcon
-                                name={meta.iconName}
-                                className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
-                                style={{ color: accentColor }}
-                              />
-                              <h3
-                                className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
-                                data-card-title="true"
-                                style={{ color: accentColor }}
-                              >
-                                {item.abbr}
-                              </h3>
+                            {/* CỘT BÊN TRÁI: TOP: Tiêu đề viết tắt; CENTER: Mô tả; BOTTOM: Tên hệ thống (màu giống icon) */}
+                            <div className="col-start-1 flex flex-col justify-between self-stretch min-w-0 h-full py-0.5 gap-2">
+                              {/* TOP: Tiêu đề viết tắt hệ thống + Icon */}
+                              <div className="min-w-0 flex items-center gap-2 shrink-0">
+                                <WebIcon
+                                  name={meta.iconName}
+                                  className="w-[18px] h-[18px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+                                  style={{ color: accentColor }}
+                                />
+                                <h3
+                                  className="typo-h4 card-title-synced font-play font-bold truncate m-0 tracking-tight"
+                                  data-card-title="true"
+                                  style={{ color: accentColor }}
+                                >
+                                  {item.abbr}
+                                </h3>
+                              </div>
+
+                              {/* CENTER: Mô tả nằm center bên trái */}
+                              <div className="my-auto flex items-center min-w-0 py-1">
+                                <p className="typo-body-sm text-[var(--text-secondary)] line-clamp-3 leading-relaxed text-left m-0">
+                                  {isEn ? (item.descEn || item.description) : (item.descVi || item.description)}
+                                </p>
+                              </div>
+
+                              {/* BOTTOM: Tên hệ thống nằm dưới bottom (tiêu đề có màu giống màu icon) */}
+                              <div className="min-w-0 flex items-center gap-1.5 mt-auto shrink-0">
+                                <WebIcon
+                                  name="server"
+                                  className="w-3.5 h-3.5 shrink-0 bg-transparent border-0 p-0 shadow-none opacity-85"
+                                  style={{ color: accentColor }}
+                                />
+                                <h4
+                                  className="typo-h5 font-play font-bold m-0 leading-snug line-clamp-2 min-w-0 text-left"
+                                  style={{ color: accentColor }}
+                                  title={systemFullName}
+                                >
+                                  {systemFullName}
+                                </h4>
+                              </div>
                             </div>
 
-                            {/* CỘT BÊN TRÁI (50%) - HÀNG 2: icon dùng chung cho tên đầy đủ & Tên đầy đủ */}
-                            <div className="col-start-1 row-start-2 min-w-0 flex items-center gap-2">
-                              <WebIcon
-                                name="server"
-                                className="w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none opacity-80"
-                                style={{ color: accentColor }}
-                              />
-                              <h4
-                                className="typo-h5 font-play font-bold m-0 leading-snug text-[var(--text-primary)] line-clamp-2 min-w-0"
-                                title={systemFullName}
-                              >
-                                {systemFullName}
-                              </h4>
-                            </div>
-
-                            {/* CỘT BÊN PHẢI (50%) - HÀNG 1 & 2: Hình ảnh (kích thước hình ảnh bằng 2 hàng cộng lại) */}
-                            <div className="col-start-2 row-start-1 row-span-2 min-w-0 relative flex items-center justify-center self-stretch h-full min-h-[110px]">
+                            {/* CỘT BÊN PHẢI: Hình ảnh giảm 1/3 kích thước (~67%), KHÔNG tạo khung cho hình */}
+                            <div className="col-start-2 min-w-0 relative flex items-center justify-center self-stretch h-full min-h-[120px] bg-transparent border-0 shadow-none p-0 overflow-visible">
                               <div
                                 role={item.videoUrl ? 'button' : undefined}
                                 tabIndex={item.videoUrl ? 0 : undefined}
@@ -2171,7 +2182,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 }
                                 data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
                                 className={cn(
-                                  'system-card-image-slot relative w-full h-full min-h-[110px] flex items-center justify-center p-0 m-0 bg-transparent border-0 shadow-none',
+                                  'system-card-image-slot relative w-full h-full min-h-[120px] flex items-center justify-center p-0 m-0 bg-transparent border-0 shadow-none outline-none ring-0',
                                   item.videoUrl && 'cursor-pointer'
                                 )}
                               >
@@ -2185,7 +2196,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     e.currentTarget.style.display = 'none';
                                   }}
                                   className={cn(
-                                    'w-full h-full object-contain m-0 p-0 rounded-[inherit] select-none pointer-events-none transition-opacity duration-200',
+                                    'w-[67%] h-[67%] max-w-[67%] max-h-[67%] object-contain m-auto p-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-200',
                                     isRightHoverVideoPlaying && 'opacity-0'
                                   )}
                                 />

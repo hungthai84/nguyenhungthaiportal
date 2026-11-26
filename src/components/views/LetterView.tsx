@@ -63,7 +63,7 @@ const BrandBadge: React.FC<{
         />
       ))}
       {name && (
-        <strong className="font-bold text-slate-900 dark:text-slate-100">
+        <strong className="font-bold text-[var(--text-primary)]">
           {name}
         </strong>
       )}
@@ -218,7 +218,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
                 </h2>
               </div>
               <div className="nht-wax-seal nht-wax-seal--sm text-[10px] shrink-0">
-                NHT
+                <span>NHT</span>
               </div>
             </div>
 
@@ -334,7 +334,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
             className="no-theme-btn nht-envelope-center-seal nht-wax-seal nht-wax-seal--lg text-xs"
             aria-label="Mở bao thư"
           >
-            NHT
+            <span>NHT</span>
           </button>
         </div>
 
@@ -377,7 +377,42 @@ export const LetterView: React.FC<LetterViewProps> = () => {
   });
 
   const [signatureError, setSignatureError] = useState(false);
+  const [heroCardHeight, setHeroCardHeight] = useState<number | null>(null);
   const letterScrollViewportRef = useRef<HTMLDivElement>(null);
+  const profileCardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const syncVideoHeightToHero = () => {
+      const heroEl = profileCardRef.current;
+      if (!heroEl || typeof window === 'undefined') return;
+      if (window.innerWidth < 1024) {
+        setHeroCardHeight(null);
+        return;
+      }
+      const measured = Math.round(heroEl.getBoundingClientRect().height);
+      if (measured > 100) {
+        setHeroCardHeight((prev) => (prev === measured ? prev : measured));
+      }
+    };
+
+    syncVideoHeightToHero();
+    const rafId = requestAnimationFrame(syncVideoHeightToHero);
+
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && profileCardRef.current) {
+      observer = new ResizeObserver(() => {
+        syncVideoHeightToHero();
+      });
+      observer.observe(profileCardRef.current);
+    }
+    window.addEventListener('resize', syncVideoHeightToHero);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      observer?.disconnect();
+      window.removeEventListener('resize', syncVideoHeightToHero);
+    };
+  }, [introState]);
 
   useEffect(() => {
     window.dispatchEvent(
@@ -489,11 +524,17 @@ export const LetterView: React.FC<LetterViewProps> = () => {
         }
 
         #letter-main-card .nht-wax-seal,
+        .nht-welcome-overlay .nht-wax-seal,
         .nht-wax-seal {
           width: 52px !important;
+          min-width: 52px !important;
+          max-width: 52px !important;
           height: 52px !important;
+          min-height: 52px !important;
+          max-height: 52px !important;
           aspect-ratio: 1 / 1 !important;
           padding: 0 !important;
+          margin: 0 !important;
           border-radius: 9999px !important;
           background: radial-gradient(
             circle at 30% 30%,
@@ -506,24 +547,41 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             inset 0 2px 4px rgba(255, 255, 255, 0.65),
             inset 0 -3px 6px rgba(120, 53, 15, 0.55) !important;
           border: 2px dashed rgba(255, 251, 235, 0.78) !important;
-          display: flex !important;
+          display: inline-flex;
           align-items: center !important;
           justify-content: center !important;
+          flex: 0 0 auto !important;
           flex-shrink: 0 !important;
+          box-sizing: border-box !important;
+          overflow: hidden !important;
           color: #fffbeb !important;
           font-weight: 700;
+          line-height: 1 !important;
           letter-spacing: 0.5px;
+          white-space: nowrap !important;
           transform: rotate(8deg);
         }
 
-        #letter-main-card .nht-wax-seal.nht-wax-seal--sm {
+        #letter-main-card .nht-wax-seal.nht-wax-seal--sm,
+        .nht-welcome-overlay .nht-wax-seal.nht-wax-seal--sm,
+        .nht-wax-seal.nht-wax-seal--sm {
           width: 42px !important;
+          min-width: 42px !important;
+          max-width: 42px !important;
           height: 42px !important;
+          min-height: 42px !important;
+          max-height: 42px !important;
         }
 
-        #letter-main-card .nht-wax-seal.nht-wax-seal--lg {
-          width: 54px !important;
-          height: 54px !important;
+        #letter-main-card .nht-wax-seal.nht-wax-seal--lg,
+        .nht-welcome-overlay .nht-wax-seal.nht-wax-seal--lg,
+        #waxSealTrigger.nht-wax-seal.nht-wax-seal--lg {
+          width: 56px !important;
+          min-width: 56px !important;
+          max-width: 56px !important;
+          height: 56px !important;
+          min-height: 56px !important;
+          max-height: 56px !important;
         }
 
         .nht-bento-item {
@@ -627,29 +685,41 @@ export const LetterView: React.FC<LetterViewProps> = () => {
         }
 
         .nht-brand-badge {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
           display: inline-flex;
           align-items: center;
           gap: 5px;
           padding: 1px 7px 1px 5px;
           margin: 0 2px;
-          background-color: #ffffff;
-          color: #0f172a;
-          border: 1px solid #e2e8f0;
+          background: transparent !important;
+          color: var(--text-primary, #0f172a);
+          border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.32));
           border-radius: 6px;
           box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
           vertical-align: middle;
-          transition: transform 0.2s ease;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nht-brand-badge::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          pointer-events: none;
+          background: var(--surface-primary-bg, var(--bg-card, var(--bg-main, #ffffff)));
+          opacity: 0.3;
         }
 
         html.dark .nht-brand-badge {
-          background-color: rgba(15, 23, 42, 0.9);
-          color: #f8fafc;
-          border-color: rgba(148, 163, 184, 0.28);
+          color: var(--text-primary, #f8fafc);
+          border-color: var(--border-subcard, rgba(148, 163, 184, 0.28));
         }
 
         .nht-timeline-item:hover .nht-brand-badge {
           transform: translateY(-1px);
-          border-color: #cbd5e1;
+          border-color: var(--accent-primary, #cbd5e1);
         }
 
         .nht-brand-logo-img {
@@ -1055,7 +1125,11 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       className="lg:col-span-6 lg:border-r lg:border-dashed lg:border-slate-300 dark:lg:border-slate-700 lg:pr-5 flex flex-col justify-between gap-3"
                     >
                       {/* TOP BENTO HERO CARD: Vibrant Purple-Indigo Letterhead */}
-                      <div className="nht-bento-item bg-gradient-to-br from-purple-600 to-indigo-700 p-3.5 sm:p-4 relative overflow-hidden shadow-md text-white">
+                      <div
+                        id="letter-profile-capability-card"
+                        ref={profileCardRef}
+                        className="nht-bento-item bg-gradient-to-br from-purple-600 to-indigo-700 p-3.5 sm:p-4 relative overflow-hidden shadow-md text-white"
+                      >
                         <div className="absolute -top-10 -right-10 w-36 h-36 bg-yellow-300 rounded-full blur-3xl opacity-30 pointer-events-none" />
                         <div className="relative z-10">
                           {/* Header Row */}
@@ -1101,10 +1175,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                               </p>
                             </div>
                             <div
-                              className="nht-wax-seal shrink-0 hidden sm:flex text-[11px]"
+                              className="nht-wax-seal shrink-0 hidden sm:inline-flex text-[11px]"
                               title="Thư ngỏ Hồ sơ Năng lực"
                             >
-                              NHT
+                              <span>NHT</span>
                             </div>
                           </div>
                         </div>
@@ -1387,8 +1461,21 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         style={{
                           padding: '0px',
                           borderRadius: 'var(--radius-subcard, 16px)',
+                          ...(heroCardHeight
+                            ? {
+                                height: `${heroCardHeight}px`,
+                                minHeight: `${heroCardHeight}px`,
+                                maxHeight: `${heroCardHeight}px`,
+                                aspectRatio: 'auto',
+                                flex: '0 0 auto',
+                              }
+                            : {}),
                         }}
-                        className="nht-bento-item relative w-full aspect-video min-h-[195px] sm:min-h-[220px] rounded-[var(--radius-subcard,16px)] overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/70 bg-slate-900"
+                        className={`nht-bento-item relative w-full ${
+                          heroCardHeight
+                            ? ''
+                            : 'aspect-video min-h-[195px] sm:min-h-[220px]'
+                        } rounded-[var(--radius-subcard,16px)] overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/70 bg-slate-900`}
                       >
                         <DualLayerVideoPlayer
                           video1Id={LETTER_VIDEO_1_ID}

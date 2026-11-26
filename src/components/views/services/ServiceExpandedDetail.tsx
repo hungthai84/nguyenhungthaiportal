@@ -416,8 +416,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                 const badge = (
                   <>
                     <div
-                      className="w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0"
-                      style={{ background: 'var(--surface-secondary-bg, var(--bg-card))' }}
+                      className="company-logo-surface w-5 h-5 rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0"
                     >
                       <img
                         src={partner.logo}

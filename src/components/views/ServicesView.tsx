@@ -22,7 +22,7 @@ const Layers = createAnimatedIcon('layers');
 const Award = createAnimatedIcon('award');
 const HeartHandshake = createAnimatedIcon('heart-handshake');
 const RotateCcw = createAnimatedIcon('rotate-ccw');
-import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
+import { DOMAINS_DATA, DOMAINS_INTRO, SERVICES_DATA, SERVICES_INTRO } from '@/data/services';
 import { DomainData, SiteTheme } from '@/types';
 import { cn } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
@@ -973,10 +973,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     key={partner.name || pIdx}
                                     title={partner.name}
                                     style={{
-                                      background: 'var(--surface-secondary-bg, var(--bg-card))',
                                       border: 'none',
                                     }}
-                                    className="w-[38px] h-[38px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
+                                    className="company-logo-surface w-[38px] h-[38px] rounded-full overflow-hidden border-0 flex items-center justify-center p-0 shrink-0 shadow-xs"
                                   >
                                     <img
                                       src={partner.logo}

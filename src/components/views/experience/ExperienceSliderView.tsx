@@ -39,6 +39,13 @@ export interface ExperienceSliderViewProps {
   isBrownLeather?: boolean;
 }
 
+interface ExtendedRoadmapSlide {
+  item: RoadmapCardItem;
+  origIdx: number;
+  slotKey: string;
+  isClone: boolean;
+}
+
 export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   roadmapCards,
   activeKey,
@@ -52,25 +59,98 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 }) => {
   const initialIdx = useMemo(() => {
     const idx = roadmapCards.findIndex((c) => c.key === activeKey);
-    return idx >= 0 ? idx : 3;
+    return idx >= 0 ? idx : Math.min(3, Math.max(0, roadmapCards.length - 1));
   }, [roadmapCards, activeKey]);
 
+  const totalCards = roadmapCards.length;
+  const useLoopClones = totalCards >= 3;
+  const clonePad = useLoopClones ? 3 : 0;
+
   const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(initialIdx);
+  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(() =>
+    useLoopClones ? initialIdx + 3 : initialIdx
+  );
   const [hoveredSlotIdx, setHoveredSlotIdx] = useState<number | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [slideWidth, setSlideWidth] = useState<number>(0);
   const [dragDeltaX, setDragDeltaX] = useState<number>(0);
   const [isDraggingTrack, setIsDraggingTrack] = useState<boolean>(false);
+  const [disableTrackTransition, setDisableTrackTransition] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const wrpRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragStartXRef = useRef<number | null>(null);
+  const dragDeltaXRef = useRef<number>(0);
   const didDragRef = useRef<boolean>(false);
   const wheelCooldownRef = useRef<number>(0);
+  const wheelAccumRef = useRef<number>(0);
+  const snapTimerRef = useRef<number | null>(null);
 
-  const totalCards = roadmapCards.length;
+  const extendedSlides = useMemo<ExtendedRoadmapSlide[]>(() => {
+    if (!useLoopClones) {
+      return roadmapCards.map((item, idx) => ({
+        item,
+        origIdx: idx,
+        slotKey: `orig-${item.key}-${idx}`,
+        isClone: false,
+      }));
+    }
+
+    const pre3Idx = (totalCards - 3) % totalCards;
+    const pre2Idx = (totalCards - 2) % totalCards;
+    const pre1Idx = (totalCards - 1) % totalCards;
+    const post0Idx = 0;
+    const post1Idx = 1 % totalCards;
+    const post2Idx = 2 % totalCards;
+
+    return [
+      {
+        item: roadmapCards[pre3Idx],
+        origIdx: pre3Idx,
+        slotKey: `clone-pre-3-${roadmapCards[pre3Idx].key}`,
+        isClone: true,
+      },
+      {
+        item: roadmapCards[pre2Idx],
+        origIdx: pre2Idx,
+        slotKey: `clone-pre-2-${roadmapCards[pre2Idx].key}`,
+        isClone: true,
+      },
+      {
+        item: roadmapCards[pre1Idx],
+        origIdx: pre1Idx,
+        slotKey: `clone-pre-1-${roadmapCards[pre1Idx].key}`,
+        isClone: true,
+      },
+      ...roadmapCards.map((item, idx) => ({
+        item,
+        origIdx: idx,
+        slotKey: `orig-${item.key}-${idx}`,
+        isClone: false,
+      })),
+      {
+        item: roadmapCards[post0Idx],
+        origIdx: post0Idx,
+        slotKey: `clone-post-0-${roadmapCards[post0Idx].key}`,
+        isClone: true,
+      },
+      {
+        item: roadmapCards[post1Idx],
+        origIdx: post1Idx,
+        slotKey: `clone-post-1-${roadmapCards[post1Idx].key}`,
+        isClone: true,
+      },
+      {
+        item: roadmapCards[post2Idx],
+        origIdx: post2Idx,
+        slotKey: `clone-post-2-${roadmapCards[post2Idx].key}`,
+        isClone: true,
+      },
+    ];
+  }, [roadmapCards, totalCards, useLoopClones]);
 
   const measureSliderGeometry = useCallback(() => {
     const containerEl = containerRef.current;
@@ -100,65 +180,241 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
       if (ro) ro.disconnect();
       window.removeEventListener('resize', measureSliderGeometry);
     };
-  }, [measureSliderGeometry, totalCards]);
+  }, [measureSliderGeometry, extendedSlides.length]);
 
   const baseTrackX = useMemo(() => {
     if (containerWidth <= 0 || slideWidth <= 0) return 0;
-    return containerWidth / 2 - (activeCarouselIdx * slideWidth + slideWidth / 2);
-  }, [containerWidth, slideWidth, activeCarouselIdx]);
+    return containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
+  }, [containerWidth, slideWidth, visualTrackIdx]);
 
   const currentTrackX = baseTrackX + dragDeltaX;
+
+  const activeHighlightSlotIdx =
+    hoveredSlotIdx !== null ? hoveredSlotIdx : visualTrackIdx;
+
+  const syncItemBg = useCallback(() => {
+    const bgEl = bgRef.current;
+    const wrpEl = wrpRef.current;
+    const slideEl = slotSlideRefs.current[activeHighlightSlotIdx];
+    const itemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    if (!bgEl || !wrpEl || !slideEl || !itemEl) return;
+
+    const x = wrpEl.offsetLeft + currentTrackX + slideEl.offsetLeft + itemEl.offsetLeft;
+    const y = wrpEl.offsetTop + slideEl.offsetTop + itemEl.offsetTop;
+    const w = itemEl.offsetWidth;
+    const h = itemEl.offsetHeight;
+
+    if (w > 0 && h > 0) {
+      bgEl.style.width = `${w}px`;
+      bgEl.style.height = `${h}px`;
+      bgEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      bgEl.classList.add('active');
+    }
+  }, [activeHighlightSlotIdx, currentTrackX]);
+
+  useEffect(() => {
+    syncItemBg();
+  }, [syncItemBg, extendedSlides.length, containerWidth, slideWidth]);
+
+  useEffect(() => {
+    const activeItemEl = slotItemRefs.current[activeHighlightSlotIdx];
+    const containerEl = containerRef.current;
+    const wrpEl = wrpRef.current;
+    if ((!activeItemEl && !containerEl && !wrpEl) || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => {
+      window.requestAnimationFrame(() => syncItemBg());
+    });
+    if (activeItemEl) ro.observe(activeItemEl);
+    if (containerEl) ro.observe(containerEl);
+    if (wrpEl) ro.observe(wrpEl);
+    return () => ro.disconnect();
+  }, [activeHighlightSlotIdx, syncItemBg]);
+
+  const scheduleLoopSnapIfNeeded = useCallback(
+    (targetTrackIdx: number) => {
+      if (!useLoopClones) return;
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+        snapTimerRef.current = null;
+      }
+      if (targetTrackIdx < clonePad || targetTrackIdx >= clonePad + totalCards) {
+        const canonicalTrackIdx =
+          targetTrackIdx < clonePad
+            ? targetTrackIdx + totalCards
+            : targetTrackIdx - totalCards;
+        snapTimerRef.current = window.setTimeout(() => {
+          setDisableTrackTransition(true);
+          setVisualTrackIdx(canonicalTrackIdx);
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              setDisableTrackTransition(false);
+            });
+          });
+        }, 430);
+      }
+    },
+    [useLoopClones, clonePad, totalCards]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
+      }
+    };
+  }, []);
 
   const handlePrevCarousel = useCallback(() => {
     if (totalCards <= 1) return;
     SoundEngine.playTap?.();
-    setActiveCarouselIdx((prev) => Math.max(0, prev - 1));
-  }, [totalCards]);
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalCards - 1);
+    const nextOrig = currentOrig > 0 ? currentOrig - 1 : totalCards - 1;
+    setActiveCarouselIdx(nextOrig);
+
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalCards
+        : visualTrackIdx >= clonePad + totalCards
+          ? visualTrackIdx - totalCards
+          : visualTrackIdx;
+    const nextTrack = Math.max(0, baseTrack - 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, scheduleLoopSnapIfNeeded, totalCards, useLoopClones, visualTrackIdx]);
 
   const handleNextCarousel = useCallback(() => {
     if (totalCards <= 1) return;
     SoundEngine.playTap?.();
-    setActiveCarouselIdx((prev) => Math.min(totalCards - 1, prev + 1));
-  }, [totalCards]);
+    setHoveredSlotIdx(null);
+    const currentOrig = Math.min(activeCarouselIdx, totalCards - 1);
+    const nextOrig = currentOrig < totalCards - 1 ? currentOrig + 1 : 0;
+    setActiveCarouselIdx(nextOrig);
 
-  // Pointer drag events for smooth swipe
+    if (!useLoopClones) {
+      setVisualTrackIdx(nextOrig);
+      return;
+    }
+
+    const baseTrack =
+      visualTrackIdx < clonePad
+        ? visualTrackIdx + totalCards
+        : visualTrackIdx >= clonePad + totalCards
+          ? visualTrackIdx - totalCards
+          : visualTrackIdx;
+    const nextTrack = Math.min(extendedSlides.length - 1, baseTrack + 1);
+    if (baseTrack !== visualTrackIdx) {
+      setDisableTrackTransition(true);
+      setVisualTrackIdx(baseTrack);
+      window.requestAnimationFrame(() => {
+        setDisableTrackTransition(false);
+        setVisualTrackIdx(nextTrack);
+        scheduleLoopSnapIfNeeded(nextTrack);
+      });
+    } else {
+      setVisualTrackIdx(nextTrack);
+      scheduleLoopSnapIfNeeded(nextTrack);
+    }
+  }, [activeCarouselIdx, clonePad, extendedSlides.length, scheduleLoopSnapIfNeeded, totalCards, useLoopClones, visualTrackIdx]);
+
+  const handleSelectBullet = useCallback(
+    (origIdx: number) => {
+      SoundEngine.playTap?.();
+      setHoveredSlotIdx(null);
+      setActiveCarouselIdx(origIdx);
+      setVisualTrackIdx(useLoopClones ? origIdx + clonePad : origIdx);
+    },
+    [clonePad, useLoopClones]
+  );
+
+  // Keyboard navigation
+  useEffect(() => {
+    const onArrowKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrevCarousel();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNextCarousel();
+      }
+    };
+    window.addEventListener('keydown', onArrowKey);
+    return () => window.removeEventListener('keydown', onArrowKey);
+  }, [handlePrevCarousel, handleNextCarousel]);
+
+  // Pointer drag events
+  const finishSliderDrag = useCallback(() => {
+    if (dragStartXRef.current === null) return;
+    const dx = dragDeltaXRef.current;
+    dragStartXRef.current = null;
+    dragDeltaXRef.current = 0;
+    setIsDraggingTrack(false);
+    setDragDeltaX(0);
+    if (dx <= -24) {
+      handleNextCarousel();
+    } else if (dx >= 24) {
+      handlePrevCarousel();
+    }
+    window.setTimeout(() => {
+      didDragRef.current = false;
+    }, 60);
+  }, [handleNextCarousel, handlePrevCarousel]);
+
+  useEffect(() => {
+    if (!isDraggingTrack) return;
+
+    const handleWindowPointerMove = (e: PointerEvent) => {
+      if (dragStartXRef.current === null) return;
+      const dx = e.clientX - dragStartXRef.current;
+      if (Math.abs(dx) > 6) {
+        didDragRef.current = true;
+      }
+      dragDeltaXRef.current = dx;
+      setDragDeltaX(dx);
+    };
+
+    const handleWindowPointerEnd = () => {
+      finishSliderDrag();
+    };
+
+    window.addEventListener('pointermove', handleWindowPointerMove);
+    window.addEventListener('pointerup', handleWindowPointerEnd);
+    window.addEventListener('pointercancel', handleWindowPointerEnd);
+    return () => {
+      window.removeEventListener('pointermove', handleWindowPointerMove);
+      window.removeEventListener('pointerup', handleWindowPointerEnd);
+      window.removeEventListener('pointercancel', handleWindowPointerEnd);
+    };
+  }, [isDraggingTrack, finishSliderDrag]);
+
   const handleSliderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 || totalCards <= 1) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('.news-slider-arrow, .news-slider-bullet')) return;
     dragStartXRef.current = e.clientX;
+    dragDeltaXRef.current = 0;
     didDragRef.current = false;
     setIsDraggingTrack(true);
     setDragDeltaX(0);
-
-    const onPointerMove = (ev: PointerEvent) => {
-      if (dragStartXRef.current === null) return;
-      const deltaX = ev.clientX - dragStartXRef.current;
-      if (Math.abs(deltaX) > 6) {
-        didDragRef.current = true;
-      }
-      setDragDeltaX(deltaX);
-    };
-
-    const onPointerUp = (ev: PointerEvent) => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      window.removeEventListener('pointercancel', onPointerUp);
-
-      if (dragStartXRef.current === null) return;
-      const totalDelta = ev.clientX - dragStartXRef.current;
-      dragStartXRef.current = null;
-      setIsDraggingTrack(false);
-      setDragDeltaX(0);
-
-      const threshold = Math.max(40, (slideWidth || 260) * 0.2);
-      if (totalDelta < -threshold && activeCarouselIdx < totalCards - 1) {
-        handleNextCarousel();
-      } else if (totalDelta > threshold && activeCarouselIdx > 0) {
-        handlePrevCarousel();
-      }
-    };
-
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
-    window.addEventListener('pointercancel', onPointerUp);
   };
 
   // Wheel browsing
@@ -167,28 +423,34 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || totalCards <= 1) return;
       const absX = Math.abs(e.deltaX);
       const absY = Math.abs(e.deltaY);
-      const delta = absX >= absY ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 6) return;
+      if (absX < 0.5 && absY < 0.5) return;
 
+      const delta = absX >= absY ? e.deltaX : e.deltaY;
       e.preventDefault();
       e.stopPropagation();
 
       const now = Date.now();
-      if (now - wheelCooldownRef.current < 200) return;
-      wheelCooldownRef.current = now;
+      if (now - wheelCooldownRef.current < 240) return;
 
-      if (delta > 0 && activeCarouselIdx < totalCards - 1) {
-        handleNextCarousel();
-      } else if (delta < 0 && activeCarouselIdx > 0) {
-        handlePrevCarousel();
+      wheelAccumRef.current += delta;
+      if (Math.abs(wheelAccumRef.current) >= 20) {
+        wheelCooldownRef.current = now;
+        const dir = wheelAccumRef.current;
+        wheelAccumRef.current = 0;
+        if (dir > 0) {
+          handleNextCarousel();
+        } else {
+          handlePrevCarousel();
+        }
       }
     };
 
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, [activeCarouselIdx, totalCards, handleNextCarousel, handlePrevCarousel]);
+  }, [totalCards, handleNextCarousel, handlePrevCarousel]);
 
   return (
     <div className="w-full h-full min-h-0 flex-1 flex flex-col justify-between overflow-hidden relative">
@@ -278,7 +540,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
         </div>
       </div>
 
-      {/* 3D Slider Container */}
+      {/* News-Slider CodePen Architecture + Theme Integration */}
       <div
         data-section-card="true"
         data-element-type="card"
@@ -293,25 +555,31 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             onPointerDown={handleSliderPointerDown}
             onDragStart={(e) => e.preventDefault()}
           >
+            <div ref={bgRef} className="news-item-bg projects-themed-item-bg" aria-hidden="true" />
+
             <div
               ref={wrpRef}
               style={{
                 transform: `translate3d(${currentTrackX}px, 0, 0)`,
-                transition: isDraggingTrack ? 'none' : 'transform 0.43s cubic-bezier(0.22, 1, 0.36, 1)',
+                transition:
+                  disableTrackTransition || isDraggingTrack
+                    ? 'none'
+                    : 'transform 0.43s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
               className="news-slider-wrp"
             >
-              {roadmapCards.map((item, slotIdx) => {
-                const isActiveCenter = slotIdx === activeCarouselIdx;
-                const isPrevSlide = slotIdx === activeCarouselIdx - 1;
-                const isNextSlide = slotIdx === activeCarouselIdx + 1;
-                const isPeekSlide = Math.abs(slotIdx - activeCarouselIdx) === 2;
+              {extendedSlides.map((slideItem, slotIdx) => {
+                const { item, origIdx, slotKey } = slideItem;
+                const isActiveCenter = slotIdx === visualTrackIdx;
+                const isPrevSlide = slotIdx === visualTrackIdx - 1;
+                const isNextSlide = slotIdx === visualTrackIdx + 1;
+                const isPeekSlide = Math.abs(slotIdx - visualTrackIdx) === 2;
                 const isHighlighted =
                   hoveredSlotIdx !== null ? slotIdx === hoveredSlotIdx : isActiveCenter;
 
                 return (
                   <div
-                    key={item.key}
+                    key={slotKey}
                     ref={(el) => {
                       slotSlideRefs.current[slotIdx] = el;
                     }}
@@ -341,14 +609,18 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       }}
                       onClick={() => {
                         if (didDragRef.current) return;
-                        setActiveCarouselIdx(slotIdx);
-                        onSelectMilestone(item.key, slotIdx);
+                        SoundEngine.playTap?.();
+                        setActiveCarouselIdx(origIdx);
+                        setVisualTrackIdx(slotIdx);
+                        onSelectMilestone(item.key, origIdx);
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
-                          setActiveCarouselIdx(slotIdx);
-                          onSelectMilestone(item.key, slotIdx);
+                          SoundEngine.playTap?.();
+                          setActiveCarouselIdx(origIdx);
+                          setVisualTrackIdx(slotIdx);
+                          onSelectMilestone(item.key, origIdx);
                         }
                       }}
                       className={cn('news-card-item', isHighlighted && 'active')}
@@ -366,12 +638,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         </span>
                         {item.description}
                       </p>
-                      <div
-                        className="news-card-img flex items-center justify-center p-3"
-                        style={{
-                          background: item.colBgGradient || item.blockGradient,
-                        }}
-                      >
+                      <div className="news-card-img company-logo-surface flex items-center justify-center p-3">
                         <img
                           src={item.logo}
                           alt={item.shortName}
@@ -392,7 +659,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             <button
               type="button"
               onClick={handlePrevCarousel}
-              disabled={activeCarouselIdx <= 0}
+              disabled={totalCards <= 1}
               className="news-slider-arrow news-slider-prev absolute no-theme-btn"
               aria-label="Cột mốc trước"
             >
@@ -406,7 +673,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             <button
               type="button"
               onClick={handleNextCarousel}
-              disabled={activeCarouselIdx >= totalCards - 1}
+              disabled={totalCards <= 1}
               className="news-slider-arrow news-slider-next absolute no-theme-btn"
               aria-label="Cột mốc tiếp theo"
             >
@@ -425,10 +692,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                 <button
                   key={item.key}
                   type="button"
-                  onClick={() => {
-                    SoundEngine.playTap?.();
-                    setActiveCarouselIdx(idx);
-                  }}
+                  onClick={() => handleSelectBullet(idx)}
                   className={cn(
                     'news-slider-bullet',
                     idx === activeCarouselIdx && 'active-bullet'

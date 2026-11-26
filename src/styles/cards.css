@@ -6297,7 +6297,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   width: 32px;
   height: 32px;
   border-radius: 9999px;
-  background: var(--surface-secondary-bg, var(--bg-card));
+  background: transparent;
   border: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
   display: flex;
@@ -6522,6 +6522,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 }
 
 #experience-main-card .origami-spine-logo {
+  position: relative;
   width: 72px;
   height: 72px;
   border-radius: 9999px;

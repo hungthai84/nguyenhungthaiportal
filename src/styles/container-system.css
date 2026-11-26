@@ -657,7 +657,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: auto !important;
   }
 
-  #bento-letter-video {
+  #el-p1-div-85 > #bento-letter-video {
     min-height: 220px !important;
   }
 
@@ -756,7 +756,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
-  #bento-letter-video {
+  #el-p1-div-85 > #bento-letter-video {
     grid-column: span 6 / span 6 !important;
     min-height: 0 !important;
     height: 100% !important;
@@ -914,12 +914,19 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: 100% !important;
   }
 
+  #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
+  #horoscope-row-1-horizontal > #horoscope-card-6[data-expanded="true"] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   #horoscope-card-2-grid,
   #horoscope-card-3-grid,
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(min-content, 1fr) !important;
+    grid-auto-rows: auto !important;
     align-items: stretch !important;
   }
 
@@ -948,7 +955,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
-  #bento-letter-video {
+  #el-p1-div-85 > #bento-letter-video {
     grid-column: span 7 / span 7 !important;
     min-height: 0 !important;
     height: 100% !important;
@@ -1095,9 +1102,16 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: 100% !important;
   }
 
+  #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
+  #horoscope-row-1-horizontal > #horoscope-card-6[data-expanded="true"] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   #horoscope-card-2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(min-content, 1fr) !important;
+    grid-auto-rows: auto !important;
     align-items: stretch !important;
   }
 
@@ -1105,7 +1119,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(min-content, 1fr) !important;
+    grid-auto-rows: auto !important;
     align-items: stretch !important;
   }
 
@@ -1149,7 +1163,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   }
 
-  #bento-letter-video {
+  #el-p1-div-85 > #bento-letter-video {
     grid-column: span 7 / span 7 !important;
     min-height: 0 !important;
     height: 100% !important;
@@ -1303,9 +1317,16 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: 100% !important;
   }
 
+  #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
+  #horoscope-row-1-horizontal > #horoscope-card-6[data-expanded="true"] {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   #horoscope-card-2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(min-content, 1fr) !important;
+    grid-auto-rows: auto !important;
     align-items: stretch !important;
   }
 
@@ -1313,7 +1334,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(min-content, 1fr) !important;
+    grid-auto-rows: auto !important;
     align-items: stretch !important;
   }
 

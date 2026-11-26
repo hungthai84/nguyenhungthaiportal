@@ -187,6 +187,7 @@ export interface EnterpriseSystem {
 }
 
 export type SystemData = EnterpriseSystem;
+export type ServiceData = DomainData;
 
 export interface DomainData {
   id: string;

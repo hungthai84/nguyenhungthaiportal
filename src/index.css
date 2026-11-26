@@ -827,18 +827,29 @@ html[data-card-style] #horoscope-row-1-horizontal > :is(#horoscope-card-profile,
   min-width: 0 !important;
   height: 100% !important;
   min-height: 0 !important;
+  align-self: stretch !important;
   flex: none !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow: hidden !important;
   margin: 0 !important;
-  padding: 12px !important;
-  gap: 8px !important;
-  row-gap: 8px !important;
-  column-gap: 8px !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
   border-width: 1px !important;
   border-style: solid !important;
   border-radius: var(--radius-card, 14px) !important;
   box-sizing: border-box !important;
+}
+
+html #horoscope-profile-subgrid {
+  grid-auto-rows: auto !important;
+  align-items: stretch !important;
+  height: auto !important;
+}
+
+html #horoscope-profile-subgrid > [data-subcard="true"] {
+  height: 100% !important;
+  align-self: stretch !important;
 }
 
 /* Transparent layout host wrappers remain non-animated */
@@ -3843,7 +3854,7 @@ html[data-card-style] :is(
   header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
   footer button:not(.no-theme-btn):not(:disabled),
   [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ) {
   will-change: transform;
   backface-visibility: hidden;
@@ -3893,7 +3904,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(100, 182, 255, 0.72) !important;
@@ -3930,7 +3941,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1px, 0) !important;
     border-color: rgba(255, 255, 255, 0.96) !important;
@@ -3966,7 +3977,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1px, 0) !important;
     border-color: rgba(181, 167, 244, 0.54) !important;
@@ -4003,7 +4014,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -2px, 0) !important;
     border-color: rgba(255, 255, 255, 0.96) !important;
@@ -4041,7 +4052,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -2px, 0) !important;
     border-color: rgba(103, 232, 249, 0.82) !important;
@@ -4080,7 +4091,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(253, 230, 138, 0.78) !important;
@@ -4119,7 +4130,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(245, 222, 179, 0.85) !important;
@@ -4158,7 +4169,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(245, 196, 120, 0.86) !important;
@@ -4197,7 +4208,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(34, 211, 238, 0.74) !important;
@@ -4236,7 +4247,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(255, 255, 255, 0.88) !important;
@@ -4275,7 +4286,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(100, 182, 255, 0.48) !important;
@@ -4312,7 +4323,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: none !important;
     border: none !important;
@@ -4344,7 +4355,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: none !important;
     border: none !important;
@@ -4377,7 +4388,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(79, 70, 229, 0.52) !important;
@@ -4408,7 +4419,7 @@ html[data-card-style] :is(
     .project-card-btn-secondary,
     .exp-bento-rect-btn,
     [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
   ):hover {
     transform: translate3d(0, -1.5px, 0) !important;
     border-color: rgba(99, 102, 241, 0.56) !important;
@@ -4442,7 +4453,7 @@ html[data-card-style] :is(
   .project-card-btn-secondary,
   .exp-bento-rect-btn,
   [data-element-type="button"],
-  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
+  main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
 ):focus-visible {
   outline: 2px solid var(--color-focus-ring, var(--color-primary, #4f46e5)) !important;
   outline-offset: 2px !important;
@@ -4478,7 +4489,7 @@ html[data-card-style] :is(
     header button:not(.nav-pill-wrapper):not(.no-theme-btn):not(:disabled),
     footer button:not(.no-theme-btn):not(:disabled),
     [role="dialog"] button:not(.no-theme-btn):not(.video-play-btn):not(:disabled),
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled),
+    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.video-play-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled),
     [data-btn-pressed="true"]
   ),
   html[data-card-style] :is(
@@ -6162,7 +6173,7 @@ html[data-surface-depth="flat"] body :is(
 }
 
 .news-slider-slide {
-  width: clamp(260px, 27cqi, 304px);
+  width: clamp(346px, 36cqi, 405px);
   height: 100%;
   max-height: 100%;
   min-height: 0;
@@ -7144,8 +7155,10 @@ html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover
   border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  color: var(--text-primary) !important;
   filter: none !important;
   -webkit-filter: none !important;
+  text-shadow: none !important;
   animation: none !important;
   transform: none !important;
   transition: none !important;
@@ -7171,8 +7184,10 @@ html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice
   border-bottom-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   border-bottom-right-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
   border-radius: 0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) !important;
+  color: var(--text-primary) !important;
   filter: none !important;
   -webkit-filter: none !important;
+  text-shadow: none !important;
   animation: none !important;
   transform: none !important;
   transition: none !important;
@@ -7546,7 +7561,7 @@ html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="pa
 /* ========================================================================= */
 /* TRANG DỰ ÁN: ĐỒNG BỘ KHUNG SLIDER (#el-p7-div-92) & NỘI DUNG THEO THEME   */
 /* ========================================================================= */
-#projects-main-card .projects-themed-slider {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider {
   background: var(--surface-secondary-bg, var(--bg-subcard, var(--bg-card)));
   border: var(--card-border-width, 1px) solid var(--border-subcard, var(--border-default, rgba(148, 163, 184, 0.28)));
   border-radius: var(--radius-banner, var(--radius-card, 14px));
@@ -7557,25 +7572,25 @@ html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="pa
   isolation: isolate;
 }
 
-#projects-main-card .projects-themed-slider:hover {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider:hover {
   transform: none !important;
 }
 
-#projects-main-card .projects-themed-slider .news-slider-bg {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bg {
   background: transparent;
 }
-#projects-main-card .projects-themed-slider .news-slider-bg:after {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bg:after {
   background-image:
     radial-gradient(62% 70% at 14% 16%, color-mix(in srgb, var(--color-primary, #6366f1) 14%, transparent) 0%, transparent 66%),
     radial-gradient(58% 68% at 86% 84%, color-mix(in srgb, var(--color-secondary, var(--color-primary, #38bdf8)) 12%, transparent) 0%, transparent 68%);
   opacity: 0.9;
 }
 
-#projects-main-card .projects-themed-slider .news-slider-container {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-container {
   z-index: 3;
 }
 
-#projects-main-card .projects-themed-slider .news-item-bg {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-item-bg {
   background: var(--bg-card, var(--color-surface, #ffffff));
   border: var(--card-border-width, 1px) solid var(--border-strong, var(--border-subcard, var(--border-default)));
   border-radius: var(--radius-card, 14px);
@@ -7584,87 +7599,93 @@ html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="pa
   -webkit-backdrop-filter: blur(var(--glass-card-blur, 16px)) saturate(var(--glass-card-saturate, 135%));
 }
 
-#projects-main-card .projects-themed-slider .news-card-item {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item {
   color: var(--text-primary);
   border-radius: var(--radius-card, 14px);
 }
 
-#projects-main-card .projects-themed-slider .news-card-date {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-date {
   color: var(--text-link, var(--color-primary));
   border-bottom-color: color-mix(in srgb, var(--color-primary, #6366f1) 46%, transparent);
   opacity: 0.88;
 }
 
-#projects-main-card .projects-themed-slider .news-card-date-title {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-date-title {
   color: var(--text-link, var(--color-primary));
 }
 
-#projects-main-card .projects-themed-slider .news-card-date-txt {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-date-txt {
   color: var(--text-secondary);
 }
 
-#projects-main-card .projects-themed-slider .news-card-title {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-title {
   color: var(--text-heading, var(--text-primary));
   opacity: 0.92;
 }
 
-#projects-main-card .projects-themed-slider .news-card-txt {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-txt {
   color: var(--text-secondary);
   opacity: 0.86;
 }
 
-#projects-main-card .projects-themed-slider .news-card-img {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-img:not(.company-logo-surface) {
   border-radius: var(--radius-image, 12px);
   border: 1px solid var(--border-image-card, var(--border-subcard, rgba(148, 163, 184, 0.28)));
   box-shadow: var(--shadow-image-card, var(--shadow-subcard));
   background: var(--bg-nested-card, var(--bg-subcard));
 }
 
-#projects-main-card .projects-themed-slider .news-card-img img {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-img.company-logo-surface {
+  border-radius: var(--radius-image, 12px);
+  border: 1px solid var(--border-image-card, var(--border-subcard, rgba(148, 163, 184, 0.28)));
+  box-shadow: var(--shadow-image-card, var(--shadow-subcard));
+}
+
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-img img {
   border-radius: calc(var(--radius-image, 12px) - 1px);
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active,
-#projects-main-card .projects-themed-slider .news-card-item:hover {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover {
   color: var(--text-primary);
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-date,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-date {
   opacity: 1;
   color: var(--text-link, var(--color-primary));
   border-bottom-color: var(--color-primary, var(--text-link));
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date-title,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date-title {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-date-title,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-date-title {
   color: var(--text-link, var(--color-primary));
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-date-txt,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-date-txt {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-date-txt,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-date-txt {
   color: var(--text-secondary);
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-title,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-title {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-title,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-title {
   opacity: 1;
   color: var(--text-heading, var(--text-primary));
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-txt,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-txt {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-txt,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-txt {
   opacity: 1;
   color: var(--text-secondary);
 }
 
-#projects-main-card .projects-themed-slider .news-card-item.active .news-card-img,
-#projects-main-card .projects-themed-slider .news-card-item:hover .news-card-img {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item.active .news-card-img,
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-card-item:hover .news-card-img {
   border-color: color-mix(in srgb, var(--color-primary, #6366f1) 42%, var(--border-image-card, transparent));
   box-shadow: var(--shadow-nested, 0 4px 14px rgba(15, 23, 42, 0.14));
 }
 
-#projects-main-card .projects-themed-slider .news-slider-arrow {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-arrow {
   background: var(--bg-nav-arrow, var(--bg-banner-pill, var(--bg-card))) !important;
   color: var(--text-nav-arrow, var(--text-primary)) !important;
   border: 1px solid var(--border-nav-arrow, var(--border-subcard, var(--border-default))) !important;
@@ -7673,35 +7694,35 @@ html:root[data-card-style] body #app-footer button.nav-pill:is([aria-current="pa
   -webkit-backdrop-filter: blur(var(--blur-nav-pill, 14px));
 }
 
-#projects-main-card .projects-themed-slider .news-slider-arrow:hover:not(:disabled) {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-arrow:hover:not(:disabled) {
   border-color: var(--color-primary, var(--border-strong)) !important;
   color: var(--color-primary, var(--text-primary)) !important;
   box-shadow: var(--shadow-card, 0 10px 24px rgba(15, 23, 42, 0.22)) !important;
 }
 
-#projects-main-card .projects-themed-slider .news-slider-bullet {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bullet {
   background: color-mix(in srgb, var(--text-secondary, #64748b) 42%, transparent);
   opacity: 0.72;
 }
 
-#projects-main-card .projects-themed-slider .news-slider-bullet:hover {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bullet:hover {
   background: color-mix(in srgb, var(--color-primary, #6366f1) 70%, transparent);
   opacity: 0.95;
 }
 
-#projects-main-card .projects-themed-slider .news-slider-bullet.active-bullet {
+:is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bullet.active-bullet {
   background: var(--bg-button-primary, var(--color-primary));
   opacity: 1;
   box-shadow: 0 2px 10px color-mix(in srgb, var(--color-primary, #6366f1) 38%, transparent);
 }
 
 html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"])
-  #projects-main-card .projects-themed-slider .news-slider-bg:after {
+  :is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-slider-bg:after {
   opacity: 0.22;
 }
 
 html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"])
-  #projects-main-card .projects-themed-slider .news-item-bg {
+  :is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-item-bg {
   background: var(--bg-card);
   border: 2px solid var(--border-default);
   outline: 1px dashed var(--leather-stitch, rgba(245, 222, 179, 0.45));
@@ -7711,7 +7732,7 @@ html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leat
 }
 
 html[data-card-style="dark-neon-glass"]
-  #projects-main-card .projects-themed-slider .news-item-bg {
+  :is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-item-bg {
   background: rgba(15, 23, 42, 0.62);
   border-color: rgba(34, 211, 238, 0.42);
   box-shadow:
@@ -7721,7 +7742,7 @@ html[data-card-style="dark-neon-glass"]
 }
 
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"])
-  #projects-main-card .projects-themed-slider .news-item-bg {
+  :is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-item-bg {
   box-shadow: var(--neu-raised-shadow, var(--shadow-card));
 }
 
@@ -8404,9 +8425,6 @@ html.dark:root[data-card-style] body #experience-main-card {
   gap: 0px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-color: var(--surface-primary-border, var(--border-color)) !important;
 }
 
 html:root body #letter-main-card #bento-letter-video img,
@@ -8596,5 +8614,39 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
   justify-content: space-between !important;
 }
 
-/* End of index.css */
+/* Experience Slider: giữ nguyên hình học slide đồng khớp hoàn hảo với .news-item-bg trượt theo hover/active */
+@media (hover: hover) {
+  #experience-main-card .news-slider-slide:hover,
+  #experience-main-card .news-slider-slide.swiper-slide-peek:hover {
+    transform: none !important;
+  }
+}
 
+@media screen and (max-width: 960px) and (min-width: 769px) {
+  #experience-main-card .news-slider-slide,
+  #experience-main-card .news-item-bg {
+    width: clamp(273px, 36cqi, 340px);
+  }
+}
+
+/* Company Logo Surface: Nền trùng với nền giao diện đang chọn nhưng độ trong suốt 30% */
+.company-logo-surface {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.company-logo-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--surface-primary-bg, var(--bg-card, var(--bg-main, #ffffff)));
+  opacity: 0.30;
+  pointer-events: none;
+}
+
+/* End of index.css */

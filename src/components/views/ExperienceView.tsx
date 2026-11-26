@@ -48,7 +48,7 @@ const ChevronUp = createAnimatedIcon('chevron-up');
 const X = createAnimatedIcon('x');
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { PROJECTS_DATA } from '@/data/projects';
-import { DOMAINS_DATA } from '@/data/domains';
+import { DOMAINS_DATA } from '@/data/services';
 import { useToast } from '@/components/ui/Toast';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { cn } from '@/lib/utils';
@@ -94,7 +94,6 @@ const CircularLogo: React.FC<{
       style={{
         marginLeft: isStacked && index > 0 ? (total >= 4 ? '-16px' : '-18px') : '0px',
         zIndex: total - index,
-        background: 'var(--surface-secondary-bg, var(--bg-card))',
         border: 'none',
         boxShadow: 'var(--shadow-subcard, 0 6px 14px -4px rgba(15, 23, 42, 0.22))',
       }}
@@ -102,7 +101,7 @@ const CircularLogo: React.FC<{
       aria-label={`Xem chi tiết công việc tại ${companyName} (${logo.alt})`}
       className={cn(
         sizeClass,
-        'relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105 hover:z-30 cursor-pointer focus-visible:outline-none'
+        'company-logo-surface relative aspect-square rounded-full p-0 border-0 ring-0 outline-none flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105 hover:z-30 cursor-pointer focus-visible:outline-none'
       )}
     >
       {!hasFailedAll ? (
@@ -430,7 +429,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
   const unfoldingFoldIdx = foldPhase === 'unfolding' ? origamiTargetIdx : null;
 
   const boardRef = useRef<HTMLElement | null>(null);
-  const detailCardRef = useRef<HTMLElement | null>(null);
+  const detailCardRef = useRef<HTMLDivElement | null>(null);
   const dragStartXRef = useRef<number | null>(null);
   const dragStartYRef = useRef<number | null>(null);
   const didDragRef = useRef<boolean>(false);
@@ -1172,30 +1171,30 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           addService('Dịch vụ Viễn thông');
         }
         if (combined.includes('garena') || combined.includes('ved') || combined.includes('gcafe')) {
-          addService('Thể thao điện tử');
+          addService('Thể thao Điện tử');
         }
         if (combined.includes('shopeepay') || combined.includes('airpay') || combined.includes('momo')) {
-          addService('Thanh toán điện tử');
+          addService('Thanh toán Ví Điện tử');
         } else if (combined.includes('shopee')) {
-          addService('Thương mại điện tử');
+          addService('Thương mại Điện tử');
         }
         if (combined.includes('prudential')) {
-          addService('Tài chính bảo hiểm');
+          addService('Tài chính & Bảo hiểm');
         }
         if (combined.includes('finviet')) {
-          addService('Thanh toán điện tử');
-          addService('Thương mại điện tử');
-          addService('Tài chính bảo hiểm');
+          addService('Thanh toán Ví Điện tử');
+          addService('Thương mại Điện tử');
+          addService('Tài chính & Bảo hiểm');
         }
         if (combined.includes('power') || combined.includes('powerservice')) {
-          addService('Xây dựng hệ thống');
+          addService('Xây dựng Hệ thống');
         }
       }
 
       if (normName.includes('shopeepay') || normName.includes('airpay') || normSrc.includes('shopeepay')) {
-        matched.sort((a, b) => (a === 'Thanh toán điện tử' ? -1 : b === 'Thanh toán điện tử' ? 1 : 0));
+        matched.sort((a, b) => (a === 'Thanh toán Ví Điện tử' ? -1 : b === 'Thanh toán Ví Điện tử' ? 1 : 0));
       } else if (normName.includes('finviet') || normSrc.includes('finviet')) {
-        const priority = ['Thanh toán điện tử', 'Thương mại điện tử', 'Tài chính bảo hiểm'];
+        const priority = ['Thanh toán Ví Điện tử', 'Thương mại Điện tử', 'Tài chính & Bảo hiểm'];
         matched.sort((a, b) => priority.indexOf(a) - priority.indexOf(b));
       }
 
@@ -1954,7 +1953,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                 {item.logos.map((spineLogo, sIdx) => (
                                   <div
                                     key={`${spineLogo.src}-${sIdx}`}
-                                    className="exp-fold-spine-logo"
+                                    className="exp-fold-spine-logo company-logo-surface"
                                     style={{
                                       marginTop:
                                         sIdx > 0
@@ -2573,8 +2572,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         };
 
         return (
-          <>
-            <motion.main
+            <motion.div
               ref={detailCardRef}
               id="experience-job-detail-card"
               variants={contentRevealVariants}
@@ -2582,19 +2580,28 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               animate={isClosingDetailContent ? 'exit' : 'visible'}
               data-no-wheel-horizontal="true"
               data-scrollable="true"
-              data-element-name="Chi tiết thẻ công việc"
-              data-element-type="card"
+              data-element-name="Chi tiết công việc"
+              data-element-type="container"
               data-element-page="experience"
               data-element-parent="experience-main-card"
-              data-section-card="true"
-              className="bento-card glass-card exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar rounded-[var(--radius-main,14px)] border-0 block w-full min-w-0 p-[15px] font-play box-border"
-              style={{ padding: '15px', borderRadius: 'var(--radius-main, 14px)' }}
+              className="exp-detail-unfold-in flex-1 min-h-0 h-full overflow-y-auto overflow-x-hidden glass-scrollbar block w-full min-w-0 p-[15px] font-play box-border bg-transparent border-0 shadow-none"
+              style={{ padding: '15px' }}
             >
-            {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Nút đóng ở góc trên bên phải */}
+            {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Nút thu gọn / đóng ở góc trên bên phải */}
             <div
               id="experience-job-detail-toolbar"
-              className="w-full flex items-center justify-end mb-[15px]"
+              className="w-full flex items-center justify-between mb-[15px]"
             >
+              <button
+                type="button"
+                onClick={handleCloseJobCard}
+                title="Bấm để thu gọn về thẻ công ty / slider"
+                className="typo-button px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-semibold font-play cursor-pointer border transition-all hover:scale-105 bg-white/70 dark:bg-slate-800/70 text-[var(--text-primary)] border-[var(--border-subcard)] backdrop-blur-md shadow-xs"
+              >
+                <ChevronUp className="w-3.5 h-3.5" />
+                <span>Thu gọn thẻ</span>
+              </button>
+
               {/* Nút X Close gấp giấy 3D Origami trở lại Timeline */}
               <button
                 id="experience-job-detail-close-btn"
@@ -2625,13 +2632,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               data-layout-mode="masonry"
               className="experience-masonry-grid w-full min-w-0"
             >
-              {/* THẺ 1: Thẻ công ty */}
+              {/* THẺ 1: Thẻ công ty (Click để thu gọn về dạng thẻ) */}
               <section
                 id="experience-info-card"
                 data-multicolor-bento="true"
                 data-bento-tone="sky"
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.closest('button, a, video, .exp-bento-hero-banner, input')) return;
+                  handleCloseJobCard();
+                }}
+                title="Bấm vào thẻ công ty để thu gọn lại"
                 className={cn(
-                  'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,24px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto',
+                  'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col gap-[15px] relative group min-w-0 h-auto cursor-pointer',
                   isDarkCardText
                     ? 'bg-gradient-to-br from-sky-950/55 via-slate-900/72 to-indigo-950/48 border-sky-500/28 text-white'
                     : 'bg-gradient-to-br from-sky-50/92 via-white/85 to-indigo-50/88 border-sky-200/75 text-slate-900'
@@ -2767,12 +2780,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                                             ? '-10px'
                                             : '-12px'
                                           : '0px',
-                                      background: 'var(--surface-secondary-bg, var(--bg-card))',
                                       border: 'none',
                                       boxShadow: 'var(--shadow-subcard, 0 6px 16px -4px rgba(15, 23, 42, 0.22))',
                                     }}
                                     className={cn(
-                                      'relative rounded-full overflow-hidden p-0 border-0 ring-0 outline-none flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30',
+                                      'company-logo-surface relative rounded-full overflow-hidden p-0 border-0 ring-0 outline-none flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110 hover:z-30',
                                       useCompactLogo
                                         ? 'w-[30px] h-[30px] sm:w-[34px] sm:h-[34px]'
                                         : 'w-[46px] h-[46px]'
@@ -3603,8 +3615,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
 
             </div>
-          </motion.main>
-        </>
+          </motion.div>
       );
     })()}
         </div>

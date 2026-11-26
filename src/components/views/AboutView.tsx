@@ -2386,11 +2386,11 @@ export function AboutView({
             >
                   {/* Folder Wrapper: Đảm bảo Tab bìa folder và mặt giấy folder luôn gắn liền 0px gap trên mọi kích thước */}
                   <div className="flex flex-col gap-0 flex-1 min-h-0 w-full">
-                    {/* Folder Cover Tab Strip (Tab bìa folder gắn liền mặt giấy bên dưới) */}
+                      {/* Folder Cover Tab Strip (Tab bìa folder gắn liền mặt giấy bên dưới) */}
                     <div
                       role="tablist"
                       aria-label="Thông tin chi tiết"
-                      className="card-header-sync relative z-20 flex items-end gap-1.5 pl-1 pr-2 min-w-0 shrink-0"
+                      className="card-header-sync relative z-20 flex items-end justify-start gap-1.5 pl-1 pr-2 min-w-0 shrink-0"
                     >
                       <button
                         ref={personalTabRef}
@@ -2415,7 +2415,7 @@ export function AboutView({
                         }}
                         style={{
                           borderColor: 'var(--border-subcard)',
-                          borderBottomWidth: '0px',
+                          borderBottomColor: detailInfoTab === 'personal' ? 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))' : 'var(--border-subcard)',
                           borderTopLeftRadius: '10px',
                           borderTopRightRadius: '10px',
                           borderBottomLeftRadius: '0px',
@@ -2425,9 +2425,9 @@ export function AboutView({
                           WebkitBackdropFilter: 'blur(12px)',
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border border-b-0 transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'personal'
-                            ? 'z-20 -mb-[1px] pb-[9px] text-blue-600 dark:text-cyan-400 font-bold opacity-100'
+                            ? 'z-20 -mb-[1px] pb-[9px] text-blue-600 dark:text-cyan-400 font-bold opacity-100 border-b-transparent'
                             : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >
@@ -2464,7 +2464,7 @@ export function AboutView({
                         }}
                         style={{
                           borderColor: 'var(--border-subcard)',
-                          borderBottomWidth: '0px',
+                          borderBottomColor: detailInfoTab === 'contact' ? 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))' : 'var(--border-subcard)',
                           borderTopLeftRadius: '10px',
                           borderTopRightRadius: '10px',
                           borderBottomLeftRadius: '0px',
@@ -2474,9 +2474,9 @@ export function AboutView({
                           WebkitBackdropFilter: 'blur(12px)',
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border border-b-0 transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'contact'
-                            ? 'z-20 -mb-[1px] pb-[9px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100'
+                            ? 'z-20 -mb-[1px] pb-[9px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100 border-b-transparent'
                             : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >

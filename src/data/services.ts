@@ -1,6 +1,6 @@
-import { DomainData } from '@/types';
+import { DomainData, ServiceData } from '@/types';
 
-export const DOMAINS_INTRO = {
+export const SERVICES_INTRO = {
   title: 'Lĩnh Vực & Dịch Vụ Chuyên Sâu',
   subtitle: 'Hệ sinh thái giải pháp quản trị vận hành và trải nghiệm khách hàng đa ngành',
   quote: 'Kiến tạo trải nghiệm dịch vụ xuất sắc bằng sự tận tâm và công nghệ',
@@ -8,7 +8,9 @@ export const DOMAINS_INTRO = {
     'Hơn 22 năm kinh nghiệm điều hành thực chiến tại các tập đoàn hàng đầu trong 6 lĩnh vực trọng điểm: Viễn thông di động, Thương mại điện tử, Tài chính bảo hiểm, Thể thao điện tử, Thanh toán điện tử và Xây dựng hệ thống.',
 };
 
-export const DOMAINS_DATA: DomainData[] = [
+export const DOMAINS_INTRO = SERVICES_INTRO;
+
+export const SERVICES_DATA: DomainData[] = [
   {
     id: '01',
     serviceCode: '6.1',
@@ -593,3 +595,5 @@ export const DOMAINS_DATA: DomainData[] = [
     tools: ['Zoho CRM', 'Salesforce CRM', 'AI Agent Copilot', 'Speech-to-Text Auto-QA', 'Notion SOP Matrix', 'Giải pháp tự động hóa quy trình'],
   },
 ];
+
+export const DOMAINS_DATA = SERVICES_DATA;

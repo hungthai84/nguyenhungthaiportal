@@ -77,54 +77,42 @@ function relativeLuminance([r, g, b]: [number, number, number]): number {
 
 function computeBookCoverPalette(accentHex: string, isDarkEnv: boolean) {
   const accentRgb = parseHexRgb(accentHex);
-  const envBase: [number, number, number] = isDarkEnv ? [15, 23, 42] : [255, 255, 255];
-  const envDeep: [number, number, number] = isDarkEnv ? [9, 13, 28] : [241, 245, 249];
-
-  // Rich distinct cover tone per book while respecting Light/Dark surrounding environment
-  const coverTopRgb = mixRgb(accentRgb, envBase, isDarkEnv ? 0.34 : 0.22);
-  const coverMidRgb = mixRgb(accentRgb, envBase, isDarkEnv ? 0.44 : 0.30);
-  const coverBotRgb = mixRgb(accentRgb, envDeep, isDarkEnv ? 0.52 : 0.38);
-
-  // Evaluate average cover surface luminance for WCAG contrast
-  const avgLum = relativeLuminance(coverMidRgb);
   const darkInk: [number, number, number] = [15, 23, 42];
   const whiteInk: [number, number, number] = [255, 255, 255];
-  const darkContrast = (Math.max(avgLum, 0.0072) + 0.05) / (Math.min(avgLum, 0.0072) + 0.05);
-  const lightContrast = (Math.max(avgLum, 1.0) + 0.05) / (Math.min(avgLum, 1.0) + 0.05);
-  const useLightText = lightContrast >= darkContrast;
+  const useLightText = isDarkEnv;
 
-  const primaryText = useLightText ? '#FFFFFF' : '#0F172A';
-  const subText = useLightText ? 'rgba(248, 250, 252, 0.92)' : '#1E293B';
-  const mutedText = useLightText ? 'rgba(226, 232, 240, 0.88)' : '#334155';
+  const primaryText = 'var(--text-primary, ' + (useLightText ? '#FFFFFF' : '#0F172A') + ')';
+  const subText = 'var(--text-secondary, ' + (useLightText ? 'rgba(248, 250, 252, 0.92)' : '#1E293B') + ')';
+  const mutedText = 'var(--text-muted, ' + (useLightText ? 'rgba(226, 232, 240, 0.88)' : '#334155') + ')';
 
-  // Crisp accent text & title icon ink tuned directly against cover surface + environment
+  // Crisp accent text & title icon ink tuned directly against transparent surface + Light/Dark environment
   const accentInkRgb = useLightText
-    ? mixRgb(accentRgb, whiteInk, 0.32)
-    : mixRgb(accentRgb, darkInk, 0.48);
+    ? mixRgb(accentRgb, whiteInk, 0.36)
+    : mixRgb(accentRgb, darkInk, 0.45);
   const accentInk = toHex(accentInkRgb);
 
   const iconBg = useLightText
-    ? `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.34)`
-    : `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.16)`;
+    ? `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.24)`
+    : `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, 0.14)`;
   const iconBorder = useLightText
-    ? 'rgba(255, 255, 255, 0.42)'
-    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.38)`;
-
-  const badgeBg = useLightText
-    ? 'rgba(15, 23, 42, 0.42)'
-    : 'rgba(255, 255, 255, 0.78)';
-  const badgeBorder = useLightText
-    ? 'rgba(255, 255, 255, 0.32)'
-    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.32)`;
-
-  const coverBorder = isDarkEnv
-    ? `rgba(${Math.min(255, accentRgb[0] + 60)}, ${Math.min(255, accentRgb[1] + 60)}, ${Math.min(255, accentRgb[2] + 60)}, 0.48)`
+    ? 'rgba(255, 255, 255, 0.36)'
     : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.36)`;
 
-  const coverAura = `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, ${isDarkEnv ? 0.38 : 0.28})`;
+  const badgeBg = useLightText
+    ? 'rgba(15, 23, 42, 0.38)'
+    : 'rgba(255, 255, 255, 0.72)';
+  const badgeBorder = useLightText
+    ? 'rgba(255, 255, 255, 0.28)'
+    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.3)`;
+
+  const coverBorder = isDarkEnv
+    ? `rgba(${Math.min(255, accentRgb[0] + 60)}, ${Math.min(255, accentRgb[1] + 60)}, ${Math.min(255, accentRgb[2] + 60)}, 0.45)`
+    : `rgba(${accentInkRgb[0]}, ${accentInkRgb[1]}, ${accentInkRgb[2]}, 0.35)`;
+
+  const coverAura = `rgba(${accentRgb[0]}, ${accentRgb[1]}, ${accentRgb[2]}, ${isDarkEnv ? 0.32 : 0.22})`;
 
   return {
-    bgGradient: `linear-gradient(155deg, ${toHex(coverTopRgb)} 0%, ${toHex(coverMidRgb)} 52%, ${toHex(coverBotRgb)} 100%)`,
+    bgGradient: 'transparent',
     primaryText,
     subText,
     mutedText,
@@ -336,9 +324,11 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       <div
         className="disc-out edu-shelf-book-cover"
         style={{
-          background: palette.bgGradient,
+          background: 'transparent',
+          backgroundColor: 'transparent',
           color: palette.primaryText,
           borderColor: palette.coverBorder,
+          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
         }}
       >
         {showGlint && <div className="disc-glint" />}

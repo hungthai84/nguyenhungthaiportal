@@ -119,7 +119,7 @@ const SwotCornerQuadrant: React.FC<SwotCornerQuadrantProps> = ({
         '--swot-fallback-outer': outerColor,
       } as React.CSSProperties}
       className={cn(
-        'swot-corner-quadrant absolute w-20 h-20 sm:w-32 sm:h-32 z-20 select-none pointer-events-none overflow-hidden',
+        'swot-corner-quadrant absolute w-20 h-20 sm:w-32 sm:h-32 z-0 select-none pointer-events-none overflow-hidden',
         anchorClass
       )}
     >
@@ -709,14 +709,11 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
                                 }
                               }}
                               style={{
-                                background: 'transparent',
-                                backgroundColor: 'transparent',
-                                backgroundImage: 'none',
-                                boxShadow: 'none',
-                                borderRadius: 'var(--radius-subcard, 16px)',
+                                borderRadius: 'var(--radius-subcard, var(--radius-global, 14px))',
                               }}
                               className={cn(
-                                "skill-swot-subcard group/item flex flex-col gap-1.5 rounded-[var(--radius-subcard,16px)] p-2.5 transition-all duration-200 cursor-pointer select-none bg-transparent",
+                                "skill-swot-subcard group/item relative z-10 flex flex-col gap-1.5 rounded-[var(--radius-subcard,var(--radius-global,14px))] p-2.5 transition-all duration-200 cursor-pointer select-none",
+                                "shadow-xs hover:shadow-md hover:-translate-y-0.5",
                                 highlightedSkillId === item.id && "ring-2 ring-cyan-500 scale-[1.01]"
                               )}
                               title={

@@ -1,4 +1,4 @@
-import { DOMAINS_DATA } from './domains';
+import { DOMAINS_DATA } from './services';
 import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from './aboutData';
 import { CAREER_MILESTONES_DATA, CORE_VALUES_DATA } from './letterData';
 import { SYSTEMS_DATA } from './systems';

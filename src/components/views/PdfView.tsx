@@ -6,7 +6,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { ABOUT_PROFILE_STATS, PERSONAL_DEMOGRAPHICS, SERVICE_PHILOSOPHY_VALUES } from '@/data/aboutData';
 import { EDUCATION_COURSES } from '@/data/education';
-import { DOMAINS_DATA, DOMAINS_INTRO } from '@/data/domains';
+import { DOMAINS_DATA, DOMAINS_INTRO, SERVICES_DATA, SERVICES_INTRO } from '@/data/services';
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { cn } from '@/lib/utils';
 import { 
@@ -966,7 +966,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                             return (
                               <div
                                 key={pIdx}
-                                className="w-7 h-7 rounded-full overflow-hidden p-0 border border-[var(--border-subcard)] shadow-xs bg-white flex items-center justify-center shrink-0"
+                                className="company-logo-surface w-7 h-7 rounded-full overflow-hidden p-0 border border-[var(--border-subcard)] shadow-xs flex items-center justify-center shrink-0"
                                 title={partner.name}
                               >
                                 <img
@@ -1059,7 +1059,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                         {formattedPeriod}
                       </span>
                       {m.logo && (
-                        <div className="w-7 h-7 rounded-[8px] overflow-hidden bg-white border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
+                        <div className="company-logo-surface w-7 h-7 rounded-[8px] overflow-hidden border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
                           <img src={m.logo} alt={m.company} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="w-full h-full object-contain rounded-[inherit]" />
                         </div>
                       )}

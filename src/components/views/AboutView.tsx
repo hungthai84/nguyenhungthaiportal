@@ -41,6 +41,8 @@ const HeartHandshake = ({ className }: { className?: string }) => <WebIcon name=
 const Navigation = ({ className }: { className?: string }) => <WebIcon name="navigation" className={className} />;
 const Bot = ({ className }: { className?: string }) => <WebIcon name="bot" className={className} />;
 
+import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+
 import { findBestVoice, speakSiteText, stopActiveSpeech } from '@/utils/speechVoice';
 import {
   ABOUT_PROFILE_STATS,
@@ -555,6 +557,21 @@ export function AboutView({
   onOpenBentoFocusModal
 }: AboutViewProps = {}) {
   const { showToast } = useToast();
+  const { cardStyle } = useTheme();
+  const aboutMainCardStyle = getCardStyleProperties(cardStyle);
+  const {
+    border: _b,
+    borderColor: _bc,
+    borderWidth: _bw,
+    borderStyle: _bs,
+    borderRadius: _br,
+    background: _fb,
+    backgroundColor: _fbc,
+    boxShadow: _fbs,
+    backdropFilter: _fbf,
+    WebkitBackdropFilter: _fwbf,
+    ...cleanAboutMainStyle
+  } = aboutMainCardStyle as unknown as Record<string, unknown>;
 
   // Chế độ xem: cố định duy nhất dạng Trình chiếu Slide ('slides')
   const [viewMode, setViewMode] = useState<'dashboard' | 'bento' | 'slides'>('slides');
@@ -1850,6 +1867,7 @@ export function AboutView({
         data-element-page="about"
         data-element-parent="about-page-container"
         style={{
+          ...cleanAboutMainStyle,
           width: '100%',
           maxWidth: 'var(--main-card-target-w, 1600px)',
           height: '100%',
@@ -1917,12 +1935,12 @@ export function AboutView({
                       minWidth: '100%',
                       minHeight: '200px',
                       flex: '1 1 0%',
-                      padding: 0,
+                      padding: '5px',
                       margin: 0,
                       borderRadius: 'calc(max(6px, var(--radius-card, 14px) - 2px))',
                       overflow: 'hidden',
                     }}
-                    className="relative w-full h-full flex-1 rounded-[calc(max(6px,var(--radius-card,14px)-2px))] overflow-hidden min-h-0 flex items-center justify-center border border-[var(--border-subcard)] shadow-inner"
+                    className="relative w-full h-full flex-1 rounded-[calc(max(6px,var(--radius-card,14px)-2px))] overflow-hidden min-h-0 flex items-center justify-center border border-[var(--border-subcard)] shadow-inner p-[5px] box-border"
                   >
                   {activeHeroMedia === 'video' ? (
                       <div

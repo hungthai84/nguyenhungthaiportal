@@ -33,6 +33,7 @@ import { useBannerVideo } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import {
   ServiceExpandedDetail,
   type DomainIconKey,
@@ -545,6 +546,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
               id="services-hero-banner"
               data-element-type="section"
               data-section-card="true"
+              data-has-compact-menu="true"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -569,7 +571,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
               <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
               {/* Vùng Tiêu Đề */}
-              <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+              <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
                 <div
                   className="card-header-sync flex items-center gap-2 min-w-0"
                   style={{ color: 'var(--text-link, var(--color-primary))' }}
@@ -598,12 +600,79 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 >
                   &quot;{t(DOMAINS_INTRO.quote)} ♡&quot;
                 </p>
+
+                <CompactBannerMenu
+                  id="services-compact-menu-btn"
+                  label={isEn ? 'Controls' : 'Điều khiển'}
+                  ariaLabel={isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
+                  activeCount={activeCategory !== 'ALL' ? 1 : 0}
+                >
+                  {(closeMenu) => (
+                    <>
+                      <div className="flex flex-col gap-1">
+                        <span className="typo-label text-[var(--text-muted)] px-1">
+                          {isEn ? 'Domain Filter' : 'Bộ lọc lĩnh vực'}
+                        </span>
+                        {filterCategories.map((cat) => {
+                          const isActive = activeCategory === cat.id;
+                          return (
+                            <button
+                              key={cat.id}
+                              type="button"
+                              data-selected={isActive ? 'true' : 'false'}
+                              onClick={() => {
+                                closeMenu();
+                                if (cat.id === 'ALL') {
+                                  if (expandedDomain) {
+                                    closeExpandedCard();
+                                  } else {
+                                    SoundEngine.playTap();
+                                    setActiveCategory('ALL');
+                                  }
+                                } else {
+                                  const found = DOMAINS_DATA.find((d) => d.id === cat.id);
+                                  if (!found) return;
+                                  if (expandedDomain && interactionState === 'expanded') {
+                                    switchExpandedDomain(found);
+                                  } else {
+                                    openExpandedCard(found);
+                                  }
+                                }
+                              }}
+                              className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                            >
+                              <span className="flex items-center gap-2 truncate">
+                                <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0" />
+                                <span className="truncate">{cat.label}</span>
+                              </span>
+                              {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {expandedDomain && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            closeExpandedCard();
+                            closeMenu();
+                          }}
+                          className="banner-control-pill w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-play cursor-pointer"
+                        >
+                          <Minimize2 className="w-3.5 h-3.5" />
+                          <span>{isEn ? 'Back to 6 Domains' : 'Quay lại 6 thẻ lĩnh vực'}</span>
+                        </button>
+                      )}
+                    </>
+                  )}
+                </CompactBannerMenu>
               </div>
 
               {/* Bộ lọc & nút thao tác nhanh */}
               <div
                 id="services-hero-banner-controls"
-                className="relative z-30 flex flex-wrap items-center justify-between mt-auto pt-0 gap-2.5 w-full"
+                className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between mt-auto pt-0 gap-2.5 w-full"
                 ref={filterMenuRef}
               >
                 <div className="relative inline-flex items-center gap-2 flex-wrap text-left">
@@ -864,21 +933,21 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             </h3>
                           </div>
 
-                          {/* CENTER: Chia làm 2 cột 50% / 50% (Cột trái: Mô tả, Cột phải: Hình ảnh có kích thước bằng chiều cao hàng mô tả) */}
-                          <div className="grid grid-cols-2 gap-3 items-stretch min-w-0 w-full">
+                          {/* CENTER: Chia làm 2 cột 50% / 50% (Cột trái: Mô tả, Cột phải: Hình ảnh có kích thước bằng chiều cao 4 dòng mô tả) */}
+                          <div className="grid grid-cols-2 gap-3 items-center min-w-0 w-full">
                             {/* Cột bên trái (50%): Chứa mô tả dịch vụ */}
                             <div className="col-span-1 min-w-0 flex items-center">
                               <p
                                 id={`service-card-desc-${domain.id}`}
-                                className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-3 m-0 leading-[1.45] typo-body-sm font-normal"
+                                className="service-desc-text relative z-10 text-[var(--text-secondary)] line-clamp-4 m-0 leading-[1.45] typo-body-sm font-normal"
                                 title={summaryText}
                               >
                                 {summaryText}
                               </p>
                             </div>
 
-                            {/* Cột bên phải (50%): Hình ảnh dịch vụ (kích thước hình ảnh bằng chiều cao mô tả) */}
-                            <div className="col-span-1 min-w-0 relative flex items-center justify-center self-stretch">
+                            {/* Cột bên phải (50%): Hình ảnh dịch vụ tăng gấp 2 lần (chiều cao 160px, gấp đôi ban đầu) */}
+                            <div className="service-card-image-box col-span-1 min-w-0 relative flex items-center justify-center h-[160px] min-h-[160px] max-h-[160px] w-full">
                               <img
                                 src={serviceImage}
                                 alt={cardTitle}
@@ -890,7 +959,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     e.currentTarget.src = meta.fallbackIllustration;
                                   }
                                 }}
-                                className="service-img-pop relative z-10 w-full h-full max-h-[88px] object-contain select-none pointer-events-none"
+                                className="service-img-pop relative z-10 w-full h-[160px] max-h-[160px] object-contain select-none pointer-events-none"
                               />
                             </div>
                           </div>

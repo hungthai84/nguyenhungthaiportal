@@ -612,7 +612,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #interview-main-content {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
   }
 
@@ -765,15 +765,17 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-self: stretch !important;
   }
 
-  /* Giá trị cốt lỗi & Châm ngôn phụng sự cùng hàng */
+  /* Giá trị cốt lõi & Châm ngôn phụng sự: kích thước bằng nội dung */
   #card-core-values-pursued {
     grid-column: span 7 / span 7 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #quote-banner-slide-1 {
     grid-column: span 5 / span 5 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #core-values-grid {
@@ -839,9 +841,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
-  /* Interview stays 1 single row with equal card height across 600px-959px */
+  /* Interview stays 1 single row with 70% banner / 30% answer card across 600px-959px */
   #interview-main-content {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
     grid-template-rows: minmax(0, 1fr) !important;
     overflow: hidden !important;
   }
@@ -955,12 +957,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #card-core-values-pursued {
     grid-column: span 8 / span 8 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #quote-banner-slide-1 {
     grid-column: span 4 / span 4 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #core-values-grid {
@@ -1154,12 +1158,14 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #card-core-values-pursued {
     grid-column: span 8 / span 8 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #quote-banner-slide-1 {
     grid-column: span 4 / span 4 !important;
-    height: 100% !important;
+    height: auto !important;
+    align-self: start !important;
   }
 
   #core-values-grid {

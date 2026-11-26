@@ -27,6 +27,7 @@ import type { SmartFilterCategory } from './wallpaper/WallpaperStudioControls';
 import { WallpaperGridCard } from './wallpaper/WallpaperGridCard';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -542,6 +543,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         data-element-page="wallpaper"
         data-element-parent="wallpaper-main-card"
         data-section-card="true"
+        data-has-compact-menu="true"
         className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
         style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
       >
@@ -557,7 +559,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         {/* Hàng trên: Tiêu đề bên trái, Câu nói chữ ký bên phải */}
-        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+        <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon name="image" className="w-[22px] h-[22px] shrink-0" />
             <h1
@@ -580,10 +582,139 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           >
             &quot;Không gian trực quan khơi nguồn cảm hứng sáng tạo ♡&quot;
           </p>
+
+          <CompactBannerMenu
+            id="wallpaper-compact-menu-btn"
+            label={isEn ? 'Controls' : 'Điều khiển'}
+            ariaLabel={isEn ? 'Wallpaper filters, search and settings' : 'Bộ lọc, tìm kiếm và thêm hình nền'}
+            activeCount={(filterType !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
+          >
+            {(closeMenu) => (
+              <>
+                <div className="flex flex-col gap-1.5">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    {isEn ? 'Search' : 'Tìm kiếm'}
+                  </span>
+                  <div className="relative w-full">
+                    <WebIcon
+                      name="search"
+                      className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                    />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={isEn ? 'Search wallpaper, video, css...' : 'Tìm hình nền, video, css...'}
+                      className="banner-search-input h-9 w-full pl-8 pr-8 py-0 rounded-full typo-input font-play focus:outline-none"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        aria-label={isEn ? 'Clear search' : 'Xóa từ khóa tìm kiếm'}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+                      >
+                        <WebIcon name="x" className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    {isEn ? 'Category' : 'Bộ lọc hình nền'}
+                  </span>
+                  {filterCategories.map((cat) => {
+                    const isActive = filterType === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        data-selected={isActive ? 'true' : 'false'}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setFilterType(cat.id as SmartFilterCategory);
+                          closeMenu();
+                        }}
+                        className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                      >
+                        <span className="inline-flex items-center gap-2 min-w-0">
+                          <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0 opacity-85" />
+                          <span className="truncate">{cat.label}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 shrink-0">
+                          <span className="typo-badge font-mono opacity-80 tabular-nums">({cat.count})</span>
+                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    {isEn ? 'Ambient wave' : 'Chuyển động sóng nền'}
+                  </span>
+                  <div className="banner-control-pill w-full grid grid-cols-4 gap-1 p-1 rounded-full">
+                    {(
+                      [
+                        { id: 'off', labelVi: 'Tắt', labelEn: 'Off' },
+                        { id: 'gentle', labelVi: 'Nhẹ', labelEn: 'Gentle' },
+                        { id: 'normal', labelVi: 'Chuẩn', labelEn: 'Normal' },
+                        { id: 'vivid', labelVi: 'Mạnh', labelEn: 'Vivid' },
+                      ] as Array<{ id: WaveMotionMode; labelVi: string; labelEn: string }>
+                    ).map((opt) => {
+                      const active = waveMotion === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setWaveMotion(opt.id);
+                            onShowNotification?.(
+                              isEn ? `✓ Wave motion: ${opt.labelEn}` : `✓ Sóng nền: ${opt.labelVi}`
+                            );
+                          }}
+                          style={
+                            active
+                              ? {
+                                  background: 'var(--bg-button-primary)',
+                                  color: 'var(--text-button-primary, #FFFFFF)',
+                                }
+                              : undefined
+                          }
+                          className={`h-7 px-2 rounded-full typo-badge font-semibold whitespace-nowrap cursor-pointer transition-all ${
+                            active ? 'shadow-2xs' : 'text-[var(--text-secondary)]'
+                          }`}
+                        >
+                          {isEn ? opt.labelEn : opt.labelVi}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playPop();
+                    setIsAddModalOpen((prev) => !prev);
+                    closeMenu();
+                  }}
+                  className="banner-primary-cta h-9 w-full px-3.5 rounded-full typo-button font-bold font-play bg-gradient-to-r from-rose-600 via-pink-600 to-indigo-600 text-white shadow-md hover:brightness-110 transition cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <WebIcon name="plus" className="w-3.5 h-3.5" />
+                  <span>{isAddModalOpen ? (isEn ? 'Close add panel' : 'Đóng thêm hình') : (isEn ? 'Add wallpaper' : 'Thêm hình')}</span>
+                </button>
+              </>
+            )}
+          </CompactBannerMenu>
         </div>
 
         {/* Hàng dưới: Bộ lọc danh mục bên trái + Tìm kiếm, Dạng thẻ & Thêm Hình bên phải */}
-        <div className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
+        <div className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto">
           <div className="flex items-center gap-2 flex-wrap">
             <div className="relative inline-block text-left" ref={filterMenuRef}>
               <button

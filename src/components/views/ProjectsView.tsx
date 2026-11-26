@@ -13,6 +13,7 @@ import { ProjectDetailView } from './ProjectDetailView';
 import { useTheme } from '@/hooks/useTheme';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 export interface ProjectCardGroup {
   id: string;
@@ -857,9 +858,9 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     dragDeltaXRef.current = 0;
     setIsDraggingTrack(false);
     setDragDeltaX(0);
-    if (dx <= -42) {
+    if (dx <= -24) {
       handleNextCarousel();
-    } else if (dx >= 42) {
+    } else if (dx >= 24) {
       handlePrevCarousel();
     }
     window.setTimeout(() => {
@@ -978,6 +979,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             data-element-type="banner-card"
             data-element-page="projects"
             data-section-card="true"
+            data-has-compact-menu="true"
             className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
             style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)', boxSizing: 'border-box' }}
           >
@@ -992,7 +994,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             </div>
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full">
+            <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                 <WebIcon name="folder" className="w-[22px] h-[22px] shrink-0" />
                 <h1
@@ -1009,12 +1011,121 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               >
                 &quot;Khát vọng đổi mới, ghi dấu giá trị thực tiễn ♡&quot;
               </p>
+
+              <CompactBannerMenu
+                id="projects-compact-menu-btn"
+                label="Điều khiển"
+                ariaLabel="Bộ lọc, dạng xem và tìm kiếm dự án"
+                activeCount={(activeCategory !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
+              >
+                {(closeMenu) => (
+                  <>
+                    <div className="relative w-full">
+                      <WebIcon
+                        name="search"
+                        className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                      />
+                      <input
+                        id="projects-compact-search-input"
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Tìm tên, mã dự án..."
+                        aria-label="Tìm kiếm dự án"
+                        className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-normal font-play focus:outline-none"
+                      />
+                      {searchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery('')}
+                          aria-label="Xóa từ khóa tìm kiếm"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
+                        >
+                          <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <span className="typo-label text-[var(--text-muted)] px-1">Dạng hiển thị</span>
+                      <div className="banner-control-pill w-full inline-flex items-center gap-1 p-0.5 rounded-full">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setViewMode('grid');
+                            closeMenu();
+                          }}
+                          style={
+                            viewMode === 'grid'
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                              : undefined
+                          }
+                          className={cn(
+                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                            viewMode === 'grid' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                          )}
+                        >
+                          <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
+                          <span>Dạng lưới</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setViewMode('slider');
+                            closeMenu();
+                          }}
+                          style={
+                            viewMode === 'slider'
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                              : undefined
+                          }
+                          className={cn(
+                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                            viewMode === 'slider' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                          )}
+                        >
+                          <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
+                          <span>Slider Card</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">Nhóm dự án</span>
+                      {PROJECT_CATEGORIES.map((cat) => {
+                        const isSelected = activeCategory === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            data-selected={isSelected ? 'true' : undefined}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setActiveCategory(cat.id);
+                              closeMenu();
+                            }}
+                            className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                          >
+                            <span className="flex items-center gap-2 truncate">
+                              {renderProjectCategoryIcon(cat.id, 'w-3.5 h-3.5 shrink-0')}
+                              <span className="truncate">{cat.label}</span>
+                            </span>
+                            {isSelected && <WebIcon name="check" className="w-3.5 h-3.5 text-current shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </CompactBannerMenu>
             </div>
 
             <div
               id="projects-hero-banner-controls"
               ref={filterMenuRef}
-              className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full"
+              className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full"
             >
               <div className="relative inline-block text-left">
                 <button
@@ -1024,7 +1135,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     SoundEngine.playTap();
                     setIsFilterDropdownOpen((prev) => !prev);
                   }}
-                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-h3 font-bold font-play group"
+                  className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
                   title="Bộ lọc dự án"
                   aria-label="Bộ lọc dự án"
                   aria-expanded={isFilterDropdownOpen}
@@ -1033,7 +1144,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
                   <span>Bộ lọc dự án</span>
                   {activeCategory !== 'all' && (
-                    <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-h3 font-play font-bold">
+                    <span className="banner-count-pill px-2 py-0.5 rounded-full border typo-badge font-play font-semibold">
                       {PROJECT_CATEGORIES.find((c) => c.id === activeCategory)?.label}
                     </span>
                   )}
@@ -1060,10 +1171,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     >
                       {PROJECT_CATEGORIES.map((cat) => {
                         const isSelected = activeCategory === cat.id;
-                        const count =
-                          cat.id === 'all'
-                            ? PROJECTS_DATA.length
-                            : PROJECTS_DATA.filter((p) => p.groupKey === cat.id).length;
 
                         return (
                           <button
@@ -1078,7 +1185,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                               setIsFilterDropdownOpen(false);
                             }}
                             className={cn(
-                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-h3 font-bold font-play transition-all cursor-pointer text-left',
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-semibold font-play transition-all cursor-pointer text-left',
                               isSelected ? 'shadow-xs font-bold' : ''
                             )}
                           >
@@ -1127,7 +1234,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         : undefined
                     }
                     className={cn(
-                      'h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                       viewMode === 'grid'
                         ? 'shadow-xs'
                         : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1152,7 +1259,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         : undefined
                     }
                     className={cn(
-                      'h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                       viewMode === 'slider'
                         ? 'shadow-xs'
                         : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1176,7 +1283,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Tìm tên, mã dự án..."
                     aria-label="Tìm kiếm dự án"
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-normal font-play focus:outline-none"
                   />
                   {searchQuery && (
                     <button

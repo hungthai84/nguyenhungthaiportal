@@ -15,6 +15,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -392,6 +393,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         data-element-type="banner-card"
         data-element-page="memories"
         data-section-card="true"
+        data-has-compact-menu="true"
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
@@ -409,7 +411,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-        <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+        <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon name="camera" className="w-[22px] h-[22px] shrink-0" />
             <h1
@@ -426,10 +428,106 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           >
             &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;
           </p>
+
+          <CompactBannerMenu
+            id="memories-compact-menu-btn"
+            label="Điều khiển"
+            ariaLabel="Bộ lọc và tìm kiếm kỷ niệm"
+            activeCount={(categoryFilter !== 'all' ? 1 : 0) + (companyFilter !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
+          >
+            {(closeMenu) => (
+              <>
+                <div className="relative w-full">
+                  <WebIcon
+                    name="search"
+                    className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  />
+                  <input
+                    id="memories-compact-search-input"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kỷ niệm, địa điểm, năm..."
+                    aria-label="Tìm kiếm ảnh kỷ niệm"
+                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-normal font-play focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      aria-label="Xóa từ khóa tìm kiếm"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
+                    >
+                      <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="typo-label text-[var(--text-muted)] px-1">Theo chủ đề kỷ niệm</span>
+                  {MEMORIES_CATEGORIES.map((cat) => {
+                    const active = categoryFilter === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        data-selected={active ? 'true' : 'false'}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setCategoryFilter(cat.id);
+                          closeMenu();
+                        }}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                      >
+                        <span>{cat.labelVi}</span>
+                        {active && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="flex flex-col gap-1 border-t border-[var(--border-subcard)] pt-2">
+                  <span className="typo-label text-[var(--text-muted)] px-1">Theo đơn vị công tác</span>
+                  {MEMORIES_COMPANIES.map((comp) => {
+                    const isActive = companyFilter === comp.id;
+                    return (
+                      <button
+                        key={comp.id}
+                        type="button"
+                        data-selected={isActive ? 'true' : 'false'}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setCompanyFilter(comp.id);
+                          closeMenu();
+                        }}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                      >
+                        <span className="truncate">{comp.labelVi}</span>
+                        {isActive && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {(categoryFilter !== 'all' || companyFilter !== 'all' || searchQuery.trim() !== '') && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleResetFilters();
+                      closeMenu();
+                    }}
+                    className="banner-control-pill w-full px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer"
+                  >
+                    ✕ Đặt lại bộ lọc
+                  </button>
+                )}
+              </>
+            )}
+          </CompactBannerMenu>
         </div>
 
         {/* Nhóm bộ lọc bên trái + Ô tìm kiếm nhanh bên phải */}
-        <div className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full" ref={filterMenuRef}>
+        <div className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full" ref={filterMenuRef}>
           <div className="flex flex-wrap items-center gap-2">
           <div className="relative inline-block text-left">
             <button

@@ -1732,49 +1732,53 @@ html[data-card-style="light-deep-ocean"] :is(
   outline-offset: -3px;
 }
 
-.hero-banner .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
-.banner-card .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
+.hero-banner .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn):not(#interview-hero-banner-title-pill),
+.banner-card .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn):not(#interview-hero-banner-title-pill),
 .hero-banner .banner-primary-cta,
-.banner-card .banner-primary-cta,
-.hero-banner .banner-search-input,
-.banner-card .banner-search-input {
+.banner-card .banner-primary-cta {
   height: auto !important;
-  min-height: 38px !important;
+  min-height: 36px !important;
   max-height: none !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-  font-size: var(--fs-h3, 20px) !important;
-  font-weight: var(--fw-semibold, 600) !important;
-  line-height: 1.25 !important;
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-button, 14px) !important;
+  font-weight: var(--fw-bold, 700) !important;
+  line-height: var(--lh-button, 1.35) !important;
   box-sizing: border-box !important;
 }
 
+.hero-banner .banner-search-input,
+.banner-card .banner-search-input,
 .banner-search-input {
+  height: auto !important;
+  min-height: 36px !important;
+  max-height: none !important;
   background: var(--bg-banner-input, var(--bg-input)) !important;
   color: var(--text-banner-input, var(--text-primary)) !important;
   border-color: var(--border-banner-input, var(--border-color)) !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-  font-size: var(--fs-h3, 20px) !important;
-  font-weight: var(--fw-semibold, 600) !important;
-  line-height: 1.25 !important;
-  letter-spacing: 0.01em !important;
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-input, 16px) !important;
+  font-weight: var(--fw-regular, 400) !important;
+  line-height: var(--lh-input, 1.45) !important;
+  letter-spacing: var(--ls-body, 0.005em) !important;
+  box-sizing: border-box !important;
 }
 
 .banner-search-input::placeholder {
-  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-  font-size: var(--fs-h3, 20px) !important;
-  font-weight: var(--fw-semibold, 600) !important;
-  line-height: 1.25 !important;
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-input, 16px) !important;
+  font-weight: var(--fw-regular, 400) !important;
+  line-height: var(--lh-input, 1.45) !important;
   opacity: 0.78;
 }
 
 @media (max-width: 767px) {
   .banner-search-input,
   .banner-search-input::placeholder {
-    font-size: var(--fs-h3, 20px) !important;
+    font-size: var(--fs-input, 16px) !important;
   }
 }
 
@@ -3853,23 +3857,27 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
-/* Thẻ hệ thống: Mặc định 3 cột, thu nhỏ chuyển 2 cột hoặc 1 cột, chiều cao thẻ bằng nội dung */
+/* Thẻ hệ thống: Mặc định 3 cột, thu nhỏ chuyển 2 cột hoặc 1 cột, tất cả thẻ có chiều cao bằng nhau (+1/3 chiều cao) */
 #systems-page-container .systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: auto !important;
-  align-items: start !important;
+  grid-auto-rows: 1fr !important;
+  align-items: stretch !important;
 }
 
 @media (max-width: 959px) {
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
   }
 }
 
 @media (max-width: 599px) {
   #systems-page-container .systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: 1fr !important;
+    align-items: stretch !important;
   }
 }
 
@@ -3888,9 +3896,9 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   min-width: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  align-self: start !important;
+  height: 100% !important;
+  min-height: 160px !important;
+  align-self: stretch !important;
   box-sizing: border-box !important;
 }
 
@@ -4501,11 +4509,11 @@ html.dark #services-page-container .domain-card-sub {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 16px !important;
-  height: auto !important;
-  min-height: 0 !important;
-  align-self: start !important;
+  justify-content: space-between;
+  padding: 18px !important;
+  height: 100% !important;
+  min-height: 160px !important;
+  align-self: stretch !important;
   box-sizing: border-box !important;
   border-radius: var(--radius-card, 14px);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.45));
@@ -4525,6 +4533,8 @@ html.dark #services-page-container .domain-card-sub {
   row-gap: 8px !important;
   width: 100% !important;
   min-width: 0 !important;
+  height: 100% !important;
+  align-items: stretch !important;
 }
 
 #systems-page-container .system-card-tile .system-card-image-slot {
@@ -4539,6 +4549,13 @@ html.dark #services-page-container .domain-card-sub {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  border-radius: var(--radius-image, 12px) !important;
+  transition: background-color 0.32s ease, transform 0.3s ease !important;
+}
+
+#systems-page-container .system-card-tile .system-card-image-slot:hover,
+#systems-page-container .system-card-tile:hover .system-card-image-slot {
+  background-color: #000000 !important;
 }
 
 /* Hiệu ứng Color Reveal: Màu sắc lan dần khắp thẻ Hệ thống từ vị trí trỏ chuột / focus */
@@ -5729,17 +5746,20 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-/* Thẻ Dịch vụ: Chia 2 cột 70% / 30%, ảnh bên phải bỏ đóng khung, phóng to & chuyển động khi rê chuột */
+/* Thẻ Dịch vụ: Chia 2 cột, ảnh bên phải tăng gấp đôi hình ảnh (160px), phóng to & chuyển động khi rê chuột */
 #services-page-container .domain-card .service-card-illustration,
-#services-page-container .domain-card .service-card-image-slot {
-  align-self: stretch !important;
+#services-page-container .domain-card .service-card-image-slot,
+#services-page-container .domain-card .service-card-image-box,
+#services-page-container .service-card-image-box {
+  align-self: center !important;
   justify-self: stretch !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  min-height: 0 !important;
-  max-height: none !important;
+  height: 160px !important;
+  min-height: 160px !important;
+  max-height: 160px !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -5748,24 +5768,73 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   overflow: visible !important;
 }
 
-#services-page-container .domain-card .service-img-pop {
-  filter: none !important;
-  -webkit-filter: none !important;
+/* Hiệu ứng ảnh GIF chuyển động liên tục cho thẻ Dịch vụ */
+@keyframes serviceImgGifMotion {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+  }
+  25% {
+    transform: translate3d(0, -6px, 0) scale(1.03) rotate(-1.2deg);
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.12));
+  }
+  50% {
+    transform: translate3d(0, -2px, 0) scale(1.015) rotate(0.8deg);
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.10));
+  }
+  75% {
+    transform: translate3d(0, -7px, 0) scale(1.035) rotate(-0.6deg);
+    filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.14));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+  }
+}
+
+/* Hiệu ứng lơ lửng & phóng to sinh động khi rê chuột vào hình thẻ dịch vụ */
+@keyframes serviceImgHoverZoomFloat {
+  0% {
+    transform: translate3d(0, -10px, 0) scale(1.26) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.30) rotate(1deg);
+  }
+  100% {
+    transform: translate3d(0, -10px, 0) scale(1.26) rotate(-1deg);
+  }
+}
+
+#services-page-container .domain-card .service-img-pop,
+#services-page-container .service-img-pop {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08)) !important;
+  -webkit-filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08)) !important;
   box-shadow: none !important;
   border-radius: 0px !important;
   object-fit: contain !important;
   width: 100% !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  max-width: 100% !important;
+  height: 160px !important;
+  max-height: 160px !important;
+  transform-origin: center center !important;
+  will-change: transform, filter !important;
+  animation: serviceImgGifMotion 3.8s ease-in-out infinite !important;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), filter 0.38s ease !important;
 }
 
 #services-page-container .domain-card:hover .service-img-pop,
 #services-page-container .domain-card:focus-visible .service-img-pop {
-  transform: translate3d(0px, -4px, 0) scale(1.16) !important;
-  animation: serviceImgHoverMotion 2.4s ease-in-out infinite alternate !important;
-  filter: none !important;
-  -webkit-filter: none !important;
+  transform: translate3d(0, -10px, 0) scale(1.26) !important;
+  animation: serviceImgHoverZoomFloat 2.2s ease-in-out infinite alternate !important;
+  filter: drop-shadow(0 16px 32px color-mix(in srgb, var(--service-card-accent, #38bdf8) 46%, transparent))
+          drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16)) !important;
+  -webkit-filter: drop-shadow(0 16px 32px color-mix(in srgb, var(--service-card-accent, #38bdf8) 46%, transparent))
+                  drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16)) !important;
+  z-index: 30 !important;
+}
+
+#services-page-container .service-card-image-box:hover .service-img-pop {
+  transform: translate3d(0, -14px, 0) scale(1.32) !important;
 }
 
 /* ========================================================================= */
@@ -5832,6 +5901,16 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
     box-shadow: 0 18px 36px -10px rgba(15, 23, 42, 0.22), 0 6px 14px -4px rgba(var(--color-primary-rgb, 109, 40, 217), 0.16) !important;
   }
 
+  html[data-card-effect="inset"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
+    transform: translate3d(0, 1px, 0) scale(0.992) !important;
+    box-shadow: inset 3px 3px 9px rgba(15, 23, 42, 0.18), inset -2px -2px 7px rgba(255, 255, 255, 0.26) !important;
+  }
+
+  html.dark[data-card-effect="inset"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
+    transform: translate3d(0, 1px, 0) scale(0.992) !important;
+    box-shadow: inset 4px 4px 10px rgba(2, 6, 23, 0.56), inset -3px -3px 8px rgba(148, 163, 184, 0.12) !important;
+  }
+
   html[data-card-effect="glow"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):hover {
     border-color: var(--color-primary, #6D28D9) !important;
     box-shadow: 0 0 0 1px rgba(var(--color-primary-rgb, 109, 40, 217), 0.45), 0 12px 28px -6px rgba(var(--color-primary-rgb, 109, 40, 217), 0.34) !important;
@@ -5839,6 +5918,9 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 
   html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card, .theme-preset-card):not(.hero-banner):not(.banner-card):not(.no-card-hover) {
     position: relative;
+  }
+
+  html[data-card-effect="shine"] :is(.bento-card, .bento-view-card, .glass-card, .sub-card):not(.hero-banner):not(.banner-card):not(.no-card-hover):not(.theme-preset-card-perspective) {
     overflow: hidden;
   }
 
@@ -5906,7 +5988,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   min-height: 0;
   max-height: none;
   isolation: isolate;
-  transform: none;
+  transform: rotate(var(--accordion-angle, 0deg));
   transform-origin: center center;
   transform-style: preserve-3d;
 }
@@ -5920,26 +6002,28 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   min-width: 0;
   height: 100%;
   min-height: 0;
-  margin-right: -1px;
+  margin: 0;
   padding: 0;
-  border: 0;
+  border: 1px solid var(--surface-primary-border, var(--border-color));
   border-radius: 0 !important;
   overflow: hidden;
   cursor: pointer;
-  clip-path: none;
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
   transform-style: preserve-3d;
   transform-origin: left center;
-  transform: perspective(1600px) rotateY(8deg);
+  transform: none;
+  box-sizing: border-box;
   box-shadow:
     inset 1px 0 0 rgba(255, 255, 255, 0.24),
     inset -1px 0 0 rgba(15, 23, 42, 0.22);
   transition:
-    flex 0.56s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    flex 0.65s cubic-bezier(0.2, 0.8, 0.2, 1),
+    clip-path 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity 0.38s ease,
     filter 0.3s ease;
-  will-change: flex, transform, opacity;
+  will-change: flex, clip-path, transform, opacity;
 }
 
 #experience-timeline-board .exp-fold-swatch:last-child {
@@ -5947,25 +6031,28 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 }
 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) {
-  clip-path: none;
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
   transform-origin: right center;
-  transform: perspective(1600px) rotateY(-8deg);
+  transform: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  #experience-timeline-board[data-fold-phase="folded"] .exp-fold-swatch:hover,
-  #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:not(.is-partial):hover {
-    transform: perspective(1600px) rotateY(3deg) translateZ(10px);
+  #experience-timeline-board[data-fold-phase="folded"] .exp-fold-swatch:hover {
+    flex: 3 1 0%;
     box-shadow:
-      inset 1px 0 0 rgba(255, 255, 255, 0.4),
-      inset -1px 0 0 rgba(15, 23, 42, 0.22),
-      0 10px 26px -8px rgba(15, 23, 42, 0.28);
+      inset 1px 0 0 rgba(255, 255, 255, 0.42),
+      inset -1px 0 0 rgba(15, 23, 42, 0.24),
+      0 12px 28px -8px rgba(15, 23, 42, 0.3);
     z-index: 18;
   }
 
-  #experience-timeline-board[data-fold-phase="folded"] .exp-fold-swatch:nth-child(even):hover,
-  #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:nth-child(even):not(.is-partial):hover {
-    transform: perspective(1600px) rotateY(-3deg) translateZ(10px);
+  #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch:not(.is-partial):hover {
+    flex: 1.65 1 0%;
+    box-shadow:
+      inset 1px 0 0 rgba(255, 255, 255, 0.36),
+      inset -1px 0 0 rgba(15, 23, 42, 0.2),
+      0 10px 24px -8px rgba(15, 23, 42, 0.24);
+    z-index: 18;
   }
 }
 
@@ -5981,8 +6068,9 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 #experience-timeline-board .exp-fold-swatch.is-expanded {
   flex: 7.2 1 0%;
   z-index: 25;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   transform-origin: center center;
-  transform: perspective(1600px) rotateY(0deg) translateZ(14px);
+  transform: none;
   box-shadow:
     inset 1px 0 0 rgba(255, 255, 255, 0.22),
     inset -1px 0 0 rgba(15, 23, 42, 0.14),
@@ -5992,12 +6080,12 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 /* Neighboring folded pleats react gently when an adjacent paper opens partially */
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-left {
   transform-origin: right center;
-  transform: perspective(1500px) rotateY(15deg);
+  transform: perspective(1500px) rotateY(8deg);
 }
 
 #experience-timeline-board[data-fold-phase="partial"] .exp-fold-swatch.is-adjacent-right {
   transform-origin: left center;
-  transform: perspective(1500px) rotateY(-15deg);
+  transform: perspective(1500px) rotateY(-8deg);
 }
 
 #experience-timeline-board[data-unfolding="true"] .exp-fold-swatch,
@@ -6009,17 +6097,18 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:not(.is-unfolding) {
   flex: 0.25 1 0%;
   opacity: 0.24;
-  transform: perspective(1400px) rotateY(32deg);
+  transform: perspective(1400px) rotateY(22deg);
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch:nth-child(even):not(.is-unfolding) {
-  transform: perspective(1400px) rotateY(-32deg);
+  transform: perspective(1400px) rotateY(-22deg);
 }
 
 #experience-timeline-board[data-fold-phase="unfolding"] .exp-fold-swatch.is-unfolding {
   flex: 8 1 100%;
   z-index: 30;
-  transform: perspective(1600px) rotateY(0deg);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transform: none;
 }
 
 #experience-timeline-board .exp-fold-swatch:focus-visible {
@@ -6027,7 +6116,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   outline-offset: -3px;
 }
 
-/* Ánh sáng & bóng nếp gấp giấy Origami 3D */
+/* Ánh sáng & bóng nếp gấp giấy Chromatic Folds */
 #experience-timeline-board .exp-fold-shading {
   position: absolute;
   inset: 0;
@@ -6035,28 +6124,26 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   z-index: 12;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.24) 0%,
-    rgba(255, 255, 255, 0.04) 24%,
-    transparent 52%,
-    rgba(0, 0, 0, 0.14) 88%,
-    rgba(0, 0, 0, 0.34) 100%
+    rgba(255, 255, 255, 0.22) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.18) 95%,
+    rgba(0, 0, 0, 0.32) 100%
   );
-  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 #experience-timeline-board .exp-fold-swatch:nth-child(even) .exp-fold-shading {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.1) 18%,
-    transparent 58%,
-    rgba(255, 255, 255, 0.22) 100%
+    rgba(0, 0, 0, 0.26) 0%,
+    transparent 65%,
+    rgba(255, 255, 255, 0.2) 100%
   );
 }
 
 #experience-timeline-board .exp-fold-swatch.is-partial .exp-fold-shading,
 #experience-timeline-board .exp-fold-swatch.is-expanded .exp-fold-shading {
-  opacity: 0.22;
+  opacity: 0.18;
 }
 
 /* Đường nếp gấp tinh tế bên trong tờ giấy mở hé */
@@ -6131,6 +6218,8 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   text-align: center;
   white-space: nowrap;
   flex-shrink: 0;
+  transform: skewY(var(--fold-angle, 6deg));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 #experience-timeline-board .exp-fold-spine-center {
@@ -6162,6 +6251,8 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  transform: skewY(var(--fold-angle, 6deg));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 #experience-timeline-board .exp-fold-spine-logo-stack {
@@ -6238,6 +6329,8 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   line-height: 1.15;
   text-align: center;
   white-space: nowrap;
+  transform: skewY(var(--fold-angle, 6deg));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Mặt mở hé chứa nội dung cột mốc (State 2: Partial Unfold) */

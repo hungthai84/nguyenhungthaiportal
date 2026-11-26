@@ -40,6 +40,7 @@ import { stopActiveSpeech } from '@/utils/speechVoice';
 import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -1202,6 +1203,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             data-element-type="banner-card"
             data-element-page="systems"
             data-section-card="true"
+            data-has-compact-menu="true"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -1226,7 +1228,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
             {/* Vùng Tiêu Đề Banner */}
-            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+            <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div
                 className="card-header-sync flex items-center gap-2 min-w-0"
                 style={{ color: 'var(--text-link, var(--color-primary))' }}
@@ -1251,12 +1253,186 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               >
                 &quot;Hệ thống thông minh, vận hành tinh gọn và đồng bộ ♡&quot;
               </p>
+
+              <CompactBannerMenu
+                id="systems-compact-menu-btn"
+                label={isEn ? 'Controls' : 'Điều khiển'}
+                ariaLabel={isEn ? 'System search, filters and view mode' : 'Tìm kiếm, bộ lọc phân hệ và sơ đồ'}
+                activeCount={(activeCategory !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
+              >
+                {(closeMenu) => (
+                  <>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Search' : 'Tìm kiếm'}
+                      </span>
+                      <div className="relative w-full">
+                        <WebIcon
+                          name="search"
+                          className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                        />
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            if (expandedSystem) closeExpandedSystem();
+                          }}
+                          placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
+                          className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
+                        />
+                        {searchQuery && (
+                          <button
+                            type="button"
+                            onClick={() => setSearchQuery('')}
+                            aria-label={isEn ? 'Clear search' : 'Xóa từ khóa tìm kiếm'}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
+                          >
+                            <WebIcon name="cancel" className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'View mode' : 'Dạng hiển thị'}
+                      </span>
+                      <div className="banner-control-pill w-full inline-flex items-center gap-1 p-0.5 rounded-full">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            if (expandedSystem) closeExpandedSystem();
+                            setIsCircleVideoPlaying(false);
+                            setViewMode('grid');
+                            closeMenu();
+                          }}
+                          style={
+                            viewMode === 'grid'
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                              : undefined
+                          }
+                          className={cn(
+                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                            viewMode === 'grid' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                          )}
+                        >
+                          <LayoutGrid className="w-3.5 h-3.5 shrink-0" />
+                          <span>{isEn ? 'Grid' : 'Dạng lưới'}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            if (expandedSystem) closeExpandedSystem();
+                            setIsCircleVideoPlaying(false);
+                            setViewMode('matrix');
+                            closeMenu();
+                          }}
+                          style={
+                            viewMode === 'matrix'
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                              : undefined
+                          }
+                          className={cn(
+                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                            viewMode === 'matrix' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                          )}
+                        >
+                          <Table className="w-3.5 h-3.5 shrink-0" />
+                          <span>{isEn ? 'Matrix' : 'Ma trận'}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'System segment' : 'Bộ lọc phân hệ'}
+                      </span>
+                      {ecosystemSegments.map((seg) => {
+                        const isActive = activeCategory === seg.id;
+                        return (
+                          <button
+                            key={seg.id}
+                            type="button"
+                            data-selected={isActive ? 'true' : undefined}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setActiveCategory(seg.id);
+                              if (expandedSystem) closeExpandedSystem();
+                              setIsCircleVideoPlaying(false);
+                              closeMenu();
+                            }}
+                            className={cn(
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
+                              isActive ? 'shadow-xs font-bold' : ''
+                            )}
+                          >
+                            <span>{seg.label}</span>
+                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5 pt-1 border-t border-[var(--border-subcard)]">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          SoundEngine.playTechChimeExpand();
+                          setIsEcosystemDiagramOpen(true);
+                          closeMenu();
+                        }}
+                        className="banner-primary-cta h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-play cursor-pointer"
+                      >
+                        <WebIcon name="git-merge" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'Architecture' : 'Sơ đồ hệ thống'}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleToggleCircleVideo();
+                          closeMenu();
+                        }}
+                        className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-play cursor-pointer"
+                      >
+                        <WebIcon name={isCircleVideoPlaying ? 'cancel' : 'play'} className="w-3.5 h-3.5 shrink-0" />
+                        <span>
+                          {isCircleVideoPlaying
+                            ? isEn
+                              ? 'Close intro video'
+                              : 'Đóng video giới thiệu'
+                            : isEn
+                              ? 'Watch intro video'
+                              : 'Video giới thiệu'}
+                        </span>
+                      </button>
+
+                      {expandedSystem && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            closeExpandedSystem();
+                            closeMenu();
+                          }}
+                          className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-play cursor-pointer"
+                        >
+                          <Minimize2 className="w-3.5 h-3.5 shrink-0" />
+                          <span>{isEn ? 'Back to 12 Systems' : 'Quay lại 12 thẻ'}</span>
+                        </button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </CompactBannerMenu>
             </div>
 
             {/* Bộ điều khiển dưới banner */}
             <div
               id="systems-hero-banner-controls"
-              className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full"
+              className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full"
               ref={filterDropdownRef}
             >
               <div className="flex flex-wrap items-center gap-2 min-w-0">
@@ -1995,7 +2171,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 }
                                 data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
                                 className={cn(
-                                  'system-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-2.5 sm:p-3 bg-white/35 dark:bg-slate-900/35 transition-transform duration-300',
+                                  'system-card-image-slot absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden rounded-[var(--radius-image,12px)] p-2.5 sm:p-3 bg-white/35 dark:bg-slate-900/35 hover:!bg-black transition-all duration-300',
                                   item.videoUrl && 'cursor-pointer hover:scale-[1.02]'
                                 )}
                               >

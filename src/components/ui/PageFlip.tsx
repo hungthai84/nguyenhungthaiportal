@@ -147,11 +147,11 @@ function centerShift({ left, right }: Layers) {
 }
 
 /** Corner the pointer has to be within (px) for the page to lift on hover. */
-const PEEK_ZONE = 72;
+const PEEK_ZONE = 64;
 /** How far a hovered corner lifts toward the pointer, at most (px). */
-const PEEK_MAX = 38;
+const PEEK_MAX = 34;
 /** Pointer travel that turns a press into a drag (px). */
-const DRAG_SLOP = 5;
+const DRAG_SLOP = 4;
 const TURN = { duration: 0.6, ease: [0.32, 0.72, 0, 1] } as const;
 const SETTLE = { duration: 0.32, ease: [0.23, 1, 0.32, 1] } as const;
 

@@ -20,6 +20,7 @@ import {
   MIN_CORNER_RADIUS,
   MAX_CORNER_RADIUS,
   THEME_BACKGROUNDS,
+  THEME_CARD_SPECS,
   THEME_DEFAULT_WALLPAPER_ID,
   INTERFACE_SURFACE_COLOR_PRESETS,
   INTERFACE_PRIMARY_COLOR_PRESETS,
@@ -38,6 +39,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { ThemePresetCard, ThemeVisualMeta } from './interface/ThemePresetCard';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 const INTERFACE_UI_PREFS_KEY = 'hungthai_interface_ui_prefs_v1';
 
@@ -974,6 +976,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   }, [wallpaperFilterType]);
 
   const themeDefaultWallpaperId = THEME_DEFAULT_WALLPAPER_ID[cardStyle];
+  const themeDefaultCardEffect = THEME_CARD_SPECS[cardStyle]?.defaultCardEffect || DEFAULT_CARD_EFFECT;
   const activeCardEffectMeta = useMemo(
     () => CARD_EFFECT_PRESETS.find((item) => item.id === cardEffect) || CARD_EFFECT_PRESETS[0],
     [cardEffect]
@@ -1026,7 +1029,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     cornerRadius === DEFAULT_CORNER_RADIUS &&
     customSurfaceColor === 'default' &&
     customPrimaryColor === 'default' &&
-    cardEffect === DEFAULT_CARD_EFFECT;
+    cardEffect === themeDefaultCardEffect;
 
   return (
     <div
@@ -1061,6 +1064,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             data-element-type="banner-card"
             data-element-page="interface"
             data-section-card="true"
+            data-has-compact-menu="true"
             className={`banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative ${
               isNeumorphismActive ? 'border-0' : 'border'
             } text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300`}
@@ -1074,7 +1078,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
             <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+            <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
                 <WebIcon name="palette" className="w-[22px] h-[22px] shrink-0" />
                 <h1
@@ -1095,11 +1099,173 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
               >
                 &quot;Tinh tế từng sắc màu, kiến tạo không gian sống động ♡&quot;
               </p>
+
+              <CompactBannerMenu
+                id="interface-compact-menu-btn"
+                label={isEn ? 'Controls' : 'Điều khiển'}
+                ariaLabel={isEn ? 'Theme filters and interface controls' : 'Bộ lọc nhóm giao diện và chế độ hiển thị'}
+                activeCount={(selectedFamilyFilter !== 'all' ? 1 : 0) + (selectedMechanismFilter !== 'all' ? 1 : 0)}
+              >
+                {(closeMenu) => (
+                  <>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Color mode' : 'Chế độ Sáng / Tối / Màu'}
+                      </span>
+                      <div className="banner-control-pill w-full grid grid-cols-4 gap-1 p-1 rounded-full">
+                        {(
+                          [
+                            { id: 'all' as const, labelVi: 'Tất cả', labelEn: 'All' },
+                            { id: 'light' as const, labelVi: 'Sáng', labelEn: 'Light' },
+                            { id: 'dark' as const, labelVi: 'Tối', labelEn: 'Dark' },
+                            { id: 'color' as const, labelVi: 'Màu', labelEn: 'Color' },
+                          ]
+                        ).map((item) => {
+                          const active = selectedMechanismFilter === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              aria-pressed={active}
+                              onClick={() => {
+                                SoundEngine.playTap();
+                                setSelectedMechanismFilter(item.id);
+                              }}
+                              className={`h-7 px-2 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap border-0 ${
+                                active ? 'shadow-xs' : 'opacity-80 hover:opacity-100'
+                              }`}
+                              style={
+                                active
+                                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                                  : { color: 'var(--text-primary)' }
+                              }
+                            >
+                              {isEn ? item.labelEn : item.labelVi}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Theme family' : 'Nhóm giao diện'}
+                      </span>
+                      <button
+                        type="button"
+                        data-selected={selectedFamilyFilter === 'all' ? 'true' : 'false'}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setSelectedFamilyFilter('all');
+                          closeMenu();
+                        }}
+                        className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                      >
+                        <span className="inline-flex items-center gap-2 truncate">
+                          <WebIcon name="grid" className="w-3.5 h-3.5 shrink-0" />
+                          <span className="truncate">{isEn ? 'All Families' : 'Tất cả giao diện'}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 shrink-0">
+                          <span className="typo-badge font-mono opacity-75 tabular-nums">{displayedThemesCount}</span>
+                          {selectedFamilyFilter === 'all' && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                        </span>
+                      </button>
+
+                      {CARD_STYLE_GROUPS.map((grp) => {
+                        const isSelectedTab = selectedFamilyFilter === grp.id;
+                        return (
+                          <button
+                            key={grp.id}
+                            type="button"
+                            data-selected={isSelectedTab ? 'true' : 'false'}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setSelectedFamilyFilter(grp.id);
+                              closeMenu();
+                            }}
+                            className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
+                          >
+                            <span className="inline-flex items-center gap-2 truncate">
+                              <WebIcon name={grp.icon} className="w-3.5 h-3.5 shrink-0" />
+                              <span className="truncate">{isEn ? grp.labelEn : grp.label}</span>
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 shrink-0">
+                              <span className="typo-badge font-mono opacity-75 tabular-nums">{grp.presets.length}</span>
+                              {isSelectedTab && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5 pt-1 border-t border-[var(--border-subcard)]">
+                      <button
+                        type="button"
+                        aria-pressed={isNeumorphismActive}
+                        onClick={() => {
+                          handleToggleVisualThemeMode();
+                          closeMenu();
+                        }}
+                        className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-2 px-3 rounded-full typo-button font-bold cursor-pointer transition-all"
+                        style={
+                          isNeumorphismActive
+                            ? {
+                                background: 'var(--bg-button-primary)',
+                                color: 'var(--text-button-primary, #FFFFFF)',
+                              }
+                            : undefined
+                        }
+                      >
+                        <WebIcon name={isNeumorphismActive ? 'sparkles' : 'layers'} className="w-3.5 h-3.5 shrink-0" />
+                        <span>
+                          {isEn
+                            ? isNeumorphismActive
+                              ? 'Theme: Neumorphism'
+                              : 'Theme: Standard'
+                            : isNeumorphismActive
+                              ? 'Chế độ: Nổi khối'
+                              : 'Chế độ: Chuẩn'}
+                        </span>
+                      </button>
+
+                      <button
+                        type="button"
+                        aria-pressed={isSandboxOpen}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setIsSandboxOpen((prev) => !prev);
+                          closeMenu();
+                        }}
+                        className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-bold cursor-pointer transition-all"
+                      >
+                        <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'UI Kit' : 'Bộ mẫu'}</span>
+                      </button>
+
+                      {(selectedFamilyFilter !== 'all' || selectedMechanismFilter !== 'all') && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setSelectedFamilyFilter('all');
+                            setSelectedMechanismFilter('all');
+                            closeMenu();
+                          }}
+                          className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-bold cursor-pointer transition-all"
+                        >
+                          <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
+                          <span>{isEn ? 'Clear filters' : 'Xóa lọc'}</span>
+                        </button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </CompactBannerMenu>
             </div>
 
             <div
               id="interface-hero-banner-controls"
-              className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full"
+              className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full"
             >
               <div className="flex flex-wrap items-center gap-2 min-w-0">
                 {/* Bộ lọc 1: Nhóm chất liệu giao diện (Dropdown trong Banner) */}
@@ -1111,7 +1277,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                       SoundEngine.playTap();
                       setIsFamilyFilterOpen((prev) => !prev);
                     }}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-body font-normal font-play"
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play"
                     title={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-label={isEn ? 'Theme family filter' : 'Bộ lọc nhóm giao diện'}
                     aria-expanded={isFamilyFilterOpen}
@@ -1262,7 +1428,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     }}
                     className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full ${
                       isNeumorphismActive ? 'border-0' : 'border'
-                    } typo-badge font-bold cursor-pointer transition-all hover:opacity-90 whitespace-nowrap shrink-0`}
+                    } typo-button font-bold cursor-pointer transition-all hover:opacity-90 whitespace-nowrap shrink-0`}
                     title={isEn ? 'Clear filters' : 'Xóa bộ lọc'}
                   >
                     <WebIcon name="x" className="w-3.5 h-3.5 shrink-0" />
@@ -1281,7 +1447,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   aria-pressed={isNeumorphismActive}
                   data-visual-mode={visualThemeMode}
                   onClick={handleToggleVisualThemeMode}
-                  className={`banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
+                  className={`banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full typo-button font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
                     isNeumorphismActive ? 'border-0' : 'border'
                   }`}
                   style={
@@ -1325,7 +1491,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     SoundEngine.playTap();
                     setIsSandboxOpen((prev) => !prev);
                   }}
-                  className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full typo-badge font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
+                  className={`banner-control-pill h-9 inline-flex items-center gap-1.5 px-3 py-0 rounded-full typo-button font-bold cursor-pointer transition-all whitespace-nowrap shrink-0 ${
                     isNeumorphismActive ? 'border-0' : 'border'
                   }`}
                   title={isEn ? 'Toggle Neumorphism UI Kit' : 'Bật/tắt bộ mẫu giao diện'}
@@ -1505,589 +1671,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
             </div>
           </section>
 
-          {/* STUDIO TÙY CHỈNH GIAO DIỆN: HÌNH NỀN, MÀU GIAO DIỆN, MÀU CHÍNH & HIỆU ỨNG CARD */}
-          <div
-            id="interface-studio-customization-grid"
-            data-element-name="Bảng tùy chỉnh Hình nền, Màu sắc & Hiệu ứng Card"
-            data-element-type="container"
-            data-element-page="interface"
-            className="grid grid-cols-1 md:grid-cols-2 gap-[15px] w-full min-w-0"
-          >
-            {/* Mục 1: Hình nền */}
-            <section
-              id="interface-wallpaper-custom-card"
-              data-subcard="true"
-              className={`sub-card flex flex-col justify-between gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] min-w-0 transition-all duration-200 ${
-                isNeumorphismActive ? 'border-0' : 'border'
-              }`}
-              style={{
-                background: 'var(--bg-subcard)',
-                ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-              }}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <span
-                    className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
-                    style={{
-                      background: 'var(--bg-button-secondary, var(--bg-card))',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
-                  >
-                    <WebIcon name="image" className="w-4 h-4 shrink-0" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2
-                      className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                      data-card-title="true"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    >
-                      {isEn ? 'Wallpaper' : 'Hình nền'}
-                    </h2>
-                    <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
-                      {activeWallpaper?.name ||
-                        (isEn ? 'Synced with active theme' : 'Đồng bộ theo giao diện hiện tại')}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  id="interface-wallpaper-reset-btn"
-                  type="button"
-                  disabled={activeWallpaper?.id === themeDefaultWallpaperId}
-                  onClick={() => {
-                    SoundEngine.playGlassChime();
-                    const matchedDefault = WALLPAPER_PRESETS_LIST.find(
-                      (wp) => wp.id === themeDefaultWallpaperId
-                    );
-                    if (matchedDefault) {
-                      setWallpaper(matchedDefault);
-                    } else {
-                      const bgFallback = THEME_BACKGROUNDS[cardStyle];
-                      setWallpaper(bgFallback?.imagePath || bgFallback?.fallbackGradient || themeDefaultWallpaperId);
-                    }
-                    onShowNotification?.(
-                      isEn
-                        ? '✓ Restored default wallpaper for active theme'
-                        : '✓ Đã khôi phục hình nền mặc định theo giao diện'
-                    );
-                  }}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  } ${
-                    activeWallpaper?.id === themeDefaultWallpaperId
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'cursor-pointer hover:opacity-90'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
-                  <span>{isEn ? 'Default' : 'Mặc định'}</span>
-                </button>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-1.5 min-w-0">
-                {(
-                  [
-                    { id: 'all', labelVi: 'Tất cả', labelEn: 'All' },
-                    { id: 'image', labelVi: 'Ảnh nền', labelEn: 'Images' },
-                    { id: 'css', labelVi: 'Màu & Gradient', labelEn: 'Colors & Gradients' },
-                  ] as const
-                ).map((tab) => {
-                  const isActiveTab = wallpaperFilterType === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      aria-pressed={isActiveTab}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setWallpaperFilterType(tab.id);
-                      }}
-                      className={`px-2.5 py-1 rounded-full typo-badge font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                        isNeumorphismActive ? 'border-0' : 'border'
-                      }`}
-                      style={
-                        isActiveTab
-                          ? {
-                              background: 'var(--bg-button-primary)',
-                              color: 'var(--text-button-primary, #FFFFFF)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
-                            }
-                          : {
-                              background: 'var(--bg-card)',
-                              color: 'var(--text-secondary)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                            }
-                      }
-                    >
-                      {isEn ? tab.labelEn : tab.labelVi}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Wallpaper selection' : 'Chọn hình nền giao diện'}
-                className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[146px] overflow-y-auto glass-scrollbar pr-0.5"
-              >
-                {curatedWallpapers.map((wp) => {
-                  const isSelected = activeWallpaper?.id === wp.id;
-                  const thumbUrl = wp.type === 'image' ? getWallpaperThumbnailUrl(wp.value) : '';
-                  return (
-                    <button
-                      key={wp.id}
-                      type="button"
-                      aria-pressed={isSelected}
-                      title={wp.name}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setWallpaper(wp);
-                        onShowNotification?.(
-                          isEn
-                            ? `✓ Applied wallpaper: ${wp.name}`
-                            : `✓ Đã áp dụng hình nền: ${wp.name}`
-                        );
-                      }}
-                      className={`relative h-12 rounded-[10px] overflow-hidden cursor-pointer transition-all shrink-0 ${
-                        isSelected
-                          ? 'ring-2 ring-[var(--color-primary)] ring-offset-1 shadow-sm'
-                          : 'opacity-85 hover:opacity-100 border'
-                      }`}
-                      style={{
-                        ...(wp.previewStyle || { background: wp.bg || wp.value }),
-                        ...(isSelected ? {} : { borderColor: 'var(--border-subcard)' }),
-                      }}
-                    >
-                      {thumbUrl && (
-                        <img
-                          src={thumbUrl}
-                          alt={wp.name}
-                          loading="lazy"
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                      {isSelected && (
-                        <span
-                          className="absolute bottom-1 right-1 w-4 h-4 rounded-full flex items-center justify-center shadow-xs"
-                          style={{
-                            background: 'var(--color-primary)',
-                            color: 'var(--text-button-primary, #FFFFFF)',
-                          }}
-                        >
-                          <WebIcon name="check" className="w-2.5 h-2.5 shrink-0" />
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* Mục 2: Màu dùng cho giao diện */}
-            <section
-              id="interface-surface-color-card"
-              data-subcard="true"
-              className={`sub-card flex flex-col justify-between gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] min-w-0 transition-all duration-200 ${
-                isNeumorphismActive ? 'border-0' : 'border'
-              }`}
-              style={{
-                background: 'var(--bg-subcard)',
-                ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-              }}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <span
-                    className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
-                    style={{
-                      background: 'var(--bg-button-secondary, var(--bg-card))',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
-                  >
-                    <WebIcon name="layers" className="w-4 h-4 shrink-0" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2
-                      className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                      data-card-title="true"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    >
-                      {isEn ? 'Interface surface color' : 'Màu dùng cho giao diện'}
-                    </h2>
-                    <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
-                      {customSurfaceColor === 'default'
-                        ? isEn
-                          ? 'Following active theme surface'
-                          : 'Đang dùng sắc nền chuẩn của giao diện'
-                        : isEn
-                          ? `Custom surface: ${customSurfaceColor.toUpperCase()}`
-                          : `Đang tùy chỉnh: ${customSurfaceColor.toUpperCase()}`}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  id="interface-surface-color-reset-btn"
-                  type="button"
-                  disabled={customSurfaceColor === 'default'}
-                  onClick={() => {
-                    SoundEngine.playGlassChime();
-                    setCustomSurfaceColor('default');
-                    onShowNotification?.(
-                      isEn
-                        ? '✓ Restored default surface color'
-                        : '✓ Đã khôi phục màu dùng cho giao diện mặc định'
-                    );
-                  }}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  } ${
-                    customSurfaceColor === 'default'
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'cursor-pointer hover:opacity-90'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
-                  <span>{isEn ? 'Default' : 'Mặc định'}</span>
-                </button>
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Interface surface color presets' : 'Bảng màu nền bề mặt giao diện'}
-                className="flex flex-wrap items-center gap-2"
-              >
-                {INTERFACE_SURFACE_COLOR_PRESETS.map((preset) => {
-                  const isSelected =
-                    customSurfaceColor.toLowerCase() === preset.hex.toLowerCase();
-                  return (
-                    <button
-                      key={preset.id}
-                      type="button"
-                      aria-pressed={isSelected}
-                      title={`${isEn ? preset.labelEn : preset.labelVi} (${preset.hex})`}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setCustomSurfaceColor(preset.hex);
-                        onShowNotification?.(
-                          isEn
-                            ? `✓ Interface color: ${preset.labelEn}`
-                            : `✓ Màu dùng cho giao diện: ${preset.labelVi}`
-                        );
-                      }}
-                      className={`w-9 h-9 rounded-full cursor-pointer transition-all flex items-center justify-center shrink-0 ${
-                        isSelected
-                          ? 'ring-2 ring-[var(--color-primary)] ring-offset-2 scale-105 shadow-sm'
-                          : 'border hover:scale-105'
-                      }`}
-                      style={{
-                        background: preset.previewBg,
-                        ...(isSelected ? {} : { borderColor: 'var(--border-subcard)' }),
-                      }}
-                    >
-                      {isSelected && (
-                        <WebIcon
-                          name="check"
-                          className="w-3.5 h-3.5 shrink-0"
-                          style={{
-                            color:
-                              preset.hex === '#1E293B' || preset.hex === '#0F172A'
-                                ? '#FFFFFF'
-                                : '#0F172A',
-                          }}
-                        />
-                      )}
-                    </button>
-                  );
-                })}
-
-                <label
-                  title={isEn ? 'Pick custom surface color' : 'Chọn màu bề mặt tùy chỉnh'}
-                  className={`inline-flex items-center gap-1.5 px-2.5 h-9 rounded-full cursor-pointer transition-all typo-badge font-semibold shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <input
-                    type="color"
-                    aria-label={isEn ? 'Custom surface color picker' : 'Chọn mã màu giao diện tự do'}
-                    value={customSurfaceColor === 'default' ? '#FFFFFF' : customSurfaceColor}
-                    onChange={(e) => setCustomSurfaceColor(e.target.value)}
-                    className="w-5 h-5 rounded-full border-0 bg-transparent p-0 cursor-pointer"
-                  />
-                  <span>{isEn ? 'Custom' : 'Tự chọn'}</span>
-                </label>
-              </div>
-            </section>
-
-            {/* Mục 3: Màu chính cho giao diện */}
-            <section
-              id="interface-primary-color-card"
-              data-subcard="true"
-              className={`sub-card flex flex-col justify-between gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] min-w-0 transition-all duration-200 ${
-                isNeumorphismActive ? 'border-0' : 'border'
-              }`}
-              style={{
-                background: 'var(--bg-subcard)',
-                ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-              }}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <span
-                    className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
-                    style={{
-                      background: 'var(--bg-button-secondary, var(--bg-card))',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
-                  >
-                    <WebIcon name="palette" className="w-4 h-4 shrink-0" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2
-                      className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                      data-card-title="true"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    >
-                      {isEn ? 'Primary accent color' : 'Màu chính cho giao diện'}
-                    </h2>
-                    <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
-                      {customPrimaryColor === 'default'
-                        ? isEn
-                          ? 'Following active theme primary accent'
-                          : 'Đang dùng màu nhấn chuẩn của giao diện'
-                        : isEn
-                          ? `Primary accent: ${customPrimaryColor.toUpperCase()}`
-                          : `Màu chính đang chọn: ${customPrimaryColor.toUpperCase()}`}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  id="interface-primary-color-reset-btn"
-                  type="button"
-                  disabled={customPrimaryColor === 'default'}
-                  onClick={() => {
-                    SoundEngine.playGlassChime();
-                    setCustomPrimaryColor('default');
-                    onShowNotification?.(
-                      isEn
-                        ? '✓ Restored default primary color'
-                        : '✓ Đã khôi phục màu chính mặc định'
-                    );
-                  }}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  } ${
-                    customPrimaryColor === 'default'
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'cursor-pointer hover:opacity-90'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
-                  <span>{isEn ? 'Default' : 'Mặc định'}</span>
-                </button>
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Primary accent color presets' : 'Bảng màu chính cho giao diện'}
-                className="flex flex-wrap items-center gap-2"
-              >
-                {INTERFACE_PRIMARY_COLOR_PRESETS.map((preset) => {
-                  const isSelected =
-                    customPrimaryColor.toLowerCase() === preset.hex.toLowerCase();
-                  return (
-                    <button
-                      key={preset.id}
-                      type="button"
-                      aria-pressed={isSelected}
-                      title={`${isEn ? preset.labelEn : preset.labelVi} (${preset.hex})`}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setCustomPrimaryColor(preset.hex);
-                        onShowNotification?.(
-                          isEn
-                            ? `✓ Primary color: ${preset.labelEn}`
-                            : `✓ Màu chính giao diện: ${preset.labelVi}`
-                        );
-                      }}
-                      className={`w-9 h-9 rounded-full cursor-pointer transition-all flex items-center justify-center shrink-0 ${
-                        isSelected
-                          ? 'ring-2 ring-[var(--text-primary)] ring-offset-2 scale-105 shadow-sm'
-                          : 'border hover:scale-105'
-                      }`}
-                      style={{
-                        background: preset.previewBg,
-                        ...(isSelected ? {} : { borderColor: 'var(--border-subcard)' }),
-                      }}
-                    >
-                      {isSelected && (
-                        <WebIcon name="check" className="w-3.5 h-3.5 text-white shrink-0" />
-                      )}
-                    </button>
-                  );
-                })}
-
-                <label
-                  title={isEn ? 'Pick custom primary color' : 'Chọn màu chính tùy chỉnh'}
-                  className={`inline-flex items-center gap-1.5 px-2.5 h-9 rounded-full cursor-pointer transition-all typo-badge font-semibold shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <input
-                    type="color"
-                    aria-label={isEn ? 'Custom primary color picker' : 'Chọn mã màu chính tự do'}
-                    value={customPrimaryColor === 'default' ? '#6D28D9' : customPrimaryColor}
-                    onChange={(e) => setCustomPrimaryColor(e.target.value)}
-                    className="w-5 h-5 rounded-full border-0 bg-transparent p-0 cursor-pointer"
-                  />
-                  <span>{isEn ? 'Custom' : 'Tự chọn'}</span>
-                </label>
-              </div>
-            </section>
-
-            {/* Mục 4: Hiệu ứng của card */}
-            <section
-              id="interface-card-effect-card"
-              data-subcard="true"
-              className={`sub-card flex flex-col justify-between gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] min-w-0 transition-all duration-200 ${
-                isNeumorphismActive ? 'border-0' : 'border'
-              }`}
-              style={{
-                background: 'var(--bg-subcard)',
-                ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-              }}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <span
-                    className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
-                    style={{
-                      background: 'var(--bg-button-secondary, var(--bg-card))',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
-                  >
-                    <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2
-                      className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                      data-card-title="true"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    >
-                      {isEn ? 'Card effects' : 'Hiệu ứng của card'}
-                    </h2>
-                    <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
-                      {isEn ? activeCardEffectMeta.descEn : activeCardEffectMeta.descVi}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  id="interface-card-effect-reset-btn"
-                  type="button"
-                  disabled={cardEffect === DEFAULT_CARD_EFFECT}
-                  onClick={() => {
-                    SoundEngine.playGlassChime();
-                    setCardEffect(DEFAULT_CARD_EFFECT);
-                    onShowNotification?.(
-                      isEn
-                        ? '✓ Restored default card effect'
-                        : '✓ Đã khôi phục hiệu ứng card mặc định'
-                    );
-                  }}
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  } ${
-                    cardEffect === DEFAULT_CARD_EFFECT
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'cursor-pointer hover:opacity-90'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
-                  <span>{isEn ? 'Default' : 'Mặc định'}</span>
-                </button>
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Select card interaction effect' : 'Chọn hiệu ứng của card'}
-                className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full min-w-0"
-              >
-                {CARD_EFFECT_PRESETS.map((effect) => {
-                  const isSelected = cardEffect === effect.id;
-                  return (
-                    <button
-                      key={effect.id}
-                      id={`btn-card-effect-${effect.id}`}
-                      type="button"
-                      aria-pressed={isSelected}
-                      title={isEn ? effect.descEn : effect.descVi}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setCardEffect(effect.id as CardEffectMode);
-                        onShowNotification?.(
-                          isEn
-                            ? `✓ Card effect: ${effect.labelEn}`
-                            : `✓ Hiệu ứng card: ${effect.labelVi}`
-                        );
-                      }}
-                      className={`flex items-center gap-2 px-2.5 py-2 rounded-[var(--radius-subcard,14px)] typo-badge font-semibold transition-all cursor-pointer min-w-0 text-left ${
-                        isNeumorphismActive ? 'border-0' : 'border'
-                      } ${isSelected ? 'shadow-xs' : 'opacity-90 hover:opacity-100'}`}
-                      style={
-                        isSelected
-                          ? {
-                              background: 'var(--bg-button-primary)',
-                              color: 'var(--text-button-primary, #FFFFFF)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
-                            }
-                          : {
-                              background: 'var(--bg-card)',
-                              color: 'var(--text-primary)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                            }
-                      }
-                    >
-                      <WebIcon name={effect.icon} className="w-3.5 h-3.5 shrink-0" />
-                      <span className="truncate">{isEn ? effect.labelEn : effect.labelVi}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          </div>
 
           {/* 1. Bảng điều khiển nhanh: Chọn tên giao diện (ẩn mặc định, fade-in mượt mà khi hiển thị lại) */}
           <AnimatePresence initial={false}>

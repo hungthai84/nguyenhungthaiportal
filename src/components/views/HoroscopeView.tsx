@@ -22,6 +22,7 @@ import { evaluateOverallLayoutTypography } from '@/config/typographyScale';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import TuViBookCard from '@/components/views/horoscope/TuViBookCard';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 const HOROSCOPE_COMMENTARY_MP3_URL =
   'https://cdn.scena.ai/project/9626/b40b848d5a2ad108760073e8c64bd80f963850ab7e79c19af228c82a83f6419d.mp3';
@@ -898,6 +899,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       data-element-type="banner-card"
       data-element-page="horoscope"
       data-section-card="true"
+      data-has-compact-menu="true"
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
@@ -925,7 +927,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       {/* Vùng Tiêu Đề: Không có nội dung bên trái tiêu đề, không có sub tiêu đề */}
       <div
         id="horoscope-hero-banner-header"
-        className="relative z-10 flex items-center justify-start w-full min-w-0"
+        className="banner-header-row relative z-10 flex items-center justify-between gap-2 w-full min-w-0"
       >
         <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
           <WebIcon name="compass" className="w-5 h-5 shrink-0" />
@@ -942,12 +944,76 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             Bản đồ tử vi
           </h1>
         </div>
+
+        <p
+          id="horoscope-hero-banner-quote"
+          className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+          style={{
+            color: 'var(--text-secondary)',
+            fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+            fontWeight: 600,
+            fontStyle: 'normal',
+          }}
+        >
+          &quot;Khai mở vận mệnh, kiến tạo lộ trình công danh bền vững ♡&quot;
+        </p>
+
+        <CompactBannerMenu
+          id="horoscope-compact-menu-btn"
+          label="Điều khiển"
+          ariaLabel="Bộ lọc thẻ phân tích tử vi"
+          activeCount={activeCardIndex > 0 ? 1 : 0}
+        >
+          {(closeMenu) => (
+            <>
+              <div className="flex flex-col gap-1">
+                <span className="typo-label text-[var(--text-muted)] px-1">
+                  Bộ lọc thẻ phân tích
+                </span>
+                {HOROSCOPE_SLIDES.map((slide) => {
+                  const isCurrent = activeCardIndex === slide.idx;
+                  return (
+                    <button
+                      key={slide.idx}
+                      type="button"
+                      data-selected={isCurrent ? 'true' : 'false'}
+                      onClick={() => {
+                        SoundEngine.playPop();
+                        scrollToHoroscopeCard(slide.idx, true);
+                        closeMenu();
+                        showToast(
+                          language === 'en'
+                            ? `Switched to ${t(slide.label)}`
+                            : `Đã chuyển sang ${slide.label}`
+                        );
+                      }}
+                      className="theme-dropdown-option flex items-center justify-between w-full px-3 py-1.5 rounded-[14px] typo-nav font-play text-left transition-all cursor-pointer"
+                    >
+                      <span className="truncate">{slide.label}</span>
+                      {isCurrent && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subcard)]">
+                <span className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-play">
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  Giáp Tý 1984 · Hải Trung Kim
+                </span>
+                <span className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-play">
+                  Đoài (Kim) · Kim Tứ Cục
+                </span>
+              </div>
+            </>
+          )}
+        </CompactBannerMenu>
       </div>
 
       {/* Vùng Điều Khiển Dưới Banner: Bộ lọc danh mục chuyển thẻ + Badges */}
       <div
         id="horoscope-hero-banner-controls"
-        className="relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto"
+        className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto"
         ref={filterMenuRef}
       >
         <div className="flex flex-wrap items-center gap-2 max-w-full min-w-0">

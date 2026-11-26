@@ -39,6 +39,7 @@ import {
   AUTO_TIME_THEME_STORAGE_KEY,
   AUTO_TIME_THEME_SYNC_EVENT,
   THEME_BACKGROUNDS,
+  THEME_CARD_SPECS,
   THEME_DEFAULT_GLASS_SETTINGS,
   THEME_DEFAULT_WALLPAPER_ID,
   WALLPAPER_MANUAL_STORAGE_KEY,
@@ -652,6 +653,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       if (
         saved === 'default' ||
         saved === 'float' ||
+        saved === 'inset' ||
         saved === 'glow' ||
         saved === 'shine' ||
         saved === 'tilt' ||
@@ -662,7 +664,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     } catch {
       // ignore
     }
-    return DEFAULT_CARD_EFFECT;
+    return THEME_CARD_SPECS[readInitialCardStyle(readInitialColorSchemeMode())]?.defaultCardEffect || DEFAULT_CARD_EFFECT;
   });
 
   const setWaveMotion = useCallback((mode: WaveMotionMode) => {
@@ -724,12 +726,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const valid: CardEffectMode =
       effect === 'default' ||
       effect === 'float' ||
+      effect === 'inset' ||
       effect === 'glow' ||
       effect === 'shine' ||
       effect === 'tilt' ||
       effect === 'static'
         ? effect
-        : DEFAULT_CARD_EFFECT;
+        : THEME_CARD_SPECS[cardStyleRef.current]?.defaultCardEffect || DEFAULT_CARD_EFFECT;
     setCardEffectState(valid);
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-card-effect', valid);
@@ -752,7 +755,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const resetInterfaceCustomColors = useCallback(() => {
     setCustomSurfaceColor('default');
     setCustomPrimaryColor('default');
-    setCardEffect('default');
+    setCardEffect(THEME_CARD_SPECS[cardStyleRef.current]?.defaultCardEffect || 'default');
   }, [setCustomSurfaceColor, setCustomPrimaryColor, setCardEffect]);
 
   const setCornerRadius = useCallback((rawRadius: number) => {
@@ -1010,6 +1013,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       if (
         detail === 'default' ||
         detail === 'float' ||
+        detail === 'inset' ||
         detail === 'glow' ||
         detail === 'shine' ||
         detail === 'tilt' ||
@@ -1180,12 +1184,20 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const nextDark = resolveCardStyleDark(normalized);
     const defaultWp = getDefaultWallpaperForTheme(normalized);
     const resolvedScheme: ColorSchemeMode = schemeOverride || (nextDark ? 'dark' : 'light');
+    const themeCardEffect = THEME_CARD_SPECS[normalized]?.defaultCardEffect || DEFAULT_CARD_EFFECT;
 
     cardStyleRef.current = normalized;
     setCardStyleState(normalized);
     setColorSchemeModeState(resolvedScheme);
     activeWallpaperIdRef.current = defaultWp.id;
     setActiveWallpaper(defaultWp);
+
+    // Áp dụng màu dùng cho giao diện, màu chính và hiệu ứng card mặc định của giao diện mới
+    setCustomSurfaceColorState('default');
+    setCustomPrimaryColorState('default');
+    setCardEffectState(themeCardEffect);
+    applyCustomSurfaceColorVariables('default');
+    applyCustomPrimaryColorVariables('default', nextDark);
 
     try {
       localStorage.setItem(CARD_STYLE_STORAGE_KEY, normalized);
@@ -1198,6 +1210,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         normalized
       );
       localStorage.removeItem(WALLPAPER_MANUAL_STORAGE_KEY);
+      localStorage.removeItem(CUSTOM_SURFACE_COLOR_STORAGE_KEY);
+      localStorage.removeItem(CUSTOM_PRIMARY_COLOR_STORAGE_KEY);
+      localStorage.removeItem(CARD_EFFECT_STORAGE_KEY);
       localStorage.setItem(ACTIVE_WALLPAPER_STORAGE_KEY, JSON.stringify(defaultWp));
       localStorage.setItem('theme_wallpaper', defaultWp.value || defaultWp.bg || '');
     } catch (e) {
@@ -1216,14 +1231,19 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     document.documentElement.setAttribute('data-theme-mechanism', mechanism);
     document.documentElement.setAttribute('data-card-style', normalized);
     document.documentElement.setAttribute('data-color-scheme-mode', resolvedScheme);
+    document.documentElement.setAttribute('data-card-effect', themeCardEffect);
     if (document.body) {
       document.body.setAttribute('data-card-style', normalized);
       document.body.setAttribute('data-theme-mechanism', mechanism);
       document.body.setAttribute('data-color-scheme-mode', resolvedScheme);
+      document.body.setAttribute('data-card-effect', themeCardEffect);
     }
     window.dispatchEvent(new CustomEvent(CARD_STYLE_SYNC_EVENT, { detail: normalized }));
     window.dispatchEvent(new CustomEvent(COLOR_SCHEME_MODE_SYNC_EVENT, { detail: resolvedScheme }));
     window.dispatchEvent(new CustomEvent(WALLPAPER_SYNC_EVENT, { detail: defaultWp }));
+    window.dispatchEvent(new CustomEvent(CUSTOM_SURFACE_COLOR_SYNC_EVENT, { detail: 'default' }));
+    window.dispatchEvent(new CustomEvent(CUSTOM_PRIMARY_COLOR_SYNC_EVENT, { detail: 'default' }));
+    window.dispatchEvent(new CustomEvent(CARD_EFFECT_SYNC_EVENT, { detail: themeCardEffect }));
   }, []);
 
   const setCardStyle = useCallback(

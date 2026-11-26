@@ -8,7 +8,7 @@ export type SurfaceDepthMode = 'flat' | 'depth';
 
 export type WaveMotionMode = 'off' | 'gentle' | 'normal' | 'vivid';
 
-export type CardEffectMode = 'default' | 'float' | 'glow' | 'shine' | 'tilt' | 'static';
+export type CardEffectMode = 'default' | 'float' | 'inset' | 'glow' | 'shine' | 'tilt' | 'static';
 
 export type CardStyleMode =
   | 'liquid-glass'

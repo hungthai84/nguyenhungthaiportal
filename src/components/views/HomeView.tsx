@@ -164,12 +164,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
 
-  // Enlarged vivid multi-color orbiting badges around portrait frame
+  // 3 vivid multi-color orbiting circular badges around portrait frame
   const orbitBadges = [
     {
       id: 'home-orbit-icon-sparkles',
       icon: 'sparkles',
-      posClass: '-top-3 left-[13%] sm:-top-4 sm:left-[14%]',
+      posClass: 'top-[4%] right-[12%] sm:top-[5%] sm:right-[13%]',
       gradient: 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
       glow: '0 10px 24px rgba(236, 72, 153, 0.42)',
       floatY: [-5, 5, -5],
@@ -178,59 +178,26 @@ export const HomeView: React.FC<HomeViewProps> = ({
       delay: 0,
     },
     {
-      id: 'home-orbit-icon-headphones',
-      icon: 'headphones',
-      posClass: 'top-[10%] -right-3 sm:top-[11%] sm:-right-4',
-      gradient: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)',
-      glow: '0 10px 24px rgba(59, 130, 246, 0.42)',
-      floatY: [4, -5, 4],
-      floatX: [2, -2, 2],
-      duration: 4.8,
-      delay: 0.35,
-    },
-    {
       id: 'home-orbit-icon-trending',
       icon: 'trending-up',
-      posClass: 'top-[54%] -right-4 sm:-right-5',
+      posClass: 'bottom-[12%] right-[4%] sm:bottom-[13%] sm:right-[5%]',
       gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
       glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
       floatY: [-4, 4, -4],
       floatX: [3, -2, 3],
-      duration: 5.1,
-      delay: 0.7,
-    },
-    {
-      id: 'home-orbit-icon-award',
-      icon: 'award',
-      posClass: 'bottom-[1%] left-[13%] sm:bottom-[2%] sm:left-[15%]',
-      gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
-      glow: '0 10px 24px rgba(245, 158, 11, 0.44)',
-      floatY: [5, -4, 5],
-      floatX: [-2, 3, -2],
-      duration: 4.5,
-      delay: 0.5,
+      duration: 5.0,
+      delay: 0.45,
     },
     {
       id: 'home-orbit-icon-cpu',
       icon: 'cpu',
-      posClass: 'top-[62%] -left-4 sm:-left-5',
+      posClass: 'top-[44%] -left-3.5 sm:top-[44%] sm:-left-4',
       gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
       glow: '0 10px 24px rgba(139, 92, 246, 0.42)',
       floatY: [-5, 4, -5],
       floatX: [-3, 2, -3],
       duration: 5.4,
-      delay: 0.9,
-    },
-    {
-      id: 'home-orbit-icon-heart',
-      icon: 'heart-handshake',
-      posClass: 'top-[15%] -left-3.5 sm:top-[17%] sm:-left-4',
-      gradient: 'linear-gradient(135deg, #F43F5E 0%, #A855F7 100%)',
-      glow: '0 10px 24px rgba(244, 63, 94, 0.42)',
-      floatY: [4, -4, 4],
-      floatX: [-2, 2, -2],
-      duration: 4.6,
-      delay: 0.2,
+      delay: 0.85,
     },
   ];
 

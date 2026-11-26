@@ -483,7 +483,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
       {/* Main Content Row: Video + Answer Detail always on 1 row & equal height at all sizes */}
       <div
         id="interview-main-content"
-        className="w-full max-w-full min-w-0 flex-1 min-h-full h-full grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] overflow-hidden rounded-[var(--radius-card,14px)]"
+        className="w-full max-w-full min-w-0 flex-1 min-h-full h-full grid grid-cols-[minmax(0,7fr)_minmax(0,3fr)] grid-rows-[minmax(0,1fr)] items-stretch gap-[15px] overflow-hidden rounded-[var(--radius-card,14px)]"
       >
         
         {/* 1. VIDEO BANNER SECTION (Equal height & same single row with Chi tiết trả lời at all sizes) */}

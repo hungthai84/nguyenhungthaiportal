@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { CardStyleConfig, CardStyleMode } from '@/config/ui/theme.types';
-import { ThemeBackgroundSpec } from '@/config/ui/themeDefaults';
+import {
+  THEME_CARD_SPECS,
+  THEME_DEFAULT_WALLPAPER_ID,
+  ThemeBackgroundSpec,
+} from '@/config/ui/themeDefaults';
+import { WALLPAPER_PRESETS_LIST, getWallpaperThumbnailUrl } from '@/data/wallpapers';
 
 export interface ThemeVisualMeta {
   radius: string;
@@ -72,6 +77,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     onToggleVideo,
     onVideoError,
   }) => {
+    const [isFlipped, setIsFlipped] = useState(false);
+
     const mechanismMode = preset.mechanism || (preset.isDark ? 'dark' : 'light');
     const mechanismLabel = isEn
       ? mechanismMode === 'dark'
@@ -84,6 +91,17 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
         : mechanismMode === 'color'
           ? 'Màu'
           : 'Sáng';
+
+    const themeSpec = THEME_CARD_SPECS[preset.id];
+    const defaultWallpaperId = THEME_DEFAULT_WALLPAPER_ID[preset.id];
+    const defaultWallpaper =
+      WALLPAPER_PRESETS_LIST.find((wp) => wp.id === defaultWallpaperId) || undefined;
+    const defaultWallpaperThumbUrl =
+      defaultWallpaper?.type === 'image'
+        ? getWallpaperThumbnailUrl(defaultWallpaper.value || defaultWallpaper.bg || '')
+        : bgSpec?.imagePath || '';
+    const defaultWallpaperLabel =
+      defaultWallpaper?.name || bgSpec?.label || (isEn ? 'Theme Default' : 'Mặc định theo giao diện');
 
     const safeSampleStyle: React.CSSProperties = (() => {
       if (preset.id === 'liquid-glass') {
@@ -198,360 +216,606 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       return { ...preset.miniPreviewWrapStyle, border: 'none' };
     })();
 
+    const faceStyle: React.CSSProperties = {
+      ...safeSampleStyle,
+      borderRadius: 'var(--radius-card, 18px)',
+      padding: '15px',
+      cursor: 'pointer',
+      ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
+      ...(isActive
+        ? {
+            boxShadow: [
+              (safeSampleStyle as Record<string, string | number>).boxShadow,
+              `0 0 0 2.5px ${meta.activeRingColor}`,
+            ]
+              .filter(Boolean)
+              .join(', '),
+          }
+        : {}),
+    };
+
+    const faceSurfaceClass = `relative col-start-1 row-start-1 h-full min-w-0 overflow-hidden flex flex-col justify-between gap-[10px] ${preset.cardClassName} ${
+      isMatteNeu
+        ? 'border-0'
+        : `border ${isActive ? meta.activeBorderClass : meta.idleBorderClass}`
+    }`;
+
+    const specBoxClass = isMatteNeu
+      ? 'border-0 bg-black/5 dark:bg-white/5'
+      : preset.isDark
+        ? 'border border-white/15 bg-slate-950/35'
+        : 'border border-slate-900/10 bg-white/55';
+
     return (
       <article
+        data-theme-preset-id={preset.id}
+        data-flipped={isFlipped ? 'true' : 'false'}
         onDoubleClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           onSelectTheme(preset.id, displayPresetName);
         }}
         title={isEn ? 'Double-click to apply theme' : 'Nhấp đúp để áp dụng giao diện'}
-        style={{
-          ...safeSampleStyle,
-          borderRadius: 'var(--radius-card, 18px)',
-          padding: '15px',
-          cursor: 'pointer',
-          ...(meta.outlineStyle ? meta.outlineStyle(isActive) : {}),
-          ...(isActive
-            ? {
-                boxShadow: [
-                  (safeSampleStyle as Record<string, string | number>).boxShadow,
-                  `0 0 0 2.5px ${meta.activeRingColor}`,
-                ]
-                  .filter(Boolean)
-                  .join(', '),
-              }
-            : {}),
-        }}
-        className={`card theme-preset-card relative h-full flex flex-col justify-between gap-[12px] transition-[transform,border-color,box-shadow] duration-200 ease-out min-w-0 overflow-hidden motion-safe:hover:-translate-y-0.5 ${preset.cardClassName} ${
-          isMatteNeu
-            ? 'border-0'
-            : `border ${isActive ? meta.activeBorderClass : meta.idleBorderClass}`
-        }`}
+        className="theme-preset-card relative h-full min-w-0 transition-transform duration-200 ease-out motion-safe:hover:-translate-y-0.5"
       >
-        {/* Top Visual Specimen Stage: Wallpaper & Surface / Demo Video */}
-        <div
-          style={{
-            borderRadius: 'var(--radius-subcard, 14px)',
-            backgroundImage: bgSpec?.imagePath
-              ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
-              : bgSpec?.fallbackGradient,
-            backgroundColor: isMatteNeu ? (preset.isDark ? '#1A2433' : '#E0E8F2') : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-          className={`relative h-[152px] shrink-0 overflow-hidden p-2 flex flex-col justify-between shadow-none ${
-            isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
-          }`}
-        >
+        <div className="w-full h-full" style={{ perspective: '1200px' }}>
           <div
-            className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 rounded-[var(--radius-subcard,14px)] ${
-              isMatteNeu
-                ? ''
-                : 'bg-black/25 dark:bg-black/40 backdrop-blur-xs'
-            }`}
-            style={safeMiniWrapStyle}
+            className="w-full h-full grid [grid-template-columns:minmax(0,1fr)]"
+            style={{
+              transformStyle: 'preserve-3d',
+              transition: 'transform 560ms cubic-bezier(0.22, 1, 0.36, 1)',
+              transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+            }}
           >
-            <div className="flex items-center justify-between gap-2 min-w-0">
-              <span className={`typo-caption font-semibold truncate ${meta.titleTextClass}`}>
-                {isEn ? 'Wallpaper & Surface' : 'Hình nền & Vật liệu'}
-              </span>
-              <button
-                type="button"
-                onClick={() => onToggleVideo(preset.id)}
-                title={
-                  hasVideoFailed
-                    ? isEn
-                      ? 'Retry demo video'
-                      : 'Thử tải lại video minh họa'
-                    : undefined
-                }
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-semibold cursor-pointer transition-opacity hover:opacity-90 shrink-0 whitespace-nowrap ${
-                  isMatteNeu ? 'border-0' : 'border'
-                } ${meta.ctaIdleClass}`}
-              >
-                <WebIcon
-                  name={isVideoVisible ? 'x' : hasVideoFailed ? 'rotate-ccw' : 'play'}
-                  className="w-3 h-3 shrink-0"
-                />
-                <span>
-                  {isVideoVisible
-                    ? isEn
-                      ? 'Close'
-                      : 'Đóng'
-                    : hasVideoFailed
-                      ? isEn
-                        ? 'Retry'
-                        : 'Thử lại'
-                      : isEn
-                        ? 'Demo'
-                        : 'Video'}
-                </span>
-              </button>
-            </div>
-
-            {isVideoVisible ? (
+            {/* ==================== MẶT TRƯỚC: HÌNH MẪU, MÔ TẢ & CHUYỂN NHANH ==================== */}
+            <div
+              aria-hidden={isFlipped}
+              style={{
+                ...faceStyle,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'rotateY(0deg)',
+                pointerEvents: isFlipped ? 'none' : 'auto',
+              }}
+              className={faceSurfaceClass}
+            >
+              {/* Top Visual Specimen Stage: Wallpaper & Surface / Demo Video */}
               <div
-                data-media-card="video"
                 style={{
-                  padding: '0px',
-                  borderRadius: 'var(--radius-video, 14px)',
+                  borderRadius: 'var(--radius-subcard, 14px)',
+                  backgroundImage: bgSpec?.imagePath
+                    ? `url('${bgSpec.imagePath}'), ${bgSpec.fallbackGradient}`
+                    : bgSpec?.fallbackGradient,
+                  backgroundColor: isMatteNeu ? (preset.isDark ? '#1A2433' : '#E0E8F2') : undefined,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 }}
-                className={`relative w-full h-[94px] overflow-hidden bg-slate-950/60 box-border ${
-                  isMatteNeu ? 'border-0' : 'border border-white/20'
+                className={`relative h-[146px] shrink-0 overflow-hidden p-2 flex flex-col justify-between shadow-none ${
+                  isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
                 }`}
               >
-                <video
-                  src={meta.demoVideoUrl}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  controls={false}
-                  disablePictureInPicture
-                  controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                  aria-hidden="true"
-                  tabIndex={-1}
-                  onLoadedMetadata={(e) => {
-                    const v = e.currentTarget;
-                    v.defaultMuted = true;
-                    v.muted = true;
-                    v.loop = true;
-                    v.controls = false;
-                    v.disablePictureInPicture = true;
-                    (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                  }}
-                  onCanPlay={(e) => {
-                    const v = e.currentTarget;
-                    v.defaultMuted = true;
-                    v.muted = true;
-                    v.loop = true;
-                    if (v.paused) v.play().catch(() => {});
-                  }}
-                  onEnded={(e) => {
-                    const v = e.currentTarget;
-                    v.currentTime = 0;
-                    v.play().catch(() => {});
-                  }}
-                  onError={() => onVideoError(preset.id)}
-                  style={{
-                    objectFit: 'cover',
-                    transform: 'translateZ(0) scale(1.005)',
-                    backfaceVisibility: 'hidden',
-                  }}
-                  className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
-                />
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between gap-1.5">
-                  <span
-                    style={preset.miniTabStyle}
-                    className={`px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full text-center ${
-                      isMatteNeu ? 'border-0' : 'border'
-                    }`}
-                  >
-                    {isEn ? 'Header · Tab' : 'Tiêu đề · Thẻ mẫu'}
-                  </span>
-                  <span
-                    style={preset.miniBtnStyle}
-                    className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0 whitespace-nowrap"
-                  >
-                    {isEn ? 'Accent' : 'Nút Nhấn'}
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  {meta.gradientBars.slice(0, 2).map((bar) => {
-                    const barLabelViMap: Record<string, string> = {
-                      Purple: 'Tím',
-                      Lavender: 'Oải hương',
-                      Cyan: 'Lục lam',
-                      Rose: 'Hồng phấn',
-                      'Neon Cyan': 'Lam sáng',
-                      'Neon Violet': 'Tím sáng',
-                      'Neon Mint': 'Bạc hà',
-                      B1: 'Sắc 1',
-                      B2: 'Sắc 2',
-                      Grain: 'Vân gỗ',
-                      Walnut: 'Óc chó',
-                      O1: 'Sắc 1',
-                      O2: 'Sắc 2',
-                      Primary: 'Chính',
-                      'Sky Cyan': 'Lam trời',
-                      Indigo: 'Chàm',
-                      Sky: 'Xanh trời',
-                      Blue: 'Xanh lam',
-                      Pink: 'Hồng',
-                      Mint: 'Bạc hà',
-                      Inset: 'Nhấn lõm',
-                      Teal: 'Ngọc lam',
-                      Terracotta: 'Đất nung',
-                      Espresso: 'Cà phê',
-                      Dopamine: 'Đa sắc',
-                      Energy: 'Năng lượng',
-                      Gold: 'Ánh kim',
-                      Obsidian: 'Đen huyền',
-                      Ink: 'Mực đen',
-                      Space: 'Khoảng trắng',
-                    };
-                    const localizedBarLabel = isEn ? bar.label : barLabelViMap[bar.label] || bar.label;
-                    return (
-                    <div key={bar.label} className="flex items-center gap-2">
-                      <span
-                        className={`w-16 shrink-0 typo-badge font-mono truncate ${meta.accentTextClass}`}
-                      >
-                        {localizedBarLabel}
+                <div
+                  className={`relative z-10 h-full p-2 flex flex-col justify-between gap-2 rounded-[var(--radius-subcard,14px)] ${
+                    isMatteNeu ? '' : 'bg-black/25 dark:bg-black/40 backdrop-blur-xs'
+                  }`}
+                  style={safeMiniWrapStyle}
+                >
+                  <div className="flex items-center justify-between gap-2 min-w-0">
+                    <span className={`typo-caption font-semibold truncate ${meta.titleTextClass}`}>
+                      {isEn ? 'Wallpaper & Surface' : 'Hình nền & Vật liệu'}
+                    </span>
+                    <button
+                      type="button"
+                      tabIndex={isFlipped ? -1 : 0}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleVideo(preset.id);
+                      }}
+                      title={
+                        hasVideoFailed
+                          ? isEn
+                            ? 'Retry demo video'
+                            : 'Thử tải lại video minh họa'
+                          : undefined
+                      }
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-semibold cursor-pointer transition-opacity hover:opacity-90 shrink-0 whitespace-nowrap ${
+                        isMatteNeu ? 'border-0' : 'border'
+                      } ${meta.ctaIdleClass}`}
+                    >
+                      <WebIcon
+                        name={isVideoVisible ? 'x' : hasVideoFailed ? 'rotate-ccw' : 'play'}
+                        className="w-3 h-3 shrink-0"
+                      />
+                      <span>
+                        {isVideoVisible
+                          ? isEn
+                            ? 'Close'
+                            : 'Đóng'
+                          : hasVideoFailed
+                            ? isEn
+                              ? 'Retry'
+                              : 'Thử lại'
+                            : isEn
+                              ? 'Demo'
+                              : 'Video'}
                       </span>
-                      <div
-                        className="flex-1 h-2 rounded-full overflow-hidden"
-                        style={{
-                          background: isMatteNeu
-                            ? preset.isDark
-                              ? '#1A2433'
-                              : '#E0E8F2'
-                            : preset.isDark
-                              ? 'rgba(15, 23, 42, 0.55)'
-                              : 'rgba(148, 163, 184, 0.22)',
-                          boxShadow: isMatteNeu
-                            ? preset.isDark
-                              ? 'inset -2px -2px 4px rgba(38, 52, 74, 0.65), inset 2px 2px 4px rgba(10, 15, 24, 0.78)'
-                              : 'inset -2px -2px 4px rgba(255, 255, 255, 0.85), inset 2px 2px 4px rgba(163, 179, 199, 0.58)'
-                            : undefined,
+                    </button>
+                  </div>
+
+                  {isVideoVisible ? (
+                    <div
+                      data-media-card="video"
+                      style={{
+                        padding: '0px',
+                        borderRadius: 'var(--radius-video, 14px)',
+                      }}
+                      className={`relative w-full h-[88px] overflow-hidden bg-slate-950/60 box-border ${
+                        isMatteNeu ? 'border-0' : 'border border-white/20'
+                      }`}
+                    >
+                      <video
+                        src={meta.demoVideoUrl}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        controls={false}
+                        disablePictureInPicture
+                        controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                        aria-hidden="true"
+                        tabIndex={-1}
+                        onLoadedMetadata={(e) => {
+                          const v = e.currentTarget;
+                          v.defaultMuted = true;
+                          v.muted = true;
+                          v.loop = true;
+                          v.controls = false;
+                          v.disablePictureInPicture = true;
+                          (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
                         }}
-                      >
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: bar.width,
-                            background: bar.gradient,
-                            boxShadow: bar.glow,
-                          }}
-                        />
+                        onCanPlay={(e) => {
+                          const v = e.currentTarget;
+                          v.defaultMuted = true;
+                          v.muted = true;
+                          v.loop = true;
+                          if (v.paused) v.play().catch(() => {});
+                        }}
+                        onEnded={(e) => {
+                          const v = e.currentTarget;
+                          v.currentTime = 0;
+                          v.play().catch(() => {});
+                        }}
+                        onError={() => onVideoError(preset.id)}
+                        style={{
+                          objectFit: 'cover',
+                          transform: 'translateZ(0) scale(1.005)',
+                          backfaceVisibility: 'hidden',
+                        }}
+                        className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none select-none banner-video-sharp"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span
+                          style={preset.miniTabStyle}
+                          className={`px-2.5 py-1 typo-badge font-bold flex-1 truncate rounded-full text-center ${
+                            isMatteNeu ? 'border-0' : 'border'
+                          }`}
+                        >
+                          {isEn ? 'Header · Tab' : 'Tiêu đề · Thẻ mẫu'}
+                        </span>
+                        <span
+                          style={preset.miniBtnStyle}
+                          className="px-2.5 py-1 typo-badge font-bold rounded-full shadow-2xs shrink-0 whitespace-nowrap"
+                        >
+                          {isEn ? 'Accent' : 'Nút Nhấn'}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1.5">
+                        {meta.gradientBars.slice(0, 2).map((bar) => {
+                          const barLabelViMap: Record<string, string> = {
+                            Purple: 'Tím',
+                            Lavender: 'Oải hương',
+                            Cyan: 'Lục lam',
+                            Rose: 'Hồng phấn',
+                            'Neon Cyan': 'Lam sáng',
+                            'Neon Violet': 'Tím sáng',
+                            'Neon Mint': 'Bạc hà',
+                            B1: 'Sắc 1',
+                            B2: 'Sắc 2',
+                            Grain: 'Vân gỗ',
+                            Walnut: 'Óc chó',
+                            O1: 'Sắc 1',
+                            O2: 'Sắc 2',
+                            Primary: 'Chính',
+                            'Sky Cyan': 'Lam trời',
+                            Indigo: 'Chàm',
+                            Sky: 'Xanh trời',
+                            Blue: 'Xanh lam',
+                            Pink: 'Hồng',
+                            Mint: 'Bạc hà',
+                            Inset: 'Nhấn lõm',
+                            Teal: 'Ngọc lam',
+                            Terracotta: 'Đất nung',
+                            Espresso: 'Cà phê',
+                            Dopamine: 'Đa sắc',
+                            Energy: 'Năng lượng',
+                            Gold: 'Ánh kim',
+                            Obsidian: 'Đen huyền',
+                            Ink: 'Mực đen',
+                            Space: 'Khoảng trắng',
+                          };
+                          const localizedBarLabel = isEn
+                            ? bar.label
+                            : barLabelViMap[bar.label] || bar.label;
+                          return (
+                            <div key={bar.label} className="flex items-center gap-2">
+                              <span
+                                className={`w-16 shrink-0 typo-badge font-mono truncate ${meta.accentTextClass}`}
+                              >
+                                {localizedBarLabel}
+                              </span>
+                              <div
+                                className="flex-1 h-2 rounded-full overflow-hidden"
+                                style={{
+                                  background: isMatteNeu
+                                    ? preset.isDark
+                                      ? '#1A2433'
+                                      : '#E0E8F2'
+                                    : preset.isDark
+                                      ? 'rgba(15, 23, 42, 0.55)'
+                                      : 'rgba(148, 163, 184, 0.22)',
+                                  boxShadow: isMatteNeu
+                                    ? preset.isDark
+                                      ? 'inset -2px -2px 4px rgba(38, 52, 74, 0.65), inset 2px 2px 4px rgba(10, 15, 24, 0.78)'
+                                      : 'inset -2px -2px 4px rgba(255, 255, 255, 0.85), inset 2px 2px 4px rgba(163, 179, 199, 0.58)'
+                                    : undefined,
+                                }}
+                              >
+                                <div
+                                  className="h-full rounded-full"
+                                  style={{
+                                    width: bar.width,
+                                    background: bar.gradient,
+                                    boxShadow: bar.glow,
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                    );
-                  })}
+                  )}
                 </div>
               </div>
-            )}
-          </div>
-        </div>
 
-        {/* Middle Card Body: Unboxed Kicker + Title + Concise Description */}
-        <div className="flex flex-col gap-1.5 min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2 min-w-0">
-            <span className={`typo-caption font-semibold truncate ${meta.accentTextClass}`}>
-              {groupLabel} · {mechanismLabel}
-            </span>
-            {lightModeId && darkModeId && (
+              {/* Middle Card Body: Group Kicker + Title + Description */}
+              <div className="flex flex-col gap-1.5 min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2 min-w-0">
+                  <span className={`typo-caption font-semibold truncate ${meta.accentTextClass}`}>
+                    {groupLabel} · {mechanismLabel}
+                  </span>
+                  {lightModeId && darkModeId && (
+                    <div
+                      role="group"
+                      aria-label={isEn ? 'Light / Dark mode tab' : 'Chuyển chế độ Sáng hoặc Tối'}
+                      className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
+                    >
+                      <button
+                        type="button"
+                        tabIndex={isFlipped ? -1 : 0}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onVariantChange?.('light');
+                          if (lightModeId) onSelectTheme(lightModeId, displayPresetName);
+                        }}
+                        className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                          currentVariant === 'light'
+                            ? 'bg-white text-slate-900 shadow-xs'
+                            : 'text-current opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        {isEn ? 'Light' : 'Sáng'}
+                      </button>
+                      <button
+                        type="button"
+                        tabIndex={isFlipped ? -1 : 0}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onVariantChange?.('dark');
+                          if (darkModeId) onSelectTheme(darkModeId, displayPresetName);
+                        }}
+                        className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                          currentVariant === 'dark'
+                            ? 'bg-slate-900 text-white shadow-xs'
+                            : 'text-current opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        {isEn ? 'Dark' : 'Tối'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  className="card-header-sync flex items-center gap-2 min-w-0"
+                  style={{ color: meta.iconColor }}
+                >
+                  <WebIcon
+                    name={groupIcon}
+                    className="w-4 h-4 shrink-0"
+                    style={{ color: meta.iconColor }}
+                  />
+                  <h4
+                    className="typo-h5 font-bold leading-snug min-w-0 truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: meta.iconColor }}
+                  >
+                    {displayPresetName}
+                  </h4>
+                </div>
+
+                <p className={`typo-body-sm leading-relaxed line-clamp-3 ${meta.bodyTextClass}`}>
+                  {displayDesc}
+                </p>
+
+                {/* Nhóm màu chính của giao diện + Hiệu ứng đặc trưng */}
+                {themeSpec && (
+                  <div
+                    className={`mt-1 pt-1.5 flex items-center justify-between gap-2 ${
+                      isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
+                    }`}
+                  >
+                    <span className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
+                      {isEn ? themeSpec.cardEffectKindEn : themeSpec.cardEffectKindVi}
+                    </span>
+                    <div className="flex items-center gap-1 shrink-0">
+                      {meta.primaryPalette.slice(0, 4).map((swatch) => (
+                        <span
+                          key={`${preset.id}-front-${swatch.hex}-${swatch.name}`}
+                          title={`${swatch.name} (${swatch.hex.toLowerCase()})`}
+                          className="w-3 h-3 rounded-full border border-white/60 shadow-2xs shrink-0"
+                          style={{ backgroundColor: swatch.hex }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Front Footer: Apply & Flip Button */}
               <div
-                role="group"
-                aria-label={isEn ? 'Light / Dark mode tab' : 'Chuyển chế độ Sáng hoặc Tối'}
-                className="inline-flex items-center gap-0.5 p-0.5 rounded-full border border-white/25 bg-black/15 shrink-0"
+                className={`mt-auto pt-2 flex items-center justify-between gap-2 ${
+                  isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
+                }`}
               >
                 <button
                   type="button"
+                  tabIndex={isFlipped ? -1 : 0}
                   onClick={(e) => {
                     e.stopPropagation();
-                    onVariantChange?.('light');
-                    if (lightModeId) onSelectTheme(lightModeId, displayPresetName);
+                    onSelectTheme(preset.id, displayPresetName);
                   }}
-                  className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                    currentVariant === 'light' ? 'bg-white text-slate-900 shadow-xs' : 'text-current opacity-70 hover:opacity-100'
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all truncate ${
+                    isActive ? meta.ctaActiveClass : meta.ctaIdleClass
                   }`}
                 >
-                  {isEn ? 'Light' : 'Sáng'}
+                  <WebIcon name={isActive ? 'check' : 'palette'} className="w-3 h-3 shrink-0" />
+                  <span className="truncate">
+                    {isActive
+                      ? isEn
+                        ? 'Active'
+                        : 'Đang bật'
+                      : isEn
+                        ? 'Apply'
+                        : 'Áp dụng'}
+                  </span>
                 </button>
+
                 <button
                   type="button"
+                  tabIndex={isFlipped ? -1 : 0}
                   onClick={(e) => {
                     e.stopPropagation();
-                    onVariantChange?.('dark');
-                    if (darkModeId) onSelectTheme(darkModeId, displayPresetName);
+                    setIsFlipped(true);
                   }}
-                  className={`px-2 py-0.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
-                    currentVariant === 'dark' ? 'bg-slate-900 text-white shadow-xs' : 'text-current opacity-70 hover:opacity-100'
-                  }`}
+                  onDoubleClick={(e) => e.stopPropagation()}
+                  className={`theme-flip-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold cursor-pointer transition-all shrink-0 whitespace-nowrap ${
+                    isMatteNeu ? 'border-0' : 'border'
+                  } ${meta.ctaIdleClass}`}
+                  aria-label={isEn ? 'Flip card to view 4 theme specs' : 'Lật thẻ xem 4 thông số giao diện'}
                 >
-                  {isEn ? 'Dark' : 'Tối'}
+                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+                  <span>{isEn ? 'Specs · 4' : 'Lật · 4 mục'}</span>
                 </button>
               </div>
-            )}
-          </div>
+            </div>
 
-          <div
-            className="card-header-sync flex items-center gap-2 min-w-0"
-            style={{ color: meta.iconColor }}
-          >
-            <WebIcon
-              name={groupIcon}
-              className="w-4 h-4 shrink-0"
-              style={{ color: meta.iconColor }}
-            />
-            <h4
-              className="typo-h5 font-bold leading-snug min-w-0 truncate card-title-synced"
-              data-card-title="true"
-              style={{ color: meta.iconColor }}
-            >
-              {displayPresetName}
-            </h4>
-          </div>
-
-          <p className={`typo-body-sm leading-relaxed line-clamp-3 ${meta.bodyTextClass}`}>
-            {displayDesc}
-          </p>
-
-          {/* Nhóm màu chính của giao diện */}
-          {meta.primaryPalette && meta.primaryPalette.length > 0 && (
+            {/* ==================== MẶT SAU: 4 MỤC THÔNG SỐ GIAO DIỆN ==================== */}
             <div
-              className={`mt-1 pt-1.5 flex flex-col gap-1 ${
-                isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
-              }`}
+              aria-hidden={!isFlipped}
+              style={{
+                ...faceStyle,
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
+                pointerEvents: isFlipped ? 'auto' : 'none',
+              }}
+              className={faceSurfaceClass}
             >
-              <span className={`typo-badge font-semibold ${meta.accentTextClass}`}>
-                {isEn ? 'Primary palette' : 'Nhóm màu chính'}
-              </span>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {meta.primaryPalette.map((swatch) => (
-                  <span
-                    key={`${preset.id}-${swatch.hex}-${swatch.name}`}
-                    title={`${swatch.name} (${swatch.hex})`}
-                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] leading-none font-mono ${
-                      preset.isDark
-                        ? 'bg-slate-900/55 text-slate-100 border border-white/15'
-                        : 'bg-white/65 text-slate-800 border border-slate-900/10'
-                    }`}
+              {/* Back Header */}
+              <div
+                className={`flex items-center justify-between gap-2 pb-1.5 min-w-0 ${
+                  isMatteNeu ? 'border-0' : `border-b ${meta.dividerClass}`
+                }`}
+              >
+                <div className="flex items-center gap-1.5 min-w-0 flex-1" style={{ color: meta.iconColor }}>
+                  <WebIcon name={groupIcon} className="w-4 h-4 shrink-0" />
+                  <h4
+                    className="typo-h6 font-bold truncate card-title-synced"
+                    data-card-title="true"
+                    style={{ color: meta.iconColor }}
                   >
+                    {displayPresetName}
+                  </h4>
+                </div>
+                <button
+                  type="button"
+                  tabIndex={isFlipped ? 0 : -1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsFlipped(false);
+                  }}
+                  onDoubleClick={(e) => e.stopPropagation()}
+                  className={`theme-flip-back-btn inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold cursor-pointer shrink-0 whitespace-nowrap ${
+                    isMatteNeu ? 'border-0' : 'border'
+                  } ${meta.ctaIdleClass}`}
+                  aria-label={isEn ? 'Flip back to front' : 'Lật về mặt trước'}
+                >
+                  <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+                  <span>{isEn ? 'Front' : 'Mặt trước'}</span>
+                </button>
+              </div>
+
+              {/* 4 Required Theme Specification Items */}
+              <div className="flex-1 flex flex-col justify-between gap-1.5 min-h-0">
+                {/* 1. Hình nền mặc định */}
+                <div
+                  className={`flex items-center gap-2 p-2 rounded-[var(--radius-subcard,12px)] min-w-0 ${specBoxClass}`}
+                >
+                  <div
+                    className="w-10 h-10 rounded-[8px] shrink-0 overflow-hidden border border-white/25"
+                    style={{
+                      ...(defaultWallpaper?.previewStyle || {
+                        background: bgSpec?.fallbackGradient || themeSpec?.surfaceColorHex,
+                      }),
+                    }}
+                  >
+                    {defaultWallpaperThumbUrl && (
+                      <img
+                        src={defaultWallpaperThumbUrl}
+                        alt={defaultWallpaperLabel}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
+                      {isEn ? '1. Default wallpaper' : '1. Hình nền mặc định'}
+                    </div>
+                    <div className={`typo-caption font-medium truncate ${meta.titleTextClass}`}>
+                      {defaultWallpaperLabel}
+                    </div>
+                    <div className={`typo-badge opacity-80 truncate ${meta.bodyTextClass}`}>
+                      {isEn ? 'Auto-applied on switch' : 'Tự áp dụng khi chuyển giao diện'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Màu dùng cho giao diện */}
+                <div
+                  className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[var(--radius-subcard,12px)] min-w-0 ${specBoxClass}`}
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
                     <span
                       aria-hidden="true"
-                      className="w-2.5 h-2.5 rounded-full border border-white/60 shrink-0 shadow-2xs"
-                      style={{ backgroundColor: swatch.hex }}
+                      className="w-6 h-6 rounded-full border border-white/50 shadow-2xs shrink-0"
+                      style={{ backgroundColor: themeSpec.surfaceColorHex }}
                     />
-                    <span>{swatch.hex}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
+                        {isEn ? '2. Interface color' : '2. Màu dùng cho giao diện'}
+                      </div>
+                      <div className={`typo-caption truncate ${meta.bodyTextClass}`}>
+                        {isEn ? themeSpec.surfaceColorNameEn : themeSpec.surfaceColorNameVi}
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`typo-badge font-mono shrink-0 ${meta.titleTextClass}`}>
+                    {themeSpec.surfaceColorHex.toLowerCase()}
                   </span>
-                ))}
+                </div>
+
+                {/* 3. Màu chính cho giao diện */}
+                <div
+                  className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[var(--radius-subcard,12px)] min-w-0 ${specBoxClass}`}
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <span
+                      aria-hidden="true"
+                      className="w-6 h-6 rounded-full border border-white/50 shadow-2xs shrink-0"
+                      style={{ backgroundColor: themeSpec.primaryColorHex }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
+                        {isEn ? '3. Primary color' : '3. Màu chính cho giao diện'}
+                      </div>
+                      <div className={`typo-caption truncate ${meta.bodyTextClass}`}>
+                        {isEn ? themeSpec.primaryColorNameEn : themeSpec.primaryColorNameVi}
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`typo-badge font-mono shrink-0 ${meta.titleTextClass}`}>
+                    {themeSpec.primaryColorHex.toLowerCase()}
+                  </span>
+                </div>
+
+                {/* 4. Hiệu ứng của card */}
+                <div
+                  className={`flex flex-col gap-0.5 px-2.5 py-1.5 rounded-[var(--radius-subcard,12px)] min-w-0 ${specBoxClass}`}
+                >
+                  <div className="flex items-center justify-between gap-2 min-w-0">
+                    <span className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
+                      {isEn ? '4. Card effect' : '4. Hiệu ứng của card'}
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded-full typo-badge font-bold shrink-0 ${meta.activeBadgeClass}`}
+                    >
+                      {isEn ? themeSpec.cardEffectKindEn : themeSpec.cardEffectKindVi}
+                    </span>
+                  </div>
+                  <p className={`typo-badge leading-snug line-clamp-2 ${meta.bodyTextClass}`}>
+                    {isEn ? themeSpec.cardEffectDescEn : themeSpec.cardEffectDescVi}
+                  </p>
+                </div>
+              </div>
+
+              {/* Back Footer */}
+              <div
+                className={`mt-auto pt-2 flex items-center justify-between gap-2 ${
+                  isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
+                }`}
+              >
+                <button
+                  type="button"
+                  tabIndex={isFlipped ? 0 : -1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectTheme(preset.id, displayPresetName);
+                  }}
+                  className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-bold cursor-pointer transition-all ${
+                    isActive ? meta.ctaActiveClass : meta.ctaIdleClass
+                  }`}
+                >
+                  <WebIcon name={isActive ? 'check' : 'sparkles'} className="w-3.5 h-3.5 shrink-0" />
+                  <span>
+                    {isActive
+                      ? isEn
+                        ? '✓ Currently Active'
+                        : '✓ Đang áp dụng giao diện này'
+                      : isEn
+                        ? 'Apply theme & defaults'
+                        : 'Áp dụng giao diện & mặc định'}
+                  </span>
+                </button>
               </div>
             </div>
-          )}
-        </div>
-
-        {/* Single Clear Card Footer Action */}
-        <div
-          className={`mt-auto pt-2.5 flex items-center justify-between gap-2 ${
-            isMatteNeu ? 'border-0' : `border-t ${meta.dividerClass}`
-          }`}
-        >
-          <span className={`typo-caption font-mono tabular-nums truncate ${meta.accentTextClass}`}>
-            {isActive
-              ? (isEn ? '✓ Active Theme' : '✓ Đang áp dụng')
-              : (isEn ? 'Double-click to apply' : 'Nhấp đúp để áp dụng')}
-          </span>
-
-          <span className={`typo-caption font-semibold ${isActive ? 'text-emerald-500 dark:text-emerald-300 font-bold' : 'opacity-60'}`}>
-            {isActive ? (isEn ? 'Active' : 'Đang bật') : ''}
-          </span>
+          </div>
         </div>
       </article>
     );

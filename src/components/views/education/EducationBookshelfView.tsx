@@ -248,17 +248,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
               </div>
             )}
           </div>
-
-          {/* Chân bìa sách: nút Mở sách */}
-          <div className="edu-shelf-cover-footer">
-            <span className="text-[var(--text-muted)] truncate font-medium">
-              {isEn ? 'Click to read' : 'Chạm để mở sách'}
-            </span>
-            <span className="edu-shelf-cover-open-pill">
-              <span>{isEn ? 'Open' : 'Mở sách'}</span>
-              <WebIcon name="arrow-right" className="w-2.5 h-2.5 shrink-0" />
-            </span>
-          </div>
         </div>
       </div>
     );
@@ -278,11 +267,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       } as React.CSSProperties}
     >
       {/* Top Bar */}
-      <header className="disc-top w-full flex items-center justify-between">
-        <p className="disc-brand flex items-center gap-2 m-0">
-          <i aria-hidden="true" />
-          <span>{isEn ? '3D Interactive Bookshelf' : 'Kệ Sách 3D Tương Tác'}</span>
-        </p>
+      <header className="disc-top w-full flex items-center justify-end">
         <p className="disc-count m-0">
           <b>{safeSel + 1}</b> / {courses.length}
         </p>

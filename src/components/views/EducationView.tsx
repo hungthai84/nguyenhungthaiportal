@@ -11,6 +11,7 @@ import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { EducationBookView } from './education/EducationBookView';
 import { EducationBookshelfView } from './education/EducationBookshelfView';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -520,6 +521,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           data-element-type="banner-card"
           data-element-page="education"
           data-section-card="true"
+          data-has-compact-menu="true"
           className="banner-card hero-banner group w-full max-w-full min-w-0 min-h-[140px] h-auto lg:min-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
           style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
         >
@@ -535,7 +537,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-        <div id="education-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+        <div id="education-hero-banner-header" className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
           <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
             <h1
@@ -554,9 +556,96 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
           </p>
+
+          <CompactBannerMenu
+            id="education-compact-menu-btn"
+            label={isEn ? 'Controls' : 'Điều khiển'}
+            ariaLabel={isEn ? 'Course filters and view mode' : 'Bộ lọc và dạng xem khóa học'}
+            activeCount={activeCategory !== 'all' ? 1 : 0}
+          >
+            {(closeMenu) => (
+              <>
+                <div className="flex flex-col gap-1.5">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    {isEn ? 'View mode' : 'Dạng hiển thị'}
+                  </span>
+                  <div className="banner-control-pill w-full inline-flex items-center gap-1 p-0.5 rounded-full">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setViewMode('grid');
+                        closeMenu();
+                      }}
+                      style={
+                        viewMode === 'grid'
+                          ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                          : undefined
+                      }
+                      className={cn(
+                        'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                        viewMode === 'grid' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                      )}
+                    >
+                      <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
+                      <span>{isEn ? 'Grid' : 'Dạng lưới'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        setViewMode('bookshelf');
+                        closeMenu();
+                      }}
+                      style={
+                        viewMode === 'bookshelf'
+                          ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                          : undefined
+                      }
+                      className={cn(
+                        'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                        viewMode === 'bookshelf' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                      )}
+                    >
+                      <WebIcon name="book-open" className="w-3.5 h-3.5 shrink-0" />
+                      <span>{isEn ? 'Bookshelf' : 'Kệ sách'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    {isEn ? 'Training type' : 'Hình thức đào tạo'}
+                  </span>
+                  {TRAINING_TYPE_CATEGORIES.map((cat) => {
+                    const isActive = activeCategory === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        data-selected={isActive ? 'true' : undefined}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setActiveCategory(cat.id);
+                          closeMenu();
+                        }}
+                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                      >
+                        <span className="flex items-center gap-2 truncate">
+                          {renderTrainingTypeIcon(cat.id, 'w-3.5 h-3.5 shrink-0')}
+                          <span className="truncate">{cat.label}</span>
+                        </span>
+                        {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </CompactBannerMenu>
         </div>
 
-        <div id="education-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0" ref={filterMenuRef}>
+        <div id="education-hero-banner-filter-row" className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0" ref={filterMenuRef}>
           <div className="relative inline-block max-w-full min-w-0 text-left">
             <button
               id="education-filter-toggle-btn"
@@ -567,7 +656,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 setIsFilterDropdownOpen((prev) => !prev);
               }}
               style={matchedControlWidth ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' } : { maxWidth: '100%' }}
-              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-body font-normal font-play group box-border"
+              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
               title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
               aria-label="Bộ lọc khóa học"
               aria-expanded={isFilterDropdownOpen}
@@ -602,10 +691,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 >
                   {TRAINING_TYPE_CATEGORIES.map((cat) => {
                     const isActive = activeCategory === cat.id;
-                    const count =
-                      cat.id === 'all'
-                        ? EDUCATION_COURSES.length
-                        : EDUCATION_COURSES.filter((c) => c.type === cat.id).length;
 
                     return (
                       <button
@@ -676,7 +761,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   : undefined
               }
               className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'grid'
                   ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -701,7 +786,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                   : undefined
               }
               className={cn(
-                'flex-1 h-full px-2.5 py-1 rounded-full typo-body-sm font-normal font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                'flex-1 h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
                 viewMode === 'bookshelf'
                   ? 'shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'

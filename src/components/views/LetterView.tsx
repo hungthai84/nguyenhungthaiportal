@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { WebIcon } from '@/components/ui/WebIcon';
+import { LetterVectorIcon } from '@/components/ui/LetterVectorIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { formatCardTitle } from '@/lib/utils';
 import {
@@ -12,6 +12,7 @@ import {
 } from '@/data/letterData';
 import { useTheme } from '@/hooks/useTheme';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
+import { ReadAlongQuote } from '@/components/ui/ReadAlongQuote';
 
 // Video thuyết minh Thư Ngỏ (Đồng bộ từ Video Giới thiệu - AboutView Video 1 & Video 2)
 export const LETTER_VIDEO_1_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
@@ -141,16 +142,14 @@ const AnimatedCardTitle: React.FC<{
         className={`card-header-sync inline-flex items-center gap-2 ${scheme.text} max-w-full leading-tight min-w-0 flex-1`}
       >
         <span
-          className={`inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none ${
-            animateIcon ? 'animate-[icon-floating_3s_ease-in-out_infinite]' : ''
-          }`}
-          style={{ width: '16px', height: '16px' }}
+          className="inline-flex items-center justify-center w-[16px] h-[16px] shrink-0 bg-transparent border-0 p-0 shadow-none"
+          style={{ width: '16px', height: '16px', color: 'inherit', border: 'none', boxShadow: 'none', filter: 'none' }}
         >
-          <WebIcon
+          <LetterVectorIcon
             name={iconName}
             size={16}
             className="w-[16px] h-[16px] shrink-0 card-title-icon"
-            style={{ width: '16px', height: '16px' }}
+            style={{ width: '16px', height: '16px', color: 'inherit' }}
           />
         </span>
         <h3
@@ -191,6 +190,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
   // Collapse/Expand state for career milestones inline bilingual view
   const [expandedCard, setExpandedCard] = useState<Record<string, boolean>>({});
+  // Top-layer modal state for Triết Lý Quản Trị & Tâm Thư Đồng Hành cards (không đẩy hay thay đổi kích thước)
+  const [activeLetterCardModal, setActiveLetterCardModal] = useState<'philosophy' | 'companion' | null>(null);
 
   // Scroll viewport ref inside the unified single main card
   const letterScrollViewportRef = useRef<HTMLDivElement>(null);
@@ -305,7 +306,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   </span>
                 </>
               )}
-              <WebIcon name="building-2" className="w-4 h-4 shrink-0" style={{ color: item.color }} />
+              <LetterVectorIcon name="building-2" size={16} className="w-4 h-4 shrink-0 card-title-icon" style={{ color: 'inherit' }} />
               <span className="min-w-0 break-words">{displayTitle}</span>
             </h4>
           </div>
@@ -336,7 +337,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                 className="font-bold shrink-0 inline-flex items-center gap-1"
                 style={{ color: item.color }}
               >
-                <WebIcon name={roleIcon} className="w-3.5 h-3.5 shrink-0" />
+                <LetterVectorIcon name={roleIcon} size={14} className="w-3.5 h-3.5 shrink-0" />
                 Vị trí:
               </span>
               <span className="font-semibold text-[var(--text-primary)] break-words">
@@ -349,7 +350,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   className="font-bold shrink-0 inline-flex items-center gap-1"
                   style={{ color: item.color }}
                 >
-                  <WebIcon name="users" className="w-3.5 h-3.5 shrink-0" />
+                  <LetterVectorIcon name="users" size={14} className="w-3.5 h-3.5 shrink-0" />
                   Quản lý:
                 </span>
                 <span className="font-medium text-[var(--text-primary)] break-words">
@@ -363,7 +364,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   className="font-bold shrink-0 inline-flex items-center gap-1"
                   style={{ color: item.color }}
                 >
-                  <WebIcon name="list-checks" className="w-3.5 h-3.5 shrink-0" />
+                  <LetterVectorIcon name="list-checks" size={14} className="w-3.5 h-3.5 shrink-0" />
                   Công việc:
                 </span>
                 <span className="font-medium text-[var(--text-primary)] break-words">
@@ -399,7 +400,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
             >
               {isExpanded ? (
                 <>
-                  <WebIcon name="chevron-up" className="w-3.5 h-3.5" />
+                  <LetterVectorIcon name="chevron-up" size={14} className="w-3.5 h-3.5" />
                   <span>Thu gọn</span>
                 </>
               ) : (
@@ -412,7 +413,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
         {/* 3. FOOTER & HIGHLIGHT ZONE */}
         <div className="w-full flex items-center justify-between gap-2 typo-body-sm font-semibold relative z-10 shrink-0 min-w-0 border-0">
           <div className="flex items-start gap-1.5 min-w-0 flex-1" style={{ color: item.color }}>
-            <WebIcon name={highlightIcon} className="w-4 h-4 shrink-0 mt-0.5" />
+            <LetterVectorIcon name={highlightIcon} size={16} className="w-4 h-4 shrink-0 mt-0.5" />
             <span className="whitespace-normal break-words leading-snug text-left" title={item.highlightVi}>
               {item.highlightVi}
             </span>
@@ -459,7 +460,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
               padding: 'var(--main-card-padding, 15px)',
               borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px)))',
             }}
-            className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-[15px] overflow-hidden font-play text-left select-none box-border opacity-100 transition-all duration-300"
+            className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-[14px] sm:p-[15px] overflow-hidden font-play text-left select-none box-border opacity-100 transition-colors duration-200"
           >
             <div
               ref={letterScrollViewportRef}
@@ -541,14 +542,14 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   >
                     <div className="flex items-center justify-between shrink-0 gap-2 min-w-0 border-0">
                       <div className="card-header-sync inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-300 leading-tight min-w-0">
-                        <WebIcon
+                        <LetterVectorIcon
                           name="book"
                           size={16}
-                          className="w-[16px] h-[16px] shrink-0 card-title-icon text-cyan-600 dark:text-cyan-300"
-                          style={{ width: '16px', height: '16px' }}
+                          className="w-[16px] h-[16px] shrink-0 card-title-icon"
+                          style={{ width: '16px', height: '16px', color: 'inherit' }}
                         />
                         <h2
-                          className="card-title card-title-synced typo-h3 font-play tracking-tight text-cyan-600 dark:text-cyan-300 truncate"
+                          className="card-title card-title-synced typo-h3 font-play tracking-tight text-cyan-600 dark:text-cyan-300 whitespace-normal break-words"
                           data-card-title="true"
                         >
                           Thông điệp hợp tác
@@ -590,11 +591,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2 shrink-0 min-w-0 border-0">
                       <div className="card-header-sync inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 leading-tight min-w-0">
-                        <WebIcon
+                        <LetterVectorIcon
                           name="briefcase"
                           size={16}
-                          className="w-[16px] h-[16px] shrink-0 card-title-icon text-blue-600 dark:text-cyan-400"
-                          style={{ width: '16px', height: '16px' }}
+                          className="w-[16px] h-[16px] shrink-0 card-title-icon"
+                          style={{ width: '16px', height: '16px', color: 'inherit' }}
                         />
                         <h3
                           className="card-title card-title-synced typo-h3 font-play text-blue-600 dark:text-cyan-400 whitespace-normal break-words"
@@ -651,7 +652,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   data-element-type="card"
                   data-section-card="true"
                   style={{ gap: '10px', padding: '12px', borderRadius: 'var(--radius-card, 14px)', containerType: 'inline-size', containerName: 'core-values-card' }}
-                  className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-full min-h-0 p-[12px] gap-[10px] transition-all duration-200 flex flex-col items-start justify-between group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()}`}
+                  className={`bento-view-card col-span-1 md:col-span-7 lg:col-span-8 w-full h-auto min-h-0 self-start p-[12px] gap-[10px] transition-all duration-200 flex flex-col items-start justify-start group/values z-10 text-left rounded-[14px] min-w-0 ${getGlassCardClass()}`}
                 >
                   <AnimatedCardTitle
                     iconName="trophy"
@@ -663,8 +664,8 @@ export const LetterView: React.FC<LetterViewProps> = ({
                     id="core-values-grid"
                     data-card-layout={resolveAdaptiveCardLayout(CORE_VALUES_DATA.length, false)}
                     data-subcard-count={CORE_VALUES_DATA.length}
-                    className="grid grid-cols-2 md:grid-cols-4 gap-[10px] auto-rows-auto items-stretch w-full flex-1 min-h-0 min-w-0"
-                    style={{ gap: '10px', rowGap: '10px', columnGap: '10px' }}
+                    className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-4 gap-[12px] auto-rows-auto items-start w-full min-w-0"
+                    style={{ gap: '12px', rowGap: '12px', columnGap: '12px' }}
                   >
                     {CORE_VALUES_DATA.map((val) => {
                       const valIconName =
@@ -682,7 +683,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                           id={`core-val-${val.number}`}
                           data-subcard="true"
                           style={{ borderRadius: 'var(--radius-subcard, 14px)' }}
-                          className="sub-card letter-subcard relative overflow-visible flex flex-col justify-between h-full transition-colors duration-200 text-left group rounded-[14px] min-w-0"
+                          className="sub-card letter-subcard relative overflow-visible flex flex-col justify-start h-auto min-h-0 transition-colors duration-200 text-left group rounded-[14px] min-w-0 p-3 sm:p-2.5 gap-2"
                         >
                           <div
                             className="absolute inset-0 rounded-[inherit] overflow-hidden opacity-[0.06] dark:opacity-[0.14] pointer-events-none"
@@ -695,7 +696,12 @@ export const LetterView: React.FC<LetterViewProps> = ({
                             <div
                               className={`subcard-header-sync flex items-center gap-1.5 min-w-0 flex-1 ${val.colorTheme.text}`}
                             >
-                              <WebIcon name={valIconName} className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                              <LetterVectorIcon
+                                name={valIconName}
+                                size={16}
+                                className="w-4 h-4 shrink-0 card-title-icon"
+                                style={{ color: 'inherit' }}
+                              />
                               <h4
                                 className={`card-title subcard-title-synced typo-h4 tracking-tight font-play leading-snug break-words min-w-0 ${val.colorTheme.text}`}
                                 data-subcard-title="true"
@@ -724,7 +730,7 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   data-section-card="true"
                   data-element-page="letter"
                   style={{ padding: '16px', borderRadius: 'var(--radius-card, 14px)' }}
-                  className="motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-4 flex flex-col justify-between gap-3 transition-colors duration-200 group/quote w-full h-full min-h-0 min-w-0"
+                  className="motto-card bento-card glass-card col-span-1 md:col-span-5 lg:col-span-4 relative rounded-[14px] p-4 flex flex-col justify-between gap-3 transition-colors duration-200 group/quote w-full h-auto min-h-0 self-start min-w-0"
                 >
                   <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[14px]">
                     <div className="absolute -top-10 -left-10 w-32 h-32 bg-amber-400/15 blur-3xl rounded-full" />
@@ -732,11 +738,11 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                   <div className="flex items-center justify-between gap-2 relative z-10 min-w-0 shrink-0 border-0">
                     <div className="card-header-sync inline-flex items-center gap-2 text-amber-700 dark:text-amber-300 leading-tight min-w-0">
-                      <WebIcon
+                      <LetterVectorIcon
                         name="quote"
                         size={16}
-                        className="w-[16px] h-[16px] shrink-0 card-title-icon text-amber-700 dark:text-amber-300"
-                        style={{ width: '16px', height: '16px' }}
+                        className="w-[16px] h-[16px] shrink-0 card-title-icon"
+                        style={{ width: '16px', height: '16px', color: 'inherit' }}
                       />
                       <h3
                         className="card-title card-title-synced typo-h3 font-play tracking-tight text-amber-700 dark:text-amber-300 whitespace-normal break-words"
@@ -749,12 +755,13 @@ export const LetterView: React.FC<LetterViewProps> = ({
 
                   <div className="relative z-10 my-auto py-2 px-1 flex flex-col gap-2">
                     <span className="text-3xl font-serif text-amber-500/40 dark:text-amber-400/30 leading-none select-none">“</span>
-                    <p
-                      className="motto-quote-text typo-h3 font-handwriting font-quote font-bold tracking-wide text-amber-800 dark:text-amber-100 text-left drop-shadow-xs select-none relative z-10 -mt-3 pl-3 italic"
-                      style={{ fontFamily: "var(--font-quote, 'Dancing Script', cursive)" }}
-                    >
-                      Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự.
-                    </p>
+                    <div className="relative z-10 -mt-3 pl-3">
+                      <ReadAlongQuote
+                        text="Thành công không chỉ đến từ năng lực, mà từ sự chân thành và tinh thần phụng sự."
+                        activeColor="var(--color-primary, #d97706)"
+                        className="motto-quote-text typo-h3 font-play font-bold tracking-wide"
+                      />
+                    </div>
                     <span className="text-3xl font-serif text-amber-500/40 dark:text-amber-400/30 leading-none select-none text-right">”</span>
                   </div>
                 </article>
@@ -881,11 +888,16 @@ export const LetterView: React.FC<LetterViewProps> = ({
                                 color: principleColor,
                               }}
                             >
-                              <WebIcon name={iconName} className="w-4 h-4 shrink-0" style={{ color: principleColor }} />
+                              <LetterVectorIcon
+                                name={iconName}
+                                size={16}
+                                className="w-4 h-4 shrink-0 card-title-icon"
+                                style={{ color: 'inherit' }}
+                              />
                               <h4
                                 className="card-title subcard-title-synced typo-h4 font-play tracking-tight break-words leading-snug"
                                 data-subcard-title="true"
-                                style={{ color: principleColor }}
+                                style={{ color: 'inherit' }}
                               >
                                 {principle.titleVi}
                               </h4>
@@ -930,9 +942,9 @@ export const LetterView: React.FC<LetterViewProps> = ({
                   <div
                     data-subcard="true"
                     style={{ padding: '10px 12px', borderRadius: 'var(--radius-subcard, 14px)' }}
-                    className="sub-card letter-subcard w-full p-[10px] rounded-[var(--radius-subcard,14px)] flex items-center gap-2.5 min-w-0"
+                    className="sub-card letter-subcard w-full p-[10px] rounded-[var(--radius-subcard,14px)] flex items-center gap-2.5 min-w-0 text-purple-700 dark:text-cyan-300"
                   >
-                    <WebIcon name="target" className="w-4 h-4 text-purple-600 dark:text-cyan-400 shrink-0" />
+                    <LetterVectorIcon name="target" size={16} className="w-4 h-4 shrink-0 card-title-icon" style={{ color: 'inherit' }} />
                     <span className="typo-caption font-semibold text-purple-700 dark:text-cyan-300">
                       Khách hàng là trung tâm • Vận hành bền vững
                     </span>

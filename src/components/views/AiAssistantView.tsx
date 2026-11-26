@@ -127,7 +127,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     setVoiceLanguage(language);
   }, [language]);
 
-  // Đồng bộ phát/tạm dừng mượt giữa video màn hình chờ và video AI phản hồi (luôn muted)
+  // Đồng bộ phát/tạm dừng mượt giữa video màn hình chờ và video AI phản hồi (luôn muted) trên hero banner
   useEffect(() => {
     const idleEl = idleBgVideoRef.current;
     const respondingEl = respondingBgVideoRef.current;
@@ -138,12 +138,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     if (respondingEl) {
       respondingEl.muted = true;
       respondingEl.defaultMuted = true;
-    }
-
-    if (chatViewMode !== 'trinhan') {
-      idleEl?.pause();
-      respondingEl?.pause();
-      return;
     }
 
     const activeEl = isAiResponding ? respondingEl : idleEl;
@@ -168,7 +162,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     return () => {
       window.clearTimeout(pauseTimer);
     };
-  }, [isAiResponding, chatViewMode]);
+  }, [isAiResponding]);
 
   useEffect(() => {
     return () => {
@@ -646,8 +640,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
       <div
-        className={`flex-1 min-h-full w-full flex flex-col lg:flex-row items-stretch ${
-          chatExpandPx >= 200 ? 'gap-0 lg:gap-0' : 'gap-[15px]'
+        className={`flex-1 min-h-full w-full flex flex-row items-stretch ${
+          chatExpandPx >= 200 ? 'gap-0' : 'gap-[15px]'
         }`}
       >
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
@@ -658,8 +652,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card bento-card glass-card group w-full min-h-[170px] lg:min-h-0 lg:w-[30%] lg:min-w-[30%] lg:max-w-[30%] lg:flex-[0_0_30%] lg:self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
+        className="banner-card bento-card glass-card group w-[35%] min-w-[35%] max-w-[35%] flex-[0_0_35%] self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
         style={{
+          width: '35%',
+          minWidth: '35%',
+          maxWidth: '35%',
+          flex: '0 0 35%',
           padding: '15px',
           borderRadius: 'var(--radius-banner, 24px)',
           boxSizing: 'border-box',
@@ -672,12 +670,36 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             : {}),
         }}
       >
-        <div className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0">
-          <VideoBanner
-            videoId={getDefaultBannerVideoConfig('aiAssistant').videoId}
-            title={getDefaultBannerVideoConfig('aiAssistant').title}
-            objectPosition="50% 18%"
-            className="rounded-[inherit]"
+        <div
+          id="ai-assistant-banner-video-bg"
+          aria-hidden="true"
+          className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+        >
+          {/* Video màn hình chờ (Idle) */}
+          <video
+            ref={idleBgVideoRef}
+            src={AI_CHAT_IDLE_VIDEO_URL}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+              isAiResponding ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
+          {/* Video khi AI phản hồi chat (Responding) */}
+          <video
+            ref={respondingBgVideoRef}
+            src={AI_CHAT_RESPONDING_VIDEO_URL}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
+              isAiResponding ? 'opacity-100' : 'opacity-0'
+            }`}
           />
         </div>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
@@ -734,11 +756,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
         data-ai-responding={isAiResponding ? 'true' : 'false'}
-        className="bento-card glass-card min-w-0 min-h-0 lg:w-[70%] lg:min-w-[70%] lg:max-w-[70%] lg:flex-[0_0_70%] lg:h-full lg:min-h-full lg:max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card min-w-[65%] max-w-[65%] w-[65%] flex-[0_0_65%] h-full min-h-full max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
-          flex: '0 0 70%',
-          minWidth: 0,
-          maxWidth: '100%',
+          width: '65%',
+          minWidth: '65%',
+          maxWidth: '65%',
+          flex: '0 0 65%',
           alignSelf: 'stretch',
           padding: '15px',
           gap: '12px',
@@ -746,50 +769,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           boxSizing: 'border-box',
         }}
       >
-        {/* Hình nền video động 2 trạng thái cho khung chat AI Hỗ trợ (Màn hình chờ <-> AI phản hồi, luôn mute) */}
-        {chatViewMode === 'trinhan' && (
-          <div
-            id="ai-assistant-chat-video-bg"
-            aria-hidden="true"
-            className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[inherit]"
-          >
-            {/* Video màn hình chờ (Idle) */}
-            <video
-              ref={idleBgVideoRef}
-              src={AI_CHAT_IDLE_VIDEO_URL}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
-                isAiResponding ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            {/* Video khi AI phản hồi chat (Responding) */}
-            <video
-              ref={respondingBgVideoRef}
-              src={AI_CHAT_RESPONDING_VIDEO_URL}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
-                isAiResponding ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-            {/* Lớp phủ dịu giữ rõ hình nền video đồng thời bảo toàn độ tương phản nội dung chat */}
-            <div
-              className="absolute inset-0 rounded-[inherit] transition-colors duration-300"
-              style={{
-                background: isDark
-                  ? 'linear-gradient(180deg, rgba(6, 12, 24, 0.34) 0%, rgba(6, 12, 24, 0.22) 48%, rgba(6, 12, 24, 0.42) 100%)'
-                  : 'linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.14) 48%, rgba(15, 23, 42, 0.22) 100%)',
-              }}
-            />
-          </div>
-        )}
 
         {/* Thanh chuyển chế độ trong khung chat: Hỏi đáp Trí Nhân <-> AI Trực quan D-ID */}
         <div

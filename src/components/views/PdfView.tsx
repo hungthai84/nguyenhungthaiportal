@@ -20,6 +20,7 @@ import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
 import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
 import { DRIVE_AVATARS, DRIVE_BANNER_VIDEOS } from '@/config/driveMediaLinks';
+import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
   cyan: '#0284c7',
@@ -313,6 +314,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         data-element-name="Banner card PDF"
         data-element-type="banner-card"
         data-section-card="true"
+        data-has-compact-menu="true"
         className="pdf-toolbar banner-card hero-banner group no-print w-full max-w-[1250px] mx-auto mb-4 p-[15px] rounded-[14px] relative overflow-visible border text-[var(--text-primary)] flex flex-col gap-3 shrink-0 z-30 transition-all duration-300"
       >
         <div
@@ -326,15 +328,15 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         </div>
         <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-        <div className="relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
-          <div className="flex items-center gap-2.5 flex-wrap min-w-0">
-            <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
-              <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
-              <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
-                Hồ sơ năng lực
-              </h1>
-            </div>
+        <div className="banner-header-row relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
+          <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
+            <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
+            <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
+              Hồ sơ năng lực
+            </h1>
+          </div>
 
+          <div className="banner-desktop-controls flex flex-1 items-center justify-between gap-2.5 flex-wrap min-w-0">
             {/* Mục lục thu gọn thành 1 nút nằm gần Hồ sơ năng lực */}
             <div ref={tocMenuRef} className="relative inline-block text-left shrink-0 z-30">
               <button
@@ -408,38 +410,110 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 )}
               </AnimatePresence>
             </div>
+
+            <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap ml-auto">
+              <button
+                type="button"
+                onClick={() => handlePrintOrExport('download')}
+                disabled={isExporting}
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60"
+                title="Tải tệp CV Portfolio dưới dạng PDF"
+              >
+                <WebIcon name="download" size={16} />
+                <span>Tải PDF</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  if (onNavigateTab) {
+                    onNavigateTab(0);
+                  } else {
+                    window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
+                  }
+                }}
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer shrink-0"
+                title="Trở về Trang chủ"
+              >
+                <WebIcon name="arrow-left" size={15} />
+                <span>Trở về</span>
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap">
-            <button
-              type="button"
-              onClick={() => handlePrintOrExport('download')}
-              disabled={isExporting}
-              style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-              className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60"
-              title="Tải tệp CV Portfolio dưới dạng PDF"
-            >
-              <WebIcon name="download" size={16} />
-              <span>Tải PDF</span>
-            </button>
+          <CompactBannerMenu
+            id="pdf-compact-menu-btn"
+            label="Điều khiển"
+            ariaLabel="Mục lục và xuất PDF hồ sơ"
+          >
+            {(closeMenu) => (
+              <>
+                <div className="flex flex-col gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handlePrintOrExport('download');
+                      closeMenu();
+                    }}
+                    disabled={isExporting}
+                    style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                    className="banner-primary-cta h-9 w-full inline-flex items-center justify-center gap-2 px-4 rounded-full typo-button font-bold cursor-pointer disabled:opacity-60"
+                  >
+                    <WebIcon name="download" size={15} />
+                    <span>Tải PDF</span>
+                  </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                if (onNavigateTab) {
-                  onNavigateTab(0);
-                } else {
-                  window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
-                }
-              }}
-              className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer shrink-0"
-              title="Trở về Trang chủ"
-            >
-              <WebIcon name="arrow-left" size={15} />
-              <span>Trở về</span>
-            </button>
-          </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      closeMenu();
+                      if (onNavigateTab) {
+                        onNavigateTab(0);
+                      } else {
+                        window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
+                      }
+                    }}
+                    className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3.5 rounded-full typo-button font-bold cursor-pointer"
+                  >
+                    <WebIcon name="arrow-left" size={15} />
+                    <span>Trở về Trang chủ</span>
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-1 pt-2 border-t border-[var(--border-subcard)]">
+                  <span className="typo-label text-[var(--text-muted)] px-1">
+                    Mục lục 9 phần CV
+                  </span>
+                  {PDF_TOC_SECTIONS.map((sec) => {
+                    const isCurrent = activeSectionId === sec.id;
+                    return (
+                      <button
+                        key={sec.id}
+                        type="button"
+                        data-selected={isCurrent ? 'true' : 'false'}
+                        onClick={() => {
+                          SoundEngine.playTap();
+                          setActiveSectionId(sec.id);
+                          closeMenu();
+                          document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }}
+                        className="theme-dropdown-option flex items-center justify-between gap-2 w-full px-3 py-1.5 rounded-[14px] typo-nav font-play text-left transition-all cursor-pointer"
+                      >
+                        <span className="inline-flex items-center gap-2 min-w-0">
+                          <WebIcon name={sec.icon} size={14} className="shrink-0" />
+                          <span className="truncate">{sec.label}</span>
+                        </span>
+                        {isCurrent && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </CompactBannerMenu>
         </div>
       </header>
 

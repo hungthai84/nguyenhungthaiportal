@@ -964,6 +964,33 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     };
   }, [showJobCard]);
 
+  // Chromatic Folds: Dynamic --fold-angle synchronization via ResizeObserver
+  useEffect(() => {
+    if (showJobCard || isMobileFoldView) return;
+    const container = boardRef.current?.querySelector('#experience-chromatic-folds');
+    if (!container || typeof ResizeObserver === 'undefined') return;
+    const swatches = Array.from(container.querySelectorAll<HTMLElement>('.exp-fold-swatch'));
+    if (swatches.length === 0) return;
+
+    const computeAngle = (target: HTMLElement) => {
+      const direction = Number(target.dataset.num) % 2 ? 1 : -1;
+      const angle =
+        direction *
+        Math.atan2(target.offsetHeight * 0.05, Math.max(1, target.offsetWidth)) *
+        (180 / Math.PI);
+      target.style.setProperty('--fold-angle', `${angle.toFixed(3)}deg`);
+    };
+
+    swatches.forEach(computeAngle);
+    const foldObserver = new ResizeObserver((entries) => {
+      for (const { target } of entries) {
+        computeAngle(target as HTMLElement);
+      }
+    });
+    swatches.forEach((swatch) => foldObserver.observe(swatch));
+    return () => foldObserver.disconnect();
+  }, [showJobCard, isMobileFoldView, roadmapCards.length]);
+
   const maxFoldIdx = roadmapCards.length - 1;
   const activeFoldIdx = selectedFoldIdx;
   const currentNavIdx = selectedFoldIdx !== null ? selectedFoldIdx : mobileSlideIdx;
@@ -1821,15 +1848,6 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       tabIndex={0}
                       aria-label={`${item.yearBadge} — ${item.shortName}. Nhấn một lần để mở hé, nhấp đúp để bung toàn bộ chi tiết.`}
                       aria-expanded={isExpanded}
-                      onMouseEnter={() => {
-                        if (isFoldLocked || showJobCard || isMobileFoldView) return;
-                        if (selectedFoldIdx !== idx || foldPhase === 'folded') {
-                          setSelectedFoldIdx(idx);
-                          setMobileSlideIdx(idx);
-                          setActiveKey(item.key);
-                          setFoldPhase('partial');
-                        }
-                      }}
                       onClick={() => handleDesktopFoldClick(item.key, idx)}
                       onDoubleClick={(e) => {
                         e.stopPropagation();

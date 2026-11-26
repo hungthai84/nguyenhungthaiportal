@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { SoundEngine } from "@/components/ui/SoundEngine";
 import { VideoBanner } from "@/components/common/VideoBanner";
 import { getDefaultBannerVideoConfig } from "@/data/driveBannerDefaults";
+import { CompactBannerMenu } from "@/components/ui/CompactBannerMenu";
 import { 
   STRENGTHS_DATA, 
   WEAKNESSES_DATA, 
@@ -352,6 +353,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           data-element-name="Banner card"
           data-element-type="banner-card"
           data-section-card="true"
+          data-has-compact-menu="true"
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
@@ -377,7 +379,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
           {/* Vùng Tiêu Đề: Tiêu đề bên trái, Sub tiêu đề cùng hàng nằm bên phải */}
-          <div id="skills-hero-banner-header" className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
+          <div id="skills-hero-banner-header" className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
             <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: "var(--text-link, var(--color-primary))" }}>
                 <WebIcon name="sparkles" className="w-[22px] h-[22px] shrink-0" />
                 <h1
@@ -397,10 +399,69 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
               >
                 {isVi ? '"Kỹ năng là nền tảng nâng tầm dịch vụ ♡"' : '"Skills are the foundation that elevates service ♡"'}
               </p>
+
+              <CompactBannerMenu
+                id="skills-compact-menu-btn"
+                label={isVi ? "Điều khiển" : "Controls"}
+                ariaLabel={isVi ? "Bộ lọc kỹ năng và mở rộng mô tả" : "Skill filters and expand toggle"}
+                activeCount={selectedSwot ? 1 : 0}
+              >
+                {(closeMenu) => (
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isVi ? "Bộ lọc ma trận" : "Skill Filter"}
+                      </span>
+                      {swotFilterOptions.map((opt) => {
+                        const isActive = selectedSwot === opt.id;
+                        return (
+                          <button
+                            key={opt.id ?? "all-compact"}
+                            type="button"
+                            data-selected={isActive ? "true" : "false"}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setSelectedSwot(opt.id);
+                              closeMenu();
+                            }}
+                            className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                          >
+                            <span className="flex items-center gap-2 truncate">
+                              <span className="px-1.5 h-5 rounded-full flex items-center justify-center typo-badge font-mono shrink-0 bg-[var(--bg-nested-badge)]">
+                                {opt.badge}
+                              </span>
+                              <span className="truncate">{opt.label}</span>
+                            </span>
+                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current shrink-0" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        SoundEngine.playTap();
+                        const allIds = QUADRANTS.flatMap((q) => q.data.map((d) => d.id));
+                        setExpandedSkillIds((prev) => (prev.size > 0 ? new Set() : new Set(allIds)));
+                        closeMenu();
+                      }}
+                      className="banner-control-pill w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-play cursor-pointer"
+                    >
+                      <WebIcon name={expandedSkillIds.size > 0 ? "minimize" : "maximize-2"} className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0" />
+                      <span>
+                        {expandedSkillIds.size > 0
+                          ? isVi ? "Thu gọn mô tả" : "Collapse All"
+                          : isVi ? "Mở rộng mô tả" : "Expand All"}
+                      </span>
+                    </button>
+                  </>
+                )}
+              </CompactBannerMenu>
             </div>
 
             {/* Nhóm các nút lại thành 1 filter icon bên dưới banner bên trái - Giao diện sáng */}
-            <div id="skills-hero-banner-filter-row" className="relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
+            <div id="skills-hero-banner-filter-row" className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto" ref={filterMenuRef}>
               <div className="relative inline-block text-left">
                 <button
                   id="skills-filter-toggle-btn"

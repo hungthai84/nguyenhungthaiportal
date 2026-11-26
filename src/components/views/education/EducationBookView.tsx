@@ -278,28 +278,6 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           )}
         </div>
 
-        {/* Chân bìa sách: Gợi ý kéo góc + Nút Mở sách */}
-        <div className={cn('relative z-10 pt-2 border-t flex items-center justify-between gap-2 pl-1', paperDivider)}>
-          <span className={cn('typo-caption font-medium truncate', inkMuted)}>
-            {isEn ? 'Drag corner or click to open' : 'Kéo góc trang hoặc chạm để mở sách'}
-          </span>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              SoundEngine.playTap();
-              bookHandleRef.current?.goToPage(1);
-            }}
-            className="banner-primary-cta px-3 py-1.5 rounded-full typo-badge font-semibold inline-flex items-center gap-1.5 hover:opacity-95 transition-all cursor-pointer shrink-0"
-            style={{
-              background: 'var(--bg-button-primary)',
-              color: 'var(--text-button-primary, #FFFFFF)',
-            }}
-          >
-            <span>{isEn ? 'Open' : 'Mở sách'}</span>
-            <WebIcon name="arrow-right" className="w-3.5 h-3.5" />
-          </button>
-        </div>
       </div>
     );
 

@@ -602,83 +602,111 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         )}
       </div>
 
-      {/* Bottom Capsule Control */}
-      <div
-        style={{ borderRadius: '999px' }}
-        className={cn(
-          'theme-video-capsule video-play-btn',
-          capsuleVariant === 'home'
-            ? 'video-play-btn--home bottom-3 left-1/2 -translate-x-1/2 sm:bottom-4'
-            : 'video-play-btn--about bottom-3 right-3 sm:bottom-4 sm:right-4',
-          isPlayingIntro ? 'is-playing' : '',
-          'absolute z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
-        )}
-      >
-        {/* Speaker Toggle Button */}
+      {/* Bottom Video Play Control */}
+      {capsuleVariant === 'home' ? (
         <button
+          id="home-hero-video-play-btn"
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            toggleVideoMute();
-          }}
-          className={cn(
-            'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
-            isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
-          )}
-          title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-          aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-          aria-pressed={isAudioOn}
-        >
-          <span className="flex items-center justify-center">
-            {isAudioOn ? (
-              <WebIcon name="volume-2" className="w-4 h-4 text-current" />
-            ) : (
-              <WebIcon name="volume-x" className="w-4 h-4 text-white" />
-            )}
-          </span>
-        </button>
-
-        <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
-
-        {/* Play / Cancel Toggle Button */}
-        {!isPlayingIntro ? (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePlayIntro();
-            }}
-            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
-            title="Bấm để phát video"
-          >
-            <span className="flex items-center justify-center">
-              <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
-            </span>
-            <span className="typo-button text-current whitespace-nowrap font-play text-left">
-              Phát Video
-            </span>
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
+            if (isPlayingIntro) {
               handleCancelIntro();
+            } else {
+              handlePlayIntro();
+            }
+          }}
+          style={{ borderRadius: '9999px' }}
+          className={cn(
+            'video-play-btn video-play-btn--home bottom-3 left-1/2 -translate-x-1/2 sm:bottom-4',
+            isPlayingIntro ? 'is-playing' : '',
+            'absolute z-30 w-12 h-12 sm:w-[52px] sm:h-[52px] aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+          )}
+          title={isPlayingIntro ? 'Bấm để hủy phát video' : 'Bấm để phát video'}
+          aria-label={isPlayingIntro ? 'Hủy phát video' : 'Phát video'}
+          aria-pressed={isPlayingIntro}
+        >
+          {isPlayingIntro ? (
+            <WebIcon name="cancel" className="w-5 h-5 stroke-[2.6] text-current shrink-0" />
+          ) : (
+            <WebIcon name="play" className="w-5 h-5 fill-current text-current translate-x-[1px] shrink-0" />
+          )}
+        </button>
+      ) : (
+        <div
+          style={{ borderRadius: '999px' }}
+          className={cn(
+            'theme-video-capsule video-play-btn',
+            'video-play-btn--about bottom-3 right-3 sm:bottom-4 sm:right-4',
+            isPlayingIntro ? 'is-playing' : '',
+            'absolute z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
+          )}
+        >
+          {/* Speaker Toggle Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleVideoMute();
             }}
-            style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
-            className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
-            title="Bấm để hủy phát video"
+            className={cn(
+              'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+              isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
+            )}
+            title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+            aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+            aria-pressed={isAudioOn}
           >
             <span className="flex items-center justify-center">
-              <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
-            </span>
-            <span className="typo-button text-current whitespace-nowrap font-play text-left">
-              Hủy Phát
+              {isAudioOn ? (
+                <WebIcon name="volume-2" className="w-4 h-4 text-current" />
+              ) : (
+                <WebIcon name="volume-x" className="w-4 h-4 text-white" />
+              )}
             </span>
           </button>
-        )}
-      </div>
+
+          <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
+
+          {/* Play / Cancel Toggle Button */}
+          {!isPlayingIntro ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePlayIntro();
+              }}
+              style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+              className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+              title="Bấm để phát video"
+            >
+              <span className="flex items-center justify-center">
+                <WebIcon name="play" className="w-4 h-4 fill-current text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+              </span>
+              <span className="typo-button text-current whitespace-nowrap font-play text-left">
+                Phát Video
+              </span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelIntro();
+              }}
+              style={{ paddingLeft: '8px', paddingRight: '12px', borderRadius: '999px' }}
+              className="inline-flex items-center justify-center gap-2 min-h-[34px] pr-3 py-1 !rounded-[999px] rounded-[999px] bg-transparent text-current typo-button tracking-wide whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 font-play"
+              title="Bấm để hủy phát video"
+            >
+              <span className="flex items-center justify-center">
+                <WebIcon name="cancel" className="w-4 h-4 stroke-[2.8] text-current shrink-0" style={{ height: '16px', width: '16px' }} />
+              </span>
+              <span className="typo-button text-current whitespace-nowrap font-play text-left">
+                Hủy Phát
+              </span>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

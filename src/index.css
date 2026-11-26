@@ -1378,35 +1378,23 @@ html #contact-main-card > div:first-child {
   }
 }
 
-/* Sync leather stitched header surface onto all Main Cards (including screen #pdf-page-container) */
+/* Sync leather/wood surface outline parity across Header, all Main Cards, and Footer */
 
-html[data-card-style="cowhide-leather"] .page-main-card,
-html[data-card-style="cowhide-leather"] [data-main-card="true"],
-html[data-card-style="cowhide-leather"] #about-intro-card-1,
-html[data-card-style="cowhide-leather"] #about-intro-card-2,
-html[data-card-style="cowhide-leather"] #pdf-page-container {
+html[data-card-style="cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
   outline: 1.5px dashed rgba(245, 222, 179, 0.50) !important;
   outline-offset: -6px !important;
   color: #FFFFFF !important;
 }
 
-html[data-card-style="dark-cowhide-leather"] .page-main-card,
-html[data-card-style="dark-cowhide-leather"] [data-main-card="true"],
-html[data-card-style="dark-cowhide-leather"] #about-intro-card-1,
-html[data-card-style="dark-cowhide-leather"] #about-intro-card-2,
-html[data-card-style="dark-cowhide-leather"] #pdf-page-container {
-  border: 2px solid #3E3028 !important;
+html[data-card-style="dark-cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
+  border: 1px solid var(--surface-primary-border, #3E3028) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.46) !important;
   outline-offset: -6px !important;
   color: #FFF8EE !important;
 }
 
-html[data-card-style="walnut-wood"] .page-main-card,
-html[data-card-style="walnut-wood"] [data-main-card="true"],
-html[data-card-style="walnut-wood"] #about-intro-card-1,
-html[data-card-style="walnut-wood"] #about-intro-card-2,
-html[data-card-style="walnut-wood"] #pdf-page-container {
-  border: 1.5px solid #4E2F1B !important;
+html[data-card-style="walnut-wood"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
+  border: 1px solid var(--surface-primary-border, #4E2F1B) !important;
   outline: 1px solid rgba(245, 196, 120, 0.24) !important;
   outline-offset: -5px !important;
   color: #FFFBF4 !important;
@@ -4741,11 +4729,11 @@ html:root[data-card-style] body :is(
 @media (max-width: 1023px) {
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) {
     height: auto !important;
-    min-height: 62px !important;
+    min-height: 0 !important;
     max-height: none !important;
-    padding: 6px 12px !important;
-    gap: 4px !important;
-    row-gap: 4px !important;
+    padding: 2px 4px 10px 4px !important;
+    gap: 6px !important;
+    row-gap: 6px !important;
     column-gap: 8px !important;
     justify-content: center !important;
   }
@@ -4756,7 +4744,7 @@ html:root[data-card-style] body :is(
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
     font-size: var(--fs-h3, 20px) !important;
-    line-height: 1.25 !important;
+    line-height: var(--lh-h3, 1.3) !important;
     margin: 0 !important;
   }
 
@@ -4774,16 +4762,16 @@ html:root[data-card-style] body :is(
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
     height: auto !important;
-    min-height: 28px !important;
+    min-height: 32px !important;
     max-height: none !important;
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
-    font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+    font-family: var(--font-family-body, 'Play', sans-serif) !important;
     font-size: var(--fs-button, 14px) !important;
-    font-weight: var(--fw-semibold, 600) !important;
-    line-height: 1.35 !important;
+    font-weight: var(--fw-bold, 700) !important;
+    line-height: var(--lh-button, 1.35) !important;
     white-space: nowrap !important;
   }
 }
@@ -4791,11 +4779,11 @@ html:root[data-card-style] body :is(
 @container main-card (max-width: 959px) {
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) {
     height: auto !important;
-    min-height: 62px !important;
+    min-height: 0 !important;
     max-height: none !important;
-    padding: 6px 12px !important;
-    gap: 4px !important;
-    row-gap: 4px !important;
+    padding: 2px 4px 10px 4px !important;
+    gap: 6px !important;
+    row-gap: 6px !important;
     column-gap: 8px !important;
     justify-content: center !important;
   }
@@ -4806,7 +4794,7 @@ html:root[data-card-style] body :is(
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) h1 {
     font-size: var(--fs-h3, 20px) !important;
-    line-height: 1.25 !important;
+    line-height: var(--lh-h3, 1.3) !important;
     margin: 0 !important;
   }
 
@@ -4816,16 +4804,16 @@ html:root[data-card-style] body :is(
 
   html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(.banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn), .banner-primary-cta, .theme-prev-next-btn, .swot-control-pill) {
     height: auto !important;
-    min-height: 28px !important;
+    min-height: 32px !important;
     max-height: none !important;
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
-    font-family: var(--font-family-heading, 'Play', sans-serif) !important;
+    font-family: var(--font-family-body, 'Play', sans-serif) !important;
     font-size: var(--fs-button, 14px) !important;
     font-weight: var(--fw-bold, 700) !important;
-    line-height: 1.35 !important;
+    line-height: var(--lh-button, 1.35) !important;
   }
 }
 
@@ -5029,16 +5017,15 @@ html:root[data-card-style] body #home-page-container #el-p0-div-16 [role="tab"][
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE: BANNER FILTER, BUTTONS & SEARCH = 16px / 600 / 22.5623px  */
+/* FINAL OVERRIDE: RESTORE DEFAULT TYPOGRAPHY TOKENS FOR BANNER CONTROLS     */
+/* Buttons / Filter / Tabs = --fs-button (14px)                              */
+/* Dropdown options        = --fs-nav (14px)                                 */
+/* Count / Badges          = --fs-badge (12px)                               */
+/* Search inputs           = --fs-input (16px)                               */
 /* ========================================================================= */
 html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
   .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn),
   .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn) span:not(.banner-count-pill),
-  #projects-filter-toggle-btn span.banner-count-pill,
-  #projects-filter-listbox button,
-  #projects-filter-listbox button span,
-  .banner-dropdown-menu button,
-  .banner-dropdown-menu button span,
   .banner-primary-cta,
   .banner-primary-cta span:not(.banner-count-pill),
   .swot-control-pill,
@@ -5048,18 +5035,9 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
   #education-view-mode-switcher button,
   #education-view-mode-switcher button span,
   #projects-view-mode-switcher button,
-  #projects-view-mode-switcher button span
-) {
-  font-family: var(--font-family-heading, 'Play', sans-serif) !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  line-height: 22.5623px !important;
-}
-
-/* Search inputs & search buttons follow body text typography */
-html:root body :is(
-  .banner-search-input,
-  .banner-search-input::placeholder,
+  #projects-view-mode-switcher button span,
+  .banner-compact-menu-trigger,
+  .banner-compact-menu-trigger span:not(.banner-count-pill),
   [id$="-search-btn"],
   [id$="-search-btn"] span,
   [id$="-search-clear-btn"],
@@ -5068,9 +5046,32 @@ html:root body :is(
   #horoscope-lookup-search-btn span
 ) {
   font-family: var(--font-family-body, 'Play', sans-serif) !important;
-  font-size: var(--fs-body, 15px) !important;
-  font-weight: 400 !important;
-  line-height: var(--lh-body, 1.55) !important;
+  font-size: var(--fs-button, 14px) !important;
+  font-weight: var(--fw-bold, 700) !important;
+  line-height: var(--lh-button, 1.35) !important;
+}
+
+html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
+  #projects-filter-listbox button,
+  #projects-filter-listbox button span,
+  .banner-dropdown-menu button.theme-dropdown-option,
+  .banner-dropdown-menu button.theme-dropdown-option span:not(.banner-count-pill)
+) {
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-nav, 14px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: var(--lh-nav, 1.35) !important;
+}
+
+/* Search inputs use default input token (--fs-input: 16px, regular weight) */
+html:root body :is(
+  .banner-search-input,
+  .banner-search-input::placeholder
+) {
+  font-family: var(--font-family-body, 'Play', sans-serif) !important;
+  font-size: var(--fs-input, 16px) !important;
+  font-weight: var(--fw-regular, 400) !important;
+  line-height: var(--lh-input, 1.45) !important;
 }
 
 html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) :is(
@@ -5087,15 +5088,11 @@ html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interv
   max-height: none !important;
 }
 
-html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) .banner-count-pill {
-  font-size: 0.85em !important;
-  line-height: 1.2 !important;
-}
-
+html:root body :is(.hero-banner, .banner-card, [id$="-hero-banner"]):not(#interview-questions-card):not(#project-detail-banner) .banner-count-pill,
 html:root body #projects-hero-banner #projects-filter-toggle-btn .banner-count-pill {
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  line-height: 22.5623px !important;
+  font-size: var(--fs-badge, 12px) !important;
+  font-weight: var(--fw-semibold, 600) !important;
+  line-height: var(--lh-badge, 1.38) !important;
 }
 
 @media (max-width: 1023px) {
@@ -5127,7 +5124,8 @@ html:root body :is(
   #wallpaper-hero-banner,
   #interface-hero-banner,
   #services-hero-banner,
-  #systems-hero-banner
+  #systems-hero-banner,
+  #horoscope-hero-banner
 ),
 html:root[data-card-style] body :is(
   #projects-hero-banner,
@@ -5137,7 +5135,8 @@ html:root[data-card-style] body :is(
   #wallpaper-hero-banner,
   #interface-hero-banner,
   #services-hero-banner,
-  #systems-hero-banner
+  #systems-hero-banner,
+  #horoscope-hero-banner
 ) {
   width: 100% !important;
   max-width: 100% !important;
@@ -5156,7 +5155,8 @@ html:root[data-card-style] body :is(
     #wallpaper-hero-banner,
     #interface-hero-banner,
     #services-hero-banner,
-    #systems-hero-banner
+    #systems-hero-banner,
+    #horoscope-hero-banner
   ),
   html:root[data-card-style] body :is(
     #projects-hero-banner,
@@ -5166,7 +5166,8 @@ html:root[data-card-style] body :is(
     #wallpaper-hero-banner,
     #interface-hero-banner,
     #services-hero-banner,
-    #systems-hero-banner
+    #systems-hero-banner,
+    #horoscope-hero-banner
   ) {
     min-height: 200px !important;
     height: auto !important;
@@ -5186,7 +5187,8 @@ html:root[data-card-style] body :is(
       #wallpaper-hero-banner,
       #interface-hero-banner,
       #services-hero-banner,
-      #systems-hero-banner
+      #systems-hero-banner,
+      #horoscope-hero-banner
     ),
     html:root[data-card-style] body :is(
       #projects-hero-banner,
@@ -5196,14 +5198,15 @@ html:root[data-card-style] body :is(
       #wallpaper-hero-banner,
       #interface-hero-banner,
       #services-hero-banner,
-      #systems-hero-banner
+      #systems-hero-banner,
+      #horoscope-hero-banner
     ) {
       height: auto !important;
-      min-height: 62px !important;
+      min-height: 0 !important;
       max-height: none !important;
-      padding: 6px 12px !important;
-      gap: 4px !important;
-      row-gap: 4px !important;
+      padding: 2px 4px 10px 4px !important;
+      gap: 6px !important;
+      row-gap: 6px !important;
       column-gap: 8px !important;
       justify-content: center !important;
     }
@@ -6824,8 +6827,10 @@ html:root[data-card-style] body #letter-page-container #letter-cards-track {
   flex: 1 1 0% !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
   overflow: hidden !important;
   border: none !important;
   outline: none !important;
@@ -6833,8 +6838,16 @@ html:root[data-card-style] body #letter-page-container #letter-cards-track {
   box-sizing: border-box !important;
 }
 
+html:root body #letter-cards-track > *,
+html:root[data-card-style] body #letter-cards-track > *,
+html:root body #letter-cards-track > .page-main-card,
+html:root[data-card-style] body #letter-cards-track > .page-main-card,
+html:root body #letter-cards-track > [data-main-card="true"],
+html:root[data-card-style] body #letter-cards-track > [data-main-card="true"],
 html:root body #letter-cards-track > #letter-main-card,
-html:root[data-card-style] body #letter-cards-track > #letter-main-card {
+html:root[data-card-style] body #letter-cards-track > #letter-main-card,
+html:root body #letter-cards-track > [id^="letter-card-"],
+html:root[data-card-style] body #letter-cards-track > [id^="letter-card-"] {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -6842,6 +6855,10 @@ html:root[data-card-style] body #letter-cards-track > #letter-main-card {
   max-height: 100% !important;
   min-height: 0 !important;
   flex: 1 1 0% !important;
+  margin: 0px !important;
+  overflow: hidden !important;
+  transform: none !important;
+  animation: none !important;
   box-sizing: border-box !important;
 }
 
@@ -6945,11 +6962,26 @@ html:root[data-card-style] body #horoscope-cards-track > [id^="horoscope-card-"]
 }
 
 /* ========================================================================= */
-/* EXPERIENCE MAIN CARD & GIẤY XẾP: UNIFORM 0PX PADDING & 0PX GAP STRATEGY   */
+/* EXPERIENCE MAIN CARD & GIẤY XẾP: 0PX PADDING/GAP, 1PX BORDER & CLIPPING   */
 /* ========================================================================= */
 html:root body #experience-main-card,
 html:root[data-card-style] body #experience-main-card,
-html.dark:root[data-card-style] body #experience-main-card,
+html.dark:root[data-card-style] body #experience-main-card {
+  padding: 0px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  gap: 0px !important;
+  row-gap: 0px !important;
+  column-gap: 0px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
+}
+
 html:root body #experience-main-card > #experience-timeline-board,
 html:root[data-card-style] body #experience-main-card > #experience-timeline-board,
 html.dark:root[data-card-style] body #experience-main-card > #experience-timeline-board,
@@ -6978,6 +7010,9 @@ html:root[data-card-style] body #experience-main-card #experience-timeline-board
   row-gap: 0px !important;
   column-gap: 0px !important;
   box-sizing: border-box !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
 }
 
 html:root body #experience-main-card #experience-timeline-board .exp-fold-swatch,
@@ -6987,6 +7022,19 @@ html.dark:root[data-card-style] body #experience-main-card #experience-timeline-
   margin-right: 0px !important;
   margin-left: 0px !important;
   border-radius: 0px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #experience-main-card > #experience-job-detail-card,
+html:root[data-card-style] body #experience-main-card > #experience-job-detail-card,
+html.dark:root[data-card-style] body #experience-main-card > #experience-job-detail-card {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
+  box-sizing: border-box !important;
 }
 
 /* ========================================================================= */
@@ -7220,9 +7268,9 @@ html:root.dark[data-card-style] body #el-p0-div-98 {
   min-height: 0px !important;
 }
 
-html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #el-p0-div-98 > footer),
-html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #el-p0-div-98 > footer),
-html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #el-p0-div-98 > footer) {
+html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover),
+html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover),
+html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover) {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   flex: 1 1 auto !important;
@@ -7246,10 +7294,16 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0 !important;
+  color: var(--text-primary) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
 }
 
-html:root[data-card-style="mica-fluent"] body :is(#app-footer, #el-p0-div-98 > footer) {
+html:root[data-card-style="mica-fluent"] body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover) {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   flex: 1 1 auto !important;
@@ -7275,10 +7329,16 @@ html:root[data-card-style="mica-fluent"] body :is(#app-footer, #el-p0-div-98 > f
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0 !important;
+  color: var(--text-primary) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
 }
 
-html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body :is(#app-footer, #el-p0-div-98 > footer) {
+html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover) {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
   flex: 1 1 auto !important;
@@ -7302,7 +7362,13 @@ html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-radius: var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0 !important;
+  color: var(--text-primary) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
 }
 
 @media (max-width: 639px) {
@@ -7651,9 +7717,10 @@ html:root[data-card-style] body :is(
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
-/* Main Card đặt phẳng (Flat), đồng bộ chính xác nền, viền & hiệu ứng kính mờ giống Header (#app-header) trên đủ 18 giao diện */
+/* Main Card đặt phẳng (Flat), đồng bộ chính xác nền, viền & hiệu ứng giống Header (#app-header) và Footer (#app-footer) trên đủ 19 giao diện */
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -7679,9 +7746,10 @@ html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-fros
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"],
   #horoscope-cards-track > [id^="horoscope-card-"]
-),
+):is(*, :hover, :focus-within),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -7707,9 +7775,10 @@ html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"],
   #horoscope-cards-track > [id^="horoscope-card-"]
-),
+):is(*, :hover, :focus-within),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -7735,7 +7804,7 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"],
   #horoscope-cards-track > [id^="horoscope-card-"]
-) {
+):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   box-shadow: none !important;
@@ -7745,12 +7814,15 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
   filter: none !important;
   -webkit-filter: none !important;
   text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
 html:root[data-card-style="mica-fluent"] body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -7776,7 +7848,7 @@ html:root[data-card-style="mica-fluent"] body :is(
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"],
   #horoscope-cards-track > [id^="horoscope-card-"]
-) {
+):is(*, :hover, :focus-within) {
   background: rgba(255, 255, 255, 0.30) !important;
   background-color: rgba(255, 255, 255, 0.30) !important;
   background-image: none !important;
@@ -7784,9 +7856,13 @@ html:root[data-card-style="mica-fluent"] body :is(
   box-shadow: none !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
+  color: var(--text-primary) !important;
   filter: none !important;
   -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
@@ -7805,6 +7881,7 @@ html:root[data-card-style="mica-fluent"] body :is(
 
 html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice-neu"]) body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
   [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
   .floating-surface--main:not(#pdf-page-container):not(#app-header):not(#app-footer),
@@ -7830,15 +7907,19 @@ html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice
   #horoscope-cards-track > .page-main-card,
   #horoscope-cards-track > [data-main-card="true"],
   #horoscope-cards-track > [id^="horoscope-card-"]
-) {
+):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--color-surface)) !important;
   border: 1px solid var(--border-muted, rgba(148, 163, 184, 0.24)) !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  color: var(--text-primary) !important;
   filter: none !important;
   -webkit-filter: none !important;
+  text-shadow: none !important;
+  animation: none !important;
   transform: none !important;
+  transition: none !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
@@ -7855,6 +7936,7 @@ html:root:is([data-card-style="frost-ice-neu"], [data-card-style="dark-frost-ice
 
 html:root body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   #home-main-card,
   [id^="home-main-card-"],
   .home-screen-main-card,
@@ -7865,6 +7947,7 @@ html:root body :is(
 )::before,
 html:root body :is(
   #letter-main-card,
+  [id^="letter-card-"],
   #home-main-card,
   [id^="home-main-card-"],
   .home-screen-main-card,
@@ -8136,33 +8219,145 @@ html:root[data-card-style] body #letter-page-container .h-px {
 }
 
 /* ==========================================================================
-   #letter-main-card: Hover Subtle Floating Animation & Media Image Styling
+   #letter-main-card / #letter-card-1:
+   1. Zero Hover/Transition Shift & Exact Viewport Alignment
+   2. Crisp Inline SVG Vector Title Icons (Color Sync + No Border/Shadow)
+   3. Spacious Mobile Subcard Padding/Margins without Text Truncation
+   4. Final #experience-main-card 1px Border & Containment Lock
    ========================================================================== */
-@keyframes letterCard1Float {
-  0%,
-  100% {
-    transform: translate3d(0, -2px, 0);
+html:root body :is(#letter-main-card, #letter-card-1),
+html:root[data-card-style] body :is(#letter-main-card, #letter-card-1),
+html:root body :is(#letter-main-card, #letter-card-1):hover,
+html:root[data-card-style] body :is(#letter-main-card, #letter-card-1):hover {
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+html:root body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync),
+html:root[data-card-style] body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+html:root body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync) :is(svg, .letter-vector-icon, .card-title-icon),
+html:root[data-card-style] body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync) :is(svg, .letter-vector-icon, .card-title-icon) {
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  shape-rendering: geometricPrecision;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  text-shadow: none !important;
+}
+
+html:root body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, .card-title, .subcard-title-synced),
+html:root[data-card-style] body :is(#letter-main-card, #letter-card-1, #el-p1-div-85) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, .card-title, .subcard-title-synced) {
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+@media (max-width: 767px) {
+  html:root body :is(#letter-main-card, #letter-card-1),
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) {
+    padding: 14px !important;
+    gap: 0px !important;
+    box-sizing: border-box !important;
   }
-  50% {
-    transform: translate3d(0, -4px, 0);
+
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-main-scroll-viewport,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-main-scroll-viewport {
+    gap: 14px !important;
+    row-gap: 14px !important;
+    padding: 2px 0px !important;
+  }
+
+  html:root body :is(#letter-main-card, #letter-card-1) #el-p1-div-85,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #el-p1-div-85,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-intro-right-stack,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-intro-right-stack,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-2-grid,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-2-grid,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-3-grid,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-3-grid,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-4-bento-grid,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-4-bento-grid {
+    gap: 14px !important;
+    row-gap: 14px !important;
+    column-gap: 14px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  html:root body :is(#letter-main-card, #letter-card-1) #el-p1-div-85 > :is(article, div):not(#bento-letter-video):not(#letter-intro-right-stack),
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #el-p1-div-85 > :is(article, div):not(#bento-letter-video):not(#letter-intro-right-stack),
+  html:root body :is(#letter-main-card, #letter-card-1) #el-p1-div-85 #letter-intro-right-stack > article,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #el-p1-div-85 #letter-intro-right-stack > article,
+  html:root body :is(#letter-main-card, #letter-card-1) #core-values-grid [data-subcard="true"],
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #core-values-grid [data-subcard="true"],
+  html:root body :is(#letter-main-card, #letter-card-1) [data-subcard="true"],
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) [data-subcard="true"],
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-2-grid > article,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-2-grid > article,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-3-grid > article,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-3-grid > article,
+  html:root body :is(#letter-main-card, #letter-card-1) #letter-slide-4-bento-grid > :is(article, div),
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #letter-slide-4-bento-grid > :is(article, div) {
+    padding: 14px !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0px !important;
+    box-sizing: border-box !important;
+  }
+
+  html:root body :is(#letter-main-card, #letter-card-1) #core-values-grid,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #core-values-grid {
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
+    margin: 2px 0px 0px 0px !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  html:root body :is(#letter-main-card, #letter-card-1) :is(h2, h3, h4, p, span),
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) :is(h2, h3, h4, p, span) {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html:root body :is(#letter-main-card, #letter-card-1) #brands-bento-grid span,
+  html:root[data-card-style] body :is(#letter-main-card, #letter-card-1) #brands-bento-grid span {
+    white-space: nowrap !important;
   }
 }
 
-@media (hover: hover) and (pointer: fine) {
-  html:root body #letter-main-card:hover,
-  html:root[data-card-style] body #letter-main-card:hover {
-    animation: letterCard1Float 2.8s ease-in-out infinite !important;
-    transform: translate3d(0, -2px, 0) !important;
-    will-change: transform;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html:root body #letter-main-card:hover,
-  html:root[data-card-style] body #letter-main-card:hover {
-    animation: none !important;
-    transform: none !important;
-  }
+html:root body #experience-main-card,
+html:root[data-card-style] body #experience-main-card,
+html.dark:root[data-card-style] body #experience-main-card {
+  padding: 0px !important;
+  gap: 0px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: var(--surface-primary-border, var(--border-color)) !important;
 }
 
 html:root body #letter-main-card #bento-letter-video img,
@@ -8171,4 +8366,155 @@ html:root body #letter-main-card [data-media-card="video"] img {
   border-radius: 14px !important;
 }
 
+/* Projects main wrapper background matching main card surface */
+#projects-main-wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Projects slider peek cards hover push effect */
+@media (hover: hover) {
+  .news-slider-slide:hover {
+    transform: scale(1.04) translateY(-4px) !important;
+    z-index: 30 !important;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+  .news-slider-slide.swiper-slide-peek:hover {
+    opacity: 1 !important;
+    transform: scale(1.06) translateY(-6px) !important;
+  }
+}
+
+/* Focus mode targeted style for #nav-item-1 */
+#nav-item-1 {
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+/* Focus mode targeted styling for #home-cards-track and similar page tracks */
+div#root > div#website-root > main#global-content-viewport > div#el-p0-div-76 > div#home-page-container > div#home-cards-track,
+#home-cards-track,
+.page-cards-track {
+  margin-left: 10px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border-radius: 14px !important;
+}
+
+/* AI Assistant: Banner 35% and Chat 65% across all dimensions */
+#ai-assistant-hero-banner {
+  width: 35% !important;
+  min-width: 35% !important;
+  max-width: 35% !important;
+  flex: 0 0 35% !important;
+}
+#ai-assistant-chat-container {
+  width: 65% !important;
+  min-width: 65% !important;
+  max-width: 65% !important;
+  flex: 0 0 65% !important;
+}
+
+/* Projects main wrapper: grid dense layout & jitter-free smooth scale transition with center origin */
+#projects-main-wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+  transform-origin: center center !important;
+}
+
+#projects-main-wrapper #projects-grid,
+#projects-grid.projects-responsive-grid {
+  grid-auto-flow: dense !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+  grid-auto-rows: 1fr !important;
+  gap: 15px !important;
+  align-items: stretch !important;
+}
+
+#projects-main-wrapper .news-slider-slide,
+#projects-main-wrapper .news-card-item,
+#projects-main-wrapper .project-card,
+#projects-main-wrapper [data-element-type="card"] {
+  transform-origin: center center !important;
+  will-change: transform !important;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease !important;
+}
+
+#projects-main-wrapper .news-slider-slide:hover,
+#projects-main-wrapper .news-card-item:hover,
+#projects-main-wrapper .project-card:hover,
+#projects-main-wrapper [data-element-type="card"]:hover {
+  transform: scale(1.03) !important;
+  transform-origin: center center !important;
+}
+
+#projects-main-wrapper .news-slider-slide.swiper-slide-peek:hover,
+#projects-main-wrapper .news-slider-slide.swiper-slide-prev:hover,
+#projects-main-wrapper .news-slider-slide.swiper-slide-next:hover {
+  transform: scale(1.06) translateY(-4px) !important;
+  transform-origin: center center !important;
+  z-index: 40 !important;
+}
+
+/* Banner dropdown menu isolation: absolute position, zero effect on banner dimensions */
+.banner-dropdown-menu,
+#horoscope-filter-listbox,
+#projects-filter-listbox,
+#systems-filter-listbox,
+#memories-filter-listbox,
+#wallpaper-filter-listbox,
+#interface-family-filter-listbox {
+  position: absolute !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+
+/* LetterView: Thẻ Giá trị cốt lõi & Châm ngôn phụng sự có kích thước bằng nội dung bên trong */
+#letter-page-container #card-core-values-pursued,
+#letter-page-container #quote-banner-slide-1,
+#card-core-values-pursued,
+#quote-banner-slide-1 {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: start !important;
+}
+
+#core-values-grid,
+#card-core-values-pursued #core-values-grid {
+  height: auto !important;
+  min-height: 0 !important;
+  align-items: start !important;
+}
+
+#core-values-grid [data-subcard="true"],
+#core-values-grid [id^="core-val-"] {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+/* LetterView: Fluid layout eliminating empty gaps on all container/viewport resizes */
+#letter-page-container #el-p1-div-85,
+#letter-page-container #letter-slide-2-grid,
+#letter-page-container #letter-slide-3-grid,
+#letter-page-container #letter-slide-4-bento-grid {
+  grid-auto-flow: dense !important;
+  align-items: stretch !important;
+  grid-auto-rows: minmax(min-content, 1fr) !important;
+  width: 100% !important;
+}
+
+#letter-page-container #el-p1-div-85 > *:not(#card-core-values-pursued):not(#quote-banner-slide-1),
+#letter-page-container #letter-slide-2-grid > *,
+#letter-page-container #letter-slide-3-grid > *,
+#letter-page-container #letter-slide-4-bento-grid > * {
+  min-height: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
 /* End of index.css */
+

@@ -901,7 +901,7 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         >
           {/* Header Tiêu đề thẻ (Pinned) */}
           <div className="space-y-2 shrink-0 min-w-0">
-            <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border-subcard)] min-w-0">
               <h3 className="card-title card-header-sync card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0" data-card-title="true">
                 <WebIcon name="message-square" className="w-5 h-5 shrink-0" />
                 <span className="truncate">Chi tiết trả lời</span>
@@ -912,8 +912,6 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
                 <span className="text-[var(--text-link,var(--color-primary))]">{currentQ.categoryVi}</span>
               </span>
             </div>
-
-            <div className="h-[2px] w-full rounded-full bg-gradient-to-r from-pink-500 via-indigo-500 to-cyan-400 shadow-2xs" />
           </div>
 
           {/* Nội dung câu hỏi, trả lời & trọng tâm đưa trực tiếp ra ngoài thẻ Chi tiết trả lời */}

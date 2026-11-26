@@ -577,14 +577,16 @@ html[data-card-style="walnut-wood"] #footer-lang-popup button > div > div:first-
 
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-next-btn {
-  background: #1D110A !important;
-  border: 1px solid rgba(245, 196, 120, 0.36) !important;
-  color: #FFFBF4 !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  color: #0284c7 !important;
 }
 
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-counter,
+html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-icon,
 html[data-card-style="walnut-wood"] #footer-nav-capsule svg {
-  color: #F5C478 !important;
+  color: #0284c7 !important;
+  stroke: #0284c7 !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars & Experience Detail Walnut Panels */
@@ -758,7 +760,7 @@ html[data-card-style="walnut-wood"] .service-card .service-ambient-glow {
 
 html[data-card-style="walnut-wood"] .service-card .service-title-text,
 html[data-card-style="walnut-wood"] #services-page-container .service-card h3 {
-  color: #FFFBF4 !important;
+  color: var(--service-card-active-accent, #FFFBF4) !important;
 }
 
 html[data-card-style="walnut-wood"] .service-card .service-divider {

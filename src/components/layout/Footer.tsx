@@ -302,12 +302,16 @@ const FooterComponent: React.FC<FooterProps> = ({
         role="listbox"
         aria-label={isEn ? 'Select Theme' : 'Chọn giao diện'}
         ref={themePopupRef}
-        style={{ background: 'var(--bg-popup)' }}
+        style={{
+          background: 'var(--surface-primary-bg, var(--bg-popup, var(--bg-card)))',
+          borderColor: 'var(--surface-primary-border, var(--border-card, var(--border-color)))',
+          boxShadow: 'var(--surface-primary-shadow, var(--shadow-card))',
+        }}
         className={`theme-popup absolute bottom-[calc(100%+12px)] ${
           mobilePlacement
             ? 'inset-x-3 mx-auto w-[min(348px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
-        } rounded-[var(--radius-popup,16px)] p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
+        } rounded-[var(--radius-popup,16px)] border p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
       >
         <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
           {CARD_STYLE_GROUPS.map((group) => {
@@ -327,12 +331,11 @@ const FooterComponent: React.FC<FooterProps> = ({
               <div
                 key={group.id}
                 data-selected={isGroupActive ? 'true' : undefined}
-                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border min-w-0 ${
-                  isGroupActive ? '' : 'theme-dropdown-option border-transparent'
-                }`}
+                className="footer-theme-group-row w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[12px] border border-transparent bg-transparent shadow-none min-w-0"
                 style={{
-                  background: isGroupActive ? 'var(--bg-subcard)' : undefined,
-                  borderColor: isGroupActive ? 'var(--color-primary)' : 'transparent',
+                  background: 'transparent',
+                  borderColor: 'transparent',
+                  boxShadow: 'none',
                 }}
               >
                 <button
@@ -341,18 +344,23 @@ const FooterComponent: React.FC<FooterProps> = ({
                     const preferred = hasDualModes && isDark && darkMode ? darkMode : lightMode;
                     if (preferred) applyThemeFromPopup(preferred);
                   }}
-                  className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5"
-                  style={{ color: itemColor }}
+                  className="footer-theme-group-title-btn flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer py-0.5 bg-transparent border-0 shadow-none"
+                  style={{
+                    color: itemColor,
+                    background: 'transparent',
+                    borderColor: 'transparent',
+                    boxShadow: 'none',
+                  }}
                 >
                   <WebIcon
                     name={group.icon || 'layers'}
-                    className="w-4 h-4 shrink-0"
-                    style={{ color: itemColor, strokeWidth: 2.5 }}
+                    className="w-4 h-4 shrink-0 bg-transparent border-0 shadow-none"
+                    style={{ color: itemColor, strokeWidth: 2.5, background: 'transparent' }}
                   />
-                  <div className="flex flex-col min-w-0 flex-1">
+                  <div className="flex flex-col min-w-0 flex-1 bg-transparent">
                     <span
-                      className="typo-body-sm font-bold truncate min-w-0"
-                      style={{ color: itemColor, fontWeight: 700 }}
+                      className="typo-body-sm font-bold truncate min-w-0 bg-transparent"
+                      style={{ color: itemColor, fontWeight: 700, background: 'transparent' }}
                     >
                       {groupTitle}
                     </span>
@@ -546,13 +554,13 @@ const FooterComponent: React.FC<FooterProps> = ({
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
               strokeWidth={2.85}
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
+              style={{ color: '#0284c7' }}
             />
             <span
               id="footer-page-counter"
               className="typo-body-sm font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
               style={{
-                color: 'var(--text-link, var(--color-primary))',
+                color: '#0284c7',
                 fontWeight: 800,
                 letterSpacing: '0.03em',
                 WebkitTextStroke: '0.28px currentColor',

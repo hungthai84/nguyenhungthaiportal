@@ -347,6 +347,9 @@ function sampleImagePixels(srcUrl: string): Promise<{ swatches: RgbColor[]; avgL
   });
 }
 
+const WALLPAPER_PALETTE_MEMORY_CACHE = new Map<string, AdaptiveAccentPalette>();
+const WALLPAPER_PALETTE_STORAGE_PREFIX = 'hungthai_wp_palette_v1:';
+
 export async function analyzeWallpaperColors(wp: WallpaperPreset): Promise<AdaptiveAccentPalette> {
   const instant = getInstantWallpaperAccent(wp);
   if (!wp || wp.id === 'none' || wp.type === 'webgl' || wp.type === 'css' || wp.type === 'gradient') {
@@ -362,12 +365,40 @@ export async function analyzeWallpaperColors(wp: WallpaperPreset): Promise<Adapt
 
   if (!candidateImg) return instant;
 
+  const cacheKey = `${wp.id}:${candidateImg}`;
+  const memCached = WALLPAPER_PALETTE_MEMORY_CACHE.get(cacheKey);
+  if (memCached) return memCached;
+
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    try {
+      const raw = window.sessionStorage.getItem(WALLPAPER_PALETTE_STORAGE_PREFIX + cacheKey);
+      if (raw) {
+        const parsed = JSON.parse(raw) as AdaptiveAccentPalette;
+        if (parsed && parsed.primary && Array.isArray(parsed.swatches)) {
+          WALLPAPER_PALETTE_MEMORY_CACHE.set(cacheKey, parsed);
+          return parsed;
+        }
+      }
+    } catch {
+      // ignore storage read error
+    }
+  }
+
   const sampled = await sampleImagePixels(candidateImg);
   if (!sampled || sampled.swatches.length === 0) {
     return instant;
   }
 
-  return buildPaletteFromSwatches(sampled.swatches, sampled.avgLuminance);
+  const palette = buildPaletteFromSwatches(sampled.swatches, sampled.avgLuminance);
+  WALLPAPER_PALETTE_MEMORY_CACHE.set(cacheKey, palette);
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    try {
+      window.sessionStorage.setItem(WALLPAPER_PALETTE_STORAGE_PREFIX + cacheKey, JSON.stringify(palette));
+    } catch {
+      // ignore storage quota error
+    }
+  }
+  return palette;
 }
 
 export function applyAdaptiveAccentVariables(

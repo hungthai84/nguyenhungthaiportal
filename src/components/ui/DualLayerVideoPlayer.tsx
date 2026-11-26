@@ -214,7 +214,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       if (!video) return;
 
       video.src = getVideo1StreamUrl(stage, video1Id);
-      video.preload = 'auto';
+      video.preload = 'metadata';
       const shouldAudioOn = !isPlayingIntroRef.current && isAudioOnRef.current;
       enforceVideoAttributes(video, !shouldAudioOn, autoPlayVideo1, loopVideo1);
       try {
@@ -226,6 +226,17 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     },
     [autoPlayVideo1, enforceVideoAttributes, getVideo1StreamUrl, loopVideo1, tryStartVideo1, video1Id]
   );
+
+  const warmUpVideo2 = useCallback(() => {
+    if (video2StageRef.current === 'iframe') return;
+    const v2 = video2Ref.current;
+    if (!v2) return;
+    const targetSrc = getVideo2StreamUrl(video2StageRef.current, video2Id);
+    if (!v2.src) {
+      v2.preload = 'metadata';
+      v2.src = targetSrc;
+    }
+  }, [getVideo2StreamUrl, video2Id]);
 
   const loadVideo2 = useCallback(
     (stage: StreamStage, shouldPlayImmediately: boolean) => {
@@ -267,11 +278,15 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     loadVideo1(startStage1);
     const v2 = video2Ref.current;
     if (v2) {
-      v2.src = getVideo2StreamUrl(startStage2, video2Id);
-      v2.preload = isPlayingIntroRef.current ? 'auto' : 'metadata';
-      enforceVideoAttributes(v2, !(isPlayingIntroRef.current && isAudioOnRef.current), isPlayingIntroRef.current, true);
       if (isPlayingIntroRef.current) {
+        v2.src = getVideo2StreamUrl(startStage2, video2Id);
+        v2.preload = 'auto';
+        enforceVideoAttributes(v2, !isAudioOnRef.current, true, true);
         tryStartVideo2(v2, isAudioOnRef.current);
+      } else {
+        v2.removeAttribute('src');
+        v2.preload = 'none';
+        enforceVideoAttributes(v2, true, false, true);
       }
     }
   }, [enforceVideoAttributes, getVideo2StreamUrl, loadVideo1, muteVideo1, tryStartVideo2, video1Id, resolvedVideo1Src, video2Id, resolvedVideo2Src]);
@@ -407,6 +422,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     showToast(nextAudioOn ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video');
   }, [enforceVideoAttributes, handlePlayIntro, showToast, tryStartVideo2]);
 
+  const isHomeCircle = capsuleVariant === 'home';
+
   const sharedVideoStyle: React.CSSProperties = {
     position: 'absolute',
     inset: 0,
@@ -415,13 +432,16 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
     minWidth: '100%',
     minHeight: '100%',
     objectFit: 'cover',
-    objectPosition: '50% 22%',
-    transform: 'translateZ(0) scale(1.02)',
+    objectPosition: isHomeCircle ? '50% 20%' : '50% 22%',
+    transform: isHomeCircle ? 'translateZ(0) scale(1.06)' : 'translateZ(0) scale(1.02)',
+    borderRadius: isHomeCircle ? '9999px' : undefined,
     backfaceVisibility: 'hidden',
   };
 
-  const sharedVideoClass =
-    'absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] banner-video-sharp select-none pointer-events-none transition-opacity duration-300';
+  const sharedVideoClass = cn(
+    'absolute inset-0 w-full h-full min-w-full min-h-full object-cover banner-video-sharp select-none pointer-events-none transition-opacity duration-300',
+    isHomeCircle ? 'rounded-full' : 'rounded-[inherit]'
+  );
 
   const hasPositionClass = /\b(absolute|fixed|sticky|static)\b/.test(className || '');
 
@@ -430,16 +450,28 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
       ref={rootRef}
       className={cn(
         !hasPositionClass && 'relative',
-        capsuleVariant === 'home' ? 'overflow-visible' : 'overflow-hidden',
-        'w-full h-full min-w-full min-h-full rounded-[inherit] flex items-center justify-center',
+        isHomeCircle ? 'overflow-visible rounded-full' : 'overflow-hidden rounded-[inherit]',
+        'w-full h-full min-w-full min-h-full flex items-center justify-center',
         className
       )}
-      style={style}
+      style={isHomeCircle ? { borderRadius: '9999px', ...style } : style}
     >
       {/* Dual Video Layer container */}
       <div
-        style={{ containerType: 'size' }}
-        className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] w-full h-full z-0"
+        style={
+          isHomeCircle
+            ? {
+                containerType: 'size',
+                borderRadius: '9999px',
+                clipPath: 'circle(50% at 50% 50%)',
+                WebkitClipPath: 'circle(50% at 50% 50%)',
+              }
+            : { containerType: 'size' }
+        }
+        className={cn(
+          isHomeCircle ? 'home-circle-video-media rounded-full' : 'project-detail-banner-media rounded-[inherit]',
+          'absolute inset-0 pointer-events-none overflow-hidden w-full h-full z-0'
+        )}
       >
         {/* Ảnh nền tải trước giúp card không bị trống khi đệm luồng video */}
         {video1Id && !isPosterError && (
@@ -609,6 +641,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
           <button
             id="home-hero-video-play-btn"
             type="button"
+            onPointerEnter={warmUpVideo2}
+            onFocus={warmUpVideo2}
             onClick={(e) => {
               e.stopPropagation();
               if (isPlayingIntro) {
@@ -705,6 +739,8 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
           {!isPlayingIntro ? (
             <button
               type="button"
+              onPointerEnter={warmUpVideo2}
+              onFocus={warmUpVideo2}
               onClick={(e) => {
                 e.stopPropagation();
                 handlePlayIntro();

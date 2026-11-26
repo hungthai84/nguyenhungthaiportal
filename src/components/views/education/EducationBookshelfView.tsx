@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { EducationCourse } from '@/data/education';
 import { formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
-import { WebIcon } from '@/components/ui/WebIcon';
 
 import {
   BOOK_COVER_DISPLAY_FONT,
@@ -20,6 +19,9 @@ export interface EducationBookshelfViewProps {
   isEn: boolean;
   isDark: boolean;
   onSelectCourse: (course: EducationCourse) => void;
+  selectedBookIndex?: number;
+  onSelectBookIndex?: (idx: number) => void;
+  hideTopTimeline?: boolean;
 }
 
 const DISTINCT_BOOK_FALLBACK_COLORS = [
@@ -48,8 +50,11 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   isEn,
   isDark,
   onSelectCourse,
+  selectedBookIndex,
+  onSelectBookIndex,
+  hideTopTimeline = false,
 }) => {
-  const [sel, setSel] = useState<number>(0);
+  const [internalSel, setInternalSel] = useState<number>(0);
   const [open, setOpen] = useState<number>(0);
   const [shelfSize, setShelfSize] = useState<{ width: number; height: number }>({ width: 880, height: 420 });
   const shelfRef = useRef<HTMLElement | null>(null);
@@ -62,7 +67,19 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
 
   const total = courses.length || 1;
   const lastIdx = Math.max(0, total - 1);
-  const safeSel = Math.min(sel, lastIdx);
+  const sel = selectedBookIndex !== undefined ? selectedBookIndex : internalSel;
+  const safeSel = Math.min(Math.max(0, sel), lastIdx);
+
+  const setSel = React.useCallback(
+    (next: number | ((prev: number) => number)) => {
+      const resolved = typeof next === 'function' ? next(safeSel) : next;
+      const clamped = Math.max(0, Math.min(lastIdx, resolved));
+      setInternalSel(clamped);
+      onSelectBookIndex?.(clamped);
+    },
+    [safeSel, lastIdx, onSelectBookIndex]
+  );
+
   const currentCourse = courses[safeSel] || courses[0];
   const displayTitle = formatCardTitle(currentCourse?.title || '');
 
@@ -71,7 +88,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       setSel(0);
       setOpen(0);
     }
-  }, [sel, lastIdx]);
+  }, [sel, lastIdx, setSel]);
 
   // Measure shelf stage dimensions to scale 3D portrait books generously to fill the container
   useEffect(() => {
@@ -260,8 +277,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     );
   };
 
-  const currentCourseIconName = currentCourse && getCourseIcon ? getCourseIcon(currentCourse.title) : 'book';
-
   return (
     <div
       id="education-disc-bookshelf-view"
@@ -276,49 +291,51 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       } as React.CSSProperties}
     >
       {/* Top Timeline Bar (Year + Course Name) & Book Counter */}
-      <header className="disc-top edu-shelf-timeline-header w-full">
-        <div
-          ref={timelineScrollRef}
-          className="edu-shelf-timeline-scroll"
-          role="navigation"
-          aria-label={isEn ? 'Course Timeline' : 'Dòng thời gian các khóa học'}
-        >
-          <div className="edu-shelf-timeline-track">
-            <span className="edu-shelf-timeline-line" aria-hidden="true" />
-            {courses.map((course, idx) => {
-              const isActive = idx === safeSel;
-              const nodeTitle = formatCardTitle(course.title);
-              return (
-                <button
-                  key={`timeline-${course.id}`}
-                  ref={(el) => {
-                    timelineNodeRefs.current[idx] = el;
-                  }}
-                  type="button"
-                  data-active={isActive ? 'true' : 'false'}
-                  onClick={() => {
-                    setSel(idx);
-                    setOpen(0);
-                    SoundEngine.playTap?.();
-                  }}
-                  className="edu-shelf-timeline-node"
-                  aria-current={isActive ? 'step' : undefined}
-                  title={`${course.year} · ${nodeTitle}`}
-                >
-                  <span className="edu-shelf-timeline-year">{course.year}</span>
-                  <span className="edu-shelf-timeline-dot-wrap" aria-hidden="true">
-                    <span className="edu-shelf-timeline-dot" />
-                  </span>
-                  <span className="edu-shelf-timeline-name">{nodeTitle}</span>
-                </button>
-              );
-            })}
+      {!hideTopTimeline && (
+        <header className="disc-top edu-shelf-timeline-header w-full">
+          <div
+            ref={timelineScrollRef}
+            className="edu-shelf-timeline-scroll"
+            role="navigation"
+            aria-label={isEn ? 'Course Timeline' : 'Dòng thời gian các khóa học'}
+          >
+            <div className="edu-shelf-timeline-track">
+              <span className="edu-shelf-timeline-line" aria-hidden="true" />
+              {courses.map((course, idx) => {
+                const isActive = idx === safeSel;
+                const nodeTitle = formatCardTitle(course.title);
+                return (
+                  <button
+                    key={`timeline-${course.id}`}
+                    ref={(el) => {
+                      timelineNodeRefs.current[idx] = el;
+                    }}
+                    type="button"
+                    data-active={isActive ? 'true' : 'false'}
+                    onClick={() => {
+                      setSel(idx);
+                      setOpen(0);
+                      SoundEngine.playTap?.();
+                    }}
+                    className="edu-shelf-timeline-node"
+                    aria-current={isActive ? 'step' : undefined}
+                    title={`${course.year} · ${nodeTitle}`}
+                  >
+                    <span className="edu-shelf-timeline-year">{course.year}</span>
+                    <span className="edu-shelf-timeline-dot-wrap" aria-hidden="true">
+                      <span className="edu-shelf-timeline-dot" />
+                    </span>
+                    <span className="edu-shelf-timeline-name">{nodeTitle}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <p className="disc-count m-0 shrink-0 pl-2">
-          <b>{safeSel + 1}</b> / {courses.length}
-        </p>
-      </header>
+          <p className="disc-count m-0 shrink-0 pl-2">
+            <b>{safeSel + 1}</b> / {courses.length}
+          </p>
+        </header>
+      )}
 
       {/* 3D Shelf Section */}
       <section
@@ -418,14 +435,32 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                     </div>
                   </div>
                   <div
-                    className="disc-spine"
+                    className="disc-spine overflow-hidden"
                     style={{
                       background: coverTheme.spineGradient,
                       fontFamily: BOOK_COVER_DISPLAY_FONT,
                     }}
                   >
-                    <b>{courseTitle}</b>
-                    <span className="tabular-nums">{course.year}</span>
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-[-20%] z-0"
+                      style={{
+                        backgroundImage: `url("${course.image}")`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        filter: 'blur(12px) saturate(1.5) brightness(0.62)',
+                      }}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 z-[1]"
+                      style={{
+                        background:
+                          'linear-gradient(90deg, rgba(4, 10, 26, 0.56) 0%, rgba(4, 10, 26, 0.24) 50%, rgba(4, 10, 26, 0.58) 100%)',
+                      }}
+                    />
+                    <b className="relative z-10">{courseTitle}</b>
+                    <span className="relative z-10 tabular-nums">{course.year}</span>
                   </div>
                   <div className="disc-edge" />
                   <div className="disc-lid" />
@@ -490,18 +525,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
           aria-label={isEn ? `Open ${displayTitle}` : `Mở sách ${displayTitle}`}
         />
       </section>
-
-      {/* Active Titles Section */}
-      <div className="disc-titles" aria-live="polite">
-        <div className="disc-title-item">
-          <h3 title={displayTitle} style={{ fontFamily: BOOK_COVER_DISPLAY_FONT }}>
-            {displayTitle}
-          </h3>
-          <p className="tabular-nums">
-            · {currentCourse?.issuer} · {currentCourse?.year} · {getShortCategoryLabel(currentCourse?.category)}
-          </p>
-        </div>
-      </div>
     </div>
   );
 };

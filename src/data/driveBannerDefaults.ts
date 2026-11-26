@@ -176,9 +176,9 @@ export const VIDEO_BANNER_CONFIG: Record<
     previewUrl: 'https://cdn.scena.ai/project/10223/f05fad8258c2979cd5d67217df4e4258a6f7da100249899f7bfd535a17e29cee.mp4',
   },
   aiAssistant: {
-    videoId: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    videoId: 'https://cdn.scena.ai/project/10223/c81ba72750f77882cc06ff84414c9117c0705d99efc1e6e0ad519af88a4fc731.mp4',
     title: 'Video Banner AI hỗ trợ',
-    previewUrl: 'https://cdn.scena.ai/project/10223/cc5a8e558d2380dc8bfb96fd26cd877e444d63b6a7036a8530abd823d6d6da63.mp4',
+    previewUrl: 'https://cdn.scena.ai/project/10223/c81ba72750f77882cc06ff84414c9117c0705d99efc1e6e0ad519af88a4fc731.mp4',
   },
 };
 

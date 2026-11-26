@@ -10,6 +10,7 @@ export const driveVideoUrl = (id: string): string =>
 
 export const DRIVE_BANNER_VIDEOS = {
   contact: 'https://cdn.scena.ai/project/10223/f39da3fa3116c7ee0bd89e63de2dfc10ccefe36092e8aeac2e7791c56fed53f5.mp4', // Đặt lịch.mp4
+  aiAssistant: 'https://cdn.scena.ai/project/10223/c81ba72750f77882cc06ff84414c9117c0705d99efc1e6e0ad519af88a4fc731.mp4', // AI hỗ trợ Trí Nhân
   horoscope: driveVideoUrl('1G2ydHrMUchyBLjl3YR5xat8eF1MdPOQ4'), // Tử Vi.mp4
   interface: driveVideoUrl('1Dtwp6LMU7uUZ2oE7DNDsXTCxr7y9Iwwx'), // Giao diện.mp4
   education: driveVideoUrl('1SxwuMCwZEjqGXaBez6k2R1lUb1dfRKav'), // Học vấn.mp4
@@ -21,12 +22,12 @@ export const DRIVE_BANNER_VIDEOS = {
 } as const;
 
 export const DRIVE_SERVICE_IMAGES = {
-  ecommerce: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif', // Thương mại điện tử.gif
-  ewallet: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif', // Thanh toán điện tử.gif
-  systemBuild: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif', // Xây dựng hệ thống.gif
-  esports: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif', // Thể thao điện tử.gif
-  telecom: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png', // Viễn thông di động.png
-  insurance: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif', // Tài chính bảo hiểm.gif
+  ecommerce: 'https://i.postimg.cc/FFDJx9jD/Thuong-mai-dien-tu.webp', // Thương mại điện tử.webp
+  ewallet: 'https://i.postimg.cc/zvtbDjJV/Thanh-toan-dien-tu.webp', // Thanh toán điện tử.webp
+  systemBuild: 'https://i.postimg.cc/L4NZVHzT/Xay-dung-he-thong.webp', // Xây dựng hệ thống.webp
+  esports: 'https://i.postimg.cc/cC4tNjNr/The-thao-dien-tu.webp', // Thể thao điện tử.webp
+  telecom: 'https://i.postimg.cc/05cJC8p7/Vien-thong-di-dong.webp', // Viễn thông di động.webp
+  insurance: 'https://i.postimg.cc/2y8LfJf1/Dich-vu-bao-hiem.webp', // Dịch vụ bảo hiểm.webp
 } as const;
 
 export const DRIVE_AVATARS = {
@@ -36,50 +37,50 @@ export const DRIVE_AVATARS = {
 
 export const DRIVE_MEMORIES = {
   v247: [
-    'https://i.postimg.cc/pdJDDm21/V247-1.jpg', // V247-1.jpg
-    'https://i.postimg.cc/rpk101Lr/V247-2.jpg', // V247-2.jpg
-    'https://i.postimg.cc/GmYPmM6R/V247-3.jpg', // V247-3.jpg
-    'https://i.postimg.cc/Wbx6jRWS/V247-4.jpg', // V247-4.jpg
-    'https://i.postimg.cc/LX4jvm54/V247-5.jpg', // V247-5.jpg
+    'https://i.postimg.cc/0NwBpWFy/V247-1.webp', // V247-1.webp
+    'https://i.postimg.cc/PqwRm39x/V247-2.webp', // V247-2.webp
+    'https://i.postimg.cc/QMTyp4w9/V247-3.webp', // V247-3.webp
+    'https://i.postimg.cc/g0ZTvSQL/V247-4.webp', // V247-4.webp
+    'https://i.postimg.cc/6Qvmdjgv/V247-5.webp', // V247-5.webp
   ],
   mobifone: [
-    'https://i.postimg.cc/65KtCY32/Mobifone-1.webp', // Mobifone-1.webp
-    'https://i.postimg.cc/DwyhM017/Mobifone-2.webp', // Mobifone-2.webp
-    'https://i.postimg.cc/FHWv5vx3/Mobifone-3.webp', // Mobifone-3.webp
+    'https://i.postimg.cc/DwDN4kCM/Mobifone-1.webp', // Mobifone-1.webp
+    'https://i.postimg.cc/wjPrR8Wr/Mobifone-2.webp', // Mobifone-2.webp
+    'https://i.postimg.cc/htwYQWC6/Mobifone-3.webp', // Mobifone-3.webp
   ],
   htvc: [
-    'https://i.postimg.cc/yx4BQTyG/HTVC-1.webp', // HTVC-1.webp
-    'https://i.postimg.cc/66nB7D9x/HTVC-2.webp', // HTVC-2.webp
-    'https://i.postimg.cc/LXZ23WLf/HTVC-3.webp', // HTVC-3.webp
-    'https://i.postimg.cc/TYcG0gLk/HTVC-4.webp', // HTVC-4.webp
+    'https://i.postimg.cc/P5c7vs62/HTVC-1.webp', // HTVC-1.webp
+    'https://i.postimg.cc/3x6q05LL/HTVC-2.webp', // HTVC-2.webp
+    'https://i.postimg.cc/9QSkw5x1/HTVC-3.webp', // HTVC-3.webp
+    'https://i.postimg.cc/Mp4Lf2s3/HTVC-4.webp', // HTVC-4.webp
   ],
   ved: [
-    'https://i.postimg.cc/tCq8XfJ5/VED-1.webp', // VED-1.webp
-    'https://i.postimg.cc/mkRJ1pwT/VED-2.webp', // VED-2.webp
-    'https://i.postimg.cc/zG3MhgnH/VED-3.webp', // VED-3.webp
-    'https://i.postimg.cc/nc3gMkQt/VED-4.webp', // VED-4.webp
+    'https://i.postimg.cc/wvYbF5YR/VED-1.webp', // VED-1.webp
+    'https://i.postimg.cc/Ls1bzCwP/VED-2.webp', // VED-2.webp
+    'https://i.postimg.cc/DZ3Y5Q3b/VED-3.webp', // VED-3.webp
+    'https://i.postimg.cc/JnCdK3Ck/VED-4.webp', // VED-4.webp
   ],
   prudential: [
-    'https://i.postimg.cc/K8zX5Vyz/Prudential-1.webp', // Prudential-1.webp
-    'https://i.postimg.cc/T3HzN9Rc/Prudential-2.webp', // Prudential-2.webp
-    'https://i.postimg.cc/nLj6yDrf/Prudential-3.webp', // Prudential-3.webp
-    'https://i.postimg.cc/W4BQT1qF/Prudential-4.webp', // Prudential-4.webp
-    'https://i.postimg.cc/gJ31Jb3M/Prudential-5.webp', // Prudential-5.webp
-    'https://i.postimg.cc/kGcZQN1K/Prudential-6.webp', // Prudential-6.webp
-    'https://i.postimg.cc/v8LpwMYT/Prudential-7.webp', // Prudential-7.webp
+    'https://i.postimg.cc/FKLBjW8X/Prudential-1.webp', // Prudential-1.webp
+    'https://i.postimg.cc/FKLBjW84/Prudential-2.webp', // Prudential-2.webp
+    'https://i.postimg.cc/Ls1bzCwm/Prudential-3.webp', // Prudential-3.webp
+    'https://i.postimg.cc/9f7nG8KX/Prudential-4.webp', // Prudential-4.webp
+    'https://i.postimg.cc/tgxMhSwC/Prudential-5.webp', // Prudential-5.webp
+    'https://i.postimg.cc/SKMvWT3J/Prudential-6.webp', // Prudential-6.webp
+    'https://i.postimg.cc/CKqQjPXR/Prudential-7.webp', // Prudential-7.webp
   ],
   momo: [
-    'https://i.postimg.cc/JnJCkkC5/Momo-1.webp', // Momo-1.webp
-    'https://i.postimg.cc/6Q8XBPHS/Momo-2.webp', // Momo-2.webp
-    'https://i.postimg.cc/rp7Ls93p/Momo-3.webp', // Momo-3.webp
-    'https://i.postimg.cc/PJjsz5ts/Momo-4.webp', // Momo-4.webp
-    'https://i.postimg.cc/Y26w2Y3p/Momo-5.webp', // Momo-5.webp
-    'https://i.postimg.cc/j24V8Y5W/Momo-6.webp', // Momo-6.webp
-    'https://i.postimg.cc/QxSG1Dww/Momo-7.webp', // Momo-7.webp
-    'https://i.postimg.cc/fTMQVy2Y/Momo-8.webp', // Momo-8.webp
+    'https://i.postimg.cc/pL7S5b0g/Momo-1.webp', // Momo-1.webp
+    'https://i.postimg.cc/T3Ss5M78/Momo-2.webp', // Momo-2.webp
+    'https://i.postimg.cc/9QSkw585/Momo-3.webp', // Momo-3.webp
+    'https://i.postimg.cc/t4fcnQSy/Momo-4.webp', // Momo-4.webp
+    'https://i.postimg.cc/QdPzKG4x/Momo-5.webp', // Momo-5.webp
+    'https://i.postimg.cc/htwYQWyS/Momo-6.webp', // Momo-6.webp
+    'https://i.postimg.cc/nh5W9bRL/Momo-7.webp', // Momo-7.webp
+    'https://i.postimg.cc/cLjzty9H/Momo-8.webp', // Momo-8.webp
   ],
   finviet: [
-    'https://i.postimg.cc/4y6Grh8x/Finviet-1.webp', // Finviet-1.webp
+    'https://i.postimg.cc/L87WgKyx/Finviet-1.webp', // Finviet-1.webp
   ],
 } as const;
 

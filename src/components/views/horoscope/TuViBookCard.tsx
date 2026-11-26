@@ -801,8 +801,6 @@ const TalismanPageFlip = forwardRef<TalismanPageFlipHandle, TalismanPageFlipProp
           className={`pf-slider ${single ? 'is-single-mode' : ''}`}
           style={{ transform: `translateX(${single ? -50 : shift * 100}%)` }}
         >
-          <div className="book-open-glow" aria-hidden="true" />
-
           <div
             className="pf-book"
             ref={bookRef}
@@ -3083,27 +3081,6 @@ export default function TuViBookCard({
         .pf-slider.is-single-mode {
           width: 200%;
           align-self: flex-start;
-        }
-
-        .book-open-glow {
-          position: absolute;
-          left: 50%;
-          top: 50px;
-          width: 440px;
-          height: 620px;
-          margin-left: -220px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(214, 230, 245, 0.34) 0%, rgba(214, 179, 114, 0.18) 45%, transparent 72%);
-          filter: blur(22px);
-          opacity: 0;
-          transform: scale(0.45);
-          pointer-events: none;
-          z-index: 0;
-          transition: opacity 0.8s ease, transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .nat.is-book-open .book-open-glow {
-          opacity: 1;
-          transform: scale(1.18);
         }
 
         .pf-book {

@@ -25,6 +25,68 @@ import {
 } from 'lucide-react';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { useTheme } from '@/hooks/useTheme';
+
+export const getThemeLetterContent = (cardStyle: string) => {
+  if (cardStyle === 'cowhide-leather') {
+    return {
+      title: 'Thư Ngỏ Tôn Vinh Giá Trị Cổ Điển & Bền Vững',
+      greeting: 'Kính chào Quý Lãnh đạo & Đối tác chiến lược!',
+      intro: 'Với bề dày 22+ năm thực chiến kiến tạo và chuẩn hóa hệ thống chăm sóc khách hàng, tôi trân trọng gửi gắm tâm huyết đồng hành cùng sự phát triển bền vững của Quý Công ty.',
+      focusArea: 'Quản Trị Vận Hành Cổ Điển & Bền Vững',
+      quote: '“Giá trị cốt lõi của dịch vụ đỉnh cao nằm ở sự tận tâm qua từng năm tháng.”',
+      partnershipText: 'Sẵn sàng kề vai sát cánh cùng Quý Công ty xây dựng nền móng vận hành vững chắc, nhân văn và trường tồn.',
+    };
+  }
+  if (cardStyle === 'walnut-wood') {
+    return {
+      title: 'Thư Ngỏ Quản Trị Doanh Nghiệp & Kiến Trúc Trưởng',
+      greeting: 'Kính chào Hội Đồng Quản Trị & Ban Tổng Giám Đốc!',
+      intro: 'Trong vai trò cố vấn và chuyên gia vận hành hệ thống, tôi mang đến góc nhìn quản trị toàn diện, kết hợp chặt chẽ giữa chiến lược, con người và công nghệ.',
+      focusArea: 'Quản Trị Doanh Nghiệp & Kiến Trúc Tổng Thể',
+      quote: '“Người giữ được nền tảng vững chắc sẽ tạo nên giá trị trường tồn cho tổ chức.”',
+      partnershipText: 'Hân hạnh đồng hành cùng ban lãnh đạo để kiện toàn cấu trúc vận hành, tối ưu hóa nguồn lực và hiện thực hóa mục tiêu chiến lược.',
+    };
+  }
+  if (cardStyle === 'deep-ocean') {
+    return {
+      title: 'Thư Ngỏ Giải Pháp Chăm Sóc Khách Hàng Toàn Diện',
+      greeting: 'Kính chào Quý Công ty & Đội ngũ Vận Hành!',
+      intro: 'Hòa mình vào dòng chảy chuyển đổi số, tôi chuyên tâm kiến tạo các trung tâm chăm sóc khách hàng đa kênh với độ sẵn sàng cao và trải nghiệm liền mạch.',
+      focusArea: 'Hệ Thống Tổng Đài Đa Kênh & CX Sâu Thẳm',
+      quote: '“Dịch vụ xuất sắc là đại dương bao la được nuôi dưỡng từ hàng triệu giọt đồng cảm nhỏ nhất.”',
+      partnershipText: 'Cam kết mang đến giải pháp vận hành liền mạch, minh bạch và tối ưu hóa trải nghiệm khách hàng vượt trội.',
+    };
+  }
+  if (cardStyle === 'iridescent-liquid-glass' || cardStyle === 'dark-iridescent-liquid-glass') {
+    return {
+      title: 'Thư Ngỏ Đổi Mới Sáng Tạo & Trải Nghiệm Đỉnh Cao',
+      greeting: 'Kính chào Quý Đối tác Đổi Mới Sáng Tạo!',
+      intro: 'Khám phá bức tranh chuyển đổi số đa sắc thái với các giải pháp công nghệ tiên phong, giao diện tương tác đỉnh cao và hiệu suất vận hành bứt phá.',
+      focusArea: 'Chuyển Đổi Số & Trải Nghiệm Khách Hàng Tiên Phong',
+      quote: '“Tương lai thuộc về những tổ chức dám tiên phong kiến tạo trải nghiệm khác biệt.”',
+      partnershipText: 'Sẵn sàng cùng Quý Công ty bứt phá giới hạn, dẫn dắt xu hướng dịch vụ khách hàng trong kỷ nguyên số.',
+    };
+  }
+  if (cardStyle === 'gradient-dopamine') {
+    return {
+      title: 'Thư Ngỏ Năng Lượng & Tăng Trưởng Đột Phá',
+      greeting: 'Kính chào Quý Doanh nghiệp Đầy Nhiệt Huyết!',
+      intro: 'Mang đến nguồn năng lượng tích cực, giải pháp tối ưu hóa hiệu suất và chiến lược tăng trưởng đột phá cho hệ thống kinh doanh và chăm sóc khách hàng.',
+      focusArea: 'Hiệu Suất Tối Đa & Tăng Trưởng Đột Phá',
+      quote: '“Năng lượng tích cực và sự tận tâm là chìa khóa mở mọi cánh cửa thành công.”',
+      partnershipText: 'Đồng hành tạo nên những cột mốc tăng trưởng ấn tượng và trải nghiệm khách hàng tràn đầy cảm hứng.',
+    };
+  }
+  return {
+    title: 'Thư Ngỏ Hành Trình Chuyên Sâu & Tâm Quyết',
+    greeting: 'Kính chào Quý Công ty!',
+    intro: 'Trân trọng chào mừng bạn đến với không gian giới thiệu hành trình và năng lực chuyên môn của Nguyễn Hùng Thái trong lĩnh vực quản trị vận hành và chăm sóc khách hàng.',
+    focusArea: 'Vận Hành Chăm Sóc Khách Hàng & Chuyển Đổi Số',
+    quote: '“Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.”',
+    partnershipText: 'Mong muốn được đồng hành cùng Quý Công ty để xây dựng một hệ thống chăm sóc khách hàng hiện đại, lấy khách hàng làm trung tâm.',
+  };
+};
 
 // Video thuyết minh Thư Ngỏ được giữ lại và đưa trực tiếp vào trong thư
 export const LETTER_VIDEO_1_ID = '156Uwr88AhLmybquXyrMsXqzxdAs5I6lw';
@@ -80,23 +142,33 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
   onRevealStart,
   onComplete,
 }) => {
+  const { cardStyle } = useTheme();
+  const themeLetter = getThemeLetterContent(cardStyle);
+
   const [isVisible, setIsVisible] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   const isOpenedRef = useRef(false);
+  const isExpandingRef = useRef(false);
   const isClosedRef = useRef(false);
   const autoOpenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoExpandTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const crossFadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hideOverlayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleCompleteIntro = () => {
-    if (isClosedRef.current) return;
-    isClosedRef.current = true;
-
+  const clearAllIntroTimers = () => {
     if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
     if (autoExpandTimerRef.current) clearTimeout(autoExpandTimerRef.current);
+    if (crossFadeTimerRef.current) clearTimeout(crossFadeTimerRef.current);
+    if (hideOverlayTimerRef.current) clearTimeout(hideOverlayTimerRef.current);
+  };
+
+  const handleSkipIntro = () => {
+    if (isClosedRef.current) return;
+    isClosedRef.current = true;
+    clearAllIntroTimers();
 
     try {
       sessionStorage.setItem(WELCOME_SESSION_KEY, 'true');
@@ -106,13 +178,39 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
     setIsExpanding(true);
     setIsClosing(true);
-
     if (onRevealStart) onRevealStart();
 
     hideOverlayTimerRef.current = setTimeout(() => {
       setIsVisible(false);
       if (onComplete) onComplete();
-    }, 1150);
+    }, 650);
+  };
+
+  const handleStartSlowZoom = () => {
+    if (isExpandingRef.current || isClosedRef.current) return;
+    isExpandingRef.current = true;
+
+    try {
+      sessionStorage.setItem(WELCOME_SESSION_KEY, 'true');
+    } catch {
+      // Ignore storage access restrictions
+    }
+
+    // Bước 2: Lá thư nằm trên bao thư bắt đầu phóng to ra từ từ
+    setIsExpanding(true);
+
+    // Khi lá thư đã phóng to gần lấp đầy khung, bắt đầu hiện thư chính bên dưới và mờ dần lớp intro
+    crossFadeTimerRef.current = setTimeout(() => {
+      if (isClosedRef.current) return;
+      isClosedRef.current = true;
+      if (onRevealStart) onRevealStart();
+      setIsClosing(true);
+    }, 1050);
+
+    hideOverlayTimerRef.current = setTimeout(() => {
+      setIsVisible(false);
+      if (onComplete) onComplete();
+    }, 1800);
   };
 
   const handleOpenEnvelope = () => {
@@ -121,11 +219,13 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
     SoundEngine.playTap?.();
 
     if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
+    // Bước 1: Mở nắp bao thư, lá thư trượt lên và nằm ngay ngắn trên mặt bao thư
     setIsOpened(true);
 
+    // Sau khi lá thư đã nằm ổn định trên bao thư, mới bắt đầu phóng to ra từ từ
     autoExpandTimerRef.current = setTimeout(() => {
-      handleCompleteIntro();
-    }, 1750);
+      handleStartSlowZoom();
+    }, 1650);
   };
 
   useEffect(() => {
@@ -134,20 +234,18 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
     autoOpenTimerRef.current = setTimeout(() => {
       handleOpenEnvelope();
-    }, 1800);
+    }, 1200);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !isClosedRef.current) {
-        handleCompleteIntro();
+        handleSkipIntro();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
-      if (autoExpandTimerRef.current) clearTimeout(autoExpandTimerRef.current);
-      if (hideOverlayTimerRef.current) clearTimeout(hideOverlayTimerRef.current);
+      clearAllIntroTimers();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -162,16 +260,10 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
       aria-modal="true"
       aria-labelledby="welcomeLetterHeading"
     >
-      <div className="nht-ambient-glow w-72 h-72 bg-indigo-300/40 dark:bg-indigo-500/20 -top-12 -left-12" />
-      <div
-        className="nht-ambient-glow w-80 h-80 bg-amber-200/50 dark:bg-amber-500/15 -bottom-16 -right-12"
-        style={{ animationDelay: '1.5s' }}
-      />
-
       <button
         id="skipIntroBtn"
         type="button"
-        onClick={handleCompleteIntro}
+        onClick={handleSkipIntro}
         className="no-theme-btn absolute top-3 right-3 sm:top-4 sm:right-4 z-30 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-700 dark:hover:text-cyan-300 text-xs font-semibold border border-slate-200/90 dark:border-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 cursor-pointer"
       >
         <span>Bỏ qua</span>
@@ -214,7 +306,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
                   id="welcomeLetterHeading"
                   className="text-xl sm:text-2xl font-bold text-indigo-950 dark:text-slate-100 tracking-tight"
                 >
-                  Thư ngỏ
+                  {themeLetter.title}
                 </h2>
               </div>
 
@@ -222,21 +314,17 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
             <div className="space-y-2.5 text-slate-700 dark:text-slate-300 text-[12.5px] sm:text-[13.5px] leading-[1.62]">
               <p className="nht-letter-stagger nht-letter-stagger-2">
-                Trân trọng chào mừng bạn đến với không gian giới thiệu hành trình và năng lực chuyên môn của{' '}
-                <strong className="font-bold text-indigo-950 dark:text-white">
-                  Nguyễn Hùng Thái
-                </strong>
-                .
+                {themeLetter.intro}
               </p>
               <p className="nht-letter-stagger nht-letter-stagger-3">
-                Tại đây, bạn có thể khám phá những kinh nghiệm thực tiễn, dự án, giải pháp quản trị và hành trình phát triển trong lĩnh vực{' '}
+                Lĩnh vực chuyên môn trọng tâm:{' '}
                 <strong className="font-bold text-indigo-900 dark:text-cyan-300">
-                  Chăm sóc Khách hàng
+                  {themeLetter.focusArea}
                 </strong>
                 .
               </p>
               <p className="italic font-semibold text-amber-800 dark:text-amber-300 border-l-2 border-amber-400 pl-3 py-0.5 nht-letter-stagger nht-letter-stagger-4">
-                “Chuyên chú trong từng chi tiết nhỏ nhất.”
+                {themeLetter.quote}
               </p>
             </div>
 
@@ -353,6 +441,9 @@ export interface LetterViewProps {
 }
 
 export const LetterView: React.FC<LetterViewProps> = () => {
+  const { cardStyle } = useTheme();
+  const themeLetter = getThemeLetterContent(cardStyle);
+
   const [introState, setIntroState] = useState<'active' | 'revealed'>(() => {
     try {
       return sessionStorage.getItem(WELCOME_SESSION_KEY) === 'true'
@@ -731,19 +822,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           pointer-events: none;
         }
 
-        .nht-ambient-glow {
-          position: absolute;
-          border-radius: 9999px;
-          filter: blur(48px);
-          pointer-events: none;
-          animation: nhtPulseGlow 5s ease-in-out infinite alternate;
-        }
-
-        @keyframes nhtPulseGlow {
-          0% { opacity: 0.35; transform: scale(0.95); }
-          100% { opacity: 0.65; transform: scale(1.08); }
-        }
-
         .nht-envelope-stage {
           perspective: 1400px;
           display: flex;
@@ -762,7 +840,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
         }
 
         .nht-welcome-overlay.is-closing .nht-envelope-stage {
-          transform: scale(0.94) translateY(28px);
           opacity: 0;
         }
 
@@ -775,16 +852,16 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
         .nht-envelope-3d-wrapper {
           position: relative;
-          width: min(410px, 86%, 76vw);
+          width: min(420px, 88%, 78vw);
           aspect-ratio: 16 / 10;
           height: auto;
           flex-shrink: 0;
           transform-style: preserve-3d;
-          transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
+          transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
         }
 
         .nht-envelope-stage.is-opened .nht-envelope-3d-wrapper {
-          transform: translateY(clamp(36px, 8vh, 64px)) scale(0.94);
+          transform: translateY(14px) scale(0.98);
         }
 
         .nht-envelope-back {
@@ -796,6 +873,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             0 25px 50px -12px rgba(30, 27, 75, 0.35),
             0 0 0 1px rgba(255, 255, 255, 0.25) inset;
           z-index: 1;
+          transform: translateZ(0px);
         }
 
         .nht-envelope-lining {
@@ -812,29 +890,33 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           z-index: 2;
         }
 
+        /* Lá thư: Ban đầu nằm trong bao thư, khi bao thư mở sẽ đặt nằm ngay trên mặt bao thư, sau đó mới phóng to ra từ từ */
         .nht-welcome-letter-sheet {
           position: absolute;
           left: 50%;
-          bottom: 12px;
-          width: min(430px, 92%);
-          max-height: min(60vh, 360px);
+          top: 50%;
+          bottom: auto;
+          width: min(410px, 94%);
+          max-height: min(56vh, 330px);
           overflow-y: auto;
-          transform: translateX(-50%) translateY(0) scale(0.86);
+          transform: translate(-50%, -44%) translateZ(2px) scale(0.84);
+          transform-origin: center center;
           opacity: 0;
           background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
           border-radius: 16px;
           border: 1.5px solid #fde68a;
           box-shadow:
-            0 20px 45px -10px rgba(15, 23, 42, 0.22),
-            0 0 25px rgba(251, 191, 36, 0.18),
+            0 22px 48px -10px rgba(15, 23, 42, 0.34),
+            0 0 28px rgba(251, 191, 36, 0.22),
             inset 0 0 0 5px #ffffff,
-            inset 0 0 0 6px rgba(226, 232, 240, 0.8);
+            inset 0 0 0 6px rgba(226, 232, 240, 0.85);
           padding: 1.15rem 1.35rem;
-          z-index: 3;
+          z-index: 4;
           pointer-events: none;
+          will-change: transform, opacity;
           transition:
-            transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s,
-            opacity 0.65s ease 0.45s,
+            transform 0.88s cubic-bezier(0.22, 1, 0.36, 1) 0.34s,
+            opacity 0.55s ease 0.32s,
             box-shadow 0.8s ease;
         }
 
@@ -842,38 +924,51 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
           border-color: rgba(251, 191, 36, 0.45);
           box-shadow:
-            0 20px 45px -10px rgba(2, 6, 23, 0.6),
+            0 22px 48px -10px rgba(2, 6, 23, 0.72),
             inset 0 0 0 5px #0f172a,
-            inset 0 0 0 6px rgba(148, 163, 184, 0.22);
+            inset 0 0 0 6px rgba(148, 163, 184, 0.24);
         }
 
+        /* Bước 1: Khi bao thư mở, lá thư nằm đè lên trên mặt bao thư */
         .nht-envelope-stage.is-opened .nht-welcome-letter-sheet {
-          transform: translateX(-50%) translateY(clamp(-58px, -8vh, -84px)) scale(1);
+          transform: translate(-50%, -50%) translateZ(28px) scale(1);
           opacity: 1;
-          z-index: 12;
+          z-index: 26;
           pointer-events: auto;
         }
 
+        /* Bước 2: Từ vị trí nằm trên bao thư, lá thư phóng to ra từ từ */
         .nht-envelope-stage.is-expanding .nht-welcome-letter-sheet {
-          transform: translateX(-50%) translateY(-96px) scale(1.22);
-          opacity: 0;
+          transform: translate(-50%, -50%) translateZ(48px) scale(1.68);
+          opacity: 1;
+          z-index: 30;
+          box-shadow:
+            0 32px 72px -12px rgba(15, 23, 42, 0.42),
+            0 0 40px rgba(251, 191, 36, 0.28),
+            inset 0 0 0 5px #ffffff,
+            inset 0 0 0 6px rgba(226, 232, 240, 0.9);
           transition:
-            transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-            opacity 0.7s ease 0.12s;
+            transform 1.55s cubic-bezier(0.22, 1, 0.36, 1) 0s,
+            box-shadow 1.2s ease 0s,
+            opacity 0.55s ease 0s;
         }
 
-        .nht-envelope-stage.is-expanding .nht-envelope-3d-wrapper {
-          transform: translateY(105px) scale(0.88);
+        .nht-welcome-overlay.is-closing .nht-welcome-letter-sheet {
           opacity: 0;
-          transition:
-            transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-            opacity 0.6s ease;
+        }
+
+        .nht-envelope-stage.is-expanding .nht-envelope-back,
+        .nht-envelope-stage.is-expanding .nht-envelope-front-pocket,
+        .nht-envelope-stage.is-expanding .nht-envelope-gold-trim,
+        .nht-envelope-stage.is-expanding .nht-envelope-top-flap {
+          opacity: 0.32;
+          transition: opacity 1.1s ease;
         }
 
         .nht-letter-stagger {
           opacity: 0;
-          transform: translateY(10px);
-          transition: opacity 0.55s ease, transform 0.55s ease;
+          transform: translateY(8px);
+          transition: opacity 0.45s ease, transform 0.45s ease;
         }
 
         .nht-envelope-stage.is-opened .nht-letter-stagger {
@@ -881,11 +976,11 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           transform: translateY(0);
         }
 
-        .nht-envelope-stage.is-opened .nht-letter-stagger-1 { transition-delay: 0.85s; }
-        .nht-envelope-stage.is-opened .nht-letter-stagger-2 { transition-delay: 1s; }
-        .nht-envelope-stage.is-opened .nht-letter-stagger-3 { transition-delay: 1.15s; }
-        .nht-envelope-stage.is-opened .nht-letter-stagger-4 { transition-delay: 1.3s; }
-        .nht-envelope-stage.is-opened .nht-letter-stagger-5 { transition-delay: 1.45s; }
+        .nht-envelope-stage.is-opened .nht-letter-stagger-1 { transition-delay: 0.55s; }
+        .nht-envelope-stage.is-opened .nht-letter-stagger-2 { transition-delay: 0.68s; }
+        .nht-envelope-stage.is-opened .nht-letter-stagger-3 { transition-delay: 0.8s; }
+        .nht-envelope-stage.is-opened .nht-letter-stagger-4 { transition-delay: 0.92s; }
+        .nht-envelope-stage.is-opened .nht-letter-stagger-5 { transition-delay: 1.04s; }
 
         .nht-envelope-front-pocket {
           position: absolute;
@@ -893,6 +988,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           border-radius: 18px;
           overflow: hidden;
           z-index: 5;
+          transform: translateZ(6px);
           pointer-events: none;
           filter: drop-shadow(0 -3px 6px rgba(15, 23, 42, 0.16));
         }
@@ -903,6 +999,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           border-radius: 18px;
           border: 1.5px solid rgba(253, 224, 71, 0.45);
           z-index: 7;
+          transform: translateZ(8px);
           pointer-events: none;
         }
 
@@ -913,17 +1010,17 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           right: 0;
           height: 60%;
           transform-origin: top center;
-          transform: rotateX(0deg);
+          transform: translateZ(10px) rotateX(0deg);
           z-index: 8;
           pointer-events: none;
           filter: drop-shadow(0 6px 12px rgba(15, 23, 42, 0.28));
           transition:
-            transform 0.9s cubic-bezier(0.34, 1.35, 0.64, 1),
-            z-index 0s linear 0.35s;
+            transform 0.78s cubic-bezier(0.34, 1.35, 0.64, 1),
+            z-index 0s linear 0.28s;
         }
 
         .nht-envelope-stage.is-opened .nht-envelope-top-flap {
-          transform: rotateX(176deg);
+          transform: translateZ(2px) rotateX(176deg);
           z-index: 2;
         }
 
@@ -1091,7 +1188,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         ref={profileCardRef}
                         className="nht-bento-item bg-gradient-to-br from-purple-600 to-indigo-700 p-3.5 sm:p-4 relative overflow-hidden shadow-md text-white"
                       >
-                        <div className="absolute -top-10 -right-10 w-36 h-36 bg-yellow-300 rounded-full blur-3xl opacity-30 pointer-events-none" />
                         <div className="relative z-10">
                           {/* Header Row */}
                           <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 mb-2.5 pb-2 border-b border-white/20">
@@ -1121,18 +1217,14 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <p className="font-bold text-yellow-300 text-[14.5px] mb-1">
-                                Kính chào Quý Công ty!
+                                {themeLetter.greeting}
                               </p>
                               <p className="text-purple-50 leading-[1.55]">
                                 Tôi là{' '}
                                 <strong className="font-bold text-white">
                                   Nguyễn Hùng Thái
                                 </strong>
-                                , Trưởng phòng Chăm sóc Khách hàng với hơn{' '}
-                                <strong className="font-bold text-yellow-300">
-                                  22 năm kinh nghiệm
-                                </strong>{' '}
-                                trong lĩnh vực xây dựng, vận hành và phát triển dịch vụ khách hàng.
+                                , {themeLetter.intro}
                               </p>
                             </div>
 
@@ -1447,8 +1539,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
                       {/* 1. Philosophy Highlight Bento Card */}
                       <div className="nht-bento-item bg-gradient-to-br from-blue-600 to-indigo-700 p-3.5 relative overflow-hidden shadow-md text-white">
-                        <div className="absolute -top-8 -right-8 w-32 h-32 bg-yellow-300 rounded-full blur-2xl opacity-25 pointer-events-none" />
-                        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-pink-300 rounded-full blur-2xl opacity-25 pointer-events-none" />
                         <p className="relative z-10 text-[12px] leading-[1.52] text-blue-50 text-left">
                           Qua mỗi môi trường làm việc, tôi nhận ra rằng{' '}
                           <strong className="font-bold text-white">
@@ -1540,7 +1630,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
                       {/* 5. Standalone Quote Bento Card */}
                       <div className="nht-bento-item bg-gradient-to-br from-pink-500 to-purple-600 p-3.5 overflow-hidden relative shadow-md flex items-center gap-3 text-white">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-300 rounded-full blur-3xl opacity-35 pointer-events-none" />
                         <Quote className="w-12 h-12 text-white/15 absolute right-3 -bottom-2 pointer-events-none" />
 
                         <Quote className="w-5 h-5 text-yellow-300 shrink-0 relative z-10 rotate-180" />

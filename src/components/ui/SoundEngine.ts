@@ -22,6 +22,175 @@ export interface SoundEngineSettings {
   events: Record<StudioSoundEvent, boolean>;
 }
 
+interface ThemeAcousticProfile {
+  oscType: OscillatorType;
+  pitchScale: number;
+  tapStartFreq: number;
+  tapEndFreq: number;
+  tapDur: number;
+  popStartFreq: number;
+  popEndFreq: number;
+  chimeNotes: [number, number, number];
+  flipNotes: [number, number];
+}
+
+const THEME_ACOUSTIC_PROFILES: Record<string, ThemeAcousticProfile> = {
+  'liquid-glass': {
+    oscType: 'sine',
+    pitchScale: 1.0,
+    tapStartFreq: 920,
+    tapEndFreq: 560,
+    tapDur: 0.045,
+    popStartFreq: 640,
+    popEndFreq: 1280,
+    chimeNotes: [1240, 1620, 2040],
+    flipNotes: [540, 810],
+  },
+  'dark-liquid-glass': {
+    oscType: 'sine',
+    pitchScale: 0.88,
+    tapStartFreq: 780,
+    tapEndFreq: 460,
+    tapDur: 0.05,
+    popStartFreq: 520,
+    popEndFreq: 1040,
+    chimeNotes: [1040, 1380, 1760],
+    flipNotes: [460, 690],
+  },
+  'cowhide-leather': {
+    oscType: 'triangle',
+    pitchScale: 0.72,
+    tapStartFreq: 420,
+    tapEndFreq: 210,
+    tapDur: 0.055,
+    popStartFreq: 340,
+    popEndFreq: 620,
+    chimeNotes: [520, 680, 860],
+    flipNotes: [330, 495],
+  },
+  'walnut-wood': {
+    oscType: 'triangle',
+    pitchScale: 0.68,
+    tapStartFreq: 380,
+    tapEndFreq: 185,
+    tapDur: 0.052,
+    popStartFreq: 310,
+    popEndFreq: 560,
+    chimeNotes: [480, 640, 820],
+    flipNotes: [310, 465],
+  },
+  'deep-ocean': {
+    oscType: 'sine',
+    pitchScale: 0.82,
+    tapStartFreq: 560,
+    tapEndFreq: 860,
+    tapDur: 0.06,
+    popStartFreq: 480,
+    popEndFreq: 980,
+    chimeNotes: [880, 1180, 1520],
+    flipNotes: [420, 660],
+  },
+  'neumorphism-beyond': {
+    oscType: 'sine',
+    pitchScale: 0.94,
+    tapStartFreq: 680,
+    tapEndFreq: 440,
+    tapDur: 0.042,
+    popStartFreq: 540,
+    popEndFreq: 960,
+    chimeNotes: [980, 1280, 1620],
+    flipNotes: [480, 720],
+  },
+  'dark-neumorphism-beyond': {
+    oscType: 'sine',
+    pitchScale: 0.84,
+    tapStartFreq: 590,
+    tapEndFreq: 380,
+    tapDur: 0.046,
+    popStartFreq: 460,
+    popEndFreq: 840,
+    chimeNotes: [840, 1120, 1440],
+    flipNotes: [420, 630],
+  },
+  'frost-ice-neu': {
+    oscType: 'triangle',
+    pitchScale: 1.18,
+    tapStartFreq: 1120,
+    tapEndFreq: 740,
+    tapDur: 0.04,
+    popStartFreq: 780,
+    popEndFreq: 1520,
+    chimeNotes: [1480, 1920, 2420],
+    flipNotes: [640, 960],
+  },
+  'flat-soft-ui': {
+    oscType: 'sine',
+    pitchScale: 0.96,
+    tapStartFreq: 740,
+    tapEndFreq: 510,
+    tapDur: 0.036,
+    popStartFreq: 580,
+    popEndFreq: 1020,
+    chimeNotes: [1060, 1340, 1680],
+    flipNotes: [500, 740],
+  },
+  'dark-flat-soft-ui': {
+    oscType: 'sine',
+    pitchScale: 0.86,
+    tapStartFreq: 640,
+    tapEndFreq: 430,
+    tapDur: 0.038,
+    popStartFreq: 490,
+    popEndFreq: 880,
+    chimeNotes: [920, 1180, 1480],
+    flipNotes: [440, 650],
+  },
+  'mica-fluent': {
+    oscType: 'triangle',
+    pitchScale: 1.04,
+    tapStartFreq: 860,
+    tapEndFreq: 540,
+    tapDur: 0.044,
+    popStartFreq: 620,
+    popEndFreq: 1180,
+    chimeNotes: [1160, 1520, 1940],
+    flipNotes: [520, 790],
+  },
+  'gradient-dopamine': {
+    oscType: 'triangle',
+    pitchScale: 1.14,
+    tapStartFreq: 980,
+    tapEndFreq: 660,
+    tapDur: 0.045,
+    popStartFreq: 720,
+    popEndFreq: 1440,
+    chimeNotes: [1320, 1760, 2240],
+    flipNotes: [600, 920],
+  },
+  'iridescent-liquid-glass': {
+    oscType: 'sine',
+    pitchScale: 1.22,
+    tapStartFreq: 1080,
+    tapEndFreq: 680,
+    tapDur: 0.048,
+    popStartFreq: 760,
+    popEndFreq: 1540,
+    chimeNotes: [1420, 1880, 2360],
+    flipNotes: [620, 940],
+  },
+  'dark-iridescent-liquid-glass': {
+    oscType: 'sine',
+    pitchScale: 1.08,
+    tapStartFreq: 940,
+    tapEndFreq: 580,
+    tapDur: 0.05,
+    popStartFreq: 660,
+    popEndFreq: 1340,
+    chimeNotes: [1260, 1660, 2120],
+    flipNotes: [550, 840],
+  },
+};
+
 class SoundEngineClass {
   private ctx: AudioContext | null = null;
   private noiseBuffer: AudioBuffer | null = null;
@@ -30,6 +199,7 @@ class SoundEngineClass {
   private lastFlipTime: number = 0;
   private lastBookSoundTime: number = 0;
   private studioOverrideActive: boolean = false;
+  private activeThemeMode: string = 'liquid-glass';
   private settings: SoundEngineSettings = {
     enabled: false,
     volume: 45,
@@ -51,6 +221,18 @@ class SoundEngineClass {
       error: true,
     },
   };
+
+  setThemeSoundMode(mode: string) {
+    if (mode && THEME_ACOUSTIC_PROFILES[mode]) {
+      this.activeThemeMode = mode;
+    } else {
+      this.activeThemeMode = 'liquid-glass';
+    }
+  }
+
+  private getActiveAcousticProfile(): ThemeAcousticProfile {
+    return THEME_ACOUSTIC_PROFILES[this.activeThemeMode] || THEME_ACOUSTIC_PROFILES['liquid-glass'];
+  }
 
   configureStudioSound(settings: SoundEngineSettings | null) {
     if (!settings) {
@@ -234,11 +416,12 @@ class SoundEngineClass {
       if (vol <= 0) return;
       const ctx = this.getContext();
       if (!ctx) return;
+      const profile = this.getActiveAcousticProfile();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(600, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.06);
+      osc.type = profile.oscType;
+      osc.frequency.setValueAtTime(profile.popStartFreq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(profile.popEndFreq, ctx.currentTime + 0.06);
       gain.gain.setValueAtTime(vol, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
       osc.connect(gain);
@@ -259,17 +442,18 @@ class SoundEngineClass {
       this.lastTapTime = now;
       const ctx = this.getContext();
       if (!ctx) return;
+      const profile = this.getActiveAcousticProfile();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(520, ctx.currentTime + 0.045);
+      osc.type = profile.oscType;
+      osc.frequency.setValueAtTime(profile.tapStartFreq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(profile.tapEndFreq, ctx.currentTime + profile.tapDur);
       gain.gain.setValueAtTime(0.09, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.045);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + profile.tapDur);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 0.045);
+      osc.stop(ctx.currentTime + profile.tapDur);
     } catch {}
   }
 
@@ -281,10 +465,11 @@ class SoundEngineClass {
       }
       const ctx = this.getContext();
       if (!ctx) return;
-      [1200, 1600, 2000].forEach((freq, i) => {
+      const profile = this.getActiveAcousticProfile();
+      profile.chimeNotes.forEach((freq, i) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'sine';
+        osc.type = profile.oscType;
         osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.04);
         gain.gain.setValueAtTime(0.06, ctx.currentTime + i * 0.04);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.04 + 0.2);
@@ -307,11 +492,11 @@ class SoundEngineClass {
       this.lastFlipTime = now;
       const ctx = this.getContext();
       if (!ctx) return;
-      // Soft two-note ascending transition chime
-      [520, 780].forEach((freq, i) => {
+      const profile = this.getActiveAcousticProfile();
+      profile.flipNotes.forEach((freq, i) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
+        osc.type = profile.oscType;
         const start = ctx.currentTime + i * 0.045;
         osc.frequency.setValueAtTime(freq, start);
         osc.frequency.exponentialRampToValueAtTime(freq * 1.18, start + 0.09);

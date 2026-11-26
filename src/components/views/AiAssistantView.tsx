@@ -652,12 +652,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card bento-card glass-card group w-[35%] min-w-[35%] max-w-[35%] flex-[0_0_35%] self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
+        className="banner-card bento-card glass-card group w-[40%] min-w-[40%] max-w-[40%] flex-[0_0_40%] self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
         style={{
-          width: '35%',
-          minWidth: '35%',
-          maxWidth: '35%',
-          flex: '0 0 35%',
+          width: '40%',
+          minWidth: '40%',
+          maxWidth: '40%',
+          flex: '0 0 40%',
           padding: '15px',
           borderRadius: 'var(--radius-banner, 24px)',
           boxSizing: 'border-box',
@@ -756,12 +756,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
         data-ai-responding={isAiResponding ? 'true' : 'false'}
-        className="bento-card glass-card min-w-[65%] max-w-[65%] w-[65%] flex-[0_0_65%] h-full min-h-full max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card min-w-[60%] max-w-[60%] w-[60%] flex-[0_0_60%] h-full min-h-full max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
         style={{
-          width: '65%',
-          minWidth: '65%',
-          maxWidth: '65%',
-          flex: '0 0 65%',
+          width: '60%',
+          minWidth: '60%',
+          maxWidth: '60%',
+          flex: '0 0 60%',
           alignSelf: 'stretch',
           padding: '15px',
           gap: '12px',

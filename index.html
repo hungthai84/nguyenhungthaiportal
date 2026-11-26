@@ -12,12 +12,16 @@
     <meta property="og:image" content="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Google Fonts: Play (Primary System Font), Plus Jakarta Sans (Vietnamese-native 3D Book Cover Display), Dancing Script (Handwritten Quotes & Signatures) -->
+    <!-- Resource Hints for Media & Font CDNs -->
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.scena.ai" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Fonts: Play (Primary System Font), Plus Jakarta Sans (Vietnamese-native 3D Book Cover Display), Dancing Script (Handwritten Quotes & Signatures) -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Play:wght@400;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- FontAwesome for Icons (Non-blocking load) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /></noscript>
     <script>
       (function() {
         try {

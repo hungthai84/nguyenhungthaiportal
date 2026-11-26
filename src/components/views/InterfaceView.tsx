@@ -202,41 +202,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Warm Hide', hex: '#522E10' },
     ],
   },
-  'dark-cowhide-leather': {
-    radius: '14px',
-    activeRingColor: '#F5DEB3',
-    activeBorderClass: 'border-[#F5DEB3]',
-    idleBorderClass: 'border-[#3E3028] hover:border-[#E5B87E]',
-    activeBadgeClass: 'bg-gradient-to-r from-[#5A4234] to-[#2B221E] text-[#FFF8EE] border-[#F5DEB3]/75',
-    iconColor: '#E5B87E',
-    titleTextClass: 'text-[#FFF8EE]',
-    bodyTextClass: 'text-[#E9DFD3]',
-    accentTextClass: 'text-[#E5B87E]',
-    previewBorderClass: 'border-[#F5DEB3]/40 border-dashed',
-    dividerClass: 'border-[#F5DEB3]/25 border-dashed',
-    ctaIdleClass: 'bg-[#2B221E]/92 text-[#FFF8EE] hover:bg-[#3A2E28] border border-[#E5B87E]/35',
-    ctaActiveClass: 'bg-gradient-to-r from-[#E5B87E] to-[#B7793E] text-[#140F0D] font-bold shadow-xs border border-[#F5DEB3]/70',
-    toggleTrackDarkClass: 'bg-[#140F0D] border-[#F5DEB3]/50',
-    toggleTrackLightClass: 'bg-[#522E10] border-[#F5DEB3]/60',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#F5DEB3] to-[#C88A4B] text-[#140F0D]',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#FDE68A] to-[#D97706] text-[#3D210B]',
-    outlineStyle: (isActive) => ({
-      outline: isActive ? '2px dashed #F5DEB3' : '1.5px dashed rgba(245, 222, 179, 0.45)',
-      outlineOffset: '-6px',
-    }),
-    demoVideoUrl:
-      'https://cdn.scena.ai/project/10223/50b7b30031d4b9124af4948a069cdf530ca8f0942767f6e6b713c350cb8bd6b2.mp4',
-    gradientBars: [
-      { label: 'Hide', width: '90%', gradient: 'linear-gradient(90deg, #E5B87E, #F5DEB3)' },
-      { label: 'Grain', width: '76%', gradient: 'linear-gradient(90deg, #5A4234, #E5B87E)' },
-    ],
-    primaryPalette: [
-      { name: 'Warm Saddle', hex: '#E5B87E' },
-      { name: 'Cream Stitch', hex: '#F5DEB3' },
-      { name: 'Dark Espresso', hex: '#2B221E' },
-      { name: 'Charcoal Hide', hex: '#140F0D' },
-    ],
-  },
   'walnut-wood': {
     radius: '14px',
     activeRingColor: '#F5C478',
@@ -1430,7 +1395,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                     style={{ color: 'var(--text-link, var(--color-primary))' }}
                   >
                     {isEn
-                      ? 'Global Customization · 4-Corner Radius'
+                      ? 'Global UI Customization Studio'
                       : 'Tùy chỉnh chung · Bo cong 4 góc'}
                   </h2>
                   <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>

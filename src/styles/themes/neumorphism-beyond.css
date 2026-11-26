@@ -569,17 +569,22 @@ html:root[data-card-style="neumorphism-beyond"] :is(
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
-  background: var(--surface-interactive-bg) !important;
-  border: 1px solid var(--surface-interactive-border) !important;
-  color: var(--text-link, var(--color-primary, #3D66F0)) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  color: #0284c7 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
-  background: var(--surface-interactive-hover) !important;
+  background: #ffffff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
 }
 
-html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
-  color: var(--text-link, var(--color-primary, #3D66F0)) !important;
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-icon,
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-counter {
+  color: #0284c7 !important;
+  stroke: #0284c7 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -702,4 +707,94 @@ html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="am
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="purple"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   color: #445CE6 !important;
+}
+
+/* ========================================================================= */
+/* NEUMORPHISM BEYOND · DARK MODE (Khối Kính Mờ Tối)                        */
+/* ========================================================================= */
+.card-dark-neumorphism-beyond {
+  background: linear-gradient(145deg, rgba(26, 34, 48, 0.94) 0%, rgba(20, 27, 38, 0.92) 100%) !important;
+  backdrop-filter: blur(14px) saturate(110%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
+  border: 1px solid rgba(51, 65, 85, 0.6) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    4px 6px 14px rgba(4, 7, 15, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  color: #F1F5F9 !important;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+.card-dark-neumorphism-beyond:hover {
+  transform: none;
+  border-color: rgba(100, 182, 255, 0.6) !important;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.6),
+    5px 7px 16px rgba(4, 7, 15, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark-neumorphism-beyond"],
+html[data-card-style="dark-neumorphism-beyond"],
+html[data-card-style="dark-neumorphism-beyond"] body {
+  color-scheme: dark;
+  --ambient-wallpaper-opacity: 1;
+
+  --color-bg: #151B26;
+  --color-bg-soft: #1A2230;
+  --color-bg-blue: #1C273A;
+  --color-surface: rgba(26, 34, 48, 0.92);
+  --color-surface-elevated: rgba(32, 42, 58, 0.95);
+  --color-surface-indigo: #232C42;
+  --color-surface-cyan: #1B2F38;
+  --color-surface-green: #1A332C;
+  --color-surface-orange: #35261F;
+  --color-surface-pink: #351F30;
+  --color-surface-purple: #2A2142;
+
+  --color-heading: #F8FAFC;
+  --color-text: #E2E8F0;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #0F172A;
+
+  --color-primary: #64B6FF;
+  --color-secondary: #EE6AD2;
+  --color-tertiary: #2AD8E6;
+  --color-accent: #64B6FF;
+  --color-indigo: #818CF8;
+  --color-blue: #64B6FF;
+  --color-cyan: #2AD8E6;
+  --color-green: #52E0A8;
+  --color-amber: #FBBF24;
+  --color-pink: #EE6AD2;
+  --color-purple: #A78BFA;
+
+  --bg-main: #151B26;
+  --bg-card: rgba(26, 34, 48, 0.92);
+  --bg-subcard: rgba(32, 42, 58, 0.88);
+  --bg-nested-card: rgba(22, 30, 42, 0.85);
+  --border-card: rgba(71, 85, 105, 0.5);
+  --border-subcard: rgba(71, 85, 105, 0.35);
+
+  --text-primary: #F8FAFC;
+  --text-heading: #FFFFFF;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #64B6FF;
+
+  --bg-button-primary: #4973FF;
+  --text-button-primary: #FFFFFF;
+  --bg-button-secondary: rgba(51, 65, 85, 0.7);
+  --text-button-secondary: #E2E8F0;
+
+  --bg-input: #101622;
+  --border-input: rgba(71, 85, 105, 0.6);
+  --text-input: #F8FAFC;
+
+  --bg-modal: #1A2230;
+  --bg-modal-backdrop: rgba(10, 14, 22, 0.75);
 }

@@ -85,7 +85,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const isDarkThemeAttr =
         effectiveStyle === 'dark-liquid-glass' ||
         effectiveStyle === 'cowhide-leather' ||
-        effectiveStyle === 'dark-cowhide-leather' ||
         effectiveStyle === 'walnut-wood' ||
         effectiveStyle === 'deep-ocean' ||
         effectiveStyle === 'dark-neumorphism-beyond';

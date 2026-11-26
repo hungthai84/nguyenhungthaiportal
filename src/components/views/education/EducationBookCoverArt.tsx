@@ -379,64 +379,43 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         fontFamily: BOOK_COVER_BODY_FONT,
       }}
     >
+      {/* Full-bleed diffused ambient backdrop derived directly from the book cover image spreading across the entire book */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      >
+        <img
+          src={course.image}
+          alt=""
+          loading={imageLoading}
+          decoding="async"
+          referrerPolicy="no-referrer"
+          onError={handleImgError}
+          className="absolute inset-[-18%] w-[136%] h-[136%] max-w-none object-cover object-center scale-110 select-none"
+          style={{
+            filter: 'blur(26px) saturate(1.55) brightness(0.80)',
+            transform: 'scale(1.16)',
+          }}
+        />
+        {/* Smooth ambient tonal gradient radiating down from the hero image for crisp text legibility */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(6, 12, 28, 0.14) 0%, rgba(6, 12, 28, 0.30) 46%, rgba(4, 9, 22, 0.64) 100%)',
+          }}
+        />
+      </div>
+
       {/* Seamless studio overhead sheen across the entire frameless hardcover */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 z-[1]"
         style={{
           background:
             'radial-gradient(ellipse 92% 44% at 22% 4%, rgba(255, 255, 255, 0.22) 0%, transparent 62%), radial-gradient(ellipse 68% 48% at 86% 88%, rgba(255, 255, 255, 0.10) 0%, transparent 58%)',
         }}
       />
-
-      {/* Delicate iridescent aurora ribbon along the bottom edge of the seamless cover */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 400 72"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[14%] opacity-75"
-      >
-        <defs>
-          <linearGradient
-            id={`wave-grad-a-${course.id}-${variant}`}
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor={theme.wave1} stopOpacity="0.80" />
-            <stop offset="52%" stopColor={theme.wave2} stopOpacity="0.68" />
-            <stop offset="100%" stopColor={theme.wave3} stopOpacity="0.82" />
-          </linearGradient>
-          <linearGradient
-            id={`wave-grad-b-${course.id}-${variant}`}
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.68" />
-            <stop offset="50%" stopColor={theme.wave1} stopOpacity="0.44" />
-            <stop offset="100%" stopColor={theme.wave2} stopOpacity="0.72" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0,48 C96,24 176,70 272,52 C332,40 370,22 400,28 L400,72 L0,72 Z"
-          fill={`url(#wave-grad-a-${course.id}-${variant})`}
-          opacity="0.52"
-        />
-        <path
-          d="M0,56 C116,72 222,74 316,46 C356,34 384,30 400,36 L400,72 L0,72 Z"
-          fill={theme.wave3}
-          opacity="0.30"
-        />
-        <path
-          d="M0,50 C98,28 180,68 276,50 C334,39 372,24 400,30"
-          fill="none"
-          stroke={`url(#wave-grad-b-${course.id}-${variant})`}
-          strokeWidth="1.6"
-        />
-      </svg>
 
       {/* Realistic hardcover left French-groove hinge crease */}
       {showSpine && (
@@ -458,8 +437,8 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         style={{
           borderRadius: '10px',
           border: 'none',
-          boxShadow: '0 10px 24px -10px rgba(2, 8, 28, 0.45)',
-          background: 'rgba(2, 8, 28, 0.24)',
+          boxShadow: '0 12px 28px -10px rgba(2, 8, 28, 0.48)',
+          background: 'rgba(2, 8, 28, 0.20)',
           padding: 0,
         }}
       >

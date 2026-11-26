@@ -242,7 +242,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
@@ -250,7 +249,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'grid' | 'slider'>('slider');
+  const [viewMode, setViewMode] = useState<'grid' | 'slider' | 'stack'>('slider');
   const [selectedGroup, setSelectedGroup] = useState<ProjectCardGroup | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<ProjectData | null>(null);
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
@@ -1087,6 +1086,26 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
                           <span>Slider Card</span>
                         </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setViewMode('stack');
+                            closeMenu();
+                          }}
+                          style={
+                            viewMode === 'stack'
+                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                              : undefined
+                          }
+                          className={cn(
+                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
+                            viewMode === 'stack' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
+                          )}
+                        >
+                          <WebIcon name="copy" className="w-3.5 h-3.5 shrink-0" />
+                          <span>Xếp chồng</span>
+                        </button>
                       </div>
                     </div>
 
@@ -1266,6 +1285,31 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   >
                     <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
                     <span className="whitespace-nowrap">Slider Card</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setViewMode('stack');
+                    }}
+                    style={
+                      viewMode === 'stack'
+                        ? {
+                            background: 'var(--bg-button-primary)',
+                            color: 'var(--text-button-primary, #FFFFFF)',
+                          }
+                        : undefined
+                    }
+                    className={cn(
+                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
+                      viewMode === 'stack'
+                        ? 'shadow-xs'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                    )}
+                    title="Xếp chồng (Stacked Cards)"
+                  >
+                    <WebIcon name="copy" className="w-3.5 h-3.5 shrink-0" />
+                    <span className="whitespace-nowrap">Xếp chồng</span>
                   </button>
                 </div>
 
@@ -1490,6 +1534,71 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
+          ) : viewMode === 'stack' ? (
+            <div
+              id="projects-stack-stage"
+              data-section-card="true"
+              data-element-type="card"
+              className="project-stack-stage bento-card glass-card relative w-full h-full max-w-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-x-auto overflow-y-visible no-scrollbar py-8 px-6"
+            >
+              <div className="project-stack-container w-full h-full max-w-full max-h-full flex items-center justify-center">
+                {filteredProjects.map((proj, idx) => {
+                  const parentGroup = getParentGroupForProject(proj);
+                  const bannerInfo = getProjectCloudinaryBanner(proj);
+                  const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
+                  const orderNumber =
+                    proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || `${idx + 1}`;
+                  const cardColor = getProjectCardColor(idx);
+
+                  return (
+                    <div
+                      key={proj.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        handleOpenGroup(parentGroup, proj);
+                        document
+                          .getElementById('projects-main-scroll-viewport')
+                          ?.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleOpenGroup(parentGroup, proj);
+                          document
+                            .getElementById('projects-main-scroll-viewport')
+                            ?.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                      }}
+                      style={{ '--stack-accent': cardColor, borderColor: `${cardColor}45` } as React.CSSProperties}
+                      className="card project-stack-card cursor-pointer select-none flex flex-col justify-between overflow-hidden border p-0"
+                      title={`${orderNumber} · ${cleanedTitle}`}
+                    >
+                      <div className="relative w-full h-[120px] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 border-b border-[var(--border-subcard)]">
+                        <img
+                          src={bannerInfo.primaryUrl}
+                          alt={cleanedTitle}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black/60 text-white backdrop-blur-md">
+                          {orderNumber} · {parentGroup.fourWordTitle}
+                        </div>
+                      </div>
+                      <div className="p-4 flex flex-col flex-1 justify-between">
+                        <div>
+                          <h3 className="text-sm font-bold text-[var(--text-primary)] line-clamp-1">{cleanedTitle}</h3>
+                          <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mt-1">{proj.description}</p>
+                        </div>
+                        <div className="flex items-center justify-between pt-2 mt-2 border-t border-[var(--border-subcard)] text-[11px] text-[var(--text-tertiary)]">
+                          <span>Tiến độ: {proj.progressPercent ?? 100}%</span>
+                          <span className="font-medium text-[var(--accent-color)]">Chi tiết →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : (

@@ -1435,10 +1435,10 @@ export function AboutView({
               </div>
               <div className="flex flex-col justify-between gap-3 text-left">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-600 dark:text-cyan-300 typo-badge border border-blue-500/30 dark:border-cyan-500/30 mb-2">
-                    <Sparkles className="w-3.5 h-3.5 text-blue-500 dark:text-cyan-400" />
+                  <h4 className="card-title card-header-sync card-title-synced typo-h4 font-play text-blue-600 dark:text-cyan-400 flex items-center gap-2 mb-2" data-card-title="true">
+                    <Sparkles className="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0" />
                     <span>Lãnh Đạo Vận Hành CX 22+ Năm</span>
-                  </div>
+                  </h4>
                   <h3 className="card-title card-header-sync card-title-synced typo-h3 text-[var(--text-primary)] flex items-center gap-2" data-card-title="true">
                     <WebIcon name="user-round" className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                     <span>Nguyễn Hùng Thái</span>
@@ -2415,7 +2415,7 @@ export function AboutView({
                         }}
                         style={{
                           borderColor: 'var(--border-subcard)',
-                          borderBottomColor: detailInfoTab === 'personal' ? 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))' : 'var(--border-subcard)',
+                          borderBottomColor: 'transparent',
                           borderTopLeftRadius: '10px',
                           borderTopRightRadius: '10px',
                           borderBottomLeftRadius: '0px',
@@ -2464,7 +2464,7 @@ export function AboutView({
                         }}
                         style={{
                           borderColor: 'var(--border-subcard)',
-                          borderBottomColor: detailInfoTab === 'contact' ? 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))' : 'var(--border-subcard)',
+                          borderBottomColor: 'transparent',
                           borderTopLeftRadius: '10px',
                           borderTopRightRadius: '10px',
                           borderBottomLeftRadius: '0px',
@@ -2502,6 +2502,7 @@ export function AboutView({
                         backdropFilter: 'blur(12px)',
                         WebkitBackdropFilter: 'blur(12px)',
                         borderColor: 'var(--border-subcard)',
+                        borderTopColor: 'transparent',
                       }}
                       className={cn(
                         'relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar p-2.5 sm:p-3 border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-b-[12px] rounded-tr-[10px]',

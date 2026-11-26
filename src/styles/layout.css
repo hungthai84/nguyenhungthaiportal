@@ -874,6 +874,8 @@
 
 /* Project Detail Vertical TOC Banner (Equal height side-by-side at every viewport size) */
 #project-detail-layout {
+  background: var(--bg-card, rgba(255, 255, 255, 0.84)) !important;
+  border-radius: var(--radius-main, 14px) !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 315px) !important;
   grid-template-rows: repeat(10, 100%) !important;
@@ -1112,8 +1114,35 @@
     filter: none !important;
   }
 
-  /* Ẩn hàng điều khiển desktop khi đã gom vào 1 nút bên phải */
-  [data-has-compact-menu="true"] .banner-desktop-controls {
+  /* Ẩn hàng điều khiển desktop khi đã gom vào 1 nút bên phải (trừ banner Học vấn hiển thị timeline bên phải) */
+  [data-has-compact-menu="true"]:not(#education-hero-banner) .banner-desktop-controls {
+    display: none !important;
+  }
+
+  /* Trang Học vấn khi banner thu gọn: timeline nằm ở góc bên phải của header banner thu gọn */
+  html:root body #education-hero-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: 52px !important;
+    height: auto !important;
+    padding: 8px 14px !important;
+    gap: 0 !important;
+  }
+
+  html:root body #education-hero-banner #education-hero-banner-header {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  html:root body #education-hero-banner #education-hero-banner-filter-row {
     display: none !important;
   }
 
@@ -1213,7 +1242,34 @@
     text-shadow: none !important;
   }
 
-  [data-has-compact-menu="true"] .banner-desktop-controls {
+  [data-has-compact-menu="true"]:not(#education-hero-banner) .banner-desktop-controls {
+    display: none !important;
+  }
+
+  /* Trang Học vấn khi banner thu gọn theo chiều cao: timeline nằm ở góc bên phải của header banner thu gọn */
+  html:root body #education-hero-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: 52px !important;
+    height: auto !important;
+    padding: 8px 14px !important;
+    gap: 0 !important;
+  }
+
+  html:root body #education-hero-banner #education-hero-banner-header {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  html:root body #education-hero-banner #education-hero-banner-filter-row {
     display: none !important;
   }
 
@@ -1310,4 +1366,175 @@
   animation: none !important;
   transform: none !important;
 }
+
+/* ========================================================================= */
+/* COMPREHENSIVE RESPONSIVE SYSTEM ACROSS ALL 16 PAGES, POPUPS & BENTO CARDS */
+/* ========================================================================= */
+
+/* 1. Footer Theme & Language Popups: Never overflow viewport on narrow or short screens */
+#footer-theme-popup,
+#footer-lang-popup {
+  max-width: min(380px, calc(100vw - 20px)) !important;
+  max-height: min(76dvh, 520px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. Project Detail Responsive Layout (<768px stacks TOC Banner above content cards) */
+@media (max-width: 767px) {
+  #project-detail-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-snap-type: none !important;
+    container-type: normal !important;
+  }
+
+  #project-detail-layout #project-detail-banner {
+    order: -1 !important;
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 12px !important;
+  }
+
+  #project-detail-layout > [data-section-card="true"]:not(#project-detail-banner) {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: 0 0 auto !important;
+    scroll-snap-align: none !important;
+  }
+}
+
+/* 3. Services, Systems & Projects Card Grids Responsive Columns */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #services-cards-grid,
+  .services-cards-grid,
+  #systems-cards-grid,
+  .systems-cards-grid,
+  #projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  #services-expanded-card .service-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  #services-expanded-card .service-bento-grid > :first-child {
+    grid-column: span 2 / span 2 !important;
+  }
+}
+
+@media (max-width: 639px) {
+  #global-content-viewport {
+    width: calc(100% - 16px) !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
+  #about-intro-card-1,
+  #about-intro-card-2 {
+    padding: 12px !important;
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
+  }
+
+  #services-cards-grid,
+  .services-cards-grid,
+  #systems-cards-grid,
+  .systems-cards-grid,
+  #projects-grid,
+  #services-expanded-card .service-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  #services-expanded-card .service-bento-grid > * {
+    grid-column: span 1 / span 1 !important;
+  }
+}
+
+/* 4. Experience Page Slider & Expanded Bento Detail Responsive Rules */
+@media (max-width: 1023px) {
+  #experience-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  #experience-main-card .exp-slider-view-root > .news-slider-ctr {
+    padding: 6px 10px 10px 10px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  #experience-info-subcards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  #experience-achievements-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+}
+
+/* 5. Education Collapsed Banner Timeline Horizontal Scroll on Mobile */
+@media (max-width: 1199px), (max-height: 700px) {
+  html:root body #education-hero-banner #education-banner-timeline {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+@media (max-width: 540px) {
+  html:root body #education-hero-banner {
+    gap: 8px !important;
+  }
+
+  html:root body #education-hero-banner #education-hero-banner-header h1 {
+    font-size: 16px !important;
+  }
+}
+
+/* 6. Interview Split Pane Responsive Stack (<1024px) */
+@media (max-width: 1023px) {
+  #interview-main-content {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    gap: 12px !important;
+  }
+
+  #interview-questions-card {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  #interview-answers-card {
+    flex: 1 0 auto !important;
+    height: auto !important;
+    min-height: 320px !important;
+    max-height: none !important;
+  }
+}
+
 

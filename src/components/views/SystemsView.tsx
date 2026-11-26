@@ -640,13 +640,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'dark-iridescent-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond' ||
     currentTheme === 'dark-flat-soft-ui';
   const isLight = !isDark;
-  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -811,9 +810,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       if (cardStyle === 'walnut-wood') {
         return '#F5C478';
       }
-      if (cardStyle === 'dark-cowhide-leather') {
-        return '#E5B87E';
-      }
       if (isLeatherTheme) {
         return '#FDE68A';
       }
@@ -827,11 +823,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     const hostEl = systemsMainRef.current || cardsWrapperRef.current;
     if (!hostEl) return null;
 
+    const computedStyle = typeof window !== 'undefined' ? window.getComputedStyle(hostEl) : null;
+    const padX = computedStyle ? parseFloat(computedStyle.paddingLeft || '15') : 15;
+    const padY = computedStyle ? parseFloat(computedStyle.paddingTop || '15') : 15;
+    const insetX = Number.isFinite(padX) && padX >= 0 ? padX : 15;
+    const insetY = Number.isFinite(padY) && padY >= 0 ? padY : 15;
     return {
-      top: 0,
-      left: 0,
-      width: hostEl.clientWidth,
-      height: hostEl.clientHeight,
+      top: insetY,
+      left: insetX,
+      width: Math.max(240, hostEl.clientWidth - insetX * 2),
+      height: Math.max(240, hostEl.clientHeight - insetY * 2),
       needsWrapperMinHeight: undefined,
     };
   }, []);
@@ -1989,20 +1990,36 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   const isHovered = hoveredCardVideoId === item.id;
                   const primaryImg = meta.illustrationSrc || item.imageUrl;
                   const isRightHoverVideoPlaying = isHovered && Boolean(item.videoUrl) && !isDemoActive;
-                  const activeIsLight = isRightHoverVideoPlaying ? meta.videoIsLight : meta.isLightCard;
-                  const primaryInk = activeIsLight ? '#111827' : '#ffffff';
-                  const secondaryInk = activeIsLight
-                    ? 'rgba(17, 24, 39, 0.86)'
-                    : 'rgba(255, 255, 255, 0.88)';
-                  const mutedInk = activeIsLight
-                    ? 'rgba(17, 24, 39, 0.72)'
-                    : 'rgba(255, 255, 255, 0.76)';
-                  const dividerBorder = activeIsLight
-                    ? 'rgba(17, 24, 39, 0.16)'
-                    : 'rgba(255, 255, 255, 0.20)';
-                  const pillBg = activeIsLight
-                    ? 'rgba(17, 24, 39, 0.12)'
-                    : 'rgba(255, 255, 255, 0.18)';
+                  const activeIsLight = isRightHoverVideoPlaying ? meta.videoIsLight : isLight;
+                  const cardAccent = getAccentColor(item.id);
+                  const primaryInk = isRightHoverVideoPlaying
+                    ? meta.videoIsLight
+                      ? '#111827'
+                      : '#ffffff'
+                    : 'var(--text-primary)';
+                  const secondaryInk = isRightHoverVideoPlaying
+                    ? meta.videoIsLight
+                      ? 'rgba(17, 24, 39, 0.86)'
+                      : 'rgba(255, 255, 255, 0.88)'
+                    : 'var(--text-secondary)';
+                  const mutedInk = isRightHoverVideoPlaying
+                    ? meta.videoIsLight
+                      ? 'rgba(17, 24, 39, 0.72)'
+                      : 'rgba(255, 255, 255, 0.76)'
+                    : 'var(--text-muted, var(--text-secondary))';
+                  const dividerBorder = isRightHoverVideoPlaying
+                    ? meta.videoIsLight
+                      ? 'rgba(17, 24, 39, 0.16)'
+                      : 'rgba(255, 255, 255, 0.20)'
+                    : 'var(--border-subcard, var(--border-color))';
+                  const pillBg = isRightHoverVideoPlaying
+                    ? meta.videoIsLight
+                      ? 'rgba(17, 24, 39, 0.12)'
+                      : 'rgba(255, 255, 255, 0.18)'
+                    : `color-mix(in srgb, ${cardAccent} 14%, transparent)`;
+                  const pillInk = isRightHoverVideoPlaying ? primaryInk : cardAccent;
+                  const iconInk = isRightHoverVideoPlaying ? primaryInk : cardAccent;
+                  const isSelectedOrigin = Boolean(expandedSystem && (originSystemId === item.id || expandedSystem.id === item.id));
                   const systemFullName = isEn
                     ? item.nameEn || meta.subtitle || item.name
                     : item.nameVi || SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.name;
@@ -2070,26 +2087,16 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       }}
                       style={
                         {
-                          '--showcase-card-bg': meta.vibrantBg,
-                          '--showcase-card-accent': meta.cardTheme,
+                          '--showcase-card-accent': cardAccent,
                           '--system-card-video-bg': meta.videoBg,
                         } as React.CSSProperties
                       }
-                      className="system-card-tile system-vibrant-card system-item card-item group relative rounded-[var(--radius-card,var(--radius-global,14px))] box-border w-full h-full flex flex-col text-left overflow-hidden cursor-pointer"
+                      className={cn(
+                        'system-card-tile system-vibrant-card system-theme-card system-item card-item bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] box-border w-full h-full flex flex-col text-left overflow-hidden cursor-pointer transition-all duration-300',
+                        isSelectedOrigin && 'opacity-0 pointer-events-none select-none',
+                        expandedSystem && !isSelectedOrigin && 'opacity-0 scale-95 pointer-events-none select-none'
+                      )}
                     >
-                      {/* Ambient Top-Right Glow Orb */}
-                      <div
-                        aria-hidden="true"
-                        className="absolute -top-10 -right-10 w-36 h-36 rounded-full blur-2xl opacity-25 pointer-events-none transition-opacity duration-300"
-                        style={{
-                          background: activeIsLight ? '#ffffff' : 'rgba(255, 255, 255, 0.55)',
-                          opacity: isRightHoverVideoPlaying ? 0.08 : 0.25,
-                        }}
-                      />
-
-                      {/* Pointer-Tracking Radial Hover Flood */}
-                      <span aria-hidden="true" className="system-card-hover-flood" />
-
                       {/* Full-Card Video Overlay khi Click */}
                       {isDemoActive && item.videoUrl && (
                         <div
@@ -2153,37 +2160,86 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* 3-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image/Hover Video), Bottom (Full Vietnamese Name) */}
+                      {/* Full-Card Video Overlay khi rê chuột vào hình (pointer-events-none để giữ trạng thái hover mượt mà) */}
+                      {isRightHoverVideoPlaying && item.videoUrl && (
+                        <div
+                          aria-hidden="true"
+                          className="system-card-full-hover-video absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none"
+                          style={{ backgroundColor: meta.videoBg }}
+                        >
+                          <video
+                            src={item.videoUrl}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            controls={false}
+                            disablePictureInPicture
+                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
+                            aria-hidden="true"
+                            tabIndex={-1}
+                            onLoadedMetadata={(e) => {
+                              const v = e.currentTarget;
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                              v.controls = false;
+                              v.disablePictureInPicture = true;
+                              (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
+                              if (v.paused) v.play().catch(() => {});
+                            }}
+                            onCanPlay={(e) => {
+                              const v = e.currentTarget;
+                              v.defaultMuted = true;
+                              v.muted = true;
+                              v.loop = true;
+                              if (v.paused) v.play().catch(() => {});
+                            }}
+                            onEnded={(e) => {
+                              const v = e.currentTarget;
+                              v.currentTime = 0;
+                              v.play().catch(() => {});
+                            }}
+                            className="absolute inset-0 w-full h-full object-cover rounded-[inherit] select-none pointer-events-none"
+                          />
+                        </div>
+                      )}
+
+                      {/* 3-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image), Bottom (Full Vietnamese Name) */}
                       <div
                         className={cn(
                           'system-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0 transition-opacity duration-200',
-                          isDemoActive && item.videoUrl && 'opacity-0 invisible pointer-events-none'
+                          (isDemoActive || isRightHoverVideoPlaying) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
                         )}
                       >
-                        {/* TOP: Icon + Tên viết tắt + (English Name) */}
-                        <div className="flex items-start gap-2 min-w-0 shrink-0">
+                        {/* TOP: Icon + Tên viết tắt + Sub tiêu đề tiếng Anh */}
+                        <div className="flex items-start gap-2.5 min-w-0 shrink-0">
                           <WebIcon
                             name={meta.iconName}
                             className="w-5 h-5 mt-0.5 shrink-0 bg-transparent border-0 p-0 shadow-none transition-colors duration-300"
-                            style={{ color: primaryInk }}
+                            style={{ color: iconInk }}
                           />
-                          <h3
-                            className="font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 transition-colors duration-300"
-                            data-card-title="true"
-                            style={{ color: primaryInk }}
-                            title={`${item.abbr} (${englishSubName})`}
-                          >
-                            <span>{item.abbr}</span>{' '}
-                            <span
-                              className="text-[12.5px] font-medium opacity-90"
-                              style={{ color: mutedInk }}
+                          <div className="flex flex-col min-w-0 flex-1 gap-0.5">
+                            <h3
+                              className="font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 truncate transition-colors duration-300"
+                              data-card-title="true"
+                              style={{ color: primaryInk }}
+                              title={item.abbr}
                             >
-                              ({englishSubName})
+                              {item.abbr}
+                            </h3>
+                            <span
+                              className="typo-caption font-medium opacity-90 truncate"
+                              style={{ color: mutedInk }}
+                              title={englishSubName}
+                            >
+                              {englishSubName}
                             </span>
-                          </h3>
+                          </div>
                         </div>
 
-                        {/* CENTER: Left Body-Text Description + Right Frameless Image / Auto-Aligned Hover Video */}
+                        {/* CENTER: Left Body-Text Description + Right Frameless Image (Hover triggers full-card video) */}
                         <div className="system-card-middle flex-1 min-w-0 w-full">
                           <div className="min-w-0 flex items-center">
                             <p
@@ -2205,8 +2261,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             title={
                               item.videoUrl
                                 ? isEn
-                                  ? 'Hover to preview video (click for full view)'
-                                  : 'Rê chuột vào hình để phát video (bấm để xem toàn thẻ)'
+                                  ? 'Hover to play full-card video'
+                                  : 'Rê chuột vào hình để phát video lấp đầy thẻ'
                                 : systemFullName
                             }
                             aria-label={
@@ -2231,56 +2287,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               onError={(e) => {
                                 e.currentTarget.style.display = 'none';
                               }}
-                              className={cn(
-                                'relative z-10 w-full h-full object-contain p-0 m-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-300',
-                                isRightHoverVideoPlaying && 'opacity-0'
-                              )}
+                              className="relative z-10 w-full h-full object-contain p-0 m-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-300"
                             />
-
-                            {isRightHoverVideoPlaying && (
-                              <video
-                                src={item.videoUrl}
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                preload="auto"
-                                controls={false}
-                                disablePictureInPicture
-                                controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                aria-hidden="true"
-                                tabIndex={-1}
-                                onLoadedMetadata={(e) => {
-                                  const v = e.currentTarget;
-                                  v.defaultMuted = true;
-                                  v.muted = true;
-                                  v.loop = true;
-                                  v.controls = false;
-                                  v.disablePictureInPicture = true;
-                                  (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                  if (v.paused) v.play().catch(() => {});
-                                }}
-                                onCanPlay={(e) => {
-                                  const v = e.currentTarget;
-                                  v.defaultMuted = true;
-                                  v.muted = true;
-                                  v.loop = true;
-                                  if (v.paused) v.play().catch(() => {});
-                                }}
-                                onEnded={(e) => {
-                                  const v = e.currentTarget;
-                                  v.currentTime = 0;
-                                  v.play().catch(() => {});
-                                }}
-                                className="absolute inset-0 z-20 w-full h-full object-contain bg-transparent border-0 outline-none shadow-none select-none pointer-events-none"
-                              />
-                            )}
                           </div>
                         </div>
 
-                        {/* BOTTOM: Tên đầy đủ Tiếng Việt + nút Chi tiết */}
+                        {/* BOTTOM: Tên đầy đủ Tiếng Việt (đã xóa nút Chi tiết) */}
                         <div
-                          className="mt-auto pt-2.5 flex items-center justify-between gap-2 min-w-0 shrink-0 transition-colors duration-300"
+                          className="mt-auto pt-2.5 flex items-center justify-start gap-2 min-w-0 shrink-0 transition-colors duration-300"
                           style={{ borderTop: `1px solid ${dividerBorder}` }}
                         >
                           <h4
@@ -2290,16 +2304,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           >
                             {systemFullName}
                           </h4>
-                          <span
-                            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide shrink-0 whitespace-nowrap transition-transform duration-200 group-hover:translate-x-0.5"
-                            style={{
-                              background: pillBg,
-                              color: primaryInk,
-                            }}
-                          >
-                            <span>{isEn ? 'Details' : 'Chi tiết'}</span>
-                            <WebIcon name="arrow-right" className="w-3 h-3 shrink-0" />
-                          </span>
                         </div>
                       </div>
                     </article>
@@ -2324,6 +2328,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               }
               onClick={(e) => e.stopPropagation()}
               className={cn(
+                'system-card-tile system-theme-card bento-card glass-card',
                 animPhase === 'entering'
                   ? ''
                   : animPhase === 'open'
@@ -2337,10 +2342,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                 left: `${morphRect.left}px`,
                 width: `${morphRect.width}px`,
                 height: `${morphRect.height}px`,
-                borderRadius:
-                  animPhase === 'open'
-                    ? 'var(--radius-main, 14px)'
-                    : 'var(--radius-card, 14px)',
+                borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
                 zIndex: 50,
               }}
             >
@@ -2348,11 +2350,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   <div
                     className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-3"
                     style={{
-                      background: isLeatherTheme
-                        ? undefined
-                        : isLight
-                          ? expandedMeta.tintBgLight
-                          : expandedMeta.tintBgDark,
+                      background: 'var(--bg-subcard, var(--surface-tertiary-bg, transparent))',
                     }}
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">

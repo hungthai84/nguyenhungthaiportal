@@ -155,9 +155,26 @@ export const BannerVideoProvider: React.FC<{ children: ReactNode }> = ({ childre
   const [bannerAssignments, setBannerAssignments] = useState<BannerAssignmentsMap>(() =>
     getInitialBannerAssignments()
   );
-  const [serviceAssignments, setServiceAssignments] = useState<ServiceAssignmentsMap>(() =>
-    readJsonStorage<ServiceAssignmentsMap>(DRIVE_SERVICE_MAP_STORAGE_KEY, {})
-  );
+  const [serviceAssignments, setServiceAssignments] = useState<ServiceAssignmentsMap>(() => {
+    const rawMap = readJsonStorage<ServiceAssignmentsMap>(DRIVE_SERVICE_MAP_STORAGE_KEY, {});
+    if (!rawMap || typeof rawMap !== 'object') return {};
+    const legacyUrls = new Set([
+      'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
+      'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
+      'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
+      'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
+      'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
+      'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
+    ]);
+    const cleaned: ServiceAssignmentsMap = {};
+    (Object.keys(rawMap) as ServiceDomainKey[]).forEach((key) => {
+      const item = rawMap[key];
+      if (item && (!item.directImageUrl || !legacyUrls.has(item.directImageUrl))) {
+        cleaned[key] = item;
+      }
+    });
+    return cleaned;
+  });
   const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(() => {
     const raw = readJsonStorage<number | null>(DRIVE_LAST_SYNC_STORAGE_KEY, null);
     return typeof raw === 'number' ? raw : null;

@@ -3,47 +3,46 @@ import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } fro
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
-  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Liquid Glass Soft Light' },
-  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Liquid Glass Soft Dark' },
-  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Brown Leather Classic Edition' },
-  'dark-cowhide-leather': { vi: 'Da Bò Tối Màu', en: 'Dark Cowhide Leather' },
-  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Premium Walnut Wood Grain' },
-  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean Dark Blue' },
+  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Kính Lỏng Mềm Sáng' },
+  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Kính Lỏng Mềm Tối' },
+  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Da Bò Cổ Điển' },
+  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Vân Gỗ Óc Chó' },
+  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Đại Dương Sâu Thẳm' },
   'neumorphism-beyond': {
     vi: 'Nổi Khối Kính Mờ',
-    en: 'Soft UI Glass Beyond',
+    en: 'Nổi Khối Kính Mờ',
   },
   'dark-neumorphism-beyond': {
     vi: 'Khối Kính Mờ Tối',
-    en: 'Dark Soft Glass Beyond',
+    en: 'Khối Kính Mờ Tối',
   },
   'frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối',
-    en: 'Frost Ice Matte Soft',
+    en: 'Băng Tuyết Nổi Khối',
   },
   'flat-soft-ui': {
     vi: 'Giao Diện Phẳng Sáng',
-    en: 'Flat Soft UI Light',
+    en: 'Giao Diện Phẳng Sáng',
   },
   'dark-flat-soft-ui': {
     vi: 'Giao Diện Phẳng Tối',
-    en: 'Flat Soft UI Dark',
+    en: 'Giao Diện Phẳng Tối',
   },
   'mica-fluent': {
-    vi: 'Mica / Fluent Design',
-    en: 'Mica / Fluent Design',
+    vi: 'Kính Mờ Phân Lớp',
+    en: 'Kính Mờ Phân Lớp',
   },
   'gradient-dopamine': {
-    vi: 'Gradient / Dopamine UI – Đa sắc',
-    en: 'Gradient / Dopamine UI – Multicolor',
+    vi: 'Đa Sắc Năng Lượng',
+    en: 'Đa Sắc Năng Lượng',
   },
   'iridescent-liquid-glass': {
-    vi: 'Iridescent Liquid Glass',
-    en: 'Iridescent Liquid Glass',
+    vi: 'Kính Xà Cừ Sáng',
+    en: 'Kính Xà Cừ Sáng',
   },
   'dark-iridescent-liquid-glass': {
-    vi: 'Iridescent Liquid Glass (Tối)',
-    en: 'Iridescent Liquid Glass (Dark)',
+    vi: 'Kính Xà Cừ Tối',
+    en: 'Kính Xà Cừ Tối',
   },
 };
 
@@ -65,7 +64,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'liquid-glass',
     label: 'Kính Lỏng Mềm Mại',
-    labelEn: 'Liquid Glass Soft UI',
+    labelEn: 'Kính Lỏng Mềm Mại',
     description:
       'Giao diện kính lỏng quang học trong suốt có viền phản quang sáng mảnh, sắc độ thích ứng theo nền và tách bạch rõ vùng nội dung sáng tối sắc nét.',
     descriptionEn:
@@ -77,8 +76,8 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'iridescent-liquid-glass',
-    label: 'Kính Lỏng Ánh Xà Cừ Đa Sắc',
-    labelEn: 'Iridescent Liquid Glass',
+    label: 'Kính Ánh Xà Cừ',
+    labelEn: 'Kính Ánh Xà Cừ',
     description:
       'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome cầu vồng khúc xạ ánh sáng và bảng tùy chỉnh 9 nhóm trực quan theo thời gian thực.',
     descriptionEn:
@@ -92,21 +91,20 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
-    labelEn: 'Full-Grain Cowhide Leather',
+    labelEn: 'Da Bò Thủ Công',
     description:
-      'Chất liệu da bò cổ điển màu nâu chỉ kem và phiên bản Da Bò Tối Màu khâu tay sắc nét.',
+      'Chất liệu da bò cổ điển màu nâu chỉ kem khâu tay thủ công sắc nét.',
     descriptionEn:
-      'Classic brown cowhide leather with cream hand-stitching alongside the Dark Cowhide Leather edition.',
+      'Classic brown cowhide leather with cream hand-stitching.',
     icon: 'briefcase',
     defaultMode: 'cowhide-leather',
     lightMode: 'cowhide-leather',
-    darkMode: 'dark-cowhide-leather',
     colorMode: 'cowhide-leather',
   },
   {
     id: 'walnut-wood',
     label: 'Vân Gỗ Óc Chó',
-    labelEn: 'Walnut Wood Grain',
+    labelEn: 'Vân Gỗ Óc Chó',
     description:
       'Vân gỗ óc chó sẫm thủ công với đường khảm đồng mảnh liền nét, sắc chữ trắng ngà ấm áp và điểm nhấn hổ phách tinh tế.',
     descriptionEn:
@@ -118,7 +116,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'deep-ocean',
     label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Deep Ocean',
+    labelEn: 'Đại Dương Sâu Thẳm',
     description:
       'Giao diện đại dương sâu thẳm: nền xanh biển sâu (#050B14), các lớp bề mặt kính đại dương, sắc xanh lam và điểm nhấn ngọc bích.',
     descriptionEn:
@@ -130,7 +128,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'neumorphism-beyond',
     label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Soft UI Glass Beyond',
+    labelEn: 'Nổi Khối Kính Mờ',
     description:
       'Giao diện nổi khối kép kết hợp kính mờ hiện đại trên nền sáng #EBF0F6 và nền tối #151B26 cùng hệ 6 sắc màu nổi bật.',
     descriptionEn:
@@ -143,7 +141,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'frost-ice-neu',
     label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Frost Ice Neumorphism',
+    labelEn: 'Băng Tuyết Nổi Khối',
     description:
       'Giao diện nổi khối lì thuần chất không viền: nền và thẻ đồng nhất một màu lì (#E0E8F2), đùn nổi bằng cặp bóng đổ đối xứng sáng/tối và điểm nhấn đơn sắc.',
     descriptionEn:
@@ -155,7 +153,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
-    labelEn: 'Flat Soft UI',
+    labelEn: 'Giao Diện Phẳng Mềm',
     description:
       'Giao diện phẳng hiện đại, thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế, độ tương phản cao và không gây mỏi mắt.',
     descriptionEn:
@@ -167,8 +165,8 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'mica-fluent',
-    label: 'Mica / Fluent Design',
-    labelEn: 'Mica / Fluent Design',
+    label: 'Kính Mờ Phân Lớp',
+    labelEn: 'Kính Mờ Phân Lớp',
     description:
       'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
@@ -180,8 +178,8 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   },
   {
     id: 'gradient-dopamine',
-    label: 'Gradient / Dopamine UI – Đa sắc',
-    labelEn: 'Gradient / Dopamine UI',
+    label: 'Đa Sắc Năng Lượng',
+    labelEn: 'Đa Sắc Năng Lượng',
     description:
       'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
     descriptionEn:
@@ -289,14 +287,14 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'cowhide-leather',
     familyId: 'cowhide-leather',
     familyLabel: 'Da Bò Thủ Công',
-    familyLabelEn: 'Full-Grain Cowhide Leather',
+    familyLabelEn: 'Da Bò Thủ Công',
     mechanism: 'color',
-    counterpartMode: 'dark-cowhide-leather',
+    counterpartMode: 'cowhide-leather',
     cardClassName: 'card-cowhide-leather',
-    name: 'Da Bò Cổ Điển (Nâu)',
-    label: 'Da Bò Cổ Điển (Nâu)',
+    name: 'Da Bò Cổ Điển',
+    label: 'Da Bò Cổ Điển',
     shortBadge: 'Da Bò Cổ Điển',
-    tagLabel: 'Da Bò Nâu Cổ Điển · Chỉ kem',
+    tagLabel: 'Da Bò Cổ Điển · Chỉ kem',
     modeLabel: 'Da Bò Cổ Điển',
     isDark: true,
     icon: 'briefcase',
@@ -327,51 +325,10 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#522E10]/90 text-white border-[#F5DEB3]/50',
   },
   {
-    id: 'dark-cowhide-leather',
-    familyId: 'cowhide-leather',
-    familyLabel: 'Da Bò Thủ Công',
-    familyLabelEn: 'Full-Grain Cowhide Leather',
-    mechanism: 'dark',
-    counterpartMode: 'cowhide-leather',
-    cardClassName: 'card-dark-cowhide-leather',
-    name: 'Da Bò Tối Màu',
-    label: 'Da Bò Tối Màu',
-    shortBadge: 'Da Bò Tối Màu',
-    tagLabel: 'Da bò tối màu · Chỉ kem',
-    modeLabel: 'Da Bò Tối Màu',
-    isDark: true,
-    icon: 'moon',
-    color: '#E5B87E',
-    desc: 'Chất liệu da bò tối màu trầm ấm (#2B221E → #140F0D) kết hợp đường chỉ khâu tay đứt nét màu kem và điểm nhấn hổ phách cổ điển.',
-    cardSampleStyle: {
-      background: 'linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%)',
-      borderRadius: '14px',
-      border: '2px solid #3E3028',
-      boxShadow:
-        '0 18px 38px rgba(0, 0, 0, 0.62), inset 0 1.5px 3px rgba(255, 232, 200, 0.14), inset 0 -3px 6px rgba(0, 0, 0, 0.72)',
-      color: '#FFF8EE',
-    },
-    miniPreviewWrapStyle: {
-      background: 'linear-gradient(145deg, #241C18 0%, #140F0D 100%)',
-      borderColor: 'rgba(245, 222, 179, 0.44)',
-      borderStyle: 'dashed',
-    },
-    miniTabStyle: {
-      background: 'rgba(28, 22, 19, 0.92)',
-      color: '#FFF8EE',
-      borderColor: 'rgba(245, 222, 179, 0.42)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #E5B87E 0%, #B7793B 100%)',
-      color: '#140F0D',
-    },
-    badgeColorClass: 'bg-[#1C1613]/92 text-[#E5B87E] border-[#E5B87E]/45',
-  },
-  {
     id: 'walnut-wood',
     familyId: 'walnut-wood',
     familyLabel: 'Vân Gỗ Óc Chó',
-    familyLabelEn: 'Walnut Wood Grain',
+    familyLabelEn: 'Vân Gỗ Óc Chó',
     mechanism: 'dark',
     counterpartMode: 'walnut-wood',
     cardClassName: 'card-walnut-wood',
@@ -412,7 +369,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'deep-ocean',
     familyId: 'deep-ocean',
     familyLabel: 'Đại Dương Sâu Thẳm',
-    familyLabelEn: 'Deep Ocean',
+    familyLabelEn: 'Đại Dương Sâu Thẳm',
     mechanism: 'dark',
     counterpartMode: 'deep-ocean',
     cardClassName: 'card-deep-ocean',
@@ -451,7 +408,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'neumorphism-beyond',
     familyId: 'neumorphism-beyond',
     familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Soft UI Glass Beyond',
+    familyLabelEn: 'Nổi Khối Kính Mờ',
     mechanism: 'light',
     counterpartMode: 'dark-neumorphism-beyond',
     cardClassName: 'card-neumorphism-beyond',
@@ -495,7 +452,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-neumorphism-beyond',
     familyId: 'neumorphism-beyond',
     familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Soft UI Glass Beyond',
+    familyLabelEn: 'Nổi Khối Kính Mờ',
     mechanism: 'dark',
     counterpartMode: 'neumorphism-beyond',
     cardClassName: 'card-dark-neumorphism-beyond',
@@ -539,7 +496,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'frost-ice-neu',
     familyId: 'frost-ice-neu',
     familyLabel: 'Băng Tuyết Nổi Khối',
-    familyLabelEn: 'Frost Ice Neumorphism',
+    familyLabelEn: 'Băng Tuyết Nổi Khối',
     mechanism: 'light',
     counterpartMode: 'frost-ice-neu',
     cardClassName: 'card-frost-ice-neu',
@@ -588,7 +545,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
-    familyLabelEn: 'Flat Soft UI',
+    familyLabelEn: 'Giao Diện Phẳng Mềm',
     mechanism: 'light',
     counterpartMode: 'dark-flat-soft-ui',
     cardClassName: 'card-flat-soft-ui',
@@ -631,7 +588,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
-    familyLabelEn: 'Flat Soft UI',
+    familyLabelEn: 'Giao Diện Phẳng Mềm',
     mechanism: 'dark',
     counterpartMode: 'flat-soft-ui',
     cardClassName: 'card-dark-flat-soft-ui',
@@ -673,16 +630,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'mica-fluent',
     familyId: 'mica-fluent',
-    familyLabel: 'Mica / Fluent Design',
-    familyLabelEn: 'Mica / Fluent Design',
+    familyLabel: 'Kính Mờ Phân Lớp',
+    familyLabelEn: 'Kính Mờ Phân Lớp',
     mechanism: 'light',
     counterpartMode: 'mica-fluent',
     cardClassName: 'card-mica-fluent',
-    name: 'Mica / Fluent Design',
-    label: 'Mica / Fluent Design',
-    shortBadge: 'Mica / Fluent',
-    tagLabel: 'Mica / Fluent · Windows hiện đại',
-    modeLabel: 'Mica / Fluent Design',
+    name: 'Kính Mờ Phân Lớp',
+    label: 'Kính Mờ Phân Lớp',
+    shortBadge: 'Kính Mờ Phân Lớp',
+    tagLabel: 'Kính mờ phân lớp · Windows hiện đại',
+    modeLabel: 'Kính Mờ Phân Lớp',
     isDark: false,
     icon: 'layers',
     color: '#e84118',
@@ -715,16 +672,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'gradient-dopamine',
     familyId: 'gradient-dopamine',
-    familyLabel: 'Gradient / Dopamine UI – Đa sắc',
-    familyLabelEn: 'Gradient / Dopamine UI',
+    familyLabel: 'Đa Sắc Năng Lượng',
+    familyLabelEn: 'Đa Sắc Năng Lượng',
     mechanism: 'color',
     counterpartMode: 'gradient-dopamine',
     cardClassName: 'card-gradient-dopamine',
-    name: 'Gradient / Dopamine UI – Đa sắc',
-    label: 'Gradient / Dopamine UI – Đa sắc',
-    shortBadge: 'Dopamine UI',
+    name: 'Đa Sắc Năng Lượng',
+    label: 'Đa Sắc Năng Lượng',
+    shortBadge: 'Đa Sắc Năng Lượng',
     tagLabel: 'Gradient chuyển màu · Đa sắc năng lượng',
-    modeLabel: 'Gradient / Dopamine UI – Đa sắc',
+    modeLabel: 'Đa Sắc Năng Lượng',
     isDark: false,
     icon: 'sparkles',
     color: '#FF2E93',
@@ -760,16 +717,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'iridescent-liquid-glass',
     familyId: 'iridescent-liquid-glass',
-    familyLabel: 'Iridescent Liquid Glass',
-    familyLabelEn: 'Iridescent Liquid Glass',
+    familyLabel: 'Kính Ánh Xà Cừ',
+    familyLabelEn: 'Kính Ánh Xà Cừ',
     mechanism: 'light',
     counterpartMode: 'dark-iridescent-liquid-glass',
     cardClassName: 'card-iridescent-liquid-glass',
-    name: 'Iridescent Liquid Glass',
-    label: 'Iridescent Liquid Glass',
-    shortBadge: 'Kính Lỏng Ánh Xà Cừ',
+    name: 'Kính Xà Cừ Sáng',
+    label: 'Kính Xà Cừ Sáng',
+    shortBadge: 'Kính Xà Cừ Sáng',
     tagLabel: 'Kính lỏng ánh xà cừ · Sáng & Tùy chỉnh 9 nhóm',
-    modeLabel: 'Iridescent Liquid Glass',
+    modeLabel: 'Kính Xà Cừ Sáng',
     isDark: false,
     icon: 'sparkles',
     color: '#06B6D4',
@@ -805,16 +762,16 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
   {
     id: 'dark-iridescent-liquid-glass',
     familyId: 'iridescent-liquid-glass',
-    familyLabel: 'Iridescent Liquid Glass',
-    familyLabelEn: 'Iridescent Liquid Glass',
+    familyLabel: 'Kính Ánh Xà Cừ',
+    familyLabelEn: 'Kính Ánh Xà Cừ',
     mechanism: 'dark',
     counterpartMode: 'iridescent-liquid-glass',
     cardClassName: 'card-dark-iridescent-liquid-glass',
-    name: 'Iridescent Liquid Glass (Tối)',
-    label: 'Iridescent Liquid Glass (Tối)',
+    name: 'Kính Xà Cừ Tối',
+    label: 'Kính Xà Cừ Tối',
     shortBadge: 'Kính Xà Cừ Tối',
     tagLabel: 'Kính lỏng ánh xà cừ · Tối & Khúc xạ Chrome',
-    modeLabel: 'Iridescent Liquid Glass (Tối)',
+    modeLabel: 'Kính Xà Cừ Tối',
     isDark: true,
     icon: 'moon',
     color: '#22D3EE',
@@ -882,7 +839,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'liquid-glass': {
     familyId: 'liquid-glass',
     label: 'Kính Lỏng Mềm Mại',
-    labelEn: 'Liquid Glass Soft UI',
+    labelEn: 'Kính Lỏng Mềm Mại',
     description:
       'Giao diện kính lỏng quang học trong suốt có viền phản quang sáng mảnh, sắc độ thích ứng theo nền.',
     descriptionEn: 'Liquid Glass Soft UI: optical glass material with subtle specular rim highlights and adaptive tint.',
@@ -893,18 +850,18 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'cowhide-leather': {
     familyId: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
-    labelEn: 'Full-Grain Cowhide Leather',
-    description: 'Da Bò Cổ Điển (nâu chỉ kem) và Da Bò Tối Màu khâu tay sắc nét.',
-    descriptionEn: 'Classic brown cowhide leather and Dark Cowhide Leather with cream hand-stitching.',
+    labelEn: 'Da Bò Thủ Công',
+    description: 'Da Bò Cổ Điển màu nâu chỉ kem khâu tay thủ công sắc nét.',
+    descriptionEn: 'Classic brown cowhide leather with cream hand-stitching.',
     icon: 'briefcase',
     light: CARD_STYLES_MAP['cowhide-leather'],
-    dark: CARD_STYLES_MAP['dark-cowhide-leather'],
+    dark: CARD_STYLES_MAP['cowhide-leather'],
     color: CARD_STYLES_MAP['cowhide-leather'],
   },
   'walnut-wood': {
     familyId: 'walnut-wood',
     label: 'Vân Gỗ Óc Chó',
-    labelEn: 'Walnut Wood Grain',
+    labelEn: 'Vân Gỗ Óc Chó',
     description: 'Vân gỗ óc chó sẫm thủ công với đường khảm đồng mảnh liền nét và điểm nhấn hổ phách.',
     descriptionEn: 'Handcrafted American walnut wood grain with solid hairline brass inlay and warm amber accents.',
     icon: 'briefcase',
@@ -914,7 +871,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'deep-ocean': {
     familyId: 'deep-ocean',
     label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Deep Ocean',
+    labelEn: 'Đại Dương Sâu Thẳm',
     description: 'Đại Dương Sâu Thẳm: giao diện xanh lam đại dương tối với chiều sâu kính trong trẻo.',
     descriptionEn: 'Deep Ocean Dark: abyssal navy glass surfaces with ocean cyan highlights.',
     icon: 'compass',
@@ -924,7 +881,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'neumorphism-beyond': {
     familyId: 'neumorphism-beyond',
     label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Soft UI Glass Beyond',
+    labelEn: 'Nổi Khối Kính Mờ',
     description: 'Nổi khối kép sắc nét kết hợp kính mờ phiên bản Sáng & Tối cùng 6 sắc màu chuẩn.',
     descriptionEn: 'Neumorphism, Glassmorphism & Beyond dual-shadow extrusion in Light & Dark editions with 6 reference accents.',
     icon: 'sliders',
@@ -934,7 +891,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'frost-ice-neu': {
     familyId: 'frost-ice-neu',
     label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Frost Ice Neumorphism',
+    labelEn: 'Băng Tuyết Nổi Khối',
     description:
       'Băng Tuyết Nổi Khối: nổi khối lì thuần chất không viền trên nền #E0E8F2 với bóng nổi đối xứng.',
     descriptionEn:
@@ -946,7 +903,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'flat-soft-ui': {
     familyId: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
-    labelEn: 'Flat Soft UI',
+    labelEn: 'Giao Diện Phẳng Mềm',
     description:
       'Giao Diện Phẳng Sáng & Tối: phong cách phẳng thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế và chống mỏi mắt.',
     descriptionEn:
@@ -957,8 +914,8 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'mica-fluent': {
     familyId: 'mica-fluent',
-    label: 'Mica / Fluent Design',
-    labelEn: 'Mica / Fluent Design',
+    label: 'Kính Mờ Phân Lớp',
+    labelEn: 'Kính Mờ Phân Lớp',
     description:
       'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
@@ -970,8 +927,8 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'gradient-dopamine': {
     familyId: 'gradient-dopamine',
-    label: 'Gradient / Dopamine UI – Đa sắc',
-    labelEn: 'Gradient / Dopamine UI',
+    label: 'Đa Sắc Năng Lượng',
+    labelEn: 'Đa Sắc Năng Lượng',
     description:
       'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
     descriptionEn:
@@ -983,8 +940,8 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   },
   'iridescent-liquid-glass': {
     familyId: 'iridescent-liquid-glass',
-    label: 'Iridescent Liquid Glass',
-    labelEn: 'Iridescent Liquid Glass',
+    label: 'Kính Ánh Xà Cừ',
+    labelEn: 'Kính Ánh Xà Cừ',
     description:
       'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome ánh cầu vồng và bảng tùy chỉnh 9 nhóm trực quan.',
     descriptionEn:
@@ -1048,7 +1005,8 @@ const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
   'rainbow-glass': 'liquid-glass',
   'dark-rainbow-glass': 'dark-liquid-glass',
   'special-rainbow-glass': 'dark-liquid-glass',
-  'black-cowhide-leather': 'dark-cowhide-leather',
+  'black-cowhide-leather': 'cowhide-leather',
+  'dark-cowhide-leather': 'cowhide-leather',
 };
 
 export const normalizeCardStyle = (raw: string | null | undefined): CardStyleMode => {

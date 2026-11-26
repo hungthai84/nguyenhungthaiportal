@@ -4,7 +4,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SkillsView } from './SkillsView';
-import { cn } from '@/lib/utils';
+import { cn, formatCardTitle } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
@@ -143,7 +143,6 @@ import {
   AcademicRadarAxis,
 } from '@/data/education';
 import { SiteTheme } from '@/types';
-import { formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
 export interface EducationViewProps {
@@ -246,7 +245,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
-    currentTheme === 'dark-cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
@@ -261,6 +259,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const [exactYearFilter, setExactYearFilter] = useState<number | null>(null);
 
   const [selectedCourse, setSelectedCourse] = useState<EducationCourse | null>(null);
+  const [activeBookIdx, setActiveBookIdx] = useState<number>(0);
   const [verifyingCourse, setVerifyingCourse] = useState<EducationCourse | null>(null);
   const [copiedCredentialId, setCopiedCredentialId] = useState<string | null>(null);
 
@@ -274,6 +273,8 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const filterButtonRef = useRef<HTMLButtonElement | null>(null);
+  const bannerTimelineScrollRef = useRef<HTMLDivElement | null>(null);
+  const bannerTimelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [matchedControlWidth, setMatchedControlWidth] = useState<number | null>(null);
 
   useEffect(() => {
@@ -351,6 +352,28 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       return matchCategory && matchYear;
     });
   }, [activeCategory, maxYearFilter, exactYearFilter]);
+
+  const safeActiveBookIdx = Math.min(
+    Math.max(0, activeBookIdx),
+    Math.max(0, filteredCourses.length - 1)
+  );
+
+  useEffect(() => {
+    if (activeBookIdx >= filteredCourses.length && filteredCourses.length > 0) {
+      setActiveBookIdx(0);
+    }
+  }, [activeBookIdx, filteredCourses.length]);
+
+  useEffect(() => {
+    const container = bannerTimelineScrollRef.current;
+    const node = bannerTimelineNodeRefs.current[safeActiveBookIdx];
+    if (!container || !node) return;
+    const targetLeft = node.offsetLeft - container.clientWidth / 2 + node.offsetWidth / 2;
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth',
+    });
+  }, [safeActiveBookIdx, filteredCourses.length]);
 
   const handleOpenDetail = (course: EducationCourse) => {
     SoundEngine.playBookOpen();
@@ -536,7 +559,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div id="education-hero-banner-header" className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-          <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
+          <div className="card-header-sync flex items-center gap-2 min-w-0 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
             <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
             <h1
               id="education-hero-banner-title"
@@ -547,104 +570,22 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               Học vấn bằng cấp
             </h1>
           </div>
+
           <p
             id="education-hero-banner-quote"
-            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-right ml-auto whitespace-normal break-words overflow-visible hidden md:block max-w-[60%]"
             style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
           >
             &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
           </p>
-
-          <CompactBannerMenu
-            id="education-compact-menu-btn"
-            label={isEn ? 'Controls' : 'Điều khiển'}
-            ariaLabel={isEn ? 'Course filters and view mode' : 'Bộ lọc và dạng xem khóa học'}
-            activeCount={activeCategory !== 'all' ? 1 : 0}
-          >
-            {(closeMenu) => (
-              <>
-                <div className="flex flex-col gap-1.5">
-                  <span className="typo-label text-[var(--text-muted)] px-1">
-                    {isEn ? 'View mode' : 'Dạng hiển thị'}
-                  </span>
-                  <div className="banner-control-pill w-full inline-flex items-center gap-1 p-0.5 rounded-full">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setViewMode('grid');
-                        closeMenu();
-                      }}
-                      style={
-                        viewMode === 'grid'
-                          ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                          : undefined
-                      }
-                      className={cn(
-                        'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
-                        viewMode === 'grid' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
-                      )}
-                    >
-                      <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-                      <span>{isEn ? 'Grid' : 'Dạng lưới'}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setViewMode('bookshelf');
-                        closeMenu();
-                      }}
-                      style={
-                        viewMode === 'bookshelf'
-                          ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                          : undefined
-                      }
-                      className={cn(
-                        'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
-                        viewMode === 'bookshelf' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
-                      )}
-                    >
-                      <WebIcon name="book-open" className="w-3.5 h-3.5 shrink-0" />
-                      <span>{isEn ? 'Bookshelf' : 'Kệ sách'}</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <span className="typo-label text-[var(--text-muted)] px-1">
-                    {isEn ? 'Training type' : 'Hình thức đào tạo'}
-                  </span>
-                  {TRAINING_TYPE_CATEGORIES.map((cat) => {
-                    const isActive = activeCategory === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        data-selected={isActive ? 'true' : undefined}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setActiveCategory(cat.id);
-                          closeMenu();
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span className="flex items-center gap-2 truncate">
-                          {renderTrainingTypeIcon(cat.id, 'w-3.5 h-3.5 shrink-0')}
-                          <span className="truncate">{cat.label}</span>
-                        </span>
-                        {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current shrink-0" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </CompactBannerMenu>
         </div>
 
-        <div id="education-hero-banner-filter-row" className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2 mt-auto w-full min-w-0" ref={filterMenuRef}>
-          <div className="relative inline-block max-w-full min-w-0 text-left">
+        <div
+          id="education-hero-banner-filter-row"
+          className="banner-desktop-controls edu-banner-bottom-row relative z-30 flex items-center justify-between gap-3 mt-auto w-full min-w-0"
+          ref={filterMenuRef}
+        >
+          <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
             <button
               id="education-filter-toggle-btn"
               ref={filterButtonRef}
@@ -700,6 +641,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                         onClick={() => {
                           SoundEngine.playTap();
                           setActiveCategory(cat.id);
+                          setActiveBookIdx(0);
                           setIsFilterDropdownOpen(false);
                         }}
                         className={cn(
@@ -732,6 +674,127 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             </AnimatePresence>
           </div>
 
+          {/* Timeline nằm ở góc dưới bên phải banner (trên màn hình đầy đủ) và góc trên bên phải khi thu gọn */}
+          <div
+            id="education-banner-timeline"
+            className="edu-banner-compact-timeline relative z-20 flex items-center gap-1.5 max-w-[min(680px,calc(100%-190px))] min-w-0 ml-auto"
+          >
+            {/* Nút lùi nhanh khóa học trước */}
+            <button
+              type="button"
+              onClick={() => {
+                if (safeActiveBookIdx > 0) {
+                  setActiveBookIdx(safeActiveBookIdx - 1);
+                  SoundEngine.playTap?.();
+                }
+              }}
+              disabled={safeActiveBookIdx === 0}
+              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)] cursor-pointer"
+              style={{ color: 'var(--text-secondary)' }}
+              title={isEn ? "Previous certificate" : "Khóa học trước"}
+              aria-label={isEn ? "Previous certificate" : "Khóa học trước"}
+            >
+              <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Dãy mốc thời gian cuộn ngang mượt tự căn giữa */}
+            <div
+              ref={bannerTimelineScrollRef}
+              role="navigation"
+              aria-label={isEn ? 'Course Timeline' : 'Dòng thời gian các khóa học'}
+              className="edu-banner-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-1.5 py-1 px-1.5 rounded-[12px] border border-[var(--border-subcard)] bg-[var(--bg-subcard)] backdrop-blur-md"
+              style={{
+                maskImage: 'linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%)'
+              }}
+            >
+              {filteredCourses.map((course, idx) => {
+                const isActive = idx === safeActiveBookIdx;
+                const cleanTitle = formatCardTitle(course.title);
+                return (
+                  <button
+                    key={`banner-timeline-${course.id}`}
+                    ref={(el) => {
+                      bannerTimelineNodeRefs.current[idx] = el;
+                    }}
+                    type="button"
+                    data-active={isActive ? 'true' : 'false'}
+                    onClick={() => {
+                      setActiveBookIdx(idx);
+                      SoundEngine.playTap?.();
+                    }}
+                    aria-current={isActive ? 'step' : undefined}
+                    title={`${course.year} · ${cleanTitle}`}
+                    className={cn(
+                      'banner-timeline-node group relative flex flex-col items-center justify-center py-1 px-2.5 rounded-[8px] transition-all duration-200 cursor-pointer shrink-0 select-none text-center',
+                      isActive
+                        ? 'shadow-xs font-semibold'
+                        : 'hover:text-[var(--text-primary)] opacity-85 hover:opacity-100'
+                    )}
+                    style={{
+                      background: isActive ? 'var(--color-primary)' : 'transparent',
+                      color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-secondary)',
+                      minWidth: '82px',
+                      maxWidth: '136px',
+                    }}
+                  >
+                    {/* Bên trên hiển thị tên khóa học */}
+                    <span
+                      className="banner-timeline-node-title text-[11px] leading-tight font-medium truncate max-w-full block"
+                      style={{
+                        color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-primary)',
+                      }}
+                    >
+                      {cleanTitle}
+                    </span>
+
+                    {/* Bên dưới hiển thị icon lịch + Năm */}
+                    <span
+                      className="banner-timeline-node-year inline-flex items-center gap-1 text-[10px] font-mono leading-none mt-0.5"
+                      style={{
+                        color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-muted, var(--text-secondary))',
+                      }}
+                    >
+                      <WebIcon
+                        name="calendar"
+                        className={cn(
+                          'w-2.5 h-2.5 shrink-0',
+                          isActive ? 'text-white' : 'text-[var(--color-primary)]'
+                        )}
+                      />
+                      <span className="font-semibold tracking-tight">{course.year}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Nút tiến nhanh khóa học tiếp theo */}
+            <button
+              type="button"
+              onClick={() => {
+                if (safeActiveBookIdx < filteredCourses.length - 1) {
+                  setActiveBookIdx(safeActiveBookIdx + 1);
+                  SoundEngine.playTap?.();
+                }
+              }}
+              disabled={safeActiveBookIdx >= filteredCourses.length - 1}
+              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)] cursor-pointer"
+              style={{ color: 'var(--text-secondary)' }}
+              title={isEn ? "Next certificate" : "Khóa học kế tiếp"}
+              aria-label={isEn ? "Next certificate" : "Khóa học kế tiếp"}
+            >
+              <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Chỉ số thứ tự khóa học hiện tại */}
+            <span
+              className="px-2 py-1 rounded-[8px] typo-badge font-mono text-[11px] font-semibold shrink-0 select-none border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              <b style={{ color: 'var(--color-primary)' }}>{safeActiveBookIdx + 1}</b>/{filteredCourses.length}
+            </span>
+          </div>
         </div>
       </section>
       )}
@@ -789,6 +852,9 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           isEn={isEn}
           isDark={isDark}
           onSelectCourse={handleOpenDetail}
+          selectedBookIndex={safeActiveBookIdx}
+          onSelectBookIndex={setActiveBookIdx}
+          hideTopTimeline={true}
         />
       )}
         </>

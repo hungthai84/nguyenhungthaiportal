@@ -3,6 +3,59 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { TABS_DATA } from '@/data/tabs';
+
+const PAGE_SLUG_NAME_MAP: Record<string, string> = {
+  home: 'Trang chủ',
+  letter: 'Thư Ngỏ',
+  about: 'Giới thiệu',
+  education: 'Học vấn',
+  services: 'Dịch vụ',
+  experience: 'Kinh nghiệm',
+  skills: 'Kỹ năng',
+  projects: 'Dự án',
+  systems: 'Hệ thống',
+  interview: 'Phỏng vấn',
+  horoscope: 'Tử vi',
+  memories: 'Kỷ niệm',
+  contact: 'Liên hệ',
+  'ai-assistant': 'AI Hỗ Trợ',
+  wallpaper: 'Hình nền',
+  interface: 'Giao diện',
+  pdf: 'Tải PDF',
+  global: 'Toàn trang',
+};
+
+function resolvePageDisplayName(elementPage?: string, elementId?: string): string {
+  const raw = (elementPage || '').trim().toLowerCase();
+
+  const pMatch = raw.match(/^p(\d+)$/);
+  if (pMatch) {
+    const tab = TABS_DATA[Number(pMatch[1])];
+    if (tab?.name) return tab.name;
+  }
+
+  if (raw && PAGE_SLUG_NAME_MAP[raw]) {
+    if (raw === 'global' && elementId) {
+      const idMatch = elementId.match(/^el-p(\d+)-/i);
+      if (idMatch) {
+        const tab = TABS_DATA[Number(idMatch[1])];
+        if (tab?.name) return tab.name;
+      }
+    }
+    return PAGE_SLUG_NAME_MAP[raw];
+  }
+
+  if (elementId) {
+    const idMatch = elementId.match(/^el-p(\d+)-/i);
+    if (idMatch) {
+      const tab = TABS_DATA[Number(idMatch[1])];
+      if (tab?.name) return tab.name;
+    }
+  }
+
+  return elementPage || 'Chưa xác định';
+}
 
 interface ElementInfo {
   tag: string;
@@ -534,8 +587,8 @@ export const XRayInspector: React.FC<XRayInspectorProps> = ({
     const payload = pinnedTargets
       .map((item) => {
         const { info } = item;
-        const activeFeatures = getActiveFeaturesForTarget(item).map((f) => f.label).join(', ');
-        return `[Nhận dạng đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${info.elementPage} | Tính năng đang bật (ON): ${activeFeatures || 'Không có'} | Nội dung: "${info.text || ''}"]`;
+        const pageName = resolvePageDisplayName(info.elementPage, info.id);
+        return `Đối tượng: "${info.elementName || info.tag}" | Thẻ: ${info.tag} | ID: ${info.id || 'không có'} | Bộ chọn CSS: ${info.selector} | Loại: ${info.elementType} | Trang: ${pageName}`;
       })
       .join('\n\n');
 

@@ -15,11 +15,18 @@ import {
   evaluateOverallLayoutTypography,
 } from './config/typographyScale';
 import { SoundEngine } from './components/ui/SoundEngine';
-import {
-  AnimatedSceneWallpaper,
-  isAnimatedSceneWallpaper,
-} from './components/backgrounds/AnimatedSceneWallpaper';
-import { LiquidGlassCursor } from './components/ui/LiquidGlassCursor';
+import { isAnimatedSceneWallpaper } from './components/backgrounds/AnimatedSceneWallpaper';
+
+const AnimatedSceneWallpaper = React.lazy(() =>
+  import('./components/backgrounds/AnimatedSceneWallpaper').then((m) => ({
+    default: m.AnimatedSceneWallpaper,
+  }))
+);
+const LiquidGlassCursor = React.lazy(() =>
+  import('./components/ui/LiquidGlassCursor').then((m) => ({
+    default: m.LiquidGlassCursor,
+  }))
+);
 
 const MapModal = React.lazy(() =>
   import('./components/common/MapModal').then((m) => ({ default: m.MapModal }))
@@ -284,31 +291,12 @@ export default function App() {
         : null;
     if (ro) {
       ro.observe(viewportEl);
-      viewportEl.querySelectorAll('.page-main-card, [data-main-card="true"]').forEach((el) => {
-        ro.observe(el);
-      });
-    }
-
-    const mo =
-      typeof MutationObserver !== 'undefined'
-        ? new MutationObserver(() => {
-            scheduleEvaluate();
-          })
-        : null;
-    if (mo) {
-      mo.observe(viewportEl, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['data-selected', 'aria-expanded', 'data-swot'],
-      });
     }
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
       window.clearTimeout(settleTimer);
       ro?.disconnect();
-      mo?.disconnect();
     };
   }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
@@ -359,7 +347,7 @@ export default function App() {
     };
   }, [currentTabIndex, cardStyle, isDark]);
 
-  // Tự động rà soát và gắn ID định danh cho toàn bộ các đối tượng DOM hiển thị chưa có ID
+  // Gán ID định danh nhẹ nhàng trong thời gian rảnh (idle) khi chuyển trang, không dùng MutationObserver hay innerText gây reflow
   useEffect(() => {
     const rootEl = document.getElementById('website-root');
     if (!rootEl) return;
@@ -369,7 +357,7 @@ export default function App() {
       const pageSlug = pageInfo?.id !== undefined ? `p${currentTabIndex}` : 'global';
       const pageTitle = pageInfo?.name || 'Trang';
       const elements = rootEl.querySelectorAll(
-        'section, article, header, footer, nav, aside, main, form, div, button, a, input, select, textarea, img, video, iframe, ul, ol, li, h1, h2, h3, h4, h5, h6, p, span, svg'
+        'section:not([id]), article:not([id]), header:not([id]), footer:not([id]), nav:not([id]), main:not([id]), button:not([id]), a:not([id]), input:not([id]), select:not([id]), textarea:not([id])'
       );
       const counters: Record<string, number> = {};
 
@@ -377,88 +365,46 @@ export default function App() {
         const htmlEl = el as HTMLElement;
         const tag = el.tagName.toLowerCase();
         counters[tag] = (counters[tag] || 0) + 1;
+        el.id = `el-${pageSlug}-${tag}-${counters[tag]}`;
 
-        if (!el.id) {
-          el.id = `el-${pageSlug}-${tag}-${counters[tag]}`;
-        }
-
-        // Tự động gán tên đối tượng có ngữ nghĩa nếu chưa có data-element-name
         if (!htmlEl.getAttribute('data-element-name')) {
-          let derivedName = '';
-
-          // 1. Lấy từ title, aria-label, placeholder, alt
           const titleAttr = htmlEl.getAttribute('title');
           const ariaLabel = htmlEl.getAttribute('aria-label');
-          const altAttr = htmlEl.getAttribute('alt');
           const placeholderAttr = htmlEl.getAttribute('placeholder');
-
-          if (titleAttr && titleAttr.trim()) {
-            derivedName = titleAttr.trim();
-          } else if (ariaLabel && ariaLabel.trim()) {
-            derivedName = ariaLabel.trim();
-          } else if (altAttr && altAttr.trim()) {
-            derivedName = `Hình: ${altAttr.trim()}`;
-          } else if (placeholderAttr && placeholderAttr.trim()) {
-            derivedName = `Ô nhập: ${placeholderAttr.trim()}`;
-          } else if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag)) {
-            const headingText = (htmlEl.innerText || htmlEl.textContent || '').trim().replace(/\s+/g, ' ');
-            derivedName = headingText ? `Tiêu đề: ${headingText.slice(0, 40)}` : `Tiêu đề ${tag.toUpperCase()}`;
-          } else if (tag === 'button') {
-            const btnText = (htmlEl.innerText || htmlEl.textContent || '').trim().replace(/\s+/g, ' ');
-            derivedName = btnText ? `Nút: ${btnText.slice(0, 35)}` : 'Nút bấm tương tác';
-          } else if (tag === 'a') {
-            const linkText = (htmlEl.innerText || htmlEl.textContent || '').trim().replace(/\s+/g, ' ');
-            derivedName = linkText ? `Liên kết: ${linkText.slice(0, 35)}` : 'Đường dẫn liên kết';
-          } else if (htmlEl.classList.contains('bento-card') || htmlEl.classList.contains('glass-card') || htmlEl.getAttribute('data-section-card')) {
-            const cardHeading = htmlEl.querySelector('h1, h2, h3, h4, h5, h6');
-            const hText = cardHeading ? (cardHeading.textContent || '').trim().replace(/\s+/g, ' ') : '';
-            derivedName = hText ? `Thẻ: ${hText.slice(0, 40)}` : `Thẻ nội dung ${pageTitle}`;
-          } else {
-            // Lấy text ngắn gọn nếu có
-            const shortText = (htmlEl.innerText || '').trim().replace(/\s+/g, ' ');
-            if (shortText && shortText.length <= 40 && !shortText.includes('\n')) {
-              derivedName = `${tag.toUpperCase()}: ${shortText}`;
-            } else {
-              derivedName = `Phần tử ${tag.toUpperCase()} (#${el.id})`;
-            }
-          }
+          const rawText = (htmlEl.textContent || '').trim().replace(/\s+/g, ' ');
+          const derivedName =
+            (titleAttr && titleAttr.trim()) ||
+            (ariaLabel && ariaLabel.trim()) ||
+            (placeholderAttr && `Ô nhập: ${placeholderAttr.trim()}`) ||
+            (rawText ? `${tag.toUpperCase()}: ${rawText.slice(0, 36)}` : `Thẻ nội dung ${pageTitle}`);
 
           htmlEl.setAttribute('data-element-name', derivedName);
           if (!htmlEl.getAttribute('data-element-page')) {
             htmlEl.setAttribute('data-element-page', pageSlug);
           }
-          if (!htmlEl.getAttribute('data-element-type')) {
-            const derivedType =
-              ['section', 'article', 'main'].includes(tag) ? 'section'
-              : ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag) ? 'heading'
-              : tag === 'button' ? 'button'
-              : tag === 'a' ? 'link'
-              : tag === 'img' ? 'image'
-              : htmlEl.classList.contains('bento-card') ? 'card'
-              : 'container';
-            htmlEl.setAttribute('data-element-type', derivedType);
-          }
         }
       });
     };
 
-    let idRafId: number | null = null;
-    const scheduleAssignMissingIds = () => {
-      if (idRafId !== null) cancelAnimationFrame(idRafId);
-      idRafId = requestAnimationFrame(() => {
-        idRafId = null;
-        assignMissingIds();
-      });
+    const win = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
     };
 
-    assignMissingIds();
-    const observer = new MutationObserver(() => {
-      scheduleAssignMissingIds();
-    });
-    observer.observe(rootEl, { childList: true, subtree: true });
+    let idleId: number | null = null;
+    const timerId = window.setTimeout(() => {
+      if (typeof win.requestIdleCallback === 'function') {
+        idleId = win.requestIdleCallback(assignMissingIds, { timeout: 1200 });
+      } else {
+        assignMissingIds();
+      }
+    }, 240);
+
     return () => {
-      if (idRafId !== null) cancelAnimationFrame(idRafId);
-      observer.disconnect();
+      window.clearTimeout(timerId);
+      if (idleId !== null && typeof win.cancelIdleCallback === 'function') {
+        win.cancelIdleCallback(idleId);
+      }
     };
   }, [currentTabIndex]);
 
@@ -731,11 +677,13 @@ export default function App() {
               )
             ) : activeWallpaper.type === 'css' || activeWallpaper.type === 'gradient' ? (
               isAnimatedSceneWallpaper(activeWallpaper.id) ? (
-                <AnimatedSceneWallpaper
-                  key={activeWallpaper.id}
-                  id={activeWallpaper.id}
-                  isDark={isDark}
-                />
+                <Suspense fallback={null}>
+                  <AnimatedSceneWallpaper
+                    key={activeWallpaper.id}
+                    id={activeWallpaper.id}
+                    isDark={isDark}
+                  />
+                </Suspense>
               ) : (
                 <div
                   key={activeWallpaper.id}
@@ -976,8 +924,8 @@ export default function App() {
           <MilestoneModal item={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
         )}
         <XRayInspector onShowNotification={showNotification} />
+        <LiquidGlassCursor />
       </Suspense>
-      <LiquidGlassCursor />
     </div>
     </MotionConfig>
   );

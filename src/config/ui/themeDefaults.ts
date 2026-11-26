@@ -49,7 +49,6 @@ export const THEME_NATIVE_SURFACE_DEPTH: Record<CardStyleMode, SurfaceDepthMode>
   'liquid-glass': 'depth',
   'dark-liquid-glass': 'depth',
   'cowhide-leather': 'depth',
-  'dark-cowhide-leather': 'depth',
   'walnut-wood': 'depth',
   'deep-ocean': 'depth',
   'neumorphism-beyond': 'depth',
@@ -76,7 +75,6 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'dark-liquid-glass': { cardOpacity: 13, blurIntensity: 18 },
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
-  'dark-cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'walnut-wood': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
   'neumorphism-beyond': { cardOpacity: 91, blurIntensity: 14 },
@@ -104,7 +102,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'liquid-glass': {
     id: 'liquid-glass',
     presetId: 'custom-wp-1788112774646',
-    label: 'Hình nền #32 (Liquid Glass UI Sáng)',
+    label: 'Nền Kính Lỏng Trong Suốt',
     themeMode: 'light',
     imagePath: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     fallbackGradient:
@@ -114,7 +112,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'dark-liquid-glass': {
     id: 'dark-liquid-glass',
     presetId: 'theme-bg-dark-liquid-glass',
-    label: 'Nền Liquid Glass UI (Tối)',
+    label: 'Nền Kính Lỏng Bóng Đêm',
     themeMode: 'dark',
     imagePath: darkRainbowGlassWallpaper,
     fallbackGradient:
@@ -124,27 +122,17 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'cowhide-leather': {
     id: 'cowhide-leather',
     presetId: 'theme-bg-cowhide-leather',
-    label: 'Nền Chất liệu da (màu nâu)',
+    label: 'Nền Da Bò Thủ Công',
     themeMode: 'color',
     imagePath: '',
     fallbackGradient:
-      'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.30) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.28) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.24) 0%, transparent 56%), linear-gradient(145deg, #351b0b 0%, #241206 50%, #44230e 100%)',
+      'radial-gradient(circle at 20% 18%, rgba(217, 119, 6, 0.32) 0%, transparent 54%), radial-gradient(circle at 82% 24%, rgba(180, 115, 58, 0.30) 0%, transparent 54%), radial-gradient(circle at 65% 84%, rgba(154, 52, 18, 0.26) 0%, transparent 56%), linear-gradient(145deg, #3A1F0D 0%, #241206 50%, #4A2912 100%)',
     overlayBg: 'rgba(28, 14, 5, 0.08)',
-  },
-  'dark-cowhide-leather': {
-    id: 'dark-cowhide-leather',
-    presetId: 'theme-bg-dark-cowhide-leather',
-    label: 'Nền Da Bò Tối Màu',
-    themeMode: 'dark',
-    imagePath: '',
-    fallbackGradient:
-      'radial-gradient(circle at 18% 18%, rgba(229, 184, 126, 0.14) 0%, transparent 52%), radial-gradient(circle at 82% 24%, rgba(161, 108, 63, 0.16) 0%, transparent 54%), linear-gradient(145deg, #2B221E 0%, #1C1613 52%, #140F0D 100%)',
-    overlayBg: 'rgba(13, 9, 8, 0.12)',
   },
   'walnut-wood': {
     id: 'walnut-wood',
     presetId: 'theme-bg-walnut-wood',
-    label: 'Nền Vân Gỗ Óc Chó Cao Cấp',
+    label: 'Nền Gỗ Óc Chó Trầm',
     themeMode: 'dark',
     imagePath: walnutWoodWallpaper,
     fallbackGradient:
@@ -154,7 +142,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'deep-ocean': {
     id: 'deep-ocean',
     presetId: 'theme-bg-deep-ocean',
-    label: 'Nền Đại Dương Sâu (#050B14)',
+    label: 'Nền Biển Sâu Thẳm Xanh',
     themeMode: 'dark',
     imagePath: deepOceanWallpaper,
     fallbackGradient:
@@ -164,7 +152,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'neumorphism-beyond': {
     id: 'neumorphism-beyond',
     presetId: 'theme-bg-neumorphism-beyond',
-    label: 'Nền Nổi Khối Kính Mờ (Sáng)',
+    label: 'Nền Khối Mềm Sáng Mịn',
     themeMode: 'light',
     imagePath: neumorphismBeyondWallpaper,
     fallbackGradient: 'linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%)',
@@ -173,7 +161,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'dark-neumorphism-beyond': {
     id: 'dark-neumorphism-beyond',
     presetId: 'theme-bg-dark-neumorphism-beyond',
-    label: 'Nền Nổi Khối Kính Mờ Tối',
+    label: 'Nền Khối Mềm Đêm Tối',
     themeMode: 'dark',
     imagePath: darkNeumorphismBeyondWallpaper,
     fallbackGradient: 'linear-gradient(145deg, #171E2B 0%, #141A25 55%, #111620 100%)',
@@ -182,16 +170,17 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'frost-ice-neu': {
     id: 'frost-ice-neu',
     presetId: 'theme-bg-frost-ice-neu',
-    label: 'Nền Băng Tuyết Nổi Khối (Sáng)',
+    label: 'Nền Băng Tuyết Nổi Khối',
     themeMode: 'light',
     imagePath: '',
-    fallbackGradient: '#E0E8F2',
+    fallbackGradient:
+      'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
     overlayBg: 'transparent',
   },
   'flat-soft-ui': {
     id: 'flat-soft-ui',
     presetId: 'theme-bg-flat-soft-ui',
-    label: 'Nền Flat Soft UI (Sáng)',
+    label: 'Nền Phẳng Mềm Tinh Khiết',
     themeMode: 'light',
     imagePath: wpFlatSoftUi,
     fallbackGradient:
@@ -201,7 +190,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'dark-flat-soft-ui': {
     id: 'dark-flat-soft-ui',
     presetId: 'theme-bg-dark-flat-soft-ui',
-    label: 'Nền Flat Soft UI (Tối)',
+    label: 'Nền Phẳng Mềm Đêm Tối',
     themeMode: 'dark',
     imagePath: wpDarkFlatSoftUi,
     fallbackGradient:
@@ -211,7 +200,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'mica-fluent': {
     id: 'mica-fluent',
     presetId: 'theme-bg-mica-fluent',
-    label: 'Nền Mica / Fluent Design (Windows hiện đại)',
+    label: 'Nền Kính Mờ Hiện Đại',
     themeMode: 'light',
     imagePath: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     fallbackGradient:
@@ -221,7 +210,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'gradient-dopamine': {
     id: 'gradient-dopamine',
     presetId: 'theme-bg-gradient-dopamine',
-    label: 'Nền Gradient / Dopamine UI – Đa sắc',
+    label: 'Nền Sắc Màu Rực Rỡ',
     themeMode: 'color',
     imagePath: multicolorGlassWallpaper,
     fallbackGradient:
@@ -231,7 +220,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'iridescent-liquid-glass': {
     id: 'iridescent-liquid-glass',
     presetId: 'theme-bg-iridescent-liquid-glass',
-    label: 'Nền Kính Lỏng Ánh Xà Cừ (Sáng)',
+    label: 'Nền Xà Cừ Ánh Sáng',
     themeMode: 'light',
     imagePath: '',
     fallbackGradient:
@@ -241,7 +230,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'dark-iridescent-liquid-glass': {
     id: 'dark-iridescent-liquid-glass',
     presetId: 'theme-bg-dark-iridescent-liquid-glass',
-    label: 'Nền Kính Lỏng Ánh Xà Cừ (Tối)',
+    label: 'Nền Xà Cừ Đêm Tối',
     themeMode: 'dark',
     imagePath: '',
     fallbackGradient:
@@ -254,7 +243,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'liquid-glass': 'custom-wp-1788112774646',
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
-  'dark-cowhide-leather': THEME_BACKGROUNDS['dark-cowhide-leather'].presetId,
   'walnut-wood': THEME_BACKGROUNDS['walnut-wood'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
   'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
@@ -419,19 +407,6 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectKindEn: 'Crafted Soft Float',
     cardEffectDescVi: 'Nổi êm nhẹ nhàng giữ nguyên đường khâu chỉ kem',
     cardEffectDescEn: 'Gentle elevation preserving stitched leather craft',
-  },
-  'dark-cowhide-leather': {
-    surfaceColorHex: '#2B221E',
-    surfaceColorNameVi: 'Da bò nâu sẫm',
-    surfaceColorNameEn: 'Dark Espresso Hide',
-    primaryColorHex: '#E5B87E',
-    primaryColorNameVi: 'Vàng đồng ấm',
-    primaryColorNameEn: 'Warm Saddle Tan',
-    defaultCardEffect: 'inset',
-    cardEffectKindVi: 'Lún chìm khâu tay',
-    cardEffectKindEn: 'Debossed Leather Inset',
-    cardEffectDescVi: 'Nhấn lún chìm cổ điển như dập nổi trên mặt da tối',
-    cardEffectDescEn: 'Tactile debossed press across dark stitched leather',
   },
   'walnut-wood': {
     surfaceColorHex: '#2A190F',

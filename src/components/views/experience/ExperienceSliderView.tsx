@@ -36,8 +36,6 @@ export interface ExperienceSliderViewProps {
   roadmapCards: RoadmapCardItem[];
   activeKey: string;
   onSelectMilestone: (key: string, idx: number) => void;
-  onSwitchViewMode: (mode: 'origami' | 'slider') => void;
-  viewMode: 'origami' | 'slider';
   isDarkSurface?: boolean;
   isWalnutWood?: boolean;
   isDarkLeather?: boolean;
@@ -55,8 +53,6 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   roadmapCards,
   activeKey,
   onSelectMilestone,
-  onSwitchViewMode,
-  viewMode,
   isDarkSurface,
   isWalnutWood,
   isDarkLeather,
@@ -64,17 +60,16 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 }) => {
   const initialIdx = useMemo(() => {
     const idx = roadmapCards.findIndex((c) => c.key === activeKey);
-    return idx >= 0 ? idx : Math.min(3, Math.max(0, roadmapCards.length - 1));
+    return idx >= 0 ? idx : 0;
   }, [roadmapCards, activeKey]);
 
   const totalCards = roadmapCards.length;
-  const useLoopClones = totalCards >= 3;
-  const clonePad = useLoopClones ? 3 : 0;
+  // Sắp xếp cố định từ trái qua phải theo thời gian từ năm thấp (2002) đến năm cao (2026+)
+  const useLoopClones = false;
+  const clonePad = 0;
 
   const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(initialIdx);
-  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(() =>
-    useLoopClones ? initialIdx + 3 : initialIdx
-  );
+  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(initialIdx);
   const [hoveredSlotIdx, setHoveredSlotIdx] = useState<number | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [slideWidth, setSlideWidth] = useState<number>(0);
@@ -85,6 +80,8 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const wrpRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const timelineScrollRef = useRef<HTMLDivElement>(null);
+  const timelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragStartXRef = useRef<number | null>(null);
@@ -94,68 +91,26 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   const wheelAccumRef = useRef<number>(0);
   const snapTimerRef = useRef<number | null>(null);
 
+  // Tự động căn giữa mốc công ty đang chọn trên thanh timeline ngang phía trên
+  useEffect(() => {
+    const scrollEl = timelineScrollRef.current;
+    const nodeEl = timelineNodeRefs.current[activeCarouselIdx];
+    if (!scrollEl || !nodeEl) return;
+    const targetLeft = nodeEl.offsetLeft - scrollEl.clientWidth / 2 + nodeEl.offsetWidth / 2;
+    scrollEl.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth',
+    });
+  }, [activeCarouselIdx, totalCards]);
+
   const extendedSlides = useMemo<ExtendedRoadmapSlide[]>(() => {
-    if (!useLoopClones) {
-      return roadmapCards.map((item, idx) => ({
-        item,
-        origIdx: idx,
-        slotKey: `orig-${item.key}-${idx}`,
-        isClone: false,
-      }));
-    }
-
-    const pre3Idx = (totalCards - 3) % totalCards;
-    const pre2Idx = (totalCards - 2) % totalCards;
-    const pre1Idx = (totalCards - 1) % totalCards;
-    const post0Idx = 0;
-    const post1Idx = 1 % totalCards;
-    const post2Idx = 2 % totalCards;
-
-    return [
-      {
-        item: roadmapCards[pre3Idx],
-        origIdx: pre3Idx,
-        slotKey: `clone-pre-3-${roadmapCards[pre3Idx].key}`,
-        isClone: true,
-      },
-      {
-        item: roadmapCards[pre2Idx],
-        origIdx: pre2Idx,
-        slotKey: `clone-pre-2-${roadmapCards[pre2Idx].key}`,
-        isClone: true,
-      },
-      {
-        item: roadmapCards[pre1Idx],
-        origIdx: pre1Idx,
-        slotKey: `clone-pre-1-${roadmapCards[pre1Idx].key}`,
-        isClone: true,
-      },
-      ...roadmapCards.map((item, idx) => ({
-        item,
-        origIdx: idx,
-        slotKey: `orig-${item.key}-${idx}`,
-        isClone: false,
-      })),
-      {
-        item: roadmapCards[post0Idx],
-        origIdx: post0Idx,
-        slotKey: `clone-post-0-${roadmapCards[post0Idx].key}`,
-        isClone: true,
-      },
-      {
-        item: roadmapCards[post1Idx],
-        origIdx: post1Idx,
-        slotKey: `clone-post-1-${roadmapCards[post1Idx].key}`,
-        isClone: true,
-      },
-      {
-        item: roadmapCards[post2Idx],
-        origIdx: post2Idx,
-        slotKey: `clone-post-2-${roadmapCards[post2Idx].key}`,
-        isClone: true,
-      },
-    ];
-  }, [roadmapCards, totalCards, useLoopClones]);
+    return roadmapCards.map((item, idx) => ({
+      item,
+      origIdx: idx,
+      slotKey: `orig-${item.key}-${idx}`,
+      isClone: false,
+    }));
+  }, [roadmapCards]);
 
   const measureSliderGeometry = useCallback(() => {
     const containerEl = containerRef.current;
@@ -189,8 +144,12 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 
   const baseTrackX = useMemo(() => {
     if (containerWidth <= 0 || slideWidth <= 0) return 0;
-    return containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
-  }, [containerWidth, slideWidth, visualTrackIdx]);
+    const totalTrackW = extendedSlides.length * slideWidth;
+    if (totalTrackW <= containerWidth) return 0;
+    const rawCenter = containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
+    const minTrackX = Math.min(0, containerWidth - totalTrackW);
+    return Math.max(minTrackX, Math.min(0, rawCenter));
+  }, [containerWidth, slideWidth, visualTrackIdx, extendedSlides.length]);
 
   const currentTrackX = baseTrackX + dragDeltaX;
 
@@ -274,7 +233,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
     SoundEngine.playTap?.();
     setHoveredSlotIdx(null);
     const currentOrig = Math.min(activeCarouselIdx, totalCards - 1);
-    const nextOrig = currentOrig > 0 ? currentOrig - 1 : totalCards - 1;
+    const nextOrig = currentOrig > 0 ? currentOrig - 1 : 0;
     setActiveCarouselIdx(nextOrig);
 
     if (!useLoopClones) {
@@ -308,7 +267,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
     SoundEngine.playTap?.();
     setHoveredSlotIdx(null);
     const currentOrig = Math.min(activeCarouselIdx, totalCards - 1);
-    const nextOrig = currentOrig < totalCards - 1 ? currentOrig + 1 : 0;
+    const nextOrig = currentOrig < totalCards - 1 ? currentOrig + 1 : totalCards - 1;
     setActiveCarouselIdx(nextOrig);
 
     if (!useLoopClones) {
@@ -459,9 +418,9 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 
   return (
     <div className="exp-slider-view-root w-full h-full min-h-0 flex-1 flex flex-col justify-between overflow-hidden relative">
-      {/* Top Header with Title and View Switcher */}
-      <div className="w-full flex items-center justify-between gap-3 px-[18px] sm:px-[24px] pt-[12px] pb-[8px] z-20 shrink-0">
-        <header className="min-w-0">
+      {/* Top Header with Title and Horizontal Company Logo + Year Timeline */}
+      <div className="w-full flex flex-col md:flex-row md:items-center justify-between gap-2.5 md:gap-5 px-[18px] sm:px-[24px] pt-[8px] pb-[6px] z-20 shrink-0">
+        <header className="shrink-0 min-w-0">
           <div className="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-0">
             <Briefcase
               className="w-5 h-5 sm:w-[22px] sm:h-[22px] shrink-0"
@@ -506,42 +465,89 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
           </div>
         </header>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-1.5 p-1 rounded-full bg-[var(--surface-secondary-bg)] border border-[var(--border-subcard)] pointer-events-auto backdrop-blur-md shadow-xs">
-          <button
-            type="button"
-            onClick={() => {
-              SoundEngine.playTap?.();
-              onSwitchViewMode('origami');
-            }}
-            className={cn(
-              'px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer',
-              viewMode === 'origami'
-                ? 'bg-[var(--color-primary)] text-white shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            )}
-            title="Chuyển sang dạng xem Bản đồ Origami"
-          >
-            <WebIcon name="layers" className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Bản đồ Origami</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              SoundEngine.playTap?.();
-              onSwitchViewMode('slider');
-            }}
-            className={cn(
-              'px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer',
-              viewMode === 'slider'
-                ? 'bg-[var(--color-primary)] text-white shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-            )}
-            title="Chuyển sang dạng xem Thẻ Slider"
-          >
-            <WebIcon name="layout-grid" className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Thẻ Slider</span>
-          </button>
+        {/* Horizontal Career Timeline containing Company Logo (Doubled Size, No Border) & Year */}
+        <div
+          ref={timelineScrollRef}
+          role="navigation"
+          aria-label="Timeline logo và năm công tác các công ty"
+          className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar py-0.5"
+        >
+          <div className="relative inline-flex md:flex items-center justify-between gap-2 sm:gap-3 min-w-full px-2">
+            {/* Horizontal connecting line behind logos */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute left-7 right-7 top-[26px] sm:top-[28px] h-[2px] rounded-full"
+              style={{
+                background: isWalnutWood
+                  ? 'linear-gradient(90deg, rgba(245,196,120,0.22), rgba(245,196,120,0.55), rgba(245,196,120,0.22))'
+                  : isDarkLeather || isBrownLeather
+                    ? 'linear-gradient(90deg, rgba(229,184,126,0.22), rgba(229,184,126,0.55), rgba(229,184,126,0.22))'
+                    : 'linear-gradient(90deg, color-mix(in srgb, var(--color-primary, #6366f1) 18%, transparent), color-mix(in srgb, var(--color-primary, #6366f1) 48%, transparent), color-mix(in srgb, var(--color-primary, #6366f1) 18%, transparent))',
+              }}
+            />
+
+            {roadmapCards.map((item, idx) => {
+              const isActive = idx === activeCarouselIdx;
+              const shortYear = item.yearBadge.replace(/^Năm\s+/i, '').trim() || item.yearBadge;
+              const activeAccent = isWalnutWood
+                ? '#F5C478'
+                : isDarkLeather
+                  ? '#E5B87E'
+                  : isBrownLeather
+                    ? '#FDE68A'
+                    : 'var(--color-primary, #4F46E5)';
+
+              return (
+                <button
+                  key={`header-timeline-${item.key}`}
+                  ref={(el) => {
+                    timelineNodeRefs.current[idx] = el;
+                  }}
+                  type="button"
+                  onClick={() => handleSelectBullet(idx)}
+                  aria-current={isActive ? 'step' : undefined}
+                  title={`${item.yearBadge} · ${item.shortName}`}
+                  className={cn(
+                    'group relative z-10 flex flex-col items-center gap-1 shrink-0 cursor-pointer bg-transparent border-0 p-0 transition-transform duration-200 focus-visible:outline-none',
+                    isActive ? 'scale-105' : 'opacity-80 hover:opacity-100 hover:scale-105'
+                  )}
+                >
+                  <span
+                    className="w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] rounded-full bg-transparent p-0 border-0 ring-0 shadow-none flex items-center justify-center overflow-hidden transition-transform duration-200"
+                    style={{
+                      border: 'none',
+                      boxShadow: 'none',
+                    }}
+                  >
+                    <img
+                      src={item.logo}
+                      alt={item.shortName}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      draggable={false}
+                      className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                    />
+                  </span>
+                  <span
+                    className={cn(
+                      'text-[10.5px] sm:text-[11px] leading-none tabular-nums whitespace-nowrap transition-colors duration-200',
+                      isActive ? 'font-extrabold' : 'font-semibold'
+                    )}
+                    style={{
+                      color: isActive
+                        ? activeAccent
+                        : isWalnutWood || isDarkLeather || isBrownLeather
+                          ? 'rgba(255, 245, 232, 0.80)'
+                          : 'var(--text-secondary)',
+                    }}
+                  >
+                    {shortYear}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -581,6 +587,16 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                 const isPeekSlide = Math.abs(slotIdx - visualTrackIdx) === 2;
                 const isHighlighted =
                   hoveredSlotIdx !== null ? slotIdx === hoveredSlotIdx : isActiveCenter;
+                const cardLogos =
+                  item.logos && item.logos.length > 0
+                    ? item.logos
+                    : [{ src: item.logo, alt: item.shortName }];
+                const logoSizeClass =
+                  cardLogos.length === 1
+                    ? 'w-14 h-14'
+                    : cardLogos.length === 2
+                      ? 'w-12 h-12'
+                      : 'w-9 h-9 sm:w-10 sm:h-10';
 
                 return (
                   <div
@@ -601,7 +617,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         slotItemRefs.current[slotIdx] = el;
                       }}
                       role="button"
-                      tabIndex={isPrevSlide || isActiveCenter || isNextSlide ? 0 : -1}
+                      tabIndex={0}
                       onMouseEnter={() => {
                         if (typeof window !== 'undefined' && window.innerWidth > 800) {
                           setHoveredSlotIdx(slotIdx);
@@ -628,77 +644,93 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           onSelectMilestone(item.key, origIdx);
                         }
                       }}
-                      className={cn('news-card-item h-full flex flex-col justify-between gap-2.5', isHighlighted && 'active')}
+                      className={cn('news-card-item h-full flex flex-col justify-between gap-2', isHighlighted && 'active')}
                     >
-                      <div className="news-card-date !mb-0 flex flex-col gap-1.5 shrink-0">
-                        <div className="flex items-center justify-between gap-2 w-full">
-                          <span className="news-card-date-title inline-flex items-center gap-1.5 !mb-0">
+                      {/* Hàng trên cùng: Bên trái là Icon lịch + Năm (cùng 1 hàng) & Thời gian; Bên phải (vùng khung đỏ) chứa nhóm Group Logo gấp đôi không viền */}
+                      <div className="exp-card-top-row w-full flex items-center justify-between gap-2.5 shrink-0">
+                        <div className="news-card-date !mb-0 flex flex-col gap-1 shrink-0 min-w-0">
+                          <span className="news-card-date-title !flex flex-row items-center gap-1.5 !mb-0 whitespace-nowrap">
                             <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
-                            <span>{item.yearBadge}</span>
+                            <span className="leading-none">{item.yearBadge}</span>
                           </span>
-                          {/* Group logo bên phải năm */}
-                          <div className="flex items-center -space-x-1.5 shrink-0">
-                            {(item.logos && item.logos.length > 0
-                              ? item.logos
-                              : [{ src: item.logo, alt: item.shortName }]
-                            ).map((lg, lgIdx) => (
-                              <div
-                                key={`${item.key}-logo-${lgIdx}`}
-                                className="w-7 h-7 rounded-full bg-white/95 border border-[var(--border-subcard)] p-0.5 shadow-xs overflow-hidden flex items-center justify-center shrink-0"
-                                title={lg.alt}
-                              >
-                                <img
-                                  src={lg.src}
-                                  alt={lg.alt}
-                                  loading="lazy"
-                                  decoding="async"
-                                  referrerPolicy="no-referrer"
-                                  draggable={false}
-                                  className="w-full h-full object-contain rounded-full select-none pointer-events-none"
-                                />
-                              </div>
-                            ))}
-                          </div>
+                          <span className="news-card-date-txt !text-[11.5px] font-semibold opacity-90 block truncate">
+                            {item.period && item.tenure
+                              ? `${item.period} : ${item.tenure}`
+                              : item.period || item.tenure || item.yearBadge}
+                          </span>
                         </div>
-                        <span className="news-card-date-txt !text-[12px] font-semibold opacity-90 block">
-                          {item.period && item.tenure
-                            ? `${item.period} : ${item.tenure}`
-                            : item.period || item.tenure || item.yearBadge}
-                        </span>
+
+                        {/* Vùng khung đỏ bên phải: Nhóm Group Logo tăng gấp đôi, bỏ viền logo */}
+                        <div
+                          className={cn(
+                            'exp-card-logo-group flex items-center justify-end shrink-0',
+                            cardLogos.length > 2 ? '-space-x-1.5' : 'gap-1'
+                          )}
+                        >
+                          {cardLogos.map((lg, lgIdx) => (
+                            <div
+                              key={`${item.key}-logo-${lgIdx}`}
+                              className={cn(
+                                logoSizeClass,
+                                'rounded-full bg-transparent border-0 ring-0 p-0 shadow-none overflow-hidden flex items-center justify-center shrink-0'
+                              )}
+                              style={{ border: 'none', boxShadow: 'none', background: 'transparent' }}
+                              title={lg.alt}
+                            >
+                              <img
+                                src={lg.src}
+                                alt={lg.alt}
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                draggable={false}
+                                className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="news-card-title !mb-0 flex items-start gap-1.5 shrink-0" title={item.shortName}>
-                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 mt-0.5 text-[var(--color-primary)]" />
-                        <span className="leading-snug">{item.shortName}</span>
+                      {/* Icon công ty và Tên công ty cùng 1 hàng */}
+                      <div
+                        className="news-card-title !my-0 w-full !flex flex-row items-center gap-1.5 shrink-0 min-w-0"
+                        title={item.shortName}
+                      >
+                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                        <span className="leading-snug truncate min-w-0 flex-1">{item.shortName}</span>
                       </div>
 
-                      <div className="news-card-txt !mb-0 flex flex-col gap-1.5 text-[12.5px] leading-snug shrink-0">
-                        <div className="flex items-start gap-1.5">
-                          <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[var(--color-primary)]" />
-                          <span className="min-w-0">
+                      {/* Chức vụ, Quản lý, Giới thiệu đóng khung */}
+                      <div className="news-card-txt !mb-0 w-full !flex flex-col gap-1.5 text-[12px] leading-snug shrink-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1 flex items-center gap-1.5 min-w-0">
+                          <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
+                          <span className="min-w-0 truncate">
                             <strong className="font-bold">Chức vụ:</strong>{' '}
                             <span className="font-semibold text-[var(--color-primary)]">
                               {item.roleTitle || item.roleSummary}
                             </span>
                           </span>
                         </div>
-                        <div className="flex items-start gap-1.5">
-                          <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
-                          <span className="min-w-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1 flex items-center gap-1.5 min-w-0">
+                          <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                          <span className="min-w-0 truncate">
                             <strong className="font-bold">Quản lý:</strong>{' '}
                             <span>{item.headcountLabel}</span>
                           </span>
                         </div>
-                        <div className="flex items-start gap-1.5" title={item.description}>
+                        <div
+                          className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1.5 flex items-start gap-1.5 min-w-0"
+                          title={item.description}
+                        >
                           <WebIcon name="file-text" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
-                          <span className="min-w-0 line-clamp-3">
+                          <span className="min-w-0 line-clamp-2 leading-[1.35]">
                             <strong className="font-bold">Giới thiệu:</strong>{' '}
                             <span>{item.description}</span>
                           </span>
                         </div>
                       </div>
 
-                      <div className="news-card-img !mt-auto flex-1 min-h-[140px] w-full p-0 overflow-hidden rounded-[12px] relative bg-black/5">
+                      <div className="news-card-img !mt-auto flex-1 min-h-[120px] w-full p-0 overflow-hidden rounded-[12px] relative bg-black/5">
                         <img
                           src={item.bannerUrl || item.logo}
                           alt={`Banner công việc ${item.shortName}`}
@@ -719,7 +751,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             <button
               type="button"
               onClick={handlePrevCarousel}
-              disabled={totalCards <= 1}
+              disabled={totalCards <= 1 || activeCarouselIdx <= 0}
               className="news-slider-arrow news-slider-prev absolute no-theme-btn"
               aria-label="Cột mốc trước"
             >
@@ -733,7 +765,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             <button
               type="button"
               onClick={handleNextCarousel}
-              disabled={totalCards <= 1}
+              disabled={totalCards <= 1 || activeCarouselIdx >= totalCards - 1}
               className="news-slider-arrow news-slider-next absolute no-theme-btn"
               aria-label="Cột mốc tiếp theo"
             >
@@ -744,24 +776,24 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
               </span>
             </button>
           </div>
+        </div>
+      </div>
 
-          {/* Pagination Controls */}
-          <div className="news-slider-ctr">
-            <div className="news-slider-pagination">
-              {roadmapCards.map((item, idx) => (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={() => handleSelectBullet(idx)}
-                  className={cn(
-                    'news-slider-bullet',
-                    idx === activeCarouselIdx && 'active-bullet'
-                  )}
-                  aria-label={`Chuyển tới mốc ${item.yearBadge}`}
-                />
-              ))}
-            </div>
-          </div>
+      {/* Pagination Controls shrunk by 2x */}
+      <div className="news-slider-ctr w-full shrink-0 py-0.5 z-20">
+        <div className="news-slider-pagination">
+          {roadmapCards.map((item, idx) => (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => handleSelectBullet(idx)}
+              className={cn(
+                'news-slider-bullet',
+                idx === activeCarouselIdx && 'active-bullet'
+              )}
+              aria-label={`Chuyển tới mốc ${item.yearBadge}`}
+            />
+          ))}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-export type SiteTheme = 'liquid-glass' | 'dark-liquid-glass' | 'cowhide-leather' | 'dark-cowhide-leather' | 'walnut-wood' | 'deep-ocean' | 'neumorphism-beyond' | 'dark-neumorphism-beyond' | 'frost-ice-neu' | 'flat-soft-ui' | 'dark-flat-soft-ui' | 'mica-fluent' | 'gradient-dopamine' | 'iridescent-liquid-glass' | 'dark-iridescent-liquid-glass' | string;
+export type SiteTheme = 'liquid-glass' | 'dark-liquid-glass' | 'cowhide-leather' | 'walnut-wood' | 'deep-ocean' | 'neumorphism-beyond' | 'frost-ice-neu' | 'flat-soft-ui' | 'dark-flat-soft-ui' | 'mica-fluent' | 'gradient-dopamine' | 'iridescent-liquid-glass' | 'dark-iridescent-liquid-glass' | string;
 
 export interface MemoryPhoto {
   id: string | number;

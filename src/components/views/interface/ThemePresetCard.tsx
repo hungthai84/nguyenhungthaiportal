@@ -301,12 +301,9 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     className="font-play text-[15px] sm:text-[16px] font-bold leading-snug min-w-0 flex-1 line-clamp-2 card-title-synced m-0"
                     data-card-title="true"
                     style={{ color: meta.iconColor }}
-                    title={`${displayPresetName} (${groupLabel} · ${mechanismLabel})`}
+                    title={displayPresetName}
                   >
-                    <span>{displayPresetName}</span>{' '}
-                    <span className={`text-[12px] font-medium opacity-80 ${meta.bodyTextClass}`}>
-                      ({!isEn && displayEnglishName ? displayEnglishName : `${groupLabel} · ${mechanismLabel}`})
-                    </span>
+                    <span>{displayPresetName}</span>
                   </h4>
                 </div>
 

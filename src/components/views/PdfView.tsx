@@ -240,7 +240,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       style={{
         gap: '15px',
       }}
-      className="main-card page-main-card w-full min-w-0 h-full mx-auto flex flex-col justify-start p-[15px] gap-[15px] overflow-y-auto no-scrollbar font-play select-text text-left text-[var(--text-primary)] rounded-[14px] box-border"
+      className="main-card page-main-card w-full min-w-0 h-auto min-h-full mx-auto flex flex-col justify-start p-[15px] gap-[15px] overflow-visible font-play select-text text-left text-[var(--text-primary)] rounded-[14px] box-border"
     >
       <style>{`
         @media print {
@@ -255,22 +255,38 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             line-height: 1.4 !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow: visible !important;
+            position: static !important;
+          }
+          #website-root,
+          #global-content-viewport,
+          .tab-content-host,
+          #pdf-page-container {
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow: visible !important;
+            position: static !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-shadow: none !important;
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
           }
           #app-header,
+          #app-header-container,
           #app-footer,
+          #el-p0-div-98,
           #global-wallpaper-layer,
           .pdf-toolbar,
           .no-print {
             display: none !important;
-          }
-          #global-content-viewport {
-            height: auto !important;
-            max-height: none !important;
-            overflow: visible !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
           }
           .cv-portfolio-container {
             width: 100% !important;
@@ -1422,8 +1438,8 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         id="pdf-back-to-top-btn"
         type="button"
         onClick={() => {
-          const container = document.getElementById('pdf-page-container') || document.querySelector('.overflow-y-auto');
-          if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
+          const root = document.getElementById('website-root') || document.documentElement || document.body;
+          if (root) root.scrollTo({ top: 0, behavior: 'smooth' });
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         className="theme-back-to-top-btn theme-back-to-top-icon no-print fixed bottom-[88px] right-4 sm:right-6 z-[9990] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer pointer-events-auto"

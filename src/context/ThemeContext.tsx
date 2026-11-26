@@ -889,11 +889,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.body.setAttribute('data-card-style', cardStyle);
       document.body.setAttribute('data-theme-mechanism', mechanism);
     }
+    SoundEngine.setThemeSoundMode(cardStyle);
   }, [cardStyle]);
 
   // Sync Iridescent Liquid Glass per-theme studio CSS variables & sound settings globally
   useEffect(() => {
     const syncStudio = (overrideConfig?: ThemeStudioConfig) => {
+      SoundEngine.setThemeSoundMode(cardStyle);
       if (isIridescentTheme(cardStyle)) {
         const cfg = overrideConfig || loadStudioConfigForTheme(cardStyle);
         applyThemeStudioConfigToDocument(cfg, cardStyle);
@@ -973,11 +975,17 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
+    const effectiveEffect =
+      cardEffect === 'default'
+        ? THEME_CARD_SPECS[cardStyle]?.defaultCardEffect || 'float'
+        : cardEffect;
     document.documentElement.setAttribute('data-card-effect', cardEffect);
+    document.documentElement.setAttribute('data-effective-card-effect', effectiveEffect);
     if (document.body) {
       document.body.setAttribute('data-card-effect', cardEffect);
+      document.body.setAttribute('data-effective-card-effect', effectiveEffect);
     }
-  }, [cardEffect]);
+  }, [cardEffect, cardStyle]);
 
   useEffect(() => {
     try {

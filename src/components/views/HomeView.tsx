@@ -226,7 +226,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         ['--about-card-w' as any]: `${homeCardWidth}px`,
         ['--about-side-inset' as any]: `${homeSideInset}px`,
       }}
-      className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-auto flex-1 flex flex-row items-center justify-center p-0 overflow-x-hidden overflow-y-hidden no-scrollbar select-none font-play box-border"
+      className="main-card relative w-full max-w-full min-w-0 min-h-0 h-full mx-auto flex-1 flex flex-row items-center justify-center p-0 overflow-visible no-scrollbar select-none font-play box-border"
     >
       <div
         id="home-cards-track"
@@ -244,9 +244,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
           width: '100%',
           padding: '0px',
           boxSizing: 'border-box',
-          overflow: 'hidden',
+          overflow: 'visible',
         }}
-        className="page-cards-track relative w-full h-full min-h-full box-border"
+        className="page-cards-track relative w-full h-full min-h-full box-border overflow-visible"
       >
         {/* SCREEN 1: HERO PORTRAIT & LEADERSHIP VISION */}
         <div
@@ -437,33 +437,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         : 'rgba(255, 255, 255, 0.88)',
                     }}
                   />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-[12px] sm:inset-[14px] rounded-full border-[1.5px] pointer-events-none"
-                    style={{
-                      borderColor: isDark
-                        ? 'rgba(255, 255, 255, 0.16)'
-                        : 'rgba(255, 255, 255, 0.72)',
-                    }}
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -left-3 top-[48%] w-7 h-7 sm:w-9 sm:h-9 rounded-full blur-[6px]"
-                    style={{
-                      background: isDark
-                        ? 'rgba(244, 114, 182, 0.55)'
-                        : 'rgba(244, 114, 182, 0.65)',
-                    }}
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-2.5 top-[34%] w-8 h-8 sm:w-10 sm:h-10 rounded-full blur-[7px]"
-                    style={{
-                      background: isDark
-                        ? 'rgba(96, 165, 250, 0.55)'
-                        : 'rgba(59, 130, 246, 0.62)',
-                    }}
-                  />
 
                   {/* 6 biểu tượng đa sắc kích thước lớn bay quanh viền vòng tròn */}
                   {orbitBadges.map((badge) => (
@@ -502,8 +475,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   ))}
 
                   <div
+                    id="home-hero-circle-frame"
                     className="relative w-[calc(100%-44px)] h-[calc(100%-44px)] sm:w-[calc(100%-56px)] sm:h-[calc(100%-56px)] rounded-full overflow-visible flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
                     style={{
+                      borderRadius: '9999px',
                       background: isDark
                         ? 'linear-gradient(145deg, rgba(30,41,59,0.72), rgba(51,65,85,0.45))'
                         : 'linear-gradient(145deg, rgba(255,255,255,0.75), rgba(238,242,255,0.58))',

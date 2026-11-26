@@ -57,8 +57,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(135deg, rgba(147, 51, 234, 0.92) 0%, rgba(55, 48, 163, 0.95) 100%)',
     tintBg: 'rgba(168, 85, 247, 0.28)',
     isLightCard: false,
-    illustrationSrc: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
-    fallbackIllustration: 'https://i.postimg.cc/5Nq2wsTG/Vien-thong-di-dong.png',
+    illustrationSrc: 'https://i.postimg.cc/05cJC8p7/Vien-thong-di-dong.webp',
+    fallbackIllustration: 'https://i.postimg.cc/05cJC8p7/Vien-thong-di-dong.webp',
     detailKpis: [
       { icon: 'shield-check', value: '> 98%', label: 'SLA tiếp nhận cuộc gọi', labelEn: 'Call Answer SLA' },
       { icon: 'smile', value: '96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Customer Satisfaction' },
@@ -77,8 +77,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(135deg, rgba(250, 204, 21, 0.95) 0%, rgba(234, 88, 12, 0.95) 100%)',
     tintBg: 'rgba(251, 191, 36, 0.32)',
     isLightCard: true,
-    illustrationSrc: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
-    fallbackIllustration: 'https://i.postimg.cc/qR6yt2CS/Thuong-mai-dien-tu.gif',
+    illustrationSrc: 'https://i.postimg.cc/FFDJx9jD/Thuong-mai-dien-tu.webp',
+    fallbackIllustration: 'https://i.postimg.cc/FFDJx9jD/Thuong-mai-dien-tu.webp',
     detailKpis: [
       { icon: 'clock', value: '< 30s', valueEn: '< 30s', label: 'Thời gian chờ kênh Chat', labelEn: 'Chat Queue Wait Time' },
       { icon: 'smile', value: '96,5%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'CSAT Improvement' },
@@ -97,8 +97,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(90deg, rgba(34, 197, 94, 0.92) 0%, rgba(4, 120, 87, 0.95) 100%)',
     tintBg: 'rgba(16, 185, 129, 0.28)',
     isLightCard: false,
-    illustrationSrc: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
-    fallbackIllustration: 'https://i.postimg.cc/6qsRCTdz/Tai-chinh-bao-hiem.gif',
+    illustrationSrc: 'https://i.postimg.cc/2y8LfJf1/Dich-vu-bao-hiem.webp',
+    fallbackIllustration: 'https://i.postimg.cc/2y8LfJf1/Dich-vu-bao-hiem.webp',
     detailKpis: [
       { icon: 'zap', value: '-45%', label: 'Rút ngắn thời gian xử lý', labelEn: 'Contract Cycle Time' },
       { icon: 'shield-check', value: '> 92%', label: 'Giải quyết lần đầu (FCR)', labelEn: 'First Contact Resolution' },
@@ -117,8 +117,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(135deg, rgba(236, 72, 153, 0.92) 0%, rgba(147, 51, 234, 0.95) 100%)',
     tintBg: 'rgba(236, 72, 153, 0.28)',
     isLightCard: false,
-    illustrationSrc: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
-    fallbackIllustration: 'https://i.postimg.cc/3NMp2Wgn/The-thao-dien-tu.gif',
+    illustrationSrc: 'https://i.postimg.cc/cC4tNjNr/The-thao-dien-tu.webp',
+    fallbackIllustration: 'https://i.postimg.cc/cC4tNjNr/The-thao-dien-tu.webp',
     detailKpis: [
       { icon: 'users', value: '~130', label: 'Nhân sự Game Support', labelEn: 'Game Support & Fraud Team' },
       { icon: 'activity', value: '> 50.000', label: 'Yêu cầu hỗ trợ mỗi ngày', labelEn: 'Daily Support Tickets' },
@@ -137,8 +137,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(135deg, rgba(37, 99, 235, 0.92) 0%, rgba(55, 48, 163, 0.95) 100%)',
     tintBg: 'rgba(59, 130, 246, 0.28)',
     isLightCard: false,
-    illustrationSrc: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
-    fallbackIllustration: 'https://i.postimg.cc/C5yDbdjN/Thanh-toan-dien-tu.gif',
+    illustrationSrc: 'https://i.postimg.cc/zvtbDjJV/Thanh-toan-dien-tu.webp',
+    fallbackIllustration: 'https://i.postimg.cc/zvtbDjJV/Thanh-toan-dien-tu.webp',
     detailKpis: [
       { icon: 'zap', value: '48h → 90s', label: 'Tự động hoàn tiền bằng RPA', labelEn: 'Automated RPA Refund' },
       { icon: 'smile', value: '98,2%', label: 'Chỉ số hài lòng (CSAT)', labelEn: 'Digital Finance CSAT' },
@@ -157,8 +157,8 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     cardGradient: 'linear-gradient(135deg, rgba(31, 41, 55, 0.94) 0%, rgba(17, 24, 39, 0.97) 100%)',
     tintBg: 'rgba(99, 102, 241, 0.24)',
     isLightCard: false,
-    illustrationSrc: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
-    fallbackIllustration: 'https://i.postimg.cc/C5yDbdjP/Xay-dung-he-thong.gif',
+    illustrationSrc: 'https://i.postimg.cc/L4NZVHzT/Xay-dung-he-thong.webp',
+    fallbackIllustration: 'https://i.postimg.cc/L4NZVHzT/Xay-dung-he-thong.webp',
     detailKpis: [
       { icon: 'layers', value: '10–150+', label: 'Quy mô Contact Center', labelEn: 'Contact Center Seats Built' },
       { icon: 'clock', value: '-65%', label: 'Rút ngắn thời gian Onboarding', labelEn: 'Onboarding Time Saved' },
@@ -243,7 +243,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isEn = language === 'en';
-  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'dark-cowhide-leather' || cardStyle === 'walnut-wood';
+  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
 
   // Controlled interaction state machine: idle | hovered | expanding | expanded | closing
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
@@ -331,15 +331,15 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
       setIsGridLayerHidden(false);
       setInteractionState('expanding');
 
-      // Sau khi 5 card còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy để không dư chiều cao
+      // Sau khi 5 card còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy để thẻ mở rộng chiếm trọn vùng hiển thị
       scheduleTimer(() => {
         setIsGridLayerHidden(true);
-      }, 280);
+      }, 420);
 
       scheduleTimer(() => {
         setInteractionState('expanded');
         closeButtonRef.current?.focus({ preventScroll: true });
-      }, 420);
+      }, 620);
     },
     [interactionState, selectedDomainId, clearTimers, isGridLayerHidden, prefersReducedMotion, scheduleTimer]
   );
@@ -372,14 +372,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     // Bước 2: Motion LayoutId FLIP morph Card trở về đúng vị trí trong lưới & 5 Card còn lại fade in
     scheduleTimer(() => {
       setSelectedDomainId(null);
-    }, 170);
+    }, 180);
 
     // Bước 3: Hoàn tất khôi phục trạng thái Idle & trả focus bàn phím về đúng Card nguồn
     scheduleTimer(() => {
       setInteractionState('idle');
       setGridNaturalHeight(undefined);
       cardRefs.current[closingId]?.focus({ preventScroll: true });
-    }, 620);
+    }, 760);
   }, [selectedDomainId, interactionState, clearTimers, prefersReducedMotion, scheduleTimer]);
 
   const switchExpandedDomain = useCallback(
@@ -435,10 +435,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng Hệ thống', icon: 'layers' },
   ];
 
-  const themeAccent = 'var(--text-link, var(--color-primary))';
   const layoutSpring = prefersReducedMotion
     ? { duration: 0 }
-    : { type: 'spring' as const, stiffness: 215, damping: 27, mass: 0.95 };
+    : { type: 'spring' as const, stiffness: 120, damping: 23, mass: 1.05 };
   const isAnyCardExpanded = Boolean(selectedDomainId);
 
   return (
@@ -481,24 +480,32 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
             data-element-parent="service-main-card"
             className="w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0"
           >
-            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC (ĐỒNG BỘ FORMAT BỐ CỤC NHƯ HỆ THỐNG) */}
-            <motion.div
-              id="services-hero-banner"
-              data-element-type="section"
-              data-section-card="true"
-              data-has-compact-menu="true"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
-              style={{
-                padding: '15px',
-                width: '100%',
-                maxWidth: '100%',
-                borderRadius: 'var(--radius-banner, 14px)',
-                boxSizing: 'border-box',
-              }}
-            >
+            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC — TỰ ĐỘNG ẨN MƯỢT KHI THẺ DỊCH VỤ BUNG RỘNG */}
+            <AnimatePresence initial={false}>
+              {!isAnyCardExpanded && (
+                <motion.div
+                  key="services-hero-banner"
+                  id="services-hero-banner"
+                  data-element-type="section"
+                  data-section-card="true"
+                  data-has-compact-menu="true"
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: -10, scale: 0.99 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={
+                    prefersReducedMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: -14, scale: 0.98 }
+                  }
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
+                  className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
+                  style={{
+                    padding: '15px',
+                    width: '100%',
+                    maxWidth: '100%',
+                    borderRadius: 'var(--radius-banner, 14px)',
+                    boxSizing: 'border-box',
+                  }}
+                >
               <div
                 className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
               >
@@ -709,6 +716,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 )}
               </div>
             </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & EXPANDING SERVICE CARD (MOTION LAYOUT ANIMATION TRONG DÒNG CHẢY THẬT) */}
             <LayoutGroup id="services-cards-layout-group">
@@ -742,17 +751,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     const serviceImage =
                       driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
 
-                    const isLightCard = Boolean(meta.isLightCard);
-                    const primaryInk = isLightCard ? '#111827' : '#ffffff';
-                    const secondaryInk = isLightCard
-                      ? 'rgba(17, 24, 39, 0.86)'
-                      : 'rgba(255, 255, 255, 0.88)';
-                    const dividerBorder = isLightCard
-                      ? 'rgba(17, 24, 39, 0.16)'
-                      : 'rgba(255, 255, 255, 0.2)';
-                    const pillBg = isLightCard
-                      ? 'rgba(17, 24, 39, 0.12)'
-                      : 'rgba(255, 255, 255, 0.18)';
+                    const accentColor = isDark ? meta.accentDark : meta.accentLight;
+                    const primaryInk = 'var(--text-primary)';
+                    const secondaryInk = 'var(--text-secondary)';
+                    const dividerBorder = 'var(--border-subcard, var(--border-color))';
 
                     const isSelectedCard = selectedDomainId === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
@@ -763,7 +765,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         <div
                           key={`placeholder-${domain.id}`}
                           aria-hidden="true"
-                          className="invisible pointer-events-none select-none min-h-[220px]"
+                          className="invisible pointer-events-none select-none min-h-[224px]"
                         />
                       );
                     }
@@ -782,13 +784,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       <motion.div
                         key={domain.id}
                         layoutId={`service-card-shell-${domain.id}`}
-                        layout="position"
+                        layout
                         ref={(el) => {
                           cardRefs.current[domain.id] = el;
                         }}
                         id={getCardDomId(domain.id)}
                         data-element-type="card"
-                        data-light-card={isLightCard ? 'true' : 'false'}
+                        data-section-card="true"
+                        data-service-themed="true"
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
@@ -797,18 +800,18 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
                         animate={
                           isOtherDimmed
-                            ? { opacity: 0, scale: prefersReducedMotion ? 1 : 0.96, y: 0 }
+                            ? { opacity: 0, scale: prefersReducedMotion ? 1 : 0.94, y: 0 }
                             : { opacity: 1, scale: 1, y: 0 }
                         }
                         transition={{
                           layout: layoutSpring,
                           opacity: {
-                            duration: prefersReducedMotion ? 0 : isOtherDimmed ? 0.24 : 0.34,
+                            duration: prefersReducedMotion ? 0 : isOtherDimmed ? 0.34 : 0.38,
                             delay: prefersReducedMotion || isOtherDimmed || interactionState !== 'idle' ? 0 : idx * 0.04,
                             ease: [0.22, 1, 0.36, 1],
                           },
                           scale: {
-                            duration: prefersReducedMotion ? 0 : 0.28,
+                            duration: prefersReducedMotion ? 0 : 0.36,
                             ease: [0.22, 1, 0.36, 1],
                           },
                           y: {
@@ -839,49 +842,32 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           }
                         }}
                         style={{
-                          '--service-card-gradient': meta.cardGradient,
                           '--service-card-accent': meta.accentLight,
                           '--service-card-accent-dark': meta.accentDark,
+                          '--service-card-active-accent': accentColor,
                           '--service-card-tint': meta.tintBg,
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
-                        className="service-card domain-card service-vibrant-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-5 box-border w-full h-full flex flex-col text-left cursor-pointer"
+                        className="service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-5 box-border w-full h-full flex flex-col text-left cursor-pointer"
                       >
-                        {/* Ambient Top-Right Glow Orb */}
-                        <div
-                          aria-hidden="true"
-                          className="absolute -top-10 -right-10 w-36 h-36 rounded-full blur-2xl opacity-25 pointer-events-none"
-                          style={{
-                            background: isLightCard ? '#ffffff' : 'rgba(255, 255, 255, 0.6)',
-                          }}
-                        />
-
-                        {/* Pointer-Tracking Radial Hover Flood */}
-                        <span aria-hidden="true" className="service-card-hover-flood" />
-
-                        {/* 3-Part Flexible Card Body matching System Card 3-tier layout */}
+                        {/* 3-Part Flexible Card Body */}
                         <div className="service-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0">
-                          {/* TOP: Unframed Icon + Short Title + (English Title) */}
-                          <div className="service-card-header flex items-start gap-2 min-w-0 shrink-0">
+                          {/* TOP: Frameless Icon + Short Title with matching accent color */}
+                          <div
+                            className="service-card-header flex items-center gap-2 min-w-0 shrink-0"
+                            style={{ color: accentColor }}
+                          >
                             {renderDomainIcon(
                               meta.iconKey,
-                              'w-5 h-5 mt-0.5 shrink-0 stroke-[2.2]',
-                              primaryInk
+                              'w-4 h-4 shrink-0 stroke-[2.2]',
+                              accentColor
                             )}
                             <h3
                               className="service-title-text font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 [text-wrap:balance]"
-                              style={{ color: primaryInk }}
+                              style={{ color: accentColor }}
                               title={fullTitle}
                             >
-                              <span>{displayTitle}</span>{' '}
-                              {!isEn && meta.shortTitleEn && (
-                                <span
-                                  className="text-[12.5px] font-medium opacity-85"
-                                  style={{ color: secondaryInk }}
-                                >
-                                  ({meta.shortTitleEn})
-                                </span>
-                              )}
+                              <span style={{ color: accentColor }}>{displayTitle}</span>
                             </h3>
                           </div>
 
@@ -902,7 +888,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                               <img
                                 src={serviceImage}
                                 alt={fullTitle}
-                                loading="lazy"
+                                loading={idx < 3 ? 'eager' : 'lazy'}
+                                fetchPriority={idx < 3 ? 'high' : 'auto'}
                                 decoding="async"
                                 referrerPolicy="no-referrer"
                                 onError={(e) => {
@@ -915,30 +902,11 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             </div>
                           </div>
 
-                          {/* BOTTOM: Full Name + Partner Logos + Explore Pill */}
+                          {/* BOTTOM: Partner Logos */}
                           <div
                             className="service-divider mt-auto pt-2.5 flex flex-col gap-2 min-w-0 shrink-0"
                             style={{ borderTop: `1px solid ${dividerBorder}` }}
                           >
-                            <div className="flex items-center justify-between gap-2 min-w-0">
-                              <h4
-                                className="font-play text-[12.5px] font-bold m-0 leading-snug line-clamp-1 min-w-0 flex-1 text-left"
-                                style={{ color: primaryInk }}
-                                title={fullTitle}
-                              >
-                                {fullTitle}
-                              </h4>
-                              <span
-                                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide shrink-0 whitespace-nowrap transition-transform duration-200 group-hover:translate-x-0.5"
-                                style={{
-                                  background: pillBg,
-                                  color: primaryInk,
-                                }}
-                              >
-                                <span>{isEn ? 'Explore' : 'Chi tiết'}</span>
-                                <ArrowRight className="w-3 h-3 shrink-0" />
-                              </span>
-                            </div>
 
                             {(domain.companyLogos || []).length > 0 && (
                               <div className="flex items-center flex-wrap gap-1.5 min-w-0">
@@ -946,7 +914,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-sm bg-white/95 ring-1 ring-white/30"
+                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs bg-white ring-1 ring-black/10 dark:ring-white/20"
                                   >
                                     <img
                                       src={partner.logo}

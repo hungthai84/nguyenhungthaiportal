@@ -20,6 +20,7 @@ import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import TuViBookCard from '@/components/views/horoscope/TuViBookCard';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { useTheme } from '@/hooks/useTheme';
 
 const HOROSCOPE_CARD_GAP_PX = 10;
 
@@ -321,6 +322,7 @@ const SIX_CORE_PALACES = [
 const FIVE_ELEMENTS_GOVERNANCE = [
   {
     hanzi: '金',
+    watermarkIcon: 'shield-check',
     palaceBadge: 'Cung Quan Lộc',
     title: 'Kim • Quy Trình & Chuẩn Hóa',
     desc: 'Thiết lập khung chuẩn mực vận hành, đảm bảo kỷ luật và kiểm soát chất lượng bằng dữ liệu.',
@@ -330,6 +332,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-sky-50/95 via-blue-50/80 to-indigo-50/60 dark:from-sky-950/50 dark:via-slate-900/85 dark:to-blue-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(240, 249, 255, 0.94) 0%, rgba(224, 242, 254, 0.86) 55%, rgba(186, 230, 253, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(12, 74, 110, 0.46) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(14, 116, 144, 0.24)',
+      borderColorLight: 'rgba(56, 189, 248, 0.45)',
+      borderColorDark: 'rgba(56, 189, 248, 0.36)',
+      watermarkColor: '#0284c7',
       border: 'border-sky-200/80 dark:border-sky-500/35 hover:border-sky-400 dark:hover:border-sky-400/70',
       hanziColor: 'text-sky-600 dark:text-sky-400',
       badge: 'bg-white/90 dark:bg-sky-950/80 text-sky-700 dark:text-sky-300 border-sky-200/80 dark:border-sky-700/50',
@@ -340,6 +349,7 @@ const FIVE_ELEMENTS_GOVERNANCE = [
   },
   {
     hanzi: '水',
+    watermarkIcon: 'cpu',
     palaceBadge: 'Cung Thiên Di',
     title: 'Thủy • Công Nghệ & Tự Động',
     desc: 'Tận dụng CRM, AI và Omnichannel để tối ưu hóa quy trình, loại bỏ điểm nghẽn và nâng cao năng suất.',
@@ -349,6 +359,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-cyan-50/95 via-teal-50/80 to-emerald-50/60 dark:from-cyan-950/50 dark:via-slate-900/85 dark:to-teal-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(236, 254, 255, 0.94) 0%, rgba(207, 250, 254, 0.86) 55%, rgba(165, 243, 252, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(22, 78, 99, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(8, 145, 178, 0.24)',
+      borderColorLight: 'rgba(6, 182, 212, 0.45)',
+      borderColorDark: 'rgba(34, 211, 238, 0.36)',
+      watermarkColor: '#0891b2',
       border: 'border-cyan-200/80 dark:border-cyan-500/35 hover:border-cyan-400 dark:hover:border-cyan-400/70',
       hanziColor: 'text-teal-600 dark:text-cyan-400',
       badge: 'bg-white/90 dark:bg-cyan-950/80 text-teal-700 dark:text-cyan-300 border-cyan-200/80 dark:border-cyan-700/50',
@@ -359,6 +376,7 @@ const FIVE_ELEMENTS_GOVERNANCE = [
   },
   {
     hanzi: '木',
+    watermarkIcon: 'users',
     palaceBadge: 'Cung Nô Bộc',
     title: 'Mộc • Con Người & Phát Triển',
     desc: 'Lãnh đạo bằng sự thấu cảm, huấn luyện đội ngũ kế thừa và xây dựng văn hóa gắn kết bền chặt.',
@@ -368,6 +386,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-emerald-50/95 via-green-50/80 to-lime-50/60 dark:from-emerald-950/50 dark:via-slate-900/85 dark:to-green-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(236, 253, 245, 0.94) 0%, rgba(209, 250, 229, 0.86) 55%, rgba(167, 243, 208, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(6, 78, 59, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(5, 150, 105, 0.24)',
+      borderColorLight: 'rgba(16, 185, 129, 0.45)',
+      borderColorDark: 'rgba(52, 211, 153, 0.36)',
+      watermarkColor: '#059669',
       border: 'border-emerald-200/80 dark:border-emerald-500/35 hover:border-emerald-400 dark:hover:border-emerald-400/70',
       hanziColor: 'text-emerald-600 dark:text-emerald-400',
       badge: 'bg-white/90 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-700/50',
@@ -378,6 +403,7 @@ const FIVE_ELEMENTS_GOVERNANCE = [
   },
   {
     hanzi: '火',
+    watermarkIcon: 'heart',
     palaceBadge: 'Cung Mệnh',
     title: 'Hỏa • Trải Nghiệm Khách Hàng',
     desc: 'Lấy khách hàng làm trọng tâm, phản hồi nhanh chóng và chuyển hóa khiếu nại thành cơ hội gắn kết.',
@@ -387,6 +413,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-rose-50/95 via-pink-50/80 to-fuchsia-50/60 dark:from-rose-950/50 dark:via-slate-900/85 dark:to-pink-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(255, 241, 242, 0.94) 0%, rgba(255, 228, 230, 0.86) 55%, rgba(254, 205, 211, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(136, 19, 55, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(225, 29, 72, 0.24)',
+      borderColorLight: 'rgba(244, 63, 94, 0.45)',
+      borderColorDark: 'rgba(251, 113, 133, 0.36)',
+      watermarkColor: '#e11d48',
       border: 'border-rose-200/80 dark:border-rose-500/35 hover:border-rose-400 dark:hover:border-rose-400/70',
       hanziColor: 'text-rose-500 dark:text-rose-400',
       badge: 'bg-white/90 dark:bg-rose-950/80 text-rose-600 dark:text-rose-300 border-rose-200/80 dark:border-rose-700/50',
@@ -397,6 +430,7 @@ const FIVE_ELEMENTS_GOVERNANCE = [
   },
   {
     hanzi: '土',
+    watermarkIcon: 'layers',
     palaceBadge: 'Tài Bạch • Phúc Đức',
     title: 'Thổ • Tài Chính & Nền Tảng',
     desc: 'Tối ưu chi phí phục vụ (Cost-to-Serve), quản trị rủi ro và giữ vững tính liên tục của hệ thống.',
@@ -406,6 +440,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-amber-50/95 via-orange-50/80 to-yellow-50/60 dark:from-amber-950/50 dark:via-slate-900/85 dark:to-orange-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(255, 251, 235, 0.94) 0%, rgba(254, 243, 199, 0.86) 55%, rgba(253, 230, 138, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(120, 53, 15, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(217, 119, 6, 0.24)',
+      borderColorLight: 'rgba(245, 158, 11, 0.45)',
+      borderColorDark: 'rgba(251, 191, 36, 0.36)',
+      watermarkColor: '#d97706',
       border: 'border-amber-200/80 dark:border-amber-500/35 hover:border-amber-400 dark:hover:border-amber-400/70',
       hanziColor: 'text-amber-600 dark:text-amber-400',
       badge: 'bg-white/90 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-200/80 dark:border-amber-700/50',
@@ -416,6 +457,7 @@ const FIVE_ELEMENTS_GOVERNANCE = [
   },
   {
     hanzi: '合',
+    watermarkIcon: 'network',
     palaceBadge: 'Ngũ Hành Toàn Diện',
     title: 'Mô Hình Điều Hành Tích Hợp',
     desc: 'Quy trình (Kim) tạo chuẩn mực · Công nghệ (Thủy) tạo hiệu suất · Con người (Mộc) tạo nội lực · Trải nghiệm (Hỏa) tạo giá trị · Nền tảng (Thổ) tạo sự trường tồn.',
@@ -425,6 +467,13 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     theme: {
       cardBg:
         'bg-gradient-to-br from-purple-50/95 via-indigo-50/80 to-violet-50/60 dark:from-purple-950/50 dark:via-slate-900/85 dark:to-indigo-950/40',
+      bgLight: 'linear-gradient(135deg, rgba(250, 245, 255, 0.94) 0%, rgba(243, 232, 255, 0.86) 55%, rgba(233, 213, 255, 0.72) 100%)',
+      bgDark: 'linear-gradient(135deg, rgba(88, 28, 135, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
+      subBgLight: 'rgba(255, 255, 255, 0.74)',
+      subBgDark: 'rgba(147, 51, 234, 0.24)',
+      borderColorLight: 'rgba(168, 85, 247, 0.45)',
+      borderColorDark: 'rgba(192, 132, 252, 0.36)',
+      watermarkColor: '#9333ea',
       border: 'border-purple-200/80 dark:border-purple-500/35 hover:border-purple-400 dark:hover:border-purple-400/70',
       hanziColor: 'text-purple-600 dark:text-purple-400',
       badge: 'bg-white/90 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-200/80 dark:border-purple-700/50',
@@ -486,6 +535,7 @@ const ZODIAC_SAMPLE_YEAR_BY_KEY: Record<string, number> = {
 export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const { showToast } = useToast();
   const { language, t } = useLanguage();
+  const { isDark } = useTheme();
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -672,21 +722,26 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const card6Ref = useRef<HTMLElement>(null);
   const profileCardRef = useRef<HTMLElement>(null);
   const [combinedExpandedHeight, setCombinedExpandedHeight] = useState<number>(0);
+  const [profileMatchedHeight, setProfileMatchedHeight] = useState<number>(0);
 
   useEffect(() => {
     if (isTuViExpanded) return;
     const measureRow1 = () => {
       const c6 = card6Ref.current;
       const prof = profileCardRef.current;
-      if (!c6 || !prof) return;
-      const c6Rect = c6.getBoundingClientRect();
+      if (!prof) return;
       const profRect = prof.getBoundingClientRect();
-      if (c6Rect.height <= 0 || profRect.height <= 0) return;
+      if (profRect.height <= 0) return;
 
+      const exactProfH = Math.round(profRect.height);
+      setProfileMatchedHeight((prev) => (Math.abs(prev - exactProfH) > 1 ? exactProfH : prev));
+
+      if (!c6) return;
+      const c6Rect = c6.getBoundingClientRect();
       const isSideBySide = Math.abs(c6Rect.top - profRect.top) < 16;
       const nextH = isSideBySide
-        ? Math.round(Math.max(c6Rect.height, profRect.height))
-        : Math.round(c6Rect.height + profRect.height + 15);
+        ? exactProfH
+        : Math.round(exactProfH * 2 + 15);
       setCombinedExpandedHeight((prev) => (Math.abs(prev - nextH) > 2 ? nextH : prev));
     };
 
@@ -695,7 +750,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     let ro: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(measureRow1);
-      if (card6Ref.current) ro.observe(card6Ref.current);
       if (profileCardRef.current) ro.observe(profileCardRef.current);
       if (row1HorizontalRef.current) ro.observe(row1HorizontalRef.current);
     }
@@ -1059,18 +1113,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   // =========================================================================
   const renderCard6LuanGiaiContent = () => (
     <>
-      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] w-full text-left min-w-0 shrink-0">
-        <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
-          <WebIcon name="book-open" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
-          <h4
-            className="card-title subcard-title-synced typo-h4 font-play font-bold text-purple-600 dark:text-purple-400 tracking-tight truncate m-0"
-            data-subcard-title="true"
-          >
-            6. Luận giải lá số tử vi
-          </h4>
-        </div>
-
-        {isTuViExpanded && (
+      {isTuViExpanded && (
+        <div className="absolute top-3 right-3 z-35 flex items-center justify-end w-full pointer-events-none px-3">
           <button
             id="horoscope-card-6-close-btn"
             type="button"
@@ -1080,12 +1124,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               setIsTuViBookOpen(false);
               setIsTuViMp3Playing(false);
             }}
-            className="px-3 py-1 rounded-full typo-btn font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/35 hover:bg-amber-500 hover:text-slate-950 transition-colors cursor-pointer shrink-0"
+            className="pointer-events-auto px-3.5 py-1.5 rounded-full typo-btn font-semibold bg-amber-500/85 text-slate-950 backdrop-blur-md shadow-lg border border-white/30 hover:bg-amber-400 transition-colors cursor-pointer shrink-0"
           >
             Đóng sách
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Sách Luận giải lá số tử vi tương tác 18 trang kèm âm thanh */}
       <div className="w-full flex-1 min-h-0 flex flex-col items-center justify-center min-w-0 relative overflow-hidden">
@@ -1313,8 +1357,17 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-2"
           data-card-layout={resolveAdaptiveCardLayout(WORK_PERSONALITY_TRAITS.length, false)}
           data-subcard-count={WORK_PERSONALITY_TRAITS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent rounded-[var(--radius-card,var(--radius-global,14px))] box-border"
+          style={{
+            gap: '15px',
+            rowGap: '15px',
+            columnGap: '15px',
+            padding: '0px',
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+            width: '100%',
+          }}
         >
           {WORK_PERSONALITY_TRAITS.map((trait, index) => {
             const palettes = [
@@ -1640,16 +1693,39 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         >
           {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
             const iconName = elementIcons[idx % elementIcons.length];
+            const cardElementBg = isDark ? item.theme.bgDark : item.theme.bgLight;
+            const subElementBg = isDark ? item.theme.subBgDark : item.theme.subBgLight;
+            const borderElementColor = isDark ? item.theme.borderColorDark : item.theme.borderColorLight;
             return (
               <article
                 key={idx}
                 data-element-type="card"
                 data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                data-ngu-hanh-card="true"
+                style={{
+                  ...level2CardStyle,
+                  background: cardElementBg,
+                  borderColor: borderElementColor,
+                }}
+                className="bento-view-card bento-card glass-card ngu-hanh-element-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)]"
               >
-                <div className="w-full flex flex-col gap-2.5 min-w-0">
-                  <div className="pb-2.5 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-1.5">
+                {/* Icon chìm Ngũ Hành & Chữ Hán chìm góc dưới bên phải */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none select-none absolute -bottom-3 -right-2 z-0 flex items-center justify-center opacity-[0.11] dark:opacity-[0.15]"
+                  style={{ color: item.theme.watermarkColor }}
+                >
+                  <WebIcon name={item.watermarkIcon || iconName} className="w-24 h-24" />
+                  <span className="absolute text-[54px] font-bold leading-none font-serif">
+                    {item.hanzi}
+                  </span>
+                </div>
+
+                <div className="relative z-10 w-full flex flex-col gap-2.5 min-w-0">
+                  <div
+                    className="pb-2.5 border-b flex flex-wrap items-center justify-between gap-1.5"
+                    style={{ borderColor: borderElementColor }}
+                  >
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${item.theme.iconColor}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
@@ -1659,7 +1735,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                         {item.title}
                       </h4>
                     </div>
-                    <span className="typo-badge px-2 py-0.5 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] shrink-0">
+                    <span
+                      className="typo-badge px-2 py-0.5 rounded-full border shrink-0 font-semibold"
+                      style={{
+                        background: subElementBg,
+                        borderColor: borderElementColor,
+                        color: 'var(--text-primary)',
+                      }}
+                    >
                       {item.palaceBadge}
                     </span>
                   </div>
@@ -1668,11 +1751,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   </p>
                 </div>
 
-                <div className="w-full flex flex-col gap-2.5 pt-1 min-w-0">
+                <div className="relative z-10 w-full flex flex-col gap-2.5 pt-1 min-w-0">
                   <div
                     data-subcard="true"
-                    style={level2InnerCardStyle}
-                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-1"
+                    style={{
+                      ...level2InnerCardStyle,
+                      background: subElementBg,
+                      borderColor: borderElementColor,
+                    }}
+                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-1 border"
                   >
                     <div className={`typo-label font-play font-semibold ${item.theme.labelColor}`}>
                       {item.boxLabel}
@@ -1682,7 +1769,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-1.5 pt-2 border-t border-[var(--border-subcard)]">
+                  <div
+                    className="space-y-1.5 pt-2 border-t"
+                    style={{ borderColor: borderElementColor }}
+                  >
                     <div className="typo-caption font-semibold text-[var(--text-secondary)]">
                       {item.footer}
                     </div>
@@ -2216,10 +2306,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-card-layout={resolveAdaptiveCardLayout(isTuViExpanded ? 1 : 2, true)}
           data-subcard-count={isTuViExpanded ? 1 : 2}
           data-book-expanded={isTuViExpanded ? 'true' : 'false'}
-          className="relative z-10 w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
+          className="relative z-10 w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 auto-rows-auto gap-[15px] p-0 items-start bg-transparent box-border"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
         >
-          {/* Vị trí 1: Thẻ 6. Luận giải lá số tử vi (bung rộng bằng tổng thẻ 6 + Hồ sơ Nguyễn Hùng Thái khi mở sách / phát MP3) */}
+          {/* Vị trí 1: Thẻ 6. Luận giải lá số tử vi (chiều cao luôn bằng #horoscope-card-profile khi thu gọn trên mọi kích thước màn hình) */}
           <article
             ref={card6Ref}
             id="horoscope-card-6"
@@ -2235,19 +2325,25 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 ? {
                     minHeight: `${Math.max(combinedExpandedHeight, 540)}px`,
                   }
-                : {}),
+                : profileMatchedHeight > 0
+                  ? {
+                      height: `${profileMatchedHeight}px`,
+                      minHeight: `${profileMatchedHeight}px`,
+                      maxHeight: `${profileMatchedHeight}px`,
+                    }
+                  : {}),
             }}
             className={cn(
-              'bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[15px] p-[15px] rounded-[14px] overflow-hidden box-border text-left transition-all duration-300',
+              'bento-view-card bento-card glass-card w-full min-h-0 min-w-0 flex flex-col justify-between gap-[15px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left transition-all duration-300',
               isTuViExpanded
-                ? 'md:col-span-12 lg:col-span-12'
+                ? 'h-full md:col-span-12 lg:col-span-12'
                 : 'md:col-span-6 lg:col-span-5'
             )}
           >
             {renderCard6LuanGiaiContent()}
           </article>
 
-          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (ẩn khi sách đang mở hoặc đang phát MP3) */}
+          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (chiều cao bằng đúng nội dung bên trong thẻ) */}
           {!isTuViExpanded && (
             <article
               ref={profileCardRef}
@@ -2259,10 +2355,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               data-element-parent="horoscope-card-1"
               style={{
                 ...level2CardStyle,
+                height: 'fit-content',
+                minHeight: '0px',
                 containerType: 'inline-size',
                 containerName: 'horoscope-profile-card',
               }}
-              className="md:col-span-6 lg:col-span-7 bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-start gap-[15px] p-[15px] rounded-[14px] overflow-hidden box-border text-left"
+              className="md:col-span-6 lg:col-span-7 bento-view-card bento-card glass-card w-full h-auto self-start min-h-0 min-w-0 flex flex-col justify-start gap-[15px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left"
             >
               {renderCard1HoSoTuViContent()}
             </article>

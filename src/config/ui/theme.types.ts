@@ -14,7 +14,6 @@ export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
   | 'cowhide-leather'
-  | 'dark-cowhide-leather'
   | 'walnut-wood'
   | 'deep-ocean'
   | 'neumorphism-beyond'

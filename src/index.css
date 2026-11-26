@@ -78,11 +78,9 @@ body {
 @import "./styles/cards.css";
 @import "./styles/themes/liquid-glass.css";
 @import "./styles/themes/cowhide-leather.css";
-@import "./styles/themes/dark-cowhide-leather.css";
 @import "./styles/themes/walnut-wood.css";
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/neumorphism-beyond.css";
-@import "./styles/themes/dark-neumorphism-beyond.css";
 @import "./styles/themes/frost-ice-neu.css";
 @import "./styles/themes/flat-soft-ui.css";
 @import "./styles/themes/mica-fluent.css";
@@ -3174,22 +3172,54 @@ button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
   box-sizing: border-box !important;
 }
 
-#app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
-  background: var(--pill-arrow-bg, rgba(255, 255, 255, 0.72)) !important;
-  border-color: var(--pill-arrow-border, rgba(255, 255, 255, 0.85)) !important;
-  color: var(--pill-arrow-text, var(--color-primary, #4F46E5)) !important;
+/* ==========================================================================
+   UNIFIED FOOTER NAVIGATION COLORS (Consistently identical across all themes)
+   Icon, Nút (prev/next), Số trang có màu luôn giống nhau ở tất cả giao diện
+   ========================================================================== */
+html:root body #app-footer #footer-nav-capsule,
+html[data-card-style] body #app-footer #footer-nav-capsule,
+html.dark[data-card-style] body #app-footer #footer-nav-capsule {
+  border-color: rgba(2, 132, 199, 0.35) !important;
+}
+
+html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html.dark[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="cowhide-leather"] #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="walnut-wood"] #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="frost-ice-neu"] #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+html:root[data-card-style="neumorphism-beyond"] #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  color: #0284c7 !important;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.15) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover:not(:disabled) {
-    background: var(--pill-arrow-hover, #FFFFFF) !important;
-    border-color: var(--pill-border-hover, var(--pill-arrow-border)) !important;
+  html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover:not(:disabled),
+  html[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover:not(:disabled),
+  html.dark[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover:not(:disabled) {
+    background: #ffffff !important;
+    border-color: #0284c7 !important;
+    color: #0284c7 !important;
+    box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25) !important;
   }
 }
 
-#app-footer #footer-nav-capsule #footer-page-counter,
-#app-footer #footer-nav-capsule #footer-page-icon {
-  color: var(--pill-counter-color, var(--text-link, var(--color-primary))) !important;
+html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html.dark[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html:root body #app-footer #footer-nav-capsule #footer-page-icon,
+html[data-card-style] body #app-footer #footer-nav-capsule #footer-page-icon,
+html.dark[data-card-style] body #app-footer #footer-nav-capsule #footer-page-icon,
+html:root[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
+html:root[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-counter,
+html:root[data-card-style="frost-ice-neu"] #footer-nav-capsule #footer-page-counter,
+html:root body #app-footer #footer-nav-capsule #footer-page-counter,
+html[data-card-style] body #app-footer #footer-nav-capsule #footer-page-counter,
+html.dark[data-card-style] body #app-footer #footer-nav-capsule #footer-page-counter {
+  color: #0284c7 !important;
+  stroke: #0284c7 !important;
 }
 
 #app-footer #footer-nav-capsule #footer-page-counter {
@@ -8086,18 +8116,18 @@ div#root > div#website-root > main#global-content-viewport > div#el-p0-div-76 > 
   border-radius: 14px !important;
 }
 
-/* AI Assistant: Banner 35% and Chat 65% across all dimensions */
+/* AI Assistant: Banner 40% and Chat 60% across all dimensions */
 #ai-assistant-hero-banner {
-  width: 35% !important;
-  min-width: 35% !important;
-  max-width: 35% !important;
-  flex: 0 0 35% !important;
+  width: 40% !important;
+  min-width: 40% !important;
+  max-width: 40% !important;
+  flex: 0 0 40% !important;
 }
 #ai-assistant-chat-container {
-  width: 65% !important;
-  min-width: 65% !important;
-  max-width: 65% !important;
-  flex: 0 0 65% !important;
+  width: 60% !important;
+  min-width: 60% !important;
+  max-width: 60% !important;
+  flex: 0 0 60% !important;
 }
 
 /* Projects main wrapper: grid dense layout & jitter-free smooth scale transition with center origin */
@@ -8397,9 +8427,7 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
   }
 }
 
-html:root body #services-page-container .service-card.service-vibrant-card,
-html:root[data-card-style] body #services-page-container .service-card.service-vibrant-card,
-html:root.dark[data-card-style] body #services-page-container .service-card.service-vibrant-card,
+/* System Cards: Strictly Inherit Active Website Theme (Light, Dark & All 15 Themes) */
 html:root body #systems-page-container .system-card-tile.system-vibrant-card,
 html:root[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card,
 html:root.dark[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card {
@@ -8412,23 +8440,49 @@ html:root.dark[data-card-style] body #systems-page-container .system-card-tile.s
   height: 100% !important;
   min-height: 224px !important;
   min-width: 0 !important;
-  background: var(--showcase-card-bg, var(--service-card-gradient)) !important;
-  background-color: var(--showcase-card-bg-solid, transparent) !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  color: var(--text-primary) !important;
   border-radius: var(--radius-card, var(--radius-global, 14px)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  backdrop-filter: blur(22px) saturate(175%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(175%) !important;
-  box-shadow:
-    0 12px 30px -10px rgba(15, 23, 42, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
   overflow: hidden !important;
   padding: clamp(0.95rem, 2vw, 1.15rem) !important;
   transition:
-    background 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 320ms ease,
+    background 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 280ms ease,
     transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Service Cards: Strictly Inherit Active Website Theme (Light, Dark & All 15 Themes) */
+html:root body #services-page-container .service-card.service-theme-card,
+html:root[data-card-style] body #services-page-container .service-card.service-theme-card,
+html:root.dark[data-card-style] body #services-page-container .service-card.service-theme-card {
+  position: relative !important;
+  isolation: isolate !important;
+  container-type: inline-size;
+  container-name: showcase-card;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 224px !important;
+  min-width: 0 !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-card, var(--radius-global, 14px)) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
+  overflow: hidden !important;
+  padding: clamp(0.95rem, 2vw, 1.15rem) !important;
+  transition:
+    border-color 280ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 /* Khi rê chuột vào hình thẻ hệ thống -> nền thẻ chuyển mượt sang màu nền video */
@@ -8442,29 +8496,37 @@ html:root.dark[data-card-style] body #systems-page-container .system-card-tile.s
   -webkit-backdrop-filter: none !important;
 }
 
-html:root body #services-page-container .service-card.service-vibrant-card::before,
-html:root[data-card-style] body #services-page-container .service-card.service-vibrant-card::before,
 html:root body #systems-page-container .system-card-tile.system-vibrant-card::before,
 html:root[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  padding: 1px !important;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.50) 0%,
-    rgba(255, 255, 255, 0.14) 45%,
-    rgba(255, 255, 255, 0.04) 100%
-  ) !important;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
-  -webkit-mask-composite: xor !important;
-  mask-composite: exclude !important;
-  pointer-events: none !important;
-  z-index: 3 !important;
+  content: none !important;
+  display: none !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-card-hover-flood,
+/* Footer Theme Popup (#footer-theme-popup): format theo nền giao diện hiện hành, khung nhóm icon & tiêu đề trong suốt */
+html:root body #footer-theme-popup,
+html:root[data-card-style] body #footer-theme-popup,
+html:root.dark[data-card-style] body #footer-theme-popup {
+  background: var(--surface-primary-bg, var(--bg-popup, var(--bg-card))) !important;
+  color: var(--text-primary) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-card, var(--border-color))) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 22px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 150%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 22px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 150%))) !important;
+}
+
+html:root body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible),
+html:root[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible),
+html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#services-page-container .service-card.service-theme-card .service-card-hover-flood,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-hover-flood {
   position: absolute !important;
   inset: 0 !important;
@@ -8476,15 +8538,15 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   opacity: 0 !important;
   background: radial-gradient(
     circle 220px at var(--hover-x, 50%) var(--hover-y, 50%),
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(255, 255, 255, 0.06) 44%,
-    transparent 74%
+    color-mix(in srgb, var(--color-primary, #6366f1) 14%, rgba(255, 255, 255, 0.18)) 0%,
+    color-mix(in srgb, var(--color-primary, #6366f1) 5%, transparent) 48%,
+    transparent 76%
   ) !important;
   transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-card-hover-flood::before,
-#services-page-container .service-card.service-vibrant-card .service-card-hover-flood::after,
+#services-page-container .service-card.service-theme-card .service-card-hover-flood::before,
+#services-page-container .service-card.service-theme-card .service-card-hover-flood::after,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-hover-flood::before,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-hover-flood::after {
   content: none !important;
@@ -8496,26 +8558,22 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:root body #services-page-container .service-card.service-vibrant-card:not([data-expanded-active="true"]):hover,
-  html:root[data-card-style] body #services-page-container .service-card.service-vibrant-card:not([data-expanded-active="true"]):hover,
+  html:root body #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover,
+  html:root[data-card-style] body #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover,
   html:root body #systems-page-container .system-card-tile.system-vibrant-card:hover,
   html:root[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card:hover {
-    transform: translateY(-4px) scale(1.008) !important;
-    border-color: rgba(255, 255, 255, 0.40) !important;
-    box-shadow:
-      0 20px 42px -14px color-mix(in srgb, var(--showcase-card-accent, var(--service-card-accent, #7c3aed)) 46%, rgba(15, 23, 42, 0.42)),
-      0 0 0 1px rgba(255, 255, 255, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
+    transform: translateY(-3px) !important;
+    border-color: color-mix(in srgb, var(--showcase-card-accent, var(--service-card-accent, var(--color-primary, #6366f1))) 48%, var(--border-card, rgba(148, 163, 184, 0.35))) !important;
   }
 
-  #services-page-container .service-card.service-vibrant-card:not([data-expanded-active="true"]):hover .service-card-hover-flood,
+  #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover .service-card-hover-flood,
   #systems-page-container .system-card-tile.system-vibrant-card:not([data-video-hover="true"]):hover .system-card-hover-flood {
     opacity: 1 !important;
   }
 }
 
 /* Shared Center Split Layout: Left Body Text Description + Right Frameless Image / Auto-Aligned Video */
-#services-page-container .service-card.service-vibrant-card .service-card-middle,
+#services-page-container .service-card.service-theme-card .service-card-middle,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
@@ -8527,14 +8585,14 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
 }
 
 @container showcase-card (min-width: 245px) {
-  #services-page-container .service-card.service-vibrant-card .service-card-middle,
+  #services-page-container .service-card.service-theme-card .service-card-middle,
   #systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
     grid-template-columns: minmax(0, 1.12fr) clamp(96px, 38cqi, 138px) !important;
     align-items: center !important;
   }
 }
 
-#services-page-container .service-card.service-vibrant-card .service-desc-text,
+#services-page-container .service-card.service-theme-card .service-desc-text,
 #systems-page-container .system-card-tile.system-vibrant-card .system-desc-text {
   font-family: var(--font-sans, "Play", sans-serif) !important;
   font-weight: 400 !important;
@@ -8542,7 +8600,7 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   line-height: 1.52 !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-card-image-box,
+#services-page-container .service-card.service-theme-card .service-card-image-box,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot {
   position: relative !important;
   height: auto !important;
@@ -8565,7 +8623,7 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   overflow: visible !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-img-pop,
+#services-page-container .service-card.service-theme-card .service-img-pop,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot img {
   height: 100% !important;
   max-height: 128px !important;
@@ -8597,37 +8655,37 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   box-shadow: none !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-partner-logo {
+#services-page-container .service-card.service-theme-card .service-partner-logo {
   background: rgba(255, 255, 255, 0.94) !important;
   background-color: rgba(255, 255, 255, 0.94) !important;
 }
 
-#services-page-container .service-card.service-vibrant-card .service-partner-logo::before {
+#services-page-container .service-card.service-theme-card .service-partner-logo::before {
   display: none !important;
 }
 
-/* Expanded Bento Detail Shell */
+/* Expanded Bento Detail Shell — synced with active website theme */
 html:root body #services-page-container #services-expanded-card.service-expanded-bento-shell,
-html:root[data-card-style] body #services-page-container #services-expanded-card.service-expanded-bento-shell {
+html:root[data-card-style] body #services-page-container #services-expanded-card.service-expanded-bento-shell,
+html.dark body #services-page-container #services-expanded-card.service-expanded-bento-shell,
+html.dark[data-card-style] body #services-page-container #services-expanded-card.service-expanded-bento-shell {
   border-radius: var(--radius-global, var(--radius-main, 14px)) !important;
   padding: 1rem !important;
-  background: var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.92))) !important;
-  backdrop-filter: blur(24px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  background: var(--surface-secondary-bg, var(--bg-card)) !important;
+  color: var(--text-primary) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  backdrop-filter: blur(var(--glass-card-blur, 22px)) saturate(var(--glass-card-saturate, 150%)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-card-blur, 22px)) saturate(var(--glass-card-saturate, 150%)) !important;
   overflow: visible !important;
 }
 
-html.dark body #services-page-container #services-expanded-card.service-expanded-bento-shell,
-html.dark[data-card-style] body #services-page-container #services-expanded-card.service-expanded-bento-shell {
-  background: rgba(15, 23, 42, 0.88) !important;
-}
-
 #services-page-container #services-expanded-card .service-bento-tile {
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24));
 }
 
 #services-page-container #services-expanded-card .service-bento-tile-light {
-  border: 1px solid rgba(17, 24, 39, 0.12);
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24));
 }
 
 #services-page-container #services-expanded-card .company-logo-surface {
@@ -8959,7 +9017,6 @@ html:root[data-card-style] body :is(
 /* EXPERIENCE SLIDER: FULL MAX HEIGHT CARDS + FULL BANNER MEDIA              */
 /* ========================================================================= */
 #experience-main-card .exp-slider-view-root,
-#experience-main-card .exp-slider-view-root .news-slider-wrapper-container,
 #experience-main-card .exp-slider-view-root .news-slider-container,
 #experience-main-card .exp-slider-view-root .news-slider-stage,
 #experience-main-card .exp-slider-view-root .news-slider-wrp,
@@ -8971,11 +9028,21 @@ html:root[data-card-style] body :is(
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-wrapper-container {
+  flex: 1 1 0% !important;
+  height: auto !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   padding: 6px 8px 6px !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-container {
   gap: 8px !important;
+}
+
+#experience-main-card .exp-slider-view-root > .news-slider-ctr {
+  padding: 6px 12px 10px !important;
+  margin-top: 0 !important;
+  flex-shrink: 0 !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-item-bg {
@@ -9147,6 +9214,80 @@ html:root.dark[data-card-style] body #interface-global-customization-card {
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 1.52 !important;
+}
+
+/* ========================================================================= */
+/* HOME PAGE: FULL-BLEED CIRCULAR VIDEO FILL (#home-hero-circle-frame)       */
+/* ========================================================================= */
+html:root body #home-hero-circle-frame,
+html:root[data-card-style] body #home-hero-circle-frame {
+  border-radius: 9999px !important;
+  padding: 0 !important;
+}
+
+html:root body #home-hero-circle-frame .home-circle-video-media,
+html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  container-type: size !important;
+  border-radius: 9999px !important;
+  -webkit-clip-path: circle(50% at 50% 50%) !important;
+  clip-path: circle(50% at 50% 50%) !important;
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+html:root body #home-hero-circle-frame .home-circle-video-media :is(video, img),
+html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media :is(video, img) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: 50% 20% !important;
+  border-radius: 9999px !important;
+  -webkit-clip-path: circle(50% at 50% 50%) !important;
+  clip-path: circle(50% at 50% 50%) !important;
+  transform: translateZ(0) scale(1.06) !important;
+  -webkit-transform: translateZ(0) scale(1.06) !important;
+  transform-origin: center center !important;
+  opacity: revert !important;
+}
+
+html:root body #home-hero-circle-frame .home-circle-video-media :is(video, img).opacity-0,
+html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media :is(video, img).opacity-0 {
+  opacity: 0 !important;
+}
+
+html:root body #home-hero-circle-frame .home-circle-video-media :is(video, img).opacity-100,
+html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media :is(video, img).opacity-100 {
+  opacity: 1 !important;
+}
+
+html:root body #home-hero-circle-frame .home-circle-video-media iframe,
+html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media iframe {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: max(100%, 177.78cqh) !important;
+  height: max(100%, 56.25cqw) !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  transform: translate(-50%, -50%) scale(1.16) !important;
+  -webkit-transform: translate(-50%, -50%) scale(1.16) !important;
+  border: 0 !important;
 }
 
 /* End of index.css */

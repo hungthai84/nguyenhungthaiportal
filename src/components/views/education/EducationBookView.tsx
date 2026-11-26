@@ -80,8 +80,8 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // Tỷ lệ khung sách chuẩn Kokonut UI (3:2 trang đôi = 1.5, 3:4 trang đơn = 0.75), chừa chỗ cho thanh điều hướng phía dưới
-  const navBarReserve = 52;
+  // Tỷ lệ khung sách chuẩn Kokonut UI (3:2 trang đôi = 1.5, 3:4 trang đơn = 0.75)
+  const navBarReserve = 0;
   const fittedBook = useMemo(() => {
     const padX = stageBounds.w >= 640 ? 28 : 12;
     const padTop = stageBounds.w < 680 ? 44 : 16;
@@ -576,7 +576,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       </div>
     );
 
-    // ================= PAGE 5: BÌA SAU (KHÔNG ĐÓNG KHUNG, PADDING 15PX ĐỒNG BỘ BÌA TRƯỚC) =================
+    // ================= PAGE 5: BÌA SAU (NỀN LAN TỎA TỪ HÌNH BÌA SÁCH ĐỒNG BỘ BÌA TRƯỚC) =================
     const backCover = (
       <div
         key={`back-${course.id}`}
@@ -587,6 +587,33 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           fontFamily: BOOK_COVER_BODY_FONT,
         }}
       >
+        {/* Full-bleed diffused ambient backdrop derived directly from the book cover image */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        >
+          <img
+            src={course.image}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onError={handleDriveImageFallback}
+            className="absolute inset-[-18%] w-[136%] h-[136%] max-w-none object-cover object-center select-none"
+            style={{
+              filter: 'blur(28px) saturate(1.5) brightness(0.74)',
+              transform: 'scale(1.18)',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(6, 12, 28, 0.24) 0%, rgba(6, 12, 28, 0.44) 55%, rgba(4, 9, 22, 0.68) 100%)',
+            }}
+          />
+        </div>
+
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
           aria-hidden="true"
@@ -600,39 +627,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         {/* Soft seamless studio glass reflection */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 z-[1]"
           style={{
             background:
               'radial-gradient(ellipse 84% 50% at 18% 6%, rgba(255, 255, 255, 0.22) 0%, transparent 60%), radial-gradient(ellipse 68% 52% at 86% 90%, rgba(255, 255, 255, 0.10) 0%, transparent 56%)',
           }}
         />
-
-        {/* Subtle bottom iridescent aurora accent */}
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 400 72"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[14%] opacity-75"
-        >
-          <defs>
-            <linearGradient
-              id={`back-wave-${course.id}`}
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" stopColor={bookCoverTheme.wave1} stopOpacity="0.80" />
-              <stop offset="52%" stopColor={bookCoverTheme.wave2} stopOpacity="0.68" />
-              <stop offset="100%" stopColor={bookCoverTheme.wave3} stopOpacity="0.82" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M0,48 C104,24 190,70 284,52 C340,40 374,22 400,28 L400,72 L0,72 Z"
-            fill={`url(#back-wave-${course.id})`}
-            opacity="0.52"
-          />
-        </svg>
 
         <WebIcon
           name="award"
@@ -753,7 +753,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           disableKeyboardNav={disableKeyboardNav}
           disableWheelNav={true}
           forceSingle={fittedBook.isSingle}
-          showFooterNav={true}
+          showFooterNav={false}
           labels={{
             prev: isEn ? 'Previous page' : 'Trang trước',
             next: isEn ? 'Next page' : 'Trang sau',

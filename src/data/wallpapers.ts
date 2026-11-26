@@ -51,12 +51,6 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark:
       'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
   },
-  'dark-cowhide-leather': {
-    light:
-      'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
-    dark:
-      'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
-  },
   'walnut-wood': {
     light: walnutWoodWallpaper,
     dark: walnutWoodWallpaper,
@@ -74,8 +68,10 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark: darkNeumorphismBeyondWallpaper,
   },
   'frost-ice-neu': {
-    light: '#E0E8F2',
-    dark: '#E0E8F2',
+    light:
+      'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
+    dark:
+      'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
   },
   'flat-soft-ui': {
     light: wpFlatSoftUi,
@@ -235,7 +231,7 @@ export function getWallpaperThumbnailUrl(val: string): string {
 export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   {
     id: 'wallpaper-liquid-glass-flowers',
-    name: '✨ Liquid Glass Optical Lens (macOS Clear)',
+    name: '✨ Kính Lỏng Trong Suốt (Quang học)',
     type: 'image',
     value: wpLiquidGlass,
     bg: `url('${wpLiquidGlass}') center/cover no-repeat`,
@@ -379,7 +375,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-cowhide-leather',
-    name: '💼 Nền Da Bò Thủ Công (Theme Background)',
+    name: '💼 Nền Da Bò Thủ Công (Giao diện riêng)',
     type: 'css',
     value:
       'background: radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%);',
@@ -392,22 +388,8 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000005,
   },
   {
-    id: 'theme-bg-dark-cowhide-leather',
-    name: '💼 Nền Da Bò Tối Màu (Theme Background)',
-    type: 'css',
-    value:
-      'background: radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%);',
-    bg: 'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 22% 20%, rgba(229, 184, 126, 0.16) 0%, transparent 52%), linear-gradient(145deg, #2B221E 0%, #1C1613 55%, #140F0D 100%)',
-    },
-    isCustom: false,
-    createdAt: 1794300000007,
-  },
-  {
     id: 'theme-bg-walnut-wood',
-    name: '🪵 Nền Vân Gỗ Óc Chó Cao Cấp (Theme Background)',
+    name: '🪵 Nền Gỗ Óc Chó Trầm (Giao diện riêng)',
     type: 'image',
     value: walnutWoodWallpaper,
     bg: `url('${walnutWoodWallpaper}') center/cover no-repeat`,
@@ -423,7 +405,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-mica-fluent',
-    name: '🪟 Nền Mica / Fluent Design (Theme Background)',
+    name: '🪟 Nền Kính Mờ Hiện Đại (Giao diện riêng)',
     type: 'image',
     value: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     bg: "url('https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg') center/cover no-repeat",
@@ -439,7 +421,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-gradient-dopamine',
-    name: '🌈 Nền Gradient / Dopamine UI – Đa sắc (Theme Background)',
+    name: '🌈 Nền Sắc Màu Rực Rỡ (Giao diện riêng)',
     type: 'image',
     value: multicolorGlassWallpaper,
     bg: `url('${multicolorGlassWallpaper}') center/cover no-repeat`,
@@ -455,7 +437,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-iridescent-liquid-glass',
-    name: '✨ Nền Iridescent Liquid Glass Sáng (Ánh Xà Cừ)',
+    name: '✨ Nền Xà Cừ Ánh Sáng (Giao diện riêng)',
     type: 'gradient',
     value:
       'radial-gradient(ellipse 68% 58% at 14% 16%, rgba(56, 189, 248, 0.34) 0%, transparent 56%), radial-gradient(ellipse 64% 56% at 86% 18%, rgba(251, 146, 60, 0.28) 0%, transparent 54%), radial-gradient(ellipse 62% 58% at 50% 56%, rgba(168, 85, 247, 0.24) 0%, transparent 58%), radial-gradient(ellipse 60% 54% at 80% 86%, rgba(244, 114, 182, 0.24) 0%, transparent 54%), linear-gradient(135deg, #F6FAFF 0%, #EEF6FF 46%, #FDF2FA 76%, #FFF7ED 100%)',
@@ -469,7 +451,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-dark-iridescent-liquid-glass',
-    name: '🌌 Nền Iridescent Liquid Glass Tối (Chrome Xà Cừ)',
+    name: '🌌 Nền Xà Cừ Đêm Tối (Giao diện riêng)',
     type: 'gradient',
     value:
       'radial-gradient(ellipse 66% 56% at 16% 16%, rgba(34, 211, 238, 0.30) 0%, transparent 56%), radial-gradient(ellipse 60% 52% at 86% 18%, rgba(251, 146, 60, 0.22) 0%, transparent 52%), radial-gradient(ellipse 64% 58% at 72% 84%, rgba(168, 85, 247, 0.28) 0%, transparent 56%), linear-gradient(140deg, #070B16 0%, #0F172A 52%, #130F26 100%)',
@@ -483,7 +465,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-liquid-glass',
-    name: '✨ Nền Liquid Glass Soft UI Sáng · Hình nền #32 (Mặc định)',
+    name: '✨ Nền Kính Lỏng Trong Suốt (Giao diện riêng)',
     type: 'image',
     value: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     bg: "url('https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg') center/cover no-repeat",
@@ -499,7 +481,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-dark-liquid-glass',
-    name: '🌙 Nền Liquid Glass Soft UI Tối (Giao diện riêng)',
+    name: '🌙 Nền Kính Lỏng Bóng Đêm (Giao diện riêng)',
     type: 'image',
     value: darkRainbowGlassWallpaper,
     bg: `url('${darkRainbowGlassWallpaper}') center/cover no-repeat`,
@@ -515,7 +497,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-deep-ocean',
-    name: '🌊 Nền Đại Dương Sâu Thẳm (Giao diện riêng)',
+    name: '🌊 Nền Biển Sâu Thẳm Xanh (Giao diện riêng)',
     type: 'image',
     value: deepOceanWallpaper,
     bg: `url('${deepOceanWallpaper}') center/cover no-repeat`,
@@ -531,7 +513,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-neumorphism-beyond',
-    name: '🧊 Nền Nổi Khối Kính Mờ (Giao diện riêng)',
+    name: '🧊 Nền Khối Mềm Sáng Mịn (Giao diện riêng)',
     type: 'image',
     value: neumorphismBeyondWallpaper,
     bg: `url('${neumorphismBeyondWallpaper}') center/cover no-repeat`,
@@ -546,7 +528,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-dark-neumorphism-beyond',
-    name: '🌑 Nền Nổi Khối Kính Mờ Tối (Giao diện riêng)',
+    name: '🌑 Nền Khối Mềm Đêm Tối (Giao diện riêng)',
     type: 'image',
     value: darkNeumorphismBeyondWallpaper,
     bg: `url('${darkNeumorphismBeyondWallpaper}') center/cover no-repeat`,
@@ -561,19 +543,21 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-frost-ice-neu',
-    name: '❄️ Nền Băng Tuyết Nổi Khối Sáng (Giao diện riêng)',
+    name: '❄️ Nền Băng Tuyết Nổi Khối (Giao diện riêng)',
     type: 'css',
-    value: 'background: #E0E8F2;',
-    bg: '#E0E8F2',
+    value:
+      'background: radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%);',
+    bg: 'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
     previewStyle: {
-      background: '#E0E8F2',
+      background:
+        'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
     },
     isCustom: false,
     createdAt: 1794300000025,
   },
   {
     id: 'theme-bg-flat-soft-ui',
-    name: '🎨 Nền Flat Soft UI Sáng (Giao diện riêng)',
+    name: '🎨 Nền Phẳng Mềm Tinh Khiết (Giao diện riêng)',
     type: 'image',
     value: wpFlatSoftUi,
     bg: `url('${wpFlatSoftUi}') center/cover no-repeat`,
@@ -589,7 +573,7 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
   },
   {
     id: 'theme-bg-dark-flat-soft-ui',
-    name: '🌌 Nền Flat Soft UI Tối (Giao diện riêng)',
+    name: '🌌 Nền Phẳng Mềm Đêm Tối (Giao diện riêng)',
     type: 'image',
     value: wpDarkFlatSoftUi,
     bg: `url('${wpDarkFlatSoftUi}') center/cover no-repeat`,

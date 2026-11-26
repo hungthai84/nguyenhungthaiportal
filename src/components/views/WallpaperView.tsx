@@ -20,6 +20,7 @@ import {
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme, getCardStyleConfig } from '@/hooks/useTheme';
+import { compressImageFileToWebP } from '@/utils/imageWebp';
 import type { WaveMotionMode } from '@/config/ui/theme.types';
 import { useLanguage } from '@/context/LanguageContext';
 import { useFirebase } from '@/context/FirebaseContext';
@@ -436,7 +437,7 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
     [deleteCloudWallpaper, isEn, onShowNotification, user]
   );
 
-  const handleLocalMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLocalMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const isVideo = file.type.startsWith('video/');
@@ -469,9 +470,14 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      const dataUrl = String(evt.target?.result || '');
+    e.target.value = '';
+    try {
+      const result = await compressImageFileToWebP(file, {
+        maxWidth: 1920,
+        maxHeight: 1080,
+        quality: 0.84,
+      });
+      const dataUrl = result.dataUrl;
       if (!dataUrl) return;
       const createdWp: WallpaperPreset = {
         id: `custom-wp-upload-${Date.now()}`,
@@ -494,9 +500,9 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
       }
       handleApplyWallpaper(createdWp);
       setIsAddModalOpen(false);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+    } catch {
+      onShowNotification?.(isEn ? 'Could not optimize uploaded image.' : 'Không thể xử lý hình ảnh tải lên.');
+    }
   };
 
   const filterCategories: Array<{ id: SmartFilterCategory; label: string; icon: string; count: number }> = [

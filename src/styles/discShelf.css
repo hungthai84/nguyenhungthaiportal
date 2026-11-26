@@ -359,19 +359,26 @@ html[data-card-style] #education-banner-timeline .edu-shelf-timeline-node:active
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   overflow: hidden;
-  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)));
-}
-
-/* Front Book Cover — Bìa cứng 3D bo cong chuẩn sách (gáy sắc gọn, mép ngoài bo mềm tinh tế) */
-.disc-out.edu-shelf-book-cover {
   background: transparent !important;
   background-color: transparent !important;
-  color: #ffffff;
-  border: none !important;
-  border-radius: 4px 14px 14px 4px !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+}
+
+/* Front Book Cover — Nền trong suốt 100% & bo cong 4 góc theo cấu hình --radius-global */
+.disc-out.edu-shelf-book-cover,
+.disc-out.edu-shelf-book-cover > .education-book-cover {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--text-primary);
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+}
+
+.disc-out.edu-shelf-book-cover {
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34)) !important;
   box-shadow:
-    0 24px 46px -14px rgba(2, 8, 28, 0.52),
-    0 8px 18px -8px rgba(2, 8, 28, 0.28);
+    0 18px 38px -14px rgba(2, 8, 28, 0.28),
+    0 6px 16px -8px rgba(2, 8, 28, 0.16);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -609,9 +616,11 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
   justify-content: flex-start;
   gap: 8px;
   padding: 12px 14px;
-  background: var(--bg-card, #f8fafc);
+  background: transparent !important;
+  background-color: transparent !important;
   color: var(--text-primary, #0f172a);
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.35));
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
   font-size: clamp(9px, calc(var(--W) * 0.046), 12px);
   box-sizing: border-box;
 }
@@ -719,8 +728,9 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
   inset: 0;
   transform: translateZ(calc(var(--S) / -2 + 1px));
   transform-style: preserve-3d;
-  border-radius: 3px 10px 10px 3px;
-  background: var(--bg-card, #ffffff);
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   color: var(--text-primary, #0f172a);
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.35));
   padding: 12px 14px;
@@ -767,7 +777,7 @@ html[data-card-style] .disc-library .disc-open-hit,
   -webkit-filter: none !important;
   transform: none !important;
   cursor: pointer;
-  border-radius: 3px 10px 10px 3px;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
   translate: calc(var(--disc-open) * var(--W) * 0.34) 0;
   transition: translate 650ms cubic-bezier(0.2, 0.85, 0.25, 1) !important;
 }

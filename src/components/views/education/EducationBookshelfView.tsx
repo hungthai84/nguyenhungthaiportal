@@ -257,8 +257,9 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         style={{
           background: 'transparent',
           backgroundColor: 'transparent',
-          border: 'none',
-          boxShadow: `0 22px 44px -14px rgba(2, 8, 28, 0.50), 0 10px 24px -10px ${glowShadow}`,
+          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+          border: '1px solid var(--border-subcard, rgba(148, 163, 184, 0.32))',
+          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.28), 0 8px 20px -10px ${glowShadow}`,
           containerType: 'inline-size',
         }}
       >

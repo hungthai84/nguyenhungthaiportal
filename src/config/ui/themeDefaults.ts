@@ -101,7 +101,7 @@ export interface ThemeBackgroundSpec {
 export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
   'liquid-glass': {
     id: 'liquid-glass',
-    presetId: 'custom-wp-1788112774646',
+    presetId: 'theme-bg-liquid-glass',
     label: 'Nền Kính Lỏng Trong Suốt',
     themeMode: 'light',
     imagePath: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
@@ -240,7 +240,7 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
 };
 
 export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
-  'liquid-glass': 'custom-wp-1788112774646',
+  'liquid-glass': THEME_BACKGROUNDS['liquid-glass'].presetId,
   'dark-liquid-glass': THEME_BACKGROUNDS['dark-liquid-glass'].presetId,
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'walnut-wood': THEME_BACKGROUNDS['walnut-wood'].presetId,

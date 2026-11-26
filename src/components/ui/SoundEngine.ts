@@ -1,3 +1,5 @@
+import { AUDIO_PREF_EVENT, getSavedMutedPref } from '@/utils/audioPreference';
+
 export type SoundThemeProfile = 'soft-glass' | 'crystal' | 'liquid' | 'digital' | 'futuristic' | 'minimal';
 export type StudioSoundEvent =
   | 'buttonClick'
@@ -200,6 +202,7 @@ class SoundEngineClass {
   private lastBookSoundTime: number = 0;
   private studioOverrideActive: boolean = false;
   private activeThemeMode: string = 'liquid-glass';
+  private globalMuted: boolean = getSavedMutedPref(true);
   private settings: SoundEngineSettings = {
     enabled: false,
     volume: 45,
@@ -221,6 +224,27 @@ class SoundEngineClass {
       error: true,
     },
   };
+
+  constructor() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener(AUDIO_PREF_EVENT, (evt: Event) => {
+        const detail = (evt as CustomEvent<{ muted?: boolean }>).detail;
+        this.globalMuted =
+          typeof detail?.muted === 'boolean' ? detail.muted : getSavedMutedPref(true);
+      });
+    }
+  }
+
+  setGlobalMuted(muted: boolean) {
+    this.globalMuted = Boolean(muted);
+  }
+
+  private canPlaySound(forcePreview = false): boolean {
+    if (forcePreview) return true;
+    if (this.globalMuted) return false;
+    if (this.studioOverrideActive && !this.settings.enabled) return false;
+    return true;
+  }
 
   setThemeSoundMode(mode: string) {
     if (mode && THEME_ACOUSTIC_PROFILES[mode]) {
@@ -247,12 +271,16 @@ class SoundEngineClass {
   }
 
   private getVolumeGain(base: number): number {
+    if (this.globalMuted) return 0;
     if (!this.studioOverrideActive) return base;
     if (!this.settings.enabled) return 0;
     return base * Math.max(0, Math.min(1, this.settings.volume / 100)) * 1.4;
   }
 
   private getThemeOscType(): OscillatorType {
+    if (!this.studioOverrideActive) {
+      return this.getActiveAcousticProfile().oscType;
+    }
     switch (this.settings.theme) {
       case 'crystal':
         return 'triangle';
@@ -270,12 +298,12 @@ class SoundEngineClass {
 
   playEvent(event: StudioSoundEvent, forcePreview = false) {
     try {
-      if (!forcePreview) {
-        if (this.studioOverrideActive && !this.settings.enabled) return;
-        if (this.studioOverrideActive && !this.settings.events[event]) return;
-        if (event === 'buttonHover' && this.studioOverrideActive && !this.settings.hoverSound) return;
-        if ((event === 'buttonClick' || event === 'cardSelect') && this.studioOverrideActive && !this.settings.clickSound) return;
-        if ((event === 'notification' || event === 'success' || event === 'error') && this.studioOverrideActive && !this.settings.notificationSound) return;
+      if (!this.canPlaySound(forcePreview)) return;
+      if (!forcePreview && this.studioOverrideActive) {
+        if (!this.settings.events[event]) return;
+        if (event === 'buttonHover' && !this.settings.hoverSound) return;
+        if ((event === 'buttonClick' || event === 'cardSelect') && !this.settings.clickSound) return;
+        if ((event === 'notification' || event === 'success' || event === 'error') && !this.settings.notificationSound) return;
       }
 
       const now = Date.now();
@@ -294,8 +322,9 @@ class SoundEngineClass {
           : 0.5;
       if (volScale <= 0) return;
 
+      const profile = this.getActiveAcousticProfile();
       const type = this.getThemeOscType();
-      const pitchShift =
+      const studioShift =
         this.settings.theme === 'crystal'
           ? 1.28
           : this.settings.theme === 'futuristic'
@@ -305,6 +334,7 @@ class SoundEngineClass {
               : this.settings.theme === 'minimal'
                 ? 0.78
                 : 1;
+      const pitchShift = this.studioOverrideActive ? studioShift : profile.pitchScale;
 
       const t = ctx.currentTime;
       const playTone = (startFreq: number, endFreq: number, dur: number, offset = 0, peak = 0.09) => {
@@ -433,6 +463,7 @@ class SoundEngineClass {
 
   playTap() {
     try {
+      if (!this.canPlaySound(false)) return;
       if (this.studioOverrideActive) {
         this.playEvent('buttonClick');
         return;
@@ -459,6 +490,7 @@ class SoundEngineClass {
 
   playGlassChime() {
     try {
+      if (!this.canPlaySound(false)) return;
       if (this.studioOverrideActive) {
         this.playEvent('cardSelect');
         return;
@@ -483,6 +515,7 @@ class SoundEngineClass {
 
   playPageFlip() {
     try {
+      if (!this.canPlaySound(false)) return;
       if (this.studioOverrideActive) {
         this.playEvent('tabChange');
         return;
@@ -515,6 +548,7 @@ class SoundEngineClass {
    */
   playBookOpen() {
     try {
+      if (!this.canPlaySound(false)) return;
       const now = Date.now();
       if (now - this.lastBookSoundTime < 90) return;
       this.lastBookSoundTime = now;
@@ -579,6 +613,7 @@ class SoundEngineClass {
    */
   playBookPageTurn(dir: 1 | -1 = 1) {
     try {
+      if (!this.canPlaySound(false)) return;
       const now = Date.now();
       if (now - this.lastBookSoundTime < 75) return;
       this.lastBookSoundTime = now;
@@ -652,6 +687,7 @@ class SoundEngineClass {
    */
   playBookClose() {
     try {
+      if (!this.canPlaySound(false)) return;
       const now = Date.now();
       if (now - this.lastBookSoundTime < 75) return;
       this.lastBookSoundTime = now;
@@ -717,6 +753,7 @@ class SoundEngineClass {
 
   playPageSpecificSound(pageId: number) {
     try {
+      if (!this.canPlaySound(false)) return;
       const vol = this.getVolumeGain(0.08);
       if (vol <= 0) return;
       const now = Date.now();
@@ -724,7 +761,7 @@ class SoundEngineClass {
       this.lastTapTime = now;
       const ctx = this.getContext();
       if (!ctx) return;
-      
+
       const frequencies: Record<number, number> = {
         0: 523.25, // C5
         1: 587.33, // D5
@@ -744,17 +781,18 @@ class SoundEngineClass {
         15: 2349.32, // D7
         16: 2637.02, // E7
       };
-      
-      const baseFreq = frequencies[pageId] || 784;
-      
+
+      const profile = this.getActiveAcousticProfile();
+      const baseFreq = (frequencies[pageId] || 784) * profile.pitchScale;
+
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = 'sine';
+      osc.type = profile.oscType;
       osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.15, ctx.currentTime + 0.05);
       gain.gain.setValueAtTime(vol, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-      
+
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();

@@ -103,7 +103,7 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   overflow: hidden !important;
 }
 
-#about-hero-video-container[data-video-bg-card="true"],
+/* #about-hero-video-container styled as framed Bento card matching about-career-goal-card */
 .home-screen-media-stage,
 [id^="home-main-content-"],
 [id^="home-main-content-"][data-media-card="video"] {
@@ -6507,9 +6507,9 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 }
 
 #experience-page-container #experience-main-card.is-open {
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: var(--radius-main, 14px) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 
 #experience-page-container #experience-main-card.is-animating {

@@ -9,6 +9,7 @@ import {
   isCodePenWallpaper,
   getThemeBackgroundForMode,
 } from '../data/wallpapers';
+import { toOptimizedWebPUrl } from '../utils/imageWebp';
 import {
   CARD_STYLE_STORAGE_KEY,
   VISUAL_THEME_MODE_STORAGE_KEY,
@@ -1152,8 +1153,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       const imgVal = activeWpToRender.value || activeWpToRender.bg || '';
       const cleanUrl = getCleanImageUrl(imgVal);
       if (cleanUrl) {
-        root.style.setProperty('--theme-bg-image', `url('${cleanUrl}')`);
-        document.body.style.backgroundImage = `url('${cleanUrl}'), ${themeBgSpec.fallbackGradient}`;
+        const optimizedUrl = toOptimizedWebPUrl(cleanUrl, { width: 1920, quality: 84 });
+        root.style.setProperty('--theme-bg-image', `url('${optimizedUrl}')`);
+        document.body.style.backgroundImage = `url('${optimizedUrl}'), ${themeBgSpec.fallbackGradient}`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
         document.body.style.backgroundRepeat = 'no-repeat';

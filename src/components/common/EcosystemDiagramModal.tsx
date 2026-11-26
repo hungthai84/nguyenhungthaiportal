@@ -1246,20 +1246,20 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
 
 
             /* Dark Cowhide Leather inside Ecosystem Diagram Modal */
-            html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal .glass-flat,
-            html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
-              background: linear-gradient(145deg, rgba(122, 74, 32, 0.94) 0%, rgba(82, 46, 16, 0.97) 100%) !important;
-              border: 1.5px solid #522E10 !important;
+            html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"]) #ecosystem-diagram-modal .glass-flat,
+            html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"]) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+              background: var(--surface-secondary-bg, linear-gradient(145deg, rgba(122, 74, 32, 0.94) 0%, rgba(82, 46, 16, 0.97) 100%)) !important;
+              border: 1.5px solid var(--surface-secondary-border, #522E10) !important;
               outline: 1px dashed rgba(245, 222, 179, 0.45);
               outline-offset: -4px;
-              box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 220, 180, 0.2) !important;
-              color: #FFFFFF !important;
+              box-shadow: var(--elevation-primary-surface, 0 10px 24px rgba(0, 0, 0, 0.45)) !important;
+              color: #FFF8EE !important;
             }
-            html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
-              color: #FFFFFF !important;
+            html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"]) #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
+              color: #FFF8EE !important;
             }
-            html[data-card-style="cowhide-leather"] #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
-              background-color: rgba(61, 33, 11, 0.85) !important;
+            html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"]) #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
+              background-color: var(--surface-tertiary-bg, rgba(61, 33, 11, 0.85)) !important;
               border-color: rgba(245, 222, 179, 0.35) !important;
               color: #FDE68A !important;
             }
@@ -1271,7 +1271,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               border: 1.5px solid #4E2F1B !important;
               outline: 1px solid rgba(245, 196, 120, 0.28);
               outline-offset: -4px;
-              box-shadow: 0 12px 26px rgba(10, 5, 2, 0.62), inset 0 1px 2px rgba(245, 196, 120, 0.16) !important;
+              box-shadow: var(--elevation-primary-surface, 0 12px 26px rgba(10, 5, 2, 0.62)) !important;
               color: #FFFBF4 !important;
             }
             html[data-card-style="walnut-wood"] #ecosystem-diagram-modal :is(.glass-flat, .theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) :is(.text-slate-950, .text-slate-900, .text-slate-800, .text-slate-700, .text-slate-600) {
@@ -1283,15 +1283,17 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: #F5C478 !important;
             }
 
-            /* Dark Glass, Deep Ocean & Dark Flat/Neu Themes inside Ecosystem Diagram Modal */
+            /* Dark Glass, Iridescent Dark, Deep Ocean & Dark Flat/Neu Themes inside Ecosystem Diagram Modal */
             html:is(
               [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-iridescent-liquid-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal .glass-flat,
             html:is(
               [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-iridescent-liquid-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
               [data-card-style="dark-flat-soft-ui"]
@@ -1303,6 +1305,7 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
             }
             html:is(
               [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-iridescent-liquid-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
               [data-card-style="dark-flat-soft-ui"]
@@ -1311,12 +1314,34 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
             }
             html:is(
               [data-card-style="dark-liquid-glass"],
+              [data-card-style="dark-iridescent-liquid-glass"],
               [data-card-style="deep-ocean"],
               [data-card-style="dark-neumorphism-beyond"],
               [data-card-style="dark-flat-soft-ui"]
             ) #ecosystem-diagram-modal :is(.bg-white, .bg-white\\/90, .bg-white\\/85, .bg-white\\/80, .bg-slate-50, .bg-slate-100) {
               background-color: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
               border-color: var(--surface-tertiary-border, var(--border-subcard)) !important;
+              color: var(--text-primary) !important;
+            }
+
+            /* Light Material & Glass Themes (Frost Ice Neu, Mica Fluent, Iridescent Light, Neumorphism Light, Gradient Dopamine) */
+            html:is(
+              [data-card-style="frost-ice-neu"],
+              [data-card-style="mica-fluent"],
+              [data-card-style="iridescent-liquid-glass"],
+              [data-card-style="neumorphism-beyond"],
+              [data-card-style="gradient-dopamine"]
+            ) #ecosystem-diagram-modal .glass-flat,
+            html:is(
+              [data-card-style="frost-ice-neu"],
+              [data-card-style="mica-fluent"],
+              [data-card-style="iridescent-liquid-glass"],
+              [data-card-style="neumorphism-beyond"],
+              [data-card-style="gradient-dopamine"]
+            ) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
+              background: var(--surface-secondary-bg, var(--bg-card)) !important;
+              border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card)) !important;
+              box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
               color: var(--text-primary) !important;
             }
 

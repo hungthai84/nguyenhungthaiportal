@@ -267,7 +267,7 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
         >
           <div className="flex items-center justify-between gap-1.5 w-full relative z-20">
             <span className="themed-image-card-badge px-2 py-0.5 rounded-full typo-badge font-mono shadow-xs bg-slate-950/55 text-white backdrop-blur-xs">
-              {wp.id === 'custom-wp-1788112774646'
+              {wp.id === 'theme-bg-liquid-glass'
                 ? isEn
                   ? 'Default'
                   : 'Mặc định'
@@ -287,7 +287,7 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
               )}
               {isCustomAdded &&
                 wp.id !== 'none' &&
-                wp.id !== 'custom-wp-1788112774646' && (
+                wp.id !== 'theme-bg-liquid-glass' && (
                   <button
                     id={`wallpaper-card-delete-${wp.id}`}
                     type="button"
@@ -303,10 +303,10 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
 
           <div className="w-full mt-auto flex items-center justify-between gap-1.5 pt-1">
             <span className="px-2 py-0.5 rounded-full bg-slate-950/55 text-white backdrop-blur-xs typo-badge font-play font-semibold truncate max-w-full">
-              {wp.id === 'custom-wp-1788112774646'
+              {wp.id === 'theme-bg-liquid-glass'
                 ? isEn
-                  ? 'Wallpaper #32 (Default)'
-                  : 'Hình nền #32 (Mặc định)'
+                  ? 'Liquid Glass (Default)'
+                  : 'Kính Lỏng (Mặc định)'
                 : wp.id === 'none'
                 ? isEn
                   ? 'No Wallpaper (Theme Base)'

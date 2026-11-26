@@ -473,16 +473,16 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
           className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar py-0.5"
         >
           <div className="relative inline-flex md:flex items-center justify-between gap-2 sm:gap-3 min-w-full px-2">
-            {/* Horizontal connecting line behind logos */}
+            {/* Horizontal dashed connecting line behind logos */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute left-7 right-7 top-[26px] sm:top-[28px] h-[2px] rounded-full"
+              className="pointer-events-none absolute left-7 right-7 top-[26px] sm:top-[28px] h-0"
               style={{
-                background: isWalnutWood
-                  ? 'linear-gradient(90deg, rgba(245,196,120,0.22), rgba(245,196,120,0.55), rgba(245,196,120,0.22))'
+                borderTop: isWalnutWood
+                  ? '2px dashed rgba(245, 196, 120, 0.58)'
                   : isDarkLeather || isBrownLeather
-                    ? 'linear-gradient(90deg, rgba(229,184,126,0.22), rgba(229,184,126,0.55), rgba(229,184,126,0.22))'
-                    : 'linear-gradient(90deg, color-mix(in srgb, var(--color-primary, #6366f1) 18%, transparent), color-mix(in srgb, var(--color-primary, #6366f1) 48%, transparent), color-mix(in srgb, var(--color-primary, #6366f1) 18%, transparent))',
+                    ? '2px dashed rgba(229, 184, 126, 0.62)'
+                    : '2px dashed color-mix(in srgb, var(--color-primary, #6366f1) 46%, transparent)',
               }}
             />
 
@@ -513,9 +513,13 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                   )}
                 >
                   <span
-                    className="w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] rounded-full bg-transparent p-0 border-0 ring-0 shadow-none flex items-center justify-center overflow-hidden transition-transform duration-200"
+                    className="w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] rounded-full bg-transparent p-0.5 ring-0 shadow-none flex items-center justify-center overflow-hidden transition-transform duration-200"
                     style={{
-                      border: 'none',
+                      border: isActive
+                        ? `2px dashed ${activeAccent}`
+                        : isWalnutWood || isDarkLeather || isBrownLeather
+                          ? '1.5px dashed rgba(245, 222, 179, 0.45)'
+                          : '1.5px dashed color-mix(in srgb, var(--color-primary, #6366f1) 36%, transparent)',
                       boxShadow: 'none',
                     }}
                   >
@@ -531,7 +535,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                   </span>
                   <span
                     className={cn(
-                      'text-[10.5px] sm:text-[11px] leading-none tabular-nums whitespace-nowrap transition-colors duration-200',
+                      'inline-flex items-center gap-1 text-[10.5px] sm:text-[11px] leading-none tabular-nums whitespace-nowrap transition-colors duration-200',
                       isActive ? 'font-extrabold' : 'font-semibold'
                     )}
                     style={{
@@ -542,7 +546,8 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           : 'var(--text-secondary)',
                     }}
                   >
-                    {shortYear}
+                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" />
+                    <span>{shortYear}</span>
                   </span>
                 </button>
               );
@@ -591,12 +596,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                   item.logos && item.logos.length > 0
                     ? item.logos
                     : [{ src: item.logo, alt: item.shortName }];
-                const logoSizeClass =
-                  cardLogos.length === 1
-                    ? 'w-14 h-14'
-                    : cardLogos.length === 2
-                      ? 'w-12 h-12'
-                      : 'w-9 h-9 sm:w-10 sm:h-10';
+                const logoSizeClass = 'w-10 h-10 sm:w-11 sm:h-11';
 
                 return (
                   <div
@@ -701,8 +701,8 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       </div>
 
                       {/* Chức vụ, Quản lý, Giới thiệu đóng khung */}
-                      <div className="news-card-txt !mb-0 w-full !flex flex-col gap-1.5 text-[12px] leading-snug shrink-0">
-                        <div className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1 flex items-center gap-1.5 min-w-0">
+                      <div className="news-card-txt !mb-0 w-full !flex flex-col gap-1 text-[12px] leading-snug shrink-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0">
                           <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
                           <span className="min-w-0 truncate">
                             <strong className="font-bold">Chức vụ:</strong>{' '}
@@ -711,7 +711,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                             </span>
                           </span>
                         </div>
-                        <div className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1 flex items-center gap-1.5 min-w-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0">
                           <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
                           <span className="min-w-0 truncate">
                             <strong className="font-bold">Quản lý:</strong>{' '}
@@ -719,7 +719,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           </span>
                         </div>
                         <div
-                          className="exp-card-framed-box w-full rounded-[9px] border px-2.5 py-1.5 flex items-start gap-1.5 min-w-0"
+                          className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-start gap-1.5 min-w-0"
                           title={item.description}
                         >
                           <WebIcon name="file-text" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />

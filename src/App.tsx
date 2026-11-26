@@ -312,7 +312,7 @@ export default function App() {
     const syncBarHeight = () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 52;
+        const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
         const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
         if (headerMeasured > 0) {
           const hVal = `${headerMeasured}px`;
@@ -323,8 +323,6 @@ export default function App() {
           const fVal = `${footerMeasured}px`;
           rootEl.style.setProperty('--footer-bar-h', fVal);
           document.documentElement.style.setProperty('--footer-bar-h', fVal);
-          rootEl.style.setProperty('--shell-bar-h', fVal);
-          document.documentElement.style.setProperty('--shell-bar-h', fVal);
         }
       });
     };
@@ -774,13 +772,13 @@ export default function App() {
           id="app-header-container"
           style={{
             flex: '0 0 auto',
-            height: 'auto',
-            maxHeight: 'none',
-            minHeight: 0,
+            height: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
+            maxHeight: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
+            minHeight: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            width: 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
+            maxWidth: 'var(--main-card-target-w, 1600px)',
+            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
@@ -815,13 +813,13 @@ export default function App() {
           width:
             currentTabIndex === 10
               ? '100%'
-              : 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
+              : 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
           maxWidth:
             currentTabIndex === 16
-              ? '1250px'
+              ? 'min(88vw, 1600px)'
               : currentTabIndex === 10
                 ? '100%'
-                : 'var(--main-card-target-w, 1000px)',
+                : 'var(--main-card-target-w, 1600px)',
           boxSizing: 'border-box',
           flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
           height: 'auto',
@@ -832,16 +830,16 @@ export default function App() {
           marginRight: 'auto',
           marginTop: '0px',
           marginBottom: '0px',
-          paddingTop: '10px',
-          paddingBottom: '10px',
+          paddingTop: currentTabIndex === 16 ? '16px' : '0px',
+          paddingBottom: currentTabIndex === 16 ? '16px' : '0px',
         }}
         className={`w-full ${
           currentTabIndex === 16
-            ? 'max-w-[1250px] overflow-visible'
+            ? 'max-w-[1600px] overflow-visible py-4'
             : currentTabIndex === 10
-              ? 'max-w-full overflow-hidden'
-              : 'max-w-[1000px] overflow-visible'
-        } mx-auto my-0 min-h-0 rounded-none py-[10px] px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+              ? 'max-w-full overflow-hidden py-0'
+              : 'max-w-[1600px] overflow-visible py-0'
+        } mx-auto my-0 min-h-0 rounded-none px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -879,13 +877,13 @@ export default function App() {
           data-element-page="p0"
           style={{
             flex: '0 0 auto',
-            height: 'auto',
-            maxHeight: 'none',
-            minHeight: 0,
+            height: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
+            maxHeight: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
+            minHeight: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1000px)',
-            width: 'min(calc(100% - 32px), var(--main-card-target-w, 1000px))',
+            maxWidth: 'var(--main-card-target-w, 1600px)',
+            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',

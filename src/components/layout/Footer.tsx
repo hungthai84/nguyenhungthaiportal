@@ -464,7 +464,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: 'var(--main-card-target-w, 1000px)',
+        maxWidth: 'var(--main-card-target-w, 1600px)',
         width: '100%',
         height: '100%',
         minHeight: '100%',
@@ -473,15 +473,15 @@ const FooterComponent: React.FC<FooterProps> = ({
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '10px',
-        paddingBottom: '10px',
+        paddingTop: 'clamp(4px, 0.75dvh, 10px)',
+        paddingBottom: 'clamp(4px, 0.75dvh, 10px)',
         borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
         borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
       }}
-      className="mx-auto w-full h-full min-h-full py-[10px] flex flex-nowrap items-center justify-between px-[10px] sm:px-[15px] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto w-full h-full min-h-full flex flex-nowrap items-center justify-between px-[clamp(10px,1.5vw,18px)] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
     >
       <div
         className={`w-full h-full relative flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
@@ -728,7 +728,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                     }}
                     title={
                       isEn
-                        ? `Theme (${t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
+                        ? `Theme (${THEME_FOUR_WORD_NAMES[cardStyle]?.en || t(activeThemeConfig.shortBadge)}) · Click: List · Double-click: Theme page`
                         : `Giao diện (${THEME_FOUR_WORD_NAMES[cardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}

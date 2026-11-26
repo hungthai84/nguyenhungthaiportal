@@ -1,4 +1,5 @@
 import React from 'react';
+import { toOptimizedWebPUrl } from '@/utils/imageWebp';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
@@ -207,7 +208,7 @@ export function getWallpaperThumbnailUrl(val: string): string {
     return cleanUrl.replace('/upload/', '/upload/c_fill,w_800,h_500,f_auto,q_90/');
   }
 
-  // Unsplash image: tối ưu w=800&h=500&fit=crop&q=90
+  // Unsplash image: tối ưu w=800&h=500&fit=crop&fm=webp&q=90
   if (cleanUrl.includes('images.unsplash.com')) {
     try {
       const urlObj = new URL(cleanUrl);
@@ -216,13 +217,14 @@ export function getWallpaperThumbnailUrl(val: string): string {
       urlObj.searchParams.set('fit', 'crop');
       urlObj.searchParams.set('q', '90');
       urlObj.searchParams.set('auto', 'format');
+      urlObj.searchParams.set('fm', 'webp');
       return urlObj.toString();
     } catch {
       return cleanUrl;
     }
   }
 
-  return cleanUrl;
+  return toOptimizedWebPUrl(cleanUrl, { width: 800, quality: 86 });
 }
 
 /**
@@ -833,20 +835,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1793305975639,
   },
   {
-    id: 'custom-wp-1787385135012',
-    name: 'Hình nền #18',
-    type: 'image',
-    value: 'https://i.pinimg.com/1200x/da/78/3c/da783c1ae91c1810381cf8cbc5a234fd.jpg',
-    bg: "url('https://i.pinimg.com/1200x/da/78/3c/da783c1ae91c1810381cf8cbc5a234fd.jpg') center/cover no-repeat",
-    previewStyle: {
-      backgroundImage: "url('https://i.pinimg.com/1200x/da/78/3c/da783c1ae91c1810381cf8cbc5a234fd.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: true,
-    createdAt: 1793305975639,
-  },
-  {
     id: 'custom-wp-1787385080160',
     name: 'Hình nền #17',
     type: 'image',
@@ -931,20 +919,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1793305975639,
   },
   {
-    id: 'custom-wp-1787362606619',
-    name: 'Hình nền #7',
-    type: 'image',
-    value: 'https://i.pinimg.com/1200x/f8/58/20/f858205b0f91ab2dd9036b3d01e8341a.jpg',
-    bg: "url('https://i.pinimg.com/1200x/f8/58/20/f858205b0f91ab2dd9036b3d01e8341a.jpg') center/cover no-repeat",
-    previewStyle: {
-      backgroundImage: "url('https://i.pinimg.com/1200x/f8/58/20/f858205b0f91ab2dd9036b3d01e8341a.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: true,
-    createdAt: 1793305975639,
-  },
-  {
     id: 'custom-wp-1787362244022',
     name: 'Hình nền #2',
     type: 'image',
@@ -1007,20 +981,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     bg: "url('https://i.pinimg.com/1200x/ea/da/bf/eadabffb44fb936533d37219dd3f5fd5.jpg') center/cover no-repeat",
     previewStyle: {
       backgroundImage: "url('https://i.pinimg.com/1200x/ea/da/bf/eadabffb44fb936533d37219dd3f5fd5.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: true,
-    createdAt: 1793305975639,
-  },
-  {
-    id: 'custom-wp-1787362503783',
-    name: 'Hình nền #5',
-    type: 'image',
-    value: 'https://i.pinimg.com/1200x/e5/41/2f/e5412f90727c824210b57af865d48a7e.jpg',
-    bg: "url('https://i.pinimg.com/1200x/e5/41/2f/e5412f90727c824210b57af865d48a7e.jpg') center/cover no-repeat",
-    previewStyle: {
-      backgroundImage: "url('https://i.pinimg.com/1200x/e5/41/2f/e5412f90727c824210b57af865d48a7e.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
@@ -1380,20 +1340,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     bg: "url('https://i.pinimg.com/1200x/c5/95/0c/c5950c0b0434b8d2539a344781e2eac7.jpg') center/cover no-repeat",
     previewStyle: {
       backgroundImage: "url('https://i.pinimg.com/1200x/c5/95/0c/c5950c0b0434b8d2539a344781e2eac7.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: true,
-    createdAt: 1793305975639,
-  },
-  {
-    id: 'custom-wp-1788112774646',
-    name: 'Hình nền #32',
-    type: 'image',
-    value: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
-    bg: "url('https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg') center/cover no-repeat",
-    previewStyle: {
-      backgroundImage: "url('https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },

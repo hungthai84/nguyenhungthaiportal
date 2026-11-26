@@ -580,92 +580,68 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     const backCover = (
       <div
         key={`back-${course.id}`}
-        className="relative flex size-full flex-col items-center justify-center text-center text-white select-none overflow-hidden box-border"
+        className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border"
         style={{
-          background: bookCoverTheme.bottomGradient,
+          background: 'transparent',
+          backgroundColor: 'transparent',
+          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
           padding: '15px',
           fontFamily: BOOK_COVER_BODY_FONT,
+          color: 'var(--text-primary)',
         }}
       >
-        {/* Full-bleed diffused ambient backdrop derived directly from the book cover image */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-        >
-          <img
-            src={course.image}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onError={handleDriveImageFallback}
-            className="absolute inset-[-18%] w-[136%] h-[136%] max-w-none object-cover object-center select-none"
-            style={{
-              filter: 'blur(28px) saturate(1.5) brightness(0.74)',
-              transform: 'scale(1.18)',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(180deg, rgba(6, 12, 28, 0.24) 0%, rgba(6, 12, 28, 0.44) 55%, rgba(4, 9, 22, 0.68) 100%)',
-            }}
-          />
-        </div>
-
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-y-0 right-0 z-30 w-[3.6cqw]"
           style={{
             background:
-              'linear-gradient(270deg, rgba(4, 10, 28, 0.42) 0%, rgba(4, 10, 28, 0.16) 40%, rgba(255, 255, 255, 0.18) 58%, transparent 100%)',
-          }}
-        />
-
-        {/* Soft seamless studio glass reflection */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1]"
-          style={{
-            background:
-              'radial-gradient(ellipse 84% 50% at 18% 6%, rgba(255, 255, 255, 0.22) 0%, transparent 60%), radial-gradient(ellipse 68% 52% at 86% 90%, rgba(255, 255, 255, 0.10) 0%, transparent 56%)',
+              'linear-gradient(270deg, rgba(4, 10, 28, 0.24) 0%, rgba(4, 10, 28, 0.08) 42%, rgba(255, 255, 255, 0.16) 60%, transparent 100%)',
           }}
         />
 
         <WebIcon
           name="award"
-          className="relative z-10 w-[10cqw] h-[10cqw] text-white/95 mb-[3.2cqw] drop-shadow-[0_2px_10px_rgba(2,10,32,0.35)]"
+          className="relative z-10 w-[10cqw] h-[10cqw] mb-[3.2cqw]"
+          style={{ color: 'var(--text-link, var(--color-primary))' }}
         />
 
         <p
-          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] text-white/80 m-0"
-          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
+          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] m-0"
+          style={{
+            fontFamily: BOOK_COVER_BODY_FONT,
+            color: 'var(--text-secondary)',
+          }}
         >
           {categoryLabel}
         </p>
 
         <p
-          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] text-white m-0 drop-shadow-[0_2px_10px_rgba(2,10,32,0.40)]"
+          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] m-0"
           style={{
             fontFamily: BOOK_COVER_DISPLAY_FONT,
             textWrap: 'balance',
+            color: 'var(--text-heading, var(--text-primary))',
           }}
         >
           {cleanTitle}
         </p>
 
         <div
-          className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed text-white/90"
-          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
+          className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed"
+          style={{
+            fontFamily: BOOK_COVER_BODY_FONT,
+            color: 'var(--text-secondary)',
+          }}
         >
-          <span className="font-semibold">{course.issuer}</span>
-          <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] text-white/82 tabular-nums">
+          <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+            {course.issuer}
+          </span>
+          <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] tabular-nums">
             <span>{isEn ? `Year ${course.year}` : `Năm ${course.year}`}</span>
             {verifyInfo?.credentialId && (
               <>
-                <span aria-hidden="true" className="text-white/50 font-bold">
+                <span aria-hidden="true" className="opacity-50 font-bold">
                   ·
                 </span>
                 <span>{verifyInfo.credentialId}</span>
@@ -681,14 +657,16 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
             SoundEngine.playBookClose();
             onClose();
           }}
-          className="relative z-10 mt-[6cqw] inline-flex items-center gap-[1.8cqw] px-[5cqw] py-[2cqw] rounded-full text-[3.05cqw] font-semibold text-white bg-white/16 hover:bg-white/24 transition-all hover:scale-[1.03] active:scale-[0.98] cursor-pointer border-0"
+          className="relative z-10 mt-[6cqw] inline-flex items-center gap-[1.8cqw] px-[5cqw] py-[2cqw] rounded-full text-[3.05cqw] font-semibold transition-all hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
+            background: 'var(--bg-button-primary, var(--color-primary))',
+            color: 'var(--text-button-primary, #ffffff)',
+            border: '1px solid var(--border-subcard, rgba(255, 255, 255, 0.25))',
+            boxShadow: 'var(--shadow-button, 0 8px 20px -6px rgba(15, 23, 42, 0.24))',
           }}
         >
-          <WebIcon name="arrow-left" className="w-[3cqw] h-[3cqw] text-white" />
+          <WebIcon name="arrow-left" className="w-[3cqw] h-[3cqw]" />
           <span>{isEn ? 'Back to bookshelf' : 'Quay lại kệ sách'}</span>
         </button>
       </div>

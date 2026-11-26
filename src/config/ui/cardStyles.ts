@@ -3,46 +3,46 @@ import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } fro
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
-  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Kính Lỏng Mềm Sáng' },
-  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Kính Lỏng Mềm Tối' },
-  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Da Bò Cổ Điển' },
-  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Vân Gỗ Óc Chó' },
-  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Đại Dương Sâu Thẳm' },
+  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Light Soft Liquid Glass' },
+  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Dark Soft Liquid Glass' },
+  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Classic Handcrafted Cowhide Leather' },
+  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Inlaid American Walnut Wood' },
+  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Abyssal Ocean Blue' },
   'neumorphism-beyond': {
     vi: 'Nổi Khối Kính Mờ',
-    en: 'Nổi Khối Kính Mờ',
+    en: 'Light Extruded Frosted Glass',
   },
   'dark-neumorphism-beyond': {
     vi: 'Khối Kính Mờ Tối',
-    en: 'Khối Kính Mờ Tối',
+    en: 'Dark Extruded Frosted Glass',
   },
   'frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối',
-    en: 'Băng Tuyết Nổi Khối',
+    en: 'Frost Ice Matte Soft',
   },
   'flat-soft-ui': {
     vi: 'Giao Diện Phẳng Sáng',
-    en: 'Giao Diện Phẳng Sáng',
+    en: 'Light Pure Flat Soft',
   },
   'dark-flat-soft-ui': {
     vi: 'Giao Diện Phẳng Tối',
-    en: 'Giao Diện Phẳng Tối',
+    en: 'Dark Pure Flat Soft',
   },
   'mica-fluent': {
     vi: 'Kính Mờ Phân Lớp',
-    en: 'Kính Mờ Phân Lớp',
+    en: 'Modern Layered Mica Fluent',
   },
   'gradient-dopamine': {
     vi: 'Đa Sắc Năng Lượng',
-    en: 'Đa Sắc Năng Lượng',
+    en: 'Vibrant Gradient Dopamine UI',
   },
   'iridescent-liquid-glass': {
     vi: 'Kính Xà Cừ Sáng',
-    en: 'Kính Xà Cừ Sáng',
+    en: 'Light Iridescent Liquid Glass',
   },
   'dark-iridescent-liquid-glass': {
     vi: 'Kính Xà Cừ Tối',
-    en: 'Kính Xà Cừ Tối',
+    en: 'Dark Iridescent Liquid Glass',
   },
 };
 
@@ -64,7 +64,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'liquid-glass',
     label: 'Kính Lỏng Mềm Mại',
-    labelEn: 'Kính Lỏng Mềm Mại',
+    labelEn: 'Soft Optical Liquid Glass',
     description:
       'Giao diện kính lỏng quang học trong suốt có viền phản quang sáng mảnh, sắc độ thích ứng theo nền và tách bạch rõ vùng nội dung sáng tối sắc nét.',
     descriptionEn:
@@ -77,7 +77,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'iridescent-liquid-glass',
     label: 'Kính Ánh Xà Cừ',
-    labelEn: 'Kính Ánh Xà Cừ',
+    labelEn: 'Prismatic Iridescent Liquid Glass',
     description:
       'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome cầu vồng khúc xạ ánh sáng và bảng tùy chỉnh 9 nhóm trực quan theo thời gian thực.',
     descriptionEn:
@@ -91,7 +91,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
-    labelEn: 'Da Bò Thủ Công',
+    labelEn: 'Classic Handcrafted Cowhide Leather',
     description:
       'Chất liệu da bò cổ điển màu nâu chỉ kem khâu tay thủ công sắc nét.',
     descriptionEn:
@@ -104,7 +104,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'walnut-wood',
     label: 'Vân Gỗ Óc Chó',
-    labelEn: 'Vân Gỗ Óc Chó',
+    labelEn: 'Inlaid American Walnut Wood',
     description:
       'Vân gỗ óc chó sẫm thủ công với đường khảm đồng mảnh liền nét, sắc chữ trắng ngà ấm áp và điểm nhấn hổ phách tinh tế.',
     descriptionEn:
@@ -116,7 +116,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'deep-ocean',
     label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Đại Dương Sâu Thẳm',
+    labelEn: 'Deep Abyssal Ocean Blue',
     description:
       'Giao diện đại dương sâu thẳm: nền xanh biển sâu (#050B14), các lớp bề mặt kính đại dương, sắc xanh lam và điểm nhấn ngọc bích.',
     descriptionEn:
@@ -128,7 +128,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'neumorphism-beyond',
     label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Nổi Khối Kính Mờ',
+    labelEn: 'Tactile Extruded Frosted Glass',
     description:
       'Giao diện nổi khối kép kết hợp kính mờ hiện đại trên nền sáng #EBF0F6 và nền tối #151B26 cùng hệ 6 sắc màu nổi bật.',
     descriptionEn:
@@ -141,7 +141,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'frost-ice-neu',
     label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Băng Tuyết Nổi Khối',
+    labelEn: 'Frost Ice Matte Soft',
     description:
       'Giao diện nổi khối lì thuần chất không viền: nền và thẻ đồng nhất một màu lì (#E0E8F2), đùn nổi bằng cặp bóng đổ đối xứng sáng/tối và điểm nhấn đơn sắc.',
     descriptionEn:
@@ -153,7 +153,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
-    labelEn: 'Giao Diện Phẳng Mềm',
+    labelEn: 'Modern Matte Flat Soft',
     description:
       'Giao diện phẳng hiện đại, thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế, độ tương phản cao và không gây mỏi mắt.',
     descriptionEn:
@@ -166,7 +166,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'mica-fluent',
     label: 'Kính Mờ Phân Lớp',
-    labelEn: 'Kính Mờ Phân Lớp',
+    labelEn: 'Modern Layered Mica Fluent',
     description:
       'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
@@ -179,7 +179,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'gradient-dopamine',
     label: 'Đa Sắc Năng Lượng',
-    labelEn: 'Đa Sắc Năng Lượng',
+    labelEn: 'Vibrant Gradient Dopamine UI',
     description:
       'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
     descriptionEn:
@@ -199,7 +199,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'liquid-glass',
     familyId: 'liquid-glass',
     familyLabel: 'Kính Lỏng Mềm Mại',
-    familyLabelEn: 'Liquid Glass Soft UI',
+    familyLabelEn: 'Soft Optical Liquid Glass',
     mechanism: 'light',
     counterpartMode: 'dark-liquid-glass',
     cardClassName: 'card-liquid-glass',
@@ -243,7 +243,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-liquid-glass',
     familyId: 'liquid-glass',
     familyLabel: 'Kính Lỏng Mềm Mại',
-    familyLabelEn: 'Liquid Glass Soft UI',
+    familyLabelEn: 'Soft Optical Liquid Glass',
     mechanism: 'dark',
     counterpartMode: 'liquid-glass',
     cardClassName: 'card-dark-liquid-glass',
@@ -287,7 +287,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'cowhide-leather',
     familyId: 'cowhide-leather',
     familyLabel: 'Da Bò Thủ Công',
-    familyLabelEn: 'Da Bò Thủ Công',
+    familyLabelEn: 'Classic Handcrafted Cowhide Leather',
     mechanism: 'color',
     counterpartMode: 'cowhide-leather',
     cardClassName: 'card-cowhide-leather',
@@ -328,7 +328,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'walnut-wood',
     familyId: 'walnut-wood',
     familyLabel: 'Vân Gỗ Óc Chó',
-    familyLabelEn: 'Vân Gỗ Óc Chó',
+    familyLabelEn: 'Inlaid American Walnut Wood',
     mechanism: 'dark',
     counterpartMode: 'walnut-wood',
     cardClassName: 'card-walnut-wood',
@@ -369,7 +369,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'deep-ocean',
     familyId: 'deep-ocean',
     familyLabel: 'Đại Dương Sâu Thẳm',
-    familyLabelEn: 'Đại Dương Sâu Thẳm',
+    familyLabelEn: 'Deep Abyssal Ocean Blue',
     mechanism: 'dark',
     counterpartMode: 'deep-ocean',
     cardClassName: 'card-deep-ocean',
@@ -408,7 +408,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'neumorphism-beyond',
     familyId: 'neumorphism-beyond',
     familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Nổi Khối Kính Mờ',
+    familyLabelEn: 'Tactile Extruded Frosted Glass',
     mechanism: 'light',
     counterpartMode: 'dark-neumorphism-beyond',
     cardClassName: 'card-neumorphism-beyond',
@@ -452,7 +452,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-neumorphism-beyond',
     familyId: 'neumorphism-beyond',
     familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Nổi Khối Kính Mờ',
+    familyLabelEn: 'Tactile Extruded Frosted Glass',
     mechanism: 'dark',
     counterpartMode: 'neumorphism-beyond',
     cardClassName: 'card-dark-neumorphism-beyond',
@@ -496,7 +496,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'frost-ice-neu',
     familyId: 'frost-ice-neu',
     familyLabel: 'Băng Tuyết Nổi Khối',
-    familyLabelEn: 'Băng Tuyết Nổi Khối',
+    familyLabelEn: 'Frost Ice Matte Soft',
     mechanism: 'light',
     counterpartMode: 'frost-ice-neu',
     cardClassName: 'card-frost-ice-neu',
@@ -545,7 +545,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
-    familyLabelEn: 'Giao Diện Phẳng Mềm',
+    familyLabelEn: 'Modern Matte Flat Soft',
     mechanism: 'light',
     counterpartMode: 'dark-flat-soft-ui',
     cardClassName: 'card-flat-soft-ui',
@@ -588,7 +588,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
-    familyLabelEn: 'Giao Diện Phẳng Mềm',
+    familyLabelEn: 'Modern Matte Flat Soft',
     mechanism: 'dark',
     counterpartMode: 'flat-soft-ui',
     cardClassName: 'card-dark-flat-soft-ui',
@@ -631,7 +631,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'mica-fluent',
     familyId: 'mica-fluent',
     familyLabel: 'Kính Mờ Phân Lớp',
-    familyLabelEn: 'Kính Mờ Phân Lớp',
+    familyLabelEn: 'Modern Layered Mica Fluent',
     mechanism: 'light',
     counterpartMode: 'mica-fluent',
     cardClassName: 'card-mica-fluent',
@@ -673,7 +673,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'gradient-dopamine',
     familyId: 'gradient-dopamine',
     familyLabel: 'Đa Sắc Năng Lượng',
-    familyLabelEn: 'Đa Sắc Năng Lượng',
+    familyLabelEn: 'Vibrant Gradient Dopamine UI',
     mechanism: 'color',
     counterpartMode: 'gradient-dopamine',
     cardClassName: 'card-gradient-dopamine',
@@ -718,7 +718,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'iridescent-liquid-glass',
     familyId: 'iridescent-liquid-glass',
     familyLabel: 'Kính Ánh Xà Cừ',
-    familyLabelEn: 'Kính Ánh Xà Cừ',
+    familyLabelEn: 'Prismatic Iridescent Liquid Glass',
     mechanism: 'light',
     counterpartMode: 'dark-iridescent-liquid-glass',
     cardClassName: 'card-iridescent-liquid-glass',
@@ -763,7 +763,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     id: 'dark-iridescent-liquid-glass',
     familyId: 'iridescent-liquid-glass',
     familyLabel: 'Kính Ánh Xà Cừ',
-    familyLabelEn: 'Kính Ánh Xà Cừ',
+    familyLabelEn: 'Prismatic Iridescent Liquid Glass',
     mechanism: 'dark',
     counterpartMode: 'iridescent-liquid-glass',
     cardClassName: 'card-dark-iridescent-liquid-glass',
@@ -839,7 +839,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'liquid-glass': {
     familyId: 'liquid-glass',
     label: 'Kính Lỏng Mềm Mại',
-    labelEn: 'Kính Lỏng Mềm Mại',
+    labelEn: 'Soft Optical Liquid Glass',
     description:
       'Giao diện kính lỏng quang học trong suốt có viền phản quang sáng mảnh, sắc độ thích ứng theo nền.',
     descriptionEn: 'Liquid Glass Soft UI: optical glass material with subtle specular rim highlights and adaptive tint.',
@@ -850,7 +850,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'cowhide-leather': {
     familyId: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
-    labelEn: 'Da Bò Thủ Công',
+    labelEn: 'Classic Handcrafted Cowhide Leather',
     description: 'Da Bò Cổ Điển màu nâu chỉ kem khâu tay thủ công sắc nét.',
     descriptionEn: 'Classic brown cowhide leather with cream hand-stitching.',
     icon: 'briefcase',
@@ -861,7 +861,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'walnut-wood': {
     familyId: 'walnut-wood',
     label: 'Vân Gỗ Óc Chó',
-    labelEn: 'Vân Gỗ Óc Chó',
+    labelEn: 'Inlaid American Walnut Wood',
     description: 'Vân gỗ óc chó sẫm thủ công với đường khảm đồng mảnh liền nét và điểm nhấn hổ phách.',
     descriptionEn: 'Handcrafted American walnut wood grain with solid hairline brass inlay and warm amber accents.',
     icon: 'briefcase',
@@ -871,7 +871,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'deep-ocean': {
     familyId: 'deep-ocean',
     label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Đại Dương Sâu Thẳm',
+    labelEn: 'Deep Abyssal Ocean Blue',
     description: 'Đại Dương Sâu Thẳm: giao diện xanh lam đại dương tối với chiều sâu kính trong trẻo.',
     descriptionEn: 'Deep Ocean Dark: abyssal navy glass surfaces with ocean cyan highlights.',
     icon: 'compass',
@@ -881,7 +881,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'neumorphism-beyond': {
     familyId: 'neumorphism-beyond',
     label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Nổi Khối Kính Mờ',
+    labelEn: 'Tactile Extruded Frosted Glass',
     description: 'Nổi khối kép sắc nét kết hợp kính mờ phiên bản Sáng & Tối cùng 6 sắc màu chuẩn.',
     descriptionEn: 'Neumorphism, Glassmorphism & Beyond dual-shadow extrusion in Light & Dark editions with 6 reference accents.',
     icon: 'sliders',
@@ -891,7 +891,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'frost-ice-neu': {
     familyId: 'frost-ice-neu',
     label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Băng Tuyết Nổi Khối',
+    labelEn: 'Frost Ice Matte Soft',
     description:
       'Băng Tuyết Nổi Khối: nổi khối lì thuần chất không viền trên nền #E0E8F2 với bóng nổi đối xứng.',
     descriptionEn:
@@ -903,7 +903,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'flat-soft-ui': {
     familyId: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
-    labelEn: 'Giao Diện Phẳng Mềm',
+    labelEn: 'Modern Matte Flat Soft',
     description:
       'Giao Diện Phẳng Sáng & Tối: phong cách phẳng thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế và chống mỏi mắt.',
     descriptionEn:
@@ -915,7 +915,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'mica-fluent': {
     familyId: 'mica-fluent',
     label: 'Kính Mờ Phân Lớp',
-    labelEn: 'Kính Mờ Phân Lớp',
+    labelEn: 'Modern Layered Mica Fluent',
     description:
       'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     descriptionEn:
@@ -928,7 +928,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'gradient-dopamine': {
     familyId: 'gradient-dopamine',
     label: 'Đa Sắc Năng Lượng',
-    labelEn: 'Đa Sắc Năng Lượng',
+    labelEn: 'Vibrant Gradient Dopamine UI',
     description:
       'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
     descriptionEn:
@@ -941,7 +941,7 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
   'iridescent-liquid-glass': {
     familyId: 'iridescent-liquid-glass',
     label: 'Kính Ánh Xà Cừ',
-    labelEn: 'Kính Ánh Xà Cừ',
+    labelEn: 'Prismatic Iridescent Liquid Glass',
     description:
       'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome ánh cầu vồng và bảng tùy chỉnh 9 nhóm trực quan.',
     descriptionEn:

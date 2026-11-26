@@ -1851,21 +1851,21 @@ export function AboutView({
         data-element-parent="about-page-container"
         style={{
           width: '100%',
-          maxWidth: 'var(--main-card-target-w, 1000px)',
+          maxWidth: 'var(--main-card-target-w, 1600px)',
           height: '100%',
           minHeight: '0px',
           maxHeight: '100%',
-          padding: viewportWidth < 640 ? '10px' : '15px',
-          gap: viewportWidth < 640 ? '10px' : '12px',
-          rowGap: viewportWidth < 640 ? '10px' : '12px',
-          columnGap: viewportWidth < 640 ? '10px' : '12px',
-          borderRadius: '0px',
+          padding: 'var(--main-card-padding, clamp(10px, 1.4vw, 16px))',
+          gap: 'clamp(10px, 1.1vw, 14px)',
+          rowGap: 'clamp(10px, 1.1vw, 14px)',
+          columnGap: 'clamp(10px, 1.1vw, 14px)',
+          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px)))',
           boxSizing: 'border-box',
           margin: '0 auto',
           overflowY: 'auto',
           overflowX: 'hidden',
         }}
-        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-full shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-none overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
+        className="page-main-card floating-glass-surface floating-surface--main relative w-full max-w-full shrink-0 flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 overflow-y-auto overflow-x-hidden glass-scrollbar box-border mx-auto opacity-100"
       >
         <div
           id="about-intro-grid-1"
@@ -1904,9 +1904,9 @@ export function AboutView({
               transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.02, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
-                padding: '0px',
+                padding: viewportWidth < 640 ? '10px' : '14px',
               }}
-              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-center items-center self-stretch min-h-[220px] sm:min-h-[290px] lg:min-h-0 h-full min-w-0 group/video p-0 text-left"
+              className="bento-card bento-color-blue glass-card col-span-12 lg:col-span-7 relative rounded-[var(--radius-card,14px)] overflow-hidden flex flex-col justify-between self-stretch min-h-[250px] sm:min-h-[310px] lg:min-h-0 h-full min-w-0 group/video text-left p-2.5 sm:p-[14px]"
             >
                   <div
                     id="el-p2-div-87"
@@ -1915,13 +1915,14 @@ export function AboutView({
                       width: '100%',
                       height: '100%',
                       minWidth: '100%',
-                      minHeight: '100%',
+                      minHeight: '200px',
+                      flex: '1 1 0%',
                       padding: 0,
                       margin: 0,
-                      borderRadius: 'inherit',
+                      borderRadius: 'calc(max(6px, var(--radius-card, 14px) - 2px))',
                       overflow: 'hidden',
                     }}
-                    className="relative w-full h-full flex-1 rounded-[inherit] overflow-hidden min-h-0 flex items-center justify-center"
+                    className="relative w-full h-full flex-1 rounded-[calc(max(6px,var(--radius-card,14px)-2px))] overflow-hidden min-h-0 flex items-center justify-center border border-[var(--border-subcard)] shadow-inner"
                   >
                   {activeHeroMedia === 'video' ? (
                       <div

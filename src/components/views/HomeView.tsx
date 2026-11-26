@@ -203,14 +203,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
   const mainCardInlineStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: 'var(--main-card-target-w, 1000px)',
+    maxWidth: 'var(--main-card-target-w, 1600px)',
     flex: '0 0 auto',
     height: '100%',
     minHeight: '0px',
     maxHeight: '100%',
     margin: '0 auto',
-    padding: 'var(--main-card-padding, 15px)',
-    gap: '15px',
+    padding: 'var(--main-card-padding, clamp(12px, 1.5vw, 20px))',
+    gap: 'clamp(10px, 1.2vw, 15px)',
     borderRadius: 'var(--radius-global, var(--radius-main, 14px))',
   };
 

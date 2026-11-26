@@ -2524,7 +2524,10 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               : expandedMeta.borderDark,
                         }}
                       >
-                        <div className="w-28 h-28 rounded-xl bg-white p-1.5 border border-slate-200 shrink-0 flex items-center justify-center shadow-xs">
+                        <div
+                          className="w-28 h-28 rounded-xl bg-white p-1.5 border shrink-0 flex items-center justify-center shadow-xs"
+                          style={{ borderColor: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
+                        >
                           {qrDataUrl ? (
                             <img
                               src={qrDataUrl}

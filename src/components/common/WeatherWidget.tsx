@@ -556,14 +556,14 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
     };
 
     const tzCity = resolveTimezoneCityName();
-    if (typeof window !== 'undefined' && 'geolocation' in navigator) {
+    if (!silent && typeof window !== 'undefined' && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => fetchFromCoords(pos.coords.latitude, pos.coords.longitude, tzCity, true),
         () => fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh', false),
         { timeout: 5000 }
       );
     } else {
-      fetchFromCoords(10.7769, 106.7009, 'Hồ Chí Minh', false);
+      fetchFromCoords(10.7769, 106.7009, tzCity || 'Hồ Chí Minh', false);
     }
   };
 

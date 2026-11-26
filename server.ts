@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
+import dns from 'node:dns/promises';
+import net from 'node:net';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 import { GoogleGenAI } from '@google/genai';
 import {
   buildTriNhanSystemPrompt,
@@ -153,9 +156,234 @@ const ALLOWED_DRIVE_VIDEO_IDS = new Set<string>([
   '1Hj-mzRUy2Z_XX4pXEVfCMIwpHV9KYL2U',
 ]);
 
+const WEBP_CACHE_MAX_ENTRIES = 160;
+const WEBP_CACHE_MAX_TOTAL_BYTES = 40 * 1024 * 1024;
+const WEBP_MAX_UPSTREAM_BYTES = 12 * 1024 * 1024;
+const webpMemoryCache = new Map<string, { buffer: Buffer; contentType: string }>();
+let webpCacheTotalBytes = 0;
+
+function getWebpFromCache(key: string): { buffer: Buffer; contentType: string } | undefined {
+  const hit = webpMemoryCache.get(key);
+  if (!hit) return undefined;
+  webpMemoryCache.delete(key);
+  webpMemoryCache.set(key, hit);
+  return hit;
+}
+
+function setWebpInCache(key: string, buffer: Buffer, contentType: string): void {
+  if (buffer.byteLength > 4 * 1024 * 1024) return;
+  const existing = webpMemoryCache.get(key);
+  if (existing) {
+    webpCacheTotalBytes -= existing.buffer.byteLength;
+    webpMemoryCache.delete(key);
+  }
+  while (
+    webpMemoryCache.size >= WEBP_CACHE_MAX_ENTRIES ||
+    webpCacheTotalBytes + buffer.byteLength > WEBP_CACHE_MAX_TOTAL_BYTES
+  ) {
+    const oldestKey = webpMemoryCache.keys().next().value;
+    if (!oldestKey) break;
+    const oldestVal = webpMemoryCache.get(oldestKey);
+    if (oldestVal) webpCacheTotalBytes -= oldestVal.buffer.byteLength;
+    webpMemoryCache.delete(oldestKey);
+  }
+  webpMemoryCache.set(key, { buffer, contentType });
+  webpCacheTotalBytes += buffer.byteLength;
+}
+
+function isPrivateOrReservedIp(ip: string): boolean {
+  const normalized = ip.replace(/^::ffff:/i, '');
+  const version = net.isIP(normalized);
+  if (version === 4) {
+    const parts = normalized.split('.').map(Number);
+    if (parts.length !== 4 || parts.some((n) => !Number.isInteger(n) || n < 0 || n > 255)) {
+      return true;
+    }
+    const [a, b] = parts;
+    if (a === 0 || a === 10 || a === 127) return true;
+    if (a === 169 && b === 254) return true;
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 100 && b >= 64 && b <= 127) return true;
+    if (a >= 224) return true;
+    return false;
+  }
+  if (version === 6) {
+    const lower = normalized.toLowerCase();
+    if (lower === '::' || lower === '::1') return true;
+    if (lower.startsWith('fe80:') || lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('ff')) {
+      return true;
+    }
+    return false;
+  }
+  return true;
+}
+
+async function assertSafePublicHttpsUrl(rawUrl: string): Promise<URL> {
+  const parsed = new URL(rawUrl);
+  if (parsed.protocol !== 'https:' || parsed.username || parsed.password) {
+    throw new Error('Chỉ hỗ trợ URL HTTPS công khai hợp lệ.');
+  }
+  const hostname = parsed.hostname.toLowerCase();
+  if (
+    !hostname ||
+    hostname === 'localhost' ||
+    hostname.endsWith('.local') ||
+    hostname.endsWith('.internal') ||
+    hostname.endsWith('.localhost')
+  ) {
+    throw new Error('Không cho phép truy cập máy chủ nội bộ.');
+  }
+  if (net.isIP(hostname)) {
+    if (isPrivateOrReservedIp(hostname)) {
+      throw new Error('Không cho phép địa chỉ IP nội bộ.');
+    }
+    return parsed;
+  }
+  const records = await dns.lookup(hostname, { all: true });
+  if (!records.length || records.some((r) => isPrivateOrReservedIp(r.address))) {
+    throw new Error('Tên miền trỏ đến địa chỉ mạng không hợp lệ.');
+  }
+  return parsed;
+}
+
+async function fetchPublicImageWithSafeRedirects(initialUrl: string, signal: AbortSignal): Promise<Response> {
+  let currentUrl = initialUrl;
+  for (let hop = 0; hop < 4; hop++) {
+    const safeUrl = await assertSafePublicHttpsUrl(currentUrl);
+    const upstreamRes = await fetch(safeUrl.toString(), {
+      method: 'GET',
+      redirect: 'manual',
+      signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; PortfolioWebPOptimizer/1.0)',
+        Accept: 'image/webp,image/avif,image/png,image/jpeg,image/*;q=0.8,*/*;q=0.5',
+      },
+    });
+    if (upstreamRes.status >= 300 && upstreamRes.status < 400) {
+      const location = upstreamRes.headers.get('location');
+      if (!location) {
+        throw new Error('Upstream redirect missing location');
+      }
+      currentUrl = new URL(location, safeUrl).toString();
+      continue;
+    }
+    return upstreamRes;
+  }
+  throw new Error('Too many redirects');
+}
+
+async function readResponseBufferWithLimit(res: Response, maxBytes: number): Promise<Buffer> {
+  const declaredLength = Number(res.headers.get('content-length') || 0);
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    throw new Error('Image exceeds maximum allowed size');
+  }
+  if (!res.body) {
+    return Buffer.alloc(0);
+  }
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (value) {
+      total += value.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel();
+        throw new Error('Image stream exceeds maximum allowed size');
+      }
+      chunks.push(value);
+    }
+  }
+  return Buffer.concat(chunks.map((c) => Buffer.from(c)));
+}
+
 async function startServer() {
   const app = express();
   app.use(express.json({ limit: '2mb' }));
+
+  // Auto-compress and convert external image URLs to WebP with in-memory LRU cache
+  app.get('/api/media/webp', async (req, res) => {
+    const rawUrl = typeof req.query.url === 'string' ? req.query.url.trim() : '';
+    const rawWidth = Number(req.query.w || 1280);
+    const rawQuality = Number(req.query.q || 82);
+    const targetWidth = Number.isFinite(rawWidth) ? Math.min(1920, Math.max(120, Math.round(rawWidth))) : 1280;
+    const targetQuality = Number.isFinite(rawQuality) ? Math.min(92, Math.max(50, Math.round(rawQuality))) : 82;
+
+    if (!rawUrl) {
+      res.status(400).json({ error: 'Thiếu tham số url.' });
+      return;
+    }
+
+    const cacheKey = `${rawUrl}|w=${targetWidth}|q=${targetQuality}`;
+    const cached = getWebpFromCache(cacheKey);
+    if (cached) {
+      res.setHeader('Content-Type', cached.contentType);
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('X-Image-Optimized', 'webp-cache');
+      res.send(cached.buffer);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    res.on('close', () => {
+      clearTimeout(timeoutId);
+      if (!res.writableEnded) controller.abort();
+    });
+
+    try {
+      const upstreamRes = await fetchPublicImageWithSafeRedirects(rawUrl, controller.signal);
+      if (!upstreamRes.ok) {
+        clearTimeout(timeoutId);
+        res.status(upstreamRes.status).end();
+        return;
+      }
+
+      const contentType = (upstreamRes.headers.get('content-type') || '').split(';')[0].trim().toLowerCase();
+      if (!contentType.startsWith('image/')) {
+        clearTimeout(timeoutId);
+        res.status(415).json({ error: 'URL không trả về dữ liệu hình ảnh hợp lệ.' });
+        return;
+      }
+
+      const sourceBuffer = await readResponseBufferWithLimit(upstreamRes, WEBP_MAX_UPSTREAM_BYTES);
+      clearTimeout(timeoutId);
+
+      // Giữ nguyên GIF (tránh mất animation) và SVG
+      if (contentType === 'image/gif' || contentType === 'image/svg+xml') {
+        setWebpInCache(cacheKey, sourceBuffer, contentType);
+        res.setHeader('Content-Type', contentType);
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.send(sourceBuffer);
+        return;
+      }
+
+      const webpBuffer = await sharp(sourceBuffer, { limitInputPixels: 268402689 })
+        .rotate()
+        .resize({ width: targetWidth, withoutEnlargement: true })
+        .webp({ quality: targetQuality, effort: 4 })
+        .toBuffer();
+
+      setWebpInCache(cacheKey, webpBuffer, 'image/webp');
+      res.setHeader('Content-Type', 'image/webp');
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('X-Image-Optimized', 'sharp-webp');
+      res.send(webpBuffer);
+    } catch (err: unknown) {
+      clearTimeout(timeoutId);
+      if ((err as { name?: string })?.name === 'AbortError') return;
+      if (!res.headersSent) {
+        res.status(502).json({ error: 'Không thể chuyển đổi hình ảnh sang WebP.' });
+      } else {
+        res.end();
+      }
+    }
+  });
 
   // Same-origin inline MP4 range-streaming proxy for allowlisted Google Drive portfolio videos
   app.get('/api/media/drive-video/:fileId', async (req, res) => {

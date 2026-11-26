@@ -24,6 +24,7 @@ import {
   saveStudioConfigForTheme,
 } from '@/config/ui/iridescentConfig';
 import { IridescentLivePreview } from './IridescentLivePreview';
+import { compressImageFileToWebP } from '@/utils/imageWebp';
 
 export interface IridescentStudioPanelProps {
   activeCardStyle: CardStyleMode;
@@ -413,13 +414,17 @@ export const IridescentStudioPanel: React.FC<IridescentStudioPanelProps> = ({
     notify(isEn ? 'Reverted unsaved changes.' : 'Đã hủy các thay đổi chưa lưu.');
   };
 
-  const handleWallpaperUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWallpaperUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = String(reader.result || '');
+    try {
+      const result = await compressImageFileToWebP(file, {
+        maxWidth: 1920,
+        maxHeight: 1080,
+        quality: 0.84,
+      });
+      const dataUrl = result.dataUrl;
       if (dataUrl) {
         patchDraft((prev) => ({
           ...prev,
@@ -429,10 +434,11 @@ export const IridescentStudioPanel: React.FC<IridescentStudioPanelProps> = ({
             backgroundImage: dataUrl,
           },
         }));
-        notify(isEn ? '✓ Uploaded custom wallpaper image.' : '✓ Đã tải hình nền tùy chỉnh lên xem trước.');
+        notify(isEn ? '✓ Uploaded WebP custom wallpaper image.' : '✓ Đã nén WebP & tải hình nền lên xem trước.');
       }
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      notify(isEn ? 'Could not optimize uploaded image.' : 'Không thể xử lý hình ảnh tải lên.');
+    }
   };
 
   const activeTarget = draft.cardBg.activeTarget;

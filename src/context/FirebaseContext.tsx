@@ -198,14 +198,14 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     surfaceDepth,
     autoTimeTheme,
     language,
-    activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
+    activeWallpaperId: activeWallpaper?.id || 'theme-bg-liquid-glass',
   });
   latestUiRef.current = {
     cardStyle,
     surfaceDepth,
     autoTimeTheme,
     language,
-    activeWallpaperId: activeWallpaper?.id || 'custom-wp-1788112774646',
+    activeWallpaperId: activeWallpaper?.id || 'theme-bg-liquid-glass',
   };
 
   useEffect(() => {
@@ -348,7 +348,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const userPath = `users/${user.uid}`;
     const timer = setTimeout(() => {
-      const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'custom-wp-1788112774646', 'theme-bg');
+      const safeWpId = sanitizeFirestoreId(activeWallpaper?.id || 'theme-bg-liquid-glass', 'theme-bg');
       const prefPayload: Record<string, unknown> = {
         cardStyle: normalizeCardStyle(cardStyle),
         surfaceDepth: surfaceDepth === 'flat' ? 'flat' : 'depth',

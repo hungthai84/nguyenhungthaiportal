@@ -1972,7 +1972,13 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 type="button"
                 onClick={handleCloseJobCard}
                 title="Bấm để thu gọn về thẻ công ty / slider"
-                className="typo-button px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-semibold font-play cursor-pointer border transition-all hover:scale-105 bg-white/70 dark:bg-slate-800/70 text-[var(--text-primary)] border-[var(--border-subcard)] backdrop-blur-md shadow-xs"
+                style={{
+                  background: 'var(--bg-nav-pill, var(--surface-interactive-bg))',
+                  color: 'var(--text-primary)',
+                  borderColor: 'var(--border-subcard, var(--border-default))',
+                  boxShadow: 'var(--shadow-nav-pill)',
+                }}
+                className="typo-button px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-semibold font-play cursor-pointer border transition-all hover:scale-105 backdrop-blur-md"
               >
                 <ChevronUp className="w-3.5 h-3.5" />
                 <span>Thu gọn thẻ</span>
@@ -1985,18 +1991,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 onClick={handleCloseJobCard}
                 title="Đóng chi tiết công việc và xếp giấy trở lại (hoặc nhấn phím Esc)"
                 aria-label="Đóng chi tiết công việc"
-                className={cn(
-                  'theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-sm transition-all duration-200 hover:scale-105 border backdrop-blur-md shrink-0',
-                  isWalnutWood
-                    ? 'bg-[#2A190F] border-[#F5C478]/60 text-[#FFFBF4] hover:bg-[#3A2214]'
+                style={{
+                  background: isWalnutWood
+                    ? '#2A190F'
                     : isDarkLeather
-                      ? 'bg-[#1C1613] border-[#F5DEB3]/55 text-[#FFF8EE] hover:bg-[#2B221E]'
+                      ? '#1C1613'
                       : isBrownLeather
-                        ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC] hover:bg-[#653A17]'
-                        : isDarkSurface
-                          ? 'bg-slate-900/90 border-white/25 text-white hover:bg-slate-800'
-                          : 'bg-white/95 border-slate-200/90 text-slate-900 hover:bg-slate-100'
-                )}
+                        ? '#522E10'
+                        : 'var(--bg-nav-pill, var(--surface-interactive-bg))',
+                  borderColor: isWalnutWood
+                    ? 'rgba(245, 196, 120, 0.6)'
+                    : isDarkLeather || isBrownLeather
+                      ? 'rgba(245, 222, 179, 0.6)'
+                      : 'var(--border-subcard, var(--border-default))',
+                  color: isWalnutWood || isDarkLeather || isBrownLeather ? '#FFF8EE' : 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-nav-pill)',
+                }}
+                className="theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 border backdrop-blur-md shrink-0"
               >
                 <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               </button>
@@ -2021,11 +2032,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     handleCloseJobCard();
                   }}
                   title="Bấm vào thẻ công ty để thu gọn lại"
+                  style={{
+                    background: 'var(--surface-secondary-bg, var(--bg-card))',
+                    borderColor: 'var(--surface-secondary-border, var(--border-card))',
+                    color: 'var(--text-primary)',
+                    boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
+                  }}
                   className={cn(
-                    'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full h-full rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden shadow-[0_14px_34px_-8px_rgba(30,41,59,0.10),0_4px_12px_-2px_rgba(15,23,42,0.04)] backdrop-blur-md border flex flex-col justify-between gap-[15px] relative group min-w-0 cursor-pointer',
-                    isDarkCardText
-                      ? 'bg-gradient-to-br from-sky-950/55 via-slate-900/72 to-indigo-950/48 border-sky-500/28 text-white'
-                      : 'bg-gradient-to-br from-sky-50/92 via-white/85 to-indigo-50/88 border-sky-200/75 text-slate-900'
+                    'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full h-full rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden backdrop-blur-md border flex flex-col justify-between gap-[15px] relative group min-w-0 cursor-pointer'
                   )}
                 >
                   {/* Banner Video / Image Header */}
@@ -2082,22 +2096,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     <div
                       id="experience-company-name-card"
                       data-bento-subtone="indigo"
-                      className={cn(
-                        'exp-bento-item-card w-full p-[15px] rounded-[var(--radius-subcard,16px)] border shadow-xs flex flex-col gap-3 min-w-0 relative z-10 bg-gradient-to-br',
-                        isDarkCardText
-                          ? 'from-indigo-950/55 via-slate-900/75 to-sky-950/45 border-indigo-400/25 text-white'
-                          : 'from-indigo-50/88 via-white/90 to-sky-50/82 border-indigo-200/75 text-slate-900'
-                      )}
+                      style={{
+                        background: 'var(--surface-tertiary-bg, var(--bg-subcard))',
+                        borderColor: 'var(--surface-tertiary-border, var(--border-subcard))',
+                        color: 'var(--text-primary)',
+                        boxShadow: 'var(--surface-tertiary-shadow, var(--shadow-subcard))',
+                      }}
+                      className="exp-bento-item-card w-full p-[15px] rounded-[var(--radius-subcard,16px)] border flex flex-col gap-3 min-w-0 relative z-10"
                     >
                       <div className="min-w-0 w-full flex flex-col gap-[12px]">
                         <div className="flex flex-wrap items-center justify-between gap-2 w-full">
                           <div
-                            className={cn(
-                              'exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border max-w-full w-fit',
-                              isDarkCardText
-                                ? 'bg-rose-500/20 text-rose-200 border-rose-400/30'
-                                : 'bg-rose-50/90 text-rose-700 border-rose-200/90'
-                            )}
+                            style={{
+                              background: 'var(--bg-badge, var(--bg-highlight))',
+                              borderColor: 'var(--border-subcard, var(--border-default))',
+                              color: 'var(--text-badge, var(--color-primary))',
+                            }}
+                            className="exp-bento-light-chip inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold border max-w-full w-fit"
                           >
                             <Building2 className="w-3.5 h-3.5 shrink-0" />
                             <span className="text-current">{activeMilestone.tag}</span>
@@ -2112,20 +2127,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
 
                           {/* Huy hiệu thời gian */}
                           <div
-                            className={cn(
-                              'px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-2xs flex items-center gap-1.5 max-w-full border shrink-0',
-                              isWalnutWood
-                                ? 'bg-[#2A190F] border-[#F5C478]/55 text-[#FFFBF4]'
+                            style={{
+                              background: isWalnutWood
+                                ? '#2A190F'
                                 : isDarkLeather
-                                  ? 'bg-[#1C1613] border-[#F5DEB3]/50 text-[#FFF8EE]'
+                                  ? '#1C1613'
                                   : isBrownLeather
-                                    ? 'bg-[#522E10] border-[#F5DEB3]/60 text-[#FFF8DC]'
-                                    : isDarkSurface
-                                      ? 'bg-slate-900/90 backdrop-blur-md border-white/25 text-white'
-                                      : 'bg-white/95 backdrop-blur-md border-slate-200/90 text-slate-900'
-                            )}
+                                    ? '#522E10'
+                                    : 'var(--bg-banner-pill, var(--surface-tertiary-bg))',
+                              borderColor: isWalnutWood
+                                ? 'rgba(245, 196, 120, 0.55)'
+                                : isDarkLeather || isBrownLeather
+                                  ? 'rgba(245, 222, 179, 0.55)'
+                                  : 'var(--border-subcard, var(--border-default))',
+                              color: isWalnutWood || isDarkLeather || isBrownLeather ? '#FFF8EE' : 'var(--text-primary)',
+                            }}
+                            className="px-3 py-1.5 rounded-full typo-caption sm:typo-body-sm font-bold shadow-2xs flex items-center gap-1.5 max-w-full border shrink-0 backdrop-blur-md"
                           >
-                            <Calendar className={cn('w-3.5 h-3.5 shrink-0', isDarkCardText ? 'text-rose-400' : 'text-red-600')} />
+                            <Calendar className={cn('w-3.5 h-3.5 shrink-0', isDarkCardText ? 'text-rose-400' : 'text-[var(--color-primary)]')} />
                             <span className="truncate exp-bento-preserve-color">
                               {activeMilestone.period} ({activeMilestone.tenure})
                             </span>

@@ -606,7 +606,27 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #el-p1-div-85,
 #letter-slide-2-grid,
 #letter-slide-3-grid,
-#letter-slide-4-bento-grid {
+#letter-slide-4-bento-grid,
+#horoscope-card-1-grid,
+#horoscope-card-2-grid,
+#horoscope-card-3-grid,
+#horoscope-card-pillars-grid,
+#horoscope-card-4-grid,
+#horoscope-card-5-grid,
+#horoscope-profile-subgrid,
+#skills-swot-grid-wrapper,
+#skills-swot-grid,
+#skills-languages-grid,
+#experience-bento-grid,
+#projects-grid,
+#wallpaper-add-panel-grid,
+#wallpaper-cards-grid,
+#systems-cards-grid,
+#interface-themes-grid,
+#services-cards-grid,
+#about-personal-info-grid,
+.card-grid,
+[data-card-layout] {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -5355,7 +5375,7 @@ html.dark #education-book-view .education-book-paper--back {
 .page-main-card:not(#pdf-page-container),
 [data-main-card="true"]:not(#pdf-page-container),
 #main-card-container {
-  max-width: var(--main-card-target-w, 1000px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   box-sizing: border-box !important;
 }
 

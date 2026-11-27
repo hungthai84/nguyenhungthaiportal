@@ -1,0 +1,547 @@
+/* ========================================================================= */
+/* THEME SYSTEM: MULTICOLOR GLASSMORPHISM (KÍNH MỜ ĐA SẮC · TRUE GLASS)      */
+/* Authentic Glassmorphism: backdrop-filter: blur(16px) (no Liquid Glass     */
+/* saturate/contrast distortion), semi-transparent rgba(255,255,255,0.12),   */
+/* crisp 1px rgba(255,255,255,0.25) border on every panel & banner edge,     */
+/* vivid backdrop bleed-through, soft wide layered shadows & contrast scrims */
+/* ========================================================================= */
+
+.card-multicolor-glass {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 24px 60px -12px rgba(15, 23, 42, 0.18),
+    0 8px 24px -6px rgba(99, 102, 241, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #0f172a;
+}
+
+html[data-card-style="multicolor-glass"],
+html[data-card-style="multicolor-glass"] body,
+html[data-theme="multicolor-glass"] {
+  color-scheme: light;
+
+  --color-bg: #eef4ff;
+  --color-bg-soft: #f5f0ff;
+  --color-surface: rgba(255, 255, 255, 0.12);
+  --color-surface-elevated: rgba(255, 255, 255, 0.22);
+
+  --color-heading: #0f172a;
+  --color-text: #0f172a;
+  --color-text-secondary: #1e293b;
+  --color-text-muted: #334155;
+  --color-primary: #4f46e5;
+  --color-secondary: #0891b2;
+  --color-focus-ring: #4f46e5;
+
+  --text-primary: #0f172a;
+  --text-secondary: #1e293b;
+  --text-muted: #334155;
+  --text-heading: #0f172a;
+  --text-link: #4338ca;
+  --text-accent: #6d28d9;
+  --text-input: #0f172a;
+  --text-placeholder: #334155;
+  --text-on-dark: #ffffff;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #0f172a;
+  --text-badge: #312e81;
+  --text-highlight: #0369a1;
+
+  --app-bg-base: #e6efff;
+  --app-bg-gradient:
+    radial-gradient(at 10% 14%, rgba(56, 189, 248, 0.46) 0px, transparent 52%),
+    radial-gradient(at 88% 16%, rgba(168, 85, 247, 0.42) 0px, transparent 50%),
+    radial-gradient(at 82% 84%, rgba(251, 146, 60, 0.34) 0px, transparent 52%),
+    radial-gradient(at 18% 84%, rgba(45, 212, 191, 0.38) 0px, transparent 52%),
+    radial-gradient(at 52% 48%, rgba(244, 114, 182, 0.28) 0px, transparent 58%),
+    linear-gradient(135deg, #dbeafe 0%, #ede9fe 50%, #fce7f3 100%);
+
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-glow-1: rgba(56, 189, 248, 0.38);
+  --ambient-glow-2: rgba(168, 85, 247, 0.34);
+  --ambient-glow-3: rgba(244, 114, 182, 0.30);
+  --ambient-glow-4: rgba(45, 212, 191, 0.30);
+  --ambient-wave-1: rgba(99, 102, 241, 0.24);
+  --ambient-wave-2: rgba(6, 182, 212, 0.22);
+  --ambient-depth-vignette: radial-gradient(circle at 50% 42%, transparent 56%, rgba(148, 163, 184, 0.14) 100%);
+  --ambient-wallpaper-opacity: 0.94;
+
+  --liquid-specular-rim: rgba(255, 255, 255, 0.25);
+  --liquid-rim-soft: rgba(255, 255, 255, 0.25);
+  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --liquid-specular-sheen: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+
+  /* Authentic Translucent Glassmorphism Surfaces */
+  --bg-main: rgba(255, 255, 255, 0.12);
+  --bg-header: rgba(255, 255, 255, 0.16);
+  --bg-footer: rgba(255, 255, 255, 0.16);
+  --bg-card: rgba(255, 255, 255, 0.12);
+  --bg-card-hover: rgba(255, 255, 255, 0.20);
+  --bg-subcard: rgba(255, 255, 255, 0.18);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.28);
+  --bg-nested-card: rgba(255, 255, 255, 0.22);
+  --bg-popup: rgba(248, 250, 255, 0.86);
+  --bg-dropdown: rgba(248, 250, 255, 0.90);
+  --bg-tooltip: rgba(15, 23, 42, 0.92);
+
+  --bg-nav-button-opaque: #ffffff;
+  --bg-nav-pill: rgba(255, 255, 255, 0.22);
+  --bg-nav-pill-hover: rgba(255, 255, 255, 0.38);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.36);
+  --border-nav-arrow: rgba(255, 255, 255, 0.25);
+  --bg-button-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #0891b2 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.26);
+  --bg-button-hover: rgba(255, 255, 255, 0.42);
+
+  --bg-input: rgba(255, 255, 255, 0.46);
+  --bg-badge: rgba(255, 255, 255, 0.34);
+  --bg-highlight: rgba(99, 102, 241, 0.16);
+  --bg-banner: rgba(255, 255, 255, 0.12);
+  --bg-banner-pill: rgba(255, 255, 255, 0.56);
+  --bg-banner-cta: linear-gradient(135deg, #4f46e5 0%, #7c3aed 52%, #0891b2 100%);
+  --text-banner-cta: #ffffff;
+  --bg-banner-input: rgba(255, 255, 255, 0.72);
+  --bg-nested-badge: rgba(255, 255, 255, 0.44);
+
+  --border-color: rgba(255, 255, 255, 0.25);
+  --border-card: rgba(255, 255, 255, 0.25);
+  --border-subcard: rgba(255, 255, 255, 0.25);
+  --border-input: rgba(255, 255, 255, 0.45);
+  --border-popup: rgba(255, 255, 255, 0.42);
+  --border-banner-pill: rgba(255, 255, 255, 0.45);
+  --border-banner-input: rgba(255, 255, 255, 0.50);
+
+  --bg-blur: 16px;
+  --glass-blur: 16px;
+  --blur-subcard: 16px;
+  --blur-nav-pill: 16px;
+  --blur-modal: 16px;
+  --glass-saturate: 100%;
+  --card-border-width: 1px;
+
+  --shadow-card:
+    0 24px 60px -12px rgba(15, 23, 42, 0.18),
+    0 8px 24px -6px rgba(99, 102, 241, 0.12);
+  --shadow-card-hover:
+    0 28px 64px -10px rgba(15, 23, 42, 0.24),
+    0 12px 28px -6px rgba(99, 102, 241, 0.18);
+  --shadow-subcard:
+    0 14px 36px -10px rgba(15, 23, 42, 0.14);
+  --shadow-subcard-hover:
+    0 18px 42px -10px rgba(15, 23, 42, 0.20);
+  --shadow-nav-pill:
+    0 10px 26px -8px rgba(15, 23, 42, 0.16);
+  --shadow-button: 0 10px 26px -6px rgba(79, 70, 229, 0.36);
+  --shadow-popup:
+    0 28px 64px -12px rgba(15, 23, 42, 0.24);
+
+  /* Surface Layer Tokens */
+  --surface-primary-bg: rgba(255, 255, 255, 0.12);
+  --surface-primary-border: rgba(255, 255, 255, 0.25);
+  --surface-primary-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.18);
+  --surface-header-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.16);
+  --surface-footer-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.16);
+  --shadow-header: 0 20px 50px -12px rgba(15, 23, 42, 0.16);
+  --shadow-main-card: 0 24px 60px -12px rgba(15, 23, 42, 0.18);
+  --shadow-footer: 0 20px 50px -12px rgba(15, 23, 42, 0.16);
+  --surface-primary-blur: 16px;
+  --surface-primary-saturate: 100%;
+
+  --surface-secondary-bg: rgba(255, 255, 255, 0.12);
+  --surface-secondary-border: rgba(255, 255, 255, 0.25);
+  --surface-secondary-shadow: var(--shadow-card);
+  --surface-secondary-blur: 16px;
+  --surface-secondary-saturate: 100%;
+
+  --surface-tertiary-bg: rgba(255, 255, 255, 0.18);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.25);
+  --surface-tertiary-shadow: var(--shadow-subcard);
+  --surface-tertiary-blur: 16px;
+  --surface-tertiary-saturate: 100%;
+
+  --surface-nested-bg: rgba(255, 255, 255, 0.22);
+  --surface-nested-border: rgba(255, 255, 255, 0.25);
+  --surface-nested-shadow: 0 8px 20px -6px rgba(15, 23, 42, 0.10);
+  --surface-nested-blur: 16px;
+  --surface-nested-saturate: 100%;
+
+  --surface-interactive-bg: var(--bg-nav-pill);
+  --surface-interactive-hover: var(--bg-nav-pill-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(255, 255, 255, 0.25);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 16px;
+
+  --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-card: 14px;
+  --radius-subcard: 14px;
+  --radius-banner: 14px;
+  --radius-modal: 14px;
+  --radius-popup: 14px;
+  --radius-widget: 14px;
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-button: 999px;
+  --radius-pill: 999px;
+  --radius-badge: 999px;
+  --radius-input: 14px;
+
+  --text-header-title: #0f172a;
+  --text-header-sub: #1e293b;
+  --text-nav-default: #0f172a;
+  --text-nav-active: #ffffff;
+  --text-nav-arrow: #0f172a;
+  --text-banner-pill: #0f172a;
+  --text-banner-input: #0f172a;
+  --text-banner-placeholder: #334155;
+  --pillar-heading: #0f172a;
+  --pillar-body: #1e293b;
+  --pillar-progress-track: rgba(99, 102, 241, 0.22);
+}
+
+/* ------------------------------------------------------------------------- */
+/* 1. SHELL, HEADER, FOOTER & LEVEL 1 SURFACES                               */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="multicolor-glass"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.18) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  color: #0f172a !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 2. CONTENT CARDS & BANNER CARDS (GLASSMORPHISM BLUR 16PX + 0.12 GLASS)    */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="multicolor-glass"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .system-card-tile,
+  .exp-bento-surface-card,
+  .project-detail-section-card,
+  .domain-card,
+  .service-card
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#weather-card):not(#weather-widget-card):not(.weather-card):not(#app-header):not(#app-footer):not(#card-main-letter-content):not([id^="horoscope-card-"]) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: var(--shadow-card) !important;
+  color: #0f172a !important;
+}
+
+/* Banner Cards: Semi-Transparent Glassmorphism Panel + Contrast Scrim */
+html[data-card-style="multicolor-glass"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #interview-questions-card,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.20) !important;
+  color: #0f172a !important;
+}
+
+/* Contrast scrim over photographic/video banner backdrops so text stays WCAG AA readable */
+html[data-card-style="multicolor-glass"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(238, 242, 255, 0.46) 52%,
+    rgba(255, 255, 255, 0.56) 100%
+  ) !important;
+  opacity: 1 !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+html[data-card-style="multicolor-glass"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .card-header-sync,
+html[data-card-style="multicolor-glass"] :is(.hero-banner, .banner-card, [id$="-hero-banner"]) .banner-quote {
+  color: #0f172a !important;
+  text-shadow: 0 1px 14px rgba(255, 255, 255, 0.90);
+}
+
+/* Bento Tone Translucent Tints preserving backdrop bleed-through + 1px white edge */
+html[data-card-style="multicolor-glass"] .bento-tone-sky {
+  background: rgba(224, 242, 254, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-blue {
+  background: rgba(219, 234, 254, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-indigo,
+html[data-card-style="multicolor-glass"] .bento-tone-purple {
+  background: rgba(237, 233, 254, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-pink {
+  background: rgba(252, 231, 243, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-cyan,
+html[data-card-style="multicolor-glass"] .bento-tone-teal {
+  background: rgba(207, 250, 254, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-emerald {
+  background: rgba(209, 250, 229, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+html[data-card-style="multicolor-glass"] .bento-tone-amber {
+  background: rgba(254, 243, 199, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Subcards & Nested Translucent Glass */
+html[data-card-style="multicolor-glass"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .project-detail-subcard
+) {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  color: #0f172a !important;
+}
+
+/* Experience Job Detail Card Parity */
+html[data-card-style="multicolor-glass"] #experience-job-detail-card,
+html[data-card-style="multicolor-glass"] #experience-job-detail-card:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-surface-card:not([data-multicolor-bento="true"]),
+html[data-card-style="multicolor-glass"] #experience-job-detail-card .exp-bento-item-card:not([data-bento-subtone]) {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-sky {
+  background: rgba(224, 242, 254, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-amber {
+  background: rgba(254, 243, 199, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-emerald {
+  background: rgba(209, 250, 229, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-cyan,
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-teal {
+  background: rgba(207, 250, 254, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-pink {
+  background: rgba(252, 231, 243, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-purple {
+  background: rgba(237, 233, 254, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-blue {
+  background: rgba(219, 234, 254, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+html[data-card-style="multicolor-glass"] #experience-job-detail-card [data-multicolor-bento="true"].bento-tone-indigo {
+  background: rgba(224, 231, 255, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #0f172a !important;
+}
+
+/* ------------------------------------------------------------------------- */
+/* 3. NAVIGATION PILLS, POPUPS, MODALS & INPUTS                              */
+/* ------------------------------------------------------------------------- */
+html[data-card-style="multicolor-glass"] :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #app-footer #footer-nav-capsule,
+  #el-p0-div-16,
+  .banner-control-pill,
+  .nav-arrow-btn,
+  .theme-prev-next-btn,
+  .theme-capsule-btn
+) {
+  background: rgba(255, 255, 255, 0.24) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: var(--surface-interactive-shadow) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-card-style="multicolor-glass"] :is(
+    #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+    #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
+    button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]),
+    .banner-control-pill,
+    .nav-arrow-btn,
+    .theme-prev-next-btn
+  ):hover {
+    background: rgba(255, 255, 255, 0.40) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+  }
+}
+
+html[data-card-style="multicolor-glass"] :is(
+  .banner-dropdown-menu,
+  [role="listbox"],
+  [role="dialog"] .glass-card,
+  .theme-popup,
+  .theme-modal-card,
+  .theme-pip-player,
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: rgba(248, 250, 255, 0.86) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  box-shadow: var(--shadow-popup) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  color: #0f172a !important;
+}
+
+html[data-card-style="multicolor-glass"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
+  background: rgba(255, 255, 255, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #0f172a !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+html[data-card-style="multicolor-glass"] :is(input, textarea, select):focus,
+html[data-card-style="multicolor-glass"] :is(button, a, input, [role="button"], [role="tab"]):focus-visible {
+  border-color: #4f46e5 !important;
+  outline: 2px solid #4f46e5 !important;
+  outline-offset: 2px !important;
+}
+
+/* Video Play Buttons under Multicolor Glassmorphism */
+html[data-card-style="multicolor-glass"] .video-play-btn {
+  --vp-backdrop: blur(16px);
+  --vp-border: rgba(255, 255, 255, 0.35);
+  --vp-text: #0f172a;
+  --vp-specular: rgba(255, 255, 255, 0.65);
+  --vp-chase-a: #4f46e5;
+  --vp-chase-b: #0891b2;
+  --vp-shadow-ambient: 0 14px 32px -6px rgba(15, 23, 42, 0.16);
+  --vp-shadow-hover: 0 18px 40px -6px rgba(79, 70, 229, 0.24);
+  --vp-sound-bg: rgba(99, 102, 241, 0.14);
+  --vp-sound-border: rgba(99, 102, 241, 0.30);
+  --vp-sound-hover: rgba(6, 182, 212, 0.22);
+}
+
+html[data-card-style="multicolor-glass"] .video-play-btn--home,
+html[data-card-style="multicolor-glass"] .video-play-btn--about,
+html[data-card-style="multicolor-glass"] .video-play-btn--interview,
+html[data-card-style="multicolor-glass"] .video-play-btn--systems {
+  --vp-bg: rgba(255, 255, 255, 0.28);
+  --vp-bg-hover: rgba(255, 255, 255, 0.46);
+}
+
+html[data-card-style="multicolor-glass"] .video-play-btn--letter {
+  --vp-bg: linear-gradient(135deg, #4f46e5 0%, #db2777 52%, #0891b2 100%);
+  --vp-bg-hover: linear-gradient(135deg, #4338ca 0%, #be185d 52%, #0e7490 100%);
+  --vp-text: #ffffff;
+}
+
+/* Hardware & Accessibility Fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  html[data-card-style="multicolor-glass"] :is(
+    #app-header,
+    #app-footer,
+    .page-main-card,
+    [data-main-card="true"],
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .hero-banner,
+    .banner-card,
+    .banner-dropdown-menu,
+    [role="listbox"],
+    .theme-popup
+  ) {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #f8faff !important;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  html[data-card-style="multicolor-glass"] :is(
+    #app-header,
+    #app-footer,
+    .page-main-card,
+    [data-main-card="true"],
+    [data-section-card="true"],
+    .bento-card,
+    .glass-card,
+    .hero-banner,
+    .banner-card,
+    .banner-dropdown-menu,
+    [role="listbox"],
+    .theme-popup
+  ) {
+    background: #f8faff !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="multicolor-glass"] * {
+    transition-duration: 0.01ms !important;
+  }
+}

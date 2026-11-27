@@ -1,0 +1,204 @@
+/* ========================================================================= */
+/* THEME SYSTEM: MINIMALISM – TỐI GIẢN                                       */
+/* Hạn chế trang trí, tập trung nội dung, typography rõ ràng & khoảng trắng  */
+/* Pure Canvas (#FFFFFF) · Alabaster (#FAFAFA) · Editorial Ink (#111111)     */
+/* Hairline Border (#E4E4E7) · Zero Visual Clutter                           */
+/* ========================================================================= */
+
+.card-minimalism {
+  position: relative;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid #E4E4E7;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.03);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  color: #111111;
+}
+
+.card-minimalism:hover {
+  transform: translateY(-2px);
+  border-color: #111111;
+  box-shadow: 0 6px 16px -6px rgba(17, 17, 17, 0.08);
+}
+
+html[data-card-style="minimalism"],
+html[data-card-style="minimalism"] body,
+html[data-theme="minimalism"] {
+  color-scheme: light;
+
+  --color-bg: #FAFAFA;
+  --color-bg-soft: #F4F4F5;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+
+  --color-heading: #111111;
+  --color-text: #18181B;
+  --color-text-secondary: #52525B;
+  --color-text-muted: #71717A;
+  --color-primary: #111111;
+  --color-secondary: #52525B;
+  --color-accent: #111111;
+  --color-focus-ring: #111111;
+
+  --text-primary: #111111;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
+  --text-heading: #111111;
+  --text-link: #111111;
+  --text-accent: #111111;
+  --text-input: #111111;
+  --text-placeholder: #A1A1AA;
+  --text-on-dark: #FFFFFF;
+  --text-button-primary: #FFFFFF;
+  --text-button-secondary: #111111;
+  --text-badge: #111111;
+  --text-highlight: #111111;
+
+  --app-bg-base: #FAFAFA;
+  --app-bg-gradient: linear-gradient(180deg, #FAFAFA 0%, #F4F4F5 100%);
+  --ambient-base-bg: #FAFAFA;
+  --ambient-glow-1: transparent;
+  --ambient-glow-2: transparent;
+  --ambient-glow-3: transparent;
+  --ambient-glow-4: transparent;
+  --ambient-wallpaper-opacity: 0;
+
+  --bg-main: #FFFFFF;
+  --bg-header: #FFFFFF;
+  --bg-footer: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FAFAFA;
+  --bg-subcard: #FAFAFA;
+  --bg-subcard-hover: #F4F4F5;
+  --bg-nested-card: #FFFFFF;
+  --bg-popup: #FFFFFF;
+  --bg-dropdown: #FFFFFF;
+  --bg-tooltip: #111111;
+
+  --bg-nav-pill: #FAFAFA;
+  --bg-nav-pill-hover: #F4F4F5;
+  --bg-nav-arrow: #FFFFFF;
+  --border-nav-arrow: #E4E4E7;
+  --bg-button-primary: #111111;
+  --bg-button-secondary: #FFFFFF;
+  --bg-button-hover: #F4F4F5;
+
+  --bg-input: #FFFFFF;
+  --bg-badge: #F4F4F5;
+  --bg-highlight: #F4F4F5;
+  --bg-banner: #FFFFFF;
+  --bg-banner-pill: #FAFAFA;
+  --bg-banner-cta: #111111;
+  --text-banner-cta: #FFFFFF;
+
+  --border-color: #E4E4E7;
+  --border-card: #E4E4E7;
+  --border-subcard: #E4E4E7;
+  --border-input: #D4D4D8;
+  --border-popup: #E4E4E7;
+
+  --bg-blur: 0px;
+  --glass-blur: 0px;
+  --blur-subcard: 0px;
+  --glass-saturate: 100%;
+
+  --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.03);
+  --shadow-card-hover: 0 6px 16px -6px rgba(17, 17, 17, 0.08);
+  --shadow-subcard: none;
+  --shadow-button: none;
+  --shadow-popup: 0 12px 28px -8px rgba(17, 17, 17, 0.12);
+
+  --surface-primary-bg: #FFFFFF;
+  --surface-primary-border: #E4E4E7;
+  --surface-primary-shadow: none;
+  --surface-secondary-bg: #FFFFFF;
+  --surface-secondary-border: #E4E4E7;
+  --surface-secondary-shadow: 0 1px 2px rgba(17, 17, 17, 0.03);
+  --surface-tertiary-bg: #FAFAFA;
+  --surface-tertiary-border: #E4E4E7;
+  --surface-tertiary-shadow: none;
+
+  --radius-main: 18px;
+  --radius-primary-surface: var(--radius-main, 18px);
+  --radius-card: 18px;
+  --radius-subcard: 18px;
+  --radius-banner: 18px;
+}
+
+html[data-card-style="minimalism"] :is(
+  #app-header,
+  #app-header-container > header,
+  #app-footer,
+  #el-p0-div-98 > footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  [id^="letter-card-"],
+  [id^="horoscope-card-"]
+) {
+  background: #FFFFFF !important;
+  border: 1px solid #E4E4E7 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111111 !important;
+}
+
+html[data-card-style="minimalism"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .project-card,
+  .education-card,
+  .education-course-card,
+  .system-card-tile,
+  .exp-bento-surface-card,
+  .project-detail-section-card,
+  .domain-card,
+  .service-card
+):not(.page-main-card):not([data-main-card="true"]):not(#app-header):not(#app-footer):not([id^="horoscope-card-"]) {
+  background: #FFFFFF !important;
+  border: 1px solid #E4E4E7 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111111 !important;
+}
+
+html[data-card-style="minimalism"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .letter-subcard,
+  .project-detail-subcard
+) {
+  background: #FAFAFA !important;
+  border: 1px solid #E4E4E7 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111111 !important;
+}
+
+html[data-card-style="minimalism"] :is(
+  #app-header nav button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn
+):is([aria-current="page"], [data-active="true"]) {
+  background: #111111 !important;
+  border-color: #111111 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+}

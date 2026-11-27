@@ -8,7 +8,6 @@ const Sparkles = createAnimatedIcon('sparkles');
 const Search = createAnimatedIcon('search');
 const Check = createAnimatedIcon('check');
 const CheckCircle2 = createAnimatedIcon('check-circle');
-const Building2 = createAnimatedIcon('building-2');
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
@@ -99,127 +98,6 @@ export const COMPASS_LUCKY_DIRECTIONS: CompassLuckyDirection[] = [
     meaning: 'Củng cố nội lực · Bản lĩnh kiên định · Vững vàng trước biến cố',
     accent: 'text-purple-600 dark:text-purple-400',
     badgeBg: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30',
-  },
-];
-
-export interface DepartmentSynergy {
-  id: string;
-  name: string;
-  shortName: string;
-  element: string;
-  elementSymbol: string;
-  matchScore: number;
-  matchGrade: string;
-  relationType: string;
-  relationDesc: string;
-  iconName: string;
-  accentColor: string;
-  borderColor: string;
-  bgGradient: string;
-  badgeBg: string;
-  leadershipSynergy: string;
-  pros: string;
-  cons: string;
-  strategy: string;
-  kpis: string[];
-}
-
-export const DEPARTMENT_FENGSHUI_MATRIX: DepartmentSynergy[] = [
-  {
-    id: 'cskh',
-    name: 'Chăm Sóc Khách Hàng & Trải Nghiệm (CSKH & CX)',
-    shortName: 'CSKH & Trải Nghiệm CX',
-    element: 'Hành Mộc & Thủy (Nuôi dưỡng & Thấu cảm)',
-    elementSymbol: '木 / 水',
-    matchScore: 92,
-    matchGrade: 'Xuất Sắc · Hòa Hợp Tâm Thức',
-    relationType: 'Thủy dưỡng tâm · Kim rèn chuẩn mực',
-    relationDesc:
-      'Sử dụng sự thấu cảm (Thủy) làm mềm lòng khách hàng và kỷ luật (Kim) uốn nắn chuẩn mực dịch vụ hoàn hảo.',
-    iconName: 'headset',
-    accentColor: 'text-purple-600 dark:text-purple-400',
-    borderColor: 'border-purple-300/80 dark:border-purple-600/40',
-    bgGradient: 'from-purple-500/15 via-indigo-500/10 to-transparent',
-    badgeBg: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30',
-    leadershipSynergy:
-      'Trọng tâm sự nghiệp 22+ năm của anh Thái. Lãnh đạo bằng sự lắng nghe đa chiều, thấu hiểu áp lực nhân viên tuyến đầu và trao quyền xử lý sự cố ngay tại điểm chạm đầu tiên (First Contact Resolution).',
-    pros: 'Nhân viên gắn kết cao, tỷ lệ nghỉ việc thấp (Low Agent Turnover < 4%), dịch vụ đồng nhất đa kênh và chỉ số CSAT/NPS luôn duy trì trên 95%.',
-    cons: 'Cần tránh việc nhân sự bị quá tải cảm xúc khi xử lý khách hàng khó tính kéo dài; cần phân bổ thời gian nghỉ ngơi hợp lý.',
-    strategy:
-      'Chuẩn hóa kịch bản đa kênh (Omnichannel SOP), tổ chức huấn luyện tâm lý tiếp xúc định kỳ và áp dụng cơ chế khen thưởng nóng cho các ca xử lý xuất sắc.',
-    kpis: ['CSAT ≥ 96%', 'NPS ≥ 75', 'FCR ≥ 88%', 'Attrition < 4%'],
-  },
-  {
-    id: 'tech',
-    name: 'Kỹ Thuật & Công Nghệ (IT / System / AI)',
-    shortName: 'Kỹ Thuật & Công Nghệ',
-    element: 'Hành Thủy & Kim (Logic & Dữ liệu)',
-    elementSymbol: '水 / 金',
-    matchScore: 96,
-    matchGrade: 'Tuyệt Đỉnh · Kim Sinh Thủy Hoàn Hảo',
-    relationType: 'Kim sinh Thủy tương sinh đại cát',
-    relationDesc:
-      'Bản mệnh Kim sinh Thủy tạo dòng chảy công nghệ thông suốt. Anh Thái nói chung ngôn ngữ logic, định lượng và kiến trúc dữ liệu với khối Tech.',
-    iconName: 'cpu',
-    accentColor: 'text-cyan-600 dark:text-cyan-400',
-    borderColor: 'border-cyan-300/80 dark:border-cyan-600/40',
-    bgGradient: 'from-cyan-500/15 via-blue-500/10 to-transparent',
-    badgeBg: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/30',
-    leadershipSynergy:
-      'Chuyển hóa xuất sắc các bài toán vận hành phức tạp thành Product Backlog và User Stories chi tiết, giúp đội ngũ Kỹ thuật xây dựng các giải pháp CRM, AI Bot và Omnichannel đúng trúng nhu cầu.',
-    pros: 'Hệ thống Contact Center và Helpdesk vận hành mượt mà, tự động hóa cao, giảm thiểu lỗi kỹ thuật và bảo đảm thời gian hoạt động 99.9% uptime.',
-    cons: 'Đòi hỏi dữ liệu đầu vào cực kỳ chuẩn mực; có thể phát sinh tranh luận kỹ thuật sâu nếu thiếu khung kiểm thử chấp nhận (UAT criteria) rõ ràng.',
-    strategy:
-      'Triển khai mô hình Agile Sprint 2 tuần; phân quyền tích hợp API linh hoạt và duy trì cơ chế đánh giá định kỳ giữa đội Tech và đội Vận hành dịch vụ.',
-    kpis: ['Uptime 99.9%', 'API Latency < 120ms', 'Bug Resolution < 2h', 'Automation 40%+'],
-  },
-  {
-    id: 'ops',
-    name: 'Vận Hành & Đảm Bảo Chất Lượng (Operations / QA)',
-    shortName: 'Vận Hành & QA Chuẩn Hóa',
-    element: 'Hành Thổ & Kim (Vững chãi & Kỷ luật)',
-    elementSymbol: '土 / 金',
-    matchScore: 94,
-    matchGrade: 'Mẫu Mực · Thổ Sinh Kim Bền Vững',
-    relationType: 'Thổ dưỡng Kim vững như bàn thạch',
-    relationDesc:
-      'Nền tảng Thổ vững chắc bồi đắp cho kỷ luật Kim, tạo hệ thống vận hành có tính lặp lại cao, chuẩn COPC/ISO và kiểm soát rủi ro triệt để.',
-    iconName: 'settings',
-    accentColor: 'text-emerald-600 dark:text-emerald-400',
-    borderColor: 'border-emerald-300/80 dark:border-emerald-600/40',
-    bgGradient: 'from-emerald-500/15 via-teal-500/10 to-transparent',
-    badgeBg: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30',
-    leadershipSynergy:
-      'Phối hợp nhịp nhàng theo các chuẩn quản trị COPC, ISO và Six Sigma. Anh Thái truyền cảm hứng bằng nguyên tắc đo lường minh bạch, quản trị dựa trên dữ liệu thực chứng và triết lý Kaizen cải tiến liên tục.',
-    pros: 'Hệ thống vận hành chính xác như đồng hồ Thụy Sĩ, định mức năng suất (AHT/CPH) được kiểm soát chặt chẽ, chi phí phục vụ (Cost-to-Serve) giảm thiểu đáng kể.',
-    cons: 'Cần tránh rập khuôn máy móc theo quy trình giấy tờ khi xử lý các tình huống khiếu nại phát sinh ngoại lệ chưa từng có tiền lệ.',
-    strategy:
-      'Áp dụng bộ tiêu chí chấm điểm chất lượng cuộc gọi (QA Scorecard) đa chiều, khuyến khích sáng kiến tinh gọn quy trình từ nhân viên và số hóa 100% báo cáo.',
-    kpis: ['QA Score ≥ 95%', 'SLA Compliance ≥ 98%', 'Cost-to-Serve -18%', 'FCR ≥ 88%'],
-  },
-  {
-    id: 'sales',
-    name: 'Kinh Doanh & Phát Triển (Sales & BizDev)',
-    shortName: 'Kinh Doanh & Bán Hàng',
-    element: 'Hành Hỏa & Kim (Nhiệt huyết & Mục tiêu)',
-    elementSymbol: '火 / 金',
-    matchScore: 88,
-    matchGrade: 'Mạnh Mẽ · Hỏa Luyện Kim Thành Khí',
-    relationType: 'Lửa thử vàng · Áp lực tạo kim cương',
-    relationDesc:
-      'Năng lượng Hỏa nhiệt huyết của khối Sales được định hướng bởi kỷ luật Kim, biến các mục tiêu doanh thu thách thức thành kết quả bền vững.',
-    iconName: 'briefcase',
-    accentColor: 'text-amber-600 dark:text-amber-400',
-    borderColor: 'border-amber-300/80 dark:border-amber-600/40',
-    bgGradient: 'from-amber-500/15 via-orange-500/10 to-transparent',
-    badgeBg: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
-    leadershipSynergy:
-      'Anh Thái đóng vai trò là "hậu phương vững chắc" cho Sales: biến lời hứa bán hàng thành trải nghiệm dịch vụ thực tế xuất sắc, kích thích khách hàng mua lại và giới thiệu khách hàng mới.',
-    pros: 'Nâng tỷ lệ giữ chân khách hàng (Customer Retention) lên mức kỷ lục, biến khách hàng thành đại sứ thương hiệu và giảm áp lực chi phí tìm khách mới (CAC).',
-    cons: 'Có thể phát sinh xung đột giữa tốc độ chốt hợp đồng nhanh của Sales và tiêu chuẩn thẩm định dịch vụ nghiêm ngặt của bộ phận vận hành.',
-    strategy:
-      'Tổ chức giao ban tuần định kỳ giữa Sales và CSKH, gắn KPI hoa hồng với tỷ lệ duy trì dịch vụ sau bán và chuẩn hóa cam kết SLA trước khi ký kết hợp đồng.',
-    kpis: ['Retention Rate ≥ 92%', 'Repeat Order +25%', 'CAC Recovery < 3m', 'Promoters 70%+'],
   },
 ];
 
@@ -761,12 +639,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     };
   }, [isTuViExpanded]);
 
-  // State for Card 5: Kiểm Tra Công Việc (12 Con Giáp Lookup & 4 Phòng Ban)
+  // State for Card 5: Kiểm Tra Công Việc (12 Con Giáp Lookup)
   const [selectedZodiacKey, setSelectedZodiacKey] = useState<string>('monkey');
   const [searchYearInput, setSearchYearInput] = useState<string>('1992');
   const [activeLookupYear, setActiveLookupYear] = useState<number>(1992);
-  const [synergyCheckTab, setSynergyCheckTab] = useState<'zodiac' | 'department'>('zodiac');
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>(DEPARTMENT_FENGSHUI_MATRIX[0].id);
 
   useEffect(() => {
     if (activeCardIndex !== 0 && isTuViExpanded) {
@@ -879,13 +755,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     const fallbackYear = ZODIAC_SAMPLE_YEAR_BY_KEY[selectedSign.key] || 1992;
     return getCanChiInfo(fallbackYear);
   }, [activeLookupYear, selectedZodiacKey]);
-
-  const activeDepartment = useMemo(() => {
-    return (
-      DEPARTMENT_FENGSHUI_MATRIX.find((d) => d.id === selectedDepartmentId) ||
-      DEPARTMENT_FENGSHUI_MATRIX[0]
-    );
-  }, [selectedDepartmentId]);
 
   // =========================================================================
   // HERO BANNER TRANG TỬ VI
@@ -1178,8 +1047,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         id="horoscope-profile-subgrid"
         data-card-layout={resolveAdaptiveCardLayout(4, false)}
         data-subcard-count={4}
-        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto items-stretch gap-[15px] w-full min-w-0 flex-none h-auto"
-        style={{ gap: '15px', rowGap: '15px', columnGap: '15px' }}
+        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto items-stretch gap-[15px] p-0 w-full min-w-0 flex-none h-auto bg-transparent bg-none border-0 shadow-none box-border"
+        style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}
       >
         {/* Bento Tile 1: Ngày sinh dương lịch */}
         <div
@@ -1357,7 +1226,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-2"
           data-card-layout={resolveAdaptiveCardLayout(WORK_PERSONALITY_TRAITS.length, false)}
           data-subcard-count={WORK_PERSONALITY_TRAITS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent rounded-[var(--radius-card,var(--radius-global,14px))] box-border"
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent bg-none border-0 shadow-none box-border"
           style={{
             gap: '15px',
             rowGap: '15px',
@@ -1365,7 +1234,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             padding: '0px',
             background: 'transparent',
             backgroundColor: 'transparent',
-            borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+            border: 'none',
+            boxShadow: 'none',
             width: '100%',
           }}
         >
@@ -1472,8 +1342,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-3"
           data-card-layout={resolveAdaptiveCardLayout(SIX_CORE_PALACES.length, false)}
           data-subcard-count={SIX_CORE_PALACES.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-0 bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-0 bg-transparent bg-none border-0 shadow-none box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', width: '100%' }}
         >
           {SIX_CORE_PALACES.map((palace, index) => {
             const palettes = [
@@ -1594,8 +1464,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-pillars"
           data-card-layout={resolveAdaptiveCardLayout(ACTION_PHILOSOPHY_CARDS.length, false)}
           data-subcard-count={ACTION_PHILOSOPHY_CARDS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-0 bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-0 bg-transparent bg-none border-0 shadow-none box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', width: '100%' }}
         >
           {ACTION_PHILOSOPHY_CARDS.map((card, idx) => {
             const iconName = pillarIcons[idx % pillarIcons.length];
@@ -1688,8 +1558,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-4"
           data-card-layout={resolveAdaptiveCardLayout(FIVE_ELEMENTS_GOVERNANCE.length, false)}
           data-subcard-count={FIVE_ELEMENTS_GOVERNANCE.length}
-          className="five-elements-grid w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="five-elements-grid w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent bg-none border-0 shadow-none box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', width: '100%' }}
         >
           {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
             const iconName = elementIcons[idx % elementIcons.length];
@@ -1842,58 +1712,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
           <div className="flex flex-wrap items-center gap-2 shrink-0 max-w-full min-w-0">
             {renderCardHeaderQuickNav(6)}
-
-            {/* Bộ chuyển đổi 2 chế độ tra cứu: 12 Con Giáp & 4 Khối Phòng Ban */}
-            <div
-              role="tablist"
-              aria-label="Chế độ kiểm tra tương hợp công việc"
-              className="inline-flex flex-wrap items-center gap-1 p-1 rounded-full border max-w-full min-w-0"
-              style={{
-                background: 'var(--bg-subcard)',
-                borderColor: 'var(--border-subcard)',
-              }}
-            >
-              <button
-                type="button"
-                role="tab"
-                aria-selected={synergyCheckTab === 'zodiac'}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setSynergyCheckTab('zodiac');
-                }}
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer ${
-                  synergyCheckTab === 'zodiac' ? 'shadow-xs' : 'hover:opacity-90'
-                }`}
-                style={
-                  synergyCheckTab === 'zodiac'
-                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                    : { color: 'var(--text-secondary)' }
-                }
-              >
-                <Search className="w-3.5 h-3.5 shrink-0" />
-                <span>Tra cứu 12 Con Giáp</span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={synergyCheckTab === 'department'}
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setSynergyCheckTab('department');
-                }}
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all cursor-pointer ${
-                  synergyCheckTab === 'department' ? 'shadow-xs' : 'hover:opacity-90'
-                }`}
-                style={
-                  synergyCheckTab === 'department'
-                    ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                    : { color: 'var(--text-secondary)' }
-                }
-              >
-                <Building2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Tương hợp 4 Phòng ban</span>
-              </button>
-            </div>
           </div>
         </div>
 
@@ -1901,14 +1719,12 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           id="horoscope-card-5-grid"
           data-element-name="Lưới nội dung Tử vi main card 6"
           data-element-parent="horoscope-card-5"
-          data-card-layout={resolveAdaptiveCardLayout(2, synergyCheckTab === 'department')}
+          data-card-layout={resolveAdaptiveCardLayout(2, false)}
           data-subcard-count={2}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 lg:grid-cols-12 auto-rows-auto items-stretch content-start gap-[15px] p-0 bg-transparent box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 lg:grid-cols-12 auto-rows-auto items-stretch content-start gap-[15px] p-0 bg-transparent bg-none border-0 shadow-none box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', width: '100%' }}
         >
-          {synergyCheckTab === 'zodiac' ? (
-            <>
-              {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI */}
+          {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI */}
               <article
                 data-element-type="card"
                 data-section-card="true"
@@ -2084,183 +1900,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   </div>
                 </div>
               </article>
-            </>
-          ) : (
-            <>
-              {/* TƯƠNG HỢP 4 PHÒNG BAN - CỘT TRÁI (5/12) */}
-              <article
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full lg:col-span-5 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 text-left"
-              >
-                <div className="space-y-3">
-                  <div className="pb-2.5 border-b border-[var(--border-subcard)]">
-                    <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-indigo-600 dark:text-indigo-300">
-                      <WebIcon name="building-2" className="w-4 h-4 shrink-0" />
-                      <h4
-                        className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight break-words leading-snug m-0"
-                        data-subcard-title="true"
-                      >
-                        Chọn Khối Phòng Ban
-                      </h4>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-[10px]">
-                    {DEPARTMENT_FENGSHUI_MATRIX.map((dept) => {
-                      const isSel = dept.id === activeDepartment.id;
-                      return (
-                        <button
-                          key={dept.id}
-                          type="button"
-                          aria-pressed={isSel}
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setSelectedDepartmentId(dept.id);
-                          }}
-                          style={{
-                            borderRadius: 'var(--radius-subcard, 14px)',
-                            background: isSel ? 'var(--bg-card)' : 'var(--bg-subcard)',
-                            borderColor: isSel ? 'var(--color-primary)' : 'var(--border-subcard)',
-                          }}
-                          className={`w-full text-left p-3 border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                            isSel ? 'shadow-sm ring-1 ring-[var(--color-primary)]/40' : 'hover:opacity-95'
-                          }`}
-                        >
-                          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
-                            <div className={`typo-body-sm font-bold break-words leading-snug ${dept.accentColor}`}>
-                              {dept.shortName}
-                            </div>
-                            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
-                              {dept.element}
-                            </div>
-                          </div>
-                          <div className="flex flex-col items-end gap-1 shrink-0">
-                            <span className={`px-2.5 py-0.5 rounded-full typo-badge font-mono font-bold border shrink-0 ${dept.badgeBg}`}>
-                              {dept.matchScore}%
-                            </span>
-                            <span className="typo-badge font-mono text-[var(--text-muted)]">
-                              {dept.elementSymbol}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="pt-2.5 border-t border-[var(--border-subcard)] typo-caption text-[var(--text-secondary)]">
-                  Đối chiếu bản mệnh Hải Trung Kim (Giáp Tý 1984) với ngũ hành đặc thù của từng khối chức năng vận hành.
-                </div>
-              </article>
-
-              {/* TƯƠNG HỢP 4 PHÒNG BAN - CỘT PHẢI (7/12) */}
-              <article
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full lg:col-span-7 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 text-left"
-              >
-                <div className="space-y-3">
-                  <div className="pb-2.5 border-b border-[var(--border-subcard)]">
-                    <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${activeDepartment.accentColor}`}>
-                      <WebIcon name="network" className="w-4 h-4 shrink-0" />
-                      <h4
-                        className={`card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight break-words leading-snug m-0 ${activeDepartment.accentColor}`}
-                        data-subcard-title="true"
-                      >
-                        {activeDepartment.name}
-                      </h4>
-                    </div>
-                  </div>
-
-                  {/* Thanh đo độ hòa hợp + Loại quan hệ */}
-                  <div
-                    data-subcard="true"
-                    style={level2InnerCardStyle}
-                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-2"
-                  >
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className={`typo-label font-bold ${activeDepartment.accentColor}`}>
-                        {activeDepartment.matchGrade} ({activeDepartment.matchScore}%)
-                      </span>
-                      <span className="typo-caption font-semibold text-[var(--text-secondary)]">
-                        {activeDepartment.relationType}
-                      </span>
-                    </div>
-                    <div className="w-full h-2 rounded-full overflow-hidden bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))]">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          width: `${activeDepartment.matchScore}%`,
-                          background: 'var(--bg-button-primary)',
-                        }}
-                      />
-                    </div>
-                    <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                      {activeDepartment.relationDesc}
-                    </p>
-                  </div>
-
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
-                    {activeDepartment.leadershipSynergy}
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 items-stretch gap-[15px]">
-                    <div
-                      data-subcard="true"
-                      style={level2InnerCardStyle}
-                      className="sub-card letter-subcard h-full rounded-[var(--radius-subcard,14px)] space-y-1.5"
-                    >
-                      <h5 className="typo-h5 font-play font-bold text-emerald-600 dark:text-emerald-400 m-0">
-                        Ưu thế cộng hưởng
-                      </h5>
-                      <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                        {activeDepartment.pros}
-                      </p>
-                    </div>
-
-                    <div
-                      data-subcard="true"
-                      style={level2InnerCardStyle}
-                      className="sub-card letter-subcard h-full rounded-[var(--radius-subcard,14px)] space-y-1.5"
-                    >
-                      <h5 className="typo-h5 font-play font-bold text-amber-600 dark:text-amber-400 m-0">
-                        Điểm cần cân bằng
-                      </h5>
-                      <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                        {activeDepartment.cons}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
-                    data-subcard="true"
-                    style={level2InnerCardStyle}
-                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-2"
-                  >
-                    <h5 className="typo-h5 font-play font-bold text-purple-600 dark:text-purple-400 m-0">
-                      Chiến lược phối hợp
-                    </h5>
-                    <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                      {activeDepartment.strategy}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {activeDepartment.kpis.map((kpi) => (
-                        <span
-                          key={kpi}
-                          className={`px-2.5 py-0.5 rounded-full typo-badge font-semibold border ${activeDepartment.badgeBg}`}
-                        >
-                          {kpi}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </>
-          )}
         </div>
       </section>
     );

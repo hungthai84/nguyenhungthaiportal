@@ -398,11 +398,26 @@ html #letter-cards-track #letter-slide-2-grid,
 html #letter-cards-track #letter-slide-3-grid,
 html #letter-cards-track #letter-slide-4-bento-grid,
 html #horoscope-cards-track #horoscope-row-1-horizontal,
+html #horoscope-profile-subgrid,
 html #horoscope-cards-track #horoscope-card-2-grid,
 html #horoscope-cards-track #horoscope-card-3-grid,
+html #horoscope-card-3-grid,
 html #horoscope-cards-track #horoscope-card-pillars-grid,
 html #horoscope-cards-track #horoscope-card-4-grid,
-html #horoscope-cards-track #horoscope-card-5-grid {
+html #horoscope-cards-track #horoscope-card-5-grid,
+html #skills-swot-grid-wrapper,
+html #skills-swot-grid,
+html #skills-languages-grid,
+html #experience-bento-grid,
+html #projects-grid,
+html #wallpaper-add-panel-grid,
+html #wallpaper-cards-grid,
+html #systems-cards-grid,
+html #interface-themes-grid,
+html #services-cards-grid,
+html #about-personal-info-grid,
+html [data-card-layout],
+html .card-grid {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;

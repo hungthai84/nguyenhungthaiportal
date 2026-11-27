@@ -122,9 +122,21 @@ html.dark[data-card-style="walnut-wood"] {
   --border-muted: rgba(245, 196, 120, 0.24);
   --border-strong: rgba(245, 196, 120, 0.58);
 
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
+  --shadow-header:
+    0 4px 16px rgba(10, 5, 2, 0.60),
+    0 18px 42px -6px rgba(10, 5, 2, 0.80),
+    inset 0 1.5px 0 rgba(245, 196, 120, 0.35),
+    inset 0 -2px 4px rgba(10, 5, 2, 0.70);
+  --shadow-main-card:
+    0 4px 16px rgba(10, 5, 2, 0.60),
+    0 20px 48px -6px rgba(10, 5, 2, 0.85),
+    inset 0 1.5px 0 rgba(245, 196, 120, 0.35),
+    inset 0 -2px 4px rgba(10, 5, 2, 0.70);
+  --shadow-footer:
+    0 -4px 16px rgba(10, 5, 2, 0.60),
+    0 -18px 42px -6px rgba(10, 5, 2, 0.80),
+    inset 0 1.5px 0 rgba(245, 196, 120, 0.35),
+    inset 0 -2px 4px rgba(10, 5, 2, 0.70);
   --shadow-card: 0 18px 36px rgba(10, 5, 2, 0.62),
     inset 0 1.5px 2px rgba(245, 196, 120, 0.14),
     inset 0 -3px 6px rgba(10, 5, 2, 0.72);
@@ -577,21 +589,50 @@ html[data-card-style="walnut-wood"] #footer-lang-popup button > div > div:first-
 
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-next-btn {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(2, 132, 199, 0.35) !important;
-  color: #0284c7 !important;
+  background: linear-gradient(145deg, #2F1C10 0%, #1B1009 100%) !important;
+  border: 1px solid rgba(245, 196, 120, 0.42) !important;
+  color: #F5C478 !important;
+}
+
+html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-prev-btn:hover,
+html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-next-btn:hover {
+  background: linear-gradient(145deg, #3A2214 0%, #24150C 100%) !important;
+  border-color: rgba(245, 196, 120, 0.78) !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-counter,
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-icon,
 html[data-card-style="walnut-wood"] #footer-nav-capsule svg {
-  color: #0284c7 !important;
-  stroke: #0284c7 !important;
+  color: #F5C478 !important;
+  stroke: #F5C478 !important;
+}
+
+/* Thẻ thời tiết chân trang: Phong cách Gỗ óc chó */
+html[data-card-style="walnut-wood"] :is(#weather-card, #weather-widget-card, .weather-card) {
+  background: linear-gradient(145deg, #3A2214 0%, #24150C 52%, #2F1C10 100%) !important;
+  border: 1.5px solid #4E2F1B !important;
+  box-shadow: 0 6px 14px rgba(10, 5, 2, 0.54), inset 0 1px 2px rgba(245, 196, 120, 0.14), inset 0 -2px 4px rgba(10, 5, 2, 0.68) !important;
+  outline: 1px solid rgba(245, 196, 120, 0.24);
+  outline-offset: -3px;
+  color: #FFFBF4 !important;
+}
+
+html[data-card-style="walnut-wood"] :is(#weather-card, #weather-widget-card, .weather-card):hover {
+  border-color: rgba(245, 196, 120, 0.58) !important;
+  outline-color: rgba(245, 196, 120, 0.48) !important;
+}
+
+html[data-card-style="walnut-wood"] :is(#weather-card, #weather-widget-card, .weather-card) span {
+  color: #FFFBF4 !important;
+}
+html[data-card-style="walnut-wood"] :is(#weather-card, #weather-widget-card, .weather-card) span.font-mono {
+  color: #F5C478 !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars & Experience Detail Walnut Panels */
-html[data-card-style="walnut-wood"] [data-subcard="true"]:not(.skill-swot-subcard),
-html[data-card-style="walnut-wood"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="walnut-wood"] [data-subcard="true"],
+html[data-card-style="walnut-wood"] .sub-card,
 html[data-card-style="walnut-wood"] .about-info-subcard,
 html[data-card-style="walnut-wood"] .experience-milestone-card,
 html[data-card-style="walnut-wood"] .exp-detail-card,

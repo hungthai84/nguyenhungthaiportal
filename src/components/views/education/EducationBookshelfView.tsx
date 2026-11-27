@@ -25,20 +25,20 @@ export interface EducationBookshelfViewProps {
 }
 
 const DISTINCT_BOOK_FALLBACK_COLORS = [
-  '#10B981', // Emerald
-  '#0EA5E9', // Sky
-  '#8B5CF6', // Violet
-  '#F59E0B', // Amber
-  '#EC4899', // Pink
-  '#06B6D4', // Cyan
-  '#3B82F6', // Royal Blue
-  '#14B8A6', // Teal
-  '#F97316', // Orange
-  '#A855F7', // Purple
-  '#6366F1', // Indigo
-  '#E11D48', // Crimson
-  '#059669', // Jade
-  '#D97706', // Ochre
+  '#D97706', // 0: Trang chủ (Amber)
+  '#EA580C', // 1: Thư ngỏ (Orange)
+  '#E11D48', // 2: Giới thiệu (Rose)
+  '#0284C7', // 3: Học vấn (Sky)
+  '#059669', // 4: Dịch vụ (Emerald)
+  '#0891B2', // 5: Kinh nghiệm (Cyan)
+  '#8B5CF6', // 6: Kỹ năng (Violet)
+  '#0D9488', // 7: Dự án (Teal)
+  '#2563EB', // 8: Hệ thống (Blue)
+  '#65A30D', // 9: Phỏng vấn (Lime)
+  '#7C3AED', // 10: Kỷ niệm (Purple)
+  '#4338CA', // 11: Liên hệ (Indigo)
+  '#0EA5E9', // 12: Trợ lý AI (Electric Sky)
+  '#F43F5E', // 13: Hình nền (Crimson Rose)
 ];
 
 
@@ -234,10 +234,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   const themeAccent = 'var(--text-link, var(--color-primary))';
 
   const getDistinctBookColor = (course: EducationCourse, idx: number): string => {
-    const base = getCourseColor(course, idx);
-    if (base && base.startsWith('#')) {
-      return base;
-    }
     return DISTINCT_BOOK_FALLBACK_COLORS[idx % DISTINCT_BOOK_FALLBACK_COLORS.length];
   };
 
@@ -255,11 +251,9 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       <div
         className="disc-out edu-shelf-book-cover"
         style={{
-          background: 'transparent',
-          backgroundColor: 'transparent',
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          border: '1px solid var(--border-subcard, rgba(148, 163, 184, 0.32))',
-          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.28), 0 8px 20px -10px ${glowShadow}`,
+          border: '1px solid var(--border-subcard, rgba(255, 255, 255, 0.22))',
+          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.38), 0 8px 20px -10px ${glowShadow}`,
           containerType: 'inline-size',
         }}
       >
@@ -412,7 +406,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                     {renderEducationBookCover(
                       course,
                       idx,
-                      idx === safeSel && open === 1,
+                      false,
                       courseAccent,
                       coverTheme.glowShadow
                     )}

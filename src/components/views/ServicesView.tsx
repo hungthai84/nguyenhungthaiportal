@@ -236,6 +236,11 @@ const getCardDomId = (id: string) => {
   }
 };
 
+const getBentoColSpan = (_id: string) => {
+  // Bố cục view card dạng Responsive Grid Card: 3 cột trên Desktop (2 hàng x 3 thẻ), 2 cột trên Tablet (3 hàng x 2 thẻ), 1 cột trên Mobile
+  return 'col-span-12 md:col-span-6 lg:col-span-4';
+};
+
 export const ServicesView: React.FC<ServicesViewProps> = () => {
   const { cardStyle, isDark } = useTheme();
   const { language, t } = useLanguage();
@@ -765,7 +770,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         <div
                           key={`placeholder-${domain.id}`}
                           aria-hidden="true"
-                          className="invisible pointer-events-none select-none min-h-[224px]"
+                          className={cn('invisible pointer-events-none select-none min-h-[224px]', getBentoColSpan(domain.id))}
                         />
                       );
                     }
@@ -780,6 +785,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
                     };
 
+                    const bentoSpan = getBentoColSpan(domain.id);
+                    const topKpi = meta.detailKpis && meta.detailKpis[0];
+
                     return (
                       <motion.div
                         key={domain.id}
@@ -792,6 +800,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         data-element-type="card"
                         data-section-card="true"
                         data-service-themed="true"
+                        data-bento-tile="true"
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
@@ -848,35 +857,58 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           '--service-card-tint': meta.tintBg,
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
-                        className="service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-5 box-border w-full h-full flex flex-col text-left cursor-pointer"
+                        className={cn(
+                          'service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-4 sm:p-5 box-border w-full h-full flex flex-col text-left cursor-pointer transition-all',
+                          bentoSpan
+                        )}
                       >
                         {/* 3-Part Flexible Card Body */}
-                        <div className="service-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0">
-                          {/* TOP: Frameless Icon + Short Title with matching accent color */}
-                          <div
-                            className="service-card-header flex items-center gap-2 min-w-0 shrink-0"
-                            style={{ color: accentColor }}
-                          >
-                            {renderDomainIcon(
-                              meta.iconKey,
-                              'w-4 h-4 shrink-0 stroke-[2.2]',
-                              accentColor
+                        <div className="service-card-body relative z-10 flex flex-col flex-1 gap-2.5 sm:gap-3 w-full min-w-0">
+                          {/* TOP: Frameless Icon + Short Title with matching accent color + Live Status Pill Badge */}
+                          <div className="service-card-header flex items-center justify-between gap-2 min-w-0 shrink-0">
+                            <div className="flex items-center gap-2 min-w-0 flex-1" style={{ color: accentColor }}>
+                              <span
+                                className="inline-flex items-center justify-center w-7 h-7 rounded-lg border shrink-0"
+                                style={{
+                                  borderColor: `color-mix(in srgb, ${accentColor} 45%, transparent)`,
+                                  background: meta.tintBg,
+                                }}
+                              >
+                                {renderDomainIcon(
+                                  meta.iconKey,
+                                  'w-4 h-4 shrink-0 stroke-[2.2]',
+                                  accentColor
+                                )}
+                              </span>
+                              <h3
+                                className="service-title-text font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-1 [text-wrap:balance]"
+                                style={{ color: accentColor }}
+                                title={fullTitle}
+                              >
+                                <span>{displayTitle}</span>
+                              </h3>
+                            </div>
+
+                            {topKpi && (
+                              <span
+                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-tight border shrink-0 select-none"
+                                style={{
+                                  borderColor: `color-mix(in srgb, ${accentColor} 45%, transparent)`,
+                                  background: `color-mix(in srgb, ${accentColor} 12%, transparent)`,
+                                  color: accentColor,
+                                }}
+                              >
+                                {isEn && topKpi.valueEn ? topKpi.valueEn : topKpi.value}
+                              </span>
                             )}
-                            <h3
-                              className="service-title-text font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 [text-wrap:balance]"
-                              style={{ color: accentColor }}
-                              title={fullTitle}
-                            >
-                              <span style={{ color: accentColor }}>{displayTitle}</span>
-                            </h3>
                           </div>
 
                           {/* CENTER: Left Body-Text Description + Right Frameless Illustration */}
-                          <div className="service-card-middle flex-1 min-w-0 w-full">
-                            <div className="service-card-copy min-w-0 flex items-center">
+                          <div className="service-card-middle flex-1 min-w-0 w-full flex items-center gap-3">
+                            <div className="service-card-copy min-w-0 flex-1 flex items-center">
                               <p
                                 id={`service-card-desc-${domain.id}`}
-                                className="service-desc-text relative z-10 m-0 leading-[1.52] text-[13px] font-normal line-clamp-4 break-words"
+                                className="service-desc-text relative z-10 m-0 leading-[1.52] text-[12.5px] sm:text-[13px] font-normal line-clamp-3 sm:line-clamp-4 break-words"
                                 style={{ color: secondaryInk }}
                                 title={summaryText}
                               >
@@ -884,7 +916,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                               </p>
                             </div>
 
-                            <div className="service-card-image-box min-w-0 relative flex items-center justify-center w-full">
+                            <div className="service-card-image-box shrink-0 relative flex items-center justify-center w-24 sm:w-28 h-20 sm:h-24">
                               <img
                                 src={serviceImage}
                                 alt={fullTitle}
@@ -897,24 +929,48 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     e.currentTarget.src = meta.fallbackIllustration;
                                   }
                                 }}
-                                className="service-img-pop relative z-10 w-full object-contain select-none pointer-events-none"
+                                className="service-img-pop relative z-10 w-full h-full object-contain select-none pointer-events-none drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
                               />
                             </div>
                           </div>
 
-                          {/* BOTTOM: Partner Logos */}
+                          {/* SUB-CARD KPI CHIPS (TIER 3 SUB-CARDS) */}
+                          {meta.detailKpis && meta.detailKpis.length > 0 && (
+                            <div className="service-kpi-bento-row grid grid-cols-2 gap-2 w-full mt-auto pt-1">
+                              {meta.detailKpis.slice(0, 2).map((kpi, kIdx) => (
+                                <div
+                                  key={kIdx}
+                                  data-subcard="true"
+                                  className="sub-card flex items-center gap-2 px-2.5 py-1.5 rounded-[10px] text-left transition-all overflow-hidden"
+                                >
+                                  <span className="shrink-0" style={{ color: accentColor }}>
+                                    {renderKpiIcon(kpi.icon, 'w-3.5 h-3.5')}
+                                  </span>
+                                  <div className="min-w-0 flex flex-col">
+                                    <span className="text-[12px] font-bold leading-none truncate" style={{ color: accentColor }}>
+                                      {isEn && kpi.valueEn ? kpi.valueEn : kpi.value}
+                                    </span>
+                                    <span className="text-[10px] text-[var(--text-muted)] truncate leading-tight mt-0.5">
+                                      {isEn ? kpi.labelEn : kpi.label}
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* BOTTOM: Partner Logos + Explore CTA */}
                           <div
-                            className="service-divider mt-auto pt-2.5 flex flex-col gap-2 min-w-0 shrink-0"
+                            className="service-divider mt-auto pt-2.5 flex items-center justify-between gap-2 min-w-0 shrink-0"
                             style={{ borderTop: `1px solid ${dividerBorder}` }}
                           >
-
-                            {(domain.companyLogos || []).length > 0 && (
+                            {(domain.companyLogos || []).length > 0 ? (
                               <div className="flex items-center flex-wrap gap-1.5 min-w-0">
                                 {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs bg-white ring-1 ring-black/10 dark:ring-white/20"
+                                    className="company-logo-surface service-partner-logo w-[26px] h-[26px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs bg-white ring-1 ring-black/10 dark:ring-white/20"
                                   >
                                     <img
                                       src={partner.logo}
@@ -937,7 +993,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   </div>
                                 ))}
                               </div>
+                            ) : (
+                              <span className="text-[11px] font-medium text-[var(--text-muted)]">
+                                {isEn ? 'Enterprise SLA' : 'Tiêu chuẩn Doanh nghiệp'}
+                              </span>
                             )}
+
+                            <span
+                              className="inline-flex items-center gap-1 text-[11.5px] font-semibold transition-transform group-hover:translate-x-1 shrink-0"
+                              style={{ color: accentColor }}
+                            >
+                              <span>{isEn ? 'Explore' : 'Chi tiết'}</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </span>
                           </div>
                         </div>
                       </motion.div>

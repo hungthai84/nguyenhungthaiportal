@@ -473,13 +473,13 @@ const FooterComponent: React.FC<FooterProps> = ({
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: 'clamp(4px, 0.75dvh, 10px)',
-        paddingBottom: 'clamp(4px, 0.75dvh, 10px)',
-        borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-        borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        borderTopLeftRadius: 'var(--footer-radius, 18px)',
+        borderTopRightRadius: 'var(--footer-radius, 18px)',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
-        borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
+        borderRadius: 'var(--footer-radius, 18px) var(--footer-radius, 18px) 0 0',
       }}
       className="mx-auto w-full h-full min-h-full flex flex-nowrap items-center justify-between px-[clamp(10px,1.5vw,18px)] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
     >
@@ -554,13 +554,13 @@ const FooterComponent: React.FC<FooterProps> = ({
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
               strokeWidth={2.85}
               className="w-4 h-4 shrink-0"
-              style={{ color: '#0284c7' }}
+              style={{ color: 'var(--color-primary, #0284c7)' }}
             />
             <span
               id="footer-page-counter"
               className="typo-body-sm font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
               style={{
-                color: '#0284c7',
+                color: 'var(--color-primary, #0284c7)',
                 fontWeight: 800,
                 letterSpacing: '0.03em',
                 WebkitTextStroke: '0.28px currentColor',

@@ -6385,18 +6385,19 @@ html:root[data-card-style] body :is(#app-header-container, #app-header, #global-
   margin-bottom: 0px !important;
 }
 
-/* HEADER & FOOTER PADDING TOP 5PX, PADDING BOT 5PX — KHÔNG GHIM CỐ ĐỊNH */
+/* HEADER & FOOTER CONTAINER: 15% CHIỀU CAO — CỐ ĐỊNH TỈ LỆ 15% */
 html:root body :is(#app-header-container, #el-p0-div-98),
 html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98) {
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 auto !important;
-  height: auto !important;
-  max-height: none !important;
-  min-height: 0 !important;
+  flex: 0 0 15% !important;
+  height: 15% !important;
+  max-height: 15% !important;
+  min-height: 15% !important;
   padding: 0px !important;
   overflow: visible !important;
+  box-sizing: border-box !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3) > footer#app-footer:nth-of-type(1) {
@@ -6409,11 +6410,15 @@ html:root[data-card-style] body :is(#app-header, #app-header-container > header,
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  height: auto !important;
-  min-height: 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   overflow: visible !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 /* Giữ hiệu ứng mở rộng từ từ bằng 9 thẻ cộng lại cho Thẻ hệ thống khi click */
@@ -6449,15 +6454,15 @@ html.dark:root[data-card-style] body :is(#app-header, #app-header:hover, #app-he
   border-radius: 0 0 var(--radius-global, 14px) var(--radius-global, 14px) !important;
 }
 
-/* KHU VỰC CHÍNH GIỮA: TỰ ĐỘNG CO GIÃN KHÍT GIỮA HEADER VÀ FOOTER, PADDING TOP/BOT 10PX */
+/* KHU VỰC CHÍNH GIỮA: 70% CHIỀU CAO KHÍT GIỮA HEADER VÀ FOOTER */
 html:root body #global-content-viewport,
 html:root[data-card-style] body #global-content-viewport {
-  flex: 1 1 0% !important;
-  height: auto !important;
-  min-height: 0px !important;
-  max-height: 100% !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  flex: 0 0 70% !important;
+  height: 70% !important;
+  min-height: 70% !important;
+  max-height: 70% !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
   box-sizing: border-box !important;
@@ -6958,15 +6963,18 @@ html:root.dark[data-card-style] body #app-footer :is(
   box-shadow: none !important;
 }
 
-/* Khu vực Footer (#el-p0-div-98) và Footer (#app-footer): full chiều cao khu vực footer, top padding 10px & bottom padding 10px */
+/* Khu vực Footer (#el-p0-div-98) và Footer (#app-footer): full chiều cao khu vực footer 15% */
 html:root body #el-p0-div-98,
 html:root[data-card-style] body #el-p0-div-98,
 html:root.dark[data-card-style] body #el-p0-div-98 {
   display: flex !important;
   align-items: stretch !important;
   justify-content: center !important;
-  height: auto !important;
-  min-height: 0px !important;
+  flex: 0 0 15% !important;
+  height: 15% !important;
+  min-height: 15% !important;
+  max-height: 15% !important;
+  box-sizing: border-box !important;
 }
 
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 > footer, #el-p0-div-98 > footer:hover),
@@ -8396,8 +8404,42 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 /* ========================================================================= */
 /* UNIFIED SYSTEM & SERVICE VIBRANT CARDS (SHARED 3-TIER VIEW CARD LAYOUT)   */
 /* ========================================================================= */
+/* ========================================================================= */
+/* UNIFIED SERVICES (BENTO VIEW 12-COL) & SYSTEMS (3-COL) CARD LAYOUT        */
+/* ========================================================================= */
 #services-page-container #services-main-content .services-cards-grid,
-#services-page-container #services-cards-grid.services-cards-grid,
+#services-page-container #services-cards-grid.services-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  grid-auto-rows: auto !important;
+  gap: 16px !important;
+  row-gap: 16px !important;
+  column-gap: 16px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  #services-page-container #services-main-content .services-cards-grid,
+  #services-page-container #services-cards-grid.services-cards-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  #services-page-container #services-main-content .services-cards-grid,
+  #services-page-container #services-cards-grid.services-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+  #services-page-container .services-cards-grid > * {
+    grid-column: span 1 / span 1 !important;
+  }
+}
+
 #systems-page-container #systems-cards-grid.systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -8412,16 +8454,12 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 }
 
 @media (max-width: 960px) {
-  #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid,
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 600px) {
-  #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid,
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
@@ -9027,22 +9065,51 @@ html:root[data-card-style] body :is(
   min-height: 0 !important;
 }
 
+/* Đối tượng 2: div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-wrapper-container.projects-themed-slider:nth-of-type(2) - chỉnh max full chiều cao */
+div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-wrapper-container.projects-themed-slider:nth-of-type(2),
 #experience-main-card .exp-slider-view-root .news-slider-wrapper-container {
-  flex: 1 1 0% !important;
-  height: auto !important;
+  flex: 1 1 100% !important;
+  height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
-  padding: 6px 8px 6px !important;
+  width: 100% !important;
+  padding: 6px 8px 24px !important;
+  overflow: hidden !important;
 }
 
-#experience-main-card .exp-slider-view-root .news-slider-container {
+#experience-main-card .exp-slider-view-root .news-slider-container,
+#experience-main-card .exp-slider-view-root .news-slider-stage,
+#experience-main-card .exp-slider-view-root .news-slider-wrp,
+#experience-main-card .exp-slider-view-root .news-slider-slide,
+#experience-main-card .exp-slider-view-root .news-card-item {
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   gap: 8px !important;
 }
 
+/* Đối tượng 1: div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-ctr.w-full:nth-of-type(3) - làm cho nổi lên trên không gây ảnh hưởng kích thước */
+div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-ctr.w-full:nth-of-type(3),
 #experience-main-card .exp-slider-view-root > .news-slider-ctr {
-  padding: 6px 12px 10px !important;
-  margin-top: 0 !important;
+  position: absolute !important;
+  bottom: 8px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  padding: 0 12px !important;
+  margin: 0 !important;
+  z-index: 30 !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
   flex-shrink: 0 !important;
+}
+
+div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-ctr.w-full:nth-of-type(3) .news-slider-pagination,
+#experience-main-card .exp-slider-view-root > .news-slider-ctr .news-slider-pagination {
+  pointer-events: auto !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-item-bg {

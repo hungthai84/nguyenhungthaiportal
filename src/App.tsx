@@ -92,6 +92,13 @@ const PdfView = React.lazy(() =>
 
 export default function App() {
   const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
+  const [isMobileCompact, setIsMobileCompact] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('site_mobile_compact') === 'true';
+    }
+    return false;
+  });
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [mapLocation, setMapLocation] = useState<MapLocation | null>(null);
   const [bentoFocusKey, setBentoFocusKey] = useState<string | null>(null);
@@ -300,7 +307,7 @@ export default function App() {
     };
   }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
-  // Đồng bộ chính xác chiều cao thanh Header và Footer trên mọi màn hình
+  // Đồng bộ chính xác chiều cao thanh Header và Footer trên mọi màn hình (hỗ trợ Mobile Compact)
   useEffect(() => {
     if (currentTabIndex === 16) return;
     const rootEl = document.getElementById('website-root');
@@ -312,18 +319,44 @@ export default function App() {
     const syncBarHeight = () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
-        const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
-        if (headerMeasured > 0) {
-          const hVal = `${headerMeasured}px`;
-          rootEl.style.setProperty('--header-bar-h', hVal);
-          document.documentElement.style.setProperty('--header-bar-h', hVal);
+        const vh = window.innerHeight;
+        const vw = window.innerWidth;
+        const isMobile = vw < 768;
+        const compactActive = isMobile && isMobileCompact;
+
+        if (compactActive) {
+          rootEl.classList.add('mobile-compact-active');
+          document.documentElement.classList.add('mobile-compact-active');
+        } else {
+          rootEl.classList.remove('mobile-compact-active');
+          document.documentElement.classList.remove('mobile-compact-active');
         }
-        if (footerMeasured > 0) {
-          const fVal = `${footerMeasured}px`;
-          rootEl.style.setProperty('--footer-bar-h', fVal);
-          document.documentElement.style.setProperty('--footer-bar-h', fVal);
+
+        let barPx = Math.round(vh * 0.15);
+        let centerPx = Math.round(vh * 0.70);
+
+        if (compactActive) {
+          barPx = Math.min(48, Math.max(42, Math.round(vh * 0.065)));
+          centerPx = vh - (barPx * 2);
         }
+
+        const barVal = `${barPx}px`;
+        const centerVal = `${centerPx}px`;
+
+        rootEl.style.setProperty('--header-bar-h', barVal);
+        rootEl.style.setProperty('--footer-bar-h', barVal);
+        rootEl.style.setProperty('--shell-bar-h', barVal);
+        rootEl.style.setProperty('--shell-bar-height', barVal);
+        rootEl.style.setProperty('--shell-header-height', barVal);
+        rootEl.style.setProperty('--shell-footer-height', barVal);
+        rootEl.style.setProperty('--shell-center-height', centerVal);
+        document.documentElement.style.setProperty('--header-bar-h', barVal);
+        document.documentElement.style.setProperty('--footer-bar-h', barVal);
+        document.documentElement.style.setProperty('--shell-bar-h', barVal);
+        document.documentElement.style.setProperty('--shell-bar-height', barVal);
+        document.documentElement.style.setProperty('--shell-header-height', barVal);
+        document.documentElement.style.setProperty('--shell-footer-height', barVal);
+        document.documentElement.style.setProperty('--shell-center-height', centerVal);
       });
     };
 
@@ -343,7 +376,7 @@ export default function App() {
       ro?.disconnect();
       window.removeEventListener('resize', syncBarHeight);
     };
-  }, [currentTabIndex, cardStyle, isDark]);
+  }, [currentTabIndex, cardStyle, isDark, isMobileCompact]);
 
   // Gán ID định danh nhẹ nhàng trong thời gian rảnh (idle) khi chuyển trang, không dùng MutationObserver hay innerText gây reflow
   useEffect(() => {
@@ -406,7 +439,39 @@ export default function App() {
     };
   }, [currentTabIndex]);
 
-  const showNotification = useCallback((_msg: string) => {}, []);
+  const showNotification = useCallback((msg: string) => {
+    if (!msg) return;
+    setToastMessage(msg);
+  }, []);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const t = window.setTimeout(() => setToastMessage(null), 2500);
+    return () => window.clearTimeout(t);
+  }, [toastMessage]);
+
+  useEffect(() => {
+    const handleToastEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ message?: string }>;
+      if (customEvent.detail?.message) {
+        showNotification(customEvent.detail.message);
+      }
+    };
+    window.addEventListener('hungthai_toast', handleToastEvent);
+    return () => window.removeEventListener('hungthai_toast', handleToastEvent);
+  }, [showNotification]);
+
+  const toggleMobileCompact = useCallback(() => {
+    setIsMobileCompact((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('site_mobile_compact', String(next));
+      } catch {}
+      SoundEngine.playTap();
+      showNotification(next ? 'Chế độ thu gọn: BẬT (Tối ưu không gian đọc)' : 'Chế độ thu gọn: TẮT (Giao diện tiêu chuẩn)');
+      return next;
+    });
+  }, [showNotification]);
 
   // Điều hướng Tới trang / Qua trang theo thứ tự sắp xếp trên Menu Icon; nếu trang có slide thì qua từng slide rồi mới tới trang kế tiếp
   const navigatePage = useCallback(
@@ -766,30 +831,30 @@ export default function App() {
         );
       })()}
 
-      {/* HEADER: Chiều cao bằng Footer, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: Chiều cao 15%, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 auto',
-            height: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
-            maxHeight: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
-            minHeight: 'var(--shell-header-height, clamp(48px, 8dvh, 96px))',
+            flex: '1 1 0%',
+            height: '100%',
+            maxHeight: '100%',
+            minHeight: 0,
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1600px)',
-            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
+            maxWidth: '85%',
+            width: '85%',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
             marginBottom: '0px',
             borderTopLeftRadius: '0px',
             borderTopRightRadius: '0px',
-            borderBottomLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderBottomLeftRadius: 'var(--header-radius, 18px)',
+            borderBottomRightRadius: 'var(--header-radius, 18px)',
+            borderRadius: '0 0 var(--header-radius, 18px) var(--header-radius, 18px)',
           }}
-          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none transition-all duration-200"
         >
           <Header
             pages={TABS_DATA}
@@ -801,7 +866,7 @@ export default function App() {
         </div>
       )}
 
-      {/* MAIN CENTER CARD: Tự động chiếm phần không gian còn lại (100% khi xem Trang Tải PDF) */}
+      {/* MAIN CENTER CARD: Chiều cao 70% (100% khi xem Trang Tải PDF, mở rộng khi ở chế độ thu gọn mobile) */}
       <main
         ref={mainViewportRef}
         id="global-content-viewport"
@@ -813,16 +878,16 @@ export default function App() {
           width:
             currentTabIndex === 10
               ? '100%'
-              : 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
+              : '85%',
           maxWidth:
             currentTabIndex === 16
               ? 'min(88vw, 1600px)'
               : currentTabIndex === 10
                 ? '100%'
-                : 'var(--main-card-target-w, 1600px)',
+                : '85%',
           boxSizing: 'border-box',
           flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
-          height: 'auto',
+          height: currentTabIndex === 16 ? 'auto' : '100%',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '0px',
           maxHeight: currentTabIndex === 16 ? 'none' : '100%',
           minWidth: 0,
@@ -830,16 +895,17 @@ export default function App() {
           marginRight: 'auto',
           marginTop: '0px',
           marginBottom: '0px',
-          paddingTop: currentTabIndex === 16 ? '16px' : '0px',
-          paddingBottom: currentTabIndex === 16 ? '16px' : '0px',
+          paddingTop: currentTabIndex === 16 ? '15px' : '0px',
+          paddingBottom: currentTabIndex === 16 ? '15px' : '0px',
+          borderRadius: 'var(--main-radius, 18px)',
         }}
         className={`w-full ${
           currentTabIndex === 16
-            ? 'max-w-[1600px] overflow-visible py-4'
+            ? 'max-w-[1600px] overflow-visible py-[15px]'
             : currentTabIndex === 10
               ? 'max-w-full overflow-hidden py-0'
               : 'max-w-[1600px] overflow-visible py-0'
-        } mx-auto my-0 min-h-0 rounded-none px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
+        } mx-auto my-0 min-h-0 rounded-none px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent transition-all duration-200 [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -868,7 +934,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: Chiều cao 15%, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -876,25 +942,25 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 auto',
-            height: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
-            maxHeight: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
-            minHeight: 'var(--shell-footer-height, clamp(48px, 8dvh, 96px))',
+            flex: '1 1 0%',
+            height: '100%',
+            maxHeight: '100%',
+            minHeight: 0,
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1600px)',
-            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
+            maxWidth: '85%',
+            width: '85%',
             marginLeft: 'auto',
             marginRight: 'auto',
             marginTop: '0px',
             marginBottom: '0px',
-            borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderTopLeftRadius: 'var(--footer-radius, 18px)',
+            borderTopRightRadius: 'var(--footer-radius, 18px)',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
-            borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
+            borderRadius: 'var(--footer-radius, 18px) var(--footer-radius, 18px) 0 0',
           }}
-          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none transition-all duration-200"
         >
           <Footer
             currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
@@ -924,6 +990,63 @@ export default function App() {
         <XRayInspector onShowNotification={showNotification} />
         <LiquidGlassCursor />
       </Suspense>
+
+      {/* Nút thu gọn / mở rộng giao diện dành riêng cho Mobile */}
+      {currentTabIndex !== 16 && (
+        <button
+          id="mobile-compact-toggle-btn"
+          type="button"
+          onClick={toggleMobileCompact}
+          aria-label={isMobileCompact ? "Mở rộng giao diện" : "Thu gọn giao diện"}
+          className="fixed md:hidden z-[99] bottom-[calc(var(--footer-bar-h,15%)+10px)] right-3.5 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full shadow-lg border backdrop-blur-md transition-all duration-200 active:scale-95"
+          style={{
+            background: 'var(--surface-secondary-bg, rgba(20, 20, 25, 0.88))',
+            color: 'var(--text-primary, #ffffff)',
+            borderColor: 'var(--surface-secondary-border, rgba(255, 255, 255, 0.2))',
+            boxShadow: 'var(--surface-secondary-shadow, 0 4px 16px rgba(0,0,0,0.35))',
+          }}
+        >
+          {isMobileCompact ? (
+            <>
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 3 21 3 21 9" />
+                <polyline points="9 21 3 21 3 15" />
+                <line x1="21" y1="3" x2="14" y2="10" />
+                <line x1="3" y1="21" x2="10" y2="14" />
+              </svg>
+              <span>Mở rộng</span>
+            </>
+          ) : (
+            <>
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="4 14 10 14 10 20" />
+                <polyline points="20 10 14 10 14 4" />
+                <line x1="14" y1="10" x2="21" y2="3" />
+                <line x1="3" y1="21" x2="10" y2="14" />
+              </svg>
+              <span>Thu gọn</span>
+            </>
+          )}
+        </button>
+      )}
+
+      {/* Global Toast Notification */}
+      {toastMessage && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 rounded-xl text-xs sm:text-sm font-medium shadow-2xl backdrop-blur-xl border flex items-center gap-2 pointer-events-none transition-all duration-300"
+          style={{
+            background: 'var(--surface-primary-bg, rgba(15, 23, 42, 0.92))',
+            color: 'var(--text-primary, #ffffff)',
+            borderColor: 'var(--color-primary, rgba(59, 130, 246, 0.5))',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+          }}
+        >
+          <span className="w-2 h-2 rounded-full bg-[var(--color-primary,#3b82f6)] animate-pulse" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </div>
     </MotionConfig>
   );

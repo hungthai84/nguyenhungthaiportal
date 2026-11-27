@@ -156,10 +156,10 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   };
 
   const tileBaseClass =
-    'service-bento-tile bento-card glass-card relative overflow-hidden rounded-[var(--radius-card,var(--radius-global,14px))] p-4 sm:p-5 flex flex-col gap-3 min-w-0 text-[var(--text-primary)]';
+    'service-bento-tile bento-card glass-card relative overflow-hidden rounded-[var(--radius-card,var(--radius-global,14px))] p-4 sm:p-5 flex flex-col justify-between gap-3 min-w-0 h-full text-[var(--text-primary)] box-border transition-all duration-200';
 
   const nestedSubBoxClass =
-    'sub-card rounded-[12px] p-3 border border-[var(--border-subcard,var(--border-color))] bg-[var(--surface-tertiary-bg,var(--bg-subcard))]';
+    'sub-card rounded-[10px] p-2.5 sm:p-3 border border-[var(--border-subcard,var(--border-color))] bg-[var(--surface-tertiary-bg,var(--bg-subcard))] transition-colors duration-150';
 
   return (
     <motion.div
@@ -174,11 +174,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
       data-interaction-state={interactionState}
       role="region"
       aria-label={fullTitle}
-      className="service-expanded-bento-shell bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-3.5 sm:p-4 box-border text-[var(--text-primary)]"
+      className="service-expanded-bento-shell bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-[15px] box-border text-[var(--text-primary)]"
       style={{
         minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
         borderColor: `color-mix(in srgb, ${accentColor} 38%, var(--border-card, var(--border-color)))`,
         borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+        padding: '15px',
       }}
     >
       {/* Top Bento Switcher & Close Bar (Visible while Hero Banner is hidden) */}
@@ -260,7 +261,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.12,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="service-bento-grid grid grid-cols-1 md:grid-cols-3 gap-[15px] w-full min-w-0"
+        className="service-bento-grid grid grid-cols-1 md:grid-cols-3 gap-[15px] w-full min-w-0 items-stretch"
       >
         {/* BENTO CARD 1 (Row 1, Col 1–2): Hero Overview */}
         <div

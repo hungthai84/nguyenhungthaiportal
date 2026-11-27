@@ -539,12 +539,16 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           height: auto !important;
           min-height: max-content;
           flex: 0 0 auto;
-          background: transparent;
-          border-radius: var(--radius-subcard, 16px);
-          border: 1px solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.24)));
+          background: var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.72)));
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border-radius: var(--radius-card, 16px);
+          border: 1px solid var(--surface-secondary-border, var(--border-card, rgba(148, 163, 184, 0.32)));
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 10px 24px -4px rgba(0, 0, 0, 0.16), 0 20px 32px -8px rgba(0, 0, 0, 0.10), inset 0 1px 1.5px rgba(255, 255, 255, 0.45);
           position: relative;
           overflow: hidden;
           color: var(--text-primary, inherit);
+          transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .nht-letter-top-border {

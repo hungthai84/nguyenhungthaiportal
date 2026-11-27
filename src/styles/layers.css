@@ -23,7 +23,7 @@ html body :is(
   color: var(--text-primary) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
-  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  box-shadow: var(--layer-l1-shadow, var(--shadow-main-card)) !important;
   transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
   transform: none !important;
 }

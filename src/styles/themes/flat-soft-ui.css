@@ -187,12 +187,21 @@ html[data-card-style="flat-soft-ui"] {
   /* Surface System Integration */
   --surface-primary-bg: #FFFFFF;
   --surface-primary-border: rgba(226, 232, 240, 0.90);
-  --surface-primary-shadow: var(--elevation-primary-surface);
-  --surface-header-shadow: var(--elevation-primary-surface);
-  --surface-footer-shadow: var(--elevation-primary-surface);
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
+  --shadow-header:
+    0 4px 12px -2px rgba(15, 23, 42, 0.08),
+    0 12px 28px -4px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --shadow-main-card:
+    0 4px 14px -2px rgba(15, 23, 42, 0.07),
+    0 14px 32px -4px rgba(15, 23, 42, 0.12),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  --shadow-footer:
+    0 -4px 12px -2px rgba(15, 23, 42, 0.08),
+    0 -12px 28px -4px rgba(15, 23, 42, 0.10),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  --surface-header-shadow: var(--shadow-header);
+  --surface-footer-shadow: var(--shadow-footer);
+  --surface-primary-shadow: var(--shadow-main-card);
   --surface-primary-blur: 0px;
 
   --surface-secondary-bg: #F8FAFC;
@@ -365,12 +374,21 @@ html[data-card-style="dark-flat-soft-ui"] {
   /* Surface System Integration */
   --surface-primary-bg: #131B2A;
   --surface-primary-border: rgba(148, 163, 184, 0.16);
-  --surface-primary-shadow: var(--elevation-primary-surface);
-  --surface-header-shadow: var(--elevation-primary-surface);
-  --surface-footer-shadow: var(--elevation-primary-surface);
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
+  --shadow-header:
+    0 4px 12px -2px rgba(15, 23, 42, 0.08),
+    0 12px 28px -4px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --shadow-main-card:
+    0 4px 14px -2px rgba(15, 23, 42, 0.07),
+    0 14px 32px -4px rgba(15, 23, 42, 0.12),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  --shadow-footer:
+    0 -4px 12px -2px rgba(15, 23, 42, 0.08),
+    0 -12px 28px -4px rgba(15, 23, 42, 0.10),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
+  --surface-header-shadow: var(--shadow-header);
+  --surface-footer-shadow: var(--shadow-footer);
+  --surface-primary-shadow: var(--shadow-main-card);
   --surface-primary-blur: 0px;
 
   --surface-secondary-bg: #162032;

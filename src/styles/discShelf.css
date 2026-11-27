@@ -364,13 +364,9 @@ html[data-card-style] #education-banner-timeline .edu-shelf-timeline-node:active
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
 }
 
-/* Front Book Cover — Nền trong suốt 100% & bo cong 4 góc theo cấu hình --radius-global */
+/* Front Book Cover — Bo cong 4 góc theo cấu hình --radius-global */
 .disc-out.edu-shelf-book-cover,
 .disc-out.edu-shelf-book-cover > .education-book-cover {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  color: var(--text-primary);
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
 }
 
@@ -851,21 +847,10 @@ html[data-card-style] .disc-library .disc-open-hit,
 }
 
 .disc-glint {
-  content: "";
-  position: absolute;
-  inset: -30% -60%;
-  z-index: 5;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.22) 45%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0.22) 55%,
-    transparent 60%
-  );
-  mix-blend-mode: screen;
-  translate: -70% 0;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 @keyframes discGlint {
   0%, 48% { translate: -70% 0; }

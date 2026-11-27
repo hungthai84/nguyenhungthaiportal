@@ -112,9 +112,21 @@ html.dark[data-card-style="cowhide-leather"] {
   --border-muted: rgba(245, 222, 179, 0.30);
   --border-strong: rgba(245, 222, 179, 0.55);
 
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
+  --shadow-header:
+    0 4px 16px rgba(0, 0, 0, 0.45),
+    0 18px 42px -6px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 0 rgba(245, 222, 179, 0.35),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.65);
+  --shadow-main-card:
+    0 4px 16px rgba(0, 0, 0, 0.45),
+    0 20px 48px -6px rgba(0, 0, 0, 0.68),
+    inset 0 1.5px 0 rgba(245, 222, 179, 0.35),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.65);
+  --shadow-footer:
+    0 -4px 16px rgba(0, 0, 0, 0.45),
+    0 -18px 42px -6px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 0 rgba(245, 222, 179, 0.35),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.65);
   --shadow-card: 0 15px 34px rgba(0, 0, 0, 0.44),
     inset 0 2px 4px rgba(255, 220, 180, 0.25),
     inset 0 -3px 6px rgba(0, 0, 0, 0.6);
@@ -262,12 +274,28 @@ html[data-card-style="cowhide-leather"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [id$="-main-card"],
   #home-main-card,
-  [id$="-main-card"]:not(#pdf-page-container),
+  #letter-main-card,
+  #about-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-expanded-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #systems-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #horoscope-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #interface-main-card,
+  #wallpaper-main-card,
+  #pdf-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
-  #contact-main-card,
   [id^="letter-card-"]
 ) {
   background: var(--surface-primary-bg) !important;
@@ -276,8 +304,40 @@ html[data-card-style="cowhide-leather"] :is(
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, 12px)) saturate(var(--surface-primary-saturate, 118%)) !important;
-  outline: 1.5px dashed rgba(245, 222, 179, 0.50);
-  outline-offset: -6px;
+  outline: 1.5px dashed rgba(245, 222, 179, 0.56) !important;
+  outline-offset: -6px !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #letter-main-card,
+  #about-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-expanded-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #systems-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #horoscope-main-card,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #interface-main-card,
+  #wallpaper-main-card,
+  #pdf-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  [id^="letter-card-"]
+):hover {
+  outline: 1.5px dashed rgba(253, 230, 138, 0.85) !important;
+  outline-offset: -6px !important;
 }
 
 html[data-card-style="cowhide-leather"] :is(#footer-nav-capsule, #el-p0-div-16) {
@@ -552,21 +612,50 @@ html[data-card-style="cowhide-leather"] #footer-lang-popup button > div > div:fi
 
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(2, 132, 199, 0.35) !important;
-  color: #0284c7 !important;
+  background: linear-gradient(145deg, #653A17 0%, #522E10 100%) !important;
+  border: 1px solid rgba(245, 222, 179, 0.45) !important;
+  color: #FDE68A !important;
+}
+
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-prev-btn:hover,
+html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn:hover {
+  background: linear-gradient(145deg, #7A4A20 0%, #653A17 100%) !important;
+  border-color: rgba(253, 230, 138, 0.85) !important;
+  color: #FFFFFF !important;
 }
 
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-icon,
 html[data-card-style="cowhide-leather"] #footer-nav-capsule svg {
-  color: #0284c7 !important;
-  stroke: #0284c7 !important;
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+}
+
+/* Thẻ thời tiết chân trang: Phong cách Da bò đích thực */
+html[data-card-style="cowhide-leather"] :is(#weather-card, #weather-widget-card, .weather-card) {
+  background: linear-gradient(145deg, #8B5A2B 0%, #653A17 50%, #7A4A20 100%) !important;
+  border: 1.5px solid #522E10 !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.36), inset 0 1px 2px rgba(255, 220, 180, 0.22), inset 0 -2px 4px rgba(0, 0, 0, 0.48) !important;
+  outline: 1px dashed rgba(245, 222, 179, 0.56);
+  outline-offset: -3px;
+  color: #FFFBF4 !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(#weather-card, #weather-widget-card, .weather-card):hover {
+  border-color: rgba(245, 222, 179, 0.72) !important;
+  outline-color: rgba(253, 230, 138, 0.85) !important;
+}
+
+html[data-card-style="cowhide-leather"] :is(#weather-card, #weather-widget-card, .weather-card) span {
+  color: #FFFBF4 !important;
+}
+html[data-card-style="cowhide-leather"] :is(#weather-card, #weather-widget-card, .weather-card) span.font-mono {
+  color: #FDE68A !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars, SWOT Skills & Experience Detail Leather Panels */
-html[data-card-style="cowhide-leather"] [data-subcard="true"]:not(.skill-swot-subcard),
-html[data-card-style="cowhide-leather"] .sub-card:not(.skill-swot-subcard),
+html[data-card-style="cowhide-leather"] [data-subcard="true"],
+html[data-card-style="cowhide-leather"] .sub-card,
 html[data-card-style="cowhide-leather"] .about-info-subcard,
 html[data-card-style="cowhide-leather"] .experience-milestone-card,
 html[data-card-style="cowhide-leather"] .exp-detail-card,

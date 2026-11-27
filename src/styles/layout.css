@@ -4,15 +4,21 @@
 
 #website-root {
   --shell-section-gap: 0px;
-  height: auto;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
   min-height: 100dvh;
-  max-height: none;
-  overflow-x: hidden;
-  overflow-y: visible;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
   padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-rows: 8fr 84fr 8fr !important;
   gap: 0px !important;
   row-gap: 0px !important;
+  justify-items: center !important;
+  align-items: stretch !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
@@ -22,6 +28,7 @@
 #website-root:has(#pdf-page-container) {
   --shell-section-gap: 0px;
   gap: 0 !important;
+  display: block !important;
   height: auto !important;
   min-height: 100dvh !important;
   max-height: none !important;
@@ -29,18 +36,34 @@
   overflow-x: hidden !important;
 }
 
-#app-header-container {
+#app-header-container,
+#global-content-viewport,
+#el-p0-div-98 {
+  width: 85% !important;
+  max-width: 85% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+  align-self: center !important;
+  justify-self: center !important;
+  box-sizing: border-box !important;
+}
+
+#app-header-container,
+#el-p0-div-98 {
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 auto !important;
-  height: auto !important;
-  max-height: none !important;
+  flex: 1 1 0% !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  height: 100% !important;
   min-height: 0 !important;
+  max-height: 100% !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 0 !important;
-  box-sizing: border-box !important;
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
@@ -48,49 +71,49 @@
   animation: none !important;
 }
 
-#app-header {
-  position: relative !important;
-  top: auto !important;
-  bottom: auto !important;
-  flex: 0 0 auto !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  box-sizing: border-box !important;
-  transition: none !important;
-  animation: none !important;
+#app-header-container {
+  grid-row: 1 !important;
+  z-index: 40 !important;
+  border-radius: 0 0 var(--header-radius, 18px) var(--header-radius, 18px) !important;
 }
 
 #el-p0-div-98 {
-  position: relative !important;
-  top: auto !important;
-  bottom: auto !important;
-  flex: 0 0 auto !important;
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  height: auto !important;
-  max-height: none !important;
-  min-height: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
+  grid-row: 3 !important;
+  z-index: 50 !important;
+  border-radius: var(--footer-radius, 18px) var(--footer-radius, 18px) 0 0 !important;
 }
 
+#app-header,
 #app-footer {
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 auto !important;
+  flex: 1 1 auto !important;
   align-self: auto !important;
-  height: auto !important;
-  max-height: none !important;
+  width: 100% !important;
+  max-width: var(--layout-max-width, 1600px) !important;
+  height: 100% !important;
   min-height: 0 !important;
+  max-height: 100% !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease !important;
+  animation: none !important;
+}
+
+#app-header {
+  border-radius: 0 0 var(--header-radius, 18px) var(--header-radius, 18px) !important;
+}
+
+#app-footer {
+  border-radius: var(--footer-radius, 18px) var(--footer-radius, 18px) 0 0 !important;
 }
 
 #home-cards-track {
@@ -102,21 +125,27 @@
 }
 
 #global-content-viewport {
-  width: var(--main-card-w, clamp(260px, calc(100% - 32px), var(--main-card-target-w, 1000px)));
-  max-width: var(--main-card-target-w, 1000px);
+  grid-row: 2 !important;
+  width: 85% !important;
+  max-width: 85% !important;
   box-sizing: border-box !important;
   flex: 1 1 0% !important;
-  height: auto !important;
-  min-height: 0px !important;
+  height: 100% !important;
+  min-height: 0 !important;
   max-height: 100% !important;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-inline: auto !important;
+  align-self: center !important;
+  justify-self: center !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
+  border-radius: var(--main-radius, 18px) !important;
+  overflow: hidden !important;
   scroll-behavior: smooth;
   transition: none !important;
 }
@@ -550,11 +579,14 @@
 #app-header-container > header {
   width: 100% !important;
   max-width: var(--main-card-target-w, 1000px) !important;
-  height: var(--shell-bar-h, auto) !important;
-  min-height: var(--shell-bar-h, 52px) !important;
-  max-height: none !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   box-sizing: border-box !important;
   padding: 5px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: 0px !important;
@@ -608,13 +640,16 @@
   max-width: var(--main-card-target-w, 1000px) !important;
   flex: 0 0 auto !important;
   align-self: auto !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   box-sizing: border-box !important;
   padding: 5px 15px !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
   margin-left: auto !important;
   margin-right: auto !important;
   border-top-left-radius: var(--radius-primary-surface, var(--radius-main, 14px)) !important;
@@ -1419,7 +1454,11 @@
 /* 3. Services, Systems & Projects Card Grids Responsive Columns */
 @media (min-width: 640px) and (max-width: 1023px) {
   #services-cards-grid,
-  .services-cards-grid,
+  .services-cards-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
   #systems-cards-grid,
   .systems-cards-grid,
   #projects-grid {
@@ -1438,10 +1477,19 @@
 }
 
 @media (max-width: 639px) {
+  #app-header-container,
+  #global-content-viewport,
+  #el-p0-div-98 {
+    width: 85% !important;
+    max-width: 85% !important;
+    margin-inline: auto !important;
+    align-self: center !important;
+    justify-self: center !important;
+  }
+
   #global-content-viewport {
-    width: calc(100% - 16px) !important;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
   }
 
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
@@ -1476,8 +1524,13 @@
     gap: 12px !important;
   }
 
+  div#experience-main-card > div.exp-slider-view-root.w-full > div.news-slider-ctr.w-full:nth-of-type(3),
   #experience-main-card .exp-slider-view-root > .news-slider-ctr {
-    padding: 6px 10px 10px 10px !important;
+    position: absolute !important;
+    bottom: 6px !important;
+    padding: 0 10px !important;
+    margin: 0 !important;
+    pointer-events: none !important;
   }
 }
 
@@ -1536,5 +1589,74 @@
     max-height: none !important;
   }
 }
+
+/* 7. Mobile Compact Mode (Thu gọn Header / Footer trên điện thoại để mở rộng vùng đọc trung tâm) */
+@media (max-width: 767px) {
+  html.mobile-compact-active #app-header-container,
+  html.mobile-compact-active #el-p0-div-98,
+  #website-root.mobile-compact-active #app-header-container,
+  #website-root.mobile-compact-active #el-p0-div-98 {
+    flex: 0 0 var(--header-bar-h, 44px) !important;
+    height: var(--header-bar-h, 44px) !important;
+    min-height: var(--header-bar-h, 44px) !important;
+    max-height: var(--header-bar-h, 44px) !important;
+    transition: flex 0.22s cubic-bezier(0.4, 0, 0.2, 1), height 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  html.mobile-compact-active #global-content-viewport,
+  #website-root.mobile-compact-active #global-content-viewport {
+    flex: 0 0 var(--shell-center-height, calc(100% - 88px)) !important;
+    height: var(--shell-center-height, calc(100% - 88px)) !important;
+    min-height: var(--shell-center-height, calc(100% - 88px)) !important;
+    max-height: var(--shell-center-height, calc(100% - 88px)) !important;
+    transition: flex 0.22s cubic-bezier(0.4, 0, 0.2, 1), height 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  html.mobile-compact-active #app-header,
+  html.mobile-compact-active #app-header-container > header,
+  #website-root.mobile-compact-active #app-header,
+  #website-root.mobile-compact-active #app-header-container > header {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  html.mobile-compact-active #app-footer,
+  html.mobile-compact-active #el-p0-div-98 > footer,
+  #website-root.mobile-compact-active #app-footer,
+  #website-root.mobile-compact-active #el-p0-div-98 > footer {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  html.mobile-compact-active #app-header .header-brand-avatar,
+  #website-root.mobile-compact-active #app-header .header-brand-avatar {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  html.mobile-compact-active #app-header .header-brand-title,
+  #website-root.mobile-compact-active #app-header .header-brand-title {
+    font-size: 13px !important;
+  }
+
+  html.mobile-compact-active #app-header .header-brand-subtitle,
+  #website-root.mobile-compact-active #app-header .header-brand-subtitle {
+    display: none !important;
+  }
+}
+
+/* Trang tải PDF: Khung hiển thị nội dung chính padding top 15px, padding bottom 15px */
+html body:has(#pdf-page-container) #global-content-viewport,
+html[data-active-page="pdf"] #global-content-viewport,
+#website-root:has(#pdf-page-container) #global-content-viewport,
+#global-content-viewport:has(#pdf-page-container) {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
 
 

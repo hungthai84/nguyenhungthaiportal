@@ -580,16 +580,38 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     const backCover = (
       <div
         key={`back-${course.id}`}
-        className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border"
+        className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border text-white"
         style={{
-          background: 'transparent',
-          backgroundColor: 'transparent',
+          background: bookCoverTheme.shellBg,
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
           padding: '15px',
           fontFamily: BOOK_COVER_BODY_FONT,
-          color: 'var(--text-primary)',
+          color: '#FFFFFF',
+          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.38), 0 8px 20px -10px ${bookCoverTheme.glowShadow}`,
         }}
       >
+        {/* Full-bleed diffused ambient backdrop */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        >
+          <img
+            src={course.image}
+            alt=""
+            className="absolute inset-[-18%] w-[136%] h-[136%] max-w-none object-cover object-center scale-110 select-none opacity-60"
+            style={{
+              filter: 'blur(26px) saturate(1.55) brightness(0.70)',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(6, 12, 28, 0.22) 0%, rgba(4, 9, 22, 0.70) 100%)',
+            }}
+          />
+        </div>
+
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
           aria-hidden="true"
@@ -602,42 +624,42 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
 
         <WebIcon
           name="award"
-          className="relative z-10 w-[10cqw] h-[10cqw] mb-[3.2cqw]"
-          style={{ color: 'var(--text-link, var(--color-primary))' }}
+          className="relative z-10 w-[10cqw] h-[10cqw] mb-[3.2cqw] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+          style={{ color: bookCoverTheme.accentSoft || '#FDE047' }}
         />
 
         <p
-          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] m-0"
+          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] m-0 text-white/85 drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            color: 'var(--text-secondary)',
+            color: 'rgba(255, 255, 255, 0.85)',
           }}
         >
           {categoryLabel}
         </p>
 
         <p
-          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] m-0"
+          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] m-0 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]"
           style={{
             fontFamily: BOOK_COVER_DISPLAY_FONT,
             textWrap: 'balance',
-            color: 'var(--text-heading, var(--text-primary))',
+            color: '#FFFFFF',
           }}
         >
           {cleanTitle}
         </p>
 
         <div
-          className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed"
+          className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            color: 'var(--text-secondary)',
+            color: 'rgba(255, 255, 255, 0.90)',
           }}
         >
-          <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-semibold text-white">
             {course.issuer}
           </span>
-          <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] tabular-nums">
+          <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] tabular-nums text-white/85">
             <span>{isEn ? `Year ${course.year}` : `Năm ${course.year}`}</span>
             {verifyInfo?.credentialId && (
               <>

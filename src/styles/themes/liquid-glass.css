@@ -317,29 +317,41 @@ html:not([data-card-style]):not(.dark):not([data-theme-mode="dark"]) {
   --shadow-button: 0 10px 24px -4px rgba(109, 40, 217, 0.34);
   --shadow-popup: 0 24px 54px -12px rgba(30, 41, 59, 0.18), 0 8px 22px -6px rgba(79, 70, 229, 0.12), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
 
-  /* Surface Tokens */
-  --surface-primary-bg: rgba(255, 255, 255, 0.56);
-  --surface-primary-border: rgba(255, 255, 255, 0.84);
-  --surface-primary-shadow: var(--elevation-primary-surface);
-  --surface-header-shadow: var(--elevation-primary-surface);
-  --surface-footer-shadow: var(--elevation-primary-surface);
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
-  --surface-primary-blur: 22px;
-  --surface-primary-saturate: 165%;
+  /* Surface Tokens (Calibrated from Reference 2048x1151 Ultra-Clean Frosted Glass) */
+  --surface-primary-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.80) 0%, rgba(241, 245, 249, 0.65) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.88);
+  --surface-primary-shadow: 0 28px 65px -15px rgba(100, 116, 139, 0.18), 0 12px 28px -6px rgba(15, 23, 42, 0.06), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px rgba(148, 163, 184, 0.18);
+  --shadow-header:
+    0 4px 14px -2px rgba(100, 116, 139, 0.10),
+    0 16px 36px -6px rgba(100, 116, 139, 0.14),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(148, 163, 184, 0.25);
+  --shadow-main-card:
+    0 28px 65px -15px rgba(100, 116, 139, 0.18),
+    0 12px 28px -6px rgba(15, 23, 42, 0.06),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
+    inset 0 -1.5px 2px rgba(148, 163, 184, 0.18);
+  --shadow-footer:
+    0 -4px 14px -2px rgba(100, 116, 139, 0.10),
+    0 -16px 36px -6px rgba(100, 116, 139, 0.14),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(148, 163, 184, 0.25);
+  --surface-header-shadow: var(--shadow-header);
+  --surface-footer-shadow: var(--shadow-footer);
+  --surface-primary-blur: 28px;
+  --surface-primary-saturate: 190%;
 
-  --surface-secondary-bg: rgba(255, 255, 255, 0.62);
-  --surface-secondary-border: rgba(255, 255, 255, 0.82);
-  --surface-secondary-shadow: var(--liquid-tier2-shadow);
-  --surface-secondary-blur: 16px;
-  --surface-secondary-saturate: 160%;
+  --surface-secondary-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(248, 250, 252, 0.50) 100%);
+  --surface-secondary-border: rgba(255, 255, 255, 0.85);
+  --surface-secondary-shadow: 0 10px 28px -6px rgba(100, 116, 139, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.04), inset 0 1px 1.5px rgba(255, 255, 255, 0.95);
+  --surface-secondary-blur: 20px;
+  --surface-secondary-saturate: 175%;
 
-  --surface-tertiary-bg: rgba(255, 255, 255, 0.78);
-  --surface-tertiary-border: rgba(255, 255, 255, 0.86);
-  --surface-tertiary-shadow: var(--liquid-tier1-shadow);
-  --surface-tertiary-blur: 10px;
-  --surface-tertiary-saturate: 150%;
+  --surface-tertiary-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(248, 250, 252, 0.60) 100%);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.88);
+  --surface-tertiary-shadow: 0 6px 18px -4px rgba(100, 116, 139, 0.10), inset 0 1px 1px rgba(255, 255, 255, 0.92);
+  --surface-tertiary-blur: 14px;
+  --surface-tertiary-saturate: 160%;
 
   --surface-nested-bg: rgba(255, 255, 255, 0.78);
   --surface-nested-border: rgba(255, 255, 255, 0.86);
@@ -564,16 +576,28 @@ html[data-theme-mode="dark"]:not([data-card-style]) {
   --shadow-button: 0 10px 24px -4px rgba(152, 137, 238, 0.40);
   --shadow-popup: 0 26px 60px -12px rgba(2, 6, 23, 0.80), 0 0 28px -8px rgba(181, 167, 244, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 
-  --surface-primary-bg: rgba(19, 29, 48, 0.68);
-  --surface-primary-border: rgba(255, 255, 255, 0.16);
-  --surface-primary-shadow: var(--elevation-primary-surface);
-  --surface-header-shadow: var(--elevation-primary-surface);
-  --surface-footer-shadow: var(--elevation-primary-surface);
-  --shadow-header: var(--elevation-primary-surface);
-  --shadow-main-card: var(--elevation-primary-surface);
-  --shadow-footer: var(--elevation-primary-surface);
-  --surface-primary-blur: 22px;
-  --surface-primary-saturate: 165%;
+  --surface-primary-bg: linear-gradient(135deg, rgba(30, 41, 59, 0.78) 0%, rgba(15, 23, 42, 0.68) 100%);
+  --surface-primary-border: rgba(255, 255, 255, 0.18);
+  --surface-primary-shadow: 0 28px 65px -15px rgba(0, 0, 0, 0.55), 0 12px 28px -6px rgba(0, 0, 0, 0.35), inset 0 1.5px 2px rgba(255, 255, 255, 0.22), inset 0 -1.5px 2px rgba(0, 0, 0, 0.40);
+  --shadow-header:
+    0 4px 14px -2px rgba(0, 0, 0, 0.40),
+    0 16px 36px -6px rgba(0, 0, 0, 0.50),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  --shadow-main-card:
+    0 28px 65px -15px rgba(0, 0, 0, 0.55),
+    0 12px 28px -6px rgba(0, 0, 0, 0.35),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.22),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.40);
+  --shadow-footer:
+    0 -4px 14px -2px rgba(0, 0, 0, 0.40),
+    0 -16px 36px -6px rgba(0, 0, 0, 0.50),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  --surface-header-shadow: var(--shadow-header);
+  --surface-footer-shadow: var(--shadow-footer);
+  --surface-primary-blur: 28px;
+  --surface-primary-saturate: 180%;
 
   --surface-secondary-bg: rgba(26, 38, 62, 0.66);
   --surface-secondary-border: rgba(255, 255, 255, 0.16);

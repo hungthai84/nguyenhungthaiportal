@@ -281,6 +281,7 @@ export const Header: React.FC<HeaderProps> = ({
   const pillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const [focusedNavIndex, setFocusedNavIndex] = useState<number | null>(null);
+  const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null);
   const [isRadialMenuOpen, setIsRadialMenuOpen] = useState(false);
   const [uniformPillWidth, setUniformPillWidth] = useState<number | null>(null);
   const [trailingGapByIdx, setTrailingGapByIdx] = useState<number[]>([]);
@@ -377,6 +378,7 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     setIsRadialMenuOpen(false);
     setFocusedNavIndex(null);
+    setHoveredNavIndex(null);
   }, [currentPage]);
 
   useEffect(() => {
@@ -419,7 +421,11 @@ export const Header: React.FC<HeaderProps> = ({
   }, [headerPages, currentPage, isRadialMenuOpen]);
 
   const revealedNavIndex =
-    focusedNavIndex !== null ? focusedNavIndex : selectedNavIndex;
+    hoveredNavIndex !== null
+      ? hoveredNavIndex
+      : focusedNavIndex !== null
+        ? focusedNavIndex
+        : selectedNavIndex;
 
   const getRevealOverlapPx = (prevIdx: number) => {
     const trailingGap = trailingGapByIdx[prevIdx];
@@ -439,18 +445,18 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-page="global"
       data-element-parent="website-root"
       style={{
-        maxWidth: 'var(--main-card-target-w, 1600px)',
+        maxWidth: 'var(--main-card-target-w, 1200px)',
         width: '100%',
-        height: '85px',
-        minHeight: '85px',
-        maxHeight: '85px',
+        height: '100%',
+        minHeight: '100%',
+        maxHeight: '100%',
         boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '5px',
-        paddingBottom: '5px',
+        paddingTop: '4px',
+        paddingBottom: '4px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -470,6 +476,11 @@ export const Header: React.FC<HeaderProps> = ({
         ref={navRef}
         id="header-center"
         aria-label={language === 'en' ? 'Primary navigation' : 'Điều hướng chính'}
+        onPointerLeave={(e) => {
+          if (e.pointerType === 'mouse') {
+            setHoveredNavIndex(null);
+          }
+        }}
         onBlur={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node)) {
             setFocusedNavIndex(null);
@@ -504,7 +515,17 @@ export const Header: React.FC<HeaderProps> = ({
           return (
             <div
               key={page.id}
-              className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto"
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setHoveredNavIndex(index);
+                }
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setHoveredNavIndex((prev) => (prev === index ? null : prev));
+                }
+              }}
+              className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
               style={{
                 marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
@@ -568,6 +589,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <WebIcon
                         name={page.icon || 'home'}
                         isActive={isSelected}
+                        isHovered={hoveredNavIndex === index}
                         className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0"
                       />
                     )}
@@ -580,7 +602,10 @@ export const Header: React.FC<HeaderProps> = ({
                     <span
                       style={{
                         fontWeight: 'bold',
-                        color: isSelected ? 'var(--pill-active-text, #ffffff)' : styleCfg.accentColor,
+                        color:
+                          isSelected || hoveredNavIndex === index
+                            ? 'var(--pill-active-text, #ffffff)'
+                            : styleCfg.accentColor,
                       }}
                       className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                     >
@@ -613,7 +638,17 @@ export const Header: React.FC<HeaderProps> = ({
             <div
               key="header-hungthai-avatar-pill"
               ref={avatarPillRef}
-              className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto"
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setHoveredNavIndex(avatarNavIndex);
+                }
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') {
+                  setHoveredNavIndex((prev) => (prev === avatarNavIndex ? null : prev));
+                }
+              }}
+              className="relative pointer-events-auto shrink-0 flex items-center self-center my-auto transition-[margin] duration-250 ease-out"
               style={{
                 marginLeft: itemMarginLeft,
                 zIndex: baseZIndex,
@@ -656,7 +691,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
-                      '--nav-pill-accent': '#4F46E5',
+                      '--nav-pill-accent': 'var(--color-accent, var(--color-primary, #4F46E5))',
                       width: '166px',
                       height: '46px',
                       minHeight: '46px',
@@ -673,17 +708,15 @@ export const Header: React.FC<HeaderProps> = ({
                     <WebIcon
                       name="contact"
                       isActive={currentPage === 12 || isRadialMenuOpen}
-                      className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0 text-white"
+                      isHovered={hoveredNavIndex === avatarNavIndex}
+                      className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0"
                     />
                   </div>
                   <div className="nav-pill-divider w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
-                      style={{
-                        fontWeight: 'bold',
-                        color: currentPage === 12 || isRadialMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#4F46E5',
-                      }}
-                      className="nav-pill-title typo-nav leading-tight font-play truncate"
+                      style={{ fontWeight: 'bold' }}
+                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                     >
                       {language === 'en' ? 'Contact' : 'Liên hệ'}
                     </span>

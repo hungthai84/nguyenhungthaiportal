@@ -78,7 +78,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   }, []);
 
   const peekReserve = viewportWidth < 640 ? 16 : 32;
-  const homeCardWidth = Math.min(1000, Math.max(260, viewportWidth - peekReserve));
+  const homeCardWidth = Math.min(1200, Math.max(260, viewportWidth - peekReserve));
   const homeSideInset = 0;
 
   const handleQuickNavigateAbout = (e: React.MouseEvent) => {
@@ -202,8 +202,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   const mainCardInlineStyle: React.CSSProperties = {
-    width: '100%',
-    maxWidth: 'var(--main-card-target-w, 1600px)',
+    maxWidth: 'var(--main-card-target-w, 1200px)',
     flex: '0 0 auto',
     height: '100%',
     minHeight: '0px',
@@ -242,7 +241,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
           height: '100%',
           minHeight: '100%',
           width: '100%',
-          padding: '0px',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          paddingLeft: '0px',
+          paddingRight: '0px',
           boxSizing: 'border-box',
           overflow: 'visible',
         }}
@@ -298,23 +300,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   </span>
                 </div>
 
-                <div className="space-y-1.5 max-w-xl">
-                  <h1
-                    id="home-hero-heading"
-                    className="font-play font-extrabold tracking-tight leading-[1.12] typo-h1"
-                    style={{ color: 'var(--text-heading, var(--text-primary))' }}
+                <h1
+                  id="home-hero-heading"
+                  className="font-play font-extrabold tracking-tight leading-[1.12] typo-h1 max-w-xl"
+                  style={{ color: 'var(--text-heading, var(--text-primary))' }}
+                >
+                  <span className="block">Nguyễn Hùng Thái</span>
+                  <span
+                    className="block mt-0.5 typo-h2 font-bold"
+                    style={{ color: 'var(--text-link, var(--color-primary))' }}
                   >
-                    <span className="block">Nguyễn Hùng Thái</span>
-                    <span
-                      className="block mt-0.5 typo-h2 font-bold"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
-                    >
-                      {isEn
-                        ? 'Customer Experience & Digital Transformation'
-                        : 'Vận Hành CSKH & Chuyển Đổi Số'}
-                    </span>
-                  </h1>
-                </div>
+                    {isEn
+                      ? 'Customer Experience & Digital Transformation'
+                      : 'Vận Hành CSKH & Chuyển Đổi Số'}
+                  </span>
+                </h1>
 
                 <p
                   className="typo-body leading-relaxed max-w-lg font-medium"

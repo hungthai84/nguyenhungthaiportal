@@ -151,9 +151,9 @@ html[data-theme="gradient-dopamine"] {
 
 html[data-card-style="gradient-dopamine"] :is(
   #app-header,
-  #app-header-container > header,
+  #app-header-container header,
   #app-footer,
-  #el-p0-div-98 > footer,
+  #el-p0-div-98 footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   [id^="letter-card-"],

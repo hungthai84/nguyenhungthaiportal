@@ -1395,8 +1395,7 @@ export function AboutView({
     switch (focusedBentoCard) {
       case 'hero':
         return (
-          <div className="space-y-4">
-            <div className="sub-card grid grid-cols-1 md:grid-cols-2 gap-4 items-center rounded-[14px] p-5 border border-[var(--border-subcard)] text-[var(--text-primary)]">
+          <div className="sub-card grid grid-cols-1 md:grid-cols-2 gap-4 items-center rounded-[14px] p-5 border border-[var(--border-subcard)] text-[var(--text-primary)]">
               <div className="relative aspect-video rounded-[14px] overflow-hidden bg-black/60 border border-[var(--border-subcard)] flex items-center justify-center">
                 <video
                   src={activeAboutIntroVideoUrl}
@@ -1489,7 +1488,6 @@ export function AboutView({
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         );
 
@@ -1537,8 +1535,7 @@ export function AboutView({
 
       case 'demographics':
         return (
-          <div className="space-y-4 text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 text-left">
               {PERSONAL_DEMOGRAPHICS.map((item) => {
                 const isWideRow = item.id === 'hometown' || item.id === 'residence' || item.valueVi.length > 22;
                 return (
@@ -1566,9 +1563,6 @@ export function AboutView({
                 );
               })}
             </div>
-
-
-          </div>
         );
 
       case 'map':
@@ -1775,8 +1769,7 @@ export function AboutView({
 
       case 'philosophy':
         return (
-          <div className="space-y-4 text-left">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
               {/* Khối 1: Giá trị cốt lõi */}
               <div data-subcard="true" className="exp-detail-card rounded-[14px] p-5 flex flex-col justify-between">
                 <div>
@@ -1818,7 +1811,6 @@ export function AboutView({
                 </div>
               </div>
             </div>
-          </div>
         );
 
       default:
@@ -1868,8 +1860,7 @@ export function AboutView({
         data-element-parent="about-page-container"
         style={{
           ...cleanAboutMainStyle,
-          width: '100%',
-          maxWidth: 'var(--main-card-target-w, 1600px)',
+          maxWidth: 'var(--main-card-target-w, 1200px)',
           height: '100%',
           minHeight: '0px',
           maxHeight: '100%',
@@ -2620,16 +2611,6 @@ export function AboutView({
                                 action: () => showToast('Hôn nhân: Độc thân'),
                                 colSpan: 'col-span-1 sm:col-span-2',
                               },
-                              {
-                                id: 'role_summary',
-                                label: 'Vai trò & Kinh nghiệm',
-                                value: 'Head of CX & CS Operations · 22+ Năm',
-                                icon: 'award',
-                                iconColorCls: 'text-blue-600 dark:text-cyan-300',
-                                bgCls: 'bg-blue-500/10 dark:bg-cyan-500/15 border-blue-500/25 dark:border-cyan-400/30',
-                                action: () => showToast('Head of CX & CS Operations · 22+ Năm thực chiến'),
-                                colSpan: 'col-span-1 sm:col-span-6',
-                              },
                             ].map((item) => (
                               <div
                                 key={item.id}
@@ -2874,7 +2855,7 @@ export function AboutView({
             <motion.div
               id="about-operating-pillars-card"
               data-framer-bento="true"
-              data-element-name="Card 3 Trụ Cột Vận Hành Chiến Lược"
+              data-element-name="Card Trụ Cột Vận Hành Chiến Lược"
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
@@ -2892,7 +2873,7 @@ export function AboutView({
                 <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
                   <Target className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
                   <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
-                    {formatCardTitle('3 Trụ cột vận hành')}
+                    {formatCardTitle('Trụ cột vận hành')}
                   </h3>
                 </div>
               </div>
@@ -3187,7 +3168,7 @@ export function AboutView({
             : focusedBentoCard === 'map'
             ? 'Bản Đồ Cư Trú & Công Tác Tương Tác'
             : focusedBentoCard === 'pillars'
-            ? '3 Trụ Cột Vận Hành Chiến Lược (22+ Năm)'
+            ? 'Trụ Cột Vận Hành Chiến Lược (22+ Năm)'
             : focusedBentoCard === 'philosophy'
             ? 'Giá Trị Cốt Lõi & Triết Lý Tầm Nhìn CX 2026+'
             : 'Chi Tiết Thẻ Bento'

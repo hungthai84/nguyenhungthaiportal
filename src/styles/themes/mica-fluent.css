@@ -224,9 +224,9 @@ html[data-theme="mica-fluent"] {
 /* ------------------------------------------------------------------------- */
 html[data-card-style="mica-fluent"] :is(
   #app-header,
-  #app-header-container > header,
+  #app-header-container header,
   #app-footer,
-  #el-p0-div-98 > footer,
+  #el-p0-div-98 footer,
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,

@@ -14,6 +14,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { ViewState } from '@/components/common/ViewState';
 
 export interface ProjectCardGroup {
   id: string;
@@ -953,21 +954,19 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       {!selectedGroup && !selectedArticle ? (
         <>
           {onReturnToOrigin && (
-            <div className="flex items-center justify-start shrink-0">
-              <button
-                id="projects-list-return-btn"
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  onReturnToOrigin();
-                }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
-                title="Quay lại trang đang xem"
-              >
-                <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
-                <span>Quay lại trang đang xem</span>
-              </button>
-            </div>
+            <button
+              id="projects-list-return-btn"
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                onReturnToOrigin();
+              }}
+              className="banner-control-pill self-start inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full typo-button font-bold font-play transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+              title="Quay lại trang đang xem"
+            >
+              <WebIcon name="arrow-left" className="w-4 h-4 shrink-0" />
+              <span>Quay lại trang đang xem</span>
+            </button>
           )}
           {/* BANNER DỰ ÁN: Đồng bộ chuẩn banner Học vấn (h-200px desktop, p-[15px], rounded-banner) */}
           <section
@@ -1344,25 +1343,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
           {/* NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC SLIDER CARD (CODEPEN NEWS SLIDER LAYOUT + EFFECT, KHÔNG ĐỔI DATA) */}
           {filteredProjects.length === 0 ? (
-            <div
-              className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
-            >
-              <p className="typo-body font-semibold font-play" style={{ color: 'var(--text-primary)' }}>
-                Không tìm thấy dự án nào khớp với bộ lọc hiện tại.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setActiveCategory('all');
-                  setSearchQuery('');
-                }}
-                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer"
-              >
-                Hiển thị tất cả {PROJECTS_DATA.length} dự án
-              </button>
-            </div>
+            <ViewState
+              variant="empty"
+              icon="folder-kanban"
+              title="Không tìm thấy dự án nào khớp với bộ lọc hiện tại."
+              actionLabel={`Hiển thị tất cả ${PROJECTS_DATA.length} dự án`}
+              onAction={() => {
+                SoundEngine.playTap();
+                setActiveCategory('all');
+                setSearchQuery('');
+              }}
+            />
           ) : viewMode === 'slider' ? (
             <div
               data-section-card="true"
@@ -1719,27 +1710,25 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       </p>
                     </div>
 
-                    <div className="flex flex-col gap-2 min-w-0 pt-0.5">
-                      <div className="flex items-center justify-between gap-2.5 pt-1 border-t border-[var(--border-subcard)] min-w-0">
-                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                          <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                            <div
-                              className="h-full rounded-full transition-all duration-500"
-                              style={{ width: `${progressPct}%`, backgroundColor: cardColor }}
-                            />
-                          </div>
-                          <span className="typo-badge font-mono font-bold tabular-nums shrink-0" style={{ color: cardColor }}>
-                            {progressPct}%
-                          </span>
+                    <div className="flex items-center justify-between gap-2.5 pt-1.5 mt-0.5 border-t border-[var(--border-subcard)] min-w-0">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-500"
+                            style={{ width: `${progressPct}%`, backgroundColor: cardColor }}
+                          />
                         </div>
-                        <span
-                          className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 group-hover:translate-x-0.5 transition-transform"
-                          style={{ color: cardColor }}
-                        >
-                          <span>Chi tiết Case Study</span>
-                          <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
+                        <span className="typo-badge font-mono font-bold tabular-nums shrink-0" style={{ color: cardColor }}>
+                          {progressPct}%
                         </span>
                       </div>
+                      <span
+                        className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 group-hover:translate-x-0.5 transition-transform"
+                        style={{ color: cardColor }}
+                      >
+                        <span>Chi tiết Case Study</span>
+                        <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
+                      </span>
                     </div>
                   </div>
                 </motion.article>

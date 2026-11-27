@@ -790,8 +790,7 @@ export const PullCord: React.FC<PullCordProps> = ({
   const isGlowDisabledTheme =
     cardStyle === 'neumorphism-beyond' ||
     cardStyle === 'dark-neumorphism-beyond' ||
-    cardStyle === 'frost-ice-neu' ||
-    cardStyle === 'dark-frost-ice-neu';
+    cardStyle === 'frost-ice-neu';
 
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]
@@ -810,17 +809,13 @@ export const PullCord: React.FC<PullCordProps> = ({
         backgroundColor:
           cardStyle === 'frost-ice-neu'
             ? '#5B57E8'
-            : cardStyle === 'dark-frost-ice-neu'
-              ? '#6E6AF6'
-              : isGlowDisabledTheme
-                ? '#4973FF'
-                : activeBulbStop.core,
+            : isGlowDisabledTheme
+              ? '#4973FF'
+              : activeBulbStop.core,
         boxShadow: isGlowDisabledTheme
           ? cardStyle === 'frost-ice-neu'
             ? '-2px -2px 5px rgba(255, 255, 255, 0.85), 3px 3px 7px rgba(91, 87, 232, 0.38)'
-            : cardStyle === 'dark-frost-ice-neu'
-              ? '-2px -2px 5px rgba(38, 52, 74, 0.65), 3px 3px 7px rgba(8, 12, 22, 0.75)'
-              : '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
+            : '2px 2px 5px rgba(148, 163, 184, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.34)'
           : `${activeBulbStop.shadow}, 0 0 0 2px ${activeBulbStop.ring}`,
         transition: 'background-color 900ms ease, box-shadow 900ms ease, opacity 300ms ease',
       }

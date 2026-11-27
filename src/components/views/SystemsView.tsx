@@ -1905,21 +1905,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               className="w-[18px] h-[18px] shrink-0"
                               style={{ color: accent }}
                             />
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-1.5">
-                                <span
-                                  className="px-1.5 py-0.5 rounded typo-badge font-mono font-bold"
-                                  style={{
-                                    background: isLight ? meta.tintBgLight : meta.tintBgDark,
-                                    color: accent,
-                                  }}
-                                >
-                                  {item.abbr}
-                                </span>
-                                <span className="font-semibold text-[var(--text-primary)] truncate">
-                                  {isEn ? item.nameEn : item.nameVi}
-                                </span>
-                              </div>
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <span
+                                className="px-1.5 py-0.5 rounded typo-badge font-mono font-bold"
+                                style={{
+                                  background: isLight ? meta.tintBgLight : meta.tintBgDark,
+                                  color: accent,
+                                }}
+                              >
+                                {item.abbr}
+                              </span>
+                              <span className="font-semibold text-[var(--text-primary)] truncate">
+                                {isEn ? item.nameEn : item.nameVi}
+                              </span>
                             </div>
                           </div>
                         </td>
@@ -2206,7 +2204,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </div>
                       )}
 
-                      {/* 3-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image), Bottom (Full Vietnamese Name) */}
+                      {/* 2-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image) */}
                       <div
                         className={cn(
                           'system-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0 transition-opacity duration-200',
@@ -2225,7 +2223,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               className="font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 truncate transition-colors duration-300"
                               data-card-title="true"
                               style={{ color: primaryInk }}
-                              title={item.abbr}
+                              title={systemFullName}
                             >
                               {item.abbr}
                             </h3>
@@ -2243,7 +2241,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         <div className="system-card-middle flex-1 min-w-0 w-full">
                           <div className="min-w-0 flex items-center">
                             <p
-                              className="system-desc-text m-0 font-normal leading-[1.52] text-[13px] line-clamp-4 break-words text-left transition-colors duration-300"
+                              className="system-desc-text m-0 font-normal leading-[1.52] text-[13px] line-clamp-5 break-words text-left transition-colors duration-300"
                               style={{ color: secondaryInk }}
                               title={localizedDesc}
                             >
@@ -2290,20 +2288,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               className="relative z-10 w-full h-full object-contain p-0 m-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-300"
                             />
                           </div>
-                        </div>
-
-                        {/* BOTTOM: Tên đầy đủ Tiếng Việt (đã xóa nút Chi tiết) */}
-                        <div
-                          className="mt-auto pt-2.5 flex items-center justify-start gap-2 min-w-0 shrink-0 transition-colors duration-300"
-                          style={{ borderTop: `1px solid ${dividerBorder}` }}
-                        >
-                          <h4
-                            className="font-play text-[13px] font-bold m-0 leading-snug line-clamp-1 min-w-0 flex-1 text-left transition-colors duration-300"
-                            style={{ color: primaryInk }}
-                            title={systemFullName}
-                          >
-                            {systemFullName}
-                          </h4>
                         </div>
                       </div>
                     </article>
@@ -2368,19 +2352,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         />
                       </div>
 
-                      <div className="min-w-0 flex-1">
-                        <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: expandedAccent }}>
-                          <WebIcon name={expandedMeta.iconName} className="w-5 h-5 shrink-0" style={{ color: expandedAccent }} />
-                          <h2
-                            className="typo-h4 sm:typo-h3 card-title-synced font-play font-bold tracking-tight truncate m-0"
-                            data-card-title="true"
-                            style={{ color: expandedAccent }}
-                          >
-                            {isEn
-                              ? expandedSystem.nameEn || expandedSystem.name
-                              : expandedSystem.nameVi || expandedSystem.name}
-                          </h2>
-                        </div>
+                      <div className="card-header-sync flex items-center gap-2 min-w-0 flex-1" style={{ color: expandedAccent }}>
+                        <WebIcon name={expandedMeta.iconName} className="w-5 h-5 shrink-0" style={{ color: expandedAccent }} />
+                        <h2
+                          className="typo-h4 sm:typo-h3 card-title-synced font-play font-bold tracking-tight truncate m-0"
+                          data-card-title="true"
+                          style={{ color: expandedAccent }}
+                        >
+                          {isEn
+                            ? expandedSystem.nameEn || expandedSystem.name
+                            : expandedSystem.nameVi || expandedSystem.name}
+                        </h2>
                       </div>
                     </div>
 
@@ -2413,355 +2395,352 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     </div>
                   </div>
 
-                  {/* Body Expanded Card */}
+                  {/* Body Expanded Card — Responsive Bento Grid (Mobile 1 col / Tablet 2 cols / Desktop 4 cols) */}
                   <div
                     ref={expandedBodyRef}
-                    className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px] flex flex-col gap-[15px]"
+                    className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px]"
                   >
-                    {/* Hàng 1: 4 Thẻ KPI Trọng Tâm (Icon bỏ đóng khung & đặt cùng hàng với chỉ số) */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-[15px] items-start shrink-0">
+                    <div className="sys-bento-grid">
+                      {/* BENTO TILE 1 (Full Row): 4 Chỉ Số KPI Trọng Tâm */}
                       <div
                         data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
+                        className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3"
                       >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Activity
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                            style={{ color: expandedAccent }}
-                            title={expandedSystem.metrics}
-                          >
-                            {expandedSystem.metrics}
-                          </div>
-                        </div>
-                        <div className="typo-caption text-[var(--text-secondary)] truncate">
-                          {isEn ? 'Core Performance' : 'Hiệu năng cốt lõi'}
-                        </div>
-                      </div>
-
-                      <div
-                        data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
-                      >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Server
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                            style={{ color: expandedAccent }}
-                            title={expandedTech.slaCommitment}
-                          >
-                            {expandedTech.slaCommitment}
-                          </div>
-                        </div>
-                        <div className="typo-caption text-[var(--text-secondary)] truncate">
-                          {isEn ? 'SLA Commitment' : 'Cam kết SLA'}
-                        </div>
-                      </div>
-
-                      <div
-                        data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
-                      >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <Users
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                            style={{ color: expandedAccent }}
-                          >
-                            ~{expandedTech.baseOnlineUsers}+{' '}
-                            {isEn
-                              ? expandedTech.onlineRoleLabelEn
-                              : expandedTech.onlineRoleLabel}
-                          </div>
-                        </div>
-                        <div className="typo-caption text-[var(--text-secondary)] truncate">
-                          {isEn ? 'Active Concurrency' : 'Quy mô trực tuyến'}
-                        </div>
-                      </div>
-
-                      <div
-                        data-subcard="true"
-                        className="system-card-sub rounded-2xl p-3 flex flex-col gap-1 h-fit min-w-0"
-                      >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <ShieldCheck
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: expandedAccent }}
-                          />
-                          <div
-                            className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                            style={{ color: expandedAccent }}
-                            title={expandedTech.isoSecurity}
-                          >
-                            {expandedTech.isoSecurity}
-                          </div>
-                        </div>
-                        <div className="typo-caption text-[var(--text-secondary)] truncate">
-                          {isEn ? 'Security Compliance' : 'Chuẩn bảo mật'}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Drawer QR Truy cập nhanh (Bật khi nhấn QR Truy cập) */}
-                    {isQrOpen && (
-                      <div
-                        data-subcard="true"
-                        className="system-card-sub rounded-2xl p-[15px] flex flex-col sm:flex-row items-center gap-[15px] h-fit border"
-                        style={{
-                          borderColor: isLeatherTheme
-                            ? 'var(--border-subcard)'
-                            : isLight
-                              ? expandedMeta.borderLight
-                              : expandedMeta.borderDark,
-                        }}
-                      >
-                        <div
-                          className="w-28 h-28 rounded-xl bg-white p-1.5 border shrink-0 flex items-center justify-center shadow-xs"
-                          style={{ borderColor: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
-                        >
-                          {qrDataUrl ? (
-                            <img
-                              src={qrDataUrl}
-                              alt={`QR ${expandedSystem.abbr}`}
-                              loading="lazy"
-                              decoding="async"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : (
-                            <QrCode className="w-10 h-10 text-slate-400" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0 flex flex-col gap-2 text-left">
-                          <div className="flex items-center justify-between gap-2">
-                            <h3 className="typo-h4 subcard-header-sync subcard-title-synced font-bold m-0 text-[var(--text-primary)] flex items-center gap-2" data-subcard-title="true">
-                              <QrCode className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
-                              <span>
-                                {isEn
-                                  ? `Quick QR Portal Access — ${expandedSystem.abbr}`
-                                  : `Mã QR truy cập nhanh — ${expandedSystem.abbr}`}
-                              </span>
-                            </h3>
-                            <button
-                              type="button"
-                              onClick={() => setIsQrOpen(false)}
-                              className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                            >
-                              {isEn ? 'Close' : 'Đóng'}
-                            </button>
-                          </div>
-                          <p className="typo-caption text-[var(--text-secondary)] m-0">
-                            {expandedSystem.url
-                              ? isEn
-                                ? 'Scan on mobile/tablet to launch the live system portal directly.'
-                                : 'Quét bằng điện thoại hoặc máy tính bảng để mở trực tiếp cổng vận hành hệ thống.'
-                              : isEn
-                                ? 'BI Dashboard live domain is under final integration; QR links to the Systems Hub.'
-                                : 'Cổng BI Dashboard đang hoàn thiện tích hợp API; mã QR liên kết tới trang Hệ sinh thái.'}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <code className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subcard)] typo-caption font-mono text-[var(--text-primary)] truncate max-w-full">
-                              {expandedSystem.url || 'https://powerservice.one (Systems Hub)'}
-                            </code>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleCopyPortalUrl(
-                                  expandedSystem.url || window.location.href
-                                )
-                              }
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)] hover:bg-[var(--bg-subcard)] cursor-pointer"
-                            >
-                              {copiedQrUrl ? (
-                                <Check className="w-3 h-3 text-emerald-500" />
-                              ) : (
-                                <Copy className="w-3 h-3" />
-                              )}
-                              <span>{copiedQrUrl ? (isEn ? 'Copied' : 'Đã chép') : isEn ? 'Copy URL' : 'Sao chép'}</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Drawer So sánh Song song (Bật khi nhấn So sánh) */}
-                    {isCompareOpen && compareTargetSystem && (() => {
-                      const targetTech =
-                        SYSTEM_TECH_SPECS_MAP[compareTargetSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp;
-                      const pairFlow = getRealtimeFlowDescription(
-                        expandedSystem,
-                        compareTargetSystem,
-                        isEn
-                      );
-                      return (
-                        <div
-                          data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit border"
-                        >
-                          <div className="flex flex-wrap items-center justify-between gap-2">
-                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
-                              <ArrowLeftRight className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                              <h3 className="typo-h4 subcard-title-synced font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                                {isEn
-                                  ? `Side-by-Side Comparison: ${expandedSystem.abbr} vs ${compareTargetSystem.abbr}`
-                                  : `So sánh trực tiếp: ${expandedSystem.abbr} ⇄ ${compareTargetSystem.abbr}`}
-                              </h3>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => setIsCompareOpen(false)}
-                              className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                            >
-                              {isEn ? 'Hide Compare' : 'Ẩn so sánh'}
-                            </button>
-                          </div>
-
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            <span className="typo-caption text-[var(--text-secondary)] mr-1">
-                              {isEn ? 'Compare with:' : 'Chọn phân hệ đối chiếu:'}
-                            </span>
-                            {orderedAllSystems
-                              .filter((s) => s.id !== expandedSystem.id)
-                              .map((cand) => {
-                                const isTarget = cand.id === compareTargetSystem.id;
-                                return (
-                                  <button
-                                    key={cand.id}
-                                    type="button"
-                                    onClick={() => {
-                                      SoundEngine.playTap();
-                                      setCompareTargetId(cand.id);
-                                    }}
-                                    className={cn(
-                                      'px-2.5 py-0.5 rounded-full typo-badge font-bold border transition cursor-pointer',
-                                      isTarget
-                                        ? 'text-white border-transparent shadow-xs'
-                                        : 'bg-[var(--bg-card)]/80 border-[var(--border-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                                    )}
-                                    style={
-                                      isTarget
-                                        ? {
-                                            background:
-                                              SYSTEM_DESIGN_MAP[cand.id]?.gradient ||
-                                              expandedMeta.gradient,
-                                          }
-                                        : undefined
-                                    }
-                                  >
-                                    {cand.abbr}
-                                  </button>
-                                );
-                              })}
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-[15px] items-start">
-                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5 h-fit">
-                              <span
-                                className="typo-body-sm font-bold"
+                        <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <div className="flex items-center gap-1.5 min-w-0 w-full">
+                              <Activity
+                                className="w-4 h-4 shrink-0"
                                 style={{ color: expandedAccent }}
+                              />
+                              <div
+                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
+                                style={{ color: expandedAccent }}
+                                title={expandedSystem.metrics}
                               >
-                                {expandedSystem.abbr} —{' '}
-                                {isEn ? expandedSystem.nameEn : expandedSystem.nameVi}
-                              </span>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong>{' '}
                                 {expandedSystem.metrics}
                               </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>DB:</strong> {expandedTech.database}
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>API:</strong> {expandedTech.apiProtocol}
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>ISO:</strong> {expandedTech.isoSecurity}
-                              </div>
                             </div>
-
-                            <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70 flex flex-col gap-1.5 h-fit">
-                              <div className="flex items-center justify-between gap-2">
-                                <span
-                                  className="typo-body-sm font-bold"
-                                  style={{ color: getAccentColor(compareTargetSystem.id) }}
-                                >
-                                  {compareTargetSystem.abbr} —{' '}
-                                  {isEn
-                                    ? compareTargetSystem.nameEn
-                                    : compareTargetSystem.nameVi}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => switchExpandedSystem(compareTargetSystem)}
-                                  className="typo-badge font-bold text-[var(--color-primary)] hover:underline cursor-pointer shrink-0"
-                                >
-                                  {isEn ? 'Switch →' : 'Mở thẻ này →'}
-                                </button>
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong>{' '}
-                                {compareTargetSystem.metrics}
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>DB:</strong> {targetTech.database}
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>API:</strong> {targetTech.apiProtocol}
-                              </div>
-                              <div className="typo-caption text-[var(--text-secondary)]">
-                                <strong>ISO:</strong> {targetTech.isoSecurity}
-                              </div>
-                            </div>
+                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
+                              {isEn ? 'Core Performance' : 'Hiệu năng cốt lõi'}
+                            </span>
                           </div>
 
-                          <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/60 flex flex-col gap-1">
-                            <div className="flex items-center justify-between gap-2 flex-wrap">
-                              <span className="typo-caption font-bold text-[var(--text-primary)]">
-                                {isEn ? 'Real-Time Data Bridge:' : 'Cơ chế đồng bộ dữ liệu trực tiếp:'}{' '}
-                                <span style={{ color: expandedAccent }}>{pairFlow.protocol}</span>
-                              </span>
-                              <span className="px-2 py-0.5 rounded-full typo-badge font-mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
-                                Latency ~{pairFlow.latency}
-                              </span>
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <div className="flex items-center gap-1.5 min-w-0 w-full">
+                              <Server
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <div
+                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
+                                style={{ color: expandedAccent }}
+                                title={expandedTech.slaCommitment}
+                              >
+                                {expandedTech.slaCommitment}
+                              </div>
                             </div>
-                            <p className="typo-caption text-[var(--text-secondary)] m-0 leading-relaxed">
-                              {pairFlow.payloadSummary}
-                            </p>
+                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
+                              {isEn ? 'SLA Commitment' : 'Cam kết SLA'}
+                            </span>
+                          </div>
+
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <div className="flex items-center gap-1.5 min-w-0 w-full">
+                              <Users
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <div
+                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
+                                style={{ color: expandedAccent }}
+                              >
+                                ~{expandedTech.baseOnlineUsers}+{' '}
+                                {isEn
+                                  ? expandedTech.onlineRoleLabelEn
+                                  : expandedTech.onlineRoleLabel}
+                              </div>
+                            </div>
+                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
+                              {isEn ? 'Active Concurrency' : 'Quy mô trực tuyến'}
+                            </span>
+                          </div>
+
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <div className="flex items-center gap-1.5 min-w-0 w-full">
+                              <ShieldCheck
+                                className="w-4 h-4 shrink-0"
+                                style={{ color: expandedAccent }}
+                              />
+                              <div
+                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
+                                style={{ color: expandedAccent }}
+                                title={expandedTech.isoSecurity}
+                              >
+                                {expandedTech.isoSecurity}
+                              </div>
+                            </div>
+                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
+                              {isEn ? 'Security Compliance' : 'Chuẩn bảo mật'}
+                            </span>
                           </div>
                         </div>
-                      );
-                    })()}
+                      </div>
 
-                    {/* Hàng 2: Lưới chi tiết 12 cột (Trái 7 cột: 3 thẻ tách biệt | Phải 5 cột: Hạ tầng kỹ thuật & Luồng đồng bộ) */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-[15px] items-start">
-                      {/* CỘT TRÁI (7/12): 3 THẺ TÁCH BIỆT (Tổng quan phân hệ, Tính năng trọng tâm, Hệ thống liên thông trực tiếp) */}
-                      <div className="lg:col-span-7 flex flex-col gap-[15px] h-fit min-w-0">
-                        {/* Thẻ 1: Tổng quan phân hệ (Media Video / Illustration + Mô tả) */}
+                      {/* OPTIONAL DRAWER BENTO TILE: QR Truy cập nhanh */}
+                      {isQrOpen && (
                         <div
-                          id="system-detail-overview-card"
                           data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3.5 h-fit min-w-0"
+                          className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3.5 sm:flex-row sm:items-center"
+                          style={{
+                            borderColor: isLeatherTheme
+                              ? 'var(--border-subcard)'
+                              : isLight
+                                ? expandedMeta.borderLight
+                                : expandedMeta.borderDark,
+                          }}
                         >
-                          {/* Media Video / Illustration + Mô tả */}
-                          <div className="grid grid-cols-1 md:grid-cols-12 gap-[15px] items-start min-w-0">
+                          <div
+                            className="w-28 h-28 rounded-[var(--radius-subcard,14px)] bg-white p-1.5 border shrink-0 flex items-center justify-center shadow-xs"
+                            style={{ borderColor: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
+                          >
+                            {qrDataUrl ? (
+                              <img
+                                src={qrDataUrl}
+                                alt={`QR ${expandedSystem.abbr}`}
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : (
+                              <QrCode className="w-10 h-10 text-slate-400" />
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0 flex flex-col gap-2 text-left">
+                            <div className="flex items-center justify-between gap-2 w-full">
+                              <h3
+                                className="typo-h4 subcard-header-sync subcard-title-synced font-bold m-0 text-[var(--text-primary)] flex items-center gap-2"
+                                data-subcard-title="true"
+                              >
+                                <QrCode className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                                <span>
+                                  {isEn
+                                    ? `Quick QR Portal Access — ${expandedSystem.abbr}`
+                                    : `Mã QR truy cập nhanh — ${expandedSystem.abbr}`}
+                                </span>
+                              </h3>
+                              <button
+                                type="button"
+                                onClick={() => setIsQrOpen(false)}
+                                className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+                              >
+                                {isEn ? 'Close' : 'Đóng'}
+                              </button>
+                            </div>
+                            <p className="typo-caption text-[var(--text-secondary)] m-0">
+                              {expandedSystem.url
+                                ? isEn
+                                  ? 'Scan on mobile/tablet to launch the live system portal directly.'
+                                  : 'Quét bằng điện thoại hoặc máy tính bảng để mở trực tiếp cổng vận hành hệ thống.'
+                                : isEn
+                                  ? 'BI Dashboard live domain is under final integration; QR links to the Systems Hub.'
+                                  : 'Cổng BI Dashboard đang hoàn thiện tích hợp API; mã QR liên kết tới trang Hệ sinh thái.'}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <code className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subcard)] typo-caption font-mono text-[var(--text-primary)] truncate max-w-full">
+                                {expandedSystem.url || 'https://powerservice.one (Systems Hub)'}
+                              </code>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleCopyPortalUrl(
+                                    expandedSystem.url || window.location.href
+                                  )
+                                }
+                                className="sys-bento-action-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)] hover:bg-[var(--bg-subcard)] cursor-pointer"
+                              >
+                                {copiedQrUrl ? (
+                                  <Check className="w-3 h-3 text-emerald-500" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                                <span>
+                                  {copiedQrUrl ? (isEn ? 'Copied' : 'Đã chép') : isEn ? 'Copy URL' : 'Sao chép'}
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* OPTIONAL DRAWER BENTO TILE: So sánh song song */}
+                      {isCompareOpen && compareTargetSystem && (() => {
+                        const targetTech =
+                          SYSTEM_TECH_SPECS_MAP[compareTargetSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp;
+                        const pairFlow = getRealtimeFlowDescription(
+                          expandedSystem,
+                          compareTargetSystem,
+                          isEn
+                        );
+                        return (
+                          <div
+                            data-subcard="true"
+                            className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3"
+                          >
+                            <div className="flex flex-wrap items-center justify-between gap-2 w-full">
+                              <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
+                                <ArrowLeftRight className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                                <h3 className="typo-h4 subcard-title-synced font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
+                                  {isEn
+                                    ? `Side-by-Side Comparison: ${expandedSystem.abbr} vs ${compareTargetSystem.abbr}`
+                                    : `So sánh trực tiếp: ${expandedSystem.abbr} ⇄ ${compareTargetSystem.abbr}`}
+                                </h3>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setIsCompareOpen(false)}
+                                className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+                              >
+                                {isEn ? 'Hide Compare' : 'Ẩn so sánh'}
+                              </button>
+                            </div>
+
+                            <div className="flex items-center gap-1.5 flex-wrap w-full">
+                              <span className="typo-caption text-[var(--text-secondary)] mr-1">
+                                {isEn ? 'Compare with:' : 'Chọn phân hệ đối chiếu:'}
+                              </span>
+                              {orderedAllSystems
+                                .filter((s) => s.id !== expandedSystem.id)
+                                .map((cand) => {
+                                  const isTarget = cand.id === compareTargetSystem.id;
+                                  return (
+                                    <button
+                                      key={cand.id}
+                                      type="button"
+                                      onClick={() => {
+                                        SoundEngine.playTap();
+                                        setCompareTargetId(cand.id);
+                                      }}
+                                      className={cn(
+                                        'sys-bento-action-btn px-2.5 py-0.5 rounded-full typo-badge font-bold border cursor-pointer',
+                                        isTarget
+                                          ? 'text-white border-transparent shadow-xs'
+                                          : 'bg-[var(--bg-card)]/80 border-[var(--border-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                                      )}
+                                      style={
+                                        isTarget
+                                          ? {
+                                              background:
+                                                SYSTEM_DESIGN_MAP[cand.id]?.gradient ||
+                                                expandedMeta.gradient,
+                                            }
+                                          : undefined
+                                      }
+                                    >
+                                      {cand.abbr}
+                                    </button>
+                                  );
+                                })}
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full items-stretch">
+                              <div className="sys-bento-subtile p-3 gap-1.5">
+                                <span className="typo-body-sm font-bold" style={{ color: expandedAccent }}>
+                                  {expandedSystem.abbr} — {isEn ? expandedSystem.nameEn : expandedSystem.nameVi}
+                                </span>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong> {expandedSystem.metrics}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>DB:</strong> {expandedTech.database}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>API:</strong> {expandedTech.apiProtocol}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>ISO:</strong> {expandedTech.isoSecurity}
+                                </div>
+                              </div>
+
+                              <div className="sys-bento-subtile p-3 gap-1.5">
+                                <div className="flex items-center justify-between gap-2 w-full">
+                                  <span
+                                    className="typo-body-sm font-bold"
+                                    style={{ color: getAccentColor(compareTargetSystem.id) }}
+                                  >
+                                    {compareTargetSystem.abbr} —{' '}
+                                    {isEn ? compareTargetSystem.nameEn : compareTargetSystem.nameVi}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => switchExpandedSystem(compareTargetSystem)}
+                                    className="typo-badge font-bold text-[var(--color-primary)] hover:underline cursor-pointer shrink-0"
+                                  >
+                                    {isEn ? 'Switch →' : 'Mở thẻ này →'}
+                                  </button>
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong> {compareTargetSystem.metrics}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>DB:</strong> {targetTech.database}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>API:</strong> {targetTech.apiProtocol}
+                                </div>
+                                <div className="typo-caption text-[var(--text-secondary)]">
+                                  <strong>ISO:</strong> {targetTech.isoSecurity}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="sys-bento-subtile p-3 gap-1 w-full">
+                              <div className="flex items-center justify-between gap-2 flex-wrap w-full">
+                                <span className="typo-caption font-bold text-[var(--text-primary)]">
+                                  {isEn ? 'Real-Time Data Bridge:' : 'Cơ chế đồng bộ dữ liệu trực tiếp:'}{' '}
+                                  <span style={{ color: expandedAccent }}>{pairFlow.protocol}</span>
+                                </span>
+                                <span className="px-2 py-0.5 rounded-full typo-badge font-mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
+                                  Latency ~{pairFlow.latency}
+                                </span>
+                              </div>
+                              <p className="typo-caption text-[var(--text-secondary)] m-0 leading-relaxed">
+                                {pairFlow.payloadSummary}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* BENTO TILE 2 (Hero Overview & Live Media: spans 2 cols tablet/desktop) */}
+                      <div
+                        id="system-detail-overview-card"
+                        data-subcard="true"
+                        className="sys-bento-tile sys-bento-tile--media md:col-span-2 lg:col-span-2 gap-3.5 justify-between"
+                      >
+                        <div className="w-full flex flex-col gap-3 min-w-0">
+                          <div className="w-full flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
+                            <h3
+                              className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 flex items-center gap-2"
+                              data-subcard-title="true"
+                              style={{ color: expandedAccent }}
+                            >
+                              <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                              <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
+                            </h3>
+                            <span className="typo-badge font-mono text-[var(--text-muted)] truncate max-w-[180px]">
+                              {expandedSystem.abbr}
+                            </span>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start w-full min-w-0">
                             {(expandedSystem.videoUrl ||
                               expandedMeta.illustrationSrc ||
                               expandedSystem.imageUrl) && (
                               <div
                                 data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
-                                style={{
-                                  padding: '5px',
-                                  borderRadius: 'var(--radius-card, 14px)',
-                                }}
                                 className={cn(
-                                  'md:col-span-5 relative w-full aspect-video overflow-hidden min-w-0 p-[5px] box-border',
+                                  'sys-bento-media-frame sm:col-span-5 relative aspect-video p-1 box-border',
                                   expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
                                 )}
                               >
@@ -2852,92 +2831,137 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               </div>
                             )}
 
-                            <div
+                            <p
                               className={cn(
-                                'flex flex-col justify-start gap-2 h-fit min-w-0',
+                                'typo-body-sm text-[var(--text-primary)] leading-relaxed m-0 min-w-0',
                                 expandedSystem.videoUrl ||
                                   expandedMeta.illustrationSrc ||
                                   expandedSystem.imageUrl
-                                  ? 'md:col-span-7'
-                                  : 'md:col-span-12'
+                                  ? 'sm:col-span-7'
+                                  : 'sm:col-span-12'
                               )}
                             >
-                              <div>
-                                <h3
-                                  className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 mb-1 flex items-center gap-2"
-                                  data-subcard-title="true"
-                                  style={{ color: expandedAccent }}
-                                >
-                                  <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                                  <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
-                                </h3>
-                                <p className="typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                                  {isEn
-                                    ? expandedSystem.descEn || expandedSystem.description
-                                    : expandedSystem.descVi || expandedSystem.description}
-                                </p>
-                              </div>
-
-                              <div className="typo-badge font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
-                                {expandedSystem.fullName}
-                              </div>
-                            </div>
+                              {isEn
+                                ? expandedSystem.descEn || expandedSystem.description
+                                : expandedSystem.descVi || expandedSystem.description}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Thẻ 2: Tính năng trọng tâm */}
-                        <div
-                          id="system-detail-features-card"
-                          data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
-                        >
-                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
-                            <Activity className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                            <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                              {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
-                            </h3>
-                          </div>
-                          <ul className="space-y-2 m-0 p-0 list-none">
-                            {(expandedSystem.featuresVi || expandedSystem.features || []).map(
-                              (feat, fIdx) => (
-                                <li
-                                  key={fIdx}
-                                  className="flex items-start gap-2.5 typo-body-sm text-[var(--text-primary)] leading-relaxed"
-                                >
-                                  <span
-                                    className="w-5 h-5 rounded-full text-white typo-badge font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs"
-                                    style={{ background: expandedMeta.gradient }}
-                                  >
-                                    {fIdx + 1}
-                                  </span>
-                                  <span className="min-w-0 flex-1">{feat}</span>
-                                </li>
-                              )
-                            )}
-                          </ul>
+                        <div className="w-full typo-badge font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
+                          {expandedSystem.fullName}
+                        </div>
+                      </div>
+
+                      {/* BENTO TILE 3 (Technical Stack 2x2 Sub-Cards: 1 col tablet / 2 cols desktop) */}
+                      <div
+                        data-subcard="true"
+                        className="sys-bento-tile md:col-span-1 lg:col-span-2 gap-3 justify-between"
+                      >
+                        <div className="subcard-header-sync w-full flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
+                          <Server className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                          <h3
+                            className="typo-h4 subcard-title-synced font-play font-bold m-0"
+                            data-subcard-title="true"
+                            style={{ color: expandedAccent }}
+                          >
+                            {isEn ? 'Technical Architecture' : 'Hạ tầng kỹ thuật'}
+                          </h3>
                         </div>
 
-                        {/* Thẻ 3: Hệ thống liên thông (Proposal 4: Direct Inter-system Navigation) */}
-                        <div
-                          id="system-detail-connections-card"
-                          data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
-                        >
-                          <div className="flex items-center justify-between gap-2 flex-wrap pb-2 border-b border-[var(--border-subcard)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full flex-1">
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <span className="typo-label font-mono text-[var(--text-secondary)]">
+                              {isEn ? 'Database Stack' : 'Cơ sở dữ liệu (DB)'}
+                            </span>
+                            <span className="typo-body-sm font-bold text-[var(--text-primary)] break-words">
+                              {expandedTech.database}
+                            </span>
+                          </div>
+
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <span className="typo-label font-mono text-[var(--text-secondary)]">
+                              {isEn ? 'API & Streaming Protocol' : 'Giao thức API kết nối'}
+                            </span>
+                            <span className="typo-body-sm font-bold text-[var(--color-primary)] break-words">
+                              {expandedTech.apiProtocol}
+                            </span>
+                          </div>
+
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <span className="typo-label font-mono text-[var(--text-secondary)]">
+                              {isEn ? 'Service Level & Availability' : 'Cam kết chất lượng (SLA)'}
+                            </span>
+                            <span className="typo-body-sm font-bold text-emerald-700 dark:text-emerald-300 break-words">
+                              {expandedTech.slaCommitment}
+                            </span>
+                          </div>
+
+                          <div className="sys-bento-subtile p-3 gap-1">
+                            <span className="typo-label font-mono text-[var(--text-secondary)]">
+                              {isEn ? 'Compliance & Encryption' : 'Bảo mật & Tuân thủ ISO'}
+                            </span>
+                            <span className="typo-body-sm font-bold text-[var(--text-primary)] break-words">
+                              {expandedTech.isoSecurity}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* BENTO TILE 4 (Core Capabilities & Features Sub-Cards: 1 col tablet / 2 cols desktop) */}
+                      <div
+                        id="system-detail-features-card"
+                        data-subcard="true"
+                        className="sys-bento-tile md:col-span-1 lg:col-span-2 gap-3"
+                      >
+                        <div className="subcard-header-sync w-full flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
+                          <Activity className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
+                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
+                            {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
+                          </h3>
+                        </div>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full m-0 p-0 list-none">
+                          {(expandedSystem.featuresVi || expandedSystem.features || []).map(
+                            (feat, fIdx) => (
+                              <li
+                                key={fIdx}
+                                className="sys-bento-subtile p-2.5 flex-row items-start gap-2.5 typo-body-sm text-[var(--text-primary)] leading-relaxed"
+                              >
+                                <span
+                                  className="w-5 h-5 rounded-full text-white typo-badge font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs"
+                                  style={{ background: expandedMeta.gradient }}
+                                >
+                                  {fIdx + 1}
+                                </span>
+                                <span className="min-w-0 flex-1">{feat}</span>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+
+                      {/* BENTO TILE 5 (Connected Systems + Omnichannel Architecture Hub: 2 cols tablet / 2 cols desktop) */}
+                      <div
+                        id="system-detail-connections-card"
+                        data-subcard="true"
+                        className="sys-bento-tile md:col-span-2 lg:col-span-2 gap-3 justify-between"
+                      >
+                        <div className="w-full flex flex-col gap-3 min-w-0">
+                          <div className="w-full flex items-center justify-between gap-2 flex-wrap pb-2 border-b border-[var(--border-subcard)]">
                             <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
                               <Network className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
                               <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                                {isEn ? 'Connected Systems' : 'Hệ thống liên thông trực tiếp'}
+                                {isEn ? 'Connected Systems & Ecosystem' : 'Hệ thống liên thông & Kiến trúc ESB'}
                               </h3>
                             </div>
                             <span className="typo-caption text-[var(--text-muted)]">
                               {isEn
                                 ? 'Click to inspect sync or jump'
-                                : 'Chọn để xem luồng dữ liệu hoặc chuyển nhanh'}
+                                : 'Chọn để xem luồng dữ liệu'}
                             </span>
                           </div>
 
-                          <div className="flex flex-wrap gap-2 mb-2.5">
+                          <div className="flex flex-wrap gap-2 w-full">
                             {(SYSTEM_CONNECTIONS_MAP[expandedSystem.id] || ['sdp', 'crm']).map(
                               (connId) => {
                                 const connSys = orderedAllSystems.find((s) => s.id === connId);
@@ -2953,7 +2977,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                       setSelectedConnectionId(connId);
                                     }}
                                     className={cn(
-                                      'inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-caption font-bold border transition cursor-pointer',
+                                      'sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-caption font-bold border cursor-pointer',
                                       isSel
                                         ? 'text-white border-transparent shadow-sm'
                                         : 'bg-[var(--bg-card)]/85 border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)]/50'
@@ -2961,9 +2985,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     style={isSel ? { background: connMeta.gradient } : undefined}
                                   >
                                     <WebIcon name={connMeta.iconName} className="w-3.5 h-3.5 shrink-0" />
-                                    <span>
-                                      {connSys.abbr}
-                                    </span>
+                                    <span>{connSys.abbr}</span>
                                   </button>
                                 );
                               }
@@ -2982,8 +3004,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 isEn
                               );
                               return (
-                                <div className="p-3 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/65 flex flex-col gap-1.5">
-                                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                                <div className="sys-bento-subtile p-3 gap-1.5 w-full">
+                                  <div className="flex items-center justify-between gap-2 flex-wrap w-full">
                                     <span className="typo-caption font-bold text-[var(--text-primary)]">
                                       {expandedSystem.abbr} ⇄ {connTarget.abbr} ·{' '}
                                       <span style={{ color: expandedAccent }}>
@@ -2994,7 +3016,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     <button
                                       type="button"
                                       onClick={() => switchExpandedSystem(connTarget)}
-                                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold text-white cursor-pointer hover:brightness-110 transition"
+                                      className="sys-bento-action-btn inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold text-white cursor-pointer hover:brightness-110"
                                       style={{
                                         background:
                                           SYSTEM_DESIGN_MAP[connTarget.id]?.gradient ||
@@ -3015,92 +3037,27 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 </div>
                               );
                             })()}
-                        </div>
-                      </div>
 
-                      {/* CỘT PHẢI (5/12): Hạ tầng kỹ thuật & Tích hợp Hệ sinh thái */}
-                      <div className="lg:col-span-5 flex flex-col gap-[15px] h-fit min-w-0">
-                        <div
-                          data-subcard="true"
-                          className="system-card-sub rounded-2xl p-[15px] flex flex-col gap-3 h-fit min-w-0"
-                        >
-                          <div className="subcard-header-sync flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
-                            <Server className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                            <h3
-                              className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                              data-subcard-title="true"
-                              style={{ color: expandedAccent }}
-                            >
-                              {isEn ? 'Technical Architecture' : 'Hạ tầng kỹ thuật'}
-                            </h3>
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-2.5">
-                            <div className="p-2.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70">
-                              <span className="typo-label font-mono text-[var(--text-secondary)] block">
-                                {isEn ? 'Database Stack' : 'Cơ sở dữ liệu (DB)'}
-                              </span>
-                              <span className="typo-body-sm font-bold text-[var(--text-primary)] mt-0.5 block break-words">
-                                {expandedTech.database}
-                              </span>
-                            </div>
-
-                            <div className="p-2.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70">
-                              <span className="typo-label font-mono text-[var(--text-secondary)] block">
-                                {isEn ? 'API & Streaming Protocol' : 'Giao thức API kết nối'}
-                              </span>
-                              <span className="typo-body-sm font-bold text-[var(--color-primary)] mt-0.5 block break-words">
-                                {expandedTech.apiProtocol}
-                              </span>
-                            </div>
-
-                            <div className="p-2.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70">
-                              <span className="typo-label font-mono text-[var(--text-secondary)] block">
-                                {isEn ? 'Service Level & Availability' : 'Cam kết chất lượng (SLA)'}
-                              </span>
-                              <span className="typo-body-sm font-bold text-emerald-700 dark:text-emerald-300 mt-0.5 block break-words">
-                                {expandedTech.slaCommitment}
-                              </span>
-                            </div>
-
-                            <div className="p-2.5 rounded-xl border border-[var(--border-subcard)] bg-[var(--bg-card)]/70">
-                              <span className="typo-label font-mono text-[var(--text-secondary)] block">
-                                {isEn ? 'Compliance & Encryption' : 'Bảo mật & Tuân thủ ISO'}
-                              </span>
-                              <span className="typo-body-sm font-bold text-[var(--text-primary)] mt-0.5 block break-words">
-                                {expandedTech.isoSecurity}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Tinted Ecosystem Hub Summary Card */}
-                        <div
-                          data-subcard="true"
-                          className="rounded-2xl p-[15px] border flex flex-col gap-3 h-fit min-w-0"
-                          style={{
-                            backgroundColor: isLeatherTheme
-                              ? undefined
-                              : isLight
-                                ? expandedMeta.tintBgLight
-                                : expandedMeta.tintBgDark,
-                            borderColor: isLeatherTheme
-                              ? 'var(--border-subcard)'
-                              : isLight
-                                ? expandedMeta.borderLight
-                                : expandedMeta.borderDark,
-                          }}
-                        >
-                          <div>
-                            <div className="subcard-header-sync flex items-center gap-2 mb-1.5" style={{ color: expandedAccent }}>
-                              <WebIcon name="git-merge" className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                              <h3
-                                className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                                data-subcard-title="true"
-                                style={{ color: expandedAccent }}
-                              >
+                          <div
+                            className="sys-bento-subtile p-3 gap-1 w-full"
+                            style={{
+                              backgroundColor: isLeatherTheme
+                                ? undefined
+                                : isLight
+                                  ? expandedMeta.tintBgLight
+                                  : expandedMeta.tintBgDark,
+                              borderColor: isLeatherTheme
+                                ? 'var(--border-subcard)'
+                                : isLight
+                                  ? expandedMeta.borderLight
+                                  : expandedMeta.borderDark,
+                            }}
+                          >
+                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
+                              <WebIcon name="git-merge" className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
+                              <span className="typo-caption font-bold" style={{ color: expandedAccent }}>
                                 {isEn ? 'Omnichannel Architecture' : 'Kiến trúc kết nối toàn hệ sinh thái'}
-                              </h3>
+                              </span>
                             </div>
                             <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
                               {isEn
@@ -3108,34 +3065,34 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                 : `${expandedSystem.abbr} vận hành trong phân hệ ${expandedTech.ecosystemLabel}, liên thông dữ liệu thời gian thực với 11 phân hệ còn lại qua Enterprise Service Bus.`}
                             </p>
                           </div>
+                        </div>
 
-                          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-subcard)]/70">
+                        <div className="w-full flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-subcard)]/70">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              SoundEngine.playTechChimeExpand();
+                              setIsEcosystemDiagramOpen(true);
+                            }}
+                            className="sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold text-white shadow-sm cursor-pointer hover:brightness-110"
+                            style={{ background: expandedMeta.gradient }}
+                          >
+                            <WebIcon name="git-merge" className="w-3.5 h-3.5 text-white" />
+                            <span>
+                              {isEn ? 'Open Full Diagram' : 'Xem sơ đồ toàn hệ thống'}
+                            </span>
+                          </button>
+
+                          {expandedSystem.url && (
                             <button
                               type="button"
-                              onClick={() => {
-                                SoundEngine.playTechChimeExpand();
-                                setIsEcosystemDiagramOpen(true);
-                              }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold text-white shadow-sm cursor-pointer hover:brightness-110 transition"
-                              style={{ background: expandedMeta.gradient }}
+                              onClick={(e) => handleOpenExternalUrl(e, expandedSystem.url)}
+                              className="sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)]/85 text-[var(--text-primary)] cursor-pointer hover:bg-[var(--bg-card)]"
                             >
-                              <WebIcon name="git-merge" className="w-3.5 h-3.5 text-white" />
-                              <span>
-                                {isEn ? 'Open Full Diagram' : 'Xem sơ đồ toàn hệ thống'}
-                              </span>
+                              <span>{isEn ? 'Launch Website' : 'Truy cập Website'}</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
                             </button>
-
-                            {expandedSystem.url && (
-                              <button
-                                type="button"
-                                onClick={(e) => handleOpenExternalUrl(e, expandedSystem.url)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)]/85 text-[var(--text-primary)] cursor-pointer hover:bg-[var(--bg-card)] transition"
-                              >
-                                <span>{isEn ? 'Launch Website' : 'Truy cập Website'}</span>
-                                <ExternalLink className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>

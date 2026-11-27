@@ -351,8 +351,17 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
   const summaryText = course.result || course.desc;
   const isShelf = variant === 'shelf';
   const titleLen = cleanTitle.length;
-  const titleFontSize =
-    titleLen <= 14 ? '7.1cqw' : titleLen <= 19 ? '6.4cqw' : '5.7cqw';
+  const titleFontSize = isShelf
+    ? titleLen <= 14
+      ? '6.8cqw'
+      : titleLen <= 20
+        ? '6.0cqw'
+        : '5.2cqw'
+    : titleLen <= 14
+      ? '6.4cqw'
+      : titleLen <= 20
+        ? '5.7cqw'
+        : '5.0cqw';
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (onImageError) {
@@ -370,40 +379,41 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
 
   return (
     <div
-      className="education-book-cover relative flex size-full flex-col items-stretch justify-between select-none overflow-hidden box-border"
+      className="education-book-cover relative flex size-full flex-col items-stretch justify-between select-none overflow-hidden box-border text-white"
       style={{
-        background: 'transparent',
-        backgroundColor: 'transparent',
+        background: theme.shellBg,
         borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-        padding: '15px',
-        gap: isShelf ? '10px' : '12px',
+        padding: isShelf ? 'clamp(8px, 3.2cqw, 12px)' : 'clamp(10px, 3.6cqw, 14px)',
+        gap: isShelf ? 'clamp(7px, 2.4cqw, 10px)' : 'clamp(9px, 2.8cqw, 12px)',
+        boxShadow:
+          'inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(2, 6, 23, 0.24)',
         containerType: 'inline-size',
         fontFamily: BOOK_COVER_BODY_FONT,
-        color: 'var(--text-primary)',
+        color: '#FFFFFF',
       }}
     >
       {/* Realistic hardcover left French-groove hinge crease */}
       {showSpine && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 z-30 w-[3.6cqw]"
+          className="pointer-events-none absolute inset-y-0 left-0 z-30 w-[3.8cqw]"
           style={{
             background:
-              'linear-gradient(90deg, rgba(4, 10, 28, 0.24) 0%, rgba(4, 10, 28, 0.08) 42%, rgba(255, 255, 255, 0.16) 60%, transparent 100%)',
+              'linear-gradient(90deg, rgba(4, 10, 28, 0.34) 0%, rgba(4, 10, 28, 0.10) 44%, rgba(255, 255, 255, 0.24) 64%, transparent 100%)',
           }}
         />
       )}
 
       {showGlint && <div className="disc-glint" />}
 
-      {/* ================= TIER 1 (~56%): FRAMELESS FULL-BLEED HERO BANNER ================= */}
+      {/* ================= TIER 1 (~54%): FRAMELESS FULL-BLEED HERO BANNER ================= */}
       <div
-        className="education-book-cover-banner-frame relative z-10 w-full flex-[1.28_1_0%] min-h-0 overflow-hidden box-border"
+        className="education-book-cover-banner-frame relative z-10 w-full flex-[1.22_1_0%] min-h-0 overflow-hidden box-border"
         style={{
-          borderRadius: 'calc(max(4px, var(--radius-global, 14px) - 2px))',
-          border: 'none',
-          boxShadow: '0 10px 24px -10px rgba(2, 8, 28, 0.36)',
-          background: 'transparent',
+          borderRadius: 'calc(max(6px, var(--radius-global, 14px) - 3px))',
+          border: '1px solid rgba(255, 255, 255, 0.34)',
+          boxShadow: `0 12px 26px -12px ${theme.glowShadow}`,
+          background: theme.bottomGradient,
           padding: 0,
         }}
       >
@@ -421,42 +431,44 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         {/* Measured top edge scrim — keeps middle artwork unobstructed */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[28%]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[30%]"
           style={{
-            background: `linear-gradient(180deg, ${theme.scrimDeep} 0%, ${theme.topTint} 58%, transparent 100%)`,
+            background: `linear-gradient(180deg, ${theme.scrimDeep} 0%, ${theme.topTint} 62%, transparent 100%)`,
           }}
         />
 
         {/* Measured bottom edge scrim for crisp issuer & year metadata */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[32%]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%]"
           style={{
-            background: `linear-gradient(0deg, ${theme.scrimDeep} 0%, ${theme.topTint} 58%, transparent 100%)`,
+            background: `linear-gradient(0deg, ${theme.scrimDeep} 0%, ${theme.topTint} 62%, transparent 100%)`,
           }}
         />
 
         {/* Top Unboxed Metadata Row: Category | Course Code */}
         <div
-          className="absolute top-[3cqw] left-[3.6cqw] right-[3.6cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
+          className="absolute top-[2.8cqw] left-[3.4cqw] right-[3.4cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
           style={{ fontFamily: BOOK_COVER_BODY_FONT }}
         >
-          <span className="inline-flex items-center gap-[1.4cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.72)]">
+          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
             <WebIcon
               name={theme.categoryIconName}
-              className="w-[3.4cqw] h-[3.4cqw] shrink-0 text-white/95"
+              className="w-[3.2cqw] h-[3.2cqw] shrink-0"
+              style={{ color: theme.accentSoft }}
             />
-            <span className="font-semibold text-[3.1cqw] leading-none tracking-[0.01em] truncate">
+            <span className="font-semibold text-[2.95cqw] leading-none tracking-[0.01em] truncate text-white/95">
               {categoryLabel}
             </span>
           </span>
 
-          <span className="inline-flex items-center gap-[1.2cqw] shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.72)]">
+          <span className="inline-flex items-center gap-[1.1cqw] shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
             <WebIcon
               name="calendar"
-              className="w-[2.9cqw] h-[2.9cqw] shrink-0 text-white/85"
+              className="w-[2.8cqw] h-[2.8cqw] shrink-0"
+              style={{ color: theme.accentSoft }}
             />
-            <span className="font-bold text-[2.9cqw] leading-none tabular-nums tracking-[0.04em] text-white/95">
+            <span className="font-bold text-[2.85cqw] leading-none tabular-nums tracking-[0.04em] text-white/95">
               {course.code || `Y-${course.year}`}
             </span>
           </span>
@@ -464,133 +476,110 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
 
         {/* Bottom Unboxed Metadata Row: Issuer | Year */}
         <div
-          className="absolute bottom-[2.8cqw] left-[3.6cqw] right-[3.6cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
+          className="absolute bottom-[2.6cqw] left-[3.4cqw] right-[3.4cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
           style={{ fontFamily: BOOK_COVER_BODY_FONT }}
         >
-          <span className="inline-flex items-center gap-[1.4cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
+          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.82)]">
             <WebIcon
               name="graduation"
-              className="w-[3.7cqw] h-[3.7cqw] shrink-0 text-white/95"
+              className="w-[3.4cqw] h-[3.4cqw] shrink-0"
+              style={{ color: theme.accentSoft }}
             />
-            <span className="font-semibold text-[3.05cqw] leading-none truncate">
+            <span className="font-semibold text-[2.95cqw] leading-none truncate text-white/95">
               {course.issuer}
             </span>
           </span>
 
-          <span className="font-bold text-[3.05cqw] leading-none tabular-nums tracking-[0.02em] text-white/95 shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
+          <span className="font-bold text-[2.95cqw] leading-none tabular-nums tracking-[0.02em] text-white/95 shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.82)]">
             {isEn ? `${course.year}` : `Năm ${course.year}`}
           </span>
         </div>
       </div>
 
-      {/* ================= TIER 2 (~44%): FRAMELESS EDITORIAL TYPOGRAPHY & CUE ================= */}
+      {/* ================= TIER 2 (~46%): COURSE-COORDINATED EDITORIAL PANEL ================= */}
       <div
-        className="relative z-10 w-full flex-[1_1_0%] min-h-0 overflow-hidden flex flex-col items-center justify-between text-center box-border"
+        className="relative z-10 w-full flex-[1_1_0%] min-h-0 overflow-hidden flex flex-col items-center justify-center text-center box-border"
         style={{
-          background: 'transparent',
-          backgroundColor: 'transparent',
-          border: 'none',
-          boxShadow: 'none',
-          padding: isShelf ? '2px 2px 0' : '4px 4px 0',
+          background: theme.bottomGradient,
+          borderRadius: 'calc(max(6px, var(--radius-global, 14px) - 3px))',
+          border: '1px solid rgba(255, 255, 255, 0.22)',
+          boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 18px -10px ${theme.glowShadow}`,
+          padding: isShelf
+            ? 'clamp(7px, 2.8cqw, 11px) clamp(8px, 3cqw, 12px)'
+            : 'clamp(9px, 3.2cqw, 14px) clamp(10px, 3.6cqw, 16px)',
+          gap: isShelf ? 'clamp(4px, 1.8cqw, 7px)' : 'clamp(6px, 2.2cqw, 9px)',
           fontFamily: BOOK_COVER_BODY_FONT,
-          color: 'var(--text-primary)',
+          color: '#FFFFFF',
         }}
       >
+        {/* Subtle luminous top-right corner accent inside the course panel */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-6 -right-6 w-[28cqw] h-[28cqw] rounded-full opacity-25 blur-xl"
+          style={{ background: theme.wave1 }}
+        />
+
         {/* Display Title & Clean Unboxed Subtitle */}
-        <div className="relative z-10 w-full flex flex-col items-center gap-[1.4cqw] min-w-0">
+        <div className="relative z-10 w-full flex flex-col items-center gap-[1.3cqw] min-w-0">
           <h3
-            className="font-extrabold m-0 flex items-center justify-center gap-[2cqw] max-w-full"
+            className="font-extrabold m-0 flex items-center justify-center gap-[1.8cqw] max-w-full"
             style={{
               fontFamily: BOOK_COVER_DISPLAY_FONT,
               fontSize: titleFontSize,
-              lineHeight: 1.1,
-              letterSpacing: '-0.025em',
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
               textWrap: 'balance',
-              color: 'var(--text-heading, var(--text-primary))',
+              color: '#FFFFFF',
+              textShadow: '0 1px 3px rgba(2, 6, 23, 0.35)',
             }}
           >
             <WebIcon
               name={courseIconName}
-              className="w-[5.6cqw] h-[5.6cqw] shrink-0"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
+              className="w-[5.1cqw] h-[5.1cqw] shrink-0"
+              style={{ color: theme.accentSoft }}
             />
             <span className="line-clamp-2 text-center">{cleanTitle}</span>
           </h3>
 
           <p
-            className="font-medium text-[3.1cqw] leading-snug m-0 flex items-center justify-center gap-[1.6cqw] max-w-full truncate tracking-[0.01em]"
+            className="font-semibold text-[2.95cqw] leading-snug m-0 flex items-center justify-center gap-[1.4cqw] max-w-full truncate tracking-[0.01em]"
             style={{
               fontFamily: BOOK_COVER_BODY_FONT,
-              color: 'var(--text-secondary)',
+              color: theme.accentSoft,
             }}
           >
             <span className="truncate">{subtitleLeft}</span>
-            <span aria-hidden="true" className="opacity-55 font-bold shrink-0">
+            <span aria-hidden="true" className="opacity-65 font-bold shrink-0">
               ·
             </span>
             <span className="truncate tabular-nums">{subtitleRight}</span>
           </p>
         </div>
 
-        {/* Frameless Summary Line */}
+        {/* Summary Strip with Subtle Divider */}
         {summaryText && (
-          <div className="relative z-10 w-full flex items-center justify-center gap-[2cqw] px-[1.5cqw] min-w-0">
+          <div
+            className="relative z-10 w-full flex items-center justify-center gap-[1.8cqw] pt-[1.5cqw] px-[1.2cqw] min-w-0 border-t"
+            style={{ borderColor: 'rgba(255, 255, 255, 0.16)' }}
+          >
             <WebIcon
               name={theme.pillIconName}
-              className="w-[3.6cqw] h-[3.6cqw] shrink-0"
-              style={{ color: 'var(--text-link, var(--color-primary))' }}
+              className="w-[3.4cqw] h-[3.4cqw] shrink-0"
+              style={{ color: theme.pillIconColor }}
             />
             <span
-              className={`min-w-0 text-left font-medium text-[2.95cqw] leading-[1.38] ${
+              className={`min-w-0 text-left font-medium text-[2.8cqw] leading-[1.38] ${
                 isShelf ? 'truncate' : 'line-clamp-2'
               }`}
               style={{
                 fontFamily: BOOK_COVER_BODY_FONT,
-                color: 'var(--text-primary)',
+                color: 'rgba(255, 255, 255, 0.92)',
               }}
             >
               {summaryText}
             </span>
           </div>
         )}
-
-        {/* Single Clean Action Cue with Flanking Hairline Rules */}
-        <div className="relative z-10 w-full flex items-center justify-center gap-[2.2cqw] px-[1cqw] pb-[0.6cqw]">
-          <span
-            aria-hidden="true"
-            className="h-[1px] flex-1 max-w-[14cqw]"
-            style={{
-              background:
-                'linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--text-secondary) 48%, transparent) 100%)',
-            }}
-          />
-          <span
-            className="inline-flex items-center gap-[1.4cqw] font-semibold text-[3cqw] tracking-[0.02em] whitespace-nowrap"
-            style={{
-              fontFamily: BOOK_COVER_BODY_FONT,
-              color: 'var(--text-link, var(--color-primary))',
-            }}
-          >
-            <span>
-              {isShelf
-                ? isEn
-                  ? 'Click to open book'
-                  : 'Nhấn để mở sách'
-                : isEn
-                  ? 'Turn the corner to open'
-                  : 'Lật góc sách để mở'}
-            </span>
-            <WebIcon name="arrow-right" className="w-[3.1cqw] h-[3.1cqw] shrink-0" />
-          </span>
-          <span
-            aria-hidden="true"
-            className="h-[1px] flex-1 max-w-[14cqw]"
-            style={{
-              background:
-                'linear-gradient(90deg, color-mix(in srgb, var(--text-secondary) 48%, transparent) 0%, transparent 100%)',
-            }}
-          />
-        </div>
       </div>
     </div>
   );

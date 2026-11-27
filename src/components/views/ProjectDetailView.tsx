@@ -998,8 +998,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </div>
               </div>
 
-              <div className="relative z-10 text-left">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[15px] items-stretch">
+              <div className="relative z-10 text-left grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[15px] items-stretch">
                   {spec.objectives.map((obj: any, idx: number) => {
                     const objThemes = [
                       {
@@ -1073,7 +1072,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       </div>
                     );
                   })}
-                </div>
               </div>
             </section>
 
@@ -1112,8 +1110,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </div>
               </div>
 
-              <div className="relative z-10 text-left">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch">
+              <div className="relative z-10 text-left grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch">
                   {spec.scopeItems.map((scopeItem: any, idx: number) => {
                     const palette = SCOPE_PALETTES[idx % SCOPE_PALETTES.length];
                     return (
@@ -1200,7 +1197,6 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       </div>
                     );
                   })}
-                </div>
               </div>
             </section>
 

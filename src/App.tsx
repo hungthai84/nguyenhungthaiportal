@@ -313,11 +313,17 @@ export default function App() {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
+        const headerWidth = headerEl ? Math.round(headerEl.getBoundingClientRect().width) : 0;
         const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
         if (headerMeasured > 0) {
           const hVal = `${headerMeasured}px`;
           rootEl.style.setProperty('--header-bar-h', hVal);
           document.documentElement.style.setProperty('--header-bar-h', hVal);
+        }
+        if (headerWidth > 0) {
+          const wVal = `${headerWidth}px`;
+          rootEl.style.setProperty('--header-synced-w', wVal);
+          document.documentElement.style.setProperty('--header-synced-w', wVal);
         }
         if (footerMeasured > 0) {
           const fVal = `${footerMeasured}px`;
@@ -765,42 +771,55 @@ export default function App() {
         );
       })()}
 
-      {/* HEADER: Chiều cao bằng Footer, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
+      {/* HEADER: Top Zone 9% chiều cao, nội dung bên trong căn giữa tối đa 1200px (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 7%',
-            height: '7%',
-            maxHeight: '7%',
-            minHeight: '7%',
+            flex: '0 0 9%',
+            height: '9%',
+            maxHeight: '9%',
+            minHeight: '9%',
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1600px)',
-            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            maxWidth: '100%',
+            width: '100%',
+            marginLeft: '0px',
+            marginRight: '0px',
             marginTop: '0px',
             marginBottom: '0px',
-            borderTopLeftRadius: '0px',
-            borderTopRightRadius: '0px',
-            borderBottomLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
+            borderRadius: '0px',
           }}
           className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
-          <Header
-            pages={TABS_DATA}
-            currentPage={currentTabIndex}
-            currentTheme={activeTheme}
-            onSelectPage={handleSelectTabWithSound}
-            onShowNotification={showNotification}
-          />
+          <div
+            id="app-header-wrapper"
+            data-element-name="Khung DIV bọc Header"
+            data-element-type="container"
+            data-element-page="global"
+            data-element-parent="app-header-container"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'center',
+              boxSizing: 'border-box',
+            }}
+            className="w-full h-full flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          >
+            <Header
+              pages={TABS_DATA}
+              currentPage={currentTabIndex}
+              currentTheme={activeTheme}
+              onSelectPage={handleSelectTabWithSound}
+              onShowNotification={showNotification}
+            />
+          </div>
         </div>
       )}
 
-      {/* MAIN CENTER CARD: Tự động chiếm phần không gian còn lại (100% khi xem Trang Tải PDF) */}
+      {/* MAIN CENTER CARD: Center Zone 82% chiều cao, padding trên/dưới 10px, trái/phải 0px (100% khi xem Trang Tải PDF) */}
       <main
         ref={mainViewportRef}
         id="global-content-viewport"
@@ -809,35 +828,29 @@ export default function App() {
         data-element-page="global"
         data-element-parent="website-root"
         style={{
-          width:
-            currentTabIndex === 10
-              ? '100%'
-              : 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
-          maxWidth:
-            currentTabIndex === 16
-              ? 'min(88vw, 1600px)'
-              : currentTabIndex === 10
-                ? '100%'
-                : 'var(--main-card-target-w, 1600px)',
+          width: '100%',
+          maxWidth: currentTabIndex === 16 ? 'min(88vw, 1200px)' : '100%',
           boxSizing: 'border-box',
-          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 86%',
-          height: currentTabIndex === 16 ? 'auto' : '86%',
+          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 82%',
+          height: currentTabIndex === 16 ? 'auto' : '82%',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '0px',
-          maxHeight: currentTabIndex === 16 ? 'none' : '86%',
+          maxHeight: currentTabIndex === 16 ? 'none' : '82%',
           minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
           marginTop: '0px',
           marginBottom: '0px',
-          paddingTop: currentTabIndex === 16 ? '16px' : '0px',
-          paddingBottom: currentTabIndex === 16 ? '16px' : '0px',
+          paddingTop: currentTabIndex === 16 ? '16px' : '10px',
+          paddingBottom: currentTabIndex === 16 ? '16px' : '10px',
+          paddingLeft: '0px',
+          paddingRight: '0px',
         }}
         className={`w-full ${
           currentTabIndex === 16
-            ? 'max-w-[1600px] overflow-visible py-4'
+            ? 'max-w-[1200px] overflow-visible py-4'
             : currentTabIndex === 10
-              ? 'max-w-full overflow-hidden py-0'
-              : 'max-w-[1600px] overflow-visible py-0'
+              ? 'max-w-full overflow-hidden'
+              : 'max-w-full overflow-visible'
         } mx-auto my-0 min-h-0 rounded-none px-0 flex flex-col justify-between shadow-none relative z-10 text-left bg-transparent [&>div]:w-full [&>div]:h-full [&>div]:max-w-full [&>div]:flex-1 [&>section]:w-full [&>section]:h-full [&>section]:max-w-full [&>section]:flex-1`}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -867,7 +880,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* FOOTER: Chiều cao responsive theo breakpoint, chiều ngang thẳng mép Main Card (Ẩn khi xem Trang Tải PDF) */}
+      {/* FOOTER: Bottom Zone 9% chiều cao, nội dung bên trong căn giữa tối đa 1200px (Ẩn khi xem Trang Tải PDF) */}
       {currentTabIndex !== 16 && (
         <div
           id="el-p0-div-98"
@@ -875,37 +888,50 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 7%',
-            height: '7%',
-            maxHeight: '7%',
-            minHeight: '7%',
+            flex: '0 0 9%',
+            height: '9%',
+            maxHeight: '9%',
+            minHeight: '9%',
             padding: '0px',
             boxSizing: 'border-box',
-            maxWidth: 'var(--main-card-target-w, 1600px)',
-            width: 'var(--shell-container-w, min(calc(100% - clamp(16px, 3vw, 32px)), 78vw, 1600px))',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            maxWidth: '100%',
+            width: '100%',
+            marginLeft: '0px',
+            marginRight: '0px',
             marginTop: '0px',
             marginBottom: '0px',
-            borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
-            borderBottomLeftRadius: '0px',
-            borderBottomRightRadius: '0px',
-            borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
+            borderRadius: '0px',
           }}
           className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
-          <Footer
-            currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
-            onNavigate={navigatePage}
-            onSelectTab={handleSelectTabWithSound}
-            onShowNotification={showNotification}
-            onOpenAiAssistant={() => handleSelectTabWithSound(13)}
-            onOpenWallpaper={() => {
-              handleSelectTabWithSound(14);
-              showNotification('Mở trang Hình Nền & Giao diện (Lưu trữ lâu dài)');
+          <div
+            id="app-footer-wrapper"
+            data-element-name="Khung DIV bọc Footer"
+            data-element-type="container"
+            data-element-page="global"
+            data-element-parent="el-p0-div-98"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'center',
+              boxSizing: 'border-box',
             }}
-          />
+            className="w-full h-full flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          >
+            <Footer
+              currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
+              onNavigate={navigatePage}
+              onSelectTab={handleSelectTabWithSound}
+              onShowNotification={showNotification}
+              onOpenAiAssistant={() => handleSelectTabWithSound(13)}
+              onOpenWallpaper={() => {
+                handleSelectTabWithSound(14);
+                showNotification('Mở trang Hình Nền & Giao diện (Lưu trữ lâu dài)');
+              }}
+            />
+          </div>
         </div>
       )}
 

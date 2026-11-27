@@ -1048,25 +1048,23 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                 </div>
               </div>
 
+              <input
+                ref={localMediaInputRef}
+                type="file"
+                accept="image/*,video/*"
+                onChange={handleLocalMediaUpload}
+                className="hidden"
+              />
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <div>
-                  <input
-                    ref={localMediaInputRef}
-                    type="file"
-                    accept="image/*,video/*"
-                    onChange={handleLocalMediaUpload}
-                    className="hidden"
-                  />
-                  <button
-                    id="wallpaper-upload-local-media-btn"
-                    type="button"
-                    onClick={() => localMediaInputRef.current?.click()}
-                    className="px-4 py-2 rounded-full typo-button border border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)] transition cursor-pointer inline-flex items-center gap-1.5"
-                  >
-                    <WebIcon name="upload" className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-                    <span>{isEn ? 'Upload from Device' : 'Tải ảnh/video từ máy'}</span>
-                  </button>
-                </div>
+                <button
+                  id="wallpaper-upload-local-media-btn"
+                  type="button"
+                  onClick={() => localMediaInputRef.current?.click()}
+                  className="px-4 py-2 rounded-full typo-button border border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)] transition cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <WebIcon name="upload" className="w-3.5 h-3.5 text-[var(--color-primary)]" />
+                  <span>{isEn ? 'Upload from Device' : 'Tải ảnh/video từ máy'}</span>
+                </button>
 
                 <button
                   id="wallpaper-add-submit-btn"

@@ -253,9 +253,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
-          <div className="flex items-center min-w-0">
-            <span className="truncate whitespace-nowrap">Tiếng Việt</span>
-          </div>
+          <span className="truncate whitespace-nowrap min-w-0 flex-1">Tiếng Việt</span>
         </div>
         {language === 'vi' && <span className="shrink-0 font-bold ml-2">✓</span>}
       </button>
@@ -269,9 +267,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
-          <div className="flex items-center min-w-0">
-            <span className="truncate whitespace-nowrap">English</span>
-          </div>
+          <span className="truncate whitespace-nowrap min-w-0 flex-1">English</span>
         </div>
         {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
       </button>
@@ -464,18 +460,18 @@ const FooterComponent: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: 'var(--main-card-target-w, 1600px)',
+        maxWidth: 'var(--main-card-target-w, 1200px)',
         width: '100%',
-        height: '85px',
-        minHeight: '85px',
-        maxHeight: '85px',
+        height: '100%',
+        minHeight: '100%',
+        maxHeight: '100%',
         boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '5px',
-        paddingBottom: '5px',
+        paddingTop: '4px',
+        paddingBottom: '4px',
         borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
@@ -662,7 +658,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }
               >
                 <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="languages" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
+                  <WebIcon name="languages" isActive={isLangMenuOpen} isHovered={hoveredRightBtn === 0} className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
@@ -670,7 +666,10 @@ const FooterComponent: React.FC<FooterProps> = ({
                     data-no-translate="true"
                     style={{
                       fontWeight: 'bold',
-                      color: isLangMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#10B981',
+                      color:
+                        isLangMenuOpen || hoveredRightBtn === 0
+                          ? 'var(--pill-active-text, #ffffff)'
+                          : '#10B981',
                     }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
@@ -755,14 +754,17 @@ const FooterComponent: React.FC<FooterProps> = ({
                     }
                   >
                     <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
+                      <WebIcon name="layers" isActive={currentTabIndex === 15 || isThemeMenuOpen} isHovered={hoveredRightBtn === 1} className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                     </div>
                     <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
                         style={{
                           fontWeight: 'bold',
-                          color: currentTabIndex === 15 || isThemeMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#6366F1',
+                          color:
+                            currentTabIndex === 15 || isThemeMenuOpen || hoveredRightBtn === 1
+                              ? 'var(--pill-active-text, #ffffff)'
+                              : '#6366F1',
                         }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
@@ -816,14 +818,17 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }
               >
                 <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="image" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
+                  <WebIcon name="image" isActive={currentTabIndex === 14} isHovered={hoveredRightBtn === 2} className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{
                       fontWeight: 'bold',
-                      color: currentTabIndex === 14 ? 'var(--pill-active-text, #ffffff)' : '#F43F5E',
+                      color:
+                        currentTabIndex === 14 || hoveredRightBtn === 2
+                          ? 'var(--pill-active-text, #ffffff)'
+                          : '#F43F5E',
                     }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
@@ -880,14 +885,17 @@ const FooterComponent: React.FC<FooterProps> = ({
                 }
               >
                 <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="bot" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
+                  <WebIcon name="bot" isActive={currentTabIndex === 13} isHovered={hoveredRightBtn === 3} className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
                 <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     style={{
                       fontWeight: 'bold',
-                      color: currentTabIndex === 13 ? 'var(--pill-active-text, #ffffff)' : '#0EA5E9',
+                      color:
+                        currentTabIndex === 13 || hoveredRightBtn === 3
+                          ? 'var(--pill-active-text, #ffffff)'
+                          : '#0EA5E9',
                     }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >

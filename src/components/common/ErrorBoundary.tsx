@@ -43,12 +43,24 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({ hasError: false, message: '' });
   };
 
+  handleReload = () => {
+    window.location.reload();
+  };
+
   render() {
     if (this.state.hasError) {
+      const isEn =
+        typeof document !== 'undefined' &&
+        document.documentElement.lang?.toLowerCase().startsWith('en');
+
       return (
-        <div className="w-screen h-screen flex items-center justify-center p-6 font-play" style={{ background: 'var(--bg-main, #f8fafc)', color: 'var(--text-primary, #0f172a)' }}>
+        <div
+          role="alert"
+          className="w-screen h-screen flex items-center justify-center p-6 font-play"
+          style={{ background: 'var(--bg-main, #f8fafc)', color: 'var(--text-primary, #0f172a)' }}
+        >
           <div
-            className="bento-card glass-card max-w-md w-full p-6 rounded-[16px] border flex flex-col gap-4 shadow-xl"
+            className="bento-card glass-card max-w-md w-full p-6 rounded-[var(--radius-global,16px)] border flex flex-col gap-4 shadow-xl"
             style={{
               background: 'var(--bg-card, rgba(255,255,255,0.92))',
               borderColor: 'var(--border-color, rgba(148,163,184,0.3))',
@@ -57,15 +69,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <div className="flex flex-col gap-1.5">
               <div className="card-header-sync flex items-center gap-2 text-rose-500">
                 <WebIcon name="alert-circle" className="w-5 h-5 shrink-0" />
-                <h2 className="typo-h4 card-title-synced font-bold text-rose-500" data-card-title="true">Đã xảy ra sự cố</h2>
+                <h2
+                  className="typo-h4 card-title-synced font-bold text-rose-500 m-0"
+                  data-card-title="true"
+                  style={{ textTransform: 'none' }}
+                >
+                  {isEn ? 'Something went wrong' : 'Đã xảy ra sự cố hiển thị'}
+                </h2>
               </div>
-              <p className="typo-caption" style={{ color: 'var(--text-muted, #64748b)' }}>
-                Something went wrong while processing this request.
+              <p className="typo-caption m-0" style={{ color: 'var(--text-muted, #64748b)' }}>
+                {isEn
+                  ? 'An unexpected error occurred while rendering this section.'
+                  : 'Hệ thống gặp sự cố ngoài ý muốn khi xử lý nội dung này.'}
               </p>
             </div>
             {this.state.message && (
               <p
-                className="typo-body-sm p-3 rounded-[12px] border break-words"
+                className="typo-body-sm p-3 rounded-[var(--radius-subcard,12px)] border break-words m-0"
                 style={{
                   background: 'var(--bg-subcard, rgba(241,245,249,0.8))',
                   borderColor: 'var(--border-subcard, rgba(148,163,184,0.25))',
@@ -74,13 +94,25 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 {this.state.message}
               </p>
             )}
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={this.handleReload}
+                className="px-4 py-2 rounded-full typo-button font-semibold border border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)] transition-all cursor-pointer"
+                style={{ background: 'var(--bg-subcard)' }}
+              >
+                {isEn ? 'Reload Page' : 'Tải lại trang'}
+              </button>
               <button
                 type="button"
                 onClick={this.handleReset}
-                className="px-4 py-2 rounded-full typo-button font-bold text-white bg-gradient-to-r from-[#1480C0] via-[#6353B5] to-[#DD4E9E] cursor-pointer"
+                style={{
+                  background: 'var(--bg-button-primary)',
+                  color: 'var(--text-button-primary, #FFFFFF)',
+                }}
+                className="px-4 py-2 rounded-full typo-button font-bold shadow-sm hover:brightness-110 transition-all cursor-pointer"
               >
-                Thử lại / Retry
+                {isEn ? 'Try Again' : 'Thử lại'}
               </button>
             </div>
           </div>

@@ -529,10 +529,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           overscroll-behavior-y: contain !important;
           touch-action: pan-y !important;
           -webkit-overflow-scrolling: touch !important;
-          padding-bottom: 6px;
+          border-radius: var(--radius-card, 14px) !important;
+          background: var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.72)));
+          border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.24)));
+          box-shadow: var(--layer-l2-shadow, var(--shadow-card, none));
         }
 
-        /* Theme-Synchronized Open Letter Container (inherits #letter-main-card surface) */
+        /* Theme-Synchronized Open Letter Sheet inside Card nội dung thư ngỏ */
         .nht-letter-sheet {
           display: block;
           width: 100%;
@@ -540,8 +543,8 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           min-height: max-content;
           flex: 0 0 auto;
           background: transparent;
-          border-radius: var(--radius-subcard, 16px);
-          border: 1px solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.24)));
+          border-radius: var(--radius-card, 14px);
+          border: none;
           position: relative;
           overflow: hidden;
           color: var(--text-primary, inherit);
@@ -1137,11 +1140,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             <div
               ref={letterScrollViewportRef}
               id="letter-main-scroll-viewport"
-              data-element-name="Vùng cuộn nội dung Thư ngỏ"
+              data-element-name="Card nội dung thư ngỏ"
+              data-element-type="card"
+              data-section-card="true"
               data-element-page="letter"
               data-element-parent="letter-main-card"
               data-no-wheel-horizontal="true"
-              className="main-card-scroll-viewport block w-full max-w-full min-w-0 h-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y glass-scrollbar box-border pb-2"
+              className="main-card-scroll-viewport bento-card glass-card block w-full max-w-full min-w-0 h-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y glass-scrollbar box-border rounded-[var(--radius-card,14px)]"
             >
               {/* LÁ THƯ CHÍNH (NỘI DUNG THEO CODE ĐÍNH KÈM + CARD VIDEO ĐƯA VÀO TRONG THƯ) */}
               <div
@@ -1213,21 +1218,18 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             </div>
                           </div>
 
-                          {/* Salutation & Intro with Wax Seal */}
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="font-bold text-yellow-300 text-[14.5px] mb-1">
-                                {themeLetter.greeting}
-                              </p>
-                              <p className="text-purple-50 leading-[1.55]">
-                                Tôi là{' '}
-                                <strong className="font-bold text-white">
-                                  Nguyễn Hùng Thái
-                                </strong>
-                                , {themeLetter.intro}
-                              </p>
-                            </div>
-
+                          {/* Salutation & Intro */}
+                          <div>
+                            <p className="font-bold text-yellow-300 text-[14.5px] mb-1">
+                              {themeLetter.greeting}
+                            </p>
+                            <p className="text-purple-50 leading-[1.55]">
+                              Tôi là{' '}
+                              <strong className="font-bold text-white">
+                                Nguyễn Hùng Thái
+                              </strong>
+                              , {themeLetter.intro}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -1244,25 +1246,23 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Radio className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Tôi bắt đầu sự nghiệp từ năm{' '}
-                              <strong className="font-bold text-blue-700 dark:text-blue-400">
-                                2002
-                              </strong>{' '}
-                              tại{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
-                                    alt: 'MobiFone',
-                                  },
-                                ]}
-                                name="MobiFone"
-                              />
-                              , nơi tôi được đào tạo nền tảng về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn viễn thông.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Tôi bắt đầu sự nghiệp từ năm{' '}
+                            <strong className="font-bold text-blue-700 dark:text-blue-400">
+                              2002
+                            </strong>{' '}
+                            tại{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+                                  alt: 'MobiFone',
+                                },
+                              ]}
+                              name="MobiFone"
+                            />
+                            , nơi tôi được đào tạo nền tảng về dịch vụ khách hàng, quản lý tổng đài, xử lý sự cố và xây dựng quy trình phục vụ theo tiêu chuẩn viễn thông.
+                          </p>
                         </div>
 
                         {/* 2007 */}
@@ -1273,30 +1273,28 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Users className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Tiếp đó, tại{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/wMyjXFXc/V247.png',
-                                    alt: 'Viễn Liên V247',
-                                  },
-                                ]}
-                                name="Viễn Liên V247"
-                              />{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
-                                    alt: 'Power Service',
-                                  },
-                                ]}
-                                title="Power Service"
-                              />
-                              , tôi phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Tiếp đó, tại{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+                                  alt: 'Viễn Liên V247',
+                                },
+                              ]}
+                              name="Viễn Liên V247"
+                            />{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+                                  alt: 'Power Service',
+                                },
+                              ]}
+                              title="Power Service"
+                            />
+                            , tôi phát triển năng lực quản lý đội ngũ, giám sát chất lượng dịch vụ và tối ưu hiệu quả vận hành của trung tâm chăm sóc khách hàng.
+                          </p>
                         </div>
 
                         {/* 2011 */}
@@ -1307,29 +1305,27 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Monitor className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Một cột mốc quan trọng trong sự nghiệp của tôi là khi gia nhập{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
-                                    alt: 'LBC',
-                                  },
-                                  {
-                                    src: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
-                                    alt: 'HTVC',
-                                  },
-                                ]}
-                                name="LBC – Truyền hình Cáp HTV"
-                              />
-                              , nơi tôi lần đầu tiên đảm nhiệm vị trí{' '}
-                              <strong className="font-bold text-purple-700 dark:text-purple-300">
-                                Trưởng phòng Chăm sóc Khách hàng
-                              </strong>
-                              . Đây là giai đoạn giúp tôi chuyển mình từ một nhà quản lý vận hành sang một nhà quản trị toàn diện. Tôi học cách điều hành hoạt động của cả phòng ban, xây dựng và chuẩn hóa quy trình, phát triển đội ngũ, thiết lập các chỉ số quản trị (KPI) và phối hợp hiệu quả với nhiều phòng ban nhằm nâng cao chất lượng dịch vụ.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Một cột mốc quan trọng trong sự nghiệp của tôi là khi gia nhập{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+                                  alt: 'LBC',
+                                },
+                                {
+                                  src: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+                                  alt: 'HTVC',
+                                },
+                              ]}
+                              name="LBC – Truyền hình Cáp HTV"
+                            />
+                            , nơi tôi lần đầu tiên đảm nhiệm vị trí{' '}
+                            <strong className="font-bold text-purple-700 dark:text-purple-300">
+                              Trưởng phòng Chăm sóc Khách hàng
+                            </strong>
+                            . Đây là giai đoạn giúp tôi chuyển mình từ một nhà quản lý vận hành sang một nhà quản trị toàn diện. Tôi học cách điều hành hoạt động của cả phòng ban, xây dựng và chuẩn hóa quy trình, phát triển đội ngũ, thiết lập các chỉ số quản trị (KPI) và phối hợp hiệu quả với nhiều phòng ban nhằm nâng cao chất lượng dịch vụ.
+                          </p>
                         </div>
 
                         {/* 2013 */}
@@ -1340,30 +1336,28 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Gamepad2 className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Khi làm việc tại{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
-                                    alt: 'Garena',
-                                  },
-                                ]}
-                                name="Garena"
-                              />{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
-                                    alt: 'GCafe',
-                                  },
-                                ]}
-                                title="GCafe"
-                              />
-                              , tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game, nơi đòi hỏi tốc độ xử lý nhanh, chính xác và khả năng đáp ứng khối lượng khách hàng rất lớn.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Khi làm việc tại{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+                                  alt: 'Garena',
+                                },
+                              ]}
+                              name="Garena"
+                            />{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+                                  alt: 'GCafe',
+                                },
+                              ]}
+                              title="GCafe"
+                            />
+                            , tôi quản lý hoạt động chăm sóc khách hàng trong lĩnh vực game, nơi đòi hỏi tốc độ xử lý nhanh, chính xác và khả năng đáp ứng khối lượng khách hàng rất lớn.
+                          </p>
                         </div>
 
                         {/* VED / Shopee / AirPay */}
@@ -1374,45 +1368,43 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <ShoppingCart className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Trong giai đoạn phát triển{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
-                                    alt: 'VED Logo',
-                                  },
-                                  {
-                                    src: 'https://i.postimg.cc/NF9j6b6x/VED.png',
-                                    alt: 'VED',
-                                  },
-                                ]}
-                                name="VED"
-                              />
-                              ,{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
-                                    alt: 'Shopee',
-                                  },
-                                ]}
-                                name="Shopee"
-                              />{' '}
-                              và{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
-                                    alt: 'AirPay / ShopeePay',
-                                  },
-                                ]}
-                                name="AirPay"
-                              />
-                              , tôi tham gia xây dựng trải nghiệm khách hàng trong lĩnh vực thương mại điện tử và thanh toán số, với định hướng lấy khách hàng làm trung tâm.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Trong giai đoạn phát triển{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
+                                  alt: 'VED Logo',
+                                },
+                                {
+                                  src: 'https://i.postimg.cc/NF9j6b6x/VED.png',
+                                  alt: 'VED',
+                                },
+                              ]}
+                              name="VED"
+                            />
+                            ,{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+                                  alt: 'Shopee',
+                                },
+                              ]}
+                              name="Shopee"
+                            />{' '}
+                            và{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+                                  alt: 'AirPay / ShopeePay',
+                                },
+                              ]}
+                              name="AirPay"
+                            />
+                            , tôi tham gia xây dựng trải nghiệm khách hàng trong lĩnh vực thương mại điện tử và thanh toán số, với định hướng lấy khách hàng làm trung tâm.
+                          </p>
                         </div>
 
                         {/* 2016 */}
@@ -1423,21 +1415,19 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <ShieldCheck className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Làm việc tại{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
-                                    alt: 'Prudential',
-                                  },
-                                ]}
-                                name="Prudential"
-                              />
-                              , tôi hiểu sâu sắc về trải nghiệm khách hàng ngành Bảo hiểm, đòi hỏi sự chuẩn xác, minh bạch và củng cố niềm tin tuyệt đối.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Làm việc tại{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+                                  alt: 'Prudential',
+                                },
+                              ]}
+                              name="Prudential"
+                            />
+                            , tôi hiểu sâu sắc về trải nghiệm khách hàng ngành Bảo hiểm, đòi hỏi sự chuẩn xác, minh bạch và củng cố niềm tin tuyệt đối.
+                          </p>
                         </div>
 
                         {/* 2018 */}
@@ -1448,21 +1438,19 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Smartphone className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Tại{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
-                                    alt: 'MoMo',
-                                  },
-                                ]}
-                                name="MoMo"
-                              />
-                              , tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực dịch vụ tài chính số, tối ưu quy trình hỗ trợ khách hàng và nâng cao hiệu quả vận hành trên nền tảng công nghệ.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Tại{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+                                  alt: 'MoMo',
+                                },
+                              ]}
+                              name="MoMo"
+                            />
+                            , tôi tiếp tục mở rộng kinh nghiệm trong lĩnh vực dịch vụ tài chính số, tối ưu quy trình hỗ trợ khách hàng và nâng cao hiệu quả vận hành trên nền tảng công nghệ.
+                          </p>
                         </div>
 
                         {/* 2023 */}
@@ -1473,21 +1461,19 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           >
                             <Wallet className="w-3 h-3" />
                           </div>
-                          <div>
-                            <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
-                              Và{' '}
-                              <BrandBadge
-                                logos={[
-                                  {
-                                    src: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
-                                    alt: 'Finviet - Ví ECO',
-                                  },
-                                ]}
-                                name="Ví ECO"
-                              />{' '}
-                              giúp tôi hiểu sâu hơn về trải nghiệm khách hàng trong lĩnh vực tài chính, nơi sự chính xác, minh bạch và niềm tin luôn được đặt lên hàng đầu.
-                            </p>
-                          </div>
+                          <p className="text-[12px] leading-[1.52] text-slate-700 dark:text-slate-200">
+                            Và{' '}
+                            <BrandBadge
+                              logos={[
+                                {
+                                  src: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+                                  alt: 'Finviet - Ví ECO',
+                                },
+                              ]}
+                              name="Ví ECO"
+                            />{' '}
+                            giúp tôi hiểu sâu hơn về trải nghiệm khách hàng trong lĩnh vực tài chính, nơi sự chính xác, minh bạch và niềm tin luôn được đặt lên hàng đầu.
+                          </p>
                         </div>
                       </div>
                     </div>

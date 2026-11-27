@@ -119,6 +119,7 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'thực chiến. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.':
     'of hands-on leadership. To me, Customer Service is true partnership—every interaction is a meaningful opportunity to listen, understand, and exceed expectations.',
   '3 Trụ cột vận hành': '3 Operational Pillars',
+  'Trụ cột vận hành': 'Operational Pillars',
   'Hiệu quả vận hành': 'Operational Efficiency',
   'Tối ưu & Kết quả': 'Optimization & Results',
   'Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.': 'Standardize SLAs, optimize workflow throughput, and deliver measurable outcomes.',
@@ -165,6 +166,9 @@ export const PROFILE_CAREER_EN: Record<string, string> = {
   'Hồ Sơ Nhân Khẩu Học & Lộ Trình Di Chuyển': 'Demographics & Commute Map',
   'Bản Đồ Cư Trú & Công Tác Tương Tác': 'Interactive Residence & Work Map',
   '3 Trụ Cột Vận Hành Chiến Lược (22+ Năm)': '3 Strategic Operational Pillars (22+ Years)',
+  'Trụ Cột Vận Hành Chiến Lược (22+ Năm)': 'Strategic Operational Pillars (22+ Years)',
+  'Trụ Cột Vận Hành Chiến Lược': 'Strategic Operational Pillars',
+  'Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)': 'Strategic Operational Pillars (22+ Years Experience)',
   'Giá Trị Cốt Lõi & Triết Lý Tầm Nhìn CX 2026+': 'Core Values & CX 2026+ Vision',
   'Chi Tiết Thẻ Bento': 'Bento Card Details',
   'Quay lại mặt trước': 'Back to front',

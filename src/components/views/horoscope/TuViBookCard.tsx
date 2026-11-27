@@ -1459,7 +1459,6 @@ export default function TuViBookCard({
     <div
       className="book-cover-page"
       key="cover"
-      title="Rê chuột vào góc bìa hoặc bấm để mở sách & phát luận giải"
     >
       <div
         className="book-frame book-cover-frameless"
@@ -1537,14 +1536,6 @@ export default function TuViBookCard({
           </div>
         </div>
 
-        <div className="w-full text-center pb-1">
-          <span
-            className="text-[11px] font-mono tracking-widest uppercase transition-colors"
-            style={{ color: 'var(--nat-ngan)', opacity: 0.85 }}
-          >
-            [ Mở Sách &amp; Phát Luận Giải ➔ ]
-          </span>
-        </div>
       </div>
     </div>,
 
@@ -3893,18 +3884,6 @@ export default function TuViBookCard({
           />
         </div>
       </div>
-
-      {!isBookOpen && (
-        <div className="relative z-10 mt-1.5 text-center px-2">
-          <button
-            type="button"
-            onClick={() => pageFlipRef.current?.openBook()}
-            className="px-3 py-1 rounded-full text-[11.5px] font-semibold border border-[rgba(212,175,106,0.45)] bg-[rgba(212,175,106,0.12)] text-[var(--nat-vang-sang)] hover:bg-[rgba(212,175,106,0.24)] transition-colors cursor-pointer"
-          >
-            Mở sách luận giải &amp; phát âm thanh
-          </button>
-        </div>
-      )}
 
       <BookModal
         activeModal={activeModal}

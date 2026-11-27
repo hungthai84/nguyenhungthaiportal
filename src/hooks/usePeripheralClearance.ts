@@ -57,7 +57,7 @@ export function usePeripheralClearance(enabled = true): PeripheralClearanceState
       const footerRect = footerEl ? footerEl.getBoundingClientRect() : null;
 
       // Fallback gutter estimate before header/footer mount cleanly
-      const fallbackGutter = Math.max(0, (vw - Math.min(vw, 1250)) / 2);
+      const fallbackGutter = Math.max(0, (vw - Math.min(vw, 1200)) / 2);
 
       const leftGutterTop = headerRect && headerRect.width > 0 ? headerRect.left : fallbackGutter;
       const leftGutterFooter = footerRect && footerRect.width > 0 ? footerRect.left : leftGutterTop;

@@ -821,9 +821,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           />
         );
       })() : mainSection === 'skills' ? (
-        <div className="w-full max-w-full min-w-0 flex-1 min-h-0">
-          <SkillsView currentTheme={currentTheme} embedded />
-        </div>
+        <SkillsView currentTheme={currentTheme} embedded />
       ) : (
         <>
 
@@ -911,47 +909,45 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                 </button>
               </div>
 
-              <div className="flex flex-col gap-[15px] typo-body-sm">
-                <div className="theme-modal-subcard p-[15px] rounded-[14px] flex flex-col gap-[15px]">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Mã chứng chỉ số:</span>
-                    <div className="flex items-center gap-1.5">
-                      <code className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono typo-badge border border-emerald-400/30">
-                        {verifyInfo.credentialId}
-                      </code>
-                      <button
-                        type="button"
-                        onClick={() => handleCopyCredential(verifyInfo.credentialId)}
-                        className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
-                        title="Sao chép mã chứng chỉ"
-                      >
-                        {isCopied ? <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-500" /> : <WebIcon name="copy" className="w-3.5 h-3.5" />}
-                      </button>
-                    </div>
+              <div className="theme-modal-subcard p-[15px] rounded-[14px] flex flex-col gap-[15px] typo-body-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Mã chứng chỉ số:</span>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono typo-badge border border-emerald-400/30">
+                      {verifyInfo.credentialId}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyCredential(verifyInfo.credentialId)}
+                      className="theme-modal-close p-1 rounded-[14px] transition cursor-pointer"
+                      title="Sao chép mã chứng chỉ"
+                    >
+                      {isCopied ? <WebIcon name="check" className="w-3.5 h-3.5 text-emerald-500" /> : <WebIcon name="copy" className="w-3.5 h-3.5" />}
+                    </button>
                   </div>
+                </div>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Tổ chức cấp:</span>
-                    <span className="font-semibold text-right">{verifyInfo.organization}</span>
-                  </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Tổ chức cấp:</span>
+                  <span className="font-semibold text-right">{verifyInfo.organization}</span>
+                </div>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Hệ thống đăng ký:</span>
-                    <span className="font-semibold text-right" style={{ color: 'var(--accent-cyan, var(--color-primary))' }}>{verifyInfo.registryName}</span>
-                  </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Hệ thống đăng ký:</span>
+                  <span className="font-semibold text-right" style={{ color: 'var(--accent-cyan, var(--color-primary))' }}>{verifyInfo.registryName}</span>
+                </div>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Năm cấp &amp; Mã hồ sơ:</span>
-                    <span className="font-mono font-semibold">Năm {verifyingCourse.year} ({verifyingCourse.code})</span>
-                  </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Năm cấp &amp; Mã hồ sơ:</span>
+                  <span className="font-mono font-semibold">Năm {verifyingCourse.year} ({verifyingCourse.code})</span>
+                </div>
 
-                  <div className="flex items-center justify-between gap-2 pt-1 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
-                    <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Trạng thái xác thực:</span>
-                    <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <WebIcon name="check-circle-02" className="w-3.5 h-3.5" />
-                      <span>{verifyInfo.status}</span>
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between gap-2 pt-1 border-t" style={{ borderColor: 'var(--border-subcard)' }}>
+                  <span className="font-medium" style={{ color: 'var(--text-muted)' }}>Trạng thái xác thực:</span>
+                  <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <WebIcon name="check-circle-02" className="w-3.5 h-3.5" />
+                    <span>{verifyInfo.status}</span>
+                  </span>
                 </div>
               </div>
 

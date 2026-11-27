@@ -613,7 +613,30 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #horoscope-card-pillars-grid,
 #horoscope-card-4-grid,
 #horoscope-card-5-grid,
-#horoscope-profile-subgrid,
+#horoscope-profile-subgrid {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  transform: none !important;
+}
+
 #skills-swot-grid-wrapper,
 #skills-swot-grid,
 #skills-languages-grid,
@@ -762,7 +785,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #about-intro-card-2 {
   box-sizing: border-box !important;
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   flex-shrink: 0 !important;
   height: 100% !important;
@@ -1259,11 +1282,6 @@ h3.card-title,
   background-color: var(--pill-divider, var(--divider-nav-pill, rgba(148, 163, 184, 0.55))) !important;
 }
 
-/* ========================================================================= */
-/* MENU ICON HOVER: KHÔNG PHÁT SÁNG NÚT / NO HOVER GLOW                      */
-/* ========================================================================= */
-#app-header nav button.nav-pill:hover:not(:active):not([data-btn-pressed="true"]),
-#header-btn-hungthai-avatar:hover:not(:active):not([data-btn-pressed="true"]),
 .radial-contact-pill:hover:not(:active):not([data-btn-pressed="true"]) {
   box-shadow: var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 4px 14px rgba(0, 0, 0, 0.08))) !important;
   border-color: var(--surface-interactive-border, var(--border-color)) !important;

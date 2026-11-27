@@ -299,6 +299,9 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
 
   // Modals: BentoFocus, DataFlowMatrix, TechStackExplorer, AiAssistantModal, XRay
   '3 Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)': '3 Strategic Operational Pillars (22+ Years Experience)',
+  'Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)': 'Strategic Operational Pillars (22+ Years Experience)',
+  'Trụ Cột Vận Hành Chiến Lược': 'Strategic Operational Pillars',
+  'Trụ cột vận hành': 'Operational Pillars',
   '01. Hiệu Quả': '01. Efficiency',
   '01. Hiệu quả': '01. Efficiency',
   'Tối ưu hiệu suất vận hành, chuẩn hóa SOP, quản trị KPI, SLA, FCR và giải quyết triệt để rủi ro dịch vụ.': 'Optimize operational performance, standardize SOPs, govern KPI/SLA/FCR, and decisively resolve service risks.',
@@ -471,4 +474,16 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   '✓ Đã chuyển sang Chế độ Tối': '✓ Switched to Dark Mode',
   '✓ Đã chuyển sang Chế độ Sáng': '✓ Switched to Light Mode',
   '✓ Đã chuyển sang Chế độ Hệ thống': '✓ Switched to System Mode',
+
+  // Standardized Common Components (ErrorBoundary & ViewState)
+  'Đã xảy ra sự cố hiển thị': 'Something went wrong',
+  'Hệ thống gặp sự cố ngoài ý muốn khi xử lý nội dung này.': 'An unexpected error occurred while rendering this section.',
+  'Tải lại trang': 'Reload Page',
+  'Thử lại': 'Try Again',
+  'Bộ sưu tập kỷ niệm': 'Career Memories Collection',
+  'Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc.': 'No memories matched the current filter.',
+  'Hãy thử chọn lại công ty hoặc chủ đề khác.': 'Try selecting a different company or category.',
+  '↻ Đặt lại bộ lọc': '↻ Reset Filters',
+  'Không tìm thấy dự án nào khớp với bộ lọc hiện tại.': 'No projects matched the current filter.',
+  'Hiển thị tất cả 21 dự án': 'Show all 21 projects',
 };

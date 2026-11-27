@@ -576,18 +576,20 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       </div>
     );
 
-    // ================= PAGE 5: BÌA SAU (NỀN LAN TỎA TỪ HÌNH BÌA SÁCH ĐỒNG BỘ BÌA TRƯỚC) =================
+    // ================= PAGE 5: BÌA SAU (NỀN ĐỒNG BỘ MÀU SẮC BÌA TRƯỚC TỪNG KHÓA HỌC) =================
+    const backCoverTheme = getBookCoverTheme(course, courseColor);
     const backCover = (
       <div
         key={`back-${course.id}`}
-        className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border"
+        className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border text-white"
         style={{
-          background: 'transparent',
-          backgroundColor: 'transparent',
+          background: backCoverTheme.bottomGradient,
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          padding: '15px',
+          padding: 'clamp(12px, 4cqw, 18px)',
+          boxShadow:
+            'inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(2, 6, 23, 0.28)',
           fontFamily: BOOK_COVER_BODY_FONT,
-          color: 'var(--text-primary)',
+          color: '#FFFFFF',
         }}
       >
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
@@ -596,32 +598,33 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           className="pointer-events-none absolute inset-y-0 right-0 z-30 w-[3.6cqw]"
           style={{
             background:
-              'linear-gradient(270deg, rgba(4, 10, 28, 0.24) 0%, rgba(4, 10, 28, 0.08) 42%, rgba(255, 255, 255, 0.16) 60%, transparent 100%)',
+              'linear-gradient(270deg, rgba(4, 10, 28, 0.32) 0%, rgba(4, 10, 28, 0.08) 42%, rgba(255, 255, 255, 0.20) 60%, transparent 100%)',
           }}
         />
 
         <WebIcon
           name="award"
           className="relative z-10 w-[10cqw] h-[10cqw] mb-[3.2cqw]"
-          style={{ color: 'var(--text-link, var(--color-primary))' }}
+          style={{ color: backCoverTheme.accentSoft }}
         />
 
         <p
           className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] m-0"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            color: 'var(--text-secondary)',
+            color: backCoverTheme.accentSoft,
           }}
         >
           {categoryLabel}
         </p>
 
         <p
-          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.3cqw] leading-[1.12] tracking-[-0.025em] m-0"
+          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.1cqw] leading-[1.14] tracking-[-0.02em] m-0"
           style={{
             fontFamily: BOOK_COVER_DISPLAY_FONT,
             textWrap: 'balance',
-            color: 'var(--text-heading, var(--text-primary))',
+            color: '#FFFFFF',
+            textShadow: '0 1px 3px rgba(2, 6, 23, 0.35)',
           }}
         >
           {cleanTitle}
@@ -631,17 +634,17 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           className="relative z-10 mt-[2.6cqw] flex flex-col items-center gap-[1.1cqw] text-[3.15cqw] leading-relaxed"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            color: 'var(--text-secondary)',
+            color: 'rgba(255, 255, 255, 0.85)',
           }}
         >
-          <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+          <span className="font-semibold text-white">
             {course.issuer}
           </span>
           <span className="inline-flex items-center gap-[1.5cqw] text-[2.95cqw] tabular-nums">
             <span>{isEn ? `Year ${course.year}` : `Năm ${course.year}`}</span>
             {verifyInfo?.credentialId && (
               <>
-                <span aria-hidden="true" className="opacity-50 font-bold">
+                <span aria-hidden="true" className="opacity-60 font-bold">
                   ·
                 </span>
                 <span>{verifyInfo.credentialId}</span>
@@ -660,10 +663,11 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           className="relative z-10 mt-[6cqw] inline-flex items-center gap-[1.8cqw] px-[5cqw] py-[2cqw] rounded-full text-[3.05cqw] font-semibold transition-all hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
-            background: 'var(--bg-button-primary, var(--color-primary))',
-            color: 'var(--text-button-primary, #ffffff)',
-            border: '1px solid var(--border-subcard, rgba(255, 255, 255, 0.25))',
-            boxShadow: 'var(--shadow-button, 0 8px 20px -6px rgba(15, 23, 42, 0.24))',
+            background: 'rgba(255, 255, 255, 0.16)',
+            color: '#FFFFFF',
+            border: '1px solid rgba(255, 255, 255, 0.34)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: `0 8px 20px -6px ${backCoverTheme.glowShadow}`,
           }}
         >
           <WebIcon name="arrow-left" className="w-[3cqw] h-[3cqw]" />

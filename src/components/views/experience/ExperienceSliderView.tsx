@@ -779,23 +779,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
         </div>
       </div>
 
-      {/* Pagination Controls shrunk by 2x */}
-      <div className="news-slider-ctr w-full shrink-0 py-0.5 z-20">
-        <div className="news-slider-pagination">
-          {roadmapCards.map((item, idx) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => handleSelectBullet(idx)}
-              className={cn(
-                'news-slider-bullet',
-                idx === activeCarouselIdx && 'active-bullet'
-              )}
-              aria-label={`Chuyển tới mốc ${item.yearBadge}`}
-            />
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 };

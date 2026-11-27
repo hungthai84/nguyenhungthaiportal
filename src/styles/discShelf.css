@@ -359,26 +359,21 @@ html[data-card-style] #education-banner-timeline .edu-shelf-timeline-node:active
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   overflow: hidden;
-  background: transparent !important;
-  background-color: transparent !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
 }
 
-/* Front Book Cover — Nền trong suốt 100% & bo cong 4 góc theo cấu hình --radius-global */
+/* Front Book Cover — Nền riêng từng khóa học & bo cong 4 góc theo cấu hình --radius-global */
 .disc-out.edu-shelf-book-cover,
 .disc-out.edu-shelf-book-cover > .education-book-cover {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  color: var(--text-primary);
+  color: #ffffff;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
 }
 
 .disc-out.edu-shelf-book-cover {
-  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.26) !important;
   box-shadow:
-    0 18px 38px -14px rgba(2, 8, 28, 0.28),
-    0 6px 16px -8px rgba(2, 8, 28, 0.16);
+    0 18px 38px -14px rgba(2, 8, 28, 0.34),
+    0 6px 16px -8px rgba(2, 8, 28, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -751,40 +746,6 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
 .disc-case[data-center="true"][data-open="true"] .disc-in,
 .disc-case[data-center="true"][data-open="true"] .disc-tray {
   visibility: visible;
-}
-
-.disc-library .disc-open-hit,
-html[data-card-style] .disc-library .disc-open-hit,
-.disc-library .disc-open-hit:hover,
-.disc-library .disc-open-hit:focus,
-.disc-library .disc-open-hit:active {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  z-index: 6;
-  width: var(--W);
-  height: var(--H);
-  margin: calc(var(--H) / -2) 0 0 calc(var(--W) / -2);
-  border: 0 !important;
-  outline: none !important;
-  padding: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-  -webkit-filter: none !important;
-  transform: none !important;
-  cursor: pointer;
-  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
-  translate: calc(var(--disc-open) * var(--W) * 0.34) 0;
-  transition: translate 650ms cubic-bezier(0.2, 0.85, 0.25, 1) !important;
-}
-
-.disc-library .disc-open-hit:focus-visible {
-  outline: 2px solid var(--color-focus-ring, var(--color-primary, #6366f1)) !important;
-  outline-offset: 4px !important;
 }
 
 .disc-titles {

@@ -237,13 +237,11 @@ export const SampleQuestionDropdown: React.FC<SampleQuestionDropdownProps> = ({
               className="w-4 h-4 shrink-0 mt-0.5"
               style={{ color: 'var(--color-primary)' }}
             />
-            <div className="min-w-0">
-              <p className="typo-body-sm font-semibold text-[var(--text-primary)]">
-                {isEn
-                  ? 'You have unsent text in the chat box. Replace or append this sample question?'
-                  : 'Khung nhập đang có nội dung chưa gửi. Bạn muốn thay thế hay chèn nối tiếp câu hỏi mẫu?'}
-              </p>
-            </div>
+            <p className="min-w-0 typo-body-sm font-semibold text-[var(--text-primary)]">
+              {isEn
+                ? 'You have unsent text in the chat box. Replace or append this sample question?'
+                : 'Khung nhập đang có nội dung chưa gửi. Bạn muốn thay thế hay chèn nối tiếp câu hỏi mẫu?'}
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-1.5 shrink-0">
             <button

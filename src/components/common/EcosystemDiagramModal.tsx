@@ -1353,11 +1353,9 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               <div className="w-9 h-9 rounded-[14px] bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white shrink-0 shadow-md">
                 <GitMerge className="w-5 h-5" />
               </div>
-              <div className="min-w-0">
-                <h2 className="typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
-                  Sơ đồ liên kết
-                </h2>
-              </div>
+              <h2 className="min-w-0 typo-popup-title font-play truncate" style={{ color: 'var(--accent-blue, var(--color-primary))' }}>
+                Sơ đồ liên kết
+              </h2>
             </div>
 
             {/* Top Action Controls */}

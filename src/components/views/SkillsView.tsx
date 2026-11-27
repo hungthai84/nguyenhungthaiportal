@@ -843,13 +843,11 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
             className="bento-card glass-card w-full h-auto min-h-0 shrink-0 p-[15px] rounded-[var(--radius-card,24px)] text-[var(--text-primary)] flex flex-col gap-[15px] text-left min-w-0 box-border"
             style={{ borderRadius: 'var(--radius-card, 24px)', padding: '15px', height: 'auto' }}
           >
-            <div id="skills-languages-header" className="flex items-center justify-between border-b border-[var(--border-subcard)] pb-3">
-              <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400">
-                <WebIcon name="languages" className="w-5 h-5 shrink-0" />
-                <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play">
-                  {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
-                </h2>
-              </div>
+            <div id="skills-languages-header" className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-sky-400 border-b border-[var(--border-subcard)] pb-3">
+              <WebIcon name="languages" className="w-5 h-5 shrink-0" />
+              <h2 id="skills-languages-title" className="card-title-synced typo-h3 font-play">
+                {isVi ? "Ngôn ngữ giao tiếp" : "Communication Languages"}
+              </h2>
             </div>
 
             <div id="skills-languages-grid" className="card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] items-start w-full min-w-0" style={{ gap: "15px" }}>
@@ -926,7 +924,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         data-element-name="Trang Kỹ Năng Cốt Lõi"
         data-element-type="section"
         data-element-page="skills"
-        className="w-full min-w-0 flex flex-col justify-start font-play text-left gap-[15px] box-border"
+        className="w-full max-w-full min-w-0 flex-1 min-h-0 flex flex-col justify-start font-play text-left gap-[15px] box-border"
       >
         {skillsMainBody}
       </div>

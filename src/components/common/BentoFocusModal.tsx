@@ -34,7 +34,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="3 Trụ Cột Vận Hành Chiến Lược"
+        aria-label="Trụ Cột Vận Hành Chiến Lược"
         className="theme-modal-card relative w-full max-w-4xl p-5 sm:p-6 rounded-[var(--radius-modal,24px)] shadow-2xl z-10 flex flex-col gap-4 font-play overflow-y-auto no-scrollbar max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
@@ -42,7 +42,7 @@ export const BentoFocusModal: React.FC<BentoFocusModalProps> = ({
           <div className="flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
             <i className="fa-solid fa-bullseye typo-h4"></i>
             <h3 className="typo-popup-title card-title-synced" style={{ color: 'var(--color-primary)' }}>
-              3 Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)
+              Trụ Cột Vận Hành Chiến Lược (22+ Năm Kinh Nghiệm)
             </h3>
           </div>
           <button

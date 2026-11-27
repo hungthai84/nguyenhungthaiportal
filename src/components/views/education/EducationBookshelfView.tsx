@@ -81,7 +81,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   );
 
   const currentCourse = courses[safeSel] || courses[0];
-  const displayTitle = formatCardTitle(currentCourse?.title || '');
 
   useEffect(() => {
     if (sel > lastIdx) {
@@ -255,11 +254,9 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       <div
         className="disc-out edu-shelf-book-cover"
         style={{
-          background: 'transparent',
-          backgroundColor: 'transparent',
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          border: '1px solid var(--border-subcard, rgba(148, 163, 184, 0.32))',
-          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.28), 0 8px 20px -10px ${glowShadow}`,
+          border: '1px solid rgba(255, 255, 255, 0.28)',
+          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.34), 0 8px 22px -10px ${glowShadow}`,
           containerType: 'inline-size',
         }}
       >
@@ -492,9 +489,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
                       <span className="text-[var(--text-muted)]">
                         {course.issuer}
                       </span>
-                      <span className="edu-shelf-cover-open-pill">
-                        {isEn ? 'Read full book' : 'Đọc toàn bộ'}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -502,29 +496,6 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
             );
           })}
         </ol>
-
-        <button
-          className="disc-open-hit"
-          type="button"
-          onClick={() => {
-            if (dragMovedRef.current) return;
-            if (currentCourse) {
-              SoundEngine.playBookOpen?.();
-              onSelectCourse(currentCourse);
-            }
-          }}
-          style={{
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            backgroundImage: 'none',
-            border: 'none',
-            boxShadow: 'none',
-            backdropFilter: 'none',
-            WebkitBackdropFilter: 'none',
-            outline: 'none',
-          }}
-          aria-label={isEn ? `Open ${displayTitle}` : `Mở sách ${displayTitle}`}
-        />
       </section>
     </div>
   );

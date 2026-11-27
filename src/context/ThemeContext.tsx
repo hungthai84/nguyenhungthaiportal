@@ -88,7 +88,7 @@ function clampGlassSettings(raw?: Partial<GlassCustomization>, fallback?: GlassC
   const rawOpacity = typeof raw?.cardOpacity === 'number' && Number.isFinite(raw.cardOpacity) ? raw.cardOpacity : base.cardOpacity;
   const rawBlur = typeof raw?.blurIntensity === 'number' && Number.isFinite(raw.blurIntensity) ? raw.blurIntensity : base.blurIntensity;
   return {
-    cardOpacity: Math.min(100, Math.max(15, Math.round(rawOpacity))),
+    cardOpacity: Math.min(100, Math.max(10, Math.round(rawOpacity))),
     blurIntensity: Math.min(48, Math.max(0, Math.round(rawBlur))),
   };
 }
@@ -143,8 +143,8 @@ function applyGlassCssVariables(mode: CardStyleMode, settings: GlassCustomizatio
   }
 
   if (isCustomOpacity) {
-    const alpha = Math.max(0.15, Math.min(1, settings.cardOpacity / 100));
-    const subcardAlpha = Math.max(0.15, Math.min(1, alpha * 1.02));
+    const alpha = Math.max(0.10, Math.min(1, settings.cardOpacity / 100));
+    const subcardAlpha = Math.max(0.10, Math.min(1, alpha * 1.02));
     const headerAlpha = alpha;
     const popupAlpha = Math.max(0.58, Math.min(1, alpha + 0.16));
     root.setAttribute('data-custom-opacity', 'true');

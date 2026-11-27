@@ -914,7 +914,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs bg-white ring-1 ring-black/10 dark:ring-white/20"
+                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs bg-transparent"
                                   >
                                     <img
                                       src={partner.logo}

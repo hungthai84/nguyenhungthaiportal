@@ -159,7 +159,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     'service-bento-tile bento-card glass-card relative overflow-hidden rounded-[var(--radius-card,var(--radius-global,14px))] p-4 sm:p-5 flex flex-col gap-3 min-w-0 text-[var(--text-primary)]';
 
   const nestedSubBoxClass =
-    'sub-card rounded-[12px] p-3 border border-[var(--border-subcard,var(--border-color))] bg-[var(--surface-tertiary-bg,var(--bg-subcard))]';
+    'service-bento-subtile sub-card rounded-[var(--radius-subcard,14px)] p-3 border border-[var(--border-subcard,var(--border-color))] bg-[var(--surface-tertiary-bg,var(--bg-subcard))] transition-all duration-200';
 
   return (
     <motion.div
@@ -260,12 +260,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.12,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="service-bento-grid grid grid-cols-1 md:grid-cols-3 gap-[15px] w-full min-w-0"
+        className="service-bento-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[15px] w-full min-w-0 [grid-auto-flow:dense]"
       >
         {/* BENTO CARD 1 (Row 1, Col 1–2): Hero Overview */}
         <div
           data-subcard="true"
-          className={`${tileBaseClass} md:col-span-2 justify-between`}
+          className={`${tileBaseClass} sm:col-span-2 lg:col-span-2 justify-between`}
           style={{
             borderColor: `color-mix(in srgb, ${accentColor} 30%, var(--border-subcard, var(--border-color)))`,
           }}
@@ -346,7 +346,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             {partners.map((partner, pIdx) => {
               const content = (
                 <>
-                  <div className="company-logo-surface w-9 h-9 rounded-full bg-white overflow-hidden shrink-0 flex items-center justify-center p-0.5 shadow-xs ring-1 ring-black/10 dark:ring-white/15">
+                  <div className="company-logo-surface w-9 h-9 rounded-full bg-transparent overflow-hidden shrink-0 flex items-center justify-center p-0.5 shadow-xs">
                     <img
                       src={partner.logo}
                       alt={partner.name}
@@ -414,12 +414,14 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           )}
 
           {scaleItems.length > 0 && (
-            <div className="relative z-10 flex flex-col gap-2 mt-auto">
+            <div className="relative z-10 grid grid-cols-1 gap-2 mt-auto">
               {scaleItems.map((item, sIdx) => (
                 <div
                   key={sIdx}
                   className={nestedSubBoxClass}
-                  style={{ borderLeft: `3px solid ${accentColor}` }}
+                  style={{
+                    borderColor: `color-mix(in srgb, ${accentColor} 28%, var(--border-subcard, var(--border-color)))`,
+                  }}
                 >
                   <div
                     className="text-[11.5px] font-bold leading-snug"
@@ -452,7 +454,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                   <div
                     key={partner.name || pIdx}
                     title={partner.name}
-                    className="company-logo-surface w-7 h-7 rounded-full ring-2 ring-[var(--bg-card,#fff)] bg-white overflow-hidden flex items-center justify-center p-0.5 shadow-xs"
+                    className="company-logo-surface w-7 h-7 rounded-full bg-transparent overflow-hidden flex items-center justify-center p-0.5 shadow-xs"
                   >
                     <img
                       src={partner.logo}
@@ -610,8 +612,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           </ol>
         </div>
 
-        {/* BENTO CARD 8 (Row 3, Col 3): Applied Tech Solutions */}
-        <div data-subcard="true" className={tileBaseClass}>
+        {/* BENTO CARD 8 (Tablet spans 2 cols to eliminate orphan slot; Desktop spans 1 col): Applied Tech Solutions */}
+        <div data-subcard="true" className={`${tileBaseClass} sm:col-span-2 lg:col-span-1`}>
           <div className="relative z-10 flex items-center gap-2 min-w-0">
             <Award className="w-5 h-5 shrink-0" style={{ color: accentColor }} />
             <h3 className="text-sm sm:text-base font-bold text-[var(--text-primary)] tracking-tight m-0 truncate">
@@ -619,7 +621,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             </h3>
           </div>
 
-          <div className="relative z-10 flex flex-col gap-2.5">
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
             {techSolutions.map((sol, solIdx) => (
               <div
                 key={solIdx}

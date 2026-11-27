@@ -14,7 +14,7 @@
   padding: 0 !important;
   margin: 0 !important;
   display: grid !important;
-  grid-template-rows: 8fr 84fr 8fr !important;
+  grid-template-rows: 9fr 82fr 9fr !important;
   gap: 0px !important;
   row-gap: 0px !important;
   justify-items: center !important;
@@ -39,8 +39,8 @@
 #app-header-container,
 #global-content-viewport,
 #el-p0-div-98 {
-  width: var(--main-card-target-w, 1200px) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: 100% !important;
+  max-width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-inline: auto !important;
@@ -54,13 +54,13 @@
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 1 1 0% !important;
+  flex: 0 0 9% !important;
   display: flex !important;
   align-items: stretch !important;
   justify-content: center !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
+  height: 9% !important;
+  min-height: 9% !important;
+  max-height: 9% !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 0 !important;
@@ -74,33 +74,32 @@
 #app-header-container {
   grid-row: 1 !important;
   z-index: 40 !important;
-  height: 8vh !important;
-  height: 8dvh !important;
-  height: 8% !important;
-  min-height: 8vh !important;
-  min-height: 8dvh !important;
-  min-height: 8% !important;
-  max-height: 8vh !important;
-  max-height: 8dvh !important;
-  max-height: 8% !important;
-  padding: clamp(2px, 0.5dvh, 6px) !important;
-  border-radius: 0 0 var(--radius-global, var(--header-radius, 14px)) var(--radius-global, var(--header-radius, 14px)) !important;
+  border-radius: 0px !important;
 }
 
 #el-p0-div-98 {
   grid-row: 3 !important;
   z-index: 50 !important;
-  height: 8vh !important;
-  height: 8dvh !important;
-  height: 8% !important;
-  min-height: 8vh !important;
-  min-height: 8dvh !important;
-  min-height: 8% !important;
-  max-height: 8vh !important;
-  max-height: 8dvh !important;
-  max-height: 8% !important;
-  padding: clamp(2px, 0.5dvh, 6px) !important;
-  border-radius: var(--radius-global, var(--footer-radius, 14px)) var(--radius-global, var(--footer-radius, 14px)) 0 0 !important;
+  border-radius: 0px !important;
+}
+
+#app-header-wrapper,
+#app-footer-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 #app-header,
@@ -109,11 +108,11 @@
   top: auto !important;
   bottom: auto !important;
   flex: 1 1 auto !important;
-  align-self: auto !important;
-  width: 100% !important;
-  max-width: var(--layout-max-width, 1200px) !important;
+  align-self: stretch !important;
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
   max-height: 100% !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -146,13 +145,13 @@
 
 #global-content-viewport {
   grid-row: 2 !important;
-  width: var(--main-card-target-w, 1200px) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: 100% !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
-  flex: 1 1 0% !important;
-  height: 100% !important;
+  flex: 1 1 82% !important;
+  height: 82% !important;
   min-height: 0 !important;
-  max-height: 100% !important;
+  max-height: 82% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-inline: auto !important;
@@ -160,11 +159,11 @@
   justify-self: center !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
   padding-left: 0px !important;
   padding-right: 0px !important;
-  border-radius: var(--main-radius, 18px) !important;
+  border-radius: 0px !important;
   overflow: hidden !important;
   scroll-behavior: smooth;
   transition: none !important;
@@ -183,13 +182,13 @@
     height: auto !important;
     min-height: calc(100dvh - 30px) !important;
     max-height: none !important;
-    max-width: calc(var(--container-max-w, 1250px) + 30px) !important;
+    max-width: calc(var(--container-max-w, 1200px) + 30px) !important;
     padding: 15px !important;
     box-sizing: border-box !important;
   }
 }
 
-@media (max-height: 580px) {
+@media (max-height: 620px) {
   #app-footer button.nav-pill,
   #app-footer #footer-nav-capsule,
   #app-footer #weather-widget-card {
@@ -453,7 +452,7 @@
 #horoscope-cards-track > [data-main-card="true"] {
   width: var(--horoscope-card-w, 100%) !important;
   min-width: var(--horoscope-card-w, 100%) !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 100% !important;
@@ -596,9 +595,9 @@
 }
 
 #app-header,
-#app-header-container > header {
-  width: 100% !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+#app-header-container header {
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
@@ -642,24 +641,24 @@
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: 100% !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
-  flex: 0 0 100% !important;
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
+  flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
   border-radius: 0px !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   box-sizing: border-box !important;
 }
 
 #app-footer,
-#el-p0-div-98 > footer {
-  width: 100% !important;
-  max-width: var(--main-card-target-w, 1000px) !important;
+#el-p0-div-98 footer {
+  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   flex: 0 0 auto !important;
-  align-self: auto !important;
+  align-self: stretch !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
@@ -683,11 +682,11 @@
 
 @media (max-width: 639px) {
   #app-header,
-  #app-header-container > header {
+  #app-header-container header {
     padding: 5px 10px !important;
   }
   #app-footer,
-  #el-p0-div-98 > footer {
+  #el-p0-div-98 footer {
     padding: 5px 10px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
@@ -886,7 +885,7 @@
   }
 }
 
-/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer và main card đồng nhất 1000px căn giữa; PDF 1250px */
+/* Ultra-wide (≥1920px & ≥2560px): giữ header, footer và main card đồng nhất 1200px căn giữa; PDF 1250px */
 @media screen and (min-width: 1920px) {
   #global-content-viewport:has(#pdf-page-container) {
     max-width: 1250px;
@@ -904,11 +903,10 @@
 
   #app-header,
   #app-footer,
-  #global-content-viewport:not(:has(#pdf-page-container)):not(:has(#horoscope-page-shell)),
   .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card),
   [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]) {
-    max-width: var(--main-card-target-w, 1000px) !important;
-    width: var(--main-card-target-w, 1000px) !important;
+    max-width: var(--main-card-target-w, 1200px) !important;
+    width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -1488,11 +1486,37 @@
 
   #services-expanded-card .service-bento-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: dense !important;
     gap: 12px !important;
   }
+}
 
-  #services-expanded-card .service-bento-grid > :first-child {
-    grid-column: span 2 / span 2 !important;
+.service-bento-tile {
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.service-bento-subtile {
+  border-radius: var(--radius-subcard, 14px) !important;
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24)) !important;
+  background: var(--bg-subcard, rgba(255, 255, 255, 0.52)) !important;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    background-color 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-bento-tile:hover {
+    transform: translate3d(0, -3px, 0);
+  }
+
+  .service-bento-subtile:hover {
+    transform: translate3d(0, -1.5px, 0);
+    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 36%, var(--border-subcard, rgba(148, 163, 184, 0.3))) !important;
   }
 }
 
@@ -1500,16 +1524,31 @@
   #app-header-container,
   #global-content-viewport,
   #el-p0-div-98 {
-    width: 85% !important;
-    max-width: 85% !important;
+    width: 100% !important;
+    max-width: 100% !important;
     margin-inline: auto !important;
     align-self: center !important;
     justify-self: center !important;
   }
 
-  #global-content-viewport {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
+  #app-header,
+  #app-header-container header,
+  #app-footer,
+  #el-p0-div-98 footer,
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > *),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > *),
+  #home-main-card,
+  [id^="home-main-card-"],
+  .home-screen-main-card {
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+  }
+
+  #global-content-viewport:not(:has(#pdf-page-container)) {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
@@ -1633,9 +1672,9 @@
   }
 
   html.mobile-compact-active #app-header,
-  html.mobile-compact-active #app-header-container > header,
+  html.mobile-compact-active #app-header-container header,
   #website-root.mobile-compact-active #app-header,
-  #website-root.mobile-compact-active #app-header-container > header {
+  #website-root.mobile-compact-active #app-header-container header {
     padding-top: 2px !important;
     padding-bottom: 2px !important;
     padding-left: 8px !important;
@@ -1643,9 +1682,9 @@
   }
 
   html.mobile-compact-active #app-footer,
-  html.mobile-compact-active #el-p0-div-98 > footer,
+  html.mobile-compact-active #el-p0-div-98 footer,
   #website-root.mobile-compact-active #app-footer,
-  #website-root.mobile-compact-active #el-p0-div-98 > footer {
+  #website-root.mobile-compact-active #el-p0-div-98 footer {
     padding-top: 2px !important;
     padding-bottom: 2px !important;
     padding-left: 8px !important;

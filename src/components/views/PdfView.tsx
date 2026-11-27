@@ -955,17 +955,15 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                   data-subcard="true"
                   className="sub-card p-4 rounded-[14px] flex flex-col justify-between gap-3 break-inside-avoid shadow-sm print-card-bg min-w-0"
                 >
-                  <div className="min-w-0">
-                    <div className="subcard-header-sync flex items-start gap-2 min-w-0" style={{ color: accentColor }}>
-                      <WebIcon name="layers" className="w-4 h-4 shrink-0 mt-1" style={{ color: accentColor }} />
-                      <div className="min-w-0 flex-1">
-                        <h3 className="typo-h4 subcard-title-synced font-bold leading-tight break-words" data-subcard-title="true" style={{ color: accentColor }}>
-                          {domain.title}
-                        </h3>
-                        <p className="typo-caption text-[var(--text-secondary)] font-medium mt-0.5 leading-snug break-words">
-                          {domain.subtitle}
-                        </p>
-                      </div>
+                  <div className="subcard-header-sync flex items-start gap-2 min-w-0" style={{ color: accentColor }}>
+                    <WebIcon name="layers" className="w-4 h-4 shrink-0 mt-1" style={{ color: accentColor }} />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="typo-h4 subcard-title-synced font-bold leading-tight break-words" data-subcard-title="true" style={{ color: accentColor }}>
+                        {domain.title}
+                      </h3>
+                      <p className="typo-caption text-[var(--text-secondary)] font-medium mt-0.5 leading-snug break-words">
+                        {domain.subtitle}
+                      </p>
                     </div>
                   </div>
 

@@ -75,6 +75,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
+  [data-card-style="dark-iridescent-liquid-glass"],
   [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"],
   [data-card-style="dark-cowhide-leather"],
@@ -94,11 +95,35 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
+  [data-card-style="dark-iridescent-liquid-glass"],
   [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-tile {
   background: var(--surface-secondary-bg, rgba(15, 23, 42, 0.56)) !important;
   border-color: var(--border-subcard, rgba(148, 163, 184, 0.2)) !important;
+}
+
+html[data-card-style="gradient-dopamine"] .sys-bento-tile {
+  background: var(--surface-secondary-bg, rgba(255, 255, 255, 0.82)) !important;
+  border: 1px solid color-mix(in srgb, var(--color-primary, #FF2E93) 26%, rgba(255, 255, 255, 0.85)) !important;
+  box-shadow: 0 10px 26px -6px rgba(124, 58, 237, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
+  color: var(--text-primary, #1E1B4B) !important;
+}
+
+html[data-card-style="iridescent-liquid-glass"] .sys-bento-tile {
+  background: var(--surface-secondary-bg, rgba(255, 255, 255, 0.72)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.84) !important;
+  box-shadow: 0 12px 28px -8px rgba(6, 182, 212, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
+}
+
+html[data-card-style="dark-iridescent-liquid-glass"] .sys-bento-tile {
+  background: var(--surface-secondary-bg, rgba(15, 23, 42, 0.62)) !important;
+  border: 1px solid rgba(192, 132, 252, 0.28) !important;
+  box-shadow: 0 14px 32px -8px rgba(2, 6, 23, 0.72), 0 0 18px -6px rgba(34, 211, 238, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(20px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(165%) !important;
 }
 
 html[data-card-style="cowhide-leather"] .sys-bento-tile {
@@ -188,6 +213,7 @@ html:is(
   [data-theme-mode="dark"],
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
+  [data-card-style="dark-iridescent-liquid-glass"],
   [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-subtile {

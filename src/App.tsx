@@ -580,17 +580,16 @@ export default function App() {
         padding: '0px',
         gap: '0px',
         width: '100%',
-        height: 'auto',
+        height: '100dvh',
         minHeight: '100dvh',
-        maxHeight: 'none',
+        maxHeight: '100dvh',
         display: 'flex',
         flexDirection: 'column',
-        overflowX: 'hidden',
-        overflowY: 'auto',
+        overflow: 'hidden',
         position: 'relative',
         boxSizing: 'border-box',
       }}
-      className="w-full min-h-screen overflow-x-hidden flex flex-col items-center m-0 p-0 select-text relative"
+      className="w-full h-[100dvh] overflow-hidden flex flex-col items-center m-0 p-0 select-text relative"
     >
       {/* GLOBAL UNIFIED AMBIENT GLASS BACKGROUND & WALLPAPER SYSTEM */}
       {(() => {
@@ -771,10 +770,10 @@ export default function App() {
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 auto',
-            height: 'var(--shell-header-height, 85px)',
-            maxHeight: 'var(--shell-header-height, 85px)',
-            minHeight: 'var(--shell-header-height, 85px)',
+            flex: '0 0 7%',
+            height: '7%',
+            maxHeight: '7%',
+            minHeight: '7%',
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1600px)',
@@ -821,10 +820,10 @@ export default function App() {
                 ? '100%'
                 : 'var(--main-card-target-w, 1600px)',
           boxSizing: 'border-box',
-          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
-          height: 'auto',
+          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 86%',
+          height: currentTabIndex === 16 ? 'auto' : '86%',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '0px',
-          maxHeight: currentTabIndex === 16 ? 'none' : '100%',
+          maxHeight: currentTabIndex === 16 ? 'none' : '86%',
           minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -876,10 +875,10 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 auto',
-            height: 'var(--shell-footer-height, 85px)',
-            maxHeight: 'var(--shell-footer-height, 85px)',
-            minHeight: 'var(--shell-footer-height, 85px)',
+            flex: '0 0 7%',
+            height: '7%',
+            maxHeight: '7%',
+            minHeight: '7%',
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: 'var(--main-card-target-w, 1600px)',

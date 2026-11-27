@@ -2435,18 +2435,25 @@ export function AboutView({
                         style={{
                           borderColor: 'var(--border-subcard)',
                           borderBottomColor: 'transparent',
-                          borderTopLeftRadius: '10px',
-                          borderTopRightRadius: '10px',
+                          borderTopLeftRadius: '12px',
+                          borderTopRightRadius: '12px',
                           borderBottomLeftRadius: '0px',
                           borderBottomRightRadius: '0px',
-                          background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
-                          backdropFilter: 'blur(12px)',
-                          WebkitBackdropFilter: 'blur(12px)',
+                          background:
+                            detailInfoTab === 'personal'
+                              ? 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.85)))'
+                              : 'var(--surface-tertiary-bg, rgba(255, 255, 255, 0.45))',
+                          backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
+                          WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
+                          boxShadow:
+                            detailInfoTab === 'personal'
+                              ? '0 -4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
+                              : 'none',
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play glass-card glass-tab relative inline-flex items-center gap-1.5 px-4 pt-2.5 pb-2 !rounded-tl-[12px] !rounded-tr-[12px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'personal'
-                            ? 'z-20 -mb-[1px] pb-[9px] text-blue-600 dark:text-cyan-400 font-bold opacity-100 border-b-transparent'
+                            ? 'z-20 -mb-[1px] pb-[10px] text-blue-600 dark:text-cyan-400 font-bold opacity-100 border-b-transparent'
                             : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >
@@ -2484,18 +2491,25 @@ export function AboutView({
                         style={{
                           borderColor: 'var(--border-subcard)',
                           borderBottomColor: 'transparent',
-                          borderTopLeftRadius: '10px',
-                          borderTopRightRadius: '10px',
+                          borderTopLeftRadius: '12px',
+                          borderTopRightRadius: '12px',
                           borderBottomLeftRadius: '0px',
                           borderBottomRightRadius: '0px',
-                          background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
-                          backdropFilter: 'blur(12px)',
-                          WebkitBackdropFilter: 'blur(12px)',
+                          background:
+                            detailInfoTab === 'contact'
+                              ? 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.85)))'
+                              : 'var(--surface-tertiary-bg, rgba(255, 255, 255, 0.45))',
+                          backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
+                          WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
+                          boxShadow:
+                            detailInfoTab === 'contact'
+                              ? '0 -4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
+                              : 'none',
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 sm:px-4 pt-2 pb-2 !rounded-tl-[10px] !rounded-tr-[10px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h4 card-title-synced font-play glass-card glass-tab relative inline-flex items-center gap-1.5 px-4 pt-2.5 pb-2 !rounded-tl-[12px] !rounded-tr-[12px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'contact'
-                            ? 'z-20 -mb-[1px] pb-[9px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100 border-b-transparent'
+                            ? 'z-20 -mb-[1px] pb-[10px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100 border-b-transparent'
                             : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
                         )}
                       >
@@ -2517,14 +2531,15 @@ export function AboutView({
                       aria-labelledby={detailInfoTab === 'personal' ? 'about-tab-personal' : 'about-tab-contact'}
                       tabIndex={0}
                       style={{
-                        background: 'var(--surface-tertiary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.78)))',
-                        backdropFilter: 'blur(12px)',
-                        WebkitBackdropFilter: 'blur(12px)',
+                        background: 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.85)))',
+                        backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
+                        WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
                         borderColor: 'var(--border-subcard)',
                         borderTopColor: 'transparent',
+                        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
                       }}
                       className={cn(
-                        'relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar p-2.5 sm:p-3 border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-b-[12px] rounded-tr-[10px]',
+                        'relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar glass-card p-2.5 sm:p-3 border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-b-[12px] rounded-tr-[10px]',
                         detailInfoTab === 'personal' ? 'rounded-tl-[4px]' : 'rounded-tl-[10px]'
                       )}
                     >

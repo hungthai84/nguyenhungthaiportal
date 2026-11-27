@@ -1226,16 +1226,19 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-2"
           data-card-layout={resolveAdaptiveCardLayout(WORK_PERSONALITY_TRAITS.length, false)}
           data-subcard-count={WORK_PERSONALITY_TRAITS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-0 items-stretch bg-transparent bg-none border-0 shadow-none box-border"
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-[15px] items-stretch rounded-[var(--radius-global,var(--radius-main,14px))] border box-border"
           style={{
             gap: '15px',
             rowGap: '15px',
             columnGap: '15px',
-            padding: '0px',
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            border: 'none',
-            boxShadow: 'none',
+            padding: '15px',
+            background: 'var(--surface-primary-bg, var(--bg-main, var(--bg-card)))',
+            backgroundColor: 'var(--surface-primary-bg, var(--bg-main, var(--bg-card)))',
+            borderColor: 'var(--surface-primary-border, var(--border-color))',
+            borderRadius: 'var(--radius-global, var(--radius-main, 14px))',
+            boxShadow: 'var(--shell-surface-shadow, var(--surface-primary-shadow, none))',
+            backdropFilter: 'var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 16px)))',
+            WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 16px)))',
             width: '100%',
           }}
         >
@@ -1289,7 +1292,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   };
 
   // =========================================================================
-  // CARD 3: 3. CHÂN DUNG CÔNG VIỆC (6 CUNG CỐT LÕI - ĐỒNG BỘ BỐ CỤC CARD THƯ NGỎ)
+  // CARD 3: 3. CHÂN DUNG CÔNG VIỆC (6 CUNG CỐT LÕI - ĐỒNG BỘ BỐ CỤC CARD 2)
   // =========================================================================
   const renderCard3ChanDungVaTrietLy = () => {
     const isActive = activeCardIndex === 2;
@@ -1327,7 +1330,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               style={{ width: '16px', height: '16px' }}
             />
             <h3
-              className="card-title card-title-synced typo-h3 tracking-tight font-play text-emerald-600 dark:text-emerald-400 truncate m-0"
+              className="card-title card-title-synced typo-h3 tracking-tight font-play text-emerald-600 dark:text-emerald-400 truncate m-0 min-w-0"
               data-card-title="true"
             >
               3. Chân Dung Công Việc · 6 Cung Cốt Lõi
@@ -1340,10 +1343,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           id="horoscope-card-3-grid"
           data-element-name="Lưới nội dung Tử vi main card 3"
           data-element-parent="horoscope-card-3"
-          data-card-layout={resolveAdaptiveCardLayout(SIX_CORE_PALACES.length, false)}
+          data-card-layout="responsive-grid"
           data-subcard-count={SIX_CORE_PALACES.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-0 bg-transparent bg-none border-0 shadow-none box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', backgroundColor: 'transparent', border: 'none', boxShadow: 'none', width: '100%' }}
+          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[12px] p-0 items-stretch bg-transparent bg-none border-0 shadow-none box-border"
+          style={{
+            gap: '12px',
+            rowGap: '12px',
+            columnGap: '12px',
+            padding: '0px',
+            width: '100%',
+          }}
         >
           {SIX_CORE_PALACES.map((palace, index) => {
             const palettes = [
@@ -1362,14 +1371,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[12px] gap-[12px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
               >
-                <div className="w-full flex flex-col gap-2.5 min-w-0">
-                  <div className="w-full pb-2.5 border-b border-[var(--border-subcard)]">
+                <div className="w-full flex flex-col gap-2 min-w-0">
+                  <div className="w-full pb-2 border-b border-[var(--border-subcard)]">
                     <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${titleColor}`}>
                       <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${titleColor} font-play font-bold tracking-tight break-words leading-snug m-0`}
+                        className={`card-title subcard-title-synced typo-h4 ${titleColor} font-play font-bold tracking-tight break-words leading-snug m-0 min-w-0`}
                         data-subcard-title="true"
                       >
                         {palace.name}
@@ -1394,7 +1403,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                     ))}
                   </div>
                 </div>
-                <div className="space-y-1.5 pt-2.5 border-t border-[var(--border-subcard)]">
+                <div className="space-y-1 pt-2 border-t border-[var(--border-subcard)]">
                   {palace.bullets.map((b, bIdx) => (
                     <div key={bIdx} className="flex items-start gap-1.5 typo-body-sm font-medium text-[var(--text-primary)]">
                       <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
@@ -1812,6 +1821,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
 
               {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU */}
               <article
+                id="horoscope-match-result-card"
+                data-element-name="Thẻ Kết Quả Đối Chiếu Với Giáp Tý 1984"
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}

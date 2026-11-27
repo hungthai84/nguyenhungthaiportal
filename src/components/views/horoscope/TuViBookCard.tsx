@@ -1463,13 +1463,29 @@ export default function TuViBookCard({
     >
       <div
         className="book-frame book-cover-frameless"
-        style={{ justifyContent: 'flex-start', gap: 28, paddingTop: 26, paddingBottom: 20 }}
+        style={{ justifyContent: 'space-between', gap: 16, paddingTop: 22, paddingBottom: 20, paddingLeft: 18, paddingRight: 18 }}
       >
-        <div className="book-title-box book-title-frameless">
-          <div className="book-title-main" style={{ fontSize: 18, letterSpacing: 1.5 }}>
+        <div className="book-title-box book-title-frameless flex flex-col items-center gap-1.5 w-full">
+          <div className="book-title-main" style={{ fontSize: 20, letterSpacing: '1.4px', fontWeight: 700, textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
             Tử Vi Trong Công Việc
           </div>
-          <div className="book-subtitle">Nguyễn Hùng Thái Giáp Tý 1984</div>
+          <div className="book-subtitle" style={{ fontSize: 13, letterSpacing: '0.8px', fontWeight: 600, color: 'var(--nat-vang)' }}>
+            Nguyễn Hùng Thái · Giáp Tý 1984
+          </div>
+          <div
+            className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full mt-1 border"
+            style={{
+              fontSize: '11px',
+              fontFamily: 'monospace',
+              letterSpacing: '0.5px',
+              background: 'rgba(214, 179, 114, 0.14)',
+              color: 'var(--nat-vang-sang)',
+              borderColor: 'rgba(214, 179, 114, 0.35)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15)',
+            }}
+          >
+            <span>★ Hải Trung Kim · Đoài Tứ Cục</span>
+          </div>
         </div>
 
         <div
@@ -1479,9 +1495,10 @@ export default function TuViBookCard({
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
+            position: 'relative',
           }}
         >
-          <div className="thien-co-medallion" style={{ width: 340, height: 340, margin: 0 }}>
+          <div className="thien-co-medallion" style={{ width: 310, height: 310, margin: 0 }}>
             <svg className="thien-co-ring-svg spin-slow" viewBox="0 0 200 200" aria-hidden="true">
               <circle
                 cx="100"
@@ -1505,7 +1522,7 @@ export default function TuViBookCard({
                 <use href="#q-ton" transform="translate(41, 41) rotate(315) scale(0.55)" />
               </g>
             </svg>
-            <div className="thien-co-video-circle" style={{ width: 256, height: 256 }}>
+            <div className="thien-co-video-circle" style={{ width: 232, height: 232 }}>
               <video
                 className="thien-co-video"
                 src={THIEN_CO_VIDEO_URL}
@@ -1518,6 +1535,15 @@ export default function TuViBookCard({
               <div className="thien-co-video-overlay" />
             </div>
           </div>
+        </div>
+
+        <div className="w-full text-center pb-1">
+          <span
+            className="text-[11px] font-mono tracking-widest uppercase transition-colors"
+            style={{ color: 'var(--nat-ngan)', opacity: 0.85 }}
+          >
+            [ Mở Sách &amp; Phát Luận Giải ➔ ]
+          </span>
         </div>
       </div>
     </div>,

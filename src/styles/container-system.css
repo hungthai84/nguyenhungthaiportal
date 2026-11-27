@@ -724,7 +724,6 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-row-1-horizontal,
   #horoscope-card-1-grid,
   #horoscope-card-2-grid,
-  #horoscope-card-3-grid,
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid,
   #horoscope-card-5-grid,
@@ -739,14 +738,22 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
+  #horoscope-card-3-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)) !important;
+    gap: 12px !important;
+  }
+
   #horoscope-row-1-horizontal > *,
   #horoscope-card-1-grid > *,
   #horoscope-card-2-grid > *,
-  #horoscope-card-3-grid > *,
   #horoscope-card-pillars-grid > *,
   #horoscope-card-4-grid > *,
   #horoscope-card-5-grid > * {
     grid-column: 1 / -1 !important;
+  }
+
+  #horoscope-card-3-grid > * {
+    grid-column: auto !important;
   }
 }
 

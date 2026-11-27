@@ -7,7 +7,7 @@ import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
-const UNIFORM_RIGHT_PILL_WIDTH = 157;
+const UNIFORM_RIGHT_PILL_WIDTH = 168;
 
 const FAMILY_SWATCHES: Record<string, string[]> = {
   'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
@@ -474,13 +474,16 @@ const FooterComponent: React.FC<FooterProps> = ({
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: 'clamp(4px, 0.75dvh, 10px)',
-        paddingBottom: 'clamp(4px, 0.75dvh, 10px)',
+        paddingTop: '5px',
+        paddingBottom: '5px',
         borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
         borderRadius: 'var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px)) 0 0',
+        boxShadow: 'none',
+        filter: 'none',
+        transform: 'none',
       }}
       className="mx-auto w-full h-full min-h-full flex flex-nowrap items-center justify-between px-[clamp(10px,1.5vw,18px)] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
     >
@@ -643,29 +646,32 @@ const FooterComponent: React.FC<FooterProps> = ({
                     : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                 }
                 aria-expanded={isLangMenuOpen}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#10B981',
-                    width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
+                    width: '166px',
+                    height: '46px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="languages" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="languages" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
                     data-no-translate="true"
-                    style={{ fontWeight: 'bold' }}
+                    style={{
+                      fontWeight: 'bold',
+                      color: isLangMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#10B981',
+                    }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {activeLangTitle}
@@ -733,28 +739,31 @@ const FooterComponent: React.FC<FooterProps> = ({
                         : `Giao diện (${THEME_FOUR_WORD_NAMES[cardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': '#6366F1',
-                        width: '154px',
-                        height: '42px',
-                        paddingTop: '6px',
-                        paddingBottom: '6px',
-                        paddingLeft: '10px',
-                        paddingRight: '10px',
+                        width: '166px',
+                        height: '46px',
+                        paddingTop: '4px',
+                        paddingBottom: '4px',
+                        paddingLeft: '12px',
+                        paddingRight: '12px',
                         fontWeight: 'normal',
                         borderWidth: '1px',
                       } as React.CSSProperties
                     }
                   >
-                    <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                      <WebIcon name="layers" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                      <WebIcon name="layers" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                     <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                       <span
-                        style={{ fontWeight: 'bold' }}
+                        style={{
+                          fontWeight: 'bold',
+                          color: currentTabIndex === 15 || isThemeMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#6366F1',
+                        }}
                         className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                       >
                         {isEn ? 'Theme' : 'Giao Diện'}
@@ -791,28 +800,31 @@ const FooterComponent: React.FC<FooterProps> = ({
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#F43F5E',
-                    width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
+                    width: '166px',
+                    height: '46px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="image" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="image" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{ fontWeight: 'bold' }}
+                    style={{
+                      fontWeight: 'bold',
+                      color: currentTabIndex === 14 ? 'var(--pill-active-text, #ffffff)' : '#F43F5E',
+                    }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'Wallpaper' : 'Hình Nền'}
@@ -852,28 +864,31 @@ const FooterComponent: React.FC<FooterProps> = ({
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': '#0EA5E9',
-                    width: '154px',
-                    height: '42px',
-                    paddingTop: '6px',
-                    paddingBottom: '6px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
+                    width: '166px',
+                    height: '46px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    paddingLeft: '12px',
+                    paddingRight: '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
-                  <WebIcon name="bot" className="nav-pill-icon-svg w-[15px] h-[15px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden">
+                  <WebIcon name="bot" className="nav-pill-icon-svg w-[17px] h-[17px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                 <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
                   <span
-                    style={{ fontWeight: 'bold' }}
+                    style={{
+                      fontWeight: 'bold',
+                      color: currentTabIndex === 13 ? 'var(--pill-active-text, #ffffff)' : '#0EA5E9',
+                    }}
                     className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                   >
                     {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}

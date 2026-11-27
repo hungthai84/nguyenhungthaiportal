@@ -595,12 +595,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #app-footer {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  box-shadow: none !important;
   backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))) !important;
   transform: none !important;
   animation: none !important;
-  transition: var(--surface-primary-transition, box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
+  transition: var(--surface-primary-transition, border-color 220ms ease, background 220ms ease, color 220ms ease) !important;
 }
 
 #el-p1-div-85,

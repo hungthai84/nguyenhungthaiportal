@@ -7129,35 +7129,41 @@ html:root[data-card-style] body #app-header #header-btn-hungthai-avatar:hover .n
   -webkit-filter: none !important;
 }
 
-/* Khóa trạng thái nút không active khi rê chuột (giữ nguyên 100% trạng thái nghỉ phẳng) */
-html:root body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
-html:root[data-card-style] body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
-html:root.dark[data-card-style] body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
-  background: var(--pill-bg, var(--bg-nav-pill)) !important;
-  border-color: var(--pill-border, var(--border-default)) !important;
-  box-shadow: none !important;
-  color: var(--pill-text, var(--text-primary)) !important;
-  opacity: 1 !important;
+/* Trạng thái bình thường: tiêu đề giống màu nền hình tròn icon */
+html:root body #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
+html:root body #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
+  color: var(--nav-pill-accent, var(--color-primary)) !important;
 }
 
-/* Khóa trạng thái nút đang active & nút avatar khi rê chuột (giữ phẳng, không đổ bóng/scale) */
-html:root body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover,
-html:root[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover,
-html:root.dark[data-card-style] body #app-header button.nav-pill:is([aria-current="page"], [data-active="true"]):hover {
-  background: var(--bg-nav-pill-active, var(--bg-button-primary, var(--color-primary))) !important;
-  border-color: var(--border-nav-pill-active, transparent) !important;
-  box-shadow: none !important;
-  color: var(--text-nav-pill-active, var(--text-button-primary, #FFFFFF)) !important;
+/* Khi được chọn HOẶC khi rê chuột: nút màu nền giống icon, icon và tiêu đề chuyển sang màu trắng */
+html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:root.dark[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) {
+  background: var(--nav-pill-accent, var(--color-primary)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary)) !important;
+  border-color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary)) 70%, #ffffff) !important;
+  color: #ffffff !important;
   opacity: 1 !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary)) 40%, transparent) !important;
 }
 
-html:root body #app-header button#header-btn-hungthai-avatar:hover,
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:hover,
-html:root.dark[data-card-style] body #app-header button#header-btn-hungthai-avatar:hover {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  opacity: 1 !important;
+html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #ffffff !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg) {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: rgba(255, 255, 255, 0.24) !important;
+  background-color: rgba(255, 255, 255, 0.24) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
 html:root body #app-header button.nav-pill:hover::before,
@@ -9311,4 +9317,74 @@ html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media
   border: 0 !important;
 }
 
+/* ========================================================================= */
+/* HEADER & FOOTER STANDARDIZATION: 5PX PADDING + FLAT FOOTER (NO ELEVATION) */
+/* ========================================================================= */
+#app-header,
+#app-footer {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+#app-footer,
+#el-p0-div-98 {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ========================================================================= */
+/* HOROSCOPE CARD 2 GRID: NỀN ĐỒNG BỘ THẺ CHÍNH (MAIN CARD BACKGROUND)       */
+/* ========================================================================= */
+#horoscope-card-2-grid {
+  background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, var(--shadow-card, none))) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  padding: 15px !important;
+  gap: 15px !important;
+}
+
+#horoscope-cards-track {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ========================================================================= */
+/* THEME SYNC: ĐỒNG BỘ TẤT CẢ ĐỐI TƯỢNG THEO GIAO DIỆN ĐANG ĐƯỢC CHỌN       */
+/* ========================================================================= */
+.page-main-card,
+[data-main-card="true"],
+.floating-surface--main {
+  background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px)))) !important;
+}
+
+.page-main-card h1,
+.page-main-card h2,
+.page-main-card h3,
+.page-main-card h4,
+.page-main-card h5,
+.page-main-card h6,
+[data-main-card="true"] h1,
+[data-main-card="true"] h2,
+[data-main-card="true"] h3,
+[data-main-card="true"] h4,
+[data-main-card="true"] h5,
+[data-main-card="true"] h6 {
+  font-family: var(--font-play, 'Play', sans-serif) !important;
+  min-width: 0 !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
 /* End of index.css */
+

@@ -449,8 +449,8 @@ export const Header: React.FC<HeaderProps> = ({
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '0px',
-        paddingBottom: '0px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -461,7 +461,7 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
       }}
-      className={`neonav-bar mx-auto py-0 flex items-center justify-center px-[10px] sm:px-[15px] ${
+      className={`neonav-bar mx-auto py-[5px] flex items-center justify-center px-[10px] sm:px-[15px] ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -535,24 +535,24 @@ export const Header: React.FC<HeaderProps> = ({
                     onSelectPage(page.id);
                   }}
                   title={`${pageTitle} · ${pageSub}`}
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
-                      width: '154px',
-                      height: 'auto',
-                      minHeight: '0px',
-                      paddingTop: '0px',
-                      paddingRight: '10px',
-                      paddingBottom: '0px',
-                      paddingLeft: '10px',
+                      width: '166px',
+                      height: '46px',
+                      minHeight: '46px',
+                      paddingTop: '4px',
+                      paddingRight: '12px',
+                      paddingBottom: '4px',
+                      paddingLeft: '12px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
-                  <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     {styleCfg.avatarGif ? (
                       <img
                         src={styleCfg.avatarGif}
@@ -568,17 +568,20 @@ export const Header: React.FC<HeaderProps> = ({
                       <WebIcon
                         name={page.icon || 'home'}
                         isActive={isSelected}
-                        className="nav-pill-icon-svg w-[15px] h-[15px] text-center block shrink-0"
+                        className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0"
                       />
                     )}
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
-                      style={{ fontWeight: 'bold' }}
+                      style={{
+                        fontWeight: 'bold',
+                        color: isSelected ? 'var(--pill-active-text, #ffffff)' : styleCfg.accentColor,
+                      }}
                       className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
                     >
                       {pageTitle}
@@ -590,10 +593,10 @@ export const Header: React.FC<HeaderProps> = ({
           );
         })}
 
-        {/* Nút Avatar Hùng Thái nằm sau nút cuối */}
+        {/* Nút Liên hệ (kế thừa nút avatar Hùng Thái cũ) nằm sau nút cuối */}
         {(() => {
           const avatarNavIndex = headerPages.length;
-          // Hiệu ứng nút sau nằm trên nút trước (nút avatar nằm ở cuối, z-index cao nhất)
+          // Hiệu ứng nút sau nằm trên nút trước (nút liên hệ nằm ở cuối, z-index cao nhất)
           const baseZIndex = isRadialMenuOpen
             ? 99999
             : avatarNavIndex + 10;
@@ -635,8 +638,8 @@ export const Header: React.FC<HeaderProps> = ({
                   aria-haspopup="dialog"
                   aria-label={
                     language === 'en'
-                      ? 'Expert Nguyen Hung Thai · Booking and Customer Support Menu'
-                      : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch và Chăm sóc khách hàng'
+                      ? 'Contact · Booking and Customer Support Menu'
+                      : 'Liên hệ · Đặt lịch và Chăm sóc khách hàng'
                   }
                   aria-current={currentPage === 12 ? 'page' : undefined}
                   data-active={currentPage === 12 || isRadialMenuOpen ? 'true' : 'false'}
@@ -647,44 +650,42 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   title={
                     language === 'en'
-                      ? 'Expert Nguyen Hung Thai · Booking & CS'
-                      : 'Chuyên gia Nguyễn Hùng Thái · Đặt lịch & CSKH'
+                      ? 'Contact · Booking & CS'
+                      : 'Liên hệ · Đặt lịch & CSKH'
                   }
-                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
+                  className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
                       '--nav-pill-accent': '#4F46E5',
-                      width: '154px',
-                      height: 'auto',
-                      minHeight: '0px',
-                      paddingTop: '0px',
-                      paddingRight: '10px',
-                      paddingBottom: '0px',
-                      paddingLeft: '10px',
+                      width: '166px',
+                      height: '46px',
+                      minHeight: '46px',
+                      paddingTop: '4px',
+                      paddingRight: '12px',
+                      paddingBottom: '4px',
+                      paddingLeft: '12px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
-                  <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
-                    <img
-                      src="https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm"
-                      alt="Hùng Thái"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover rounded-full"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = 'none';
-                      }}
+                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                    <WebIcon
+                      name="contact"
+                      isActive={currentPage === 12 || isRadialMenuOpen}
+                      className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0 text-white"
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
-                      style={{ fontWeight: 'bold' }}
+                      style={{
+                        fontWeight: 'bold',
+                        color: currentPage === 12 || isRadialMenuOpen ? 'var(--pill-active-text, #ffffff)' : '#4F46E5',
+                      }}
                       className="nav-pill-title typo-nav leading-tight font-play truncate"
                     >
-                      {language === 'en' ? 'Hung Thai' : 'Hùng Thái'}
+                      {language === 'en' ? 'Contact' : 'Liên hệ'}
                     </span>
                   </div>
                 </button>

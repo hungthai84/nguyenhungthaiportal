@@ -89,7 +89,7 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
       <div
         ref={cardRef}
         id={`memory-card-${item.id}`}
-        data-element-name={`Thẻ kỷ niệm: ${item.titleVi}`}
+        data-element-name={`Thẻ kỷ niệm Pinterest: ${item.titleVi}`}
         data-media-card="image"
         role="button"
         tabIndex={0}
@@ -108,51 +108,62 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
           }
         }}
         className={cn(
-          'card memory-parallax-card group relative cursor-pointer select-none',
+          'pinterest-memory-card card group relative break-inside-avoid mb-4 flex flex-col rounded-[16px] overflow-hidden border border-[var(--border-subcard)] bg-[var(--surface-primary-bg,var(--bg-card))] shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer select-none',
           isBlurred && 'blur'
         )}
       >
         <div ref={shineRef} className="shineLayer pointer-events-none" />
 
-        {!isLoaded && (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-400/20 via-slate-500/15 to-slate-400/25"
-          />
-        )}
-
-        <img
-          ref={imgRef}
-          src={item.imageUrl}
-          alt={item.titleVi}
-          loading={globalIdx < 6 ? 'eager' : 'lazy'}
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsLoaded(true)}
-          className={cn(
-            'memory-parallax-img transition-opacity duration-300',
-            isLoaded ? 'opacity-100' : 'opacity-0'
+        {/* Khung ảnh Pinterest với huy hiệu góc trên */}
+        <div className="relative w-full overflow-hidden rounded-t-[15px] bg-slate-800/10">
+          {!isLoaded && (
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 min-h-[160px] animate-pulse bg-gradient-to-br from-slate-400/20 via-slate-500/15 to-slate-400/25"
+            />
           )}
-        />
 
-        {/* Thông tin kỷ niệm hiện tinh tế khi rê chuột mà không che hiệu ứng 3D Parallax */}
-        <div className="memory-parallax-meta pointer-events-none">
-          <div className="flex items-center justify-between gap-1.5">
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-black/55 text-white border border-white/20 backdrop-blur-xs">
+          <img
+            ref={imgRef}
+            src={item.imageUrl}
+            alt={item.titleVi}
+            loading={globalIdx < 6 ? 'eager' : 'lazy'}
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onLoad={() => setIsLoaded(true)}
+            className={cn(
+              'w-full h-auto object-cover block transition-transform duration-500 ease-out group-hover:scale-105',
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            )}
+          />
+
+          {/* Badge nổi trên góc ảnh */}
+          <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 z-20 pointer-events-none">
+            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-black/60 text-white border border-white/20 backdrop-blur-md shadow-xs">
               {item.tagVi}
             </span>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-black/55 text-amber-300 border border-white/20 backdrop-blur-xs">
+            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-amber-500/90 text-slate-950 shadow-xs">
               {item.year}
             </span>
           </div>
-          <div className="mt-auto">
-            <h3 className="text-[13px] font-bold text-white leading-snug line-clamp-1 drop-shadow-sm">
-              {formatCardTitle(item.titleVi)}
-            </h3>
-            <div className="flex items-center justify-between gap-2 text-[10.5px] text-slate-200/95 font-mono mt-0.5">
+        </div>
+
+        {/* Thân thẻ Pinterest: Tiêu đề + Địa điểm + Quy mô */}
+        <div className="p-3.5 flex flex-col gap-1.5 bg-transparent border-t border-[var(--border-subcard)]/60">
+          <h3 className="typo-h4 text-[13.5px] font-play font-bold text-[var(--text-heading,var(--text-primary))] leading-snug line-clamp-2 drop-shadow-xs m-0">
+            {formatCardTitle(item.titleVi)}
+          </h3>
+          <div className="flex items-center justify-between gap-2 text-[11px] text-[var(--text-secondary)] font-play mt-0.5">
+            <span className="flex items-center gap-1 truncate">
+              <WebIcon name="map-pin" className="w-3 h-3 shrink-0 text-emerald-500" />
               <span className="truncate">{item.locationVi}</span>
-              {item.teamSize && <span className="shrink-0 text-rose-300 font-bold">{item.teamSize}</span>}
-            </div>
+            </span>
+            {item.teamSize && (
+              <span className="shrink-0 flex items-center gap-1 font-bold text-rose-500 dark:text-rose-400 font-mono text-[10.5px]">
+                <WebIcon name="users" className="w-3 h-3 shrink-0" />
+                <span>{item.teamSize}</span>
+              </span>
+            )}
           </div>
         </div>
       </div>

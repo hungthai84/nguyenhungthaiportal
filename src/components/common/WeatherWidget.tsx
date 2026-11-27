@@ -603,9 +603,9 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-[42px] px-2.5 lg:px-3 py-1 rounded-[10px] flex items-center justify-between gap-2 lg:gap-2.5 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+          className="relative h-[50px] px-3.5 lg:px-4 py-1.5 rounded-[12px] flex items-center justify-between gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
           style={{
-            borderRadius: '10px',
+            borderRadius: '12px',
           }}
         >
           {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM (24H) */}
@@ -613,7 +613,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-heading, var(--text-primary))' }}
-              className="text-[16px] lg:text-[18px] font-mono font-bold leading-none tracking-tight tabular-nums"
+              className="text-[19px] lg:text-[22px] font-mono font-bold leading-none tracking-tight tabular-nums"
             >
               {dateInfo.timeStr}
             </span>
@@ -621,29 +621,29 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 1 */}
           <div
-            className="relative z-10 w-[1px] h-6 rounded-full shrink-0 opacity-70"
+            className="relative z-10 w-[1.5px] h-8 rounded-full shrink-0 opacity-70"
             style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
             aria-hidden="true"
           />
 
           {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC */}
-          <div className="relative z-20 flex items-center gap-1.5 lg:gap-2 shrink-0 min-w-0">
+          <div className="relative z-20 flex items-center gap-2 lg:gap-2.5 shrink-0 min-w-0">
             <div className="relative shrink-0 flex items-center justify-center">
-              {render3DWeatherIcon(cardCfg.condition, 'w-7 h-7 lg:w-8 lg:h-8')}
+              {render3DWeatherIcon(cardCfg.condition, 'w-8 h-8 lg:w-9 lg:h-9')}
             </div>
             <div className="flex flex-col justify-center leading-tight text-left min-w-0">
               <div className="flex items-baseline gap-1.5 whitespace-nowrap">
                 <span
                   suppressHydrationWarning
                   style={{ color: 'var(--text-primary)' }}
-                  className="text-[13px] lg:text-[14px] font-bold leading-none tracking-tight font-play tabular-nums"
+                  className="text-[15px] lg:text-[16px] font-bold leading-none tracking-tight font-play tabular-nums"
                 >
                   {displayTemp}°C
                 </span>
                 <span
                   suppressHydrationWarning
                   style={{ color: 'var(--accent-sky, var(--text-link, var(--color-primary)))' }}
-                  className="hidden sm:inline text-[11px] lg:text-[12px] font-bold font-play leading-none whitespace-nowrap"
+                  className="hidden sm:inline text-[12px] lg:text-[13px] font-bold font-play leading-none whitespace-nowrap"
                 >
                   {displayLabel}
                 </span>
@@ -654,12 +654,12 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               >
                 <WebIcon
                   name="map-pin"
-                  className="w-3 h-3 shrink-0"
+                  className="w-3.5 h-3.5 shrink-0"
                   style={{ color: 'var(--text-link, var(--color-primary))' }}
                 />
                 <span
                   suppressHydrationWarning
-                  className="text-[10.5px] lg:text-[11px] font-medium font-play leading-none truncate max-w-[92px] sm:max-w-[110px] lg:max-w-[140px]"
+                  className="text-[11px] lg:text-[12px] font-medium font-play leading-none truncate max-w-[92px] sm:max-w-[110px] lg:max-w-[140px]"
                 >
                   {displayLocation}
                 </span>
@@ -669,7 +669,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 2 */}
           <div
-            className="relative z-10 w-[1px] h-7 rounded-full shrink-0 opacity-70"
+            className="relative z-10 w-[1.5px] h-8 rounded-full shrink-0 opacity-70"
             style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
             aria-hidden="true"
           />
@@ -679,7 +679,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-primary)' }}
-              className="text-[11.5px] lg:text-[12.5px] font-bold font-play whitespace-nowrap leading-none tracking-tight"
+              className="text-[13px] lg:text-[14px] font-bold font-play whitespace-nowrap leading-none tracking-tight"
             >
               <span className="md:inline xl:inline hidden sm:inline">{dateInfo.dayName}</span>
               <span className="inline sm:hidden">{dateInfo.shortDayName}</span>
@@ -687,7 +687,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-secondary)' }}
-              className="text-[10.5px] lg:text-[11px] font-semibold whitespace-nowrap font-play leading-none tabular-nums"
+              className="text-[11.5px] lg:text-[12px] font-semibold whitespace-nowrap font-play leading-none tabular-nums"
             >
               <span className="xl:hidden">{dateInfo.compactDate}</span>
               <span className="hidden xl:inline">{dateInfo.fullMonthDate}</span>

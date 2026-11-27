@@ -560,7 +560,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
       <div
         data-section-card="true"
         data-element-type="card"
-        className="news-slider-wrapper-container projects-themed-slider bento-card glass-card relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden pb-6"
+        className="news-slider-wrapper-container projects-themed-slider bento-card glass-card relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
         onMouseLeave={() => setHoveredSlotIdx(null)}
       >
         <div className="news-slider-bg" aria-hidden="true" />
@@ -779,9 +779,9 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
         </div>
       </div>
 
-      {/* Pagination Controls floating on top without affecting layout dimensions */}
-      <div className="news-slider-ctr w-full shrink-0 py-0.5 z-20 pointer-events-none">
-        <div className="news-slider-pagination pointer-events-auto">
+      {/* Pagination Controls shrunk by 2x */}
+      <div className="news-slider-ctr w-full shrink-0 py-0.5 z-20">
+        <div className="news-slider-pagination">
           {roadmapCards.map((item, idx) => (
             <button
               key={item.key}

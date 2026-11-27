@@ -1549,16 +1549,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   const bannerInfo = getProjectCloudinaryBanner(proj);
                   const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
                   const orderNumber =
-                    proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || '';
+                    proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || `${idx + 1}`;
                   const cardColor = getProjectCardColor(idx);
-                  const progressPct = typeof proj.progressPercent === 'number' ? proj.progressPercent : 100;
 
                   return (
                     <div
-                      id={`project-stack-card-${proj.id}`}
                       key={proj.id}
-                      data-element-type="card"
-                      data-section-card="true"
                       role="button"
                       tabIndex={0}
                       onClick={() => {
@@ -1568,7 +1564,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           ?.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                       onKeyDown={(e) => {
-                        if (e.target !== e.currentTarget) return;
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           handleOpenGroup(parentGroup, proj);
@@ -1577,113 +1572,28 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             ?.scrollTo({ top: 0, behavior: 'smooth' });
                         }
                       }}
-                      style={{
-                        '--stack-accent': cardColor,
-                        borderColor: `${cardColor}45`,
-                        padding: 0,
-                      } as React.CSSProperties}
-                      className="project-card card-item bento-card glass-card project-stack-card group relative h-full flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
-                      title={`${orderNumber ? `${orderNumber} · ` : ''}${cleanedTitle}`}
+                      style={{ '--stack-accent': cardColor, borderColor: `${cardColor}45` } as React.CSSProperties}
+                      className="card project-stack-card cursor-pointer select-none flex flex-col justify-between overflow-hidden border p-0"
+                      title={`${orderNumber} · ${cleanedTitle}`}
                     >
-                      {/* 1. Ảnh bìa thẻ Dự án dạng xếp chồng: Giống 100% bố cục thẻ dạng danh sách */}
-                      <div
-                        data-media-card="image"
-                        className="project-card-banner relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
-                      >
+                      <div className="relative w-full h-[120px] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 border-b border-[var(--border-subcard)]">
                         <img
                           src={bannerInfo.primaryUrl}
                           alt={cleanedTitle}
-                          title={bannerInfo.imageName}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            if (bannerInfo.fallbackUrl && e.currentTarget.src !== bannerInfo.fallbackUrl) {
-                              e.currentTarget.src = bannerInfo.fallbackUrl;
-                            } else {
-                              e.currentTarget.src =
-                                'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
-                            }
-                          }}
-                          className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div
-                          className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-bl-none rounded-br-none"
-                          style={{
-                            background:
-                              'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',
-                          }}
-                        />
-                        <span
-                          className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[58%] truncate pointer-events-none"
-                        >
-                          <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
-                          <span className="truncate">{parentGroup.fourWordTitle}</span>
-                        </span>
-                        <span
-                          className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
-                        >
-                          <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                          <span>Giai đoạn</span>
-                        </span>
-                      </div>
-
-                      {/* 2. Thân thẻ Dự án dạng xếp chồng: Giống 100% bố cục thẻ dạng danh sách */}
-                      <div className="project-card-body flex-1 flex flex-col justify-between gap-3 p-[15px] min-w-0">
-                        <div className="min-w-0 flex flex-col gap-1.5">
-                          <div className="card-header-sync w-full min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
-                            <h3
-                              className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug m-0 p-0 w-full min-w-0 text-left block"
-                              data-card-title="true"
-                              style={{
-                                color: cardColor,
-                                display: 'block',
-                                textWrap: 'wrap',
-                                wordBreak: 'normal',
-                                overflowWrap: 'break-word',
-                              }}
-                              title={`${orderNumber ? `${orderNumber} · ` : ''}${cleanedTitle}`}
-                            >
-                              {orderNumber && (
-                                <span className="font-mono font-bold mr-1.5 opacity-90 inline">
-                                  {orderNumber}
-                                </span>
-                              )}
-                              <WebIcon
-                                name={getProjectIconByTitle(proj)}
-                                className="w-4 h-4 inline align-[-2px] mr-1.5 shrink-0"
-                                style={{ color: cardColor }}
-                              />
-                              <span className="inline">{cleanedTitle}</span>
-                            </h3>
-                          </div>
-
-                          <p className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 break-words m-0">
-                            {proj.description}
-                          </p>
+                        <div className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black/60 text-white backdrop-blur-md">
+                          {orderNumber} · {parentGroup.fourWordTitle}
                         </div>
-
-                        <div className="flex flex-col gap-2 min-w-0 pt-0.5">
-                          <div className="flex items-center justify-between gap-2.5 pt-1 border-t border-[var(--border-subcard)] min-w-0">
-                            <div className="flex items-center gap-2 min-w-0 flex-1">
-                              <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                                <div
-                                  className="h-full rounded-full transition-all duration-500"
-                                  style={{ width: `${progressPct}%`, backgroundColor: cardColor }}
-                                />
-                              </div>
-                              <span className="typo-badge font-mono font-bold tabular-nums shrink-0" style={{ color: cardColor }}>
-                                {progressPct}%
-                              </span>
-                            </div>
-                            <span
-                              className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 group-hover:translate-x-0.5 transition-transform"
-                              style={{ color: cardColor }}
-                            >
-                              <span>Chi tiết Case Study</span>
-                              <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
-                            </span>
-                          </div>
+                      </div>
+                      <div className="p-4 flex flex-col flex-1 justify-between">
+                        <div>
+                          <h3 className="text-sm font-bold text-[var(--text-primary)] line-clamp-1">{cleanedTitle}</h3>
+                          <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mt-1">{proj.description}</p>
+                        </div>
+                        <div className="flex items-center justify-between pt-2 mt-2 border-t border-[var(--border-subcard)] text-[11px] text-[var(--text-tertiary)]">
+                          <span>Tiến độ: {proj.progressPercent ?? 100}%</span>
+                          <span className="font-medium text-[var(--accent-color)]">Chi tiết →</span>
                         </div>
                       </div>
                     </div>

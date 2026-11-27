@@ -5,7 +5,7 @@ import { PageMeta, SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import { RadialContactMenu } from './RadialContactMenu';
 
 export interface HeaderProps {
@@ -17,6 +17,7 @@ export interface HeaderProps {
   onShowNotification?: (msg: string) => void;
 }
 
+// Cấu hình giao diện chuẩn theo định dạng nút bên phải của Footer cho tất cả 15 trang
 interface HeaderButtonStyle {
   accentColor: string;
   accentBg: string;
@@ -244,6 +245,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
 };
 
+// Danh sách các trang hiển thị trên menu icon Header (Ẩn: 12 - Liên hệ / Đặt lịch, 13 - Trợ lý AI, 14 - Hình nền, 15 - Giao diện)
 const HIDDEN_HEADER_PAGE_IDS = [12, 13, 14, 15];
 const HEADER_ORDER_IDS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -256,6 +258,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { language } = useLanguage();
 
+  // Hiển thị các trang trên menu icon Header
   const visiblePages = (pages || []).filter(
     (p: any) => p.name !== 'Nội dung không tồn tại' && !HIDDEN_HEADER_PAGE_IDS.includes(p.id)
   );
@@ -270,20 +273,7 @@ export const Header: React.FC<HeaderProps> = ({
   const headerPages = [...orderedPages, ...extraPages];
 
   const { cardStyle } = useTheme();
-  const headerCardStyle = getCardStyleProperties(cardStyle);
-  const {
-    border: _b,
-    borderColor: _bc,
-    borderWidth: _bw,
-    borderStyle: _bs,
-    borderRadius: _br,
-    background: _fb,
-    backgroundColor: _fbc,
-    boxShadow: _fbs,
-    backdropFilter: _fbf,
-    WebkitBackdropFilter: _fwbf,
-    ...cleanHeaderStyle
-  } = headerCardStyle as unknown as Record<string, unknown>;
+  void currentTheme;
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -305,6 +295,7 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const avatarPillRef = useRef<HTMLDivElement>(null);
 
+  // Đo kích thước tự nhiên và vị trí kết thúc chữ tiêu đề của từng nút ở Header
   useLayoutEffect(() => {
     const measureUniformWidth = () => {
       const width = typeof window !== 'undefined' ? window.innerWidth : 1280;
@@ -353,7 +344,7 @@ export const Header: React.FC<HeaderProps> = ({
             }
           }
         } catch {
-          // Fallback
+          // Fallback to titleEl rect right
         }
         return Math.max(0, Math.round(wrapperRect.right - textRight));
       });
@@ -382,6 +373,7 @@ export const Header: React.FC<HeaderProps> = ({
     setIsRadialMenuOpen((prev) => !prev);
   };
 
+  // Tự động đóng menu phụ & cuộn mượt nút đang chọn vào chính giữa thanh Header trên máy tính bảng / điện thoại
   useEffect(() => {
     setIsRadialMenuOpen(false);
     setFocusedNavIndex(null);
@@ -410,6 +402,7 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.cancelAnimationFrame(rafId);
   }, [currentPage, viewportWidth, uniformPillWidth, isCompactMobile]);
 
+
   const exposedWidth = isSmallScreen ? 44 : 46;
   const overlapPx = uniformPillWidth
     ? Math.max(0, uniformPillWidth - exposedWidth)
@@ -433,6 +426,7 @@ export const Header: React.FC<HeaderProps> = ({
     if (typeof trailingGap !== 'number' || Number.isNaN(trailingGap)) {
       return 10;
     }
+    // Chồng nhẹ vào phần đuôi trống sát ngay sau chữ tiêu đề nút trước, chừa tối thiểu 5px để không che mất chữ
     return Math.max(2, Math.min(28, trailingGap - 5));
   };
 
@@ -445,32 +439,33 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-page="global"
       data-element-parent="website-root"
       style={{
-        ...cleanHeaderStyle,
         maxWidth: 'var(--main-card-target-w, 1600px)',
         width: '100%',
-        height: '100%',
-        minHeight: '100%',
+        height: '85px',
+        minHeight: '85px',
+        maxHeight: '85px',
         boxSizing: 'border-box',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '5px',
-        paddingBottom: '5px',
+        paddingTop: '0px',
+        paddingBottom: '0px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: isRadialMenuOpen ? 99999 : 40,
         borderTopLeftRadius: '0px',
         borderTopRightRadius: '0px',
-        borderBottomLeftRadius: 'var(--header-radius, 18px)',
-        borderBottomRightRadius: 'var(--header-radius, 18px)',
-        borderRadius: '0 0 var(--header-radius, 18px) var(--header-radius, 18px)',
+        borderBottomLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
+        borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
       }}
-      className={`neonav-bar mx-auto flex items-center justify-center px-[clamp(10px,1.5vw,18px)] ${
+      className={`neonav-bar mx-auto py-0 flex items-center justify-center px-[10px] sm:px-[15px] ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
+      {/* Khu vực Menu chính: Các nút định dạng xếp chồng trên desktop (tự tách rõ trên thiết bị chạm) */}
       <nav
         ref={navRef}
         id="header-center"
@@ -488,6 +483,8 @@ export const Header: React.FC<HeaderProps> = ({
         {headerPages.map((page: any, index: number) => {
           const styleCfg = PAGE_FOOTER_STYLE_MAP[page.id] || PAGE_FOOTER_STYLE_MAP[0];
           const isSelected = page.id === currentPage;
+          // Hiệu ứng nút sau nằm trên nút trước: z-index tăng dần từ trái sang phải, kể cả nút liền sau nút đang chọn
+          // Đồng thời tính khoảng chồng sát phần cuối tiêu đề của nút nằm dưới để thấy trọn vẹn tiêu đề nút đang chọn
           const baseZIndex = index + 10;
           const isAfterRevealed = revealedNavIndex !== null && index === revealedNavIndex + 1;
           const itemMarginLeft = isCompactMobile
@@ -522,6 +519,7 @@ export const Header: React.FC<HeaderProps> = ({
                   width: uniformPillWidth ? `${uniformPillWidth}px` : undefined,
                 }}
               >
+                {/* Main Inner Button */}
                 <button
                   ref={(el) => {
                     pillBtnRefs.current[index] = el;
@@ -542,17 +540,18 @@ export const Header: React.FC<HeaderProps> = ({
                     {
                       '--nav-pill-accent': styleCfg.accentColor,
                       width: '154px',
-                      height: '42px',
-                      minHeight: '42px',
-                      paddingTop: '6px',
+                      height: 'auto',
+                      minHeight: '0px',
+                      paddingTop: '0px',
                       paddingRight: '10px',
-                      paddingBottom: '6px',
+                      paddingBottom: '0px',
                       paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
+                  {/* Round Circle Badge with Icon or Avatar */}
                   <div className="nav-pill-icon-badge relative z-10 w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     {styleCfg.avatarGif ? (
                       <img
@@ -574,6 +573,7 @@ export const Header: React.FC<HeaderProps> = ({
                     )}
                   </div>
 
+                  {/* Vertical Divider */}
                   <div className="nav-pill-divider w-[1.5px] h-[18px] shrink-0 rounded-[999px]" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
@@ -590,8 +590,10 @@ export const Header: React.FC<HeaderProps> = ({
           );
         })}
 
+        {/* Nút Avatar Hùng Thái nằm sau nút cuối */}
         {(() => {
           const avatarNavIndex = headerPages.length;
+          // Hiệu ứng nút sau nằm trên nút trước (nút avatar nằm ở cuối, z-index cao nhất)
           const baseZIndex = isRadialMenuOpen
             ? 99999
             : avatarNavIndex + 10;
@@ -651,13 +653,13 @@ export const Header: React.FC<HeaderProps> = ({
                   className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[7px] cursor-pointer border"
                   style={
                     {
-                      '--nav-pill-accent': 'var(--color-primary, #4F46E5)',
+                      '--nav-pill-accent': '#4F46E5',
                       width: '154px',
-                      height: '42px',
-                      minHeight: '42px',
-                      paddingTop: '6px',
+                      height: 'auto',
+                      minHeight: '0px',
+                      paddingTop: '0px',
                       paddingRight: '10px',
-                      paddingBottom: '6px',
+                      paddingBottom: '0px',
                       paddingLeft: '10px',
                       fontWeight: 'normal',
                       borderWidth: '1px',
@@ -688,6 +690,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
 
+              {/* Radial Contact Menu Popup */}
               <RadialContactMenu
                 isOpen={isRadialMenuOpen}
                 onClose={() => setIsRadialMenuOpen(false)}

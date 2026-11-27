@@ -29,15 +29,15 @@ const VolumeX = ({ className }: { className?: string }) => <WebIcon name="mute" 
 const X = ({ className }: { className?: string }) => <WebIcon name="cancel" className={className} />;
 const Target = ({ className }: { className?: string }) => <WebIcon name="target" className={className} />;
 const User = ({ className }: { className?: string }) => <WebIcon name="user" className={className} />;
-const BarChart3 = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="chart" size={size} className={className} />;
-const Heart = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="heart" size={size} className={className} />;
-const Leaf = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="leaf" size={size} className={className} />;
-const Star = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="star" size={size} className={className} />;
-const Award = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="award" size={size} className={className} />;
+const BarChart3 = ({ className }: { className?: string }) => <WebIcon name="chart" className={className} />;
+const Heart = ({ className }: { className?: string }) => <WebIcon name="heart" className={className} />;
+const Leaf = ({ className }: { className?: string }) => <WebIcon name="leaf" className={className} />;
+const Star = ({ className }: { className?: string }) => <WebIcon name="star" className={className} />;
+const Award = ({ className }: { className?: string }) => <WebIcon name="award" className={className} />;
 const RotateCw = ({ className }: { className?: string }) => <WebIcon name="rotate-cw" className={className} />;
 const RotateCcw = ({ className }: { className?: string }) => <WebIcon name="rotate-ccw" className={className} />;
-const Clock = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="clock" size={size} className={className} />;
-const HeartHandshake = ({ className, size }: { className?: string; size?: number | string }) => <WebIcon name="heart-handshake" size={size} className={className} />;
+const Clock = ({ className }: { className?: string }) => <WebIcon name="clock" className={className} />;
+const HeartHandshake = ({ className }: { className?: string }) => <WebIcon name="heart-handshake" className={className} />;
 const Navigation = ({ className }: { className?: string }) => <WebIcon name="navigation" className={className} />;
 const Bot = ({ className }: { className?: string }) => <WebIcon name="bot" className={className} />;
 
@@ -2896,13 +2896,10 @@ export function AboutView({
                       'ring-2 ring-cyan-300 dark:ring-cyan-400 shadow-[0_0_24px_rgba(56,189,248,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <BarChart3 size={88} className="absolute -right-3 -bottom-3 text-blue-500/10 dark:text-sky-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-blue-600 dark:text-sky-300">
-                      <BarChart3 className="w-4 h-4 shrink-0 text-blue-600 dark:text-sky-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-blue-600 dark:text-sky-300">Hiệu quả vận hành</h5>
+                      <BarChart3 className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Hiệu quả vận hành</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Tối ưu &amp; Kết quả</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
@@ -2923,13 +2920,10 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <Heart size={88} className="absolute -right-3 -bottom-3 text-rose-500/10 dark:text-rose-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-rose-600 dark:text-rose-300">
-                      <Heart className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-rose-600 dark:text-rose-300">Nhân văn con người</h5>
+                      <Heart className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Nhân văn con người</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Đồng cảm &amp; Thấu hiểu</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
@@ -2950,13 +2944,10 @@ export function AboutView({
                       'ring-2 ring-emerald-300 dark:ring-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.7)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <Leaf size={88} className="absolute -right-3 -bottom-3 text-emerald-500/10 dark:text-emerald-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-emerald-600 dark:text-emerald-300">
-                      <Leaf className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-emerald-600 dark:text-emerald-300">Bền vững dài hạn</h5>
+                      <Leaf className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Bền vững dài hạn</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Giá trị &amp; Tin cậy</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
@@ -3012,13 +3003,10 @@ export function AboutView({
                       'ring-2 ring-amber-300 dark:ring-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <Award size={88} className="absolute -right-3 -bottom-3 text-amber-500/10 dark:text-amber-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-amber-600 dark:text-amber-300">
-                      <Award className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-amber-600 dark:text-amber-300">Tận tâm trách nhiệm</h5>
+                      <Award className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Tận tâm trách nhiệm</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Trách nhiệm &amp; Hết lòng</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
@@ -3043,13 +3031,10 @@ export function AboutView({
                       'ring-2 ring-pink-300 dark:ring-pink-400 shadow-[0_0_24px_rgba(244,114,182,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <Clock size={88} className="absolute -right-3 -bottom-3 text-pink-500/10 dark:text-pink-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-pink-600 dark:text-pink-300">
-                      <Clock className="w-4 h-4 shrink-0 text-pink-600 dark:text-pink-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-pink-600 dark:text-pink-300">Kịp thời nhanh nhạy</h5>
+                      <Clock className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Kịp thời nhanh nhạy</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Tốc độ &amp; Đúng lúc</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">
@@ -3074,13 +3059,10 @@ export function AboutView({
                       'ring-2 ring-purple-300 dark:ring-purple-400 shadow-[0_0_24px_rgba(192,132,252,0.75)] scale-[1.02] -translate-y-1'
                   )}
                 >
-                  {/* Nền thẻ là icon (Watermark Background Icon) */}
-                  <HeartHandshake size={88} className="absolute -right-3 -bottom-3 text-purple-500/10 dark:text-purple-400/15 pointer-events-none select-none -rotate-12 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-0 z-0" />
-
                   <div className="relative z-10 flex flex-col gap-1">
                     <div className="pillar-heading flex items-center gap-1.5 text-purple-600 dark:text-purple-300">
-                      <HeartHandshake className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-300" />
-                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight text-purple-600 dark:text-purple-300">Đồng cảm chân thành</h5>
+                      <HeartHandshake className="w-4 h-4 shrink-0" />
+                      <h5 className="pillar-heading typo-h5 font-bold font-play m-0 leading-tight">Đồng cảm chân thành</h5>
                     </div>
                     <span className="pillar-sub typo-badge font-semibold opacity-90 block">Lắng nghe &amp; Thấu cảm</span>
                     <p className="pillar-body typo-caption leading-relaxed m-0 text-[var(--text-secondary)]">

@@ -194,19 +194,11 @@ html[data-card-style="neumorphism-beyond"] body {
     0 12px 28px rgba(100, 116, 139, 0.22),
     4px 6px 16px rgba(148, 163, 184, 0.26),
     inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  --shadow-header:
-    6px 8px 20px rgba(148, 163, 184, 0.45),
-    -4px 6px 14px rgba(255, 255, 255, 0.85),
-    inset 0 1px 0 rgba(255, 255, 255, 0.60);
-  --shadow-main-card:
-    8px 12px 26px rgba(148, 163, 184, 0.40),
-    -6px -6px 18px rgba(255, 255, 255, 0.85);
-  --shadow-footer:
-    -6px -8px 20px rgba(255, 255, 255, 0.85),
-    6px -8px 20px rgba(148, 163, 184, 0.45),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
-  --surface-header-shadow: var(--shadow-header);
-  --surface-footer-shadow: var(--shadow-footer);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
   --radius-primary-surface: var(--radius-main, 14px);
   --radius-header: var(--radius-primary-surface);
   --radius-footer: var(--radius-primary-surface);
@@ -577,34 +569,22 @@ html:root[data-card-style="neumorphism-beyond"] :is(
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
-  background: var(--neu-convex-bg, rgba(235, 240, 246, 0.9)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  color: var(--color-primary, #4973FF) !important;
-  box-shadow:
-    -2px -2px 6px rgba(255, 255, 255, 0.85),
-    2px 2px 6px rgba(163, 177, 198, 0.5) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  color: #0284c7 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
   background: #ffffff !important;
-  border-color: var(--color-primary, #4973FF) !important;
-  color: var(--color-primary, #4973FF) !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-icon,
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-counter {
-  color: var(--color-primary, #4973FF) !important;
-  stroke: var(--color-primary, #4973FF) !important;
-}
-
-/* Thẻ thời tiết chân trang: Phong cách Neumorphism Beyond */
-html:root[data-card-style="neumorphism-beyond"] :is(#weather-card, #weather-widget-card, .weather-card) {
-  background: var(--neu-convex-bg, var(--surface-interactive-bg, #E0E5EC)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  box-shadow:
-    -3px -3px 8px rgba(255, 255, 255, 0.85),
-    3px 3px 8px rgba(163, 177, 198, 0.5) !important;
+  color: #0284c7 !important;
+  stroke: #0284c7 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(

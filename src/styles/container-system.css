@@ -856,9 +856,9 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services Bento View 12 columns on medium widths */
+  /* Services shrinks cleanly to 2 columns on medium widths with content-fit height */
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1047,7 +1047,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1258,7 +1258,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     grid-auto-rows: auto !important;
     width: 100% !important;
     max-width: 100% !important;

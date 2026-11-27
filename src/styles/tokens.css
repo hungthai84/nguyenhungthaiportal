@@ -17,29 +17,29 @@
   --layout-typo-factor: 1;
   --layout-col-factor: 1;
 
-  /* Optimized Fluid Typography Scale (clamp-based for desktop, laptop & compact screens) */
-  --fs-display: clamp(26px, 2.4vw, 32px);
-  --fs-h1: clamp(21px, 2vw, 26px);
-  --fs-h2: clamp(18px, 1.6vw, 22px);
-  --fs-h3: clamp(16px, 1.3vw, 19px);
-  --fs-h4: clamp(14.5px, 1.1vw, 16.5px);
-  --fs-h5: clamp(13.5px, 1vw, 15px);
+  /* Default Standard Typography Scale (1rem = 16px base) */
+  --fs-display: 36px;
+  --fs-h1: 30px;
+  --fs-h2: 24px;
+  --fs-h3: 20px;
+  --fs-h4: 18px;
+  --fs-h5: 16px;
 
-  --fs-body-lg: clamp(15px, 1.1vw, 16.5px);
-  --fs-body: clamp(13.5px, 0.95vw, 15px);
-  --fs-body-sm: clamp(12px, 0.85vw, 13px);
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
 
-  --fs-caption: 11.5px;
-  --fs-label: 11.5px;
-  --fs-badge: 11.5px;
-  --fs-overline: 11px;
-  --fs-button: clamp(12.5px, 0.9vw, 13.5px);
-  --fs-nav: clamp(12.5px, 0.9vw, 13.5px);
-  --fs-tab: clamp(12.5px, 0.9vw, 13.5px);
-  --fs-input: 15px;
-  --fs-kpi: clamp(22px, 2.2vw, 28px);
-  --fs-quote: clamp(16px, 1.4vw, 19px);
-  --fs-popup-title: clamp(16px, 1.4vw, 19px);
+  --fs-caption: 12px;
+  --fs-label: 12px;
+  --fs-badge: 12px;
+  --fs-overline: 12px;
+  --fs-button: 14px;
+  --fs-nav: 14px;
+  --fs-tab: 14px;
+  --fs-input: 16px;
+  --fs-kpi: 30px;
+  --fs-quote: 20px;
+  --fs-popup-title: 20px;
 
   /* Cấu hình hình nền mặc định: 0% mờ (opacity 100%), độ rõ nét 0px blur */
   --wallpaper-bg-blur: 0px;
@@ -290,7 +290,6 @@
   --elevation-2: var(--shadow-subcard);
   --shadow-card: 0 14px 36px -6px rgba(30, 27, 75, 0.14), 0 4px 14px -2px rgba(30, 27, 75, 0.07), inset 0 1px 1px rgba(255, 255, 255, 0.85);
   --elevation-3: var(--shadow-card);
-  /* Elevated Drop Shadow & Floating Depth */
   --elevation-primary-surface:
     0 2px 6px rgba(15, 23, 42, 0.05),
     0 12px 28px -6px rgba(15, 23, 42, 0.12),
@@ -303,57 +302,17 @@
     0 24px 52px -12px rgba(15, 23, 42, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.92),
     inset 0 -1px 0 rgba(15, 23, 42, 0.06);
-
-  /* HEADER: Downward floating 3D drop shadow + highlight specular bevel */
-  --shadow-header:
-    0 4px 12px -2px rgba(15, 23, 42, 0.08),
-    0 14px 32px -6px rgba(15, 23, 42, 0.14),
-    0 26px 52px -10px rgba(15, 23, 42, 0.10),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.50);
-
-  /* FOOTER: Upward floating 3D drop shadow (-Y) + highlight specular bevel */
-  --shadow-footer:
-    0 -4px 12px -2px rgba(15, 23, 42, 0.08),
-    0 -14px 32px -6px rgba(15, 23, 42, 0.14),
-    0 -26px 52px -10px rgba(15, 23, 42, 0.10),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(15, 23, 42, 0.05);
-
-  /* MAIN CARD: Deep 3D ambient shadow + border bevel */
-  --shadow-main-card:
-    0 4px 14px -2px rgba(15, 23, 42, 0.07),
-    0 16px 38px -6px rgba(15, 23, 42, 0.14),
-    0 32px 64px -12px rgba(15, 23, 42, 0.12),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(15, 23, 42, 0.05);
-  --elevation-4: var(--shadow-main-card);
-
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
+  --elevation-4: var(--elevation-primary-surface);
   --main-card-deep-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.22), 0 10px 24px -6px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --main-card-deep-shadow-hover: 0 28px 64px -12px rgba(15, 23, 42, 0.30), 0 14px 30px -4px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   --main-card-deep-shadow-dark: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 12px 28px -6px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   --main-card-deep-shadow-dark-hover: 0 32px 76px -12px rgba(0, 0, 0, 0.92), 0 16px 36px -6px rgba(0, 0, 0, 0.70), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   --main-card-hover-lift: -3px;
-
-  /* MỌI CARD Ở TỪNG TRANG: Multi-layer floating drop shadow + 3D bevel */
-  --shadow-card:
-    0 2px 8px -1px rgba(15, 23, 42, 0.06),
-    0 10px 24px -4px rgba(15, 23, 42, 0.11),
-    0 20px 42px -10px rgba(15, 23, 42, 0.09),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -1px 0 rgba(15, 23, 42, 0.04);
-  --shadow-card-hover:
-    0 6px 16px -2px rgba(15, 23, 42, 0.10),
-    0 18px 38px -4px rgba(15, 23, 42, 0.16),
-    0 32px 64px -12px rgba(15, 23, 42, 0.14),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -1px 0 rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 22px 48px -6px rgba(30, 27, 75, 0.22), 0 8px 20px -2px rgba(30, 27, 75, 0.10), inset 0 1.5px 2px rgba(255, 255, 255, 0.95);
   --shadow-subcard-hover: 0 10px 26px -3px rgba(30, 27, 75, 0.14), 0 3px 8px rgba(30, 27, 75, 0.06);
-
-  --layer-l1-shadow: var(--shadow-main-card);
-  --layer-l2-shadow: var(--shadow-card);
-  --layer-l2-shadow-hover: var(--shadow-card-hover);
-  --layer-l3-shadow: var(--shadow-subcard);
   --shadow-floating: 0 22px 52px -6px rgba(30, 27, 75, 0.24), 0 6px 18px -2px rgba(30, 27, 75, 0.12);
   --shadow-modal: 0 32px 75px -10px rgba(15, 23, 42, 0.32), 0 12px 35px -4px rgba(15, 23, 42, 0.16);
   --shadow-popup: var(--shadow-floating);
@@ -546,31 +505,17 @@
   --outline-offset-image-card: 0px;
 
   /* Container Max Width & Unified Horizontal Frame Width (Equal to Main Card) */
-  --layout-max-width: 1600px;
-  --layout-desktop-width: 85%;
-  --layout-width: 85%;
-  --header-radius: 18px;
-  --main-radius: 18px;
-  --footer-radius: 18px;
-  --layout-gap: 0px;
-  --header-menu-height: 54px;
-  --footer-content-height: 64px;
-
-  --main-card-target-w: 85%;
+  --main-card-target-w: clamp(1000px, 78vw, 1380px);
   --main-card-target-h: 100%;
-  --container-max-w: 85%;
+  --container-max-w: var(--main-card-target-w, 1380px);
   --shell-section-gap: 0px;
-  --shell-header-height: 8vh;
-  --shell-footer-height: 8vh;
-  --shell-bar-height: 8vh;
-  --shell-bar-h: 8vh;
-  --shell-center-height: 84vh;
+  --shell-header-height: 85px;
+  --shell-footer-height: 85px;
   --about-peek-reserve: 112px;
   --main-cards-gap: 10px;
-  --main-card-w: 85%;
+  --main-card-w: clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px));
   --main-card-h: min(var(--main-card-target-h, 100%), 100%);
-  --shared-frame-w: 85%;
-  --shell-container-w: 85%;
+  --shared-frame-w: var(--main-card-w, clamp(260px, calc(100vw - 32px), var(--main-card-target-w, 1380px)));
 
   /* Services Card Liquid Color Reveal & Expanded Card Semantic Tokens (Auto-derived from Active Theme) */
   --service-hover-surface: radial-gradient(
@@ -599,13 +544,45 @@
     inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.6));
 }
 
-@supports (height: 100dvh) {
+@media (min-width: 1600px) {
   :root {
-    --shell-header-height: 8dvh;
-    --shell-footer-height: 8dvh;
-    --shell-bar-height: 8dvh;
-    --shell-bar-h: 8dvh;
-    --shell-center-height: 84dvh;
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 1400px) and (max-width: 1599px) {
+  :root {
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1399px) {
+  :root {
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (min-width: 390px) and (max-width: 767px) {
+  :root {
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
+    --shell-section-gap: 0px;
+  }
+}
+@media (max-width: 389px) {
+  :root {
+    --shell-header-height: 85px;
+    --shell-footer-height: 85px;
     --shell-section-gap: 0px;
   }
 }
@@ -708,12 +685,12 @@
   --surface-primary-border: var(--glass-main-border);
   --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
-  --surface-primary-shadow: var(--shadow-main-card);
-  --surface-primary-shadow-hover: var(--main-card-deep-shadow-hover);
-  --surface-header-shadow: var(--shadow-header);
-  --surface-header-shadow-hover: var(--shadow-header);
-  --surface-footer-shadow: var(--shadow-footer);
-  --surface-footer-shadow-hover: var(--shadow-footer);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-primary-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow-hover: var(--elevation-primary-surface-hover);
   --surface-primary-hover-lift: 0px;
   --surface-primary-transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease, color 220ms ease;
   --surface-primary-blur: var(--glass-main-blur);
@@ -722,8 +699,8 @@
   /* Level 02 – Card: Readable Opaque/Frosted 3D Bento Card */
   --surface-secondary-bg: var(--surface-card-glass);
   --surface-secondary-border: var(--glass-card-border);
-  --surface-secondary-shadow: var(--shadow-card);
-  --surface-secondary-shadow-hover: var(--shadow-card-hover);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
   --surface-secondary-blur: var(--glass-card-blur);
   --surface-secondary-saturate: var(--glass-card-saturate);
 
@@ -860,51 +837,12 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="c
     0 28px 60px -12px rgba(0, 0, 0, 0.50),
     inset 0 1px 0 rgba(225, 235, 255, 0.24),
     inset 0 -1px 0 rgba(0, 0, 0, 0.38);
-
-  /* HEADER DARK: Downward floating 3D drop shadow */
-  --shadow-header:
-    0 4px 16px -2px rgba(0, 0, 0, 0.50),
-    0 18px 40px -6px rgba(0, 0, 0, 0.70),
-    0 32px 64px -10px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-
-  /* FOOTER DARK: Upward floating 3D drop shadow (-Y) */
-  --shadow-footer:
-    0 -4px 16px -2px rgba(0, 0, 0, 0.50),
-    0 -18px 40px -6px rgba(0, 0, 0, 0.70),
-    0 -32px 64px -10px rgba(0, 0, 0, 0.55),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-
-  /* MAIN CARD DARK */
-  --shadow-main-card:
-    0 4px 16px -2px rgba(0, 0, 0, 0.45),
-    0 20px 46px -6px rgba(0, 0, 0, 0.68),
-    0 36px 72px -12px rgba(0, 0, 0, 0.58),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-  --elevation-4: var(--shadow-main-card);
-
-  /* MỌI CARD Ở TỪNG TRANG DARK */
-  --shadow-card:
-    0 2px 10px -1px rgba(0, 0, 0, 0.35),
-    0 12px 28px -4px rgba(0, 0, 0, 0.52),
-    0 24px 48px -10px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.50);
-  --shadow-card-hover:
-    0 6px 20px -2px rgba(0, 0, 0, 0.48),
-    0 22px 48px -4px rgba(0, 0, 0, 0.72),
-    0 38px 74px -12px rgba(0, 0, 0, 0.62),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.26),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.70);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
+  --elevation-4: var(--elevation-primary-surface);
+  --shadow-card-hover: 0 20px 44px -6px rgba(0, 0, 0, 0.42), 0 8px 20px -2px rgba(181, 167, 244, 0.12), inset 0 1px 0 rgba(225, 235, 255, 0.22);
   --shadow-subcard-hover: 0 10px 24px -3px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(225, 235, 255, 0.16);
-
-  --layer-l1-shadow: var(--shadow-main-card);
-  --layer-l2-shadow: var(--shadow-card);
-  --layer-l2-shadow-hover: var(--shadow-card-hover);
-  --layer-l3-shadow: var(--shadow-subcard);
   --shadow-floating: 0 20px 48px -6px rgba(0, 0, 0, 0.45), 0 6px 16px -2px rgba(0, 0, 0, 0.30);
   --shadow-modal: 0 32px 72px -10px rgba(0, 0, 0, 0.62), 0 12px 32px -4px rgba(0, 0, 0, 0.44);
   --shadow-popup: var(--shadow-floating);
@@ -1106,19 +1044,19 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="c
   --surface-primary-border: var(--glass-main-border);
   --surface-primary-border-hover: var(--glass-main-border);
   --surface-primary-outline-hover: transparent;
-  --surface-primary-shadow: var(--shadow-main-card);
-  --surface-primary-shadow-hover: var(--main-card-deep-shadow-hover);
-  --surface-header-shadow: var(--shadow-header);
-  --surface-header-shadow-hover: var(--shadow-header);
-  --surface-footer-shadow: var(--shadow-footer);
-  --surface-footer-shadow-hover: var(--shadow-footer);
+  --surface-primary-shadow: var(--elevation-primary-surface);
+  --surface-primary-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-header-shadow-hover: var(--elevation-primary-surface-hover);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow-hover: var(--elevation-primary-surface-hover);
   --surface-primary-blur: var(--glass-main-blur);
   --surface-primary-saturate: var(--glass-main-saturate);
 
   --surface-secondary-bg: var(--surface-card-glass);
   --surface-secondary-border: var(--glass-card-border);
-  --surface-secondary-shadow: var(--shadow-card);
-  --surface-secondary-shadow-hover: var(--shadow-card-hover);
+  --surface-secondary-shadow: var(--shadow-card-glass);
+  --surface-secondary-shadow-hover: var(--shadow-card-glass);
   --surface-secondary-blur: var(--glass-card-blur);
   --surface-secondary-saturate: var(--glass-card-saturate);
 
@@ -2062,98 +2000,5 @@ html[data-theme="dark-iridescent-liquid-glass"] {
     --space-subcard-padding: 10px;
     --space-subcard-gap: 8px;
   }
-}
-
-/* ========================================================================= */
-/* TỐI ƯU HÓA KÍCH THƯỚC FONT CHỮ TOÀN DIỆN CHO TABLET & MOBILE             */
-/* ========================================================================= */
-@media (max-width: 1024px) {
-  :root {
-    --fs-display: clamp(24px, 3.2vw, 28px);
-    --fs-h1: clamp(20px, 2.6vw, 23px);
-    --fs-h2: clamp(17px, 2.2vw, 20px);
-    --fs-h3: clamp(15px, 1.8vw, 17px);
-    --fs-h4: clamp(14px, 1.5vw, 15.5px);
-    --fs-h5: clamp(13px, 1.3vw, 14px);
-    --fs-body-lg: 15px;
-    --fs-body: 14px;
-    --fs-body-sm: 12.5px;
-    --fs-caption: 11px;
-    --fs-label: 11px;
-    --fs-badge: 11px;
-    --fs-button: 13px;
-    --fs-nav: 13px;
-    --fs-tab: 12.5px;
-    --fs-kpi: 24px;
-    --fs-quote: 17px;
-    --fs-popup-title: 17px;
-  }
-}
-
-@media (max-width: 768px) {
-  :root {
-    --fs-display: 24px;
-    --fs-h1: 20px;
-    --fs-h2: 18px;
-    --fs-h3: 16px;
-    --fs-h4: 14.5px;
-    --fs-h5: 13.5px;
-    --fs-body-lg: 14.5px;
-    --fs-body: 13.5px;
-    --fs-body-sm: 12px;
-    --fs-caption: 10.5px;
-    --fs-label: 11px;
-    --fs-badge: 10.5px;
-    --fs-button: 12.5px;
-    --fs-nav: 12.5px;
-    --fs-tab: 12px;
-    --fs-input: 16px; /* Giữ 16px để ngăn iOS Safari tự động zoom */
-    --fs-kpi: 22px;
-    --fs-quote: 16px;
-    --fs-popup-title: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --fs-display: 22px;
-    --fs-h1: 19px;
-    --fs-h2: 17px;
-    --fs-h3: 15px;
-    --fs-h4: 14px;
-    --fs-h5: 13px;
-    --fs-body-lg: 14px;
-    --fs-body: 13px;
-    --fs-body-sm: 11.5px;
-    --fs-caption: 10px;
-    --fs-label: 10.5px;
-    --fs-badge: 10px;
-    --fs-button: 12px;
-    --fs-nav: 12px;
-    --fs-tab: 11.5px;
-    --fs-kpi: 20px;
-    --fs-quote: 15px;
-    --fs-popup-title: 15px;
-  }
-}
-
-/* Chế độ Mobile Compact Mode thu gọn: tối ưu hóa tỷ lệ font hiển thị tối đa */
-html.mobile-compact-active {
-  --fs-display: 21px !important;
-  --fs-h1: 18px !important;
-  --fs-h2: 16px !important;
-  --fs-h3: 15px !important;
-  --fs-h4: 13.5px !important;
-  --fs-h5: 12.5px !important;
-  --fs-body-lg: 13.5px !important;
-  --fs-body: 12.5px !important;
-  --fs-body-sm: 11.5px !important;
-  --fs-caption: 10px !important;
-  --fs-label: 10.5px !important;
-  --fs-badge: 10px !important;
-  --fs-button: 12px !important;
-  --fs-nav: 12px !important;
-  --fs-tab: 11.5px !important;
-  --fs-kpi: 20px !important;
 }
 

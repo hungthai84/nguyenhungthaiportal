@@ -198,19 +198,11 @@ html[data-card-style="frost-ice-neu"] body {
   --shadow-popup:
     -10px -10px 22px rgba(255, 255, 255, 0.88),
     12px 12px 26px rgba(145, 163, 186, 0.62);
-  --shadow-header:
-    6px 8px 20px rgba(163, 177, 198, 0.55),
-    -4px 6px 14px rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(163, 177, 198, 0.25);
-  --shadow-main-card:
-    8px 12px 24px rgba(163, 177, 198, 0.45),
-    -6px -6px 18px rgba(255, 255, 255, 0.85);
-  --shadow-footer:
-    -6px -8px 20px rgba(255, 255, 255, 0.85),
-    6px -8px 20px rgba(163, 177, 198, 0.55),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.95);
-  --surface-header-shadow: var(--shadow-header);
-  --surface-footer-shadow: var(--shadow-footer);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
 
   /* Layered Surface Tokens */
   --surface-primary-bg: #E0E8F2;
@@ -668,9 +660,9 @@ html:root[data-card-style="frost-ice-neu"] :is(
 }
 
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
-  background: rgba(255, 255, 255, 0.45) !important;
-  border: 1px solid rgba(165, 243, 252, 0.5) !important;
-  color: var(--color-primary, #5B57E8) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  color: #0284c7 !important;
   box-shadow:
     -2px -2px 5px rgba(255, 255, 255, 0.8),
     2px 2px 5px rgba(163, 179, 199, 0.4) !important;
@@ -678,27 +670,19 @@ html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#
 
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
   background: #ffffff !important;
-  border-color: var(--color-primary, #5B57E8) !important;
-  color: var(--color-primary, #5B57E8) !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
 }
 
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):active {
-  border: 1px solid var(--color-primary, #5B57E8) !important;
+  border: 1px solid #0284c7 !important;
 }
 
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule #footer-page-icon,
 html:root[data-card-style="frost-ice-neu"] #app-footer #footer-nav-capsule #footer-page-counter {
-  color: var(--color-primary, #5B57E8) !important;
-  stroke: var(--color-primary, #5B57E8) !important;
-}
-
-/* Thẻ thời tiết chân trang: Phong cách Băng tuyết Neumorphism */
-html:root[data-card-style="frost-ice-neu"] :is(#weather-card, #weather-widget-card, .weather-card) {
-  background: var(--surface-interactive-bg, rgba(240, 249, 255, 0.75)) !important;
-  border: 1px solid rgba(165, 243, 252, 0.6) !important;
-  box-shadow: -3px -3px 8px rgba(255, 255, 255, 0.9), 3px 3px 8px rgba(186, 230, 253, 0.45) !important;
-  backdrop-filter: blur(14px) !important;
+  color: #0284c7 !important;
+  stroke: #0284c7 !important;
 }
 
 /* Primary Action / Active Nav Pill: Single Saturated Accent (#5B57E8) + Crisp White Text (No Border) */

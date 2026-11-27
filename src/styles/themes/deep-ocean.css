@@ -131,23 +131,11 @@ html[data-card-style="deep-ocean"] {
   --shadow-card: 0 18px 40px rgba(3, 9, 20, 0.65), inset 0 1px 0 rgba(125, 211, 252, 0.20);
   --shadow-card-hover: 0 18px 40px rgba(3, 9, 20, 0.65), inset 0 1px 0 rgba(125, 211, 252, 0.20);
   --shadow-subcard: 0 8px 22px rgba(3, 9, 20, 0.46), inset 0 1px 0 rgba(125, 211, 252, 0.12);
-  --shadow-header:
-    0 4px 16px -2px rgba(3, 9, 20, 0.50),
-    0 18px 42px -6px rgba(3, 9, 20, 0.70),
-    inset 0 1px 0 rgba(125, 211, 252, 0.28),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-  --shadow-main-card:
-    0 4px 16px -2px rgba(3, 9, 20, 0.45),
-    0 20px 48px -6px rgba(3, 9, 20, 0.72),
-    inset 0 1.5px 0 rgba(125, 211, 252, 0.26),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-  --shadow-footer:
-    0 -4px 16px -2px rgba(3, 9, 20, 0.50),
-    0 -18px 42px -6px rgba(3, 9, 20, 0.70),
-    inset 0 1.5px 0 rgba(125, 211, 252, 0.28),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60);
-  --surface-header-shadow: var(--shadow-header);
-  --surface-footer-shadow: var(--shadow-footer);
+  --surface-header-shadow: var(--elevation-primary-surface);
+  --surface-footer-shadow: var(--elevation-primary-surface);
+  --shadow-header: var(--elevation-primary-surface);
+  --shadow-main-card: var(--elevation-primary-surface);
+  --shadow-footer: var(--elevation-primary-surface);
 
   /* Layered Surface Tokens */
   --surface-primary-bg: rgba(10, 22, 46, 0.80);

@@ -603,7 +603,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-[50px] px-3.5 lg:px-4 py-1.5 rounded-[12px] flex items-center justify-between gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+          className="relative h-[36px] sm:h-[50px] px-1.5 sm:px-3.5 lg:px-4 py-1 sm:py-1.5 rounded-[12px] flex items-center justify-between gap-1 sm:gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
           style={{
             borderRadius: '12px',
           }}
@@ -613,7 +613,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-heading, var(--text-primary))' }}
-              className="text-[19px] lg:text-[22px] font-mono font-bold leading-none tracking-tight tabular-nums"
+              className="text-[12.5px] sm:text-[19px] lg:text-[22px] font-mono font-bold leading-none tracking-tight tabular-nums"
             >
               {dateInfo.timeStr}
             </span>
@@ -621,22 +621,22 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 1 */}
           <div
-            className="relative z-10 w-[1.5px] h-8 rounded-full shrink-0 opacity-70"
+            className="relative z-10 w-[1px] sm:w-[1.5px] h-5 sm:h-8 rounded-full shrink-0 opacity-70"
             style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
             aria-hidden="true"
           />
 
           {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC */}
-          <div className="relative z-20 flex items-center gap-2 lg:gap-2.5 shrink-0 min-w-0">
+          <div className="relative z-20 flex items-center gap-1 sm:gap-2 lg:gap-2.5 shrink-0 min-w-0">
             <div className="relative shrink-0 flex items-center justify-center">
-              {render3DWeatherIcon(cardCfg.condition, 'w-8 h-8 lg:w-9 lg:h-9')}
+              {render3DWeatherIcon(cardCfg.condition, 'w-5 h-5 sm:w-8 sm:h-8 lg:w-9 lg:h-9')}
             </div>
             <div className="flex flex-col justify-center leading-tight text-left min-w-0">
               <div className="flex items-baseline gap-1.5 whitespace-nowrap">
                 <span
                   suppressHydrationWarning
                   style={{ color: 'var(--text-primary)' }}
-                  className="text-[15px] lg:text-[16px] font-bold leading-none tracking-tight font-play tabular-nums"
+                  className="text-[12.5px] sm:text-[15px] lg:text-[16px] font-bold leading-none tracking-tight font-play tabular-nums"
                 >
                   {displayTemp}°C
                 </span>
@@ -649,7 +649,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                 </span>
               </div>
               <div
-                className="flex items-center gap-1 mt-0.5 min-w-0"
+                className="hidden sm:flex items-center gap-1 mt-0.5 min-w-0"
                 style={{ color: 'var(--text-secondary)' }}
               >
                 <WebIcon
@@ -669,13 +669,13 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
           {/* VÁCH NGĂN 2 */}
           <div
-            className="relative z-10 w-[1.5px] h-8 rounded-full shrink-0 opacity-70"
+            className="hidden sm:block relative z-10 w-[1.5px] h-8 rounded-full shrink-0 opacity-70"
             style={{ backgroundColor: 'var(--divider-nav-pill, var(--border-color))' }}
             aria-hidden="true"
           />
 
           {/* 3. BÊN PHẢI: THỨ, NGÀY THÁNG NĂM */}
-          <div className="relative z-20 flex flex-col items-start justify-center gap-0.5 shrink-0 text-left leading-tight">
+          <div className="hidden sm:flex relative z-20 flex-col items-start justify-center gap-0.5 shrink-0 text-left leading-tight">
             <span
               suppressHydrationWarning
               style={{ color: 'var(--text-primary)' }}

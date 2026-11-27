@@ -547,13 +547,7 @@ html[data-wave-motion="off"] .ambient-orb {
   will-change: auto !important;
 }
 
-/* Subtle GPU-composited floating strictly for inner cards inside .page-main-card (never Header, Footer, or Page Track) */
-html:not([data-surface-depth="flat"]):not([data-wave-motion="off"]) .page-main-card :is(
-  [data-subcard="true"],
-  .sub-card
-):not(.home-hero-card):not(#app-header *):not(#app-footer *):not(:hover):not(:focus-within) {
-  animation: mainCardSubtleFloat 6.5s ease-in-out infinite alternate;
-}
+/* Static inner sub-cards remain anchored for crisp text rendering without idle float shimmer */
 
 /* Reduced Motion Safety */
 @media (prefers-reduced-motion: reduce) {

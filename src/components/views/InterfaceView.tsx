@@ -908,11 +908,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         <div
           id="interface-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang Giao Diện"
           data-element-type="card"
           data-element-page="interface"
           data-element-parent="interface-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card floating-surface--main flex flex-col justify-start p-[15px] gap-[15px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
           {/* BANNER TRANG GIAO DIỆN */}
           <section

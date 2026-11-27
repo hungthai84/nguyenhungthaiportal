@@ -23,10 +23,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-display',
     className: 'typo-display',
     desktop: '36px',
-    tablet: '36px',
-    mobile: '36px',
-    fluidClamp: '36px',
-    lineHeight: '1.18',
+    tablet: '31px',
+    mobile: '26px',
+    fluidClamp: 'clamp(26px, 2.8vw, 36px)',
+    lineHeight: '1.16',
     letterSpacing: '-0.024em',
     fontWeight: 700,
     textWrap: 'balance',
@@ -36,10 +36,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h1',
     className: 'typo-h1',
     desktop: '30px',
-    tablet: '30px',
-    mobile: '30px',
-    fluidClamp: '30px',
-    lineHeight: '1.24',
+    tablet: '26px',
+    mobile: '22px',
+    fluidClamp: 'clamp(22px, 2.2vw, 30px)',
+    lineHeight: '1.22',
     letterSpacing: '-0.02em',
     fontWeight: 700,
     textWrap: 'balance',
@@ -49,10 +49,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h2',
     className: 'typo-h2',
     desktop: '24px',
-    tablet: '24px',
-    mobile: '24px',
-    fluidClamp: '24px',
-    lineHeight: '1.28',
+    tablet: '21px',
+    mobile: '19px',
+    fluidClamp: 'clamp(19px, 1.8vw, 24px)',
+    lineHeight: '1.26',
     letterSpacing: '-0.016em',
     fontWeight: 700,
     textWrap: 'balance',
@@ -62,22 +62,22 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h3',
     className: 'typo-h3',
     desktop: '20px',
-    tablet: '20px',
-    mobile: '20px',
-    fluidClamp: '20px',
+    tablet: '18.5px',
+    mobile: '17px',
+    fluidClamp: 'clamp(17px, 1.45vw, 20px)',
     lineHeight: '1.3',
     letterSpacing: '-0.01em',
-    fontWeight: 600,
+    fontWeight: 700,
     textWrap: 'balance',
   },
   h4: {
     token: 'H4 – Tiêu đề Sub Card',
     cssVar: '--fs-h4',
     className: 'typo-h4',
-    desktop: '18px',
-    tablet: '18px',
-    mobile: '18px',
-    fluidClamp: '18px',
+    desktop: '17.5px',
+    tablet: '16.5px',
+    mobile: '15.5px',
+    fluidClamp: 'clamp(15.5px, 1.25vw, 17.5px)',
     lineHeight: '1.32',
     letterSpacing: '-0.005em',
     fontWeight: 600,
@@ -88,9 +88,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-h5',
     className: 'typo-h5',
     desktop: '16px',
-    tablet: '16px',
-    mobile: '16px',
-    fluidClamp: '16px',
+    tablet: '15.5px',
+    mobile: '15px',
+    fluidClamp: 'clamp(15px, 1.15vw, 16px)',
     lineHeight: '1.35',
     letterSpacing: '-0.005em',
     fontWeight: 600,
@@ -100,10 +100,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'Body Large',
     cssVar: '--fs-body-lg',
     className: 'typo-body-lg',
-    desktop: '18px',
-    tablet: '18px',
-    mobile: '18px',
-    fluidClamp: '18px',
+    desktop: '17.5px',
+    tablet: '16.5px',
+    mobile: '15.5px',
+    fluidClamp: 'clamp(15.5px, 1.25vw, 17.5px)',
     lineHeight: '1.6',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -113,10 +113,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'Body Regular',
     cssVar: '--fs-body',
     className: 'typo-body',
-    desktop: '16px',
-    tablet: '16px',
-    mobile: '16px',
-    fluidClamp: '16px',
+    desktop: '15.5px',
+    tablet: '15px',
+    mobile: '14.5px',
+    fluidClamp: 'clamp(14.5px, 1.1vw, 15.5px)',
     lineHeight: '1.6',
     letterSpacing: '0.005em',
     fontWeight: 400,
@@ -128,9 +128,9 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-body-sm',
     desktop: '14px',
     tablet: '14px',
-    mobile: '14px',
-    fluidClamp: '14px',
-    lineHeight: '1.55',
+    mobile: '13.5px',
+    fluidClamp: 'clamp(13.5px, 1vw, 14px)',
+    lineHeight: '1.56',
     letterSpacing: '0.005em',
     fontWeight: 400,
     textWrap: 'pretty',
@@ -139,11 +139,11 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'Caption / Metadata',
     cssVar: '--fs-caption',
     className: 'typo-caption',
-    desktop: '12px',
-    tablet: '12px',
+    desktop: '12.5px',
+    tablet: '12.5px',
     mobile: '12px',
-    fluidClamp: '12px',
-    lineHeight: '1.4',
+    fluidClamp: 'clamp(12px, 0.9vw, 12.5px)',
+    lineHeight: '1.42',
     letterSpacing: '0.01em',
     fontWeight: 400,
   },
@@ -153,8 +153,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-label',
     desktop: '12px',
     tablet: '12px',
-    mobile: '12px',
-    fluidClamp: '12px',
+    mobile: '11.5px',
+    fluidClamp: 'clamp(11.5px, 0.85vw, 12px)',
     lineHeight: '1.38',
     letterSpacing: '0.025em',
     fontWeight: 600,
@@ -165,8 +165,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-badge',
     desktop: '12px',
     tablet: '12px',
-    mobile: '12px',
-    fluidClamp: '12px',
+    mobile: '11.5px',
+    fluidClamp: 'clamp(11.5px, 0.85vw, 12px)',
     lineHeight: '1.38',
     letterSpacing: '0.025em',
     fontWeight: 600,
@@ -177,8 +177,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-overline',
     desktop: '12px',
     tablet: '12px',
-    mobile: '12px',
-    fluidClamp: '12px',
+    mobile: '11.5px',
+    fluidClamp: 'clamp(11.5px, 0.85vw, 12px)',
     lineHeight: '1.35',
     letterSpacing: '0.03em',
     fontWeight: 600,
@@ -189,8 +189,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-button',
     desktop: '14px',
     tablet: '14px',
-    mobile: '14px',
-    fluidClamp: '14px',
+    mobile: '13.5px',
+    fluidClamp: 'clamp(13.5px, 0.98vw, 14px)',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 700,
@@ -199,10 +199,10 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     token: 'Navigation',
     cssVar: '--fs-nav',
     className: 'typo-nav',
-    desktop: '14px',
+    desktop: '14.5px',
     tablet: '14px',
-    mobile: '14px',
-    fluidClamp: '14px',
+    mobile: '13.5px',
+    fluidClamp: 'clamp(13.5px, 1vw, 14.5px)',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 600,
@@ -213,8 +213,8 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     className: 'typo-tab',
     desktop: '14px',
     tablet: '14px',
-    mobile: '14px',
-    fluidClamp: '14px',
+    mobile: '13.5px',
+    fluidClamp: 'clamp(13.5px, 0.98vw, 14px)',
     lineHeight: '1.35',
     letterSpacing: '0.01em',
     fontWeight: 600,
@@ -236,11 +236,23 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-kpi',
     className: 'typo-kpi',
     desktop: '30px',
-    tablet: '30px',
-    mobile: '30px',
-    fluidClamp: '30px',
+    tablet: '26px',
+    mobile: '22px',
+    fluidClamp: 'clamp(22px, 2.2vw, 30px)',
     lineHeight: '1.18',
     letterSpacing: '-0.02em',
+    fontWeight: 700,
+  },
+  quote: {
+    token: 'Banner Quote',
+    cssVar: '--fs-quote',
+    className: 'banner-quote',
+    desktop: '20px',
+    tablet: '18.5px',
+    mobile: '17px',
+    fluidClamp: 'clamp(17px, 1.5vw, 20px)',
+    lineHeight: '1.35',
+    letterSpacing: '0em',
     fontWeight: 700,
   },
   popupTitle: {
@@ -248,15 +260,26 @@ export const TYPOGRAPHY_SCALE: Record<string, TypographyTokenSpec> = {
     cssVar: '--fs-popup-title',
     className: 'typo-popup-title',
     desktop: '20px',
-    tablet: '20px',
-    mobile: '20px',
-    fluidClamp: '20px',
+    tablet: '18.5px',
+    mobile: '17px',
+    fluidClamp: 'clamp(17px, 1.5vw, 20px)',
     lineHeight: '1.28',
     letterSpacing: '-0.015em',
     fontWeight: 700,
     textWrap: 'balance',
   },
 };
+
+export function resolveViewportTier(width: number): 'mobile' | 'tablet' | 'desktop' {
+  if (!Number.isFinite(width) || width < 768) return 'mobile';
+  if (width < 1200) return 'tablet';
+  return 'desktop';
+}
+
+export function resolveTokenSizeForWidth(spec: TypographyTokenSpec, width: number): string {
+  const tier = resolveViewportTier(width);
+  return spec[tier] || spec.desktop;
+}
 
 // Breakpoint tham chiếu mặc định khi không có window
 const VIEWPORT_DESKTOP_REF = 1280;
@@ -481,10 +504,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('-moz-osx-font-smoothing', 'grayscale');
   rootStyle.setProperty('text-rendering', 'optimizeLegibility');
 
-  // 3. Ghi nhận tier viewport để bố cục ngắt cột tự nhiên, không co chữ
-  const isMobile = width < 768;
-  const isTablet = width >= 768 && width < 1200;
-  const tier = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+  const tier = resolveViewportTier(width);
   rootEl.setAttribute('data-viewport-tier', tier);
   rootEl.setAttribute('data-typography-ready', 'true');
 
@@ -492,8 +512,8 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--ch-measure', '68ch');
   rootStyle.setProperty('--ch-measure-wide', '75ch');
 
-  // 4. Chiều cao dòng không đơn vị chuẩn thống nhất 100%
-  rootStyle.setProperty('--lh-heading', '1.28');
+  // 4. Chiều cao dòng không đơn vị chuẩn thống nhất
+  rootStyle.setProperty('--lh-heading', '1.26');
   rootStyle.setProperty('--lh-body', '1.6');
   rootStyle.setProperty('--lh-compact', '1.38');
   rootStyle.setProperty('--lh-kpi', '1.18');
@@ -509,7 +529,7 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--ls-caption', '0.01em');
   rootStyle.setProperty('--ls-label', '0.025em');
 
-  // 6. Khóa hệ số thu phóng về đúng 1 (100% mặc định)
+  // 6. Khóa hệ số thu phóng về đúng 1 (100% mặc định) và áp dụng fluid clamp() chuẩn theo từng viewport
   try {
     localStorage.removeItem('hungthai_font_scale_v1');
   } catch {
@@ -524,10 +544,10 @@ export function applyTypographyScaleToDocument(forcedWidth?: number): void {
   rootStyle.setProperty('--layout-col-factor', '1');
 
   Object.entries(TYPOGRAPHY_SCALE).forEach(([key, spec]) => {
-    const fixedDefaultSize = spec.desktop;
+    const resolvedFluid = spec.fluidClamp || spec.desktop;
 
-    rootStyle.setProperty(spec.cssVar, fixedDefaultSize);
-    rootStyle.setProperty(`${spec.cssVar}-fluid`, fixedDefaultSize);
+    rootStyle.setProperty(spec.cssVar, resolvedFluid);
+    rootStyle.setProperty(`${spec.cssVar}-fluid`, resolvedFluid);
 
     const lhVar = SCALE_LINE_HEIGHT_VAR_MAP[key];
     if (lhVar) {

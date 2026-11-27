@@ -151,11 +151,12 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
         <div
           id="contact-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang Liên Hệ"
           data-element-type="card"
           data-element-page="contact"
           data-element-parent="contact-cards-track"
-          className="page-main-card relative flex flex-col items-stretch p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+          className="page-main-card floating-surface--main relative flex flex-col items-stretch p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
         >
           <div
             id="contact-main-scroll-viewport"

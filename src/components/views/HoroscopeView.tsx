@@ -1206,8 +1206,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0 min-w-0 max-w-full">
@@ -1324,8 +1324,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0 min-w-0 max-w-full">
@@ -1453,8 +1453,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0 min-w-0 max-w-full">
@@ -1547,8 +1547,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0 min-w-0 max-w-full">
@@ -1707,8 +1707,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         <div className="w-full flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0">
@@ -1946,8 +1946,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         }}
         style={horoscopeMainCardStyle}
         className={cn(
-          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border opacity-100',
-          !isActive && 'cursor-pointer'
+          'page-main-card floating-glass-surface floating-surface--main relative z-10 shrink-0 flex flex-col justify-start p-[15px] gap-[15px] rounded-[var(--radius-global,var(--radius-main,14px))] overflow-y-auto overflow-x-hidden no-scrollbar font-play text-left select-none box-border transition-opacity duration-200',
+          isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
         {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}

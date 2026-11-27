@@ -114,7 +114,7 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
           isBlurred && 'blur'
         )}
       >
-        <div ref={shineRef} className="shineLayer pointer-events-none" />
+        <div ref={shineRef} className="shineLayer absolute inset-0 z-15 pointer-events-none" />
 
         {!isLoaded && (
           <div
@@ -443,450 +443,156 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           ref={mainCardScrollRef}
           id="memories-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang Kỷ Niệm"
           data-element-type="card"
           data-element-page="memories"
           data-element-parent="memories-cards-track"
-          className="page-main-card flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card floating-surface--main flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-      {/* CSS cho bố cục .card-section, .card-list, .card, .shineLayer và hiệu ứng 3D Parallax + Sibling Blur */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            #memories-main-card .card-section {
-              margin: 15px 0 20px 0;
-              padding: 20px 16px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              width: 100%;
-              border-radius: var(--radius-subcard, 14px);
-              background: var(--bg-subcard, rgba(255, 255, 255, 0.32));
-              border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.2));
-              box-sizing: border-box;
-            }
+        {/* CSS Tối ưu khoảng cách dòng, giãn chữ di động & hiệu ứng hover nhấp nháy / shimmer */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              @keyframes memoryCardShimmerPulse {
+                0% {
+                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0px rgba(14, 165, 233, 0);
+                }
+                50% {
+                  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.2), 0 0 18px rgba(14, 165, 233, 0.4);
+                }
+                100% {
+                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0px rgba(14, 165, 233, 0);
+                }
+              }
 
-            #memories-main-card .card-section > h1 {
-              margin-top: 0;
-              margin-bottom: 0;
-              font-size: clamp(1.25rem, 2vw, 1.6rem);
-              font-weight: 700;
-              color: var(--text-heading, var(--text-primary));
-              text-align: center;
-              letter-spacing: -0.01em;
-            }
+              #memories-main-card .exp-detail-subcard {
+                line-height: 1.68;
+                letter-spacing: 0.012em;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              }
 
-            #memories-main-card .card-section > h4 {
-              color: var(--text-muted, #999);
-              margin-top: 4px;
-              margin-bottom: 10px;
-              font-size: clamp(0.82rem, 1.15vw, 0.95rem);
-              font-weight: 500;
-              text-align: center;
-              max-width: 720px;
-            }
+              #memories-main-card .exp-detail-subcard p {
+                line-height: 1.72;
+                letter-spacing: 0.016em;
+                font-size: clamp(13.5px, 2vw, 14.5px);
+              }
 
-            #memories-main-card .card-list {
-              display: flex;
-              flex-wrap: wrap;
-              align-items: center;
-              justify-content: center;
-              width: 100%;
-            }
+              #memories-main-card .exp-detail-subcard:hover {
+                animation: memoryCardShimmerPulse 2.2s ease-in-out infinite;
+                border-color: var(--text-link, var(--color-primary));
+                transform: translateY(-2px);
+              }
+            `,
+          }}
+        />
 
-            #memories-main-card .card.memory-parallax-card {
-              position: relative;
-              width: 320px;
-              max-width: calc(100vw - 56px);
-              height: 180px;
-              border-radius: var(--radius-image, 10px);
-              overflow: hidden;
-              margin: 15px 20px;
-              box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.15);
-              transform: scale3d(1, 1, 1);
-              transition: all 0.2s ease-out, filter 0.75s ease-out;
-              background: rgba(0, 0, 0, 0.2);
-              filter: grayscale(0.1) saturate(95%) brightness(95%) contrast(90%);
-              isolation: isolate;
-              will-change: transform, filter, box-shadow;
-            }
+        {/* HEADER GIỐNG THẺ CHI TIẾT TRẢ LỜI (#interview-answers-card) */}
+        <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
+          <h3 className="card-title card-header-sync card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0" data-card-title="true">
+            <WebIcon name="image" className="w-5 h-5 shrink-0" />
+            <span className="truncate">Bộ sưu tập kỷ niệm</span>
+          </h3>
+          <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
+            {filteredMemories.length} khoảnh khắc
+            <span aria-hidden="true" className="mx-1 opacity-60">·</span>
+            <span className="text-[var(--text-link,var(--color-primary))]">
+              {categoryFilter !== 'all' ? MEMORIES_CATEGORIES.find(c => c.id === categoryFilter)?.labelVi : 'Tất cả chủ đề'}
+            </span>
+          </span>
+        </div>
 
-            #memories-main-card .card.memory-parallax-card:hover {
-              box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.3);
-              filter: grayscale(0) saturate(105%) brightness(100%) contrast(100%);
-              z-index: 20;
-            }
-
-            #memories-main-card .card.memory-parallax-card > img.memory-parallax-img {
-              position: absolute;
-              width: 108%;
-              height: 108%;
-              max-width: none;
-              top: -4%;
-              left: -4%;
-              z-index: -10;
-              transform: scale(1.05);
-              transition: all 0.2s ease-out;
-              object-fit: cover;
-              pointer-events: none;
-            }
-
-            #memories-main-card .card.memory-parallax-card > .shineLayer {
-              position: relative;
-              z-index: 15;
-              height: 100%;
-              width: 100%;
-              background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 80%);
-              transition: all 0.2s ease-out;
-            }
-
-            #memories-main-card .card.memory-parallax-card.blur {
-              filter: blur(1px) grayscale(0.25) saturate(65%) contrast(75%) brightness(90%);
-              transform: scale(0.95);
-            }
-
-            #memories-main-card .card.memory-parallax-card .memory-parallax-meta {
-              position: absolute;
-              inset: 0;
-              z-index: 12;
-              padding: 10px 12px;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              background: linear-gradient(
-                180deg,
-                rgba(15, 23, 42, 0.18) 0%,
-                rgba(15, 23, 42, 0.04) 45%,
-                rgba(15, 23, 42, 0.78) 100%
-              );
-              opacity: 0;
-              transition: opacity 0.24s ease-out;
-            }
-
-            #memories-main-card .card.memory-parallax-card:hover .memory-parallax-meta,
-            #memories-main-card .card.memory-parallax-card:focus-visible .memory-parallax-meta {
-              opacity: 1;
-            }
-          `,
-        }}
-      />
-
-      {/* BANNER KỶ NIỆM: Format chuẩn 100% theo phong cách banner Wallpaper (h-200px, p-[15px], bo cong 14px) */}
-      <motion.div
-        id="memories-hero-banner"
-        data-element-name="Banner card"
-        data-element-type="banner-card"
-        data-element-page="memories"
-        data-section-card="true"
-        data-has-compact-menu="true"
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-        className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,24px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300"
-        style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 24px)' }}
-      >
+        {/* VÙNG DANH SÁCH SUBCARDS CUỘN DỌC MƯỢT MÀ GIỐNG HỆT CHI TIẾT TRẢ LỜI */}
         <div
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
+          data-scrollable="true"
+          data-no-wheel-horizontal="true"
+          className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3"
         >
-          <VideoBanner
-            videoId={memoriesBannerVideo.videoId}
-            title={memoriesBannerVideo.title}
-            className="rounded-[inherit]"
-          />
-        </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
-
-        <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-          <div className="card-header-sync flex items-center gap-2 min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon name="camera" className="w-[22px] h-[22px] shrink-0" />
-            <h1
-              className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
-              data-card-title="true"
-              style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
-            >
-              Khoảnh khắc kỷ niệm
-            </h1>
-          </div>
-          <p
-            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
-          >
-            &quot;Mỗi khoảnh khắc là một mảnh ghép tự hào của hành trình ♡&quot;
-          </p>
-
-          <CompactBannerMenu
-            id="memories-compact-menu-btn"
-            label="Điều khiển"
-            ariaLabel="Bộ lọc và tìm kiếm kỷ niệm"
-            activeCount={(categoryFilter !== 'all' ? 1 : 0) + (companyFilter !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
-          >
-            {(closeMenu) => (
-              <>
-                <div className="relative w-full">
-                  <WebIcon
-                    name="search"
-                    className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                  />
-                  <input
-                    id="memories-compact-search-input"
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Tìm kỷ niệm, địa điểm, năm..."
-                    aria-label="Tìm kiếm ảnh kỷ niệm"
-                    className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-normal font-play focus:outline-none"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery('')}
-                      aria-label="Xóa từ khóa tìm kiếm"
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-75 hover:opacity-100 cursor-pointer"
-                    >
-                      <WebIcon name="cancel" className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <span className="typo-label text-[var(--text-muted)] px-1">Theo chủ đề kỷ niệm</span>
-                  {MEMORIES_CATEGORIES.map((cat) => {
-                    const active = categoryFilter === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        data-selected={active ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setCategoryFilter(cat.id);
-                          closeMenu();
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span>{cat.labelVi}</span>
-                        {active && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="flex flex-col gap-1 border-t border-[var(--border-subcard)] pt-2">
-                  <span className="typo-label text-[var(--text-muted)] px-1">Theo đơn vị công tác</span>
-                  {MEMORIES_COMPANIES.map((comp) => {
-                    const isActive = companyFilter === comp.id;
-                    return (
-                      <button
-                        key={comp.id}
-                        type="button"
-                        data-selected={isActive ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setCompanyFilter(comp.id);
-                          closeMenu();
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span className="truncate">{comp.labelVi}</span>
-                        {isActive && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {(categoryFilter !== 'all' || companyFilter !== 'all' || searchQuery.trim() !== '') && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleResetFilters();
-                      closeMenu();
-                    }}
-                    className="banner-control-pill w-full px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer"
-                  >
-                    ✕ Đặt lại bộ lọc
-                  </button>
-                )}
-              </>
-            )}
-          </CompactBannerMenu>
-        </div>
-
-        {/* Nhóm bộ lọc bên trái + Ô tìm kiếm nhanh bên phải */}
-        <div className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto w-full" ref={filterMenuRef}>
-          <div className="flex flex-wrap items-center gap-2">
-          <div className="relative inline-block text-left">
-            <button
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setIsFilterDropdownOpen((prev) => !prev);
-              }}
-              className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group"
-              title="Bộ lọc kỷ niệm"
-              aria-label="Bộ lọc kỷ niệm"
-              aria-expanded={isFilterDropdownOpen}
-              aria-haspopup="listbox"
-            >
-              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
-              <span>Bộ lọc kỷ niệm</span>
-              {(categoryFilter !== 'all' || companyFilter !== 'all') && (
-                <span className="banner-count-pill px-2 py-0.5 rounded-full typo-badge font-mono">
-                  {categoryFilter !== 'all'
-                    ? MEMORIES_CATEGORIES.find((c) => c.id === categoryFilter)?.labelVi
-                    : MEMORIES_COMPANIES.find((c) => c.id === companyFilter)?.labelVi}
-                </span>
-              )}
-              <WebIcon
-                name="chevron-down"
-                className={cn(
-                  'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
-                  isFilterDropdownOpen && 'rotate-180'
-                )}
+          {filteredMemories.length === 0 ? (
+            <div className="w-full flex-grow relative min-h-[360px]">
+              <ViewState
+                id="memories-empty-card"
+                variant="empty"
+                icon="camera"
+                title="Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc."
+                description="Hãy thử chọn lại công ty hoặc chủ đề khác."
+                actionLabel="↻ Đặt lại bộ lọc"
+                onAction={handleResetFilters}
               />
-            </button>
-
-            <AnimatePresence>
-              {isFilterDropdownOpen && (
-                <motion.div
-                  id="memories-filter-listbox"
-                  data-element-type="card"
-                  initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                  transition={{ duration: 0.16 }}
-                  role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full max-h-80 overflow-y-auto no-scrollbar rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                >
-                  <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
-                    Theo chủ đề kỷ niệm
+            </div>
+          ) : (
+            filteredMemories.map((item, idx) => (
+              <div
+                key={item.id}
+                id={`memory-subcard-${item.id}`}
+                data-element-type="card"
+                data-subcard="true"
+                style={{ borderRadius: '14px' }}
+                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-3 shrink-0 cursor-pointer"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  setActiveLightboxIdx(idx);
+                }}
+              >
+                {/* Subcard Header */}
+                <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border-subcard)] min-w-0">
+                  <div className="interview-time-heading subcard-header-sync typo-h4 flex items-center gap-2 text-sky-600 dark:text-sky-400 min-w-0">
+                    <WebIcon name="camera" className="w-4 h-4 shrink-0" />
+                    <span className="subcard-title-synced tracking-wide text-sky-600 dark:text-sky-400 truncate" data-subcard-title="true">
+                      {formatCardTitle(item.titleVi)}
+                    </span>
                   </div>
-                  {MEMORIES_CATEGORIES.map((cat) => {
-                    const active = categoryFilter === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        data-selected={active ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setCategoryFilter(cat.id);
-                          setIsFilterDropdownOpen(false);
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span>{cat.labelVi}</span>
-                        {active && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
-                      </button>
-                    );
-                  })}
-
-                  <div className="my-1 border-t border-[var(--border-subcard)]" />
-                  <div className="px-2.5 py-1 typo-label font-mono tracking-wider text-[var(--text-heading,var(--text-primary))]">
-                    Theo đơn vị công tác
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-amber-400 text-slate-950 shadow-xs">
+                      {item.year}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-black/10 dark:bg-white/10 text-[var(--text-secondary)]">
+                      {item.tagVi}
+                    </span>
                   </div>
-                  {MEMORIES_COMPANIES.map((comp) => {
-                    const isActive = companyFilter === comp.id;
-                    return (
-                      <button
-                        key={comp.id}
-                        type="button"
-                        data-selected={isActive ? 'true' : 'false'}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setCompanyFilter(comp.id);
-                          setIsFilterDropdownOpen(false);
-                        }}
-                        className="theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left"
-                      >
-                        <span className="truncate">{comp.labelVi}</span>
-                        {isActive && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
-                      </button>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                </div>
 
-          {/* Reset filter button nếu có filter */}
-          {(categoryFilter !== 'all' || companyFilter !== 'all' || searchQuery.trim() !== '') && (
-            <button
-              type="button"
-              onClick={handleResetFilters}
-              className="banner-control-pill px-3 py-1.5 rounded-full bg-rose-500/90 hover:bg-rose-600 text-white typo-button font-play transition-all cursor-pointer shadow-xs"
-            >
-              ✕ Đặt lại
-            </button>
+                {/* Subcard Image Banner */}
+                <div className="relative w-full h-56 sm:h-72 rounded-[12px] overflow-hidden group bg-black/10 border border-[var(--border-subcard)]">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.titleVi}
+                    loading={idx < 4 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                    <span className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-md">
+                      <WebIcon name="maximize-2" className="w-3.5 h-3.5" />
+                      Bấm để phóng to ảnh kỷ niệm
+                    </span>
+                  </div>
+                </div>
+
+                {/* Subcard Description & Footer Info */}
+                <div className="flex flex-col gap-2 text-left pt-1">
+                  <p className="typo-body text-[var(--text-secondary)] leading-relaxed m-0">
+                    {item.descVi}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subcard)]/60 text-[11.5px] text-[var(--text-muted)] font-play">
+                    <span className="flex items-center gap-1.5 truncate">
+                      <WebIcon name="map-pin" className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span className="truncate">{item.locationVi}</span>
+                    </span>
+                    {item.teamSize && (
+                      <span className="flex items-center gap-1 font-mono text-rose-500 font-bold shrink-0">
+                        <WebIcon name="users" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{item.teamSize}</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))
           )}
-          </div>
-
-          <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end ml-auto max-w-full sm:max-w-[300px]">
-            <div className="relative flex-1 sm:w-52">
-              <WebIcon
-                name="search"
-                className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm kỷ niệm, địa điểm, năm..."
-                aria-label="Tìm kiếm ảnh kỷ niệm"
-                className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-body font-normal font-play focus:outline-none"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  aria-label="Xóa từ khóa tìm kiếm"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                >
-                  <WebIcon name="cancel" className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          </div>
         </div>
-      </motion.div>
 
-      {/* 2. Vùng Album Hình Ảnh Bố Cục .card-section & Hiệu Ứng 3D Parallax + ShineLayer + Sibling Blur */}
-      <div className="w-full flex-grow relative min-h-[360px]">
-        {filteredMemories.length === 0 ? (
-          <ViewState
-            id="memories-empty-card"
-            variant="empty"
-            icon="camera"
-            title="Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc."
-            description="Hãy thử chọn lại công ty hoặc chủ đề khác."
-            actionLabel="↻ Đặt lại bộ lọc"
-            onAction={handleResetFilters}
-          />
-        ) : (
-          <div
-            id="memories-master-card"
-            data-subcard="true"
-            className="bento-card glass-card w-full p-6 rounded-[14px] flex flex-col gap-4 shadow-md"
-          >
-            <SectionHeader
-              divided
-              title="Bộ sưu tập kỷ niệm"
-              subtitle={`Tổng hợp ${filteredMemories.length} khoảnh khắc đáng nhớ trong sự nghiệp`}
-            />
-            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 [&>*]:break-inside-avoid [&>*]:mb-4 w-full">
-              {filteredMemories.map((item, idx) => (
-                <ParallaxMemoryCard
-                  key={item.id}
-                  item={item}
-                  globalIdx={idx}
-                  isBlurred={hoveredCardId !== null && hoveredCardId !== item.id}
-                  onHoverChange={setHoveredCardId}
-                  onSelect={setActiveLightboxIdx}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
         </div>
       </div>
 

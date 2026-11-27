@@ -5,6 +5,7 @@ import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { cn } from '@/lib/utils';
+import { resolveCompanyLogo } from '@/utils/companyBrandAssets';
 
 const Briefcase = createAnimatedIcon('briefcase');
 
@@ -530,6 +531,12 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       decoding="async"
                       referrerPolicy="no-referrer"
                       draggable={false}
+                      onError={(e) => {
+                        const fallback = resolveCompanyLogo(item.shortName);
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
+                      }}
                       className="w-full h-full object-contain rounded-full select-none pointer-events-none"
                     />
                   </span>
@@ -684,6 +691,12 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                                 decoding="async"
                                 referrerPolicy="no-referrer"
                                 draggable={false}
+                                onError={(e) => {
+                                  const fallback = resolveCompanyLogo(lg.alt || item.shortName);
+                                  if (e.currentTarget.src !== fallback) {
+                                    e.currentTarget.src = fallback;
+                                  }
+                                }}
                                 className="w-full h-full object-contain rounded-full select-none pointer-events-none"
                               />
                             </div>
@@ -741,6 +754,12 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           decoding="async"
                           referrerPolicy="no-referrer"
                           draggable={false}
+                          onError={(e) => {
+                            const fallback = item.logo || resolveCompanyLogo(item.shortName);
+                            if (e.currentTarget.src !== fallback) {
+                              e.currentTarget.src = fallback;
+                            }
+                          }}
                           className="w-full h-full max-h-full max-w-full object-contain select-none pointer-events-none"
                         />
                       </div>

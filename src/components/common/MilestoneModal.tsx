@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { CareerMilestoneItem } from '../../data/letterData';
 import { ExperienceMilestone } from '../../data/experience';
+import { resolveCompanyLogo } from '@/utils/companyBrandAssets';
 
 interface MilestoneModalProps {
   item: CareerMilestoneItem | ExperienceMilestone | null;
@@ -48,6 +49,12 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
               loading="lazy"
               decoding="async"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const fallback = resolveCompanyLogo(item.company);
+                if (e.currentTarget.src !== fallback) {
+                  e.currentTarget.src = fallback;
+                }
+              }}
               className="w-12 h-12 rounded-full object-cover shadow-sm"
             />
             <div>

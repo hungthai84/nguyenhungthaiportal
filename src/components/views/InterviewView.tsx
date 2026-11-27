@@ -474,11 +474,12 @@ export const InterviewView: React.FC<InterviewViewProps> = ({ currentTheme = 'li
         <div
           id="interview-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang Phỏng Vấn"
           data-element-type="card"
           data-element-page="interview"
           data-element-parent="interview-cards-track"
-          className="page-main-card relative flex flex-col p-[15px] rounded-[var(--radius-main,14px)] gap-0 justify-start select-none text-[var(--text-primary)] overflow-hidden font-play text-left box-border"
+          className="page-main-card floating-surface--main relative flex flex-col p-[15px] rounded-[var(--radius-main,14px)] gap-0 justify-start select-none text-[var(--text-primary)] overflow-hidden font-play text-left box-border"
         >
       {/* Main Content Row: Video + Answer Detail always on 1 row & equal height at all sizes */}
       <div

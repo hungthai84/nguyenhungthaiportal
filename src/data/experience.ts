@@ -1,3 +1,5 @@
+import { COMPANY_LOGOS } from '@/utils/companyBrandAssets';
+
 export interface ExperienceMilestone {
   key: string;
   year: string;
@@ -59,7 +61,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "Viễn thông",
     tagCategory: "telecom",
     hexColor: "#0066FF",
-    logo: "https://i.postimg.cc/3N4xX9Xd/Mobifone.png",
+    logo: COMPANY_LOGOS.mobifone,
     bannerUrl: "https://i.postimg.cc/k5HZ6dyk/Mobifone.png",
     memoryImg: "https://i.postimg.cc/DwDN4kCM/Mobifone-1.webp",
     headcount: 12,
@@ -94,7 +96,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
       "Tuân thủ chuẩn mực tác phong chuyên nghiệp, lắng nghe tận tâm và phục vụ khách hàng theo quy trình chuẩn của ngành viễn thông.",
     industry: "Viễn thông di động / Call Center tập đoàn",
     products: [
-      { src: "https://i.postimg.cc/3N4xX9Xd/Mobifone.png", alt: "Mobifone" },
+      { src: COMPANY_LOGOS.mobifone, alt: "Mobifone" },
     ],
     tasks: [
       "1. Tiếp nhận và tư vấn cước, dịch vụ viễn thông di động MobiFone;",
@@ -135,7 +137,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "Viễn thông quốc tế",
     tagCategory: "telecom",
     hexColor: "#7C4DFF",
-    logo: "https://i.postimg.cc/wMyjXFXc/V247.png",
+    logo: COMPANY_LOGOS.v247,
     bannerUrl: "https://i.postimg.cc/63GPC1jz/v247.png",
     memoryImg: "https://i.postimg.cc/0NwBpWFy/V247-1.webp",
     headcount: 12,
@@ -170,7 +172,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
       "Đảm bảo chất lượng kết nối thông suốt 24/7, kiểm soát chặt chẽ tiêu chuẩn dịch vụ và hỗ trợ kịp thời cho khách hàng quốc tế.",
     industry: "Viễn thông quốc tế / Contact Center 24/7",
     products: [
-      { src: "https://i.postimg.cc/wMyjXFXc/V247.png", alt: "V247" },
+      { src: COMPANY_LOGOS.v247, alt: "V247" },
     ],
     tasks: [
       "1. Quản lý và giám sát vận hành đội ngũ CSKH đa kênh (Email, Fax, Phone, Live Chat);",
@@ -214,12 +216,12 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "Truyền thông",
     tagCategory: "telecom",
     hexColor: "#00C853",
-    logo: "https://i.postimg.cc/kG6gQwQ4/LBC.png",
+    logo: COMPANY_LOGOS.lbc,
     bannerUrl: "https://i.postimg.cc/cJzjgNmq/LBC.png",
     memoryImg: "https://i.postimg.cc/P5c7vs62/HTVC-1.webp",
     products: [
-      { src: "https://i.postimg.cc/kG6gQwQ4/LBC.png", alt: "LBC" },
-      { src: "https://i.postimg.cc/V6HN02C6/HTVC.png", alt: "HTVC" },
+      { src: COMPANY_LOGOS.lbc, alt: "LBC" },
+      { src: COMPANY_LOGOS.htvc, alt: "HTVC" },
     ],
     headcount: 12,
     scaleDesc: "12 nhân sự trực tiếp",
@@ -297,15 +299,15 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "eSport, Game & TMĐT",
     tagCategory: "gaming",
     hexColor: "#ED1C24",
-    logo: "https://i.postimg.cc/NF9j6b6x/VED.png",
+    logo: COMPANY_LOGOS.ved,
     bannerUrl: "https://i.postimg.cc/Fz5Bpg8S/VED.png",
     memoryImg: "https://i.postimg.cc/wvYbF5YR/VED-1.webp",
     products: [
-      { src: "https://i.postimg.cc/NF9j6b6x/VED.png", alt: "Logo VED" },
-      { src: "https://i.postimg.cc/QC9dQSQs/Garena.png", alt: "Garena" },
-      { src: "https://i.postimg.cc/MTrGfgQH/GCafe.png", alt: "GCafe" },
-      { src: "https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png", alt: "ShopeePay" },
-      { src: "https://i.postimg.cc/WzF1GSGw/Shopee.png", alt: "Shopee" },
+      { src: COMPANY_LOGOS.ved, alt: "Logo VED" },
+      { src: COMPANY_LOGOS.garena, alt: "Garena" },
+      { src: COMPANY_LOGOS.gcafe, alt: "GCafe" },
+      { src: COMPANY_LOGOS.shopeepay, alt: "ShopeePay" },
+      { src: COMPANY_LOGOS.shopee, alt: "Shopee" },
     ],
     headcount: 130,
     scaleDesc: "130 nhân sự trực tiếp (80+ Game Supporter, CSKH, Fraud)",
@@ -383,7 +385,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "Bảo hiểm",
     tagCategory: "insurance",
     hexColor: "#FF5252",
-    logo: "https://i.postimg.cc/C5BxGJGk/Prudential.png",
+    logo: COMPANY_LOGOS.prudential,
     bannerUrl: "https://i.postimg.cc/4dh0pFL9/Prudentinal.png",
     memoryImg: "https://i.postimg.cc/FKLBjW8X/Prudential-1.webp",
     headcount: 12,
@@ -418,7 +420,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
       "Đảm bảo tính chính xác tuyệt đối trong tư vấn hợp đồng bảo hiểm, xây dựng trải nghiệm dịch vụ chuẩn mực và duy trì tỷ lệ giải quyết ngay từ lần đầu (FCR > 92%).",
     industry: "Bảo hiểm nhân thọ / Tài chính cao cấp",
     products: [
-      { src: "https://i.postimg.cc/C5BxGJGk/Prudential.png", alt: "Prudential" },
+      { src: COMPANY_LOGOS.prudential, alt: "Prudential" },
     ],
     tasks: [
       "1. Quản lý hệ thống Callcenter bảo hiểm của Prudential;",
@@ -468,11 +470,11 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "FinTech",
     tagCategory: "fintech",
     hexColor: "#EC008C",
-    logo: "https://i.postimg.cc/J0DzNKNy/Momo.png",
+    logo: COMPANY_LOGOS.momo,
     bannerUrl: "https://i.postimg.cc/25tJbfxM/Momo.png",
     memoryImg: "https://i.postimg.cc/pL7S5b0g/Momo-1.webp",
     products: [
-      { src: "https://i.postimg.cc/J0DzNKNy/Momo.png", alt: "MoMo" },
+      { src: COMPANY_LOGOS.momo, alt: "MoMo" },
     ],
     headcount: 60,
     scaleDesc: "60 nhân sự nội bộ + Hàng trăm nhân sự BPO (Mắt Bảo,...)",
@@ -556,7 +558,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "FinTech & AI",
     tagCategory: "fintech",
     hexColor: "#FFB300",
-    logo: "https://i.postimg.cc/mD6r1KHh/Finviet.png",
+    logo: COMPANY_LOGOS.finviet,
     bannerUrl: "https://i.postimg.cc/6QPS2Nhb/Finviet.png",
     memoryImg: "https://i.postimg.cc/L87WgKyx/Finviet-1.webp",
     headcount: 17,
@@ -591,7 +593,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
       "Kiên định với nguyên tắc xây dựng hệ thống nền tảng vững chắc trước khi mở rộng quy mô, kết hợp giữa quy trình, công nghệ tự động hóa và phát triển con người, luôn lấy sự tin cậy của khách hàng làm trung tâm.",
     industry: "FinTech / Ví điện tử / Công nghệ tài chính",
     products: [
-      { src: "https://i.postimg.cc/mD6r1KHh/Finviet.png", alt: "Finviet ECO" },
+      { src: COMPANY_LOGOS.finviet, alt: "Finviet ECO" },
     ],
     tasks: [
       "1. Quản lý và giám sát đội ngũ Dịch Vụ Khách Hàng Finviet;",
@@ -641,7 +643,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
     tag: "Lãnh đạo Chiến lược",
     tagCategory: "strategy",
     hexColor: "#0066FF",
-    logo: "https://i.postimg.cc/sxQgYKYh/Power-Service.png",
+    logo: COMPANY_LOGOS.powerservice,
     bannerUrl: "https://i.postimg.cc/Px871F32/Tim-Co-hoi.png",
     memoryImg: "https://i.postimg.cc/Px871F32/Tim-Co-hoi.png",
     videoCard: {
@@ -680,7 +682,7 @@ export const EXPERIENCE_MILESTONES: Record<string, ExperienceMilestone> = {
       "Đảm bảo tính liên tục của dịch vụ 24/7, duy trì tiêu chuẩn CSAT/NPS tối thiểu 95% - 98%, chuẩn hóa 100% tài liệu quy trình vận hành SOP.",
     industry: "Công nghệ / FinTech / Bảo hiểm / Bưu chính / Game & eSports / Viễn thông / CRM & Chuyển đổi số",
     products: [
-      { src: "https://i.postimg.cc/sxQgYKYh/Power-Service.png", alt: "Power Service" },
+      { src: COMPANY_LOGOS.powerservice, alt: "Power Service" },
     ],
     tasks: [
       "1. Hoạch định và thực thi chiến lược CX Strategy 2026+;",

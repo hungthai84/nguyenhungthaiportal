@@ -535,11 +535,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
         <div
           id="wallpaper-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang Hình Nền"
           data-element-type="card"
           data-element-page="wallpaper"
           data-element-parent="wallpaper-cards-track"
-          className="page-main-card flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card floating-surface--main flex flex-col justify-start p-[15px] gap-[15px] rounded-[14px] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
       {/* 1. BANNER HÌNH NỀN: FORMAT GIỐNG BANNER HỌC VẤN, XÓA NÚT GIAO DIỆN TỐI, CARD SECTION CÁCH 15PX */}
       <section

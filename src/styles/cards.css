@@ -2655,11 +2655,11 @@ article.project-card:hover,
 .theme-popup,
 #footer-lang-popup,
 #footer-theme-popup {
-  background: var(--bg-popup) !important;
+  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 96%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-color)) !important;
   box-shadow: var(--shadow-popup) !important;
-  backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--bg-blur))) saturate(165%) !important;
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
   border-radius: var(--radius-popup, 14px) !important;
   color: var(--text-primary) !important;
 }

@@ -2479,7 +2479,7 @@ html :is(
   height: 100% !important;
   border-radius: var(--radius-banner, 14px) !important;
   overflow: hidden !important;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 48%, rgba(255, 255, 255, 0.14) 100%) !important;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.28) 0%, rgba(15, 23, 42, 0.06) 48%, rgba(15, 23, 42, 0.22) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -2491,7 +2491,7 @@ html[data-card-style="cowhide-leather"] :is(.hero-banner, .banner-card, #project
 html[data-card-style="dark-cowhide-leather"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="walnut-wood"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim,
 html[data-card-style="deep-ocean"] :is(.hero-banner, .banner-card, #project-detail-banner, #contact-hero-banner, #ai-assistant-hero-banner, #pdf-hero-banner, #interview-questions-card, [id$="-hero-banner"]) .project-detail-banner-scrim {
-  background: linear-gradient(180deg, rgba(8, 13, 28, 0.24) 0%, rgba(8, 13, 28, 0.06) 48%, rgba(8, 13, 28, 0.22) 100%) !important;
+  background: linear-gradient(180deg, rgba(8, 13, 28, 0.36) 0%, rgba(8, 13, 28, 0.12) 48%, rgba(8, 13, 28, 0.28) 100%) !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -6548,10 +6548,10 @@ html:root[data-card-style] body :is(#app-header-container, #el-p0-div-98) {
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 9% !important;
-  height: 9% !important;
-  max-height: 9% !important;
-  min-height: 9% !important;
+  flex: 0 0 auto !important;
+  height: var(--shell-bar-h, clamp(68px, 9dvh, 84px)) !important;
+  max-height: 88px !important;
+  min-height: 68px !important;
   padding: 0px !important;
   overflow: visible !important;
 }
@@ -6562,8 +6562,8 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#app-header-conta
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > div#el-p0-div-98:nth-of-type(3) > div#app-footer-wrapper > footer#app-footer:nth-of-type(1) {
   height: 100% !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
 }
 
 html:root body :is(#app-header, #app-header-container header, #app-footer, #el-p0-div-98 footer),
@@ -6935,12 +6935,12 @@ html:root.dark[data-card-style] body #app-header-container {
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
   max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -6964,12 +6964,12 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
 }
 
 html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
   max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -6995,12 +6995,12 @@ html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover
 }
 
 html:root[data-card-style="frost-ice-neu"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
   max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -7143,22 +7143,22 @@ html:root.dark[data-card-style] body #el-p0-div-98 {
   display: flex !important;
   align-items: stretch !important;
   justify-content: center !important;
-  height: 9% !important;
-  min-height: 9% !important;
-  max-height: 9% !important;
+  height: var(--shell-bar-h, clamp(68px, 9dvh, 84px)) !important;
+  min-height: 68px !important;
+  max-height: 88px !important;
 }
 
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
+  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
   max-width: var(--main-card-target-w, 1200px) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   display: flex !important;
@@ -8297,18 +8297,34 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   padding-right: 0px !important;
 }
 
-/* AI Assistant: Banner 40% and Chat 60% across all dimensions */
-#ai-assistant-hero-banner {
-  width: 40% !important;
-  min-width: 40% !important;
-  max-width: 40% !important;
-  flex: 0 0 40% !important;
+/* AI Assistant: Mobile stack vertical cleanly; Desktop Banner 40% & Chat 60% minus gap, with smooth expand */
+@media (max-width: 1023px) {
+  #ai-assistant-hero-banner,
+  #ai-assistant-chat-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+  #ai-assistant-chat-container {
+    flex: 1 1 auto !important;
+  }
 }
-#ai-assistant-chat-container {
-  width: 60% !important;
-  min-width: 60% !important;
-  max-width: 60% !important;
-  flex: 0 0 60% !important;
+
+@media (min-width: 1024px) {
+  #ai-assistant-hero-banner {
+    width: max(0px, calc(40% - 7.5px - var(--ai-chat-extra-w, 0px))) !important;
+    min-width: 0 !important;
+    max-width: calc(40% - 7.5px) !important;
+    flex: 0 0 max(0px, calc(40% - 7.5px - var(--ai-chat-extra-w, 0px))) !important;
+    overflow: hidden !important;
+  }
+  #ai-assistant-chat-container {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: 1 1 0% !important;
+  }
 }
 
 /* Projects main wrapper: grid dense layout & jitter-free smooth scale transition with center origin */
@@ -8717,16 +8733,16 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   display: none !important;
 }
 
-/* Footer Theme Popup (#footer-theme-popup): format theo nền giao diện hiện hành, khung nhóm icon & tiêu đề trong suốt */
-html:root body #footer-theme-popup,
-html:root[data-card-style] body #footer-theme-popup,
-html:root.dark[data-card-style] body #footer-theme-popup {
-  background: var(--surface-primary-bg, var(--bg-popup, var(--bg-card))) !important;
+/* Footer Theme & Lang Popups (#footer-theme-popup, #footer-lang-popup): nền đặc hơn để chữ sắc nét, không thấm nền bên dưới */
+html:root body :is(#footer-theme-popup, #footer-lang-popup),
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup),
+html:root.dark[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) {
+  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 94%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
   color: var(--text-primary) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-card, var(--border-color))) !important;
   box-shadow: var(--surface-primary-shadow, var(--shadow-card)) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 22px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 150%))) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, var(--glass-blur, 22px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 150%))) !important;
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
 }
 
 html:root body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible),
@@ -8787,9 +8803,8 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   }
 }
 
-/* Shared Center Split Layout: Left Body Text Description + Right Frameless Image / Auto-Aligned Video */
-#services-page-container .service-card.service-theme-card .service-card-middle,
-#systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
+/* Shared Center Layout: Services keeps 2-col split; Systems hides description & centers larger illustration */
+#services-page-container .service-card.service-theme-card .service-card-middle {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
   gap: 0.75rem !important;
@@ -8799,16 +8814,24 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   width: 100% !important;
 }
 
+#systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  padding-top: 2px !important;
+}
+
 @container showcase-card (min-width: 245px) {
-  #services-page-container .service-card.service-theme-card .service-card-middle,
-  #systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
+  #services-page-container .service-card.service-theme-card .service-card-middle {
     grid-template-columns: minmax(0, 1.12fr) clamp(96px, 38cqi, 138px) !important;
     align-items: center !important;
   }
 }
 
-#services-page-container .service-card.service-theme-card .service-desc-text,
-#systems-page-container .system-card-tile.system-vibrant-card .system-desc-text {
+#services-page-container .service-card.service-theme-card .service-desc-text {
   font-family: var(--font-sans, "Play", sans-serif) !important;
   font-weight: 400 !important;
   font-size: 13px !important;
@@ -8838,6 +8861,12 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   overflow: visible !important;
 }
 
+#systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot {
+  min-height: 112px !important;
+  max-height: 164px !important;
+  max-width: 184px !important;
+}
+
 #services-page-container .service-card.service-theme-card .service-img-pop,
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot img {
   height: 100% !important;
@@ -8854,6 +8883,10 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   filter: none !important;
   -webkit-filter: none !important;
   transition: opacity 280ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot img {
+  max-height: 160px !important;
 }
 
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot video {
@@ -9858,91 +9891,109 @@ html:root[data-card-style] body #letter-main-card .nht-bento-item:not(#letter-pr
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE 4: KÍCH THƯỚC FONT CHỮ CỦA CARD VÀ SUB-CARD HOÀN TOÀN BẰNG NHAU */
-/* (Tiêu đề card == Tiêu đề sub-card = 16px; Nội dung card == Nội dung sub-card = 14px) */
+/* FINAL OVERRIDE 4: HỆ THỐNG PHÂN CẤP CHỮ CHUẨN FLUID TYPOGRAPHY           */
+/* (Tiêu đề Card chính H3 > Tiêu đề Sub-card H5 > Body chính > Body phụ)    */
 /* ========================================================================= */
 
-/* 1. TIÊU ĐỀ CARD == TIÊU ĐỀ SUB-CARD (CÙNG KÍCH THƯỚC 16px / var(--fs-h5)) */
+/* 1. TIÊU ĐỀ CARD CHÍNH / KHU VỰC: var(--fs-h3, clamp(17px, 1.45vw, 20px)) */
 html:root body :is(
   [data-card-title],
-  [data-subcard-title],
   .card-title-synced,
-  .subcard-title-synced,
-  .card-title,
-  .subcard-title,
   .card-heading__title,
+  :is(.card-header-sync) :is(h2, h3, span.card-title),
+  :is([data-section-card="true"], .bento-card, .glass-card, .service-card, .system-card) > :is(.card-header-sync) :is(h2, h3, h4)
+):not([data-subcard-title]):not(.subcard-title):not(.subcard-title-synced):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge),
+html:root[data-card-style] body :is(
+  [data-card-title],
+  .card-title-synced,
+  .card-heading__title,
+  :is(.card-header-sync) :is(h2, h3, span.card-title),
+  :is([data-section-card="true"], .bento-card, .glass-card, .service-card, .system-card) > :is(.card-header-sync) :is(h2, h3, h4)
+):not([data-subcard-title]):not(.subcard-title):not(.subcard-title-synced):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge) {
+  font-size: var(--fs-h3, clamp(17px, 1.45vw, 20px)) !important;
+  line-height: var(--lh-h3, 1.3) !important;
+}
+
+/* 2. TIÊU ĐỀ SUB-CARD: var(--fs-h5, clamp(15px, 1.15vw, 16px)) */
+html:root body :is(
+  [data-subcard-title],
+  .subcard-title-synced,
+  .subcard-title,
   .pillar-heading,
-  :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, div, p),
-  :is([data-section-card="true"], .bento-card, .glass-card, [data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .service-card, .system-card) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, p),
+  :is(.subcard-header-sync) :is(h2, h3, h4, h5, h6, span, div, p),
   :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title])
 ):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge),
 html:root[data-card-style] body :is(
-  [data-card-title],
   [data-subcard-title],
-  .card-title-synced,
   .subcard-title-synced,
-  .card-title,
   .subcard-title,
-  .card-heading__title,
   .pillar-heading,
-  :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, div, p),
-  :is([data-section-card="true"], .bento-card, .glass-card, [data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .service-card, .system-card) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, p),
+  :is(.subcard-header-sync) :is(h2, h3, h4, h5, h6, span, div, p),
   :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title])
 ):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge) {
-  font-size: var(--fs-h5, 16px) !important;
-  line-height: var(--lh-h5, var(--lh-heading, 1.35)) !important;
+  font-size: var(--fs-h5, clamp(15px, 1.15vw, 16px)) !important;
+  line-height: var(--lh-h5, 1.35) !important;
 }
 
-/* 2. NỘI DUNG (BODY TEXT) CARD == NỘI DUNG (BODY TEXT) SUB-CARD (CÙNG KÍCH THƯỚC 14px / var(--fs-body-sm)) */
+/* 3. NỘI DUNG BODY CHÍNH: var(--fs-body, clamp(14.5px, 1.1vw, 15.5px)) */
 html:root body :is(
   [data-section-card="true"],
   .bento-card,
   .glass-card,
   .page-main-card,
   [data-main-card="true"],
-  [data-subcard="true"],
-  .sub-card,
-  .exp-detail-subcard,
-  .education-subcard,
-  .project-detail-subcard,
   .service-card,
   .system-card,
   .pillar-card
 ) :is(
   p,
   .card-body-text,
-  .subcard-body-text,
   .pillar-body,
-  .typo-body,
-  .typo-body-sm
-):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *),
+  .typo-body
+):not(.typo-body-sm):not(.subcard-body-text):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *),
 html:root[data-card-style] body :is(
   [data-section-card="true"],
   .bento-card,
   .glass-card,
   .page-main-card,
   [data-main-card="true"],
-  [data-subcard="true"],
-  .sub-card,
-  .exp-detail-subcard,
-  .education-subcard,
-  .project-detail-subcard,
   .service-card,
   .system-card,
   .pillar-card
 ) :is(
   p,
   .card-body-text,
-  .subcard-body-text,
   .pillar-body,
-  .typo-body,
-  .typo-body-sm
-):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *) {
-  font-size: var(--fs-body-sm, 14px) !important;
-  line-height: 1.55 !important;
+  .typo-body
+):not(.typo-body-sm):not(.subcard-body-text):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *) {
+  font-size: var(--fs-body, clamp(14.5px, 1.1vw, 15.5px)) !important;
+  line-height: var(--lh-body, 1.6) !important;
 }
 
-/* 3. PHỤ ĐỀ / CHÚ THÍCH (CAPTION) CARD == SUB-CARD (CÙNG KÍCH THƯỚC 12px / var(--fs-caption)) */
+/* 4. NỘI DUNG SUB-CARD & COMPACT BODY: var(--fs-body-sm, clamp(13.5px, 1vw, 14px)) */
+html:root body :is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard
+) :is(p, .subcard-body-text, .typo-body-sm):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.typo-caption):not(.typo-label):not(.typo-badge):not(#pdf-page-container *),
+html:root body .typo-body-sm:not(#pdf-page-container *),
+html:root body .subcard-body-text:not(#pdf-page-container *),
+html:root[data-card-style] body :is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard
+) :is(p, .subcard-body-text, .typo-body-sm):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.typo-caption):not(.typo-label):not(.typo-badge):not(#pdf-page-container *),
+html:root[data-card-style] body .typo-body-sm:not(#pdf-page-container *),
+html:root[data-card-style] body .subcard-body-text:not(#pdf-page-container *) {
+  font-size: var(--fs-body-sm, clamp(13.5px, 1vw, 14px)) !important;
+  line-height: var(--lh-body-sm, 1.56) !important;
+}
+
+/* 5. PHỤ ĐỀ / CHÚ THÍCH (CAPTION): var(--fs-caption, clamp(12px, 0.9vw, 12.5px)) */
 html:root body :is(
   [data-section-card="true"],
   .bento-card,
@@ -9981,15 +10032,97 @@ html:root[data-card-style] body :is(
   .card-caption,
   .subcard-caption
 ):not(#pdf-page-container *) {
-  font-size: var(--fs-caption, 12px) !important;
-  line-height: 1.4 !important;
+  font-size: var(--fs-caption, clamp(12px, 0.9vw, 12.5px)) !important;
+  line-height: var(--lh-caption, 1.42) !important;
 }
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) {
   padding-top: 10px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   padding-bottom: 10px !important;
+}
+
+/* ========================================================================= */
+/* FINAL OVERRIDE 5: MOBILE FOOTER COMPACT FIT (<640px) & FROSTED POPUPS     */
+/* ========================================================================= */
+html:root body :is(#footer-theme-popup, #footer-lang-popup),
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup),
+html.dark:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) {
+  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
+  backdrop-filter: blur(24px) saturate(165%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+}
+
+@media (max-width: 639px) {
+  html:root body #app-footer,
+  html:root[data-card-style] body #app-footer,
+  html.dark:root[data-card-style] body #app-footer {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  html:root body #app-footer #footer-nav-capsule,
+  html:root[data-card-style] body #app-footer #footer-nav-capsule,
+  html.dark:root[data-card-style] body #app-footer #footer-nav-capsule {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 3px 4px !important;
+  }
+
+  html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+  html:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn),
+  html.dark:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    padding: 0 !important;
+  }
+
+  html:root body #app-footer #el-p0-div-113 .nav-pill-wrapper,
+  html:root[data-card-style] body #app-footer #el-p0-div-113 .nav-pill-wrapper,
+  html.dark:root[data-card-style] body #app-footer #el-p0-div-113 .nav-pill-wrapper {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 32px !important;
+  }
+
+  html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn),
+  html:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn),
+  html.dark:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    justify-content: center !important;
+  }
+
+  html:root body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) .nav-pill-icon-badge,
+  html:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) .nav-pill-icon-badge,
+  html.dark:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appearance-btn, #footer-wallpaper-btn, #footer-ai-btn) .nav-pill-icon-badge {
+    width: 26px !important;
+    height: 26px !important;
+    margin: 0 !important;
+  }
+
+  html:root body #app-footer #weather-widget-card,
+  html:root[data-card-style] body #app-footer #weather-widget-card,
+  html.dark:root[data-card-style] body #app-footer #weather-widget-card {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
 }
 
 /* End of index.css */

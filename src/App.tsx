@@ -565,7 +565,13 @@ export default function App() {
       case 12:
         return <ContactView currentTheme={activeTheme} onShowNotification={showNotification} />;
       case 13:
-        return <AiAssistantView currentTheme={activeTheme} />;
+        return (
+          <AiAssistantView
+            currentTheme={activeTheme}
+            onSelectTab={handleSelectTabWithSound}
+            onShowNotification={showNotification}
+          />
+        );
       case 14:
         return (
           <WallpaperView
@@ -793,10 +799,10 @@ export default function App() {
         <div
           id="app-header-container"
           style={{
-            flex: '0 0 9%',
-            height: '9%',
-            maxHeight: '9%',
-            minHeight: '9%',
+            flex: '0 0 auto',
+            height: 'var(--shell-bar-h, clamp(68px, 9dvh, 84px))',
+            maxHeight: '88px',
+            minHeight: '68px',
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: '100%',
@@ -848,10 +854,10 @@ export default function App() {
           width: '100%',
           maxWidth: currentTabIndex === 16 ? 'min(88vw, 1200px)' : '100%',
           boxSizing: 'border-box',
-          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 82%',
-          height: currentTabIndex === 16 ? 'auto' : '82%',
+          flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
+          height: currentTabIndex === 16 ? 'auto' : 'auto',
           minHeight: currentTabIndex === 16 ? 'calc(100dvh - 30px)' : '0px',
-          maxHeight: currentTabIndex === 16 ? 'none' : '82%',
+          maxHeight: currentTabIndex === 16 ? 'none' : '100%',
           minWidth: 0,
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -859,8 +865,8 @@ export default function App() {
           marginBottom: '0px',
           paddingTop: currentTabIndex === 16 ? '16px' : '10px',
           paddingBottom: currentTabIndex === 16 ? '16px' : '10px',
-          paddingLeft: '45px',
-          paddingRight: '45px',
+          paddingLeft: 'var(--shell-px, clamp(10px, 3vw, 45px))',
+          paddingRight: 'var(--shell-px, clamp(10px, 3vw, 45px))',
         }}
         className={`w-full ${
           currentTabIndex === 16
@@ -873,14 +879,12 @@ export default function App() {
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={`page-view-${currentTabIndex}`}
-            layoutId="shared-main-content-host"
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: -4 }}
             transition={{
-              layout: { type: 'spring', damping: 28, stiffness: 220 },
-              opacity: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
-              y: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
+              y: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
             }}
             className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
           >
@@ -905,10 +909,10 @@ export default function App() {
           data-element-type="container"
           data-element-page="p0"
           style={{
-            flex: '0 0 9%',
-            height: '9%',
-            maxHeight: '9%',
-            minHeight: '9%',
+            flex: '0 0 auto',
+            height: 'var(--shell-bar-h, clamp(68px, 9dvh, 84px))',
+            maxHeight: '88px',
+            minHeight: '68px',
             padding: '0px',
             boxSizing: 'border-box',
             maxWidth: '100%',

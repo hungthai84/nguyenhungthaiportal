@@ -132,55 +132,55 @@ export const DRIVE_ABOUT_VIDEOS = {
 
 export const DRIVE_SYSTEM_MEDIA = {
   aiAssistant: {
-    image: 'https://i.postimg.cc/4dCD2ghv/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.png',
+    image: 'https://i.postimg.cc/D0kF59yK/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.webp',
     video: driveVideoUrl('179Ba81_6ykQAMjp1ogyaolfPIhyz32kk'),
   },
   biDashboard: {
-    image: 'https://i.postimg.cc/1txk7QNB/BI-Dashboard-Bao-cao-Phan-tich.png',
+    image: 'https://i.postimg.cc/Y0Kk85q7/BI-Dashboard-Bao-cao-Phan-tich.webp',
     video: driveVideoUrl('1JmFAmjRUqwNdknEfy4oonMDPodj64TdW'),
   },
   bpm: {
-    image: 'https://i.postimg.cc/hjFkZB71/BPM-Quan-ly-Quy-trinh-Nghiep-vu.png',
+    image: 'https://i.postimg.cc/6qJwzk5J/BPM-Quan-ly-Quy-trinh-Nghiep-vu.webp',
     video: driveVideoUrl('1-e9vmijUSHcSPN-oNORtJNQw5lHICGGD'),
   },
   clp: {
-    image: 'https://i.postimg.cc/fL4GqN0c/CLP-Khach-hang-Than-thiet.png',
+    image: 'https://i.postimg.cc/0jRxZT21/CLP-Khach-hang-Than-thiet.webp',
     video: driveVideoUrl('1dvllOsJN5SBN1SeR2r6QUunJFzkdLSuO'),
   },
   crm: {
-    image: 'https://i.postimg.cc/W3RBYvJH/CRM-Quan-ly-Quan-he-Khach-hang.png',
+    image: 'https://i.postimg.cc/SRFqVBNS/CRM-Quan-ly-Quan-he-Khach-hang.webp',
     video: driveVideoUrl('1k7n3D4HotTBkh-34wRQRU6MYad6IHbsH'),
   },
   csc: {
-    image: 'https://i.postimg.cc/wvKC4psP/CSC-Trung-tam-Cham-soc-Khach-hang.png',
+    image: 'https://i.postimg.cc/sxdyKkDf/CSC-Trung-tam-Cham-soc-Khach-hang.webp',
     video: driveVideoUrl('1fcBeTT6Fao9y_Mzfkb3bU3w0tb_kacKf'),
   },
   erp: {
-    image: 'https://i.postimg.cc/Y9c5DHmT/ERP-Tai-chinh-ke-toan.png',
+    image: 'https://i.postimg.cc/Fz5mGMs9/ERP-Tai-chinh-ke-toan.webp',
     video: driveVideoUrl('1yxonN-6inK6xMiRRsJEiE-WgSCaWRssV'),
   },
   hrm: {
-    image: 'https://i.postimg.cc/B6xddVxh/HRM-Quan-ly-Nguon-nhan-luc.png',
+    image: 'https://i.postimg.cc/MH7wL9Xh/HRM-Quan-ly-Nguon-nhan-luc.webp',
     video: driveVideoUrl('1NQ3i1GT3qB8_bQ-TUoCax6fs8m1noLqY'),
   },
   lms: {
-    image: 'https://i.postimg.cc/DZqttMqt/LMS-Quan-ly-Dao-tao.png',
+    image: 'https://i.postimg.cc/kGQCHTB3/LMS-Quan-ly-Dao-tao.webp',
     video: driveVideoUrl('1eF17zSBBDouSURRjL57rUon_tvlycPsi'),
   },
   office: {
-    image: 'https://i.postimg.cc/XJwTTzwm/Office-Cong-cu-van-phong.png',
+    image: 'https://i.postimg.cc/prfvSspN/Office-Cong-cu-van-phong.webp',
     video: driveVideoUrl('1VYVxFPSyVZlH8yRBpXFeWiBrkq_lDPdB'),
   },
   okr: {
-    image: 'https://i.postimg.cc/Jnb992bf/OKR-Quan-ly-Muc-tieu-Ket-qua.png',
+    image: 'https://i.postimg.cc/BbT3zmXf/OKR-Quan-ly-Muc-tieu-Ket-qua.webp',
     video: driveVideoUrl('1Ma_e0nYubC0zWdwV3vuiFgKJlDi54BfJ'),
   },
   pos: {
-    image: 'https://i.postimg.cc/264PPKQY/POS-Quan-ly-Ban-hang-tai-Quay.png',
+    image: 'https://i.postimg.cc/5yBJrs6M/POS-Quan-ly-Ban-hang-tai-Quay.webp',
     video: driveVideoUrl('1u2LeXzU83AIf_qMsOM6sYVP7xjzQ9Yr9'),
   },
   sdp: {
-    image: 'https://i.postimg.cc/0QpLLBYy/SDP-Cong-lam-viec-CSKH.png',
+    image: 'https://i.postimg.cc/L5tSWxnm/SDP-Cong-lam-viec-CSKH.webp',
     video: driveVideoUrl('1i3aEPWdyRSoOQCy3zIv5r7w4MjL2bpcH'),
   },
 } as const;

@@ -461,13 +461,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           id="service-main-card"
           ref={mainCardRef}
           data-main-card="true"
+          data-floating-surface="main"
           data-detail-open={expandedDomain ? 'true' : 'false'}
           data-detail-overlay={expandedDomain ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dịch Vụ"
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
-          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-global,var(--radius-main,14px))] overflow-hidden box-border"
+          className="page-main-card floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-global,var(--radius-main,14px))] overflow-hidden box-border"
           style={{ padding: '15px', gap: '0px', borderRadius: 'var(--radius-global, var(--radius-main, 14px))' }}
         >
           <div

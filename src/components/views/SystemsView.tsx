@@ -277,7 +277,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#a16207',
     darkAccent: '#facc15',
     iconName: 'globe',
-    illustrationSrc: 'https://i.postimg.cc/0QpLLBYy/SDP-Cong-lam-viec-CSKH.png',
+    illustrationSrc: 'https://i.postimg.cc/L5tSWxnm/SDP-Cong-lam-viec-CSKH.webp',
     cardTheme: '#EAB308',
     vibrantBg: 'linear-gradient(135deg, #fde047 0%, #facc15 52%, #f59e0b 100%)',
     isLightCard: true,
@@ -298,7 +298,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0369a1',
     darkAccent: '#38bdf8',
     iconName: 'headphones',
-    illustrationSrc: 'https://i.postimg.cc/wvKC4psP/CSC-Trung-tam-Cham-soc-Khach-hang.png',
+    illustrationSrc: 'https://i.postimg.cc/sxdyKkDf/CSC-Trung-tam-Cham-soc-Khach-hang.webp',
     cardTheme: '#0EA5E9',
     vibrantBg: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 52%, #2563eb 100%)',
     isLightCard: false,
@@ -319,7 +319,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#047857',
     darkAccent: '#34d399',
     iconName: 'users',
-    illustrationSrc: 'https://i.postimg.cc/W3RBYvJH/CRM-Quan-ly-Quan-he-Khach-hang.png',
+    illustrationSrc: 'https://i.postimg.cc/SRFqVBNS/CRM-Quan-ly-Quan-he-Khach-hang.webp',
     cardTheme: '#10B981',
     vibrantBg: 'linear-gradient(135deg, #059669 0%, #10b981 52%, #047857 100%)',
     isLightCard: false,
@@ -340,7 +340,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#be123c',
     darkAccent: '#fb7185',
     iconName: 'gift',
-    illustrationSrc: 'https://i.postimg.cc/fL4GqN0c/CLP-Khach-hang-Than-thiet.png',
+    illustrationSrc: 'https://i.postimg.cc/0jRxZT21/CLP-Khach-hang-Than-thiet.webp',
     cardTheme: '#F43F5E',
     vibrantBg: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 52%, #be185d 100%)',
     isLightCard: false,
@@ -361,7 +361,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0e7490',
     darkAccent: '#22d3ee',
     iconName: 'shopping-cart',
-    illustrationSrc: 'https://i.postimg.cc/264PPKQY/POS-Quan-ly-Ban-hang-tai-Quay.png',
+    illustrationSrc: 'https://i.postimg.cc/5yBJrs6M/POS-Quan-ly-Ban-hang-tai-Quay.webp',
     cardTheme: '#06B6D4',
     vibrantBg: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 52%, #0369a1 100%)',
     isLightCard: false,
@@ -382,7 +382,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#0f766e',
     darkAccent: '#2dd4bf',
     iconName: 'chart',
-    illustrationSrc: 'https://i.postimg.cc/Y9c5DHmT/ERP-Tai-chinh-ke-toan.png',
+    illustrationSrc: 'https://i.postimg.cc/Fz5mGMs9/ERP-Tai-chinh-ke-toan.webp',
     cardTheme: '#14B8A6',
     vibrantBg: 'linear-gradient(135deg, #0f766e 0%, #14b8a6 52%, #0d9488 100%)',
     isLightCard: false,
@@ -403,7 +403,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#c2410c',
     darkAccent: '#fb923c',
     iconName: 'briefcase',
-    illustrationSrc: 'https://i.postimg.cc/B6xddVxh/HRM-Quan-ly-Nguon-nhan-luc.png',
+    illustrationSrc: 'https://i.postimg.cc/MH7wL9Xh/HRM-Quan-ly-Nguon-nhan-luc.webp',
     cardTheme: '#F97316',
     vibrantBg: 'linear-gradient(135deg, #ea580c 0%, #f97316 52%, #c2410c 100%)',
     isLightCard: false,
@@ -424,7 +424,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#6d28d9',
     darkAccent: '#c084fc',
     iconName: 'file-text',
-    illustrationSrc: 'https://i.postimg.cc/hjFkZB71/BPM-Quan-ly-Quy-trinh-Nghiep-vu.png',
+    illustrationSrc: 'https://i.postimg.cc/6qJwzk5J/BPM-Quan-ly-Quy-trinh-Nghiep-vu.webp',
     cardTheme: '#8B5CF6',
     vibrantBg: 'linear-gradient(135deg, #6d28d9 0%, #8b5cf6 52%, #4f46e5 100%)',
     isLightCard: false,
@@ -445,7 +445,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#15803d',
     darkAccent: '#4ade80',
     iconName: 'target',
-    illustrationSrc: 'https://i.postimg.cc/Jnb992bf/OKR-Quan-ly-Muc-tieu-Ket-qua.png',
+    illustrationSrc: 'https://i.postimg.cc/BbT3zmXf/OKR-Quan-ly-Muc-tieu-Ket-qua.webp',
     cardTheme: '#22C55E',
     vibrantBg: 'linear-gradient(135deg, #15803d 0%, #22c55e 52%, #166534 100%)',
     isLightCard: false,
@@ -466,7 +466,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#1d4ed8',
     darkAccent: '#60a5fa',
     iconName: 'graduation',
-    illustrationSrc: 'https://i.postimg.cc/DZqttMqt/LMS-Quan-ly-Dao-tao.png',
+    illustrationSrc: 'https://i.postimg.cc/kGQCHTB3/LMS-Quan-ly-Dao-tao.webp',
     cardTheme: '#2563EB',
     vibrantBg: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 52%, #1e40af 100%)',
     isLightCard: false,
@@ -487,7 +487,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#7e22ce',
     darkAccent: '#d8b4fe',
     iconName: 'trending',
-    illustrationSrc: 'https://i.postimg.cc/1txk7QNB/BI-Dashboard-Bao-cao-Phan-tich.png',
+    illustrationSrc: 'https://i.postimg.cc/Y0Kk85q7/BI-Dashboard-Bao-cao-Phan-tich.webp',
     cardTheme: '#9333EA',
     vibrantBg: 'linear-gradient(135deg, #7e22ce 0%, #9333ea 52%, #6b21a8 100%)',
     isLightCard: false,
@@ -508,7 +508,7 @@ const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
     lightAccent: '#4338ca',
     darkAccent: '#818cf8',
     iconName: 'robot',
-    illustrationSrc: 'https://i.postimg.cc/4dCD2ghv/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.png',
+    illustrationSrc: 'https://i.postimg.cc/D0kF59yK/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.webp',
     cardTheme: '#4F46E5',
     vibrantBg: 'linear-gradient(135deg, #4338ca 0%, #4f46e5 52%, #0284c7 100%)',
     isLightCard: false,
@@ -1231,13 +1231,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           id="systems-main-card"
           ref={systemsMainRef}
           data-main-card="true"
+          data-floating-surface="main"
           data-detail-open={expandedSystem || isCircleVideoPlaying ? 'true' : 'false'}
           data-detail-overlay={expandedSystem ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
           data-element-type="card"
           data-element-page="systems"
           data-element-parent="systems-cards-track"
-          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left box-border"
+          className="page-main-card floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left box-border"
           style={{
             padding: '15px',
             gap: '0px',
@@ -2237,17 +2238,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           </div>
                         </div>
 
-                        {/* CENTER: Left Body-Text Description + Right Frameless Image (Hover triggers full-card video) */}
-                        <div className="system-card-middle flex-1 min-w-0 w-full">
-                          <div className="min-w-0 flex items-center">
-                            <p
-                              className="system-desc-text m-0 font-normal leading-[1.52] text-[13px] line-clamp-5 break-words text-left transition-colors duration-300"
-                              style={{ color: secondaryInk }}
-                              title={localizedDesc}
-                            >
-                              {localizedDesc}
-                            </p>
-                          </div>
+                        {/* CENTER: Centered Frameless Illustration (Description hidden on card tile; Hover triggers full-card video) */}
+                        <div className="system-card-middle flex-1 min-w-0 w-full flex items-center justify-center">
 
                           <div
                             role={item.videoUrl ? 'button' : undefined}

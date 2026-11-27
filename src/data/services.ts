@@ -1,4 +1,5 @@
 import { DomainData, ServiceData } from '@/types';
+import { COMPANY_LOGOS } from '@/utils/companyBrandAssets';
 
 export const SERVICES_INTRO = {
   title: 'Lĩnh Vực & Dịch Vụ Chuyên Sâu',
@@ -93,26 +94,26 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'MobiFone',
-        logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
-        fallbackLogo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+        logo: COMPANY_LOGOS.mobifone,
+        fallbackLogo: COMPANY_LOGOS.mobifone,
         url: 'https://www.mobifone.vn',
       },
       {
         name: 'Viễn Liên V247',
-        logo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
-        fallbackLogo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+        logo: COMPANY_LOGOS.v247,
+        fallbackLogo: COMPANY_LOGOS.v247,
         url: 'https://v247.com',
       },
       {
         name: 'LBC',
-        logo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
-        fallbackLogo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+        logo: COMPANY_LOGOS.lbc,
+        fallbackLogo: COMPANY_LOGOS.lbc,
         url: 'https://www.htvc.com.vn',
       },
       {
         name: 'HTVC',
-        logo: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
-        fallbackLogo: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+        logo: COMPANY_LOGOS.htvc,
+        fallbackLogo: COMPANY_LOGOS.htvc,
         url: 'https://www.htvc.com.vn',
       },
     ],
@@ -197,20 +198,20 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Shopee',
-        logo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
-        fallbackLogo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+        logo: COMPANY_LOGOS.shopee,
+        fallbackLogo: COMPANY_LOGOS.shopee,
         url: 'https://shopee.vn',
       },
       {
         name: 'ShopeePay',
-        logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
-        fallbackLogo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+        logo: COMPANY_LOGOS.shopeepay,
+        fallbackLogo: COMPANY_LOGOS.shopeepay,
         url: 'https://shopeepay.vn',
       },
       {
         name: 'Finviet',
-        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
-        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        logo: COMPANY_LOGOS.finviet,
+        fallbackLogo: COMPANY_LOGOS.finviet,
         url: 'https://finviet.com.vn',
       },
     ],
@@ -295,20 +296,20 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Garena',
-        logo: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
-        fallbackLogo: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+        logo: COMPANY_LOGOS.garena,
+        fallbackLogo: COMPANY_LOGOS.garena,
         url: 'https://www.garena.vn',
       },
       {
         name: 'VED',
-        logo: 'https://i.postimg.cc/NF9j6b6x/VED.png',
-        fallbackLogo: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
+        logo: COMPANY_LOGOS.ved,
+        fallbackLogo: COMPANY_LOGOS.ved,
         url: 'https://www.garena.vn',
       },
       {
         name: 'GCafe',
-        logo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
-        fallbackLogo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+        logo: COMPANY_LOGOS.gcafe,
+        fallbackLogo: COMPANY_LOGOS.gcafe,
         url: 'https://gcafe.vn',
       },
     ],
@@ -393,14 +394,14 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Prudential Vietnam',
-        logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
-        fallbackLogo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+        logo: COMPANY_LOGOS.prudential,
+        fallbackLogo: COMPANY_LOGOS.prudential,
         url: 'https://www.prudential.com.vn',
       },
       {
         name: 'Finviet',
-        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
-        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        logo: COMPANY_LOGOS.finviet,
+        fallbackLogo: COMPANY_LOGOS.finviet,
         url: 'https://finviet.com.vn',
       },
     ],
@@ -485,20 +486,20 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'MoMo',
-        logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
-        fallbackLogo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+        logo: COMPANY_LOGOS.momo,
+        fallbackLogo: COMPANY_LOGOS.momo,
         url: 'https://momo.vn',
       },
       {
         name: 'ShopeePay',
-        logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
-        fallbackLogo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+        logo: COMPANY_LOGOS.shopeepay,
+        fallbackLogo: COMPANY_LOGOS.shopeepay,
         url: 'https://shopeepay.vn',
       },
       {
         name: 'Ví ECO (Finviet)',
-        logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
-        fallbackLogo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+        logo: COMPANY_LOGOS.finviet,
+        fallbackLogo: COMPANY_LOGOS.finviet,
         url: 'https://finviet.com.vn',
       },
     ],
@@ -587,8 +588,8 @@ export const SERVICES_DATA: DomainData[] = [
     companyLogos: [
       {
         name: 'Power Service',
-        logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
-        fallbackLogo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+        logo: COMPANY_LOGOS.powerservice,
+        fallbackLogo: COMPANY_LOGOS.powerservice,
         url: 'https://powerservice.vn',
       },
     ],

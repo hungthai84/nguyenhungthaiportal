@@ -359,12 +359,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
         <div
           id="home-main-card-1"
           data-main-card="true"
+          data-floating-surface="main"
           data-element-name="Thẻ chính Trang chủ 1 - Tầm nhìn Lãnh đạo"
           data-element-type="card"
           data-element-page="home"
           data-element-parent="home-cards-track"
           style={mainCardInlineStyle}
-          className="page-main-card home-screen-main-card relative shrink-0 flex flex-col justify-center items-center overflow-hidden select-none font-play box-border opacity-100"
+          className="page-main-card floating-surface--main home-screen-main-card relative shrink-0 flex flex-col justify-center items-center overflow-hidden select-none font-play box-border opacity-100"
         >
           <div
             id="home-hero-stage-1"
@@ -372,7 +373,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             data-element-type="container"
             data-element-page="home"
             data-element-parent="home-main-card-1"
-            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-center overflow-y-auto md:overflow-hidden no-scrollbar rounded-[var(--radius-card,14px)] box-border text-left !p-0 bg-transparent border-0 shadow-none"
+            className="relative flex-1 w-full min-w-0 min-h-0 flex flex-col justify-start md:justify-center overflow-y-auto md:overflow-hidden no-scrollbar rounded-[var(--radius-card,14px)] box-border text-left !p-0 bg-transparent border-0 shadow-none"
             style={{
               borderRadius: 'var(--radius-card, 14px)',
               background: 'transparent',
@@ -382,9 +383,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
               WebkitBackdropFilter: 'none',
             }}
           >
-            <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-12 items-center gap-4 sm:gap-6 lg:gap-8 px-4 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
+            <div className="relative z-10 w-full my-auto grid grid-cols-1 md:grid-cols-12 items-center gap-3 sm:gap-6 lg:gap-8 px-3 py-2 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
               {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
-              <div className="md:col-span-6 flex flex-col justify-center items-start gap-4 sm:gap-5 min-w-0 order-2 md:order-1">
+              <div className="md:col-span-6 flex flex-col justify-center items-start gap-2.5 sm:gap-5 min-w-0 order-2 md:order-1">
                 <div
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border typo-badge font-semibold"
                   style={{
@@ -513,11 +514,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
-                className="md:col-span-6 flex items-center justify-center order-1 md:order-2 py-3 sm:py-4"
+                className="md:col-span-6 flex items-center justify-center order-1 md:order-2 py-1 sm:py-4"
               >
                 <div
                   id="el-p0-div-96"
-                  className="relative flex items-center justify-center w-[min(294px,74vw)] h-[min(294px,74vw)] sm:w-[min(375px,68vw)] sm:h-[min(375px,68vw)] md:w-[min(390px,42vw)] md:h-[min(390px,42vw)] lg:w-[min(450px,44vw,58vh)] lg:h-[min(450px,44vw,58vh)] xl:w-[min(465px,44vw,62vh)] xl:h-[min(465px,44vw,62vh)] shrink-0"
+                  className="relative flex items-center justify-center w-[min(212px,54vw)] h-[min(212px,54vw)] sm:w-[min(375px,68vw)] sm:h-[min(375px,68vw)] md:w-[min(390px,42vw)] md:h-[min(390px,42vw)] lg:w-[min(450px,44vw,58vh)] lg:h-[min(450px,44vw,58vh)] xl:w-[min(465px,44vw,62vh)] xl:h-[min(465px,44vw,62vh)] shrink-0"
                 >
                   <div
                     aria-hidden="true"

@@ -14,7 +14,7 @@
   padding: 0 !important;
   margin: 0 !important;
   display: grid !important;
-  grid-template-rows: 9fr 82fr 9fr !important;
+  grid-template-rows: minmax(68px, var(--shell-bar-h, clamp(68px, 9dvh, 84px))) minmax(0, 1fr) minmax(68px, var(--shell-bar-h, clamp(68px, 9dvh, 84px))) !important;
   gap: 0px !important;
   row-gap: 0px !important;
   justify-items: center !important;
@@ -54,13 +54,13 @@
   position: relative !important;
   top: auto !important;
   bottom: auto !important;
-  flex: 0 0 9% !important;
+  flex: 0 0 auto !important;
   display: flex !important;
   align-items: stretch !important;
   justify-content: center !important;
-  height: 9% !important;
-  min-height: 9% !important;
-  max-height: 9% !important;
+  height: var(--shell-bar-h, clamp(68px, 9dvh, 84px)) !important;
+  min-height: 68px !important;
+  max-height: 88px !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding: 0 !important;
@@ -109,7 +109,7 @@
   bottom: auto !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
   max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
@@ -120,8 +120,8 @@
   margin-right: auto !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
@@ -150,10 +150,10 @@
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
-  flex: 1 1 82% !important;
-  height: 82% !important;
+  flex: 1 1 0% !important;
+  height: 100% !important;
   min-height: 0 !important;
-  max-height: 82% !important;
+  max-height: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-inline: auto !important;
@@ -163,8 +163,8 @@
   margin-bottom: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   border-radius: 0px !important;
   overflow: hidden !important;
   scroll-behavior: smooth;
@@ -194,17 +194,17 @@
   #app-footer button.nav-pill,
   #app-footer #footer-nav-capsule,
   #app-footer #weather-widget-card {
-    height: 36px !important;
-    min-height: 36px !important;
+    height: 44px !important;
+    min-height: 44px !important;
     padding-top: 4px !important;
     padding-bottom: 4px !important;
   }
 
   #app-footer #footer-prev-btn,
   #app-footer #footer-next-btn {
-    min-width: 28px !important;
-    min-height: 28px !important;
-    height: 28px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    height: 34px !important;
   }
 }
 
@@ -598,17 +598,17 @@
 
 #app-header,
 #app-header-container header {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
   max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 45px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -647,15 +647,15 @@
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
   max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
   border-radius: 0px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(14px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(14px, 3vw, 45px)) !important;
   margin-left: auto !important;
   margin-right: auto !important;
   box-sizing: border-box !important;
@@ -663,7 +663,7 @@
 
 #app-footer,
 #el-p0-div-98 footer {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
   max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   align-self: stretch !important;
@@ -671,11 +671,11 @@
   min-height: 100% !important;
   max-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 45px !important;
+  padding: 5px var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -1559,8 +1559,8 @@
   #global-content-viewport:not(:has(#pdf-page-container)) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
-    padding-left: 45px !important;
-    padding-right: 45px !important;
+    padding-left: var(--shell-px, 10px) !important;
+    padding-right: var(--shell-px, 10px) !important;
   }
 
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),

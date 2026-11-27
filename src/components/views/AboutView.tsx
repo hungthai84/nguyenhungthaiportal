@@ -1851,13 +1851,21 @@ export function AboutView({
       {/* CARD GIỚI THIỆU CHÍNH (BENTO MULTICOLOR VIEW): NHẬP CARD 1 & 2 LÀM 1      */}
       {/* ========================================================================= */}
       <div
+        id="about-cards-track"
+        data-element-name="Track căn giữa Giới Thiệu"
+        data-element-type="container"
+        data-element-page="about"
+        data-element-parent="about-page-container"
+        className="page-cards-track"
+      >
+      <div
         id="about-intro-card-1"
         data-main-card="true"
         data-floating-surface="main"
         data-element-name="Thẻ chính Trang Giới Thiệu Chuyên Gia"
         data-element-type="card"
         data-element-page="about"
-        data-element-parent="about-page-container"
+        data-element-parent="about-cards-track"
         style={{
           ...cleanAboutMainStyle,
           maxWidth: 'var(--main-card-target-w, 1200px)',
@@ -1907,10 +1915,10 @@ export function AboutView({
               data-video-bg-card={activeHeroMedia === 'video' ? 'true' : 'false'}
               data-element-page="about"
               data-element-parent="about-intro-card-1"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              initial={false}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               whileHover={prefersReducedMotion ? undefined : { y: -2 }}
-              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.02, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.18, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
                 padding: viewportWidth < 640 ? '10px' : '14px',
@@ -1928,6 +1936,7 @@ export function AboutView({
                       flex: '1 1 0%',
                       padding: '5px',
                       margin: 0,
+                      background: 'linear-gradient(145deg, #0b1628 0%, #15294a 55%, #0a1220 100%)',
                       borderRadius: 'calc(max(6px, var(--radius-card, 14px) - 2px))',
                       overflow: 'hidden',
                     }}
@@ -1950,6 +1959,9 @@ export function AboutView({
                           fetchPriority="high"
                           referrerPolicy="no-referrer"
                           aria-hidden="true"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
                           style={ABOUT_VIDEO_SHARED_STYLE}
                           className="absolute inset-0 w-full h-full min-w-full min-h-full object-cover rounded-[inherit] select-none pointer-events-none z-0"
                         />
@@ -2385,10 +2397,10 @@ export function AboutView({
               data-element-type="card"
               data-element-page="about"
               data-element-parent="about-intro-card-1"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
+              initial={false}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               whileHover={prefersReducedMotion ? undefined : { y: -2 }}
-              transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: prefersReducedMotion ? 0.01 : 0.18, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 borderRadius: 'var(--radius-card, 14px)',
               }}
@@ -3169,6 +3181,7 @@ export function AboutView({
               </div>
             </motion.div>
         </div>
+      </div>
       </div>
 
       {/* Bento Card Focus / Expand Modal (Yêu Cầu 5) */}

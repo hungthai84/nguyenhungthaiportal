@@ -1266,7 +1266,7 @@ html:is([data-card-style="liquid-glass"], [data-theme="liquid-glass"], :not([dat
   .theme-toast,
   [data-toast="true"]
 ) {
-  background: rgba(255, 255, 255, var(--popup-alpha, 0.88)) !important;
+  background: rgba(255, 255, 255, 0.99) !important;
   border: 1px solid rgba(255, 255, 255, 0.92) !important;
   border-radius: var(--radius-popup, 14px) !important;
   box-shadow: var(--shadow-popup) !important;
@@ -1286,7 +1286,7 @@ html:is([data-card-style="dark-liquid-glass"], [data-theme="dark-liquid-glass"],
   .theme-toast,
   [data-toast="true"]
 ) {
-  background: rgba(18, 27, 45, var(--popup-alpha, 0.92)) !important;
+  background: rgba(18, 27, 45, 0.99) !important;
   border: 1px solid rgba(181, 167, 244, 0.24) !important;
   border-radius: var(--radius-popup, 14px) !important;
   box-shadow: var(--shadow-popup) !important;

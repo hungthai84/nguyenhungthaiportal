@@ -179,15 +179,55 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const didEmbedHostRef = useRef<HTMLDivElement>(null);
   const didInstanceRef = useRef<{ destroy?: () => void } | null>(null);
-  const [syncedBannerHeight, setSyncedBannerHeight] = useState<number | null>(null);
   const [chatControlHeight, setChatControlHeight] = useState<number>(44);
   const [chatExpandPx, setChatExpandPx] = useState<number>(0);
   const [isDraggingExpand, setIsDraggingExpand] = useState<boolean>(false);
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const dragMovedRef = useRef<boolean>(false);
   const isChatExpanded = chatExpandPx > 0;
 
   const showToast = (msg: string) => {
     if (onShowNotification) onShowNotification(msg);
+  };
+
+  const quickStarterPrompts = isEn
+    ? [
+        'Summarize Mr. Nguyen Hung Thai’s 22+ years of leadership experience',
+        'What were his key achievements at MoMo and Viettel?',
+        'What Contact Center & CRM systems has he built?',
+        'How can I contact or download his CV?',
+      ]
+    : [
+        'Tóm tắt hành trình 22+ năm lãnh đạo của anh Hùng Thái',
+        'Thành tựu nổi bật tại MoMo và Viettel là gì?',
+        'Các hệ thống tổng đài & CRM anh đã xây dựng?',
+        'Thông tin liên hệ và cách xem hồ sơ CV?',
+      ];
+
+  const handleCopyMessage = async (msgId: string, content: string) => {
+    SoundEngine.playTap();
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedMessageId(msgId);
+      showToast(isEn ? 'Copied response to clipboard' : 'Đã sao chép câu trả lời');
+      window.setTimeout(() => {
+        setCopiedMessageId((prev) => (prev === msgId ? null : prev));
+      }, 1800);
+    } catch {
+      showToast(isEn ? 'Unable to copy text' : 'Không thể sao chép nội dung');
+    }
+  };
+
+  const handleResetChat = () => {
+    SoundEngine.playTap();
+    stopActiveSpeech();
+    setSpeakingMessageId(null);
+    setIsReplyVideoActive(false);
+    setMessages(INITIAL_MESSAGES);
+    setInputValue('');
+    setPendingDraftQuestion(null);
+    setIsSampleDropdownOpen(false);
+    showToast(isEn ? 'Started a new conversation' : 'Đã làm mới cuộc trò chuyện với Trí Nhân');
   };
 
   // Nhúng trực tiếp D-ID Agent SDK v2 vào khung #did-agent-embed-container bên trong khung trò chuyện
@@ -354,34 +394,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       return;
     }
     SoundEngine.playTap();
-    setChatExpandPx((prev) => (prev > 0 ? 0 : 420));
+    setChatExpandPx((prev) => (prev > 0 ? 0 : 480));
   };
-
-  useEffect(() => {
-    const syncHeight = () => {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth < 1024) {
-        setSyncedBannerHeight(null);
-        return;
-      }
-      if (chatCardRef.current) {
-        const h = Math.round(chatCardRef.current.getBoundingClientRect().height);
-        if (h > 0) setSyncedBannerHeight(h);
-      }
-    };
-
-    syncHeight();
-    const observer =
-      typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => syncHeight()) : null;
-    if (observer && chatCardRef.current) {
-      observer.observe(chatCardRef.current);
-    }
-    window.addEventListener('resize', syncHeight);
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', syncHeight);
-    };
-  }, []);
 
   useEffect(() => {
     chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -620,6 +634,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         <div
           id="ai-assistant-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-chat-expanded={isChatExpanded ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Trợ lý AI"
           data-element-type="card"
@@ -629,19 +644,19 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             isChatExpanded
               ? ({
                   '--ai-chat-extra-w': `${chatExpandPx}px`,
-                  '--ai-banner-collapsed-w': `${Math.max(0, 235 - Math.round(chatExpandPx * 1.15))}px`,
                 } as React.CSSProperties)
               : undefined
           }
-          className="page-main-card relative flex flex-col items-stretch p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
+          className="page-main-card floating-surface--main relative flex flex-col items-stretch p-2.5 sm:p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
         >
           <div
             id="ai-assistant-main-scroll-viewport"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-2.5 sm:gap-[15px] overflow-y-auto lg:overflow-hidden overflow-x-hidden no-scrollbar box-border"
           >
       <div
-        className={`flex-1 min-h-full w-full flex flex-row items-stretch ${
-          chatExpandPx >= 200 ? 'gap-0' : 'gap-[15px]'
+        id="ai-assistant-split-stage"
+        className={`flex-1 min-h-0 h-full w-full flex flex-col lg:flex-row items-stretch ${
+          chatExpandPx >= 360 ? 'lg:gap-0 gap-2.5' : 'gap-2.5 sm:gap-[15px]'
         }`}
       >
       {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
@@ -652,22 +667,12 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        className="banner-card bento-card glass-card group w-[40%] min-w-[40%] max-w-[40%] flex-[0_0_40%] self-stretch rounded-[14px] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-[15px] box-border shadow-xl transition-all duration-300"
+        className={`banner-card bento-card glass-card group w-full min-h-[168px] sm:min-h-[195px] lg:min-h-0 lg:self-stretch rounded-[var(--radius-card,var(--radius-global,14px))] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-3 sm:p-[15px] box-border shadow-xl transition-all duration-300 ${
+          chatExpandPx >= 360 ? 'lg:opacity-0 lg:pointer-events-none lg:border-0 lg:p-0' : ''
+        }`}
         style={{
-          width: '40%',
-          minWidth: '40%',
-          maxWidth: '40%',
-          flex: '0 0 40%',
-          padding: '15px',
-          borderRadius: 'var(--radius-banner, 24px)',
+          borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
           boxSizing: 'border-box',
-          ...(syncedBannerHeight
-            ? {
-                height: `${syncedBannerHeight}px`,
-                minHeight: `${syncedBannerHeight}px`,
-                maxHeight: `${syncedBannerHeight}px`,
-              }
-            : {}),
         }}
       >
         <div
@@ -756,16 +761,11 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
         data-ai-responding={isAiResponding ? 'true' : 'false'}
-        className="bento-card glass-card min-w-[60%] max-w-[60%] w-[60%] flex-[0_0_60%] h-full min-h-full max-h-full flex flex-col justify-between rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative"
+        className="bento-card glass-card w-full flex-1 min-h-[380px] lg:min-h-0 lg:h-full flex flex-col justify-between rounded-[var(--radius-card,var(--radius-global,14px))] shadow-xl gap-2.5 sm:gap-[12px] overflow-hidden relative transition-all duration-300"
         style={{
-          width: '60%',
-          minWidth: '60%',
-          maxWidth: '60%',
-          flex: '0 0 60%',
           alignSelf: 'stretch',
           padding: '15px',
-          gap: '12px',
-          borderRadius: 'var(--radius-card, 24px)',
+          borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
           boxSizing: 'border-box',
         }}
       >
@@ -775,7 +775,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           id="ai-assistant-mode-bar"
           className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] shrink-0"
         >
-          <div className="inline-flex items-center gap-1.5 p-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 backdrop-blur-md">
+          <div className="inline-flex flex-wrap items-center gap-1 p-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/80 backdrop-blur-md">
             <button
               id="ai-mode-tab-trinhan"
               type="button"
@@ -789,7 +789,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                   : { color: 'var(--text-primary)' }
               }
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
             >
               <WebIcon name="message-square" className="w-3.5 h-3.5 shrink-0" />
               <span>
@@ -804,6 +804,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               type="button"
               onClick={() => {
                 SoundEngine.playTap();
+                stopActiveSpeech();
+                setSpeakingMessageId(null);
                 setChatViewMode('did');
               }}
               aria-pressed={chatViewMode === 'did'}
@@ -812,14 +814,27 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
                   : { color: 'var(--text-primary)' }
               }
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
             >
               <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
               <span>{isEn ? 'AI Support Agent (D-ID)' : 'Trợ lý AI Hỗ trợ (D-ID)'}</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+            {chatViewMode === 'trinhan' && messages.length > 1 && (
+              <button
+                id="ai-chat-reset-btn"
+                type="button"
+                onClick={handleResetChat}
+                title={isEn ? 'Start new conversation' : 'Làm mới cuộc trò chuyện'}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)] text-[var(--text-secondary)] hover:text-[var(--color-primary)] typo-badge font-semibold transition cursor-pointer"
+              >
+                <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden sm:inline">{isEn ? 'New chat' : 'Làm mới'}</span>
+              </button>
+            )}
+
             {chatViewMode === 'did' && (
               <button
                 type="button"
@@ -860,7 +875,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
                   : undefined
               }
-              className={`w-8 h-8 rounded-full border border-[var(--border-subcard)] flex items-center justify-center transition-colors cursor-ew-resize touch-none select-none ${
+              className={`hidden lg:flex w-8 h-8 rounded-full border border-[var(--border-subcard)] items-center justify-center transition-colors cursor-ew-resize touch-none select-none ${
                 isChatExpanded || isDraggingExpand
                   ? 'shadow-xs'
                   : 'bg-[var(--bg-subcard)]/85 backdrop-blur-md text-[var(--text-muted)] hover:text-[var(--color-primary)]'
@@ -1015,23 +1030,36 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                               <span className="truncate">{displayTitle}</span>
                             </span>
                             {m.sender === 'ai' && (
-                              <button
-                                type="button"
-                                onClick={() => speakWithPuckVoice(m.id, displayText)}
-                                className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
-                                title={isEn ? 'AI Tri Nhan (Puck)' : 'AI Trí Nhân (Puck • Miền Nam)'}
-                              >
-                                <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
-                                <span>
-                                  {speakingMessageId === m.id
-                                    ? isEn
-                                      ? 'Stop'
-                                      : 'Dừng đọc'
-                                    : isEn
-                                    ? 'Read'
-                                    : 'Đọc'}
-                                </span>
-                              </button>
+                              <div className="inline-flex items-center gap-1.5 shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyMessage(m.id, displayText)}
+                                  className="project-detail-chip inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
+                                  title={isEn ? 'Copy response' : 'Sao chép nội dung'}
+                                >
+                                  <WebIcon name={copiedMessageId === m.id ? 'check' : 'copy'} className="w-3.5 h-3.5" />
+                                  <span className="hidden sm:inline">
+                                    {copiedMessageId === m.id ? (isEn ? 'Copied' : 'Đã chép') : isEn ? 'Copy' : 'Chép'}
+                                  </span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => speakWithPuckVoice(m.id, displayText)}
+                                  className="project-detail-chip inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge cursor-pointer transition shrink-0 hover:opacity-85"
+                                  title={isEn ? 'AI Tri Nhan (Puck)' : 'AI Trí Nhân (Puck • Miền Nam)'}
+                                >
+                                  <WebIcon name={speakingMessageId === m.id ? 'pause' : 'volume'} className="w-3.5 h-3.5" />
+                                  <span>
+                                    {speakingMessageId === m.id
+                                      ? isEn
+                                        ? 'Stop'
+                                        : 'Dừng đọc'
+                                      : isEn
+                                      ? 'Read'
+                                      : 'Đọc'}
+                                  </span>
+                                </button>
+                              </div>
                             )}
                           </div>
                         )}
@@ -1064,6 +1092,25 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                     </div>
                   );
                 })}
+
+                {messages.length === 1 && !isLoading && (
+                  <div
+                    id="ai-assistant-quick-prompts"
+                    className="flex flex-wrap items-center gap-2 pt-1"
+                  >
+                    {quickStarterPrompts.map((promptText, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleSend(promptText)}
+                        className="project-detail-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-semibold text-left cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-xs"
+                      >
+                        <WebIcon name="sparkles" className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--color-primary)' }} />
+                        <span>{promptText}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {isLoading && (
                   <div id="ai-assistant-loading-indicator" className="flex justify-start">

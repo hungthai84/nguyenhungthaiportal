@@ -20,6 +20,7 @@ export interface HeaderProps {
 // Cấu hình giao diện chuẩn theo định dạng nút bên phải của Footer cho tất cả 15 trang
 interface HeaderButtonStyle {
   accentColor: string;
+  darkAccentColor: string;
   accentBg: string;
   accentBorder: string;
   mainTextColor: string;
@@ -36,6 +37,7 @@ interface HeaderButtonStyle {
 const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   0: {
     accentColor: '#D97706',
+    darkAccentColor: '#FBBF24',
     accentBg: 'bg-amber-50/90 dark:bg-amber-950/70',
     accentBorder: 'border-amber-400/80 dark:border-amber-500/80',
     mainTextColor: 'text-amber-950 dark:text-amber-100',
@@ -49,6 +51,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   1: {
     accentColor: '#EA580C',
+    darkAccentColor: '#FB923C',
     accentBg: 'bg-orange-50/90 dark:bg-orange-950/70',
     accentBorder: 'border-orange-400/80 dark:border-orange-500/80',
     mainTextColor: 'text-orange-950 dark:text-orange-100',
@@ -62,6 +65,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   2: {
     accentColor: '#E11D48',
+    darkAccentColor: '#FB7185',
     accentBg: 'bg-rose-50/90 dark:bg-rose-950/70',
     accentBorder: 'border-rose-400/80 dark:border-rose-500/80',
     mainTextColor: 'text-rose-950 dark:text-rose-100',
@@ -75,6 +79,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   3: {
     accentColor: '#0284C7',
+    darkAccentColor: '#38BDF8',
     accentBg: 'bg-sky-50/90 dark:bg-sky-950/70',
     accentBorder: 'border-sky-400/80 dark:border-sky-500/80',
     mainTextColor: 'text-sky-950 dark:text-sky-100',
@@ -88,6 +93,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   4: {
     accentColor: '#059669',
+    darkAccentColor: '#34D399',
     accentBg: 'bg-emerald-50/90 dark:bg-emerald-950/70',
     accentBorder: 'border-emerald-400/80 dark:border-emerald-500/80',
     mainTextColor: 'text-emerald-950 dark:text-emerald-100',
@@ -101,6 +107,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   5: {
     accentColor: '#0891B2',
+    darkAccentColor: '#22D3EE',
     accentBg: 'bg-cyan-50/90 dark:bg-cyan-950/70',
     accentBorder: 'border-cyan-400/80 dark:border-cyan-500/80',
     mainTextColor: 'text-cyan-950 dark:text-cyan-100',
@@ -113,7 +120,8 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     subEn: '22+ Years',
   },
   6: {
-    accentColor: '#8B5CF6',
+    accentColor: '#7C3AED',
+    darkAccentColor: '#A78BFA',
     accentBg: 'bg-violet-50/90 dark:bg-violet-950/70',
     accentBorder: 'border-violet-400/80 dark:border-violet-500/80',
     mainTextColor: 'text-violet-950 dark:text-violet-100',
@@ -127,6 +135,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   7: {
     accentColor: '#0D9488',
+    darkAccentColor: '#2DD4BF',
     accentBg: 'bg-teal-50/90 dark:bg-teal-950/70',
     accentBorder: 'border-teal-400/80 dark:border-teal-500/80',
     mainTextColor: 'text-teal-950 dark:text-teal-100',
@@ -140,6 +149,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   8: {
     accentColor: '#2563EB',
+    darkAccentColor: '#60A5FA',
     accentBg: 'bg-blue-50/90 dark:bg-blue-950/70',
     accentBorder: 'border-blue-400/80 dark:border-blue-500/80',
     mainTextColor: 'text-blue-950 dark:text-blue-100',
@@ -152,7 +162,8 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     subEn: 'Systems',
   },
   9: {
-    accentColor: '#65A30D',
+    accentColor: '#4D7C0F',
+    darkAccentColor: '#A3E635',
     accentBg: 'bg-lime-50/90 dark:bg-lime-950/70',
     accentBorder: 'border-lime-400/80 dark:border-lime-500/80',
     mainTextColor: 'text-lime-950 dark:text-lime-100',
@@ -166,6 +177,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   10: {
     accentColor: '#EA580C',
+    darkAccentColor: '#FB923C',
     accentBg: 'bg-orange-50/90 dark:bg-orange-950/70',
     accentBorder: 'border-orange-400/80 dark:border-orange-500/80',
     mainTextColor: 'text-orange-950 dark:text-orange-100',
@@ -179,6 +191,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   11: {
     accentColor: '#7C3AED',
+    darkAccentColor: '#C084FC',
     accentBg: 'bg-purple-50/90 dark:bg-purple-950/70',
     accentBorder: 'border-purple-400/80 dark:border-purple-500/80',
     mainTextColor: 'text-purple-950 dark:text-purple-100',
@@ -192,6 +205,7 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
   },
   12: {
     accentColor: '#4338CA',
+    darkAccentColor: '#A5B4FC',
     accentBg: 'bg-indigo-50/90 dark:bg-indigo-950/70',
     accentBorder: 'border-indigo-400/80 dark:border-indigo-500/80',
     mainTextColor: 'text-indigo-950 dark:text-indigo-100',
@@ -204,7 +218,8 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     subEn: 'Contact',
   },
   13: {
-    accentColor: '#0EA5E9',
+    accentColor: '#0284C7',
+    darkAccentColor: '#38BDF8',
     accentBg: 'bg-sky-50/90 dark:bg-sky-950/70',
     accentBorder: 'border-sky-400/80 dark:border-sky-500/80',
     mainTextColor: 'text-sky-950 dark:text-sky-100',
@@ -218,7 +233,8 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     avatarGif: 'https://lh3.googleusercontent.com/d/1gY_ln5UNMGbqeLu5Sh6AQF-7Ymu7tIxJ',
   },
   14: {
-    accentColor: '#F43F5E',
+    accentColor: '#E11D48',
+    darkAccentColor: '#FDA4AF',
     accentBg: 'bg-rose-50/90 dark:bg-rose-950/70',
     accentBorder: 'border-rose-400/80 dark:border-rose-500/80',
     mainTextColor: 'text-rose-950 dark:text-rose-100',
@@ -231,7 +247,8 @@ const PAGE_FOOTER_STYLE_MAP: Record<number, HeaderButtonStyle> = {
     subEn: 'Wallpaper',
   },
   15: {
-    accentColor: '#6366F1',
+    accentColor: '#4F46E5',
+    darkAccentColor: '#818CF8',
     accentBg: 'bg-indigo-50/90 dark:bg-indigo-950/70',
     accentBorder: 'border-indigo-400/80 dark:border-indigo-500/80',
     mainTextColor: 'text-indigo-950 dark:text-indigo-100',
@@ -462,8 +479,8 @@ export const Header: React.FC<HeaderProps> = ({
         marginBottom: '0px',
         paddingTop: '5px',
         paddingBottom: '5px',
-        paddingLeft: '45px',
-        paddingRight: '45px',
+        paddingLeft: 'var(--shell-px, clamp(10px, 3vw, 45px))',
+        paddingRight: 'var(--shell-px, clamp(10px, 3vw, 45px))',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -474,7 +491,7 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
       }}
-      className={`neonav-bar mx-auto py-[5px] flex items-center justify-center px-[45px] ${
+      className={`neonav-bar mx-auto py-[5px] flex items-center justify-center px-2.5 sm:px-6 lg:px-[45px] ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -572,7 +589,7 @@ export const Header: React.FC<HeaderProps> = ({
                           ? leatherGoldAccent
                           : isOceanTheme
                             ? '#0284C7'
-                            : (styleCfg.accentColor || 'var(--nav-pill-accent, var(--color-primary))'),
+                            : (isDark ? styleCfg.darkAccentColor : styleCfg.accentColor) || 'var(--nav-pill-accent, var(--color-primary))',
                       width: '176px',
                       height: '50px',
                       minHeight: '50px',
@@ -624,7 +641,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 ? leatherTitleColor
                                 : isOceanTheme
                                   ? '#38BDF8'
-                                  : (styleCfg.accentColor || 'var(--text-heading, var(--color-primary))'),
+                                  : ((isDark ? styleCfg.darkAccentColor : styleCfg.accentColor) || 'var(--text-heading, var(--color-primary))'),
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
@@ -718,7 +735,7 @@ export const Header: React.FC<HeaderProps> = ({
                           ? leatherGoldAccent
                           : isOceanTheme
                             ? '#0284C7'
-                            : (contactStyleCfg.accentColor || 'var(--nav-pill-accent, var(--color-primary))'),
+                            : (isDark ? contactStyleCfg.darkAccentColor : contactStyleCfg.accentColor) || 'var(--nav-pill-accent, var(--color-primary))',
                       width: '176px',
                       height: '50px',
                       minHeight: '50px',
@@ -753,7 +770,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 ? leatherTitleColor
                                 : isOceanTheme
                                   ? '#38BDF8'
-                                  : (contactStyleCfg.accentColor || 'var(--text-heading, var(--color-primary))'),
+                                  : ((isDark ? contactStyleCfg.darkAccentColor : contactStyleCfg.accentColor) || 'var(--text-heading, var(--color-primary))'),
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >

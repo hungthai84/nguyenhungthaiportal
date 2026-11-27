@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
 import { ExperienceSliderView } from './experience/ExperienceSliderView';
+import { COMPANY_LOGOS } from '@/utils/companyBrandAssets';
 import {
   type OrigamiFoldPhase,
   ORIGAMI_TIMINGS,
@@ -696,15 +697,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Nhân viên CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2002']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+      logo: COMPANY_LOGOS.mobifone,
       productSummary: 'MobiFone Di Động',
       products: [
-        { name: 'MobiFone', logo: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png' },
+        { name: 'MobiFone', logo: COMPANY_LOGOS.mobifone },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
-          fallback: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+          src: COMPANY_LOGOS.mobifone,
+          fallback: COMPANY_LOGOS.mobifone,
           alt: 'Logo Mobifone',
         },
       ],
@@ -724,15 +725,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Giám sát CSKH',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2007']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+      logo: COMPANY_LOGOS.v247,
       productSummary: 'Call 247 Quốc Tế',
       products: [
-        { name: 'Call 247', logo: 'https://i.postimg.cc/wMyjXFXc/V247.png' },
+        { name: 'Call 247', logo: COMPANY_LOGOS.v247 },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/wMyjXFXc/V247.png',
-          fallback: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+          src: COMPANY_LOGOS.v247,
+          fallback: COMPANY_LOGOS.v247,
           alt: 'Logo V247',
         },
       ],
@@ -752,20 +753,20 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng (Quy mô nhỏ)',
       headcountLabel: '12 Nhân sự',
       description: EXPERIENCE_MILESTONES['2011']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+      logo: COMPANY_LOGOS.lbc,
       productSummary: 'Truyền hình Cáp HTVC',
       products: [
-        { name: 'HTVC', logo: 'https://i.postimg.cc/V6HN02C6/HTVC.png' },
+        { name: 'HTVC', logo: COMPANY_LOGOS.htvc },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
-          fallback: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+          src: COMPANY_LOGOS.lbc,
+          fallback: COMPANY_LOGOS.lbc,
           alt: 'Logo LBC',
         },
         {
-          src: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
-          fallback: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+          src: COMPANY_LOGOS.htvc,
+          fallback: COMPANY_LOGOS.htvc,
           alt: 'Logo HTVC',
         },
       ],
@@ -785,39 +786,39 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '129–130 Nhân sự',
       description: EXPERIENCE_MILESTONES['2013']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/NF9j6b6x/VED.png',
+      logo: COMPANY_LOGOS.ved,
       productSummary: 'Shopee · Garena · AirPay · GCafe',
       products: [
-        { name: 'VED', logo: 'https://i.postimg.cc/NF9j6b6x/VED.png' },
-        { name: 'Garena', logo: 'https://i.postimg.cc/QC9dQSQs/Garena.png' },
-        { name: 'GCafe', logo: 'https://i.postimg.cc/MTrGfgQH/GCafe.png' },
-        { name: 'ShopeePay', logo: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png' },
-        { name: 'Shopee', logo: 'https://i.postimg.cc/WzF1GSGw/Shopee.png' },
+        { name: 'VED', logo: COMPANY_LOGOS.ved },
+        { name: 'Garena', logo: COMPANY_LOGOS.garena },
+        { name: 'GCafe', logo: COMPANY_LOGOS.gcafe },
+        { name: 'ShopeePay', logo: COMPANY_LOGOS.shopeepay },
+        { name: 'Shopee', logo: COMPANY_LOGOS.shopee },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/NF9j6b6x/VED.png',
-          fallback: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
+          src: COMPANY_LOGOS.ved,
+          fallback: COMPANY_LOGOS.ved,
           alt: 'Logo VED',
         },
         {
-          src: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
-          fallback: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+          src: COMPANY_LOGOS.garena,
+          fallback: COMPANY_LOGOS.garena,
           alt: 'Logo Garena',
         },
         {
-          src: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
-          fallback: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+          src: COMPANY_LOGOS.gcafe,
+          fallback: COMPANY_LOGOS.gcafe,
           alt: 'Logo GCafe',
         },
         {
-          src: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
-          fallback: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+          src: COMPANY_LOGOS.shopeepay,
+          fallback: COMPANY_LOGOS.shopeepay,
           alt: 'Logo AirPay ShopeePay',
         },
         {
-          src: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
-          fallback: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+          src: COMPANY_LOGOS.shopee,
+          fallback: COMPANY_LOGOS.shopee,
           alt: 'Logo Shopee',
         },
       ],
@@ -837,15 +838,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CallCenter',
       headcountLabel: '12 NS + 40 Tư vấn',
       description: EXPERIENCE_MILESTONES['2016']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+      logo: COMPANY_LOGOS.prudential,
       productSummary: 'Bảo hiểm PruLife',
       products: [
-        { name: 'Prudential', logo: 'https://i.postimg.cc/C5BxGJGk/Prudential.png' },
+        { name: 'Prudential', logo: COMPANY_LOGOS.prudential },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
-          fallback: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+          src: COMPANY_LOGOS.prudential,
+          fallback: COMPANY_LOGOS.prudential,
           alt: 'Logo Prudential Vietnam',
         },
       ],
@@ -865,15 +866,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng cấp cao',
       headcountLabel: '60+ NS & BPO',
       description: EXPERIENCE_MILESTONES['2018']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+      logo: COMPANY_LOGOS.momo,
       productSummary: 'Siêu ứng dụng Ví MoMo',
       products: [
-        { name: 'Ví MoMo', logo: 'https://i.postimg.cc/J0DzNKNy/Momo.png' },
+        { name: 'Ví MoMo', logo: COMPANY_LOGOS.momo },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
-          fallback: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+          src: COMPANY_LOGOS.momo,
+          fallback: COMPANY_LOGOS.momo,
           alt: 'Logo MoMo',
         },
       ],
@@ -893,15 +894,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng Phòng CSKH',
       headcountLabel: '17 Nhân sự',
       description: EXPERIENCE_MILESTONES['2023']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+      logo: COMPANY_LOGOS.finviet,
       productSummary: 'Chợ Số Finviet',
       products: [
-        { name: 'Finviet', logo: 'https://i.postimg.cc/mD6r1KHh/Finviet.png' },
+        { name: 'Finviet', logo: COMPANY_LOGOS.finviet },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
-          fallback: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+          src: COMPANY_LOGOS.finviet,
+          fallback: COMPANY_LOGOS.finviet,
           alt: 'Logo Finviet',
         },
       ],
@@ -921,15 +922,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
       roleSummary: 'Trưởng phòng / GĐ CX',
       headcountLabel: '100–150+ Nhân sự',
       description: EXPERIENCE_MILESTONES['2026']?.cardDescription || '',
-      logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+      logo: COMPANY_LOGOS.powerservice,
       productSummary: 'Power Service • CS Strategy',
       products: [
-        { name: 'Power Service', logo: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png' },
+        { name: 'Power Service', logo: COMPANY_LOGOS.powerservice },
       ],
       logos: [
         {
-          src: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
-          fallback: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+          src: COMPANY_LOGOS.powerservice,
+          fallback: COMPANY_LOGOS.powerservice,
           alt: 'Logo Power Service',
         },
       ],
@@ -1545,13 +1546,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           ref={experienceMainCardRef}
           id="experience-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-detail-open={showJobCard ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Hành trình sự nghiệp"
           data-element-type="card"
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
+            'page-main-card floating-surface--main relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
             showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden',
             'p-0 gap-0'
           )}

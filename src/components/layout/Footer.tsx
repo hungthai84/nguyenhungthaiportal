@@ -152,7 +152,7 @@ const FooterComponent: React.FC<FooterProps> = ({
     : isLeatherTheme
       ? leatherGoldAccent
       : isOceanTheme
-        ? '#0284C7'
+        ? '#38BDF8'
         : 'var(--nav-pill-accent, var(--color-primary))';
   const rightPillTitleColor = isWalnutTheme
     ? walnutGoldAccent
@@ -160,7 +160,9 @@ const FooterComponent: React.FC<FooterProps> = ({
       ? leatherTitleColor
       : isOceanTheme
         ? '#38BDF8'
-        : 'var(--text-heading, var(--color-primary))';
+        : isDark
+          ? 'var(--text-heading, #E2E8F0)'
+          : 'var(--text-heading, var(--color-primary))';
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -198,6 +200,8 @@ const FooterComponent: React.FC<FooterProps> = ({
   }, []);
 
   const isCompactMobile = viewportWidth < 768;
+  const isSmallMobile = viewportWidth < 640;
+  const pillWidthPx = isSmallMobile ? 32 : UNIFORM_RIGHT_PILL_WIDTH;
   const openUtilityIndex = isLangMenuOpen ? 0 : isThemeMenuOpen ? 1 : null;
   const activeRightIndex =
     hoveredRightBtn !== null
@@ -212,7 +216,7 @@ const FooterComponent: React.FC<FooterProps> = ({
     (hoveredRightBtn !== null || focusedRightBtn !== null || openUtilityIndex !== null);
 
   const exposedRightWidth = viewportWidth < 768 ? 40 : viewportWidth < 1024 ? 36 : 46;
-  const overlapRightPx = Math.max(0, UNIFORM_RIGHT_PILL_WIDTH - exposedRightWidth);
+  const overlapRightPx = Math.max(0, pillWidthPx - exposedRightWidth);
 
   const handleRightBtnPointerEnter = (index: number, e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== 'mouse') return;
@@ -248,10 +252,14 @@ const FooterComponent: React.FC<FooterProps> = ({
       role="listbox"
       aria-label={isEn ? 'Select Language' : 'Chọn ngôn ngữ'}
       ref={langPopupRef}
-      style={{ background: 'var(--bg-popup)' }}
-      className={`theme-popup absolute bottom-[calc(100%+12px)] ${
+      style={{
+        background: 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff)))',
+        backdropFilter: 'blur(24px) saturate(165%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(165%)',
+      }}
+      className={`theme-popup absolute bottom-[calc(100%+10px)] ${
         mobilePlacement
-          ? 'inset-x-3 mx-auto w-[min(288px,calc(100vw-24px))] sm:inset-x-auto sm:right-3'
+          ? 'left-1/2 -translate-x-1/2 right-auto w-[min(288px,calc(100vw-24px))]'
           : 'left-auto right-0 w-72'
       } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left pointer-events-auto`}
     >
@@ -320,13 +328,15 @@ const FooterComponent: React.FC<FooterProps> = ({
         aria-label={isEn ? 'Select Theme' : 'Chọn giao diện'}
         ref={themePopupRef}
         style={{
-          background: 'var(--surface-primary-bg, var(--bg-popup, var(--bg-card)))',
+          background: 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff)))',
           borderColor: 'var(--surface-primary-border, var(--border-card, var(--border-color)))',
           boxShadow: 'var(--surface-primary-shadow, var(--shadow-card))',
+          backdropFilter: 'blur(24px) saturate(165%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(165%)',
         }}
-        className={`theme-popup absolute bottom-[calc(100%+12px)] ${
+        className={`theme-popup absolute bottom-[calc(100%+10px)] ${
           mobilePlacement
-            ? 'inset-x-3 mx-auto w-[min(348px,calc(100vw-24px))] max-w-[calc(100vw-24px)] sm:inset-x-auto sm:right-3'
+            ? 'left-1/2 -translate-x-1/2 right-auto w-[min(348px,calc(100vw-24px))] max-w-[calc(100vw-24px)]'
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
         } rounded-[var(--radius-popup,16px)] border p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
       >
@@ -493,8 +503,8 @@ const FooterComponent: React.FC<FooterProps> = ({
         marginBottom: '0px',
         paddingTop: '5px',
         paddingBottom: '5px',
-        paddingLeft: '45px',
-        paddingRight: '45px',
+        paddingLeft: 'var(--shell-px, clamp(10px, 3vw, 45px))',
+        paddingRight: 'var(--shell-px, clamp(10px, 3vw, 45px))',
         borderTopLeftRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderTopRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderBottomLeftRadius: '0px',
@@ -504,14 +514,10 @@ const FooterComponent: React.FC<FooterProps> = ({
         filter: 'none',
         transform: 'none',
       }}
-      className="mx-auto w-full h-full min-h-full flex flex-nowrap items-center justify-between px-[45px] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
+      className="mx-auto w-full h-full min-h-full flex flex-nowrap items-center justify-between px-2.5 sm:px-6 lg:px-[45px] z-50 relative flex-1 mb-0 overflow-visible pointer-events-auto"
     >
       <div
-        className={`w-full h-full relative flex flex-nowrap items-center justify-between gap-2 md:gap-0 ${
-          isCompactMobile
-            ? 'overflow-x-auto overflow-y-hidden horizontal-scroll-smooth'
-            : 'overflow-visible'
-        }`}
+        className="w-full h-full relative flex flex-nowrap items-center justify-between gap-1 sm:gap-2 md:gap-0 overflow-visible"
       >
       {/* Area 1: Weather Widget */}
       <div
@@ -541,13 +547,13 @@ const FooterComponent: React.FC<FooterProps> = ({
           data-element-type="button"
           style={{
             borderRadius: '999px',
-            width: '176px',
-            height: '48px',
-            minHeight: '48px',
-            paddingTop: '4px',
-            paddingBottom: '4px',
-            paddingLeft: '6px',
-            paddingRight: '6px',
+            width: isSmallMobile ? '100px' : '176px',
+            height: isSmallMobile ? '36px' : '48px',
+            minHeight: isSmallMobile ? '36px' : '48px',
+            paddingTop: isSmallMobile ? '3px' : '4px',
+            paddingBottom: isSmallMobile ? '3px' : '4px',
+            paddingLeft: isSmallMobile ? '4px' : '6px',
+            paddingRight: isSmallMobile ? '4px' : '6px',
           }}
           className="theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold"
         >
@@ -563,25 +569,27 @@ const FooterComponent: React.FC<FooterProps> = ({
               onNavigate(-1);
             }}
             title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn min-w-[36px] min-h-[36px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+            className={`theme-prev-next-btn ${
+              isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[36px] min-h-[36px]'
+            } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
-            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[18px] h-[18px]" />
+            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
           </button>
 
           {/* Page Number with Active Page Icon */}
-          <span className="flex-1 h-full mx-1 flex items-center justify-center gap-1.5 select-none pointer-events-none">
+          <span className="flex-1 h-full mx-0.5 sm:mx-1 flex items-center justify-center gap-1 sm:gap-1.5 select-none pointer-events-none">
             <WebIcon
               id="footer-page-icon"
               name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
               strokeWidth={2.85}
-              className="w-[18px] h-[18px] shrink-0"
+              className="hidden sm:inline-block w-[18px] h-[18px] shrink-0"
               style={{ color: rightPillAccent }}
             />
             <span
               id="footer-page-counter"
-              className="text-[15px] font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
+              className="text-[13px] sm:text-[15px] font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
               style={{
                 color: rightPillAccent,
                 fontWeight: 800,
@@ -605,7 +613,9 @@ const FooterComponent: React.FC<FooterProps> = ({
               onNavigate(1);
             }}
             title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn min-w-[32px] min-h-[32px] h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+            className={`theme-prev-next-btn ${
+              isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[32px] min-h-[32px]'
+            } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
               hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
             }`}
           >
@@ -630,7 +640,7 @@ const FooterComponent: React.FC<FooterProps> = ({
         <div
           id="el-p0-div-113"
           className={`relative flex flex-nowrap items-center justify-end py-0 overflow-visible ${
-            isCompactMobile ? 'gap-1.5' : ''
+            isCompactMobile ? 'gap-[3px] sm:gap-1.5' : ''
           }`}
         >
           {/* Button 0: Ngôn Ngữ */}
@@ -642,7 +652,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           >
             <div
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0"
-              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+              style={{ width: `${pillWidthPx}px` }}
             >
               <button
                 ref={(el) => {
@@ -665,41 +675,43 @@ const FooterComponent: React.FC<FooterProps> = ({
                     : `Ngôn ngữ: ${activeLangTitle} (${activeLangSub})`
                 }
                 aria-expanded={isLangMenuOpen}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': rightPillAccent,
-                    width: '176px',
-                    height: '50px',
-                    minHeight: '50px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
+                    width: `${pillWidthPx}px`,
+                    height: isSmallMobile ? '36px' : '50px',
+                    minHeight: isSmallMobile ? '36px' : '50px',
+                    paddingTop: isSmallMobile ? '1px' : '4px',
+                    paddingBottom: isSmallMobile ? '1px' : '4px',
+                    paddingLeft: isSmallMobile ? '1px' : '12px',
+                    paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
-                  <WebIcon name="languages" isActive={isLangMenuOpen} isHovered={hoveredRightBtn === 0} className="nav-pill-icon-svg w-[19px] h-[19px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon name="languages" isActive={isLangMenuOpen} isHovered={hoveredRightBtn === 0} className="nav-pill-icon-svg w-[17px] h-[17px] sm:w-[19px] sm:h-[19px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                  <span
-                    data-no-translate="true"
-                    style={{
-                      fontWeight: 'bold',
-                      color:
-                        isLangMenuOpen || hoveredRightBtn === 0
-                          ? 'var(--pill-active-text, #ffffff)'
-                          : rightPillTitleColor,
-                    }}
-                    className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
-                  >
-                    {activeLangTitle}
-                  </span>
-                </div>
+                {!isSmallMobile && <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />}
+                {!isSmallMobile && (
+                  <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                    <span
+                      data-no-translate="true"
+                      style={{
+                        fontWeight: 'bold',
+                        color:
+                          isLangMenuOpen || hoveredRightBtn === 0
+                            ? 'var(--pill-active-text, #ffffff)'
+                            : rightPillTitleColor,
+                      }}
+                      className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
+                    >
+                      {activeLangTitle}
+                    </span>
+                  </div>
+                )}
               </button>
             </div>
 
@@ -716,7 +728,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           >
             <div
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0"
-              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+              style={{ width: `${pillWidthPx}px` }}
             >
               <button
                 ref={(el) => {
@@ -762,40 +774,42 @@ const FooterComponent: React.FC<FooterProps> = ({
                         : `Giao diện (${THEME_FOUR_WORD_NAMES[cardStyle]?.vi || activeThemeConfig.shortBadge}) · Nhấn 1 lần: Danh sách · Nhấn đúp: Mở trang Giao diện`
                     }
                     aria-expanded={isThemeMenuOpen}
-                    className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                    className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                     style={
                       {
                         '--nav-pill-accent': rightPillAccent,
-                        width: '176px',
-                        height: '50px',
-                        minHeight: '50px',
-                        paddingTop: '4px',
-                        paddingBottom: '4px',
-                        paddingLeft: '12px',
-                        paddingRight: '12px',
+                        width: `${pillWidthPx}px`,
+                        height: isSmallMobile ? '36px' : '50px',
+                        minHeight: isSmallMobile ? '36px' : '50px',
+                        paddingTop: isSmallMobile ? '1px' : '4px',
+                        paddingBottom: isSmallMobile ? '1px' : '4px',
+                        paddingLeft: isSmallMobile ? '1px' : '12px',
+                        paddingRight: isSmallMobile ? '1px' : '12px',
                         fontWeight: 'normal',
                         borderWidth: '1px',
                       } as React.CSSProperties
                     }
                   >
-                    <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
-                      <WebIcon name="layers" isActive={currentTabIndex === 15 || isThemeMenuOpen} isHovered={hoveredRightBtn === 1} className="nav-pill-icon-svg w-[19px] h-[19px] shrink-0" />
+                    <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                      <WebIcon name="layers" isActive={currentTabIndex === 15 || isThemeMenuOpen} isHovered={hoveredRightBtn === 1} className="nav-pill-icon-svg w-[17px] h-[17px] sm:w-[19px] sm:h-[19px] shrink-0" />
                     </div>
-                    <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
-                    <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                      <span
-                        style={{
-                          fontWeight: 'bold',
-                          color:
-                            currentTabIndex === 15 || isThemeMenuOpen || hoveredRightBtn === 1
-                              ? 'var(--pill-active-text, #ffffff)'
-                              : rightPillTitleColor,
-                        }}
-                        className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
-                      >
-                        {isEn ? 'Theme' : 'Giao Diện'}
-                      </span>
-                    </div>
+                    {!isSmallMobile && <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />}
+                    {!isSmallMobile && (
+                      <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                        <span
+                          style={{
+                            fontWeight: 'bold',
+                            color:
+                              currentTabIndex === 15 || isThemeMenuOpen || hoveredRightBtn === 1
+                                ? 'var(--pill-active-text, #ffffff)'
+                                : rightPillTitleColor,
+                          }}
+                          className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
+                        >
+                          {isEn ? 'Theme' : 'Giao Diện'}
+                        </span>
+                      </div>
+                    )}
                   </button>
                 </div>
 
@@ -811,7 +825,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           >
             <div
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0"
-              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+              style={{ width: `${pillWidthPx}px` }}
             >
               <button
                 ref={(el) => {
@@ -827,40 +841,42 @@ const FooterComponent: React.FC<FooterProps> = ({
                   handleWallpaperClick();
                 }}
                 title={isEn ? 'Wallpaper (Customize)' : 'Hình Nền (Tùy chỉnh)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': rightPillAccent,
-                    width: '176px',
-                    height: '50px',
-                    minHeight: '50px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
+                    width: `${pillWidthPx}px`,
+                    height: isSmallMobile ? '36px' : '50px',
+                    minHeight: isSmallMobile ? '36px' : '50px',
+                    paddingTop: isSmallMobile ? '1px' : '4px',
+                    paddingBottom: isSmallMobile ? '1px' : '4px',
+                    paddingLeft: isSmallMobile ? '1px' : '12px',
+                    paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
-                  <WebIcon name="image" isActive={currentTabIndex === 14} isHovered={hoveredRightBtn === 2} className="nav-pill-icon-svg w-[19px] h-[19px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon name="image" isActive={currentTabIndex === 14} isHovered={hoveredRightBtn === 2} className="nav-pill-icon-svg w-[17px] h-[17px] sm:w-[19px] sm:h-[19px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color:
-                        currentTabIndex === 14 || hoveredRightBtn === 2
-                          ? 'var(--pill-active-text, #ffffff)'
-                          : rightPillTitleColor,
-                    }}
-                    className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
-                  >
-                    {isEn ? 'Wallpaper' : 'Hình Nền'}
-                  </span>
-                </div>
+                {!isSmallMobile && <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />}
+                {!isSmallMobile && (
+                  <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        color:
+                          currentTabIndex === 14 || hoveredRightBtn === 2
+                            ? 'var(--pill-active-text, #ffffff)'
+                            : rightPillTitleColor,
+                      }}
+                      className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
+                    >
+                      {isEn ? 'Wallpaper' : 'Hình Nền'}
+                    </span>
+                  </div>
+                )}
               </button>
             </div>
           </div>
@@ -873,7 +889,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           >
             <div
               className="nav-pill-wrapper group/menu-btn relative inline-flex items-center justify-between rounded-[999px] select-none w-max h-auto p-0"
-              style={{ width: `${UNIFORM_RIGHT_PILL_WIDTH}px` }}
+              style={{ width: `${pillWidthPx}px` }}
             >
               <button
                 ref={(el) => {
@@ -895,40 +911,42 @@ const FooterComponent: React.FC<FooterProps> = ({
                   onOpenAiAssistant();
                 }}
                 title={isEn ? 'AI Tri Nhan (24/7 Support)' : 'AI Trí Nhân (Hỗ trợ 24/7)'}
-                className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
+                className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
                     '--nav-pill-accent': rightPillAccent,
-                    width: '176px',
-                    height: '50px',
-                    minHeight: '50px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
+                    width: `${pillWidthPx}px`,
+                    height: isSmallMobile ? '36px' : '50px',
+                    minHeight: isSmallMobile ? '36px' : '50px',
+                    paddingTop: isSmallMobile ? '1px' : '4px',
+                    paddingBottom: isSmallMobile ? '1px' : '4px',
+                    paddingLeft: isSmallMobile ? '1px' : '12px',
+                    paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
                     borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
-                <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
-                  <WebIcon name="bot" isActive={currentTabIndex === 13} isHovered={hoveredRightBtn === 3} className="nav-pill-icon-svg w-[19px] h-[19px] shrink-0" />
+                <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <WebIcon name="bot" isActive={currentTabIndex === 13} isHovered={hoveredRightBtn === 3} className="nav-pill-icon-svg w-[17px] h-[17px] sm:w-[19px] sm:h-[19px] shrink-0" />
                 </div>
-                <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
-                <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color:
-                        currentTabIndex === 13 || hoveredRightBtn === 3
-                          ? 'var(--pill-active-text, #ffffff)'
-                          : rightPillTitleColor,
-                    }}
-                    className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
-                  >
-                    {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
-                  </span>
-                </div>
+                {!isSmallMobile && <div className="nav-pill-divider relative z-10 w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />}
+                {!isSmallMobile && (
+                  <div className="relative z-10 flex flex-col text-left justify-center min-w-0 flex-1 h-full">
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        color:
+                          currentTabIndex === 13 || hoveredRightBtn === 3
+                            ? 'var(--pill-active-text, #ffffff)'
+                            : rightPillTitleColor,
+                      }}
+                      className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
+                    >
+                      {isEn ? 'AI Tri Nhan' : 'AI Trí Nhân'}
+                    </span>
+                  </div>
+                )}
               </button>
             </div>
           </div>

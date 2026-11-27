@@ -926,6 +926,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
         <div
           id="projects-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-detail-open={selectedArticle ? 'true' : 'false'}
           data-detail-overlay="true"
           data-slider-mode={isSliderMode ? 'true' : 'false'}
@@ -933,7 +934,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-element-type="card"
           data-element-page="projects"
           data-element-parent="projects-cards-track"
-          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left text-[var(--text-primary)] box-border"
+          className="page-main-card floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left text-[var(--text-primary)] box-border"
         >
           <div
             id="projects-main-scroll-viewport"

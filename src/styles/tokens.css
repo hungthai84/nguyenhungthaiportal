@@ -509,19 +509,19 @@
   --outline-offset-image-card: 0px;
 
   /* Container Max Width & Unified Horizontal Frame Width (Equal to Main Card) */
-  --main-card-target-w: 1200px;
+  --main-card-target-w: 1050px;
   --main-card-target-h: 100%;
-  --container-max-w: 1200px;
-  --layout-max-width: 1200px;
-  --shell-container-w: min(calc(100% - clamp(16px, 3vw, 32px)), 1200px);
+  --container-max-w: 1050px;
+  --layout-max-width: 1050px;
+  --shell-container-w: min(calc(100% - clamp(16px, 3vw, 32px)), 1050px);
   --shell-section-gap: 0px;
   --shell-header-height: 85px;
   --shell-footer-height: 85px;
   --about-peek-reserve: 112px;
   --main-cards-gap: 10px;
-  --main-card-w: min(calc(100vw - 32px), 1200px);
+  --main-card-w: min(calc(100vw - 32px), 1050px);
   --main-card-h: min(var(--main-card-target-h, 100%), 100%);
-  --shared-frame-w: min(calc(100vw - 32px), 1200px);
+  --shared-frame-w: min(calc(100vw - 32px), 1050px);
 
   /* Services Card Liquid Color Reveal & Expanded Card Semantic Tokens (Auto-derived from Active Theme) */
   --service-hover-surface: radial-gradient(

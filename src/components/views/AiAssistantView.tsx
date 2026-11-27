@@ -647,7 +647,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 } as React.CSSProperties)
               : undefined
           }
-          className="page-main-card floating-surface--main relative flex flex-col items-stretch p-2.5 sm:p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
+          className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col items-stretch p-2.5 sm:p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
         >
           <div
             id="ai-assistant-main-scroll-viewport"

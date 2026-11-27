@@ -233,6 +233,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       ref={containerRef}
       id="pdf-page-container"
       data-main-card="true"
+      data-floating-surface="main"
       data-element-name="Trang Website CV Portfolio Landing Page"
       data-element-type="container"
       data-element-page="pdf"
@@ -240,7 +241,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       style={{
         gap: '15px',
       }}
-      className="main-card page-main-card w-full min-w-0 h-auto min-h-full mx-auto flex flex-col justify-start p-[15px] gap-[15px] overflow-visible font-play select-text text-left text-[var(--text-primary)] rounded-[14px] box-border"
+      className="main-card page-main-card floating-glass-surface floating-surface--main w-full min-w-0 h-auto min-h-full mx-auto flex flex-col justify-start p-[15px] gap-[15px] overflow-visible font-play select-text text-left text-[var(--text-primary)] rounded-[14px] box-border"
     >
       <style>{`
         @media print {

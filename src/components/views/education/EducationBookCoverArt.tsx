@@ -375,17 +375,28 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
     <div
       className="education-book-cover relative flex size-full flex-col items-stretch justify-between select-none overflow-hidden box-border text-white"
       style={{
-        background: 'transparent',
+        background: theme.bottomGradient,
         borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
         padding: 0,
         gap: 0,
         border: 'none',
-        boxShadow: 'none',
+        boxShadow: `0 12px 26px -12px ${theme.glowShadow}`,
         containerType: 'inline-size',
         fontFamily: BOOK_COVER_BODY_FONT,
         color: '#FFFFFF',
       }}
     >
+      {/* Full-bleed banner image filling 100% of the 3D book cover */}
+      <img
+        src={course.image}
+        alt={cleanTitle}
+        className="education-book-cover-banner-img absolute inset-0 z-0 w-full h-full object-cover object-center block"
+        loading={imageLoading}
+        decoding="async"
+        referrerPolicy="no-referrer"
+        onError={handleImgError}
+      />
+
       {/* Realistic hardcover left French-groove hinge crease */}
       {showSpine && (
         <div
@@ -393,96 +404,83 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
           className="pointer-events-none absolute inset-y-0 left-0 z-30 w-[3.8cqw]"
           style={{
             background:
-              'linear-gradient(90deg, rgba(4, 10, 28, 0.34) 0%, rgba(4, 10, 28, 0.10) 44%, rgba(255, 255, 255, 0.24) 64%, transparent 100%)',
+              'linear-gradient(90deg, rgba(4, 10, 28, 0.38) 0%, rgba(4, 10, 28, 0.12) 44%, rgba(255, 255, 255, 0.24) 64%, transparent 100%)',
           }}
         />
       )}
 
       {showGlint && <div className="disc-glint" />}
 
-      {/* ================= TIER 1 (~54%): FRAMELESS FULL-BLEED HERO BANNER ================= */}
+      {/* Top edge scrim — keeps middle artwork unobstructed */}
       <div
-        className="education-book-cover-banner-frame relative z-10 w-full flex-[1.22_1_0%] min-h-0 overflow-hidden box-border"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[28%]"
         style={{
-          borderTopLeftRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          borderTopRightRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          border: 'none',
-          boxShadow: `0 12px 26px -12px ${theme.glowShadow}`,
-          background: theme.bottomGradient,
-          padding: 0,
+          background: `linear-gradient(180deg, ${theme.scrimDeep} 0%, ${theme.topTint} 58%, transparent 100%)`,
+        }}
+      />
+
+      {/* Bottom graduated editorial scrim — preserves full-bleed banner while ensuring crisp typography */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[56%]"
+        style={{
+          background: `linear-gradient(180deg, transparent 0%, rgba(2, 6, 23, 0.48) 30%, ${theme.scrimDeep} 68%, rgba(2, 6, 23, 0.94) 100%)`,
+        }}
+      />
+
+      {/* Top Unboxed Metadata Row: Category | Course Code */}
+      <div
+        className="relative z-20 flex items-center justify-between gap-[2cqw] text-white"
+        style={{
+          fontFamily: BOOK_COVER_BODY_FONT,
+          padding: 'clamp(8px, 3cqw, 14px) clamp(10px, 3.6cqw, 16px) 0',
         }}
       >
-        {/* Full-bleed unique course artwork */}
-        <img
-          src={course.image}
-          alt={cleanTitle}
-          className="education-book-cover-banner-img absolute inset-0 w-full h-full object-cover object-center block"
-          loading={imageLoading}
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onError={handleImgError}
-        />
-
-        {/* Measured top edge scrim — keeps middle artwork unobstructed */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[30%]"
-          style={{
-            background: `linear-gradient(180deg, ${theme.scrimDeep} 0%, ${theme.topTint} 62%, transparent 100%)`,
-          }}
-        />
-
-        {/* Measured bottom edge scrim for crisp issuer & year metadata */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%]"
-          style={{
-            background: `linear-gradient(0deg, ${theme.scrimDeep} 0%, ${theme.topTint} 62%, transparent 100%)`,
-          }}
-        />
-
-        {/* Top Unboxed Metadata Row: Category | Course Code */}
-        <div
-          className="absolute top-[2.8cqw] left-[3.4cqw] right-[3.4cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
-          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
-        >
-          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
-            <WebIcon
-              name={theme.categoryIconName}
-              className="w-[3.2cqw] h-[3.2cqw] shrink-0"
-              style={{ color: theme.accentSoft }}
-            />
-            <span
-              className="font-semibold leading-none tracking-[0.01em] truncate text-white/95"
-              style={{ fontSize: metaFontSize }}
-            >
-              {categoryLabel}
-            </span>
+        <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.85)]">
+          <WebIcon
+            name={theme.categoryIconName}
+            className="w-[3.2cqw] h-[3.2cqw] shrink-0"
+            style={{ color: theme.accentSoft }}
+          />
+          <span
+            className="font-semibold leading-none tracking-[0.01em] truncate text-white/95"
+            style={{ fontSize: metaFontSize }}
+          >
+            {categoryLabel}
           </span>
+        </span>
 
-          <span className="inline-flex items-center gap-[1.1cqw] shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.78)]">
-            <WebIcon
-              name="calendar"
-              className="w-[2.8cqw] h-[2.8cqw] shrink-0"
-              style={{ color: theme.accentSoft }}
-            />
-            <span
-              className="font-bold leading-none tabular-nums tracking-[0.04em] text-white/95"
-              style={{ fontSize: metaFontSize }}
-            >
-              {course.code || `Y-${course.year}`}
-            </span>
+        <span className="inline-flex items-center gap-[1.1cqw] shrink-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.85)]">
+          <WebIcon
+            name="calendar"
+            className="w-[2.8cqw] h-[2.8cqw] shrink-0"
+            style={{ color: theme.accentSoft }}
+          />
+          <span
+            className="font-bold leading-none tabular-nums tracking-[0.04em] text-white/95"
+            style={{ fontSize: metaFontSize }}
+          >
+            {course.code || `Y-${course.year}`}
           </span>
-        </div>
+        </span>
+      </div>
 
-        {/* Bottom Unboxed Metadata Row: Issuer | Year */}
-        <div
-          className="absolute bottom-[2.6cqw] left-[3.4cqw] right-[3.4cqw] z-10 flex items-center justify-between gap-[2cqw] text-white"
-          style={{ fontFamily: BOOK_COVER_BODY_FONT }}
-        >
-          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.82)]">
+      {/* Bottom Editorial Typography Overlay on Full-Bleed Banner */}
+      <div
+        className="relative z-20 w-full flex flex-col items-center justify-end text-center box-border mt-auto"
+        style={{
+          padding: isShelf
+            ? 'clamp(8px, 3cqw, 13px) clamp(9px, 3.4cqw, 15px)'
+            : 'clamp(10px, 3.4cqw, 16px) clamp(12px, 3.8cqw, 18px)',
+          gap: 'clamp(4px, 1.8cqw, 8px)',
+          fontFamily: BOOK_COVER_BODY_FONT,
+          color: '#FFFFFF',
+        }}
+      >
+        {/* Issuer | Year Row */}
+        <div className="w-full flex items-center justify-between gap-[2cqw] text-white/95 pb-[0.6cqw]">
+          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.88)]">
             <WebIcon
               name="graduation"
               className="w-[3.4cqw] h-[3.4cqw] shrink-0"
@@ -497,41 +495,15 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
           </span>
 
           <span
-            className="font-bold leading-none tabular-nums tracking-[0.02em] text-white/95 shrink-0 drop-shadow-[0_1px_4px_rgba(0,0,0,0.82)]"
+            className="font-bold leading-none tabular-nums tracking-[0.02em] text-white/95 shrink-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.88)]"
             style={{ fontSize: metaFontSize }}
           >
             {isEn ? `${course.year}` : `Năm ${course.year}`}
           </span>
         </div>
-      </div>
-
-      {/* ================= TIER 2 (~46%): COURSE-COORDINATED EDITORIAL PANEL ================= */}
-      <div
-        className="relative z-10 w-full flex-[1_1_0%] min-h-0 overflow-hidden flex flex-col items-center justify-center text-center box-border"
-        style={{
-          background: theme.bottomGradient,
-          borderBottomLeftRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          borderBottomRightRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          border: 'none',
-          borderTop: '1px solid rgba(255, 255, 255, 0.16)',
-          boxShadow: 'none',
-          padding: 'clamp(8px, 3cqw, 13px) clamp(9px, 3.4cqw, 15px)',
-          gap: 'clamp(5px, 2cqw, 8px)',
-          fontFamily: BOOK_COVER_BODY_FONT,
-          color: '#FFFFFF',
-        }}
-      >
-        {/* Subtle luminous top-right corner accent inside the course panel */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-6 -right-6 w-[28cqw] h-[28cqw] rounded-full opacity-25 blur-xl"
-          style={{ background: theme.wave1 }}
-        />
 
         {/* Display Title & Clean Unboxed Subtitle */}
-        <div className="relative z-10 w-full flex flex-col items-center gap-[1.3cqw] min-w-0">
+        <div className="relative z-10 w-full flex flex-col items-center gap-[1.2cqw] min-w-0">
           <h3
             className="font-extrabold m-0 flex items-center justify-center gap-[1.8cqw] max-w-full"
             style={{
@@ -541,7 +513,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
               letterSpacing: '-0.02em',
               textWrap: 'balance',
               color: '#FFFFFF',
-              textShadow: '0 1px 3px rgba(2, 6, 23, 0.35)',
+              textShadow: '0 2px 8px rgba(2, 6, 23, 0.72)',
             }}
           >
             <WebIcon
@@ -553,7 +525,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
           </h3>
 
           <p
-            className="font-semibold leading-snug m-0 flex items-center justify-center gap-[1.4cqw] max-w-full truncate tracking-[0.01em]"
+            className="font-semibold leading-snug m-0 flex items-center justify-center gap-[1.4cqw] max-w-full truncate tracking-[0.01em] drop-shadow-[0_1px_4px_rgba(0,0,0,0.75)]"
             style={{
               fontFamily: BOOK_COVER_BODY_FONT,
               fontSize: subtitleFontSize,
@@ -561,7 +533,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
             }}
           >
             <span className="truncate">{subtitleLeft}</span>
-            <span aria-hidden="true" className="opacity-65 font-bold shrink-0">
+            <span aria-hidden="true" className="opacity-75 font-bold shrink-0">
               ·
             </span>
             <span className="truncate tabular-nums">{subtitleRight}</span>
@@ -571,8 +543,8 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         {/* Summary Strip with Subtle Divider */}
         {summaryText && (
           <div
-            className="relative z-10 w-full flex items-center justify-center gap-[1.8cqw] pt-[1.5cqw] px-[1.2cqw] min-w-0 border-t"
-            style={{ borderColor: 'rgba(255, 255, 255, 0.16)' }}
+            className="relative z-10 w-full flex items-center justify-center gap-[1.8cqw] pt-[1.4cqw] px-[1.2cqw] min-w-0 border-t"
+            style={{ borderColor: 'rgba(255, 255, 255, 0.22)' }}
           >
             <WebIcon
               name={theme.pillIconName}
@@ -580,11 +552,11 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
               style={{ color: theme.pillIconColor }}
             />
             <span
-              className="min-w-0 text-left font-medium leading-[1.38] line-clamp-2"
+              className="min-w-0 text-left font-medium leading-[1.38] line-clamp-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
               style={{
                 fontFamily: BOOK_COVER_BODY_FONT,
                 fontSize: summaryFontSize,
-                color: 'rgba(255, 255, 255, 0.92)',
+                color: 'rgba(255, 255, 255, 0.94)',
               }}
             >
               {summaryText}

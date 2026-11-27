@@ -467,7 +467,7 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-page="global"
       data-element-parent="website-root"
       style={{
-        maxWidth: 'var(--main-card-target-w, 1200px)',
+        maxWidth: 'var(--main-card-target-w, 1050px)',
         width: '100%',
         height: '100%',
         minHeight: '100%',

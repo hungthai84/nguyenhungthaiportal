@@ -448,7 +448,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           data-element-type="card"
           data-element-page="memories"
           data-element-parent="memories-cards-track"
-          className="page-main-card floating-surface--main flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card floating-glass-surface floating-surface--main flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
         {/* CSS Tối ưu khoảng cách dòng, giãn chữ di động & hiệu ứng hover nhấp nháy / shimmer */}
         <style

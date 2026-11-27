@@ -3,6 +3,7 @@ import { motion, MotionConfig, AnimatePresence } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomeView } from './components/views/HomeView';
+import { GlobalLoadingOverlay } from './components/common/GlobalLoadingOverlay';
 
 import { MapLocation } from './data/aboutData';
 import { ExperienceMilestone } from './data/experience';
@@ -300,31 +301,34 @@ export default function App() {
     };
   }, [currentTabIndex, pageSlides, experienceShowJobCard, experienceActiveKey]);
 
-  // Đồng bộ chính xác chiều cao thanh Header và Footer trên mọi màn hình
+  // Đồng bộ chính xác chiều cao thanh Header và Footer và chiều rộng chuẩn Thẻ chính trên mọi màn hình
   useEffect(() => {
-    if (currentTabIndex === 16) return;
     const rootEl = document.getElementById('website-root');
     const headerEl = document.getElementById('app-header');
     const footerEl = document.getElementById('app-footer');
-    if (!rootEl || !footerEl) return;
+    if (!rootEl) return;
 
     let rafId: number | null = null;
     const syncBarHeight = () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
-        const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
+        const footerMeasured = footerEl ? Math.round(footerEl.getBoundingClientRect().height) : 0;
 
-        // Đo chính xác chiều ngang của Đối tượng "Thẻ chính Trang chủ 1 - Tầm nhìn Lãnh đạo" (#home-main-card-1)
-        const homeCardEl =
-          document.getElementById('home-main-card-1') ||
-          document.querySelector<HTMLElement>('.page-main-card:not(#pdf-page-container)') ||
-          document.querySelector<HTMLElement>('[data-main-card="true"]:not(#pdf-page-container)');
-
-        const homeCardMeasuredW = homeCardEl ? Math.round(homeCardEl.getBoundingClientRect().width) : 0;
-        const targetWidth = homeCardMeasuredW > 0
-          ? homeCardMeasuredW
-          : Math.min(1200, Math.max(280, window.innerWidth - (window.innerWidth < 640 ? 16 : 32)));
+        // Tính chính xác chiều rộng mục tiêu của Thẻ chính Trang chủ 1 (#home-main-card-1) theo viewport & --main-card-target-w (tránh khóa vòng lặp CSS)
+        const vw = Math.max(
+          280,
+          Math.round(document.documentElement.clientWidth || window.innerWidth || 1280)
+        );
+        const rawTargetW = getComputedStyle(document.documentElement)
+          .getPropertyValue('--main-card-target-w')
+          .trim();
+        const parsedTargetW = Number.parseFloat(rawTargetW);
+        const targetMaxW = Number.isFinite(parsedTargetW) && parsedTargetW > 300 ? parsedTargetW : 1050;
+        const targetWidth =
+          vw < 640
+            ? Math.max(260, vw - 16)
+            : Math.min(targetMaxW, Math.max(260, vw - 32));
 
         if (headerMeasured > 0) {
           const hVal = `${headerMeasured}px`;
@@ -353,7 +357,7 @@ export default function App() {
         ? new ResizeObserver(() => syncBarHeight())
         : null;
     if (headerEl) ro?.observe(headerEl);
-    ro?.observe(footerEl);
+    if (footerEl) ro?.observe(footerEl);
     const homeTarget = document.getElementById('home-main-card-1');
     if (homeTarget) ro?.observe(homeTarget);
     const mainViewport = document.getElementById('global-content-viewport');
@@ -852,7 +856,7 @@ export default function App() {
         data-element-parent="website-root"
         style={{
           width: '100%',
-          maxWidth: currentTabIndex === 16 ? 'min(88vw, 1200px)' : '100%',
+          maxWidth: '100%',
           boxSizing: 'border-box',
           flex: currentTabIndex === 16 ? '0 0 auto' : '1 1 0%',
           height: currentTabIndex === 16 ? 'auto' : 'auto',
@@ -865,12 +869,12 @@ export default function App() {
           marginBottom: '0px',
           paddingTop: currentTabIndex === 16 ? '16px' : '10px',
           paddingBottom: currentTabIndex === 16 ? '16px' : '10px',
-          paddingLeft: 'var(--shell-px, clamp(10px, 3vw, 45px))',
-          paddingRight: 'var(--shell-px, clamp(10px, 3vw, 45px))',
+          paddingLeft: '0px',
+          paddingRight: '0px',
         }}
         className={`w-full ${
           currentTabIndex === 16
-            ? 'max-w-[1200px] overflow-visible py-4'
+            ? 'max-w-full overflow-visible py-4'
             : currentTabIndex === 10
               ? 'max-w-full overflow-hidden'
               : 'max-w-full overflow-visible'
@@ -879,22 +883,17 @@ export default function App() {
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={`page-view-${currentTabIndex}`}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
+            initial={{ opacity: 0, scale: 0.97, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -4 }}
             transition={{
-              opacity: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
-              y: { duration: 0.16, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
+              scale: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
+              y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
             }}
             className="tab-content-host w-full h-full flex flex-col items-center flex-1 min-h-0 overflow-visible"
           >
-            <Suspense
-              fallback={
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
-                </div>
-              }
-            >
+            <Suspense fallback={<GlobalLoadingOverlay />}>
               {renderActiveView()}
             </Suspense>
           </motion.div>

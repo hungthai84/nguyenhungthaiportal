@@ -491,7 +491,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: 'var(--main-card-target-w, 1200px)',
+        maxWidth: 'var(--main-card-target-w, 1050px)',
         width: '100%',
         height: '100%',
         minHeight: '100%',

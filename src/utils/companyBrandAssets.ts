@@ -178,19 +178,19 @@ export function buildCompanyLogoSvgDataUri(spec: CompanyBrandSpec): string {
 }
 
 export const COMPANY_LOGOS: Record<CompanyBrandId, string> = {
-  mobifone: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.mobifone),
-  v247: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.v247),
-  lbc: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.lbc),
-  htvc: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.htvc),
-  ved: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.ved),
-  garena: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.garena),
-  gcafe: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.gcafe),
-  shopeepay: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.shopeepay),
-  shopee: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.shopee),
-  prudential: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.prudential),
-  momo: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.momo),
-  finviet: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.finviet),
-  powerservice: buildCompanyLogoSvgDataUri(COMPANY_BRAND_SPECS.powerservice),
+  mobifone: 'https://i.postimg.cc/J0f8691x/Mobifone.webp',
+  v247: 'https://i.postimg.cc/zvsNt9J6/V247.webp',
+  lbc: 'https://i.postimg.cc/hvknyHSr/LBC.webp',
+  htvc: 'https://i.postimg.cc/C5BY4FVP/HTVC.webp',
+  ved: 'https://i.postimg.cc/cCpW9Vsz/VED.webp',
+  garena: 'https://i.postimg.cc/gjXdKYPT/Garena.webp',
+  gcafe: 'https://i.postimg.cc/3N47ZKHf/GCafe.webp',
+  shopeepay: 'https://i.postimg.cc/kG0C1knp/Shopee-Paye.webp',
+  shopee: 'https://i.postimg.cc/zvsNt9Jt/Shopee.webp',
+  prudential: 'https://i.postimg.cc/D09hjt2Y/Prudential.webp',
+  momo: 'https://i.postimg.cc/90628vWg/Momo.webp',
+  finviet: 'https://i.postimg.cc/3N47ZKHb/Finviet.webp',
+  powerservice: 'https://i.postimg.cc/0jTvWL8Z/Power-Service.webp',
 };
 
 const MATCHERS: Array<{ pattern: RegExp; id: CompanyBrandId }> = [

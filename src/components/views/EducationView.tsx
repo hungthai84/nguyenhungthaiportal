@@ -520,7 +520,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-type="card"
         data-element-page="education"
         data-element-parent="education-cards-track"
-        className="page-main-card floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+        className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
       >
       <div
         id="education-main-scroll-viewport"

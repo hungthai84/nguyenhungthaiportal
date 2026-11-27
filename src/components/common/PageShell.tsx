@@ -12,13 +12,13 @@ export interface PageShellProps {
 }
 
 /**
- * Khung bố cục chuẩn cho các View chính, bám sát Main Card 1200px & Layer Depth Level 1.
+ * Khung bố cục chuẩn cho các View chính, bám sát Main Card 1050px & Layer Depth Level 1.
  */
 export const PageShell: React.FC<PageShellProps> = ({
   id,
   children,
   className,
-  maxWidth = 'var(--main-card-target-w, 1200px)',
+  maxWidth = 'var(--main-card-target-w, 1050px)',
   ariaLabel,
   dataPage,
 }) => {

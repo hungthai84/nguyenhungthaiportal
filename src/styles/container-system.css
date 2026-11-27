@@ -56,7 +56,7 @@ html #about-intro-grid-1 {
 
 html #about-hero-video-container,
 html #about-personal-info-card-right {
-  height: 100% !important;
+  height: auto !important;
   min-height: clamp(275px, 41vh, 400px) !important;
   min-width: 0 !important;
   align-self: stretch !important;
@@ -70,8 +70,7 @@ html #about-personal-info-card-right {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: stretch !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow: hidden !important;
 }
 
 html #about-personal-info-grid {
@@ -657,6 +656,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: auto !important;
   }
 
+  #about-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    row-gap: 12px !important;
+  }
+
+  #about-bento-grid > * {
+    grid-column: 1 / -1 !important;
+    height: auto !important;
+  }
+
+  #about-bento-grid > #about-hero-video-container {
+    min-height: 240px !important;
+    height: 260px !important;
+  }
+
+  #about-bento-grid > #about-personal-info-card-right {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
   #el-p1-div-85 > #bento-letter-video {
     min-height: 220px !important;
   }
@@ -692,7 +712,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   #systems-page-container .systems-cards-grid {
@@ -856,6 +876,27 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
+  #about-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+    row-gap: 14px !important;
+  }
+
+  #about-bento-grid > * {
+    grid-column: 1 / -1 !important;
+    height: auto !important;
+  }
+
+  #about-bento-grid > #about-hero-video-container {
+    min-height: 300px !important;
+    height: 320px !important;
+  }
+
+  #about-bento-grid > #about-personal-info-card-right {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
   /* Interview stays 1 single row with 70% banner / 30% answer card across 600px-959px */
   #interview-main-content {
     grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
@@ -863,17 +904,17 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services shrinks cleanly to 2 columns on medium widths with content-fit height */
+  /* Services shrinks cleanly to 2 columns on medium widths with equal-height grid cards */
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-auto-rows: minmax(204px, 1fr) !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
     flex: 0 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   /* Systems shrinks cleanly to 2 columns on medium widths with content-fit height */
@@ -1037,10 +1078,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     flex: 0 0 auto !important;
   }
 
-  #about-hero-video-container,
-  #about-personal-info-card-right {
-    grid-column: span 1 / span 1 !important;
-    min-height: clamp(275px, 41vh, 400px) !important;
+  #about-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #about-bento-grid > #about-hero-video-container {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+    min-height: clamp(310px, 41vh, 400px) !important;
+  }
+
+  #about-bento-grid > #about-personal-info-card-right {
+    grid-column: span 5 / span 5 !important;
+    height: auto !important;
+    min-height: clamp(310px, 41vh, 400px) !important;
   }
 
   #about-career-goal-card,
@@ -1055,14 +1106,15 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-auto-rows: minmax(216px, 1fr) !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
-    flex: 0 0 auto !important;
+    min-height: 100% !important;
+    flex: 1 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   #systems-page-container .systems-cards-grid {
@@ -1248,10 +1300,20 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     flex: 0 0 auto !important;
   }
 
-  #about-hero-video-container,
-  #about-personal-info-card-right {
-    grid-column: span 1 / span 1 !important;
-    min-height: clamp(275px, 41vh, 400px) !important;
+  #about-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  }
+
+  #about-bento-grid > #about-hero-video-container {
+    grid-column: span 7 / span 7 !important;
+    height: auto !important;
+    min-height: clamp(310px, 41vh, 400px) !important;
+  }
+
+  #about-bento-grid > #about-personal-info-card-right {
+    grid-column: span 5 / span 5 !important;
+    height: auto !important;
+    min-height: clamp(310px, 41vh, 400px) !important;
   }
 
   #about-career-goal-card,
@@ -1266,14 +1328,15 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #services-main-content .services-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-auto-rows: minmax(216px, 1fr) !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
-    flex: 0 0 auto !important;
+    min-height: 100% !important;
+    flex: 1 0 auto !important;
     align-content: start !important;
-    align-items: start !important;
+    align-items: stretch !important;
   }
 
   #systems-page-container .systems-cards-grid {

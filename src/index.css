@@ -704,12 +704,12 @@ html[data-card-style] #about-intro-grid-2,
 html.dark[data-card-style] #about-intro-card-1,
 html.dark[data-card-style] #about-intro-card-2,
 html.dark[data-card-style] #about-intro-grid-2 {
-  width: 100% !important;
-  max-width: min(100%, var(--main-card-target-w, 1200px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   min-width: 0 !important;
-  height: min(var(--main-card-target-h, 600px), 100%) !important;
-  min-height: min(var(--main-card-target-h, 600px), 100%) !important;
-  max-height: min(var(--main-card-target-h, 600px), 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
   flex: 0 0 auto !important;
   flex-shrink: 0 !important;
   overflow-y: auto !important;
@@ -823,7 +823,7 @@ html[data-card-style] #horoscope-cards-track > [data-main-card="true"],
 html.dark[data-card-style] #horoscope-cards-track > [data-main-card="true"] {
   flex: 0 0 auto !important;
   height: 100% !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
   max-height: 100% !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -917,7 +917,11 @@ html:not([data-surface-depth="flat"]) :is(
   #about-intro-card-2,
   #experience-main-card,
   #contact-main-card,
+  #about-main-card,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #letter-main-card
 ):not(#pdf-page-container) {
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
@@ -932,7 +936,11 @@ html[data-surface-depth="flat"] :is(
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
+  #about-main-card,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #letter-main-card
 ) {
   box-shadow: none !important;
@@ -1016,6 +1024,8 @@ html[data-surface-depth="flat"] :is(
   html:not([data-surface-depth="flat"])[data-card-style] #about-intro-card-2:hover,
   html:not([data-surface-depth="flat"]) #contact-main-card:hover,
   html:not([data-surface-depth="flat"]) #home-main-card:hover,
+  html:not([data-surface-depth="flat"]) #home-main-card-1:hover,
+  html:not([data-surface-depth="flat"]) [id^="home-main-card-"]:hover,
   html:not([data-surface-depth="flat"]) #letter-main-card:hover {
     border-color: var(--surface-primary-border) !important;
     transform: none !important;
@@ -1028,6 +1038,8 @@ html[data-surface-depth="flat"] :is(
   html[data-surface-depth="flat"] #about-intro-card-2:hover,
   html[data-surface-depth="flat"] #contact-main-card:hover,
   html[data-surface-depth="flat"] #home-main-card:hover,
+  html[data-surface-depth="flat"] #home-main-card-1:hover,
+  html[data-surface-depth="flat"] [id^="home-main-card-"]:hover,
   html[data-surface-depth="flat"] #letter-main-card:hover {
     transform: none !important;
     box-shadow: none !important;
@@ -3492,6 +3504,8 @@ html[data-surface-depth="flat"] :is(
   .page-main-card,
   [data-main-card="true"]:not(#pdf-page-container),
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   [id$="-main-card"],
   #about-intro-card-1,
   #about-intro-card-2,
@@ -3664,6 +3678,8 @@ html:root:not([data-card-style="frost-ice-neu"]) :is(
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"]:not(#pdf-page-container),
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -3676,6 +3692,8 @@ html[data-card-style]:not([data-card-style="frost-ice-neu"]) :is(
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"]:not(#pdf-page-container),
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
@@ -3710,6 +3728,8 @@ html:root :is(
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -3721,6 +3741,8 @@ html[data-card-style] :is(
   [data-main-card="true"]:not(#pdf-page-container),
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -3737,6 +3759,8 @@ html:root[data-surface-depth="flat"] :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -3750,6 +3774,8 @@ html[data-card-style][data-surface-depth="flat"] :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -3767,6 +3793,8 @@ html:root :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -3780,6 +3808,8 @@ html[data-card-style] :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
   #about-intro-card-1,
   #about-intro-card-2,
   #experience-main-card,
@@ -6459,8 +6489,8 @@ html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-cont
   max-height: 82% !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -6488,8 +6518,8 @@ html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 footer {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: min(calc(100vw - 32px), var(--main-card-target-w, 1050px)) !important;
+  max-width: var(--main-card-target-w, 1050px) !important;
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -6621,8 +6651,8 @@ html:root[data-card-style] body #global-content-viewport {
   max-height: 100% !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 45px !important;
-  padding-right: 45px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   box-sizing: border-box !important;
 }
 
@@ -6632,8 +6662,10 @@ html:root[data-card-style] body #global-content-viewport:has(#pdf-page-container
   height: auto !important;
   min-height: calc(100dvh - 30px) !important;
   max-height: none !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 /* KHOẢNG CÁCH GIỮA CÁC CARD CHÍNH THEO CHIỀU NGANG 10PX, CHIỀU DỌC 10PX */
@@ -6739,8 +6771,8 @@ html:root body #letter-cards-track > #letter-main-card,
 html:root[data-card-style] body #letter-cards-track > #letter-main-card,
 html:root body #letter-cards-track > [id^="letter-card-"],
 html:root[data-card-style] body #letter-cards-track > [id^="letter-card-"] {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: min(calc(100vw - 32px), var(--main-card-target-w, 1050px)) !important;
+  max-width: var(--main-card-target-w, 1050px) !important;
   min-width: 0 !important;
   height: 100% !important;
   max-height: 100% !important;
@@ -6819,12 +6851,12 @@ html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track
 
 html:root body #horoscope-cards-track > :is(.page-main-card, [data-main-card="true"], [id^="horoscope-card-"]),
 html:root[data-card-style] body #horoscope-cards-track > :is(.page-main-card, [data-main-card="true"], [id^="horoscope-card-"]) {
-  width: var(--horoscope-card-w, min(100%, var(--main-card-target-w, 1200px))) !important;
-  min-width: var(--horoscope-card-w, min(100%, var(--main-card-target-w, 1200px))) !important;
-  max-width: var(--horoscope-card-w, min(100%, var(--main-card-target-w, 1200px))) !important;
-  flex: 0 0 var(--horoscope-card-w, min(100%, var(--main-card-target-w, 1200px))) !important;
+  width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
+  min-width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  flex: 0 0 var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
   height: 100% !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
   max-height: 100% !important;
   margin: 0px !important;
   overflow-y: auto !important;
@@ -6935,8 +6967,8 @@ html:root.dark[data-card-style] body #app-header-container {
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -6964,8 +6996,8 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
 }
 
 html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -6995,8 +7027,8 @@ html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover
 }
 
 html:root[data-card-style="frost-ice-neu"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -7151,8 +7183,8 @@ html:root.dark[data-card-style] body #el-p0-div-98 {
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -7184,8 +7216,8 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
 }
 
 html:root[data-card-style="mica-fluent"] body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -7219,8 +7251,8 @@ html:root[data-card-style="mica-fluent"] body :is(#app-footer, #app-footer:hover
 }
 
 html:root[data-card-style="frost-ice-neu"] body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -8604,14 +8636,15 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 #services-page-container #services-cards-grid.services-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  flex: 1 1 0% !important;
+  grid-auto-rows: minmax(216px, 1fr) !important;
+  height: auto !important;
+  min-height: 100% !important;
+  flex: 1 0 auto !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
   align-items: stretch !important;
+  align-content: start !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -8630,13 +8663,13 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
   min-width: 0 !important;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 959px) {
   #services-page-container #services-main-content .services-cards-grid,
   #services-page-container #services-cards-grid.services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(180px, 1fr) !important;
+    grid-auto-rows: minmax(204px, 1fr) !important;
     height: auto !important;
+    min-height: 0 !important;
     flex: 0 0 auto !important;
   }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
@@ -8644,13 +8677,13 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 599px) {
   #services-page-container #services-main-content .services-cards-grid,
   #services-page-container #services-cards-grid.services-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(170px, 1fr) !important;
+    grid-auto-rows: auto !important;
     height: auto !important;
+    min-height: 0 !important;
     flex: 0 0 auto !important;
   }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
@@ -8733,28 +8766,64 @@ html:root[data-card-style] body #systems-page-container .system-card-tile.system
   display: none !important;
 }
 
-/* Footer Theme & Lang Popups (#footer-theme-popup, #footer-lang-popup): nền đặc hơn để chữ sắc nét, không thấm nền bên dưới */
+/* Footer Theme & Lang Popups (#footer-theme-popup, #footer-lang-popup): nền đặc hơn để chữ sắc nét, không thấm nền bên dưới, đồng bộ tuyệt đối theo giao diện */
 html:root body :is(#footer-theme-popup, #footer-lang-popup),
 html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup),
 html:root.dark[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) {
-  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 94%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
+  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 96%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
   color: var(--text-primary) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-card, var(--border-color))) !important;
-  box-shadow: var(--surface-primary-shadow, var(--shadow-card)) !important;
+  box-shadow: var(--surface-primary-shadow, var(--shadow-card, 0 16px 40px rgba(15, 23, 42, 0.20))) !important;
   backdrop-filter: blur(24px) saturate(165%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+  border-radius: var(--radius-popup, var(--radius-global, 16px)) !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
 }
 
-html:root body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible),
-html:root[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible),
-html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"], .footer-theme-group-title-btn, .footer-theme-group-title-btn:hover, .footer-theme-group-title-btn:focus-visible) {
+html:root body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option,
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option {
   background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  color: var(--text-primary) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius-subcard, var(--radius-card, 12px)) !important;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease !important;
+}
+
+html:root body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option:hover,
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option:hover {
+  background: var(--bg-subcard, rgba(255, 255, 255, 0.65)) !important;
+  border-color: var(--border-subcard, var(--border-color)) !important;
+  color: var(--text-primary, var(--color-primary)) !important;
+}
+
+html:root body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option[data-selected="true"],
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option[data-selected="true"] {
+  background: color-mix(in srgb, var(--color-primary, #6366f1) 16%, var(--bg-subcard, rgba(255, 255, 255, 0.85))) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #6366f1) 42%, var(--border-subcard)) !important;
+  color: var(--text-primary, var(--color-primary)) !important;
+  font-weight: 700 !important;
+}
+
+html:root body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"]),
+html:root[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"]),
+html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group-row, .footer-theme-group-row[data-selected="true"]) {
+  background: var(--bg-subcard, rgba(255, 255, 255, 0.45)) !important;
+  border-color: var(--border-subcard, var(--border-color)) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
+  transition: background 180ms ease, border-color 180ms ease !important;
+}
+
+html:root body #footer-theme-popup .footer-theme-group-row[data-selected="true"],
+html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row[data-selected="true"] {
+  background: color-mix(in srgb, var(--color-primary, #6366f1) 16%, var(--bg-subcard, rgba(255, 255, 255, 0.85))) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #6366f1) 42%, var(--border-subcard)) !important;
+}
+
+html:root body #footer-theme-popup .footer-theme-group-row:hover,
+html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hover {
+  background: var(--bg-subcard, rgba(255, 255, 255, 0.65)) !important;
+  border-color: var(--border-subcard, var(--border-color)) !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-card-hover-flood,
@@ -8803,7 +8872,7 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   }
 }
 
-/* Shared Center Layout: Services keeps 2-col split; Systems hides description & centers larger illustration */
+/* Shared Center Layout: Services keeps crisp 2-col split (Text/KPI left + Illustration right) */
 #services-page-container .service-card.service-theme-card .service-card-middle {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
@@ -8826,7 +8895,7 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
 
 @container showcase-card (min-width: 245px) {
   #services-page-container .service-card.service-theme-card .service-card-middle {
-    grid-template-columns: minmax(0, 1.12fr) clamp(96px, 38cqi, 138px) !important;
+    grid-template-columns: minmax(0, 1.25fr) clamp(88px, 34cqi, 124px) !important;
     align-items: center !important;
   }
 }
@@ -8928,8 +8997,8 @@ html.dark[data-card-style] body #services-page-container #services-expanded-card
   overflow: visible !important;
 }
 
-#services-page-container #services-expanded-card .service-bento-tile,
-#services-page-container #services-expanded-card .service-bento-tile-light {
+#services-page-container #services-expanded-card .service-bento-tile:not([data-multicolor-bento="true"]),
+#services-page-container #services-expanded-card .service-bento-tile-light:not([data-multicolor-bento="true"]) {
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   color: var(--text-primary) !important;
   border: var(--card-border-width, 1px) solid var(--border-subcard, rgba(148, 163, 184, 0.24)) !important;
@@ -8939,7 +9008,7 @@ html.dark[data-card-style] body #services-page-container #services-expanded-card
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 14px)) saturate(var(--surface-secondary-saturate, 130%)) !important;
 }
 
-#services-page-container #services-expanded-card .service-bento-subtile {
+#services-page-container #services-expanded-card .service-bento-subtile:not([data-bento-styled="true"]) {
   background: var(--bg-subcard, rgba(255, 255, 255, 0.55)) !important;
   color: var(--text-primary) !important;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.22)) !important;
@@ -9092,9 +9161,13 @@ html:root:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9121,9 +9194,13 @@ html:root.dark:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9160,9 +9237,13 @@ html:root:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9189,9 +9270,13 @@ html:root.dark:is([data-card-style="cowhide-leather"], [data-card-style="dark-co
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9227,9 +9312,13 @@ html:root[data-card-style="frost-ice-neu"] body :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9265,9 +9354,13 @@ html:root[data-card-style="mica-fluent"] body :is(
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9304,9 +9397,13 @@ html:root[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9333,9 +9430,13 @@ html:root.dark[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-
   [data-main-card="true"],
   [id$="-main-card"],
   #letter-main-card,
+  #about-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
@@ -9361,6 +9462,82 @@ html:root.dark[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, var(--shadow-card, none))) !important;
+}
+
+/* Đồng bộ viền chỉ khâu / viền trong cho TẤT CẢ thẻ chính của các trang giống #horoscope-card-1 trên các giao diện chất liệu */
+html[data-card-style="cowhide-leather"] body :is(
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #letter-main-card,
+  #about-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #systems-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #ai-assistant-main-card,
+  #contact-main-card
+):is(*, :hover, :focus-within) {
+  outline: 1.5px dashed rgba(245, 222, 179, 0.50) !important;
+  outline-offset: -6px !important;
+}
+
+html[data-card-style="dark-cowhide-leather"] body :is(
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #letter-main-card,
+  #about-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #systems-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #ai-assistant-main-card,
+  #contact-main-card
+):is(*, :hover, :focus-within) {
+  outline: 1.5px dashed rgba(245, 222, 179, 0.44) !important;
+  outline-offset: -6px !important;
+}
+
+html[data-card-style="walnut-wood"] body :is(
+  .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  #letter-main-card,
+  #about-main-card,
+  #education-main-card,
+  #service-main-card,
+  #services-main-card,
+  #experience-main-card,
+  #skills-main-card,
+  #projects-main-card,
+  #systems-main-card,
+  #interview-main-card,
+  #memories-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #ai-assistant-main-card,
+  #contact-main-card
+):is(*, :hover, :focus-within) {
+  outline: 1px solid rgba(245, 196, 120, 0.24) !important;
+  outline-offset: -5px !important;
 }
 
 /* Đảm bảo tùy chỉnh bo cong (--radius-global) áp dụng đồng bộ lên các container trang (#services-page-container, #systems-page-container...) & thẻ chính */
@@ -9776,7 +9953,7 @@ html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE 1: HEADER & FOOTER ALWAYS MATCH .page-main-card WIDTH      */
+/* FINAL OVERRIDE 1: ALL MAIN CARDS MATCH #home-main-card-1 DIMENSIONS       */
 /* ========================================================================= */
 html:root body :is(
   #app-header,
@@ -9789,6 +9966,7 @@ html:root body :is(
   #letter-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-main-card,
   #experience-main-card,
   #contact-main-card
 ),
@@ -9803,15 +9981,56 @@ html:root[data-card-style] body :is(
   #letter-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-main-card,
   #experience-main-card,
   #contact-main-card
 ) {
-  width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
-  max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1200px))) !important;
+  width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
+  max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1050px))) !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+html:root body :is(
+  .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]),
+  #home-main-card-1,
+  #letter-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #about-main-card,
+  #experience-main-card,
+  #contact-main-card
+),
+html:root[data-card-style] body :is(
+  .page-main-card:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > .page-main-card),
+  [data-main-card="true"]:not(#pdf-page-container):not(#app-footer):not(#app-header):not(#horoscope-cards-track > [data-main-card="true"]),
+  #home-main-card-1,
+  #letter-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #about-main-card,
+  #experience-main-card,
+  #contact-main-card
+) {
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+}
+
+@media screen {
+  html:root body #pdf-page-container,
+  html:root[data-card-style] body #pdf-page-container {
+    width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
+    max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1050px))) !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
 }
 
 @media (max-width: 639px) {
@@ -9826,6 +10045,7 @@ html:root[data-card-style] body :is(
     #letter-main-card,
     #about-intro-card-1,
     #about-intro-card-2,
+    #about-main-card,
     #experience-main-card,
     #contact-main-card
   ),
@@ -9840,6 +10060,7 @@ html:root[data-card-style] body :is(
     #letter-main-card,
     #about-intro-card-1,
     #about-intro-card-2,
+    #about-main-card,
     #experience-main-card,
     #contact-main-card
   ) {
@@ -10038,8 +10259,8 @@ html:root[data-card-style] body :is(
 
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) {
   padding-top: 10px !important;
-  padding-left: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
-  padding-right: var(--shell-px, clamp(10px, 3vw, 45px)) !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   padding-bottom: 10px !important;
 }
 

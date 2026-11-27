@@ -592,6 +592,26 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           color: '#FFFFFF',
         }}
       >
+        {/* Full-bleed banner image filling 100% of back cover */}
+        <img
+          src={course.image}
+          alt={cleanTitle}
+          className="education-book-cover-banner-img absolute inset-0 z-0 w-full h-full object-cover object-center block"
+          loading="lazy"
+          decoding="async"
+          referrerPolicy="no-referrer"
+          onError={handleDriveImageFallback}
+        />
+
+        {/* Editorial chromatic dark scrim for crisp back cover typography */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background: `linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, ${backCoverTheme.scrimDeep} 50%, rgba(2, 6, 23, 0.92) 100%)`,
+          }}
+        />
+
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
           aria-hidden="true"

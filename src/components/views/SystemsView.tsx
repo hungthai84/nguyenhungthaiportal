@@ -1238,7 +1238,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           data-element-type="card"
           data-element-page="systems"
           data-element-parent="systems-cards-track"
-          className="page-main-card floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left box-border"
+          className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play select-none text-left box-border"
           style={{
             padding: '15px',
             gap: '0px',

@@ -747,7 +747,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #about-intro-grid-2 {
   box-sizing: border-box !important;
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  max-width: var(--main-card-target-w, 1050px) !important;
   min-width: 0 !important;
   margin: 0 auto !important;
   padding: var(--main-card-padding, clamp(10px, 1.4vw, 16px)) !important;
@@ -793,13 +793,14 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-sizing: border-box !important;
 }
 
-.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
-[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *):not([id^="home-main-card-"]),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *):not([id^="home-main-card-"]),
+#about-main-card,
 #about-intro-card-1,
 #about-intro-card-2 {
   box-sizing: border-box !important;
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  max-width: var(--main-card-target-w, 1050px) !important;
   min-width: 0 !important;
   flex-shrink: 0 !important;
   height: 100% !important;
@@ -814,50 +815,43 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  outline: none !important;
   transform: none !important;
   animation: none !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface, var(--shell-surface-shadow))) !important;
 }
 
 /* ========================================================================= */
-/* 1. THẺ CHÍNH TRANG KỸ NĂNG: HIỆU ỨNG ĐỔ BÓNG & THẺ NỔI (SHADOW & FLOATING) */
+/* 1 & 2. ĐỒNG BỘ 100% VIỀN & NỀN TẤT CẢ THẺ CHÍNH VỚI THẺ CHÍNH TỬ VI 1    */
 /* ========================================================================= */
-#skills-main-card,
-.page-main-card#skills-main-card {
-  box-shadow: 0 24px 54px -8px rgba(0, 0, 0, 0.35),
-              0 8px 20px -4px rgba(0, 0, 0, 0.20),
-              0 0 0 1px rgba(255, 255, 255, 0.14),
-              inset 0 1.5px 1px rgba(255, 255, 255, 0.28) !important;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
-  position: relative !important;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #skills-main-card:hover {
-    transform: translateY(-3px) scale(1.002) !important;
-    box-shadow: 0 30px 68px -10px rgba(0, 0, 0, 0.44),
-                0 12px 28px -4px rgba(var(--color-primary-rgb, 99, 102, 241), 0.22),
-                0 0 0 1.5px rgba(var(--color-primary-rgb, 99, 102, 241), 0.30),
-                inset 0 1.5px 1px rgba(255, 255, 255, 0.35) !important;
-  }
-}
-
-/* ========================================================================= */
-/* 2. THẺ CHÍNH THƯ NGỎ: ĐỒNG BỘ HIỆU ỨNG & HÌNH NỀN VỚI THẺ CHÍNH TỬ VI 1    */
-/* ========================================================================= */
+.page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
+[data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer),
+#home-main-card-1,
+[id^="home-main-card-"],
 #letter-main-card,
-.page-main-card#letter-main-card {
+#about-main-card,
+#education-main-card,
+#service-main-card,
+#services-main-card,
+#experience-main-card,
+#skills-main-card,
+#projects-main-card,
+#systems-main-card,
+#interview-main-card,
+#memories-main-card,
+#wallpaper-main-card,
+#interface-main-card,
+#ai-assistant-main-card,
+#contact-main-card {
   background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px)))) !important;
-  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface, var(--shell-surface-shadow))) !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
-  padding: 15px !important;
-  gap: 15px !important;
   box-sizing: border-box !important;
+  transform: none !important;
 }
 
 /* ========================================================================= */
@@ -947,6 +941,13 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   gap: 15px !important;
 }
 
+#service-main-card[data-detail-open="true"] #services-main-content,
+#service-main-card[data-detail-open="true"] #services-cards-wrapper {
+  height: auto !important;
+  max-height: none !important;
+  flex: 1 0 auto !important;
+}
+
 #services-hero-banner {
   width: 100% !important;
   max-width: 100% !important;
@@ -963,19 +964,20 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   width: 100% !important;
   max-width: 100% !important;
   flex: 1 1 0% !important;
-  height: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
   box-sizing: border-box !important;
 }
 
 #services-cards-grid {
   width: 100% !important;
   max-width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
   flex: 1 1 0% !important;
   margin: 0 !important;
@@ -1392,8 +1394,8 @@ h3.card-title,
 /* ========================================================================= */
 #pdf-page-container {
   box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: var(--container-max-w, 1250px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -3228,12 +3230,18 @@ button:focus-visible,
   line-height: 1.6 !important;
 }
 
-/* Exempt #services-expanded-card subcards from height: 100% and 1-line clamping so each subcard fits its inner content */
-#services-expanded-card :is([data-subcard="true"], .domain-card-sub) {
+/* Exempt #services-expanded-card legacy subcards from height: 100% and 1-line clamping while letting Bento tiles stretch cleanly */
+#services-expanded-card :is([data-subcard="true"]:not([data-multicolor-bento="true"]):not([data-bento-styled="true"]), .domain-card-sub) {
   height: auto !important;
   min-height: 0 !important;
   flex: 0 0 auto !important;
   align-self: flex-start !important;
+}
+
+#services-expanded-card [data-multicolor-bento="true"] {
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
 }
 
 #services-expanded-card .services-detail-overview-subcard {
@@ -3558,14 +3566,14 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
 }
 
 #ai-assistant-cards-track:has(#ai-assistant-main-card[data-chat-expanded="true"]) {
-  padding-left: max(15px, calc((100vw - 2px - min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
-  padding-right: max(15px, calc((100vw - 2px - min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px)))) / 2)) !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 #ai-assistant-main-card[data-chat-expanded="true"] {
-  width: min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
-  max-width: calc(100vw - 32px) !important;
-  flex: 0 0 min(calc(100vw - 32px), calc(var(--shared-frame-w, 1250px) + var(--ai-chat-extra-w, 360px))) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  flex: 0 0 auto !important;
   transition: width 180ms ease-out, flex-basis 180ms ease-out !important;
 }
 
@@ -3695,7 +3703,7 @@ html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], #ser
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"]:not([data-multicolor-bento="true"]):not([data-bento-styled="true"]),
 html[data-card-style="cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
 html[data-card-style="cowhide-leather"] #el-p3-div-90 {
   background: linear-gradient(145deg, rgba(102, 58, 22, 0.94) 0%, rgba(58, 32, 11, 0.97) 100%) !important;
@@ -3725,7 +3733,7 @@ html[data-card-style="dark-cowhide-leather"] :is([id^="services-detail-panel-"],
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="dark-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="dark-cowhide-leather"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"]:not([data-multicolor-bento="true"]):not([data-bento-styled="true"]),
 html[data-card-style="dark-cowhide-leather"] #skills-languages-section [id^="skills-language-card-"],
 html[data-card-style="dark-cowhide-leather"] #el-p3-div-90 {
   background: linear-gradient(145deg, rgba(36, 28, 24, 0.96) 0%, rgba(20, 15, 13, 0.98) 100%) !important;
@@ -3754,7 +3762,7 @@ html[data-card-style="walnut-wood"] :is([id^="services-detail-panel-"], #service
   -webkit-backdrop-filter: none !important;
 }
 
-html[data-card-style="walnut-wood"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="walnut-wood"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"]:not([data-multicolor-bento="true"]):not([data-bento-styled="true"]),
 html[data-card-style="walnut-wood"] #skills-languages-section [id^="skills-language-card-"],
 html[data-card-style="walnut-wood"] #el-p3-div-90 {
   background: linear-gradient(145deg, rgba(46, 28, 17, 0.96) 0%, rgba(24, 14, 8, 0.98) 100%) !important;
@@ -3782,7 +3790,7 @@ html[data-card-style="mica-fluent"] :is([id^="services-detail-panel-"], #service
   -webkit-backdrop-filter: blur(20px) !important;
 }
 
-html[data-card-style="mica-fluent"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"],
+html[data-card-style="mica-fluent"] :is([id^="services-detail-panel-"], #services-expanded-card, #systems-expanded-card, [id^="system-expanded-card-"], [id^="system-detail-modal-"]) [data-subcard="true"]:not([data-multicolor-bento="true"]):not([data-bento-styled="true"]),
 html[data-card-style="mica-fluent"] #skills-languages-section [id^="skills-language-card-"],
 html[data-card-style="mica-fluent"] #el-p3-div-90 {
   background: rgba(255, 255, 255, 0.30) !important;
@@ -4397,21 +4405,21 @@ html #education-courses-grid .education-course-card,
   box-sizing: border-box !important;
 }
 
-/* Lưới Dịch vụ: Mặc định 3 cột (3×2) lấp đầy chiều cao thẻ chính, thu nhỏ chuyển 2 cột hoặc 1 cột */
+/* Lưới Dịch vụ: Responsive Grid View (3 cột desktop, 2 cột tablet, 1 cột mobile, hàng cao đều nhau) */
 #services-page-container .services-cards-grid,
 #services-cards-grid.services-cards-grid {
   grid-area: 1 / 1 !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(216px, 1fr) !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  flex: 1 1 0% !important;
+  height: auto !important;
+  min-height: 100% !important;
+  flex: 1 0 auto !important;
   align-items: stretch !important;
-  align-content: stretch !important;
+  align-content: start !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -4426,9 +4434,8 @@ html #education-courses-grid .education-course-card,
   #services-page-container .services-cards-grid,
   #services-cards-grid.services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(180px, 1fr) !important;
-    height: auto !important;
+    grid-auto-rows: minmax(204px, 1fr) !important;
+    min-height: 0 !important;
     flex: 0 0 auto !important;
   }
 }
@@ -4437,9 +4444,8 @@ html #education-courses-grid .education-course-card,
   #services-page-container .services-cards-grid,
   #services-cards-grid.services-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(170px, 1fr) !important;
-    height: auto !important;
+    grid-auto-rows: auto !important;
+    min-height: 0 !important;
     flex: 0 0 auto !important;
   }
 }
@@ -4736,13 +4742,16 @@ html.dark #services-page-container .domain-card-sub {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
+  container-type: inline-size;
+  container-name: services-bento-shell;
   border-radius: var(--radius-main, 14px);
   border: var(--card-border-width, 1px) solid var(--service-expanded-border, var(--surface-secondary-border, rgba(255, 255, 255, 0.55)));
   background: var(--service-expanded-surface, var(--surface-secondary-bg, var(--bg-card)));
   box-shadow: var(--service-expanded-shadow, var(--shadow-card-hover, 0 28px 60px -16px rgba(15, 23, 42, 0.26)));
   backdrop-filter: blur(var(--glass-main-blur, 24px)) saturate(145%);
   -webkit-backdrop-filter: blur(var(--glass-main-blur, 24px)) saturate(145%);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   display: flex;
   flex-direction: column;
   isolation: isolate;
@@ -5716,7 +5725,7 @@ html.dark #education-book-view .education-book-paper--back {
 /* UNIFIED SHELL WIDTH (1000PX) FOR HEADER/FOOTER/MAIN CARDS; PDF 1250PX     */
 /* ========================================================================= */
 #pdf-page-container {
-  max-width: 1250px !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
   box-sizing: border-box !important;
 }
 
@@ -5725,7 +5734,7 @@ html.dark #education-book-view .education-book-paper--back {
 .page-main-card:not(#pdf-page-container),
 [data-main-card="true"]:not(#pdf-page-container),
 #main-card-container {
-  max-width: var(--main-card-target-w, 1200px) !important;
+  max-width: var(--main-card-target-w, 1050px) !important;
   box-sizing: border-box !important;
 }
 
@@ -5944,8 +5953,9 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 /* THẺ DỊCH VỤ (SERVICES CARDS): FORMAT HỆ THỐNG & ẢNH LỚN GẤP ĐÔI           */
 /* ========================================================================= */
 #services-page-container #services-cards-wrapper {
-  display: flex !important;
-  flex-direction: column !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -5955,7 +5965,7 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 #services-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: 1fr !important;
+  grid-auto-rows: minmax(216px, 1fr) !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -5969,23 +5979,34 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   #services-page-container .services-cards-grid,
   #services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(204px, 1fr) !important;
   }
 }
 
-/* Thẻ Dịch vụ: Chia 2 cột, ảnh bên phải tăng gấp đôi hình ảnh (160px), phóng to & chuyển động khi rê chuột */
+@media (max-width: 599px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+  }
+}
+
+/* Thẻ Dịch vụ: ảnh minh họa tỷ lệ cân đối, chuyển động nhẹ khi tương tác */
 #services-page-container .domain-card .service-card-illustration,
 #services-page-container .domain-card .service-card-image-slot,
 #services-page-container .domain-card .service-card-image-box,
 #services-page-container .service-card-image-box {
   align-self: center !important;
-  justify-self: stretch !important;
+  justify-self: center !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  height: 160px !important;
-  min-height: 160px !important;
-  max-height: 160px !important;
+  max-width: 128px !important;
+  height: auto !important;
+  min-height: 88px !important;
+  max-height: 124px !important;
+  aspect-ratio: 1 / 1 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -6040,12 +6061,12 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   object-fit: contain !important;
   width: 100% !important;
   max-width: 100% !important;
-  height: 160px !important;
-  max-height: 160px !important;
+  height: auto !important;
+  max-height: 120px !important;
   transform-origin: center center !important;
   will-change: transform, filter !important;
   animation: serviceImgGifMotion 3.8s ease-in-out infinite !important;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), filter 0.38s ease !important;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.36, 1), filter 0.38s ease !important;
 }
 
 #services-page-container .domain-card:hover .service-img-pop,
@@ -6873,12 +6894,12 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 #experience-page-container #experience-main-card {
   position: absolute;
   z-index: 40;
-  border-radius: var(--radius-card, 14px);
-  border: 1px solid var(--surface-secondary-border, rgba(255, 255, 255, 0.55));
-  background: var(--surface-secondary-bg, var(--bg-card));
-  box-shadow: var(--lg-clear-shadow, 0 32px 64px -16px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.28) inset);
-  backdrop-filter: var(--lg-clear-backdrop, blur(28px) saturate(145%));
-  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(28px) saturate(145%));
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px)));
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color));
+  background: var(--surface-primary-bg, var(--bg-main, var(--bg-card)));
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface));
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))));
+  -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%))));
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -6888,7 +6909,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 
 #experience-page-container #experience-main-card.is-open {
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
-  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
 }
 

@@ -951,13 +951,14 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
         <div
           id="skills-main-card"
           data-main-card="true"
+          data-floating-surface="main"
           data-detail-open={selectedSwot ? 'true' : 'false'}
           data-detail-overlay="true"
           data-element-name="Thẻ chính Trang Kỹ Năng"
           data-element-type="card"
           data-element-page="skills"
           data-element-parent="skills-cards-track"
-          className="page-main-card floating-card floating-surface--main skills-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+          className="page-main-card floating-glass-surface floating-surface--main skills-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
         >
           <div
             id="skills-main-scroll-viewport"

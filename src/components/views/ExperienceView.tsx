@@ -1553,7 +1553,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-page="experience"
           data-element-parent="experience-cards-track"
           className={cn(
-            'page-main-card floating-surface--main relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
+            'page-main-card floating-glass-surface floating-surface--main relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
             showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden',
             'p-0 gap-0'
           )}

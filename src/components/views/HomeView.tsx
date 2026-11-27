@@ -84,7 +84,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   }, []);
 
   const peekReserve = viewportWidth < 640 ? 16 : 32;
-  const homeCardWidth = Math.min(1200, Math.max(260, viewportWidth - peekReserve));
+  const homeCardWidth = Math.min(1050, Math.max(260, viewportWidth - peekReserve));
   const homeSideInset = 0;
 
   const handleQuickNavigateAbout = (e: React.MouseEvent) => {
@@ -306,8 +306,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   const mainCardInlineStyle: React.CSSProperties = {
-    width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))',
-    maxWidth: 'var(--main-card-target-w, 1200px)',
+    width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))',
+    maxWidth: 'var(--main-card-target-w, 1050px)',
     flex: '0 0 auto',
     height: '100%',
     minHeight: '0px',
@@ -365,7 +365,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           data-element-page="home"
           data-element-parent="home-cards-track"
           style={mainCardInlineStyle}
-          className="page-main-card floating-surface--main home-screen-main-card relative shrink-0 flex flex-col justify-center items-center overflow-hidden select-none font-play box-border opacity-100"
+          className="page-main-card floating-glass-surface floating-surface--main home-screen-main-card relative shrink-0 flex flex-col justify-center items-center overflow-hidden select-none font-play box-border opacity-100"
         >
           <div
             id="home-hero-stage-1"

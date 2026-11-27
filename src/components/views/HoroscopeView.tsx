@@ -436,7 +436,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
     alignLeftOffset: number;
   }>(() => {
     const vw = typeof window !== 'undefined' ? window.innerWidth : 1280;
-    const fallbackCardW = Math.min(1200, Math.max(260, Math.round(vw < 640 ? vw - 16 : Math.min(vw - 32, Math.max(1000, vw * 0.78)))));
+    const fallbackCardW = vw < 640 ? Math.max(260, vw - 16) : Math.min(1050, Math.max(260, vw - 32));
     const resolvedCardW = Math.min(vw, fallbackCardW);
     return {
       containerWidth: vw,
@@ -472,12 +472,19 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       const containerRect = container.getBoundingClientRect();
       const docW = document.documentElement.clientWidth || window.innerWidth || 1000;
       const containerW = Math.max(260, Math.round(containerRect.width || docW));
+      const rawTargetW = getComputedStyle(document.documentElement)
+        .getPropertyValue('--main-card-target-w')
+        .trim();
+      const parsedTargetW = Number.parseFloat(rawTargetW);
+      const targetMaxW = Number.isFinite(parsedTargetW) && parsedTargetW > 300 ? parsedTargetW : 1050;
+      const fallbackW =
+        docW < 640
+          ? Math.max(260, docW - 16)
+          : Math.min(targetMaxW, Math.max(260, docW - 32));
       const anchorEl =
-        document.getElementById('letter-main-card') ||
         document.getElementById('app-header') ||
         document.getElementById('app-footer');
       const anchorRect = anchorEl ? anchorEl.getBoundingClientRect() : null;
-      const fallbackW = Math.max(260, Math.min(1200, docW - (docW < 640 ? 16 : 32)));
       const hasValidAnchor = Boolean(anchorRect && anchorRect.width > 240);
       const resolvedCardW = Math.max(
         260,
@@ -536,10 +543,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       maxWidth: `${carouselMetrics.cardWidth}px`,
       flex: '0 0 auto',
       height: '100%',
-      minHeight: '100%',
+      minHeight: '0px',
       maxHeight: '100%',
       margin: '0px',
-      padding: 'var(--main-card-padding, 15px)',
+      padding: 'var(--main-card-padding, 20px)',
       gap: '15px',
       borderRadius: 'var(--radius-global, var(--radius-main, 14px))',
       boxSizing: 'border-box',

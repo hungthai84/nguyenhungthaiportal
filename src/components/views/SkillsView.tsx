@@ -957,7 +957,7 @@ export function Skills({ currentTheme, embedded = false }: SkillsViewProps = {})
           data-element-type="card"
           data-element-page="skills"
           data-element-parent="skills-cards-track"
-          className="page-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+          className="page-main-card floating-card floating-surface--main skills-main-card relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
         >
           <div
             id="skills-main-scroll-viewport"

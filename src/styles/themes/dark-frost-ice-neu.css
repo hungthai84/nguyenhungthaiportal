@@ -307,6 +307,7 @@ html[data-card-style="dark-frost-ice-neu"] :is(
   [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
   #contact-main-card,
   [id^="letter-card-"]
 ) {

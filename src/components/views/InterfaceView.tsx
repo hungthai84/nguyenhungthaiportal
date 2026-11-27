@@ -435,30 +435,30 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
   },
   'mica-fluent': {
     radius: '18px',
-    activeRingColor: '#E84118',
-    activeBorderClass: 'border-[#E84118]',
-    idleBorderClass: 'border-white/25 hover:border-[#E84118]/65',
-    activeBadgeClass: 'bg-[#FFF3F0] text-[#C23616] border-[#E84118]/35 shadow-xs backdrop-blur-[20px]',
-    iconColor: '#E84118',
+    activeRingColor: '#FF2E93',
+    activeBorderClass: 'border-[#FF2E93]',
+    idleBorderClass: 'border-white/25 hover:border-[#FF2E93]/65',
+    activeBadgeClass: 'bg-[#FFF0F7] text-[#FF2E93] border-[#FF2E93]/35 shadow-xs backdrop-blur-[20px]',
+    iconColor: '#FF2E93',
     titleTextClass: 'text-[#1C0708]',
     bodyTextClass: 'text-[#3F292B]',
-    accentTextClass: 'text-[#C23616]',
+    accentTextClass: 'text-[#FF2E93]',
     previewBorderClass: 'border-white/35',
     dividerClass: 'border-[#1C0708]/12',
     ctaIdleClass: 'bg-[#FAFAFA]/85 text-[#1C0708] hover:bg-white border border-white/40 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#E84118] to-[#C23616] text-white shadow-xs border border-[#E84118]',
+    ctaActiveClass: 'bg-gradient-to-r from-[#FF2E93] to-[#E11D48] text-white shadow-xs border border-[#FF2E93]',
     toggleTrackDarkClass: 'bg-[#525A65] border-[#3B424C]',
     toggleTrackLightClass: 'bg-[#FAFAFA] border-white/40',
     toggleThumbDarkClass: 'bg-[#3B424C] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#E84118] to-[#C23616] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#FF2E93] to-[#E11D48] text-white',
     demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
     gradientBars: [
-      { label: 'Terracotta', width: '92%', gradient: 'linear-gradient(90deg, #E84118, #C23616)' },
+      { label: 'Hot Magenta', width: '92%', gradient: 'linear-gradient(90deg, #FF2E93, #E11D48)' },
       { label: 'Espresso', width: '80%', gradient: 'linear-gradient(90deg, #525A65, #1C0708)' },
     ],
     primaryPalette: [
-      { name: 'Terracotta CTA', hex: '#E84118' },
-      { name: 'Crimson Deep', hex: '#C23616' },
+      { name: 'Hot Magenta', hex: '#FF2E93' },
+      { name: 'Vibrant Rose', hex: '#E11D48' },
       { name: 'Warm Espresso', hex: '#1C0708' },
       { name: 'Slate Graphite', hex: '#525A65' },
     ],
@@ -608,6 +608,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   });
   const [activeVideoPreviewId, setActiveVideoPreviewId] = useState<CardStyleMode | null>(null);
   const [failedVideoIds, setFailedVideoIds] = useState<Record<string, boolean>>({});
+  const [expandedThemeId, setExpandedThemeId] = useState<CardStyleMode | null>(null);
   const [isIridescentStudioOpen, setIsIridescentStudioOpen] = useState<boolean>(() =>
     isIridescentTheme(cardStyle)
   );
@@ -710,7 +711,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       } catch {
         // ignore storage errors
       }
-      const targetNeuStyle: CardStyleMode = 'frost-ice-neu';
+      const targetNeuStyle: CardStyleMode = 'neumorphism-beyond';
       const targetCfg = getCardStyleConfig(targetNeuStyle);
       setCardStyle(targetNeuStyle);
       onShowNotification?.(
@@ -1791,6 +1792,8 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                         onOpenStudio={
                           isIridescentTheme(preset.id) ? handleOpenIridescentStudio : undefined
                         }
+                        isExpanded={expandedThemeId === preset.id}
+                        onToggleExpand={(mode) => setExpandedThemeId((prev) => (prev === mode ? null : mode))}
                       />
                     );
                   })}

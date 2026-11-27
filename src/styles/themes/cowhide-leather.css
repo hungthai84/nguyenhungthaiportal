@@ -42,7 +42,7 @@ html.dark[data-card-style="cowhide-leather"] {
   --color-indigo: #F5DEB3;
   --color-blue: #FDE68A;
   --color-cyan: #F5DEB3;
-  --color-green: #A7F3D0;
+  --color-green: #FDE68A;
   --color-amber: #FCD34D;
   --color-pink: #FDE68A;
   --color-purple: #F5DEB3;
@@ -104,8 +104,8 @@ html.dark[data-card-style="cowhide-leather"] {
   --text-secondary: #F4F4F5;
   --text-muted: #E4E4E7;
   --text-link: #FDE68A;
-  --text-heading: #FFFFFF;
-  --icon-primary: #FFFFFF;
+  --text-heading: #FDE68A;
+  --icon-primary: #FDE68A;
   --icon-secondary: #F4F4F5;
   --icon-muted: #E4E4E7;
   --border-default: #522E10;
@@ -237,20 +237,20 @@ html.dark[data-card-style="cowhide-leather"] {
   --outline-image-card: 1.5px dashed rgba(245, 222, 179, 0.58);
   --outline-offset-image-card: -6px;
 
-  /* High-Contrast Warm & Cream Accents for Dark Cowhide Leather */
-  --accent-blue: #93C5FD;
-  --accent-sky: #BAE6FD;
-  --accent-cyan: #A5F3FC;
-  --accent-teal: #99F6E4;
-  --accent-emerald: #A7F3D0;
-  --accent-green: #BBF7D0;
-  --accent-indigo: #C7D2FE;
-  --accent-violet: #DDD6FE;
-  --accent-purple: #E9D5FF;
-  --accent-fuchsia: #F5D0FE;
-  --accent-pink: #FBCFE8;
-  --accent-rose: #FECDD3;
-  --accent-red: #FCA5A5;
+  /* Monochromatic Warm & Cream Accents for Cowhide Leather (No Rainbow Colors) */
+  --accent-blue: #FDE68A;
+  --accent-sky: #FDE68A;
+  --accent-cyan: #F5DEB3;
+  --accent-teal: #F5DEB3;
+  --accent-emerald: #FDE68A;
+  --accent-green: #FDE68A;
+  --accent-indigo: #F5DEB3;
+  --accent-violet: #FDE68A;
+  --accent-purple: #F5DEB3;
+  --accent-fuchsia: #FDE68A;
+  --accent-pink: #FDE68A;
+  --accent-rose: #FDE68A;
+  --accent-red: #FDBA74;
   --accent-amber: #FDE68A;
   --accent-yellow: #FEF08A;
   --accent-orange: #FDBA74;
@@ -262,12 +262,31 @@ html[data-card-style="cowhide-leather"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [id$="-main-card"],
   #home-main-card,
-  [id$="-main-card"]:not(#pdf-page-container),
+  #letter-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
   #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card,
   [id^="letter-card-"]
 ) {
   background: var(--surface-primary-bg) !important;
@@ -330,7 +349,7 @@ html[data-card-style="cowhide-leather"] [id$="-page-root"] {
 
 /* All Standard Section Cards: Rich Cowhide Surface + Hand-Stitched Dashed Border */
 html[data-card-style="cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
-html[data-card-style="cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2),
+html[data-card-style="cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2):not(#about-intro-grid-2),
 html[data-card-style="cowhide-leather"] [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="cowhide-leather"] article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
@@ -467,8 +486,8 @@ html[data-card-style="cowhide-leather"] :is(
     0 2px 5px rgba(0, 0, 0, 0.4) !important;
 }
 
-html[data-card-style="cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
-html[data-card-style="cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+html[data-card-style="cowhide-leather"] .nav-pill:not(#header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="cowhide-leather"] .nav-pill:not(#header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
   color: #3A1F0A !important;
 }
 
@@ -553,15 +572,43 @@ html[data-card-style="cowhide-leather"] #footer-lang-popup button > div > div:fi
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-next-btn {
   background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(2, 132, 199, 0.35) !important;
-  color: #0284c7 !important;
+  border: 1px solid rgba(245, 222, 179, 0.55) !important;
+  color: #3A1F0A !important;
 }
 
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
 html[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-icon,
-html[data-card-style="cowhide-leather"] #footer-nav-capsule svg {
-  color: #0284c7 !important;
-  stroke: #0284c7 !important;
+html[data-card-style="cowhide-leather"] #footer-nav-capsule svg,
+html[data-card-style="cowhide-leather"] #footer-nav-capsule path {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+}
+
+/* Video Play Button & Mute Button in Cowhide Leather Theme */
+html[data-card-style="cowhide-leather"] .video-play-btn,
+html[data-card-style="cowhide-leather"] .theme-video-capsule {
+  --vp-chase-a: #FDE68A !important;
+  --vp-chase-b: #D97706 !important;
+  --vp-bg: linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%) !important;
+  --vp-bg-hover: linear-gradient(135deg, #8B5A2B 0%, #522E10 100%) !important;
+  --vp-border: rgba(245, 222, 179, 0.55) !important;
+  color: #FDE68A !important;
+}
+html[data-card-style="cowhide-leather"] .video-play-btn svg,
+html[data-card-style="cowhide-leather"] .theme-video-capsule svg {
+  color: #FDE68A !important;
+  fill: #FDE68A !important;
+}
+html[data-card-style="cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted,
+html[data-card-style="cowhide-leather"] button#home-hero-video-mute-btn {
+  background: #522E10 !important;
+  border-color: rgba(245, 222, 179, 0.55) !important;
+  color: #FDE68A !important;
+}
+html[data-card-style="cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted svg,
+html[data-card-style="cowhide-leather"] button#home-hero-video-mute-btn svg {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars, SWOT Skills & Experience Detail Leather Panels */
@@ -822,19 +869,19 @@ html[data-card-style="cowhide-leather"] .theme-modal-close {
 
 /* WCAG Contrast Enforcement on Warm Leather Surface (#FFFFFF & #F5DEB3) */
 html[data-card-style="cowhide-leather"] {
-  --accent-blue: #93C5FD;
-  --accent-sky: #7DD3FC;
-  --accent-cyan: #67E8F9;
-  --accent-teal: #5EEAD4;
-  --accent-emerald: #86EFAC;
-  --accent-green: #86EFAC;
-  --accent-indigo: #C7D2FE;
-  --accent-violet: #DDD6FE;
-  --accent-purple: #E9D5FF;
-  --accent-fuchsia: #F5D0FE;
-  --accent-pink: #FBCFE8;
-  --accent-rose: #FECDD3;
-  --accent-red: #FCA5A5;
+  --accent-blue: #FDE68A;
+  --accent-sky: #FDE68A;
+  --accent-cyan: #F5DEB3;
+  --accent-teal: #F5DEB3;
+  --accent-emerald: #FDE68A;
+  --accent-green: #FDE68A;
+  --accent-indigo: #F5DEB3;
+  --accent-violet: #FDE68A;
+  --accent-purple: #F5DEB3;
+  --accent-fuchsia: #FDE68A;
+  --accent-pink: #FDE68A;
+  --accent-rose: #FDE68A;
+  --accent-red: #FDBA74;
   --accent-amber: #FDE68A;
   --accent-yellow: #FEF08A;
   --accent-orange: #FED7AA;
@@ -1283,5 +1330,300 @@ html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:hover {
   background: rgba(61, 33, 11, 0.72) !important;
   color: #FDE68A !important;
 }
+
+/* ========================================================================= */
+/* COWHIDE LEATHER: UNIFIED MONOCHROMATIC LEATHER ICONS & TYPOGRAPHY        */
+/* (Loại bỏ triệt để màu sắc rực rỡ ngẫu nhiên, đưa về bảng màu da bò cổ điển) */
+/* ========================================================================= */
+
+/* 1. TOÀN BỘ ICON (SVG, WEB-ICON, FA) TRÊN TOÀN BỘ WEBSITE */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg),
+  .web-icon:not(.nav-pill-icon-badge *),
+  i[class*="fa-"]:not(.nav-pill-icon-badge *)
+) {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+  fill: currentColor;
+}
+
+/* Biểu tượng trong nút chính / CTA / khi hover / active */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .banner-primary-cta,
+  .btn-primary,
+  button[data-active="true"],
+  button[aria-current="page"],
+  [aria-selected="true"],
+  .project-card-btn-primary
+) :is(svg, .web-icon, i) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* 2. HUY HIỆU ICON VÀ LIÊN KẾT NHANH TRANG CHỦ (ORBIT BADGES & SOCIAL ICONS) */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) {
+  background: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
+  background-color: #522E10 !important;
+  background-image: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
+  border: 1.5px dashed rgba(245, 222, 179, 0.6) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 220, 180, 0.22) !important;
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) :is(svg, .web-icon, i) {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+}
+
+/* 3. ĐỒNG BỘ MÀU CHỮ TIÊU ĐỀ & NỘI DUNG (THEME DA BÒ CỔ ĐIỂN) */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  h1, h2, h3,
+  [data-card-title="true"],
+  .card-title-synced,
+  .card-heading__title,
+  .card-title
+) {
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  h4, h5, h6,
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .subcard-title,
+  .pillar-heading
+) {
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  p,
+  .card-body-text,
+  .typo-body,
+  .typo-body-sm,
+  .typo-body-lg
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi) {
+  color: #F4F4F5 !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .typo-caption,
+  .text-muted,
+  [class*="text-slate-"],
+  [class*="text-gray-"],
+  [class*="text-zinc-"]
+):not([class*="font-mono"]):not([class*="badge"]) {
+  color: #E4E4E7 !important;
+}
+
+/* 4. CHUYỂN TOÀN BỘ NHÃN / BADGE / TAG VỀ MÀU DA BÒ MỘC */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .typo-badge,
+  .typo-label,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .service-card-tag,
+  .system-card-tag,
+  .milestone-badge,
+  [class*="badge"]:not(.nav-pill-icon-badge),
+  [class*="chip"],
+  [class*="tag"]:not(nav):not(header):not(footer):not(main)
+) {
+  background: #3D210B !important;
+  background-color: #3D210B !important;
+  border: 1px dashed rgba(245, 222, 179, 0.45) !important;
+  color: #FDE68A !important;
+}
+
+/* 5. LOẠI BỎ TRIỆT ĐỂ CÁC LỚP TIỆN ÍCH ĐA SẮC (BLUE, GREEN, PURPLE, ROSE, ETC.) */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="text-blue-"],
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-violet-"],
+  [class*="text-emerald-"],
+  [class*="text-green-"],
+  [class*="text-teal-"],
+  [class*="text-cyan-"],
+  [class*="text-sky-"],
+  [class*="text-rose-"],
+  [class*="text-pink-"],
+  [class*="text-red-"],
+  [class*="text-fuchsia-"]
+):not(img):not(video) {
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="bg-blue-"],
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-violet-"],
+  [class*="bg-emerald-"],
+  [class*="bg-green-"],
+  [class*="bg-teal-"],
+  [class*="bg-cyan-"],
+  [class*="bg-sky-"],
+  [class*="bg-rose-"],
+  [class*="bg-pink-"],
+  [class*="bg-red-"],
+  [class*="bg-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: #3D210B !important;
+  background-color: #3D210B !important;
+  border-color: rgba(245, 222, 179, 0.45) !important;
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="from-blue-"],
+  [class*="from-indigo-"],
+  [class*="from-purple-"],
+  [class*="from-violet-"],
+  [class*="from-emerald-"],
+  [class*="from-green-"],
+  [class*="from-teal-"],
+  [class*="from-cyan-"],
+  [class*="from-sky-"],
+  [class*="from-rose-"],
+  [class*="from-pink-"],
+  [class*="from-red-"],
+  [class*="from-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: linear-gradient(135deg, #7A4A20 0%, #522E10 100%) !important;
+  background-image: linear-gradient(135deg, #7A4A20 0%, #522E10 100%) !important;
+  border-color: rgba(245, 222, 179, 0.45) !important;
+  color: #FDE68A !important;
+}
+
+/* 6. ĐỒNG BỘ NÚT HEADER & FOOTER ĐẢM BẢO 100% TÔNG MÀU DA BÒ CỔ ĐIỂN */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-title {
+  color: #FDE68A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #FDE68A !important;
+  background-color: #FDE68A !important;
+  border: 1px dashed rgba(82, 46, 16, 0.62) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #3A1F0A !important;
+  stroke: #3A1F0A !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #7A4A20 0%, #4E2B10 100%) !important;
+  border: 1px dashed rgba(253, 230, 138, 0.85) !important;
+  box-shadow: inset 0 1.5px 2px rgba(255, 220, 180, 0.22), 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
+  background-color: rgba(245, 222, 179, 0.45) !important;
+}
+
+/* 7. NÚT ĐIỀU HƯỚNG TRANG & NÚT TRANG CHỦ THEME DA BÒ CỔ ĐIỂN */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#footer-prev-btn, #footer-next-btn, #footer-page-counter, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn) {
+  background: #522E10 !important;
+  border: 1px dashed rgba(245, 222, 179, 0.55) !important;
+  color: #FDE68A !important;
+}
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#footer-prev-btn, #footer-next-btn, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn):hover {
+  background: #7A4A20 !important;
+  border-color: #FDE68A !important;
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) #home-hero-cta-primary {
+  background: linear-gradient(135deg, #A85A1E 0%, #6E3B10 100%) !important;
+  border: 1px dashed #FDE68A !important;
+  box-shadow: 0 8px 24px rgba(45, 20, 5, 0.45) !important;
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) #home-hero-cta-primary svg {
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) #home-hero-cta-secondary {
+  background: rgba(82, 46, 16, 0.85) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.6) !important;
+  color: #FDE68A !important;
+}
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) #home-hero-cta-secondary svg {
+  color: #FDE68A !important;
+}
+
+/* ========================================================================= */
+/* 8. HIỆU ỨNG KHẮC CHỮ KÝ SIGNATURE ENGRAVING (SIGNATURE ENGRAVING EFFECT)  */
+/* ========================================================================= */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is(
+  h1, h2, h3, h4, h5, h6,
+  .card-title-synced,
+  [data-card-title="true"],
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .card-heading__title,
+  .card-title,
+  .subcard-title,
+  .banner-title,
+  .service-title-text,
+  .nav-pill-title,
+  .pillar-heading,
+  .typo-h1, .typo-h2, .typo-h3, .typo-h4, .typo-h5, .typo-h6
+) {
+  color: #FDE68A !important;
+  text-shadow: 
+    0 -1.5px 2px rgba(18, 8, 2, 0.98),
+    0 -2.5px 4px rgba(0, 0, 0, 0.85),
+    0 1px 1.5px rgba(255, 243, 199, 0.75),
+    0 2px 4px rgba(245, 158, 11, 0.45) !important;
+  letter-spacing: 0.025em;
+}
+
+/* Biểu tượng icon: Xóa hiệu ứng lóe sáng (không glow / không flare), hiển thị sắc nét, thanh lịch */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is(
+  .card-header-sync svg,
+  .card-header-sync .web-icon,
+  .subcard-header-sync svg,
+  .subcard-header-sync .web-icon,
+  .nav-pill-icon-badge svg,
+  .nav-pill-icon-svg,
+  .service-card svg,
+  .swot-skill-icon svg,
+  .theme-card-header svg,
+  .banner-header-row svg,
+  header svg,
+  footer svg,
+  [data-card-title] ~ svg,
+  .feather,
+  .lucide,
+  .web-icon,
+  [data-subcard] :is(svg, .web-icon),
+  [data-subcard-title] ~ svg
+) {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+}
+
+
 
 

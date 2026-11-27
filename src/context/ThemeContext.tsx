@@ -519,7 +519,7 @@ function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode
     if (!savedStyle) {
       const savedVisualMode = localStorage.getItem(VISUAL_THEME_MODE_STORAGE_KEY);
       if (savedVisualMode === 'neumorphism') {
-        baseStyle = 'frost-ice-neu';
+        baseStyle = 'neumorphism-beyond';
       }
     }
     if (initialSchemeMode === 'system') {

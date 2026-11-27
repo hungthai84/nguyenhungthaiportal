@@ -66,7 +66,7 @@ export const getThemeNativeSurfaceDepth = (style: CardStyleMode): SurfaceDepthMo
   THEME_NATIVE_SURFACE_DEPTH[style] ?? 'depth';
 
 export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
-  style === 'frost-ice-neu';
+  style === 'neumorphism-beyond' || style === 'dark-neumorphism-beyond';
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
@@ -503,9 +503,9 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     surfaceColorHex: '#F5EFEA',
     surfaceColorNameVi: 'Mica ấm bán trong suốt',
     surfaceColorNameEn: 'Warm Translucent Mica',
-    primaryColorHex: '#E84118',
-    primaryColorNameVi: 'Đỏ đất nung',
-    primaryColorNameEn: 'Terracotta CTA',
+    primaryColorHex: '#FF2E93',
+    primaryColorNameVi: 'Hồng rực năng lượng',
+    primaryColorNameEn: 'Hot Magenta',
     defaultCardEffect: 'tilt',
     cardEffectKindVi: 'Nổi phối cảnh Fluent',
     cardEffectKindEn: 'Fluent 3D Lift',

@@ -180,7 +180,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Ứng dụng kiến thức Web, UI/UX và AI để phát triển các công cụ số phục vụ Chăm sóc Khách hàng, Quản trị vận hành, Knowledge Base, Đào tạo nội bộ, Phân tích trải nghiệm và Tự động hóa quy trình.',
     result: 'Xây dựng hoàn chỉnh các hệ thống website, Tối ưu giao diện trải nghiệm người dùng, Ứng dụng thành thạo AI vào tự động hóa vận hành.',
-    accentColor: '#3B82F6',
+    accentColor: '#2563EB',
   },
   {
     id: 2,
@@ -206,7 +206,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Ứng dụng dữ liệu để quản trị hiệu suất CSKH, thiết lập báo cáo C-Level tự động và dự báo các chỉ số rủi ro rời bỏ (Churn Rate).',
     result: 'Chứng nhận hoàn thành đào tạo Phân tích dữ liệu do Prudential Vietnam cấp',
-    accentColor: '#0EA5E9',
+    accentColor: '#06B6D4',
   },
   {
     id: 3,
@@ -232,7 +232,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Áp dụng kiến thức quản trị rủi ro để đảm bảo tính liên tục của dịch vụ, kiểm soát sự cố vận hành CSKH và xử lý khiếu nại phức tạp.',
     result: 'Chứng chỉ mã PRU-RM-2017-104 do Prudential Vietnam cấp',
-    accentColor: '#F59E0B',
+    accentColor: '#E11D48',
   },
   {
     id: 4,
@@ -309,7 +309,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Thực thi điều hành phòng ban CSKH hàng ngày, phân công công việc hiệu quả và phát triển đội ngũ trưởng nhóm/giám sát.',
     result: 'Chứng nhận hoàn thành chương trình Quản lý cấp trung Dale Carnegie & VED',
-    accentColor: '#06B6D4',
+    accentColor: '#F59E0B',
   },
   {
     id: 7,
@@ -434,7 +434,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Tạo lợi thế giao thoa khác biệt giữa IT và CX, trực tiếp làm việc với bộ phận Kỹ thuật/Sản phẩm để kiến trúc hệ thống CRM, AI Bot và chuyển đổi số vận hành.',
     result: 'Bằng Cử nhân CNTT chính quy do Trường ĐH Công nghệ Sài Gòn (STU) cấp',
-    accentColor: '#3B82F6',
+    accentColor: '#1E3A8A',
   },
   {
     id: 12,
@@ -458,7 +458,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Thấu hiểu tường tận công việc thực địa của tư vấn viên tuyến đầu, từ đó xây dựng kịch bản SOP sát thực tế và đồng cảm sâu sắc với đội ngũ.',
     result: 'Chứng nhận Tổng đài viên xuất sắc do MobiFone cấp',
-    accentColor: '#0EA5E9',
+    accentColor: '#F97316',
   },
   {
     id: 13,
@@ -483,7 +483,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Làm chủ hạ tầng viễn thông VoIP/Telephony cho Call Center, giám sát độ ổn định mạng và tối ưu băng thông kết nối đa kênh.',
     result: 'Chứng chỉ CCNA do Trường Nghề Nhất Nghệ cấp',
-    accentColor: '#6366F1',
+    accentColor: '#D946EF',
   },
   {
     id: 14,
@@ -507,7 +507,7 @@ export const EDUCATION_LIST: EducationCourse[] = [
     ],
     application: 'Quản trị tài khoản, phân quyền bảo mật dữ liệu khách hàng và hỗ trợ hạ tầng máy chủ cho các phần mềm nghiệp vụ CSKH.',
     result: 'Chứng chỉ MCSA do Trường Nghề Nhất Nghệ cấp',
-    accentColor: '#10B981',
+    accentColor: '#475569',
   },
 ];
 

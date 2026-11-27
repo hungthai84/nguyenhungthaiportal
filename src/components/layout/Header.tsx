@@ -274,6 +274,13 @@ export const Header: React.FC<HeaderProps> = ({
 
   const { cardStyle } = useTheme();
   void currentTheme;
+  const isWalnutTheme = cardStyle === 'walnut-wood';
+  const isLeatherTheme =
+    cardStyle === 'cowhide-leather' ||
+    cardStyle === 'dark-cowhide-leather';
+  const isOceanTheme = cardStyle === 'deep-ocean';
+  const leatherGoldAccent = cardStyle === 'dark-cowhide-leather' ? '#E5B87E' : '#D97706';
+  const leatherTitleColor = cardStyle === 'dark-cowhide-leather' ? '#FFF8EE' : '#FDE68A';
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -455,8 +462,10 @@ export const Header: React.FC<HeaderProps> = ({
         marginRight: 'auto',
         marginTop: '0px',
         marginBottom: '0px',
-        paddingTop: '4px',
-        paddingBottom: '4px',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        paddingLeft: '45px',
+        paddingRight: '45px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -467,7 +476,7 @@ export const Header: React.FC<HeaderProps> = ({
         borderBottomRightRadius: 'var(--radius-primary-surface, var(--radius-main, 14px))',
         borderRadius: '0 0 var(--radius-primary-surface, var(--radius-main, 14px)) var(--radius-primary-surface, var(--radius-main, 14px))',
       }}
-      className={`neonav-bar mx-auto py-[5px] flex items-center justify-center px-[10px] sm:px-[15px] ${
+      className={`neonav-bar mx-auto py-[5px] flex items-center justify-center px-[45px] ${
         isRadialMenuOpen ? 'z-[99999]' : 'z-40'
       } relative flex-shrink-0 overflow-visible pointer-events-auto`}
     >
@@ -559,10 +568,16 @@ export const Header: React.FC<HeaderProps> = ({
                   className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
-                      '--nav-pill-accent': styleCfg.accentColor,
-                      width: '166px',
-                      height: '46px',
-                      minHeight: '46px',
+                      '--nav-pill-accent': isWalnutTheme
+                        ? '#F5C478'
+                        : isLeatherTheme
+                          ? leatherGoldAccent
+                          : isOceanTheme
+                            ? '#0284C7'
+                            : (styleCfg.accentColor || 'var(--nav-pill-accent, var(--color-primary))'),
+                      width: '176px',
+                      height: '50px',
+                      minHeight: '50px',
                       paddingTop: '4px',
                       paddingRight: '12px',
                       paddingBottom: '4px',
@@ -573,7 +588,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }
                 >
                   {/* Round Circle Badge with Icon or Avatar */}
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     {styleCfg.avatarGif ? (
                       <img
                         src={styleCfg.avatarGif}
@@ -590,13 +605,13 @@ export const Header: React.FC<HeaderProps> = ({
                         name={page.icon || 'home'}
                         isActive={isSelected}
                         isHovered={hoveredNavIndex === index}
-                        className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0"
+                        className="nav-pill-icon-svg w-[19px] h-[19px] text-center block shrink-0"
                       />
                     )}
                   </div>
 
                   {/* Vertical Divider */}
-                  <div className="nav-pill-divider w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
 
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
@@ -605,9 +620,15 @@ export const Header: React.FC<HeaderProps> = ({
                         color:
                           isSelected || hoveredNavIndex === index
                             ? 'var(--pill-active-text, #ffffff)'
-                            : styleCfg.accentColor,
+                            : isWalnutTheme
+                              ? '#F5C478'
+                              : isLeatherTheme
+                                ? leatherTitleColor
+                                : isOceanTheme
+                                  ? '#38BDF8'
+                                  : (styleCfg.accentColor || 'var(--text-heading, var(--color-primary))'),
                       }}
-                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
+                      className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
                       {pageTitle}
                     </span>
@@ -621,6 +642,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Nút Liên hệ (kế thừa nút avatar Hùng Thái cũ) nằm sau nút cuối */}
         {(() => {
           const avatarNavIndex = headerPages.length;
+          const contactStyleCfg = PAGE_FOOTER_STYLE_MAP[12] || PAGE_FOOTER_STYLE_MAP[0];
           // Hiệu ứng nút sau nằm trên nút trước (nút liên hệ nằm ở cuối, z-index cao nhất)
           const baseZIndex = isRadialMenuOpen
             ? 99999
@@ -669,7 +691,8 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   id="header-btn-hungthai-avatar"
                   type="button"
-                  role="button"
+                  role="tab"
+                  aria-selected={currentPage === 12 || isRadialMenuOpen}
                   aria-haspopup="dialog"
                   aria-label={
                     language === 'en'
@@ -691,10 +714,16 @@ export const Header: React.FC<HeaderProps> = ({
                   className="nav-pill relative z-10 inline-flex items-center rounded-[999px] gap-[8px] cursor-pointer border"
                   style={
                     {
-                      '--nav-pill-accent': 'var(--color-accent, var(--color-primary, #4F46E5))',
-                      width: '166px',
-                      height: '46px',
-                      minHeight: '46px',
+                      '--nav-pill-accent': isWalnutTheme
+                        ? '#F5C478'
+                        : isLeatherTheme
+                          ? leatherGoldAccent
+                          : isOceanTheme
+                            ? '#0284C7'
+                            : (contactStyleCfg.accentColor || 'var(--nav-pill-accent, var(--color-primary))'),
+                      width: '176px',
+                      height: '50px',
+                      minHeight: '50px',
                       paddingTop: '4px',
                       paddingRight: '12px',
                       paddingBottom: '4px',
@@ -704,19 +733,31 @@ export const Header: React.FC<HeaderProps> = ({
                     } as React.CSSProperties
                   }
                 >
-                  <div className="nav-pill-icon-badge relative z-10 w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
+                  <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                     <WebIcon
                       name="contact"
                       isActive={currentPage === 12 || isRadialMenuOpen}
                       isHovered={hoveredNavIndex === avatarNavIndex}
-                      className="nav-pill-icon-svg w-[17px] h-[17px] text-center block shrink-0"
+                      className="nav-pill-icon-svg w-[19px] h-[19px] text-center block shrink-0"
                     />
                   </div>
-                  <div className="nav-pill-divider w-[1.5px] h-[20px] shrink-0 rounded-[999px]" />
+                  <div className="nav-pill-divider w-[1.5px] h-[22px] shrink-0 rounded-[999px]" />
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1 h-auto self-center">
                     <span
-                      style={{ fontWeight: 'bold' }}
-                      className="nav-pill-title typo-nav leading-tight font-play tracking-tight truncate"
+                      style={{
+                        fontWeight: 'bold',
+                        color:
+                          currentPage === 12 || isRadialMenuOpen || hoveredNavIndex === avatarNavIndex
+                            ? 'var(--pill-active-text, #ffffff)'
+                            : isWalnutTheme
+                              ? '#F5C478'
+                              : isLeatherTheme
+                                ? leatherTitleColor
+                                : isOceanTheme
+                                  ? '#38BDF8'
+                                  : (contactStyleCfg.accentColor || 'var(--text-heading, var(--color-primary))'),
+                      }}
+                      className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
                       {language === 'en' ? 'Contact' : 'Liên hệ'}
                     </span>

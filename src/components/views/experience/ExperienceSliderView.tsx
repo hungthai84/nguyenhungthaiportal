@@ -691,29 +691,30 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         </div>
                       </div>
 
-                      {/* Icon công ty và Tên công ty cùng 1 hàng */}
+                      {/* Icon công ty và Tên công ty: Tạo khung, ẩn viền khung, kích thước bằng Năm, chức vụ, quản lý, giới thiệu */}
                       <div
-                        className="news-card-title !my-0 w-full !flex flex-row items-center gap-1.5 shrink-0 min-w-0"
+                        className="exp-card-framed-box news-card-title !my-0 w-full rounded-[9px] border-0 px-1.5 py-0.5 flex flex-row items-center gap-1.5 shrink-0 min-w-0"
                         title={item.shortName}
+                        style={{ border: 'none', outline: 'none' }}
                       >
-                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
-                        <span className="leading-snug truncate min-w-0 flex-1">{item.shortName}</span>
+                        <WebIcon name="building-2" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
+                        <span className="truncate min-w-0 flex-1 !text-[12px] font-bold leading-snug">{item.shortName}</span>
                       </div>
 
-                      {/* Chức vụ, Quản lý, Giới thiệu đóng khung */}
+                      {/* Chức vụ, Quản lý, Giới thiệu: Tạo khung, ẩn viền khung, cùng kích thước 12px */}
                       <div className="news-card-txt !mb-0 w-full !flex flex-col gap-1 text-[12px] leading-snug shrink-0">
-                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
                           <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
-                          <span className="min-w-0 truncate">
+                          <span className="min-w-0 truncate !text-[12px]">
                             <strong className="font-bold">Chức vụ:</strong>{' '}
                             <span className="font-semibold text-[var(--color-primary)]">
                               {item.roleTitle || item.roleSummary}
                             </span>
                           </span>
                         </div>
-                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0">
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
                           <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                          <span className="min-w-0 truncate">
+                          <span className="min-w-0 truncate !text-[12px]">
                             <strong className="font-bold">Quản lý:</strong>{' '}
                             <span>{item.headcountLabel}</span>
                           </span>
@@ -721,16 +722,18 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         <div
                           className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-start gap-1.5 min-w-0"
                           title={item.description}
+                          style={{ border: 'none', outline: 'none' }}
                         >
                           <WebIcon name="file-text" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
-                          <span className="min-w-0 line-clamp-2 leading-[1.35]">
+                          <span className="min-w-0 line-clamp-2 leading-[1.35] !text-[12px]">
                             <strong className="font-bold">Giới thiệu:</strong>{' '}
                             <span>{item.description}</span>
                           </span>
                         </div>
                       </div>
 
-                      <div className="news-card-img !mt-auto flex-1 min-h-[120px] w-full p-0 overflow-hidden rounded-[12px] relative bg-black/5">
+                      {/* Hình banner: Căn chỉnh hình thấy toàn bộ hình banner (object-contain) */}
+                      <div className="news-card-img !mt-auto flex-1 min-h-[120px] w-full p-1 overflow-hidden rounded-[12px] relative bg-black/5 dark:bg-white/5 flex items-center justify-center">
                         <img
                           src={item.bannerUrl || item.logo}
                           alt={`Banner công việc ${item.shortName}`}
@@ -738,7 +741,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           decoding="async"
                           referrerPolicy="no-referrer"
                           draggable={false}
-                          className="w-full h-full object-cover select-none pointer-events-none"
+                          className="w-full h-full max-h-full max-w-full object-contain select-none pointer-events-none"
                         />
                       </div>
                     </div>

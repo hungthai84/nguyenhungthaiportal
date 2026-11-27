@@ -609,9 +609,10 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         />
 
         <p
-          className="relative z-10 font-semibold text-[3cqw] tracking-[0.06em] m-0"
+          className="relative z-10 font-semibold tracking-[0.06em] m-0"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
+            fontSize: 'clamp(10px, 2.95cqw, var(--fs-label, 12px))',
             color: backCoverTheme.accentSoft,
           }}
         >
@@ -619,9 +620,10 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         </p>
 
         <p
-          className="relative z-10 mt-[1.8cqw] font-extrabold text-[6.1cqw] leading-[1.14] tracking-[-0.02em] m-0"
+          className="relative z-10 mt-[1.8cqw] font-extrabold leading-[1.14] tracking-[-0.02em] m-0"
           style={{
             fontFamily: BOOK_COVER_DISPLAY_FONT,
+            fontSize: 'clamp(14px, 5.2cqw, var(--fs-card-title, var(--fs-h3, 20px)))',
             textWrap: 'balance',
             color: '#FFFFFF',
             textShadow: '0 1px 3px rgba(2, 6, 23, 0.35)',

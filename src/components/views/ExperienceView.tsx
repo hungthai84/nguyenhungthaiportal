@@ -2021,7 +2021,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             >
               {/* HÀNG 1: Thẻ thông tin công ty cùng hàng với Thẻ giới thiệu hành trình */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-[15px] items-stretch w-full min-w-0">
-                {/* THẺ 1: Thẻ công ty & Thông tin (Click để thu gọn về dạng thẻ) */}
+                {/* THẺ 1: Thẻ công ty & Thông tin (Mẫu Thẻ 1: Bento Studio Hero Statement) */}
                 <section
                   id="experience-info-card"
                   data-multicolor-bento="true"
@@ -2039,9 +2039,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     boxShadow: 'var(--surface-secondary-shadow, var(--shadow-card))',
                   }}
                   className={cn(
-                    'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 w-full h-full rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden backdrop-blur-md border flex flex-col justify-between gap-[15px] relative group min-w-0 cursor-pointer'
+                    'experience-masonry-item exp-bento-surface-card bento-tone-sky transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl w-full h-full rounded-[var(--radius-card,14px)] p-[15px] overflow-hidden backdrop-blur-md border flex flex-col justify-between gap-[15px] relative group min-w-0 cursor-pointer'
                   )}
                 >
+                  {/* Bento Studio glowing ambient orb */}
+                  <div className="absolute -right-12 -top-12 w-48 h-48 bg-sky-500/15 rounded-full blur-3xl pointer-events-none" />
                   {/* Banner Video / Image Header */}
                   {activeMilestone.videoCard ? (
                     <div

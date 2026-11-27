@@ -307,6 +307,7 @@ html[data-card-style="frost-ice-neu"] :is(
   [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
   #contact-main-card,
   [id^="letter-card-"]
 ) {
@@ -621,7 +622,8 @@ html:root[data-card-style="frost-ice-neu"] :is(
 
 /* Header & Footer Nav Pills (Unselected): Circle Badge Matches Title Color + Crisp White Icon (No Border) */
 html:root[data-card-style="frost-ice-neu"] :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,
@@ -640,7 +642,8 @@ html:root[data-card-style="frost-ice-neu"] :is(
 }
 
 html:root[data-card-style="frost-ice-neu"] :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,
@@ -648,7 +651,8 @@ html:root[data-card-style="frost-ice-neu"] :is(
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
 html:root[data-card-style="frost-ice-neu"] :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #app-footer button.nav-pill,
   #footer-lang-btn,
   #footer-appearance-btn,

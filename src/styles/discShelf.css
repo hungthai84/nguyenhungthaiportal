@@ -370,16 +370,16 @@ html[data-card-style] #education-banner-timeline .edu-shelf-timeline-node:active
 }
 
 .disc-out.edu-shelf-book-cover {
-  border: 1px solid rgba(255, 255, 255, 0.26) !important;
-  box-shadow:
-    0 18px 38px -14px rgba(2, 8, 28, 0.34),
-    0 6px 16px -8px rgba(2, 8, 28, 0.2);
+  border: none !important;
+  box-shadow: none !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
   box-sizing: border-box;
   container-type: inline-size;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 .disc-out.edu-shelf-book-cover::after {
@@ -665,7 +665,7 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
 }
 .disc-spine b {
   writing-mode: vertical-rl;
-  font-family: "Plus Jakarta Sans", "Play", sans-serif;
+  font-family: var(--font-play, 'Play', sans-serif);
   font-size: clamp(7.5px, calc(var(--S) * 0.54), 10px);
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -678,16 +678,16 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
 }
 .disc-spine span {
   writing-mode: vertical-rl;
-  font-family: "Plus Jakarta Sans", "Play", sans-serif;
+  font-family: var(--font-play, 'Play', sans-serif);
   font-variant-numeric: tabular-nums;
   font-size: clamp(6.5px, calc(var(--S) * 0.44), 9px);
   color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
 }
 
-/* Realistic Book Paper Block Edges */
+/* Realistic Book Paper Block Edges (tucked inside rounded cover edges) */
 .disc-edge {
-  inset: 2px auto 2px calc(var(--W) - var(--S) / 2);
+  inset: 8px auto 8px calc(var(--W) - var(--S) / 2);
   width: var(--S);
   transform: rotateY(90deg);
   background: repeating-linear-gradient(
@@ -696,9 +696,10 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
     #cbd5e1 2px 3px
   );
   box-shadow: inset 0 0 6px rgba(15, 23, 42, 0.18);
+  border-radius: 4px;
 }
 .disc-lid {
-  inset: calc(var(--S) / -2) 2px auto 0;
+  inset: calc(var(--S) / -2) 8px auto 0;
   height: var(--S);
   transform: rotateX(90deg);
   background: repeating-linear-gradient(
@@ -706,9 +707,10 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
     #f8fafc 0 2px,
     #e2e8f0 2px 3px
   );
+  border-radius: 4px;
 }
 .disc-base {
-  inset: auto 2px calc(var(--S) / -2) 0;
+  inset: auto 8px calc(var(--S) / -2) 0;
   height: var(--S);
   transform: rotateX(-90deg);
   background: repeating-linear-gradient(
@@ -716,6 +718,7 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
     #cbd5e1 0 2px,
     #94a3b8 2px 3px
   );
+  border-radius: 4px;
 }
 
 /* Right-hand Inner Paper Page Preview (replaces CD tray) */

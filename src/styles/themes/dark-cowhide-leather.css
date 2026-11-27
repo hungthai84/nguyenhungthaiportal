@@ -104,8 +104,8 @@ html.dark[data-card-style="dark-cowhide-leather"] {
   --text-secondary: #E9DFD3;
   --text-muted: #CFC2B3;
   --text-link: #E5B87E;
-  --text-heading: #FFF8EE;
-  --icon-primary: #E5B87E;
+  --text-heading: #FDE68A;
+  --icon-primary: #FDE68A;
   --icon-secondary: #E9DFD3;
   --icon-muted: #CFC2B3;
   --border-default: #3E3028;
@@ -237,20 +237,20 @@ html.dark[data-card-style="dark-cowhide-leather"] {
   --outline-image-card: 1.5px dashed rgba(245, 222, 179, 0.48);
   --outline-offset-image-card: -6px;
 
-  /* High-Contrast Warm & Cream Accents for Dark Cowhide Leather */
-  --accent-blue: #93C5FD;
-  --accent-sky: #BAE6FD;
-  --accent-cyan: #A5F3FC;
-  --accent-teal: #99F6E4;
-  --accent-emerald: #A7F3D0;
-  --accent-green: #BBF7D0;
-  --accent-indigo: #C7D2FE;
-  --accent-violet: #DDD6FE;
-  --accent-purple: #E9D5FF;
-  --accent-fuchsia: #F5D0FE;
-  --accent-pink: #FBCFE8;
-  --accent-rose: #FECDD3;
-  --accent-red: #FCA5A5;
+  /* Monochromatic Warm & Cream Accents for Dark Cowhide Leather (No Rainbow Colors) */
+  --accent-blue: #E5B87E;
+  --accent-sky: #E5B87E;
+  --accent-cyan: #F5DEB3;
+  --accent-teal: #F5DEB3;
+  --accent-emerald: #E5B87E;
+  --accent-green: #E5B87E;
+  --accent-indigo: #F5DEB3;
+  --accent-violet: #E5B87E;
+  --accent-purple: #F5DEB3;
+  --accent-fuchsia: #E5B87E;
+  --accent-pink: #E5B87E;
+  --accent-rose: #E5B87E;
+  --accent-red: #FDBA74;
   --accent-amber: #E5B87E;
   --accent-yellow: #FDE68A;
   --accent-orange: #FDBA74;
@@ -262,12 +262,31 @@ html[data-card-style="dark-cowhide-leather"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [id$="-main-card"],
   #home-main-card,
-  [id$="-main-card"]:not(#pdf-page-container),
+  #letter-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
   #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card,
   [id^="letter-card-"]
 ) {
   background: var(--surface-primary-bg) !important;
@@ -328,7 +347,7 @@ html[data-card-style="dark-cowhide-leather"] [id$="-page-root"] {
 
 /* All Standard Section Cards: Dark Cowhide Surface + Cream Hand-Stitched Dashed Border */
 html[data-card-style="dark-cowhide-leather"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
-html[data-card-style="dark-cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2),
+html[data-card-style="dark-cowhide-leather"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2):not(#about-intro-grid-2),
 html[data-card-style="dark-cowhide-leather"] [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="dark-cowhide-leather"] article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="dark-cowhide-leather"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
@@ -463,8 +482,8 @@ html[data-card-style="dark-cowhide-leather"] :is(
   box-shadow: none !important;
 }
 
-html[data-card-style="dark-cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
-html[data-card-style="dark-cowhide-leather"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
+html[data-card-style="dark-cowhide-leather"] .nav-pill:not(#header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge svg,
+html[data-card-style="dark-cowhide-leather"] .nav-pill:not(#header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
   color: #140F0D !important;
 }
 
@@ -550,9 +569,46 @@ html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-next-bt
   color: #FFF8EE !important;
 }
 
-html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-page-counter,
-html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule svg {
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-prev-btn,
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-next-btn {
+  background: rgba(30, 20, 15, 0.85) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.42) !important;
   color: #E5B87E !important;
+}
+
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-page-counter,
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule #footer-page-icon,
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule svg,
+html[data-card-style="dark-cowhide-leather"] #footer-nav-capsule path {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+}
+
+/* Video Play Button & Mute Button in Dark Cowhide Leather Theme */
+html[data-card-style="dark-cowhide-leather"] .video-play-btn,
+html[data-card-style="dark-cowhide-leather"] .theme-video-capsule {
+  --vp-chase-a: #E5B87E !important;
+  --vp-chase-b: #B45309 !important;
+  --vp-bg: linear-gradient(135deg, #4A2810 0%, #2A1408 100%) !important;
+  --vp-bg-hover: linear-gradient(135deg, #5C3214 0%, #351A0A 100%) !important;
+  --vp-border: rgba(245, 222, 179, 0.42) !important;
+  color: #FFF8EE !important;
+}
+html[data-card-style="dark-cowhide-leather"] .video-play-btn svg,
+html[data-card-style="dark-cowhide-leather"] .theme-video-capsule svg {
+  color: #E5B87E !important;
+  fill: #E5B87E !important;
+}
+html[data-card-style="dark-cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted,
+html[data-card-style="dark-cowhide-leather"] button#home-hero-video-mute-btn {
+  background: #2A1408 !important;
+  border-color: rgba(245, 222, 179, 0.42) !important;
+  color: #E5B87E !important;
+}
+html[data-card-style="dark-cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted svg,
+html[data-card-style="dark-cowhide-leather"] button#home-hero-video-mute-btn svg {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars & Experience Detail Dark Leather Panels */
@@ -1249,3 +1305,243 @@ html[data-card-style="dark-cowhide-leather"] #horoscope-filter-listbox button:ho
   background: rgba(54, 42, 37, 0.85) !important;
   color: #FFF8EE !important;
 }
+
+/* ========================================================================= */
+/* DARK COWHIDE LEATHER: UNIFIED MONOCHROMATIC LEATHER ICONS & TYPOGRAPHY    */
+/* ========================================================================= */
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg),
+  .web-icon:not(.nav-pill-icon-badge *),
+  i[class*="fa-"]:not(.nav-pill-icon-badge *)
+) {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+  fill: currentColor;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .banner-primary-cta,
+  .btn-primary,
+  button[data-active="true"],
+  button[aria-current="page"],
+  [aria-selected="true"],
+  .project-card-btn-primary
+) :is(svg, .web-icon, i) {
+  color: #FFF8EE !important;
+  stroke: #FFF8EE !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) {
+  background: linear-gradient(145deg, #2B221E 0%, #140F0D 100%) !important;
+  background-color: #1C1613 !important;
+  border: 1.5px dashed rgba(245, 222, 179, 0.5) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65) !important;
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) :is(svg, .web-icon, i) {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  h1, h2, h3,
+  [data-card-title="true"],
+  .card-title-synced,
+  .card-heading__title,
+  .card-title
+) {
+  color: #FFF8EE !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  h4, h5, h6,
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .subcard-title,
+  .pillar-heading
+) {
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  p,
+  .card-body-text,
+  .typo-body,
+  .typo-body-sm,
+  .typo-body-lg
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi) {
+  color: #E9DFD3 !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .typo-badge,
+  .typo-label,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .service-card-tag,
+  .system-card-tag,
+  .milestone-badge,
+  [class*="badge"]:not(.nav-pill-icon-badge),
+  [class*="chip"],
+  [class*="tag"]:not(nav):not(header):not(footer):not(main)
+) {
+  background: #140F0D !important;
+  background-color: #140F0D !important;
+  border: 1px dashed rgba(245, 222, 179, 0.40) !important;
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="text-blue-"],
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-violet-"],
+  [class*="text-emerald-"],
+  [class*="text-green-"],
+  [class*="text-teal-"],
+  [class*="text-cyan-"],
+  [class*="text-sky-"],
+  [class*="text-rose-"],
+  [class*="text-pink-"],
+  [class*="text-red-"],
+  [class*="text-fuchsia-"]
+):not(img):not(video) {
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="bg-blue-"],
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-violet-"],
+  [class*="bg-emerald-"],
+  [class*="bg-green-"],
+  [class*="bg-teal-"],
+  [class*="bg-cyan-"],
+  [class*="bg-sky-"],
+  [class*="bg-rose-"],
+  [class*="bg-pink-"],
+  [class*="bg-red-"],
+  [class*="bg-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: #140F0D !important;
+  background-color: #140F0D !important;
+  border-color: rgba(245, 222, 179, 0.40) !important;
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  [class*="from-blue-"],
+  [class*="from-indigo-"],
+  [class*="from-purple-"],
+  [class*="from-violet-"],
+  [class*="from-emerald-"],
+  [class*="from-green-"],
+  [class*="from-teal-"],
+  [class*="from-cyan-"],
+  [class*="from-sky-"],
+  [class*="from-rose-"],
+  [class*="from-pink-"],
+  [class*="from-red-"],
+  [class*="from-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: linear-gradient(135deg, #2B221E 0%, #140F0D 100%) !important;
+  background-image: linear-gradient(135deg, #2B221E 0%, #140F0D 100%) !important;
+  border-color: rgba(245, 222, 179, 0.40) !important;
+  color: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-title {
+  color: #FFF8EE !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #E5B87E !important;
+  background-color: #E5B87E !important;
+  border: 1px dashed rgba(62, 48, 40, 0.72) !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #140F0D !important;
+  stroke: #140F0D !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #2B221E 0%, #140F0D 100%) !important;
+  border: 1px dashed #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
+  background-color: rgba(245, 222, 179, 0.40) !important;
+}
+
+/* ========================================================================= */
+/* HIỆU ỨNG KHẮC CHỮ KÝ SIGNATURE ENGRAVING (SIGNATURE ENGRAVING EFFECT)     */
+/* ========================================================================= */
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  h1, h2, h3, h4, h5, h6,
+  .card-title-synced,
+  [data-card-title="true"],
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .card-heading__title,
+  .card-title,
+  .subcard-title,
+  .banner-title,
+  .service-title-text,
+  .nav-pill-title,
+  .pillar-heading,
+  .typo-h1, .typo-h2, .typo-h3, .typo-h4, .typo-h5, .typo-h6
+) {
+  color: #FDE68A !important;
+  text-shadow: 
+    0 -1.5px 2px rgba(10, 6, 4, 0.98),
+    0 -2.5px 4px rgba(0, 0, 0, 0.90),
+    0 1px 1.5px rgba(255, 243, 199, 0.70),
+    0 2px 4px rgba(229, 184, 126, 0.40) !important;
+  letter-spacing: 0.025em;
+}
+
+/* Biểu tượng icon: Xóa hiệu ứng lóe sáng (không glow / không flare), hiển thị sắc nét, thanh lịch */
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  .card-header-sync svg,
+  .card-header-sync .web-icon,
+  .subcard-header-sync svg,
+  .subcard-header-sync .web-icon,
+  .nav-pill-icon-badge svg,
+  .nav-pill-icon-svg,
+  .service-card svg,
+  .swot-skill-icon svg,
+  .theme-card-header svg,
+  .banner-header-row svg,
+  header svg,
+  footer svg,
+  [data-card-title] ~ svg,
+  .feather,
+  .lucide,
+  .web-icon,
+  [data-subcard] :is(svg, .web-icon),
+  [data-subcard-title] ~ svg
+) {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  box-shadow: none !important;
+}
+

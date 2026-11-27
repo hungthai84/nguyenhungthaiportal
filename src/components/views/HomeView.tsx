@@ -36,11 +36,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
 }) => {
   const { language } = useLanguage();
   const isEn = language === 'en';
-  const { isDark: themeIsDark } = useTheme();
+  const { isDark: themeIsDark, cardStyle } = useTheme();
   const prefersReducedMotion = useReducedMotion();
 
+  const effectiveCardStyle = cardStyle || currentTheme;
+  const isLeatherTheme =
+    effectiveCardStyle === 'cowhide-leather' ||
+    effectiveCardStyle === 'dark-cowhide-leather' ||
+    effectiveCardStyle === 'walnut-wood';
+  const isOceanTheme = effectiveCardStyle === 'deep-ocean';
+
   const homeContainerRef = useRef<HTMLDivElement | null>(null);
-  const isDark = themeIsDark || getCardStyleConfig(normalizeCardStyle(currentTheme)).isDark;
+  const isDark = themeIsDark || getCardStyleConfig(normalizeCardStyle(effectiveCardStyle)).isDark;
 
   // Broadcast active slide state (single screen on Home)
   useEffect(() => {
@@ -118,9 +125,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       icon: 'mail',
       label: 'Email · hungthai84@gmail.com',
       href: 'mailto:hungthai84@gmail.com',
-      gradient: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)',
-      glow: '0 6px 16px rgba(244, 63, 94, 0.34)',
-      borderColor: 'rgba(255, 255, 255, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 6px 16px rgba(244, 63, 94, 0.34)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-phone',
@@ -128,9 +147,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'Zalo & Điện thoại · +84 0909097882',
       href: 'https://zalo.me/0909097882',
       external: true,
-      gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-      glow: '0 6px 16px rgba(16, 185, 129, 0.34)',
-      borderColor: 'rgba(255, 255, 255, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 6px 16px rgba(16, 185, 129, 0.34)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-linkedin',
@@ -138,9 +169,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'LinkedIn · linkedin.com/in/hungthai84',
       href: 'https://www.linkedin.com/in/hungthai84/',
       external: true,
-      gradient: 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)',
-      glow: '0 6px 16px rgba(14, 165, 233, 0.34)',
-      borderColor: 'rgba(255, 255, 255, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 6px 16px rgba(14, 165, 233, 0.34)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-website',
@@ -148,21 +191,44 @@ export const HomeView: React.FC<HomeViewProps> = ({
       label: 'Trang web · nguyenhungthai.powerservice.one',
       href: 'https://nguyenhungthai.powerservice.one/',
       external: true,
-      gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
-      glow: '0 6px 16px rgba(139, 92, 246, 0.34)',
-      borderColor: 'rgba(255, 255, 255, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 6px 16px rgba(139, 92, 246, 0.34)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.42)',
     },
     {
       id: 'home-social-pdf',
       icon: 'file-text',
       label: isEn ? 'View & Download CV Profile' : 'Xem & Tải Hồ sơ năng lực',
-      gradient: 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
-      glow: '0 6px 16px rgba(245, 158, 11, 0.34)',
-      borderColor: 'rgba(255, 255, 255, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #F59E0B 0%, #EA580C 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 6px 16px rgba(245, 158, 11, 0.34)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.42)',
       onClick: handleQuickNavigatePdf,
     },
   ];
-
 
   // 3 vivid multi-color orbiting circular badges around portrait frame
   const orbitBadges = [
@@ -170,8 +236,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 'home-orbit-icon-sparkles',
       icon: 'sparkles',
       posClass: 'top-[4%] right-[12%] sm:top-[5%] sm:right-[13%]',
-      gradient: 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
-      glow: '0 10px 24px rgba(236, 72, 153, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 10px 24px rgba(236, 72, 153, 0.42)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.85)',
       floatY: [-5, 5, -5],
       floatX: [-2, 2, -2],
       duration: 4.2,
@@ -181,8 +260,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 'home-orbit-icon-trending',
       icon: 'trending-up',
       posClass: 'bottom-[26%] right-[0.5%] sm:bottom-[27%] sm:right-[1%]',
-      gradient: 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
-      glow: '0 10px 24px rgba(16, 185, 129, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #10B981 0%, #14B8A6 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 10px 24px rgba(16, 185, 129, 0.42)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.85)',
       floatY: [-4, 4, -4],
       floatX: [3, -2, 3],
       duration: 5.0,
@@ -192,8 +284,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
       id: 'home-orbit-icon-cpu',
       icon: 'cpu',
       posClass: 'top-[44%] -left-3.5 sm:top-[44%] sm:-left-4',
-      gradient: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
-      glow: '0 10px 24px rgba(139, 92, 246, 0.42)',
+      gradient: isLeatherTheme
+        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
+        : isOceanTheme
+          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
+          : 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)',
+      glow: isLeatherTheme
+        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
+        : isOceanTheme
+          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
+          : '0 10px 24px rgba(139, 92, 246, 0.42)',
+      borderColor: isLeatherTheme
+        ? 'rgba(245, 222, 179, 0.55)'
+        : isOceanTheme
+          ? 'rgba(56, 189, 248, 0.45)'
+          : 'rgba(255, 255, 255, 0.85)',
       floatY: [-5, 4, -5],
       floatX: [-3, 2, -3],
       duration: 5.4,
@@ -202,6 +307,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   const mainCardInlineStyle: React.CSSProperties = {
+    width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))',
     maxWidth: 'var(--main-card-target-w, 1200px)',
     flex: '0 0 auto',
     height: '100%',
@@ -331,11 +437,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     type="button"
                     onClick={handleQuickNavigateAbout}
                     onMouseEnter={() => SoundEngine.playTap()}
-                    style={{
-                      background: 'var(--bg-button-primary, linear-gradient(135deg, #3B66F5, #2563EB))',
-                      color: 'var(--text-button-primary, #FFFFFF)',
-                    }}
-                    className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] font-bold typo-button shadow-[0_10px_24px_rgba(37,99,235,0.28)] hover:brightness-105 hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] font-bold typo-button hover:brightness-105 hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer border"
                   >
                     <WebIcon name="user-round" className="w-4 h-4 shrink-0" />
                     <span>{isEn ? 'Explore Profile' : 'Hồ Sơ Năng Lực'}</span>
@@ -346,21 +448,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     type="button"
                     onClick={handleQuickNavigateContact}
                     onMouseEnter={() => SoundEngine.playTap()}
-                    style={{
-                      background: isDark
-                        ? 'rgba(255, 255, 255, 0.10)'
-                        : 'rgba(255, 255, 255, 0.92)',
-                      borderColor: isDark
-                        ? 'rgba(255, 255, 255, 0.22)'
-                        : 'rgba(255, 255, 255, 0.98)',
-                      color: 'var(--text-heading, var(--text-primary))',
-                    }}
-                    className="min-h-[44px] px-5 sm:px-6 py-2.5 rounded-[14px] border font-bold typo-button shadow-[0_8px_20px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] border font-bold typo-button hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <WebIcon
                       name="mail"
                       className="w-4 h-4 shrink-0"
-                      style={{ color: 'var(--text-link, var(--color-primary))' }}
                     />
                     <span>{isEn ? 'Contact & Booking' : 'Liên Hệ Ngay'}</span>
                   </button>
@@ -464,13 +556,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
                       }
                       style={{
                         background: badge.gradient,
-                        borderColor: 'rgba(255, 255, 255, 0.85)',
-                        color: '#FFFFFF',
+                        borderColor: badge.borderColor || 'rgba(255, 255, 255, 0.85)',
+                        color: isLeatherTheme ? '#FDE68A' : isOceanTheme ? '#38BDF8' : '#FFFFFF',
                         boxShadow: badge.glow,
                       }}
                       className={`pointer-events-none select-none absolute z-10 w-11 h-11 sm:w-[52px] sm:h-[52px] rounded-full border-2 flex items-center justify-center ${badge.posClass}`}
                     >
-                      <WebIcon name={badge.icon} className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-xs" />
+                      <WebIcon name={badge.icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${isLeatherTheme ? 'text-[#FDE68A]' : isOceanTheme ? 'text-[#38BDF8]' : 'text-white'} drop-shadow-xs`} />
                     </motion.div>
                   ))}
 

@@ -40,23 +40,23 @@ html.dark[data-card-style="walnut-wood"] {
   --color-surface-pink: #2C1912;
   --color-surface-purple: #281711;
 
-  --color-heading: #FFFBF4;
-  --color-text: #FFFBF4;
-  --color-text-secondary: #F5E9D6;
-  --color-text-muted: #DECAB2;
+  --color-heading: #FFFFFF;
+  --color-text: #F4F4F5;
+  --color-text-secondary: #E4E4E7;
+  --color-text-muted: #E4E4E7;
   --color-text-inverse: #130B06;
 
-  --color-primary: #F5C478;
+  --color-primary: #FDE68A;
   --color-secondary: #FDE68A;
-  --color-tertiary: #F5E9D6;
-  --color-indigo: #F5E9D6;
-  --color-blue: #FFFBF4;
+  --color-tertiary: #F5DEB3;
+  --color-indigo: #FDE68A;
+  --color-blue: #FDE68A;
   --color-cyan: #FDE68A;
-  --color-green: #A7F3D0;
-  --color-amber: #F5C478;
-  --color-pink: #FBCFE8;
-  --color-purple: #DDD6FE;
-  --color-coral: #FDBA74;
+  --color-green: #FDE68A;
+  --color-amber: #FDE68A;
+  --color-pink: #FDE68A;
+  --color-purple: #FDE68A;
+  --color-coral: #FDE68A;
 
   --color-border: #4E2F1B;
   --color-border-soft: rgba(245, 196, 120, 0.28);
@@ -110,14 +110,14 @@ html.dark[data-card-style="walnut-wood"] {
   --border-table: rgba(245, 196, 120, 0.24);
   --bg-nav-button-opaque: #24150C;
 
-  --text-primary: #FFFBF4;
-  --text-secondary: #F5E9D6;
-  --text-muted: #DECAB2;
-  --text-link: #F5C478;
-  --text-heading: #FFFBF4;
-  --icon-primary: #F5C478;
-  --icon-secondary: #F5E9D6;
-  --icon-muted: #DECAB2;
+  --text-primary: #FFFFFF;
+  --text-secondary: #F4F4F5;
+  --text-muted: #E4E4E7;
+  --text-link: #FDE68A;
+  --text-heading: #FFFFFF;
+  --icon-primary: #FDE68A;
+  --icon-secondary: #F4F4F5;
+  --icon-muted: #E4E4E7;
   --border-default: #4E2F1B;
   --border-muted: rgba(245, 196, 120, 0.24);
   --border-strong: rgba(245, 196, 120, 0.58);
@@ -282,12 +282,31 @@ html[data-card-style="walnut-wood"] :is(
   #app-header,
   #app-footer,
   .page-main-card,
-  [data-main-card="true"]:not(#pdf-page-container),
+  [data-main-card="true"],
+  [id$="-main-card"],
   #home-main-card,
-  [id$="-main-card"]:not(#pdf-page-container),
+  #letter-main-card,
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
   #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card,
   [id^="letter-card-"]
 ) {
   background: var(--surface-primary-bg) !important;
@@ -348,7 +367,7 @@ html[data-card-style="walnut-wood"] [id$="-page-root"] {
 
 /* All Standard Section Cards: Warm Walnut Wood Grain + Solid Brass Hairline Inlay */
 html[data-card-style="walnut-wood"] [data-section-card="true"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(#el-p10-div-114):not(#el-p10-div-170):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
-html[data-card-style="walnut-wood"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2),
+html[data-card-style="walnut-wood"] [data-element-type="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.main-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]):not(#about-intro-card-1):not(#about-intro-card-2):not(#about-intro-grid-2),
 html[data-card-style="walnut-wood"] [data-ui="card"]:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="walnut-wood"] article:not(#app-header):not(#app-footer):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
 html[data-card-style="walnut-wood"] .glass-card:not(#app-header):not(#app-footer):not(#footer-nav-capsule):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#weather-widget-card):not(#weather-card):not(.weather-card):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(.pillar-gradient-card):not(.value-gradient-card):not(#horoscope-card-profile):not(#horoscope-card-management-style):not(#horoscope-card-career-portrait):not(#horoscope-card-five-elements):not(#horoscope-card-leadership-philosophy):not(#horoscope-card-work-synergy-check):not(#horoscope-destiny-card):not(#horoscope-pillars-container):not(#horoscope-slide-3):not(#horoscope-lookup-card):not(.page-main-card):not([data-main-card="true"]):not([id$="-page-container"]):not([id$="-page-root"]),
@@ -466,7 +485,8 @@ html[data-card-style="walnut-wood"] :is(
 
 /* Circular Menu Icon Medallion Inside Header & Footer Nav Pills */
 html[data-card-style="walnut-wood"] :is(
-  #app-header nav button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header nav button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-theme-mode-btn,
@@ -578,15 +598,16 @@ html[data-card-style="walnut-wood"] #footer-lang-popup button > div > div:first-
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-prev-btn,
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-next-btn {
   background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(2, 132, 199, 0.35) !important;
-  color: #0284c7 !important;
+  border: 1px solid rgba(245, 222, 179, 0.55) !important;
+  color: #3A1F0A !important;
 }
 
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-counter,
 html[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-icon,
-html[data-card-style="walnut-wood"] #footer-nav-capsule svg {
-  color: #0284c7 !important;
-  stroke: #0284c7 !important;
+html[data-card-style="walnut-wood"] #footer-nav-capsule svg,
+html[data-card-style="walnut-wood"] #footer-nav-capsule path {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
 }
 
 /* Sub-Cards, Timeline Milestone Cards, Pillars & Experience Detail Walnut Panels */
@@ -1300,4 +1321,267 @@ html[data-card-style="walnut-wood"] #memories-filter-listbox button:hover,
 html[data-card-style="walnut-wood"] #horoscope-filter-listbox button:hover {
   background: rgba(68, 40, 24, 0.85) !important;
   color: #FFFBF4 !important;
+}
+
+/* ========================================================================= */
+/* THEME VÂN GỖ ÓC CHÓ: CẤU HÌNH ĐỒNG BỘ MÀU FONT CHỮ VÀ ICON THEO CHUẨN GỖ ÓC CHÓ */
+/* Bảng màu chuẩn: Đồng thau hoàng gia (#F5C478), Trắng ngà gỗ (#FFFBF4), Nâu gỗ óc chó (#2A190F), Gỗ ấm (#E8DFD5) */
+/* ========================================================================= */
+
+/* 1. ÉP TOÀN BỘ ICON (SVG, WEB-ICON, FA) VỀ MÀU ĐỒNG THAU HOÀNG GIA GỖ ÓC CHÓ (#F5C478) */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  svg:not(.nav-pill-icon-svg):not([class*="avatar"]):not(#weather-widget-card *):not(.weather-card *),
+  .web-icon:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  i:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  [data-icon="true"]:not(.nav-pill-icon-svg)
+):not(#app-header *):not(#app-footer *):not(.theme-prev-next-btn *):not(#home-hero-video-mute-btn *) {
+  color: #F5C478 !important;
+  stroke: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  svg:not(.nav-pill-icon-svg):not([class*="avatar"]):not(#weather-widget-card *):not(.weather-card *),
+  .web-icon:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  i:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  [data-icon="true"]:not(.nav-pill-icon-svg)
+):not(#app-header *):not(#app-footer *):not(.theme-prev-next-btn *):not(#home-hero-video-mute-btn *) path {
+  stroke: #F5C478 !important;
+}
+
+/* 2. HUY HIỆU QUỸ ĐẠO & LIÊN KẾT MẠNG XÃ HỘI HOMEPAGE ĐỒNG BỘ GIAO DIỆN GỖ ÓC CHÓ */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) {
+  background: linear-gradient(145deg, #442818 0%, #2A190F 100%) !important;
+  background-color: #2A190F !important;
+  background-image: linear-gradient(145deg, #442818 0%, #2A190F 100%) !important;
+  border: 1px solid rgba(245, 196, 120, 0.45) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(245, 196, 120, 0.22) !important;
+  color: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) :is(svg, .web-icon, i) {
+  color: #F5C478 !important;
+  stroke: #F5C478 !important;
+}
+
+/* 3. ĐỒNG BỘ MÀU CHỮ TIÊU ĐỀ & NỘI DUNG (THEME GỖ ÓC CHÓ) */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  h1, h2, h3,
+  [data-card-title="true"],
+  .card-title-synced,
+  .card-heading__title,
+  .card-title
+) {
+  color: #FFFBF4 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  h4, h5, h6,
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .subcard-title,
+  .pillar-heading
+) {
+  color: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  p,
+  .card-body-text,
+  .typo-body,
+  .typo-body-sm,
+  .typo-body-lg
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi) {
+  color: #E8DFD5 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  .typo-caption,
+  .text-muted,
+  [class*="text-slate-"],
+  [class*="text-gray-"],
+  [class*="text-zinc-"]
+):not([class*="font-mono"]):not([class*="badge"]) {
+  color: #C8B8A6 !important;
+}
+
+/* 4. CHUYỂN TOÀN BỘ NHÃN / BADGE / TAG VỀ MÀU NÂU GỖ ÓC CHÓ VIỀN ĐỒNG THAU */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  .typo-badge,
+  .typo-label,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .service-card-tag,
+  .system-card-tag,
+  .milestone-badge,
+  [class*="badge"]:not(.nav-pill-icon-badge),
+  [class*="chip"],
+  [class*="tag"]:not(nav):not(header):not(footer):not(main)
+) {
+  background: #2A190F !important;
+  background-color: #2A190F !important;
+  border: 1px solid rgba(245, 196, 120, 0.35) !important;
+  color: #F5C478 !important;
+}
+
+/* 5. LOẠI BỎ TRIỆT ĐỂ CÁC LỚP TIỆN ÍCH ĐA SẮC (BLUE, GREEN, PURPLE, ROSE, ETC.) */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  [class*="text-blue-"],
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-violet-"],
+  [class*="text-emerald-"],
+  [class*="text-green-"],
+  [class*="text-teal-"],
+  [class*="text-cyan-"],
+  [class*="text-sky-"],
+  [class*="text-rose-"],
+  [class*="text-pink-"],
+  [class*="text-red-"],
+  [class*="text-fuchsia-"]
+):not(img):not(video) {
+  color: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  [class*="bg-blue-"],
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-violet-"],
+  [class*="bg-emerald-"],
+  [class*="bg-green-"],
+  [class*="bg-teal-"],
+  [class*="bg-cyan-"],
+  [class*="bg-sky-"],
+  [class*="bg-rose-"],
+  [class*="bg-pink-"],
+  [class*="bg-red-"],
+  [class*="bg-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: #2A190F !important;
+  background-color: #2A190F !important;
+  border: 1px solid rgba(245, 196, 120, 0.35) !important;
+  border-color: rgba(245, 196, 120, 0.35) !important;
+  color: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(
+  [class*="from-blue-"],
+  [class*="from-indigo-"],
+  [class*="from-purple-"],
+  [class*="from-violet-"],
+  [class*="from-emerald-"],
+  [class*="from-green-"],
+  [class*="from-teal-"],
+  [class*="from-cyan-"],
+  [class*="from-sky-"],
+  [class*="from-rose-"],
+  [class*="from-pink-"],
+  [class*="from-red-"],
+  [class*="from-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: linear-gradient(135deg, #442818 0%, #2A190F 100%) !important;
+  background-image: linear-gradient(135deg, #442818 0%, #2A190F 100%) !important;
+  border: 1px solid rgba(245, 196, 120, 0.35) !important;
+  border-color: rgba(245, 196, 120, 0.35) !important;
+  color: #F5C478 !important;
+}
+
+/* 6. ĐỒNG BỘ NÚT HEADER & FOOTER ĐẢM BẢO 100% TÔNG MÀU GỖ ÓC CHÓ */
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-title {
+  color: #F5C478 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #FFFBF4 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #F5C478 !important;
+  background-color: #F5C478 !important;
+  border: 1px solid rgba(245, 196, 120, 0.65) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #2A190F !important;
+  stroke: #2A190F !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: linear-gradient(145deg, #442818 0%, #2A190F 100%) !important;
+  border: 1px solid #F5C478 !important;
+  box-shadow: inset 0 1.5px 2px rgba(245, 196, 120, 0.22), 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #FFFBF4 !important;
+  stroke: #FFFBF4 !important;
+}
+
+html:is([data-card-style="walnut-wood"], [data-theme="walnut-wood"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
+  background-color: rgba(245, 196, 120, 0.35) !important;
+}
+
+/* 7. NÚT PHÁT VIDEO & MUTE VIDEO THEME GỖ ÓC CHÓ */
+html[data-card-style="walnut-wood"] .video-play-btn,
+html[data-card-style="walnut-wood"] .theme-video-capsule {
+  --vp-chase-a: #F5C478 !important;
+  --vp-chase-b: #B47834 !important;
+  --vp-bg: linear-gradient(135deg, #442818 0%, #2A190F 100%) !important;
+  --vp-bg-hover: linear-gradient(135deg, #5A3520 0%, #2A190F 100%) !important;
+  --vp-border: rgba(245, 196, 120, 0.55) !important;
+  color: #F5C478 !important;
+}
+html[data-card-style="walnut-wood"] .video-play-btn svg,
+html[data-card-style="walnut-wood"] .theme-video-capsule svg {
+  color: #F5C478 !important;
+  fill: #F5C478 !important;
+}
+html[data-card-style="walnut-wood"] .video-play-btn .video-play-btn__sound.is-muted,
+html[data-card-style="walnut-wood"] button#home-hero-video-mute-btn {
+  background: #2A190F !important;
+  border-color: rgba(245, 196, 120, 0.55) !important;
+  color: #F5C478 !important;
+}
+html[data-card-style="walnut-wood"] .video-play-btn .video-play-btn__sound.is-muted svg,
+html[data-card-style="walnut-wood"] button#home-hero-video-mute-btn svg {
+  color: #F5C478 !important;
+  stroke: #F5C478 !important;
+}
+
+/* 8. NÚT ĐIỀU HƯỚNG TRANG & NÚT TRANG CHỦ THEME GỖ ÓC CHÓ */
+html[data-card-style="walnut-wood"] :is(#footer-prev-btn, #footer-next-btn, #footer-page-counter, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn) {
+  background: #2A190F !important;
+  border: 1px solid rgba(245, 196, 120, 0.35) !important;
+  color: #F5C478 !important;
+}
+html[data-card-style="walnut-wood"] :is(#footer-prev-btn, #footer-next-btn, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn):hover {
+  background: #442818 !important;
+  border-color: #F5C478 !important;
+  color: #FFFBF4 !important;
+}
+html[data-card-style="walnut-wood"] #home-hero-cta-primary {
+  background: linear-gradient(135deg, #B47834 0%, #7A4A20 100%) !important;
+  border: 1px solid #F5C478 !important;
+  box-shadow: 0 8px 24px rgba(42, 25, 15, 0.45) !important;
+  color: #FFFBF4 !important;
+}
+html[data-card-style="walnut-wood"] #home-hero-cta-primary svg {
+  color: #FFFBF4 !important;
+}
+html[data-card-style="walnut-wood"] #home-hero-cta-secondary {
+  background: rgba(42, 25, 15, 0.85) !important;
+  border: 1px solid rgba(245, 196, 120, 0.45) !important;
+  color: #FFFBF4 !important;
+}
+html[data-card-style="walnut-wood"] #home-hero-cta-secondary svg {
+  color: #F5C478 !important;
 }

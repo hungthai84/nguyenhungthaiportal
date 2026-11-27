@@ -75,20 +75,6 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     darkMode: 'dark-liquid-glass',
   },
   {
-    id: 'iridescent-liquid-glass',
-    label: 'Kính Ánh Xà Cừ',
-    labelEn: 'Prismatic Iridescent Liquid Glass',
-    description:
-      'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome cầu vồng khúc xạ ánh sáng và bảng tùy chỉnh 9 nhóm trực quan theo thời gian thực.',
-    descriptionEn:
-      'Iridescent Liquid Glass UI: glossy translucent capsules, prismatic rainbow chrome edges, light refraction, and a full 9-group real-time customization studio.',
-    icon: 'sparkles',
-    defaultMode: 'iridescent-liquid-glass',
-    lightMode: 'iridescent-liquid-glass',
-    darkMode: 'dark-iridescent-liquid-glass',
-    colorMode: 'iridescent-liquid-glass',
-  },
-  {
     id: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
     labelEn: 'Classic Handcrafted Cowhide Leather',
@@ -137,18 +123,6 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     defaultMode: 'neumorphism-beyond',
     lightMode: 'neumorphism-beyond',
     darkMode: 'dark-neumorphism-beyond',
-  },
-  {
-    id: 'frost-ice-neu',
-    label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Frost Ice Matte Soft',
-    description:
-      'Giao diện nổi khối lì thuần chất không viền: nền và thẻ đồng nhất một màu lì (#E0E8F2), đùn nổi bằng cặp bóng đổ đối xứng sáng/tối và điểm nhấn đơn sắc.',
-    descriptionEn:
-      'Authentic borderless Neumorphism (Soft UI): uniform matte surface shared across canvas and controls (#E0E8F2), dual opposing soft shadows, inset pressed states, and a single saturated primary accent.',
-    icon: 'sparkles',
-    defaultMode: 'frost-ice-neu',
-    lightMode: 'frost-ice-neu',
   },
   {
     id: 'flat-soft-ui',
@@ -493,55 +467,6 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#1E2738] text-[#64B6FF] border-slate-600/50',
   },
   {
-    id: 'frost-ice-neu',
-    familyId: 'frost-ice-neu',
-    familyLabel: 'Băng Tuyết Nổi Khối',
-    familyLabelEn: 'Frost Ice Matte Soft',
-    mechanism: 'light',
-    counterpartMode: 'frost-ice-neu',
-    cardClassName: 'card-frost-ice-neu',
-    name: 'Băng Tuyết Nổi Khối',
-    label: 'Băng Tuyết Nổi Khối',
-    shortBadge: 'Băng Tuyết Nổi Khối',
-    tagLabel: 'Nổi khối lì · Băng tuyết sáng',
-    modeLabel: 'Băng Tuyết Nổi Khối',
-    isDark: false,
-    icon: 'sun',
-    color: '#5B57E8',
-    desc: 'Giao diện nổi khối thuần chất: bề mặt lì đồng nhất #E0E8F2 không viền, không mờ kính, đùn nổi bằng cặp bóng mềm đối xứng sáng tối và nhấn lõm tinh tế.',
-    cardSampleStyle: {
-      background: '#E0E8F2',
-      backdropFilter: 'none',
-      WebkitBackdropFilter: 'none',
-      borderRadius: '14px',
-      border: 'none',
-      boxShadow:
-        '-7px -7px 16px rgba(255, 255, 255, 0.86), 7px 7px 16px rgba(163, 179, 199, 0.58)',
-      color: '#18273B',
-    },
-    miniPreviewWrapStyle: {
-      background: '#E0E8F2',
-      border: 'none',
-      boxShadow:
-        'inset -4px -4px 9px rgba(255, 255, 255, 0.85), inset 4px 4px 9px rgba(163, 179, 199, 0.56)',
-    },
-    miniTabStyle: {
-      background: '#E0E8F2',
-      color: '#18273B',
-      border: 'none',
-      boxShadow:
-        '-4px -4px 9px rgba(255, 255, 255, 0.86), 4px 4px 9px rgba(163, 179, 199, 0.56)',
-    },
-    miniBtnStyle: {
-      background: '#5B57E8',
-      color: '#FFFFFF',
-      border: 'none',
-      boxShadow:
-        '-3px -3px 8px rgba(255, 255, 255, 0.80), 4px 4px 10px rgba(91, 87, 232, 0.34)',
-    },
-    badgeColorClass: 'bg-[#E0E8F2] text-[#433EC9] border-0',
-  },
-  {
     id: 'flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
@@ -642,7 +567,7 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     modeLabel: 'Kính Mờ Phân Lớp',
     isDark: false,
     icon: 'layers',
-    color: '#e84118',
+    color: '#FF2E93',
     desc: 'Lớp nền bán trong suốt, ánh sáng dịu, phân cấp cửa sổ và bề mặt tinh tế theo phong cách Windows hiện đại.',
     cardSampleStyle: {
       background: 'rgba(255, 255, 255, 0.30)',
@@ -664,10 +589,10 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       borderColor: 'rgba(255, 255, 255, 0.28)',
     },
     miniBtnStyle: {
-      background: 'linear-gradient(135deg, #e84118 0%, #c23616 100%)',
+      background: 'linear-gradient(135deg, #FF2E93 0%, #E11D48 100%)',
       color: '#FDFDFD',
     },
-    badgeColorClass: 'bg-[#fff3f0] text-[#c23616] border-[#e84118]/30 shadow-sm',
+    badgeColorClass: 'bg-pink-50 text-[#FF2E93] border-pink-300/40 shadow-xs',
   },
   {
     id: 'gradient-dopamine',
@@ -713,96 +638,6 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FFFFFF',
     },
     badgeColorClass: 'bg-pink-50 text-[#FF2E93] border-pink-300/70 shadow-xs',
-  },
-  {
-    id: 'iridescent-liquid-glass',
-    familyId: 'iridescent-liquid-glass',
-    familyLabel: 'Kính Ánh Xà Cừ',
-    familyLabelEn: 'Prismatic Iridescent Liquid Glass',
-    mechanism: 'light',
-    counterpartMode: 'dark-iridescent-liquid-glass',
-    cardClassName: 'card-iridescent-liquid-glass',
-    name: 'Kính Xà Cừ Sáng',
-    label: 'Kính Xà Cừ Sáng',
-    shortBadge: 'Kính Xà Cừ Sáng',
-    tagLabel: 'Kính lỏng ánh xà cừ · Sáng & Tùy chỉnh 9 nhóm',
-    modeLabel: 'Kính Xà Cừ Sáng',
-    isDark: false,
-    icon: 'sparkles',
-    color: '#06B6D4',
-    desc: 'Kính lỏng ánh xà cừ đa sắc: nền trắng sữa phản quang, nút Capsule Glossy cam & xanh Cyan, viền Chrome ánh cầu vồng và 9 nhóm tùy chỉnh sâu.',
-    cardSampleStyle: {
-      background:
-        'linear-gradient(145deg, rgba(255, 255, 255, 0.86) 0%, rgba(232, 247, 255, 0.78) 46%, rgba(255, 238, 249, 0.82) 100%)',
-      backdropFilter: 'blur(24px) saturate(185%)',
-      WebkitBackdropFilter: 'blur(24px) saturate(185%)',
-      borderRadius: '16px',
-      border: '1px solid rgba(255, 255, 255, 0.92)',
-      boxShadow:
-        '0 18px 42px -12px rgba(6, 182, 212, 0.24), 0 8px 22px -6px rgba(139, 92, 246, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.96)',
-      color: '#0F172A',
-    },
-    miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(224, 247, 255, 0.74) 52%, rgba(255, 237, 213, 0.64) 100%)',
-      borderColor: 'rgba(255, 255, 255, 0.92)',
-      borderWidth: '1px',
-    },
-    miniTabStyle: {
-      background: 'linear-gradient(135deg, #22D3EE 0%, #06B6D4 55%, #8B5CF6 100%)',
-      color: '#FFFFFF',
-      borderColor: 'rgba(255, 255, 255, 0.82)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #FB923C 0%, #F97316 58%, #EC4899 100%)',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-cyan-50/90 text-[#0284C7] border-cyan-200/80 shadow-xs',
-  },
-  {
-    id: 'dark-iridescent-liquid-glass',
-    familyId: 'iridescent-liquid-glass',
-    familyLabel: 'Kính Ánh Xà Cừ',
-    familyLabelEn: 'Prismatic Iridescent Liquid Glass',
-    mechanism: 'dark',
-    counterpartMode: 'iridescent-liquid-glass',
-    cardClassName: 'card-dark-iridescent-liquid-glass',
-    name: 'Kính Xà Cừ Tối',
-    label: 'Kính Xà Cừ Tối',
-    shortBadge: 'Kính Xà Cừ Tối',
-    tagLabel: 'Kính lỏng ánh xà cừ · Tối & Khúc xạ Chrome',
-    modeLabel: 'Kính Xà Cừ Tối',
-    isDark: true,
-    icon: 'moon',
-    color: '#22D3EE',
-    desc: 'Phiên bản tối của Kính lỏng ánh xà cừ đa sắc: mặt kính tối bóng, viền Chrome phản xạ cầu vồng, nút Capsule cam & Cyan phát sáng nổi khối.',
-    cardSampleStyle: {
-      background:
-        'linear-gradient(145deg, rgba(17, 24, 45, 0.84) 0%, rgba(12, 18, 36, 0.90) 56%, rgba(23, 18, 46, 0.88) 100%)',
-      backdropFilter: 'blur(24px) saturate(185%)',
-      WebkitBackdropFilter: 'blur(24px) saturate(185%)',
-      borderRadius: '16px',
-      border: '1px solid rgba(125, 211, 252, 0.36)',
-      boxShadow:
-        '0 20px 46px -12px rgba(2, 6, 23, 0.78), 0 0 26px -8px rgba(34, 211, 238, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.24)',
-      color: '#F8FAFC',
-    },
-    miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(15, 23, 42, 0.84) 0%, rgba(30, 27, 75, 0.72) 55%, rgba(8, 51, 68, 0.76) 100%)',
-      borderColor: 'rgba(125, 211, 252, 0.36)',
-      borderWidth: '1px',
-    },
-    miniTabStyle: {
-      background: 'linear-gradient(135deg, #22D3EE 0%, #38BDF8 55%, #A855F7 100%)',
-      color: '#090D1A',
-      borderColor: 'rgba(255, 255, 255, 0.32)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #FB923C 0%, #F97316 58%, #EC4899 100%)',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-slate-900/90 text-[#67E8F9] border-cyan-400/40 shadow-xs',
   },
 ];
 
@@ -888,18 +723,6 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['neumorphism-beyond'],
     dark: CARD_STYLES_MAP['dark-neumorphism-beyond'],
   },
-  'frost-ice-neu': {
-    familyId: 'frost-ice-neu',
-    label: 'Băng Tuyết Nổi Khối',
-    labelEn: 'Frost Ice Matte Soft',
-    description:
-      'Băng Tuyết Nổi Khối: nổi khối lì thuần chất không viền trên nền #E0E8F2 với bóng nổi đối xứng.',
-    descriptionEn:
-      'Frost Ice Neumorphism: borderless matte Soft UI (#E0E8F2) with dual soft extrusion, inset pressed states, and a single saturated primary accent.',
-    icon: 'sparkles',
-    light: CARD_STYLES_MAP['frost-ice-neu'],
-    dark: CARD_STYLES_MAP['frost-ice-neu'],
-  },
   'flat-soft-ui': {
     familyId: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
@@ -937,19 +760,6 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['gradient-dopamine'],
     dark: CARD_STYLES_MAP['gradient-dopamine'],
     color: CARD_STYLES_MAP['gradient-dopamine'],
-  },
-  'iridescent-liquid-glass': {
-    familyId: 'iridescent-liquid-glass',
-    label: 'Kính Ánh Xà Cừ',
-    labelEn: 'Prismatic Iridescent Liquid Glass',
-    description:
-      'Kính lỏng ánh xà cừ đa sắc: nút Capsule Glossy nổi khối, viền Chrome ánh cầu vồng và bảng tùy chỉnh 9 nhóm trực quan.',
-    descriptionEn:
-      'Iridescent Liquid Glass UI: glossy capsules, prismatic rainbow chrome borders, light refraction, and a 9-group live theme studio.',
-    icon: 'sparkles',
-    light: CARD_STYLES_MAP['iridescent-liquid-glass'],
-    dark: CARD_STYLES_MAP['dark-iridescent-liquid-glass'],
-    color: CARD_STYLES_MAP['iridescent-liquid-glass'],
   },
 };
 
@@ -996,6 +806,10 @@ export const getThemeForMechanism = (
 };
 
 const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
+  'frost-ice-neu': 'neumorphism-beyond',
+  'dark-frost-ice-neu': 'dark-neumorphism-beyond',
+  'iridescent-liquid-glass': 'liquid-glass',
+  'dark-iridescent-liquid-glass': 'dark-liquid-glass',
   'soft-indigo-fintech': 'neumorphism-beyond',
   'dark-soft-indigo-fintech': 'dark-liquid-glass',
   'light-cowhide-leather': 'liquid-glass',

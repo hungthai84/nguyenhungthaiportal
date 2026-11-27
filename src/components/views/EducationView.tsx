@@ -115,24 +115,26 @@ const mapEducationSkillToSwot = (skill: string): { skillId: string; quadrant: 'S
   return { skillId: 's-1', quadrant: 'S' };
 };
 
-// Bảng màu sắc đa dạng độc bản cho từng thẻ học vấn
+// Bảng màu sắc 14 khóa học đa dạng độc bản cho từng thẻ học vấn
 const DISTINCT_COURSE_PALETTE = [
-  '#10B981', // Emerald
-  '#0EA5E9', // Sky Blue
-  '#8B5CF6', // Violet
-  '#F59E0B', // Amber
-  '#EC4899', // Pink / Rose
-  '#06B6D4', // Cyan
-  '#3B82F6', // Blue
-  '#14B8A6', // Teal
-  '#F97316', // Orange
-  '#A855F7', // Purple
-  '#6366F1', // Indigo
-  '#E11D48', // Crimson
+  '#2563EB', // 1. Sapphire Blue
+  '#06B6D4', // 2. Glacial Aqua Cyan
+  '#E11D48', // 3. Scarlet Crimson
+  '#10B981', // 4. Pure Emerald Green
+  '#8B5CF6', // 5. Royal Violet Amethyst
+  '#F59E0B', // 6. Golden Amber
+  '#EC4899', // 7. Fuchsia Rose
+  '#6366F1', // 8. Midnight Indigo
+  '#14B8A6', // 9. Oceanic Deep Teal
+  '#84CC16', // 10. Forest Lime
+  '#1E3A8A', // 11. Midnight Navy
+  '#F97316', // 12. Tangerine Orange
+  '#D946EF', // 13. Electric Orchid
+  '#475569', // 14. Slate Charcoal
 ];
 
 function getCourseColor(course: EducationCourse, idx: number): string {
-  if (course.accentColor && course.accentColor !== '#10B981') return course.accentColor;
+  if (course.accentColor) return course.accentColor;
   return DISTINCT_COURSE_PALETTE[idx % DISTINCT_COURSE_PALETTE.length];
 }
 import {

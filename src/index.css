@@ -314,8 +314,8 @@ h3.card-title:not(h1):not(.typo-label):not(.typo-caption) {
 }
 
 .card-body-text:not(.typo-body-sm):not(.typo-body-lg):not(.typo-caption):not(.typo-label) {
-  font-size: var(--fs-body) !important;
-  line-height: var(--lh-body) !important;
+  font-size: var(--fs-body-sm, 14px) !important;
+  line-height: 1.55 !important;
 }
 
 /* Smooth 300ms transition fade for surface material switching (excludes Header, Main Container & Footer) */
@@ -697,10 +697,13 @@ html[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horo
 html.dark[data-card-style] [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-card-1):not(#horoscope-card-2):not(#horoscope-card-3):not(#horoscope-card-4):not(#horoscope-card-5):not(#horoscope-card-6):not(#horoscope-card-pillars),
 html #about-intro-card-1,
 html #about-intro-card-2,
+html #about-intro-grid-2,
 html[data-card-style] #about-intro-card-1,
 html[data-card-style] #about-intro-card-2,
+html[data-card-style] #about-intro-grid-2,
 html.dark[data-card-style] #about-intro-card-1,
-html.dark[data-card-style] #about-intro-card-2 {
+html.dark[data-card-style] #about-intro-card-2,
+html.dark[data-card-style] #about-intro-grid-2 {
   width: 100% !important;
   max-width: min(100%, var(--main-card-target-w, 1200px)) !important;
   min-width: 0 !important;
@@ -1327,10 +1330,13 @@ html[data-card-style] #contact-main-card,
 html.dark[data-card-style] #contact-main-card,
 html #about-intro-card-1,
 html #about-intro-card-2,
+html #about-intro-grid-2,
 html[data-card-style] #about-intro-card-1,
 html[data-card-style] #about-intro-card-2,
+html[data-card-style] #about-intro-grid-2,
 html.dark[data-card-style] #about-intro-card-1,
-html.dark[data-card-style] #about-intro-card-2 {
+html.dark[data-card-style] #about-intro-card-2,
+html.dark[data-card-style] #about-intro-grid-2 {
   background: var(--surface-primary-bg, var(--bg-header)) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 24px)) saturate(var(--surface-primary-saturate, 148%))) !important;
@@ -1445,20 +1451,20 @@ html #contact-main-card > div:first-child {
 
 /* Sync leather/wood surface outline parity across Header, all Main Cards, and Footer */
 
-html[data-card-style="cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
+html[data-card-style="cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #about-intro-grid-2, #pdf-page-container) {
   outline: 1.5px dashed rgba(245, 222, 179, 0.50) !important;
   outline-offset: -6px !important;
   color: #FFFFFF !important;
 }
 
-html[data-card-style="dark-cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
+html[data-card-style="dark-cowhide-leather"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #about-intro-grid-2, #pdf-page-container) {
   border: 1px solid var(--surface-primary-border, #3E3028) !important;
   outline: 1.5px dashed rgba(245, 222, 179, 0.46) !important;
   outline-offset: -6px !important;
   color: #FFF8EE !important;
 }
 
-html[data-card-style="walnut-wood"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #pdf-page-container) {
+html[data-card-style="walnut-wood"] :is(#app-header, #app-footer, .page-main-card, [data-main-card="true"], [id^="letter-card-"], #about-intro-card-1, #about-intro-card-2, #about-intro-grid-2, #pdf-page-container) {
   border: 1px solid var(--surface-primary-border, #4E2F1B) !important;
   outline: 1px solid rgba(245, 196, 120, 0.24) !important;
   outline-offset: -5px !important;
@@ -3005,9 +3011,10 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
 }
 
 html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
   #app-footer button.nav-pill,
-  button.nav-pill:not(#header-btn-hungthai-avatar),
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
@@ -3023,9 +3030,10 @@ html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-oce
 }
 
 html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
   #app-footer button.nav-pill,
-  button.nav-pill:not(#header-btn-hungthai-avatar),
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
@@ -3037,25 +3045,15 @@ html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-oce
   stroke: currentColor !important;
 }
 
-/* #header-btn-hungthai-avatar: đồng bộ theo --color-accent của giao diện đang chọn; chưa rê chuột/chưa chọn: icon & tiêu đề màu --color-accent; rê chuột/đang chọn: nền --color-accent, icon & tiêu đề màu trắng */
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
-  background: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 14%, transparent) !important;
-  background-color: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 14%, transparent) !important;
-  border-color: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 32%, transparent) !important;
+/* Nút Liên hệ (#header-btn-hungthai-avatar): Format mặc định, hiệu ứng rê chuột và chọn trang đồng bộ 100% với nút Tải PDF (#nav-item-11) ở mọi giao diện */
+html:root body #app-header button#header-btn-hungthai-avatar,
+html[data-card-style] body #app-header button#header-btn-hungthai-avatar {
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
-  color: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-svg, svg) {
-  color: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-  stroke: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg) {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
+html:root body #app-header button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]):hover,
+html[data-card-style] body #app-header button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]):hover {
+  transform: translateY(-1px) scale(1.02) !important;
 }
 
 /* Active / Selected Page Pill: Accent gradient fill + white title & badge */
@@ -3154,9 +3152,10 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]) :is(
-  #app-header button.nav-pill:not(#header-btn-hungthai-avatar),
+  #app-header button.nav-pill,
   #app-footer button.nav-pill,
-  button.nav-pill:not(#header-btn-hungthai-avatar),
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-wallpaper-btn,
@@ -3191,7 +3190,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   -webkit-backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
 }
 
-/* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH HOME PILL (KEEP AVATAR GIF) */
+/* SYNC #header-btn-hungthai-avatar SIZE & BADGE WITH PILLS (LIÊN HỆ & TẢI PDF PARITY) */
 .nav-pill-wrapper:has(> #header-btn-hungthai-avatar) {
   width: 162px !important;
   height: auto !important;
@@ -3199,9 +3198,11 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   box-sizing: border-box !important;
 }
 
-button#header-btn-hungthai-avatar .nav-pill-icon-badge {
-  height: 28px !important;
+button#header-btn-hungthai-avatar .nav-pill-icon-badge,
+button.nav-pill .nav-pill-icon-badge,
+.radial-contact-pill .radial-contact-icon-badge {
   width: 28px !important;
+  height: 28px !important;
 }
 
 button#header-btn-hungthai-avatar .nav-pill-icon-badge > img {
@@ -3221,12 +3222,6 @@ button.nav-pill .nav-pill-title,
   font-size: var(--fs-nav, 14px) !important;
   line-height: var(--lh-nav, 1.35) !important;
   font-family: var(--font-primary, 'Play', sans-serif) !important;
-}
-
-button.nav-pill:not(#header-btn-hungthai-avatar) .nav-pill-icon-badge,
-.radial-contact-pill .radial-contact-icon-badge {
-  width: 28px !important;
-  height: 28px !important;
 }
 
 #app-footer #footer-nav-capsule {
@@ -3280,19 +3275,65 @@ html.dark:root[data-card-style] body #app-footer #footer-nav-capsule :is(#footer
 }
 
 html:root body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
-html[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
-html.dark[data-card-style] body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
+html.dark[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
 html:root body #app-footer #footer-nav-capsule #footer-page-icon,
-html[data-card-style] body #app-footer #footer-nav-capsule #footer-page-icon,
-html.dark[data-card-style] body #app-footer #footer-nav-capsule #footer-page-icon,
-html:root[data-card-style="cowhide-leather"] #footer-nav-capsule #footer-page-counter,
-html:root[data-card-style="walnut-wood"] #footer-nav-capsule #footer-page-counter,
+html[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule #footer-page-icon,
+html.dark[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule #footer-page-icon,
 html:root[data-card-style="frost-ice-neu"] #footer-nav-capsule #footer-page-counter,
 html:root body #app-footer #footer-nav-capsule #footer-page-counter,
-html[data-card-style] body #app-footer #footer-nav-capsule #footer-page-counter,
-html.dark[data-card-style] body #app-footer #footer-nav-capsule #footer-page-counter {
+html[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule #footer-page-counter,
+html.dark[data-card-style]:not([data-card-style*="leather"]):not([data-card-style="walnut-wood"]) body #app-footer #footer-nav-capsule #footer-page-counter {
   color: #0284c7 !important;
   stroke: #0284c7 !important;
+}
+
+html:root:is([data-card-style="cowhide-leather"], [data-card-style="walnut-wood"]) #app-footer #footer-nav-capsule #footer-prev-btn,
+html:root:is([data-card-style="cowhide-leather"], [data-card-style="walnut-wood"]) #app-footer #footer-nav-capsule #footer-next-btn {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(245, 222, 179, 0.55) !important;
+  color: #3A1F0A !important;
+}
+html:root:is([data-card-style="cowhide-leather"], [data-card-style="walnut-wood"]) #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  color: #3A1F0A !important;
+  stroke: #3A1F0A !important;
+}
+html:root:is([data-card-style="cowhide-leather"], [data-card-style="walnut-wood"]) #app-footer #footer-nav-capsule #footer-page-icon,
+html:root:is([data-card-style="cowhide-leather"], [data-card-style="walnut-wood"]) #app-footer #footer-nav-capsule #footer-page-counter {
+  color: #FDE68A !important;
+  stroke: #FDE68A !important;
+}
+
+html:root[data-card-style="deep-ocean"] #app-footer #footer-nav-capsule #footer-prev-btn,
+html:root[data-card-style="deep-ocean"] #app-footer #footer-nav-capsule #footer-next-btn {
+  background: rgba(14, 34, 68, 0.90) !important;
+  border: 1px solid rgba(56, 189, 248, 0.40) !important;
+  color: #38BDF8 !important;
+}
+html:root[data-card-style="deep-ocean"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+html:root[data-card-style="deep-ocean"] #app-footer #footer-nav-capsule #footer-page-icon,
+html:root[data-card-style="deep-ocean"] #app-footer #footer-nav-capsule #footer-page-counter {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+html:root[data-card-style="dark-cowhide-leather"] #app-footer #footer-nav-capsule #footer-prev-btn,
+html:root[data-card-style="dark-cowhide-leather"] #app-footer #footer-nav-capsule #footer-next-btn {
+  background: rgba(30, 20, 15, 0.85) !important;
+  border: 1px dashed rgba(245, 222, 179, 0.42) !important;
+  color: #E5B87E !important;
+}
+html:root[data-card-style="dark-cowhide-leather"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+}
+html:root[data-card-style="dark-cowhide-leather"] #app-footer #footer-nav-capsule #footer-page-icon,
+html:root[data-card-style="dark-cowhide-leather"] #app-footer #footer-nav-capsule #footer-page-counter {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
 }
 
 #app-footer #footer-nav-capsule #footer-page-counter {
@@ -6418,8 +6459,8 @@ html:root[data-card-style] body #global-content-viewport:not(:has(#pdf-page-cont
   max-height: 82% !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   box-sizing: border-box !important;
 }
 
@@ -6580,8 +6621,8 @@ html:root[data-card-style] body #global-content-viewport {
   max-height: 100% !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   box-sizing: border-box !important;
 }
 
@@ -8448,14 +8489,17 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
   display: flex;
   height: 320px;
   width: 220px;
-  background-color: #17141d;
-  border-radius: 12px;
-  box-shadow: -1rem 0 3rem rgba(0, 0, 0, 0.45);
+  background-color: var(--bg-card, #17141d);
+  background: var(--bg-card, #17141d);
+  border: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.15));
+  border-radius: var(--radius-card, 12px);
+  box-shadow: var(--shadow-card, -1rem 0 3rem rgba(0, 0, 0, 0.45));
   transition: 0.4s ease-out;
   position: relative;
   left: 0px;
   cursor: pointer;
   flex-shrink: 0;
+  color: var(--text-primary);
 }
 
 .project-stack-card:not(:first-child) {
@@ -8464,6 +8508,9 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 
 .project-stack-card:hover {
   transform: translateY(-20px);
+  background: var(--bg-card, #17141d);
+  background-color: var(--bg-card, #17141d);
+  box-shadow: var(--shadow-card-hover, 0 20px 40px -10px rgba(0, 0, 0, 0.45));
   transition: 0.4s ease-out;
   z-index: 50;
 }
@@ -8538,7 +8585,22 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 /* UNIFIED SYSTEM & SERVICE VIBRANT CARDS (SHARED 3-TIER VIEW CARD LAYOUT)   */
 /* ========================================================================= */
 #services-page-container #services-main-content .services-cards-grid,
-#services-page-container #services-cards-grid.services-cards-grid,
+#services-page-container #services-cards-grid.services-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
 #systems-page-container #systems-cards-grid.systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -8554,7 +8616,13 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 
 @media (max-width: 960px) {
   #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid,
+  #services-page-container #services-cards-grid.services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(180px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+  }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -8562,7 +8630,13 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 
 @media (max-width: 600px) {
   #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid,
+  #services-page-container #services-cards-grid.services-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(170px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+  }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
@@ -8981,34 +9055,63 @@ html[data-card-style="gradient-dopamine"] {
 html:root:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within),
 html:root.dark:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -9020,34 +9123,63 @@ html:root.dark:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-
 html:root:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within),
 html:root.dark:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -9058,19 +9190,34 @@ html:root.dark:is([data-card-style="cowhide-leather"], [data-card-style="dark-co
 html:root[data-card-style="frost-ice-neu"] body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--color-surface)) !important;
+  background-color: var(--surface-primary-bg, var(--color-surface)) !important;
   border: 1px solid var(--border-muted, rgba(148, 163, 184, 0.24)) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -9081,17 +9228,31 @@ html:root[data-card-style="frost-ice-neu"] body :is(
 html:root[data-card-style="mica-fluent"] body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within) {
   background: rgba(255, 255, 255, 0.30) !important;
   background-color: rgba(255, 255, 255, 0.30) !important;
@@ -9106,34 +9267,63 @@ html:root[data-card-style="mica-fluent"] body :is(
 html:root[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within),
 html:root.dark[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
   #app-header,
   #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
   #letter-main-card,
-  #education-main-card,
-  #service-main-card,
-  #systems-main-card,
-  .page-main-card:not(#pdf-page-container),
-  [data-main-card="true"]:not(#pdf-page-container),
-  [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
   #home-main-card,
-  #contact-main-card
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #pdf-page-container,
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
 ):is(*, :hover, :focus-within) {
   background: var(--surface-primary-bg, var(--bg-main)) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main)) !important;
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
   -webkit-backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px))) saturate(var(--surface-primary-saturate, var(--glass-saturate, 140%)))) !important;
@@ -9220,8 +9410,32 @@ html:root[data-card-style] body :is(
 #experience-main-card .exp-slider-view-root .news-card-img img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
   display: block !important;
+}
+
+#experience-main-card .exp-slider-view-root .news-card-title {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+}
+
+#experience-main-card .exp-slider-view-root .exp-card-framed-box {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: none !important;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html.dark #experience-main-card .exp-slider-view-root .exp-card-framed-box {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: none !important;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* ========================================================================= */
@@ -9334,7 +9548,13 @@ html:root.dark[data-card-style] body #interface-global-customization-card {
   min-height: 224px !important;
 }
 
-#interface-page-container .theme-preset-card .theme-card-middle {
+#interface-page-container .theme-preset-card[data-expanded="true"] {
+  grid-column: 1 / -1 !important;
+  min-height: 480px !important;
+  height: auto !important;
+}
+
+#interface-page-container .theme-preset-card:not([data-expanded="true"]) .theme-card-middle {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
   gap: 0.75rem !important;
@@ -9343,6 +9563,7 @@ html:root.dark[data-card-style] body #interface-global-customization-card {
   min-width: 0 !important;
   width: 100% !important;
 }
+
 
 @container theme-showcase-card (min-width: 245px) {
   #interface-page-container .theme-preset-card .theme-card-middle {
@@ -9552,8 +9773,8 @@ html:root[data-card-style] body :is(
   #experience-main-card,
   #contact-main-card
 ) {
-  width: var(--header-synced-w, min(calc(100% - 32px), var(--main-card-target-w, 1200px))) !important;
-  max-width: var(--header-synced-w, var(--main-card-target-w, 1200px)) !important;
+  width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1200px))) !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
   margin-left: auto !important;
@@ -9589,68 +9810,21 @@ html:root[data-card-style] body :is(
     #experience-main-card,
     #contact-main-card
   ) {
-    width: calc(100% - 16px) !important;
-    max-width: calc(100% - 16px) !important;
+    width: var(--home-main-card-w, calc(100vw - 16px)) !important;
+    max-width: var(--home-main-card-w, calc(100vw - 16px)) !important;
   }
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE 2: #header-btn-hungthai-avatar SYNCED WITH --color-accent  */
+/* FINAL OVERRIDE 2: NÚT LIÊN HỆ ĐỒNG BỘ HIỆU ỨNG VỚI NÚT TRANG CHỦ & THEME   */
 /* ========================================================================= */
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) {
-  --nav-pill-accent: var(--color-accent, var(--color-primary, #4F46E5));
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
-  color: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-svg, svg) {
-  color: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-  stroke: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge,
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge,
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
-  background: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 14%, transparent) !important;
-  background-color: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 14%, transparent) !important;
-  border-color: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 32%, transparent) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]),
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]),
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) {
-  background: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-  background-color: var(--color-accent, var(--color-primary, #4F46E5)) !important;
-  background-image: none !important;
-  border-color: color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 72%, #ffffff) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-accent, var(--color-primary, #4F46E5)) 40%, transparent) !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
-html:root body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg) {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
-}
-
-html:root body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
-html.dark:root[data-card-style] body #app-header button#header-btn-hungthai-avatar:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  background: rgba(255, 255, 255, 0.22) !important;
-  background-color: rgba(255, 255, 255, 0.22) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
+#app-header button#header-btn-hungthai-avatar {
+  /* Kế thừa toàn bộ visual styles của .nav-pill & theme kính lỏng mềm mại */
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+              background 220ms ease,
+              border-color 220ms ease,
+              color 220ms ease !important;
 }
 
 /* ========================================================================= */
@@ -9684,51 +9858,137 @@ html:root[data-card-style] body #letter-main-card .nht-bento-item:not(#letter-pr
 }
 
 /* ========================================================================= */
-/* FINAL OVERRIDE 4: CARD FONT SIZE == SUB-CARD FONT SIZE ACROSS WEBSITE     */
-/* (VD: Card Giá trị cốt lõi == Sub card Tận tâm trách nhiệm = --fs-h5)     */
+/* FINAL OVERRIDE 4: KÍCH THƯỚC FONT CHỮ CỦA CARD VÀ SUB-CARD HOÀN TOÀN BẰNG NHAU */
+/* (Tiêu đề card == Tiêu đề sub-card = 16px; Nội dung card == Nội dung sub-card = 14px) */
 /* ========================================================================= */
+
+/* 1. TIÊU ĐỀ CARD == TIÊU ĐỀ SUB-CARD (CÙNG KÍCH THƯỚC 16px / var(--fs-h5)) */
 html:root body :is(
-  [data-card-title="true"]:not(h1):not(.typo-label):not(.typo-caption),
-  .card-title-synced:not(h1):not(.typo-label):not(.typo-caption),
-  h3.card-title:not(.typo-label):not(.typo-caption),
-  .card-heading__title:not(h1),
-  [data-section-card="true"]:not(.hero-banner):not(.banner-card):not([id$="-hero-banner"]) .card-header-sync :is(h2, h3, h4, h5),
-  .bento-card:not(.hero-banner):not(.banner-card):not([id$="-hero-banner"]) .card-header-sync :is(h2, h3, h4, h5),
-  [data-subcard-title="true"]:not(.typo-label):not(.typo-caption),
-  .subcard-title-synced:not(.typo-label):not(.typo-caption),
-  .pillar-heading:is(h2, h3, h4, h5, span, p),
-  [data-subcard="true"] :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title="true"]),
-  .sub-card :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title="true"]),
-  .exp-detail-subcard :is(h2, h3, h4, h5),
-  .education-subcard :is(h2, h3, h4, h5),
-  .project-detail-subcard :is(h2, h3, h4, h5),
-  .theme-modal-subcard :is(h2, h3, h4, h5)
-):not(#pdf-page-container *),
+  [data-card-title],
+  [data-subcard-title],
+  .card-title-synced,
+  .subcard-title-synced,
+  .card-title,
+  .subcard-title,
+  .card-heading__title,
+  .pillar-heading,
+  :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, div, p),
+  :is([data-section-card="true"], .bento-card, .glass-card, [data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .service-card, .system-card) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, p),
+  :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title])
+):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge),
 html:root[data-card-style] body :is(
-  [data-card-title="true"]:not(h1):not(.typo-label):not(.typo-caption),
-  .card-title-synced:not(h1):not(.typo-label):not(.typo-caption),
-  h3.card-title:not(.typo-label):not(.typo-caption),
-  .card-heading__title:not(h1),
-  [data-section-card="true"]:not(.hero-banner):not(.banner-card):not([id$="-hero-banner"]) .card-header-sync :is(h2, h3, h4, h5),
-  .bento-card:not(.hero-banner):not(.banner-card):not([id$="-hero-banner"]) .card-header-sync :is(h2, h3, h4, h5),
-  [data-subcard-title="true"]:not(.typo-label):not(.typo-caption),
-  .subcard-title-synced:not(.typo-label):not(.typo-caption),
-  .pillar-heading:is(h2, h3, h4, h5, span, p),
-  [data-subcard="true"] :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title="true"]),
-  .sub-card :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title="true"]),
-  .exp-detail-subcard :is(h2, h3, h4, h5),
-  .education-subcard :is(h2, h3, h4, h5),
-  .project-detail-subcard :is(h2, h3, h4, h5),
-  .theme-modal-subcard :is(h2, h3, h4, h5)
-):not(#pdf-page-container *) {
+  [data-card-title],
+  [data-subcard-title],
+  .card-title-synced,
+  .subcard-title-synced,
+  .card-title,
+  .subcard-title,
+  .card-heading__title,
+  .pillar-heading,
+  :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, div, p),
+  :is([data-section-card="true"], .bento-card, .glass-card, [data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard, .service-card, .system-card) :is(.card-header-sync, .subcard-header-sync) :is(h1, h2, h3, h4, h5, h6, span, p),
+  :is([data-subcard="true"], .sub-card, .exp-detail-subcard, .education-subcard, .project-detail-subcard) :is(h2, h3, h4, h5, .subcard-title, .subcard-title-synced, [data-subcard-title])
+):not(#pdf-page-container *):not(.hero-banner h1):not(.banner-card h1):not([id$="-hero-banner"] h1):not(.typo-label):not(.typo-caption):not(.typo-badge) {
   font-size: var(--fs-h5, 16px) !important;
   line-height: var(--lh-h5, var(--lh-heading, 1.35)) !important;
 }
 
+/* 2. NỘI DUNG (BODY TEXT) CARD == NỘI DUNG (BODY TEXT) SUB-CARD (CÙNG KÍCH THƯỚC 14px / var(--fs-body-sm)) */
+html:root body :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .page-main-card,
+  [data-main-card="true"],
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .service-card,
+  .system-card,
+  .pillar-card
+) :is(
+  p,
+  .card-body-text,
+  .subcard-body-text,
+  .pillar-body,
+  .typo-body,
+  .typo-body-sm
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *),
+html:root[data-card-style] body :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .page-main-card,
+  [data-main-card="true"],
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .service-card,
+  .system-card,
+  .pillar-card
+) :is(
+  p,
+  .card-body-text,
+  .subcard-body-text,
+  .pillar-body,
+  .typo-body,
+  .typo-body-sm
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi):not(.font-italianno):not(.font-handwriting):not(.typo-caption):not(.typo-label):not(.typo-badge):not(.badge):not(.chip):not(#pdf-page-container *) {
+  font-size: var(--fs-body-sm, 14px) !important;
+  line-height: 1.55 !important;
+}
+
+/* 3. PHỤ ĐỀ / CHÚ THÍCH (CAPTION) CARD == SUB-CARD (CÙNG KÍCH THƯỚC 12px / var(--fs-caption)) */
+html:root body :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .page-main-card,
+  [data-main-card="true"],
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .service-card,
+  .system-card
+) :is(
+  .pillar-sub,
+  .typo-caption,
+  .card-caption,
+  .subcard-caption
+):not(#pdf-page-container *),
+html:root[data-card-style] body :is(
+  [data-section-card="true"],
+  .bento-card,
+  .glass-card,
+  .page-main-card,
+  [data-main-card="true"],
+  [data-subcard="true"],
+  .sub-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  .service-card,
+  .system-card
+) :is(
+  .pillar-sub,
+  .typo-caption,
+  .card-caption,
+  .subcard-caption
+):not(#pdf-page-container *) {
+  font-size: var(--fs-caption, 12px) !important;
+  line-height: 1.4 !important;
+}
+
 div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-viewport:nth-of-type(1) {
   padding-top: 10px !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   padding-bottom: 10px !important;
 }
 

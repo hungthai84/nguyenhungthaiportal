@@ -478,7 +478,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           <div
             id="services-main-content"
             data-element-parent="service-main-card"
-            className="w-full flex-1 flex flex-col justify-start gap-[15px] min-w-0"
+            className="w-full flex-1 h-full min-h-0 flex flex-col justify-start gap-[15px] min-w-0 box-border"
           >
             {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC — TỰ ĐỘNG ẨN MƯỢT KHI THẺ DỊCH VỤ BUNG RỘNG */}
             <AnimatePresence initial={false}>
@@ -497,7 +497,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       : { opacity: 0, y: -14, scale: 0.98 }
                   }
                   transition={{ duration: prefersReducedMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                  className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
+                  className="banner-card hero-banner group w-full max-w-full min-h-[110px] h-[clamp(120px,17vh,155px)] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
                   style={{
                     padding: '15px',
                     width: '100%',
@@ -725,14 +725,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 id="services-cards-wrapper"
                 ref={cardsWrapperRef}
                 data-interaction-state={interactionState}
-                className="relative w-full"
+                className="relative w-full flex-1 min-h-0 h-full flex flex-col"
               >
                 <div
                   id="services-cards-grid"
                   ref={cardsGridRef}
                   aria-hidden={isAnyCardExpanded}
                   className={cn(
-                    'services-cards-grid card-grid w-full min-w-0',
+                    'services-cards-grid card-grid w-full min-w-0 flex-1 min-h-0 h-full',
                     isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
                     isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
                   )}
@@ -848,10 +848,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           '--service-card-tint': meta.tintBg,
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
-                        className="service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-5 box-border w-full h-full flex flex-col text-left cursor-pointer"
+                        className="service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-3.5 sm:p-4 md:p-[15px] box-border w-full h-full flex flex-col text-left cursor-pointer overflow-hidden"
                       >
                         {/* 3-Part Flexible Card Body */}
-                        <div className="service-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0">
+                        <div className="service-card-body relative z-10 flex flex-col flex-1 min-h-0 justify-between gap-2 w-full min-w-0">
                           {/* TOP: Frameless Icon + Short Title with matching accent color */}
                           <div
                             className="service-card-header flex items-center gap-2 min-w-0 shrink-0"

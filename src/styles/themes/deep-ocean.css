@@ -41,32 +41,47 @@ html[data-card-style="deep-ocean"] {
   --color-surface-pink: rgba(42, 28, 62, 0.78);
   --color-surface-purple: rgba(30, 29, 70, 0.78);
 
-  --color-heading: #F0F8FF;
+  --color-heading: #F4FAFF;
   --color-text: #E2EEFA;
-  --color-text-secondary: #A6C0DA;
-  --color-text-muted: #7B98B8;
+  --color-text-secondary: #BAE6FD;
+  --color-text-muted: #7C99B8;
   --color-text-inverse: #050B14;
 
   --color-primary: #38BDF8;
   --color-secondary: #06B6D4;
-  --color-tertiary: #22D3EE;
+  --color-tertiary: #7DD3FC;
   --color-accent: #38BDF8;
-  --color-indigo: #818CF8;
+  --color-indigo: #38BDF8;
   --color-blue: #38BDF8;
-  --color-cyan: #22D3EE;
-  --color-green: #34D399;
-  --color-amber: #FBBF24;
-  --color-pink: #F472B6;
-  --color-purple: #A78BFA;
+  --color-cyan: #38BDF8;
+  --color-green: #38BDF8;
+  --color-amber: #38BDF8;
+  --color-pink: #38BDF8;
+  --color-purple: #38BDF8;
 
   /* Semantic Text Tokens */
-  --text-primary: #E6F1FF;
+  --text-primary: #FFFFFF;
   --text-heading: #F4FAFF;
-  --text-secondary: #A5C0DB;
+  --text-secondary: #E2EEFA;
   --text-muted: #7C99B8;
   --text-link: #38BDF8;
-  --text-input: #F0F8FF;
-  --text-placeholder: #7C99B8;
+  --text-input: #FFFFFF;
+  --text-placeholder: rgba(226, 238, 250, 0.72);
+  --icon-primary: #38BDF8;
+  --icon-secondary: #7DD3FC;
+  --icon-muted: #7C99B8;
+
+  --accent-cyan: #38BDF8;
+  --accent-emerald: #38BDF8;
+  --accent-purple: #38BDF8;
+  --accent-pink: #38BDF8;
+  --accent-orange: #38BDF8;
+  --accent-yellow: #38BDF8;
+  --accent-blue: #38BDF8;
+  --accent-indigo: #38BDF8;
+  --accent-violet: #38BDF8;
+  --accent-rose: #38BDF8;
+  --accent-amber: #38BDF8;
 
   /* Semantic Background Tokens */
   --bg-primary: #050B14;
@@ -162,19 +177,19 @@ html[data-card-style="deep-ocean"] {
   --banner-border: rgba(56, 189, 248, 0.34);
   --bg-banner-pill: rgba(14, 38, 76, 0.84);
   --border-banner-pill: rgba(56, 189, 248, 0.34);
-  --text-banner-pill: #7DD3FC;
-  --bg-banner-cta: linear-gradient(135deg, #06B6D4 0%, #0284C7 100%);
+  --text-banner-pill: #FFFFFF;
+  --bg-banner-cta: linear-gradient(135deg, #0284C7 0%, #06B6D4 100%);
   --text-banner-cta: #FFFFFF;
-  --bg-nav-arrow: rgba(14, 34, 68, 0.72);
-  --border-nav-arrow: rgba(56, 189, 248, 0.36);
-  --text-nav-arrow: #7DD3FC;
+  --bg-nav-arrow: linear-gradient(145deg, #0C264D 0%, #061833 100%);
+  --border-nav-arrow: rgba(56, 189, 248, 0.45);
+  --text-nav-arrow: #38BDF8;
 
   --pillar-blue: #38BDF8;
-  --pillar-cyan: #22D3EE;
-  --pillar-emerald: #34D399;
-  --pillar-violet: #A78BFA;
-  --pillar-amber: #FBBF24;
-  --pillar-rose: #FB7185;
+  --pillar-cyan: #38BDF8;
+  --pillar-emerald: #38BDF8;
+  --pillar-violet: #38BDF8;
+  --pillar-amber: #38BDF8;
+  --pillar-rose: #38BDF8;
 
   --app-bg-base: #050B14;
   --app-bg-gradient:
@@ -185,7 +200,7 @@ html[data-card-style="deep-ocean"] {
 
 html[data-card-style="deep-ocean"] body {
   background-color: #050B14;
-  color: #E6F1FF;
+  color: #F4F4F5;
 }
 
 /* Layer Card Level 1: Header · Main Card · Footer */
@@ -198,6 +213,7 @@ html[data-card-style="deep-ocean"] :is(
   [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
   #contact-main-card,
   [id^="letter-card-"]
 ) {
@@ -328,3 +344,287 @@ html[data-card-style="deep-ocean"] :is(
     animation: none;
   }
 }
+
+/* ========================================================================= */
+/* THEME ĐẠI DƯƠNG SÂU THẲM: CẤU HÌNH ĐỒNG BỘ MÀU FONT CHỮ VÀ ICON - THEO GIAO DIỆN ĐẠI DƯƠNG SÂU THẲM */
+/* Bảng màu chuẩn: Xanh ngọc / Băng tuyết (#38BDF8), Xanh nhạt (#7DD3FC), Trắng băng tuyết (#F4FAFF), Navy sâu (#0E2244) */
+/* Không dùng nhiều màu sắc rực rỡ, toàn bộ icon và text quy về gam xanh đại dương đơn sắc */
+/* ========================================================================= */
+
+/* 1. ÉP TOÀN BỘ ICON (SVG, WEB-ICON, FA) VỀ MÀU XANH ĐẠI DƯƠNG SÂU THẲM (#38BDF8) */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  svg:not(.nav-pill-icon-svg):not([class*="avatar"]):not(#weather-widget-card *):not(.weather-card *),
+  .web-icon:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  i:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  [data-icon="true"]:not(.nav-pill-icon-svg)
+):not(#app-header *):not(#app-footer *):not(.theme-prev-next-btn *):not(#home-hero-video-mute-btn *) {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  svg:not(.nav-pill-icon-svg):not([class*="avatar"]):not(#weather-widget-card *):not(.weather-card *),
+  .web-icon:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  i:not(.nav-pill-icon-svg):not([class*="avatar"]),
+  [data-icon="true"]:not(.nav-pill-icon-svg)
+):not(#app-header *):not(#app-footer *):not(.theme-prev-next-btn *):not(#home-hero-video-mute-btn *) path {
+  stroke: #38BDF8 !important;
+}
+
+/* 2. HUY HIỆU QUỸ ĐẠO & LIÊN KẾT MẠNG XÃ HỘI HOMEPAGE ĐỒNG BỘ GIAO DIỆN ĐẠI DƯƠNG SÂU THẲM */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) {
+  background: linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%) !important;
+  background-color: #0E2244 !important;
+  background-image: linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(3, 9, 20, 0.55), inset 0 1px 2px rgba(125, 211, 252, 0.22) !important;
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  [id^="home-orbit-icon-"],
+  [id^="home-social-"]
+) :is(svg, .web-icon, i) {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+/* 3. ĐỒNG BỘ MÀU CHỮ TIÊU ĐỀ & NỘI DUNG (THEME ĐẠI DƯƠNG SÂU THẲM) */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  h1, h2, h3,
+  [data-card-title="true"],
+  .card-title-synced,
+  .card-heading__title,
+  .card-title
+) {
+  color: #F4FAFF !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  h4, h5, h6,
+  [data-subcard-title="true"],
+  .subcard-title-synced,
+  .subcard-title,
+  .pillar-heading
+) {
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  p,
+  .card-body-text,
+  .typo-body,
+  .typo-body-sm,
+  .typo-body-lg
+):not(.banner-quote):not(.motto-quote-text):not(.typo-kpi) {
+  color: #E2EEFA !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  .typo-caption,
+  .text-muted,
+  [class*="text-slate-"],
+  [class*="text-gray-"],
+  [class*="text-zinc-"]
+):not([class*="font-mono"]):not([class*="badge"]) {
+  color: #7C99B8 !important;
+}
+
+/* 4. CHUYỂN TOÀN BỘ NHÃN / BADGE / TAG VỀ MÀU NỀN NAVY VIỀN CYAN (#38BDF8) */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  .typo-badge,
+  .typo-label,
+  .project-detail-chip,
+  .education-skill-chip,
+  .project-card-tag,
+  .project-card-order-badge,
+  .service-card-tag,
+  .system-card-tag,
+  .milestone-badge,
+  [class*="badge"]:not(.nav-pill-icon-badge),
+  [class*="chip"],
+  [class*="tag"]:not(nav):not(header):not(footer):not(main)
+) {
+  background: rgba(14, 34, 68, 0.85) !important;
+  background-color: rgba(14, 34, 68, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.34) !important;
+  color: #38BDF8 !important;
+}
+
+/* 5. LOẠI BỎ TRIỆT ĐỂ CÁC LỚP TIỆN ÍCH ĐA SẮC (BLUE, GREEN, PURPLE, ROSE, ETC.) ĐỂ ĐƠN SẮC HOÀN TOÀN */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  [class*="text-blue-"],
+  [class*="text-indigo-"],
+  [class*="text-purple-"],
+  [class*="text-violet-"],
+  [class*="text-emerald-"],
+  [class*="text-green-"],
+  [class*="text-teal-"],
+  [class*="text-cyan-"],
+  [class*="text-sky-"],
+  [class*="text-rose-"],
+  [class*="text-pink-"],
+  [class*="text-red-"],
+  [class*="text-fuchsia-"]
+):not(img):not(video) {
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  [class*="bg-blue-"],
+  [class*="bg-indigo-"],
+  [class*="bg-purple-"],
+  [class*="bg-violet-"],
+  [class*="bg-emerald-"],
+  [class*="bg-green-"],
+  [class*="bg-teal-"],
+  [class*="bg-cyan-"],
+  [class*="bg-sky-"],
+  [class*="bg-rose-"],
+  [class*="bg-pink-"],
+  [class*="bg-red-"],
+  [class*="bg-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: rgba(14, 34, 68, 0.85) !important;
+  background-color: rgba(14, 34, 68, 0.85) !important;
+  border-color: rgba(56, 189, 248, 0.34) !important;
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(
+  [class*="from-blue-"],
+  [class*="from-indigo-"],
+  [class*="from-purple-"],
+  [class*="from-violet-"],
+  [class*="from-emerald-"],
+  [class*="from-green-"],
+  [class*="from-teal-"],
+  [class*="from-cyan-"],
+  [class*="from-sky-"],
+  [class*="from-rose-"],
+  [class*="from-pink-"],
+  [class*="from-red-"],
+  [class*="from-fuchsia-"]
+):not(img):not(video):not([class*="avatar"]) {
+  background: linear-gradient(135deg, rgba(14, 34, 68, 0.90) 0%, rgba(8, 24, 52, 0.90) 100%) !important;
+  background-image: linear-gradient(135deg, rgba(14, 34, 68, 0.90) 0%, rgba(8, 24, 52, 0.90) 100%) !important;
+  border-color: rgba(56, 189, 248, 0.34) !important;
+  color: #38BDF8 !important;
+}
+
+/* 6. ĐỒNG BỘ NÚT HEADER & FOOTER ĐẢM BẢO 100% TÔNG MÀU ĐẠI DƯƠNG SÂU THẲM */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-title {
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: #FFFFFF !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: rgba(14, 34, 68, 0.85) !important;
+  background-color: rgba(14, 34, 68, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 2px 6px rgba(3, 9, 20, 0.45) !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(135deg, #0284C7 0%, #06B6D4 100%) !important;
+  border-color: rgba(56, 189, 248, 0.75) !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: rgba(8, 24, 52, 0.90) !important;
+  border: 1px solid rgba(125, 211, 252, 0.50) !important;
+  box-shadow: inset 0 1px 2px rgba(125, 211, 252, 0.22), 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
+  background-color: rgba(56, 189, 248, 0.30) !important;
+}
+
+/* 7. FOOTER CAPSULE ĐIỀU HƯỚNG TRANG */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule #footer-prev-btn,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule #footer-next-btn {
+  background: rgba(14, 34, 68, 0.90) !important;
+  border: 1px solid rgba(56, 189, 248, 0.40) !important;
+  color: #38BDF8 !important;
+}
+
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule #footer-page-counter,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule #footer-page-icon,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule svg,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #footer-nav-capsule path {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+/* 8. VIDEO PLAY BUTTON & MUTE BUTTON */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .video-play-btn,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .theme-video-capsule {
+  --vp-chase-a: #38BDF8 !important;
+  --vp-chase-b: #0284C7 !important;
+  --vp-bg: linear-gradient(135deg, #0C264D 0%, #061833 100%) !important;
+  --vp-bg-hover: linear-gradient(135deg, #0F3266 0%, #092244 100%) !important;
+  --vp-border: rgba(56, 189, 248, 0.45) !important;
+  color: #38BDF8 !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .video-play-btn svg,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .theme-video-capsule svg {
+  color: #38BDF8 !important;
+  fill: #38BDF8 !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .video-play-btn .video-play-btn__sound.is-muted,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) button#home-hero-video-mute-btn {
+  background: #0E2244 !important;
+  border-color: rgba(56, 189, 248, 0.45) !important;
+  color: #38BDF8 !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) .video-play-btn .video-play-btn__sound.is-muted svg,
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) button#home-hero-video-mute-btn svg {
+  color: #38BDF8 !important;
+  stroke: #38BDF8 !important;
+}
+
+/* 9. NÚT ĐIỀU HƯỚNG TRANG & NÚT TRANG CHỦ THEME ĐẠI DƯƠNG SÂU THẲM */
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#footer-prev-btn, #footer-next-btn, #footer-page-counter, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn) {
+  background: #091C36 !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  color: #38BDF8 !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) :is(#footer-prev-btn, #footer-next-btn, .nav-arrow-btn, .theme-prev-next-btn, #education-book-close-btn):hover {
+  background: #0D284D !important;
+  border-color: #38BDF8 !important;
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-primary {
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.45) !important;
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-primary svg {
+  color: #FFFFFF !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-secondary {
+  background: rgba(9, 28, 54, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  color: #E0F2FE !important;
+}
+html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-secondary svg {
+  color: #38BDF8 !important;
+}
+

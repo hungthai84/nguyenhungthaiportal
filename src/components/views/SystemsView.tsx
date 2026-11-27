@@ -2712,13 +2712,19 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         );
                       })()}
 
-                      {/* BENTO TILE 2 (Hero Overview & Live Media: spans 2 cols tablet/desktop) */}
+                      {/* BENTO TILE 2 (Hero Overview & Live Media: Mẫu Thẻ 1 & 3 Bento Studio) */}
                       <div
                         id="system-detail-overview-card"
                         data-subcard="true"
-                        className="sys-bento-tile sys-bento-tile--media md:col-span-2 lg:col-span-2 gap-3.5 justify-between"
+                        className="sys-bento-tile sys-bento-tile--media md:col-span-2 lg:col-span-2 gap-3.5 justify-between relative overflow-hidden"
                       >
-                        <div className="w-full flex flex-col gap-3 min-w-0">
+                        {/* Bento Studio glowing ambient orb */}
+                        <div
+                          className="absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-25"
+                          style={{ backgroundColor: expandedAccent }}
+                        />
+
+                        <div className="w-full flex flex-col gap-3 min-w-0 relative z-10">
                           <div className="w-full flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
                             <h3
                               className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 flex items-center gap-2"
@@ -2740,7 +2746,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               <div
                                 data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
                                 className={cn(
-                                  'sys-bento-media-frame sm:col-span-5 relative aspect-video p-1 box-border',
+                                  'sys-bento-media-frame sm:col-span-5 relative aspect-video p-1 box-border rounded-xl overflow-hidden shadow-md border border-white/10',
                                   expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
                                 )}
                               >

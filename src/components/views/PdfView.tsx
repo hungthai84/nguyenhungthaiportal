@@ -324,15 +324,18 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         }
       `}</style>
 
-      {/* THANH ĐIỀU KHIỂN XUẤT TẢI PDF (NO-PRINT) */}
+      {/* THANH ĐIỀU KHIỂN XUẤT TẢI PDF (Mẫu Thẻ 27 Bento Studio: Bộ Nhận Diện Tài Nguyên) */}
       <header
         id="pdf-hero-banner"
         data-element-name="Banner card PDF"
         data-element-type="banner-card"
         data-section-card="true"
         data-has-compact-menu="true"
-        className="pdf-toolbar banner-card hero-banner group no-print w-full max-w-[1250px] mx-auto mb-4 p-[15px] rounded-[14px] relative overflow-visible border text-[var(--text-primary)] flex flex-col gap-3 shrink-0 z-30 transition-all duration-300"
+        className="pdf-toolbar banner-card hero-banner group no-print w-full max-w-[1250px] mx-auto mb-4 p-[15px] sm:p-5 rounded-[14px] relative overflow-hidden border text-[var(--text-primary)] flex flex-col gap-3 shrink-0 z-30 transition-all duration-300 shadow-xl"
       >
+        {/* Bento Studio glowing ambient orb */}
+        <div className="absolute -right-12 -top-12 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+
         <div
           className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
         >
@@ -345,11 +348,16 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
         <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="banner-header-row relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
-          <div className="card-header-sync flex items-center gap-2 min-w-0 text-blue-600 dark:text-sky-400">
+          <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400">
             <WebIcon name="file-text" className="w-[22px] h-[22px] shrink-0" />
-            <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate" data-card-title="true">
-              Hồ sơ năng lực
-            </h1>
+            <div className="flex flex-col min-w-0">
+              <h1 className="typo-h3 card-title-synced font-bold font-play leading-tight text-blue-600 dark:text-sky-400 truncate m-0" data-card-title="true">
+                Hồ sơ năng lực
+              </h1>
+              <span className="text-[11px] font-medium text-[var(--text-muted)] truncate">
+                Tài liệu CV Portfolio chuẩn in ấn A4
+              </span>
+            </div>
           </div>
 
           <div className="banner-desktop-controls flex flex-1 items-center justify-between gap-2.5 flex-wrap min-w-0">
@@ -366,7 +374,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 aria-haspopup="menu"
                 aria-label="Mục lục điều hướng nhanh 9 phần"
                 title="Mục lục 9 phần CV"
-                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3 py-0 rounded-full transition-colors cursor-pointer typo-button font-play shrink-0"
+                className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-all cursor-pointer typo-button font-play shrink-0 border border-white/10 hover:border-white/20 shadow-xs"
               >
                 <WebIcon name="list" size={15} className="text-blue-600 dark:text-sky-400 shrink-0" />
                 <span>Mục lục</span>
@@ -393,7 +401,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.16 }}
-                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-[min(280px,calc(100vw-48px))] rounded-[14px] p-2 z-50 flex flex-col gap-1"
+                    className="banner-dropdown-menu dropdown-menu-enter absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-[min(280px,calc(100vw-48px))] rounded-[14px] p-2 z-50 flex flex-col gap-1 shadow-2xl backdrop-blur-md"
                   >
                     <div className="px-2.5 py-1 typo-label text-[var(--text-muted)] tracking-wider border-b border-[var(--border-subcard)] mb-1">
                       Mục lục 9 phần CV
@@ -427,13 +435,13 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center justify-end gap-2 shrink-0 flex-wrap ml-auto">
+            <div className="flex items-center justify-end gap-2.5 shrink-0 flex-wrap ml-auto">
               <button
                 type="button"
                 onClick={() => handlePrintOrExport('download')}
                 disabled={isExporting}
                 style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60"
+                className="banner-primary-cta inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer disabled:opacity-60 shadow-md hover:scale-[1.02] active:scale-95"
                 title="Tải tệp CV Portfolio dưới dạng PDF"
               >
                 <WebIcon name="download" size={16} />
@@ -450,7 +458,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                     window.dispatchEvent(new CustomEvent('app:set-slide', { detail: { tabIndex: 0, slide: 0 } }));
                   }
                 }}
-                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer shrink-0"
+                className="banner-control-pill inline-flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full typo-button font-bold transition-all duration-200 cursor-pointer shrink-0 border border-white/10 hover:border-white/20 shadow-xs"
                 title="Trở về Trang chủ"
               >
                 <WebIcon name="arrow-left" size={15} />

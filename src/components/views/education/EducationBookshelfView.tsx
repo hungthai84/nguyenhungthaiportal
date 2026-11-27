@@ -25,20 +25,20 @@ export interface EducationBookshelfViewProps {
 }
 
 const DISTINCT_BOOK_FALLBACK_COLORS = [
-  '#10B981', // Emerald
-  '#0EA5E9', // Sky
-  '#8B5CF6', // Violet
-  '#F59E0B', // Amber
-  '#EC4899', // Pink
-  '#06B6D4', // Cyan
-  '#3B82F6', // Royal Blue
-  '#14B8A6', // Teal
-  '#F97316', // Orange
-  '#A855F7', // Purple
-  '#6366F1', // Indigo
-  '#E11D48', // Crimson
-  '#059669', // Jade
-  '#D97706', // Ochre
+  '#2563EB', // 1. Sapphire Blue
+  '#06B6D4', // 2. Glacial Aqua Cyan
+  '#E11D48', // 3. Scarlet Crimson
+  '#10B981', // 4. Pure Emerald Green
+  '#8B5CF6', // 5. Royal Violet Amethyst
+  '#F59E0B', // 6. Golden Amber
+  '#EC4899', // 7. Fuchsia Rose
+  '#6366F1', // 8. Midnight Indigo
+  '#14B8A6', // 9. Oceanic Deep Teal
+  '#84CC16', // 10. Forest Lime
+  '#1E3A8A', // 11. Midnight Navy
+  '#F97316', // 12. Tangerine Orange
+  '#D946EF', // 13. Electric Orchid
+  '#475569', // 14. Slate Charcoal
 ];
 
 
@@ -255,8 +255,10 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
         className="disc-out edu-shelf-book-cover"
         style={{
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          border: '1px solid rgba(255, 255, 255, 0.28)',
-          boxShadow: `0 18px 36px -14px rgba(2, 8, 28, 0.34), 0 8px 22px -10px ${glowShadow}`,
+          border: 'none',
+          boxShadow: 'none',
+          background: 'transparent',
+          padding: 0,
           containerType: 'inline-size',
         }}
       >

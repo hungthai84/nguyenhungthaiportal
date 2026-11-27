@@ -313,16 +313,29 @@ export default function App() {
       if (rafId !== null) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const headerMeasured = headerEl ? Math.round(headerEl.getBoundingClientRect().height) : 64;
-        const headerWidth = headerEl ? Math.round(headerEl.getBoundingClientRect().width) : 0;
         const footerMeasured = Math.round(footerEl.getBoundingClientRect().height);
+
+        // Đo chính xác chiều ngang của Đối tượng "Thẻ chính Trang chủ 1 - Tầm nhìn Lãnh đạo" (#home-main-card-1)
+        const homeCardEl =
+          document.getElementById('home-main-card-1') ||
+          document.querySelector<HTMLElement>('.page-main-card:not(#pdf-page-container)') ||
+          document.querySelector<HTMLElement>('[data-main-card="true"]:not(#pdf-page-container)');
+
+        const homeCardMeasuredW = homeCardEl ? Math.round(homeCardEl.getBoundingClientRect().width) : 0;
+        const targetWidth = homeCardMeasuredW > 0
+          ? homeCardMeasuredW
+          : Math.min(1200, Math.max(280, window.innerWidth - (window.innerWidth < 640 ? 16 : 32)));
+
         if (headerMeasured > 0) {
           const hVal = `${headerMeasured}px`;
           rootEl.style.setProperty('--header-bar-h', hVal);
           document.documentElement.style.setProperty('--header-bar-h', hVal);
         }
-        if (headerWidth > 0) {
-          const wVal = `${headerWidth}px`;
+        if (targetWidth > 0) {
+          const wVal = `${targetWidth}px`;
+          rootEl.style.setProperty('--home-main-card-w', wVal);
           rootEl.style.setProperty('--header-synced-w', wVal);
+          document.documentElement.style.setProperty('--home-main-card-w', wVal);
           document.documentElement.style.setProperty('--header-synced-w', wVal);
         }
         if (footerMeasured > 0) {
@@ -341,6 +354,10 @@ export default function App() {
         : null;
     if (headerEl) ro?.observe(headerEl);
     ro?.observe(footerEl);
+    const homeTarget = document.getElementById('home-main-card-1');
+    if (homeTarget) ro?.observe(homeTarget);
+    const mainViewport = document.getElementById('global-content-viewport');
+    if (mainViewport) ro?.observe(mainViewport);
     window.addEventListener('resize', syncBarHeight, { passive: true });
 
     return () => {
@@ -842,8 +859,8 @@ export default function App() {
           marginBottom: '0px',
           paddingTop: currentTabIndex === 16 ? '16px' : '10px',
           paddingBottom: currentTabIndex === 16 ? '16px' : '10px',
-          paddingLeft: '0px',
-          paddingRight: '0px',
+          paddingLeft: '45px',
+          paddingRight: '45px',
         }}
         className={`w-full ${
           currentTabIndex === 16

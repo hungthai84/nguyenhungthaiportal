@@ -1131,6 +1131,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             }}
             className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-[14px] sm:p-[15px] overflow-hidden font-play text-left box-border opacity-100 transition-colors duration-200"
           >
+            {/* Hiệu ứng hào quang & hình nền chiều sâu giống Thẻ main chính tử vi 1 */}
+            <div className="absolute -right-16 -top-16 w-64 h-64 bg-purple-500/15 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none z-0" />
+            <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-sky-500/12 dark:bg-sky-500/16 rounded-full blur-3xl pointer-events-none z-0" />
+
             {/* Hiệu ứng mở phong bì thư 3D trong khung Thư ngỏ */}
             <WelcomeEnvelopeIntro
               onRevealStart={() => setIntroState('revealed')}
@@ -1187,29 +1191,32 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       id="leftCol"
                       className="lg:col-span-6 lg:border-r lg:border-dashed lg:border-slate-300 dark:lg:border-slate-700 lg:pr-5 flex flex-col justify-between gap-3"
                     >
-                      {/* TOP BENTO HERO CARD: Vibrant Purple-Indigo Letterhead */}
+                      {/* TOP BENTO HERO CARD: Vibrant Purple-Indigo Letterhead (Mẫu Thẻ 1: Bento Studio Hero Card) */}
                       <div
                         id="letter-profile-capability-card"
                         ref={profileCardRef}
-                        className="nht-bento-item bg-gradient-to-br from-purple-600 to-indigo-700 p-3.5 sm:p-4 relative overflow-hidden shadow-md text-white"
+                        className="nht-bento-item bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900 p-4 sm:p-5 relative overflow-hidden shadow-xl text-white rounded-[var(--radius-subcard,16px)] border border-white/20 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5"
                       >
+                        {/* Bento Studio glowing ambient orb */}
+                        <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+
                         <div className="relative z-10">
                           {/* Header Row */}
-                          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 mb-2.5 pb-2 border-b border-white/20">
-                            <div className="inline-flex items-center gap-2 text-white text-[12.5px] font-bold">
-                              <Award className="w-4 h-4 text-yellow-300 shrink-0" />
-                              <span className="nht-gradient-text bg-gradient-to-r from-yellow-200 to-pink-200">
+                          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 mb-3 pb-2.5 border-b border-white/20">
+                            <div className="inline-flex items-center gap-2 text-white text-[13px] font-bold">
+                              <Award className="w-4 h-4 text-amber-300 shrink-0" />
+                              <span className="nht-gradient-text bg-gradient-to-r from-yellow-200 via-amber-100 to-pink-200 font-extrabold tracking-wide">
                                 Hồ sơ năng lực cá nhân
                               </span>
                             </div>
 
                             <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-                              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/15 border border-white/25">
+                              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 border border-white/25 shadow-xs backdrop-blur-xs">
                                 <Briefcase className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
                                 <span className="text-purple-100">Kinh nghiệm:</span>
                                 <strong className="text-white">22+ Năm</strong>
                               </div>
-                              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/15 border border-white/25">
+                              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 border border-white/25 shadow-xs backdrop-blur-xs">
                                 <Target className="w-3.5 h-3.5 text-pink-200 shrink-0" />
                                 <strong className="text-white">
                                   Khách Hàng Làm Trung Tâm
@@ -1220,10 +1227,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
                           {/* Salutation & Intro */}
                           <div>
-                            <p className="font-bold text-yellow-300 text-[14.5px] mb-1">
+                            <p className="font-bold text-yellow-300 text-[15px] sm:text-base mb-1.5 drop-shadow-xs">
                               {themeLetter.greeting}
                             </p>
-                            <p className="text-purple-50 leading-[1.55]">
+                            <p className="text-purple-100 text-[12.5px] sm:text-[13px] leading-[1.6]">
                               Tôi là{' '}
                               <strong className="font-bold text-white">
                                 Nguyễn Hùng Thái
@@ -1523,55 +1530,61 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         />
                       </article>
 
-                      {/* 1. Philosophy Highlight Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-br from-blue-600 to-indigo-700 p-3.5 relative overflow-hidden shadow-md text-white">
-                        <p className="relative z-10 text-[12px] leading-[1.52] text-blue-50 text-left">
+                      {/* 1. Philosophy Highlight Bento Card (Mẫu Thẻ 52: Triết Lý Tối Giản) */}
+                      <div className="nht-bento-item bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 p-4 relative overflow-hidden shadow-lg text-white rounded-[var(--radius-subcard,16px)] border border-white/15 transition-all duration-300 hover:-translate-y-0.5">
+                        <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+                        <p className="relative z-10 text-[12.5px] leading-[1.6] text-blue-50 text-left font-medium">
                           Qua mỗi môi trường làm việc, tôi nhận ra rằng{' '}
-                          <strong className="font-bold text-white">
+                          <strong className="font-bold text-white drop-shadow-xs">
                             chăm sóc khách hàng không chỉ là giải quyết vấn đề, mà còn là xây dựng một hệ thống giúp doanh nghiệp phát triển bền vững.
                           </strong>
                         </p>
                       </div>
 
-                      {/* 2. 3 Core Principles Bento Card */}
-                      <div className="nht-bento-item bg-slate-50 dark:bg-slate-800/75 p-3.5 border border-slate-200/90 dark:border-slate-700/75 shadow-xs">
-                        <div className="flex items-center gap-2 mb-2.5">
-                          <Target className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                          <p className="text-[12.5px] font-bold text-slate-900 dark:text-slate-100">
-                            Tôi luôn làm việc với ba nguyên tắc cốt lõi:
-                          </p>
+                      {/* 2. 3 Core Principles Bento Card (Mẫu Thẻ 21 & 25: Pipeline Action Grid) */}
+                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-4 border border-[var(--border-subcard,rgba(148,163,184,0.3))] rounded-[var(--radius-subcard,16px)] shadow-md transition-all duration-300 hover:shadow-lg">
+                        <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-[var(--border-subcard,rgba(148,163,184,0.2))]">
+                          <div className="flex items-center gap-2">
+                            <Target className="w-4 h-4 text-indigo-500 shrink-0" />
+                            <p className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                              Tôi luôn làm việc với ba nguyên tắc cốt lõi:
+                            </p>
+                          </div>
+                          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-white/10 border border-white/10 text-[var(--text-muted)]">
+                            Core Pillars
+                          </span>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center">
                           {/* Pillar 1 */}
-                          <div className="relative overflow-hidden py-3 px-2 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex flex-col items-center justify-center group shadow-sm">
-                            <Settings className="w-12 h-12 text-white/15 absolute -right-2 -bottom-2 transform group-hover:rotate-45 transition-transform duration-500 pointer-events-none" />
-                            <span className="relative z-10 font-bold text-white text-[13px]">
+                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                            <Settings className="w-14 h-14 text-white/10 absolute -right-2 -bottom-2 transform group-hover:rotate-45 transition-transform duration-500 pointer-events-none" />
+                            <span className="relative z-10 font-bold text-white text-[13.5px] tracking-wide">
                               Quy trình
                             </span>
-                            <span className="relative z-10 text-blue-100 text-[11px] mt-0.5">
+                            <span className="relative z-10 text-blue-100 text-[11px] font-medium mt-0.5">
                               tạo nền tảng.
                             </span>
                           </div>
 
                           {/* Pillar 2 */}
-                          <div className="relative overflow-hidden py-3 px-2 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-900 flex flex-col items-center justify-center group shadow-sm">
-                            <Users className="w-12 h-12 text-slate-900/15 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
-                            <span className="relative z-10 font-bold text-slate-900 text-[13px]">
+                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-slate-950 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                            <Users className="w-14 h-14 text-slate-950/15 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
+                            <span className="relative z-10 font-black text-slate-950 text-[13.5px] tracking-wide">
                               Con người
                             </span>
-                            <span className="relative z-10 text-slate-900/85 font-semibold text-[11px] mt-0.5">
+                            <span className="relative z-10 text-slate-950/90 font-bold text-[11px] mt-0.5">
                               tạo giá trị.
                             </span>
                           </div>
 
                           {/* Pillar 3 */}
-                          <div className="relative overflow-hidden py-3 px-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 flex flex-col items-center justify-center group shadow-sm">
-                            <TrendingUp className="w-12 h-12 text-white/15 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
-                            <span className="relative z-10 font-bold text-white text-[13px]">
+                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                            <TrendingUp className="w-14 h-14 text-white/10 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
+                            <span className="relative z-10 font-bold text-white text-[13.5px] tracking-wide">
                               Công nghệ
                             </span>
-                            <span className="relative z-10 text-emerald-50 text-[11px] mt-0.5">
+                            <span className="relative z-10 text-emerald-50 text-[11px] font-medium mt-0.5">
                               tạo đòn bẩy.
                             </span>
                           </div>
@@ -1579,15 +1592,15 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       </div>
 
                       {/* 3. Tech Focus Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-r from-emerald-500 to-teal-600 p-3 shadow-sm flex items-center gap-3 text-white">
-                        <Cpu className="w-5 h-5 text-yellow-200 shrink-0" />
-                        <p className="text-[12px] leading-[1.5] text-emerald-50">
+                      <div className="nht-bento-item bg-gradient-to-r from-emerald-600 to-teal-700 p-3.5 shadow-md flex items-center gap-3 text-white rounded-[var(--radius-subcard,16px)] border border-emerald-400/20">
+                        <Cpu className="w-5 h-5 text-amber-300 shrink-0" />
+                        <p className="text-[12px] leading-[1.55] text-emerald-50">
                           Từ những nguyên tắc đó, tôi tập trung xây dựng các hệ thống{' '}
                           <strong className="font-bold text-white">
                             CRM, Dashboard quản trị, AI Chatbot
                           </strong>{' '}
                           cùng các giải pháp{' '}
-                          <strong className="font-bold text-yellow-200">
+                          <strong className="font-bold text-amber-200">
                             tự động hóa
                           </strong>{' '}
                           nhằm nâng cao hiệu quả vận hành.
@@ -1595,60 +1608,64 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       </div>
 
                       {/* 4. People & Training Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-r from-indigo-50 via-purple-50/70 to-slate-50 dark:from-indigo-950/60 dark:via-purple-950/40 dark:to-slate-800/70 p-3 border border-indigo-200/70 dark:border-indigo-500/30 relative overflow-hidden flex items-center gap-3">
-                        <Users className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 relative z-10" />
-                        <p className="text-[12px] text-slate-700 dark:text-slate-200 leading-[1.5] relative z-10">
+                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3.5 border border-[var(--border-subcard,rgba(148,163,184,0.3))] relative overflow-hidden flex items-center gap-3 rounded-[var(--radius-subcard,16px)] shadow-xs">
+                        <Users className="w-5 h-5 text-indigo-500 shrink-0 relative z-10" />
+                        <p className="text-[12px] text-[var(--text-secondary)] leading-[1.55] relative z-10">
                           Bên cạnh công nghệ, tôi luôn chú trọng{' '}
-                          <strong className="font-bold text-indigo-900 dark:text-indigo-300">
+                          <strong className="font-bold text-[var(--text-primary)]">
                             đào tạo đội ngũ
                           </strong>{' '}
                           biết{' '}
-                          <strong className="font-bold text-amber-700 dark:text-amber-300">
+                          <strong className="font-bold text-amber-600 dark:text-amber-400">
                             lắng nghe, thấu hiểu
                           </strong>{' '}
                           và mang đến những{' '}
-                          <strong className="font-bold text-purple-800 dark:text-purple-300">
+                          <strong className="font-bold text-purple-600 dark:text-purple-400">
                             trải nghiệm vượt mong đợi
                           </strong>{' '}
                           cho khách hàng.
                         </p>
                       </div>
 
-                      {/* 5. Standalone Quote Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-br from-pink-500 to-purple-600 p-3.5 overflow-hidden relative shadow-md flex items-center gap-3 text-white">
-                        <Quote className="w-12 h-12 text-white/15 absolute right-3 -bottom-2 pointer-events-none" />
+                      {/* 5. Standalone Quote Bento Card (Mẫu Thẻ 51: Trích Dẫn Bento Studio) */}
+                      <div className="nht-bento-item bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800 p-4 overflow-hidden relative shadow-xl flex items-center gap-3.5 text-white rounded-[var(--radius-subcard,16px)] border border-white/20 transition-all duration-300 hover:shadow-2xl">
+                        <Quote className="w-16 h-16 text-white/10 absolute right-2 -bottom-2 pointer-events-none" />
 
-                        <Quote className="w-5 h-5 text-yellow-300 shrink-0 relative z-10 rotate-180" />
+                        <div className="w-10 h-10 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 shadow-sm">
+                          <Quote className="w-5 h-5 text-yellow-300 shrink-0 rotate-180" />
+                        </div>
                         <div className="flex-grow relative z-10">
-                          <p className="text-[11px] font-bold nht-gradient-text bg-gradient-to-r from-yellow-200 to-pink-100 mb-0.5 flex items-center gap-1.5">
+                          <p className="text-[11px] font-extrabold uppercase tracking-wider text-yellow-200 mb-1 flex items-center gap-1.5">
                             <Heart className="w-3 h-3 text-yellow-300 fill-yellow-300" />{' '}
                             Triết lý tâm niệm
                           </p>
-                          <p className="italic font-bold text-white text-[13.2px] leading-[1.46]">
+                          <p className="italic font-bold text-white text-[13.5px] leading-[1.5] drop-shadow-xs">
                             “Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.”
                           </p>
                         </div>
                       </div>
 
-                      {/* 6. Standalone Partnership Callout Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-r from-amber-50/90 via-orange-50/50 to-sky-50/80 dark:from-amber-950/45 dark:via-orange-950/25 dark:to-sky-950/45 p-3.5 border border-amber-200/80 dark:border-amber-500/30 relative overflow-hidden flex items-center gap-3">
-                        <Handshake className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 relative z-10" />
+                      {/* 6. Standalone Partnership Callout Bento Card (Mẫu Thẻ 38: Kết Nối Thiện Chí) */}
+                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-4 border border-[var(--border-subcard,rgba(148,163,184,0.3))] relative overflow-hidden flex items-center gap-3.5 rounded-[var(--radius-subcard,16px)] shadow-md transition-all duration-300 hover:shadow-lg">
+                        <div className="w-10 h-10 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-sm">
+                          <Handshake className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+                        </div>
                         <div className="flex-grow relative z-10">
-                          <p className="text-[11px] font-bold text-amber-800 dark:text-amber-300 mb-0.5 flex items-center gap-1.5">
+                          <p className="text-[11px] font-bold text-amber-600 dark:text-amber-400 mb-1 flex items-center gap-1.5 uppercase tracking-wider">
                             <Star className="w-3 h-3 text-amber-500 fill-amber-500" />{' '}
                             Mục tiêu & thiện chí hợp tác
                           </p>
-                          <p className="text-[12px] text-slate-700 dark:text-slate-200 leading-[1.5]">
+                          <p className="text-[12px] text-[var(--text-secondary)] leading-[1.55]">
                             Tôi mong muốn được{' '}
-                            <strong className="font-bold text-indigo-900 dark:text-indigo-300">
+                            <strong className="font-bold text-[var(--text-primary)]">
                               đồng hành cùng Quý Công ty
                             </strong>{' '}
                             để xây dựng một hệ thống chăm sóc khách hàng hiện đại,{' '}
-                            <strong className="font-bold text-emerald-800 dark:text-emerald-300">
+                            <strong className="font-bold text-emerald-600 dark:text-emerald-400">
                               lấy khách hàng làm trung tâm
                             </strong>
                             , tối ưu hiệu quả vận hành và tạo ra{' '}
-                            <strong className="font-bold text-amber-800 dark:text-amber-300">
+                            <strong className="font-bold text-amber-600 dark:text-amber-400">
                               giá trị phát triển bền vững
                             </strong>
                             .
@@ -1657,15 +1674,15 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       </div>
 
                       {/* 7. Closing Letter Sign-off Section */}
-                      <div className="nht-bento-item bg-slate-50/90 dark:bg-slate-800/80 px-4 py-2.5 border-t-2 border-dashed border-slate-300 dark:border-slate-600 border-x border-b border-slate-200/80 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] px-4 py-3 border-t-2 border-dashed border-[var(--border-subcard,rgba(148,163,184,0.4))] border-x border-b border-[var(--border-subcard,rgba(148,163,184,0.25))] rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-sm">
                         <div className="max-w-[290px]">
-                          <p className="font-bold text-indigo-950 dark:text-slate-100 text-[12px] leading-snug">
+                          <p className="font-bold text-[var(--text-primary)] text-[12.5px] leading-snug">
                             Xin trân trọng cảm ơn Quý Công ty đã dành thời gian lắng nghe!
                           </p>
                         </div>
 
                         <div className="flex flex-col items-end text-right shrink-0">
-                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
+                          <p className="text-[var(--text-muted)] text-[11px] font-medium">
                             Trân trọng,
                           </p>
                           <div className="my-0.5 flex justify-end min-h-[36px] items-center">
@@ -1682,13 +1699,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             ) : (
                               <span
                                 style={{ fontFamily: "'Dancing Script', cursive" }}
-                                className="text-2xl font-bold text-indigo-950 dark:text-white pr-1"
+                                className="text-2xl font-bold text-[var(--text-primary)] pr-1"
                               >
                                 Nguyễn Hùng Thái
                               </span>
                             )}
                           </div>
-                          <p className="font-bold text-indigo-950 dark:text-white text-[13.5px] mt-0.5">
+                          <p className="font-bold text-[var(--text-primary)] text-[13.5px] mt-0.5">
                             Nguyễn Hùng Thái
                           </p>
                         </div>

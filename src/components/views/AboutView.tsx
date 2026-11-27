@@ -2377,7 +2377,7 @@ export function AboutView({
                   </div>
                   </motion.div>
 
-            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (FORMAT TAB BÌA FOLDER) */}
+            {/* BENTO TILE 2: CARD THÔNG TIN CHI TIẾT (BOX TABS) */}
             <motion.div
               id="about-personal-info-card-right"
               data-framer-bento="true"
@@ -2394,13 +2394,17 @@ export function AboutView({
               }}
               className="bento-card bento-color-emerald glass-card col-span-12 lg:col-span-5 flex flex-col justify-start items-stretch gap-0 self-stretch min-h-0 h-full min-w-0 text-left rounded-[var(--radius-card,14px)] p-2.5 sm:p-[14px] overflow-hidden"
             >
-                  {/* Folder Wrapper: Đảm bảo Tab bìa folder và mặt giấy folder luôn gắn liền 0px gap trên mọi kích thước */}
-                  <div className="flex flex-col gap-0 flex-1 min-h-0 w-full">
-                      {/* Folder Cover Tab Strip (Tab bìa folder gắn liền mặt giấy bên dưới) */}
+                  {/* Box Tabs Wrapper: Thanh tab dạng khung bo góc hiện đại */}
+                  <div className="flex flex-col gap-2.5 flex-1 min-h-0 w-full">
+                    {/* Box Tabs Strip */}
                     <div
                       role="tablist"
                       aria-label="Thông tin chi tiết"
-                      className="card-header-sync relative z-20 flex items-end justify-start gap-1.5 pl-1 pr-2 min-w-0 shrink-0"
+                      className="card-header-sync relative z-20 flex items-center justify-start gap-2 p-1 rounded-[12px] border min-w-0 shrink-0"
+                      style={{
+                        background: 'var(--bg-subcard)',
+                        borderColor: 'var(--border-subcard)',
+                      }}
                     >
                       <button
                         ref={personalTabRef}
@@ -2424,35 +2428,32 @@ export function AboutView({
                           }
                         }}
                         style={{
-                          borderColor: 'var(--border-subcard)',
-                          borderBottomColor: 'transparent',
-                          borderTopLeftRadius: '12px',
-                          borderTopRightRadius: '12px',
-                          borderBottomLeftRadius: '0px',
-                          borderBottomRightRadius: '0px',
-                          background:
-                            detailInfoTab === 'personal'
-                              ? 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.85)))'
-                              : 'var(--surface-tertiary-bg, rgba(255, 255, 255, 0.45))',
-                          backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
-                          WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
-                          boxShadow:
-                            detailInfoTab === 'personal'
-                              ? '0 -4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
-                              : 'none',
+                          borderRadius: '10px',
+                          ...(detailInfoTab === 'personal'
+                            ? {
+                                background: 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.95)))',
+                                borderColor: 'var(--color-primary, #38BDF8)',
+                                color: 'var(--color-primary, #38BDF8)',
+                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+                              }
+                            : {
+                                background: 'transparent',
+                                borderColor: 'transparent',
+                                color: 'var(--text-secondary)',
+                              }),
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play glass-card glass-tab relative inline-flex items-center gap-1.5 px-4 pt-2.5 pb-2 !rounded-tl-[12px] !rounded-tr-[12px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h5 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'personal'
-                            ? 'z-20 -mb-[1px] pb-[10px] text-blue-600 dark:text-cyan-400 font-bold opacity-100 border-b-transparent'
-                            : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
+                            ? 'font-bold opacity-100 shadow-xs'
+                            : 'hover:text-[var(--text-primary)] hover:bg-white/10 dark:hover:bg-white/5 font-semibold opacity-75 hover:opacity-100'
                         )}
                       >
                         <WebIcon
                           name="user"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0',
-                            detailInfoTab === 'personal' ? 'text-blue-600 dark:text-cyan-400' : 'text-current'
+                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0 transition-colors',
+                            detailInfoTab === 'personal' ? 'text-[var(--color-primary)]' : 'text-current'
                           )}
                         />
                         <span>Cá nhân</span>
@@ -2480,42 +2481,39 @@ export function AboutView({
                           }
                         }}
                         style={{
-                          borderColor: 'var(--border-subcard)',
-                          borderBottomColor: 'transparent',
-                          borderTopLeftRadius: '12px',
-                          borderTopRightRadius: '12px',
-                          borderBottomLeftRadius: '0px',
-                          borderBottomRightRadius: '0px',
-                          background:
-                            detailInfoTab === 'contact'
-                              ? 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.85)))'
-                              : 'var(--surface-tertiary-bg, rgba(255, 255, 255, 0.45))',
-                          backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
-                          WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
-                          boxShadow:
-                            detailInfoTab === 'contact'
-                              ? '0 -4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
-                              : 'none',
+                          borderRadius: '10px',
+                          ...(detailInfoTab === 'contact'
+                            ? {
+                                background: 'var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.95)))',
+                                borderColor: 'var(--color-primary, #38BDF8)',
+                                color: 'var(--color-primary, #38BDF8)',
+                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+                              }
+                            : {
+                                background: 'transparent',
+                                borderColor: 'transparent',
+                                color: 'var(--text-secondary)',
+                              }),
                         }}
                         className={cn(
-                          'no-theme-btn typo-h4 card-title-synced font-play glass-card glass-tab relative inline-flex items-center gap-1.5 px-4 pt-2.5 pb-2 !rounded-tl-[12px] !rounded-tr-[12px] !rounded-bl-none !rounded-br-none border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
+                          'no-theme-btn typo-h5 card-title-synced font-play relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] border transition-all duration-200 cursor-pointer leading-tight whitespace-nowrap text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400',
                           detailInfoTab === 'contact'
-                            ? 'z-20 -mb-[1px] pb-[10px] text-emerald-600 dark:text-emerald-400 font-bold opacity-100 border-b-transparent'
-                            : 'z-0 mb-0 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold opacity-75 hover:opacity-95'
+                            ? 'font-bold opacity-100 shadow-xs'
+                            : 'hover:text-[var(--text-primary)] hover:bg-white/10 dark:hover:bg-white/5 font-semibold opacity-75 hover:opacity-100'
                         )}
                       >
                         <WebIcon
                           name="phone"
                           className={cn(
-                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0',
-                            detailInfoTab === 'contact' ? 'text-emerald-600 dark:text-emerald-400' : 'text-current'
+                            'w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] shrink-0 transition-colors',
+                            detailInfoTab === 'contact' ? 'text-[var(--color-primary)]' : 'text-current'
                           )}
                         />
                         <span>Liên hệ</span>
                       </button>
                     </div>
 
-                    {/* Shared Folder Cover Sheet Body */}
+                    {/* Shared Box Tabs Body */}
                     <div
                       id="about-detail-tabpanel"
                       role="tabpanel"
@@ -2526,13 +2524,10 @@ export function AboutView({
                         backdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
                         WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--glass-blur, 16px)) saturate(var(--glass-saturate, 150%)))',
                         borderColor: 'var(--border-subcard)',
-                        borderTopColor: 'transparent',
-                        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+                        borderRadius: '12px',
                       }}
-                      className={cn(
-                        'relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar glass-card p-2.5 sm:p-3 border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400 rounded-b-[12px] rounded-tr-[10px]',
-                        detailInfoTab === 'personal' ? 'rounded-tl-[4px]' : 'rounded-tl-[10px]'
-                      )}
+                      className="relative z-10 flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden glass-scrollbar glass-card p-2.5 sm:p-3 border rounded-[12px] shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-cyan-400"
                     >
                     <AnimatePresence mode="wait" initial={false}>
                       {detailInfoTab === 'personal' ? (
@@ -2802,15 +2797,23 @@ export function AboutView({
         {/* ========================================================================= */}
         <div
           id="about-intro-grid-2"
+          data-main-card="true"
+          data-floating-surface="main"
+          data-element-name="Thẻ chính Trang Giới Thiệu Chuyên Gia"
+          data-element-type="card"
+          data-element-page="about"
+          data-element-parent="about-page-container"
           style={{
-            padding: '0px',
+            ...cleanAboutMainStyle,
+            padding: 'var(--main-card-padding, clamp(10px, 1.4vw, 16px))',
+            borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px)))',
             gap: viewportWidth < 640 ? '10px' : '12px',
             rowGap: viewportWidth < 640 ? '10px' : '12px',
             columnGap: viewportWidth < 640 ? '10px' : '12px',
           }}
-          className="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-2.5 sm:gap-3 items-stretch content-start box-border"
+          className="page-main-card floating-glass-surface floating-surface--main w-full shrink-0 grid grid-cols-1 lg:grid-cols-12 lg:[grid-auto-flow:dense] gap-2.5 sm:gap-3 items-stretch content-start box-border"
         >
-            {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (PURPLE AMETHYST) */}
+            {/* BENTO TILE 3: CARD GIỚI THIỆU BẢN THÂN (Mẫu Thẻ 1: Bento Studio Hero Statement) */}
             <motion.div
               id="about-career-goal-card"
               data-framer-bento="true"
@@ -2823,26 +2826,32 @@ export function AboutView({
               whileHover={prefersReducedMotion ? undefined : { y: -2 }}
               transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: viewportWidth < 640 ? '10px' : '14px',
+                padding: viewportWidth < 640 ? '12px' : '16px',
               }}
-              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-purple glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-3 sm:p-4 overflow-hidden group select-none relative shadow-xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300"
             >
+              {/* Bento Studio glowing ambient orb */}
+              <div className="absolute -right-8 -top-8 w-40 h-40 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
+
               <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
-                  <div className="card-header-sync flex items-center gap-2 text-blue-600 dark:text-cyan-400">
-                    <User className="w-4.5 h-4.5 text-blue-600 dark:text-cyan-400 shrink-0" />
-                    <h3 className="typo-h3 card-title-synced font-play text-blue-600 dark:text-cyan-400 leading-tight" data-card-title="true">
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
+                  <div className="card-header-sync flex items-center gap-2 text-purple-600 dark:text-purple-300">
+                    <User className="w-4.5 h-4.5 text-purple-600 dark:text-purple-300 shrink-0" />
+                    <h3 className="typo-h3 card-title-synced font-play text-purple-600 dark:text-purple-300 leading-tight" data-card-title="true">
                       {formatCardTitle('Giới thiệu bản thân')}
                     </h3>
                   </div>
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-600 dark:text-purple-300">
+                    22+ Năm CX
+                  </span>
                 </div>
 
-                {/* Body Text: Giữ nguyên 100% dữ liệu, căn cân đối theo chiều cao Bento */}
+                {/* Body Text: Giữ nguyên 100% dữ liệu */}
                 <div className="flex-1 flex items-center">
-                  <p className="typo-body text-[var(--text-secondary)] m-0 leading-relaxed">
+                  <p className="typo-body text-[var(--text-secondary)] m-0 leading-relaxed font-normal">
                     Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                    <strong className="font-semibold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
+                    <strong className="font-bold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
                     Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh
                     khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải
                     nghiệm vượt trên cả sự mong đợi.
@@ -3111,7 +3120,7 @@ export function AboutView({
               </div>
             </motion.div>
 
-            {/* BENTO TILE 6: CARD TRIẾT LÝ TẦM NHÌN & CÂU NÓI HAY (CYAN TEAL) */}
+            {/* BENTO TILE 6: CARD TRIẾT LÝ TẦM NHÌN & CÂU NÓI HAY (Mẫu Thẻ 51: Bento Editorial Quote) */}
             <motion.div
               id="about-philosophy-card"
               data-framer-bento="true"
@@ -3124,28 +3133,36 @@ export function AboutView({
               whileHover={prefersReducedMotion ? undefined : { y: -2 }}
               transition={{ duration: prefersReducedMotion ? 0.01 : 0.3, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                padding: viewportWidth < 640 ? '10px' : '14px',
+                padding: viewportWidth < 640 ? '12px' : '16px',
               }}
-              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-2.5 sm:p-[14px] overflow-hidden group select-none relative"
+              className="bento-card bento-color-cyan glass-card col-span-full lg:col-span-5 xl:col-span-5 h-full self-stretch flex flex-col justify-between gap-3 text-left rounded-[14px] p-3 sm:p-4 overflow-hidden group select-none relative shadow-xl border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300"
             >
+              {/* Bento Studio glowing ambient orb */}
+              <div className="absolute -right-8 -top-8 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
+
               <div className="relative z-10 h-full flex-1 flex flex-col justify-between gap-3">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subcard)] shrink-0">
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-subcard)] shrink-0">
                   <div className="card-header-sync flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
                     <Target className="w-4.5 h-4.5 text-cyan-600 dark:text-cyan-400 shrink-0" />
                     <h3 className="typo-h3 card-title-synced font-play text-cyan-600 dark:text-cyan-400 leading-tight" data-card-title="true">
                       {formatCardTitle('Triết lý tầm nhìn')}
                     </h3>
                   </div>
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-600 dark:text-cyan-300">
+                    Tầm nhìn 2026+
+                  </span>
                 </div>
 
                 {/* Bố cục Câu Nói Hay (Editorial Signature Quote) căn giữa tối ưu khoảng trắng */}
-                <div className="flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2">
-                  <WebIcon
-                    name="quote"
-                    className="w-6 h-6 text-cyan-500/80 dark:text-cyan-400/80 shrink-0"
-                  />
-                  <blockquote className="typo-h5 font-play font-bold italic text-cyan-700 dark:text-cyan-300 leading-snug text-balance m-0">
+                <div className="flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-3 py-1 gap-2 relative">
+                  <div className="w-9 h-9 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shadow-xs">
+                    <WebIcon
+                      name="quote"
+                      className="w-5 h-5 text-cyan-500 dark:text-cyan-400 shrink-0"
+                    />
+                  </div>
+                  <blockquote className="typo-h5 font-play font-bold italic text-cyan-800 dark:text-cyan-300 leading-snug text-balance m-0 drop-shadow-xs">
                     “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.”
                   </blockquote>
                 </div>

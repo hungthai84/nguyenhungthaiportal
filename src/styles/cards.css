@@ -718,8 +718,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   transform: none !important;
 }
 
-#about-intro-card-2-scroll-viewport,
-#about-intro-grid-2 {
+#about-intro-card-2-scroll-viewport {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -743,6 +742,21 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   -webkit-backdrop-filter: none !important;
   border-radius: 0 !important;
   transform: none !important;
+}
+
+#about-intro-grid-2 {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  padding: var(--main-card-padding, clamp(10px, 1.4vw, 16px)) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  background: var(--bg-card, rgba(255, 255, 255, 0.78)) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.35)) !important;
+  box-shadow: var(--shadow-card, 0 16px 36px rgba(0, 0, 0, 0.12)) !important;
+  backdrop-filter: blur(var(--glass-blur, 20px)) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur, 20px)) saturate(140%) !important;
 }
 
 #interview-main-card {
@@ -807,6 +821,236 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
   box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
 }
+
+/* ========================================================================= */
+/* 1. THẺ CHÍNH TRANG KỸ NĂNG: HIỆU ỨNG ĐỔ BÓNG & THẺ NỔI (SHADOW & FLOATING) */
+/* ========================================================================= */
+#skills-main-card,
+.page-main-card#skills-main-card {
+  box-shadow: 0 24px 54px -8px rgba(0, 0, 0, 0.35),
+              0 8px 20px -4px rgba(0, 0, 0, 0.20),
+              0 0 0 1px rgba(255, 255, 255, 0.14),
+              inset 0 1.5px 1px rgba(255, 255, 255, 0.28) !important;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease !important;
+  position: relative !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #skills-main-card:hover {
+    transform: translateY(-3px) scale(1.002) !important;
+    box-shadow: 0 30px 68px -10px rgba(0, 0, 0, 0.44),
+                0 12px 28px -4px rgba(var(--color-primary-rgb, 99, 102, 241), 0.22),
+                0 0 0 1.5px rgba(var(--color-primary-rgb, 99, 102, 241), 0.30),
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.35) !important;
+  }
+}
+
+/* ========================================================================= */
+/* 2. THẺ CHÍNH THƯ NGỎ: ĐỒNG BỘ HIỆU ỨNG & HÌNH NỀN VỚI THẺ CHÍNH TỬ VI 1    */
+/* ========================================================================= */
+#letter-main-card,
+.page-main-card#letter-main-card {
+  background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-primary-border, var(--border-color)) !important;
+  backdrop-filter: var(--lg-clear-backdrop, blur(var(--surface-primary-blur, var(--glass-blur, 18px)))) !important;
+  box-shadow: var(--shell-surface-shadow, var(--surface-primary-shadow, 0 16px 36px -8px rgba(15, 23, 42, 0.10))), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* 3. TRANG TỬ VI: THẺ MAIN CHÍNH TỬ VI 1 VÀ 2 THẺ MAXX FULL & CÁCH 15PX     */
+/* ========================================================================= */
+#horoscope-card-1,
+.page-main-card#horoscope-card-1 {
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+#horoscope-card-1 #horoscope-hero-banner {
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+#horoscope-card-1 #horoscope-row-1-horizontal {
+  flex: 1 1 0% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  align-items: stretch !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#horoscope-card-1 #horoscope-row-1-horizontal > #horoscope-card-6,
+#horoscope-card-1 #horoscope-row-1-horizontal > #horoscope-card-profile {
+  height: 100% !important;
+  min-height: 100% !important;
+  box-sizing: border-box !important;
+  align-self: stretch !important;
+}
+
+/* ========================================================================= */
+/* 4. TRANG DỊCH VỤ: BANNER CARD & 6 THẺ NẰM GỌN TRONG THẺ CHÍNH, CÁCH 15PX   */
+/* Kích thước thẻ dịch vụ tự động co giãn theo chiều cao khả dụng           */
+/* ========================================================================= */
+#service-main-card,
+.page-main-card#service-main-card {
+  padding: 15px !important;
+  gap: 0px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+#services-main-scroll-viewport {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#services-main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+}
+
+#services-hero-banner {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 auto !important;
+  height: clamp(120px, 17vh, 155px) !important;
+  min-height: 110px !important;
+  max-height: 160px !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  box-sizing: border-box !important;
+}
+
+#services-cards-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 0% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+#services-cards-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  align-items: stretch !important;
+}
+
+@media (max-width: 959px) {
+  #services-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(180px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+  }
+}
+
+@media (max-width: 599px) {
+  #services-cards-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(170px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+  }
+}
+
+#services-cards-grid > * {
+  height: 100% !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#services-cards-grid .service-card.domain-card {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: clamp(10px, 1.2vw, 15px) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+#services-cards-grid .service-card-body {
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: clamp(6px, 1vh, 10px) !important;
+}
+
+#services-cards-grid .service-card-middle {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+#services-cards-grid .service-card-middle .service-img-pop {
+  max-height: clamp(50px, 8vh, 85px) !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+
 
 #home-main-card,
 [id^="home-main-card-"],
@@ -1727,6 +1971,84 @@ html[data-card-style="neumorphism-beyond"] :is(
   box-shadow: var(--shadow-banner-cta, var(--shadow-card)) !important;
   outline: var(--outline-banner-pill, none);
   outline-offset: -3px;
+}
+
+/* ========================================================================= */
+/* HOMEPAGE HERO CTA BUTTONS (ĐỒNG BỘ KÍCH THƯỚC VÀ PHONG CÁCH THEO GIAO DIỆN) */
+/* ========================================================================= */
+#home-hero-cta-primary,
+#home-hero-cta-secondary {
+  width: 190px !important;
+  min-width: 185px !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-sizing: border-box !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  font-family: var(--font-play, 'Play', sans-serif) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.01em !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.2s ease !important;
+}
+
+@media (max-width: 639px) {
+  #home-hero-cta-primary,
+  #home-hero-cta-secondary {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+#home-hero-cta-primary {
+  background: var(--bg-button-primary, var(--color-primary, linear-gradient(135deg, #3B66F5, #2563EB))) !important;
+  color: var(--text-button-primary, #FFFFFF) !important;
+  border: 1px solid var(--border-button-primary, rgba(255, 255, 255, 0.28)) !important;
+  box-shadow: var(--shadow-button-primary, 0 10px 24px rgba(37, 99, 235, 0.28)) !important;
+  backdrop-filter: blur(var(--blur-card, 16px)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-card, 16px)) !important;
+}
+
+#home-hero-cta-primary svg {
+  color: var(--text-button-primary, #FFFFFF) !important;
+  stroke: var(--text-button-primary, #FFFFFF) !important;
+  flex-shrink: 0 !important;
+}
+
+#home-hero-cta-secondary {
+  background: var(--surface-secondary-bg, var(--bg-subcard, rgba(255, 255, 255, 0.12))) !important;
+  color: var(--text-heading, var(--text-primary)) !important;
+  border: 1px solid var(--surface-secondary-border, var(--border-subcard, rgba(255, 255, 255, 0.24))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--shadow-subcard, 0 8px 20px rgba(15, 23, 42, 0.08))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--blur-card, 16px))) saturate(var(--surface-secondary-saturate, 130%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--blur-card, 16px))) saturate(var(--surface-secondary-saturate, 130%)) !important;
+}
+
+#home-hero-cta-secondary svg {
+  color: var(--text-link, var(--color-primary)) !important;
+  stroke: var(--text-link, var(--color-primary)) !important;
+  flex-shrink: 0 !important;
+}
+
+#home-hero-cta-primary:hover,
+#home-hero-cta-secondary:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.06) !important;
+}
+
+#home-hero-cta-primary:active,
+#home-hero-cta-secondary:active {
+  transform: translateY(0) scale(0.985) !important;
 }
 
 .hero-banner .banner-control-pill:not(.w-8):not(#systems-intro-video-circle-btn):not(#interview-hero-banner-title-pill),
@@ -4075,19 +4397,21 @@ html #education-courses-grid .education-course-card,
   box-sizing: border-box !important;
 }
 
-/* Lưới Dịch vụ: Mặc định 3 cột (3×2), thu nhỏ chuyển 2 cột hoặc 1 cột, chiều cao thẻ bằng nội dung */
+/* Lưới Dịch vụ: Mặc định 3 cột (3×2) lấp đầy chiều cao thẻ chính, thu nhỏ chuyển 2 cột hoặc 1 cột */
 #services-page-container .services-cards-grid,
 #services-cards-grid.services-cards-grid {
   grid-area: 1 / 1 !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: auto !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 0% !important;
   align-items: stretch !important;
-  align-content: start !important;
+  align-content: stretch !important;
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
@@ -4102,6 +4426,10 @@ html #education-courses-grid .education-course-card,
   #services-page-container .services-cards-grid,
   #services-cards-grid.services-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(180px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 }
 
@@ -4109,6 +4437,10 @@ html #education-courses-grid .education-course-card,
   #services-page-container .services-cards-grid,
   #services-cards-grid.services-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: minmax(170px, 1fr) !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
   }
 }
 
@@ -5780,11 +6112,21 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   }
 }
 
-#interface-page-container .interface-group-grid > .theme-preset-card,
-#interface-themes-grid > .theme-preset-card {
+#interface-page-container .interface-group-grid > .theme-preset-card:not([data-expanded="true"]),
+#interface-themes-grid > .theme-preset-card:not([data-expanded="true"]) {
   height: 100% !important;
   min-width: 0 !important;
 }
+
+#interface-page-container .interface-group-grid > .theme-preset-card[data-expanded="true"],
+#interface-themes-grid > .theme-preset-card[data-expanded="true"] {
+  grid-column: 1 / -1 !important;
+  height: auto !important;
+  min-height: 480px !important;
+  width: 100% !important;
+  z-index: 20 !important;
+}
+
 
 /* ========================================================================= */
 /* GLOBAL CARD EFFECTS (data-card-effect: float | glow | shine | tilt | static) */

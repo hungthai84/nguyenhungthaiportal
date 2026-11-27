@@ -109,8 +109,8 @@
   bottom: auto !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
@@ -120,6 +120,8 @@
   margin-right: auto !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
@@ -161,8 +163,8 @@
   margin-bottom: 0 !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   border-radius: 0px !important;
   overflow: hidden !important;
   scroll-behavior: smooth;
@@ -596,13 +598,17 @@
 
 #app-header,
 #app-header-container header {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px 45px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -641,13 +647,15 @@
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
   border-radius: 0px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   box-sizing: border-box !important;
@@ -655,17 +663,19 @@
 
 #app-footer,
 #el-p0-div-98 footer {
-  width: min(calc(100% - 32px), var(--main-card-target-w, 1200px)) !important;
-  max-width: var(--main-card-target-w, 1200px) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   align-self: stretch !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
   box-sizing: border-box !important;
-  padding: 5px 15px !important;
+  padding: 5px 45px !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
+  padding-left: 45px !important;
+  padding-right: 45px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -1473,8 +1483,10 @@
 @media (min-width: 640px) and (max-width: 1023px) {
   #services-cards-grid,
   .services-cards-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    gap: 14px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+    row-gap: 15px !important;
+    column-gap: 15px !important;
   }
 
   #systems-cards-grid,
@@ -1540,15 +1552,15 @@
   #home-main-card,
   [id^="home-main-card-"],
   .home-screen-main-card {
-    width: calc(100% - 16px) !important;
-    max-width: calc(100% - 16px) !important;
+    width: var(--home-main-card-w, calc(100vw - 16px)) !important;
+    max-width: var(--home-main-card-w, calc(100vw - 16px)) !important;
   }
 
   #global-content-viewport:not(:has(#pdf-page-container)) {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-left: 45px !important;
+    padding-right: 45px !important;
   }
 
   .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer):not(#horoscope-cards-track > *),

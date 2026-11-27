@@ -642,6 +642,14 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
 
   /** A corner near the pointer lifts a little, inviting the turn. */
   const peek = (p: Pt) => {
+    // When the book is closed (spread === 0), do not lift the corner on hover, avoiding exposing inner raw paper or mismatched color
+    if (spreadRef.current === 0) {
+      if (turnRef.current) {
+        run(turnRef.current, turnRef.current.corner, false);
+      }
+      return;
+    }
+
     const dir: 1 | -1 = p.x >= size.w ? 1 : -1;
     const corner = cornerFor(dir, p.y);
     const near = canTurn(dir) && len(sub(p, corner)) < PEEK_ZONE;
@@ -835,8 +843,8 @@ export const PageFlip = forwardRef<PageFlipHandle, PageFlipProps>(function PageF
             </div>
           )}
 
-          {/* Subtle inviting corner peel indicator when user can turn forward and is not dragging */}
-          {!turn && canTurn(1) && right !== undefined && (
+          {/* Subtle inviting corner peel indicator when user can turn forward and is not dragging (only when book is open) */}
+          {!turn && canTurn(1) && right !== undefined && spread > 0 && (
             <div
               aria-hidden="true"
               className="pointer-events-none absolute bottom-0 right-0 z-10 w-8 h-8 overflow-hidden rounded-br-[12px]"
@@ -919,6 +927,7 @@ function Paper({
       )}
       style={{
         borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+        backgroundColor: isDark ? 'var(--surface-primary-bg, var(--bg-main-card, #18181b))' : 'var(--surface-primary-bg, var(--bg-main-card, #fbfaf7))',
         ...style,
         outlineColor: accentColor ? `${accentColor}22` : undefined,
       }}

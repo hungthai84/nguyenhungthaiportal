@@ -57,38 +57,38 @@ html[data-theme="mica-fluent"] {
   --color-text: #1c0708;
   --color-text-secondary: #4a4a4a;
   --color-text-muted: #5c534f;
-  --color-primary: #e84118;
+  --color-primary: #FF2E93;
   --color-secondary: #525a65;
-  --color-focus-ring: #e84118;
+  --color-focus-ring: #FF2E93;
 
   --text-primary: #1c0708;
   --text-secondary: #4a4a4a;
   --text-muted: #5c534f;
   --text-heading: #1c0708;
-  --text-link: #c23616;
-  --text-accent: #e84118;
+  --text-link: #E11D48;
+  --text-accent: #FF2E93;
   --text-input: #1c0708;
   --text-placeholder: #5c534f;
   --text-on-dark: #fdfdfd;
   --text-button-primary: #fdfdfd;
   --text-button-secondary: #1c0708;
   --text-badge: #1c0708;
-  --text-highlight: #e84118;
+  --text-highlight: #FF2E93;
 
   --app-bg-base: #d7c7b5;
   --app-bg-gradient:
     radial-gradient(circle at 20% 22%, rgba(255, 245, 232, 0.48) 0%, transparent 52%),
-    radial-gradient(circle at 82% 24%, rgba(232, 65, 24, 0.14) 0%, transparent 48%),
+    radial-gradient(circle at 82% 24%, rgba(255, 46, 147, 0.14) 0%, transparent 48%),
     radial-gradient(circle at 50% 82%, rgba(168, 134, 102, 0.28) 0%, transparent 56%),
     linear-gradient(145deg, #dfd0bf 0%, #cdb9a3 52%, #bfa78e 100%);
 
   --ambient-base-bg: var(--app-bg-gradient);
   --ambient-glow-1: rgba(255, 244, 229, 0.42);
-  --ambient-glow-2: rgba(232, 65, 24, 0.14);
+  --ambient-glow-2: rgba(255, 46, 147, 0.14);
   --ambient-glow-3: rgba(166, 130, 96, 0.24);
   --ambient-glow-4: rgba(255, 255, 255, 0.28);
   --ambient-wave-1: rgba(255, 255, 255, 0.22);
-  --ambient-wave-2: rgba(232, 65, 24, 0.08);
+  --ambient-wave-2: rgba(255, 46, 147, 0.08);
   --ambient-depth-vignette: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
   --app-bg-depth-veil: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
   --ambient-wallpaper-opacity: 0.96;
@@ -116,16 +116,16 @@ html[data-theme="mica-fluent"] {
   --bg-nav-pill-hover: rgba(255, 255, 255, 0.54);
   --bg-nav-arrow: rgba(255, 255, 255, 0.45);
   --border-nav-arrow: rgba(255, 255, 255, 0.45);
-  --bg-button-primary: #e84118;
+  --bg-button-primary: #FF2E93;
   --bg-button-secondary: rgba(255, 255, 255, 0.45);
   --bg-button-hover: rgba(255, 255, 255, 0.62);
 
   --bg-input: rgba(255, 255, 255, 0.48);
   --bg-badge: rgba(255, 255, 255, 0.48);
-  --bg-highlight: rgba(232, 65, 24, 0.12);
+  --bg-highlight: rgba(255, 46, 147, 0.12);
   --bg-banner: rgba(255, 255, 255, 0.30);
   --bg-banner-pill: rgba(255, 255, 255, 0.52);
-  --bg-banner-cta: #e84118;
+  --bg-banner-cta: #FF2E93;
   --text-banner-cta: #fdfdfd;
   --bg-banner-input: rgba(255, 255, 255, 0.56);
   --bg-nested-badge: rgba(255, 255, 255, 0.48);
@@ -151,7 +151,7 @@ html[data-theme="mica-fluent"] {
   --shadow-subcard: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --shadow-subcard-hover: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
   --shadow-nav-pill: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
-  --shadow-button: 0px 4px 10px 1px rgba(232, 65, 24, 0.28);
+  --shadow-button: 0px 4px 10px 1px rgba(255, 46, 147, 0.28);
   --shadow-popup: 0px 8px 20px 2px rgba(0, 0, 0, 0.14);
 
   /* Surface Layer Tokens */
@@ -186,7 +186,7 @@ html[data-theme="mica-fluent"] {
 
   --surface-interactive-bg: rgba(255, 255, 255, 0.36);
   --surface-interactive-hover: rgba(255, 255, 255, 0.54);
-  --surface-interactive-active: #e84118;
+  --surface-interactive-active: #FF2E93;
   --surface-interactive-border: rgba(255, 255, 255, 0.45);
   --surface-interactive-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-interactive-blur: 20px;
@@ -234,6 +234,7 @@ html[data-card-style="mica-fluent"] :is(
   [id$="-main-card"]:not(#pdf-page-container),
   #about-intro-card-1,
   #about-intro-card-2,
+  #about-intro-grid-2,
   #contact-main-card,
   [id^="letter-card-"],
   [id^="horoscope-card-"]
@@ -356,20 +357,20 @@ html[data-card-style="mica-fluent"] :is(.hero-banner, .banner-card, [id$="-hero-
   text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85);
 }
 
-/* Primary Accent CTA (#E84118 -> #C23616) & Dark Contrast Chips */
+/* Primary Accent CTA (#FF2E93 -> #E11D48) & Dark Contrast Chips */
 html[data-card-style="mica-fluent"] .banner-primary-cta,
 html[data-card-style="mica-fluent"] .project-card-btn-primary,
 html[data-card-style="mica-fluent"] #ai-assistant-submit-button {
-  background: #e84118 !important;
+  background: #FF2E93 !important;
   border: 1px solid rgba(255, 255, 255, 0.30) !important;
   color: #fdfdfd !important;
-  box-shadow: 0 10px 24px -6px rgba(232, 65, 24, 0.42) !important;
+  box-shadow: 0 10px 24px -6px rgba(255, 46, 147, 0.42) !important;
 }
 
 html[data-card-style="mica-fluent"] .banner-primary-cta:hover,
 html[data-card-style="mica-fluent"] .project-card-btn-primary:hover,
 html[data-card-style="mica-fluent"] #ai-assistant-submit-button:hover {
-  background: #c23616 !important;
+  background: #E11D48 !important;
 }
 
 html[data-card-style="mica-fluent"] .project-card-order-badge {
@@ -416,7 +417,7 @@ html[data-card-style="mica-fluent"] :is(
     .theme-prev-next-btn
   ):hover {
     background: hsla(0, 0%, 99%, 0.90) !important;
-    border-color: rgba(232, 65, 24, 0.36) !important;
+    border-color: rgba(255, 46, 147, 0.36) !important;
   }
 }
 
@@ -429,10 +430,10 @@ html[data-card-style="mica-fluent"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) {
-  background: #e84118 !important;
+  background: #FF2E93 !important;
   border-color: rgba(255, 255, 255, 0.42) !important;
   color: #fdfdfd !important;
-  box-shadow: 0 10px 24px -6px rgba(232, 65, 24, 0.46) !important;
+  box-shadow: 0 10px 24px -6px rgba(255, 46, 147, 0.46) !important;
 }
 
 html[data-card-style="mica-fluent"] :is(
@@ -463,8 +464,8 @@ html[data-card-style="mica-fluent"] :is(input, textarea, select):not([type="rang
 
 html[data-card-style="mica-fluent"] :is(input, textarea, select):focus,
 html[data-card-style="mica-fluent"] :is(button, a, input, [role="button"], [role="tab"]):focus-visible {
-  border-color: #e84118 !important;
-  outline: 2px solid #e84118 !important;
+  border-color: #FF2E93 !important;
+  outline: 2px solid #FF2E93 !important;
   outline-offset: 2px !important;
 }
 
@@ -474,13 +475,13 @@ html[data-card-style="mica-fluent"] .video-play-btn {
   --vp-border: rgba(255, 255, 255, 0.48);
   --vp-text: #1c0708;
   --vp-specular: rgba(255, 255, 255, 0.72);
-  --vp-chase-a: #e84118;
+  --vp-chase-a: #FF2E93;
   --vp-chase-b: #525a65;
   --vp-shadow-ambient: 0 14px 28px -8px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.72);
   --vp-shadow-hover: 0 18px 36px -8px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.90);
-  --vp-sound-bg: rgba(232, 65, 24, 0.12);
-  --vp-sound-border: rgba(232, 65, 24, 0.30);
-  --vp-sound-hover: rgba(232, 65, 24, 0.22);
+  --vp-sound-bg: rgba(255, 46, 147, 0.12);
+  --vp-sound-border: rgba(255, 46, 147, 0.30);
+  --vp-sound-hover: rgba(255, 46, 147, 0.22);
 }
 
 html[data-card-style="mica-fluent"] .video-play-btn--home,
@@ -492,8 +493,8 @@ html[data-card-style="mica-fluent"] .video-play-btn--systems {
 }
 
 html[data-card-style="mica-fluent"] .video-play-btn--letter {
-  --vp-bg: #e84118;
-  --vp-bg-hover: #c23616;
+  --vp-bg: #FF2E93;
+  --vp-bg-hover: #E11D48;
   --vp-text: #fdfdfd;
 }
 

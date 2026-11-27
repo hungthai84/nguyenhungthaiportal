@@ -186,12 +186,12 @@ export const DRIVE_SYSTEM_MEDIA = {
 } as const;
 
 export const DRIVE_EXPERIENCE_BANNERS = {
-  mobifone: 'https://i.postimg.cc/k5HZ6dyk/Mobifone.png', // Mobifone.png
-  v247: 'https://i.postimg.cc/63GPC1jz/v247.png', // v247.png
-  lbc: 'https://i.postimg.cc/cJzjgNmq/LBC.png', // LBC.png
-  ved: 'https://i.postimg.cc/Fz5Bpg8S/VED.png', // VED.png
-  prudential: 'https://i.postimg.cc/4dh0pFL9/Prudentinal.png', // Prudentinal.png
-  momo: 'https://i.postimg.cc/25tJbfxM/Momo.png', // Momo.png
-  finviet: 'https://i.postimg.cc/6QPS2Nhb/Finviet.png', // Finviet.png
-  opportunity: 'https://i.postimg.cc/Px871F32/Tim-Co-hoi.png', // Tìm Cơ hội.png
+  mobifone: 'https://i.postimg.cc/J0f8691x/Mobifone.webp',
+  v247: 'https://i.postimg.cc/zvsNt9J6/V247.webp',
+  lbc: 'https://i.postimg.cc/hvknyHSr/LBC.webp',
+  ved: 'https://i.postimg.cc/cCpW9Vsz/VED.webp',
+  prudential: 'https://i.postimg.cc/D09hjt2Y/Prudential.webp',
+  momo: 'https://i.postimg.cc/90628vWg/Momo.webp',
+  finviet: 'https://i.postimg.cc/3N47ZKHb/Finviet.webp',
+  opportunity: 'https://i.postimg.cc/Px871F32/Tim-Co-hoi.png',
 } as const;

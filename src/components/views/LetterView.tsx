@@ -1259,10 +1259,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                               2002
                             </strong>{' '}
                             tại{' '}
-                            <BrandBadge
+                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/3N4xX9Xd/Mobifone.png',
+                                  src: 'https://i.postimg.cc/J0f8691x/Mobifone.webp',
                                   alt: 'MobiFone',
                                 },
                               ]}
@@ -1285,7 +1285,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/wMyjXFXc/V247.png',
+                                  src: 'https://i.postimg.cc/zvsNt9J6/V247.webp',
                                   alt: 'Viễn Liên V247',
                                 },
                               ]}
@@ -1294,7 +1294,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/sxQgYKYh/Power-Service.png',
+                                  src: 'https://i.postimg.cc/0jTvWL8Z/Power-Service.webp',
                                   alt: 'Power Service',
                                 },
                               ]}
@@ -1317,11 +1317,11 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/kG6gQwQ4/LBC.png',
+                                  src: 'https://i.postimg.cc/hvknyHSr/LBC.webp',
                                   alt: 'LBC',
                                 },
                                 {
-                                  src: 'https://i.postimg.cc/V6HN02C6/HTVC.png',
+                                  src: 'https://i.postimg.cc/C5BY4FVP/HTVC.webp',
                                   alt: 'HTVC',
                                 },
                               ]}
@@ -1348,7 +1348,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/QC9dQSQs/Garena.png',
+                                  src: 'https://i.postimg.cc/gjXdKYPT/Garena.webp',
                                   alt: 'Garena',
                                 },
                               ]}
@@ -1357,7 +1357,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/MTrGfgQH/GCafe.png',
+                                  src: 'https://i.postimg.cc/3N47ZKHf/GCafe.webp',
                                   alt: 'GCafe',
                                 },
                               ]}
@@ -1380,11 +1380,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/vTgZrXrx/Logo-VED.gif',
-                                  alt: 'VED Logo',
-                                },
-                                {
-                                  src: 'https://i.postimg.cc/NF9j6b6x/VED.png',
+                                  src: 'https://i.postimg.cc/cCpW9Vsz/VED.webp',
                                   alt: 'VED',
                                 },
                               ]}
@@ -1394,7 +1390,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/WzF1GSGw/Shopee.png',
+                                  src: 'https://i.postimg.cc/zvsNt9Jt/Shopee.webp',
                                   alt: 'Shopee',
                                 },
                               ]}
@@ -1404,7 +1400,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/J0DzNKNN/Shopee-Paye.png',
+                                  src: 'https://i.postimg.cc/kG0C1knp/Shopee-Paye.webp',
                                   alt: 'AirPay / ShopeePay',
                                 },
                               ]}
@@ -1427,7 +1423,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/C5BxGJGk/Prudential.png',
+                                  src: 'https://i.postimg.cc/D09hjt2Y/Prudential.webp',
                                   alt: 'Prudential',
                                 },
                               ]}
@@ -1450,7 +1446,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/J0DzNKNy/Momo.png',
+                                  src: 'https://i.postimg.cc/90628vWg/Momo.webp',
                                   alt: 'MoMo',
                                 },
                               ]}
@@ -1473,7 +1469,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             <BrandBadge
                               logos={[
                                 {
-                                  src: 'https://i.postimg.cc/mD6r1KHh/Finviet.png',
+                                  src: 'https://i.postimg.cc/3N47ZKHb/Finviet.webp',
                                   alt: 'Finviet - Ví ECO',
                                 },
                               ]}

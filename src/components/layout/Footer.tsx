@@ -141,12 +141,10 @@ const FooterComponent: React.FC<FooterProps> = ({
 
   const { cardStyle, setCardStyle, isDark } = useTheme();
   const isWalnutTheme = cardStyle === 'walnut-wood';
-  const isLeatherTheme =
-    cardStyle === 'cowhide-leather' ||
-    cardStyle === 'dark-cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather';
   const isOceanTheme = cardStyle === 'deep-ocean';
-  const leatherGoldAccent = cardStyle === 'dark-cowhide-leather' ? '#E5B87E' : '#D97706';
-  const leatherTitleColor = cardStyle === 'dark-cowhide-leather' ? '#FFF8EE' : '#FDE68A';
+  const leatherGoldAccent = isDark ? '#E5B87E' : '#D97706';
+  const leatherTitleColor = isDark ? '#FFF8EE' : '#FDE68A';
   const walnutGoldAccent = '#F5C478';
   const walnutTitleColor = '#FFFBF4';
   const rightPillAccent = isWalnutTheme

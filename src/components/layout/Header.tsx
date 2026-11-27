@@ -272,15 +272,13 @@ export const Header: React.FC<HeaderProps> = ({
   );
   const headerPages = [...orderedPages, ...extraPages];
 
-  const { cardStyle } = useTheme();
+  const { cardStyle, isDark } = useTheme();
   void currentTheme;
   const isWalnutTheme = cardStyle === 'walnut-wood';
-  const isLeatherTheme =
-    cardStyle === 'cowhide-leather' ||
-    cardStyle === 'dark-cowhide-leather';
+  const isLeatherTheme = cardStyle === 'cowhide-leather';
   const isOceanTheme = cardStyle === 'deep-ocean';
-  const leatherGoldAccent = cardStyle === 'dark-cowhide-leather' ? '#E5B87E' : '#D97706';
-  const leatherTitleColor = cardStyle === 'dark-cowhide-leather' ? '#FFF8EE' : '#FDE68A';
+  const leatherGoldAccent = isDark ? '#E5B87E' : '#D97706';
+  const leatherTitleColor = isDark ? '#FFF8EE' : '#FDE68A';
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);

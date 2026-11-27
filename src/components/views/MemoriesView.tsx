@@ -131,6 +131,10 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
           decoding="async"
           referrerPolicy="no-referrer"
           onLoad={() => setIsLoaded(true)}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://i.postimg.cc/zBnjzm2t/Khong-bang-cap.png';
+            setIsLoaded(true);
+          }}
           className={cn(
             'w-full h-auto object-cover block transition-transform duration-500 ease-out group-hover:scale-105',
             isLoaded ? 'opacity-100' : 'opacity-0'

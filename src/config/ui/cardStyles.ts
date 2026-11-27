@@ -761,6 +761,26 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     dark: CARD_STYLES_MAP['gradient-dopamine'],
     color: CARD_STYLES_MAP['gradient-dopamine'],
   },
+  'frost-ice-neu': {
+    familyId: 'frost-ice-neu',
+    label: 'Băng Tuyết Nổi Khối',
+    labelEn: 'Frost Ice Matte Soft',
+    description: 'Băng tuyết nổi khối mềm mại.',
+    descriptionEn: 'Frost Ice Matte Soft.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['frost-ice-neu'],
+    dark: CARD_STYLES_MAP['frost-ice-neu'],
+  },
+  'iridescent-liquid-glass': {
+    familyId: 'iridescent-liquid-glass',
+    label: 'Kính Xà Cừ Sáng',
+    labelEn: 'Light Iridescent Liquid Glass',
+    description: 'Kính xà cừ quang học phát sáng.',
+    descriptionEn: 'Light Iridescent Liquid Glass.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['iridescent-liquid-glass'],
+    dark: CARD_STYLES_MAP['dark-iridescent-liquid-glass'],
+  },
 };
 
 export const getCardStyleProperties = (styleId: CardStyleMode, _isDark?: boolean): CardStyleConfig => {

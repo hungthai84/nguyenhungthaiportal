@@ -42,7 +42,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const effectiveCardStyle = cardStyle || currentTheme;
   const isLeatherTheme =
     effectiveCardStyle === 'cowhide-leather' ||
-    effectiveCardStyle === 'dark-cowhide-leather' ||
     effectiveCardStyle === 'walnut-wood';
   const isOceanTheme = effectiveCardStyle === 'deep-ocean';
 

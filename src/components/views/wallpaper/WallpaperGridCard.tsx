@@ -6,6 +6,7 @@ import {
   getWallpaperThumbnailUrl,
 } from '@/data/wallpapers';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import {
   AnimatedSceneWallpaper,
   isAnimatedSceneWallpaper,
@@ -235,18 +236,12 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
               />
             )
           ) : (
-            <img
+            <BlurUpImage
               src={getWallpaperThumbnailUrl(wp.value || wp.bg || '')}
+              fallbackSrc={getCleanImageUrl(wp.value || wp.bg || '')}
               alt={wp.name}
-              referrerPolicy="no-referrer"
-              loading="lazy"
-              decoding="async"
+              variant="cover"
               onError={(e) => {
-                const originalUrl = getCleanImageUrl(wp.value || wp.bg || '');
-                if (e.currentTarget.src !== originalUrl) {
-                  e.currentTarget.src = originalUrl;
-                  return;
-                }
                 e.currentTarget.style.display = 'none';
                 const parent = e.currentTarget.parentElement;
                 if (parent) {

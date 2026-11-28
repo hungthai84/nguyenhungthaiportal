@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ProjectData } from '@/types';
 import { getProjectCloudinaryBanner } from '@/utils/projectBanner';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
 export interface ProjectFanGroup {
@@ -288,12 +289,11 @@ export const ProjectFanGroupCard: React.FC<ProjectFanGroupCardProps> = ({
               >
                 {/* Project Banner Image overlay with grainy mesh fallback */}
                 {bannerInfo?.primaryUrl && (
-                  <img
+                  <BlurUpImage
                     src={bannerInfo.primaryUrl}
+                    fallbackSrc={bannerInfo.fallbackUrl}
                     alt={cleanedTitle}
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
+                    variant="cover"
                     className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity pointer-events-none"
                   />
                 )}

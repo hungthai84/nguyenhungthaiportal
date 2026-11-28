@@ -7,6 +7,7 @@ import { PageMeta, SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { useTheme } from '@/hooks/useTheme';
 import {
   LETTER_14_DARK_HEXES,
@@ -948,11 +949,11 @@ export const Header: React.FC<HeaderProps> = ({
                       {/* Round Circle Badge with Icon or Avatar */}
                       <div className="nav-pill-icon-badge relative z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 leading-none p-0 overflow-hidden ring-1 ring-white/30">
                         {styleCfg.avatarGif ? (
-                          <img
+                          <BlurUpImage
                             src={styleCfg.avatarGif}
                             alt={pageTitle}
-                            decoding="async"
-                            referrerPolicy="no-referrer"
+                            priority="eager"
+                            variant="cover"
                             className="w-full h-full object-cover rounded-full"
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';

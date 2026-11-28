@@ -12,14 +12,14 @@
 #about-intro-card-2 {
   container-type: inline-size;
   container-name: main-card;
-  padding: var(--main-card-padding, 20px) !important;
-  padding-top: var(--main-card-padding, 20px) !important;
-  padding-right: var(--main-card-padding, 20px) !important;
-  padding-bottom: var(--main-card-padding, 20px) !important;
-  padding-left: var(--main-card-padding, 20px) !important;
-  gap: 16px !important;
-  row-gap: 16px !important;
-  column-gap: 16px !important;
+  padding: var(--main-card-padding, 16px) !important;
+  padding-top: var(--main-card-padding, 16px) !important;
+  padding-right: var(--main-card-padding, 16px) !important;
+  padding-bottom: var(--main-card-padding, 16px) !important;
+  padding-left: var(--main-card-padding, 16px) !important;
+  gap: var(--card-gap, 14px) !important;
+  row-gap: var(--card-gap, 14px) !important;
+  column-gap: var(--card-gap, 14px) !important;
 }
 
 /* Card giới thiệu 1 luôn giữ đúng khoảng cách xung quanh và co giản Bento view tối ưu khoảng trắng */
@@ -197,7 +197,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 [data-main-card="true"]:not(#pdf-page-container) > *,
 #about-intro-card-1 > *,
 #about-intro-card-2 > * {
-  --mc-gap: 16px;
+  --mc-gap: 14px;
   --mc-card-pad: 16px;
   --mc-subcard-pad: 12px;
   --layout-typo-factor: 1;
@@ -258,15 +258,15 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   display: grid;
   grid-template-columns:
     repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 15px;
+  gap: var(--card-gap, 14px);
   align-items: stretch;
 }
 
 .card {
   min-width: 0;
-  height: 100%;
-  padding: 15px;
-  border-radius: 18px;
+  height: auto;
+  padding: var(--card-padding, 16px);
+  border-radius: var(--card-radius, 15px);
 }
 
 /* ========================================================================= */

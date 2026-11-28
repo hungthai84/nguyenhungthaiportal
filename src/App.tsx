@@ -11,6 +11,7 @@ import { ExperienceMilestone } from './data/experience';
 import { TABS_DATA } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
+import { useDesktopMomentumScroll } from './hooks/useDesktopMomentumScroll';
 import { parseCssStringToStyle, getCleanImageUrl } from './data/wallpapers';
 import {
   applyTypographyScaleToDocument,
@@ -145,6 +146,7 @@ export default function App() {
   }, [activeImageUrl]);
 
   useGlobalHorizontalScroll();
+  useDesktopMomentumScroll();
 
   // Phát âm thanh click nhẹ khi bấm trên toàn ứng dụng (không tạo hiệu ứng lún nút)
   useEffect(() => {
@@ -434,14 +436,14 @@ export default function App() {
 
   // Điều hướng Tới trang / Qua trang theo thứ tự sắp xếp trên Menu Icon; nếu trang có slide thì qua từng slide rồi mới tới trang kế tiếp
   const navigatePage = useCallback(
-    (direction: number) => {
-      SoundEngine.playPageFlip();
+    (direction: number, preventLoop = false) => {
       const activeIdx = MENU_ICON_ORDER.includes(currentTabIndex) ? currentTabIndex : 0;
       const totalSlides = PAGE_SLIDE_COUNTS[activeIdx] || 1;
       const currentSlide = pageSlides[activeIdx] ?? 0;
 
       if (direction > 0) {
         if (totalSlides > 1 && currentSlide < totalSlides - 1) {
+          SoundEngine.playPageFlip();
           const nextSlide = currentSlide + 1;
           setPageSlides((prev) => ({ ...prev, [activeIdx]: nextSlide }));
           window.dispatchEvent(
@@ -452,6 +454,10 @@ export default function App() {
           return;
         }
         const pos = MENU_ICON_ORDER.indexOf(activeIdx);
+        if (preventLoop && pos >= MENU_ICON_ORDER.length - 1) {
+          return;
+        }
+        SoundEngine.playPageFlip();
         const nextPos = (pos + 1) % MENU_ICON_ORDER.length;
         const nextTab = MENU_ICON_ORDER[nextPos];
         if ((PAGE_SLIDE_COUNTS[nextTab] || 1) > 1) {
@@ -460,6 +466,7 @@ export default function App() {
         setCurrentTabIndex(nextTab);
       } else if (direction < 0) {
         if (totalSlides > 1 && currentSlide > 0) {
+          SoundEngine.playPageFlip();
           const prevSlide = currentSlide - 1;
           setPageSlides((prev) => ({ ...prev, [activeIdx]: prevSlide }));
           window.dispatchEvent(
@@ -470,6 +477,10 @@ export default function App() {
           return;
         }
         const pos = MENU_ICON_ORDER.indexOf(activeIdx);
+        if (preventLoop && pos <= 0) {
+          return;
+        }
+        SoundEngine.playPageFlip();
         const prevPos = (pos - 1 + MENU_ICON_ORDER.length) % MENU_ICON_ORDER.length;
         const prevTab = MENU_ICON_ORDER[prevPos];
         const prevTotalSlides = PAGE_SLIDE_COUNTS[prevTab] || 1;
@@ -868,11 +879,11 @@ export default function App() {
         </div>
       )}
 
-      {/* MOBILE MODE: Thanh điều khiển phía trên Thẻ chính (Danh mục Dynamic Menu bên trái + Thời tiết bên phải) & Nút nổi chuyển trang góc dưới phải */}
+      {/* MOBILE MODE: Thanh điều khiển phía trên Thẻ chính (Menu Danh mục Icon bên trái + Thời tiết bên phải) & Nút nổi chuyển trang góc dưới phải */}
       <MobileTopBarAndFloatingNav
         currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
         onSelectPage={handleSelectTabWithSound}
-        onNavigatePage={navigatePage}
+        onNavigatePage={(dir) => navigatePage(dir, true)}
         onBackToTop={handleBackToTop}
         onShowNotification={showNotification}
         hasPrevPage={hasPrevPage}

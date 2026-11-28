@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import {
   CARD_SETTLE_SPRING,
   getExpandCardLayoutTransition,
@@ -1013,7 +1014,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                   data-card-layout="responsive-grid"
                   aria-hidden={isAnyCardExpanded}
                   className={cn(
-                    'unified-cards-grid services-cards-grid services-responsive-grid card-grid col-start-1 row-start-1 w-full min-w-0 h-auto',
+                    'unified-cards-grid services-cards-grid services-responsive-grid card-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-start-1 row-start-1 w-full min-w-0 h-auto',
                     isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
                     isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
                   )}
@@ -1217,20 +1218,15 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             </div>
 
                             <div className="service-card-image-box min-w-0 relative flex items-center justify-center shrink-0 justify-self-end overflow-visible">
-                              <img
+                              <BlurUpImage
                                 src={serviceImage}
+                                fallbackSrc={meta.fallbackIllustration}
                                 alt={fullTitle}
                                 width={104}
                                 height={104}
-                                loading={idx < 3 ? 'eager' : 'lazy'}
+                                priority={idx < 3 ? 'eager' : 'lazy'}
+                                variant="contain"
                                 fetchPriority={idx < 3 ? 'high' : 'auto'}
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                onError={(e) => {
-                                  if (e.currentTarget.src !== meta.fallbackIllustration) {
-                                    e.currentTarget.src = meta.fallbackIllustration;
-                                  }
-                                }}
                                 className="service-img-pop relative z-10 max-h-[104px] w-auto max-w-full object-contain select-none pointer-events-none transition-transform duration-500 ease-out group-hover:scale-120 group-hover:-translate-y-2 drop-shadow-lg group-hover:drop-shadow-2xl"
                               />
                             </div>
@@ -1253,25 +1249,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                       padding: 0,
                                     }}
                                   >
-                                    <img
+                                    <BlurUpImage
                                       src={partner.logo}
+                                      fallbackSrc={partner.fallbackLogo || serviceImage}
                                       alt={partner.name}
-                                      loading="lazy"
-                                      decoding="async"
-                                      referrerPolicy="no-referrer"
+                                      variant="contain"
                                       className="w-full h-full object-cover rounded-full block select-none"
                                       style={{
                                         imageRendering: '-webkit-optimize-contrast',
-                                      }}
-                                      onError={(e) => {
-                                        if (
-                                          partner.fallbackLogo &&
-                                          e.currentTarget.src !== partner.fallbackLogo
-                                        ) {
-                                          e.currentTarget.src = partner.fallbackLogo;
-                                        } else {
-                                          e.currentTarget.src = serviceImage;
-                                        }
                                       }}
                                     />
                                   </div>

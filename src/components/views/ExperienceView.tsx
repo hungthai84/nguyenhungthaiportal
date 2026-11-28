@@ -6,7 +6,7 @@ import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
 import { ExperienceSliderView } from './experience/ExperienceSliderView';
 import { ExperienceBentoStudioCard } from './experience/ExperienceBentoStudioCard';
-import { WordFocusQuoteCard, type WordFocusQuoteItem } from '@/components/ui/WordFocusQuoteCard';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { COMPANY_LOGOS } from '@/utils/companyBrandAssets';
 import {
   getExpandCardLayoutTransition,
@@ -54,6 +54,14 @@ const ArrowLeftRight = createAnimatedIcon('arrow-left-right');
 const ChevronDown = createAnimatedIcon('chevron-down');
 const ChevronUp = createAnimatedIcon('chevron-up');
 const X = createAnimatedIcon('x');
+const Award = createAnimatedIcon('award');
+const Clock = createAnimatedIcon('clock');
+const Compass = createAnimatedIcon('compass');
+const Folder = createAnimatedIcon('folder');
+const Shield = createAnimatedIcon('shield');
+const Target = createAnimatedIcon('target');
+const Zap = createAnimatedIcon('zap');
+const BarChart3 = createAnimatedIcon('bar-chart-3');
 import { EXPERIENCE_MILESTONES } from '@/data/experience';
 import { PROJECTS_DATA } from '@/data/projects';
 import { DOMAINS_DATA } from '@/data/services';
@@ -113,11 +121,10 @@ const CircularLogo: React.FC<{
       )}
     >
       {!hasFailedAll ? (
-        <img
+        <BlurUpImage
           src={imgSrc}
-          loading="lazy"
-          decoding="async"
-          referrerPolicy="no-referrer"
+          fallbackSrc={logo.fallback}
+          variant="contain"
           onError={() => {
             if (imgSrc !== logo.fallback) {
               setImgSrc(logo.fallback);
@@ -1240,12 +1247,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             className="exp-bento-item-card relative w-full h-[140px] sm:h-[164px] shrink-0 rounded-[var(--radius-subcard,14px)] overflow-hidden border shadow-xs"
           >
             {!hasBannerFailed && milestoneData?.bannerUrl ? (
-              <img
+              <BlurUpImage
                 src={milestoneData.bannerUrl}
                 alt={`Banner ${item.shortName}`}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
+                variant="cover"
                 onError={() => setFailedBannerKeys((prev) => ({ ...prev, [item.key]: true }))}
                 className="w-full h-full object-cover object-center block select-none pointer-events-none"
               />
@@ -1444,12 +1449,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       style={{ borderColor: frameCardStyle.borderColor }}
                     >
                       {!hasImgFailed ? (
-                        <img
+                        <BlurUpImage
                           src={photo.src}
                           alt={photo.title || item.shortName}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
+                          variant="cover"
                           onError={() =>
                             setFailedPhotoSrcs((prev) => ({ ...prev, [photo.src]: true }))
                           }
@@ -1514,13 +1517,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           data-element-parent="experience-cards-track"
           className={cn(
             'page-main-card floating-glass-surface floating-surface--main relative flex flex-col items-stretch justify-start select-none text-[var(--text-primary)] glass-scrollbar font-play text-left box-border rounded-[var(--radius-main,14px)] w-full h-full',
-            showJobCard ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden',
-            'p-0 gap-0'
+            showJobCard ? 'overflow-y-auto overflow-x-hidden p-[15px] gap-[15px]' : 'overflow-hidden p-0 gap-0'
           )}
           style={{
-            padding: '0px',
+            padding: showJobCard ? '15px' : '0px',
             borderRadius: 'var(--radius-main, 14px)',
-            gap: '0px',
+            gap: showJobCard ? '15px' : '0px',
           }}
         >
       {/* 3D ORIGAMI MULTI-PANEL STAGE (UNFOLDING / FOLDING BACK SEQUENCE) */}
@@ -1892,59 +1894,53 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         ];
 
         // Palette 6 màu cho các dự án trọng điểm
-        const projectRowPalettes = [
-          {
-            tone: 'pink',
-            rowLight: 'from-rose-50 to-orange-50/40 border-rose-100 hover:border-rose-300',
-            rowDark: 'from-rose-950/45 to-slate-900/80 border-rose-500/30 hover:border-rose-400/60',
-            badge: 'bg-rose-600 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-rose-300' : 'group-hover:text-rose-700',
-          },
-          {
-            tone: 'blue',
-            rowLight: 'from-blue-50 to-sky-50/40 border-blue-100 hover:border-blue-300',
-            rowDark: 'from-blue-950/45 to-slate-900/80 border-blue-500/30 hover:border-blue-400/60',
-            badge: 'bg-blue-600 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-sky-300' : 'group-hover:text-blue-700',
-          },
-          {
-            tone: 'amber',
-            rowLight: 'from-amber-50 to-yellow-50/40 border-amber-100 hover:border-amber-300',
-            rowDark: 'from-amber-950/45 to-slate-900/80 border-amber-500/30 hover:border-amber-400/60',
-            badge: 'bg-amber-500 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-amber-300' : 'group-hover:text-amber-700',
-          },
-          {
-            tone: 'emerald',
-            rowLight: 'from-emerald-50 to-teal-50/40 border-emerald-100 hover:border-emerald-300',
-            rowDark: 'from-emerald-950/45 to-slate-900/80 border-emerald-500/30 hover:border-emerald-400/60',
-            badge: 'bg-emerald-600 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-emerald-300' : 'group-hover:text-emerald-700',
-          },
-          {
-            tone: 'purple',
-            rowLight: 'from-purple-50 to-fuchsia-50/40 border-purple-100 hover:border-purple-300',
-            rowDark: 'from-purple-950/45 to-slate-900/80 border-purple-500/30 hover:border-purple-400/60',
-            badge: 'bg-purple-600 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-purple-300' : 'group-hover:text-purple-700',
-          },
-          {
-            tone: 'indigo',
-            rowLight: 'from-indigo-50 to-violet-50/40 border-indigo-100 hover:border-indigo-300',
-            rowDark: 'from-indigo-950/45 to-slate-900/80 border-indigo-500/30 hover:border-indigo-400/60',
-            badge: 'bg-indigo-600 text-white',
-            titleHover: isDarkCardText ? 'group-hover:text-indigo-300' : 'group-hover:text-indigo-700',
-          },
+        const projectCardPalettes = [
+          'text-sky-300 border-sky-500/30 hover:bg-white/10',
+          'text-emerald-300 border-emerald-500/30 hover:bg-white/10',
+          'text-purple-300 border-purple-500/30 hover:bg-white/10',
+          'text-amber-300 border-amber-500/30 hover:bg-white/10',
+          'text-pink-300 border-pink-500/30 hover:bg-white/10',
+          'text-cyan-300 border-cyan-500/30 hover:bg-white/10',
         ];
 
-        const photoBorderAccents = [
-          'hover:border-amber-400',
-          'hover:border-orange-400',
-          'hover:border-emerald-400',
-          'hover:border-sky-400',
-          'hover:border-purple-400',
-          'hover:border-rose-400',
+        const introPillarColors = [
+          'text-amber-300',
+          'text-cyan-300',
+          'text-rose-300',
+          'text-emerald-300',
         ];
+
+        const kpiValueColors = [
+          'text-emerald-300',
+          'text-cyan-300',
+          'text-amber-300',
+          'text-purple-300',
+        ];
+
+        const kpiBarGradients = [
+          'from-emerald-600 to-emerald-300',
+          'from-cyan-600 to-sky-300',
+          'from-amber-600 to-yellow-300',
+          'from-purple-600 to-pink-400',
+        ];
+
+        const matchedRoadmapCard = roadmapCards.find((r) => r.key === activeKey);
+        const inlineLogos = matchedRoadmapCard?.logos?.length
+          ? matchedRoadmapCard.logos
+          : [
+              {
+                src: activeMilestone.logo,
+                fallback: activeMilestone.logo,
+                alt: activeMilestone.company,
+              },
+            ];
+        const shortTagLabel =
+          matchedRoadmapCard?.shortName ||
+          activeMilestone.subCompanies ||
+          activeMilestone.tag;
+        const companyFullName = `${activeMilestone.company}${
+          activeMilestone.subCompanies ? ` ${activeMilestone.subCompanies}` : ''
+        }`;
 
         const navigateToServices = () => {
           SoundEngine.playTap();
@@ -1963,10 +1959,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
           }
         };
 
+        void taskCardPalettes;
+        void introColumnStyles;
+
         return (
+          <React.Fragment key={`experience-job-detail-${activeKey}`}>
+            {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Thu gọn + Nút đóng (44x44px touch target trên Mobile) */}
             <motion.div
-              key={`experience-job-detail-${activeKey}`}
-              id="experience-job-detail-stage"
+              id="experience-job-detail-toolbar"
               data-expand-motion="true"
               initial={
                 reducedMotion
@@ -1980,12 +1980,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   : { opacity: 0, x: originOffsetX * 0.35, y: originOffsetY * 0.35 + 18, scale: Math.max(0.88, originScale) }
               }
               transition={expandSpring}
-              className="relative z-20 w-full flex flex-col"
-            >
-            {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Thu gọn + Nút đóng */}
-            <div
-              id="experience-job-detail-toolbar"
-              className="w-full flex flex-wrap items-center justify-between gap-2 mb-[15px]"
+              className="relative z-20 w-full flex flex-wrap items-center justify-between gap-2 shrink-0"
             >
               <button
                 type="button"
@@ -1997,9 +1992,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   borderColor: 'var(--border-subcard, var(--border-default))',
                   boxShadow: 'var(--shadow-nav-pill)',
                 }}
-                className="typo-button px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-semibold font-play cursor-pointer border backdrop-blur-md"
+                className="typo-button min-h-[44px] sm:min-h-0 px-3.5 py-2 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1.5 text-xs font-semibold font-play cursor-pointer border backdrop-blur-md"
               >
-                <ChevronUp className="w-3.5 h-3.5" />
+                <ChevronUp className="w-3.5 h-3.5 shrink-0" />
                 <span>Thu gọn thẻ</span>
               </button>
 
@@ -2027,45 +2022,98 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     color: isWalnutWood || isDarkLeather || isBrownLeather ? '#FFF8EE' : 'var(--text-primary)',
                     boxShadow: 'var(--shadow-nav-pill)',
                   }}
-                  className="theme-modal-close w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer border backdrop-blur-md shrink-0"
+                  className="theme-modal-close w-11 h-11 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer border backdrop-blur-md shrink-0"
                 >
                   <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                 </button>
               </div>
-            </div>
+            </motion.div>
 
-            {/* BỐ CỤC BENTO RESPONSIVE GRID CARD (DESKTOP 4 CỘT · TABLET 2 CỘT · MOBILE 1 CỘT) */}
+            {/* BỐ CỤC BENTO CHI TIẾT CÔNG VIỆC — ĐỒNG BỘ MẪU 7 KHỐI + THƯ VIỆN ẢNH & BANNER */}
             <motion.div
-              data-expand-motion="true"
-              initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, transition: { duration: 0.12 } }}
-              transition={getExpandDetailRevealTransition(reducedMotion, false)}
-              className="exp-bento-stage w-full min-w-0"
-            >
-            <div
               id="experience-bento-grid"
+              data-expand-motion="true"
               data-layout-mode="bento-responsive-grid"
               data-card-layout="bento-responsive-grid"
-              className="exp-studio-grid exp-bento-responsive-grid ux-u214-grid w-full min-w-0"
+              initial={reducedMotion ? false : { opacity: 0, y: 10, scale: originScale }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, transition: { duration: 0.12 } }}
+              transition={getExpandDetailRevealTransition(reducedMotion, false)}
+              className="relative z-20 exp-studio-grid exp-bento-responsive-grid ux-u214-grid w-full min-w-0"
             >
-              {/* THẺ 1 (2x2 Hero Bento Anchor) — MẪU THẺ 1: HERO PURPLE-INDIGO (CÔNG TY & BANNER) */}
+              {/* KHỐI ĐẦU TRANG: LOGO + ĐỊNH DANH CÔNG TY + BANNER */}
               <ExperienceBentoStudioCard
                 id="experience-info-card"
                 variant="hero-purple"
-                u214RestText={`${activeMilestone.company} · ${activeMilestone.period}`}
-                u214TypeText={`${activeMilestone.company} · ${activeMilestone.roleTitle} (${activeMilestone.tenure})`}
+                u214RestText={`${companyFullName} · ${activeMilestone.period}`}
+                u214TypeText={`${companyFullName} · ${activeMilestone.roleTitle} (${activeMilestone.tenure})`}
                 onClick={(e) => {
                   const target = e.target as HTMLElement;
                   if (target.closest('button, a, video, .exp-bento-hero-banner, input')) return;
                   handleCloseJobCard();
                 }}
-                title="Bấm vào thẻ công ty để thu gọn lại"
-                className="exp-bento-item exp-bento-hero-2x2 cursor-pointer"
+                title="Bấm vào vùng trống để thu gọn lại"
+                className="exp-bento-item cursor-pointer space-y-4"
               >
-                {/* Banner Video / Image Header */}
+                {/* Header Identity Row */}
+                <div
+                  id="experience-company-name-card"
+                  className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-white/10 min-w-0"
+                >
+                  <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
+                    <div className="u214-logo-gather flex items-center -space-x-2 shrink-0">
+                      {inlineLogos.map((logoItem, logoIdx) => (
+                        <div
+                          key={`${logoItem.src}-${logoIdx}`}
+                          style={{ zIndex: inlineLogos.length - logoIdx }}
+                          className={cn(
+                            'rounded-2xl bg-white p-1.5 shadow-lg border border-white/20 shrink-0 overflow-hidden flex items-center justify-center',
+                            inlineLogos.length >= 4
+                              ? 'w-11 h-11 sm:w-12 sm:h-12'
+                              : 'w-12 h-12 sm:w-14 sm:h-14'
+                          )}
+                        >
+                          <BlurUpImage
+                            src={logoItem.src}
+                            fallbackSrc={logoItem.fallback}
+                            alt={logoItem.alt || companyFullName}
+                            variant="contain"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-rose-200 bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 rounded-full">
+                          {activeMilestone.cardYearLabel || activeMilestone.year} • {shortTagLabel}
+                        </span>
+                        <span className="text-[11px] font-bold text-amber-300 bg-amber-500/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
+                          {activeMilestone.roleTitle} ({activeMilestone.tenure})
+                        </span>
+                      </div>
+                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight break-words m-0">
+                        {companyFullName}
+                      </h1>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 text-xs shrink-0 max-w-full">
+                    <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 font-bold text-gray-100">
+                      {activeMilestone.tag}
+                    </span>
+                    {activeMilestone.location && (
+                      <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 font-bold text-emerald-300">
+                        {activeMilestone.location}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Banner Video / Image Preview */}
                 {activeMilestone.videoCard ? (
-                  <div className="exp-bento-hero-banner relative h-44 sm:h-56 w-full rounded-[14px] overflow-hidden shrink-0 bg-slate-950/60 border border-white/15">
+                  <div className="exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[14px] overflow-hidden shrink-0 bg-slate-950/60 border border-white/15">
                     <DualLayerVideoPlayer
                       video1Id=""
                       video2Id=""
@@ -2081,465 +2129,414 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 ) : (
                   !bannerImgError &&
                   activeMilestone.bannerUrl && (
-                    <div className="exp-bento-hero-banner relative h-44 sm:h-56 w-full rounded-[14px] p-[4px] overflow-hidden shrink-0 bg-black/25 border border-white/15">
-                      <img
+                    <div className="exp-bento-hero-banner relative h-40 sm:h-52 w-full rounded-[14px] p-[4px] overflow-hidden shrink-0 bg-black/25 border border-white/15">
+                      <BlurUpImage
                         src={activeMilestone.bannerUrl}
-                        alt={`Banner ${activeMilestone.company}`}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
+                        alt={`Banner ${companyFullName}`}
+                        priority="eager"
+                        variant="cover"
                         onError={() => setBannerImgError(true)}
-                        className="w-full h-full object-cover object-center rounded-[10px] opacity-100 brightness-105 contrast-105 saturate-105 block"
+                        className="w-full h-full object-cover object-center rounded-[10px] brightness-105 contrast-105 saturate-105 block"
                       />
                       <div className="absolute inset-1 rounded-[10px] bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/20 pointer-events-none" />
                     </div>
                   )
                 )}
+              </ExperienceBentoStudioCard>
 
-                {/* Company Identity Block */}
-                <div
-                  id="experience-company-name-card"
-                  className="exp-studio-subtile no-card-hover w-full p-4 flex flex-col gap-3 min-w-0"
+              {/* HÀNG 1 (1 CỘT + 2 CỘT): 1. THÔNG TIN CÔNG TY & 2. GIỚI THIỆU HÀNH TRÌNH */}
+              <div className="exp-bento-row-3">
+                {/* 1. THÔNG TIN CÔNG TY */}
+                <ExperienceBentoStudioCard
+                  id="experience-general-info-card"
+                  variant="amber-highlight"
+                  u214MarqueeItems={derivedServicesList.map((srv, idx) => {
+                    const palette = ['#7B61FF', '#2F8FE0', '#119C72', '#D6731E', '#D93A55', '#E2B714'];
+                    return { label: srv, color: palette[idx % palette.length] };
+                  })}
+                  className="exp-bento-item justify-between"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2 w-full">
-                    <div className="inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold bg-white/15 border border-white/25 text-white max-w-full w-fit">
-                      <Building2 className="w-3.5 h-3.5 shrink-0 text-amber-300 exp-studio-icon" />
-                      <span>{activeMilestone.tag}</span>
-                      {activeMilestone.location && (
-                        <>
-                          <span aria-hidden="true" className="opacity-70">·</span>
-                          <MapPin className="w-3 h-3 shrink-0 text-sky-300" />
-                          <span>{activeMilestone.location}</span>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="px-3 py-1 rounded-full typo-caption sm:typo-body-sm font-bold flex items-center gap-1.5 max-w-full bg-black/35 border border-white/20 text-purple-100 shrink-0">
-                      <Calendar className="w-3.5 h-3.5 shrink-0 text-amber-300" />
-                      <span className="truncate">
-                        {activeMilestone.period} ({activeMilestone.tenure})
+                  <div className="min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Briefcase className="w-4 h-4 text-amber-300 shrink-0 exp-studio-icon" />
+                        <span
+                          className="text-xs font-bold uppercase tracking-wider text-rose-200 truncate"
+                          data-card-title="true"
+                        >
+                          1. Thông Tin Công Ty
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-bold bg-white/15 px-2.5 py-0.5 rounded-full shrink-0 text-white">
+                        {activeMilestone.tenure}
                       </span>
                     </div>
-                  </div>
 
-                  {(() => {
-                    const matchedRoadmapCard = roadmapCards.find((r) => r.key === activeKey);
-                    const inlineLogos = matchedRoadmapCard?.logos?.length
-                      ? matchedRoadmapCard.logos
-                      : [
-                          {
-                            src: activeMilestone.logo,
-                            fallback: activeMilestone.logo,
-                            alt: activeMilestone.company,
-                          },
-                        ];
-                    const useCompactLogo = inlineLogos.length >= 4;
-                    return (
-                      <div className="flex flex-wrap items-center gap-4 min-w-0 w-full">
-                        <div className="u214-logo-gather flex flex-row items-center justify-start shrink-0 -space-x-2">
-                          {inlineLogos.map((logoItem, logoIdx) => (
-                            <div
-                              key={`${logoItem.src}-${logoIdx}`}
-                              style={{
-                                zIndex: inlineLogos.length - logoIdx,
-                                border: 'none',
-                                boxShadow: 'none',
-                                background: 'transparent',
-                              }}
-                              className={cn(
-                                'relative rounded-full bg-transparent overflow-hidden p-0 border-0 ring-0 outline-none flex items-center justify-center shrink-0',
-                                useCompactLogo
-                                  ? 'w-[52px] h-[52px] sm:w-[58px] sm:h-[58px]'
-                                  : 'w-[66px] h-[66px] sm:w-[74px] sm:h-[74px]'
-                              )}
-                            >
-                              <img
-                                src={logoItem.src}
-                                alt={logoItem.alt || activeMilestone.company}
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                onError={(e) => {
-                                  const img = e.currentTarget as HTMLImageElement;
-                                  if (logoItem.fallback && img.src !== logoItem.fallback) {
-                                    img.src = logoItem.fallback;
-                                  }
-                                }}
-                                className="w-full h-full object-contain rounded-full"
-                              />
-                            </div>
-                          ))}
-                        </div>
-
-                        <h1 className="typo-h1 font-bold leading-tight break-words min-w-0 max-w-full flex-1 text-white">
-                          {activeMilestone.company}
-                          {activeMilestone.subCompanies ? ` ${activeMilestone.subCompanies}` : ''}
-                        </h1>
-                      </div>
-                    );
-                  })()}
-                </div>
-              </ExperienceBentoStudioCard>
-
-              {/* THẺ 2 (2x1 Top-Right Bento) — MẪU THẺ 5 / 28: AMBER-ORANGE HIGH-CONTRAST (THÔNG TIN VẬN HÀNH) */}
-              <ExperienceBentoStudioCard
-                id="experience-general-info-card"
-                variant="amber-highlight"
-                u214MarqueeItems={derivedServicesList.map((srv, idx) => {
-                  const palette = ['#7B61FF', '#2F8FE0', '#119C72', '#D6731E', '#D93A55', '#E2B714'];
-                  return { label: srv, color: palette[idx % palette.length] };
-                })}
-                className="exp-bento-item exp-bento-span-2"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <h2
-                    className="typo-h4 font-extrabold flex items-center gap-2 text-gray-950 m-0"
-                    data-card-title="true"
-                  >
-                    <Briefcase className="w-5 h-5 shrink-0 text-gray-950 exp-studio-icon" />
-                    <span>Thông tin</span>
-                  </h2>
-                  <span className="typo-badge font-bold px-2.5 py-1 rounded-full bg-gray-950/15 text-gray-950 border border-gray-950/15">
-                    3 Hạng mục
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-3 justify-start min-w-0">
-                  {/* Sub-card 1: Chức vụ đảm nhận */}
-                  <div className="exp-studio-subtile--amber no-card-hover p-3.5 flex flex-col gap-1.5 min-w-0">
-                    <div className="flex items-center gap-2 text-gray-950/80">
-                      <Briefcase className="w-4 h-4 shrink-0" />
-                      <p className="typo-label font-bold tracking-wide m-0" data-subcard-title="true">
-                        Chức vụ đảm nhận
-                      </p>
-                    </div>
-                    <p className="typo-h4 font-extrabold leading-snug break-words text-gray-950 m-0">
-                      {activeMilestone.roleTitle}
-                    </p>
-                  </div>
-
-                  {/* Sub-card 2: Quy mô vận hành */}
-                  <div className="exp-studio-subtile--amber no-card-hover p-3.5 flex flex-col gap-1.5 min-w-0">
-                    <div className="flex items-center gap-2 text-gray-950/80">
-                      <Users className="w-4 h-4 shrink-0" />
-                      <p className="typo-label font-bold tracking-wide m-0" data-subcard-title="true">
-                        Quy mô vận hành
-                      </p>
-                    </div>
-                    <p className="typo-h4 font-extrabold leading-snug break-words text-gray-950 m-0">
-                      {activeMilestone.scaleDesc || `${activeMilestone.headcount} nhân sự`}
-                    </p>
-                  </div>
-
-                  {/* Sub-card 3: Lĩnh vực đảm nhận */}
-                  <div
-                    id="experience-company-services"
-                    className="exp-studio-subtile--amber no-card-hover p-3.5 flex flex-col gap-2.5 min-w-0"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-1.5 text-gray-950/85">
-                        <Layers className="w-4 h-4 shrink-0" />
-                        <p className="typo-label font-bold tracking-wide m-0" data-subcard-title="true">
-                          Lĩnh vực đảm nhận
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={navigateToServices}
-                        className="px-2.5 py-0.5 rounded-full typo-badge font-bold bg-gray-950 text-amber-300 flex items-center gap-1 cursor-pointer shrink-0"
-                        title="Xem chi tiết Lĩnh vực & Dịch vụ"
+                    <div className="space-y-2 text-xs">
+                      <div
+                        id="experience-company-services"
+                        className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0"
                       >
-                        <span>{derivedServicesList.length} dịch vụ</span>
-                        <ArrowUpRight className="w-3 h-3 shrink-0" />
-                      </button>
-                    </div>
+                        <Layers className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <span className="text-rose-200/80 block text-[11px]">Lĩnh vực</span>
+                            <button
+                              type="button"
+                              onClick={navigateToServices}
+                              className="inline-flex items-center gap-0.5 text-[11px] font-bold text-amber-300 hover:underline cursor-pointer shrink-0"
+                              title="Xem chi tiết Lĩnh vực & Dịch vụ"
+                            >
+                              <span>{derivedServicesList.length} dịch vụ</span>
+                              <ArrowUpRight className="w-3 h-3 shrink-0" />
+                            </button>
+                          </div>
+                          <span className="font-bold text-white block break-words">
+                            {activeMilestone.industry || activeMilestone.tag}
+                          </span>
+                          {derivedServicesList.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1.5">
+                              {derivedServicesList.map((serviceName, idx) => {
+                                const { Icon } = getIndustryChipVisual(serviceName, idx);
+                                return (
+                                  <button
+                                    key={serviceName}
+                                    type="button"
+                                    onClick={navigateToServices}
+                                    title={`${serviceName} — Click để xem chi tiết dịch vụ`}
+                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/10 border border-white/15 text-[11px] font-semibold text-gray-100 hover:bg-white/20 cursor-pointer"
+                                  >
+                                    <Icon className="w-3 h-3 shrink-0" />
+                                    <span>{serviceName}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
 
-                    <div className="flex flex-wrap gap-1.5 min-w-0">
-                      {derivedServicesList.map((serviceName, idx) => {
-                        const { Icon } = getIndustryChipVisual(serviceName, idx);
-                        return (
-                          <button
-                            key={serviceName}
-                            type="button"
-                            onClick={navigateToServices}
-                            title={`${serviceName} — Click để xem chi tiết dịch vụ`}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[10px] bg-gray-950/12 border border-gray-950/15 text-gray-950 typo-label font-bold leading-snug cursor-pointer"
-                          >
-                            <Icon className="w-3.5 h-3.5 shrink-0 text-gray-950" />
-                            <span>{serviceName}</span>
-                          </button>
-                        );
-                      })}
+                      {activeMilestone.location && (
+                        <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                          <MapPin className="w-4 h-4 text-emerald-300 shrink-0 mt-0.5" />
+                          <div className="min-w-0">
+                            <span className="text-rose-200/80 block text-[11px]">Địa điểm</span>
+                            <span className="font-bold text-white break-words">
+                              {activeMilestone.location}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                        <Clock className="w-4 h-4 text-sky-300 shrink-0 mt-0.5" />
+                        <div className="min-w-0">
+                          <span className="text-rose-200/80 block text-[11px]">Thời gian</span>
+                          <span className="font-bold text-white break-words">
+                            {activeMilestone.period} ({activeMilestone.tenure})
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                        <Award className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
+                        <div className="min-w-0">
+                          <span className="text-rose-200/80 block text-[11px]">Chức danh</span>
+                          <span className="font-bold text-amber-300 break-words">
+                            {activeMilestone.roleTitle} ({activeMilestone.tenure})
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                        <Users className="w-4 h-4 text-cyan-300 shrink-0 mt-0.5" />
+                        <div className="min-w-0">
+                          <span className="text-rose-200/80 block text-[11px]">Quy mô vận hành</span>
+                          <span className="font-bold text-white break-words">
+                            {activeMilestone.scaleDesc || `${activeMilestone.headcount} nhân sự`}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ExperienceBentoStudioCard>
+                </ExperienceBentoStudioCard>
 
-              {/* THẺ 3 (2x1 Bottom-Right Bento beside Hero) — MẪU THẺ 75 / 51: ROADMAP & INSPIRATION VIOLET-INDIGO-SLATE (GIỚI THIỆU HÀNH TRÌNH) */}
-              <ExperienceBentoStudioCard
-                id="experience-banner-card"
-                variant="roadmap-violet"
-                u214RestText={narrativeTitle}
-                u214TypeText={philosophyText}
-                className="exp-bento-item exp-bento-span-2"
-              >
-                <div className="flex flex-col gap-3.5 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <h2
-                      className="typo-h3 font-bold flex items-center gap-2 text-white m-0"
-                      data-card-title="true"
-                    >
-                      <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-violet-300 exp-studio-icon" />
-                      <span>Giới thiệu hành trình</span>
-                    </h2>
-                    <span className="typo-caption font-semibold px-3 py-1 rounded-full bg-white/12 border border-white/20 text-violet-100 self-start sm:self-auto">
-                      {narrativeTitle}
-                    </span>
-                  </div>
+                {/* 2. GIỚI THIỆU HÀNH TRÌNH */}
+                <ExperienceBentoStudioCard
+                  id="experience-banner-card"
+                  variant="roadmap-violet"
+                  u214RestText={narrativeTitle}
+                  u214TypeText={philosophyText}
+                  className="exp-bento-item lg:col-span-2 justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Compass className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
+                        <span
+                          className="text-xs font-bold uppercase tracking-wider text-purple-200"
+                          data-card-title="true"
+                        >
+                          2. Giới Thiệu Hành Trình
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-white/12 border border-white/20 text-purple-100">
+                        {narrativeTitle}
+                      </span>
+                    </div>
 
-                  {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
-                    <p className="exp-studio-subtile no-card-hover typo-body-sm leading-relaxed p-3.5 text-slate-100 break-words m-0">
-                      {activeMilestone.highlightText || activeMilestone.cardDescription}
-                    </p>
-                  )}
+                    {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
+                      <p className="exp-studio-subtile no-card-hover text-xs sm:text-sm text-purple-100/95 leading-relaxed mb-3.5 rounded-xl p-3.5 break-words m-0">
+                        {activeMilestone.highlightText || activeMilestone.cardDescription}
+                      </p>
+                    )}
 
-                  {introBlocks.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-start">
-                      {introBlocks.map((item, idx) => {
-                        const colStyle = introColumnStyles[idx % introColumnStyles.length];
-                        const ColIcon = colStyle.Icon;
-                        const accentBadges = [
-                          'text-amber-300 bg-amber-400/15 border-amber-300/30',
-                          'text-sky-300 bg-sky-400/15 border-sky-300/30',
-                          'text-emerald-300 bg-emerald-400/15 border-emerald-300/30',
-                          'text-pink-300 bg-pink-400/15 border-pink-300/30',
-                        ];
-                        const badgeTone = accentBadges[idx % accentBadges.length];
-                        return (
+                    {introBlocks.length > 0 && (
+                      <div
+                        className={cn(
+                          'grid gap-3',
+                          introBlocks.length === 1
+                            ? 'grid-cols-1'
+                            : introBlocks.length === 2
+                              ? 'grid-cols-1 sm:grid-cols-2'
+                              : 'grid-cols-1 sm:grid-cols-3'
+                        )}
+                      >
+                        {introBlocks.map((item, idx) => (
                           <div
                             key={idx}
-                            className="exp-studio-subtile no-card-hover p-3.5 min-w-0 flex flex-col gap-2 self-start h-auto"
+                            className="exp-studio-subtile no-card-hover rounded-xl p-3 min-w-0 flex flex-col gap-1"
                           >
-                            <h3
-                              className="font-bold typo-h4 flex items-center gap-2 text-white m-0"
+                            <div
+                              className={cn(
+                                'text-xs font-bold mb-0.5 break-words',
+                                introPillarColors[idx % introPillarColors.length]
+                              )}
                               data-subcard-title="true"
                             >
-                              <span className={cn('w-7 h-7 rounded-lg border flex items-center justify-center shrink-0', badgeTone)}>
-                                <ColIcon className="w-4 h-4 shrink-0" />
-                              </span>
-                              <span className="break-words">{item.title}</span>
-                            </h3>
-                            <p className="typo-body-sm leading-relaxed break-words text-slate-200/90 m-0">
+                              {item.title}
+                            </div>
+                            <p className="text-xs text-gray-200 leading-relaxed break-words m-0">
                               {item.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </ExperienceBentoStudioCard>
+              </div>
+
+              {/* HÀNG 2 (2 CỘT + 1 CỘT): 3. DANH SÁCH CÔNG VIỆC & 4. CAM KẾT CHẤT LƯỢNG */}
+              <div className="exp-bento-row-3">
+                {/* 3. DANH SÁCH CÔNG VIỆC */}
+                <ExperienceBentoStudioCard
+                  id="experience-responsibility-card"
+                  variant="slate-tasks"
+                  u214RestText="Rê chuột xem hạng mục..."
+                  u214TypeText={(tasksList[0] || activeMilestone.roleTitle).replace(/^\d+\.\s*/, '').slice(0, 42)}
+                  className="exp-bento-item lg:col-span-2 justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2 border-b border-white/10">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
+                        <h4
+                          className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
+                          data-card-title="true"
+                        >
+                          3. Danh Sách Công Việc
+                        </h4>
+                      </div>
+                      <span className="text-xs font-bold bg-purple-500/20 text-purple-300 px-3 py-0.5 rounded-full shrink-0 tabular-nums">
+                        {tasksList.length} Hạng mục
+                      </span>
+                    </div>
+
+                    <ul className="divide-y divide-white/10 text-xs sm:text-sm m-0 p-0 list-none">
+                      {tasksList.map((task, idx) => {
+                        const cleanTask = task.replace(/^\d+\.\s*/, '');
+                        return (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-3 py-2.5 px-1.5 rounded-lg hover:bg-white/5 transition-colors min-w-0"
+                          >
+                            <span className="w-6 h-6 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 tabular-nums">
+                              {idx + 1}
+                            </span>
+                            <span className="text-gray-100 leading-relaxed break-words [overflow-wrap:anywhere] min-w-0 flex-1">
+                              {cleanTask}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </ExperienceBentoStudioCard>
+
+                {/* 4. CAM KẾT CHẤT LƯỢNG */}
+                <ExperienceBentoStudioCard
+                  id="experience-commitments-card"
+                  variant="emerald-trust"
+                  className="exp-bento-item justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Shield className="w-4 h-4 text-emerald-300 shrink-0 exp-studio-icon" />
+                        <span
+                          className="text-xs font-bold uppercase tracking-wider text-emerald-200 truncate"
+                          data-card-title="true"
+                        >
+                          4. Cam Kết Chất Lượng
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-bold bg-emerald-400/20 text-emerald-200 px-2.5 py-0.5 rounded-full shrink-0">
+                        {commitmentsList.length} Tiêu chuẩn
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {commitmentsList.map((cmtText, cIdx) => {
+                        const CmtIcon = cIdx % 2 === 0 ? Zap : Shield;
+                        const colonIdx = cmtText.indexOf(':');
+                        const hasCustomLabel = colonIdx > 0 && colonIdx < 36;
+                        const cmtHeading = hasCustomLabel
+                          ? `Tiêu chuẩn ${cIdx + 1}: ${cmtText.slice(0, colonIdx).trim()}`
+                          : `Tiêu chuẩn ${cIdx + 1}`;
+                        const cmtBody = hasCustomLabel
+                          ? cmtText.slice(colonIdx + 1).trim()
+                          : cmtText;
+                        return (
+                          <div
+                            key={cIdx}
+                            className="exp-studio-subtile no-card-hover rounded-xl p-3 min-w-0"
+                          >
+                            <div
+                              className={cn(
+                                'flex items-center gap-1.5 text-xs font-bold mb-1',
+                                cIdx % 2 === 0 ? 'text-amber-300' : 'text-cyan-300'
+                              )}
+                            >
+                              <CmtIcon className="w-3.5 h-3.5 shrink-0" />
+                              <span className="break-words">{cmtHeading}</span>
+                            </div>
+                            <p className="text-xs text-emerald-50/90 leading-relaxed break-words m-0">
+                              {cmtBody}
                             </p>
                           </div>
                         );
                       })}
                     </div>
-                  )}
-                </div>
-
-                {/* Triết lý hành động — Mẫu Thẻ 6 Pink-Purple Highlight + Lucian UX/UI #388 Word-by-word focus quote */}
-                <div className="exp-studio-philosophy no-card-hover flex flex-col gap-2 bg-gradient-to-r from-pink-600 via-fuchsia-600 to-purple-700 text-white p-3.5 rounded-[12px] border border-white/20">
-                  {(() => {
-                    const palettePairs: Array<[string, string]> = [
-                      ['#FDE047', '#F472B6'],
-                      ['#38BDF8', '#818CF8'],
-                      ['#34D399', '#2DD4BF'],
-                      ['#FB923C', '#F43F5E'],
-                      ['#C084FC', '#60A5FA'],
-                    ];
-                    const activeQuoteItem: WordFocusQuoteItem = {
-                      q: philosophyText,
-                      n: activeMilestone.company,
-                      r: `${activeMilestone.roleTitle} · ${activeMilestone.period}`,
-                      c: palettePairs[0],
-                    };
-                    const otherMilestoneQuotes: WordFocusQuoteItem[] = Object.values(EXPERIENCE_MILESTONES)
-                      .filter((m) => m.id !== activeMilestone.id && Boolean(m.philosophy))
-                      .map((m, idx) => ({
-                        q: (m.philosophy || '').replace(/^["'“”]+|["'“”]+$/g, ''),
-                        n: m.company,
-                        r: `${m.roleTitle} · ${m.period}`,
-                        c: palettePairs[(idx + 1) % palettePairs.length],
-                      }));
-                    return (
-                      <WordFocusQuoteCard
-                        key={activeMilestone.id}
-                        quotes={[activeQuoteItem, ...otherMilestoneQuotes]}
-                        initialIndex={0}
-                        compact={true}
-                        isDark={true}
-                      />
-                    );
-                  })()}
-                </div>
-              </ExperienceBentoStudioCard>
-
-              {/* THẺ 4 (2x1 Bento) — MẪU THẺ 64 / 25: EMERALD-TEAL ZERO-TRUST (CAM KẾT CHẤT LƯỢNG) */}
-              <ExperienceBentoStudioCard
-                id="experience-commitments-card"
-                variant="emerald-trust"
-                className="exp-bento-item exp-bento-span-2"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-emerald-200">
-                    <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-emerald-300 exp-studio-icon" />
-                    <h2 className="typo-h4 font-bold text-white m-0" data-card-title="true">
-                      Cam kết chất lượng
-                    </h2>
                   </div>
-                  <span className="typo-badge font-bold px-2.5 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-300/30">
-                    {commitmentsList.length} Tiêu chuẩn
-                  </span>
-                </div>
 
-                <div className="flex flex-col gap-3 justify-start">
-                  {commitmentsList.map((cmtText, cIdx) => {
-                    const CmtIcon = cIdx % 2 === 0 ? Flame : Lock;
-                    return (
-                      <div
-                        key={cIdx}
-                        className="exp-studio-subtile no-card-hover p-3.5 flex items-start gap-3 min-w-0"
+                  <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-xs font-bold text-emerald-300">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>Bảo chứng cam kết SLA &amp; Bảo mật.</span>
+                  </div>
+                </ExperienceBentoStudioCard>
+              </div>
+
+              {/* HÀNG 3 (1 CỘT + 2 CỘT): 5. CAM KẾT CỦA DOANH NGHIỆP & 6. DANH SÁCH DỰ ÁN */}
+              <div className="exp-bento-row-3">
+                {/* 5. CAM KẾT CỦA DOANH NGHIỆP */}
+                <ExperienceBentoStudioCard
+                  id="experience-enterprise-commitment-card"
+                  variant="commitment-amber"
+                  u214RestText={activeMilestone.roleTitle}
+                  u214TypeText={philosophyText.slice(0, 48)}
+                  className="exp-bento-item justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Award className="w-4 h-4 text-yellow-200 shrink-0 exp-studio-icon" />
+                      <span
+                        className="text-xs font-bold uppercase tracking-wider text-amber-100"
+                        data-card-title="true"
                       >
-                        <span
-                          className={cn(
-                            'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border',
-                            cIdx % 2 === 0
-                              ? 'bg-amber-400/20 text-amber-300 border-amber-300/30'
-                              : 'bg-teal-400/20 text-teal-200 border-teal-300/30'
-                          )}
+                        5. Cam Kết Của Doanh Nghiệp
+                      </span>
+                    </div>
+                    <blockquote className="exp-studio-subtile no-card-hover text-xs sm:text-sm font-bold text-white leading-relaxed rounded-xl p-3.5 my-1 break-words">
+                      “{philosophyText}”
+                    </blockquote>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/15 text-xs min-w-0">
+                    <div className="font-bold text-yellow-200 break-words">
+                      {companyFullName}
+                    </div>
+                    <div className="text-amber-100/85 mt-0.5 break-words">
+                      {activeMilestone.roleTitle} · {activeMilestone.period}
+                    </div>
+                  </div>
+                </ExperienceBentoStudioCard>
+
+                {/* 6. DANH SÁCH DỰ ÁN */}
+                <ExperienceBentoStudioCard
+                  id="experience-achievement-card"
+                  variant="indigo-docs"
+                  u214RestText="Tìm kiếm dự án..."
+                  u214TypeText={
+                    projectsList[0]
+                      ? `${projectsList[0].code} · ${projectsList[0].title}`.slice(0, 42)
+                      : activeMilestone.company
+                  }
+                  className="exp-bento-item lg:col-span-2 justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Folder className="w-4 h-4 text-cyan-400 shrink-0 exp-studio-icon" />
+                        <h4
+                          className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
+                          data-card-title="true"
                         >
-                          <CmtIcon className="w-4 h-4 shrink-0" />
-                        </span>
-                        <p className="typo-body-sm font-medium leading-snug break-words min-w-0 flex-1 text-emerald-50 m-0">
-                          {cmtText}
-                        </p>
+                          6. Danh Sách Dự Án
+                        </h4>
                       </div>
-                    );
-                  })}
-                </div>
-              </ExperienceBentoStudioCard>
-
-              {/* THẺ 5 (2x1 Bento) — MẪU THẺ 15: DARK SLATE TASK CHECKLIST (DANH SÁCH CÔNG VIỆC) */}
-              <ExperienceBentoStudioCard
-                id="experience-responsibility-card"
-                variant="slate-tasks"
-                u214RestText="Rê chuột xem hạng mục..."
-                u214TypeText={(tasksList[0] || activeMilestone.roleTitle).replace(/^\d+\.\s*/, '').slice(0, 42)}
-                className="exp-bento-item exp-bento-span-2"
-              >
-                <div className="flex items-center justify-between gap-2 shrink-0">
-                  <h2
-                    className="typo-h4 font-bold flex items-center gap-2 text-white m-0"
-                    data-card-title="true"
-                  >
-                    <ListChecks className="w-5 h-5 shrink-0 text-purple-400 exp-studio-icon" />
-                    <span>Danh sách công việc</span>
-                  </h2>
-                  <span className="typo-badge font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums bg-purple-500/20 text-purple-200 border border-purple-400/30">
-                    {tasksList.length} Hạng mục
-                  </span>
-                </div>
-
-                <ul className="flex flex-col justify-start gap-2 typo-body-sm m-0 p-0 list-none">
-                  {tasksList.map((task, idx) => {
-                    const cleanTask = task.replace(/^\d+\.\s*/, '');
-                    const taskPalette = taskCardPalettes[idx % taskCardPalettes.length];
-                    return (
-                      <li
-                        key={idx}
-                        className="exp-studio-subtile no-card-hover px-3.5 py-2.5 flex items-center gap-3 min-w-0"
-                      >
-                        <span
-                          className={cn(
-                            'w-6 h-6 rounded-full font-bold text-[11px] flex items-center justify-center shrink-0 tabular-nums',
-                            taskPalette.badge
-                          )}
-                        >
-                          {idx + 1}
+                      <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                        <span className="text-xs font-bold bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full">
+                          {projectsList.length} Dự án trọng điểm
                         </span>
-                        <span className="leading-snug break-words [overflow-wrap:anywhere] min-w-0 flex-1 text-slate-100">
-                          {cleanTask}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </ExperienceBentoStudioCard>
-
-              {/* THẺ 6 (2x1 or 4x1 Bento) — MẪU THẺ 47: INDIGO-BLUE FEATURED DOCS (DANH SÁCH DỰ ÁN) */}
-              <ExperienceBentoStudioCard
-                id="experience-achievement-card"
-                variant="indigo-docs"
-                u214RestText="Tìm kiếm dự án..."
-                u214TypeText={
-                  projectsList[0]
-                    ? `${projectsList[0].code} · ${projectsList[0].title}`.slice(0, 42)
-                    : activeMilestone.company
-                }
-                className={
-                  kpisList.length > 0
-                    ? 'exp-bento-item exp-bento-span-2'
-                    : 'exp-bento-item exp-bento-span-4'
-                }
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
-                  <h2
-                    className="typo-h4 font-bold flex items-center gap-2 text-white m-0"
-                    data-card-title="true"
-                  >
-                    <FolderKanban className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-sky-300 exp-studio-icon" />
-                    <span>Danh sách dự án</span>
-                  </h2>
-
-                  <button
-                    type="button"
-                    onClick={() => navigateToProjects()}
-                    className="px-3 py-1.5 rounded-full typo-badge font-bold bg-sky-400/20 border border-sky-300/40 text-sky-100 flex items-center gap-1 cursor-pointer shrink-0"
-                    title="Chuyển đến trang Dự án"
-                  >
-                    <span>Tất cả dự án</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                  </button>
-                </div>
-
-                <ul className="flex flex-col justify-start gap-2 m-0 p-0 list-none">
-                  {projectsList.map((proj, pIdx) => {
-                    const palette = projectRowPalettes[pIdx % projectRowPalettes.length];
-                    return (
-                      <li key={pIdx} className="block min-w-0">
                         <button
+                          type="button"
+                          onClick={() => navigateToProjects()}
+                          className="min-h-[44px] sm:min-h-0 px-3 py-1.5 sm:py-1 rounded-full text-xs font-bold bg-white/10 border border-white/20 text-sky-200 hover:bg-white/20 flex items-center gap-1 cursor-pointer shrink-0"
+                          title="Chuyển đến trang Dự án"
+                        >
+                          <span>Tất cả dự án</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs my-auto">
+                      {projectsList.map((proj, pIdx) => (
+                        <button
+                          key={pIdx}
                           type="button"
                           onClick={() => navigateToProjects(proj.projectId)}
                           title={`${proj.rawTitle} — Click để mở liên kết dự án`}
-                          className="exp-studio-subtile no-card-hover w-full px-3.5 py-2.5 flex items-center justify-between gap-3 text-left cursor-pointer focus-visible:outline-none"
+                          className={cn(
+                            'exp-studio-subtile no-card-hover w-full rounded-xl p-3 cursor-pointer flex items-start gap-2.5 text-left transition-colors min-w-0',
+                            projectCardPalettes[pIdx % projectCardPalettes.length]
+                          )}
                         >
-                          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                            <span
-                              className={cn(
-                                'px-2 py-0.5 rounded-md font-bold text-[11px] shrink-0 tabular-nums',
-                                palette.badge
-                              )}
-                            >
-                              {proj.code}
-                            </span>
-                            <span className="typo-body-sm font-semibold leading-snug break-words min-w-0 flex-1 text-white">
-                              {proj.title}
-                            </span>
-                          </div>
-                          <span className="inline-flex items-center gap-1 text-[11.5px] font-bold shrink-0 text-sky-300">
-                            <span className="hidden sm:inline">Mở link</span>
-                            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                          <span className="font-bold text-sm shrink-0 tabular-nums">
+                            {proj.code}
+                          </span>
+                          <span className="text-white font-bold leading-snug break-words min-w-0 flex-1">
+                            – {proj.title}
                           </span>
                         </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </ExperienceBentoStudioCard>
+                      ))}
+                    </div>
+                  </div>
+                </ExperienceBentoStudioCard>
+              </div>
 
-              {/* THẺ 7 (2x1 Bento) — MẪU THẺ 80 & THẺ 8: ROSE-PINK-PURPLE 4-STAT KPI GRID (KẾT QUẢ ĐẠT ĐƯỢC) */}
+              {/* HÀNG 4 (TOÀN CHIỀU RỘNG): 7. KẾT QUẢ ĐẠT ĐƯỢC */}
               {kpisList.length > 0 && (
                 <ExperienceBentoStudioCard
                   id="experience-results-card"
@@ -2549,85 +2546,107 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   u214BarHeights={kpisList.map((k) =>
                     Math.min(1, Math.max(0.25, (Number(k.percent) || 75) / 100))
                   )}
-                  className="exp-bento-item exp-bento-span-2"
+                  className="exp-bento-item"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h2
-                      className="typo-h4 font-extrabold flex items-center gap-2 m-0"
-                      data-card-title="true"
-                    >
-                      <Trophy className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-amber-300 exp-studio-icon" />
-                      <span className="exp-studio-gradient-text">Kết quả đạt được</span>
-                    </h2>
-                    <span className="typo-badge font-bold px-2.5 py-1 rounded-full shrink-0 tabular-nums bg-white/15 text-amber-200 border border-white/25">
-                      {kpisList.length} Chỉ số
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/10">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Target className="w-4 h-4 text-emerald-400 shrink-0 exp-studio-icon" />
+                      <h4
+                        className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
+                        data-card-title="true"
+                      >
+                        7. Kết Quả Đạt Được
+                      </h4>
+                    </div>
+                    <span className="text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-3 py-0.5 rounded-full shrink-0 tabular-nums">
+                      {kpisList.length} Chỉ số nổi bật
                     </span>
                   </div>
 
-                  <div
-                    className={cn(
-                      'grid gap-3 items-start min-w-0',
-                      kpisList.length === 1
-                        ? 'grid-cols-1'
-                        : kpisList.length === 2
-                          ? 'grid-cols-1 sm:grid-cols-2'
-                          : kpisList.length === 3
-                            ? 'grid-cols-1 sm:grid-cols-3'
-                            : 'grid-cols-2 sm:grid-cols-4'
-                    )}
-                  >
-                    {kpisList.map((kpi, kIdx) => {
-                      const kpiStudioBars = [
-                        { bar: 'from-emerald-400 to-teal-300', icon: 'text-emerald-300', val: 'text-amber-200' },
-                        { bar: 'from-sky-400 to-cyan-300', icon: 'text-sky-300', val: 'text-sky-200' },
-                        { bar: 'from-amber-400 to-yellow-300', icon: 'text-amber-300', val: 'text-yellow-200' },
-                        { bar: 'from-fuchsia-400 to-pink-300', icon: 'text-pink-300', val: 'text-pink-200' },
-                      ];
-                      const pal = kpiStudioBars[kIdx % kpiStudioBars.length];
-                      const clampedPercent = Math.min(100, Math.max(0, Number(kpi.percent) || 0));
-                      return (
-                        <div
-                          key={`${kpi.label}-${kIdx}`}
-                          className="exp-studio-subtile no-card-hover p-3.5 flex flex-col justify-start gap-2.5 min-w-0 self-start h-auto"
-                        >
-                          <div className="flex items-center justify-between gap-2 min-w-0">
-                            <span className="inline-flex items-center justify-center shrink-0">
-                              {kIdx % 2 === 0 ? (
-                                <TrendingUp className={cn('w-5 h-5 shrink-0', pal.icon)} />
-                              ) : (
-                                <CheckCircle2 className={cn('w-5 h-5 shrink-0', pal.icon)} />
-                              )}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch min-w-0">
+                    {/* Bảng Chỉ số -> Kết quả */}
+                    <div className="exp-studio-subtile no-card-hover rounded-xl overflow-hidden flex flex-col justify-between min-w-0">
+                      <div className="grid grid-cols-3 bg-white/10 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-300">
+                        <span className="col-span-2">Chỉ số</span>
+                        <span className="text-right">Kết quả</span>
+                      </div>
+                      <div className="divide-y divide-white/10 text-xs">
+                        {kpisList.map((kpi, kIdx) => (
+                          <div
+                            key={`${kpi.label}-${kIdx}`}
+                            className="grid grid-cols-3 items-center px-4 py-3 gap-2 min-w-0"
+                          >
+                            <span className="col-span-2 text-gray-100 font-bold break-words min-w-0">
+                              {kpi.label}
                             </span>
-                            <span className={cn('typo-kpi font-extrabold tabular-nums tracking-tight shrink-0', pal.val)}>
+                            <span
+                              className={cn(
+                                'text-right font-bold text-sm tabular-nums break-words',
+                                kpiValueColors[kIdx % kpiValueColors.length]
+                              )}
+                            >
                               {kpi.displayValue}
                             </span>
                           </div>
+                        ))}
+                      </div>
+                    </div>
 
-                          <p className="typo-h5 font-semibold leading-snug break-words text-white/95 m-0">
-                            {kpi.label}
-                          </p>
-
-                          <div
-                            className="w-full h-2 rounded-full overflow-hidden bg-white/15"
-                            role="progressbar"
-                            aria-valuenow={clampedPercent}
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                            aria-label={`${kpi.label}: ${kpi.displayValue}`}
-                          >
-                            <div
-                              className={cn('u214-kpi-bar-fill h-full rounded-full bg-gradient-to-r', pal.bar)}
-                              style={{ width: `${clampedPercent}%`, '--i': kIdx } as React.CSSProperties}
-                            />
-                          </div>
+                    {/* Biểu đồ tăng trưởng KPI */}
+                    <div className="exp-studio-subtile no-card-hover rounded-xl p-4 flex flex-col justify-between min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <BarChart3 className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                            Biểu đồ tăng trưởng KPI
+                          </span>
                         </div>
-                      );
-                    })}
+                        <span className="text-[11px] text-gray-300 font-bold tabular-nums">
+                          {activeMilestone.cardYearLabel
+                            ? activeMilestone.cardYearLabel.replace(/\s*-\s*/, ' → ')
+                            : activeMilestone.period}
+                        </span>
+                      </div>
+
+                      <div
+                        className="grid gap-2 sm:gap-3 items-end h-36 pt-3"
+                        style={{
+                          gridTemplateColumns: `repeat(${Math.max(1, kpisList.length)}, minmax(0, 1fr))`,
+                        }}
+                      >
+                        {kpisList.map((kpi, kIdx) => {
+                          const clampedPercent = Math.min(100, Math.max(12, Number(kpi.percent) || 75));
+                          const shortLabel =
+                            kpi.label.length > 18 ? `${kpi.label.slice(0, 16)}…` : kpi.label;
+                          return (
+                            <div
+                              key={`${kpi.label}-bar-${kIdx}`}
+                              title={`${kpi.label}: ${kpi.displayValue}`}
+                              className="flex flex-col items-center gap-1.5 h-full justify-end min-w-0"
+                            >
+                              <span className="text-[11px] font-bold text-white tabular-nums truncate max-w-full">
+                                {kpi.displayValue}
+                              </span>
+                              <div
+                                className={cn(
+                                  'w-full rounded-t-xl bg-gradient-to-t shadow-lg transition-transform duration-200 hover:scale-[1.03]',
+                                  kpiBarGradients[kIdx % kpiBarGradients.length]
+                                )}
+                                style={{ height: `${clampedPercent}%` }}
+                              />
+                              <span className="text-[10.5px] sm:text-[11px] text-gray-300 font-bold text-center truncate max-w-full">
+                                {shortLabel}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 </ExperienceBentoStudioCard>
               )}
 
-              {/* THẺ 8 (4x1 Full Bento Gallery) — MẪU THẺ 44: PINK-ROSE PHOTO COLLECTION (HÌNH ẢNH KỶ NIỆM) */}
+              {/* HÀNG 5 (TOÀN CHIỀU RỘNG): 8. HÌNH ẢNH KỶ NIỆM */}
               <ExperienceBentoStudioCard
                 id="experience-memories-card"
                 variant="gallery-pink"
@@ -2640,16 +2659,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     color: palette[idx % palette.length],
                   };
                 })}
-                className="exp-bento-item exp-bento-span-4"
+                className="exp-bento-item"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
-                  <h2
-                    className="typo-h4 font-bold flex items-center gap-2 text-white m-0"
+                  <h4
+                    className="text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-white m-0"
                     data-card-title="true"
                   >
-                    <Camera className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-pink-300 exp-studio-icon" />
-                    <span>Hình ảnh kỷ niệm</span>
-                  </h2>
+                    <Camera className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 text-pink-300 exp-studio-icon" />
+                    <span>8. Hình Ảnh Kỷ Niệm</span>
+                  </h4>
                   {photosList.length > 0 && (
                     <button
                       type="button"
@@ -2658,7 +2677,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         setCarouselSlideIdx(0);
                         setIsPhotoLightboxOpen(true);
                       }}
-                      className="typo-badge flex items-center gap-1.5 shrink-0 cursor-pointer font-bold px-3 py-1 rounded-full bg-white/15 border border-white/25 text-white"
+                      className="min-h-[44px] sm:min-h-0 typo-badge flex items-center gap-1.5 shrink-0 cursor-pointer font-bold px-3.5 py-2 sm:px-3 sm:py-1 rounded-full bg-white/15 border border-white/25 text-white"
                       title="Phóng to thư viện ảnh kỷ niệm"
                     >
                       <ZoomIn className="w-3.5 h-3.5 shrink-0 text-amber-300" />
@@ -2677,7 +2696,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           ? 'grid-cols-1 sm:grid-cols-2'
                           : photosList.length === 3
                             ? 'grid-cols-1 sm:grid-cols-3'
-                            : 'grid-cols-2 sm:grid-cols-4'
+                            : 'grid-cols-1 min-[375px]:grid-cols-2 sm:grid-cols-4'
                     )}
                   >
                     {photosList.map((photo, pIdx) => {
@@ -2692,17 +2711,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             setCarouselSlideIdx(pIdx);
                             setIsPhotoLightboxOpen(true);
                           }}
-                          aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || activeMilestone.company}`}
+                          aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || companyFullName}`}
                           style={{ padding: '0px', borderRadius: '12px' }}
                           className="exp-bento-rect-btn no-card-hover relative rounded-[12px] overflow-hidden border border-white/20 bg-black/30 focus:outline-none cursor-pointer p-0 text-left w-full aspect-[16/10]"
                         >
                           {!hasImgFailed ? (
-                            <img
+                            <BlurUpImage
                               src={photo.src}
-                              alt={photo.title || activeMilestone.company}
-                              referrerPolicy="no-referrer"
-                              loading="lazy"
-                              decoding="async"
+                              alt={photo.title || companyFullName}
+                              variant="cover"
                               onError={() =>
                                 setFailedPhotoSrcs((prev) => ({ ...prev, [photo.src]: true }))
                               }
@@ -2712,7 +2729,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 bg-slate-900/70 text-slate-200">
                               <Camera className="w-6 h-6 text-pink-300" />
                               <span className="typo-caption font-semibold text-center truncate max-w-full">
-                                {photo.title || activeMilestone.company}
+                                {photo.title || companyFullName}
                               </span>
                             </div>
                           )}
@@ -2734,9 +2751,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   </div>
                 )}
               </ExperienceBentoStudioCard>
-            </div>
             </motion.div>
-            </motion.div>
+          </React.Fragment>
       );
     })()}
       </AnimatePresence>
@@ -2792,11 +2808,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   isDarkCardText ? 'bg-[#0B1220]' : 'bg-slate-100'
                 )}
               >
-                <img
+                <BlurUpImage
                   src={curPhoto.src}
                   alt={curPhoto.title || activeMilestone.company}
-                  decoding="async"
-                  referrerPolicy="no-referrer"
+                  priority="eager"
+                  variant="contain"
                   className="w-full h-full object-contain rounded-[var(--radius-subcard,14px)]"
                 />
                 {lightboxPhotos.length > 1 && (
@@ -2807,7 +2823,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         setCarouselSlideIdx((prev) => (prev - 1 + lightboxPhotos.length) % lightboxPhotos.length)
                       }
                       aria-label="Ảnh trước"
-                      className="theme-modal-close absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+                      className="theme-modal-close absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors"
                     >
                       <WebIcon name="chevron-left" className="w-5 h-5" />
                     </button>
@@ -2817,7 +2833,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         setCarouselSlideIdx((prev) => (prev + 1) % lightboxPhotos.length)
                       }
                       aria-label="Ảnh tiếp theo"
-                      className="theme-modal-close absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+                      className="theme-modal-close absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors"
                     >
                       <WebIcon name="chevron-right" className="w-5 h-5" />
                     </button>
@@ -2827,7 +2843,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   type="button"
                   aria-label="Đóng trình xem ảnh"
                   onClick={() => setIsPhotoLightboxOpen(false)}
-                  className="theme-modal-close absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center typo-button cursor-pointer"
+                  className="theme-modal-close absolute top-3 right-3 w-11 h-11 sm:w-8 sm:h-8 rounded-full flex items-center justify-center typo-button cursor-pointer"
                 >
                   <WebIcon name="cancel" className="w-4 h-4" />
                 </button>

@@ -1852,8 +1852,60 @@ html[data-active-page="pdf"] #global-content-viewport,
   padding-bottom: 15px !important;
 }
 
+/* 8. Mobile First Breakpoint Safeguards (320px–767px, không ảnh hưởng Tablet >=768px & Desktop >=1024px) */
+@media (max-width: 767px) {
+  html,
+  body,
+  #website-root {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
 
+  #global-content-viewport {
+    overflow-x: hidden !important;
+  }
 
+  .page-main-card:not(#pdf-page-container),
+  [data-main-card="true"]:not(#pdf-page-container) {
+    max-width: var(--home-main-card-w, calc(100vw - 16px)) !important;
+    overflow-x: hidden !important;
+  }
 
+  /* Khoảng đệm an toàn bên dưới để nút nổi chuyển trang góc dưới phải không che nội dung cuối */
+  .main-card-scroll-viewport,
+  #pdf-page-container,
+  #education-disc-bookshelf-view {
+    padding-bottom: max(68px, calc(env(safe-area-inset-bottom, 0px) + 60px)) !important;
+  }
 
+  /* Đảm bảo ảnh & media trên Mobile luôn co giãn đúng tỷ lệ, không méo hoặc tràn ngang */
+  .page-main-card img,
+  [data-main-card="true"] img {
+    max-width: 100%;
+  }
 
+  /* Đảm bảo Form nhập liệu trên Mobile xếp 1 cột gọn gàng */
+  #contact-page-container form,
+  #ai-assistant-page-container form {
+    max-width: 100%;
+  }
+}
+
+/* Mobile nhỏ (320px–374px): tối ưu spacing & thu gọn padding để giữ bố cục cân đối */
+@media (max-width: 374px) {
+  #mobile-top-controls-bar {
+    gap: 6px !important;
+    padding-top: 4px !important;
+  }
+
+  #mobile-floating-page-nav {
+    transform: scale(0.94);
+    transform-origin: bottom right;
+  }
+
+  .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > *),
+  [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > *) {
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+}

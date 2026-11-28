@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { PageFlip, type PageFlipHandle } from '@/components/ui/PageFlip';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { cn, formatCardTitle } from '@/lib/utils';
 import {
   CREDENTIAL_VERIFICATION_MAP,
@@ -31,6 +32,12 @@ export interface EducationBookViewProps {
   onOpenVerifyModal: (course: EducationCourse, e?: React.MouseEvent) => void;
   onOpenLightbox: (imgSrc: string, title: string, e?: React.MouseEvent) => void;
   disableKeyboardNav?: boolean;
+}
+
+function getDriveFallbackSrc(url?: string): string | undefined {
+  if (!url) return undefined;
+  const match = url.match(/lh3\.googleusercontent\.com\/d\/([^/?]+)/);
+  return match && match[1] ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1920` : undefined;
 }
 
 function handleDriveImageFallback(e: React.SyntheticEvent<HTMLImageElement>) {
@@ -509,14 +516,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               )}
               title="Nhấn để phóng to hình ảnh khóa học"
             >
-              <img
+              <BlurUpImage
                 src={course.courseImg || course.image}
+                fallbackSrc={getDriveFallbackSrc(course.courseImg || course.image)}
                 alt={`Hình khóa học ${cleanTitle}`}
+                variant="cover"
                 className="education-book-media-img w-full h-full object-cover object-top block"
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                onError={handleDriveImageFallback}
               />
             </button>
           </div>
@@ -558,14 +563,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
               )}
               title="Nhấn để phóng to hình ảnh bằng cấp"
             >
-              <img
+              <BlurUpImage
                 src={course.certImg || course.image}
+                fallbackSrc={getDriveFallbackSrc(course.certImg || course.image)}
                 alt={`Hình bằng cấp ${cleanTitle}`}
+                variant="cover"
                 className="education-book-media-img w-full h-full object-cover object-center block"
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                onError={handleDriveImageFallback}
               />
             </button>
           </div>

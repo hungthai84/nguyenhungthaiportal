@@ -492,6 +492,7 @@ const WoodenShelfTier: React.FC<TierShelfProps> = ({
 
   return (
     <section
+      id={tier.id === 'tier-1' ? 'el-p3-section-1' : 'el-p3-section-2'}
       className="edu-wood-tier"
       aria-label={isEn ? tier.titleEn : tier.titleVi}
     >

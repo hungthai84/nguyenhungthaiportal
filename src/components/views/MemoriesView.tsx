@@ -18,6 +18,7 @@ import { VideoBanner } from '@/components/common/VideoBanner';
 import { ViewState } from '@/components/common/ViewState';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 export interface MemoriesViewProps {
   currentTheme?: string;
@@ -121,30 +122,20 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
         {/* Lớp ánh sáng phản chiếu gương khi rê chuột */}
         <div ref={shineRef} className="shineLayer absolute inset-0 z-15 pointer-events-none" />
 
-        {/* Khung giữ chỗ khi ảnh đang tải */}
-        {!isLoaded && (
-          <div
-            aria-hidden="true"
-            className="w-full min-h-[220px] animate-pulse bg-gradient-to-br from-slate-400/20 via-slate-500/15 to-slate-400/25 rounded-[inherit]"
-          />
-        )}
-
-        {/* Ảnh kỷ niệm độ nét cao, trọn vẹn và không bị che khuất */}
-        <img
+        {/* Ảnh kỷ niệm độ nét cao với BlurUpImage & lazy loading */}
+        <BlurUpImage
           ref={imgRef}
           src={item.imageUrl}
+          fallbackSrc="https://i.postimg.cc/zBnjzm2t/Khong-bang-cap.png"
           alt={item.titleVi}
-          loading={globalIdx < 6 ? 'eager' : 'lazy'}
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsLoaded(true)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://i.postimg.cc/zBnjzm2t/Khong-bang-cap.png';
-            setIsLoaded(true);
+          priority={globalIdx < 6 ? 'eager' : 'lazy'}
+          variant="cover"
+          onReadyChange={(ok) => {
+            if (ok) setIsLoaded(true);
           }}
           className={cn(
             'w-full h-auto object-cover block transition-transform duration-500 ease-out group-hover:scale-105',
-            isLoaded ? 'opacity-100' : 'opacity-0'
+            !isLoaded && 'min-h-[220px]'
           )}
         />
 
@@ -196,69 +187,16 @@ interface LazyFilmstripThumbProps {
 
 const LazyFilmstripThumb: React.FC<LazyFilmstripThumbProps> = React.memo(
   ({ src, alt, isActive, isNearActive, filmstripRootRef }) => {
-    const thumbRef = useRef<HTMLDivElement>(null);
-    const [shouldLoad, setShouldLoad] = useState<boolean>(isActive || isNearActive);
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-    useEffect(() => {
-      if (isActive || isNearActive) {
-        setShouldLoad(true);
-      }
-    }, [isActive, isNearActive]);
-
-    useEffect(() => {
-      if (shouldLoad) return;
-      const el = thumbRef.current;
-      if (!el || typeof IntersectionObserver === 'undefined') {
-        setShouldLoad(true);
-        return;
-      }
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              setShouldLoad(true);
-              observer.disconnect();
-              break;
-            }
-          }
-        },
-        {
-          root: filmstripRootRef?.current || null,
-          rootMargin: '0px 160px',
-          threshold: 0.01,
-        }
-      );
-
-      observer.observe(el);
-      return () => observer.disconnect();
-    }, [shouldLoad, filmstripRootRef]);
-
     return (
-      <div ref={thumbRef} className="relative w-full h-full rounded-[inherit] overflow-hidden">
-        {!isLoaded && (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 animate-pulse bg-slate-500/20 rounded-[inherit]"
-          />
-        )}
-        {shouldLoad && (
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            fetchPriority={isActive ? 'high' : 'low'}
-            referrerPolicy="no-referrer"
-            onLoad={() => setIsLoaded(true)}
-            className={cn(
-              'w-full h-full object-cover rounded-[inherit] transition-opacity duration-200',
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            )}
-          />
-        )}
-      </div>
+      <BlurUpImage
+        src={src}
+        alt={alt}
+        rootRef={filmstripRootRef}
+        rootMargin="0px 160px"
+        priority={isActive || isNearActive ? 'eager' : 'lazy'}
+        variant="cover"
+        className="w-full h-full object-cover rounded-[inherit]"
+      />
     );
   }
 );
@@ -652,23 +590,17 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 isDark ? 'bg-[#0B1220]' : 'bg-slate-100'
               )}
             >
-              {!isLightboxImgLoaded && (
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-500/15 via-slate-400/10 to-slate-500/20"
-                />
-              )}
-              <img
+              <BlurUpImage
                 src={activePhoto.imageUrl}
                 alt={activePhoto.titleVi}
-                loading="lazy"
-                decoding="async"
-                fetchPriority="high"
-                referrerPolicy="no-referrer"
-                onLoad={() => setIsLightboxImgLoaded(true)}
+                priority="eager"
+                variant="contain"
+                onReadyChange={(ok) => {
+                  if (ok) setIsLightboxImgLoaded(true);
+                }}
                 className={cn(
-                  'w-full h-full object-contain rounded-[inherit] select-none transition-opacity duration-200',
-                  isLightboxImgLoaded ? 'opacity-100' : 'opacity-0'
+                  'w-full h-full object-contain rounded-[inherit] select-none',
+                  isLightboxImgLoaded ? 'opacity-100' : 'opacity-95'
                 )}
               />
               <div

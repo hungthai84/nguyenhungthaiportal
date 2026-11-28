@@ -13,6 +13,7 @@ import {
   getExpandDetailRevealTransition,
 } from '@/components/ui/ExpandCardMotion';
 import { U420CardHoverIcon, U420_STYLES, type U420Variant } from '@/components/ui/U420CardHoverIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 const Activity = createAnimatedIcon('activity');
 const Award = createAnimatedIcon('award');
@@ -753,17 +754,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             </div>
 
             <div className="bento-hero-media relative shrink-0 w-24 h-20 sm:w-36 sm:h-28 flex items-center justify-center self-center sm:self-auto">
-              <img
+              <BlurUpImage
                 src={illustrationUrl}
+                fallbackSrc={expandedMeta.fallbackIllustration}
                 alt={fullTitle}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  if (e.currentTarget.src !== expandedMeta.fallbackIllustration) {
-                    e.currentTarget.src = expandedMeta.fallbackIllustration;
-                  }
-                }}
+                priority="eager"
+                variant="contain"
                 className="w-24 h-20 sm:w-36 sm:h-28 object-contain drop-shadow-2xl select-none transition-transform duration-300 hover:scale-105"
               />
             </div>
@@ -821,20 +817,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                     className="company-logo-surface w-8 h-8 aspect-square rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0 ring-0 outline-none shadow-sm"
                     style={{ border: 'none', padding: 0 }}
                   >
-                    <img
+                    <BlurUpImage
                       src={partner.logo}
+                      fallbackSrc={partner.fallbackLogo || illustrationUrl}
                       alt={partner.name}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
+                      variant="contain"
                       className="w-full h-full object-cover rounded-full block"
-                      onError={(e) => {
-                        if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                          e.currentTarget.src = partner.fallbackLogo;
-                        } else {
-                          e.currentTarget.src = illustrationUrl;
-                        }
-                      }}
                     />
                   </div>
                   <div className="min-w-0 flex-1 flex items-center gap-1">
@@ -1007,20 +995,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                       className="company-logo-surface w-9 h-9 aspect-square rounded-full overflow-hidden flex items-center justify-center p-0 border-0 ring-0 outline-none shadow-md"
                       style={{ border: 'none', padding: 0 }}
                     >
-                      <img
+                      <BlurUpImage
                         src={partner.logo}
+                        fallbackSrc={partner.fallbackLogo || illustrationUrl}
                         alt={partner.name}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
+                        variant="contain"
                         className="w-full h-full object-cover rounded-full block"
-                        onError={(e) => {
-                          if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                            e.currentTarget.src = partner.fallbackLogo;
-                          } else {
-                            e.currentTarget.src = illustrationUrl;
-                          }
-                        }}
                       />
                     </div>
                   ))}

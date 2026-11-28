@@ -3,20 +3,25 @@
 /* ========================================================================= */
 
 :root {
-  --radius-main: 14px;
-  --radius-card: 14px;
-  --radius-subcard: 14px;
-  --radius-banner: 14px;
-  --radius-modal: 14px;
-  --radius-popup: 14px;
-  --radius-widget: 14px;
-  --radius-input: 14px;
-  --radius-primary-surface: var(--radius-main, 14px);
+  --card-radius: 15px;
+  --subcard-radius: 11px;
+  --radius-main: 15px;
+  --radius-card: 15px;
+  --radius-subcard: 11px;
+  --radius-banner: 15px;
+  --radius-modal: 15px;
+  --radius-popup: 15px;
+  --radius-widget: 15px;
+  --radius-input: 12px;
+  --radius-primary-surface: var(--radius-main, 15px);
   --radius-header: var(--radius-primary-surface);
   --radius-footer: var(--radius-primary-surface);
   --radius-button: 999px;
   --space-card-padding: 16px;
-  --space-card-gap: 16px;
+  --space-card-gap: 14px;
+  --card-padding: 16px;
+  --subcard-padding: 12px;
+  --card-gap: 14px;
 }
 
 .hero-banner,
@@ -78,11 +83,11 @@ article:not(.home-hero-card):not(#app-header):not(#app-footer):not([data-multico
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card-glass, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, var(--bg-blur, 19px)))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: var(--radius-card) !important;
-  padding: var(--space-card-padding, 15px);
-  gap: 15px;
-  row-gap: 15px;
-  column-gap: 15px;
+  border-radius: var(--card-radius, var(--radius-card, 15px)) !important;
+  padding: var(--card-padding, var(--space-card-padding, 16px));
+  gap: var(--card-gap, 14px);
+  row-gap: var(--card-gap, 14px);
+  column-gap: var(--card-gap, 14px);
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow 300ms ease-in-out, border-color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, color 300ms ease-in-out !important;
 }
 
@@ -474,16 +479,16 @@ html.dark .bento-tone-sky {
 .sub-card:not(.skill-swot-subcard):not(.education-course-card) {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard)));
   border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft))));
-  border-radius: var(--radius-subcard);
+  border-radius: var(--subcard-radius, var(--radius-subcard, 11px));
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard)));
   backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, var(--blur-subcard, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%)));
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, var(--blur-subcard, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%)));
   outline: var(--outline-subcard, none);
   outline-offset: var(--outline-offset-subcard, 0px);
-  padding: 15px;
-  gap: 15px;
-  row-gap: 15px;
-  column-gap: 15px;
+  padding: var(--subcard-padding, 12px);
+  gap: 12px;
+  row-gap: 12px;
+  column-gap: 12px;
   transition: transform var(--motion-normal) var(--motion-ease), box-shadow var(--motion-normal) var(--motion-ease), border-color var(--motion-normal) var(--motion-ease);
 }
 
@@ -6024,13 +6029,13 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   min-width: 0 !important;
 }
 
-/* Trang Dịch vụ: Responsive Grid Card thích ứng linh hoạt theo độ rộng container & màn hình */
+/* Trang Dịch vụ: Responsive Grid 3 Card View (Desktop 3x2 -> Tablet 2x3 -> Mobile 1x6) */
 #services-page-container #services-cards-grid.services-responsive-grid,
 #services-page-container .services-cards-grid.services-responsive-grid {
   display: grid !important;
   grid-area: 1 / 1 !important;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) !important;
-  grid-auto-rows: minmax(216px, 1fr) !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-rows: minmax(var(--grid-services-row-min, 220px), 1fr) !important;
   gap: clamp(12px, 1.4vw, 18px) !important;
   row-gap: clamp(12px, 1.4vw, 18px) !important;
   column-gap: clamp(12px, 1.4vw, 18px) !important;
@@ -6043,23 +6048,39 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   padding-bottom: 4px !important;
 }
 
-@container services-grid (min-width: 960px) {
+@container services-grid (min-width: 820px) {
   #services-page-container #services-cards-grid.services-responsive-grid,
   #services-page-container .services-cards-grid.services-responsive-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(220px, 1fr) !important;
+    grid-auto-rows: minmax(var(--grid-services-row-min, 220px), 1fr) !important;
   }
 }
 
-@container services-grid (min-width: 600px) and (max-width: 959.98px) {
+@container services-grid (min-width: 560px) and (max-width: 819.98px) {
   #services-page-container #services-cards-grid.services-responsive-grid,
   #services-page-container .services-cards-grid.services-responsive-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(212px, 1fr) !important;
+    grid-auto-rows: minmax(var(--grid-services-row-min, 208px), 1fr) !important;
   }
 }
 
-@container services-grid (max-width: 599.98px) {
+@container services-grid (max-width: 559.98px) {
+  #services-page-container #services-cards-grid.services-responsive-grid,
+  #services-page-container .services-cards-grid.services-responsive-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  #services-page-container #services-cards-grid.services-responsive-grid,
+  #services-page-container .services-cards-grid.services-responsive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(var(--grid-services-row-min, 208px), 1fr) !important;
+  }
+}
+
+@media (max-width: 767.98px) {
   #services-page-container #services-cards-grid.services-responsive-grid,
   #services-page-container .services-cards-grid.services-responsive-grid {
     grid-template-columns: minmax(0, 1fr) !important;
@@ -7051,80 +7072,44 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   min-width: 0;
 }
 
-/* Bento Responsive Grid Card: Desktop 4-col -> Tablet 2-col -> Mobile 1-col, items sized to content */
+/* Bento Responsive Grid Card: Desktop 12/3-col row sections -> Mobile 1-col stack, items sized to content */
 #experience-bento-grid.exp-studio-grid,
 #experience-bento-grid.exp-bento-responsive-grid {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  grid-auto-flow: dense !important;
-  grid-auto-rows: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
   gap: 16px !important;
   width: 100% !important;
   min-width: 0 !important;
-  align-items: start !important;
 }
 
-#experience-bento-grid.exp-studio-grid .exp-bento-hero-2x2 {
-  grid-column: span 2;
-  grid-row: auto;
+#experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
 }
 
-#experience-bento-grid.exp-studio-grid .exp-bento-span-2 {
-  grid-column: span 2;
+@media (min-width: 1024px) {
+  #experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-#experience-bento-grid.exp-studio-grid .exp-bento-span-4 {
-  grid-column: span 4;
-}
-
-@container exp-bento-stage (max-width: 959.98px) {
+@media (max-width: 767.98px) {
   #experience-bento-grid.exp-studio-grid,
   #experience-bento-grid.exp-bento-responsive-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 14px !important;
+    gap: 12px !important;
+    padding-bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 68px)) !important;
   }
 
-  #experience-bento-grid.exp-studio-grid .exp-bento-hero-2x2,
-  #experience-bento-grid.exp-studio-grid .exp-bento-span-4 {
-    grid-column: span 2 !important;
-    grid-row: span 1 !important;
-  }
-
-  #experience-bento-grid.exp-studio-grid .exp-bento-span-2 {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-  }
-}
-
-@container exp-bento-stage (max-width: 639.98px) {
-  #experience-bento-grid.exp-studio-grid,
-  #experience-bento-grid.exp-bento-responsive-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
+  #experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
     gap: 12px !important;
   }
-
-  #experience-bento-grid.exp-studio-grid .exp-bento-item {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-    height: fit-content !important;
-  }
 }
 
-@media (max-width: 768px) {
-  #experience-bento-grid.exp-studio-grid,
-  #experience-bento-grid.exp-bento-responsive-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  #experience-bento-grid.exp-studio-grid .exp-bento-item {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-    height: fit-content !important;
-  }
-}
-
-/* Base Bento Card — Content-sized height, supports Lucian UX/UI #214 (.u214-t) hover lift & scene motion */
+/* Base Bento Card — Supports Lucian UX/UI #214 (.u214-t) hover lift & scene motion */
 html #experience-main-card #experience-bento-grid .exp-studio-card,
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
   position: relative;
@@ -7137,9 +7122,6 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   display: flex;
   flex-direction: column;
   justify-content: flex-start !important;
-  align-self: start !important;
-  flex: 0 0 auto !important;
-  height: fit-content !important;
   min-height: 0 !important;
   gap: 14px;
   min-width: 0;
@@ -7149,52 +7131,80 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   -webkit-backdrop-filter: none !important;
 }
 
+@media (max-width: 767.98px) {
+  html #experience-main-card #experience-bento-grid .exp-studio-card,
+  html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
+    padding: 13px !important;
+    gap: 11px !important;
+    border-radius: 14px !important;
+  }
+}
+
+@media (max-width: 374.98px) {
+  html #experience-main-card #experience-bento-grid .exp-studio-card,
+  html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
+    padding: 11px !important;
+    gap: 10px !important;
+  }
+}
+
 #experience-main-card #experience-bento-grid .exp-studio-card > * {
   position: relative;
   z-index: 1;
 }
 
-/* 8 Authentic Bento Card Color Variants */
+/* Bento Card Color Variants */
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple,
 #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple {
-  background: linear-gradient(135deg, #9333ea 0%, #6d28d9 48%, #312e81 100%) !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 27, 75, 0.92) 52%, rgba(76, 5, 25, 0.9) 100%) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight,
 #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight {
-  background: linear-gradient(135deg, #fbbf24 0%, #f97316 52%, #ea580c 100%) !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  color: #030712 !important;
+  background: linear-gradient(135deg, rgba(136, 19, 55, 0.62) 0%, rgba(127, 29, 29, 0.56) 52%, rgba(15, 23, 42, 0.88) 100%) !important;
+  border-color: rgba(244, 63, 94, 0.28) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber,
+#experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber {
+  background: linear-gradient(135deg, rgba(180, 83, 9, 0.62) 0%, rgba(154, 52, 18, 0.62) 52%, rgba(76, 5, 25, 0.82) 100%) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet,
 #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet {
-  background: linear-gradient(135deg, #4c1d95 0%, #312e81 48%, #0f172a 100%) !important;
+  background: linear-gradient(135deg, rgba(59, 7, 100, 0.68) 0%, rgba(30, 27, 75, 0.72) 52%, rgba(15, 23, 42, 0.86) 100%) !important;
+  border-color: rgba(168, 85, 247, 0.28) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust,
 #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust {
-  background: linear-gradient(135deg, #065f46 0%, #115e59 50%, #111827 100%) !important;
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.68) 0%, rgba(19, 78, 74, 0.68) 50%, rgba(15, 23, 42, 0.88) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks,
 #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks {
-  background: linear-gradient(145deg, #1f2937 0%, #172031 55%, #0f172a 100%) !important;
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.86) 0%, rgba(23, 32, 49, 0.88) 55%, rgba(15, 23, 42, 0.92) 100%) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs,
 #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs {
-  background: linear-gradient(135deg, #4338ca 0%, #1d4ed8 50%, #172554 100%) !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.86) 0%, rgba(17, 24, 39, 0.86) 50%, rgba(8, 51, 68, 0.78) 100%) !important;
+  border-color: rgba(6, 182, 212, 0.28) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi,
 #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi {
-  background: linear-gradient(135deg, #be123c 0%, #9d174d 48%, #3b0764 100%) !important;
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.82) 0%, rgba(15, 23, 42, 0.88) 48%, rgba(2, 44, 34, 0.82) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
   color: #ffffff !important;
 }
 
@@ -7204,15 +7214,10 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   color: #ffffff !important;
 }
 
-/* Preserve crisp high-contrast ink inside Amber Highlight card */
-html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight :where(h1, h2, h3, p, span) {
-  color: inherit;
-}
-
 /* Inner Bento Sub-cards — Sized strictly to inner content */
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile,
 #experience-main-card #experience-bento-grid .exp-studio-subtile {
-  background: rgba(0, 0, 0, 0.25) !important;
+  background: rgba(0, 0, 0, 0.34) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 12px !important;
   box-shadow: none !important;
@@ -7224,11 +7229,11 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile--amber,
 #experience-main-card #experience-bento-grid .exp-studio-subtile--amber {
-  background: rgba(255, 255, 255, 0.30) !important;
-  border: 1px solid rgba(3, 7, 18, 0.14) !important;
+  background: rgba(0, 0, 0, 0.34) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 12px !important;
   box-shadow: none !important;
-  color: #030712 !important;
+  color: #ffffff !important;
   height: fit-content !important;
   min-height: 0 !important;
 }
@@ -7257,6 +7262,12 @@ html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style=
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight {
+  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 52%, #FCE7F3 100%) !important;
+  border-color: rgba(244, 63, 94, 0.24) !important;
+  color: #4C0519 !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber {
   background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 52%, #FED7AA 100%) !important;
   border-color: rgba(245, 158, 11, 0.34) !important;
   color: #451A03 !important;
@@ -7278,13 +7289,13 @@ html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style=
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs {
-  background: linear-gradient(135deg, #FFFFFF 0%, #EFF6FF 58%, #E0E7FF 100%) !important;
-  border-color: rgba(59, 130, 246, 0.26) !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #EFF6FF 58%, #ECFEFF 100%) !important;
+  border-color: rgba(14, 165, 233, 0.26) !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FFF1F2 58%, #FCE7F3 100%) !important;
-  border-color: rgba(244, 63, 94, 0.24) !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 52%, #ECFDF5 100%) !important;
+  border-color: rgba(16, 185, 129, 0.24) !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink {
@@ -7300,9 +7311,9 @@ html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style=
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-subtile--amber {
-  background: rgba(255, 255, 255, 0.72) !important;
-  border: 1px solid rgba(217, 119, 6, 0.24) !important;
-  color: #451A03 !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(244, 63, 94, 0.18) !important;
+  color: #0f172a !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(h1, h2, h3, h4, h5):not(.exp-studio-philosophy *) {
@@ -7310,11 +7321,15 @@ html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style=
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card [class*="text-white"]:not(.exp-studio-philosophy):not(.exp-studio-philosophy *),
-html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-slate-100, .text-slate-200, .text-slate-200\/90, .text-emerald-50, .text-purple-100, .text-sky-100):not(.exp-studio-philosophy *) {
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-slate-100, .text-slate-200, .text-slate-200\/90, .text-gray-100, .text-gray-200, .text-gray-300, .text-emerald-50, .text-emerald-50\/90, .text-purple-100, .text-purple-100\/95, .text-sky-100, .text-amber-100, .text-amber-100\/85):not(.exp-studio-philosophy *) {
   color: #1e293b !important;
 }
 
-html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-emerald-200, .text-emerald-300, .text-teal-200):not(.exp-studio-philosophy *) {
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-gray-400):not(.exp-studio-philosophy *) {
+  color: #475569 !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-emerald-200, .text-emerald-300, .text-emerald-400, .text-teal-200):not(.exp-studio-philosophy *) {
   color: #047857 !important;
 }
 
@@ -7322,21 +7337,26 @@ html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style=
   color: #6d28d9 !important;
 }
 
-html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-sky-200, .text-sky-300):not(.exp-studio-philosophy *) {
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-sky-200, .text-sky-300, .text-cyan-300, .text-cyan-400):not(.exp-studio-philosophy *) {
   color: #0369a1 !important;
 }
 
-html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-amber-200, .text-amber-300, .text-yellow-200):not(.exp-studio-philosophy *) {
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-amber-200, .text-amber-300, .text-yellow-200, .text-yellow-300):not(.exp-studio-philosophy *) {
   color: #b45309 !important;
 }
 
-html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-pink-200, .text-pink-300):not(.exp-studio-philosophy *) {
-  color: #be185d !important;
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card :is(.text-pink-200, .text-pink-300, .text-rose-200, .text-rose-200\/80, .text-rose-300):not(.exp-studio-philosophy *) {
+  color: #be123c !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card [class*="bg-white/"]:not(.exp-studio-philosophy):not(.exp-studio-philosophy *),
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card [class*="bg-black/"]:not(.exp-studio-philosophy):not(.exp-studio-philosophy *) {
   background-color: rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card [class*="divide-white/"] > :not(:first-child),
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card [class*="border-white/"] {
   border-color: rgba(15, 23, 42, 0.12) !important;
 }
 

@@ -134,8 +134,6 @@ export interface NotificationStackProps {
 export default function NotificationStack({
   notifications,
   headerTitle = 'Thông tin chi tiết',
-  showAllLabel = 'Mở rộng tất cả',
-  showLessLabel = 'Thu gọn thẻ',
   emptyLabel = 'Tất cả thẻ đã được ẩn tạm thời.',
   resetLabel = 'Hiện lại thẻ',
   onDismiss,
@@ -522,38 +520,6 @@ export default function NotificationStack({
         }
       }}
     >
-      <div className="mb-2.5 flex h-7 items-center justify-between px-0.5 gap-2">
-        <p className="font-bold text-xs sm:text-sm text-[var(--text-primary)] whitespace-nowrap">
-          {headerTitle}
-          <span className="ml-2 text-[var(--text-muted)] tabular-nums font-normal">
-            {laidOut.length}
-          </span>
-        </p>
-
-        <div className="flex items-center gap-1.5 shrink-0">
-          {dismissedIds.size > 0 && (
-            <button
-              className="no-theme-btn inline-flex items-center gap-1 rounded-[var(--radius-subcard,14px)] px-2 py-1 text-xs font-bold text-[var(--text-link,var(--color-primary))] hover:bg-[var(--bg-nested-card,rgba(118,102,216,0.1))] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring,var(--color-primary))] cursor-pointer whitespace-nowrap"
-              onClick={handleRestoreAll}
-              type="button"
-            >
-              <RotateCcw className="w-3 h-3 shrink-0" />
-              <span>{resetLabel}</span>
-            </button>
-          )}
-          {laidOut.length > 1 && (
-            <button
-              aria-expanded={expanded}
-              className="no-theme-btn rounded-[var(--radius-subcard,14px)] px-2 py-1 text-xs font-bold text-[var(--text-secondary)] transition-colors duration-150 hover:bg-[var(--bg-nested-card,rgba(118,102,216,0.1))] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring,var(--color-primary))] cursor-pointer whitespace-nowrap"
-              onClick={() => setPinned((prev) => !prev)}
-              type="button"
-            >
-              {expanded ? showLessLabel : showAllLabel}
-            </button>
-          )}
-        </div>
-      </div>
-
       <ol
         aria-label={headerTitle}
         className="relative outline-none transition-[height] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"

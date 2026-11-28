@@ -26,6 +26,7 @@ import {
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import { BentoCard } from '@/components/ui/BentoCard';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { useTheme } from '@/hooks/useTheme';
 
 export const getThemeLetterContent = (cardStyle: string) => {
@@ -112,13 +113,11 @@ const BrandBadge: React.FC<{
   return (
     <span className="nht-brand-badge" title={title || name}>
       {logos.map((logo, idx) => (
-        <img
+        <BlurUpImage
           key={idx}
           src={logo.src}
           alt={logo.alt || name}
-          loading="lazy"
-          decoding="async"
-          referrerPolicy="no-referrer"
+          variant="contain"
           className="nht-brand-logo-img"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
@@ -1729,12 +1728,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           </p>
                           <div className="my-0.5 flex justify-end min-h-[36px] items-center">
                             {!signatureError ? (
-                              <img
+                              <BlurUpImage
                                 src="https://i.ibb.co/JWsPFKrh/Ch-k.png"
                                 alt="Chữ ký Nguyễn Hùng Thái"
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
+                                variant="contain"
                                 className="h-9 max-w-[150px] object-contain dark:brightness-0 dark:invert"
                                 onError={() => setSignatureError(true)}
                               />

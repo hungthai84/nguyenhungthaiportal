@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ProjectData } from '@/types';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import {
   getProjectDetailedSpec,
   SCOPE_PALETTES,
@@ -653,16 +654,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                       className="w-full flex-1 min-h-[300px] rounded-[14px] overflow-hidden bg-slate-950 border border-fuchsia-300/60 dark:border-fuchsia-500/30 relative group cursor-pointer shadow-md"
                       onClick={() => onOpenMindmap(selectedArticle)}
                     >
-                      <img
+                      <BlurUpImage
                         src={selectedArticle.mindmap || selectedArticle.image}
+                        fallbackSrc={selectedArticle.image}
                         alt={`Sơ đồ tư duy ${selectedArticle.code}`}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
+                        variant="contain"
                         className="w-full h-full object-contain bg-slate-900 rounded-[14px]"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = selectedArticle.image;
-                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-[15px]">
                         <span className="typo-caption font-bold text-white flex items-center gap-1.5">
@@ -748,17 +745,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   </div>
 
                   <div className="min-w-0 lg:col-span-4 rounded-[14px] overflow-hidden border border-blue-200/80 dark:border-blue-500/30 bg-slate-950 relative group shadow-xs flex flex-col justify-between min-h-[190px]">
-                    <img
+                    <BlurUpImage
                       src={selectedArticle.image}
+                      fallbackSrc="https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp"
                       alt={selectedArticle.title}
-                      loading="lazy"
-                      decoding="async"
+                      variant="cover"
                       className="w-full h-full object-cover rounded-[14px] opacity-90 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          'https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp';
-                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-transparent flex flex-col justify-end p-[15px]">
                       <span className="typo-label font-mono font-bold text-cyan-300 tracking-wider">

@@ -138,39 +138,54 @@
   --space-8: 32px;
   --space-10: 40px;
 
-  /* Layer Card UI Border Radius Tokens – Đồng bộ chuẩn 14px cho Card, Sub-card, Video & Hình ảnh trên mọi Theme */
-  --radius-main: 14px;
-  --radius-card: 14px;
-  --radius-subcard: 14px;
-  --radius-media: 14px;
-  --radius-video: 14px;
-  --radius-image: 14px;
+  /* Layer Card UI Border Radius Tokens – Global Bento Design System (15px Card / 11px Sub-card) */
+  --card-radius: 15px;
+  --subcard-radius: 11px;
+  --radius-main: 15px;
+  --radius-card: 15px;
+  --radius-subcard: 11px;
+  --radius-media: 15px;
+  --radius-video: 15px;
+  --radius-image: 15px;
   --radius-button: 999px;
-  --radius-input: 14px;
-  --radius-modal: 14px;
-  --radius-popup: 14px;
-  --radius-widget: 14px;
-  --radius-banner: 14px;
-  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-input: 12px;
+  --radius-modal: 15px;
+  --radius-popup: 15px;
+  --radius-widget: 15px;
+  --radius-banner: 15px;
+  --radius-primary-surface: var(--radius-main, 15px);
   --radius-header: var(--radius-primary-surface);
   --radius-footer: var(--radius-primary-surface);
 
-  /* Component Dimensions & Unified Layer Card Padding Tokens (20px -> 16px -> 12px) */
-  --main-card-padding: 20px;
-  --space-main-padding: 20px;
+  /* Component Dimensions & Unified Layer Card Padding Tokens (16px Card / 12px Subcard / 14px Gap) */
+  --main-card-padding: 16px;
+  --space-main-padding: 16px;
   --space-card-padding: 16px;
-  --space-card-gap: 16px;
+  --space-card-gap: 14px;
   --space-subcard-padding: 12px;
   --space-subcard-gap: 12px;
-  --card-padding: var(--space-card-padding);
-  --card-gap: var(--space-card-gap);
-  --card-content-gap: 16px;
+  --card-padding: 16px;
+  --subcard-padding: 12px;
+  --card-gap: 14px;
+  --card-content-gap: 14px;
   --card-heading-gap: 8px;
   --card-border-width: 1px;
 
+  /* 10 Bento Accent Tokens */
+  --bento-cyan: #06B6D4;
+  --bento-orange: #F97316;
+  --bento-indigo: #6366F1;
+  --bento-rose: #F43F5E;
+  --bento-purple: #A855F7;
+  --bento-emerald: #10B981;
+  --bento-blue: #3B82F6;
+  --bento-pink: #EC4899;
+  --bento-amber: #F59E0B;
+  --bento-teal: #14B8A6;
+
   /* Unified Responsive 6-Card Grid Tokens (Projects & Services: 3x2 -> 2x3 -> 1x6) */
   --grid-cards-columns: 3;
-  --grid-cards-gap: var(--space-card-gap, 16px);
+  --grid-cards-gap: var(--space-card-gap, 14px);
   --grid-cards-padding: var(--space-card-padding, 16px);
   --grid-cards-auto-rows: 1fr;
   --grid-services-row-min: 220px;
@@ -292,9 +307,12 @@
   --accent-orange: #EA580C;
   --accent-slate: #475569;
 
-  /* GLOBAL 5-LEVEL ELEVATION & SHADOW SYSTEM (LIGHT MODE) */
+  /* GLOBAL 5-LEVEL ELEVATION & 3-TIER CARD SHADOW SYSTEM (LIGHT MODE) */
   --shadow-none: none;
   --elevation-0: none;
+  --card-shadow-flat: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --card-shadow-elevated: 0 10px 26px -6px rgba(30, 27, 75, 0.11), 0 3px 10px -2px rgba(30, 27, 75, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --card-shadow-floating: 0 20px 44px -8px rgba(30, 27, 75, 0.18), 0 6px 16px -2px rgba(30, 27, 75, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.88);
   --shadow-nested: 0 2px 6px -1px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
   --elevation-1: var(--shadow-nested);
   --shadow-subcard: 0 6px 16px -3px rgba(30, 27, 75, 0.09), 0 2px 6px rgba(30, 27, 75, 0.04);
@@ -829,9 +847,12 @@ html.dark, [data-theme="dark"], [data-theme="dark-liquid-glass"], [data-theme="c
   --accent-orange: #D99B7E;
   --accent-slate: #C0C9DC;
 
-  /* GLOBAL 5-LEVEL ELEVATION & SHADOW SYSTEM (DARK MODE) */
+  /* GLOBAL 5-LEVEL ELEVATION & 3-TIER CARD SHADOW SYSTEM (DARK MODE) */
   --shadow-none: none;
   --elevation-0: none;
+  --card-shadow-flat: 0 1px 3px rgba(0, 0, 0, 0.28);
+  --card-shadow-elevated: 0 12px 30px -6px rgba(0, 0, 0, 0.36), 0 4px 12px -2px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(225, 235, 255, 0.12);
+  --card-shadow-floating: 0 22px 48px -8px rgba(0, 0, 0, 0.52), 0 8px 20px -4px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(225, 235, 255, 0.18);
   --shadow-nested: 0 2px 8px -1px rgba(0, 0, 0, 0.28), 0 1px 3px rgba(0, 0, 0, 0.18);
   --elevation-1: var(--shadow-nested);
   --shadow-subcard: 0 6px 18px -3px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(225, 235, 255, 0.10);

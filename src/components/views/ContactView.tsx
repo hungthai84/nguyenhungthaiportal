@@ -55,11 +55,15 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
               data-element-parent="contact-main-card"
               className="w-full h-full min-h-0 flex-1 flex flex-col items-stretch justify-start gap-[14px] min-w-0 box-border"
             >
-              {/* 1. THẺ THÔNG TIN ĐẶT LỊCH & KÊNH LIÊN HỆ NHANH (BentoCard Action + Info Light Mode) */}
+              {/* 1. THẺ THÔNG TIN ĐẶT LỊCH & KÊNH LIÊN HỆ NHANH */}
               <BentoCard
                 as="section"
                 id="contact-quick-info-card"
                 variant="info"
+                cardType="info"
+                elevation="elevated"
+                surface="gradient"
+                accent="indigo"
                 fxMode="spotlight-3d"
                 isDarkText={true}
                 data-element-name="Thẻ Thông tin đặt lịch & Liên hệ nhanh"
@@ -67,17 +71,18 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="w-full shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 bg-gradient-to-br from-white via-slate-50/95 to-indigo-50/75 dark:from-slate-900/90 dark:via-slate-900/85 dark:to-indigo-950/60 border border-indigo-200/70 dark:border-indigo-400/25 shadow-md"
+                className="w-full shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-[14px]"
               >
                 <div className="flex flex-col gap-1.5 min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span
                       id="contact-badge-label"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold tracking-wide bg-indigo-50 border-indigo-200/80 text-indigo-700 dark:bg-indigo-500/15 dark:border-indigo-400/30 dark:text-indigo-300"
+                      className="inline-flex items-center gap-1.5 bento-card-label font-bold text-indigo-700 dark:text-indigo-300"
                     >
                       <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
                       <span>{isEn ? 'Online Appointment' : 'Đặt lịch hẹn trực tuyến'}</span>
                     </span>
+                    <span aria-hidden="true" className="text-xs text-[var(--text-muted)]">·</span>
                     <p
                       id="contact-banner-quote"
                       className="banner-quote typo-body-sm font-handwriting font-quote not-italic font-bold select-none text-left m-0 text-indigo-600 dark:text-indigo-300"
@@ -89,7 +94,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
 
                   <h1
                     id="contact-heading-title"
-                    className="typo-h3 font-bold tracking-tight text-left m-0 leading-tight text-slate-900 dark:text-white"
+                    className="bento-card-title text-left m-0 leading-tight text-slate-900 dark:text-white"
                     data-card-title="true"
                   >
                     {isEn ? 'Schedule a Meeting' : 'Lịch hẹn & Trao đổi'}
@@ -97,7 +102,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
 
                   <p
                     id="contact-desc-text"
-                    className="typo-caption sm:typo-body-sm text-left m-0 leading-relaxed text-slate-600 dark:text-slate-300"
+                    className="bento-card-body text-left m-0 text-slate-600 dark:text-slate-300"
                   >
                     {isEn
                       ? 'Select a convenient time slot via Google Calendar for executive recruitment, CX consulting, or project collaboration discussions.'
@@ -106,26 +111,30 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 </div>
 
                 {/* Các Sub-card hành động kết nối nhanh */}
-                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 shrink-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:items-center gap-2.5 shrink-0">
                   <BentoCard
                     as="div"
                     variant="action"
+                    cardType="interactive"
+                    elevation="flat"
+                    surface="nested"
+                    accent="emerald"
                     fxMode="float-shadow"
-                    className="!p-0 border border-emerald-200/85 bg-gradient-to-br from-emerald-50 to-teal-50/80 dark:from-emerald-950/60 dark:to-teal-950/50 dark:border-emerald-500/30 shadow-sm"
+                    className="!p-0 border border-emerald-200/85 bg-gradient-to-br from-emerald-50 to-teal-50/80 dark:from-emerald-950/60 dark:to-teal-950/50 dark:border-emerald-500/30"
                   >
                     <a
                       href="tel:0909097882"
-                      className="flex items-center gap-2 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-emerald-100 no-underline"
+                      className="flex items-center gap-2.5 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-emerald-100 no-underline"
                       title="Gọi điện trực tiếp: 0909097882"
                     >
-                      <span className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                      <span className="w-8 h-8 rounded-[var(--subcard-radius,11px)] bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
                         <WebIcon name="phone" className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
                       </span>
                       <div className="flex flex-col leading-tight min-w-0">
-                        <span className="text-[10.5px] font-semibold text-emerald-700 dark:text-emerald-300">
+                        <span className="bento-card-label text-emerald-700 dark:text-emerald-300">
                           {isEn ? 'Direct Call' : 'Gọi trực tiếp'}
                         </span>
-                        <span className="text-[13px] font-extrabold tracking-tight truncate">0909097882</span>
+                        <span className="text-[13px] font-bold tabular-nums tracking-tight truncate">0909097882</span>
                       </div>
                     </a>
                   </BentoCard>
@@ -133,35 +142,43 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                   <BentoCard
                     as="div"
                     variant="action"
+                    cardType="interactive"
+                    elevation="flat"
+                    surface="nested"
+                    accent="blue"
                     fxMode="neon"
-                    className="!p-0 border border-sky-200/85 bg-gradient-to-br from-sky-50 to-indigo-50/80 dark:from-sky-950/60 dark:to-indigo-950/50 dark:border-sky-500/30 shadow-sm"
+                    className="!p-0 border border-sky-200/85 bg-gradient-to-br from-sky-50 to-indigo-50/80 dark:from-sky-950/60 dark:to-indigo-950/50 dark:border-sky-500/30"
                   >
                     <a
                       href="https://zalo.me/0909097882"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-sky-100 no-underline"
+                      className="flex items-center gap-2.5 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-sky-100 no-underline"
                       title="Kết nối Zalo: 0909097882"
                     >
-                      <span className="w-7 h-7 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0">
+                      <span className="w-8 h-8 rounded-[var(--subcard-radius,11px)] bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0">
                         <WebIcon name="message-circle" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
                       </span>
                       <div className="flex flex-col leading-tight min-w-0">
-                        <span className="text-[10.5px] font-semibold text-sky-700 dark:text-sky-300">
+                        <span className="bento-card-label text-sky-700 dark:text-sky-300">
                           {isEn ? 'Quick Message' : 'Nhắn tin nhanh'}
                         </span>
-                        <span className="text-[13px] font-extrabold tracking-tight truncate">Zalo Chat</span>
+                        <span className="text-[13px] font-bold tracking-tight truncate">Zalo Chat</span>
                       </div>
                     </a>
                   </BentoCard>
                 </div>
               </BentoCard>
 
-              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER (BentoCard Main Container Light Mode) */}
+              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER */}
               <BentoCard
                 as="div"
                 id="contact-info-container"
                 variant="main"
+                cardType="nested"
+                elevation="elevated"
+                surface="glass"
+                accent="indigo"
                 fxMode="minimal"
                 isDarkText={true}
                 data-element-name="Khung đặt lịch hẹn"
@@ -169,23 +186,23 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="flex-1 min-w-0 w-full h-full min-h-[540px] lg:min-h-0 flex flex-col gap-[12px] overflow-hidden relative !p-[15px] bg-white/95 dark:bg-slate-900/85 border border-slate-200/85 dark:border-slate-700/60 shadow-lg"
+                className="flex-1 min-w-0 w-full h-full min-h-[540px] lg:min-h-0 flex flex-col gap-3 overflow-hidden relative !p-4 bg-white/95 dark:bg-slate-900/85 border border-slate-200/85 dark:border-slate-700/60"
               >
-                <div className="relative z-10 flex items-center justify-between gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-700/60">
-                  <h3 className="typo-h5 font-bold flex items-center gap-2 text-indigo-700 dark:text-indigo-300 m-0">
-                    <span className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                <div className="relative z-10 flex items-center justify-between gap-2 pb-2.5 border-b border-slate-200/80 dark:border-slate-700/60">
+                  <h3 className="bento-card-subtitle font-bold flex items-center gap-2 text-indigo-700 dark:text-indigo-300 m-0">
+                    <span className="w-7 h-7 rounded-[var(--subcard-radius,11px)] bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
                       <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
                     </span>
                     <span>{isEn ? 'Google Calendar Appointment Schedule' : 'Lịch hẹn trực tuyến Google Calendar'}</span>
                   </h3>
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
+                  <span className="bento-card-label font-bold text-emerald-700 dark:text-emerald-300">
                     {isEn ? 'Available' : 'Sẵn sàng'}
                   </span>
                 </div>
 
                 <div
                   id="contact-calendar-viewport"
-                  className="relative z-10 flex-1 w-full h-full min-h-[470px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,12px)] border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-950/60 shadow-inner flex flex-col p-0 m-0"
+                  className="relative z-10 flex-1 w-full h-full min-h-[470px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--subcard-radius,11px)] border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-950/60 shadow-inner flex flex-col p-0 m-0"
                   style={{ padding: '0px', margin: '0px', scrollbarWidth: 'none' }}
                 >
                   <iframe
@@ -194,7 +211,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     style={{
                       display: 'block',
                       border: 0,
-                      borderRadius: 'var(--radius-subcard, 12px)',
+                      borderRadius: 'var(--subcard-radius, 11px)',
                       width: '100%',
                       height: '100%',
                       minHeight: '470px',
@@ -206,7 +223,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     scrolling="no"
                     frameBorder="0"
                     title="Đặt lịch hẹn Google Calendar"
-                    className="w-full h-full flex-1 rounded-[var(--radius-subcard,12px)] p-0 m-0 block"
+                    className="w-full h-full flex-1 rounded-[var(--subcard-radius,11px)] p-0 m-0 block"
                   />
                 </div>
               </BentoCard>

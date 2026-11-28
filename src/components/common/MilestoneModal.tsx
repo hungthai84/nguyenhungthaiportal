@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { CareerMilestoneItem } from '../../data/letterData';
 import { ExperienceMilestone } from '../../data/experience';
 import { resolveCompanyLogo } from '@/utils/companyBrandAssets';
@@ -43,18 +44,12 @@ export const MilestoneModal: React.FC<MilestoneModalProps> = ({
       >
         <div className="theme-modal-header flex flex-wrap items-center justify-between gap-2 -mx-4 -mt-4 sm:-mx-5 sm:-mt-5 px-4 sm:px-5 py-3 rounded-t-[var(--radius-modal,24px)]">
           <div className="flex items-center gap-3">
-            <img
+            <BlurUpImage
               src={item.logo}
+              fallbackSrc={resolveCompanyLogo(item.company)}
               alt={item.company}
-              loading="lazy"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                const fallback = resolveCompanyLogo(item.company);
-                if (e.currentTarget.src !== fallback) {
-                  e.currentTarget.src = fallback;
-                }
-              }}
+              priority="eager"
+              variant="contain"
               className="w-12 h-12 rounded-full object-cover shadow-sm"
             />
             <div>

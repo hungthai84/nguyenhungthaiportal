@@ -93,6 +93,7 @@ body {
 @import "./styles/education-bento.css";
 @import "./styles/systems-bento.css";
 @import "./styles/theme-button-effects.css";
+@import "./styles/bento-design-system.css";
 
 /* ========================================================================= */
 /* RESPONSIVE AUTO-FIT CARD GRID & UNIFIED FONT ENFORCEMENT                  */
@@ -100,15 +101,15 @@ body {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 15px;
+  gap: var(--card-gap, 14px);
   align-items: stretch;
 }
 
 .card {
   min-width: 0;
-  height: 100%;
-  padding: 15px;
-  border-radius: 18px;
+  height: auto;
+  padding: var(--card-padding, 16px);
+  border-radius: var(--card-radius, 15px);
 }
 
 .font-play,
@@ -1180,7 +1181,7 @@ html :is(
 .card-cowhide-leather,
 .card-dark-cowhide-leather,
 .card-walnut-wood {
-  border-radius: var(--radius-card, 14px) !important;
+  border-radius: var(--card-radius, var(--radius-card, 15px)) !important;
 }
 
 html :is(
@@ -1195,7 +1196,7 @@ html :is(
   .skill-swot-subcard,
   .theme-modal-subcard
 ) {
-  border-radius: var(--radius-subcard, 14px) !important;
+  border-radius: var(--subcard-radius, var(--radius-subcard, 11px)) !important;
 }
 
 html :is(
@@ -1205,7 +1206,7 @@ html :is(
   .education-card-banner,
   .project-detail-banner-inner
 ) {
-  border-radius: var(--radius-banner, var(--radius-card, 14px)) !important;
+  border-radius: var(--radius-banner, var(--card-radius, 15px)) !important;
 }
 
 /* Enforce 0px border-radius, 100% transparent background & 0px padding on all outer page containers */
@@ -8244,13 +8245,23 @@ html:root[data-card-style] body :is(#letter-main-card, #letter-card-1, #el-p1-di
   }
 }
 
-html:root body #experience-main-card,
-html:root[data-card-style] body #experience-main-card,
-html.dark:root[data-card-style] body #experience-main-card {
+html:root body #experience-main-card[data-detail-open="false"],
+html:root[data-card-style] body #experience-main-card[data-detail-open="false"],
+html.dark:root[data-card-style] body #experience-main-card[data-detail-open="false"] {
   padding: 0px !important;
   gap: 0px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
+}
+
+html:root body #experience-main-card[data-detail-open="true"],
+html:root[data-card-style] body #experience-main-card[data-detail-open="true"],
+html.dark:root[data-card-style] body #experience-main-card[data-detail-open="true"] {
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 html:root body #letter-main-card #bento-letter-video img,
@@ -9524,6 +9535,12 @@ html:root[data-card-style] body :is(
   padding: 6px 8px 6px !important;
 }
 
+#experience-main-card .exp-slider-view-root .news-slider-stage {
+  padding-top: 14px !important;
+  padding-bottom: 6px !important;
+  overflow-y: visible !important;
+}
+
 #experience-main-card .exp-slider-view-root .news-slider-container {
   gap: 8px !important;
 }
@@ -9540,33 +9557,51 @@ html:root[data-card-style] body :is(
 }
 
 #experience-main-card .exp-slider-view-root .news-card-item {
-  padding: clamp(12px, 2.2cqh, 18px) clamp(14px, 2cqi, 18px) !important;
+  padding: clamp(12px, 2.2cqh, 16px) clamp(12px, 1.8cqi, 16px) !important;
   gap: 6px !important;
   justify-content: flex-start !important;
+  overflow: visible !important;
+}
+
+#experience-main-card .exp-slider-view-root .news-slider-slide.swiper-slide-active .news-card-item.active {
+  border: 2px solid #0EA5E9 !important;
+  box-shadow:
+    0 12px 30px -6px rgba(14, 165, 233, 0.34),
+    0 0 0 1px rgba(56, 189, 248, 0.4) !important;
+}
+
+html[data-card-style="walnut-wood"] #experience-main-card .exp-slider-view-root .news-slider-slide.swiper-slide-active .news-card-item.active,
+html[data-card-style="cowhide-leather"] #experience-main-card .exp-slider-view-root .news-slider-slide.swiper-slide-active .news-card-item.active,
+html[data-card-style="dark-cowhide-leather"] #experience-main-card .exp-slider-view-root .news-slider-slide.swiper-slide-active .news-card-item.active {
+  border-color: rgba(245, 196, 120, 0.85) !important;
+  box-shadow:
+    0 12px 30px -6px rgba(245, 196, 120, 0.28),
+    0 0 0 1px rgba(245, 196, 120, 0.4) !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-card-img {
-  flex: 0 0 auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
+  flex: 1 1 0% !important;
+  min-height: 108px !important;
+  max-height: 148px !important;
   height: auto !important;
-  margin-top: 6px !important;
+  margin-top: 4px !important;
   width: 100% !important;
   overflow: hidden !important;
-  background: transparent !important;
+  background: rgba(15, 23, 42, 0.04) !important;
   border: none !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
-  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 12px !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-card-img img {
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   max-width: 100% !important;
-  max-height: 140px !important;
-  object-fit: contain !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
   display: block !important;
-  border-radius: 8px !important;
+  border-radius: 12px !important;
   box-shadow: none !important;
 }
 
@@ -10496,6 +10531,73 @@ html:root body #about-main-card #about-bento-grid::after {
   background-color: transparent !important;
   background-image: none !important;
   opacity: 0 !important;
+}
+
+/* ========================================================================= */
+/* LAZY-LOADING BLUR-UP PLACEHOLDER & DESKTOP MOMENTUM SCROLL PHYSICS        */
+/* ========================================================================= */
+@keyframes blurUpShimmerSweep {
+  0% {
+    background-position: 160% 0;
+  }
+  100% {
+    background-position: -160% 0;
+  }
+}
+
+img.blur-up-media {
+  transition:
+    filter 440ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: filter, opacity;
+}
+
+img.blur-up-media[data-blur-variant="cover"][data-blur-loaded="false"] {
+  background-color: rgba(148, 163, 184, 0.14);
+  background-image: linear-gradient(
+    110deg,
+    rgba(148, 163, 184, 0.08) 8%,
+    rgba(255, 255, 255, 0.22) 22%,
+    rgba(148, 163, 184, 0.08) 38%
+  );
+  background-size: 220% 100%;
+  animation: blurUpShimmerSweep 1.5s linear infinite;
+  filter: blur(14px) saturate(1.1);
+  transform: scale(1.03);
+  opacity: 0.72;
+}
+
+img.blur-up-media[data-blur-variant="contain"][data-blur-loaded="false"] {
+  background: transparent;
+  filter: blur(8px);
+  opacity: 0.16;
+}
+
+img.blur-up-media[data-blur-loaded="true"] {
+  background-image: none;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.blur-up-media,
+  img.blur-up-media[data-blur-loaded="false"] {
+    transition: opacity 120ms linear;
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+/* Neutralize CSS smooth-scroll while desktop rAF momentum engine drives scrollTop */
+html [data-momentum-active="true"],
+html .page-main-card[data-momentum-active="true"],
+html [data-main-card="true"][data-momentum-active="true"],
+html .main-card-scroll-viewport[data-momentum-active="true"],
+html #experience-main-card[data-momentum-active="true"],
+html #project-detail-layout[data-momentum-active="true"],
+html #about-intro-card-2-scroll-viewport[data-momentum-active="true"] {
+  scroll-behavior: auto !important;
 }
 
 /* End of index.css */

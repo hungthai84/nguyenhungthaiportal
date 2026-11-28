@@ -13,6 +13,7 @@ import { EducationBookView } from './education/EducationBookView';
 import { EducationBookshelfView } from './education/EducationBookshelfView';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -818,11 +819,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             >
               <WebIcon name="cancel" className="w-6 h-6" />
             </button>
-            <img
+            <BlurUpImage
               src={lightboxImage}
               alt={lightboxTitle}
-              decoding="async"
-              referrerPolicy="no-referrer"
+              priority="eager"
+              variant="contain"
               className="max-w-full max-h-[82vh] object-contain rounded-[var(--radius-card,14px)] shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/20 select-none pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             />

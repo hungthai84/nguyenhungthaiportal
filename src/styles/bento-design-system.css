@@ -1,0 +1,256 @@
+/* ========================================================================= */
+/* GLOBAL BENTO CARD DESIGN SYSTEM                                           */
+/* Canonical Tokens, 3-Tier Elevation, 5 Surfaces, 6 Taxonomy Types & 10     */
+/* Accent Palette Tokens (Light + Dark Contrast Safe, Play Typography)       */
+/* ========================================================================= */
+
+:root {
+  /* Canonical Structural Tokens */
+  --card-radius: 15px;
+  --subcard-radius: 11px;
+  --card-padding: 16px;
+  --subcard-padding: 12px;
+  --card-gap: 14px;
+  --card-border-width: 1px;
+
+  /* 3-Tier Shadow System (Light Mode) */
+  --card-shadow-flat: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --card-shadow-elevated:
+    0 10px 26px -6px rgba(30, 27, 75, 0.11),
+    0 3px 10px -2px rgba(30, 27, 75, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  --card-shadow-floating:
+    0 20px 44px -8px rgba(30, 27, 75, 0.18),
+    0 6px 16px -2px rgba(30, 27, 75, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+
+  /* 10 Accent Palette Tokens */
+  --bento-cyan: #06B6D4;
+  --bento-orange: #F97316;
+  --bento-indigo: #6366F1;
+  --bento-rose: #F43F5E;
+  --bento-purple: #A855F7;
+  --bento-emerald: #10B981;
+  --bento-blue: #3B82F6;
+  --bento-pink: #EC4899;
+  --bento-amber: #F59E0B;
+  --bento-teal: #14B8A6;
+}
+
+html.dark,
+[data-theme="dark"],
+[data-theme="dark-liquid-glass"],
+[data-theme="cowhide-leather"],
+[data-theme="dark-cowhide-leather"],
+html[data-card-style="dark-cowhide-leather"],
+[data-theme="walnut-wood"],
+html[data-card-style="walnut-wood"],
+[data-theme="deep-ocean"],
+html[data-card-style="deep-ocean"],
+[data-theme="dark-flat-soft-ui"],
+html[data-card-style="dark-flat-soft-ui"],
+[data-theme="dark-iridescent-liquid-glass"],
+html[data-card-style="dark-iridescent-liquid-glass"] {
+  /* 3-Tier Shadow System (Dark Mode) */
+  --card-shadow-flat: 0 1px 3px rgba(0, 0, 0, 0.28);
+  --card-shadow-elevated:
+    0 12px 30px -6px rgba(0, 0, 0, 0.36),
+    0 4px 12px -2px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(225, 235, 255, 0.12);
+  --card-shadow-floating:
+    0 22px 48px -8px rgba(0, 0, 0, 0.52),
+    0 8px 20px -4px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(225, 235, 255, 0.18);
+}
+
+/* Accent Color Variable Binding */
+[data-bento-accent="cyan"] { --bento-accent-color: var(--bento-cyan, #06B6D4); }
+[data-bento-accent="orange"] { --bento-accent-color: var(--bento-orange, #F97316); }
+[data-bento-accent="indigo"] { --bento-accent-color: var(--bento-indigo, #6366F1); }
+[data-bento-accent="rose"] { --bento-accent-color: var(--bento-rose, #F43F5E); }
+[data-bento-accent="purple"] { --bento-accent-color: var(--bento-purple, #A855F7); }
+[data-bento-accent="emerald"] { --bento-accent-color: var(--bento-emerald, #10B981); }
+[data-bento-accent="blue"] { --bento-accent-color: var(--bento-blue, #3B82F6); }
+[data-bento-accent="pink"] { --bento-accent-color: var(--bento-pink, #EC4899); }
+[data-bento-accent="amber"] { --bento-accent-color: var(--bento-amber, #F59E0B); }
+[data-bento-accent="teal"] { --bento-accent-color: var(--bento-teal, #14B8A6); }
+
+/* Universal Card Safety & Responsive Containment */
+[data-bento-card="true"],
+[data-subcard="true"] {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  flex-shrink: 1;
+}
+
+[data-bento-card="true"]:not([data-media-card]):not(.bento-card--main) {
+  border-radius: var(--card-radius, 15px);
+}
+
+[data-subcard="true"]:not(.education-course-card) {
+  border-radius: var(--subcard-radius, 11px);
+}
+
+/* 5 Surface Types (Theme-Aware, Respecting Theme Overrides) */
+[data-bento-card="true"][data-card-surface="solid"] {
+  background: var(--bg-card, #FBFCFF);
+  border: var(--card-border-width, 1px) solid var(--border-card, var(--border-default));
+}
+
+[data-bento-card="true"][data-card-surface="glass"] {
+  background: var(--surface-secondary-bg, var(--bg-card));
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card));
+  backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%));
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, 18px)) saturate(var(--surface-secondary-saturate, 134%));
+}
+
+[data-bento-card="true"][data-card-surface="gradient"] {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--bento-accent-color, var(--color-primary, #6366F1)) 12%, var(--surface-secondary-bg, var(--bg-card))) 0%,
+    color-mix(in srgb, var(--bento-accent-color, var(--color-primary, #6366F1)) 4%, var(--surface-secondary-bg, var(--bg-card))) 100%
+  );
+  border: var(--card-border-width, 1px) solid
+    color-mix(in srgb, var(--bento-accent-color, var(--color-primary, #6366F1)) 32%, var(--surface-secondary-border, var(--border-card)));
+}
+
+[data-bento-card="true"][data-card-surface="transparent"] {
+  background: transparent;
+  border: var(--card-border-width, 1px) solid color-mix(in srgb, var(--border-card, var(--border-default)) 70%, transparent);
+}
+
+[data-bento-card="true"][data-card-surface="nested"],
+[data-subcard="true"][data-card-surface="nested"] {
+  background: var(--surface-tertiary-bg, var(--bg-subcard));
+  border: var(--card-border-width, 1px) solid
+    color-mix(
+      in srgb,
+      var(--bento-accent-color, var(--color-primary, #6366F1)) 24%,
+      var(--surface-tertiary-border, var(--border-subcard, var(--border-default)))
+    );
+}
+
+/* 3-Tier Shadow Elevation Bindings */
+[data-card-elevation="flat"] {
+  box-shadow: var(--card-shadow-flat) !important;
+}
+
+[data-card-elevation="elevated"] {
+  box-shadow: var(--surface-secondary-shadow, var(--card-shadow-elevated));
+}
+
+[data-card-elevation="floating"] {
+  box-shadow: var(--card-shadow-floating);
+}
+
+html[data-surface-depth="flat"] [data-bento-card="true"],
+html[data-surface-depth="flat"] [data-subcard="true"] {
+  box-shadow: none !important;
+}
+
+/* Subtle 1-3px Micro-Interaction Hover Lift (150-250ms, Reduced Motion Safe) */
+@media (hover: hover) and (pointer: fine) {
+  [data-bento-card="true"][data-card-type="interactive"]:not(.page-main-card):not([data-main-card="true"]),
+  [data-bento-card="true"][data-card-type="metric"]:not(.page-main-card):not([data-main-card="true"]),
+  [data-subcard="true"][data-interactive="true"] {
+    transition:
+      transform 190ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 210ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  [data-bento-card="true"][data-card-type="interactive"]:not(.page-main-card):not([data-main-card="true"]):hover,
+  [data-bento-card="true"][data-card-type="metric"]:not(.page-main-card):not([data-main-card="true"]):hover {
+    transform: translate3d(0, -2px, 0);
+  }
+
+  [data-subcard="true"][data-interactive="true"]:hover {
+    transform: translate3d(0, -1.5px, 0);
+    border-color: color-mix(in srgb, var(--bento-accent-color, var(--color-primary, #6366F1)) 52%, var(--border-subcard));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bento-card="true"],
+  [data-subcard="true"] {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Standardized Card Header, Title, Subtitle, Body, Label & Metric Hierarchy */
+.bento-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border-subcard, var(--border-default)) 78%, transparent);
+  min-width: 0;
+}
+
+.bento-card-title {
+  font-family: var(--font-primary, 'Play', sans-serif);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--text-heading, var(--text-primary));
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.bento-card-subtitle {
+  font-family: var(--font-primary, 'Play', sans-serif);
+  font-size: clamp(14px, 1.1vw, 15.5px);
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.bento-card-body {
+  font-family: var(--font-primary, 'Play', sans-serif);
+  font-size: clamp(13px, 1vw, 14px);
+  line-height: 1.58;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.bento-card-label {
+  font-family: var(--font-primary, 'Play', sans-serif);
+  font-size: clamp(11px, 0.85vw, 12px);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: var(--text-muted, var(--text-secondary));
+}
+
+.bento-metric-value {
+  font-family: var(--font-primary, 'Play', sans-serif);
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.16;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Light Mode Contrast Protection on Tinted Bento Subcards */
+html:not(.dark) [data-bento-card="true"],
+html:not(.dark) [data-subcard="true"] {
+  --bento-ink-primary: var(--text-primary, #1E293B);
+  --bento-ink-secondary: var(--text-secondary, #475569);
+}
+
+html.dark [data-bento-card="true"],
+html.dark [data-subcard="true"] {
+  --bento-ink-primary: var(--text-primary, #F8FAFC);
+  --bento-ink-secondary: var(--text-secondary, #CBD5E1);
+}

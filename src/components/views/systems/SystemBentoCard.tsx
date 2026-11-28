@@ -23,6 +23,7 @@ import {
   X,
 } from 'lucide-react';
 import { SystemData } from '@/types';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 import {
@@ -850,13 +851,11 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
           } flex items-center justify-center shrink-0 overflow-hidden rounded-xl`}
         >
           {!imgFailed && sys.imageUrl ? (
-            <img
+            <BlurUpImage
               ref={thumbImgRef}
               src={sys.imageUrl}
               alt={sys.abbr}
-              referrerPolicy="no-referrer"
-              loading="lazy"
-              decoding="async"
+              variant="contain"
               onLoad={smartAlignInlineVideo}
               onError={() => setImgFailed(true)}
               className={`card-thumb-img w-full h-full object-contain select-none ${

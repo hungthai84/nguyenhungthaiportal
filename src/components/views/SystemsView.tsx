@@ -6,6 +6,7 @@ import QRCode from 'qrcode';
 import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 const Maximize2 = createAnimatedIcon('maximize-2');
 const Minimize2 = createAnimatedIcon('minimize-2');
@@ -2561,12 +2562,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                                     </button>
                                   </>
                                 ) : (
-                                  <img
+                                  <BlurUpImage
                                     src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
                                     alt={expandedSystem.nameVi}
-                                    loading="lazy"
-                                    decoding="async"
-                                    referrerPolicy="no-referrer"
+                                    priority="eager"
+                                    variant="contain"
                                     className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
                                   />
                                 )}

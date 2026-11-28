@@ -20,6 +20,7 @@ import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
 import { DRIVE_AVATARS } from '@/config/driveMediaLinks';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
   cyan: '#0284c7',
@@ -224,6 +225,31 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       setIsExporting(false);
     }, 250);
   };
+
+  const handlePrintOrExportRef = useRef(handlePrintOrExport);
+  handlePrintOrExportRef.current = handlePrintOrExport;
+
+  useEffect(() => {
+    const triggerExport = () => {
+      try {
+        sessionStorage.removeItem('hungthai_pending_pdf_export');
+      } catch {}
+      window.setTimeout(() => {
+        handlePrintOrExportRef.current('download');
+      }, 320);
+    };
+
+    try {
+      if (sessionStorage.getItem('hungthai_pending_pdf_export') === '1') {
+        triggerExport();
+      }
+    } catch {}
+
+    window.addEventListener('app:export-pdf', triggerExport);
+    return () => {
+      window.removeEventListener('app:export-pdf', triggerExport);
+    };
+  }, []);
 
   const experienceList = Object.values(EXPERIENCE_MILESTONES);
 
@@ -554,13 +580,12 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                 style={{ borderRadius: 'var(--radius-card, 14px)' }}
                 className="relative w-44 h-44 sm:w-48 sm:h-48 overflow-hidden ring-4 ring-[var(--border-subcard)] shadow-xl"
               >
-              <img
+              <BlurUpImage
                 src={DRIVE_AVATARS.hungThai}
                 alt="Nguyễn Hùng Thái - Chuyên Gia Vận Hành CSKH"
-                referrerPolicy="no-referrer"
+                priority="eager"
+                variant="cover"
                 className="w-full h-full object-cover object-top rounded-[inherit]"
-                loading="eager"
-                decoding="async"
               />
             </div>
             <div className="mt-3">
@@ -980,17 +1005,15 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                                 className="company-logo-surface w-7 h-7 rounded-full overflow-hidden p-0 border border-[var(--border-subcard)] shadow-xs flex items-center justify-center shrink-0"
                                 title={partner.name}
                               >
-                                <img
+                                <BlurUpImage
                                   src={logoSrc}
+                                  fallbackSrc={partner.fallbackLogo}
                                   alt={partner.name}
-                                  loading="lazy"
-                                  decoding="async"
-                                  referrerPolicy="no-referrer"
+                                  priority="eager"
+                                  variant="cover"
                                   className="w-full h-full object-cover rounded-full p-0"
                                   onError={(e) => {
-                                    if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                                      e.currentTarget.src = partner.fallbackLogo;
-                                    } else {
+                                    if (!partner.fallbackLogo || e.currentTarget.src === partner.fallbackLogo) {
                                       e.currentTarget.style.display = 'none';
                                     }
                                   }}
@@ -1071,7 +1094,13 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
                       </span>
                       {m.logo && (
                         <div className="company-logo-surface w-7 h-7 rounded-[8px] overflow-hidden border border-[var(--border-subcard)] p-0.5 shrink-0 flex items-center justify-center">
-                          <img src={m.logo} alt={m.company} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="w-full h-full object-contain rounded-[inherit]" />
+                          <BlurUpImage
+                            src={m.logo}
+                            alt={m.company}
+                            priority="eager"
+                            variant="contain"
+                            className="w-full h-full object-contain rounded-[inherit]"
+                          />
                         </div>
                       )}
                     </div>

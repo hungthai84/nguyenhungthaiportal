@@ -4,6 +4,7 @@
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS_DATA } from '@/data/projects';
 import { getProjectCloudinaryBanner } from '@/utils/projectBanner';
@@ -1522,21 +1523,16 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     data-media-card="image"
                     className="project-card-banner u308-ph relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
-                    <img
+                    <BlurUpImage
                       src={bannerInfo.primaryUrl}
+                      fallbackSrc={
+                        bannerInfo.fallbackUrl ||
+                        'https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp'
+                      }
                       alt={cleanedTitle}
                       title={bannerInfo.imageName}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        if (bannerInfo.fallbackUrl && e.currentTarget.src !== bannerInfo.fallbackUrl) {
-                          e.currentTarget.src = bannerInfo.fallbackUrl;
-                        } else {
-                          e.currentTarget.src =
-                            'https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp';
-                        }
-                      }}
+                      priority={idx < 3 ? 'eager' : 'lazy'}
+                      variant="cover"
                       className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0"
                     />
                     <div
@@ -1712,12 +1708,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               style={{ borderRadius: 'var(--radius-card, 14px)' }}
               className="themed-image-frame bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3 sm:p-5 flex items-center justify-center overflow-auto horizontal-scroll-smooth no-scrollbar max-h-[75vh]"
             >
-              <img
+              <BlurUpImage
                 src={mindmapProject.mindmap || mindmapProject.image}
+                fallbackSrc={mindmapProject.image}
                 alt="Sơ đồ tư duy"
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
+                priority="eager"
+                variant="contain"
                 className="max-w-full max-h-[70vh] object-contain rounded-[inherit] shadow-lg"
               />
             </div>

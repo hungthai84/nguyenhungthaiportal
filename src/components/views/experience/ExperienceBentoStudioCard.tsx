@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 export type ExperienceBentoVariant =
   | 'hero-purple'
   | 'amber-highlight'
+  | 'commitment-amber'
   | 'roadmap-violet'
   | 'emerald-trust'
   | 'slate-tasks'
@@ -40,6 +41,7 @@ export interface ExperienceBentoStudioCardProps extends React.HTMLAttributes<HTM
 const VARIANT_TO_DEFAULT_SCENE: Record<ExperienceBentoVariant, U214MotionScene> = {
   'hero-purple': 'a',
   'amber-highlight': 'e',
+  'commitment-amber': 'a',
   'roadmap-violet': 'a',
   'emerald-trust': 'd',
   'slate-tasks': 'b',
@@ -50,7 +52,8 @@ const VARIANT_TO_DEFAULT_SCENE: Record<ExperienceBentoVariant, U214MotionScene> 
 
 const VARIANT_TO_ACCENT: Record<ExperienceBentoVariant, string> = {
   'hero-purple': '#C4B5FD',
-  'amber-highlight': '#1E293B',
+  'amber-highlight': '#FB7185',
+  'commitment-amber': '#F59E0B',
   'roadmap-violet': '#A78BFA',
   'emerald-trust': '#6EE7B7',
   'slate-tasks': '#A855F7',
@@ -741,21 +744,8 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
         <div
           className="u214-scene-bar mt-auto"
           aria-hidden="true"
-          style={
-            variant === 'amber-highlight'
-              ? {
-                  background: 'rgba(3, 7, 18, 0.14)',
-                  borderColor: 'rgba(3, 7, 18, 0.16)',
-                }
-              : undefined
-          }
         >
-          <span
-            className={cn(
-              'u214-scene-label text-[11px] font-bold tracking-wide truncate',
-              variant === 'amber-highlight' ? 'text-gray-950' : 'text-white/90'
-            )}
-          >
+          <span className="u214-scene-label text-[11px] font-bold tracking-wide text-white/90 truncate">
             {variant === 'amber-highlight' ? 'Hệ sinh thái lĩnh vực' : 'Chuỗi tư liệu kỷ niệm'}
           </span>
           <div className="u214-lg">

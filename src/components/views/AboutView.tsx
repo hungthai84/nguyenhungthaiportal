@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
+import { BentoCard, BentoCardHeader, BentoSubCard } from '@/components/ui/BentoCard';
 import NotificationStack, { type StackNotification } from '@/components/ui/NotificationStack';
 
 // ============================================================================
@@ -85,32 +86,6 @@ const ABOUT_PROFILE_STATS = [
   },
 ];
 
-// ============================================================================
-// 2. COMPONENT BENTO CARD TĨNH
-// ============================================================================
-
-interface BentoCardProps {
-  className?: string;
-  onClick?: () => void;
-  children: React.ReactNode;
-  id?: string;
-  style?: React.CSSProperties;
-}
-
-const BentoCard: React.FC<BentoCardProps> = ({ className = '', onClick, children, id, style }) => {
-  return (
-    <div
-      id={id}
-      data-section-card="true"
-      onClick={onClick}
-      style={style}
-      className={`bento-card glass-card bento-border ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
-
 export interface AboutViewProps {
   currentTheme?: string;
   onShowNotification?: (msg: string) => void;
@@ -129,7 +104,9 @@ interface ToastMessage {
 // ============================================================================
 
 export function AboutView({ currentTheme, onShowNotification }: AboutViewProps = {}) {
-  const { isDark: themeIsDark } = useTheme();
+  const { isDark: themeIsDark, cardStyle } = useTheme();
+  const effectiveTheme = currentTheme || cardStyle;
+  const isFlatLight = effectiveTheme === 'flat-soft-ui';
   const isDark =
     themeIsDark ||
     currentTheme === 'dark-liquid-glass' ||
@@ -140,6 +117,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
     currentTheme === 'dark-neumorphism-beyond' ||
     currentTheme === 'dark-flat-soft-ui' ||
     currentTheme === 'dark-iridescent-liquid-glass';
+  const useBrightStackIcons = isDark || isFlatLight;
 
   // Hệ thống thông báo Toast
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -449,7 +427,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Cung Cự Giải · Hành trình hơn 22 năm gắn bó ngành dịch vụ khách hàng.',
         time: '1984',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-amber-400/35 bg-amber-500/15 text-amber-600 dark:text-amber-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-amber-400/35 bg-amber-500/15',
+              useBrightStackIcons ? 'text-amber-300' : 'text-amber-600'
+            )}
+          >
             <Calendar className="size-4" />
           </span>
         ),
@@ -462,7 +445,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Bản mệnh Vàng trong biển · Điềm tĩnh, sâu sắc và bền bỉ trong quản trị.',
         time: 'Mệnh Kim',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-purple-400/35 bg-purple-500/15 text-purple-600 dark:text-purple-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-purple-400/35 bg-purple-500/15',
+              useBrightStackIcons ? 'text-purple-300' : 'text-purple-600'
+            )}
+          >
             <Sparkles className="size-4" />
           </span>
         ),
@@ -475,7 +463,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Phong thái chuyên nghiệp, quyết đoán và tận tâm trong từng điểm chạm.',
         time: 'Cá nhân',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15 text-sky-600 dark:text-sky-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15',
+              useBrightStackIcons ? 'text-sky-300' : 'text-sky-600'
+            )}
+          >
             <User className="size-4" />
           </span>
         ),
@@ -488,7 +481,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Việt Nam · Am hiểu văn hóa bản địa và chuẩn mực dịch vụ quốc tế.',
         time: 'Việt Nam',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-emerald-400/35 bg-emerald-500/15 text-emerald-600 dark:text-emerald-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-emerald-400/35 bg-emerald-500/15',
+              useBrightStackIcons ? 'text-emerald-300' : 'text-emerald-600'
+            )}
+          >
             <Globe className="size-4" />
           </span>
         ),
@@ -501,14 +499,19 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Sẵn sàng linh hoạt công tác, tập trung toàn tâm cho sự nghiệp CX.',
         time: 'Hiện tại',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-rose-400/35 bg-rose-500/15 text-rose-600 dark:text-rose-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-rose-400/35 bg-rose-500/15',
+              useBrightStackIcons ? 'text-rose-300' : 'text-rose-600'
+            )}
+          >
             <Heart className="size-4" />
           </span>
         ),
         onClick: personalItems[4]?.action,
       },
     ],
-    [personalItems]
+    [personalItems, useBrightStackIcons]
   );
 
   const contactStackItems = useMemo<StackNotification[]>(
@@ -520,7 +523,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Liên hệ trực tiếp hoặc nhắn tin qua Zalo để trao đổi công việc nhanh.',
         time: 'Mở Zalo',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-orange-400/35 bg-orange-500/15 text-orange-600 dark:text-orange-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-orange-400/35 bg-orange-500/15',
+              useBrightStackIcons ? 'text-orange-300' : 'text-orange-600'
+            )}
+          >
             <Phone className="size-4" />
           </span>
         ),
@@ -533,7 +541,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Bấm để sao chép nhanh địa chỉ email hợp tác và tư vấn chuyên môn.',
         time: 'Sao chép',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-pink-400/35 bg-pink-500/15 text-pink-600 dark:text-pink-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-pink-400/35 bg-pink-500/15',
+              useBrightStackIcons ? 'text-pink-300' : 'text-pink-600'
+            )}
+          >
             <Mail className="size-4" />
           </span>
         ),
@@ -546,7 +559,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Khám phá hệ sinh thái năng lực, dịch vụ và tài liệu CX của chuyên gia.',
         time: 'Truy cập',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15 text-sky-600 dark:text-sky-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15',
+              useBrightStackIcons ? 'text-sky-300' : 'text-sky-600'
+            )}
+          >
             <Globe className="size-4" />
           </span>
         ),
@@ -559,7 +577,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         body: 'Kết nối hồ sơ quản trị và kinh nghiệm điều hành dịch vụ khách hàng.',
         time: 'Kết nối',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-indigo-400/35 bg-indigo-500/15 text-indigo-600 dark:text-indigo-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-indigo-400/35 bg-indigo-500/15',
+              useBrightStackIcons ? 'text-indigo-300' : 'text-indigo-600'
+            )}
+          >
             <UserCheck className="size-4" />
           </span>
         ),
@@ -573,7 +596,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         time: 'Xem Map',
         active: activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-cyan-400/35 bg-cyan-500/15 text-cyan-600 dark:text-cyan-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-cyan-400/35 bg-cyan-500/15',
+              useBrightStackIcons ? 'text-cyan-300' : 'text-cyan-600'
+            )}
+          >
             <MapPin className="size-4" />
           </span>
         ),
@@ -587,14 +615,19 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         time: 'Xem Map',
         active: activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru',
         icon: (
-          <span className="flex size-8 items-center justify-center rounded-[10px] border border-teal-400/35 bg-teal-500/15 text-teal-600 dark:text-teal-300">
+          <span
+            className={cn(
+              'flex size-8 items-center justify-center rounded-[10px] border border-teal-400/35 bg-teal-500/15',
+              useBrightStackIcons ? 'text-teal-300' : 'text-teal-600'
+            )}
+          >
             <Home className="size-4" />
           </span>
         ),
         onClick: contactItems[5]?.action,
       },
     ],
-    [activeHeroMapType, activeHeroMedia, contactItems]
+    [activeHeroMapType, activeHeroMedia, contactItems, useBrightStackIcons]
   );
 
   const toastOverlay = (
@@ -688,17 +721,17 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         }
 
         #about-page-container .bento-card {
-          border-radius: var(--radius-card, var(--radius-global, 14px));
-          padding: 16px;
+          border-radius: var(--card-radius, var(--radius-card, 15px));
+          padding: var(--card-padding, 16px);
           position: relative;
           overflow: hidden;
           background: var(--surface-secondary-bg, var(--bg-card));
           color: var(--text-primary);
           border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card, var(--border-color)));
-          box-shadow: var(--surface-secondary-shadow, var(--shadow-card));
+          box-shadow: var(--surface-secondary-shadow, var(--card-shadow-elevated, var(--shadow-card)));
           backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 18px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 140%)));
           -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 18px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 140%)));
-          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease;
         }
 
         .gradient-text {
@@ -709,7 +742,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
 
         /* Chuẩn hóa đồng nhất 100% kích thước, độ đậm và giãn cách chữ cho tiêu đề Card & Sub-card */
         .bento-unified-title {
-          font-family: 'Play', sans-serif;
+          font-family: var(--font-primary, 'Play', sans-serif);
           font-size: 16px !important;
           line-height: 1.3 !important;
           font-weight: 700 !important;
@@ -856,6 +889,227 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         html[data-surface-depth="flat"] #about-page-container #about-box-tabs-shell :is([role="tab"], [role="tabpanel"], .about-tab-info-chip) {
           box-shadow: none !important;
         }
+
+        /* ===================================================================== */
+        /* GIAO DIỆN PHẲNG SÁNG (flat-soft-ui) — CHUẨN MẪU BENTO CARD THAM CHIẾU */
+        /* Áp dụng cho trang Giới thiệu (#about-page-container) & giữ nguyên data */
+        /* ===================================================================== */
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-card {
+          border-radius: 12px !important;
+          padding: 15px !important;
+          border: 1px solid rgba(255, 255, 255, 0.16) !important;
+          color: #f8fafc !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          box-shadow:
+            0 16px 32px -10px rgba(15, 23, 42, 0.26),
+            0 6px 14px -4px rgba(15, 23, 42, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+          transition:
+            transform 0.14s ease-out,
+            box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease !important;
+          will-change: transform;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-card:hover {
+          border-color: rgba(255, 255, 255, 0.28) !important;
+          box-shadow:
+            0 30px 52px -12px rgba(15, 23, 42, 0.34),
+            0 14px 24px -8px rgba(15, 23, 42, 0.2),
+            0 0 0 1px rgba(255, 255, 255, 0.28) !important;
+        }
+
+        /* Spotlight 3D (chỉ sáng vùng trỏ chuột + 3D Tilt mượt, không lóe sáng chéo) */
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-studio-card[data-fx-mode="spotlight-3d"]::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          opacity: 0;
+          background: radial-gradient(
+            280px circle at var(--mx, 50%) var(--my, 50%),
+            rgba(255, 255, 255, 0.16),
+            rgba(168, 85, 247, 0.08) 42%,
+            transparent 72%
+          );
+          transition: opacity 0.28s ease;
+          z-index: 2;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-studio-card[data-fx-mode="spotlight-3d"]:hover::before {
+          opacity: 1;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-studio-card[data-fx-mode="spotlight-3d"]:hover {
+          transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-8px) scale(1.015) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-hero-video-container:hover,
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-personal-info-card-right:hover {
+          transform: translateY(-4px) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-card:hover svg.lucide.shrink-0 {
+          transform: scale(1.14) rotate(-5deg);
+          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Card 1 — Media Video/Map Showcase (Thẻ 43 Media) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-hero-video-container {
+          background: linear-gradient(135deg, #111827 0%, #1e293b 52%, #1e1b4b 100%) !important;
+        }
+
+        /* Card 2 — Container Thông Tin Chi Tiết & Box Tabs (Thẻ 12 / 24 / 82) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-personal-info-card-right {
+          background: linear-gradient(145deg, rgba(31, 41, 55, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="true"] {
+          background: #111827 !important;
+          border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
+          border-left: 1px solid rgba(255, 255, 255, 0.16) !important;
+          border-right: 1px solid rgba(255, 255, 255, 0.16) !important;
+          color: #e9d5ff !important;
+          box-shadow: none !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="true"]::after {
+          background: #111827 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"] {
+          background: rgba(31, 41, 55, 0.65) !important;
+          border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+          color: #cbd5e1 !important;
+          opacity: 0.9 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"]:hover {
+          background: rgba(51, 65, 85, 0.85) !important;
+          color: #ffffff !important;
+          opacity: 1 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tabpanel"] {
+          background: rgba(17, 24, 39, 0.96) !important;
+          border: 1px solid rgba(255, 255, 255, 0.16) !important;
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+          border-bottom-left-radius: 12px !important;
+          border-bottom-right-radius: 12px !important;
+          border-top-right-radius: 12px !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card {
+          background: rgba(30, 41, 59, 0.92) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          border-radius: 12px !important;
+          box-shadow: 0 8px 18px -6px rgba(2, 6, 23, 0.52) !important;
+          color: #f8fafc !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card:hover {
+          background: rgba(51, 65, 85, 0.96) !important;
+          border-color: rgba(255, 255, 255, 0.24) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card p:first-child {
+          color: #f8fafc !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card p:last-child {
+          color: #cbd5e1 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card span.tabular-nums {
+          color: #94a3b8 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card button[type="button"] {
+          background: #1e293b !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
+          color: #cbd5e1 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card button[type="button"]:hover {
+          color: #ffffff !important;
+          background: #334155 !important;
+        }
+
+        /* Card 3 — Hero Giới Thiệu Bản Thân + 4 Dấu Ấn Năng Lực (Thẻ 1 Purple-Indigo + Thẻ 80 4 Metric Subcards) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card {
+          background: linear-gradient(135deg, #9333ea 0%, #7e22ce 48%, #312e81 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card [data-subcard="true"] {
+          background: rgba(2, 6, 23, 0.28) !important;
+          border: 1px solid rgba(255, 255, 255, 0.18) !important;
+          border-radius: 12px !important;
+          box-shadow: 0 6px 14px -4px rgba(15, 23, 42, 0.28) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card [data-subcard="true"]:hover {
+          background: rgba(2, 6, 23, 0.42) !important;
+          border-color: rgba(255, 255, 255, 0.34) !important;
+          transform: translateY(-2px);
+        }
+
+        /* Card 4 — Trụ Cột Vận Hành (Thẻ 76 Dark Container + 3 Subcards Gradient Cyan/Rose/Emerald) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card {
+          background: linear-gradient(145deg, #1e293b 0%, #1f2937 55%, #0f172a 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-subcard="true"] {
+          border-radius: 12px !important;
+          border: 1px solid rgba(255, 255, 255, 0.16) !important;
+          box-shadow: 0 10px 22px -8px rgba(2, 6, 23, 0.5) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="1"] {
+          background: linear-gradient(135deg, #0891b2 0%, #1e3a8a 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="2"] {
+          background: linear-gradient(135deg, #e11d48 0%, #be185d 50%, #581c87 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="3"] {
+          background: linear-gradient(135deg, #059669 0%, #134e4a 100%) !important;
+        }
+
+        /* Card 5 — Giá Trị Cốt Lõi (Thẻ 75 Container + Thẻ 6/26/32 Vibrant Gradient Subcards) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card {
+          background: linear-gradient(145deg, #1e293b 0%, #111827 55%, #1e1b4b 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-subcard="true"] {
+          border-radius: 12px !important;
+          border: 1px solid rgba(255, 255, 255, 0.16) !important;
+          box-shadow: 0 10px 22px -8px rgba(2, 6, 23, 0.5) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="1"] {
+          background: linear-gradient(135deg, #e11d48 0%, #ea580c 52%, #d97706 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="2"] {
+          background: linear-gradient(135deg, #db2777 0%, #6b21a8 100%) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="3"] {
+          background: linear-gradient(135deg, #7c3aed 0%, #86198f 100%) !important;
+        }
+
+        /* Card 6 — Triết Lý Tầm Nhìn & Câu Nói Hay (Thẻ 51 Quote Inspiration Card) */
+        html[data-card-style="flat-soft-ui"] #about-page-container #about-philosophy-card {
+          background: linear-gradient(135deg, #5b21b6 0%, #581c87 50%, #0f172a 100%) !important;
+        }
       `}</style>
 
       {/* Vùng hiển thị thông báo nổi (Toast) */}
@@ -883,20 +1137,20 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           <div
             id="about-main-scroll-viewport"
             data-no-wheel-horizontal="true"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y no-scrollbar box-border"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[14px] overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y no-scrollbar box-border"
           >
-            {/* Khung chứa chính (Tối đa 1050px theo yêu cầu) */}
+            {/* Khung chứa chính */}
             <div
               id="about-main-content"
               data-element-parent="about-main-card"
-              className="bento-app-root text-[var(--text-primary)] antialiased selection:bg-purple-500 selection:text-white w-full h-auto shrink-0 flex flex-col justify-start gap-4 min-w-0 box-border"
+              className="bento-app-root text-[var(--text-primary)] antialiased selection:bg-purple-500 selection:text-white w-full h-auto shrink-0 flex flex-col justify-start gap-[14px] min-w-0 box-border"
             >
               {/* ===================================================================== */}
               {/* LƯỚI BENTO GRID CHÍNH                                                 */}
               {/* ===================================================================== */}
               <div
                 id="about-bento-grid"
-                className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch w-full bg-transparent"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-[14px] items-stretch w-full bg-transparent"
                 style={{
                   background: 'transparent',
                   backgroundColor: 'transparent',
@@ -912,9 +1166,19 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-hero-video-container"
+            as="div"
+            variant="info"
+            cardType="hero"
+            elevation="elevated"
+            surface={isFlatLight ? 'gradient' : 'glass'}
+            accent="cyan"
+            disableTilt
+            hasRipple={false}
+            isDarkText={!isFlatLight}
+            data-section-card="true"
             className="lg:col-span-7 flex flex-col justify-between min-h-[300px] sm:min-h-[370px] text-[var(--text-primary)]"
           >
-            <div className="relative w-full h-full flex-1 rounded-xl overflow-hidden min-h-[270px] flex items-center justify-center border border-[var(--border-subcard,var(--border-color))] bg-slate-950 shadow-inner">
+            <div className="relative w-full h-full flex-1 rounded-[var(--subcard-radius,11px)] overflow-hidden min-h-[270px] flex items-center justify-center border border-[var(--border-subcard,var(--border-color))] bg-slate-950 shadow-inner">
               {activeHeroMedia === 'video' ? (
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
                   {/* VIDEO 1 — Hình nền mặc định (tự động phát, tắt âm thanh, phát vòng lặp) */}
@@ -965,7 +1229,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                   <button
                     type="button"
                     onClick={() => setFocusedBentoCard('hero')}
-                    className="absolute top-3 right-3 z-20 p-2 rounded-xl bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/20 text-white cursor-pointer shadow-lg"
+                    className="absolute top-3 right-3 z-20 min-w-[40px] min-h-[40px] p-2 rounded-[var(--subcard-radius,11px)] bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/20 text-white cursor-pointer shadow-lg flex items-center justify-center"
                     title="Phóng to chi tiết chân dung chuyên gia"
                   >
                     <Maximize2 className="w-4 h-4" />
@@ -976,7 +1240,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     <button
                       type="button"
                       onClick={toggleVideoMute}
-                      className={`w-7 h-7 rounded-full flex items-center justify-center cursor-pointer ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer ${
                         isAudioOn
                           ? 'bg-emerald-500/25 text-emerald-300'
                           : 'bg-rose-500/85 text-white'
@@ -984,9 +1248,9 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
                     >
                       {isAudioOn ? (
-                        <Volume2 className="w-3.5 h-3.5" />
+                        <Volume2 className="w-4 h-4" />
                       ) : (
-                        <VolumeX className="w-3.5 h-3.5" />
+                        <VolumeX className="w-4 h-4" />
                       )}
                     </button>
 
@@ -996,7 +1260,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       <button
                         type="button"
                         onClick={handlePlayIntro}
-                        className="inline-flex items-center gap-1.5 pr-1 py-0.5 text-xs font-bold tracking-wide cursor-pointer hover:text-cyan-300"
+                        className="inline-flex items-center gap-1.5 pr-1 py-1 text-xs font-bold tracking-wide cursor-pointer hover:text-cyan-300 whitespace-nowrap"
                       >
                         <Play className="w-3.5 h-3.5 fill-current" />
                         <span>Phát Video</span>
@@ -1005,7 +1269,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       <button
                         type="button"
                         onClick={handleCancelIntro}
-                        className="inline-flex items-center gap-1.5 pr-1 py-0.5 text-xs font-bold tracking-wide text-rose-300 hover:text-rose-200 cursor-pointer"
+                        className="inline-flex items-center gap-1.5 pr-1 py-1 text-xs font-bold tracking-wide text-rose-300 hover:text-rose-200 cursor-pointer whitespace-nowrap"
                       >
                         <X className="w-3.5 h-3.5" />
                         <span>Hủy Video</span>
@@ -1043,7 +1307,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       <button
                         type="button"
                         onClick={() => setActiveHeroMapType('tam_tru')}
-                        className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                           activeHeroMapType === 'tam_tru'
                             ? 'bg-[var(--bg-button-primary,var(--color-primary))] text-[var(--text-button-primary,#ffffff)]'
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1055,7 +1319,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       <button
                         type="button"
                         onClick={() => setActiveHeroMapType('cu_tru')}
-                        className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
                           activeHeroMapType === 'cu_tru'
                             ? 'bg-[var(--bg-button-primary,var(--color-primary))] text-[var(--text-button-primary,#ffffff)]'
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -1069,7 +1333,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     <button
                       type="button"
                       onClick={() => setActiveHeroMedia('video')}
-                      className="px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border text-[var(--text-primary)] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                      className="px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border text-[var(--text-primary)] text-xs font-bold flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
                       style={{
                         background: 'var(--surface-secondary-bg, var(--bg-card))',
                         borderColor: 'var(--border-card, var(--border-color))',
@@ -1081,24 +1345,25 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                   </div>
 
                   <div
-                    className="relative z-20 m-3 p-3 rounded-xl backdrop-blur-md border text-[var(--text-primary)] shadow-xl flex flex-col gap-2"
+                    className="relative z-20 m-3 p-3 rounded-[var(--subcard-radius,11px)] backdrop-blur-md border text-[var(--text-primary)] shadow-xl flex flex-col gap-2"
                     style={{
                       background: 'var(--surface-secondary-bg, var(--bg-card))',
                       borderColor: 'var(--border-card, var(--border-color))',
                     }}
                   >
                     <div className="flex items-start gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 text-base">
-                        📍
+                      <div className="w-8 h-8 rounded-full bg-rose-500/15 border border-rose-500/35 flex items-center justify-center shrink-0 text-rose-500">
+                        <MapPin className="w-4 h-4" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <span className="font-bold text-xs text-[var(--text-link,var(--color-primary))]">
                             {activeHeroMapType === 'tam_tru'
                               ? 'Tạm trú hiện tại'
                               : 'Cư trú quê quán'}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-500 border border-red-500/30 text-[10px] font-bold">
+                          <span aria-hidden="true" className="text-xs text-[var(--text-muted)]">·</span>
+                          <span className="text-[11px] font-semibold text-rose-500">
                             Đã ghim đỏ trên Map
                           </span>
                         </div>
@@ -1150,6 +1415,15 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-personal-info-card-right"
+            as="div"
+            variant="info"
+            cardType="nested"
+            elevation="elevated"
+            surface={isFlatLight ? 'solid' : 'glass'}
+            accent="indigo"
+            disableTilt
+            isDarkText={!isFlatLight}
+            data-section-card="true"
             className="lg:col-span-5 flex flex-col justify-start gap-0 text-[var(--text-primary)]"
           >
             <div
@@ -1173,14 +1447,20 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     onClick={() => setDetailInfoTab('personal')}
                     className={`no-theme-btn bento-unified-title relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 font-play text-[16px] font-bold cursor-pointer transition-colors ${
                       detailInfoTab === 'personal'
-                        ? 'text-[var(--text-link,var(--color-primary))]'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        ? isFlatLight
+                          ? 'text-purple-200'
+                          : 'text-[var(--text-link,var(--color-primary))]'
+                        : isFlatLight
+                          ? 'text-slate-300 hover:text-white'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <User
                       className={`w-4 h-4 shrink-0 ${
                         detailInfoTab === 'personal'
-                          ? 'text-[var(--text-link,var(--color-primary))]'
+                          ? isFlatLight
+                            ? 'text-purple-300'
+                            : 'text-[var(--text-link,var(--color-primary))]'
                           : 'text-current'
                       }`}
                     />
@@ -1196,14 +1476,20 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     onClick={() => setDetailInfoTab('contact')}
                     className={`no-theme-btn bento-unified-title relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 font-play text-[16px] font-bold cursor-pointer transition-colors ${
                       detailInfoTab === 'contact'
-                        ? 'text-[var(--text-link,var(--color-primary))]'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        ? isFlatLight
+                          ? 'text-purple-200'
+                          : 'text-[var(--text-link,var(--color-primary))]'
+                        : isFlatLight
+                          ? 'text-slate-300 hover:text-white'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <Phone
                       className={`w-4 h-4 shrink-0 ${
                         detailInfoTab === 'contact'
-                          ? 'text-[var(--text-link,var(--color-primary))]'
+                          ? isFlatLight
+                            ? 'text-purple-300'
+                            : 'text-[var(--text-link,var(--color-primary))]'
                           : 'text-current'
                       }`}
                     />
@@ -1217,15 +1503,13 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                 role="tabpanel"
                 data-active-tab={detailInfoTab}
                 data-theme-synced="true"
-                className="flex-1 p-3 sm:p-3.5 flex flex-col justify-between gap-3 relative z-20"
+                className="flex-1 p-3 sm:p-3.5 flex flex-col justify-start gap-3 relative z-20"
               >
                 {detailInfoTab === 'personal' ? (
                   <NotificationStack
                     key="personal-stack"
                     notifications={personalStackItems}
                     headerTitle="Hồ sơ cá nhân"
-                    showAllLabel="Xem tất cả"
-                    showLessLabel="Thu gọn"
                     emptyLabel="Đã ẩn các thẻ thông tin cá nhân."
                     resetLabel="Hiện lại thẻ"
                     onDismiss={(id) => showToast(`Đã ẩn thẻ ${id} — bấm "Hiện lại thẻ" để khôi phục`, 'info')}
@@ -1235,76 +1519,104 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     key="contact-stack"
                     notifications={contactStackItems}
                     headerTitle="Kênh liên hệ & Địa chỉ"
-                    showAllLabel="Xem tất cả"
-                    showLessLabel="Thu gọn"
                     emptyLabel="Đã ẩn các thẻ thông tin liên hệ."
                     resetLabel="Hiện lại thẻ"
                     onDismiss={(id) => showToast(`Đã ẩn thẻ ${id} — bấm "Hiện lại thẻ" để khôi phục`, 'info')}
                   />
                 )}
-
-                <div className="pt-2.5 border-t border-[var(--border-subcard,var(--border-color))] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-muted)]">
-                  <span>Di chuột hoặc chạm để bung thẻ · Vuốt ngang để ẩn</span>
-                  <div className="flex items-center gap-3 shrink-0 font-bold">
-                    <button
-                      type="button"
-                      onClick={() => copySnippet('hungthai84@gmail.com', 'Email')}
-                      className="no-theme-btn text-[var(--text-link,var(--color-primary))] hover:underline cursor-pointer whitespace-nowrap"
-                    >
-                      Sao chép Email
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setActiveHeroMedia((prev) => (prev === 'map' ? 'video' : 'map'));
-                      }}
-                      className="no-theme-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer whitespace-nowrap"
-                    >
-                      {activeHeroMedia === 'map' ? 'Xem Video' : 'Xem Bản đồ'}
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </BentoCard>
 
           {/* ------------------------------------------------------------------- */}
-          {/* THẺ 3: CARD GIỚI THIỆU BẢN THÂN CHUYÊN GIA                          */}
+          {/* THẺ 3: CARD GIỚI THIỆU BẢN THÂN CHUYÊN GIA + 4 DẤU ẤN NĂNG LỰC      */}
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-career-goal-card"
-            className="lg:col-span-5 flex flex-col justify-between gap-3 relative overflow-hidden text-[var(--text-primary)]"
+            as="div"
+            variant={isFlatLight ? 'gradient' : 'info'}
+            cardType="info"
+            elevation="elevated"
+            surface={isFlatLight ? 'gradient' : 'glass'}
+            accent="purple"
+            isDarkText={!isFlatLight}
+            data-section-card="true"
+            className="lg:col-span-5 flex flex-col justify-between gap-3.5 relative overflow-hidden text-[var(--text-primary)]"
           >
-            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
-              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
-                <User className="w-5 h-5 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
-                  Giới thiệu bản thân
-                </h3>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
+            {isFlatLight && (
+              <div
+                aria-hidden="true"
+                className="absolute top-0 right-0 -mt-12 -mr-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none"
+              />
+            )}
+            <BentoCardHeader
+              icon={<User className={cn('w-5 h-5', isFlatLight ? 'text-purple-200' : '')} />}
+              title="Giới thiệu bản thân"
+              titleClassName={cn('bento-unified-title', isFlatLight && '!text-white')}
+              rightSlot={
                 <span
-                  className="text-[11px] font-bold px-2.5 py-1 rounded-full border"
-                  style={{
-                    background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
-                    borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
-                    color: 'var(--text-link, var(--color-primary))',
-                  }}
+                  className={cn(
+                    'bento-card-label font-bold whitespace-nowrap',
+                    isFlatLight
+                      ? 'bg-white/15 border border-white/25 text-purple-100 px-2.5 py-0.5 rounded-full text-[11px]'
+                      : 'text-[var(--text-link,var(--color-primary))]'
+                  )}
                 >
                   22+ Năm CX
                 </span>
-              </div>
-            </div>
+              }
+            />
 
-            <div className="relative z-10 flex-1 flex items-center">
-              <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] leading-relaxed">
+            <div className="relative z-10 flex-1 flex flex-col justify-between gap-3">
+              <p
+                className={cn(
+                  'bento-card-body',
+                  isFlatLight ? 'text-purple-100' : 'text-[var(--text-secondary)]'
+                )}
+              >
                 Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                <strong className="font-bold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
-                Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc
+                <strong className={cn('font-bold', isFlatLight ? 'text-white' : 'text-[var(--text-primary)]')}>
+                  22 năm kinh nghiệm
+                </strong>{' '}
+                thực chiến. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc
                 trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng
                 nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
               </p>
+
+              {/* 4 Dấu ấn năng lực (Metric Strip bấm mở Modal chi tiết) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 min-w-0">
+                {ABOUT_PROFILE_STATS.map((stat) => (
+                  <button
+                    key={stat.id}
+                    type="button"
+                    data-subcard="true"
+                    data-interactive="true"
+                    onClick={() => setFocusedBentoCard('stats')}
+                    className={cn(
+                      '!rounded-[var(--subcard-radius,11px)] p-2.5 text-left border cursor-pointer flex flex-col justify-between min-w-0 transition-all',
+                      isFlatLight
+                        ? 'border-white/20 bg-black/25 hover:border-white/40 hover:bg-black/35'
+                        : 'border-[var(--border-subcard,var(--border-color))] bg-[var(--bg-subcard)] hover:border-[var(--color-primary)]'
+                    )}
+                    title={`${stat.labelVi}: ${stat.desc}`}
+                  >
+                    <span
+                      className="text-lg font-bold tabular-nums leading-tight"
+                      style={{ color: stat.color }}
+                    >
+                      {stat.metric}
+                    </span>
+                    <span
+                      className={cn(
+                        'bento-card-label truncate',
+                        isFlatLight ? 'text-purple-100/90' : 'text-[var(--text-secondary)]'
+                      )}
+                    >
+                      {stat.unitVi}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           </BentoCard>
 
@@ -1313,125 +1625,214 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-operating-pillars-card"
-            className="lg:col-span-7 flex flex-col justify-between gap-3 text-[var(--text-primary)]"
+            as="div"
+            variant="info"
+            cardType="nested"
+            elevation="elevated"
+            surface={isFlatLight ? 'gradient' : 'glass'}
+            accent="teal"
+            isDarkText={!isFlatLight}
+            data-section-card="true"
+            className="lg:col-span-7 flex flex-col justify-between gap-3.5 text-[var(--text-primary)]"
           >
-            <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
-              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
-                <Target className="w-5 h-5 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
-                  Trụ cột vận hành
-                </h3>
-              </div>
-            </div>
+            <BentoCardHeader
+              icon={<Target className={cn('w-5 h-5', isFlatLight ? 'text-cyan-300' : '')} />}
+              title="Trụ cột vận hành"
+              titleClassName={cn('bento-unified-title', isFlatLight && '!text-white')}
+            />
 
-            <div className="flex-1 grid grid-cols-3 grid-rows-1 gap-2.5 items-stretch min-w-0">
+            <div className="relative z-10 flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch min-w-0">
               {/* Pillar 1: Hiệu Quả */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="cyan"
+                interactive
+                data-pillar-slot="1"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                style={{
-                  background: 'color-mix(in srgb, #06b6d4 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isPillarHighlighted('pillar-1')
-                    ? '#06b6d4'
-                    : 'color-mix(in srgb, #06b6d4 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #06b6d4 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isPillarHighlighted('pillar-1')
+                          ? '#06b6d4'
+                          : 'color-mix(in srgb, #06b6d4 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
-                  isPillarHighlighted('pillar-1') ? 'ring-2 ring-cyan-400/70' : ''
+                  'h-full',
+                  isPillarHighlighted('pillar-1')
+                    ? isFlatLight
+                      ? 'ring-2 ring-cyan-300'
+                      : 'ring-2 ring-cyan-400/70'
+                    : ''
                 )}
               >
                 <BarChart3
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-cyan-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-cyan-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-cyan-600 dark:text-cyan-300 min-w-0">
-                    <BarChart3 className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-cyan-600 dark:text-cyan-300'
+                    )}
+                  >
+                    <BarChart3 className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-cyan-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Hiệu quả vận hành
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-cyan-600 dark:text-cyan-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-cyan-200' : 'text-cyan-700 dark:text-cyan-300'
+                    )}
+                  >
                     Tối ưu &amp; Kết quả
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-cyan-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
 
               {/* Pillar 2: Nhân Văn */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="rose"
+                interactive
+                data-pillar-slot="2"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                style={{
-                  background: 'color-mix(in srgb, #f43f5e 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isPillarHighlighted('pillar-2')
-                    ? '#f43f5e'
-                    : 'color-mix(in srgb, #f43f5e 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #f43f5e 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isPillarHighlighted('pillar-2')
+                          ? '#f43f5e'
+                          : 'color-mix(in srgb, #f43f5e 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
-                  isPillarHighlighted('pillar-2') ? 'ring-2 ring-rose-400/70' : ''
+                  'h-full',
+                  isPillarHighlighted('pillar-2')
+                    ? isFlatLight
+                      ? 'ring-2 ring-rose-300'
+                      : 'ring-2 ring-rose-400/70'
+                    : ''
                 )}
               >
                 <Heart
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-rose-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-rose-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-rose-600 dark:text-rose-300 min-w-0">
-                    <Heart className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-rose-600 dark:text-rose-300'
+                    )}
+                  >
+                    <Heart className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-rose-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Nhân văn con người
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-rose-600 dark:text-rose-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-rose-200' : 'text-rose-700 dark:text-rose-300'
+                    )}
+                  >
                     Đồng cảm &amp; Thấu hiểu
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-rose-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
 
               {/* Pillar 3: Bền Vững */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="emerald"
+                interactive
+                data-pillar-slot="3"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                style={{
-                  background: 'color-mix(in srgb, #10b981 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isPillarHighlighted('pillar-3')
-                    ? '#10b981'
-                    : 'color-mix(in srgb, #10b981 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #10b981 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isPillarHighlighted('pillar-3')
+                          ? '#10b981'
+                          : 'color-mix(in srgb, #10b981 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
-                  isPillarHighlighted('pillar-3') ? 'ring-2 ring-emerald-400/70' : ''
+                  'h-full',
+                  isPillarHighlighted('pillar-3')
+                    ? isFlatLight
+                      ? 'ring-2 ring-emerald-300'
+                      : 'ring-2 ring-emerald-400/70'
+                    : ''
                 )}
               >
                 <Leaf
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-emerald-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-emerald-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-emerald-600 dark:text-emerald-300 min-w-0">
-                    <Leaf className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-emerald-600 dark:text-emerald-300'
+                    )}
+                  >
+                    <Leaf className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-emerald-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Bền vững dài hạn
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-emerald-200' : 'text-emerald-700 dark:text-emerald-300'
+                    )}
+                  >
                     Giá trị &amp; Tin cậy
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-emerald-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
             </div>
           </BentoCard>
 
@@ -1440,137 +1841,229 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-core-values-card"
-            className="lg:col-span-7 flex flex-col justify-between gap-3 text-[var(--text-primary)]"
+            as="div"
+            variant="info"
+            cardType="nested"
+            elevation="elevated"
+            surface={isFlatLight ? 'gradient' : 'glass'}
+            accent="amber"
+            isDarkText={!isFlatLight}
+            data-section-card="true"
+            className="lg:col-span-7 flex flex-col justify-between gap-3.5 text-[var(--text-primary)]"
           >
-            <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
-              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
-                <Star className="w-5 h-5 fill-current shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
-                  Giá trị cốt lõi
-                </h3>
-              </div>
-            </div>
+            <BentoCardHeader
+              icon={<Star className={cn('w-5 h-5 fill-current', isFlatLight ? 'text-amber-300' : '')} />}
+              title="Giá trị cốt lõi"
+              titleClassName={cn(
+                'bento-unified-title',
+                isFlatLight && 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200'
+              )}
+            />
 
-            <div className="flex-1 grid grid-cols-3 grid-rows-1 gap-2.5 items-stretch min-w-0">
+            <div className="relative z-10 flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch min-w-0">
               {/* Core Value 1: Tận tâm trách nhiệm */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="amber"
+                interactive
+                data-value-slot="1"
                 onMouseEnter={() => setHoveredPillarOrValue('val-1')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức', 'success')
                 }
-                style={{
-                  background: 'color-mix(in srgb, #f59e0b 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isValueHighlighted('val-1')
-                    ? '#f59e0b'
-                    : 'color-mix(in srgb, #f59e0b 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #f59e0b 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isValueHighlighted('val-1')
+                          ? '#f59e0b'
+                          : 'color-mix(in srgb, #f59e0b 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
-                  isValueHighlighted('val-1') ? 'ring-2 ring-amber-400/70' : ''
+                  'h-full',
+                  isValueHighlighted('val-1')
+                    ? isFlatLight
+                      ? 'ring-2 ring-amber-300'
+                      : 'ring-2 ring-amber-400/70'
+                    : ''
                 )}
               >
                 <Award
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-amber-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-amber-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-amber-600 dark:text-amber-300 min-w-0">
-                    <Award className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-amber-600 dark:text-amber-300'
+                    )}
+                  >
+                    <Award className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-amber-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Tận tâm trách nhiệm
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-amber-600 dark:text-amber-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-amber-200' : 'text-amber-700 dark:text-amber-300'
+                    )}
+                  >
                     Trách nhiệm &amp; Hết lòng
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-orange-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần
                     phụng sự cao nhất.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
 
               {/* Core Value 2: Kịp thời nhanh nhạy */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="pink"
+                interactive
+                data-value-slot="2"
                 onMouseEnter={() => setHoveredPillarOrValue('val-2')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc', 'success')
                 }
-                style={{
-                  background: 'color-mix(in srgb, #ec4899 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isValueHighlighted('val-2')
-                    ? '#ec4899'
-                    : 'color-mix(in srgb, #ec4899 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #ec4899 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isValueHighlighted('val-2')
+                          ? '#ec4899'
+                          : 'color-mix(in srgb, #ec4899 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
-                  isValueHighlighted('val-2') ? 'ring-2 ring-pink-400/70' : ''
+                  'h-full',
+                  isValueHighlighted('val-2')
+                    ? isFlatLight
+                      ? 'ring-2 ring-pink-300'
+                      : 'ring-2 ring-pink-400/70'
+                    : ''
                 )}
               >
                 <Clock
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-pink-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-pink-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-pink-600 dark:text-pink-300 min-w-0">
-                    <Clock className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-pink-600 dark:text-pink-300'
+                    )}
+                  >
+                    <Clock className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-pink-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Kịp thời nhanh nhạy
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-pink-600 dark:text-pink-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-pink-200' : 'text-pink-700 dark:text-pink-300'
+                    )}
+                  >
                     Tốc độ &amp; Đúng lúc
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-pink-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng
                     mắc.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
 
               {/* Core Value 3: Đồng cảm chân thành */}
-              <div
-                data-subcard="true"
+              <BentoSubCard
+                accent="purple"
+                interactive
+                data-value-slot="3"
                 onMouseEnter={() => setHoveredPillarOrValue('val-3')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm', 'success')
                 }
-                style={{
-                  background: 'color-mix(in srgb, #8b5cf6 10%, var(--bg-subcard, var(--bg-card)))',
-                  borderColor: isValueHighlighted('val-3')
-                    ? '#8b5cf6'
-                    : 'color-mix(in srgb, #8b5cf6 30%, var(--border-subcard, var(--border-color)))',
-                }}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, #8b5cf6 10%, var(--bg-subcard, var(--bg-card)))',
+                        borderColor: isValueHighlighted('val-3')
+                          ? '#8b5cf6'
+                          : 'color-mix(in srgb, #8b5cf6 30%, var(--border-subcard, var(--border-color)))',
+                      }
+                }
                 className={cn(
-                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
-                  isValueHighlighted('val-3') ? 'ring-2 ring-violet-400/70' : ''
+                  'h-full',
+                  isValueHighlighted('val-3')
+                    ? isFlatLight
+                      ? 'ring-2 ring-violet-300'
+                      : 'ring-2 ring-violet-400/70'
+                    : ''
                 )}
               >
                 <HeartHandshake
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-violet-500"
+                  className={cn(
+                    'w-14 h-14 absolute -bottom-2 -right-2 pointer-events-none',
+                    isFlatLight ? 'opacity-20 text-white' : 'opacity-12 text-violet-500'
+                  )}
                 />
                 <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
-                  <div className="flex items-start gap-1.5 text-violet-600 dark:text-violet-300 min-w-0">
-                    <HeartHandshake className="w-4 h-4 shrink-0 mt-0.5" />
+                  <div
+                    className={cn(
+                      'flex items-start gap-1.5 min-w-0',
+                      isFlatLight ? 'text-white' : 'text-violet-600 dark:text-violet-300'
+                    )}
+                  >
+                    <HeartHandshake className={cn('w-4 h-4 shrink-0 mt-0.5', isFlatLight && 'text-violet-200')} />
                     <h4 className="bento-unified-title break-words min-w-0">
                       Đồng cảm chân thành
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-violet-600 dark:text-violet-300 opacity-90 break-words">
+                  <span
+                    className={cn(
+                      'bento-card-label break-words',
+                      isFlatLight ? 'text-violet-200' : 'text-violet-700 dark:text-violet-300'
+                    )}
+                  >
                     Lắng nghe &amp; Thấu cảm
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
+                  <p
+                    className={cn(
+                      'text-xs leading-relaxed break-words',
+                      isFlatLight ? 'text-violet-50/95' : 'text-[var(--text-secondary)]'
+                    )}
+                  >
                     Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng
                     khách hàng.
                   </p>
                 </div>
-              </div>
+              </BentoSubCard>
             </div>
           </BentoCard>
 
@@ -1579,42 +2072,64 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-philosophy-card"
-            className="lg:col-span-5 flex flex-col justify-between gap-3 relative overflow-hidden text-[var(--text-primary)]"
+            as="div"
+            variant="gradient"
+            cardType="info"
+            elevation="elevated"
+            surface="gradient"
+            accent="purple"
+            isDarkText={!isFlatLight}
+            data-section-card="true"
+            className="lg:col-span-5 flex flex-col justify-between gap-3.5 relative overflow-hidden text-[var(--text-primary)]"
           >
-            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
-              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
-                <Target className="w-5 h-5 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
-                  Triết lý tầm nhìn
-                </h3>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
+            {isFlatLight && (
+              <div
+                aria-hidden="true"
+                className="absolute bottom-0 right-0 -mb-10 -mr-10 w-44 h-44 bg-amber-400/15 rounded-full blur-3xl pointer-events-none"
+              />
+            )}
+            <BentoCardHeader
+              icon={<Target className={cn('w-5 h-5', isFlatLight ? 'text-amber-300' : '')} />}
+              title="Triết lý tầm nhìn"
+              titleClassName={cn('bento-unified-title', isFlatLight && '!text-white')}
+              rightSlot={
                 <span
-                  className="text-[11px] font-bold tracking-wider px-2.5 py-0.5 rounded-full border"
-                  style={{
-                    background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
-                    borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
-                    color: 'var(--text-link, var(--color-primary))',
-                  }}
+                  className={cn(
+                    'bento-card-label font-bold whitespace-nowrap',
+                    isFlatLight
+                      ? 'text-[11px] uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full'
+                      : 'text-[var(--text-link,var(--color-primary))]'
+                  )}
                 >
                   Tầm nhìn 2026+
                 </span>
-              </div>
-            </div>
+              }
+            />
 
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-2 py-2 gap-2.5">
               <div
-                className="w-9 h-9 rounded-full border flex items-center justify-center shadow-xs"
-                style={{
-                  background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
-                  borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
-                  color: 'var(--text-link, var(--color-primary))',
-                }}
+                className={cn(
+                  'w-9 h-9 rounded-full border flex items-center justify-center shadow-xs',
+                  isFlatLight && 'bg-amber-400/15 border-amber-400/35 text-amber-300'
+                )}
+                style={
+                  isFlatLight
+                    ? undefined
+                    : {
+                        background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                        borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                        color: 'var(--text-link, var(--color-primary))',
+                      }
+                }
               >
                 <Quote className="w-4 h-4 shrink-0" />
               </div>
-              <blockquote className="text-sm sm:text-[15px] font-bold italic text-[var(--text-primary)] leading-relaxed">
+              <blockquote
+                className={cn(
+                  'text-sm sm:text-[15px] font-bold italic leading-relaxed',
+                  isFlatLight ? 'text-white' : 'text-[var(--text-primary)]'
+                )}
+              >
                 “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý.
                 Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn
                 được lắng nghe.”
@@ -1638,19 +2153,41 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="glass-card bento-card w-full max-w-4xl rounded-[var(--radius-card,var(--radius-global,16px))] border border-[var(--border-card,var(--border-color))] p-5 sm:p-6 shadow-2xl text-[var(--text-primary)] max-h-[90vh] overflow-y-auto"
+              className={cn(
+                'glass-card bento-card w-full max-w-4xl rounded-[var(--radius-card,var(--radius-global,16px))] border p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto',
+                isFlatLight
+                  ? 'border-white/20 text-white'
+                  : 'border-[var(--border-card,var(--border-color))] text-[var(--text-primary)]'
+              )}
               style={{
-                background: 'var(--surface-secondary-bg, var(--bg-card))',
+                background: isFlatLight
+                  ? 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)'
+                  : 'var(--surface-secondary-bg, var(--bg-card))',
               }}
             >
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-subcard,var(--border-color))]">
-              <div className="flex items-start gap-2.5 text-[var(--text-link,var(--color-primary))]">
+            <div
+              className={cn(
+                'flex items-center justify-between pb-3 mb-4 border-b',
+                isFlatLight ? 'border-white/15' : 'border-[var(--border-subcard,var(--border-color))]'
+              )}
+            >
+              <div
+                className={cn(
+                  'flex items-start gap-2.5',
+                  isFlatLight ? 'text-amber-300' : 'text-[var(--text-link,var(--color-primary))]'
+                )}
+              >
                 {focusedBentoCard === 'hero' ? (
                   <Bot className="w-5 h-5 shrink-0 mt-0.5" />
                 ) : (
                   <BarChart3 className="w-5 h-5 shrink-0 mt-0.5" />
                 )}
-                <h3 className="text-lg font-bold leading-tight text-[var(--text-link,var(--color-primary))]">
+                <h3
+                  className={cn(
+                    'text-lg font-bold leading-tight',
+                    isFlatLight ? 'text-white' : 'text-[var(--text-link,var(--color-primary))]'
+                  )}
+                >
                   {focusedBentoCard === 'hero'
                     ? 'Chân Dung Chuyên Gia & Trợ Lý Ảo'
                     : '4 Dấu Ấn Năng Lực Vận Hành Thực Chiến'}
@@ -1659,7 +2196,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
               <button
                 type="button"
                 onClick={() => setFocusedBentoCard(null)}
-                className="theme-modal-close p-2 rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] cursor-pointer"
+                className={cn(
+                  'theme-modal-close p-2 rounded-full border cursor-pointer',
+                  isFlatLight
+                    ? 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    : 'bg-[var(--bg-subcard)] border-[var(--border-subcard,var(--border-color))]'
+                )}
                 aria-label="Đóng cửa sổ"
               >
                 <X className="w-4 h-4" />
@@ -1668,7 +2210,12 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
 
             {focusedBentoCard === 'hero' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-[var(--border-subcard,var(--border-color))]">
+                <div
+                  className={cn(
+                    'relative aspect-video rounded-xl overflow-hidden bg-black border',
+                    isFlatLight ? 'border-white/15' : 'border-[var(--border-subcard,var(--border-color))]'
+                  )}
+                >
                   <video
                     src={ABOUT_VIDEO_2_STREAM_URL}
                     autoPlay
@@ -1678,26 +2225,42 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                     className="w-full h-full object-cover object-[50%_20%]"
                   />
                 </div>
-                <div className="space-y-3 text-sm text-[var(--text-secondary)]">
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text-link,var(--color-primary))]">
+                <div className={cn('space-y-3 text-sm', isFlatLight ? 'text-slate-300' : 'text-[var(--text-secondary)]')}>
+                  <div
+                    className={cn(
+                      'inline-flex items-center gap-1.5 text-xs font-bold',
+                      isFlatLight ? 'text-purple-300' : 'text-[var(--text-link,var(--color-primary))]'
+                    )}
+                  >
                     <Sparkles className="w-4 h-4" />
                     <span>Lãnh Đạo Vận Hành CX 22+ Năm</span>
                   </div>
-                  <h4 className="text-xl font-bold text-[var(--text-primary)]">Nguyễn Hùng Thái</h4>
+                  <h4 className={cn('text-xl font-bold', isFlatLight ? 'text-white' : 'text-[var(--text-primary)]')}>
+                    Nguyễn Hùng Thái
+                  </h4>
                   <p className="leading-relaxed">
                     Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                    <strong className="text-[var(--text-primary)]">22 năm kinh nghiệm thực chiến</strong>. Với tôi,
-                    Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò
+                    <strong className={isFlatLight ? 'text-white' : 'text-[var(--text-primary)]'}>
+                      22 năm kinh nghiệm thực chiến
+                    </strong>
+                    . Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò
                     chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá: để lắng
                     nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
                   </p>
                   <div
-                    className="p-2.5 rounded-xl border font-bold text-center text-xs sm:text-sm"
-                    style={{
-                      background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
-                      borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
-                      color: 'var(--text-link, var(--color-primary))',
-                    }}
+                    className={cn(
+                      'p-2.5 rounded-xl border font-bold text-center text-xs sm:text-sm',
+                      isFlatLight && 'bg-purple-500/20 border-purple-400/35 text-purple-200'
+                    )}
+                    style={
+                      isFlatLight
+                        ? undefined
+                        : {
+                            background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                            borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                            color: 'var(--text-link, var(--color-primary))',
+                          }
+                    }
                   >
                     Hiệu quả – Nhân văn – Bền vững
                   </div>
@@ -1712,33 +2275,54 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                       <div
                         key={stat.id}
                         data-subcard="true"
-                        className="p-4 rounded-xl bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] flex flex-col justify-between"
+                        className={cn(
+                          'p-4 rounded-[var(--subcard-radius,11px)] border flex flex-col justify-between',
+                          isFlatLight
+                            ? 'bg-gray-900/80 border-white/15'
+                            : 'bg-[var(--bg-subcard)] border-[var(--border-subcard,var(--border-color))]'
+                        )}
                       >
                         <div
-                          className="w-9 h-9 rounded-xl flex items-center justify-center"
+                          className="w-9 h-9 rounded-[var(--subcard-radius,11px)] flex items-center justify-center"
                           style={{ backgroundColor: `${stat.color}25` }}
                         >
                           <IconComp className="w-4 h-4" style={{ color: stat.color }} />
                         </div>
                         <div className="my-3">
                           <span
-                            className="text-2xl font-bold block"
+                            className="bento-metric-value block tabular-nums"
                             style={{ color: stat.color }}
                           >
                             {stat.metric}
                           </span>
-                          <span className="text-xs font-bold text-[var(--text-secondary)] block mt-0.5">
+                          <span
+                            className={cn(
+                              'text-xs font-bold block mt-0.5',
+                              isFlatLight ? 'text-slate-200' : 'text-[var(--text-secondary)]'
+                            )}
+                          >
                             {stat.unitVi}
                           </span>
                         </div>
-                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{stat.desc}</p>
+                        <p className={cn('text-xs leading-relaxed', isFlatLight ? 'text-slate-300' : 'text-[var(--text-secondary)]')}>
+                          {stat.desc}
+                        </p>
                       </div>
                     );
                   })}
                 </div>
-                <div className="p-3.5 rounded-xl bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] text-xs sm:text-sm text-[var(--text-secondary)]">
-                  <strong className="text-[var(--text-primary)]">💡 Triết lý đo lường thực chiến:</strong> Số liệu
-                  phản ánh năng lực kiểm soát chi tiết từ vi mô (từng cuộc gọi, khiếu nại, phản
+                <div
+                  className={cn(
+                    'p-3.5 rounded-[var(--subcard-radius,11px)] border text-xs sm:text-sm',
+                    isFlatLight
+                      ? 'bg-gray-900/75 border-white/15 text-slate-300'
+                      : 'bg-[var(--bg-subcard)] border-[var(--border-subcard,var(--border-color))] text-[var(--text-secondary)]'
+                  )}
+                >
+                  <strong className={isFlatLight ? 'text-white' : 'text-[var(--text-primary)]'}>
+                    💡 Triết lý đo lường thực chiến:
+                  </strong>{' '}
+                  Số liệu phản ánh năng lực kiểm soát chi tiết từ vi mô (từng cuộc gọi, khiếu nại, phản
                   hồi khách hàng) đến vĩ mô (chiến lược ngân sách, nhân sự, kiến trúc hệ thống CRM
                   và chuyển đổi số).
                 </div>

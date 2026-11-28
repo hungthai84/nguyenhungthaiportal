@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { CardStyleConfig, CardStyleMode } from '@/config/ui/theme.types';
 import {
@@ -431,7 +432,12 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     <div className="flex items-center gap-2 p-2 rounded-lg bg-black/10 dark:bg-white/5">
                       <div className="w-10 h-6 rounded overflow-hidden shrink-0">
                         {defaultWallpaperThumbUrl && (
-                          <img src={defaultWallpaperThumbUrl} alt="" className="w-full h-full object-cover" />
+                          <BlurUpImage
+                            src={defaultWallpaperThumbUrl}
+                            alt=""
+                            variant="cover"
+                            className="w-full h-full object-cover"
+                          />
                         )}
                       </div>
                       <div className="truncate">
@@ -1155,10 +1161,10 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     }}
                   >
                     {defaultWallpaperThumbUrl && (
-                      <img
+                      <BlurUpImage
                         src={defaultWallpaperThumbUrl}
                         alt={defaultWallpaperLabel}
-                        loading="lazy"
+                        variant="cover"
                         className="w-full h-full object-cover"
                       />
                     )}

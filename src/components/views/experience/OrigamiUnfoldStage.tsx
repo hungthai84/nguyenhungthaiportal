@@ -9,6 +9,7 @@ import {
   ORIGAMI_EASE_FOLD,
   type OrigamiPanelMotionCustom,
 } from './origamiMotion';
+import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 export interface OrigamiStageMilestoneMeta {
   key: string;
@@ -291,10 +292,11 @@ export const OrigamiUnfoldStage: React.FC<OrigamiUnfoldStageProps> = ({
                     borderColor: creaseBorderColor,
                   }}
                 >
-                  <img
+                  <BlurUpImage
                     src={milestone.logo}
-                    alt=""
-                    referrerPolicy="no-referrer"
+                    alt={milestone.shortName}
+                    priority="eager"
+                    variant="contain"
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>

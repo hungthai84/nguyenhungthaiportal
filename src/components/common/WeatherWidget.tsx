@@ -453,6 +453,44 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   const [isLoadingGeo, setIsLoadingGeo] = useState<boolean>(false);
   const [isForecastOpen, setIsForecastOpen] = useState<boolean>(false);
   const [manualOverride, setManualOverride] = useState<WeatherPreset | null>(null);
+  const [tempUnit, setTempUnit] = useState<'C' | 'F'>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = window.localStorage.getItem('weather_temp_unit');
+        if (saved === 'F' || saved === 'C') return saved;
+      } catch {
+        // Ignore storage read error
+      }
+    }
+    return 'C';
+  });
+
+  const formatTempByUnit = (celsiusValue: string | number, unit: 'C' | 'F'): string => {
+    const parsed = Number.parseFloat(String(celsiusValue));
+    const c = Number.isFinite(parsed) ? parsed : 30;
+    return String(unit === 'F' ? Math.round((c * 9) / 5 + 32) : Math.round(c));
+  };
+
+  const handleToggleTempUnit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    SoundEngine.playTap();
+    setTempUnit((prev) => {
+      const next: 'C' | 'F' = prev === 'C' ? 'F' : 'C';
+      if (typeof window !== 'undefined') {
+        try {
+          window.localStorage.setItem('weather_temp_unit', next);
+        } catch {
+          // Ignore storage write error
+        }
+      }
+      const msg = isEn
+        ? `Temperature unit switched to °${next}`
+        : `Đã chuyển đơn vị nhiệt độ sang °${next}`;
+      showToast(msg);
+      onShowNotification?.(msg);
+      return next;
+    });
+  };
 
   // Đồng hồ thời gian thực cập nhật mỗi giây
   useEffect(() => {
@@ -571,7 +609,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
   const cardCfg =
     WEATHER_CARD_STYLES[activePreset.condition] || WEATHER_CARD_STYLES.Sunny;
   const dateInfo = formatLocalizedDateInfo(now, language);
-  const displayTemp = activePreset.temp || cardCfg.defaultTemp;
+  const rawTempC = activePreset.temp || cardCfg.defaultTemp;
+  const displayTemp = formatTempByUnit(rawTempC, tempUnit);
   const displayLabel = isEn ? cardCfg.condition : cardCfg.labelVi;
   const rawLocation = activePreset.location || 'Hồ Chí Minh';
   const displayLocation =
@@ -587,21 +626,29 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
     <>
       <div className="flex items-center gap-1.5 shrink-0 select-none">
         {/* THẺ THỜI TIẾT FOOTER (PHIÊN BẢN CŨ): ĐỒNG HỒ HH:MM · ICON + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC · THỨ, NGÀY THÁNG NĂM */}
-        <button
+        <div
           id="weather-widget-card"
-          type="button"
+          role="button"
+          tabIndex={0}
           data-element-type="card"
           data-weather-card="true"
           onClick={handleOpenForecastModal}
+          onKeyDown={(e) => {
+            if (e.target !== e.currentTarget) return;
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleOpenForecastModal();
+            }
+          }}
           aria-label={
             isEn
-              ? `Weather ${displayLabel} ${displayTemp}°C in ${displayLocation}, ${dateInfo.fullDateHeader} at ${dateInfo.timeStr}. Click to open forecast`
-              : `Thời tiết ${displayLabel} ${displayTemp}°C tại ${displayLocation}, ${dateInfo.fullDateHeader}, ${dateInfo.timeStr}. Nhấn để mở dự báo thời tiết`
+              ? `Weather ${displayLabel} ${displayTemp}°${tempUnit} in ${displayLocation}, ${dateInfo.fullDateHeader} at ${dateInfo.timeStr}. Click to open forecast`
+              : `Thời tiết ${displayLabel} ${displayTemp}°${tempUnit} tại ${displayLocation}, ${dateInfo.fullDateHeader}, ${dateInfo.timeStr}. Nhấn để mở dự báo thời tiết`
           }
           title={
             isEn
-              ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
-              : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
+              ? `Weather ${displayLabel} (${displayTemp}°${tempUnit}) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
+              : `Thời tiết ${displayLabel} (${displayTemp}°${tempUnit}) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
           data-theme-synced="true"
           className="relative h-[36px] sm:h-[50px] px-1.5 sm:px-3.5 lg:px-4 py-1 sm:py-1.5 rounded-[var(--radius-widget,var(--radius-subcard,var(--radius-card,14px)))] flex items-center justify-between gap-1 sm:gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
@@ -624,24 +671,48 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             aria-hidden="true"
           />
 
-          {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + TRẠNG THÁI + KHU VỰC */}
+          {/* 2. Ở GIỮA: ICON THỜI TIẾT + NHIỆT ĐỘ + NÚT ĐỔI ĐỘ C/F + TRẠNG THÁI + KHU VỰC */}
           <div className="relative z-20 flex items-center gap-1 sm:gap-2 lg:gap-2.5 shrink-0 min-w-0">
             <div className="relative shrink-0 flex items-center justify-center">
               {render3DWeatherIcon(cardCfg.condition, 'w-5 h-5 sm:w-8 sm:h-8 lg:w-9 lg:h-9')}
             </div>
             <div className="flex flex-col justify-center leading-tight text-left min-w-0">
-              <div className="flex items-baseline gap-1.5 whitespace-nowrap">
+              <div className="flex items-center gap-1 whitespace-nowrap">
                 <span
                   suppressHydrationWarning
                   style={{ color: 'var(--text-primary)' }}
                   className="text-[12.5px] sm:text-[15px] lg:text-[16px] font-bold leading-none tracking-tight font-play tabular-nums"
                 >
-                  {displayTemp}°C
+                  {displayTemp}°{tempUnit}
                 </span>
+                <button
+                  id="weather-unit-toggle-btn"
+                  type="button"
+                  onClick={handleToggleTempUnit}
+                  aria-label={
+                    isEn
+                      ? `Switch temperature unit (current: °${tempUnit})`
+                      : `Chuyển đơn vị nhiệt độ (°C / °F, hiện tại: °${tempUnit})`
+                  }
+                  title={
+                    isEn
+                      ? `Switch °C / °F (current: °${tempUnit})`
+                      : `Nhấn để đổi °C / °F (hiện tại: °${tempUnit})`
+                  }
+                  style={{
+                    background: 'var(--bg-nested-badge, var(--bg-subcard, rgba(148, 163, 184, 0.16)))',
+                    borderColor: 'var(--border-subcard, rgba(148, 163, 184, 0.35))',
+                    color: 'var(--text-link, var(--color-primary))',
+                  }}
+                  className="no-theme-btn inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[9.5px] sm:text-[10px] font-bold leading-none cursor-pointer transition-transform hover:scale-105 active:scale-95 shrink-0"
+                >
+                  <WebIcon name="thermometer" className="w-2.5 h-2.5 shrink-0" />
+                  <span>°{tempUnit === 'C' ? 'F' : 'C'}</span>
+                </button>
                 <span
                   suppressHydrationWarning
                   style={{ color: 'var(--accent-sky, var(--text-link, var(--color-primary)))' }}
-                  className="hidden sm:inline text-[12px] lg:text-[13px] font-bold font-play leading-none whitespace-nowrap"
+                  className="hidden sm:inline text-[12px] lg:text-[13px] font-bold font-play leading-none whitespace-nowrap ml-0.5"
                 >
                   {displayLabel}
                 </span>
@@ -691,7 +762,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               <span className="hidden xl:inline">{dateInfo.fullMonthDate}</span>
             </span>
           </div>
-        </button>
+        </div>
       </div>
 
       {/* MODAL BẢNG DỰ BÁO THỜI TIẾT 6 THẺ 3D */}
@@ -757,6 +828,7 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               {Object.values(WEATHER_CARD_STYLES).map((cfg) => {
                 const isSelected = cardCfg.condition === cfg.condition;
                 const selectedCondDisplay = isEn ? cfg.condition : cfg.labelVi;
+                const modalTemp = formatTempByUnit(cfg.defaultTemp, tempUnit);
                 return (
                   <div
                     key={cfg.condition}
@@ -773,8 +845,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                       });
                       onShowNotification?.(
                         isEn
-                          ? `Weather switched to ${selectedCondDisplay} (${cfg.defaultTemp}°C)`
-                          : `Đã đổi thẻ thời tiết sang ${selectedCondDisplay} (${cfg.defaultTemp}°C)`
+                          ? `Weather switched to ${selectedCondDisplay} (${modalTemp}°${tempUnit})`
+                          : `Đã đổi thẻ thời tiết sang ${selectedCondDisplay} (${modalTemp}°${tempUnit})`
                       );
                       setIsForecastOpen(false);
                     }}
@@ -813,9 +885,9 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                     <div className="relative z-10 flex flex-col justify-center text-left">
                       <div className="flex items-baseline gap-1.5">
                         <span className="typo-kpi font-bold text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.2)]">
-                          {cfg.defaultTemp}
+                          {modalTemp}
                         </span>
-                        <span className="typo-h4 font-bold text-white/95 -translate-y-2">°C</span>
+                        <span className="typo-h4 font-bold text-white/95 -translate-y-2">°{tempUnit}</span>
                         <span className="typo-h3 font-bold text-white ml-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                           {selectedCondDisplay}
                         </span>

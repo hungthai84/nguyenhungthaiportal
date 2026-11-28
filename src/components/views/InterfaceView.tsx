@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 import {
   useTheme,
   getCardStyleProperties,
@@ -12,29 +13,15 @@ import {
   ThemeMechanismMode,
 } from '@/hooks/useTheme';
 import { THEME_FOUR_WORD_NAMES, normalizeCardStyle } from '@/config/ui/cardStyles';
-import { CardEffectMode, CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
+import { CardStyleMode, ThemeFamilyId } from '@/config/ui/theme.types';
 import {
   DEFAULT_CARD_STYLE,
-  DEFAULT_CORNER_RADIUS,
-  DEFAULT_CARD_EFFECT,
-  MIN_CORNER_RADIUS,
-  MAX_CORNER_RADIUS,
   THEME_BACKGROUNDS,
-  THEME_CARD_SPECS,
-  THEME_DEFAULT_WALLPAPER_ID,
-  INTERFACE_SURFACE_COLOR_PRESETS,
-  INTERFACE_PRIMARY_COLOR_PRESETS,
-  CARD_EFFECT_PRESETS,
   VISUAL_THEME_MODE_STORAGE_KEY,
   LAST_STANDARD_CARD_STYLE_STORAGE_KEY,
   VisualThemeMode,
   isNeumorphismCardStyle,
 } from '@/config/ui/themeDefaults';
-import {
-  WALLPAPER_PRESETS_LIST,
-  getWallpaperThumbnailUrl,
-  isCodePenWallpaper,
-} from '@/data/wallpapers';
 import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
@@ -50,7 +37,6 @@ interface InterfaceUiPrefs {
   selectedMechanismFilter: 'all' | ThemeMechanismMode;
   isSandboxOpen: boolean;
   neuSliders: number[];
-  gridColumns: 'auto' | 4 | 5;
 }
 
 function readInterfaceUiPrefs(): InterfaceUiPrefs {
@@ -59,7 +45,6 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
     selectedMechanismFilter: 'all',
     isSandboxOpen: false,
     neuSliders: [68, 38, 92, 54, 82, 70],
-    gridColumns: 'auto',
   };
   if (typeof window === 'undefined') return fallback;
   try {
@@ -81,10 +66,6 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
       rawFamily === 'iridescent-liquid-glass'
         ? rawFamily
         : fallback.selectedFamilyFilter;
-    const validGridCols: 'auto' | 4 | 5 =
-      parsed.gridColumns === 4 || parsed.gridColumns === 5 || parsed.gridColumns === 'auto'
-        ? parsed.gridColumns
-        : fallback.gridColumns;
     return {
       selectedFamilyFilter: migratedFamily,
       selectedMechanismFilter: parsed.selectedMechanismFilter ?? fallback.selectedMechanismFilter,
@@ -93,7 +74,6 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
         Array.isArray(parsed.neuSliders) && parsed.neuSliders.length === 6
           ? parsed.neuSliders.map((n) => (typeof n === 'number' && Number.isFinite(n) ? n : 50))
           : fallback.neuSliders,
-      gridColumns: validGridCols,
     };
   } catch {
     return fallback;
@@ -575,21 +555,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const {
     cardStyle,
     setCardStyle,
-    resetGlassSettings,
-    setAutoTimeTheme,
     isDark,
-    cornerRadius,
-    setCornerRadius,
-    resetCornerRadius,
-    activeWallpaper,
-    setWallpaper,
-    customSurfaceColor,
-    setCustomSurfaceColor,
-    customPrimaryColor,
-    setCustomPrimaryColor,
-    cardEffect,
-    setCardEffect,
-    resetInterfaceCustomColors,
   } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
@@ -602,8 +568,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
   const [selectedMechanismFilter, setSelectedMechanismFilter] = useState<'all' | ThemeMechanismMode>(
     initialPrefs.selectedMechanismFilter
   );
-  const [gridColumns, setGridColumns] = useState<'auto' | 4 | 5>(initialPrefs.gridColumns);
-  const [wallpaperFilterType, setWallpaperFilterType] = useState<'all' | 'image' | 'css'>('all');
   const [isFamilyFilterOpen, setIsFamilyFilterOpen] = useState<boolean>(false);
   const familyFilterMenuRef = useRef<HTMLDivElement | null>(null);
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(initialPrefs.isSandboxOpen);
@@ -676,13 +640,12 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
         selectedMechanismFilter,
         isSandboxOpen,
         neuSliders,
-        gridColumns,
       };
       localStorage.setItem(INTERFACE_UI_PREFS_KEY, JSON.stringify(payload));
     } catch {
       // ignore storage quota errors
     }
-  }, [selectedFamilyFilter, selectedMechanismFilter, isSandboxOpen, neuSliders, gridColumns]);
+  }, [selectedFamilyFilter, selectedMechanismFilter, isSandboxOpen, neuSliders]);
 
   // Persist visual theme mode ('neumorphism' | 'standard') and last standard style in localStorage
   useEffect(() => {
@@ -806,55 +769,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
     [isEn, onShowNotification]
   );
 
-  const handleResetDefault = () => {
-    const defaultCfg = getCardStyleConfig(DEFAULT_CARD_STYLE);
-    SoundEngine.playGlassChime();
-    setAutoTimeTheme(false);
-    resetGlassSettings(DEFAULT_CARD_STYLE);
-    resetCornerRadius();
-    resetInterfaceCustomColors();
-    setCardStyle(DEFAULT_CARD_STYLE);
-    try {
-      localStorage.setItem(VISUAL_THEME_MODE_STORAGE_KEY, 'standard');
-      localStorage.setItem(LAST_STANDARD_CARD_STYLE_STORAGE_KEY, DEFAULT_CARD_STYLE);
-    } catch {
-      // ignore storage errors
-    }
-    setSelectedFamilyFilter('all');
-    setSelectedMechanismFilter('all');
-    setGridColumns('auto');
-    setWallpaperFilterType('all');
-    setIsFamilyFilterOpen(false);
-    setIsSandboxOpen(false);
-    setIsQuickThemeSectionOpen(false);
-    setSandboxQuery('');
-    setActiveVideoPreviewId(null);
-    setNeuSliders([68, 38, 92, 54, 82, 70]);
-    if (onShowNotification) {
-      onShowNotification(
-        isEn
-          ? `✓ Restored & saved default interface: ${THEME_FOUR_WORD_NAMES[DEFAULT_CARD_STYLE]?.en || t(defaultCfg.name)}`
-          : `✓ Đã khôi phục & lưu mặc định: ${THEME_FOUR_WORD_NAMES[DEFAULT_CARD_STYLE]?.vi || defaultCfg.name}`
-      );
-    }
-  };
-
-  const curatedWallpapers = useMemo(() => {
-    return WALLPAPER_PRESETS_LIST.filter((wp) => {
-      if (!wp || wp.id === 'none' || wp.type === 'video' || isCodePenWallpaper(wp)) return false;
-      if (wallpaperFilterType === 'image') return wp.type === 'image';
-      if (wallpaperFilterType === 'css') return wp.type === 'css' || wp.type === 'gradient';
-      return true;
-    }).slice(0, 20);
-  }, [wallpaperFilterType]);
-
-  const themeDefaultWallpaperId = THEME_DEFAULT_WALLPAPER_ID[cardStyle];
-  const themeDefaultCardEffect = THEME_CARD_SPECS[cardStyle]?.defaultCardEffect || DEFAULT_CARD_EFFECT;
-  const activeCardEffectMeta = useMemo(
-    () => CARD_EFFECT_PRESETS.find((item) => item.id === cardEffect) || CARD_EFFECT_PRESETS[0],
-    [cardEffect]
-  );
-
   const visibleGroups = useMemo(() => {
     const familyScoped =
       selectedFamilyFilter === 'all'
@@ -896,13 +810,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       setActiveVideoPreviewId(null);
     }
   }, [activeVideoPreviewId, visibleThemeEntries]);
-
-  const isDefaultConfig =
-    cardStyle === DEFAULT_CARD_STYLE &&
-    cornerRadius === DEFAULT_CORNER_RADIUS &&
-    customSurfaceColor === 'default' &&
-    customPrimaryColor === 'default' &&
-    cardEffect === themeDefaultCardEffect;
 
   return (
     <div
@@ -1179,13 +1086,11 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
 
                   <AnimatePresence>
                     {isFamilyFilterOpen && (
-                      <motion.div
+                      <SpringDropdownMenu
                         id="interface-family-filter-listbox"
                         data-element-type="card"
-                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                        transition={{ duration: 0.16 }}
+                        placement="down"
+                        origin="0% 0%"
                         role="listbox"
                         className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                       >
@@ -1210,7 +1115,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                               {displayedThemesCount}
                             </span>
                             {selectedFamilyFilter === 'all' && (
-                              <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />
+                              <SpringTick active={selectedFamilyFilter === 'all'} />
                             )}
                           </span>
                         </button>
@@ -1240,13 +1145,13 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                                   {grp.presets.length}
                                 </span>
                                 {isSelectedTab && (
-                                  <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />
+                                  <SpringTick active={isSelectedTab} />
                                 )}
                               </span>
                             </button>
                           );
                         })}
-                      </motion.div>
+                      </SpringDropdownMenu>
                     )}
                   </AnimatePresence>
                 </div>
@@ -1373,177 +1278,6 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                   <WebIcon name="sliders" className="w-3.5 h-3.5 shrink-0" />
                   <span>{isEn ? 'UI Kit' : 'Bộ mẫu'}</span>
                 </button>
-              </div>
-            </div>
-          </section>
-
-          {/* TÙY CHỈNH CHUNG: BO CONG 4 GÓC ÁP DỤNG CHO TẤT CẢ GIAO DIỆN */}
-          <section
-            id="interface-global-customization-card"
-            data-element-name="Tùy chỉnh chung Bo cong 4 góc"
-            data-element-type="subcard"
-            data-element-page="interface"
-            data-subcard="true"
-            className={`sub-card w-full h-auto min-h-0 shrink-0 self-start flex flex-col gap-3 p-[15px] rounded-[var(--radius-subcard,14px)] transition-all duration-200 ${
-              isNeumorphismActive ? 'border-0' : 'border'
-            }`}
-            style={{
-              background: 'var(--bg-subcard)',
-              height: 'auto',
-              minHeight: 0,
-              flex: '0 0 auto',
-              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-            }}
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-              <div className="flex items-center gap-2 min-w-0">
-                <span
-                  className="w-8 h-8 rounded-[var(--radius-subcard,14px)] flex items-center justify-center shrink-0"
-                  style={{
-                    background: 'var(--bg-button-secondary, var(--bg-card))',
-                    color: 'var(--text-link, var(--color-primary))',
-                  }}
-                >
-                  <WebIcon name="sliders" className="w-4 h-4 shrink-0" />
-                </span>
-                <div className="min-w-0">
-                  <h2
-                    className="typo-h5 font-bold tracking-tight truncate card-title-synced"
-                    data-card-title="true"
-                    style={{ color: 'var(--text-link, var(--color-primary))' }}
-                  >
-                    {isEn
-                      ? 'Global UI Customization Studio'
-                      : 'Tùy chỉnh chung · Bo cong 4 góc'}
-                  </h2>
-                  <p className="typo-caption truncate" style={{ color: 'var(--text-muted)' }}>
-                    {isEn
-                      ? 'Syncs all 4 corners for Card, Sub card, Image, Video & Banner across every theme (Default: 14px)'
-                      : 'Áp dụng 4 góc cho Card, Sub card, Hình ảnh, Video & Banner trên tất cả giao diện (Chuẩn: 14px)'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <span
-                  id="global-corner-radius-value"
-                  className={`px-3 py-1 rounded-full typo-badge font-mono font-bold tabular-nums whitespace-nowrap ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-link, var(--color-primary))',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                >
-                  {cornerRadius}px
-                </span>
-
-                <button
-                  id="global-corner-radius-reset-btn"
-                  type="button"
-                  disabled={cornerRadius === DEFAULT_CORNER_RADIUS}
-                  onClick={() => {
-                    SoundEngine.playGlassChime();
-                    resetCornerRadius();
-                    onShowNotification?.(
-                      isEn
-                        ? `✓ Restored 4-corner radius to default (${DEFAULT_CORNER_RADIUS}px)`
-                        : `✓ Đã khôi phục bo cong 4 góc mặc định (${DEFAULT_CORNER_RADIUS}px)`
-                    );
-                  }}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-bold transition-all whitespace-nowrap shrink-0 ${
-                    isNeumorphismActive ? 'border-0' : 'border'
-                  } ${
-                    cornerRadius === DEFAULT_CORNER_RADIUS
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'cursor-pointer hover:opacity-90'
-                  }`}
-                  style={{
-                    background: 'var(--bg-card)',
-                    color: 'var(--text-primary)',
-                    ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                  }}
-                  title={
-                    isEn
-                      ? `Reset corner radius to ${DEFAULT_CORNER_RADIUS}px`
-                      : `Đặt lại bo cong 4 góc về ${DEFAULT_CORNER_RADIUS}px`
-                  }
-                >
-                  <WebIcon name="rotate-ccw" className="w-3.5 h-3.5 shrink-0" />
-                  <span>{isEn ? `Default ${DEFAULT_CORNER_RADIUS}px` : `Mặc định ${DEFAULT_CORNER_RADIUS}px`}</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <span
-                  className="typo-badge font-mono tabular-nums shrink-0"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  {MIN_CORNER_RADIUS}px
-                </span>
-                <input
-                  id="global-corner-radius-slider"
-                  type="range"
-                  min={MIN_CORNER_RADIUS}
-                  max={MAX_CORNER_RADIUS}
-                  step={1}
-                  value={cornerRadius}
-                  onChange={(e) => setCornerRadius(Number(e.target.value))}
-                  aria-label={
-                    isEn
-                      ? 'Global 4-corner border radius in pixels'
-                      : 'Tùy chỉnh chung độ bo cong 4 góc (px)'
-                  }
-                  className="w-full h-2 rounded-full cursor-pointer accent-[var(--color-primary)]"
-                />
-                <span
-                  className="typo-badge font-mono tabular-nums shrink-0"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  {MAX_CORNER_RADIUS}px
-                </span>
-              </div>
-
-              <div
-                role="group"
-                aria-label={isEn ? 'Corner radius presets' : 'Mức bo cong nhanh'}
-                className="flex flex-wrap items-center gap-1.5 shrink-0"
-              >
-                {[0, 8, 14, 20, 24].map((presetRadius) => {
-                  const isSelected = cornerRadius === presetRadius;
-                  return (
-                    <button
-                      key={presetRadius}
-                      type="button"
-                      aria-pressed={isSelected}
-                      onClick={() => {
-                        SoundEngine.playTap();
-                        setCornerRadius(presetRadius);
-                      }}
-                      className={`px-2.5 py-1 rounded-full typo-badge font-mono font-bold tabular-nums transition-all cursor-pointer whitespace-nowrap ${
-                        isNeumorphismActive ? 'border-0' : 'border'
-                      } ${isSelected ? 'shadow-xs' : 'opacity-85 hover:opacity-100'}`}
-                      style={
-                        isSelected
-                          ? {
-                              background: 'var(--bg-button-primary)',
-                              color: 'var(--text-button-primary, #FFFFFF)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'transparent' }),
-                            }
-                          : {
-                              background: 'var(--bg-card)',
-                              color: 'var(--text-primary)',
-                              ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                            }
-                      }
-                    >
-                      {presetRadius}px
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </section>
@@ -1690,132 +1424,55 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
                 </button>
               </div>
             ) : (
-              <>
-                <div
-                  className={`flex flex-wrap items-center justify-between gap-2 pb-2 ${
-                    isNeumorphismActive ? 'border-0' : 'border-b'
-                  } min-w-0`}
-                  style={isNeumorphismActive ? undefined : { borderColor: 'var(--border-subcard)' }}
-                >
-                  <div className="flex flex-wrap items-center gap-2.5 min-w-0">
-                    <span
-                      className="typo-caption font-semibold tabular-nums"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      {isEn
-                        ? `${visibleThemesCount} of ${displayedThemesCount} themes`
-                        : `Hiển thị ${visibleThemesCount} / ${displayedThemesCount} giao diện`}
-                    </span>
+              <div
+                id="interface-themes-grid"
+                data-cols="auto"
+                data-card-layout="responsive-grid"
+                data-card-shape="horizontal-rect"
+                data-element-name="Danh sách tất cả thẻ giao diện"
+                data-element-type="container"
+                data-element-page="interface"
+                className="interface-themes-grid unified-cards-grid card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch w-full max-w-full min-w-0"
+              >
+                {visibleThemeEntries.map(({ preset, group }) => {
+                  const groupIcon = group.icon || 'palette';
+                  const groupLabel = isEn ? group.labelEn : group.label;
 
-                    <div
-                      role="group"
-                      aria-label={
-                        isEn ? 'Theme grid column view' : 'Số cột hiển thị lưới giao diện'
+                  return (
+                    <ThemePresetCard
+                      key={preset.id}
+                      preset={preset}
+                      groupIcon={groupIcon}
+                      groupLabel={groupLabel}
+                      meta={THEME_VISUAL_META[preset.id]}
+                      bgSpec={THEME_BACKGROUNDS[preset.id]}
+                      sampleProps={presetSampleStyles[preset.id]}
+                      isActive={cardStyle === preset.id}
+                      isEn={isEn}
+                      isVideoVisible={
+                        activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
                       }
-                      className={`hidden lg:inline-flex items-center gap-1 p-0.5 rounded-full ${
-                        isNeumorphismActive ? 'border-0' : 'border'
-                      }`}
-                      style={{
-                        background: 'var(--bg-subcard)',
-                        ...(isNeumorphismActive ? {} : { borderColor: 'var(--border-subcard)' }),
-                      }}
-                    >
-                      {(
-                        [
-                          { value: 'auto', labelVi: 'Tự động', labelEn: 'Auto' },
-                          { value: 4, labelVi: '4 cột', labelEn: '4 cols' },
-                          { value: 5, labelVi: '5 cột', labelEn: '5 cols' },
-                        ] as const
-                      ).map((opt) => {
-                        const isSelectedCol = gridColumns === opt.value;
-                        return (
-                          <button
-                            key={String(opt.value)}
-                            type="button"
-                            aria-pressed={isSelectedCol}
-                            onClick={() => {
-                              SoundEngine.playTap();
-                              setGridColumns(opt.value);
-                            }}
-                            className="px-2.5 py-0.5 rounded-full typo-badge font-semibold transition-all cursor-pointer whitespace-nowrap border-0"
-                            style={
-                              isSelectedCol
-                                ? {
-                                    background: 'var(--bg-button-primary)',
-                                    color: 'var(--text-button-primary, #FFFFFF)',
-                                  }
-                                : {
-                                    background: 'transparent',
-                                    color: 'var(--text-secondary)',
-                                  }
-                            }
-                          >
-                            {isEn ? opt.labelEn : opt.labelVi}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <span
-                    className="typo-caption font-semibold truncate max-w-full"
-                    style={{ color: 'var(--text-link, var(--color-primary))' }}
-                  >
-                    {isEn ? 'Active: ' : 'Đang bật: '}
-                    {isEn
-                      ? THEME_FOUR_WORD_NAMES[activePreset.id]?.en || t(activePreset.name)
-                      : THEME_FOUR_WORD_NAMES[activePreset.id]?.vi || activePreset.name}
-                  </span>
-                </div>
-
-                <div
-                  id="interface-themes-grid"
-                  data-cols={gridColumns}
-                  data-element-name="Danh sách tất cả thẻ giao diện"
-                  data-element-type="container"
-                  data-element-page="interface"
-                  className="interface-themes-grid card-grid w-full max-w-full min-w-0"
-                >
-                  {visibleThemeEntries.map(({ preset, group }) => {
-                    const groupIcon = group.icon || 'palette';
-                    const groupLabel = isEn ? group.labelEn : group.label;
-
-                    return (
-                      <ThemePresetCard
-                        key={preset.id}
-                        preset={preset}
-                        groupIcon={groupIcon}
-                        groupLabel={groupLabel}
-                        meta={THEME_VISUAL_META[preset.id]}
-                        bgSpec={THEME_BACKGROUNDS[preset.id]}
-                        sampleProps={presetSampleStyles[preset.id]}
-                        isActive={cardStyle === preset.id}
-                        isEn={isEn}
-                        isVideoVisible={
-                          activeVideoPreviewId === preset.id && !failedVideoIds[preset.id]
-                        }
-                        hasVideoFailed={Boolean(failedVideoIds[preset.id])}
-                        displayPresetName={
-                          isEn
-                            ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
-                            : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name
-                        }
-                        displayEnglishName={THEME_FOUR_WORD_NAMES[preset.id]?.en || preset.name}
-                        displayShortBadge={isEn ? t(preset.shortBadge) : preset.shortBadge}
-                        displayDesc={isEn ? t(preset.desc) : preset.desc}
-                        onSelectTheme={handleSelectTheme}
-                        onToggleVideo={handleToggleVideoPreview}
-                        onVideoError={handleVideoPreviewError}
-                        onOpenStudio={
-                          isIridescentTheme(preset.id) ? handleOpenIridescentStudio : undefined
-                        }
-                        isExpanded={expandedThemeId === preset.id}
-                        onToggleExpand={(mode) => setExpandedThemeId((prev) => (prev === mode ? null : mode))}
-                      />
-                    );
-                  })}
-                </div>
-              </>
+                      hasVideoFailed={Boolean(failedVideoIds[preset.id])}
+                      displayPresetName={
+                        isEn
+                          ? THEME_FOUR_WORD_NAMES[preset.id]?.en || t(preset.name)
+                          : THEME_FOUR_WORD_NAMES[preset.id]?.vi || preset.name
+                      }
+                      displayEnglishName={THEME_FOUR_WORD_NAMES[preset.id]?.en || preset.name}
+                      displayShortBadge={isEn ? t(preset.shortBadge) : preset.shortBadge}
+                      displayDesc={isEn ? t(preset.desc) : preset.desc}
+                      onSelectTheme={handleSelectTheme}
+                      onToggleVideo={handleToggleVideoPreview}
+                      onVideoError={handleVideoPreviewError}
+                      onOpenStudio={
+                        isIridescentTheme(preset.id) ? handleOpenIridescentStudio : undefined
+                      }
+                      isExpanded={expandedThemeId === preset.id}
+                      onToggleExpand={(mode) => setExpandedThemeId((prev) => (prev === mode ? null : mode))}
+                    />
+                  );
+                })}
+              </div>
             )}
           </div>
 

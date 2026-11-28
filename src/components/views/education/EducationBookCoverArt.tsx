@@ -322,248 +322,580 @@ export function getBookCoverTheme(course: EducationCourse, fallbackColor: string
   };
 }
 
+export type BookTemplate =
+  | 'vjy-layered'
+  | 'variant-editorial'
+  | 'variant-bauhaus'
+  | 'side-spine'
+  | 'variant-zen';
+
+export type ArtPattern =
+  | 'p-grid'
+  | 'p-dots'
+  | 'p-split'
+  | 'p-arch'
+  | 'p-sun'
+  | 'p-stripes'
+  | 'p-waves'
+  | 'p-rings';
+
+export interface BookPalette {
+  base: string;
+  deep: string;
+  mid: string;
+  soft: string;
+  highlight: string;
+  coverBg: string;
+  spineBg: string;
+}
+
+export const WEBSITE_BOOK_TEMPLATES: BookTemplate[] = [
+  'vjy-layered',
+  'variant-editorial',
+  'variant-bauhaus',
+  'side-spine',
+  'variant-zen',
+];
+
+export const ART_PATTERNS: ArtPattern[] = [
+  'p-grid',
+  'p-dots',
+  'p-split',
+  'p-arch',
+  'p-sun',
+  'p-stripes',
+  'p-waves',
+  'p-rings',
+];
+
+export const DISTINCT_BOOK_FALLBACK_COLORS = [
+  '#2563EB', // Sapphire Blue
+  '#06B6D4', // Glacial Aqua Cyan
+  '#E11D48', // Scarlet Crimson
+  '#10B981', // Pure Emerald Green
+  '#8B5CF6', // Royal Violet Amethyst
+  '#F59E0B', // Golden Amber
+  '#EC4899', // Fuchsia Rose
+  '#6366F1', // Midnight Indigo
+  '#14B8A6', // Oceanic Deep Teal
+  '#84CC16', // Forest Lime
+  '#1E3A8A', // Midnight Navy
+  '#F97316', // Tangerine Orange
+  '#D946EF', // Electric Orchid
+  '#475569', // Slate Charcoal
+];
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const clean = (hex || '#2563EB').replace('#', '').trim();
+  const full =
+    clean.length === 3
+      ? clean
+          .split('')
+          .map((ch) => ch + ch)
+          .join('')
+      : clean.padEnd(6, '0').slice(0, 6);
+  const num = parseInt(full, 16);
+  if (Number.isNaN(num)) return { r: 37, g: 99, b: 235 };
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255,
+  };
+}
+
+function mixRgb(
+  a: { r: number; g: number; b: number },
+  b: { r: number; g: number; b: number },
+  weightB: number
+): string {
+  const w = Math.max(0, Math.min(1, weightB));
+  const r = Math.round(a.r * (1 - w) + b.r * w);
+  const g = Math.round(a.g * (1 - w) + b.g * w);
+  const bl = Math.round(a.b * (1 - w) + b.b * w);
+  return `rgb(${r}, ${g}, ${bl})`;
+}
+
+export function buildPaletteFromAccent(accentHex: string): BookPalette {
+  const rgb = hexToRgb(accentHex);
+  const darkAnchor = { r: 9, g: 14, b: 28 };
+  const lightAnchor = { r: 255, g: 255, b: 255 };
+
+  const deep = mixRgb(rgb, darkAnchor, 0.56);
+  const mid = mixRgb(rgb, darkAnchor, 0.22);
+  const soft = mixRgb(rgb, lightAnchor, 0.72);
+  const highlight = mixRgb(rgb, lightAnchor, 0.42);
+
+  return {
+    base: accentHex,
+    deep,
+    mid,
+    soft,
+    highlight,
+    coverBg: `radial-gradient(circle at 20% 12%, ${highlight} 0%, transparent 48%), linear-gradient(155deg, ${accentHex} 0%, ${mid} 56%, ${deep} 100%)`,
+    spineBg: `linear-gradient(90deg, ${deep} 0%, ${accentHex} 45%, ${mid} 76%, ${deep} 100%)`,
+  };
+}
+
+export function getCourseShelfDesign(
+  course: EducationCourse,
+  fallbackColor?: string,
+  explicitIndex?: number
+): {
+  canonicalIdx: number;
+  accentHex: string;
+  palette: BookPalette;
+  template: BookTemplate;
+  pattern: ArtPattern;
+} {
+  const canonicalIdx =
+    typeof explicitIndex === 'number' && explicitIndex >= 0
+      ? explicitIndex
+      : Math.max(0, (Number(course.id) || 1) - 1);
+  const accentHex =
+    course.accentColor && course.accentColor.startsWith('#')
+      ? course.accentColor
+      : fallbackColor && fallbackColor.startsWith('#')
+        ? fallbackColor
+        : DISTINCT_BOOK_FALLBACK_COLORS[canonicalIdx % DISTINCT_BOOK_FALLBACK_COLORS.length];
+  const palette = buildPaletteFromAccent(accentHex);
+  const template = WEBSITE_BOOK_TEMPLATES[canonicalIdx % WEBSITE_BOOK_TEMPLATES.length];
+  const pattern = ART_PATTERNS[(course.id + canonicalIdx) % ART_PATTERNS.length];
+
+  return {
+    canonicalIdx,
+    accentHex,
+    palette,
+    template,
+    pattern,
+  };
+}
+
 export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
   course,
   courseColor,
   categoryLabel,
   courseIconName,
   isEn,
-  variant = 'book',
   showSpine = true,
   showGlint = false,
-  imageLoading = 'eager',
-  onImageError,
 }) => {
   const cleanTitle = formatCardTitle(course.title);
   const theme = getBookCoverTheme(course, courseColor);
+  const { palette, template, pattern } = getCourseShelfDesign(course, courseColor);
+  const shortCode = course.code || `EDU-${course.year}`;
+
   const rawLeft = (course.type || categoryLabel).trim();
   const rawRight = (course.issuer || categoryLabel).trim();
-
-  // Deduplicate subtitle cleanly so "Tự học phát triển · Tự học phát triển" never occurs
   const subtitleLeft = rawLeft;
   const subtitleRight =
     rawRight.toLowerCase() === rawLeft.toLowerCase()
       ? categoryLabel.toLowerCase() === rawLeft.toLowerCase()
-        ? course.code || `${course.year}`
+        ? shortCode
         : categoryLabel
       : rawRight;
 
   const summaryText = course.result || course.desc;
-  const isShelf = variant === 'shelf';
 
-  // Typography scale synced with site-wide Card font specifications
-  const titleFontSize = 'clamp(14px, 5.2cqw, var(--fs-card-title, var(--fs-h3, 20px)))';
-  const subtitleFontSize = 'clamp(11px, 3.2cqw, var(--fs-body-sm, 13.5px))';
-  const metaFontSize = 'clamp(10px, 2.95cqw, var(--fs-label, 12px))';
-  const summaryFontSize = 'clamp(10px, 2.8cqw, var(--fs-caption, 12px))';
-
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    if (onImageError) {
-      onImageError(e);
-      return;
-    }
-    const img = e.currentTarget;
-    const currentSrc = img.getAttribute('src') || '';
-    const match = currentSrc.match(/lh3\.googleusercontent\.com\/d\/([^/?]+)/);
-    if (match && match[1]) {
-      img.onerror = null;
-      img.src = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1920`;
-    }
-  };
+  const titleFontSize = 'clamp(15px, 5.5cqw, 22px)';
+  const subtitleFontSize = 'clamp(11px, 3.2cqw, 13.5px)';
+  const metaFontSize = 'clamp(10px, 2.9cqw, 12px)';
+  const summaryFontSize = 'clamp(10px, 2.85cqw, 12.5px)';
 
   return (
     <div
+      data-book-template={template}
       className="education-book-cover relative flex size-full flex-col items-stretch justify-between select-none overflow-hidden box-border text-white"
       style={{
-        background: theme.bottomGradient,
+        background: template === 'side-spine' ? palette.spineBg : palette.coverBg,
         borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-        padding: 0,
-        gap: 0,
+        padding: 'clamp(14px, 4.4cqw, 22px) clamp(14px, 4.6cqw, 22px) clamp(14px, 4.4cqw, 22px) clamp(18px, 5.6cqw, 26px)',
         border: 'none',
-        boxShadow: `0 12px 26px -12px ${theme.glowShadow}`,
+        boxShadow: `0 12px 26px -12px ${theme.glowShadow}, inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -2px 0 rgba(0,0,0,0.32)`,
         containerType: 'inline-size',
         fontFamily: BOOK_COVER_BODY_FONT,
         color: '#FFFFFF',
       }}
     >
-      {/* Full-bleed banner image filling 100% of the 3D book cover */}
-      <img
-        src={course.image}
-        alt={cleanTitle}
-        className="education-book-cover-banner-img absolute inset-0 z-0 w-full h-full object-cover object-center block"
-        loading={imageLoading}
-        decoding="async"
-        referrerPolicy="no-referrer"
-        onError={handleImgError}
-      />
-
-      {/* Realistic hardcover left French-groove hinge crease */}
-      {showSpine && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 z-30 w-[3.8cqw]"
-          style={{
-            background:
-              'linear-gradient(90deg, rgba(4, 10, 28, 0.38) 0%, rgba(4, 10, 28, 0.12) 44%, rgba(255, 255, 255, 0.24) 64%, transparent 100%)',
-          }}
-        />
-      )}
-
+      {/* Lớp họa tiết hình học, vân giấy & ánh sáng đồng bộ 100% với bìa sách trên kệ */}
+      <div className={`edu-art-pattern ${pattern}`} aria-hidden="true" />
+      {showSpine && <div className="edu-book-spine-crease" aria-hidden="true" />}
+      <div className="edu-book-paper-grain" aria-hidden="true" />
+      <div className="edu-book-light" aria-hidden="true" />
       {showGlint && <div className="disc-glint" />}
 
-      {/* Top edge scrim — keeps middle artwork unobstructed */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[28%]"
-        style={{
-          background: `linear-gradient(180deg, ${theme.scrimDeep} 0%, ${theme.topTint} 58%, transparent 100%)`,
-        }}
-      />
-
-      {/* Bottom graduated editorial scrim — preserves full-bleed banner while ensuring crisp typography */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[56%]"
-        style={{
-          background: `linear-gradient(180deg, transparent 0%, rgba(2, 6, 23, 0.48) 30%, ${theme.scrimDeep} 68%, rgba(2, 6, 23, 0.94) 100%)`,
-        }}
-      />
-
-      {/* Top Unboxed Metadata Row: Category | Course Code */}
-      <div
-        className="relative z-20 flex items-center justify-between gap-[2cqw] text-white"
-        style={{
-          fontFamily: BOOK_COVER_BODY_FONT,
-          padding: 'clamp(8px, 3cqw, 14px) clamp(10px, 3.6cqw, 16px) 0',
-        }}
-      >
-        <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.85)]">
-          <WebIcon
-            name={theme.categoryIconName}
-            className="w-[3.2cqw] h-[3.2cqw] shrink-0"
-            style={{ color: theme.accentSoft }}
-          />
-          <span
-            className="font-semibold leading-none tracking-[0.01em] truncate text-white/95"
-            style={{ fontSize: metaFontSize }}
-          >
-            {categoryLabel}
-          </span>
-        </span>
-
-        <span className="inline-flex items-center gap-[1.1cqw] shrink-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.85)]">
-          <WebIcon
-            name="calendar"
-            className="w-[2.8cqw] h-[2.8cqw] shrink-0"
-            style={{ color: theme.accentSoft }}
-          />
-          <span
-            className="font-bold leading-none tabular-nums tracking-[0.04em] text-white/95"
-            style={{ fontSize: metaFontSize }}
-          >
-            {course.code || `Y-${course.year}`}
-          </span>
-        </span>
-      </div>
-
-      {/* Bottom Editorial Typography Overlay on Full-Bleed Banner */}
-      <div
-        className="relative z-20 w-full flex flex-col items-center justify-end text-center box-border mt-auto"
-        style={{
-          padding: isShelf
-            ? 'clamp(8px, 3cqw, 13px) clamp(9px, 3.4cqw, 15px)'
-            : 'clamp(10px, 3.4cqw, 16px) clamp(12px, 3.8cqw, 18px)',
-          gap: 'clamp(4px, 1.8cqw, 8px)',
-          fontFamily: BOOK_COVER_BODY_FONT,
-          color: '#FFFFFF',
-        }}
-      >
-        {/* Issuer | Year Row */}
-        <div className="w-full flex items-center justify-between gap-[2cqw] text-white/95 pb-[0.6cqw]">
-          <span className="inline-flex items-center gap-[1.3cqw] min-w-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.88)]">
-            <WebIcon
-              name="graduation"
-              className="w-[3.4cqw] h-[3.4cqw] shrink-0"
-              style={{ color: theme.accentSoft }}
+      {/* 1. MẪU BÌA VARIANT-EDITORIAL (Monograph thanh ngang & chữ biên tập) */}
+      {template === 'variant-editorial' && (
+        <>
+          <div className="relative z-10 w-full flex flex-col gap-[2cqw]">
+            <div
+              className="w-full h-[3px] rounded-full"
+              style={{ background: palette.soft }}
+              aria-hidden="true"
             />
-            <span
-              className="font-semibold leading-none truncate text-white/95"
+            <div
+              className="flex items-center justify-between gap-2 font-bold uppercase tracking-[0.1em]"
               style={{ fontSize: metaFontSize }}
             >
-              {course.issuer}
-            </span>
-          </span>
+              <span className="truncate" style={{ color: palette.soft }}>
+                {categoryLabel}
+              </span>
+              <span className="tabular-nums text-white/90 shrink-0">
+                {shortCode} · {course.year}
+              </span>
+            </div>
+          </div>
 
-          <span
-            className="font-bold leading-none tabular-nums tracking-[0.02em] text-white/95 shrink-0 drop-shadow-[0_1px_5px_rgba(0,0,0,0.88)]"
-            style={{ fontSize: metaFontSize }}
-          >
-            {isEn ? `${course.year}` : `Năm ${course.year}`}
-          </span>
-        </div>
+          <div className="relative z-10 flex flex-col items-start gap-[2.4cqw] my-auto w-full">
+            <div
+              className="w-[11cqw] h-[11cqw] min-w-[36px] min-h-[36px] max-w-[48px] max-h-[48px] rounded-xl flex items-center justify-center bg-black/22 border border-white/25 shadow-sm"
+              style={{ color: palette.soft }}
+            >
+              <WebIcon name={courseIconName} className="w-[5.5cqw] h-[5.5cqw] min-w-[18px] min-h-[18px]" />
+            </div>
 
-        {/* Display Title & Clean Unboxed Subtitle */}
-        <div className="relative z-10 w-full flex flex-col items-center gap-[1.2cqw] min-w-0">
-          <h3
-            className="font-extrabold m-0 flex items-center justify-center gap-[1.8cqw] max-w-full"
-            style={{
-              fontFamily: BOOK_COVER_DISPLAY_FONT,
-              fontSize: titleFontSize,
-              lineHeight: 1.15,
-              letterSpacing: '-0.02em',
-              textWrap: 'balance',
-              color: '#FFFFFF',
-              textShadow: '0 2px 8px rgba(2, 6, 23, 0.72)',
-            }}
-          >
-            <WebIcon
-              name={courseIconName}
-              className="w-[5.1cqw] h-[5.1cqw] shrink-0"
-              style={{ color: theme.accentSoft }}
-            />
-            <span className="line-clamp-2 text-center">{cleanTitle}</span>
-          </h3>
-
-          <p
-            className="font-semibold leading-snug m-0 flex items-center justify-center gap-[1.4cqw] max-w-full truncate tracking-[0.01em] drop-shadow-[0_1px_4px_rgba(0,0,0,0.75)]"
-            style={{
-              fontFamily: BOOK_COVER_BODY_FONT,
-              fontSize: subtitleFontSize,
-              color: theme.accentSoft,
-            }}
-          >
-            <span className="truncate">{subtitleLeft}</span>
-            <span aria-hidden="true" className="opacity-75 font-bold shrink-0">
-              ·
-            </span>
-            <span className="truncate tabular-nums">{subtitleRight}</span>
-          </p>
-        </div>
-
-        {/* Summary Strip with Subtle Divider */}
-        {summaryText && (
-          <div
-            className="relative z-10 w-full flex items-center justify-center gap-[1.8cqw] pt-[1.4cqw] px-[1.2cqw] min-w-0 border-t"
-            style={{ borderColor: 'rgba(255, 255, 255, 0.22)' }}
-          >
-            <WebIcon
-              name={theme.pillIconName}
-              className="w-[3.4cqw] h-[3.4cqw] shrink-0"
-              style={{ color: theme.pillIconColor }}
-            />
-            <span
-              className="min-w-0 text-left font-medium leading-[1.38] line-clamp-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
+            <h3
+              className="m-0 font-extrabold tracking-tight text-white text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
               style={{
-                fontFamily: BOOK_COVER_BODY_FONT,
-                fontSize: summaryFontSize,
-                color: 'rgba(255, 255, 255, 0.94)',
+                fontFamily: BOOK_COVER_DISPLAY_FONT,
+                fontSize: titleFontSize,
+                lineHeight: 1.18,
               }}
             >
-              {summaryText}
+              {cleanTitle}
+            </h3>
+
+            <p
+              className="m-0 font-semibold leading-snug text-left"
+              style={{ fontSize: subtitleFontSize, color: palette.soft }}
+            >
+              {subtitleLeft} · {subtitleRight}
+            </p>
+
+            {summaryText && (
+              <p
+                className="m-0 text-left font-medium leading-[1.42] line-clamp-3 text-white/90 pt-[1.5cqw] border-t border-white/20 w-full"
+                style={{ fontSize: summaryFontSize }}
+              >
+                {summaryText}
+              </p>
+            )}
+          </div>
+
+          <div className="relative z-10 w-full flex items-center justify-between gap-2 pt-[2.2cqw] border-t border-white/22">
+            <span className="inline-flex items-center gap-[1.5cqw] min-w-0">
+              <WebIcon
+                name={courseIconName}
+                className="w-[3.8cqw] h-[3.8cqw] shrink-0"
+                style={{ color: palette.soft }}
+              />
+              <span className="font-semibold text-white/95 truncate" style={{ fontSize: metaFontSize }}>
+                {course.issuer}
+              </span>
+            </span>
+            <span
+              className="font-bold tabular-nums px-[2cqw] py-[0.6cqw] rounded-md bg-black/25 border border-white/15 shrink-0"
+              style={{ fontSize: metaFontSize, color: palette.soft }}
+            >
+              {isEn ? `Year ${course.year}` : `Năm ${course.year}`}
             </span>
           </div>
-        )}
-      </div>
+        </>
+      )}
+
+      {/* 2. MẪU BÌA VARIANT-BAUHAUS (Chấm hình học Bauhaus + dải phân cách) */}
+      {template === 'variant-bauhaus' && (
+        <>
+          <div className="relative z-10 w-full flex items-center justify-between gap-2">
+            <div className="flex items-center gap-[1.6cqw]" aria-hidden="true">
+              <span
+                className="w-[3.2cqw] h-[3.2cqw] min-w-[10px] min-h-[10px] rounded-full"
+                style={{ background: palette.soft }}
+              />
+              <span
+                className="w-[3.2cqw] h-[3.2cqw] min-w-[10px] min-h-[10px] rounded-[3px]"
+                style={{ background: '#ffffff', opacity: 0.9 }}
+              />
+              <span
+                className="w-[3.2cqw] h-[3.2cqw] min-w-[10px] min-h-[10px] rounded-full"
+                style={{ background: palette.highlight, opacity: 0.75 }}
+              />
+            </div>
+            <span
+              className="font-extrabold uppercase tracking-wider px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/28 border border-white/15 text-white/95 tabular-nums"
+              style={{ fontSize: metaFontSize }}
+            >
+              {shortCode}
+            </span>
+          </div>
+
+          <div className="relative z-10 w-full my-auto flex flex-col items-start gap-[2.2cqw]">
+            <div
+              className="w-full h-[4px] rounded-full opacity-75"
+              style={{
+                background: `linear-gradient(90deg, ${palette.soft} 0%, transparent 100%)`,
+              }}
+              aria-hidden="true"
+            />
+            <span
+              className="font-bold uppercase tracking-widest"
+              style={{ fontSize: metaFontSize, color: palette.soft }}
+            >
+              {categoryLabel} · {course.year}
+            </span>
+            <h3
+              className="m-0 font-extrabold tracking-tight text-white text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.48)]"
+              style={{
+                fontFamily: BOOK_COVER_DISPLAY_FONT,
+                fontSize: titleFontSize,
+                lineHeight: 1.18,
+              }}
+            >
+              {cleanTitle}
+            </h3>
+            {summaryText && (
+              <p
+                className="m-0 text-left font-medium leading-[1.42] line-clamp-3 text-white/90"
+                style={{ fontSize: summaryFontSize }}
+              >
+                {summaryText}
+              </p>
+            )}
+          </div>
+
+          <div className="relative z-10 w-full flex items-center justify-between gap-2 px-[3cqw] py-[2cqw] rounded-xl bg-black/28 border border-white/18">
+            <div className="flex flex-col items-start min-w-0">
+              <span className="font-bold text-white/95 truncate max-w-full" style={{ fontSize: metaFontSize }}>
+                {course.issuer}
+              </span>
+              <span className="text-[2.6cqw] text-white/75 truncate max-w-full">
+                {subtitleLeft}
+              </span>
+            </div>
+            <div
+              className="w-[8.5cqw] h-[8.5cqw] min-w-[28px] min-h-[28px] rounded-lg flex items-center justify-center bg-white/12 shrink-0"
+              style={{ color: palette.soft }}
+            >
+              <WebIcon name={courseIconName} className="w-[4.5cqw] h-[4.5cqw] min-w-[15px] min-h-[15px]" />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* 3. MẪU BÌA VARIANT-ZEN (Vòng tròn huy hiệu Zen ở tâm bìa) */}
+      {template === 'variant-zen' && (
+        <>
+          <div className="relative z-10 w-full flex items-center justify-between pb-[2cqw] border-b border-white/22">
+            <span
+              className="font-bold uppercase tracking-[0.12em] truncate"
+              style={{ fontSize: metaFontSize, color: palette.soft }}
+            >
+              {categoryLabel}
+            </span>
+            <span
+              className="font-bold tabular-nums text-white/90 shrink-0"
+              style={{ fontSize: metaFontSize }}
+            >
+              {shortCode}
+            </span>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center text-center gap-[2.4cqw] my-auto w-full">
+            <div
+              className="w-[23cqw] h-[23cqw] min-w-[74px] min-h-[74px] max-w-[104px] max-h-[104px] rounded-full border border-white/30 flex flex-col items-center justify-center gap-[1cqw] shadow-[inset_0_2px_10px_rgba(255,255,255,0.22),0_10px_22px_rgba(0,0,0,0.28)]"
+              style={{
+                background: `radial-gradient(circle at 35% 30%, ${palette.highlight} 0%, rgba(0,0,0,0.32) 100%)`,
+              }}
+            >
+              <WebIcon
+                name={courseIconName}
+                className="w-[8cqw] h-[8cqw] min-w-[24px] min-h-[24px] text-white drop-shadow"
+              />
+              <span className="text-[2.8cqw] font-extrabold tracking-widest tabular-nums text-white/95">
+                {course.year}
+              </span>
+            </div>
+
+            <h3
+              className="m-0 font-extrabold tracking-tight text-white text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+              style={{
+                fontFamily: BOOK_COVER_DISPLAY_FONT,
+                fontSize: titleFontSize,
+                lineHeight: 1.18,
+              }}
+            >
+              {cleanTitle}
+            </h3>
+
+            {summaryText && (
+              <p
+                className="m-0 text-center font-medium leading-[1.4] line-clamp-2 text-white/90 px-[2cqw]"
+                style={{ fontSize: summaryFontSize }}
+              >
+                {summaryText}
+              </p>
+            )}
+          </div>
+
+          <div className="relative z-10 w-full pt-[2cqw] border-t border-white/22 flex items-center justify-between gap-2">
+            <span className="font-semibold text-white/92 truncate" style={{ fontSize: metaFontSize }}>
+              {course.issuer}
+            </span>
+            <span className="font-bold text-white/80 shrink-0" style={{ fontSize: metaFontSize, color: palette.soft }}>
+              {subtitleLeft}
+            </span>
+          </div>
+        </>
+      )}
+
+      {/* 4. MẪU BÌA SIDE-SPINE (Đai gáy sách cổ điển trên/dưới mở rộng thành bìa chính) */}
+      {template === 'side-spine' && (
+        <>
+          <div className="relative z-10 w-full flex flex-col items-center gap-[2.2cqw]">
+            <div
+              className="w-full h-[3px] rounded-full opacity-85"
+              style={{ background: palette.soft }}
+              aria-hidden="true"
+            />
+            <div className="w-full flex items-center justify-between gap-2">
+              <span
+                className="font-bold uppercase tracking-wider px-[2cqw] py-[0.7cqw] rounded bg-black/25 border border-white/20 truncate"
+                style={{ fontSize: metaFontSize, color: palette.soft }}
+              >
+                {categoryLabel}
+              </span>
+              <span
+                className="font-bold tabular-nums px-[2cqw] py-[0.7cqw] rounded bg-black/25 border border-white/20 text-white/95 shrink-0"
+                style={{ fontSize: metaFontSize }}
+              >
+                {shortCode}
+              </span>
+            </div>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center text-center gap-[2.5cqw] my-auto w-full px-[1.5cqw]">
+            <div
+              className="w-[14cqw] h-[14cqw] min-w-[44px] min-h-[44px] max-w-[60px] max-h-[60px] rounded-xl bg-black/28 border border-white/25 flex items-center justify-center shadow-md"
+              style={{ color: palette.soft }}
+            >
+              <WebIcon name={courseIconName} className="w-[7cqw] h-[7cqw] min-w-[22px] min-h-[22px]" />
+            </div>
+
+            <h3
+              className="m-0 font-extrabold tracking-tight text-white text-center drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]"
+              style={{
+                fontFamily: BOOK_COVER_DISPLAY_FONT,
+                fontSize: titleFontSize,
+                lineHeight: 1.18,
+              }}
+            >
+              {cleanTitle}
+            </h3>
+
+            <p
+              className="m-0 font-semibold leading-snug text-center"
+              style={{ fontSize: subtitleFontSize, color: palette.soft }}
+            >
+              {subtitleLeft} · {subtitleRight}
+            </p>
+
+            {summaryText && (
+              <p
+                className="m-0 text-center font-medium leading-[1.4] line-clamp-2 text-white/90"
+                style={{ fontSize: summaryFontSize }}
+              >
+                {summaryText}
+              </p>
+            )}
+          </div>
+
+          <div className="relative z-10 w-full flex flex-col items-center gap-[2cqw]">
+            <div className="w-full flex items-center justify-between gap-2">
+              <span className="font-semibold text-white/92 truncate" style={{ fontSize: metaFontSize }}>
+                {course.issuer}
+              </span>
+              <span
+                className="font-extrabold tabular-nums px-[2.2cqw] py-[0.6cqw] rounded bg-black/28 border border-white/20 text-white/95 shrink-0"
+                style={{ fontSize: metaFontSize }}
+              >
+                {course.year}
+              </span>
+            </div>
+            <div
+              className="w-full h-[3px] rounded-full opacity-85"
+              style={{ background: palette.soft }}
+              aria-hidden="true"
+            />
+          </div>
+        </>
+      )}
+
+      {/* 5. MẪU BÌA VJY-LAYERED (Mặc định: Huy hiệu bo góc + Tiêu đề lớn + Colophon chân trang) */}
+      {template === 'vjy-layered' && (
+        <>
+          <div className="relative z-10 flex items-center justify-between gap-2 w-full">
+            <span
+              className="font-bold uppercase tracking-wider truncate px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/26 border border-white/18"
+              style={{ fontSize: metaFontSize, color: palette.soft }}
+            >
+              {categoryLabel}
+            </span>
+            <span
+              className="font-bold tabular-nums text-white/90 shrink-0"
+              style={{ fontSize: metaFontSize }}
+            >
+              {shortCode}
+            </span>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-start gap-[2.4cqw] my-auto w-full">
+            <div
+              className="w-[13cqw] h-[13cqw] min-w-[42px] min-h-[42px] max-w-[56px] max-h-[56px] rounded-xl flex items-center justify-center bg-black/24 border border-white/24 shadow-md"
+              style={{ color: palette.soft }}
+            >
+              <WebIcon name={courseIconName} className="w-[6.5cqw] h-[6.5cqw] min-w-[20px] min-h-[20px]" />
+            </div>
+
+            <h3
+              className="m-0 font-extrabold tracking-tight text-white text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.48)]"
+              style={{
+                fontFamily: BOOK_COVER_DISPLAY_FONT,
+                fontSize: titleFontSize,
+                lineHeight: 1.18,
+              }}
+            >
+              {cleanTitle}
+            </h3>
+
+            <p
+              className="m-0 font-semibold leading-snug text-left"
+              style={{ fontSize: subtitleFontSize, color: palette.soft }}
+            >
+              {subtitleLeft} · {isEn ? `Year ${course.year}` : `Năm ${course.year}`}
+            </p>
+
+            {summaryText && (
+              <p
+                className="m-0 text-left font-medium leading-[1.42] line-clamp-3 text-white/92 pt-[1.5cqw] border-t border-white/20 w-full"
+                style={{ fontSize: summaryFontSize }}
+              >
+                {summaryText}
+              </p>
+            )}
+          </div>
+
+          <div className="relative z-10 pt-[2.2cqw] border-t border-white/22 flex items-center justify-between gap-2 w-full">
+            <span className="font-semibold text-white/92 truncate" style={{ fontSize: metaFontSize }}>
+              {course.issuer}
+            </span>
+            <WebIcon
+              name="arrow-up-right"
+              className="w-[4cqw] h-[4cqw] min-w-[14px] min-h-[14px] shrink-0 opacity-90"
+              style={{ color: palette.soft }}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
+

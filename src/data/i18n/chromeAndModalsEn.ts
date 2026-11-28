@@ -170,22 +170,22 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
   'Chỉ giao diện Sáng': 'Light Mode Only',
   'Giao diện Tối Neon đa sắc': 'Multicolor Dark Neon Mode',
   'Giao diện tối kính mờ đa màu sắc Neon (Cyan, Hồng Magenta, Tím điện, Ngọc lục bảo) với viền phát sáng rực rỡ.': 'Dark multicolor neon frosted glass theme (Cyan, Magenta, Electric Violet, Emerald) with glowing borders.',
-  '#82 Da Nâu Bò Thủ Công': '#82 Handcrafted Cowhide Leather',
-  'Da Bò · Thủ Công': 'Cowhide · Craft',
-  'Da nâu bò thủ công': 'Handcrafted Cowhide Leather',
-  '#82 Da Nâu Bò Thủ Công · Hand-Stitched': '#82 Full-Grain Cowhide · Hand-Stitched',
+  '#82 Da Nâu Bò Thủ Công': 'Cowhide Leather',
+  'Da Bò · Thủ Công': 'Cowhide Leather',
+  'Da nâu bò thủ công': 'Cowhide Leather',
+  '#82 Da Nâu Bò Thủ Công · Hand-Stitched': 'Cowhide Leather',
   'Mô phỏng da bò thật màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét và sắc chữ kem #FFF8DC sang trọng.': 'Full-grain classic brown cowhide leather (#8B5A2B to #653A17) with hand-stitched dashed borders and warm cream #FFF8DC typography.',
-  'Liquid Glass Soft UI (Sáng)': 'Liquid Glass Soft UI (Light)',
-  'Liquid Glass Soft UI (Tối)': 'Liquid Glass Soft UI (Dark)',
-  'Liquid Glass Soft UI Sáng': 'Liquid Glass Soft UI Light',
-  'Liquid Glass Soft UI Tối': 'Liquid Glass Soft UI Dark',
+  'Liquid Glass Soft UI (Sáng)': 'Liquid Glass',
+  'Liquid Glass Soft UI (Tối)': 'Dark Glass',
+  'Liquid Glass Soft UI Sáng': 'Liquid Glass',
+  'Liquid Glass Soft UI Tối': 'Dark Glass',
   'Vật liệu kính quang học trong suốt có viền specular rim sáng mảnh, thanh điều hướng nổi tinh tế và vùng thẻ nội dung sáng rõ chuẩn WCAG AA.':
     'Optical translucent glass material with subtle specular rim highlights, elevated navigation, and crisp WCAG AA content legibility.',
   'Liquid Glass iOS Clear phiên bản tối (bo góc 14px): kính quang học trong suốt blur 18px saturate 188%, viền specular highlight đa tầng và chiều sâu tương phản rõ nét.':
     'Dark Liquid Glass iOS Clear edition (14px radius): optical glass with 18px blur, 188% saturation, layered specular rim highlights, and crisp contrast.',
-  'Da Bò Cổ Điển (Nâu)': 'Classic Cowhide Leather (Brown)',
-  'Da Bò Cổ Điển': 'Classic Cowhide Leather',
-  'Da Bò Đen Chỉ Trắng': 'Black Cowhide · White Stitch',
+  'Da Bò Cổ Điển (Nâu)': 'Cowhide Leather',
+  'Da Bò Cổ Điển': 'Cowhide Leather',
+  'Da Bò Đen Chỉ Trắng': 'Dark Leather',
   'Mô phỏng chất liệu da màu nâu cổ điển (#8B5A2B → #653A17) với đường chỉ khâu tay viền đứt nét màu kem và sắc chữ tương phản sang trọng.':
     'Classic brown cowhide leather (#8B5A2B to #653A17) with cream hand-stitched dashed borders and high-contrast typography.',
   'Chất liệu da bò đen tuyền cao cấp (#22252D → #101217) kết hợp đường chỉ khâu tay màu trắng tinh khiết nổi bật và chữ trắng sắc nét.':
@@ -195,30 +195,30 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
     'Dark Deep Ocean theme: abyssal navy canvas (#050B14), layered oceanic slate surfaces, luminous sky typography, and aqua accents.',
   'Giao diện Ocean Navy Light – Glossy Liquid Glass UI: nền Ocean Navy sáng (#1951FC), card xanh kính nhiều lớp (#3781FC/#73BFFF), nhận diện Navy Deep (#03195B) và phản chiếu Glossy cao cấp.':
     'Light Ocean Navy Glossy Liquid Glass UI: bright ocean navy canvas (#1951FC), layered sky glass cards, Deep Navy (#03195B) typography, and glossy highlights.',
-  'Nổi Khối Kính Mờ': 'Soft UI Glass Beyond',
-  'Nổi Khối Kính Mờ Tối': 'Soft UI Glass Dark',
+  'Nổi Khối Kính Mờ': 'Frosted Glass',
+  'Nổi Khối Kính Mờ Tối': 'Dark Frosted',
   'Giao diện Neumorphism, Glassmorphism & Beyond nổi khối kép sắc nét, không phát sáng trên nền #EBF0F6 với bộ 6 màu (#EE6AD2, #64B6FF, #4973FF, #445CE6, #2AD8E6, #52E0A8).':
     'Neumorphism, Glassmorphism & Beyond with crisp dual extrusion on a matte #EBF0F6 canvas and 6 vivid reference accents.',
   'Phiên bản tối của Nổi Khối Kính Mờ: bề mặt than chì mờ chống chói #151B26, đổ bóng nổi khối mềm kép cùng hệ 6 màu chuẩn dịu mắt.':
     'Dark Soft UI Glass Beyond: anti-glare matte charcoal #151B26 surface, dual soft shadows, and balanced 6-hue reference accents.',
-  'Băng Tuyết Nổi Khối (Sáng)': 'Frost Ice Neumorphism (Light)',
-  'Băng Tuyết Nổi Khối (Tối)': 'Frost Ice Neumorphism (Dark)',
-  'Băng Tuyết Nổi Khối': 'Frost Ice Neumorphism',
-  'Băng Tuyết Nổi Khối Tối': 'Dark Frost Ice Neumorphism',
+  'Băng Tuyết Nổi Khối (Sáng)': 'Frost Ice',
+  'Băng Tuyết Nổi Khối (Tối)': 'Dark Frost',
+  'Băng Tuyết Nổi Khối': 'Frost Ice',
+  'Băng Tuyết Nổi Khối Tối': 'Dark Frost',
   'Neumorphism (Soft UI) thuần chất: bề mặt lì đồng nhất #E0E8F2 không viền, không mờ kính, đùn nổi bằng cặp bóng mềm đối xứng sáng/tối, nhấn lõm inset và điểm nhấn đơn sắc #5B57E8.':
     'Authentic borderless Neumorphism (Soft UI): uniform matte #E0E8F2 surface with zero blur, dual opposing soft shadows, inset pressed states, and single #5B57E8 primary accent.',
   'Dark Neumorphism (Soft UI) thuần chất: bề mặt xanh lam trầm đồng nhất #1A2433 không viền, không bóng kính, đùn nổi đối xứng mềm chống chói, rãnh lõm inset và điểm nhấn #6E6AF6.':
     'Authentic borderless Dark Neumorphism (Soft UI): uniform matte #1A2433 surface with zero gloss, anti-glare dual soft shadows, inset recessed states, and #6E6AF6 primary accent.',
-  'Glass UI Đa Sắc': 'Multicolor Glass UI',
-  'Glass UI Neon Tối': 'Dark Neon Glass UI',
+  'Glass UI Đa Sắc': 'Iridescent Glass',
+  'Glass UI Neon Tối': 'Dark Iridescent',
   'Giao diện Glass UI nền card màu trắng kính mờ hiện đại kết hợp sắc độ đa sắc ở viền, bóng đổ và điểm nhấn Cyan, Tím Iris, Hồng Blush.':
     'Modern white frosted Glass UI cards paired with iridescent borders, soft prism shadows, and Cyan, Iris, and Blush accents.',
   'Giao diện Glass UI Neon Tối hiện đại: bề mặt kính mờ obsidian sâu thẳm kết hợp viền neon Cyan, Tím Violet và Magenta sắc nét.':
     'Modern Dark Neon Glass UI: deep obsidian frosted glass surfaces accented by crisp Cyan, Violet, and Magenta neon rims.',
-  'Flat Soft UI (Sáng)': 'Flat Soft UI (Light)',
-  'Flat Soft UI (Tối)': 'Flat Soft UI (Dark)',
-  'Flat Soft UI Sáng': 'Flat Soft UI Light',
-  'Flat Soft UI Tối': 'Flat Soft UI Dark',
+  'Flat Soft UI (Sáng)': 'Flat Soft',
+  'Flat Soft UI (Tối)': 'Dark Flat',
+  'Flat Soft UI Sáng': 'Flat Soft',
+  'Flat Soft UI Tối': 'Dark Flat',
   'Bề mặt sứ mờ siêu phẳng và tinh khiết (#FFFFFF), viền hairline mềm mại và bóng đổ khuếch tán đa tầng tạo độ nổi khối dịu êm.':
     'Pure matte porcelain planes (#FFFFFF) with subtle hairline borders and multi-layered diffused shadows for calm elevation.',
   'Mặt slate tối nhung êm dịu (#131B2A) không gây chói mắt, viền hairline thanh mảnh và độ tương phản chữ hoàn hảo chuẩn WCAG AAA.':

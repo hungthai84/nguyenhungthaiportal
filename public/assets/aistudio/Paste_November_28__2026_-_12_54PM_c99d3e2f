@@ -1,0 +1,3627 @@
+Phân tích code bên dưới để lấy tất cả mẫu card , màu sắc card , bố cục card sau đó áp dụng vào  card và sub card ở các trang : 
+trang : Dịch vụ cho thẻ : Phần mở rộng thẻ dịch vụ
+trang : thư ngỏ cho nội dung card nội dung thư ngỏ. 
+trang giới thiệu cho nội dung card chính giới thiệu. 
+trang kinh nghiệm thẻ mở rộng của chi tiết công việc. 
+trang hệ thống thẻ mở rộng của thẻ hệ thống. 
+trang tử vi các thẻ trong thẻ chính tử vi 1 đến thẻ chính tử vi 6. 
+trang tải pdf. 
+trang đặt lịch . 
+
+
+
+
+Phân tích nội dung thẻ ở các trang phù hợp với mẫu nào trong code thì áp dụng vào cho thẻ đó áp dụng đầy đỷ màu sắc, bố cục , hiệu ứng như code. (Lưu ý không thay đổi data. )
+
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  Sun,
+  Moon,
+  Sparkles,
+  Bell,
+  ArrowRight,
+  Grid,
+  Code,
+  Layout,
+  Terminal,
+  Settings,
+  ExternalLink,
+  Zap,
+  BookOpen,
+  ChevronRight,
+  Calendar,
+  Award,
+  TrendingUp,
+  Music,
+  Play,
+  Pause,
+  HardDrive,
+  Copy,
+  Globe,
+  Shield,
+  Droplet,
+  Activity,
+  GitBranch,
+  Database,
+  Server,
+  Star,
+  Clock,
+  Command,
+  CheckCircle,
+  RefreshCw,
+  Cpu,
+  Folder,
+  CreditCard,
+  BatteryCharging,
+  Sliders,
+  Heart,
+  Edit3,
+  DollarSign,
+  Headphones,
+  MessageCircle,
+  Share2,
+  MessageSquare,
+  Repeat,
+  ArrowUpRight,
+  Hash,
+  UserPlus,
+  Image as ImageIcon,
+  Mic,
+  Film,
+  Video,
+  Columns,
+  Target,
+  Feather,
+  Key,
+  Volume2,
+  Navigation,
+  HelpCircle,
+  Users,
+  BarChart2,
+  Coffee,
+  Share,
+  Package,
+  GitCommit,
+  Info,
+  Layers,
+  UploadCloud,
+  ShoppingBag,
+  Send,
+  Palette,
+  Compass,
+} from 'lucide-react';
+
+// Danh sách câu nói truyền cảm hứng (Thẻ 51)
+const INSPIRATION_QUOTES = [
+  {
+    text: '“Sự đơn giản là đỉnh cao của sự tinh tế. Đừng cố thêm thắt khi mọi thứ đã trọn vẹn.”',
+    author: '— Leonardo da Vinci',
+  },
+  {
+    text: '“Thiết kế không chỉ là vẻ bề ngoài và cảm giác. Thiết kế là cách mọi thứ vận hành.”',
+    author: '— Steve Jobs',
+  },
+  {
+    text: '“Kỷ luật là cây cầu nối giữa mục tiêu và thành tựu.”',
+    author: '— Jim Rohn',
+  },
+  {
+    text: '“Đừng đợi cơ hội hoàn hảo, hãy nắm lấy khoảnh khắc hiện tại và biến nó trở nên hoàn hảo.”',
+    author: '— George Bernard Shaw',
+  },
+  {
+    text: '“Sáng tạo chính là trí thông minh đang vui đùa.”',
+    author: '— Albert Einstein',
+  },
+];
+
+// Danh sách chế độ hiệu ứng thẻ & rê chuột (đã xóa hiệu ứng gương lóe sáng)
+const CARD_EFFECT_MODES = [
+  { id: 'spotlight-3d', label: 'Hiệu ứng: Ánh sáng 3D' },
+  { id: 'float-shadow', label: 'Hiệu ứng: Nổi Khối & Đổ Bóng' },
+  { id: 'neon', label: 'Hiệu ứng: Viền Neon' },
+  { id: 'minimal', label: 'Hiệu ứng: Tối Giản' },
+];
+
+// Danh sách gợi ý quyết định ngẫu nhiên (Thẻ 61)
+const RANDOM_DECISIONS = [
+  '☕ Uống cà phê & Bắt đầu ngay!',
+  '🎨 Phác thảo ý tưởng mới',
+  '📖 Đọc sách 20 phút',
+  '🏃‍♂️ Vận động giãn cơ 10 phút',
+  '🚀 Hoàn thành việc quan trọng nhất',
+];
+
+/**
+- Component thẻ BentoCard:
+- - Giữ nguyên hiệu ứng Spotlight theo con trỏ chuột
+- - Giữ nguyên hiệu ứng nghiêng 3D (Spotlight 3D), Viền Neon, Tối Giản
+- - Giữ nguyên hiệu ứng gợn sóng (Ripple) khi nhấn
+- - Giữ nguyên hiệu ứng xuất hiện mượt khi cuộn trang (IntersectionObserver)
+- - Đã loại bỏ hoàn toàn hiệu ứng gương lóe sáng (glass sweep)
+ */
+const BentoCard = ({ className = '', fxMode, onClick, children }) => {
+  const cardRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Theo dõi khi thẻ xuất hiện trong khung nhìn
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.06, rootMargin: '0px 0px -20px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Đặt lại góc nghiêng 3D khi đổi sang chế độ khác
+  useEffect(() => {
+    if (fxMode !== 'spotlight-3d' && cardRef.current) {
+      cardRef.current.style.setProperty('--rx', '0deg');
+      cardRef.current.style.setProperty('--ry', '0deg');
+    }
+  }, [fxMode]);
+
+  // Xử lý bám tọa độ chuột cho Spotlight và Nghiêng 3D
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--mx', `${x}px`);
+    card.style.setProperty('--my', `${y}px`);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (fxMode === 'spotlight-3d' && !prefersReducedMotion) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (((y - centerY) / centerY) * -4.5).toFixed(2);
+      const rotateY = (((x - centerX) / centerX) * 4.5).toFixed(2);
+      card.style.setProperty('--rx', `${rotateX}deg`);
+      card.style.setProperty('--ry', `${rotateY}deg`);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.setProperty('--rx', '0deg');
+    card.style.setProperty('--ry', '0deg');
+  };
+
+  // Hiệu ứng gợn sóng (Ripple) khi nhấn chuột
+  const handleMouseDown = (e) => {
+    if (e.target.closest('input, textarea, select')) return;
+    const card = cardRef.current;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.4;
+    const ripple = document.createElement('span');
+    ripple.className = 'card-ripple';
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left}px`;
+    ripple.style.top = `${e.clientY - rect.top}px`;
+
+    card.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 680);
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      className={`bento-card card-reveal ${isVisible ? 'is-visible' : ''} ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+export default function App() {
+  // Trạng thái giao diện & hiệu ứng
+  const [isLightMode, setIsLightMode] = useState(false);
+  const [fxIndex, setFxIndex] = useState(0);
+  const currentFx = CARD_EFFECT_MODES[fxIndex];
+
+  // Hệ thống thông báo Toast
+  const [toasts, setToasts] = useState([]);
+
+  // Trạng thái tương tác của các thẻ
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [tasks, setTasks] = useState([
+    { id: 1, label: 'Thiết kế bộ token Bento', done: true },
+    { id: 2, label: 'Đóng gói Shadow DOM', done: true },
+    { id: 3, label: 'Phát hành bản cập nhật v2.1', done: false },
+  ]);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [pomodoroSeconds, setPomodoroSeconds] = useState(25 * 60);
+  const [isPomodoroRunning, setIsPomodoroRunning] = useState(false);
+  const [ledOn, setLedOn] = useState(true);
+  const [acOn, setAcOn] = useState(true);
+  const [waterGlasses, setWaterGlasses] = useState(6);
+  const [quickNote, setQuickNote] = useState('');
+  const [usdAmount, setUsdAmount] = useState(100);
+  const [postLiked, setPostLiked] = useState(false);
+  const [postLikeCount, setPostLikeCount] = useState(128);
+  const [isCheckedOut, setIsCheckedOut] = useState(false);
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [generatedPassword, setGeneratedPassword] = useState('B3nt0#StUd1o@26');
+  const [bmiHeight, setBmiHeight] = useState(172);
+  const [bmiWeight, setBmiWeight] = useState(65);
+  const [decisionResult, setDecisionResult] = useState('Bấm nút để chọn ngẫu nhiên!');
+  const [stepCount, setStepCount] = useState(8420);
+  const [billTotal, setBillTotal] = useState(600000);
+  const [billPeople, setBillPeople] = useState(4);
+  const [votedFeature, setVotedFeature] = useState(null);
+  const [hexColor, setHexColor] = useState('#a855f7');
+  const [pxValue, setPxValue] = useState(24);
+
+  // Trạng thái tương tác cho 10 thẻ chữ nhật chiếm 2 ô mới (Thẻ 73 - 82)
+  const [revenueRange, setRevenueRange] = useState('week');
+  const [gradColor1, setGradColor1] = useState('#8b55f7');
+  const [gradColor2, setGradColor2] = useState('#06b6d4');
+  const [gradAngle, setGradAngle] = useState(135);
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const [ambientVolumes, setAmbientVolumes] = useState({ rain: 65, cafe: 40, waves: 25 });
+  const [uploadsPaused, setUploadsPaused] = useState(false);
+  const [aiPromptStyle, setAiPromptStyle] = useState('Chuyên nghiệp');
+  const [aiPromptInput, setAiPromptInput] = useState('');
+
+  // Hiển thị thông báo Toast
+  const showToast = useCallback((message, type = 'info') => {
+    const id = Date.now() + Math.random();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
+  }, []);
+
+  // Sao chép văn bản nhanh
+  const copySnippet = useCallback(
+    (text) => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      } else {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+      showToast(`Đã sao chép: ${text}`, 'success');
+    },
+    [showToast]
+  );
+
+  // Chuyển đổi Sáng / Tối
+  const toggleThemeMode = () => {
+    setIsLightMode((prev) => {
+      const next = !prev;
+      showToast(
+        next
+          ? 'Đã chuyển sang giao diện Sáng (Light Mode)'
+          : 'Đã chuyển sang giao diện Tối (Dark Mode)',
+        next ? 'success' : 'info'
+      );
+      return next;
+    });
+  };
+
+  // Chuyển chế độ hiệu ứng thẻ & rê chuột
+  const cycleCardEffectMode = () => {
+    const nextIdx = (fxIndex + 1) % CARD_EFFECT_MODES.length;
+    setFxIndex(nextIdx);
+    showToast(`Đã bật ${CARD_EFFECT_MODES[nextIdx].label}`, 'info');
+  };
+
+  // Đồng hồ đếm ngược Pomodoro (Thẻ 23)
+  useEffect(() => {
+    if (!isPomodoroRunning) return;
+    const timer = setInterval(() => {
+      setPomodoroSeconds((prev) => {
+        if (prev <= 1) {
+          setIsPomodoroRunning(false);
+          showToast('Hoàn thành phiên làm việc! Hãy nghỉ ngơi ít phút.', 'success');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [isPomodoroRunning, showToast]);
+
+  const formatPomodoro = () => {
+    const mins = String(Math.floor(pomodoroSeconds / 60)).padStart(2, '0');
+    const secs = String(pomodoroSeconds % 60).padStart(2, '0');
+    return `${mins}:${secs}`;
+  };
+
+  // Tính toán BMI (Thẻ 56)
+  const calcBmiInfo = () => {
+    const h = (parseFloat(bmiHeight) || 0) / 100;
+    const w = parseFloat(bmiWeight) || 0;
+    if (h <= 0 || w <= 0) {
+      return { score: '0.0', status: 'Không hợp lệ', colorClass: 'text-gray-400' };
+    }
+    const bmi = w / (h * h);
+    const score = bmi.toFixed(1);
+    if (bmi < 18.5) return { score, status: 'Thiếu cân', colorClass: 'text-amber-300' };
+    if (bmi < 25) return { score, status: 'Cân đối', colorClass: 'text-emerald-400' };
+    return { score, status: 'Thừa cân', colorClass: 'text-rose-400' };
+  };
+  const bmiInfo = calcBmiInfo();
+
+  // Tính tiền chia hóa đơn (Thẻ 65)
+  const billPerPerson = Math.round(
+    (parseFloat(billTotal) || 0) / Math.max(1, parseInt(billPeople, 10) || 1)
+  ).toLocaleString('vi-VN');
+
+  // Chuyển HEX sang RGB (Thẻ 69)
+  const getRgbFromHex = (hex) => {
+    const r = parseInt(hex.slice(1, 3), 16) || 0;
+    const g = parseInt(hex.slice(3, 5), 16) || 0;
+    const b = parseInt(hex.slice(5, 7), 16) || 0;
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+  const rgbLabel = getRgbFromHex(hexColor);
+
+  // Chuyển PX sang REM (Thẻ 71)
+  const remOutput = `${parseFloat(((parseFloat(pxValue) || 0) / 16).toFixed(3))}rem`;
+
+  // Số tác vụ hoàn thành (Thẻ 15)
+  const completedTasksCount = tasks.filter((t) => t.done).length;
+
+  // Quy đổi USD -> VND (Thẻ 37)
+  const vndFormatted = `${Math.round((parseFloat(usdAmount) || 0) * 25400).toLocaleString('vi-VN')}đ`;
+
+  // Câu nói hiện tại (Thẻ 51)
+  const currentQuote = INSPIRATION_QUOTES[quoteIndex];
+
+  // Tạo mật khẩu mạnh (Thẻ 54)
+  const handleGeneratePassword = () => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*';
+    let pwd = '';
+    for (let i = 0; i < 14; i++) {
+      pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setGeneratedPassword(pwd);
+    showToast('Đã tạo mật khẩu bảo mật mới!', 'success');
+  };
+
+  return (
+    <div
+      data-fx={currentFx.id}
+      className={`bento-app-root text-white antialiased selection:bg-purple-500 selection:text-white min-h-screen ${
+        isLightMode ? 'light-mode' : ''
+      }`}
+    >
+      {/* Nhúng font Play và toàn bộ CSS hiệu ứng thẻ & rê chuột (không có gương lóe sáng) */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+        .bento-app-root {
+          font-family: 'Play', sans-serif;
+          background-color: #090d16;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(139, 92, 246, 0.24) 0%, transparent 42%),
+            radial-gradient(circle at 88% 18%, rgba(56, 189, 248, 0.18) 0%, transparent 40%),
+            radial-gradient(circle at 50% 92%, rgba(236, 72, 153, 0.15) 0%, transparent 45%),
+            radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
+          background-attachment: fixed;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Giao diện sáng (Light Mode) */
+        .bento-app-root.light-mode {
+          background-color: #f4f7fb;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.16) 0%, transparent 44%),
+            radial-gradient(circle at 88% 18%, rgba(14, 165, 233, 0.16) 0%, transparent 42%),
+            radial-gradient(circle at 52% 90%, rgba(244, 114, 182, 0.14) 0%, transparent 46%),
+            radial-gradient(rgba(71, 85, 105, 0.13) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
+          background-attachment: fixed;
+          color: #0f172a;
+        }
+
+        /* Giữ nguyên màu sắc thẻ của giao diện sáng giống hệt giao diện tối */
+        .bento-app-root.light-mode header h2 {
+          color: #0f172a !important;
+        }
+
+        .bento-app-root.light-mode .bento-card {
+          color: #ffffff !important;
+          box-shadow:
+            0 16px 32px -10px rgba(15, 23, 42, 0.26),
+            0 6px 14px -4px rgba(15, 23, 42, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .bento-app-root.light-mode .bento-card:hover {
+          box-shadow:
+            0 30px 52px -12px rgba(15, 23, 42, 0.34),
+            0 14px 24px -8px rgba(15, 23, 42, 0.2),
+            0 0 0 1px rgba(255, 255, 255, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        }
+
+        .bento-app-root.light-mode .bento-card.text-gray-950 {
+          color: #030712 !important;
+        }
+
+        /* Bố cục lưới Bento Grid */
+        .bento-grid-layout {
+          display: grid;
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .bento-grid-layout {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        /* Cấu trúc & hiệu ứng nổi khối + đổ bóng đa tầng cho từng thẻ Bento */
+        .bento-card {
+          border-radius: 12px;
+          padding: 15px;
+          --mx: 50%;
+          --my: 50%;
+          --rx: 0deg;
+          --ry: 0deg;
+          position: relative;
+          overflow: hidden;
+          transform-style: preserve-3d;
+          box-shadow:
+            0 12px 26px -8px rgba(0, 0, 0, 0.48),
+            0 4px 12px -3px rgba(0, 0, 0, 0.32),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+          transition:
+            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s ease,
+            background-color 0.3s ease,
+            color 0.3s ease,
+            opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Hiệu ứng nhấn nhẹ tạo cảm giác có độ sâu vật lý */
+        .bento-card:active {
+          transform: translateY(-2px) scale(0.992);
+          box-shadow:
+            0 8px 18px -6px rgba(0, 0, 0, 0.5),
+            0 3px 8px -2px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        /* Hiệu ứng xuất hiện mượt khi cuộn trang */
+        .bento-card.card-reveal {
+          opacity: 0;
+          transform: translateY(22px) scale(0.97);
+        }
+
+        .bento-card.card-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        /* Lớp ánh sáng Spotlight bám theo con trỏ chuột */
+        .bento-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 20;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          background: radial-gradient(
+            380px circle at var(--mx) var(--my),
+            rgba(255, 255, 255, 0.16),
+            rgba(168, 85, 247, 0.08) 40%,
+            transparent 72%
+          );
+        }
+
+        /* Chế độ 1: Ánh sáng Spotlight + Nghiêng 3D + Nổi khối đổ bóng (Mặc định) */
+        .bento-app-root[data-fx="spotlight-3d"] .bento-card:hover {
+          transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-10px) scale(1.018);
+          box-shadow:
+            0 30px 50px -12px rgba(0, 0, 0, 0.62),
+            0 14px 24px -8px rgba(0, 0, 0, 0.42),
+            0 0 0 1px rgba(255, 255, 255, 0.24),
+            0 0 32px -6px rgba(139, 92, 246, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.28);
+          transition:
+            transform 0.14s ease-out,
+            box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease;
+        }
+
+        .bento-app-root[data-fx="spotlight-3d"] .bento-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Chế độ 2: Nổi Khối & Đổ Bóng Chuyên Sâu */
+        .bento-app-root[data-fx="float-shadow"] .bento-card:hover {
+          transform: translateY(-12px) scale(1.024);
+          box-shadow:
+            0 36px 60px -14px rgba(0, 0, 0, 0.68),
+            0 18px 28px -10px rgba(0, 0, 0, 0.46),
+            0 0 0 1px rgba(255, 255, 255, 0.26),
+            inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        }
+
+        .bento-app-root[data-fx="float-shadow"] .bento-card:hover::before {
+          opacity: 0.75;
+        }
+
+        /* Chế độ 3: Viền Neon rực rỡ bám chuột + Nổi khối */
+        .bento-app-root[data-fx="neon"] .bento-card::before {
+          background: radial-gradient(
+            340px circle at var(--mx) var(--my),
+            rgba(56, 189, 248, 0.24),
+            rgba(192, 132, 252, 0.16) 42%,
+            transparent 72%
+          );
+        }
+
+        .bento-app-root[data-fx="neon"] .bento-card:hover {
+          transform: translateY(-10px) scale(1.018);
+          border-color: rgba(192, 132, 252, 0.75);
+          box-shadow:
+            0 28px 46px -12px rgba(0, 0, 0, 0.58),
+            0 18px 34px -8px rgba(139, 92, 246, 0.48),
+            0 0 26px -2px rgba(56, 189, 248, 0.42),
+            inset 0 0 20px rgba(168, 85, 247, 0.14);
+        }
+
+        .bento-app-root[data-fx="neon"] .bento-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Chế độ 4: Tối Giản (Nổi nhẹ + Đổ bóng mềm) */
+        .bento-app-root[data-fx="minimal"] .bento-card:hover {
+          transform: translateY(-6px);
+          box-shadow:
+            0 22px 36px -10px rgba(0, 0, 0, 0.5),
+            0 10px 18px -6px rgba(0, 0, 0, 0.32),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Vi tương tác biểu tượng bên trong thẻ khi rê chuột */
+        .bento-card svg.lucide {
+          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .bento-card:hover svg.lucide.shrink-0 {
+          transform: scale(1.14) rotate(-5deg);
+        }
+
+        /* Hiệu ứng gợn sóng (Ripple) khi nhấn vào thẻ */
+        .card-ripple {
+          position: absolute;
+          border-radius: 9999px;
+          pointer-events: none;
+          z-index: 25;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.34) 0%, rgba(168, 85, 247, 0.16) 55%, transparent 75%);
+          transform: translate(-50%, -50%) scale(0);
+          animation: cardRippleAnim 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes cardRippleAnim {
+          0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0.9;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+          }
+        }
+
+        .gradient-text {
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+
+        /* Viền phát sáng nhẹ */
+        .bento-border {
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bento-border:hover {
+          border-color: rgba(255, 255, 255, 0.28);
+        }
+
+        @keyframes toastSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .toast-enter {
+          animation: toastSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+      `}</style>
+
+      {/* Vùng hiển thị thông báo nổi (Toast) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
+        {toasts.map((t) => (
+          <div
+            key={t.id}
+            className={`toast-enter pointer-events-auto flex items-center gap-3 bg-gray-900/95 backdrop-blur-md border px-4 py-3 rounded-xl shadow-2xl max-w-sm ${
+              t.type === 'success'
+                ? 'border-emerald-500/50 text-emerald-300'
+                : 'border-purple-500/50 text-purple-300'
+            }`}
+          >
+            {t.type === 'success' ? (
+              <CheckCircle className="w-5 h-5 shrink-0" />
+            ) : (
+              <Info className="w-5 h-5 shrink-0" />
+            )}
+            <span className="text-sm font-bold text-gray-100">{t.message}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Khung chứa chính */}
+      <div className="container mx-auto px-4 py-8 md:p-12 max-w-6xl">
+        {/* Thanh tiêu đề */}
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <span className="text-xs font-bold tracking-wider uppercase text-purple-400 bg-purple-950/60 border border-purple-700/50 px-3 py-1 rounded-full">
+              Không Gian 2.0
+            </span>
+            <h2 className="text-2xl font-bold text-gray-100 mt-2">
+              Bảng Điều Khiển Creator Studio
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 text-white">
+            <button
+              onClick={toggleThemeMode}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 border border-gray-700 transition-colors text-sm font-bold cursor-pointer"
+              title="Đổi giao diện Sáng / Tối"
+            >
+              {isLightMode ? (
+                <Moon className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-amber-400" />
+              )}
+              <span>{isLightMode ? 'Giao diện Tối' : 'Giao diện Sáng'}</span>
+            </button>
+
+            <button
+              onClick={cycleCardEffectMode}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 border border-gray-700 transition-colors text-sm font-bold cursor-pointer"
+              title="Đổi hiệu ứng thẻ & rê chuột"
+            >
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <span>{currentFx.label}</span>
+            </button>
+
+            <button
+              onClick={() => showToast('Đã đồng bộ giao diện theo hệ thống', 'info')}
+              className="p-2.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 border border-gray-700 transition-colors text-gray-300 cursor-pointer"
+              title="Thông báo"
+            >
+              <Bell className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={() => showToast('Tất cả hệ thống hoạt động ổn định (99.9%)', 'success')}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/80 hover:bg-gray-700 border border-gray-700 transition-colors text-sm font-bold cursor-pointer"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Trạng thái: Trực tuyến</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Lưới Bento Grid (Đầy đủ 72 thẻ) */}
+        <div className="bento-grid-layout">
+          {/* Thẻ 1: Thẻ Chào Mừng Chính */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900 bento-border relative overflow-hidden flex flex-col justify-between"
+          >
+            <div className="absolute -right-16 -top-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight tracking-tight">
+                Giải Phóng Sức Sáng Tạo
+              </h1>
+              <p className="text-lg md:text-xl text-purple-200 max-w-xl leading-relaxed">
+                Xây dựng những công cụ đột phá, vượt qua mọi giới hạn với kiến trúc React hiện đại.
+              </p>
+            </div>
+            <div className="relative z-10 mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={() => showToast('Đang khởi tạo không gian sáng tạo mới...', 'success')}
+                className="inline-flex items-center text-white bg-purple-950/60 hover:bg-purple-900 border border-purple-400/30 transition-all duration-200 font-bold py-3 px-6 rounded-xl shadow-lg cursor-pointer"
+              >
+                Bắt Đầu Ngay
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </button>
+              <button
+                onClick={() => showToast('Đang mở video hướng dẫn tương tác...', 'info')}
+                className="inline-flex items-center text-purple-100 hover:text-white hover:bg-white/10 transition-colors duration-200 font-bold py-3 px-5 rounded-xl cursor-pointer"
+              >
+                Xem Giới Thiệu
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 2: Truy Cập Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-4">
+              <Grid className="w-5 h-5 text-purple-400 shrink-0" />
+              <h2 className="text-xl font-bold">Truy Cập Nhanh</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-3.5">
+              <button
+                onClick={() => showToast('Đang mở Trình Soạn Thảo Mã...', 'info')}
+                className="flex flex-col items-center justify-center bg-gray-700/60 hover:bg-purple-600/30 hover:border-purple-500/50 border border-transparent transition-all duration-200 p-4 rounded-xl group cursor-pointer"
+              >
+                <Code className="mb-2 text-purple-400 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-bold">Mã Nguồn</span>
+              </button>
+              <button
+                onClick={() => showToast('Đang mở Bảng Thiết Kế UI...', 'info')}
+                className="flex flex-col items-center justify-center bg-gray-700/60 hover:bg-pink-600/30 hover:border-pink-500/50 border border-transparent transition-all duration-200 p-4 rounded-xl group cursor-pointer"
+              >
+                <Layout className="mb-2 text-pink-400 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-bold">Thiết Kế</span>
+              </button>
+              <button
+                onClick={() => showToast('Đang kết nối Cloud CLI...', 'info')}
+                className="flex flex-col items-center justify-center bg-gray-700/60 hover:bg-emerald-600/30 hover:border-emerald-500/50 border border-transparent transition-all duration-200 p-4 rounded-xl group cursor-pointer"
+              >
+                <Terminal className="mb-2 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-bold">Dòng Lệnh</span>
+              </button>
+              <button
+                onClick={() => showToast('Đang tải Tùy Chỉnh Hệ Thống...', 'info')}
+                className="flex flex-col items-center justify-center bg-gray-700/60 hover:bg-amber-600/30 hover:border-amber-500/50 border border-transparent transition-all duration-200 p-4 rounded-xl group cursor-pointer"
+              >
+                <Settings className="mb-2 text-amber-400 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-bold">Cài Đặt</span>
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 3: Quy Trình Tích Hợp AI */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-emerald-600 to-teal-900 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="relative mb-4 overflow-hidden rounded-xl h-36 bg-emerald-950">
+                <img
+                  src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      'https://placehold.co/600x300/064e3b/a7f3d0?text=Quy+Trinh+AI';
+                  }}
+                  alt="Quy trình AI"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-md text-emerald-300 text-xs font-bold px-2.5 py-1 rounded-lg">
+                  AI Beta
+                </span>
+              </div>
+              <h2 className="text-2xl font-bold mb-2">Quy Trình Tích Hợp AI</h2>
+              <p className="text-emerald-100/90 text-sm leading-relaxed">
+                Khai thác sức mạnh trí tuệ nhân tạo để tự động hóa và tối ưu công việc mỗi ngày.
+              </p>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 4: Cộng Đồng Sáng Tạo */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Cộng Đồng Sáng Tạo</h2>
+              <div className="flex items-center -space-x-3 mb-5">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://placehold.co/100x100/374151/fff?text=TV1';
+                  }}
+                  alt="Thành viên 1"
+                  className="w-11 h-11 rounded-full object-cover ring-2 ring-gray-800"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://placehold.co/100x100/4b5563/fff?text=TV2';
+                  }}
+                  alt="Thành viên 2"
+                  className="w-11 h-11 rounded-full object-cover ring-2 ring-gray-800"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://placehold.co/100x100/6b7280/fff?text=TV3';
+                  }}
+                  alt="Thành viên 3"
+                  className="w-11 h-11 rounded-full object-cover ring-2 ring-gray-800"
+                />
+                <div className="w-11 h-11 rounded-full bg-purple-600 ring-2 ring-gray-800 flex items-center justify-center text-xs font-bold">
+                  +2.4k
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Tham gia cùng hàng nghìn lập trình viên chia sẻ các công cụ và giao diện ấn tượng.
+              </p>
+            </div>
+            <button
+              onClick={() => showToast('Đang mở Trung Tâm Cộng Đồng...', 'info')}
+              className="mt-4 text-sm font-bold text-purple-400 hover:text-purple-300 inline-flex items-center gap-1.5 w-max cursor-pointer"
+            >
+              Khám Phá Dự Án <ExternalLink className="w-4 h-4" />
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 5: Cập Nhật Siêu Tốc */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-400 via-orange-500 to-orange-600 text-gray-950 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <Zap className="w-6 h-6 text-gray-950 shrink-0" />
+                <h2 className="text-xl sm:text-2xl font-bold">Cập Nhật Siêu Tốc</h2>
+              </div>
+              <p className="text-gray-900/90 text-sm leading-relaxed">
+                Phiên bản mới nhất mang lại hiệu suất gấp đôi cùng khả năng tùy biến không cần cấu
+                hình.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-gray-950/15 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+              <span>v4.2.0 Ổn Định</span>
+              <span>99.8 Điểm Tốc Độ</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 6: Tài Liệu Chuyên Sâu */}
+          <BentoCard
+            fxMode={currentFx.id}
+            onClick={() => showToast('Đang mở Tài Liệu Hướng Dẫn API...', 'info')}
+            className="bg-gradient-to-br from-pink-600 to-purple-800 overflow-hidden relative bento-border cursor-pointer"
+          >
+            <div className="absolute -top-6 -right-6 w-36 h-36 bg-yellow-300 rounded-full blur-3xl opacity-30 pointer-events-none" />
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <BookOpen className="w-6 h-6 text-yellow-300 shrink-0" />
+                  <h2 className="text-xl sm:text-2xl font-bold gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200">
+                    Tài Liệu Chuyên Sâu
+                  </h2>
+                </div>
+                <p className="text-pink-100/90 text-sm leading-relaxed">
+                  Hướng dẫn chi tiết, môi trường thử nghiệm trực tiếp và tài liệu API đầy đủ.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center text-xs font-bold text-yellow-200">
+                <span>Xem Hướng Dẫn</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 7: Lịch Trình Sự Kiện */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 overflow-hidden relative bento-border"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-15 pointer-events-none" />
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div className="flex items-center gap-2.5 mb-4">
+                <Calendar className="w-5 h-5 text-blue-400 shrink-0" />
+                <h2 className="text-xl font-bold">Lịch Sự Kiện</h2>
+              </div>
+              <div className="space-y-4 my-auto">
+                <div className="group">
+                  <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                    <span>Hội Thảo Design Systems</span>
+                    <span className="text-blue-300 font-bold">15 Tháng 6</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2.5 h-2.5 bg-blue-400 rounded-full mr-2 ring-4 ring-blue-400/20" />
+                    <div className="flex-grow h-1 bg-gradient-to-r from-blue-400 to-blue-400/20 rounded-full" />
+                  </div>
+                </div>
+                <div className="group">
+                  <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                    <span>Cuộc Thi Web Components</span>
+                    <span className="text-purple-300 font-bold">22 Tháng 6</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2.5 h-2.5 bg-purple-400 rounded-full mr-2 ring-4 ring-purple-400/20" />
+                    <div className="flex-grow h-1 bg-gradient-to-r from-purple-400 to-purple-400/20 rounded-full" />
+                  </div>
+                </div>
+                <div className="group">
+                  <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                    <span>Hội Nghị Nhà Sáng Tạo</span>
+                    <span className="text-pink-300 font-bold">1-3 Tháng 7</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2.5 h-2.5 bg-pink-400 rounded-full mr-2 ring-4 ring-pink-400/20" />
+                    <div className="flex-grow h-1 bg-gradient-to-r from-pink-400 to-pink-400/20 rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 8: Thành Tựu Đạt Được */}
+          <BentoCard
+            fxMode={currentFx.id}
+            onClick={() => showToast('Bạn đã mở khóa 12/15 Huy hiệu Sáng tạo!', 'success')}
+            className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-900 overflow-hidden relative bento-border cursor-pointer"
+          >
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-400 rounded-full blur-2xl opacity-20 pointer-events-none" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-pink-400 rounded-full blur-2xl opacity-20 pointer-events-none" />
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <Award className="w-6 h-6 text-yellow-300 shrink-0" />
+                  <h2 className="text-xl sm:text-2xl font-bold gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200">
+                    Thành Tựu
+                  </h2>
+                </div>
+                <p className="text-blue-100/90 text-sm leading-relaxed">
+                  Nâng cấp kỹ năng, nhận huy hiệu xác thực và khẳng định dấu ấn cá nhân của bạn.
+                </p>
+              </div>
+              <div className="mt-6">
+                <div className="flex justify-between text-xs text-blue-200 mb-1.5 font-bold">
+                  <span>Cấp 8 Kiến Trúc Sư</span>
+                  <span>80%</span>
+                </div>
+                <div className="w-full bg-blue-950/60 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="bg-gradient-to-r from-yellow-300 to-pink-400 h-2 rounded-full"
+                    style={{ width: '80%' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 9: Thống Kê Người Dùng */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm text-gray-400">Người Dùng Hàng Tháng</span>
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                <TrendingUp className="w-3.5 h-3.5" /> +24.8%
+              </span>
+            </div>
+            <div className="my-2">
+              <div className="text-3xl sm:text-4xl font-bold tracking-tight">148.2K</div>
+              <p className="text-xs text-gray-400 mt-1">So với 118.7K vào tháng trước</p>
+            </div>
+            <div className="flex items-end gap-1.5 h-12 mt-4">
+              <div className="flex-1 bg-purple-500/30 rounded-t-md h-2/5 hover:bg-purple-400 transition-colors" />
+              <div className="flex-1 bg-purple-500/40 rounded-t-md h-3/5 hover:bg-purple-400 transition-colors" />
+              <div className="flex-1 bg-purple-500/50 rounded-t-md h-1/2 hover:bg-purple-400 transition-colors" />
+              <div className="flex-1 bg-purple-500/70 rounded-t-md h-4/5 hover:bg-purple-400 transition-colors" />
+              <div className="flex-1 bg-purple-500/80 rounded-t-md h-3/4 hover:bg-purple-400 transition-colors" />
+              <div className="flex-1 bg-gradient-to-t from-purple-600 to-pink-400 rounded-t-md h-full" />
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 10: Trình Phát Nhạc Tập Trung */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-rose-600 via-pink-700 to-purple-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center">
+                  <Music className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base leading-tight">Nhịp Điệu Đêm</h3>
+                  <p className="text-xs text-rose-200">Radio Tập Trung Sâu</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  const next = !isMusicPlaying;
+                  setIsMusicPlaying(next);
+                  showToast(
+                    next ? 'Đang phát Nhịp Điệu Đêm' : 'Đã tạm dừng Nhịp Điệu Đêm',
+                    'info'
+                  );
+                }}
+                className="w-10 h-10 rounded-full bg-white text-rose-700 hover:scale-105 transition-transform flex items-center justify-center shadow-md cursor-pointer"
+                title="Phát/Tạm dừng"
+              >
+                {isMusicPlaying ? (
+                  <Pause className="w-4 h-4 fill-current" />
+                ) : (
+                  <Play className="w-4 h-4 fill-current" />
+                )}
+              </button>
+            </div>
+            <div className="mt-6">
+              <div className="w-full bg-black/30 rounded-full h-1.5 mb-2 overflow-hidden">
+                <div className="bg-white h-1.5 rounded-full w-2/3" />
+              </div>
+              <div className="flex justify-between text-[11px] text-rose-200 font-bold">
+                <span>02:14</span>
+                <span>03:45</span>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 11: Dung Lượng Đám Mây */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <HardDrive className="w-5 h-5 text-cyan-400 shrink-0" />
+                <h3 className="text-xl font-bold">Lưu Trữ Đám Mây</h3>
+              </div>
+              <p className="text-sm text-gray-400">Đã dùng 74.5 GB trên tổng 100 GB</p>
+            </div>
+            <div className="my-4">
+              <div className="w-full h-3 bg-gray-700 rounded-full overflow-hidden flex gap-0.5">
+                <div className="bg-cyan-400 h-full w-2/5" title="Tài nguyên" />
+                <div className="bg-purple-500 h-full w-1/5" title="Bản dựng" />
+                <div className="bg-amber-400 h-full w-[14%]" title="Sao lưu" />
+              </div>
+              <div className="flex flex-wrap gap-3 mt-3 text-xs text-gray-300">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                  Tài nguyên
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-500" />
+                  Bản dựng
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  Sao lưu
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đã mở tùy chọn nâng cấp dung lượng', 'info')}
+              className="text-xs font-bold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 w-max cursor-pointer"
+            >
+              Quản Lý Gói <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 12: Hồ Sơ Nhà Sáng Tạo */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-slate-800 to-slate-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3.5">
+                <img
+                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&q=80"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://placehold.co/120x120/1e293b/fff?text=ML';
+                  }}
+                  alt="Minh Lâm"
+                  className="w-14 h-14 rounded-2xl object-cover ring-2 ring-purple-500/40"
+                />
+                <div>
+                  <h3 className="font-bold text-lg">Minh Lâm</h3>
+                  <p className="text-xs text-purple-400 font-bold">@minhlam • Kiến Trúc UI</p>
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 my-4 leading-relaxed">
+              Xây dựng hệ thống React Components mã nguồn mở và vi tương tác cho ứng dụng hiện đại.
+            </p>
+            <div className="flex items-center justify-between pt-3 border-t border-white/10">
+              <div className="text-xs text-gray-400">
+                <strong className="text-white">12.4k</strong> Người theo dõi
+              </div>
+              <button
+                onClick={() => showToast('Đã theo dõi @minhlam!', 'success')}
+                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-bold transition-colors cursor-pointer"
+              >
+                Theo Dõi
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 13: Lệnh Cài Đặt Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-900/95 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-rose-500" />
+                <span className="w-3 h-3 rounded-full bg-amber-400" />
+                <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                <span className="text-xs text-gray-400 ml-2">cai-dat.sh</span>
+              </div>
+              <button
+                onClick={() => copySnippet('npx create-bento-ui@latest')}
+                className="p-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors cursor-pointer"
+                title="Sao chép lệnh"
+              >
+                <Copy className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <div className="bg-black/50 border border-white/5 rounded-xl p-3.5 text-xs text-emerald-400 overflow-x-auto">
+              <code>$ npx create-bento-ui@latest</code>
+            </div>
+            <p className="text-xs text-gray-400 mt-3">
+              Khởi tạo lưới Bento không phụ thuộc thư viện chỉ trong 5 giây.
+            </p>
+          </BentoCard>
+
+          {/* Thẻ 14: Độ Trễ Mạng Toàn Cầu */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-cyan-600 to-blue-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5">
+              <Globe className="w-5 h-5 text-cyan-200 shrink-0" />
+              <h3 className="text-xl font-bold">Mạng Lưới Edge</h3>
+            </div>
+            <div className="my-4">
+              <div className="text-4xl font-bold">
+                14<span className="text-lg font-normal text-cyan-200 ml-1">ms</span>
+              </div>
+              <p className="text-xs text-cyan-100/80 mt-1">
+                Thời gian phản hồi trung bình trên 38 khu vực
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              <span className="text-[11px] bg-white/15 px-2.5 py-1 rounded-md font-bold">
+                SGN • 8ms
+              </span>
+              <span className="text-[11px] bg-white/15 px-2.5 py-1 rounded-md font-bold">
+                TYO • 12ms
+              </span>
+              <span className="text-[11px] bg-white/15 px-2.5 py-1 rounded-md font-bold">
+                SFO • 19ms
+              </span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 15: Danh Sách Công Việc */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xl font-bold">Tác Vụ Tuần Này</h3>
+              <span className="text-xs font-bold text-purple-400 bg-purple-500/15 px-2.5 py-1 rounded-full">
+                {completedTasksCount} / {tasks.length} Xong
+              </span>
+            </div>
+            <div className="space-y-2.5 my-auto">
+              {tasks.map((task) => (
+                <label
+                  key={task.id}
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-700/40 hover:bg-gray-700/70 cursor-pointer transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={task.done}
+                    onChange={() => {
+                      const nextDone = !task.done;
+                      setTasks((prev) =>
+                        prev.map((t) => (t.id === task.id ? { ...t, done: nextDone } : t))
+                      );
+                      showToast(
+                        nextDone
+                          ? 'Tuyệt vời! Bạn đã hoàn thành công việc!'
+                          : 'Đã cập nhật trạng thái công việc',
+                        nextDone ? 'success' : 'info'
+                      );
+                    }}
+                    className="w-4 h-4 accent-purple-500 rounded"
+                  />
+                  <span
+                    className={`text-sm ${
+                      task.done ? 'text-gray-300 line-through' : 'text-white font-bold'
+                    }`}
+                  >
+                    {task.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 16: Bảo Mật Zero-Trust */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-emerald-800 via-teal-900 to-gray-900 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <Shield className="w-5 h-5 text-emerald-400 shrink-0" />
+                <h3 className="text-xl font-bold">Két Sắt Zero-Trust</h3>
+              </div>
+              <p className="text-xs text-emerald-100/80 leading-relaxed">
+                Mã hóa đầu cuối chuẩn AES-256 kết hợp xác thực khóa phần cứng.
+              </p>
+            </div>
+            <div className="mt-5 flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" /> Chuẩn SOC2
+              </span>
+              <button
+                onClick={() => showToast('Kiểm tra bảo mật hoàn tất: 0 lỗ hổng', 'success')}
+                className="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer"
+              >
+                Quét Hệ Thống
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 17: Bảng Màu Chủ Đề */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-2">
+                <Droplet className="w-5 h-5 text-pink-400 shrink-0" />
+                <h3 className="text-xl font-bold">Bảng Màu Giao Diện</h3>
+              </div>
+              <p className="text-xs text-gray-400">Chạm vào ô màu bất kỳ để sao chép mã HEX.</p>
+            </div>
+            <div className="grid grid-cols-4 gap-2.5 my-4">
+              <button
+                onClick={() => copySnippet('#8B5CF6')}
+                className="h-14 rounded-xl bg-[#8B5CF6] hover:scale-105 transition-transform flex items-end p-1.5 text-[10px] font-bold cursor-pointer"
+              >
+                #8B5CF6
+              </button>
+              <button
+                onClick={() => copySnippet('#EC4899')}
+                className="h-14 rounded-xl bg-[#EC4899] hover:scale-105 transition-transform flex items-end p-1.5 text-[10px] font-bold cursor-pointer"
+              >
+                #EC4899
+              </button>
+              <button
+                onClick={() => copySnippet('#10B981')}
+                className="h-14 rounded-xl bg-[#10B981] hover:scale-105 transition-transform flex items-end p-1.5 text-[10px] font-bold text-gray-950 cursor-pointer"
+              >
+                #10B981
+              </button>
+              <button
+                onClick={() => copySnippet('#F59E0B')}
+                className="h-14 rounded-xl bg-[#F59E0B] hover:scale-105 transition-transform flex items-end p-1.5 text-[10px] font-bold text-gray-950 cursor-pointer"
+              >
+                #F59E0B
+              </button>
+            </div>
+            <span className="text-[11px] text-gray-400">
+              Tương thích hoàn toàn với Tailwind CSS
+            </span>
+          </BentoCard>
+
+          {/* Thẻ 18: Đăng Ký Bản Tin */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-indigo-600 to-violet-900 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-200 bg-white/10 px-2.5 py-1 rounded-md">
+                Bản Tin Tuần
+              </span>
+              <h3 className="text-2xl font-bold mt-3 mb-1.5">Cập Nhật Xu Hướng</h3>
+              <p className="text-xs text-indigo-100/90 leading-relaxed">
+                Nhận mẫu giao diện chọn lọc và mẹo tối ưu hiệu suất vào thứ Sáu hàng tuần.
+              </p>
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                showToast('Đăng ký nhận bản tin thành công!', 'success');
+                setNewsletterEmail('');
+              }}
+              className="mt-4 flex gap-2"
+            >
+              <input
+                type="email"
+                required
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder="email@cuaban.vn"
+                className="w-full bg-black/30 border border-white/15 rounded-xl px-3 py-2 text-xs text-white placeholder-indigo-300/60 focus:outline-none focus:border-white/40"
+              />
+              <button
+                type="submit"
+                className="px-3.5 py-2 rounded-xl bg-white text-indigo-900 font-bold text-xs hover:bg-indigo-100 transition-colors shrink-0 cursor-pointer"
+              >
+                Đăng Ký
+              </button>
+            </form>
+          </BentoCard>
+
+          {/* Thẻ 19: Thời Tiết Studio */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-800 bento-border flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="absolute -right-8 -top-8 w-32 h-32 bg-yellow-300/30 rounded-full blur-2xl pointer-events-none" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2">
+                <Sun className="w-5 h-5 text-yellow-300 shrink-0" />
+                <p className="text-sm font-bold uppercase tracking-wider text-sky-100">
+                  TP. Hồ Chí Minh
+                </p>
+              </div>
+              <div className="text-4xl font-bold mt-3">31°C</div>
+            </div>
+            <div className="relative z-10 mt-6 flex items-center justify-between text-xs text-sky-100 border-t border-white/15 pt-3">
+              <span>Trời Quang • Độ ẩm 68%</span>
+              <span className="font-bold">UTC+7</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 20: Cổng Kết Nối API */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Activity className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Cổng API</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-3 my-2">
+              <div className="bg-gray-900/70 p-3 rounded-xl border border-white/5">
+                <div className="text-xs text-gray-400">Yêu cầu/phút</div>
+                <div className="text-xl font-bold text-white mt-0.5">4,820</div>
+              </div>
+              <div className="bg-gray-900/70 p-3 rounded-xl border border-white/5">
+                <div className="text-xs text-gray-400">Tỷ lệ thành công</div>
+                <div className="text-xl font-bold text-emerald-400 mt-0.5">99.98%</div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400 mt-2">Làm mới hạn mức sau 18 phút nữa.</p>
+          </BentoCard>
+
+          {/* Thẻ 21: Tích Hợp Công Cụ */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="text-xl font-bold mb-1">Tích Hợp Nhanh</h3>
+              <p className="text-xs text-gray-400">
+                Kết nối các công cụ phát triển yêu thích chỉ với 1 chạm.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2.5 my-4">
+              <button
+                onClick={() => showToast('Đã kết nối kho lưu trữ GitHub', 'success')}
+                className="p-3 rounded-xl bg-gray-700/50 hover:bg-gray-700 flex flex-col items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <GitBranch className="w-5 h-5 text-orange-400" />
+                <span className="text-[11px] font-bold">GitHub</span>
+              </button>
+              <button
+                onClick={() => showToast('Đã đồng bộ cơ sở dữ liệu Postgres', 'success')}
+                className="p-3 rounded-xl bg-gray-700/50 hover:bg-gray-700 flex flex-col items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Database className="w-5 h-5 text-sky-400" />
+                <span className="text-[11px] font-bold">Postgres</span>
+              </button>
+              <button
+                onClick={() => showToast('Đã liên kết máy chủ Vercel', 'success')}
+                className="p-3 rounded-xl bg-gray-700/50 hover:bg-gray-700 flex flex-col items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Server className="w-5 h-5 text-purple-400" />
+                <span className="text-[11px] font-bold">Vercel</span>
+              </button>
+            </div>
+            <span className="text-xs text-purple-400 font-bold">
+              Hỗ trợ sẵn +45 webhooks tự động
+            </span>
+          </BentoCard>
+
+          {/* Thẻ 22: Đánh Giá Từ Khách Hàng */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-fuchsia-700 to-purple-950 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-1 text-amber-300 mb-3">
+                {[...Array(5)].map((_, idx) => (
+                  <Star key={idx} className="w-4 h-4 fill-current" />
+                ))}
+              </div>
+              <p className="text-sm italic text-fuchsia-100 leading-relaxed">
+                "Kiến trúc lưới Bento này giúp đội ngũ của chúng tôi rút ngắn một nửa thời gian
+                dựng giao diện mà vẫn cực kỳ tinh tế."
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+              <span className="text-xs font-bold">Trần Thảo Vy</span>
+              <span className="text-[11px] text-fuchsia-300">Giám Đốc Thiết Kế, NovaLabs</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 23: Đồng Hồ Tập Trung Pomodoro */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between text-center"
+          >
+            <div className="flex items-center justify-center gap-2">
+              <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="text-sm font-bold uppercase tracking-wider text-amber-400">
+                Tập Trung Sâu
+              </span>
+            </div>
+            <div className="text-4xl font-bold tracking-wider my-4">{formatPomodoro()}</div>
+            <div className="flex justify-center gap-2">
+              <button
+                onClick={() => {
+                  if (!isPomodoroRunning) {
+                    setIsPomodoroRunning(true);
+                    showToast('Bắt đầu phiên tập trung (25:00)', 'success');
+                  }
+                }}
+                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold text-xs transition-colors cursor-pointer"
+              >
+                {isPomodoroRunning ? 'Đang Chạy...' : 'Bắt Đầu'}
+              </button>
+              <button
+                onClick={() => {
+                  setIsPomodoroRunning(false);
+                  setPomodoroSeconds(25 * 60);
+                  showToast('Đã đặt lại đồng hồ về 25:00', 'info');
+                }}
+                className="px-3 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold text-xs transition-colors cursor-pointer"
+              >
+                Đặt Lại
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 24: Bảng Phím Tắt */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Command className="w-5 h-5 text-gray-300 shrink-0" />
+              <h3 className="text-xl font-bold">Phím Tắt Nhanh</h3>
+            </div>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between py-1.5 border-b border-white/5">
+                <span className="text-gray-300">Bảng Lệnh Nhanh</span>
+                <kbd className="px-2 py-1 bg-gray-900 border border-gray-700 rounded-md text-gray-200">
+                  ⌘ K
+                </kbd>
+              </div>
+              <div className="flex items-center justify-between py-1.5 border-b border-white/5">
+                <span className="text-gray-300">Triển Khai Ngay</span>
+                <kbd className="px-2 py-1 bg-gray-900 border border-gray-700 rounded-md text-gray-200">
+                  ⌘ ⇧ D
+                </kbd>
+              </div>
+              <div className="flex items-center justify-between py-1.5">
+                <span className="text-gray-300">Bật Trình Kiểm Tra</span>
+                <kbd className="px-2 py-1 bg-gray-900 border border-gray-700 rounded-md text-gray-200">
+                  ⌘ /
+                </kbd>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 25: Quy Trình Triển Khai CI/CD */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-slate-800 via-gray-800 to-emerald-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xl font-bold">Quy Trình CI/CD</h3>
+              <span className="text-[11px] font-bold bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full">
+                Sản Phẩm
+              </span>
+            </div>
+            <div className="space-y-2.5 my-2 text-xs">
+              <div className="flex items-center justify-between bg-black/25 p-2.5 rounded-xl">
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" /> Đóng Gói & Nén Mã
+                </span>
+                <span className="text-gray-400">12s</span>
+              </div>
+              <div className="flex items-center justify-between bg-black/25 p-2.5 rounded-xl">
+                <span className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" /> Kiểm Thử Tự Động
+                </span>
+                <span className="text-gray-400">28s</span>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đã kích hoạt triển khai lại nhánh chính!', 'info')}
+              className="mt-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1.5 w-max cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" /> Triển Khai Lại
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 26: Kho Mẫu AI Prompt */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-violet-600 to-fuchsia-800 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-2">
+                <Cpu className="w-5 h-5 text-violet-200 shrink-0" />
+                <h3 className="text-xl font-bold">Kho Mẫu Prompt</h3>
+              </div>
+              <p className="text-xs text-violet-100/85">
+                Các câu lệnh hệ thống tối ưu giúp sinh mã nguồn tức thì.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+              <button
+                onClick={() => showToast('Đã nạp mẫu: Chuyển sang TypeScript', 'info')}
+                className="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer"
+              >
+                Tối Ưu TS
+              </button>
+              <button
+                onClick={() => showToast('Đã nạp mẫu: Tạo Unit Test tự động', 'info')}
+                className="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer"
+              >
+                Viết Test
+              </button>
+              <button
+                onClick={() => showToast('Đã nạp mẫu: Tối ưu truy vấn SQL', 'info')}
+                className="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg font-bold transition-colors cursor-pointer"
+              >
+                Tối Ưu SQL
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 27: Thư Mục Nhận Diện Thương Hiệu */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5">
+                <Folder className="w-5 h-5 text-amber-400 shrink-0" />
+                <h3 className="text-lg font-bold">Bộ Nhận Diện 2026</h3>
+              </div>
+              <span className="text-[11px] text-gray-400 shrink-0">2 giờ trước</span>
+            </div>
+            <div className="my-4">
+              <p className="text-xs text-gray-400">
+                42 Biểu Tượng SVG • 18 Figma Tokens • 6 Phông Chữ
+              </p>
+            </div>
+            <button
+              onClick={() => showToast('Đang tải xuống Bo_Nhan_Dien_2026.zip...', 'success')}
+              className="w-full py-2.5 rounded-xl bg-gray-700/70 hover:bg-gray-700 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Tải Gói Tài Nguyên (24 MB)
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 28: Nâng Cấp Gói Pro */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-500 via-rose-500 to-purple-700 bento-border flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="relative z-10">
+              <div className="flex items-center gap-2.5 mb-2">
+                <Award className="w-5 h-5 text-amber-200 shrink-0" />
+                <h3 className="text-xl font-bold">Mở Khóa Gói Pro</h3>
+              </div>
+              <p className="text-xs text-white/90 leading-relaxed">
+                Sử dụng không giới hạn tên miền riêng, thành viên nhóm và máy chủ GPU ưu tiên.
+              </p>
+            </div>
+            <div className="relative z-10 mt-5 flex items-center justify-between">
+              <div>
+                <span className="text-2xl font-bold">490K</span>
+                <span className="text-xs text-white/80">/tháng</span>
+              </div>
+              <button
+                onClick={() => showToast('Đang chuyển hướng đến trang nâng cấp Pro...', 'success')}
+                className="px-4 py-2 rounded-xl bg-gray-950 text-white hover:bg-gray-900 text-xs font-bold shadow-lg transition-colors cursor-pointer"
+              >
+                Nâng Cấp Ngay
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 29: Thẻ Thanh Toán Ảo Studio */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-tr from-zinc-900 via-neutral-800 to-amber-900/60 bento-border flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="flex items-center gap-2.5">
+              <CreditCard className="w-5 h-5 text-amber-300 shrink-0" />
+              <span className="text-sm font-bold tracking-wider uppercase text-amber-400">
+                Studio Platinum
+              </span>
+            </div>
+            <div className="my-5">
+              <div className="text-lg tracking-widest font-bold text-gray-100">
+                •••• •••• •••• 8842
+              </div>
+              <div className="text-xs text-gray-400 mt-1">
+                Số dư khả dụng: <span className="text-white font-bold">28.500.000đ</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-400">Hết hạn: 09/29</span>
+              <button
+                onClick={() => copySnippet('4532 0158 9921 8842')}
+                className="text-amber-300 hover:text-amber-200 font-bold cursor-pointer"
+              >
+                Sao chép số thẻ
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 30: Biểu Đồ Đóng Góp Mã Nguồn */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xl font-bold">Tần Suất Đóng Góp</h3>
+              <span className="text-xs font-bold text-emerald-400">342 commits</span>
+            </div>
+            <div className="grid grid-cols-7 gap-1.5 my-2">
+              {[
+                'bg-emerald-950',
+                'bg-emerald-700',
+                'bg-emerald-500',
+                'bg-emerald-400',
+                'bg-emerald-800',
+                'bg-emerald-500',
+                'bg-emerald-300',
+                'bg-emerald-600',
+                'bg-emerald-400',
+                'bg-emerald-950',
+                'bg-emerald-500',
+                'bg-emerald-300',
+                'bg-emerald-600',
+                'bg-emerald-400',
+                'bg-emerald-700',
+                'bg-emerald-500',
+                'bg-emerald-300',
+                'bg-emerald-600',
+                'bg-emerald-950',
+                'bg-emerald-400',
+                'bg-emerald-500',
+              ].map((bg, i) => (
+                <span key={i} className={`h-4 rounded ${bg}`} />
+              ))}
+            </div>
+            <p className="text-xs text-gray-400 mt-2">Chuỗi hoạt động liên tục 19 ngày qua.</p>
+          </BentoCard>
+
+          {/* Thẻ 31: Trạng Thái Pin Thiết Bị */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <BatteryCharging className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Thiết Bị Kết Nối</h3>
+            </div>
+            <div className="space-y-3 my-auto">
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">MacBook Pro M4</span>
+                  <span className="text-emerald-400 font-bold">94%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-emerald-400 h-full w-[94%]" />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">iPad Pro Studio</span>
+                  <span className="text-sky-400 font-bold">78%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-sky-400 h-full w-[78%]" />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Tai Nghe Không Dây</span>
+                  <span className="text-amber-400 font-bold">42%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-amber-400 h-full w-[42%]" />
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 32: Đếm Ngược Ra Mắt Phiên Bản Mới */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-rose-600 via-orange-600 to-amber-600 bento-border flex flex-col justify-between text-center"
+          >
+            <span className="text-[11px] font-bold uppercase tracking-wider bg-black/25 px-3 py-1 rounded-full w-max mx-auto">
+              Sự Kiện Ra Mắt
+            </span>
+            <h3 className="text-xl font-bold mt-2">Bento UI 5.0</h3>
+            <div className="grid grid-cols-3 gap-2 my-3">
+              <div className="bg-black/25 rounded-xl p-2">
+                <div className="text-2xl font-bold">04</div>
+                <div className="text-[10px] uppercase text-orange-100">Ngày</div>
+              </div>
+              <div className="bg-black/25 rounded-xl p-2">
+                <div className="text-2xl font-bold">16</div>
+                <div className="text-[10px] uppercase text-orange-100">Giờ</div>
+              </div>
+              <div className="bg-black/25 rounded-xl p-2">
+                <div className="text-2xl font-bold">45</div>
+                <div className="text-[10px] uppercase text-orange-100">Phút</div>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đã đặt lời nhắc khi ra mắt Bento UI 5.0!', 'success')}
+              className="w-full py-2 rounded-xl bg-white text-orange-700 font-bold text-xs hover:bg-orange-50 transition-colors cursor-pointer"
+            >
+              Nhận Thông Báo Sớm
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 33: Điều Khiển Nhà Thông Minh Studio */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Sliders className="w-5 h-5 text-amber-400 shrink-0" />
+              <h3 className="text-xl font-bold">Ánh Sáng Studio</h3>
+            </div>
+            <div className="space-y-3 my-auto">
+              <div className="flex items-center justify-between bg-gray-900/60 p-3 rounded-xl">
+                <span className="text-sm">Đèn LED Bàn Làm Việc</span>
+                <button
+                  onClick={() => {
+                    const next = !ledOn;
+                    setLedOn(next);
+                    showToast(`Đã ${next ? 'bật' : 'tắt'} Đèn LED`, 'info');
+                  }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold cursor-pointer ${
+                    ledOn ? 'bg-amber-500 text-gray-950' : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  {ledOn ? 'Bật' : 'Tắt'}
+                </button>
+              </div>
+              <div className="flex items-center justify-between bg-gray-900/60 p-3 rounded-xl">
+                <span className="text-sm">Điều Hòa Phòng Lab (24°C)</span>
+                <button
+                  onClick={() => {
+                    const next = !acOn;
+                    setAcOn(next);
+                    showToast(`Đã ${next ? 'bật' : 'tắt'} Điều Hòa`, 'info');
+                  }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold cursor-pointer ${
+                    acOn ? 'bg-emerald-500 text-gray-950' : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  {acOn ? 'Bật' : 'Tắt'}
+                </button>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 34: Theo Dõi Sức Khỏe Hàng Ngày */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-teal-600 to-cyan-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5">
+              <Heart className="w-5 h-5 text-rose-300 shrink-0" />
+              <h3 className="text-xl font-bold">Nhắc Uống Nước</h3>
+            </div>
+            <div className="my-4">
+              <div className="text-3xl font-bold">
+                <span>{waterGlasses}</span> / 8{' '}
+                <span className="text-base font-normal text-cyan-200">ly nước</span>
+              </div>
+              <p className="text-xs text-cyan-100/85 mt-1">
+                Duy trì đủ nước giúp tăng 20% sự tập trung.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                const next = waterGlasses + 1;
+                setWaterGlasses(next);
+                showToast(`Tuyệt vời! Bạn đã uống ${next} ly nước hôm nay.`, 'success');
+              }}
+              className="w-full py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold transition-colors cursor-pointer"
+            >
+              + Ghi Nhận 1 Ly Nước
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 35: Bảng Xếp Hạng Thành Viên */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Award className="w-5 h-5 text-yellow-400 shrink-0" />
+              <h3 className="text-xl font-bold">Bảng Xếp Hạng</h3>
+            </div>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between bg-yellow-500/10 border border-yellow-500/20 p-2.5 rounded-xl">
+                <span className="font-bold text-yellow-300">#1 Hoàng Nam</span>
+                <span className="font-bold">4,920 điểm</span>
+              </div>
+              <div className="flex items-center justify-between bg-gray-700/40 p-2.5 rounded-xl">
+                <span className="font-bold text-gray-200">#2 Thu Hà</span>
+                <span className="text-gray-300">4,510 điểm</span>
+              </div>
+              <div className="flex items-center justify-between bg-gray-700/40 p-2.5 rounded-xl">
+                <span className="font-bold text-amber-600">#3 Quốc Bảo</span>
+                <span className="text-gray-300">4,180 điểm</span>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 36: Ghi Chú Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-300 to-yellow-500 text-gray-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Edit3 className="w-5 h-5 text-gray-900 shrink-0" />
+              <h3 className="text-xl font-bold">Ghi Chú Nhanh</h3>
+            </div>
+            <textarea
+              rows="3"
+              value={quickNote}
+              onChange={(e) => setQuickNote(e.target.value)}
+              placeholder="Viết nhanh ý tưởng của bạn tại đây..."
+              className="w-full bg-white/40 placeholder-gray-700 text-gray-950 rounded-xl p-2.5 text-xs focus:outline-none resize-none my-2"
+            />
+            <button
+              onClick={() => showToast('Đã lưu ghi chú vào bộ nhớ đám mây!', 'success')}
+              className="w-full py-2 rounded-xl bg-gray-950 text-white hover:bg-gray-800 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Lưu Ghi Chú
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 37: Quy Đổi Tỷ Giá Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <DollarSign className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Quy Đổi Tỷ Giá</h3>
+            </div>
+            <div className="space-y-2.5 my-2">
+              <div className="bg-gray-900/70 p-2.5 rounded-xl flex items-center justify-between">
+                <span className="text-xs text-gray-400">USD</span>
+                <input
+                  type="number"
+                  value={usdAmount}
+                  onChange={(e) => setUsdAmount(e.target.value)}
+                  className="w-24 bg-transparent text-right font-bold text-white focus:outline-none"
+                />
+              </div>
+              <div className="bg-gray-900/70 p-2.5 rounded-xl flex items-center justify-between">
+                <span className="text-xs text-gray-400">VND</span>
+                <span className="font-bold text-emerald-400">{vndFormatted}</span>
+              </div>
+            </div>
+            <span className="text-[11px] text-gray-400">Tỷ giá tham khảo: 1 USD = 25.400đ</span>
+          </BentoCard>
+
+          {/* Thẻ 38: Hỗ Trợ Kỹ Thuật 24/7 */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-blue-600 to-indigo-950 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-2">
+                <Headphones className="w-5 h-5 text-emerald-300 shrink-0" />
+                <h3 className="text-xl font-bold">Hỗ Trợ 24/7</h3>
+              </div>
+              <p className="text-xs text-blue-100/85 leading-relaxed">
+                Cần tư vấn tích hợp hệ thống? Kết nối ngay với kỹ sư của chúng tôi trong 2 phút.
+              </p>
+            </div>
+            <button
+              onClick={() => showToast('Đang kết nối với chuyên viên hỗ trợ...', 'info')}
+              className="mt-4 w-full py-2.5 rounded-xl bg-white text-indigo-950 hover:bg-blue-50 text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <MessageCircle className="w-4 h-4" /> Trò Chuyện Ngay
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 39 [Social]: Bài Đăng Mạng Xã Hội */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://placehold.co/100x100/374151/fff?text=LA';
+                    }}
+                    alt="Lan Anh"
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="text-sm font-bold leading-tight">Lan Anh Design</div>
+                    <div className="text-[11px] text-gray-400">@lananh.ui • 15 phút trước</div>
+                  </div>
+                </div>
+                <Share2 className="w-4 h-4 text-sky-400" />
+              </div>
+              <p className="text-xs text-gray-200 leading-relaxed">
+                Vừa hoàn thiện bộ thư viện Bento Grid tiếng Việt dùng font Play. Mọi người thấy
+                phối màu tối này thế nào?
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+              <button
+                onClick={() => {
+                  const next = !postLiked;
+                  setPostLiked(next);
+                  setPostLikeCount((c) => (next ? c + 1 : c - 1));
+                  if (next) showToast('Đã thích bài viết của Lan Anh Design', 'success');
+                }}
+                className={`flex items-center gap-1.5 hover:text-rose-400 transition-colors cursor-pointer ${
+                  postLiked ? 'text-rose-400' : ''
+                }`}
+              >
+                <Heart className="w-4 h-4" /> <span>{postLikeCount}</span>
+              </button>
+              <button
+                onClick={() => showToast('Đang mở khung bình luận...', 'info')}
+                className="flex items-center gap-1.5 hover:text-sky-400 transition-colors cursor-pointer"
+              >
+                <MessageSquare className="w-4 h-4" /> <span>24</span>
+              </button>
+              <button
+                onClick={() => copySnippet('https://bentostudio.vn/p/lananh-ui')}
+                className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors cursor-pointer"
+              >
+                <Repeat className="w-4 h-4" /> <span>Chia sẻ</span>
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 40 [Social]: Phân Tích Tương Tác Kênh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-sky-600 via-blue-700 to-indigo-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Tương Tác Kênh</h3>
+              <span className="text-xs font-bold bg-white/15 px-2.5 py-1 rounded-full">
+                +38.4%
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 my-4 text-center">
+              <div className="bg-black/20 p-2.5 rounded-xl">
+                <div className="text-lg font-bold">84.2K</div>
+                <div className="text-[10px] text-sky-200 uppercase">Lượt xem</div>
+              </div>
+              <div className="bg-black/20 p-2.5 rounded-xl">
+                <div className="text-lg font-bold">6.4K</div>
+                <div className="text-[10px] text-sky-200 uppercase">Lượt thích</div>
+              </div>
+              <div className="bg-black/20 p-2.5 rounded-xl">
+                <div className="text-lg font-bold">912</div>
+                <div className="text-[10px] text-sky-200 uppercase">Lưu bài</div>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đang xuất báo cáo Social Analytics...', 'success')}
+              className="text-xs font-bold text-sky-200 hover:text-white inline-flex items-center gap-1 w-max cursor-pointer"
+            >
+              Xem Báo Cáo Chi Tiết <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 41 [Social]: Xu Hướng Thảo Luận */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Hash className="w-5 h-5 text-pink-400 shrink-0" />
+              <h3 className="text-xl font-bold">Chủ Đề Nổi Bật</h3>
+            </div>
+            <div className="space-y-2.5 text-xs my-auto">
+              <div
+                onClick={() => showToast('Đang lọc bài viết #BentoUI2026', 'info')}
+                className="flex items-center justify-between p-2.5 rounded-xl bg-gray-700/40 hover:bg-gray-700/70 cursor-pointer transition-colors"
+              >
+                <span className="font-bold text-pink-300">#BentoUI2026</span>
+                <span className="text-gray-400">14.2K bài viết</span>
+              </div>
+              <div
+                onClick={() => showToast('Đang lọc bài viết #WebComponents', 'info')}
+                className="flex items-center justify-between p-2.5 rounded-xl bg-gray-700/40 hover:bg-gray-700/70 cursor-pointer transition-colors"
+              >
+                <span className="font-bold text-purple-300">#WebComponents</span>
+                <span className="text-gray-400">9.8K bài viết</span>
+              </div>
+              <div
+                onClick={() => showToast('Đang lọc bài viết #ThietKeSangTao', 'info')}
+                className="flex items-center justify-between p-2.5 rounded-xl bg-gray-700/40 hover:bg-gray-700/70 cursor-pointer transition-colors"
+              >
+                <span className="font-bold text-cyan-300">#ThietKeSangTao</span>
+                <span className="text-gray-400">7.1K bài viết</span>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 42 [Social]: Lời Mời Kết Bạn / Kết Nối */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-purple-800 to-slate-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <UserPlus className="w-5 h-5 text-purple-300 shrink-0" />
+              <h3 className="text-xl font-bold">Gợi Ý Kết Nối</h3>
+            </div>
+            <div className="space-y-3 my-auto">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://placehold.co/100x100/4b5563/fff?text=DK';
+                    }}
+                    alt="Đăng Khoa"
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="text-xs font-bold">Đăng Khoa</div>
+                    <div className="text-[11px] text-gray-400">Product Manager</div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => showToast('Đã gửi lời mời kết nối tới Đăng Khoa', 'success')}
+                  className="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-bold cursor-pointer"
+                >
+                  Kết nối
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://placehold.co/100x100/6b7280/fff?text=MT';
+                    }}
+                    alt="Minh Thư"
+                    className="w-9 h-9 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="text-xs font-bold">Minh Thư</div>
+                    <div className="text-[11px] text-gray-400">Motion Designer</div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => showToast('Đã gửi lời mời kết nối tới Minh Thư', 'success')}
+                  className="px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-xs font-bold cursor-pointer"
+                >
+                  Kết nối
+                </button>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 43 [Media]: Video Nổi Bật / Mini Player */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between overflow-hidden"
+          >
+            <div
+              className="relative h-36 rounded-xl overflow-hidden mb-3 group cursor-pointer"
+              onClick={() => showToast('Đang phát video: Hậu Trường Studio 4K', 'info')}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://placehold.co/600x300/1f2937/fff?text=Studio+Video';
+                }}
+                alt="Video Studio"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-full bg-white/90 text-gray-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <Play className="w-5 h-5 fill-current ml-0.5" />
+                </div>
+              </div>
+              <span className="absolute bottom-2 right-2 bg-black/75 text-[11px] font-bold px-2 py-0.5 rounded">
+                12:48
+              </span>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold leading-snug">Hậu Trường Dựng Phim & Âm Thanh</h3>
+              <p className="text-xs text-gray-400 mt-1">Kênh Media Lab • 45K lượt xem</p>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 44 [Media]: Thư Viện Ảnh Sáng Tạo */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-pink-700 via-rose-800 to-gray-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <ImageIcon className="w-5 h-5 text-pink-300 shrink-0" />
+              <h3 className="text-xl font-bold">Bộ Sưu Tập Ảnh</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-2 my-auto">
+              <img
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://placehold.co/200x200/831843/fff?text=3D';
+                }}
+                alt="Ảnh 1"
+                className="h-20 w-full object-cover rounded-xl hover:scale-105 transition-transform cursor-pointer"
+                onClick={() => showToast('Đang mở ảnh: Trừu Tượng 3D', 'info')}
+              />
+              <img
+                src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=200&q=80"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://placehold.co/200x200/9d174d/fff?text=Neon';
+                }}
+                alt="Ảnh 2"
+                className="h-20 w-full object-cover rounded-xl hover:scale-105 transition-transform cursor-pointer"
+                onClick={() => showToast('Đang mở ảnh: Ánh Sáng Neon', 'info')}
+              />
+              <div
+                onClick={() => showToast('Đang mở toàn bộ 128 ảnh RAW...', 'info')}
+                className="h-20 w-full rounded-xl bg-black/40 border border-white/15 flex flex-col items-center justify-center cursor-pointer hover:bg-black/60 transition-colors"
+              >
+                <span className="text-sm font-bold">+126</span>
+                <span className="text-[10px] text-pink-200">Ảnh RAW</span>
+              </div>
+            </div>
+            <p className="text-xs text-pink-100/80 mt-3">
+              Đồng bộ tự động từ Adobe Lightroom Cloud.
+            </p>
+          </BentoCard>
+
+          {/* Thẻ 45 [Media]: Podcast & Phát Thanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-500 via-orange-600 to-red-800 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5">
+              <Mic className="w-5 h-5 text-white shrink-0" />
+              <span className="text-xs font-bold uppercase tracking-wider bg-black/30 px-2.5 py-1 rounded-full">
+                Podcast Tập #42
+              </span>
+            </div>
+            <div className="my-4">
+              <h3 className="text-xl font-bold leading-snug">Tương Lai Của Giao Diện Số</h3>
+              <p className="text-xs text-orange-100 mt-1">Khách mời: Chuyên gia UX Trần Hải</p>
+            </div>
+            <div className="flex items-center justify-between bg-black/25 p-2.5 rounded-xl">
+              <button
+                onClick={() => showToast('Đang phát Podcast Tập #42...', 'info')}
+                className="flex items-center gap-2 text-xs font-bold cursor-pointer"
+              >
+                <Headphones className="w-4 h-4" /> Nghe Ngay (42 phút)
+              </button>
+              <span className="text-[11px] text-orange-200">1.2x</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 46 [Media]: Trình Xuất Video / Render */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Film className="w-5 h-5 text-purple-400 shrink-0" />
+              <h3 className="text-xl font-bold">Xuất Phim 4K</h3>
+            </div>
+            <p className="text-xs text-gray-400">
+              Tệp: <span className="text-gray-200 font-bold">Intro_SanPham_Final.mp4</span>
+            </p>
+            <div className="my-4">
+              <div className="flex justify-between text-xs font-bold mb-1.5">
+                <span className="text-purple-300">Đang kết xuất GPU...</span>
+                <span>76%</span>
+              </div>
+              <div className="w-full h-2.5 bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full"
+                  style={{ width: '76%' }}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between text-[11px] text-gray-400">
+              <span>Còn lại: 01 phút 12 giây</span>
+              <span>60 FPS • H.265</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 47 [Công Việc]: Lịch Họp Hôm Nay */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-indigo-700 to-blue-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Video className="w-5 h-5 text-sky-300 shrink-0" />
+              <h3 className="text-xl font-bold">Lịch Họp Nhóm</h3>
+            </div>
+            <div className="bg-black/25 border border-white/10 rounded-xl p-3 my-auto">
+              <div className="text-xs text-sky-300 font-bold">14:00 - 14:45 • Sắp diễn ra</div>
+              <div className="text-base font-bold mt-0.5">Chốt Giao Diện Sprint 14</div>
+              <div className="text-[11px] text-indigo-200 mt-1">
+                6 thành viên tham gia • Google Meet
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đang tham gia phòng họp trực tuyến...', 'success')}
+              className="mt-4 w-full py-2.5 rounded-xl bg-sky-400 hover:bg-sky-300 text-gray-950 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Tham Gia Phòng Họp
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 48 [Công Việc]: Tiến Độ Dự Án Kanban */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Columns className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Bảng Tiến Độ</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-2 my-auto text-center">
+              <div className="bg-gray-900/70 p-3 rounded-xl border border-white/5">
+                <div className="text-xl font-bold text-gray-200">08</div>
+                <div className="text-[11px] text-gray-400 mt-1">Chờ làm</div>
+              </div>
+              <div className="bg-amber-500/10 p-3 rounded-xl border border-amber-500/25">
+                <div className="text-xl font-bold text-amber-400">05</div>
+                <div className="text-[11px] text-amber-200 mt-1">Đang làm</div>
+              </div>
+              <div className="bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/25">
+                <div className="text-xl font-bold text-emerald-400">21</div>
+                <div className="text-[11px] text-emerald-200 mt-1">Hoàn tất</div>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đang mở bảng quản lý Kanban...', 'info')}
+              className="mt-4 text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 w-max cursor-pointer"
+            >
+              Mở Bảng Công Việc <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 49 [Công Việc]: Chấm Công & Giờ Làm Việc */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-emerald-700 via-teal-800 to-gray-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Chấm Công Ca Làm</h3>
+              <span
+                className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
+                  isCheckedOut
+                    ? 'bg-amber-400/20 text-amber-300'
+                    : 'bg-emerald-400/20 text-emerald-300'
+                }`}
+              >
+                {isCheckedOut ? 'Đã kết thúc ca' : 'Đang làm việc'}
+              </span>
+            </div>
+            <div className="my-4">
+              <div className="text-3xl font-bold">06 giờ 42 phút</div>
+              <p className="text-xs text-emerald-100/80 mt-1">Bắt đầu ca lúc 08:30 sáng nay</p>
+            </div>
+            <button
+              onClick={() => {
+                const next = !isCheckedOut;
+                setIsCheckedOut(next);
+                showToast(
+                  next
+                    ? 'Đã ghi nhận giờ Check-out thành công!'
+                    : 'Đã bắt đầu ca làm việc mới!',
+                  next ? 'success' : 'info'
+                );
+              }}
+              className="w-full py-2.5 rounded-xl bg-white text-teal-950 hover:bg-emerald-50 text-xs font-bold transition-colors cursor-pointer"
+            >
+              {isCheckedOut ? 'Bắt Đầu Ca Mới (Check-in)' : 'Kết Thúc Ca Làm (Check-out)'}
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 50 [Công Việc]: Đánh Giá Hiệu Suất KPI */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Target className="w-5 h-5 text-rose-400 shrink-0" />
+              <h3 className="text-xl font-bold">Chỉ Số KPI Quý IV</h3>
+            </div>
+            <div className="space-y-3 my-auto">
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Bàn giao đúng hạn</span>
+                  <span className="font-bold text-emerald-400">96%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-emerald-400 h-full w-[96%]" />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Mức độ hài lòng khách hàng</span>
+                  <span className="font-bold text-purple-400">92%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-purple-400 h-full w-[92%]" />
+                </div>
+              </div>
+            </div>
+            <span className="text-[11px] text-gray-400 mt-3">
+              Xếp hạng hiệu suất: Xuất sắc (Top 5%)
+            </span>
+          </BentoCard>
+
+          {/* Thẻ 51 [Câu Nói Hay]: Trích Dẫn Truyền Cảm Hứng Tương Tác */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-violet-800 via-purple-900 to-slate-900 bento-border flex flex-col justify-between relative overflow-hidden"
+          >
+            <div className="absolute -right-10 -bottom-10 w-44 h-44 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex items-center justify-between mb-3 relative z-10">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-3 py-1 rounded-full">
+                Câu Nói Hay Mỗi Ngày
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => copySnippet(`${currentQuote.text} ${currentQuote.author}`)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition-colors cursor-pointer"
+                  title="Sao chép câu nói"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => {
+                    setQuoteIndex((prev) => (prev + 1) % INSPIRATION_QUOTES.length);
+                    showToast('Đã làm mới câu nói truyền cảm hứng!', 'info');
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-gray-950 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" /> Đổi Câu Khác
+                </button>
+              </div>
+            </div>
+            <blockquote className="text-xl sm:text-2xl font-bold text-white leading-relaxed my-3 relative z-10">
+              {currentQuote.text}
+            </blockquote>
+            <div className="flex items-center justify-between text-xs text-purple-200 relative z-10 pt-2 border-t border-white/10">
+              <span className="font-bold text-amber-300">{currentQuote.author}</span>
+              <span className="text-gray-400">Chạm "Đổi Câu Khác" để xem thêm</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 52 [Câu Nói Hay]: Triết Lý Sống Tối Giản */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-500/20 via-gray-800 to-gray-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Sun className="w-5 h-5 text-amber-300 shrink-0" />
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                Triết Lý Sống
+              </span>
+            </div>
+            <p className="text-base font-bold text-gray-100 leading-relaxed italic">
+              “Hành trình vạn dặm luôn bắt đầu từ một bước chân đầu tiên đầy kiên định.”
+            </p>
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+              <span className="text-amber-300 font-bold">— Lão Tử</span>
+              <button
+                onClick={() =>
+                  copySnippet(
+                    'Hành trình vạn dặm luôn bắt đầu từ một bước chân đầu tiên đầy kiên định. — Lão Tử'
+                  )
+                }
+                className="text-gray-400 hover:text-white cursor-pointer"
+              >
+                Lưu câu này
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 53 [Câu Nói Hay]: Tư Duy Sáng Tạo & Công Nghệ */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-cyan-800 to-slate-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Feather className="w-5 h-5 text-cyan-300 shrink-0" />
+              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                Góc Suy Ngẫm
+              </span>
+            </div>
+            <p className="text-base font-bold text-white leading-relaxed my-2">
+              “Cách tốt nhất để dự đoán tương lai chính là tự tay kiến tạo nên nó.”
+            </p>
+            <div className="flex items-center justify-between text-xs text-cyan-200 mt-3 pt-2 border-t border-white/10">
+              <span className="font-bold">— Peter Drucker</span>
+              <button
+                onClick={() =>
+                  showToast('Đã thêm vào bộ sưu tập trích dẫn yêu thích!', 'success')
+                }
+                className="text-cyan-300 hover:underline cursor-pointer"
+              >
+                Yêu thích ♥
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 54 [Mới]: Trình Tạo Mật Khẩu Bảo Mật */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Key className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Tạo Mật Khẩu Mạnh</h3>
+            </div>
+            <div className="bg-black/40 border border-white/10 rounded-xl p-3 my-2 flex items-center justify-between">
+              <code className="text-sm font-bold text-emerald-300 tracking-wider">
+                {generatedPassword}
+              </code>
+              <button
+                onClick={() => copySnippet(generatedPassword)}
+                className="p-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 text-white cursor-pointer"
+                title="Sao chép"
+              >
+                <Copy className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <button
+              onClick={handleGeneratePassword}
+              className="w-full py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-gray-950 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Sinh Mật Khẩu Ngẫu Nhiên
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 55 [Mới]: Từ Vựng Tiếng Anh Chuyên Ngành */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-blue-700 via-indigo-800 to-purple-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold uppercase tracking-wider bg-white/15 px-2.5 py-0.5 rounded-full">
+                Từ Vựng Hôm Nay
+              </span>
+              <button
+                onClick={() => showToast('Đang phát âm: Serendipity /ˌser.ənˈdɪp.ə.t̬i/', 'info')}
+                className="p-1.5 rounded-full bg-white/15 hover:bg-white/25 cursor-pointer"
+                title="Nghe phát âm"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="my-3">
+              <h3 className="text-2xl font-bold text-yellow-300">Serendipity</h3>
+              <div className="text-xs text-blue-200 italic">/ˌser.ənˈdɪp.ə.t̬i/ • Danh từ</div>
+              <p className="text-xs text-white/90 mt-2 leading-relaxed">
+                Cơ duyên tình cờ tìm thấy những điều tốt đẹp, may mắn ngoài mong đợi.
+              </p>
+            </div>
+            <span className="text-[11px] text-blue-200">Đã học 48 từ trong tháng này</span>
+          </BentoCard>
+
+          {/* Thẻ 56 [Mới]: Tính Chỉ Số BMI Cơ Thể */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Activity className="w-5 h-5 text-pink-400 shrink-0" />
+              <h3 className="text-xl font-bold">Tính Chỉ Số BMI</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2 my-2 text-xs">
+              <div className="bg-gray-900/70 p-2 rounded-xl">
+                <span className="text-gray-400 block">Chiều cao (cm)</span>
+                <input
+                  type="number"
+                  value={bmiHeight}
+                  onChange={(e) => setBmiHeight(e.target.value)}
+                  className="w-full bg-transparent font-bold text-white text-base focus:outline-none mt-0.5"
+                />
+              </div>
+              <div className="bg-gray-900/70 p-2 rounded-xl">
+                <span className="text-gray-400 block">Cân nặng (kg)</span>
+                <input
+                  type="number"
+                  value={bmiWeight}
+                  onChange={(e) => setBmiWeight(e.target.value)}
+                  className="w-full bg-transparent font-bold text-white text-base focus:outline-none mt-0.5"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between bg-pink-500/15 border border-pink-500/30 px-3 py-2 rounded-xl text-xs">
+              <span>
+                Chỉ số BMI: <strong className="text-pink-300 text-sm">{bmiInfo.score}</strong>
+              </span>
+              <span className={`font-bold ${bmiInfo.colorClass}`}>{bmiInfo.status}</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 57 [Mới]: Mục Tiêu Tiết Kiệm Tài Chính */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-emerald-700 to-green-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5">
+              <TrendingUp className="w-5 h-5 text-emerald-300 shrink-0" />
+              <h3 className="text-xl font-bold">Quỹ Mua Thiết Bị</h3>
+            </div>
+            <div className="my-3">
+              <div className="text-2xl font-bold text-white">36.000.000đ</div>
+              <div className="text-xs text-emerald-200 mt-0.5">
+                Mục tiêu: 45.000.000đ (Đạt 80%)
+              </div>
+              <div className="w-full h-2.5 bg-black/30 rounded-full overflow-hidden mt-3">
+                <div
+                  className="bg-gradient-to-r from-emerald-300 to-lime-300 h-full rounded-full"
+                  style={{ width: '80%' }}
+                />
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đã nạp thêm 1.000.000đ vào Quỹ Mua Thiết Bị!', 'success')}
+              className="w-full py-2 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold transition-colors cursor-pointer"
+            >
+              + Nạp Nhanh 1 Triệu
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 58 [Mới]: Lịch Âm & Ngày Hoàng Đạo */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-red-800 via-rose-900 to-amber-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-amber-300">Lịch Vạn Niên</span>
+              <span className="text-[11px] bg-amber-400/20 text-amber-200 px-2 py-0.5 rounded-full">
+                Ngày Hoàng Đạo
+              </span>
+            </div>
+            <div className="my-3 flex items-baseline gap-3">
+              <div className="text-4xl font-bold text-amber-300">18</div>
+              <div>
+                <div className="text-sm font-bold">Tháng 10 Âm Lịch</div>
+                <div className="text-xs text-rose-200">Năm Bính Ngọ • Giờ tốt: Thìn, Tỵ</div>
+              </div>
+            </div>
+            <p className="text-[11px] text-amber-100/80 border-t border-white/10 pt-2">
+              Thuận lợi cho khai trương, ký kết & khởi tạo dự án.
+            </p>
+          </BentoCard>
+
+          {/* Thẻ 59 [Mới]: Thẻ Lên Máy Bay / Chuyến Đi */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between text-xs text-gray-400">
+              <span className="font-bold text-sky-400">VN 214 • Hạng Thương Gia</span>
+              <span>Cổng B12</span>
+            </div>
+            <div className="flex items-center justify-between my-4">
+              <div>
+                <div className="text-2xl font-bold">SGN</div>
+                <div className="text-[11px] text-gray-400">TP. Hồ Chí Minh</div>
+              </div>
+              <div className="flex flex-col items-center px-2">
+                <Navigation className="w-5 h-5 text-sky-400 rotate-45" />
+                <span className="text-[10px] text-gray-400 mt-1">2g 10p</span>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold">HAN</div>
+                <div className="text-[11px] text-gray-400">Hà Nội</div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-xs bg-gray-900/70 px-3 py-2 rounded-xl">
+              <span>
+                Khởi hành: <strong>08:30</strong>
+              </span>
+              <span className="text-emerald-400 font-bold">Đúng giờ</span>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 60 [Mới]: Tiến Độ Đọc Sách */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-700 via-orange-800 to-stone-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-12 h-16 rounded-lg bg-amber-300 text-gray-950 font-bold text-[10px] p-1.5 flex items-end shadow-md shrink-0">
+                ATOMIC HABITS
+              </div>
+              <div>
+                <span className="text-[11px] text-amber-300 font-bold">Đang Đọc</span>
+                <h3 className="text-base font-bold leading-snug">
+                  Thay Đổi Tí Hon, Hiệu Quả Bất Ngờ
+                </h3>
+                <p className="text-[11px] text-amber-100/75 mt-0.5">James Clear</p>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="flex justify-between text-xs mb-1">
+                <span>Trang 214 / 320</span>
+                <span className="font-bold text-amber-300">67%</span>
+              </div>
+              <div className="w-full h-2 bg-black/30 rounded-full overflow-hidden">
+                <div className="bg-amber-400 h-full rounded-full" style={{ width: '67%' }} />
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 61 [Mới]: Gieo Xúc Xắc Quyết Định Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between text-center"
+          >
+            <div className="flex items-center justify-center gap-2">
+              <HelpCircle className="w-4 h-4 text-purple-400 shrink-0" />
+              <span className="text-sm font-bold text-purple-400">Quyết Định Nhanh</span>
+            </div>
+            <div className="text-xl font-bold text-white my-4 py-3 px-2 rounded-xl bg-gray-900/70 border border-white/5">
+              {decisionResult}
+            </div>
+            <button
+              onClick={() => {
+                const picked =
+                  RANDOM_DECISIONS[Math.floor(Math.random() * RANDOM_DECISIONS.length)];
+                setDecisionResult(picked);
+                showToast(`Gợi ý dành cho bạn: ${picked}`, 'success');
+              }}
+              className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Quay Lựa Chọn Ngẫu Nhiên
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 62 [Mới]: Nhật Ký Cảm Xúc Hôm Nay */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-fuchsia-800 via-purple-900 to-indigo-950 bento-border flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="text-xl font-bold mb-1">Tâm Trạng Hôm Nay</h3>
+              <p className="text-xs text-purple-200">
+                Ghi lại năng lượng làm việc của bạn ngay lúc này.
+              </p>
+            </div>
+            <div className="grid grid-cols-4 gap-2 my-4">
+              <button
+                onClick={() => showToast('Đã ghi nhận tâm trạng: Rất hào hứng! 🚀', 'success')}
+                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/25 text-xl transition-transform hover:scale-110 cursor-pointer"
+                title="Hào hứng"
+              >
+                🚀
+              </button>
+              <button
+                onClick={() => showToast('Đã ghi nhận tâm trạng: Tập trung cao độ 🎯', 'success')}
+                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/25 text-xl transition-transform hover:scale-110 cursor-pointer"
+                title="Tập trung"
+              >
+                🎯
+              </button>
+              <button
+                onClick={() => showToast('Đã ghi nhận tâm trạng: Thư giãn & Bình yên ☕', 'info')}
+                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/25 text-xl transition-transform hover:scale-110 cursor-pointer"
+                title="Thư giãn"
+              >
+                ☕
+              </button>
+              <button
+                onClick={() =>
+                  showToast('Hãy nghỉ ngơi 5 phút để nạp lại năng lượng nhé! 🌿', 'info')
+                }
+                className="p-2.5 rounded-xl bg-white/10 hover:bg-white/25 text-xl transition-transform hover:scale-110 cursor-pointer"
+                title="Cần nghỉ ngơi"
+              >
+                🌿
+              </button>
+            </div>
+            <span className="text-[11px] text-purple-200">
+              Chuỗi ngày tích cực: 12 ngày liên tiếp
+            </span>
+          </BentoCard>
+
+          {/* Thẻ 63: Theo Dõi Vận Động & Bước Chân */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-lime-600 via-emerald-700 to-teal-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Zap className="w-5 h-5 text-lime-200 shrink-0" />
+              <h3 className="text-xl font-bold">Vận Động Hôm Nay</h3>
+            </div>
+            <div className="my-3">
+              <div className="text-3xl font-bold">
+                <span>{stepCount.toLocaleString('vi-VN')}</span>{' '}
+                <span className="text-sm font-normal text-lime-200">/ 10.000 bước</span>
+              </div>
+              <div className="w-full h-2.5 bg-black/30 rounded-full overflow-hidden mt-2.5">
+                <div
+                  className="bg-gradient-to-r from-lime-300 to-emerald-300 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${Math.min(100, Math.round((stepCount / 10000) * 100))}%` }}
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-lime-100">
+                Đã đốt: <strong>340 kcal</strong>
+              </span>
+              <button
+                onClick={() => {
+                  const next = stepCount + 500;
+                  setStepCount(next);
+                  showToast(
+                    `Đã ghi nhận thêm 500 bước! Tổng: ${next.toLocaleString('vi-VN')} bước`,
+                    'success'
+                  );
+                }}
+                className="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 font-bold transition-colors cursor-pointer"
+              >
+                +500 bước
+              </button>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 64: Trạng Thái Máy Chủ & Tài Nguyên */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Cpu className="w-5 h-5 text-sky-400 shrink-0" />
+              <h3 className="text-xl font-bold">Tài Nguyên Máy Chủ</h3>
+            </div>
+            <div className="space-y-3 my-auto">
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">CPU Cluster (16 Core)</span>
+                  <span className="text-sky-400 font-bold">34%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-sky-400 h-full w-[34%]" />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Bộ Nhớ RAM (64 GB)</span>
+                  <span className="text-purple-400 font-bold">61%</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-purple-400 h-full w-[61%]" />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-gray-300">Băng Thông Mạng</span>
+                  <span className="text-emerald-400 font-bold">1.8 Gbps</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-emerald-400 h-full w-[48%]" />
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 65: Trình Chia Hóa Đơn Nhóm */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-orange-600 via-amber-700 to-stone-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Users className="w-5 h-5 text-amber-200 shrink-0" />
+              <h3 className="text-xl font-bold">Chia Tiền Nhóm</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2 my-2 text-xs">
+              <div className="bg-black/25 p-2.5 rounded-xl">
+                <span className="text-amber-200 block">Tổng bill (đ)</span>
+                <input
+                  type="number"
+                  value={billTotal}
+                  step="10000"
+                  onChange={(e) => setBillTotal(e.target.value)}
+                  className="w-full bg-transparent font-bold text-white text-sm focus:outline-none mt-0.5"
+                />
+              </div>
+              <div className="bg-black/25 p-2.5 rounded-xl">
+                <span className="text-amber-200 block">Số người</span>
+                <input
+                  type="number"
+                  value={billPeople}
+                  min="1"
+                  onChange={(e) => setBillPeople(e.target.value)}
+                  className="w-full bg-transparent font-bold text-white text-sm focus:outline-none mt-0.5"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between bg-black/30 px-3 py-2 rounded-xl text-xs">
+              <span>Mỗi người góp:</span>
+              <strong className="text-amber-300 text-sm">{billPerPerson}đ</strong>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 66: Bình Chọn Ý Tưởng Tính Năng */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <BarChart2 className="w-5 h-5 text-indigo-400 shrink-0" />
+              <h3 className="text-xl font-bold">Bình Chọn Tính Năng</h3>
+            </div>
+            <div className="space-y-2.5 my-auto text-xs">
+              {[
+                { name: 'Xuất Mã React / Vue', percent: '64%', color: 'text-indigo-300' },
+                { name: 'Chế Độ Kéo Thả Lưới', percent: '24%', color: 'text-purple-300' },
+                { name: 'Kho Template Cộng Đồng', percent: '12%', color: 'text-emerald-300' },
+              ].map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    setVotedFeature(item.name);
+                    showToast(`Cảm ơn bạn đã bình chọn cho: ${item.name}!`, 'success');
+                  }}
+                  className={`w-full text-left p-2.5 rounded-xl bg-gray-700/50 hover:bg-indigo-600/30 border border-white/5 transition-colors flex items-center justify-between cursor-pointer ${
+                    votedFeature === item.name ? 'ring-2 ring-indigo-400' : ''
+                  }`}
+                >
+                  <span className="font-bold">{item.name}</span>
+                  <span className={`${item.color} font-bold`}>{item.percent}</span>
+                </button>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 67: Công Thức Pha Cà Phê Thủ Công */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-amber-900 via-stone-800 to-neutral-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Coffee className="w-5 h-5 text-amber-300 shrink-0" />
+              <h3 className="text-xl font-bold">Pha Chế V60 Chuẩn</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-2 my-3 text-center text-xs">
+              <div className="bg-black/30 p-2.5 rounded-xl">
+                <div className="font-bold text-amber-300 text-base">18g</div>
+                <div className="text-[10px] text-gray-300">Cà phê hạt</div>
+              </div>
+              <div className="bg-black/30 p-2.5 rounded-xl">
+                <div className="font-bold text-sky-300 text-base">280ml</div>
+                <div className="text-[10px] text-gray-300">Nước 92°C</div>
+              </div>
+              <div className="bg-black/30 p-2.5 rounded-xl">
+                <div className="font-bold text-emerald-300 text-base">02:30</div>
+                <div className="text-[10px] text-gray-300">Thời gian</div>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Đã khởi động bộ đếm thời gian chiết xuất V60!', 'success')}
+              className="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-950 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Bắt Đầu Chiết Xuất
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 68: Nhật Ký Mã QR Chia Sẻ Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Share className="w-5 h-5 text-purple-400 shrink-0" />
+              <h3 className="text-xl font-bold">Mã QR Hồ Sơ</h3>
+            </div>
+            <div className="flex items-center gap-4 my-2">
+              <div className="w-20 h-20 rounded-xl bg-white p-2 shrink-0 grid grid-cols-4 gap-1">
+                {[1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1].map((cell, idx) => (
+                  <span
+                    key={idx}
+                    className={cell ? 'bg-gray-950 rounded-xs' : 'bg-transparent'}
+                  />
+                ))}
+              </div>
+              <div className="text-xs space-y-1.5">
+                <div className="font-bold text-gray-100">bentostudio.vn/creator</div>
+                <p className="text-gray-400 leading-relaxed">
+                  Quét mã để mở danh thiếp điện tử và dự án cá nhân.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => copySnippet('https://bentostudio.vn/creator')}
+              className="w-full py-2 rounded-xl bg-gray-700/70 hover:bg-gray-700 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Sao Chép Liên Kết Hồ Sơ
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 69: Chuyển Đổi Mã Màu HEX -> RGB */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-fuchsia-700 via-pink-800 to-rose-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Sliders className="w-5 h-5 text-pink-200 shrink-0" />
+              <h3 className="text-xl font-bold">Chuyển Đổi HEX</h3>
+            </div>
+            <div className="flex items-center gap-2.5 my-2">
+              <input
+                type="color"
+                value={hexColor}
+                onChange={(e) => setHexColor(e.target.value)}
+                className="w-11 h-11 rounded-xl border-0 bg-transparent cursor-pointer"
+              />
+              <div className="flex-1 bg-black/30 rounded-xl px-3 py-2 text-xs">
+                <div className="font-bold text-white uppercase">{hexColor}</div>
+                <div className="text-pink-200 mt-0.5">{rgbLabel}</div>
+              </div>
+            </div>
+            <button
+              onClick={() => copySnippet(rgbLabel)}
+              className="w-full py-2 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Sao Chép Giá Trị RGB
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 70: Theo Dõi Giao Hàng Trực Tuyến */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <Package className="w-5 h-5 text-amber-400 shrink-0" />
+              <h3 className="text-xl font-bold">Vận Đơn #VN8892</h3>
+            </div>
+            <div className="space-y-2 my-auto text-xs">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>Đang giao tới Quận 1, TP.HCM</span>
+              </div>
+              <p className="text-gray-400 pl-4">
+                Bàn phím cơ Keychron Q1 Pro • Dự kiến nhận lúc 17:30 hôm nay.
+              </p>
+            </div>
+            <button
+              onClick={() => showToast('Tài xế đang cách địa chỉ của bạn 1.2 km!', 'info')}
+              className="mt-3 w-full py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold transition-colors cursor-pointer"
+            >
+              Xem Vị Trí Tài Xế
+            </button>
+          </BentoCard>
+
+          {/* Thẻ 71: Bảng Quy Đổi Đơn Vị Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gradient-to-br from-teal-700 via-cyan-800 to-blue-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-2">
+              <Repeat className="w-5 h-5 text-cyan-200 shrink-0" />
+              <h3 className="text-xl font-bold">Đổi PX sang REM</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2 my-3 text-xs">
+              <div className="bg-black/25 p-2.5 rounded-xl">
+                <span className="text-cyan-200 block">Pixel (px)</span>
+                <input
+                  type="number"
+                  value={pxValue}
+                  onChange={(e) => setPxValue(e.target.value)}
+                  className="w-full bg-transparent font-bold text-white text-base focus:outline-none mt-0.5"
+                />
+              </div>
+              <div className="bg-black/25 p-2.5 rounded-xl">
+                <span className="text-cyan-200 block">REM (16px)</span>
+                <div className="font-bold text-cyan-300 text-base mt-0.5">{remOutput}</div>
+              </div>
+            </div>
+            <span className="text-[11px] text-cyan-100/80">
+              Chuẩn kích thước gốc trình duyệt: 1rem = 16px
+            </span>
+          </BentoCard>
+
+          {/* Thẻ 72: Nhật Ký Thay Đổi Phiên Bản (Changelog) */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center gap-2.5 mb-3">
+              <GitCommit className="w-5 h-5 text-emerald-400 shrink-0" />
+              <h3 className="text-xl font-bold">Nhật Ký Cập Nhật</h3>
+            </div>
+            <div className="space-y-2.5 text-xs my-auto">
+              <div className="flex items-start gap-2">
+                <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">
+                  MỚI
+                </span>
+                <span className="text-gray-200">
+                  Bổ sung 72 mẫu thẻ Bento tương tác đa chủ đề trên React.
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold text-[10px]">
+                  UI
+                </span>
+                <span className="text-gray-300">
+                  Đồng bộ khung biểu tượng bo góc cùng dòng tiêu đề.
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => showToast('Bạn đang sử dụng phiên bản mới nhất v2.6!', 'success')}
+              className="mt-3 text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 w-max cursor-pointer"
+            >
+              Xem Toàn Bộ Lịch Sử <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </BentoCard>
+
+          {/* ================= 10 MẪU THẺ HÌNH CHỮ NHẬT CHIẾM 2 Ô (THẺ 73 - 82) ================= */}
+
+          {/* Thẻ 73 (2x1): Biểu Đồ Doanh Thu 7 Ngày */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-slate-900 via-gray-800 to-indigo-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2.5">
+                <BarChart2 className="w-5 h-5 text-indigo-400 shrink-0" />
+                <div>
+                  <h3 className="text-xl font-bold leading-tight">Biểu Đồ Doanh Thu</h3>
+                  <p className="text-xs text-gray-400">
+                    Tổng thu: <strong className="text-emerald-400">{revenueRange === 'week' ? '128.450.000đ' : '492.800.000đ'}</strong>
+                  </p>
+                </div>
+              </div>
+              <div className="flex bg-black/30 p-1 rounded-xl border border-white/10 text-xs font-bold">
+                <button
+                  onClick={() => setRevenueRange('week')}
+                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                    revenueRange === 'week' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  7 Ngày
+                </button>
+                <button
+                  onClick={() => setRevenueRange('month')}
+                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                    revenueRange === 'month' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  30 Ngày
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-7 gap-2.5 items-end h-28 pt-2">
+              {(revenueRange === 'week'
+                ? [
+                    { label: 'T2', val: 48 },
+                    { label: 'T3', val: 65 },
+                    { label: 'T4', val: 54 },
+                    { label: 'T5', val: 86 },
+                    { label: 'T6', val: 94 },
+                    { label: 'T7', val: 78 },
+                    { label: 'CN', val: 100 },
+                  ]
+                : [
+                    { label: 'W1', val: 62 },
+                    { label: 'W2', val: 74 },
+                    { label: 'W3', val: 88 },
+                    { label: 'W4', val: 70 },
+                    { label: 'W5', val: 95 },
+                    { label: 'W6', val: 84 },
+                    { label: 'W7', val: 98 },
+                  ]
+              ).map((bar) => (
+                <div key={bar.label} className="flex flex-col items-center gap-1.5 h-full justify-end">
+                  <div
+                    onClick={() => showToast(`Doanh thu mốc ${bar.label}: Đạt ${bar.val}% mục tiêu`, 'info')}
+                    className="w-full rounded-t-lg bg-gradient-to-t from-indigo-600 to-cyan-400 hover:from-purple-500 hover:to-pink-400 transition-all duration-300 cursor-pointer"
+                    style={{ height: `${bar.val}%` }}
+                  />
+                  <span className="text-[11px] text-gray-400 font-bold">{bar.label}</span>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 74 (2x1): Trình Tạo Gradient CSS Trực Quan */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5">
+                <Palette className="w-5 h-5 text-pink-400 shrink-0" />
+                <h3 className="text-xl font-bold">Trình Tạo Gradient CSS</h3>
+              </div>
+              <button
+                onClick={() =>
+                  copySnippet(`background: linear-gradient(${gradAngle}deg, ${gradColor1}, ${gradColor2});`)
+                }
+                className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Copy className="w-3.5 h-3.5" /> Sao Chép CSS
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center my-auto">
+              <div
+                className="h-28 rounded-xl border border-white/15 shadow-inner flex items-end p-3"
+                style={{
+                  background: `linear-gradient(${gradAngle}deg, ${gradColor1}, ${gradColor2})`,
+                }}
+              >
+                <span className="text-[11px] font-bold bg-black/45 backdrop-blur-md px-2.5 py-1 rounded-lg">
+                  {gradAngle}deg • {gradColor1.toUpperCase()} → {gradColor2.toUpperCase()}
+                </span>
+              </div>
+              <div className="space-y-2.5 text-xs">
+                <div className="flex items-center justify-between bg-gray-900/70 p-2 rounded-xl">
+                  <span className="text-gray-300">Màu bắt đầu & kết thúc</span>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={gradColor1}
+                      onChange={(e) => setGradColor1(e.target.value)}
+                      className="w-7 h-7 rounded bg-transparent cursor-pointer"
+                    />
+                    <input
+                      type="color"
+                      value={gradColor2}
+                      onChange={(e) => setGradColor2(e.target.value)}
+                      className="w-7 h-7 rounded bg-transparent cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="bg-gray-900/70 p-2.5 rounded-xl">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-gray-300">Góc xoay</span>
+                    <span className="font-bold text-cyan-300">{gradAngle}°</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="360"
+                    value={gradAngle}
+                    onChange={(e) => setGradAngle(Number(e.target.value))}
+                    className="w-full accent-purple-500 cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 75 (2x1): Lộ Trình Sản Phẩm 4 Quý (Roadmap) */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-violet-900 via-indigo-950 to-slate-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <Compass className="w-5 h-5 text-amber-300 shrink-0" />
+                <h3 className="text-xl font-bold">Lộ Trình Phát Triển 2026</h3>
+              </div>
+              <span className="text-xs font-bold text-emerald-300 bg-emerald-500/15 px-2.5 py-1 rounded-full">
+                Đúng Tiến Độ
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-auto">
+              {[
+                { q: 'Quý I', title: 'Hệ Thống Core UI', status: 'Hoàn tất', color: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-300' },
+                { q: 'Quý II', title: 'Trợ Lý AI Studio', status: 'Hoàn tất', color: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-300' },
+                { q: 'Quý III', title: 'Đồng Bộ Realtime', status: 'Đang chạy', color: 'border-amber-400/40 bg-amber-500/10 text-amber-300' },
+                { q: 'Quý IV', title: 'Kho Plugin Mở', status: 'Dự kiến', color: 'border-purple-400/40 bg-purple-500/10 text-purple-300' },
+              ].map((step) => (
+                <div
+                  key={step.q}
+                  onClick={() => showToast(`${step.q}: ${step.title} (${step.status})`, 'info')}
+                  className="bg-black/25 border border-white/10 hover:border-white/25 rounded-xl p-3 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-xs font-bold text-gray-300">{step.q}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${step.color}`}>
+                      {step.status}
+                    </span>
+                  </div>
+                  <div className="text-sm font-bold text-white leading-snug">{step.title}</div>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 76 (2x1): So Sánh Gói Dịch Vụ Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div className="flex items-center gap-2.5">
+                <Layers className="w-5 h-5 text-amber-400 shrink-0" />
+                <h3 className="text-xl font-bold">So Sánh Gói Thành Viên</h3>
+              </div>
+              <div className="flex bg-gray-900 p-1 rounded-xl border border-white/10 text-xs font-bold">
+                <button
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`px-3 py-1 rounded-lg cursor-pointer ${
+                    billingCycle === 'monthly' ? 'bg-amber-500 text-gray-950' : 'text-gray-400'
+                  }`}
+                >
+                  Theo Tháng
+                </button>
+                <button
+                  onClick={() => setBillingCycle('yearly')}
+                  className={`px-3 py-1 rounded-lg cursor-pointer ${
+                    billingCycle === 'yearly' ? 'bg-amber-500 text-gray-950' : 'text-gray-400'
+                  }`}
+                >
+                  Theo Năm (-20%)
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-auto">
+              {[
+                { name: 'Khởi Đầu', price: billingCycle === 'monthly' ? '0đ' : '0đ', desc: '3 dự án • 5 GB lưu trữ', highlight: false },
+                { name: 'Sáng Tạo Pro', price: billingCycle === 'monthly' ? '490K' : '390K', desc: 'Không giới hạn • GPU ưu tiên', highlight: true },
+                { name: 'Doanh Nghiệp', price: billingCycle === 'monthly' ? '1.49M' : '1.19M', desc: 'SSO • SLA 99.99% • Hỗ trợ riêng', highlight: false },
+              ].map((plan) => (
+                <div
+                  key={plan.name}
+                  onClick={() => showToast(`Đã chọn xem chi tiết gói ${plan.name}`, 'success')}
+                  className={`p-3.5 rounded-xl border cursor-pointer transition-colors ${
+                    plan.highlight
+                      ? 'bg-gradient-to-br from-purple-600/35 to-pink-600/25 border-purple-400/50'
+                      : 'bg-gray-900/60 border-white/10 hover:border-white/25'
+                  }`}
+                >
+                  <div className="text-xs font-bold text-gray-300">{plan.name}</div>
+                  <div className="text-2xl font-bold mt-1">
+                    {plan.price}
+                    <span className="text-[11px] font-normal text-gray-400">/tháng</span>
+                  </div>
+                  <p className="text-[11px] text-gray-300 mt-2">{plan.desc}</p>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 77 (2x1): Đồng Hồ Thế Giới Đa Múi Giờ */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-cyan-800 via-blue-900 to-slate-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <Globe className="w-5 h-5 text-cyan-300 shrink-0" />
+                <h3 className="text-xl font-bold">Múi Giờ Đội Ngũ Toàn Cầu</h3>
+              </div>
+              <span className="text-xs text-cyan-200 font-bold">Đồng bộ NTP</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-auto">
+              {[
+                { city: 'TP.HCM', tz: 'UTC+7', time: '19:45', state: 'Tối' },
+                { city: 'Tokyo', tz: 'UTC+9', time: '21:45', state: 'Đêm' },
+                { city: 'London', tz: 'UTC+0', time: '12:45', state: 'Trưa' },
+                { city: 'New York', tz: 'UTC-5', time: '07:45', state: 'Sáng' },
+              ].map((item) => (
+                <div key={item.city} className="bg-black/25 border border-white/10 rounded-xl p-3">
+                  <div className="flex items-center justify-between text-[11px] text-cyan-200">
+                    <span>{item.tz}</span>
+                    <span>{item.state}</span>
+                  </div>
+                  <div className="text-2xl font-bold mt-1">{item.time}</div>
+                  <div className="text-xs font-bold text-gray-200 mt-0.5">{item.city}</div>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 78 (2x1): Bộ Trộn Âm Thanh Tập Trung (Ambient Mixer) */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-emerald-900 via-teal-900 to-gray-900 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <Volume2 className="w-5 h-5 text-emerald-300 shrink-0" />
+                <h3 className="text-xl font-bold">Âm Thanh Không Gian Làm Việc</h3>
+              </div>
+              <button
+                onClick={() => {
+                  setAmbientVolumes({ rain: 50, cafe: 50, waves: 50 });
+                  showToast('Đã cân bằng bộ trộn âm thanh về mức tiêu chuẩn', 'info');
+                }}
+                className="text-xs font-bold text-emerald-300 hover:text-emerald-200 cursor-pointer"
+              >
+                Cân Bằng Nhanh
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 my-auto text-xs">
+              {[
+                { key: 'rain', label: '🌧️ Tiếng Mưa Rơi' },
+                { key: 'cafe', label: '☕ Quán Cà Phê' },
+                { key: 'waves', label: '🌊 Sóng Biển Đêm' },
+              ].map((track) => (
+                <div key={track.key} className="bg-black/25 border border-white/10 rounded-xl p-3">
+                  <div className="flex justify-between font-bold mb-2">
+                    <span>{track.label}</span>
+                    <span className="text-emerald-300">{ambientVolumes[track.key]}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={ambientVolumes[track.key]}
+                    onChange={(e) =>
+                      setAmbientVolumes((prev) => ({
+                        ...prev,
+                        [track.key]: Number(e.target.value),
+                      }))
+                    }
+                    className="w-full accent-emerald-400 cursor-pointer"
+                  />
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 79 (2x1): Hàng Đợi Tải Tệp Lên Đám Mây */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <UploadCloud className="w-5 h-5 text-sky-400 shrink-0" />
+                <h3 className="text-xl font-bold">Hàng Đợi Tải Lên Đám Mây</h3>
+              </div>
+              <button
+                onClick={() => {
+                  const next = !uploadsPaused;
+                  setUploadsPaused(next);
+                  showToast(next ? 'Đã tạm dừng toàn bộ tiến trình tải lên' : 'Đã tiếp tục tải tệp lên đám mây', 'info');
+                }}
+                className="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 text-xs font-bold cursor-pointer"
+              >
+                {uploadsPaused ? 'Tiếp Tục Tải' : 'Tạm Dừng'}
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto text-xs">
+              <div className="bg-gray-900/70 p-3 rounded-xl border border-white/5">
+                <div className="flex justify-between font-bold mb-1.5">
+                  <span className="truncate">Design_System_v5.fig</span>
+                  <span className="text-sky-400">{uploadsPaused ? 'Tạm dừng' : '82%'}</span>
+                </div>
+                <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-sky-400 h-full w-[82%] rounded-full" />
+                </div>
+                <div className="text-[11px] text-gray-400 mt-1.5">148 MB / 180 MB • 12 MB/s</div>
+              </div>
+              <div className="bg-gray-900/70 p-3 rounded-xl border border-white/5">
+                <div className="flex justify-between font-bold mb-1.5">
+                  <span className="truncate">Showcase_Reel_4K.mov</span>
+                  <span className="text-emerald-400">{uploadsPaused ? 'Tạm dừng' : '46%'}</span>
+                </div>
+                <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="bg-emerald-400 h-full w-[46%] rounded-full" />
+                </div>
+                <div className="text-[11px] text-gray-400 mt-1.5">410 MB / 890 MB • 18 MB/s</div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 80 (2x1): Tổng Quan Bán Hàng Thương Mại Điện Tử */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-rose-700 via-pink-800 to-purple-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <ShoppingBag className="w-5 h-5 text-amber-300 shrink-0" />
+                <h3 className="text-xl font-bold">Hiệu Suất Cửa Hàng Số</h3>
+              </div>
+              <span className="text-xs font-bold bg-white/15 px-2.5 py-1 rounded-full">Hôm Nay</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-auto">
+              {[
+                { label: 'Đơn Hàng', val: '1,248', delta: '+14%' },
+                { label: 'Doanh Số', val: '86.4M', delta: '+22%' },
+                { label: 'Chuyển Đổi', val: '4.85%', delta: '+0.6%' },
+                { label: 'Khách Mới', val: '392', delta: '+19%' },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-black/25 border border-white/10 rounded-xl p-3">
+                  <div className="text-[11px] text-rose-200">{stat.label}</div>
+                  <div className="text-2xl font-bold mt-1">{stat.val}</div>
+                  <div className="text-[11px] font-bold text-emerald-300 mt-0.5">{stat.delta}</div>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+
+          {/* Thẻ 81 (2x1): Khung Viết Prompt AI Nhanh */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gradient-to-br from-purple-700 via-fuchsia-800 to-indigo-950 bento-border flex flex-col justify-between"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="w-5 h-5 text-yellow-300 shrink-0" />
+                <h3 className="text-xl font-bold">Trợ Lý Soạn Thảo AI Nhanh</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {['Chuyên nghiệp', 'Sáng tạo', 'Ngắn gọn'].map((style) => (
+                  <button
+                    key={style}
+                    onClick={() => setAiPromptStyle(style)}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer transition-colors ${
+                      aiPromptStyle === style
+                        ? 'bg-yellow-300 text-gray-950'
+                        : 'bg-white/15 text-white hover:bg-white/25'
+                    }`}
+                  >
+                    {style}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!aiPromptInput.trim()) return;
+                showToast(`Đang tạo nội dung (${aiPromptStyle}): "${aiPromptInput.slice(0, 32)}..."`, 'success');
+                setAiPromptInput('');
+              }}
+              className="flex flex-col sm:flex-row gap-2.5 mt-2"
+            >
+              <input
+                type="text"
+                value={aiPromptInput}
+                onChange={(e) => setAiPromptInput(e.target.value)}
+                placeholder="Nhập yêu cầu viết bài, tối ưu mã hoặc lên ý tưởng..."
+                className="flex-1 bg-black/30 border border-white/15 rounded-xl px-4 py-2.5 text-sm text-white placeholder-purple-200/60 focus:outline-none focus:border-white/40"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-xl bg-white text-purple-950 hover:bg-purple-50 font-bold text-xs inline-flex items-center justify-center gap-2 shrink-0 cursor-pointer transition-colors"
+              >
+                <Send className="w-4 h-4" /> Gửi Yêu Cầu
+              </button>
+            </form>
+          </BentoCard>
+
+          {/* Thẻ 82 (2x1): Bảng Quản Lý Thành Viên Nhóm */}
+          <BentoCard
+            fxMode={currentFx.id}
+            className="md:col-span-2 bg-gray-800/90 backdrop-blur-md bento-border flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <Users className="w-5 h-5 text-emerald-400 shrink-0" />
+                <h3 className="text-xl font-bold">Thành Viên Đang Trực Tuyến</h3>
+              </div>
+              <span className="text-xs font-bold text-emerald-400">3/4 Hoạt động</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto">
+              {[
+                { name: 'Ngọc Hân', role: 'Lead Designer', status: 'bg-emerald-400', label: 'Trực tuyến' },
+                { name: 'Tuấn Kiệt', role: 'Frontend Architect', status: 'bg-emerald-400', label: 'Đang code' },
+                { name: 'Gia Huy', role: 'Backend Dev', status: 'bg-amber-400', label: 'Trong cuộc họp' },
+                { name: 'Khánh Linh', role: 'Product Owner', status: 'bg-emerald-400', label: 'Sẵn sàng' },
+              ].map((member) => (
+                <div
+                  key={member.name}
+                  className="flex items-center justify-between bg-gray-900/65 border border-white/5 p-2.5 rounded-xl"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-purple-600/30 border border-purple-400/30 flex items-center justify-center text-xs font-bold text-purple-200">
+                      {member.name.split(' ').map((w) => w[0]).join('')}
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white">{member.name}</div>
+                      <div className="text-[11px] text-gray-400 flex items-center gap-1.5">
+                        <span className={`w-2 h-2 rounded-full ${member.status}`} />
+                        {member.role} • {member.label}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => showToast(`Đã mở cửa sổ chat với ${member.name}`, 'info')}
+                    className="p-2 rounded-lg bg-gray-800 hover:bg-purple-600/40 text-gray-300 hover:text-white transition-colors cursor-pointer"
+                    title="Nhắn tin nhanh"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </BentoCard>
+        </div>
+      </div>
+    </div>
+  );
+}

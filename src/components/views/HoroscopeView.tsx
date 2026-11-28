@@ -8,6 +8,30 @@ const Sparkles = createAnimatedIcon('sparkles');
 const Search = createAnimatedIcon('search');
 const Check = createAnimatedIcon('check');
 const CheckCircle2 = createAnimatedIcon('check-circle');
+import {
+  Sun,
+  Moon,
+  Award,
+  Compass,
+  Shield,
+  Users,
+  Heart,
+  Zap,
+  Layers,
+  Clock,
+  Calendar,
+  Briefcase,
+  DollarSign,
+  Globe,
+  Cpu,
+  BarChart2,
+  Feather,
+  Copy,
+  Star,
+  Target,
+  CheckCircle,
+  AlertTriangle,
+} from 'lucide-react';
 import { useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
@@ -19,9 +43,176 @@ import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import TuViBookCard from '@/components/views/horoscope/TuViBookCard';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
-import { useTheme } from '@/hooks/useTheme';
 
 const HOROSCOPE_CARD_GAP_PX = 10;
+
+// Danh sách chế độ hiệu ứng thẻ & rê chuột chuẩn Bento Studio (đã xóa hiệu ứng gương lóe sáng)
+export const HOROSCOPE_CARD_EFFECT_MODES = [
+  { id: 'spotlight-3d', label: 'Hiệu ứng: Ánh sáng 3D', labelEn: 'FX: 3D Spotlight' },
+  { id: 'float-shadow', label: 'Hiệu ứng: Nổi Khối & Đổ Bóng', labelEn: 'FX: Float & Shadow' },
+  { id: 'neon', label: 'Hiệu ứng: Viền Neon', labelEn: 'FX: Neon Border' },
+  { id: 'minimal', label: 'Hiệu ứng: Tối Giản', labelEn: 'FX: Minimal' },
+] as const;
+
+export type HoroscopeFxModeId = (typeof HOROSCOPE_CARD_EFFECT_MODES)[number]['id'];
+
+interface HoroscopeBentoCardProps extends React.HTMLAttributes<HTMLElement> {
+  as?: 'article' | 'div';
+  fxMode: HoroscopeFxModeId;
+  cardRef?: React.Ref<HTMLElement>;
+  disableTilt?: boolean;
+  isDarkText?: boolean;
+}
+
+/**
+ * Component thẻ HoroscopeBentoCard (chuẩn Bento Studio):
+ * - Hiệu ứng Spotlight bám theo tọa độ con trỏ chuột (--mx, --my)
+ * - Hiệu ứng nghiêng 3D (Spotlight 3D), Nổi Khối & Đổ Bóng, Viền Neon, Tối Giản
+ * - Hiệu ứng gợn sóng (Ripple) khi nhấn chuột
+ * - Hiệu ứng xuất hiện mượt khi vào khung nhìn (IntersectionObserver)
+ * - Vi tương tác biểu tượng Lucide khi rê chuột
+ * - Đã loại bỏ hoàn toàn hiệu ứng gương lóe sáng (glass sweep)
+ */
+const HoroscopeBentoCard: React.FC<HoroscopeBentoCardProps> = ({
+  as: Tag = 'article',
+  className = '',
+  fxMode,
+  cardRef,
+  disableTilt = false,
+  isDarkText = false,
+  onClick,
+  style,
+  children,
+  ...rest
+}) => {
+  const localRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const setRefs = useCallback(
+    (node: HTMLElement | null) => {
+      localRef.current = node;
+      if (typeof cardRef === 'function') {
+        cardRef(node);
+      } else if (cardRef && 'current' in cardRef) {
+        (cardRef as React.MutableRefObject<HTMLElement | null>).current = node;
+      }
+    },
+    [cardRef]
+  );
+
+  useEffect(() => {
+    const el = localRef.current;
+    if (!el) return;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05, rootMargin: '0px 0px -10px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if ((fxMode !== 'spotlight-3d' || disableTilt) && localRef.current) {
+      localRef.current.style.setProperty('--rx', '0deg');
+      localRef.current.style.setProperty('--ry', '0deg');
+    }
+  }, [fxMode, disableTilt]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const card = localRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--mx', `${x}px`);
+    card.style.setProperty('--my', `${y}px`);
+
+    if (disableTilt) return;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (fxMode === 'spotlight-3d' && !prefersReducedMotion && rect.width > 0 && rect.height > 0) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (((y - centerY) / centerY) * -4.2).toFixed(2);
+      const rotateY = (((x - centerX) / centerX) * 4.2).toFixed(2);
+      card.style.setProperty('--rx', `${rotateX}deg`);
+      card.style.setProperty('--ry', `${rotateY}deg`);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    const card = localRef.current;
+    if (!card) return;
+    card.style.setProperty('--rx', '0deg');
+    card.style.setProperty('--ry', '0deg');
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('input, textarea, select, button')) return;
+    const card = localRef.current;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.35;
+    const ripple = document.createElement('span');
+    ripple.className = 'horoscope-card-ripple';
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left}px`;
+    ripple.style.top = `${e.clientY - rect.top}px`;
+
+    card.appendChild(ripple);
+    window.setTimeout(() => ripple.remove(), 680);
+  };
+
+  const ElementTag = Tag as React.ElementType;
+
+  return (
+    <ElementTag
+      ref={setRefs}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      data-horoscope-bento="true"
+      data-multicolor-bento="true"
+      data-dark-text={isDarkText ? 'true' : 'false'}
+      style={style}
+      className={cn(
+        'horoscope-bento-studio-card bento-studio-border card-reveal',
+        isVisible && 'is-visible',
+        isDarkText ? 'text-gray-950' : 'text-white',
+        className
+      )}
+      {...rest}
+    >
+      {children}
+    </ElementTag>
+  );
+};
 
 // Tự động quyết định Responsive Bento Card hay Responsive Grid Card theo số lượng & tính đối xứng của sub-card
 const resolveAdaptiveCardLayout = (
@@ -207,22 +398,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Trọng tâm quản trị:',
     boxContent: 'SOP, KPI, SLA, Quality Assurance & Tuân Thủ',
     footer: 'Phong Cách: Kỷ Luật & Chính Trực',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-sky-50/95 via-blue-50/80 to-indigo-50/60 dark:from-sky-950/50 dark:via-slate-900/85 dark:to-blue-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(240, 249, 255, 0.94) 0%, rgba(224, 242, 254, 0.86) 55%, rgba(186, 230, 253, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(12, 74, 110, 0.46) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(14, 116, 144, 0.24)',
-      borderColorLight: 'rgba(56, 189, 248, 0.45)',
-      borderColorDark: 'rgba(56, 189, 248, 0.36)',
-      watermarkColor: '#0284c7',
-      border: 'border-sky-200/80 dark:border-sky-500/35 hover:border-sky-400 dark:hover:border-sky-400/70',
-      hanziColor: 'text-sky-600 dark:text-sky-400',
-      badge: 'bg-white/90 dark:bg-sky-950/80 text-sky-700 dark:text-sky-300 border-sky-200/80 dark:border-sky-700/50',
-      iconColor: 'text-sky-600 dark:text-sky-300',
-      labelColor: 'text-sky-600 dark:text-sky-400',
-      bottomBar: 'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500',
+    bentoStyle: {
+      // Mẫu Thẻ 14 / Thẻ 59: Sky-Blue-Slate
+      gradientCss: 'linear-gradient(135deg, #0284c7 0%, #1e40af 52%, #0f172a 100%)',
+      accentText: '#7dd3fc',
+      badgeBg: 'rgba(255, 255, 255, 0.15)',
+      badgeText: '#e0f2fe',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(125, 211, 252, 0.25)',
+      bottomBar: 'linear-gradient(90deg, #38bdf8 0%, #3b82f6 50%, #6366f1 100%)',
+      watermarkColor: '#7dd3fc',
     },
   },
   {
@@ -234,22 +419,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Trọng tâm quản trị:',
     boxContent: 'CRM, AI Gen, Omnichannel, Data Analytics',
     footer: 'Phong Cách: Nhạy Bén Số & Tinh Gọn',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-cyan-50/95 via-teal-50/80 to-emerald-50/60 dark:from-cyan-950/50 dark:via-slate-900/85 dark:to-teal-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(236, 254, 255, 0.94) 0%, rgba(207, 250, 254, 0.86) 55%, rgba(165, 243, 252, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(22, 78, 99, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(8, 145, 178, 0.24)',
-      borderColorLight: 'rgba(6, 182, 212, 0.45)',
-      borderColorDark: 'rgba(34, 211, 238, 0.36)',
-      watermarkColor: '#0891b2',
-      border: 'border-cyan-200/80 dark:border-cyan-500/35 hover:border-cyan-400 dark:hover:border-cyan-400/70',
-      hanziColor: 'text-teal-600 dark:text-cyan-400',
-      badge: 'bg-white/90 dark:bg-cyan-950/80 text-teal-700 dark:text-cyan-300 border-cyan-200/80 dark:border-cyan-700/50',
-      iconColor: 'text-teal-600 dark:text-cyan-300',
-      labelColor: 'text-teal-600 dark:text-cyan-400',
-      bottomBar: 'bg-gradient-to-r from-teal-500 via-cyan-500 to-emerald-500',
+    bentoStyle: {
+      // Mẫu Thẻ 34 / Thẻ 71: Teal-Cyan-Blue
+      gradientCss: 'linear-gradient(135deg, #0d9488 0%, #155e75 52%, #172554 100%)',
+      accentText: '#67e8f9',
+      badgeBg: 'rgba(255, 255, 255, 0.15)',
+      badgeText: '#cffafe',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(103, 232, 249, 0.25)',
+      bottomBar: 'linear-gradient(90deg, #2dd4bf 0%, #06b6d4 50%, #10b981 100%)',
+      watermarkColor: '#67e8f9',
     },
   },
   {
@@ -261,22 +440,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Trọng tâm quản trị:',
     boxContent: 'Training, Coaching 1-on-1, Talent Succession',
     footer: 'Phong Cách: Thấu Cảm & Phát Triển',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-emerald-50/95 via-green-50/80 to-lime-50/60 dark:from-emerald-950/50 dark:via-slate-900/85 dark:to-green-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(236, 253, 245, 0.94) 0%, rgba(209, 250, 229, 0.86) 55%, rgba(167, 243, 208, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(6, 78, 59, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(5, 150, 105, 0.24)',
-      borderColorLight: 'rgba(16, 185, 129, 0.45)',
-      borderColorDark: 'rgba(52, 211, 153, 0.36)',
-      watermarkColor: '#059669',
-      border: 'border-emerald-200/80 dark:border-emerald-500/35 hover:border-emerald-400 dark:hover:border-emerald-400/70',
-      hanziColor: 'text-emerald-600 dark:text-emerald-400',
-      badge: 'bg-white/90 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-700/50',
-      iconColor: 'text-emerald-600 dark:text-emerald-300',
-      labelColor: 'text-emerald-600 dark:text-emerald-400',
-      bottomBar: 'bg-gradient-to-r from-emerald-500 via-lime-500 to-amber-400',
+    bentoStyle: {
+      // Mẫu Thẻ 63 / Thẻ 57: Lime-Emerald-Teal
+      gradientCss: 'linear-gradient(135deg, #059669 0%, #047857 52%, #052e16 100%)',
+      accentText: '#a7f3d0',
+      badgeBg: 'rgba(255, 255, 255, 0.15)',
+      badgeText: '#d1fae5',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(110, 231, 183, 0.25)',
+      bottomBar: 'linear-gradient(90deg, #34d399 0%, #a3e635 50%, #fbbf24 100%)',
+      watermarkColor: '#6ee7b7',
     },
   },
   {
@@ -288,22 +461,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Trọng tâm quản trị:',
     boxContent: 'CSAT, NPS, FCR, Customer Journey Mapping',
     footer: 'Phong Cách: Quyết Đoán & Tận Tâm',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-rose-50/95 via-pink-50/80 to-fuchsia-50/60 dark:from-rose-950/50 dark:via-slate-900/85 dark:to-pink-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(255, 241, 242, 0.94) 0%, rgba(255, 228, 230, 0.86) 55%, rgba(254, 205, 211, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(136, 19, 55, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(225, 29, 72, 0.24)',
-      borderColorLight: 'rgba(244, 63, 94, 0.45)',
-      borderColorDark: 'rgba(251, 113, 133, 0.36)',
-      watermarkColor: '#e11d48',
-      border: 'border-rose-200/80 dark:border-rose-500/35 hover:border-rose-400 dark:hover:border-rose-400/70',
-      hanziColor: 'text-rose-500 dark:text-rose-400',
-      badge: 'bg-white/90 dark:bg-rose-950/80 text-rose-600 dark:text-rose-300 border-rose-200/80 dark:border-rose-700/50',
-      iconColor: 'text-rose-600 dark:text-rose-300',
-      labelColor: 'text-rose-600 dark:text-rose-400',
-      bottomBar: 'bg-gradient-to-r from-rose-500 via-pink-500 to-red-500',
+    bentoStyle: {
+      // Mẫu Thẻ 32 / Thẻ 45: Rose-Orange-Red
+      gradientCss: 'linear-gradient(135deg, #e11d48 0%, #c2410c 55%, #450a0a 100%)',
+      accentText: '#fda4af',
+      badgeBg: 'rgba(0, 0, 0, 0.28)',
+      badgeText: '#fecdd3',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(253, 164, 175, 0.25)',
+      bottomBar: 'linear-gradient(90deg, #fb7185 0%, #f97316 50%, #ef4444 100%)',
+      watermarkColor: '#fda4af',
     },
   },
   {
@@ -315,22 +482,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Trọng tâm quản trị:',
     boxContent: 'Cost-to-Serve, BCP, Security & Risk Management',
     footer: 'Phong Cách: Điềm Tĩnh & Bền Vững',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-amber-50/95 via-orange-50/80 to-yellow-50/60 dark:from-amber-950/50 dark:via-slate-900/85 dark:to-orange-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(255, 251, 235, 0.94) 0%, rgba(254, 243, 199, 0.86) 55%, rgba(253, 230, 138, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(120, 53, 15, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(217, 119, 6, 0.24)',
-      borderColorLight: 'rgba(245, 158, 11, 0.45)',
-      borderColorDark: 'rgba(251, 191, 36, 0.36)',
-      watermarkColor: '#d97706',
-      border: 'border-amber-200/80 dark:border-amber-500/35 hover:border-amber-400 dark:hover:border-amber-400/70',
-      hanziColor: 'text-amber-600 dark:text-amber-400',
-      badge: 'bg-white/90 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-200/80 dark:border-amber-700/50',
-      iconColor: 'text-amber-600 dark:text-amber-300',
-      labelColor: 'text-amber-600 dark:text-amber-400',
-      bottomBar: 'bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500',
+    bentoStyle: {
+      // Mẫu Thẻ 60 / Thẻ 65: Amber-Orange-Stone
+      gradientCss: 'linear-gradient(135deg, #b45309 0%, #9a3412 52%, #1c1917 100%)',
+      accentText: '#fde047',
+      badgeBg: 'rgba(0, 0, 0, 0.28)',
+      badgeText: '#fef08a',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(253, 224, 71, 0.25)',
+      bottomBar: 'linear-gradient(90deg, #f59e0b 0%, #f97316 50%, #eab308 100%)',
+      watermarkColor: '#fde047',
     },
   },
   {
@@ -342,22 +503,16 @@ const FIVE_ELEMENTS_GOVERNANCE = [
     boxLabel: 'Triết lý cốt lõi:',
     boxContent: 'Thuận Tự Nhiên Để Quản Trị Bền Vững & Chuẩn Hóa Xuất Sắc',
     footer: 'Đồng Bộ 5 Trụ Cột Vận Hành',
-    theme: {
-      cardBg:
-        'bg-gradient-to-br from-purple-50/95 via-indigo-50/80 to-violet-50/60 dark:from-purple-950/50 dark:via-slate-900/85 dark:to-indigo-950/40',
-      bgLight: 'linear-gradient(135deg, rgba(250, 245, 255, 0.94) 0%, rgba(243, 232, 255, 0.86) 55%, rgba(233, 213, 255, 0.72) 100%)',
-      bgDark: 'linear-gradient(135deg, rgba(88, 28, 135, 0.48) 0%, rgba(15, 23, 42, 0.88) 100%)',
-      subBgLight: 'rgba(255, 255, 255, 0.74)',
-      subBgDark: 'rgba(147, 51, 234, 0.24)',
-      borderColorLight: 'rgba(168, 85, 247, 0.45)',
-      borderColorDark: 'rgba(192, 132, 252, 0.36)',
-      watermarkColor: '#9333ea',
-      border: 'border-purple-200/80 dark:border-purple-500/35 hover:border-purple-400 dark:hover:border-purple-400/70',
-      hanziColor: 'text-purple-600 dark:text-purple-400',
-      badge: 'bg-white/90 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border-purple-200/80 dark:border-purple-700/50',
-      iconColor: 'text-purple-600 dark:text-purple-300',
-      labelColor: 'text-purple-600 dark:text-purple-400',
-      bottomBar: 'bg-gradient-to-r from-sky-500 via-teal-500 to-purple-600',
+    bentoStyle: {
+      // Mẫu Thẻ 81 / Thẻ 1: Purple-Fuchsia-Indigo
+      gradientCss: 'linear-gradient(135deg, #7e22ce 0%, #86198f 52%, #1e1b4b 100%)',
+      accentText: '#fde047',
+      badgeBg: 'rgba(255, 255, 255, 0.15)',
+      badgeText: '#f5d0fe',
+      focusBoxBg: 'rgba(0, 0, 0, 0.28)',
+      focusBoxBorder: 'rgba(240, 171, 252, 0.28)',
+      bottomBar: 'linear-gradient(90deg, #38bdf8 0%, #c084fc 50%, #f472b6 100%)',
+      watermarkColor: '#e879f9',
     },
   },
 ];
@@ -413,20 +568,38 @@ const ZODIAC_SAMPLE_YEAR_BY_KEY: Record<string, number> = {
 export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const { showToast } = useToast();
   const { language, t } = useLanguage();
-  const { isDark } = useTheme();
-
   const shouldReduceMotion = useReducedMotion();
 
-  const level2CardStyle: React.CSSProperties = {
-    borderRadius: 'var(--radius-card, 14px)',
-    padding: '15px',
-    gap: '15px',
-  };
+  // Trạng thái chế độ hiệu ứng Bento Studio (Ánh sáng 3D / Nổi khối / Viền Neon / Tối giản)
+  const [fxIndex, setFxIndex] = useState<number>(0);
+  const currentFx = HOROSCOPE_CARD_EFFECT_MODES[fxIndex];
 
-  const level2InnerCardStyle: React.CSSProperties = {
-    borderRadius: 'var(--radius-subcard, 14px)',
-    padding: '12px',
-  };
+  const cycleCardEffectMode = useCallback(() => {
+    SoundEngine.playTap();
+    setFxIndex((prev) => {
+      const next = (prev + 1) % HOROSCOPE_CARD_EFFECT_MODES.length;
+      showToast(`Đã bật ${HOROSCOPE_CARD_EFFECT_MODES[next].label}`);
+      return next;
+    });
+  }, [showToast]);
+
+  const copySnippet = useCallback(
+    (text: string) => {
+      SoundEngine.playTap();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      } else {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+      showToast(`Đã sao chép: ${text}`);
+    },
+    [showToast]
+  );
 
   // Active Card State: 0..5 (6 main cards arranged horizontally with 10px gap, centered like HomeView)
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
@@ -607,7 +780,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   const card6Ref = useRef<HTMLElement>(null);
   const profileCardRef = useRef<HTMLElement>(null);
   const [combinedExpandedHeight, setCombinedExpandedHeight] = useState<number>(0);
-  const [profileMatchedHeight, setProfileMatchedHeight] = useState<number>(0);
 
   useEffect(() => {
     if (isTuViExpanded) return;
@@ -619,7 +791,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       if (profRect.height <= 0) return;
 
       const exactProfH = Math.round(profRect.height);
-      setProfileMatchedHeight((prev) => (Math.abs(prev - exactProfH) > 1 ? exactProfH : prev));
 
       if (!c6) return;
       const c6Rect = c6.getBoundingClientRect();
@@ -785,7 +956,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         borderRadius: 'var(--radius-banner, 14px)',
       }}
     >
-      {/* Lớp nền hình ảnh và gradient phủ */}
       <div
         id="horoscope-hero-banner-bg"
         className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
@@ -798,7 +968,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
       </div>
       <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
-      {/* Vùng Tiêu Đề: Không có nội dung bên trái tiêu đề, không có sub tiêu đề */}
       <div
         id="horoscope-hero-banner-header"
         className="banner-header-row relative z-10 flex items-center justify-between gap-2 w-full min-w-0"
@@ -870,6 +1039,18 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 })}
               </div>
 
+              <button
+                type="button"
+                onClick={() => {
+                  cycleCardEffectMode();
+                  closeMenu();
+                }}
+                className="banner-control-pill w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-play cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                <span className="truncate">{currentFx.label}</span>
+              </button>
+
               <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[var(--border-subcard)]">
                 <span className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-play">
                   <span className="w-2 h-2 rounded-full bg-amber-400" />
@@ -884,14 +1065,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </CompactBannerMenu>
       </div>
 
-      {/* Vùng Điều Khiển Dưới Banner: Bộ lọc danh mục chuyển thẻ + Badges */}
+      {/* Vùng Điều Khiển Dưới Banner: Bộ lọc danh mục chuyển thẻ + Chuyển hiệu ứng Bento Studio + Badges */}
       <div
         id="horoscope-hero-banner-controls"
         className="banner-desktop-controls relative z-30 flex flex-wrap items-center justify-between gap-2.5 mt-auto"
         ref={filterMenuRef}
       >
-        {/* Dropdown Menu chuyển thẻ phân tích Tử vi (Nút bộ lọc duy nhất) */}
-        <div className="relative inline-block text-left max-w-full min-w-0">
+        <div className="flex flex-wrap items-center gap-2 max-w-full min-w-0">
+          <div className="relative inline-block text-left max-w-full min-w-0">
             <button
               id="horoscope-filter-toggle-btn"
               type="button"
@@ -964,6 +1145,19 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+
+          {/* Nút chuyển đổi 4 chế độ hiệu ứng Bento Studio (Spotlight 3D / Nổi khối / Neon / Tối giản) */}
+          <button
+            id="horoscope-fx-mode-btn"
+            type="button"
+            onClick={cycleCardEffectMode}
+            title="Đổi hiệu ứng thẻ & rê chuột"
+            className="banner-control-pill h-9 inline-flex items-center gap-1.5 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-bold font-play"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+            <span className="truncate">{currentFx.label}</span>
+          </button>
         </div>
 
         {/* Badges thông tin bản mệnh */}
@@ -1003,7 +1197,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       )}
 
-      {/* Sách Luận giải lá số tử vi tương tác 18 trang kèm âm thanh */}
       <div className="w-full flex-1 min-h-0 flex flex-col items-center justify-center min-w-0 relative overflow-hidden">
         <TuViBookCard
           fitToHeight
@@ -1017,15 +1210,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   );
 
   // =========================================================================
-  // CARD 1: 1. HỒ SƠ NGUYỄN HÙNG THÁI
+  // CARD 1: 1. HỒ SƠ NGUYỄN HÙNG THÁI (ÁP DỤNG MẪU THẺ 12, THẺ 19, THẺ 58, THẺ 23/45, THẺ 16/57)
   // =========================================================================
   const renderCard1HoSoTuViContent = () => (
     <>
-      <div className="w-full flex items-center justify-between gap-2 pb-2.5 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
-        <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 text-purple-600 dark:text-purple-400">
-          <WebIcon name="user-check" className="w-4 h-4 shrink-0 text-purple-600 dark:text-purple-400" />
+      <div className="w-full flex items-center justify-between gap-2 pb-2.5 border-b border-white/15 min-w-0 shrink-0">
+        <div className="subcard-header-sync flex items-center gap-2 min-w-0 text-purple-300">
+          <Users className="lucide shrink-0 w-4 h-4 text-purple-300" />
           <h4
-            className="card-title subcard-title-synced typo-h4 font-play font-bold text-purple-600 dark:text-purple-400 tracking-tight min-w-0 truncate m-0"
+            className="card-title subcard-title-synced typo-h4 font-play font-bold text-white tracking-tight min-w-0 truncate m-0"
             data-subcard-title="true"
           >
             Hồ sơ Nguyễn Hùng Thái
@@ -1038,100 +1231,148 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             SoundEngine.playTap();
             scrollToHoroscopeCard(5, true);
           }}
-          className="typo-badge px-2.5 py-0.5 rounded-full bg-indigo-500/12 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25 hover:bg-indigo-500/20 transition-colors cursor-pointer shrink-0"
+          className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors cursor-pointer shrink-0 shadow-sm"
           title="Chuyển sang 5. Kiểm Tra Tương Hợp Công Việc"
         >
           5. Tương hợp →
         </button>
       </div>
 
-      {/* Lưới 4 sub-card thông tin bản mệnh (chiều cao full trong cột 30%) */}
+      {/* Lưới 4 sub-card thông tin bản mệnh chuẩn màu sắc & bố cục Bento Studio */}
       <div
         id="horoscope-profile-subgrid"
         data-card-layout={resolveAdaptiveCardLayout(4, false)}
         data-subcard-count={4}
-        className="grid grid-cols-1 grid-rows-4 items-stretch gap-[10px] p-0 w-full flex-1 h-full min-h-0 min-w-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-        style={{ gap: '10px', rowGap: '10px', columnGap: '10px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none' }}
+        className="grid grid-cols-1 grid-rows-4 items-stretch gap-[10px] p-0 w-full flex-1 h-full min-h-0 min-w-0 bg-transparent border-0 shadow-none outline-none box-border"
       >
-        {/* Bento Tile 1: Ngày sinh dương lịch */}
-        <div
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        {/* Tile 1: Ngày sinh dương lịch -> Mẫu Thẻ 19 (Thời Tiết / Dương Lịch Studio) & Thẻ 1 (Purple-Indigo) */}
+        <HoroscopeBentoCard
+          as="div"
+          fxMode={currentFx.id}
+          onClick={() => copySnippet('22/06/1984 (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)')}
+          style={{
+            background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 48%, #312e81 100%)',
+            padding: '12px',
+          }}
+          className="w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 cursor-pointer"
         >
-          <div className="flex items-center justify-between gap-1">
-            <h5 className="typo-label font-play font-bold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0">
-              Ngày sinh dương lịch
-            </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20 shrink-0">Dương</span>
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-yellow-300/25 rounded-full blur-2xl pointer-events-none" />
+          <div className="relative z-10 flex items-center justify-between gap-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Sun className="lucide shrink-0 w-4 h-4 text-yellow-300" />
+              <h5 className="text-xs font-bold uppercase tracking-wider text-purple-100 truncate m-0">
+                Ngày sinh dương lịch
+              </h5>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/15 text-yellow-200 border border-white/15 shrink-0">
+              Dương
+            </span>
           </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">22/06/1984</div>
-            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+          <div className="relative z-10 min-w-0 flex flex-col gap-0.5">
+            <div className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight">
+              22/06/1984
+            </div>
+            <div className="text-[11px] text-purple-200 leading-snug truncate">
               (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
             </div>
           </div>
-        </div>
+        </HoroscopeBentoCard>
 
-        {/* Bento Tile 2: Ngày sinh âm lịch */}
-        <div
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        {/* Tile 2: Ngày sinh âm lịch -> Mẫu Thẻ 58 (Lịch Âm & Ngày Hoàng Đạo: Red-800 via Rose-900 to Amber-950) */}
+        <HoroscopeBentoCard
+          as="div"
+          fxMode={currentFx.id}
+          onClick={() => copySnippet('24/05/1984 (Năm Giáp Tý 1984)')}
+          style={{
+            background: 'linear-gradient(135deg, #991b1b 0%, #881337 52%, #451a03 100%)',
+            padding: '12px',
+          }}
+          className="w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 cursor-pointer"
         >
-          <div className="flex items-center justify-between gap-1">
-            <h5 className="typo-label font-play font-bold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0">
-              Ngày sinh âm lịch
-            </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20 shrink-0">Âm</span>
+          <div className="relative z-10 flex items-center justify-between gap-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Moon className="lucide shrink-0 w-4 h-4 text-amber-300" />
+              <h5 className="text-xs font-bold uppercase tracking-wider text-amber-300 truncate m-0">
+                Ngày sinh âm lịch
+              </h5>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-400/25 shrink-0">
+              Âm
+            </span>
           </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">24/05/1984</div>
-            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+          <div className="relative z-10 min-w-0 flex flex-col gap-0.5">
+            <div className="text-xl sm:text-2xl font-bold text-amber-300 tracking-tight leading-tight">
+              24/05/1984
+            </div>
+            <div className="text-[11px] text-rose-200 leading-snug truncate">
               (Năm Giáp Tý 1984)
             </div>
           </div>
-        </div>
+        </HoroscopeBentoCard>
 
-        {/* Bento Tile 3: Giờ sinh can chi */}
-        <div
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-amber-500/20 hover:border-amber-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        {/* Tile 3: Giờ sinh can chi -> Mẫu Thẻ 45 / Thẻ 23 (Amber-500 via Orange-600 to Red-800) */}
+        <HoroscopeBentoCard
+          as="div"
+          fxMode={currentFx.id}
+          onClick={() => copySnippet('Giờ Quý Dậu (17h - 19h) • Thiên Can: Quý, Địa Chi: Dậu')}
+          style={{
+            background: 'linear-gradient(135deg, #d97706 0%, #ea580c 48%, #991b1b 100%)',
+            padding: '12px',
+          }}
+          className="w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 cursor-pointer"
         >
-          <div className="flex items-center justify-between gap-1">
-            <h5 className="typo-label font-play font-bold tracking-wide text-amber-600 dark:text-amber-400 whitespace-normal break-words m-0">
-              Giờ sinh can chi
-            </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20 shrink-0">Hoàng Đạo</span>
+          <div className="relative z-10 flex items-center justify-between gap-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Clock className="lucide shrink-0 w-4 h-4 text-amber-200" />
+              <h5 className="text-xs font-bold uppercase tracking-wider text-amber-100 truncate m-0">
+                Giờ sinh can chi
+              </h5>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/30 text-amber-200 border border-white/15 shrink-0">
+              Hoàng Đạo
+            </span>
           </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
-            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+          <div className="relative z-10 min-w-0 flex flex-col gap-0.5">
+            <div className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight truncate">
+              Giờ Quý Dậu (17h - 19h)
+            </div>
+            <div className="text-[11px] text-orange-100 leading-snug truncate">
               (Thiên Can: Quý, Địa Chi: Dậu)
             </div>
           </div>
-        </div>
+        </HoroscopeBentoCard>
 
-        {/* Bento Tile 4: Năm sinh nạp âm */}
-        <div
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-emerald-500/20 hover:border-emerald-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+        {/* Tile 4: Năm sinh nạp âm -> Mẫu Thẻ 16 / Thẻ 57 (Emerald-700 via Teal-800 to Green-950) */}
+        <HoroscopeBentoCard
+          as="div"
+          fxMode={currentFx.id}
+          onClick={() => copySnippet('Hải Trung Kim (Vàng Ròng Đáy Biển Sâu)')}
+          style={{
+            background: 'linear-gradient(135deg, #047857 0%, #115e59 52%, #052e16 100%)',
+            padding: '12px',
+          }}
+          className="w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 cursor-pointer"
         >
-          <div className="flex items-center justify-between gap-1">
-            <h5 className="typo-label font-play font-bold tracking-wide text-emerald-600 dark:text-emerald-400 whitespace-normal break-words m-0">
-              Năm sinh nạp âm
-            </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 shrink-0">Mệnh Kim</span>
+          <div className="relative z-10 flex items-center justify-between gap-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <Shield className="lucide shrink-0 w-4 h-4 text-emerald-300" />
+              <h5 className="text-xs font-bold uppercase tracking-wider text-emerald-200 truncate m-0">
+                Năm sinh nạp âm
+              </h5>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 shrink-0">
+              Mệnh Kim
+            </span>
           </div>
-          <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h4 font-play font-extrabold text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
-            <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
+          <div className="relative z-10 min-w-0 flex flex-col gap-0.5">
+            <div className="text-lg sm:text-xl font-bold text-emerald-200 tracking-tight leading-tight">
+              Hải Trung Kim
+            </div>
+            <div className="text-[11px] text-emerald-100/85 leading-snug truncate">
               (Vàng Ròng Đáy Biển Sâu)
             </div>
           </div>
-        </div>
+        </HoroscopeBentoCard>
       </div>
     </>
   );
@@ -1188,11 +1429,61 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   };
 
   // =========================================================================
-  // CARD 2: 2. PHONG CÁCH QUẢN TRỊ (ĐỒNG BỘ BỐ CỤC CARD THƯ NGỎ)
+  // CARD 2: 2. PHONG CÁCH QUẢN TRỊ (ÁP DỤNG MẪU THẺ 1, THẺ 14, THẺ 25, THẺ 6)
   // =========================================================================
   const renderCard2PhongCachQuanTri = () => {
     const isActive = activeCardIndex === 1;
-    const traitIcons = ['compass', 'shield-check', 'users', 'sparkles'];
+    const traitTemplates = [
+      {
+        // Mẫu Thẻ 1 (Purple-600 via Purple-700 to Indigo-900)
+        bg: 'linear-gradient(135deg, #9333ea 0%, #7e22ce 48%, #312e81 100%)',
+        orbClass: 'bg-white/10 -right-12 -top-12 w-48 h-48',
+        icon: <Compass className="lucide shrink-0 w-5 h-5 text-purple-200" />,
+        titleClass: 'text-white',
+        descClass: 'text-purple-100/95',
+        subBadgeClass: 'bg-white/15 text-purple-100 border-white/20',
+        tagBadgeClass: 'bg-purple-950/60 text-amber-300 border-purple-400/35',
+        chipClass: 'bg-purple-950/55 hover:bg-purple-900/75 text-white border border-purple-400/30',
+        checkColor: 'text-amber-300',
+      },
+      {
+        // Mẫu Thẻ 14 (Cyan-600 to Blue-900)
+        bg: 'linear-gradient(135deg, #0891b2 0%, #1d4ed8 52%, #1e3a8a 100%)',
+        orbClass: 'bg-cyan-300/15 -right-10 -bottom-10 w-44 h-44',
+        icon: <Shield className="lucide shrink-0 w-5 h-5 text-cyan-200" />,
+        titleClass: 'text-white',
+        descClass: 'text-cyan-100/95',
+        subBadgeClass: 'bg-white/15 text-cyan-100 border-white/20',
+        tagBadgeClass: 'bg-black/30 text-cyan-200 border-cyan-400/30',
+        chipClass: 'bg-white/15 hover:bg-white/25 text-white border border-white/15',
+        checkColor: 'text-cyan-200',
+      },
+      {
+        // Mẫu Thẻ 25 / Thẻ 16 (Slate-800 via Teal-900 to Emerald-950)
+        bg: 'linear-gradient(135deg, #065f46 0%, #134e4a 50%, #0f172a 100%)',
+        orbClass: 'bg-emerald-400/15 -right-10 -top-10 w-44 h-44',
+        icon: <Target className="lucide shrink-0 w-5 h-5 text-emerald-300" />,
+        titleClass: 'text-white',
+        descClass: 'text-emerald-100/90',
+        subBadgeClass: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30',
+        tagBadgeClass: 'bg-black/30 text-emerald-300 border-emerald-500/30',
+        chipClass: 'bg-black/30 hover:bg-black/45 text-emerald-100 border border-emerald-400/25',
+        checkColor: 'text-emerald-400',
+      },
+      {
+        // Mẫu Thẻ 6 (Pink-600 to Purple-800 với chữ Gradient vàng-hồng)
+        bg: 'linear-gradient(135deg, #db2777 0%, #9d174d 48%, #581c87 100%)',
+        orbClass: 'bg-yellow-300/25 -top-8 -right-8 w-40 h-40',
+        icon: <Users className="lucide shrink-0 w-5 h-5 text-yellow-300" />,
+        titleClass: 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200',
+        descClass: 'text-pink-100/95',
+        subBadgeClass: 'bg-white/15 text-pink-100 border-white/20',
+        tagBadgeClass: 'bg-black/30 text-yellow-200 border-yellow-300/30',
+        chipClass: 'bg-black/25 hover:bg-black/40 text-yellow-100 border border-yellow-300/25',
+        checkColor: 'text-yellow-300',
+      },
+    ];
+
     return (
       <section
         id="horoscope-card-2"
@@ -1241,62 +1532,66 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-2"
           data-card-layout={resolveAdaptiveCardLayout(WORK_PERSONALITY_TRAITS.length, false)}
           data-subcard-count={WORK_PERSONALITY_TRAITS.length}
-          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{
-            gap: '15px',
-            rowGap: '15px',
-            columnGap: '15px',
-            padding: '0px',
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            backdropFilter: 'none',
-            WebkitBackdropFilter: 'none',
-            border: 'none',
-            boxShadow: 'none',
-            outline: 'none',
-            width: '100%',
-          }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none box-border"
         >
           {WORK_PERSONALITY_TRAITS.map((trait, index) => {
-            const palettes = [
-              { text: 'text-sky-700 dark:text-sky-300' },
-              { text: 'text-violet-700 dark:text-violet-300' },
-              { text: 'text-emerald-700 dark:text-emerald-300' },
-              { text: 'text-amber-700 dark:text-amber-300' },
-            ];
-            const p = palettes[index % 4];
-            const iconName = traitIcons[index % traitIcons.length];
+            const tpl = traitTemplates[index % traitTemplates.length];
             return (
-              <article
+              <HoroscopeBentoCard
                 key={trait.id}
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                fxMode={currentFx.id}
+                onClick={() => showToast(`${trait.title} • ${trait.subtitle}`)}
+                style={{
+                  background: tpl.bg,
+                  padding: '16px',
+                }}
+                className="flex flex-col justify-between gap-3 w-full h-full min-h-0 min-w-0 text-left cursor-pointer"
               >
-                <div className="w-full flex flex-col gap-2.5 min-w-0">
-                  <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] ${p.text}`}>
-                    <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
+                <div className={cn('absolute rounded-full blur-3xl pointer-events-none', tpl.orbClass)} />
+
+                <div className="relative z-10 w-full flex flex-col gap-2.5 min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <span className={cn('text-[11px] font-bold px-2.5 py-0.5 rounded-full border', tpl.subBadgeClass)}>
+                      {trait.subtitle}
+                    </span>
+                    <span className={cn('text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border', tpl.tagBadgeClass)}>
+                      {trait.tag}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 pb-2 border-b border-white/15 min-w-0">
+                    {tpl.icon}
                     <h4
-                      className={`card-title subcard-title-synced typo-h4 ${p.text} font-play font-bold tracking-tight break-words leading-snug m-0`}
+                      className={cn(
+                        'text-lg sm:text-xl font-bold font-play tracking-tight break-words leading-snug m-0',
+                        tpl.titleClass
+                      )}
                       data-subcard-title="true"
                     >
                       {trait.title}
                     </h4>
                   </div>
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
+
+                  <p className={cn('text-xs sm:text-sm leading-relaxed text-left break-words m-0', tpl.descClass)}>
                     {trait.description}
                   </p>
                 </div>
-                <div className="pt-2.5 border-t border-[var(--border-subcard)] flex flex-wrap gap-1.5">
+
+                <div className="relative z-10 pt-2.5 border-t border-white/15 flex flex-wrap gap-1.5">
                   {trait.highlights.map((h, hIdx) => (
-                    <span key={hIdx} className="project-detail-chip px-2.5 py-0.5 rounded-full typo-badge flex items-center gap-1">
-                      <Check className="w-3 h-3 text-emerald-500 shrink-0 stroke-[2.5]" />
+                    <span
+                      key={hIdx}
+                      className={cn(
+                        'px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-colors',
+                        tpl.chipClass
+                      )}
+                    >
+                      <CheckCircle className={cn('w-3.5 h-3.5 shrink-0', tpl.checkColor)} />
                       <span>{h}</span>
                     </span>
                   ))}
                 </div>
-              </article>
+              </HoroscopeBentoCard>
             );
           })}
         </div>
@@ -1305,11 +1600,79 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   };
 
   // =========================================================================
-  // CARD 3: 3. CHÂN DUNG CÔNG VIỆC (6 CUNG CỐT LÕI - ĐỒNG BỘ BỐ CỤC CARD 2)
+  // CARD 3: 3. CHÂN DUNG CÔNG VIỆC · 6 CUNG CỐT LÕI (ÁP DỤNG MẪU THẺ 8, 3, 29, 14, 26, 10)
   // =========================================================================
   const renderCard3ChanDungVaTrietLy = () => {
     const isActive = activeCardIndex === 2;
-    const palaceIcons = ['crown', 'briefcase', 'globe', 'coins', 'users', 'shield-check'];
+    const palaceTemplates = [
+      {
+        // Mẫu Thẻ 8 (Thành Tựu: Blue-600 via Blue-700 to Indigo-900 + Gradient Title)
+        bg: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #312e81 100%)',
+        icon: <Award className="lucide shrink-0 w-5 h-5 text-yellow-300" />,
+        titleClass: 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200',
+        tagClass: 'bg-white/15 text-yellow-200 border-white/20',
+        descClass: 'text-blue-100/95',
+        starPrimaryClass: 'bg-yellow-400/25 text-yellow-200 border-yellow-300/40',
+        starSecondaryClass: 'bg-white/15 text-white border-white/15',
+        bulletIconColor: 'text-yellow-300',
+      },
+      {
+        // Mẫu Thẻ 3 (Quy Trình AI: Emerald-600 to Teal-900)
+        bg: 'linear-gradient(135deg, #059669 0%, #0f766e 52%, #134e4a 100%)',
+        icon: <Briefcase className="lucide shrink-0 w-5 h-5 text-emerald-200" />,
+        titleClass: 'text-white',
+        tagClass: 'bg-black/35 text-emerald-300 border-emerald-400/30',
+        descClass: 'text-emerald-100/95',
+        starPrimaryClass: 'bg-emerald-400/25 text-emerald-200 border-emerald-300/40',
+        starSecondaryClass: 'bg-black/25 text-emerald-100 border-white/15',
+        bulletIconColor: 'text-emerald-300',
+      },
+      {
+        // Mẫu Thẻ 29 / Thẻ 60 (Studio Platinum / Amber-700 via Orange-800 to Stone-900)
+        bg: 'linear-gradient(135deg, #b45309 0%, #9a3412 52%, #1c1917 100%)',
+        icon: <DollarSign className="lucide shrink-0 w-5 h-5 text-amber-300" />,
+        titleClass: 'text-amber-200',
+        tagClass: 'bg-black/35 text-amber-300 border-amber-400/30',
+        descClass: 'text-amber-100/90',
+        starPrimaryClass: 'bg-amber-400/25 text-amber-200 border-amber-300/40',
+        starSecondaryClass: 'bg-black/25 text-amber-100 border-white/15',
+        bulletIconColor: 'text-amber-300',
+      },
+      {
+        // Mẫu Thẻ 14 / Thẻ 40 (Mạng Lưới Edge: Sky-600 via Blue-700 to Indigo-900)
+        bg: 'linear-gradient(135deg, #0284c7 0%, #1d4ed8 52%, #1e1b4b 100%)',
+        icon: <Globe className="lucide shrink-0 w-5 h-5 text-cyan-200" />,
+        titleClass: 'text-white',
+        tagClass: 'bg-white/15 text-sky-200 border-white/20',
+        descClass: 'text-sky-100/95',
+        starPrimaryClass: 'bg-cyan-400/25 text-cyan-200 border-cyan-300/40',
+        starSecondaryClass: 'bg-white/15 text-white border-white/15',
+        bulletIconColor: 'text-cyan-300',
+      },
+      {
+        // Mẫu Thẻ 26 (Kho Mẫu Prompt: Violet-600 to Fuchsia-800)
+        bg: 'linear-gradient(135deg, #7c3aed 0%, #6b21a8 52%, #701a75 100%)',
+        icon: <Users className="lucide shrink-0 w-5 h-5 text-violet-200" />,
+        titleClass: 'text-white',
+        tagClass: 'bg-white/15 text-fuchsia-200 border-white/20',
+        descClass: 'text-violet-100/95',
+        starPrimaryClass: 'bg-fuchsia-400/25 text-fuchsia-200 border-fuchsia-300/40',
+        starSecondaryClass: 'bg-white/15 text-white border-white/15',
+        bulletIconColor: 'text-fuchsia-300',
+      },
+      {
+        // Mẫu Thẻ 10 / Thẻ 80 (Rose-600 via Pink-700 to Purple-900)
+        bg: 'linear-gradient(135deg, #e11d48 0%, #be185d 52%, #4c1d95 100%)',
+        icon: <Heart className="lucide shrink-0 w-5 h-5 text-rose-200" />,
+        titleClass: 'text-white',
+        tagClass: 'bg-white/15 text-rose-200 border-white/20',
+        descClass: 'text-rose-100/95',
+        starPrimaryClass: 'bg-amber-400/25 text-amber-200 border-amber-300/40',
+        starSecondaryClass: 'bg-black/25 text-rose-100 border-white/15',
+        bulletIconColor: 'text-rose-300',
+      },
+    ];
+
     return (
       <section
         id="horoscope-card-3"
@@ -1358,78 +1721,68 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-3"
           data-card-layout="responsive-grid"
           data-subcard-count={SIX_CORE_PALACES.length}
-          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{
-            gap: '15px',
-            rowGap: '15px',
-            columnGap: '15px',
-            padding: '0px',
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            backdropFilter: 'none',
-            WebkitBackdropFilter: 'none',
-            border: 'none',
-            boxShadow: 'none',
-            outline: 'none',
-            width: '100%',
-          }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none box-border"
         >
           {SIX_CORE_PALACES.map((palace, index) => {
-            const palettes = [
-              'text-rose-700 dark:text-rose-300',
-              'text-amber-700 dark:text-amber-300',
-              'text-emerald-700 dark:text-emerald-300',
-              'text-cyan-700 dark:text-cyan-300',
-              'text-indigo-700 dark:text-indigo-300',
-              'text-fuchsia-700 dark:text-fuchsia-300',
-            ];
-            const titleColor = palettes[index % 6];
-            const iconName = palaceIcons[index % palaceIcons.length];
+            const tpl = palaceTemplates[index % palaceTemplates.length];
             return (
-              <article
+              <HoroscopeBentoCard
                 key={palace.id}
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[10px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                fxMode={currentFx.id}
+                onClick={() => showToast(`${palace.name} • ${palace.tag}`)}
+                style={{
+                  background: tpl.bg,
+                  padding: '15px',
+                }}
+                className="flex flex-col justify-between gap-2.5 w-full h-full min-h-0 min-w-0 text-left cursor-pointer"
               >
-                <div className="w-full flex flex-col gap-2 min-w-0">
-                  <div className={`subcard-header-sync w-full flex items-center gap-1.5 min-w-0 pb-2 border-b border-[var(--border-subcard)] ${titleColor}`}>
-                    <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
-                    <h4
-                      className={`card-title subcard-title-synced typo-h4 ${titleColor} font-play font-bold tracking-tight break-words leading-snug m-0 min-w-0`}
-                      data-subcard-title="true"
-                    >
-                      {palace.name}
-                    </h4>
+                <div className="relative z-10 w-full flex flex-col gap-2 min-w-0">
+                  <div className="w-full flex items-center justify-between gap-2 pb-2 border-b border-white/15 min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
+                      {tpl.icon}
+                      <h4
+                        className={cn(
+                          'text-base sm:text-lg font-bold font-play tracking-tight truncate m-0',
+                          tpl.titleClass
+                        )}
+                        data-subcard-title="true"
+                      >
+                        {palace.name}
+                      </h4>
+                    </div>
+                    <span className={cn('text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0', tpl.tagClass)}>
+                      {palace.tag}
+                    </span>
                   </div>
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
+
+                  <p className={cn('text-xs leading-relaxed text-left break-words m-0', tpl.descClass)}>
                     {palace.description}
                   </p>
+
                   <div className="flex flex-wrap gap-1.5 pt-0.5">
                     {palace.stars.map((star, sIdx) => (
                       <span
                         key={sIdx}
-                        className={`px-2 py-0.5 rounded-full typo-badge border ${
-                          sIdx === 0
-                            ? 'bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30'
-                            : 'project-detail-chip'
-                        }`}
+                        className={cn(
+                          'px-2 py-0.5 rounded-md text-[11px] font-bold border',
+                          sIdx === 0 ? tpl.starPrimaryClass : tpl.starSecondaryClass
+                        )}
                       >
                         ★ {star}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div className="space-y-1 pt-2 border-t border-[var(--border-subcard)]">
+
+                <div className="relative z-10 space-y-1.5 pt-2 border-t border-white/15">
                   {palace.bullets.map((b, bIdx) => (
-                    <div key={bIdx} className="flex items-start gap-1.5 typo-body-sm font-medium text-[var(--text-primary)]">
-                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-emerald-500 shrink-0" />
-                      <span className="break-words leading-snug">{b}</span>
+                    <div key={bIdx} className="flex items-center gap-2 bg-black/20 px-2.5 py-1.5 rounded-lg text-xs font-bold text-white">
+                      <CheckCircle className={cn('w-3.5 h-3.5 shrink-0', tpl.bulletIconColor)} />
+                      <span className="truncate leading-snug">{b}</span>
                     </div>
                   ))}
                 </div>
-              </article>
+              </HoroscopeBentoCard>
             );
           })}
         </div>
@@ -1438,11 +1791,73 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   };
 
   // =========================================================================
-  // MAIN CARD 4: 6 TRỤ CỘT TRIẾT LÝ LÃNH ĐẠO & HÀNH ĐỘNG (ĐỒNG BỘ BỐ CỤC CARD THƯ NGỎ)
+  // MAIN CARD 4: 6 TRỤ CỘT TRIẾT LÝ LÃNH ĐẠO & HÀNH ĐỘNG (ÁP DỤNG MẪU THẺ 19, 9/73, 10, 16, 5, 22 + THẺ 51)
   // =========================================================================
   const renderCardPillarsTrietLy = () => {
     const isActive = activeCardIndex === 3;
-    const pillarIcons = ['compass', 'bar-chart-2', 'heart', 'shield-check', 'zap', 'trophy'];
+    const pillarTemplates = [
+      {
+        // 01: Mẫu Thẻ 19 (Sky-500 via Blue-600 to Indigo-800)
+        bg: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #3730a3 100%)',
+        isDarkText: false,
+        icon: <Compass className="lucide shrink-0 w-5 h-5 text-yellow-300" />,
+        titleClass: 'text-white',
+        descClass: 'text-sky-100/95',
+        badgeClass: 'bg-white/15 text-yellow-200 border-white/20',
+        footerLabel: 'Tầm nhìn 3–5 năm • Kiến trúc bền vững',
+      },
+      {
+        // 02: Mẫu Thẻ 9 / Thẻ 73 (Slate-900 via Indigo-900 to Violet-950 + Mini Bar Chart)
+        bg: 'linear-gradient(135deg, #312e81 0%, #4c1d95 52%, #0f172a 100%)',
+        isDarkText: false,
+        icon: <BarChart2 className="lucide shrink-0 w-5 h-5 text-cyan-300" />,
+        titleClass: 'text-white',
+        descClass: 'text-indigo-100/95',
+        badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
+        footerLabel: '100% Data-Driven • Minh bạch thực chứng',
+      },
+      {
+        // 03: Mẫu Thẻ 10 (Rose-600 via Pink-700 to Purple-900)
+        bg: 'linear-gradient(135deg, #e11d48 0%, #be185d 52%, #581c87 100%)',
+        isDarkText: false,
+        icon: <Heart className="lucide shrink-0 w-5 h-5 text-rose-200" />,
+        titleClass: 'text-white',
+        descClass: 'text-rose-100/95',
+        badgeClass: 'bg-white/15 text-rose-200 border-white/20',
+        footerLabel: 'Lắng nghe đa chiều • Thấu cảm từng điểm chạm',
+      },
+      {
+        // 04: Mẫu Thẻ 16 (Emerald-800 via Teal-900 to Gray-900)
+        bg: 'linear-gradient(135deg, #065f46 0%, #134e4a 52%, #111827 100%)',
+        isDarkText: false,
+        icon: <Shield className="lucide shrink-0 w-5 h-5 text-emerald-400" />,
+        titleClass: 'text-white',
+        descClass: 'text-emerald-100/90',
+        badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
+        footerLabel: 'Chính trực khách quan • Giá trị đạo đức gốc',
+      },
+      {
+        // 05: Mẫu Thẻ 5 (Cập Nhật Siêu Tốc: Amber-400 via Orange-500 to Orange-600 + text-gray-950)
+        bg: 'linear-gradient(135deg, #fbbf24 0%, #f97316 52%, #ea580c 100%)',
+        isDarkText: true,
+        icon: <Zap className="lucide shrink-0 w-5 h-5 text-gray-950" />,
+        titleClass: 'text-gray-950',
+        descClass: 'text-gray-900/90 font-medium',
+        badgeClass: 'bg-gray-950/15 text-gray-950 border-gray-950/20',
+        footerLabel: 'Thực thi quyết liệt • Tối ưu mỗi ngày',
+      },
+      {
+        // 06: Mẫu Thẻ 22 (Đánh Giá Khách Hàng: Fuchsia-700 to Purple-950 + 5 Stars)
+        bg: 'linear-gradient(135deg, #a21caf 0%, #6b21a8 52%, #3b0764 100%)',
+        isDarkText: false,
+        icon: <Award className="lucide shrink-0 w-5 h-5 text-amber-300" />,
+        titleClass: 'text-white',
+        descClass: 'text-fuchsia-100/95',
+        badgeClass: 'bg-amber-400/20 text-amber-300 border-amber-300/30',
+        footerLabel: 'Thước đo: CSAT • Cost-to-Serve • Đội ngũ',
+      },
+    ];
+
     return (
       <section
         id="horoscope-card-pillars"
@@ -1491,72 +1906,141 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-pillars"
           data-card-layout={resolveAdaptiveCardLayout(ACTION_PHILOSOPHY_CARDS.length, false)}
           data-subcard-count={ACTION_PHILOSOPHY_CARDS.length}
-          className="w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 items-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 items-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none box-border"
         >
           {ACTION_PHILOSOPHY_CARDS.map((card, idx) => {
-            const iconName = pillarIcons[idx % pillarIcons.length];
+            const tpl = pillarTemplates[idx % pillarTemplates.length];
             return (
-              <article
+              <HoroscopeBentoCard
                 key={idx}
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                fxMode={currentFx.id}
+                isDarkText={tpl.isDarkText}
+                onClick={() => showToast(`Trụ cột 0${idx + 1}: ${card.title}`)}
+                style={{
+                  background: tpl.bg,
+                  padding: '15px',
+                }}
+                className="flex flex-col justify-between gap-3 w-full h-full min-h-0 min-w-0 text-left cursor-pointer"
               >
-                <div className="w-full flex flex-col gap-2.5 min-w-0">
-                  <div className="pb-2.5 border-b border-[var(--border-subcard)] flex items-center justify-between gap-2">
-                    <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${card.color}`}>
-                      <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
+                <div className="relative z-10 w-full flex flex-col gap-2.5 min-w-0">
+                  <div
+                    className={cn(
+                      'pb-2.5 border-b flex items-center justify-between gap-2',
+                      tpl.isDarkText ? 'border-gray-950/15' : 'border-white/15'
+                    )}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      {tpl.icon}
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${card.color} font-play font-bold tracking-tight break-words leading-snug m-0`}
+                        className={cn(
+                          'text-base sm:text-lg font-play font-bold tracking-tight break-words leading-snug m-0',
+                          tpl.titleClass
+                        )}
                         data-subcard-title="true"
                       >
                         {card.title}
                       </h4>
                     </div>
-                    <span className="typo-label font-mono tabular-nums font-bold text-[var(--text-muted)] shrink-0">
+                    <span
+                      className={cn(
+                        'text-xs font-mono tabular-nums font-bold px-2.5 py-0.5 rounded-full border shrink-0',
+                        tpl.badgeClass
+                      )}
+                    >
                       0{idx + 1}
                     </span>
                   </div>
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
+
+                  {idx === 5 && (
+                    <div className="flex items-center gap-1 text-amber-300">
+                      {[...Array(5)].map((_, sIdx) => (
+                        <Star key={sIdx} className="w-3.5 h-3.5 fill-current" />
+                      ))}
+                    </div>
+                  )}
+
+                  <p className={cn('text-xs sm:text-sm leading-relaxed text-left break-words m-0', tpl.descClass)}>
                     {card.desc}
                   </p>
                 </div>
-              </article>
+
+                <div
+                  className={cn(
+                    'relative z-10 pt-2.5 border-t flex items-center justify-between text-[11px] font-bold uppercase tracking-wider',
+                    tpl.isDarkText ? 'border-gray-950/15 text-gray-950' : 'border-white/15 text-white/80'
+                  )}
+                >
+                  <span className="truncate">{tpl.footerLabel}</span>
+                  {idx === 1 && (
+                    <div className="flex items-end gap-1 h-4 shrink-0 ml-2">
+                      <span className="w-1.5 bg-cyan-400/50 rounded-t h-2" />
+                      <span className="w-1.5 bg-cyan-400/75 rounded-t h-3" />
+                      <span className="w-1.5 bg-cyan-300 rounded-t h-4" />
+                    </div>
+                  )}
+                </div>
+              </HoroscopeBentoCard>
             );
           })}
         </div>
 
-        {/* Câu nói hay bên dưới Card 4 (padding 15px, luôn nằm gọn trong thẻ) */}
-        <div
+        {/* Câu nói hay bên dưới Card 4 -> Mẫu Thẻ 51 (Trích Dẫn Truyền Cảm Hứng Tương Tác) */}
+        <HoroscopeBentoCard
+          as="div"
           id="horoscope-card-pillars-quote"
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard shrink-0 w-full p-[15px] rounded-[var(--radius-subcard,14px)] border border-amber-500/30 flex items-center gap-3 box-border"
+          fxMode={currentFx.id}
+          disableTilt
+          style={{
+            background: 'linear-gradient(135deg, #5b21b6 0%, #4c1d95 48%, #0f172a 100%)',
+            padding: '14px 16px',
+          }}
+          className="shrink-0 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 box-border"
         >
-          <div className="w-8 h-8 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 flex items-center justify-center shrink-0">
-            <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
-          </div>
-          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
-            <p className="typo-body font-play font-semibold italic text-[var(--text-primary)] leading-snug m-0">
-              “Lãnh đạo bền vững không đến từ uy quyền áp đặt, mà từ tầm nhìn sáng rõ, dữ liệu minh bạch, trái tim thấu cảm và kỷ luật hành động nhất quán mỗi ngày.”
-            </p>
-            <span className="typo-caption font-semibold text-amber-700 dark:text-amber-300">
-              — Triết lý lãnh đạo · Nguyễn Hùng Thái
+          <div className="absolute -right-10 -bottom-10 w-44 h-44 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 flex items-start sm:items-center gap-3 min-w-0 flex-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-1 rounded-full shrink-0">
+              Triết Lý Lãnh Đạo
             </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs sm:text-sm font-play font-bold italic text-white leading-snug m-0">
+                “Lãnh đạo bền vững không đến từ uy quyền áp đặt, mà từ tầm nhìn sáng rõ, dữ liệu minh bạch, trái tim thấu cảm và kỷ luật hành động nhất quán mỗi ngày.”
+              </p>
+              <span className="text-[11px] font-bold text-amber-300 mt-0.5 block">
+                — Triết lý lãnh đạo · Nguyễn Hùng Thái
+              </span>
+            </div>
           </div>
-        </div>
+          <button
+            type="button"
+            onClick={() =>
+              copySnippet(
+                '“Lãnh đạo bền vững không đến từ uy quyền áp đặt, mà từ tầm nhìn sáng rõ, dữ liệu minh bạch, trái tim thấu cảm và kỷ luật hành động nhất quán mỗi ngày.” — Triết lý lãnh đạo · Nguyễn Hùng Thái'
+              )
+            }
+            className="relative z-10 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 transition-colors cursor-pointer shrink-0 self-end sm:self-center"
+            title="Sao chép câu nói"
+          >
+            <Copy className="w-4 h-4" />
+          </button>
+        </HoroscopeBentoCard>
       </section>
     );
   };
 
   // =========================================================================
-  // CARD 5: 4. KỸ NĂNG NGŨ HÀNH (ĐỒNG BỘ BỐ CỤC CARD THƯ NGỎ)
+  // CARD 5: 4. KỸ NĂNG NGŨ HÀNH (ÁP DỤNG MẪU THẺ 14, 34, 63, 32, 60, 81 + THẺ 53)
   // =========================================================================
   const renderCard4KyNangNguHanh = () => {
     const isActive = activeCardIndex === 4;
-    const elementIcons = ['shield-check', 'cpu', 'users', 'heart', 'layers', 'network'];
+    const elementLucideIcons = [
+      <Shield key="kim" className="lucide shrink-0 w-4 h-4" />,
+      <Cpu key="thuy" className="lucide shrink-0 w-4 h-4" />,
+      <Users key="moc" className="lucide shrink-0 w-4 h-4" />,
+      <Heart key="hoa" className="lucide shrink-0 w-4 h-4" />,
+      <Layers key="tho" className="lucide shrink-0 w-4 h-4" />,
+      <Compass key="hop" className="lucide shrink-0 w-4 h-4" />,
+    ];
+
     return (
       <section
         id="horoscope-card-4"
@@ -1605,137 +2089,151 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-4"
           data-card-layout={resolveAdaptiveCardLayout(FIVE_ELEMENTS_GOVERNANCE.length, false)}
           data-subcard-count={FIVE_ELEMENTS_GOVERNANCE.length}
-          className="five-elements-grid w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="five-elements-grid w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-3 p-0 items-stretch bg-transparent border-0 shadow-none outline-none box-border"
         >
           {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
-            const iconName = elementIcons[idx % elementIcons.length];
-            const cardElementBg = isDark ? item.theme.bgDark : item.theme.bgLight;
-            const subElementBg = isDark ? item.theme.subBgDark : item.theme.subBgLight;
-            const borderElementColor = isDark ? item.theme.borderColorDark : item.theme.borderColorLight;
+            const bs = item.bentoStyle;
             return (
-              <article
+              <HoroscopeBentoCard
                 key={idx}
-                data-element-type="card"
-                data-section-card="true"
-                data-ngu-hanh-card="true"
+                fxMode={currentFx.id}
+                onClick={() => showToast(`${item.title} (${item.palaceBadge})`)}
                 style={{
-                  ...level2CardStyle,
-                  background: cardElementBg,
-                  borderColor: borderElementColor,
+                  background: bs.gradientCss,
+                  padding: '14px',
                 }}
-                className="bento-view-card bento-card glass-card ngu-hanh-element-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)]"
+                className="ngu-hanh-element-card flex flex-col justify-between gap-2 relative overflow-hidden w-full h-full min-h-0 min-w-0 text-left cursor-pointer"
               >
-                {/* Icon chìm Ngũ Hành & Chữ Hán chìm góc dưới bên phải */}
+                {/* Chữ Hán chìm góc dưới phải */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none select-none absolute -bottom-3 -right-2 z-0 flex items-center justify-center opacity-[0.11] dark:opacity-[0.15]"
-                  style={{ color: item.theme.watermarkColor }}
+                  className="pointer-events-none select-none absolute -bottom-2 right-2 z-0 flex items-center justify-center opacity-15"
+                  style={{ color: bs.watermarkColor }}
                 >
-                  <WebIcon name={item.watermarkIcon || iconName} className="w-24 h-24" />
-                  <span className="absolute text-[54px] font-bold leading-none font-serif">
+                  <span className="text-[48px] font-bold leading-none font-serif">
                     {item.hanzi}
                   </span>
                 </div>
 
-                <div className="relative z-10 w-full flex flex-col gap-2.5 min-w-0">
-                  <div
-                    className="pb-2.5 border-b flex flex-wrap items-center justify-between gap-1.5"
-                    style={{ borderColor: borderElementColor }}
-                  >
-                    <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 ${item.theme.iconColor}`}>
-                      <WebIcon name={iconName} className="w-4 h-4 shrink-0" />
+                {/* Đầu thẻ & mô tả chính */}
+                <div className="relative z-10 w-full flex flex-col gap-1.5 min-w-0">
+                  <div className="pb-1.5 border-b border-white/15 flex items-center justify-between gap-2 min-w-0">
+                    <div
+                      className="flex items-center gap-1.5 min-w-0 flex-1"
+                      style={{ color: bs.accentText }}
+                    >
+                      {elementLucideIcons[idx % elementLucideIcons.length]}
                       <h4
-                        className={`card-title subcard-title-synced typo-h4 ${item.theme.iconColor} tracking-tight font-play font-bold break-words leading-snug m-0`}
+                        className="text-sm sm:text-base tracking-tight font-play font-bold truncate leading-snug m-0"
+                        style={{ color: bs.accentText }}
                         data-subcard-title="true"
+                        title={item.title}
                       >
                         {item.title}
                       </h4>
                     </div>
                     <span
-                      className="typo-badge px-2 py-0.5 rounded-full border shrink-0 font-semibold"
+                      className="text-[10px] px-2 py-0.5 rounded-full border border-white/15 shrink-0 font-bold whitespace-nowrap"
                       style={{
-                        background: subElementBg,
-                        borderColor: borderElementColor,
-                        color: 'var(--text-primary)',
+                        background: bs.badgeBg,
+                        color: bs.badgeText,
                       }}
                     >
                       {item.palaceBadge}
                     </span>
                   </div>
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
+                  <p className="text-xs text-white/90 leading-snug text-left break-words m-0">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="relative z-10 w-full flex flex-col gap-2.5 pt-1 min-w-0">
+                {/* Khối trọng tâm & chân thẻ */}
+                <div className="relative z-10 w-full flex flex-col gap-1.5 mt-auto min-w-0">
                   <div
-                    data-subcard="true"
                     style={{
-                      ...level2InnerCardStyle,
-                      background: subElementBg,
-                      borderColor: borderElementColor,
+                      background: bs.focusBoxBg,
+                      borderColor: bs.focusBoxBorder,
                     }}
-                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-1 border"
+                    className="rounded-xl p-2.5 space-y-0.5 border"
                   >
-                    <div className={`typo-label font-play font-semibold ${item.theme.labelColor}`}>
+                    <div
+                      className="text-[11px] font-play font-bold leading-tight"
+                      style={{ color: bs.accentText }}
+                    >
                       {item.boxLabel}
                     </div>
-                    <div className="card-body-text typo-body-sm font-semibold text-[var(--text-primary)] leading-snug">
+                    <div className="text-xs font-bold text-white leading-snug">
                       {item.boxContent}
                     </div>
                   </div>
 
-                  <div
-                    className="space-y-1.5 pt-2 border-t"
-                    style={{ borderColor: borderElementColor }}
-                  >
-                    <div className="typo-caption font-semibold text-[var(--text-secondary)]">
+                  <div className="space-y-1 pt-1.5 border-t border-white/15">
+                    <div className="text-[11px] font-bold text-white/80 truncate">
                       {item.footer}
                     </div>
-                    <div className={`h-1 w-full rounded-full ${item.theme.bottomBar}`} />
+                    <div
+                      className="h-1.5 w-full rounded-full"
+                      style={{ background: bs.bottomBar }}
+                    />
                   </div>
                 </div>
-              </article>
+              </HoroscopeBentoCard>
             );
           })}
         </div>
 
-        {/* Câu nói hay bên dưới 4. Kỹ Năng Ngũ Hành (padding 15px, luôn nằm gọn trong thẻ) */}
-        <div
+        {/* Câu nói hay bên dưới 4. Kỹ Năng Ngũ Hành -> Mẫu Thẻ 53 (Góc Suy Ngẫm: Cyan-800 to Slate-900) */}
+        <HoroscopeBentoCard
+          as="div"
           id="horoscope-card-4-quote"
-          data-subcard="true"
-          style={level2InnerCardStyle}
-          className="sub-card letter-subcard shrink-0 w-full p-[15px] rounded-[var(--radius-subcard,14px)] border border-cyan-500/30 flex items-center gap-3 box-border"
+          fxMode={currentFx.id}
+          disableTilt
+          style={{
+            background: 'linear-gradient(135deg, #155e75 0%, #0f172a 100%)',
+            padding: '12px 16px',
+          }}
+          className="shrink-0 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 box-border"
         >
-          <div className="w-8 h-8 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 dark:text-cyan-300 flex items-center justify-center shrink-0">
-            <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+          <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+            <Feather className="lucide w-5 h-5 text-cyan-300 shrink-0" />
+            <div className="min-w-0 flex-1 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+              <p className="text-xs sm:text-sm font-play font-bold italic text-white leading-snug m-0">
+                “Kim giữ chuẩn mực, Thủy khai hiệu suất, Mộc nuôi nội lực, Hỏa thắp trải nghiệm, Thổ dựng nền sâu — khi ngũ hành tương sinh, tổ chức tự khắc vận hành bền vững.”
+              </p>
+              <span className="text-xs font-bold text-cyan-300 shrink-0 whitespace-nowrap">
+                — Ngũ Hành Quản Trị · Hải Trung Kim 1984
+              </span>
+            </div>
           </div>
-          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
-            <p className="typo-body font-play font-semibold italic text-[var(--text-primary)] leading-snug m-0">
-              “Kim giữ chuẩn mực, Thủy khai hiệu suất, Mộc nuôi nội lực, Hỏa thắp trải nghiệm, Thổ dựng nền sâu — khi ngũ hành tương sinh, tổ chức tự khắc vận hành bền vững.”
-            </p>
-            <span className="typo-caption font-semibold text-cyan-700 dark:text-cyan-300">
-              — Ngũ Hành Quản Trị · Hải Trung Kim 1984
-            </span>
-          </div>
-        </div>
+          <button
+            type="button"
+            onClick={() =>
+              copySnippet(
+                '“Kim giữ chuẩn mực, Thủy khai hiệu suất, Mộc nuôi nội lực, Hỏa thắp trải nghiệm, Thổ dựng nền sâu — khi ngũ hành tương sinh, tổ chức tự khắc vận hành bền vững.” — Ngũ Hành Quản Trị · Hải Trung Kim 1984'
+              )
+            }
+            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-cyan-200 transition-colors cursor-pointer shrink-0 self-end sm:self-center"
+            title="Sao chép câu nói"
+          >
+            <Copy className="w-3.5 h-3.5" />
+          </button>
+        </HoroscopeBentoCard>
       </section>
     );
   };
 
   // =========================================================================
-  // CARD 6: 5. KIỂM TRA TƯƠNG HỢP CÔNG VIỆC (12 Con Giáp & Tương Hợp 4 Phòng Ban)
+  // CARD 6: 5. KIỂM TRA TƯƠNG HỢP CÔNG VIỆC (ÁP DỤNG MẪU THẺ 2/73 + THẺ 75/80)
   // =========================================================================
   const renderCard5KiemTraCongViec = () => {
     const isActive = activeCardIndex === 5;
     const signInfo = currentCanChiResult.sign;
     const toneBadgeClass =
       signInfo.tone === 'positive'
-        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40'
         : signInfo.tone === 'caution'
-          ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30'
-          : 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30';
+          ? 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+          : 'bg-sky-500/20 text-sky-300 border-sky-400/40';
 
     return (
       <section
@@ -1788,179 +2286,183 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-5"
           data-card-layout={resolveAdaptiveCardLayout(2, false)}
           data-subcard-count={2}
-          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-1 items-stretch content-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-1 items-stretch content-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none box-border"
         >
-          {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI (FULL CHIỀU CAO) */}
-              <article
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full min-h-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
-              >
-                <div className="space-y-3">
-                  <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] text-indigo-600 dark:text-indigo-300">
-                    <WebIcon name="search" className="w-4 h-4 shrink-0" />
-                    <h4
-                      className="card-title subcard-title-synced typo-h4 font-play font-bold text-indigo-600 dark:text-indigo-300 tracking-tight break-words leading-snug m-0"
-                      data-subcard-title="true"
-                    >
-                      Tra Cứu Tuổi Làm Việc Chung
-                    </h4>
-                  </div>
+          {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI (Mẫu Thẻ 2 / Thẻ 73: Slate-900 via Gray-800 to Indigo-950) */}
+          <HoroscopeBentoCard
+            fxMode={currentFx.id}
+            disableTilt
+            style={{
+              background: 'linear-gradient(135deg, #0f172a 0%, #1f2937 50%, #1e1b4b 100%)',
+              padding: '16px',
+            }}
+            className="h-full min-h-0 flex flex-col justify-between gap-4 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 min-w-0 pb-2.5 border-b border-white/15">
+                <Calendar className="lucide w-5 h-5 text-purple-400 shrink-0" />
+                <h4
+                  className="text-lg sm:text-xl font-play font-bold text-white tracking-tight break-words leading-snug m-0"
+                  data-subcard-title="true"
+                >
+                  Tra Cứu Tuổi Làm Việc Chung
+                </h4>
+              </div>
 
-                  {/* Input Tra Cứu */}
-                  <div className="relative flex items-center pt-1">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={searchYearInput}
-                      onChange={(e) => setSearchYearInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleYearSearch();
-                      }}
-                      placeholder="Nhập năm sinh (VD: 1992)"
-                      className="theme-input w-full pl-3.5 pr-28 py-2.5 rounded-[12px] typo-input font-semibold border focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs"
-                    />
-                    <button
-                      id="horoscope-lookup-search-btn"
-                      type="button"
-                      onClick={handleYearSearch}
-                      style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-                      className="absolute right-1 px-4 py-1.5 rounded-[10px] typo-button font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
-                    >
-                      <Search className="w-3.5 h-3.5" />
-                      <span>Tra Cứu</span>
-                    </button>
-                  </div>
+              {/* Input Tra Cứu chuẩn Bento Studio Thẻ 18 / Thẻ 81 */}
+              <div className="relative flex items-center gap-2 pt-1">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={searchYearInput}
+                  onChange={(e) => setSearchYearInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleYearSearch();
+                  }}
+                  placeholder="Nhập năm sinh (VD: 1992)"
+                  className="flex-1 bg-black/35 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white placeholder-gray-400 focus:outline-none focus:border-purple-400"
+                />
+                <button
+                  id="horoscope-lookup-search-btn"
+                  type="button"
+                  onClick={handleYearSearch}
+                  className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-md"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Tra Cứu</span>
+                </button>
+              </div>
 
-                  <div className="space-y-2 pt-1">
-                    <div className="typo-label font-play font-semibold text-[var(--text-secondary)]">
-                      Hoặc chọn nhanh 12 Con Giáp:
-                    </div>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-[10px]">
-                      {ZODIAC_SIGNS.map((z) => {
-                        const isSel = signInfo.key === z.key;
-                        return (
-                          <button
-                            key={z.key}
-                            type="button"
-                            aria-pressed={isSel}
-                            onClick={() => handleSelectZodiac(z.key)}
-                            style={{
-                              borderRadius: 'var(--radius-subcard, 14px)',
-                              ...(isSel
-                                ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
-                                : {
-                                    background: 'var(--bg-subcard)',
-                                    color: 'var(--text-primary)',
-                                    borderColor: 'var(--border-subcard)',
-                                  }),
-                            }}
-                            className={`p-2 border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
-                              isSel ? 'shadow-md scale-[1.03]' : 'hover:opacity-90'
-                            }`}
-                          >
-                            <span className="typo-h5 leading-none">{z.icon}</span>
-                            <span className="typo-label font-bold">{z.name}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+              <div className="space-y-2 pt-1">
+                <div className="text-xs font-play font-bold text-gray-300">
+                  Hoặc chọn nhanh 12 Con Giáp:
                 </div>
-
-                <div className="pt-2.5 border-t border-[var(--border-subcard)] typo-caption text-[var(--text-secondary)] text-center">
-                  Nhập năm sinh bất kỳ hoặc chọn 1 trong 12 con giáp để đối chiếu Can Chi, Ngũ Hành và mức độ hòa hợp công việc với Giáp Tý 1984.
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                  {ZODIAC_SIGNS.map((z) => {
+                    const isSel = signInfo.key === z.key;
+                    return (
+                      <button
+                        key={z.key}
+                        type="button"
+                        aria-pressed={isSel}
+                        onClick={() => handleSelectZodiac(z.key)}
+                        className={cn(
+                          'p-2.5 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all duration-200 cursor-pointer group',
+                          isSel
+                            ? 'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 text-gray-950 border-amber-300 shadow-lg scale-[1.04]'
+                            : 'bg-gray-700/50 hover:bg-purple-600/30 hover:border-purple-400/50 border-white/10 text-white'
+                        )}
+                      >
+                        <span className="text-xl leading-none group-hover:scale-110 transition-transform">
+                          {z.icon}
+                        </span>
+                        <span className="text-xs font-bold">{z.name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              </article>
+              </div>
+            </div>
 
-              {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU (FULL CHIỀU CAO) */}
-              <article
-                id="horoscope-match-result-card"
-                data-element-name="Thẻ Kết Quả Đối Chiếu Với Giáp Tý 1984"
-                data-element-type="card"
-                data-section-card="true"
-                style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full min-h-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
-              >
-                <div className="flex-1 min-h-0 flex flex-col justify-between gap-3">
-                  <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] text-purple-600 dark:text-purple-300">
-                    <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
-                    <h4
-                      className="card-title subcard-title-synced typo-h4 font-play font-bold tracking-tight text-purple-600 dark:text-purple-300 break-words leading-snug m-0"
-                      data-subcard-title="true"
-                    >
-                      Kết Quả Đối Chiếu Với Giáp Tý 1984
-                    </h4>
-                  </div>
+            <div className="pt-2.5 border-t border-white/10 text-xs text-gray-300 text-center">
+              Nhập năm sinh bất kỳ hoặc chọn 1 trong 12 con giáp để đối chiếu Can Chi, Ngũ Hành và mức độ hòa hợp công việc với Giáp Tý 1984.
+            </div>
+          </HoroscopeBentoCard>
 
-                  {/* Thông tin Con Giáp Được Chọn */}
-                  <div className="flex flex-col gap-2">
-                    <h5 className="typo-h5 font-play font-bold text-[var(--text-heading)] break-words leading-snug m-0">
-                      Tuổi {signInfo.name} ({activeLookupYear} • {currentCanChiResult.canChi} • Mệnh {currentCanChiResult.element})
-                    </h5>
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className={`px-2.5 py-0.5 rounded-full typo-badge border ${toneBadgeClass}`}>
-                        {signInfo.type}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full typo-badge bg-indigo-500/12 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25">
-                        {currentCanChiResult.elementRelation}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full typo-badge bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                        Vai trò: {signInfo.role}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="card-body-text typo-body text-[var(--text-primary)] leading-relaxed text-left break-words m-0">
-                    {signInfo.detail}
-                  </p>
-
-                  {/* Grid 2 Khối: Điểm mạnh & Điểm nghẽn (15px gap, equal height) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 items-stretch gap-[15px]">
-                    <div
-                      data-subcard="true"
-                      style={level2InnerCardStyle}
-                      className="sub-card letter-subcard h-full rounded-[var(--radius-subcard,14px)] space-y-1.5"
-                    >
-                      <h5 className="typo-h5 font-play font-bold text-emerald-600 dark:text-emerald-400 m-0">
-                        Điểm mạnh kết hợp
-                      </h5>
-                      <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                        {signInfo.strength}
-                      </p>
-                    </div>
-
-                    <div
-                      data-subcard="true"
-                      style={level2InnerCardStyle}
-                      className="sub-card letter-subcard h-full rounded-[var(--radius-subcard,14px)] space-y-1.5"
-                    >
-                      <h5 className="typo-h5 font-play font-bold text-amber-600 dark:text-amber-400 m-0">
-                        Điểm nghẽn chú ý
-                      </h5>
-                      <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                        {signInfo.caution}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Gợi ý điều phối */}
-                  <div
-                    data-subcard="true"
-                    style={level2InnerCardStyle}
-                    className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] space-y-1.5"
+          {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU (Mẫu Thẻ 75 / Thẻ 80: Violet-900 via Indigo-950 to Slate-900) */}
+          <HoroscopeBentoCard
+            id="horoscope-match-result-card"
+            data-element-name="Thẻ Kết Quả Đối Chiếu Với Giáp Tý 1984"
+            fxMode={currentFx.id}
+            disableTilt
+            style={{
+              background: 'linear-gradient(135deg, #4c1d95 0%, #1e1b4b 52%, #0f172a 100%)',
+              padding: '16px',
+            }}
+            className="h-full min-h-0 flex flex-col justify-between gap-3 min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
+          >
+            <div className="flex-1 min-h-0 flex flex-col justify-between gap-3">
+              <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/15">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Award className="lucide w-5 h-5 text-amber-300 shrink-0" />
+                  <h4
+                    className="text-lg sm:text-xl font-play font-bold tracking-tight text-white break-words leading-snug m-0"
+                    data-subcard-title="true"
                   >
-                    <h5 className="typo-h5 font-play font-bold text-purple-600 dark:text-purple-400 m-0">
-                      Gợi ý điều phối
-                    </h5>
-                    <p className="card-body-text typo-body-sm text-[var(--text-primary)] leading-relaxed m-0">
-                      {signInfo.advice}
-                    </p>
-                  </div>
+                    Kết Quả Đối Chiếu Với Giáp Tý 1984
+                  </h4>
                 </div>
-              </article>
+                <button
+                  type="button"
+                  onClick={() =>
+                    copySnippet(
+                      `Tuổi ${signInfo.name} (${activeLookupYear} • ${currentCanChiResult.canChi} • Mệnh ${currentCanChiResult.element}): ${signInfo.detail}`
+                    )
+                  }
+                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-purple-200 cursor-pointer shrink-0"
+                  title="Sao chép kết quả đối chiếu"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Thông tin Con Giáp Được Chọn */}
+              <div className="flex flex-col gap-2">
+                <h5 className="text-base sm:text-lg font-play font-bold text-amber-300 break-words leading-snug m-0">
+                  Tuổi {signInfo.name} ({activeLookupYear} • {currentCanChiResult.canChi} • Mệnh {currentCanChiResult.element})
+                </h5>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className={cn('px-2.5 py-0.5 rounded-full text-xs font-bold border', toneBadgeClass)}>
+                    {signInfo.type}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-500/20 text-purple-200 border border-purple-400/35">
+                    {currentCanChiResult.elementRelation}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/35">
+                    Vai trò: {signInfo.role}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-purple-100/95 leading-relaxed text-left break-words m-0">
+                {signInfo.detail}
+              </p>
+
+              {/* Grid 2 Khối: Điểm mạnh & Điểm nghẽn */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 items-stretch gap-3">
+                <div className="bg-emerald-500/15 border border-emerald-400/35 rounded-xl p-3 space-y-1">
+                  <h5 className="text-xs font-play font-bold text-emerald-300 flex items-center gap-1.5 m-0">
+                    <CheckCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span>Điểm mạnh kết hợp</span>
+                  </h5>
+                  <p className="text-xs text-white/90 leading-relaxed m-0">
+                    {signInfo.strength}
+                  </p>
+                </div>
+
+                <div className="bg-amber-500/15 border border-amber-400/35 rounded-xl p-3 space-y-1">
+                  <h5 className="text-xs font-play font-bold text-amber-300 flex items-center gap-1.5 m-0">
+                    <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                    <span>Điểm nghẽn chú ý</span>
+                  </h5>
+                  <p className="text-xs text-white/90 leading-relaxed m-0">
+                    {signInfo.caution}
+                  </p>
+                </div>
+              </div>
+
+              {/* Gợi ý điều phối */}
+              <div className="bg-black/30 border border-purple-400/30 rounded-xl p-3 space-y-1">
+                <h5 className="text-xs font-play font-bold text-purple-300 flex items-center gap-1.5 m-0">
+                  <Compass className="w-3.5 h-3.5 shrink-0" />
+                  <span>Gợi ý điều phối</span>
+                </h5>
+                <p className="text-xs text-white/90 leading-relaxed m-0">
+                  {signInfo.advice}
+                </p>
+              </div>
+            </div>
+          </HoroscopeBentoCard>
         </div>
       </section>
     );
@@ -1996,7 +2498,6 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           isActive ? 'opacity-100' : 'cursor-pointer opacity-45 hover:opacity-80'
         )}
       >
-        {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
         {renderHeroBanner()}
 
         {/* BỐ CỤC 70% CARD TỬ VI 6 & 30% HỒ SƠ NGUYỄN HÙNG THÁI (CHIỀU CAO FULL) */}
@@ -2010,8 +2511,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%', height: '100%', flex: '1 1 0%' }}
         >
           {/* Vị trí 1: Thẻ 6. Luận giải lá số tử vi (70% chiều ngang, full chiều cao, padding 5px) */}
-          <article
-            ref={card6Ref}
+          <HoroscopeBentoCard
+            cardRef={card6Ref}
             id="horoscope-card-6"
             data-element-name="Card tử vi 6"
             data-element-type="card"
@@ -2019,8 +2520,10 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             data-element-page="horoscope"
             data-element-parent="horoscope-card-1"
             data-expanded={isTuViExpanded ? 'true' : 'false'}
+            fxMode={currentFx.id}
+            disableTilt
             style={{
-              ...level2CardStyle,
+              background: 'linear-gradient(135deg, #1e1b4b 0%, #0f172a 55%, #172554 100%)',
               padding: '5px',
               gap: '0px',
               height: '100%',
@@ -2032,39 +2535,40 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 : {}),
             }}
             className={cn(
-              'bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-0 p-[5px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left transition-all duration-300',
+              'w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-0 p-[5px] overflow-hidden box-border text-left',
               isTuViExpanded ? 'h-full col-span-full' : ''
             )}
           >
             {renderCard6LuanGiaiContent()}
-          </article>
+          </HoroscopeBentoCard>
 
-          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (30% chiều ngang, full chiều cao, padding 15px) */}
+          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (30% chiều ngang, Mẫu Thẻ 12: Slate-800 to Slate-900) */}
           {!isTuViExpanded && (
-            <article
-              ref={profileCardRef}
+            <HoroscopeBentoCard
+              cardRef={profileCardRef}
               id="horoscope-card-profile"
               data-element-name="Thẻ Hồ sơ Nguyễn Hùng Thái"
               data-element-type="card"
               data-section-card="true"
               data-element-page="horoscope"
               data-element-parent="horoscope-card-1"
+              fxMode={currentFx.id}
+              disableTilt
               style={{
-                ...level2CardStyle,
+                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
                 padding: '15px',
                 height: '100%',
                 minHeight: '100%',
                 containerType: 'inline-size',
                 containerName: 'horoscope-profile-card',
               }}
-              className="bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[12px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left relative shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[12px] p-[15px] overflow-hidden box-border text-left relative"
             >
-              {/* Bento Studio glowing ambient orb */}
-              <div className="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
               <div className="relative z-10 w-full h-full min-h-0 flex flex-col justify-between gap-[12px]">
                 {renderCard1HoSoTuViContent()}
               </div>
-            </article>
+            </HoroscopeBentoCard>
           )}
         </div>
       </section>
@@ -2074,8 +2578,190 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
   return (
     <div
       id="horoscope-page-shell"
-      className="relative w-full max-w-full min-w-0 h-full flex-1 flex flex-col items-center justify-start min-h-0 overflow-hidden bg-transparent"
+      data-fx={currentFx.id}
+      className="horoscope-bento-root relative w-full max-w-full min-w-0 h-full flex-1 flex flex-col items-center justify-start min-h-0 overflow-hidden bg-transparent"
     >
+      {/* Toàn bộ CSS hiệu ứng thẻ & rê chuột chuẩn Bento Studio (Spotlight 3D, Float Shadow, Neon, Minimal, Ripple) */}
+      <style>{`
+        .horoscope-bento-studio-card {
+          border-radius: 12px !important;
+          --mx: 50%;
+          --my: 50%;
+          --rx: 0deg;
+          --ry: 0deg;
+          position: relative;
+          overflow: hidden;
+          transform-style: preserve-3d;
+          box-shadow:
+            0 12px 26px -8px rgba(0, 0, 0, 0.48),
+            0 4px 12px -3px rgba(0, 0, 0, 0.32),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+          transition:
+            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s ease,
+            background-color 0.3s ease,
+            color 0.3s ease,
+            opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+
+        .horoscope-bento-studio-card[data-dark-text="false"] {
+          color: #ffffff !important;
+        }
+
+        .horoscope-bento-studio-card[data-dark-text="true"] {
+          color: #030712 !important;
+        }
+
+        .horoscope-bento-studio-card:active {
+          transform: translateY(-2px) scale(0.992) !important;
+          box-shadow:
+            0 8px 18px -6px rgba(0, 0, 0, 0.5),
+            0 3px 8px -2px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .horoscope-bento-studio-card.card-reveal {
+          opacity: 0;
+          transform: translateY(18px) scale(0.98);
+        }
+
+        .horoscope-bento-studio-card.card-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        /* Lớp ánh sáng Spotlight bám theo con trỏ chuột (không dùng gương lóe sáng) */
+        .horoscope-bento-studio-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 20;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          background: radial-gradient(
+            380px circle at var(--mx) var(--my),
+            rgba(255, 255, 255, 0.16),
+            rgba(168, 85, 247, 0.08) 40%,
+            transparent 72%
+          );
+        }
+
+        /* Chế độ 1: Ánh sáng Spotlight + Nghiêng 3D + Nổi khối đổ bóng (Mặc định) */
+        .horoscope-bento-root[data-fx="spotlight-3d"] .horoscope-bento-studio-card:hover {
+          transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px) scale(1.015) !important;
+          box-shadow:
+            0 30px 50px -12px rgba(0, 0, 0, 0.62),
+            0 14px 24px -8px rgba(0, 0, 0, 0.42),
+            0 0 0 1px rgba(255, 255, 255, 0.24),
+            0 0 32px -6px rgba(139, 92, 246, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+          transition:
+            transform 0.14s ease-out,
+            box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.3s ease !important;
+        }
+
+        .horoscope-bento-root[data-fx="spotlight-3d"] .horoscope-bento-studio-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Chế độ 2: Nổi Khối & Đổ Bóng Chuyên Sâu */
+        .horoscope-bento-root[data-fx="float-shadow"] .horoscope-bento-studio-card:hover {
+          transform: translateY(-10px) scale(1.02) !important;
+          box-shadow:
+            0 36px 60px -14px rgba(0, 0, 0, 0.68),
+            0 18px 28px -10px rgba(0, 0, 0, 0.46),
+            0 0 0 1px rgba(255, 255, 255, 0.26),
+            inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+        }
+
+        .horoscope-bento-root[data-fx="float-shadow"] .horoscope-bento-studio-card:hover::before {
+          opacity: 0.75;
+        }
+
+        /* Chế độ 3: Viền Neon rực rỡ bám chuột + Nổi khối */
+        .horoscope-bento-root[data-fx="neon"] .horoscope-bento-studio-card::before {
+          background: radial-gradient(
+            340px circle at var(--mx) var(--my),
+            rgba(56, 189, 248, 0.24),
+            rgba(192, 132, 252, 0.16) 42%,
+            transparent 72%
+          );
+        }
+
+        .horoscope-bento-root[data-fx="neon"] .horoscope-bento-studio-card:hover {
+          transform: translateY(-8px) scale(1.015) !important;
+          border-color: rgba(192, 132, 252, 0.75) !important;
+          box-shadow:
+            0 28px 46px -12px rgba(0, 0, 0, 0.58),
+            0 18px 34px -8px rgba(139, 92, 246, 0.48),
+            0 0 26px -2px rgba(56, 189, 248, 0.42),
+            inset 0 0 20px rgba(168, 85, 247, 0.14) !important;
+        }
+
+        .horoscope-bento-root[data-fx="neon"] .horoscope-bento-studio-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Chế độ 4: Tối Giản (Nổi nhẹ + Đổ bóng mềm) */
+        .horoscope-bento-root[data-fx="minimal"] .horoscope-bento-studio-card:hover {
+          transform: translateY(-5px) !important;
+          box-shadow:
+            0 22px 36px -10px rgba(0, 0, 0, 0.5),
+            0 10px 18px -6px rgba(0, 0, 0, 0.32),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Vi tương tác biểu tượng bên trong thẻ khi rê chuột */
+        .horoscope-bento-studio-card svg.lucide {
+          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .horoscope-bento-studio-card:hover svg.lucide.shrink-0 {
+          transform: scale(1.14) rotate(-5deg);
+        }
+
+        /* Hiệu ứng gợn sóng (Ripple) khi nhấn vào thẻ */
+        .horoscope-card-ripple {
+          position: absolute;
+          border-radius: 9999px;
+          pointer-events: none;
+          z-index: 25;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.34) 0%, rgba(168, 85, 247, 0.16) 55%, transparent 75%);
+          transform: translate(-50%, -50%) scale(0);
+          animation: horoscopeCardRippleAnim 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes horoscopeCardRippleAnim {
+          0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0.9;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+          }
+        }
+
+        .bento-studio-border {
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        }
+
+        .bento-studio-border:hover {
+          border-color: rgba(255, 255, 255, 0.28) !important;
+        }
+
+        .gradient-text {
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent !important;
+          -webkit-text-fill-color: transparent !important;
+        }
+      `}</style>
+
       <div
         ref={horoscopeContainerRef}
         id="horoscope-page-container"
@@ -2143,9 +2829,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* NÚT TRÒN ĐIỀU HƯỚNG TRÁI / PHẢI (CHỈ HIỆN KHI KHÔNG THẤY NHÔ MÉP TRÁI/PHẢI) */}
-      {/* ========================================================================= */}
+      {/* NÚT TRÒN ĐIỀU HƯỚNG TRÁI / PHẢI */}
       {!canShowSidePeek && (
         <div
           aria-label="Điều hướng thẻ ngang Tử vi"

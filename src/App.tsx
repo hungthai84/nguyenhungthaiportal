@@ -2,6 +2,7 @@ import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react
 import { motion, MotionConfig, AnimatePresence } from 'motion/react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { MobileTopBarAndFloatingNav } from './components/layout/MobileTopBarAndFloatingNav';
 import { HomeView } from './components/views/HomeView';
 import { GlobalLoadingOverlay } from './components/common/GlobalLoadingOverlay';
 
@@ -330,11 +331,9 @@ export default function App() {
             ? Math.max(260, vw - 16)
             : Math.min(targetMaxW, Math.max(260, vw - 32));
 
-        if (headerMeasured > 0) {
-          const hVal = `${headerMeasured}px`;
-          rootEl.style.setProperty('--header-bar-h', hVal);
-          document.documentElement.style.setProperty('--header-bar-h', hVal);
-        }
+        const hVal = `${Math.max(0, headerMeasured)}px`;
+        rootEl.style.setProperty('--header-bar-h', hVal);
+        document.documentElement.style.setProperty('--header-bar-h', hVal);
         if (targetWidth > 0) {
           const wVal = `${targetWidth}px`;
           rootEl.style.setProperty('--home-main-card-w', wVal);
@@ -342,11 +341,9 @@ export default function App() {
           document.documentElement.style.setProperty('--home-main-card-w', wVal);
           document.documentElement.style.setProperty('--header-synced-w', wVal);
         }
-        if (footerMeasured > 0) {
-          const fVal = `${footerMeasured}px`;
-          rootEl.style.setProperty('--footer-bar-h', fVal);
-          document.documentElement.style.setProperty('--footer-bar-h', fVal);
-        }
+        const fVal = `${Math.max(0, footerMeasured)}px`;
+        rootEl.style.setProperty('--footer-bar-h', fVal);
+        document.documentElement.style.setProperty('--footer-bar-h', fVal);
       });
     };
 
@@ -486,6 +483,31 @@ export default function App() {
   );
 
   const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'liquid-glass');
+
+  const activeOrderIdx = MENU_ICON_ORDER.includes(currentTabIndex) ? currentTabIndex : 0;
+  const activeOrderPos = MENU_ICON_ORDER.indexOf(activeOrderIdx);
+  const activeSlideIdx = pageSlides[activeOrderIdx] ?? 0;
+  const activeTotalSlides = PAGE_SLIDE_COUNTS[activeOrderIdx] || 1;
+  const hasPrevPage = activeOrderPos > 0 || activeSlideIdx > 0;
+  const isAtLastPage =
+    activeOrderPos === MENU_ICON_ORDER.length - 1 && activeSlideIdx >= activeTotalSlides - 1;
+  const hasNextPage = !isAtLastPage;
+
+  const handleBackToTop = useCallback(() => {
+    SoundEngine.playPageFlip();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const rootEl = document.getElementById('website-root');
+    if (rootEl) {
+      rootEl.scrollTo({ top: 0, behavior: 'smooth' });
+      rootEl
+        .querySelectorAll<HTMLElement>(
+          '.overflow-y-auto, .overflow-auto, #global-content-viewport, .main-card'
+        )
+        .forEach((el) => {
+          el.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+  }, []);
 
   const renderActiveView = () => {
     switch (currentTabIndex) {
@@ -817,7 +839,7 @@ export default function App() {
             marginBottom: '0px',
             borderRadius: '0px',
           }}
-          className="w-full relative z-40 flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          className="w-full relative z-40 hidden md:flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
           <div
             id="app-header-wrapper"
@@ -845,6 +867,18 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* MOBILE MODE: Thanh điều khiển phía trên Thẻ chính (Danh mục Dynamic Menu bên trái + Thời tiết bên phải) & Nút nổi chuyển trang góc dưới phải */}
+      <MobileTopBarAndFloatingNav
+        currentTabIndex={currentTabIndex >= TABS_DATA.length ? 0 : currentTabIndex}
+        onSelectPage={handleSelectTabWithSound}
+        onNavigatePage={navigatePage}
+        onBackToTop={handleBackToTop}
+        onShowNotification={showNotification}
+        hasPrevPage={hasPrevPage}
+        hasNextPage={hasNextPage}
+        isAtLastPage={isAtLastPage}
+      />
 
       {/* MAIN CENTER CARD: Center Zone 82% chiều cao, padding trên/dưới 10px, trái/phải 0px (100% khi xem Trang Tải PDF) */}
       <main
@@ -922,7 +956,7 @@ export default function App() {
             marginBottom: '0px',
             borderRadius: '0px',
           }}
-          className="w-full relative z-50 flex items-stretch justify-center bg-transparent border-0 shadow-none"
+          className="w-full relative z-50 hidden md:flex items-stretch justify-center bg-transparent border-0 shadow-none"
         >
           <div
             id="app-footer-wrapper"

@@ -564,9 +564,14 @@ html #horoscope-row-1-horizontal > :is(article, div):not(#horoscope-card-6),
 html #horoscope-card-2-grid > :is(article, div),
 html #horoscope-card-3-grid > :is(article, div),
 html #horoscope-card-pillars-grid > :is(article, div),
-html #horoscope-card-4-grid > :is(article, div),
 html #horoscope-card-5-grid > :is(article, div) {
   padding: 15px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html #horoscope-card-4-grid > :is(article, div) {
+  padding: 12px 14px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
 }
@@ -1935,17 +1940,17 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
 html:not([data-surface-depth="depth"]) :is(
   #letter-card-1,
   [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not([data-expand-motion="true"]),
+  [data-main-card="true"]:not([data-expand-motion="true"]),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
   #pdf-page-container,
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
-  [data-subcard="true"],
-  .sub-card,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-expand-motion="true"]),
+  [data-subcard="true"]:not([data-expand-motion="true"]),
+  .sub-card:not([data-expand-motion="true"]),
   .hero-banner,
   .banner-card,
   .project-card,
@@ -1957,17 +1962,17 @@ html:not([data-surface-depth="depth"]) :is(
 html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #letter-card-1,
   [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not([data-expand-motion="true"]),
+  [data-main-card="true"]:not([data-expand-motion="true"]),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
   #pdf-page-container,
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
-  [data-subcard="true"],
-  .sub-card,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-expand-motion="true"]),
+  [data-subcard="true"]:not([data-expand-motion="true"]),
+  .sub-card:not([data-expand-motion="true"]),
   .hero-banner,
   .banner-card,
   .project-card,
@@ -1979,17 +1984,17 @@ html[data-card-style]:not([data-surface-depth="depth"]) :is(
 html:not([data-surface-depth="depth"]) :is(
   #letter-card-1,
   [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not([data-expand-motion="true"]),
+  [data-main-card="true"]:not([data-expand-motion="true"]),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
   #pdf-page-container,
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
-  [data-subcard="true"],
-  .sub-card,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-expand-motion="true"]),
+  [data-subcard="true"]:not([data-expand-motion="true"]),
+  .sub-card:not([data-expand-motion="true"]),
   .hero-banner,
   .banner-card,
   .project-card,
@@ -2001,17 +2006,17 @@ html:not([data-surface-depth="depth"]) :is(
 html[data-card-style]:not([data-surface-depth="depth"]) :is(
   #letter-card-1,
   [id^="letter-card-"],
-  .page-main-card,
-  [data-main-card="true"],
+  .page-main-card:not([data-expand-motion="true"]),
+  [data-main-card="true"]:not([data-expand-motion="true"]),
   #about-intro-card-1,
   #about-intro-card-2,
   #contact-main-card,
   #pdf-page-container,
-  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn),
-  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer),
-  [data-subcard="true"],
-  .sub-card,
+  .bento-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  .glass-card:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.theme-capsule-btn):not([data-expand-motion="true"]),
+  [data-section-card="true"]:not(#el-p0-div-16):not(#footer-nav-capsule):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(#app-header):not(#app-footer):not([data-expand-motion="true"]),
+  [data-subcard="true"]:not([data-expand-motion="true"]),
+  .sub-card:not([data-expand-motion="true"]),
   .hero-banner,
   .banner-card,
   .project-card,
@@ -2728,9 +2733,12 @@ html #education-book-view .education-book-media-rounded,
 html[data-card-style] #education-book-view .education-book-media-rounded,
 html #education-book-view img.education-book-media-img,
 html[data-card-style] #education-book-view img.education-book-media-img {
-  border-radius: 14px !important;
-  -webkit-clip-path: inset(0 round 14px) !important;
-  clip-path: inset(0 round 14px) !important;
+  border-radius: var(--card-radius, var(--radius-card, var(--radius-image, 14px))) !important;
+  -webkit-clip-path: inset(0 round var(--card-radius, var(--radius-card, var(--radius-image, 14px)))) !important;
+  clip-path: inset(0 round var(--card-radius, var(--radius-card, var(--radius-image, 14px)))) !important;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 html [data-media-card="video"]:not(#wallpaper-cards-grid *) > div,
@@ -7130,13 +7138,10 @@ html:root[data-card-style] body #app-footer::after {
   background: none !important;
 }
 
-/* 1. #header-center & #el-p0-div-112: đồng bộ cấu hình giao diện cho các nút điều hướng trạng thái mặc định */
-html:root body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root[data-card-style] body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root.dark[data-card-style] body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
-html:root.dark[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) {
+/* 1. #header-center, #el-p0-div-112 & #mobile-nav-menu-popup: đồng bộ cấu hình giao diện cho các nút điều hướng trạng thái mặc định */
+html:root body :is(#app-header #header-center, #app-footer #el-p0-div-112, #mobile-nav-menu-popup) button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root[data-card-style] body :is(#app-header #header-center, #app-footer #el-p0-div-112, #mobile-nav-menu-popup) button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root.dark[data-card-style] body :is(#app-header #header-center, #app-footer #el-p0-div-112, #mobile-nav-menu-popup) button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) {
   background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-card))) !important;
   border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
   box-shadow: var(--surface-interactive-shadow, var(--elev-pill-rest, var(--shadow-nav-pill))) !important;
@@ -7147,11 +7152,9 @@ html:root.dark[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:
   border-radius: var(--radius-button, 999px) !important;
 }
 
-/* 2. #header-center & #el-p0-div-112: giữ hiệu ứng nổi & đổi màu theo giao diện khi hover / active */
-html:not([data-surface-depth="flat"]):root body #app-header #header-center button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
-html:not([data-surface-depth="flat"]):root[data-card-style] body #app-header #header-center button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
-html:not([data-surface-depth="flat"]):root body #app-footer #el-p0-div-112 button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
-html:not([data-surface-depth="flat"]):root[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) {
+/* 2. #header-center, #el-p0-div-112 & #mobile-nav-menu-popup: giữ hiệu ứng nổi & đổi màu theo giao diện khi hover / active */
+html:not([data-surface-depth="flat"]):root body :is(#app-header #header-center, #app-footer #el-p0-div-112, #mobile-nav-menu-popup) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#app-header #header-center, #app-footer #el-p0-div-112, #mobile-nav-menu-popup) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) {
   box-shadow: var(--elev-pill-hover, var(--surface-interactive-shadow, var(--shadow-nav-pill))) !important;
   outline: var(--outline-nav-pill, none) !important;
   outline-offset: var(--outline-offset-nav-pill, -3px) !important;
@@ -7207,15 +7210,34 @@ html[data-surface-depth="flat"] body #app-footer :is(
 }
 
 /* Khu vực Footer (#el-p0-div-98) và Footer (#app-footer): 9% vùng footer, top padding 5px & bottom padding 5px */
-html:root body #el-p0-div-98,
-html:root[data-card-style] body #el-p0-div-98,
-html:root.dark[data-card-style] body #el-p0-div-98 {
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: center !important;
-  height: var(--shell-bar-h, clamp(68px, 9dvh, 84px)) !important;
-  min-height: 68px !important;
-  max-height: 88px !important;
+@media (min-width: 768px) {
+  html:root body #el-p0-div-98,
+  html:root[data-card-style] body #el-p0-div-98,
+  html:root.dark[data-card-style] body #el-p0-div-98 {
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    height: var(--shell-bar-h, clamp(68px, 9dvh, 84px)) !important;
+    min-height: 68px !important;
+    max-height: 88px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  html:root body #app-header-container,
+  html:root[data-card-style] body #app-header-container,
+  html:root.dark[data-card-style] body #app-header-container,
+  html:root body #el-p0-div-98,
+  html:root[data-card-style] body #el-p0-div-98,
+  html:root.dark[data-card-style] body #el-p0-div-98 {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 }
 
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
@@ -7347,44 +7369,80 @@ html:root[data-card-style] body #app-header:hover {
 }
 
 /* Trạng thái bình thường (không chọn, không rê chuột): tiêu đề giống màu nền hình tròn icon */
-html:root body #app-header button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
-html:root body #app-footer button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
   color: var(--nav-pill-accent, var(--color-primary)) !important;
 }
 
-/* Khi được chọn HOẶC khi rê chuột: nút màu nền giống icon, icon và tiêu đề chuyển sang cùng màu trắng */
-html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
-html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
-html:root.dark[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) {
-  background: var(--nav-pill-accent, var(--color-primary)) !important;
-  background-color: var(--nav-pill-accent, var(--color-primary)) !important;
-  border-color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary)) 70%, #ffffff) !important;
-  color: #ffffff !important;
+/* Khi được chọn HOẶC khi rê chuột: nút kết hợp màu nền accent + nền giao diện đang chọn */
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:root[data-theme] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 44%, transparent) 0%,
+      color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 26%, transparent) 100%
+    ),
+    var(--surface-interactive-bg, var(--bg-nav-pill, var(--pill-bg, var(--bg-card, #FFFFFF)))) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--nav-pill-accent, var(--color-primary, #4F46E5)) 68%,
+    var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color, transparent)))
+  ) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  outline: var(--outline-nav-pill, none) !important;
+  outline-offset: var(--outline-offset-nav-pill, -3px) !important;
+  color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 38%, var(--text-primary, #1E293B)) !important;
   opacity: 1 !important;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary)) 40%, transparent) !important;
 }
 
-html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
-html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
-html:root.dark[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title {
-  color: #ffffff !important;
+html:not([data-surface-depth="flat"]):root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) {
+  box-shadow:
+    var(--elev-pill-hover, var(--surface-interactive-shadow, var(--shadow-nav-pill, 0 6px 16px rgba(15, 23, 42, 0.14)))),
+    0 4px 14px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 32%, transparent) !important;
 }
 
-html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg),
-html:root.dark[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, svg) {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
+html:root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
+html:root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
+html:root[data-theme] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 38%, var(--text-primary, #1E293B)) !important;
+  -webkit-text-fill-color: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 38%, var(--text-primary, #1E293B)) !important;
+  text-shadow: none !important;
 }
 
-html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider {
-  background-color: rgba(255, 255, 255, 0.45) !important;
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, .nav-pill-icon-badge svg),
+html:root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, .nav-pill-icon-badge svg),
+html:root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, .nav-pill-icon-badge svg),
+html:root[data-theme] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-svg, .nav-pill-icon-badge svg) {
+  color: var(--color-bg, #FFFFFF) !important;
+  stroke: var(--color-bg, #FFFFFF) !important;
 }
 
-html:root body :is(#app-header, #app-footer) button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  background: rgba(255, 255, 255, 0.24) !important;
-  background-color: rgba(255, 255, 255, 0.24) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
+html:root:is([data-card-style="light-deep-ocean"], [data-theme="light-deep-ocean"]) body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule) :is(.nav-pill-icon-svg, .nav-pill-icon-badge svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider,
+html:root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider,
+html:root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider,
+html:root[data-theme] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider {
+  background: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 60%, var(--text-primary, transparent) 22%) !important;
+}
+
+html:root body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root.dark[data-card-style] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-theme] body :is(#app-header, #app-footer, #mobile-nav-menu-popup) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-image: none !important;
+  border-color: color-mix(in srgb, var(--color-bg, #FFFFFF) 70%, transparent) !important;
 }
 
 html:root body #app-header button.nav-pill:hover::before,
@@ -9616,22 +9674,28 @@ html:root[data-card-style] body :is(
 }
 
 #experience-main-card .exp-slider-view-root .news-card-img {
-  flex: 1 1 0% !important;
-  min-height: 96px !important;
+  flex: 0 0 auto !important;
+  min-height: 0 !important;
   max-height: none !important;
   height: auto !important;
-  margin-top: 8px !important;
+  margin-top: 6px !important;
   width: 100% !important;
   overflow: hidden !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 8px !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-card-img img {
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   max-width: 100% !important;
-  max-height: 100% !important;
+  max-height: 140px !important;
   object-fit: contain !important;
   display: block !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-card-title {
@@ -9724,17 +9788,8 @@ html:root[data-card-style] body #skills-languages-grid [id^="skills-language-car
 }
 
 /* ========================================================================= */
-/* INTERFACE PAGE: GLOBAL 4-CORNER CARD FIT-CONTENT + SYSTEMS CARD LAYOUT    */
+/* INTERFACE PAGE: SYSTEMS CARD LAYOUT                                       */
 /* ========================================================================= */
-html:root body #interface-global-customization-card,
-html:root[data-card-style] body #interface-global-customization-card,
-html:root.dark[data-card-style] body #interface-global-customization-card {
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  flex: 0 0 auto !important;
-  align-self: stretch !important;
-}
 
 /* Match SystemsView 3-col / 2-col / 1-col showcase grid on Interface page (auto mode) */
 #interface-page-container #interface-themes-grid.interface-themes-grid[data-cols="auto"] {
@@ -9963,6 +10018,45 @@ html:root[data-card-style] body #horoscope-card-5-grid > article {
   align-self: stretch !important;
 }
 
+/* Tối ưu bố cục thẻ 4. Kỹ Năng Ngũ Hành (#horoscope-card-4 & #horoscope-card-4-grid) */
+html:root body #horoscope-card-4,
+html:root[data-card-style] body #horoscope-card-4,
+html:root.dark[data-card-style] body #horoscope-card-4 {
+  gap: 12px !important;
+}
+
+html:root body #horoscope-card-4-grid,
+html:root[data-card-style] body #horoscope-card-4-grid,
+html:root.dark[data-card-style] body #horoscope-card-4-grid {
+  height: 100% !important;
+  align-items: stretch !important;
+  align-content: stretch !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
+}
+
+html:root body #horoscope-card-4-grid > article.ngu-hanh-element-card,
+html:root[data-card-style] body #horoscope-card-4-grid > article.ngu-hanh-element-card,
+html:root.dark[data-card-style] body #horoscope-card-4-grid > article.ngu-hanh-element-card {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 12px 14px !important;
+  align-self: stretch !important;
+}
+
+html:root body #horoscope-card-4-grid [data-subcard="true"].ngu-hanh-focus-box,
+html:root[data-card-style] body #horoscope-card-4-grid [data-subcard="true"].ngu-hanh-focus-box,
+html:root.dark[data-card-style] body #horoscope-card-4-grid [data-subcard="true"].ngu-hanh-focus-box {
+  padding: 8px 10px !important;
+}
+
+html:root body #horoscope-card-4-quote,
+html:root[data-card-style] body #horoscope-card-4-quote,
+html:root.dark[data-card-style] body #horoscope-card-4-quote {
+  padding: 10px 14px !important;
+}
+
 html:root body #horoscope-row-1-horizontal,
 html:root[data-card-style] body #horoscope-row-1-horizontal {
   flex: 1 1 0% !important;
@@ -10146,13 +10240,18 @@ html:root[data-card-style] body :is(
 /* ========================================================================= */
 /* FINAL OVERRIDE 3: OPEN LETTER CONTENT CARD (#letter-main-scroll-viewport) */
 /* ========================================================================= */
-html:root body #letter-main-card #letter-main-scroll-viewport[data-section-card="true"],
-html:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport[data-section-card="true"],
-html.dark:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport[data-section-card="true"] {
-  background: var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.72))) !important;
-  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.28))) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  box-shadow: var(--layer-l2-shadow, var(--shadow-card, none)) !important;
+html:root body #letter-main-card #letter-main-scroll-viewport,
+html:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport,
+html.dark:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport,
+html:root body #letter-main-card #welcomeEnvelopeOverlay,
+html:root[data-card-style] body #letter-main-card #welcomeEnvelopeOverlay,
+html.dark:root[data-card-style] body #letter-main-card #welcomeEnvelopeOverlay {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   padding: 0px !important;
   color: var(--text-primary) !important;
 }
@@ -10329,10 +10428,13 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
 /* ========================================================================= */
 /* FINAL OVERRIDE 5: MOBILE FOOTER COMPACT FIT (<640px) & FROSTED POPUPS     */
 /* ========================================================================= */
-html:root body :is(#footer-theme-popup, #footer-lang-popup),
-html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup),
-html.dark:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) {
-  background: color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
+html:root body :is(#footer-theme-popup, #footer-lang-popup, #mobile-nav-menu-popup),
+html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup, #mobile-nav-menu-popup),
+html.dark:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup, #mobile-nav-menu-popup) {
+  background: color-mix(in srgb, var(--bg-popup, var(--surface-primary-bg, var(--bg-card, #ffffff))) 96%, var(--app-bg-base, var(--color-bg, #ffffff))) !important;
+  border: var(--card-border-width, 1px) solid var(--border-popup, var(--surface-primary-border, var(--border-color, rgba(148, 163, 184, 0.28)))) !important;
+  box-shadow: var(--shadow-popup, var(--surface-primary-shadow, 0 20px 44px rgba(15, 23, 42, 0.22))) !important;
+  border-radius: var(--radius-popup, var(--radius-card, 16px)) !important;
   backdrop-filter: blur(24px) saturate(165%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
 }
@@ -10408,5 +10510,103 @@ html.dark:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup
   }
 }
 
-/* End of index.css */
+/* ========================================================================= */
+/* TRANG CHỦ: HIỆU ỨNG CÁC LINE CHUYỂN ĐỘNG XOAY QUANH HÌNH TRÒN            */
+/* ========================================================================= */
+@keyframes homeOrbitSpinCw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
+@keyframes homeOrbitSpinCcw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-circle-orbit-lines svg {
+    animation: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* FOCUS MODE: TRANG KINH NGHIỆM — NỀN SLIDER TRONG SUỐT 100%               */
+/* ========================================================================= */
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active),
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active),
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::before,
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::after,
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg,
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::before,
+html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::after,
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::before,
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::after,
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg,
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::before,
+html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::after,
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::before,
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::after,
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg,
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::before,
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider > .news-slider-bg::after {
+  content: none !important;
+  display: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* ========================================================================= */
+/* FOCUS MODE: TRANG GIỚI THIỆU — #about-bento-grid NỀN TRONG SUỐT 100%      */
+/* ========================================================================= */
+html:root body #about-bento-grid,
+html:root body #about-main-card #about-bento-grid,
+html:root[data-card-style] body #about-bento-grid,
+html:root[data-card-style] body #about-main-card #about-bento-grid,
+html.dark:root[data-card-style] body #about-bento-grid,
+html.dark:root[data-card-style] body #about-main-card #about-bento-grid {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:root body #about-bento-grid::before,
+html:root body #about-bento-grid::after,
+html:root body #about-main-card #about-bento-grid::before,
+html:root body #about-main-card #about-bento-grid::after {
+  content: none !important;
+  display: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* End of index.css */

@@ -3,46 +3,46 @@ import { CardStyleMode, CardStyleConfig, ThemeFamilyId, ThemeMechanismMode } fro
 import { DEFAULT_CARD_STYLE } from './themeDefaults';
 
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
-  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Light Soft Liquid Glass' },
-  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Dark Soft Liquid Glass' },
-  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Classic Handcrafted Cowhide Leather' },
-  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Inlaid American Walnut Wood' },
-  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Abyssal Ocean Blue' },
+  'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Liquid Glass' },
+  'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Dark Glass' },
+  'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Cowhide Leather' },
+  'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Walnut Wood' },
+  'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean' },
   'neumorphism-beyond': {
     vi: 'Nổi Khối Kính Mờ',
-    en: 'Light Extruded Frosted Glass',
+    en: 'Frosted Glass',
   },
   'dark-neumorphism-beyond': {
     vi: 'Khối Kính Mờ Tối',
-    en: 'Dark Extruded Frosted Glass',
+    en: 'Dark Frosted',
   },
   'frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối',
-    en: 'Frost Ice Matte Soft',
+    en: 'Frost Ice',
   },
   'flat-soft-ui': {
     vi: 'Giao Diện Phẳng Sáng',
-    en: 'Light Pure Flat Soft',
+    en: 'Flat Soft',
   },
   'dark-flat-soft-ui': {
     vi: 'Giao Diện Phẳng Tối',
-    en: 'Dark Pure Flat Soft',
+    en: 'Dark Flat',
   },
   'mica-fluent': {
     vi: 'Kính Mờ Phân Lớp',
-    en: 'Modern Layered Mica Fluent',
+    en: 'Mica Fluent',
   },
   'gradient-dopamine': {
     vi: 'Đa Sắc Năng Lượng',
-    en: 'Vibrant Gradient Dopamine UI',
+    en: 'Gradient Dopamine',
   },
   'iridescent-liquid-glass': {
     vi: 'Kính Xà Cừ Sáng',
-    en: 'Light Iridescent Liquid Glass',
+    en: 'Iridescent Glass',
   },
   'dark-iridescent-liquid-glass': {
     vi: 'Kính Xà Cừ Tối',
-    en: 'Dark Iridescent Liquid Glass',
+    en: 'Dark Iridescent',
   },
 };
 
@@ -64,7 +64,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'liquid-glass',
     label: 'Kính Lỏng Mềm Mại',
-    labelEn: 'Soft Optical Liquid Glass',
+    labelEn: 'Liquid Glass',
     description:
       'Giao diện kính lỏng quang học trong suốt có viền phản quang sáng mảnh, sắc độ thích ứng theo nền và tách bạch rõ vùng nội dung sáng tối sắc nét.',
     descriptionEn:
@@ -77,7 +77,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
-    labelEn: 'Classic Handcrafted Cowhide Leather',
+    labelEn: 'Cowhide Leather',
     description:
       'Chất liệu da bò cổ điển màu nâu chỉ kem khâu tay thủ công sắc nét.',
     descriptionEn:
@@ -90,7 +90,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'walnut-wood',
     label: 'Vân Gỗ Óc Chó',
-    labelEn: 'Inlaid American Walnut Wood',
+    labelEn: 'Walnut Wood',
     description:
       'Vân gỗ óc chó sẫm thủ công với đường khảm đồng mảnh liền nét, sắc chữ trắng ngà ấm áp và điểm nhấn hổ phách tinh tế.',
     descriptionEn:
@@ -102,7 +102,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'deep-ocean',
     label: 'Đại Dương Sâu Thẳm',
-    labelEn: 'Deep Abyssal Ocean Blue',
+    labelEn: 'Deep Ocean',
     description:
       'Giao diện đại dương sâu thẳm: nền xanh biển sâu (#050B14), các lớp bề mặt kính đại dương, sắc xanh lam và điểm nhấn ngọc bích.',
     descriptionEn:
@@ -114,7 +114,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'neumorphism-beyond',
     label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Tactile Extruded Frosted Glass',
+    labelEn: 'Frosted Glass',
     description:
       'Giao diện nổi khối kép kết hợp kính mờ hiện đại trên nền sáng #EBF0F6 và nền tối #151B26 cùng bảng 14 sắc màu Thư ngỏ hài hòa.',
     descriptionEn:
@@ -127,7 +127,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
-    labelEn: 'Modern Matte Flat Soft',
+    labelEn: 'Flat Soft',
     description:
       'Giao diện phẳng hiện đại, thanh lịch với độ nổi khối siêu mềm mại, bề mặt mịn màng tinh tế kết hợp bảng 14 sắc màu Thư ngỏ sắc nét.',
     descriptionEn:
@@ -140,7 +140,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'mica-fluent',
     label: 'Kính Mờ Phân Lớp',
-    labelEn: 'Modern Layered Mica Fluent',
+    labelEn: 'Mica Fluent',
     description:
       'Lớp nền kính mờ phân lớp bán trong suốt kết hợp trọn vẹn 14 sắc màu từ Trang Thư Ngỏ, ánh sáng dịu và bề mặt tinh tế.',
     descriptionEn:
@@ -153,7 +153,7 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
   {
     id: 'gradient-dopamine',
     label: 'Đa Sắc Năng Lượng',
-    labelEn: 'Vibrant Gradient Dopamine UI',
+    labelEn: 'Gradient Dopamine',
     description:
       'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
     descriptionEn:

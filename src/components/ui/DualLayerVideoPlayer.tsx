@@ -1,9 +1,35 @@
+// Magnetic Button, by DesignBookmark (https://designbookmark.com/motion#db-magnetic-button)
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { useToast } from '@/components/ui/Toast';
+import { useLanguage } from '@/context/LanguageContext';
 import { cn } from '@/lib/utils';
+
+interface MagSpring1D {
+  x: number;
+  v: number;
+  t: number;
+  k: number;
+  c: number;
+}
+
+const createMagSpring = (x: number, k = 400, c = 30): MagSpring1D => ({
+  x,
+  v: 0,
+  t: x,
+  k,
+  c,
+});
+
+const stepMagSpring = (s: MagSpring1D, dt: number) => {
+  const a = -s.k * (s.x - s.t) - s.c * s.v;
+  s.v += a * dt;
+  s.x += s.v * dt;
+};
+
+const clampMag = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
 export interface DualLayerVideoPlayerProps {
   video1Id?: string;
@@ -48,10 +74,15 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   style,
 }) => {
   const { showToast } = useToast();
+  const { language } = useLanguage();
+  const isEn = language === 'en';
   const video1Ref = useRef<HTMLVideoElement | null>(null);
   const video2Ref = useRef<HTMLVideoElement | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const isInViewportRef = useRef<boolean>(true);
+  const magBtnRef = useRef<HTMLButtonElement | null>(null);
+  const magLblRef = useRef<HTMLSpanElement | null>(null);
+  const magCurRef = useRef<HTMLSpanElement | null>(null);
 
   const resolvedVideo1Src = normalizeMediaSrc(video1Src);
   const resolvedVideo2Src = normalizeMediaSrc(video2Src);
@@ -426,6 +457,139 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
 
   const isHomeCircle = capsuleVariant === 'home';
 
+  // DesignBookmark Magnetic Button physics for Home Play Button (#home-hero-video-play-btn)
+  useEffect(() => {
+    if (!isHomeCircle) return;
+    const field = rootRef.current;
+    const mag = magBtnRef.current;
+    const lbl = magLblRef.current;
+    const cur = magCurRef.current;
+    if (!field || !mag || !lbl) return;
+
+    const R = 130;
+    const bx = createMagSpring(0, 170, 13);
+    const by = createMagSpring(0, 170, 13);
+    const lx = createMagSpring(0, 220, 15);
+    const ly = createMagSpring(0, 220, 15);
+    const sc = createMagSpring(1, 400, 18);
+    const co = createMagSpring(0, 200, 26);
+
+    let px: number | null = null;
+    let py: number | null = null;
+    let last = -1e9;
+    let clock = 0;
+    let gx = 0;
+    let gy = 0;
+    let isPressed = false;
+    let rafId: number | null = null;
+    let lastNow = performance.now();
+
+    const onPointerMove = (e: PointerEvent) => {
+      const r = field.getBoundingClientRect();
+      px = e.clientX - r.left;
+      py = e.clientY - r.top;
+      last = clock;
+    };
+    const onPointerLeave = () => {
+      px = null;
+      isPressed = false;
+    };
+    const onPointerDown = () => {
+      isPressed = true;
+      sc.t = 0.94;
+    };
+    const onPointerUp = () => {
+      isPressed = false;
+      sc.t = 1;
+      sc.v = 3;
+    };
+
+    field.addEventListener('pointermove', onPointerMove, { passive: true });
+    field.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    mag.addEventListener('pointerdown', onPointerDown, { passive: true });
+    mag.addEventListener('pointerup', onPointerUp, { passive: true });
+    mag.addEventListener('pointercancel', onPointerUp, { passive: true });
+
+    const loop = (now: number) => {
+      if (!isInViewportRef.current) {
+        lastNow = now;
+        rafId = requestAnimationFrame(loop);
+        return;
+      }
+      const dt = Math.min((now - lastNow) / 1000, 1 / 30);
+      lastNow = now;
+
+      // Resting center of #home-hero-video-play-btn relative to field
+      const cx = mag.offsetLeft + mag.offsetWidth / 2;
+      const cy = mag.offsetTop + mag.offsetHeight / 2;
+
+      const sub = 4;
+      const subDt = dt / sub;
+      for (let k = 0; k < sub; k++) {
+        clock += subDt;
+        const ghost = px === null || clock - last > 2.5;
+        if (ghost) {
+          // 7 s loop: come in from the left, circle the button, leave to the right
+          const t = clock % 7;
+          if (t < 1.4) {
+            gx = cx - 96 + (t / 1.4) * 66;
+            gy = cy + 32 - (t / 1.4) * 26;
+          } else if (t < 5) {
+            const a = ((t - 1.4) / 3.6) * Math.PI * 2 + Math.PI;
+            gx = cx + Math.cos(a) * 34;
+            gy = cy + Math.sin(a) * 14 + 3;
+          } else {
+            const prog = (t - 5) / 2;
+            gx = cx - 34 + prog * 145;
+            gy = cy + 3 + prog * 36;
+          }
+          co.t = 0.55;
+        } else {
+          gx = px!;
+          gy = py!;
+          co.t = 0;
+        }
+
+        const dx = gx - cx;
+        const dy = gy - cy;
+        const d = Math.hypot(dx, dy);
+        const pull = d < R ? 1 - (d / R) * 0.35 : 0;
+
+        bx.t = dx * 0.32 * pull;
+        by.t = dy * 0.38 * pull;
+        lx.t = dx * 0.14 * pull;
+        ly.t = dy * 0.18 * pull;
+        sc.t = isPressed ? 0.94 : 1 + 0.06 * pull;
+
+        stepMagSpring(bx, subDt);
+        stepMagSpring(by, subDt);
+        stepMagSpring(lx, subDt);
+        stepMagSpring(ly, subDt);
+        stepMagSpring(sc, subDt);
+        stepMagSpring(co, subDt);
+      }
+
+      mag.style.transform = `translate(${bx.x.toFixed(2)}px, ${by.x.toFixed(2)}px) scale(${sc.x.toFixed(4)})`;
+      lbl.style.transform = `translate(${lx.x.toFixed(2)}px, ${ly.x.toFixed(2)}px)`;
+      if (cur) {
+        cur.style.opacity = clampMag(co.x, 0, 1).toFixed(3);
+        cur.style.transform = `translate(${gx.toFixed(2)}px, ${gy.toFixed(2)}px)`;
+      }
+
+      rafId = requestAnimationFrame(loop);
+    };
+
+    rafId = requestAnimationFrame(loop);
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      field.removeEventListener('pointermove', onPointerMove);
+      field.removeEventListener('pointerleave', onPointerLeave);
+      mag.removeEventListener('pointerdown', onPointerDown);
+      mag.removeEventListener('pointerup', onPointerUp);
+      mag.removeEventListener('pointercancel', onPointerUp);
+    };
+  }, [isHomeCircle]);
+
   const sharedVideoStyle: React.CSSProperties = {
     position: 'absolute',
     inset: 0,
@@ -637,69 +801,110 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
         )}
       </div>
 
-      {/* Bottom-Right Rim Video Play (large circle) & Sound Toggle (small circle) */}
+      {/* Bottom Rim Video Play ("Nghe giới thiệu" capsule formatted to active theme + DesignBookmark Magnetic Button) & Sound Toggle */}
       {capsuleVariant === 'home' ? (
         <>
-          <button
+          <div
+            ref={magBtnRef as unknown as React.RefObject<HTMLDivElement>}
             id="home-hero-video-play-btn"
-            type="button"
+            role="group"
+            aria-label={isEn ? 'Intro video & audio controls' : 'Điều khiển âm thanh & nghe giới thiệu'}
             onPointerEnter={warmUpVideo2}
             onFocus={warmUpVideo2}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (isPlayingIntro) {
-                handleCancelIntro();
-              } else {
-                handlePlayIntro();
-              }
-            }}
-            style={{ borderRadius: '9999px' }}
+            style={{ borderRadius: '999px' }}
             className={cn(
-              'video-play-btn video-play-btn--home bottom-[7%] right-[5%] sm:bottom-[8%] sm:right-[6%]',
+              'video-play-btn video-play-btn--home db-magnetic-play-btn bottom-[3%] right-[1%] sm:bottom-[4%] sm:right-[2%]',
               isPlayingIntro ? 'is-playing' : '',
-              'absolute z-30 w-[52px] h-[52px] sm:w-[58px] sm:h-[58px] aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
+              'absolute z-30 min-h-[40px] sm:min-h-[46px] pl-1.5 pr-3.5 sm:pl-2 sm:pr-4.5 py-1.5 sm:py-2 !rounded-[999px] rounded-[999px] inline-flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap font-play font-bold typo-button tracking-wide pointer-events-auto select-none'
             )}
-            title={isPlayingIntro ? 'Bấm để hủy phát video' : 'Bấm để phát video'}
-            aria-label={isPlayingIntro ? 'Hủy phát video' : 'Phát video'}
-            aria-pressed={isPlayingIntro}
-          >
-            {isPlayingIntro ? (
-              <WebIcon name="cancel" className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.6] text-current shrink-0" />
-            ) : (
-              <WebIcon name="play" className="w-5 h-5 sm:w-6 sm:h-6 fill-current text-current translate-x-[1.5px] shrink-0" />
-            )}
-          </button>
-
-          <button
-            id="home-hero-video-mute-btn"
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleVideoMute();
-            }}
-            style={{ borderRadius: '9999px' }}
-            className={cn(
-              'video-play-btn video-play-btn--home bottom-[-1%] right-[20%] sm:bottom-[-1.5%] sm:right-[21%]',
-              isAudioOn ? 'is-playing' : '',
-              'absolute z-30 w-9 h-9 sm:w-10 sm:h-10 aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer pointer-events-auto select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
-            )}
-            title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-pressed={isAudioOn}
           >
             <span
-              className={cn(
-                'video-play-btn__sound w-full h-full rounded-full flex items-center justify-center',
-                isAudioOn ? 'text-current' : 'is-muted text-white'
-              )}
+              ref={magLblRef}
+              className="db-mag-lbl inline-flex items-center justify-center gap-1.5 sm:gap-2 will-change-transform whitespace-nowrap"
             >
-              {isAudioOn ? (
-                <WebIcon name="volume-2" className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-current shrink-0" />
-              ) : (
-                <WebIcon name="volume-x" className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-white shrink-0" />
-              )}
+              {/* Nút Âm thanh gộp chung bên trái trong cùng viên thuốc Nghe giới thiệu */}
+              <button
+                id="home-hero-video-mute-btn"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleVideoMute();
+                }}
+                style={{ borderRadius: '9999px' }}
+                className={cn(
+                  'video-play-btn__sound w-7 h-7 sm:w-8 sm:h-8 aspect-square p-0 !rounded-full rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shrink-0 border border-current/20 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+                  isAudioOn ? 'text-current bg-white/15' : 'is-muted text-current bg-black/15 opacity-85'
+                )}
+                title={isAudioOn ? (isEn ? 'Mute video' : 'Tắt âm thanh video') : (isEn ? 'Unmute video' : 'Bật âm thanh video')}
+                aria-label={isAudioOn ? (isEn ? 'Mute video' : 'Tắt âm thanh video') : (isEn ? 'Unmute video' : 'Bật âm thanh video')}
+                aria-pressed={isAudioOn}
+              >
+                {isAudioOn ? (
+                  <WebIcon name="volume-2" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-current shrink-0" />
+                ) : (
+                  <WebIcon name="volume-x" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-current shrink-0" />
+                )}
+              </button>
+
+              <span aria-hidden="true" className="w-[1px] h-4 sm:h-4.5 bg-current/25 shrink-0" />
+
+              {/* Nút Phát / Dừng giới thiệu */}
+              <button
+                id="home-hero-video-intro-action-btn"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (isPlayingIntro) {
+                    handleCancelIntro();
+                  } else {
+                    handlePlayIntro();
+                  }
+                }}
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-transparent border-0 p-0 text-current cursor-pointer focus-visible:outline-none"
+                title={
+                  isPlayingIntro
+                    ? isEn
+                      ? 'Click to stop intro video'
+                      : 'Bấm để dừng video giới thiệu'
+                    : isEn
+                      ? 'Click to listen to intro'
+                      : 'Bấm để nghe giới thiệu'
+                }
+                aria-label={
+                  isPlayingIntro
+                    ? isEn
+                      ? 'Stop Intro'
+                      : 'Dừng giới thiệu'
+                    : isEn
+                      ? 'Listen Intro'
+                      : 'Nghe giới thiệu'
+                }
+                aria-pressed={isPlayingIntro}
+              >
+                {isPlayingIntro ? (
+                  <WebIcon name="cancel" className="w-4 h-4 sm:w-[18px] sm:h-[18px] stroke-[2.6] text-current shrink-0" />
+                ) : (
+                  <WebIcon name="play" className="w-4 h-4 sm:w-[18px] sm:h-[18px] fill-current text-current translate-x-[0.5px] shrink-0" />
+                )}
+                <span className="typo-button font-play font-bold text-current whitespace-nowrap leading-none">
+                  {isPlayingIntro
+                    ? isEn
+                      ? 'Stop Intro'
+                      : 'Dừng giới thiệu'
+                    : isEn
+                      ? 'Listen Intro'
+                      : 'Nghe giới thiệu'}
+                </span>
+              </button>
             </span>
-          </button>
+          </div>
+
+          {/* DesignBookmark Magnetic Button ghost cursor dot when idle */}
+          <span
+            ref={magCurRef}
+            aria-hidden="true"
+            className="db-mag-cur absolute left-0 top-0 z-30 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full bg-sky-300/90 shadow-[0_0_10px_rgba(56,189,248,0.85)] opacity-0 pointer-events-none will-change-[transform,opacity]"
+          />
         </>
       ) : (
         <div

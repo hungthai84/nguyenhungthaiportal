@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { SpringDropdownMenu } from '@/components/ui/SpringDropdown';
 import { cn } from '@/lib/utils';
 
 export interface CompactBannerMenuProps {
@@ -89,18 +90,16 @@ export const CompactBannerMenu: React.FC<CompactBannerMenuProps> = ({
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <SpringDropdownMenu
             id={`${id}-panel`}
             role="dialog"
             aria-label={ariaLabel || label}
-            initial={{ opacity: 0, y: 6, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.97 }}
-            transition={{ duration: 0.16 }}
+            placement="down"
+            origin="100% 0%"
             className="banner-dropdown-menu bento-card glass-card absolute right-0 top-[calc(100%+8px)] w-[min(calc(100vw-36px),330px)] max-h-[min(68vh,430px)] overflow-y-auto glass-scrollbar rounded-[14px] p-3 z-[90] flex flex-col gap-3 text-left shadow-xl"
           >
             {typeof children === 'function' ? children(closeMenu) : children}
-          </motion.div>
+          </SpringDropdownMenu>
         )}
       </AnimatePresence>
     </div>

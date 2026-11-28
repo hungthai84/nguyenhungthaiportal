@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import { SpringDropdownMenu } from '@/components/ui/SpringDropdown';
 
 const Filter = createAnimatedIcon('filter');
 const SlidersHorizontal = createAnimatedIcon('sliders');
@@ -1375,136 +1376,140 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
                   <Filter className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
                 </button>
 
-                {isFilterOpen && (
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    className="theme-popup absolute right-0 mt-1.5 w-[310px] sm:w-[350px] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
-                  >
-                    <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border-subcard)' }}>
-                      <span className="typo-body-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
-                        <SlidersHorizontal className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
-                        Tùy chỉnh Hiển thị & Bộ lọc
-                      </span>
-                      <button
-                        type="button"
-                        onClick={resetAllFilters}
-                        className="typo-label font-bold hover:underline flex items-center gap-1 cursor-pointer"
-                        style={{ color: 'var(--text-link, var(--color-primary))' }}
-                      >
-                        <RefreshCw className="w-3 h-3" /> Mặc định
-                      </button>
-                    </div>
-
-                    {/* Nhóm 1: Bật/Tắt Loại Đường Kết Nối */}
-                    <div className="space-y-1.5">
-                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
-                        1. Hiển thị Loại Đường Kết Nối
-                      </label>
-                      <div className="grid grid-cols-2 gap-1.5 typo-label">
+                <AnimatePresence>
+                  {isFilterOpen && (
+                    <SpringDropdownMenu
+                      placement="down"
+                      origin="100% 0%"
+                      onClick={(e) => e.stopPropagation()}
+                      className="theme-popup absolute right-0 mt-1.5 w-[310px] sm:w-[350px] rounded-[14px] shadow-2xl p-3 z-50 space-y-3 text-left"
+                    >
+                      <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border-subcard)' }}>
+                        <span className="typo-body-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--text-heading, var(--text-primary))' }}>
+                          <SlidersHorizontal className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} />
+                          Tùy chỉnh Hiển thị & Bộ lọc
+                        </span>
                         <button
                           type="button"
-                          onClick={() => setShowHubLines(prev => !prev)}
-                          style={
-                            showHubLines
-                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
-                          }
-                          className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                          onClick={resetAllFilters}
+                          className="typo-label font-bold hover:underline flex items-center gap-1 cursor-pointer"
+                          style={{ color: 'var(--text-link, var(--color-primary))' }}
                         >
-                          <span>{showHubLines ? 'Line vào SDP' : 'Line vào SDP (Tắt)'}</span>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setShowInterSystemLines(prev => !prev)}
-                          style={
-                            showInterSystemLines
-                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
-                          }
-                          className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                        >
-                          <span>{showInterSystemLines ? 'Line Liên Hệ Thống' : 'Line Liên HT (Tắt)'}</span>
+                          <RefreshCw className="w-3 h-3" /> Mặc định
                         </button>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => setIsAnimationActive(prev => !prev)}
-                        className="theme-modal-subcard w-full px-2.5 py-1.5 rounded-[14px] flex items-center justify-between font-bold typo-label transition-all cursor-pointer"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <Activity className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} /> Hiệu ứng luồng tín hiệu
-                        </span>
-                        <span
-                          className="px-1.5 py-0.2 rounded font-bold typo-badge"
-                          style={
-                            isAnimationActive
-                              ? { background: 'rgba(16, 185, 129, 0.16)', color: 'var(--accent-emerald, #059669)' }
-                              : { background: 'var(--bg-button-secondary)', color: 'var(--text-muted)' }
-                          }
+                      {/* Nhóm 1: Bật/Tắt Loại Đường Kết Nối */}
+                      <div className="space-y-1.5">
+                        <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
+                          1. Hiển thị Loại Đường Kết Nối
+                        </label>
+                        <div className="grid grid-cols-2 gap-1.5 typo-label">
+                          <button
+                            type="button"
+                            onClick={() => setShowHubLines(prev => !prev)}
+                            style={
+                              showHubLines
+                                ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                                : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
+                            }
+                            className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                          >
+                            <span>{showHubLines ? 'Line vào SDP' : 'Line vào SDP (Tắt)'}</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setShowInterSystemLines(prev => !prev)}
+                            style={
+                              showInterSystemLines
+                                ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                                : { background: 'var(--bg-button-secondary)', color: 'var(--text-secondary)' }
+                            }
+                            className="px-2 py-1.5 rounded-[14px] font-bold shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                          >
+                            <span>{showInterSystemLines ? 'Line Liên Hệ Thống' : 'Line Liên HT (Tắt)'}</span>
+                          </button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setIsAnimationActive(prev => !prev)}
+                          className="theme-modal-subcard w-full px-2.5 py-1.5 rounded-[14px] flex items-center justify-between font-bold typo-label transition-all cursor-pointer"
                         >
-                          {isAnimationActive ? 'Đang chạy' : 'Tạm dừng'}
-                        </span>
-                      </button>
-                    </div>
-
-                    {/* Nhóm 2: Lọc Nhóm Tuyến Line */}
-                    <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
-                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
-                        2. Lọc Nhóm Tuyến Line
-                      </label>
-                      <div className="flex flex-wrap gap-1">
-                        {[
-                          { key: 'all', label: 'Tất cả (28 Lines)' },
-                          { key: 'sdp_hub', label: 'Chỉ Trục SDP Hub (11)' },
-                          { key: 'crm_retail', label: 'Bán Hàng & KH' },
-                          { key: 'enterprise', label: 'Quản Trị Doanh Nghiệp' },
-                          { key: 'ai_bi', label: 'Trí Tuệ & Báo Cáo' }
-                        ].map(item => (
-                          <button
-                            key={item.key}
-                            type="button"
-                            data-selected={activeLineGroup === item.key ? 'true' : undefined}
-                            onClick={() => setActiveLineGroup(item.key)}
-                            className={`theme-dropdown-option px-2 py-1 rounded-[8px] typo-label transition-all cursor-pointer ${
-                              activeLineGroup === item.key ? 'font-bold shadow-xs' : 'font-semibold'
-                            }`}
+                          <span className="flex items-center gap-1.5">
+                            <Activity className="w-3.5 h-3.5" style={{ color: 'var(--color-primary)' }} /> Hiệu ứng luồng tín hiệu
+                          </span>
+                          <span
+                            className="px-1.5 py-0.2 rounded font-bold typo-badge"
+                            style={
+                              isAnimationActive
+                                ? { background: 'rgba(16, 185, 129, 0.16)', color: 'var(--accent-emerald, #059669)' }
+                                : { background: 'var(--bg-button-secondary)', color: 'var(--text-muted)' }
+                            }
                           >
-                            {item.label}
-                          </button>
-                        ))}
+                            {isAnimationActive ? 'Đang chạy' : 'Tạm dừng'}
+                          </span>
+                        </button>
                       </div>
-                    </div>
 
-                    {/* Nhóm 3: Lọc Nhóm Thẻ Phân Hệ */}
-                    <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
-                      <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
-                        3. Lọc Nhóm Thẻ Phân Hệ
-                      </label>
-                      <div className="grid grid-cols-2 gap-1">
-                        {[
-                          { key: 'all', label: 'Tất cả (12 Phân hệ)' },
-                          { key: 'core_crm', label: 'KH & Bán Hàng' },
-                          { key: 'enterprise', label: 'Quản Trị Vận Hành' },
-                          { key: 'intelligence', label: 'AI & Đào Tạo' }
-                        ].map(cat => (
-                          <button
-                            key={cat.key}
-                            type="button"
-                            data-selected={activeFilter === cat.key ? 'true' : undefined}
-                            onClick={() => setActiveFilter(cat.key)}
-                            className={`theme-dropdown-option px-2 py-1 rounded-[8px] text-left typo-label transition-all cursor-pointer ${
-                              activeFilter === cat.key ? 'font-bold shadow-xs' : 'font-semibold'
-                            }`}
-                          >
-                            {cat.label}
-                          </button>
-                        ))}
+                      {/* Nhóm 2: Lọc Nhóm Tuyến Line */}
+                      <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                        <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
+                          2. Lọc Nhóm Tuyến Line
+                        </label>
+                        <div className="flex flex-wrap gap-1">
+                          {[
+                            { key: 'all', label: 'Tất cả (28 Lines)' },
+                            { key: 'sdp_hub', label: 'Chỉ Trục SDP Hub (11)' },
+                            { key: 'crm_retail', label: 'Bán Hàng & KH' },
+                            { key: 'enterprise', label: 'Quản Trị Doanh Nghiệp' },
+                            { key: 'ai_bi', label: 'Trí Tuệ & Báo Cáo' }
+                          ].map(item => (
+                            <button
+                              key={item.key}
+                              type="button"
+                              data-selected={activeLineGroup === item.key ? 'true' : undefined}
+                              onClick={() => setActiveLineGroup(item.key)}
+                              className={`theme-dropdown-option px-2 py-1 rounded-[8px] typo-label transition-all cursor-pointer ${
+                                activeLineGroup === item.key ? 'font-bold shadow-xs' : 'font-semibold'
+                              }`}
+                            >
+                              {item.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                )}
+
+                      {/* Nhóm 3: Lọc Nhóm Thẻ Phân Hệ */}
+                      <div className="space-y-1.5 border-t pt-2.5" style={{ borderColor: 'var(--border-subcard)' }}>
+                        <label className="typo-label font-bold tracking-wider block" style={{ color: 'var(--text-secondary)' }}>
+                          3. Lọc Nhóm Thẻ Phân Hệ
+                        </label>
+                        <div className="grid grid-cols-2 gap-1">
+                          {[
+                            { key: 'all', label: 'Tất cả (12 Phân hệ)' },
+                            { key: 'core_crm', label: 'KH & Bán Hàng' },
+                            { key: 'enterprise', label: 'Quản Trị Vận Hành' },
+                            { key: 'intelligence', label: 'AI & Đào Tạo' }
+                          ].map(cat => (
+                            <button
+                              key={cat.key}
+                              type="button"
+                              data-selected={activeFilter === cat.key ? 'true' : undefined}
+                              onClick={() => setActiveFilter(cat.key)}
+                              className={`theme-dropdown-option px-2 py-1 rounded-[8px] text-left typo-label transition-all cursor-pointer ${
+                                activeFilter === cat.key ? 'font-bold shadow-xs' : 'font-semibold'
+                              }`}
+                            >
+                              {cat.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </SpringDropdownMenu>
+                  )}
+                </AnimatePresence>
               </div>
 
               {viewMode === 'diagram' && (

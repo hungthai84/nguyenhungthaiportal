@@ -8,6 +8,11 @@ import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { DomainData } from '@/types';
 import { ServiceAssignmentsMap } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
+import {
+  getExpandCardLayoutTransition,
+  getExpandDetailRevealTransition,
+} from '@/components/ui/ExpandCardMotion';
+import { U420CardHoverIcon, U420_STYLES, type U420Variant } from '@/components/ui/U420CardHoverIcon';
 
 const Activity = createAnimatedIcon('activity');
 const Award = createAnimatedIcon('award');
@@ -20,7 +25,6 @@ const X = createAnimatedIcon('x');
 const Zap = createAnimatedIcon('zap');
 
 export type ServiceInteractionState = 'idle' | 'hovered' | 'expanding' | 'expanded' | 'closing';
-export type BentoFxMode = 'spotlight-3d' | 'float-shadow' | 'neon' | 'minimal';
 
 export type DomainIconKey =
   | 'smartphone'
@@ -87,94 +91,58 @@ type BentoTileId =
   | 'focus'
   | 'tech';
 
+export interface ServiceScaleOrigin {
+  originX: string;
+  originY: string;
+  initialScale: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 interface ExpandedBentoTileProps {
   tileId: BentoTileId;
-  fxMode: BentoFxMode;
   tileBgCss: string;
   className?: string;
-  prefersReducedMotion: boolean;
   children: React.ReactNode;
 }
 
-/**
- * Thẻ Bento tương tác lấy nguyên bản từ bộ Creator Studio Bento:
- * - Hỗ trợ 4 chế độ hiệu ứng: spotlight-3d, float-shadow, neon, minimal
- * - Spotlight bám theo con trỏ chuột (--mx, --my)
- * - Nghiêng 3D ±4.5deg theo tọa độ chuột (--rx, --ry) khi bật spotlight-3d
- * - Hiệu ứng gợn sóng (Ripple) khi nhấn
- */
 const ExpandedBentoTile: React.FC<ExpandedBentoTileProps> = ({
   tileId,
-  fxMode,
   tileBgCss,
   className = '',
-  prefersReducedMotion,
   children,
 }) => {
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  const [isScaleClicked, setIsScaleClicked] = useState(false);
+  const clickTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (fxMode !== 'spotlight-3d' && cardRef.current) {
-      cardRef.current.style.setProperty('--rx', '0deg');
-      cardRef.current.style.setProperty('--ry', '0deg');
+    return () => {
+      if (clickTimerRef.current) {
+        window.clearTimeout(clickTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleTileClick = () => {
+    setIsScaleClicked(true);
+    if (clickTimerRef.current) {
+      window.clearTimeout(clickTimerRef.current);
     }
-  }, [fxMode]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--mx', `${x.toFixed(1)}px`);
-    card.style.setProperty('--my', `${y.toFixed(1)}px`);
-
-    if (fxMode === 'spotlight-3d' && !prefersReducedMotion) {
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (((y - centerY) / Math.max(1, centerY)) * -4.5).toFixed(2);
-      const rotateY = (((x - centerX) / Math.max(1, centerX)) * 4.5).toFixed(2);
-      card.style.setProperty('--rx', `${rotateX}deg`);
-      card.style.setProperty('--ry', `${rotateY}deg`);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    card.style.setProperty('--rx', '0deg');
-    card.style.setProperty('--ry', '0deg');
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('input, textarea, select')) return;
-    const card = cardRef.current;
-    if (!card || prefersReducedMotion) return;
-
-    const rect = card.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height) * 1.4;
-    const ripple = document.createElement('span');
-    ripple.className = 'service-bento-ripple';
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - rect.left}px`;
-    ripple.style.top = `${e.clientY - rect.top}px`;
-    card.appendChild(ripple);
-    window.setTimeout(() => ripple.remove(), 680);
+    clickTimerRef.current = window.setTimeout(() => {
+      setIsScaleClicked(false);
+    }, 340);
   };
 
   return (
     <div
-      ref={cardRef}
       data-subcard="true"
       data-multicolor-bento="true"
       data-bento-styled="true"
       data-bento-tile-id={tileId}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
+      data-scale-clicked={isScaleClicked ? 'true' : 'false'}
+      onClick={handleTileClick}
       style={{ ['--bento-tile-bg' as string]: tileBgCss }}
-      className={`bento-item service-bento-tile service-bento-studio-card bento-card bento-border relative overflow-hidden flex flex-col text-white ${className}`}
+      className={`u420-t bento-item service-bento-tile service-bento-studio-card bento-card bento-border relative overflow-hidden flex flex-col text-white cursor-pointer ${className}`}
     >
       {children}
     </div>
@@ -187,7 +155,7 @@ interface ServiceExpandedDetailProps {
   allDomains: DomainData[];
   serviceAssignments: ServiceAssignmentsMap;
   interactionState: ServiceInteractionState;
-  fxMode?: BentoFxMode;
+  scaleOrigin?: ServiceScaleOrigin;
   minHeightPx?: number;
   prefersReducedMotion: boolean;
   isEn: boolean;
@@ -217,7 +185,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   allDomains: _allDomains,
   serviceAssignments,
   interactionState,
-  fxMode = 'spotlight-3d',
+  scaleOrigin,
   minHeightPx,
   prefersReducedMotion,
   isEn,
@@ -269,9 +237,12 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     expandedMeta.illustrationSrc;
 
   const isClosing = interactionState === 'closing';
-  const layoutTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { type: 'spring' as const, stiffness: 120, damping: 23, mass: 1.05 };
+  const layoutTransition = getExpandCardLayoutTransition(prefersReducedMotion);
+  const originX = scaleOrigin?.originX || '50%';
+  const originY = scaleOrigin?.originY || '50%';
+  const startScale = scaleOrigin?.initialScale ?? 0.78;
+  const startOffsetX = scaleOrigin?.offsetX ?? 0;
+  const startOffsetY = scaleOrigin?.offsetY ?? 18;
 
   const partners = expandedDomain.companyLogos || [];
   const scaleItems = expandedDomain.scaleAndScope || [];
@@ -295,26 +266,79 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     <motion.div
       id="services-expanded-card"
       ref={expandedCardRef}
-      layoutId={`service-card-shell-${expandedDomain.id}`}
-      layout
-      transition={{ layout: layoutTransition }}
+      initial={
+        prefersReducedMotion
+          ? false
+          : {
+              opacity: 0,
+              scale: startScale,
+              x: startOffsetX * 0.32,
+              y: startOffsetY * 0.32,
+            }
+      }
+      animate={
+        isClosing
+          ? {
+              opacity: 0,
+              scale: prefersReducedMotion ? 1 : Math.max(0.74, startScale),
+              x: prefersReducedMotion ? 0 : startOffsetX * 0.24,
+              y: prefersReducedMotion ? 0 : startOffsetY * 0.24,
+            }
+          : {
+              opacity: 1,
+              scale: 1,
+              x: 0,
+              y: 0,
+            }
+      }
+      exit={
+        prefersReducedMotion
+          ? { opacity: 0 }
+          : {
+              opacity: 0,
+              scale: Math.max(0.74, startScale),
+              x: startOffsetX * 0.24,
+              y: startOffsetY * 0.24,
+            }
+      }
+      transition={{
+        layout: layoutTransition,
+        opacity: {
+          duration: prefersReducedMotion ? 0 : isClosing ? 0.2 : 0.26,
+          ease: [0.22, 1, 0.36, 1],
+        },
+        scale: prefersReducedMotion
+          ? { duration: 0 }
+          : isClosing
+            ? { duration: 0.24, ease: [0.32, 0, 0.67, 0] }
+            : { type: 'spring', stiffness: 265, damping: 23, mass: 0.92 },
+        x: prefersReducedMotion
+          ? { duration: 0 }
+          : { type: 'spring', stiffness: 265, damping: 24, mass: 0.92 },
+        y: prefersReducedMotion
+          ? { duration: 0 }
+          : { type: 'spring', stiffness: 265, damping: 24, mass: 0.92 },
+      }}
       data-element-type="card"
       data-section-card="true"
+      data-expand-motion="true"
+      data-scale-up-motion="true"
       data-compact-service-card="true"
       data-bento-service-detail="true"
-      data-fx={fxMode}
       data-interaction-state={interactionState}
       role="region"
       aria-label={fullTitle}
-      className={`service-expanded-bento-shell bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-3 sm:p-4 md:p-5 box-border text-[var(--text-primary)] shadow-2xl ${
+      className={`u420-scope service-expanded-bento-shell col-start-1 row-start-1 bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-3 sm:p-4 md:p-5 box-border text-[var(--text-primary)] shadow-2xl ${
         isDarkMode ? '' : 'service-bento-light-host'
       }`}
       style={{
         minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
         borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+        transformOrigin: `${originX} ${originY}`,
       }}
     >
-      {/* Toàn bộ hệ hiệu ứng Creator Studio Bento + 4-Column Responsive Bento Grid (.bento-container / .bento-item) */}
+      <style>{U420_STYLES}</style>
+      {/* 4-Column Responsive Bento Grid (.bento-container / .bento-item) + Lucian UX/UI #420 hover lift & Click Scale Up */}
       <style>{`
         html #services-page-container #services-expanded-card .bento-container {
           display: grid !important;
@@ -328,10 +352,6 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
         html #services-page-container #services-expanded-card .bento-item,
         html[data-card-style] #services-page-container #services-expanded-card .bento-item {
-          --mx: 50%;
-          --my: 50%;
-          --rx: 0deg;
-          --ry: 0deg;
           font-family: 'Play', sans-serif;
           background: var(--bento-tile-bg, #1e293b) !important;
           border-radius: 24px !important;
@@ -344,15 +364,15 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           margin: 0 !important;
           align-self: stretch !important;
           box-sizing: border-box !important;
-          transform-style: preserve-3d;
+          transform-origin: center center;
           box-shadow:
             0 12px 26px -8px rgba(0, 0, 0, 0.48),
             0 4px 12px -3px rgba(0, 0, 0, 0.32),
             inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
           transition:
-            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 0.35s ease !important;
+            transform 0.46s cubic-bezier(0.34, 1.56, 0.64, 1),
+            box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            border-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
         }
 
         html #services-page-container #services-expanded-card .bento-container .col-span-2 {
@@ -371,105 +391,25 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
         }
 
-        html #services-page-container #services-expanded-card .bento-item:active {
-          transform: translateY(-2px) scale(0.992) !important;
-          box-shadow:
-            0 8px 18px -6px rgba(0, 0, 0, 0.5),
-            0 3px 8px -2px rgba(0, 0, 0, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-        }
-
-        /* Lớp ánh sáng Spotlight bám theo con trỏ chuột */
-        html #services-page-container #services-expanded-card .bento-item::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          pointer-events: none;
-          z-index: 20;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          background: radial-gradient(
-            380px circle at var(--mx) var(--my),
-            rgba(255, 255, 255, 0.16),
-            rgba(168, 85, 247, 0.08) 40%,
-            transparent 72%
-          );
-        }
-
         @media (hover: hover) and (pointer: fine) {
-          /* Chế độ 1: Ánh sáng Spotlight + Nghiêng 3D + Nổi khối đổ bóng (Mặc định) */
-          html #services-page-container #services-expanded-card[data-fx="spotlight-3d"] .bento-item:hover {
-            transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-6px) scale(1.01) !important;
-            border-color: rgba(255, 255, 255, 0.28) !important;
+          html #services-page-container #services-expanded-card .bento-item.u420-t:hover {
+            transform: translateY(-4px) scale(1.015) !important;
+            border-color: rgba(255, 255, 255, 0.26) !important;
             box-shadow:
-              0 30px 50px -12px rgba(0, 0, 0, 0.62),
-              0 14px 24px -8px rgba(0, 0, 0, 0.42),
-              0 0 0 1px rgba(255, 255, 255, 0.24),
-              0 0 32px -6px rgba(139, 92, 246, 0.38),
-              inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
-            transition:
-              transform 0.14s ease-out,
-              box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.3s ease !important;
+              0 0 0 1px rgba(255, 255, 255, 0.22),
+              0 18px 32px -18px rgba(0, 0, 0, 0.65),
+              inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
           }
+        }
 
-          html #services-page-container #services-expanded-card[data-fx="spotlight-3d"] .bento-item:hover::before {
-            opacity: 1;
-          }
-
-          /* Chế độ 2: Nổi Khối & Đổ Bóng Chuyên Sâu */
-          html #services-page-container #services-expanded-card[data-fx="float-shadow"] .bento-item:hover {
-            transform: translateY(-8px) scale(1.014) !important;
-            border-color: rgba(255, 255, 255, 0.28) !important;
-            box-shadow:
-              0 36px 60px -14px rgba(0, 0, 0, 0.68),
-              0 18px 28px -10px rgba(0, 0, 0, 0.46),
-              0 0 0 1px rgba(255, 255, 255, 0.26),
-              inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-          }
-
-          html #services-page-container #services-expanded-card[data-fx="float-shadow"] .bento-item:hover::before {
-            opacity: 0.75;
-          }
-
-          /* Chế độ 3: Viền Neon rực rỡ bám chuột + Nổi khối */
-          html #services-page-container #services-expanded-card[data-fx="neon"] .bento-item::before {
-            background: radial-gradient(
-              340px circle at var(--mx) var(--my),
-              rgba(56, 189, 248, 0.24),
-              rgba(192, 132, 252, 0.16) 42%,
-              transparent 72%
-            );
-          }
-
-          html #services-page-container #services-expanded-card[data-fx="neon"] .bento-item:hover {
-            transform: translateY(-6px) scale(1.012) !important;
-            border-color: rgba(192, 132, 252, 0.75) !important;
-            box-shadow:
-              0 28px 46px -12px rgba(0, 0, 0, 0.58),
-              0 18px 34px -8px rgba(139, 92, 246, 0.48),
-              0 0 26px -2px rgba(56, 189, 248, 0.42),
-              inset 0 0 20px rgba(168, 85, 247, 0.14) !important;
-          }
-
-          html #services-page-container #services-expanded-card[data-fx="neon"] .bento-item:hover::before {
-            opacity: 1;
-          }
-
-          /* Chế độ 4: Tối Giản (Nổi nhẹ + Đổ bóng mềm) */
-          html #services-page-container #services-expanded-card[data-fx="minimal"] .bento-item:hover {
-            transform: translateY(-4px) !important;
-            border-color: rgba(255, 255, 255, 0.24) !important;
-            box-shadow:
-              0 22px 36px -10px rgba(0, 0, 0, 0.5),
-              0 10px 18px -6px rgba(0, 0, 0, 0.32),
-              inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-          }
-
-          html #services-page-container #services-expanded-card .bento-item:hover svg.lucide.shrink-0 {
-            transform: scale(1.14) rotate(-5deg);
-          }
+        html #services-page-container #services-expanded-card .bento-item[data-scale-clicked="true"] {
+          transform: translateY(-5px) scale(1.032) !important;
+          border-color: rgba(255, 255, 255, 0.42) !important;
+          box-shadow:
+            0 0 0 1.5px rgba(255, 255, 255, 0.35),
+            0 24px 44px -14px rgba(0, 0, 0, 0.72),
+            inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+          z-index: 15;
         }
 
         /* Tablet Responsiveness (769px - 1080px): 2-column Bento */
@@ -495,10 +435,6 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           }
         }
 
-        html #services-page-container #services-expanded-card .service-bento-studio-card svg.lucide {
-          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
         html #services-page-container #services-expanded-card .service-bento-studio-card h2:not(.gradient-text),
         html #services-page-container #services-expanded-card .service-bento-studio-card h3:not(.gradient-text) {
           font-family: 'Play', sans-serif !important;
@@ -520,32 +456,6 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           font-weight: 700 !important;
         }
 
-        html #services-page-container #services-expanded-card .service-bento-ripple {
-          position: absolute;
-          border-radius: 9999px;
-          pointer-events: none;
-          z-index: 25;
-          background: radial-gradient(
-            circle,
-            rgba(255, 255, 255, 0.34) 0%,
-            rgba(168, 85, 247, 0.16) 55%,
-            transparent 75%
-          );
-          transform: translate(-50%, -50%) scale(0);
-          animation: serviceBentoRipple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        @keyframes serviceBentoRipple {
-          0% {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0.9;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0;
-          }
-        }
-
         @keyframes toastSlideIn {
           from {
             opacity: 0;
@@ -564,9 +474,6 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         @media (prefers-reduced-motion: reduce) {
           html #services-page-container #services-expanded-card .service-bento-studio-card:hover {
             transform: none !important;
-          }
-          html #services-page-container #services-expanded-card .service-bento-ripple {
-            display: none !important;
           }
         }
       `}</style>
@@ -596,21 +503,15 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
       <motion.div
         key={expandedDomain.id}
         ref={expandedBodyRef}
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-        animate={isClosing ? { opacity: 0, y: 8 } : { opacity: 1, y: 0 }}
-        transition={{
-          duration: prefersReducedMotion ? 0 : isClosing ? 0.16 : 0.36,
-          delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.12,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+        animate={isClosing ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
+        transition={getExpandDetailRevealTransition(prefersReducedMotion, isClosing)}
         className="bento-container service-bento-grid w-full min-w-0"
       >
         {/* BENTO ITEM 1 (Cols 1-2, Row 1): Tổng Quan Lĩnh Vực — col-span-2 */}
         <ExpandedBentoTile
           tileId="hero"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #9333ea 0%, #7e22ce 50%, #312e81 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="col-span-2 justify-between gap-4 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900"
         >
           <div className="absolute -right-14 -top-14 w-56 h-56 rounded-full bg-white/10 blur-3xl pointer-events-none" />
@@ -640,6 +541,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                     {formattedTitle}
                   </h2>
                 </div>
+                <U420CardHoverIcon variant="c1" />
               </div>
               {summaryText && (
                 <p className="text-sm sm:text-[15px] text-purple-100/90 leading-relaxed m-0 max-w-2xl">
@@ -681,9 +583,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 2 (Col 3, Row 1): Doanh nghiệp tiêu biểu — 1x1 */}
         <ExpandedBentoTile
           tileId="partners"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #1e293b 0%, #1f2937 55%, #0f172a 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="justify-between gap-3.5 bg-slate-800"
         >
           <div className="relative z-10 flex flex-col gap-1.5">
@@ -775,9 +675,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 3 (Col 4, Rows 1-2): Năng lực & Phạm vi — row-span-2 */}
         <ExpandedBentoTile
           tileId="capability"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #0891b2 0%, #1d4ed8 52%, #312e81 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="row-span-2 justify-start gap-3.5 bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-900"
         >
           <div className="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-cyan-300/20 blur-3xl pointer-events-none" />
@@ -818,9 +716,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 4 (Cols 1-2, Row 2): Kết quả đạt được & Chỉ số KPI — col-span-2 */}
         <ExpandedBentoTile
           tileId="kpis"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #be123c 0%, #9d174d 50%, #3b0764 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="col-span-2 justify-between gap-3.5 bg-gradient-to-br from-rose-700 via-pink-800 to-purple-950"
         >
           <div className="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-amber-300/20 blur-3xl pointer-events-none" />
@@ -875,9 +771,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 5 (Col 3, Row 2): Kinh nghiệm & Vai trò — 1x1 */}
         <ExpandedBentoTile
           tileId="experience"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #1e293b 0%, #0f172a 52%, #1e1b4b 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="justify-between gap-3.5 bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950"
         >
           <div className="absolute -right-12 -bottom-12 w-44 h-44 rounded-full bg-purple-500/20 blur-3xl pointer-events-none" />
@@ -952,9 +846,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 6 (Col 1, Row 3): Công cụ chuẩn hóa — 1x1 */}
         <ExpandedBentoTile
           tileId="tools"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #7c3aed 0%, #7e22ce 50%, #86198f 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="justify-between gap-3.5 bg-gradient-to-br from-violet-600 via-purple-700 to-fuchsia-800"
         >
           <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-fuchsia-300/20 blur-3xl pointer-events-none" />
@@ -1000,9 +892,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 7 (Col 2, Row 3): Trọng tâm vận hành — 1x1 */}
         <ExpandedBentoTile
           tileId="focus"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #1e293b 0%, #1e1b4b 60%, #172554 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="justify-start gap-3.5 bg-slate-800"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-15 pointer-events-none" />
@@ -1043,9 +933,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         {/* BENTO ITEM 8 (Cols 3-4, Row 3): Giải pháp công nghệ — col-span-2 */}
         <ExpandedBentoTile
           tileId="tech"
-          fxMode={fxMode}
           tileBgCss="linear-gradient(135deg, #1e293b 0%, #134e4a 55%, #022c22 100%)"
-          prefersReducedMotion={prefersReducedMotion}
           className="col-span-2 justify-between gap-3.5 bg-gradient-to-br from-slate-800 via-teal-950 to-emerald-950"
         >
           <div className="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-emerald-400/15 blur-3xl pointer-events-none" />

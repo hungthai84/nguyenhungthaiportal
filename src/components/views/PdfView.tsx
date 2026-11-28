@@ -18,8 +18,7 @@ import {
 } from '@/data/skills';
 import { PROJECTS_DATA } from '@/data/projects';
 import { ENTERPRISE_SYSTEMS_LIST } from '@/data/systems';
-import { BannerBackgroundVideo } from '@/components/common/BannerBackgroundVideo';
-import { DRIVE_AVATARS, DRIVE_BANNER_VIDEOS } from '@/config/driveMediaLinks';
+import { DRIVE_AVATARS } from '@/config/driveMediaLinks';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 
 const SERVICE_ACCENT_COLORS: Record<string, string> = {
@@ -336,17 +335,6 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
       >
         {/* Bento Studio glowing ambient orb */}
         <div className="absolute -right-12 -top-12 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div
-          className="project-detail-banner-media no-print absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
-        >
-          <BannerBackgroundVideo
-            src={DRIVE_BANNER_VIDEOS.experience}
-            poster={DRIVE_AVATARS.hungThai}
-            alt="Banner Hồ sơ năng lực & CV Portfolio"
-          />
-        </div>
-        <div className="project-detail-banner-scrim no-print absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
 
         <div className="banner-header-row relative z-10 flex items-center justify-between gap-3 flex-wrap w-full">
           <div className="card-header-sync flex items-center gap-2.5 min-w-0 text-blue-600 dark:text-sky-400">

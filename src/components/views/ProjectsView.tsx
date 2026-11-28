@@ -1,3 +1,5 @@
+// Lucian UX/UI Prompt #308 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#308
+// Lucian UX/UI Prompt #050 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#050
 'use client';
 
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
@@ -14,7 +16,208 @@ import { useTheme } from '@/hooks/useTheme';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 import { ViewState } from '@/components/common/ViewState';
+import { ProjectFanGroupCard, ProjectFanGroup } from './projects/ProjectFanGroupCard';
+
+let projectsUxStyleInjected = false;
+
+const PROJECTS_UX_308_050_CSS = `
+/* Lucian UX/UI Prompt #308 (Grid-to-list morph) & #050 (Spotlight-tilt news card) */
+#projects-page-container {
+  --ux-surface: var(--surface-secondary-bg, var(--bg-subcard, #FFFFFF));
+  --ux-surface-2: var(--surface-tertiary-bg, #F5F3EF);
+  --ux-surface-3: rgba(148, 163, 184, 0.16);
+  --ux-ink: var(--text-primary, #16151B);
+  --ux-ink-2: var(--text-secondary, #57535F);
+  --ux-ink-3: var(--text-muted, #8E8A97);
+  --ux-line: var(--border-subcard, rgba(22, 21, 27, 0.09));
+  --ux-line-2: rgba(22, 21, 27, 0.17);
+  --ux-accent: var(--color-primary, #6A57F2);
+  --ux-accent-2: #2F8FE0;
+  --ux-accent-soft: color-mix(in srgb, var(--color-primary, #6A57F2) 14%, transparent);
+  --ux-mint: #119C72;
+  --ux-ease: cubic-bezier(.2, .8, .2, 1);
+  --ux-spring: cubic-bezier(.34, 1.45, .64, 1);
+}
+
+/* #308 View Switcher Pill */
+.u308-vs {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--ux-surface-2);
+  border: 1px solid var(--ux-line);
+  gap: 2px;
+}
+.u308-v {
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--ux-ink-3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 200ms, color 200ms;
+}
+.u308-v svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  fill: none;
+  flex-shrink: 0;
+}
+.u308-v[aria-pressed="true"] {
+  background: var(--bg-button-primary, var(--ux-accent));
+  color: var(--text-button-primary, #FFFFFF);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+}
+
+/* #308 List Layout Morph */
+#projects-grid[data-view="list"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+#projects-grid[data-view="list"] .u308-it {
+  display: grid !important;
+  grid-template-columns: minmax(190px, 240px) 1fr !important;
+  align-items: stretch !important;
+  padding: 10px !important;
+  gap: 14px !important;
+}
+@media (max-width: 640px) {
+  #projects-grid[data-view="list"] .u308-it {
+    grid-template-columns: 1fr !important;
+  }
+}
+#projects-grid[data-view="list"] .u308-it .u308-ph {
+  width: 100% !important;
+  margin: 0 !important;
+  aspect-ratio: 16 / 10 !important;
+  border-radius: 12px !important;
+  border-bottom: 0 !important;
+}
+#projects-grid[data-view="list"] .u308-it .u308-ph img,
+#projects-grid[data-view="list"] .u308-it .u308-ph .project-card-banner-scrim {
+  border-radius: 12px !important;
+}
+.u308-ph {
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.u308-list-extra {
+  display: none;
+}
+#projects-grid[data-view="list"] .u308-list-extra {
+  display: flex;
+}
+
+/* #050 Spotlight-Tilt Card */
+.u050 {
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  --tx: 0px;
+  --ty: 0px;
+  --spot: 0;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(var(--tx), var(--ty), 0);
+  transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms, border-color 220ms;
+  will-change: transform;
+}
+.u050:hover {
+  --spot: 1;
+}
+.u050::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(240px circle at var(--mx) var(--my), var(--u050-accent, var(--ux-accent)), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: var(--spot);
+  transition: opacity 240ms;
+  pointer-events: none;
+  z-index: 25;
+}
+.u050-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255, 255, 255, .18), transparent 60%);
+  opacity: var(--spot);
+  transition: opacity 240ms;
+  mix-blend-mode: overlay;
+  z-index: 24;
+}
+.u050-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--u050-accent, var(--ux-accent));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--u050-accent, var(--ux-accent)) 24%, transparent);
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform 320ms var(--ux-spring), opacity 240ms;
+}
+.u050[data-read="1"] .u050-dot {
+  transform: scale(0);
+  opacity: 0;
+  width: 0;
+  margin-right: -4px;
+}
+.u050[data-read="1"] .u050-h {
+  opacity: 0.56;
+  transition: opacity 260ms;
+}
+.u050-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--ux-line);
+  background: var(--ux-surface-2);
+  color: var(--ux-ink);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms, border-color 200ms, color 200ms, transform 140ms;
+}
+.u050-btn:hover {
+  border-color: var(--u050-accent, var(--ux-accent));
+}
+.u050-btn:active {
+  transform: scale(.96);
+}
+.u050[data-read="1"] .u050-btn {
+  background: color-mix(in srgb, var(--ux-mint) 15%, transparent);
+  color: var(--ux-mint);
+  border-color: color-mix(in srgb, var(--ux-mint) 36%, transparent);
+}
+.u050-btn svg {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+`;
 
 export interface ProjectCardGroup {
   id: string;
@@ -250,34 +453,135 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'grid' | 'slider' | 'stack'>('grid');
   const [selectedGroup, setSelectedGroup] = useState<ProjectCardGroup | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<ProjectData | null>(null);
   const [mindmapProject, setMindmapProject] = useState<ProjectData | null>(null);
   const [activeSection, setActiveSection] = useState<string>('sec-mindmap');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
-  const [activeCarouselIdx, setActiveCarouselIdx] = useState<number>(0);
-  const [hoveredSlotIdx, setHoveredSlotIdx] = useState<number | null>(null);
-  const [disableTrackTransition, setDisableTrackTransition] = useState<boolean>(false);
-  const [containerWidth, setContainerWidth] = useState<number>(0);
-  const [slideWidth, setSlideWidth] = useState<number>(0);
-  const [dragDeltaX, setDragDeltaX] = useState<number>(0);
-  const [isDraggingTrack, setIsDraggingTrack] = useState<boolean>(false);
+  // Lucian UX/UI #308 Grid-to-list morph state & #050 Spotlight-tilt read state
+  const [viewLayoutMode, setViewLayoutMode] = useState<'grid' | 'list' | 'fan'>('grid');
+  const [readProjectIds, setReadProjectIds] = useState<Record<string, boolean>>({});
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const wrpRef = useRef<HTMLDivElement>(null);
-  const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const dragStartXRef = useRef<number | null>(null);
-  const dragDeltaXRef = useRef<number>(0);
-  const didDragRef = useRef<boolean>(false);
-  const wheelCooldownRef = useRef<number>(0);
-  const wheelAccumRef = useRef<number>(0);
-  const snapTimerRef = useRef<number | null>(null);
+  const projectsGridRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined' && !projectsUxStyleInjected) {
+      const styleEl = document.createElement('style');
+      styleEl.id = 'lucian-ux-308-050-projects-styles';
+      styleEl.textContent = PROJECTS_UX_308_050_CSS;
+      document.head.appendChild(styleEl);
+      projectsUxStyleInjected = true;
+    }
+  }, []);
+
+  // Lucian UX/UI #308 Web Animations API FLIP morphing between Grid and List
+  const handleSwitchViewLayout = useCallback(
+    (nextMode: 'grid' | 'list' | 'fan') => {
+      if (nextMode === viewLayoutMode) return;
+      SoundEngine.playTap();
+      if (nextMode === 'fan') {
+        setViewLayoutMode('fan');
+        return;
+      }
+      const gridEl = projectsGridRef.current;
+      if (!gridEl) {
+        setViewLayoutMode(nextMode);
+        return;
+      }
+      const photos = Array.from(gridEl.querySelectorAll<HTMLElement>('.u308-ph'));
+      const firstRects = photos.map((p) => p.getBoundingClientRect());
+
+      setViewLayoutMode(nextMode);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const currentGrid = projectsGridRef.current;
+          if (!currentGrid) return;
+          const nextPhotos = Array.from(currentGrid.querySelectorAll<HTMLElement>('.u308-ph'));
+          nextPhotos.forEach((p, i) => {
+            const first = firstRects[i];
+            if (!first || first.width === 0 || first.height === 0) return;
+            const last = p.getBoundingClientRect();
+            if (last.width === 0 || last.height === 0) return;
+            const dx = first.left - last.left;
+            const dy = first.top - last.top;
+            const sx = first.width / last.width;
+            const sy = first.height / last.height;
+            if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) {
+              return;
+            }
+            p.animate(
+              [
+                { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+                { transform: 'translate(0, 0) scale(1, 1)' },
+              ],
+              {
+                duration: 560,
+                delay: i * 25,
+                easing: 'cubic-bezier(.3,1.15,.4,1)',
+              }
+            );
+          });
+
+          if (nextMode === 'list') {
+            const texts = Array.from(currentGrid.querySelectorAll<HTMLElement>('.u308-tx'));
+            texts.forEach((t, i) => {
+              t.animate(
+                [
+                  { opacity: 0, transform: 'translateX(-8px)' },
+                  { opacity: 1, transform: 'translateX(0)' },
+                ],
+                {
+                  duration: 320,
+                  delay: 300 + i * 30,
+                  easing: 'cubic-bezier(.2,.8,.2,1)',
+                  fill: 'both',
+                }
+              );
+            });
+          }
+        });
+      });
+    },
+    [viewLayoutMode]
+  );
+
+  // Lucian UX/UI #050 Pointer tilt & radial spotlight handler
+  const handleCardPointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    const px = x / r.width - 0.5;
+    const py = y / r.height - 0.5;
+    el.style.setProperty('--mx', `${x.toFixed(1)}px`);
+    el.style.setProperty('--my', `${y.toFixed(1)}px`);
+    el.style.setProperty('--ry', `${(px * 9).toFixed(2)}deg`);
+    el.style.setProperty('--rx', `${(-py * 9).toFixed(2)}deg`);
+    el.style.setProperty('--tx', `${(px * 4).toFixed(2)}px`);
+    el.style.setProperty('--ty', `${(py * 4).toFixed(2)}px`);
+  }, []);
+
+  const handleCardPointerLeave = useCallback((e: React.PointerEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    el.style.setProperty('--rx', '0deg');
+    el.style.setProperty('--ry', '0deg');
+    el.style.setProperty('--tx', '0px');
+    el.style.setProperty('--ty', '0px');
+  }, []);
+
+  const handleToggleProjectRead = useCallback((e: React.MouseEvent, projectId: string) => {
+    e.stopPropagation();
+    SoundEngine.playTap();
+    setReadProjectIds((prev) => ({
+      ...prev,
+      [projectId]: !prev[projectId],
+    }));
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -492,209 +796,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     });
   }, [activeCategory, searchQuery]);
 
-  const totalProjects = filteredProjects.length;
-  const useLoopClones = totalProjects >= 3;
-  const clonePad = useLoopClones ? 3 : 0;
-
-  const extendedSlides = useMemo(() => {
-    if (totalProjects === 0) return [];
-    if (!useLoopClones) {
-      return filteredProjects.map((proj, idx) => ({
-        proj,
-        origIdx: idx,
-        slotKey: `real-${proj.id}`,
-        isClone: false,
-      }));
-    }
-    const pre3Idx = (totalProjects - 3 + totalProjects) % totalProjects;
-    const pre2Idx = totalProjects - 2;
-    const pre1Idx = totalProjects - 1;
-    const post2Idx = 2 % totalProjects;
-    return [
-      {
-        proj: filteredProjects[pre3Idx],
-        origIdx: pre3Idx,
-        slotKey: `clone-pre-3-${filteredProjects[pre3Idx].id}`,
-        isClone: true,
-      },
-      {
-        proj: filteredProjects[pre2Idx],
-        origIdx: pre2Idx,
-        slotKey: `clone-pre-2-${filteredProjects[pre2Idx].id}`,
-        isClone: true,
-      },
-      {
-        proj: filteredProjects[pre1Idx],
-        origIdx: pre1Idx,
-        slotKey: `clone-pre-1-${filteredProjects[pre1Idx].id}`,
-        isClone: true,
-      },
-      ...filteredProjects.map((proj, idx) => ({
-        proj,
-        origIdx: idx,
-        slotKey: `real-${proj.id}`,
-        isClone: false,
-      })),
-      {
-        proj: filteredProjects[0],
-        origIdx: 0,
-        slotKey: `clone-post-0-${filteredProjects[0].id}`,
-        isClone: true,
-      },
-      {
-        proj: filteredProjects[1],
-        origIdx: 1,
-        slotKey: `clone-post-1-${filteredProjects[1].id}`,
-        isClone: true,
-      },
-      {
-        proj: filteredProjects[post2Idx],
-        origIdx: post2Idx,
-        slotKey: `clone-post-2-${filteredProjects[post2Idx].id}`,
-        isClone: true,
-      },
-    ];
-  }, [filteredProjects, totalProjects, useLoopClones]);
-
-  const [visualTrackIdx, setVisualTrackIdx] = useState<number>(() => (useLoopClones ? 3 : 0));
-
-  useEffect(() => {
-    if (snapTimerRef.current !== null) {
-      window.clearTimeout(snapTimerRef.current);
-      snapTimerRef.current = null;
-    }
-    setActiveCarouselIdx(0);
-    setVisualTrackIdx(totalProjects >= 3 ? 3 : 0);
-    setHoveredSlotIdx(null);
-    setDisableTrackTransition(true);
-    const rafId = window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setDisableTrackTransition(false));
-    });
-    return () => window.cancelAnimationFrame(rafId);
-  }, [activeCategory, searchQuery, totalProjects]);
-
-  const isSliderMode =
-    !selectedGroup &&
-    !selectedArticle &&
-    viewMode === 'slider' &&
-    filteredProjects.length > 0;
-
-  const measureSliderGeometry = useCallback(() => {
-    if (!isSliderMode) return;
-    const containerEl = containerRef.current;
-    const firstSlideEl = slotSlideRefs.current[0];
-    if (containerEl) {
-      const cw = containerEl.clientWidth;
-      if (cw > 0) setContainerWidth(cw);
-    }
-    if (firstSlideEl) {
-      const sw = firstSlideEl.offsetWidth;
-      if (sw > 0) setSlideWidth(sw);
-    }
-  }, [isSliderMode]);
-
-  useEffect(() => {
-    if (!isSliderMode) return;
-    measureSliderGeometry();
-    const containerEl = containerRef.current;
-    const firstSlideEl = slotSlideRefs.current[0];
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      ro = new ResizeObserver(() => measureSliderGeometry());
-      if (containerEl) ro.observe(containerEl);
-      if (firstSlideEl) ro.observe(firstSlideEl);
-    }
-    window.addEventListener('resize', measureSliderGeometry);
-    return () => {
-      if (ro) ro.disconnect();
-      window.removeEventListener('resize', measureSliderGeometry);
-    };
-  }, [isSliderMode, extendedSlides.length, measureSliderGeometry]);
-
-  const baseTrackX = useMemo(() => {
-    if (containerWidth <= 0 || slideWidth <= 0) return 0;
-    return containerWidth / 2 - (visualTrackIdx * slideWidth + slideWidth / 2);
-  }, [containerWidth, slideWidth, visualTrackIdx]);
-
-  const currentTrackX = baseTrackX + dragDeltaX;
-
-  const activeHighlightSlotIdx =
-    hoveredSlotIdx !== null ? hoveredSlotIdx : visualTrackIdx;
-
-  const syncItemBg = useCallback(() => {
-    if (!isSliderMode) return;
-    const bgEl = bgRef.current;
-    const wrpEl = wrpRef.current;
-    const slideEl = slotSlideRefs.current[activeHighlightSlotIdx];
-    const itemEl = slotItemRefs.current[activeHighlightSlotIdx];
-    if (!bgEl || !wrpEl || !slideEl || !itemEl) return;
-
-    const x = wrpEl.offsetLeft + currentTrackX + slideEl.offsetLeft + itemEl.offsetLeft;
-    const y = wrpEl.offsetTop + slideEl.offsetTop + itemEl.offsetTop;
-    const w = itemEl.offsetWidth;
-    const h = itemEl.offsetHeight;
-
-    if (w > 0 && h > 0) {
-      bgEl.style.width = `${w}px`;
-      bgEl.style.height = `${h}px`;
-      bgEl.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      bgEl.classList.add('active');
-    }
-  }, [isSliderMode, activeHighlightSlotIdx, currentTrackX]);
-
-  useEffect(() => {
-    syncItemBg();
-  }, [syncItemBg, extendedSlides.length, containerWidth, slideWidth]);
-
-  useEffect(() => {
-    if (!isSliderMode) return;
-    const activeItemEl = slotItemRefs.current[activeHighlightSlotIdx];
-    const containerEl = containerRef.current;
-    const wrpEl = wrpRef.current;
-    if ((!activeItemEl && !containerEl && !wrpEl) || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => {
-      window.requestAnimationFrame(() => syncItemBg());
-    });
-    if (activeItemEl) ro.observe(activeItemEl);
-    if (containerEl) ro.observe(containerEl);
-    if (wrpEl) ro.observe(wrpEl);
-    return () => ro.disconnect();
-  }, [isSliderMode, activeHighlightSlotIdx, syncItemBg]);
-
-  const scheduleLoopSnapIfNeeded = useCallback(
-    (targetTrackIdx: number) => {
-      if (!useLoopClones) return;
-      if (snapTimerRef.current !== null) {
-        window.clearTimeout(snapTimerRef.current);
-        snapTimerRef.current = null;
-      }
-      if (targetTrackIdx < clonePad || targetTrackIdx >= clonePad + totalProjects) {
-        const canonicalTrackIdx =
-          targetTrackIdx < clonePad
-            ? targetTrackIdx + totalProjects
-            : targetTrackIdx - totalProjects;
-        snapTimerRef.current = window.setTimeout(() => {
-          setDisableTrackTransition(true);
-          setVisualTrackIdx(canonicalTrackIdx);
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(() => {
-              setDisableTrackTransition(false);
-            });
-          });
-        }, 430);
-      }
-    },
-    [useLoopClones, clonePad, totalProjects]
-  );
-
-  useEffect(() => {
-    return () => {
-      if (snapTimerRef.current !== null) {
-        window.clearTimeout(snapTimerRef.current);
-      }
-    };
-  }, []);
-
   const handleOpenGroup = (group: ProjectCardGroup, initialProject?: ProjectData) => {
     SoundEngine.playTap();
     setSelectedGroup(group);
@@ -714,197 +815,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     setIsBannerMuted(next);
     video.muted = next;
   };
-
-  const handlePrevCarousel = useCallback(() => {
-    if (totalProjects <= 1) return;
-    SoundEngine.playTap();
-    setHoveredSlotIdx(null);
-    const currentOrig = Math.min(activeCarouselIdx, totalProjects - 1);
-    const nextOrig = currentOrig > 0 ? currentOrig - 1 : totalProjects - 1;
-    setActiveCarouselIdx(nextOrig);
-
-    if (!useLoopClones) {
-      setVisualTrackIdx(nextOrig);
-      return;
-    }
-
-    const baseTrack =
-      visualTrackIdx < clonePad
-        ? visualTrackIdx + totalProjects
-        : visualTrackIdx >= clonePad + totalProjects
-          ? visualTrackIdx - totalProjects
-          : visualTrackIdx;
-    const nextTrack = Math.max(0, baseTrack - 1);
-    if (baseTrack !== visualTrackIdx) {
-      setDisableTrackTransition(true);
-      setVisualTrackIdx(baseTrack);
-      window.requestAnimationFrame(() => {
-        setDisableTrackTransition(false);
-        setVisualTrackIdx(nextTrack);
-        scheduleLoopSnapIfNeeded(nextTrack);
-      });
-    } else {
-      setVisualTrackIdx(nextTrack);
-      scheduleLoopSnapIfNeeded(nextTrack);
-    }
-  }, [activeCarouselIdx, clonePad, scheduleLoopSnapIfNeeded, totalProjects, useLoopClones, visualTrackIdx]);
-
-  const handleNextCarousel = useCallback(() => {
-    if (totalProjects <= 1) return;
-    SoundEngine.playTap();
-    setHoveredSlotIdx(null);
-    const currentOrig = Math.min(activeCarouselIdx, totalProjects - 1);
-    const nextOrig = currentOrig < totalProjects - 1 ? currentOrig + 1 : 0;
-    setActiveCarouselIdx(nextOrig);
-
-    if (!useLoopClones) {
-      setVisualTrackIdx(nextOrig);
-      return;
-    }
-
-    const baseTrack =
-      visualTrackIdx < clonePad
-        ? visualTrackIdx + totalProjects
-        : visualTrackIdx >= clonePad + totalProjects
-          ? visualTrackIdx - totalProjects
-          : visualTrackIdx;
-    const nextTrack = Math.min(extendedSlides.length - 1, baseTrack + 1);
-    if (baseTrack !== visualTrackIdx) {
-      setDisableTrackTransition(true);
-      setVisualTrackIdx(baseTrack);
-      window.requestAnimationFrame(() => {
-        setDisableTrackTransition(false);
-        setVisualTrackIdx(nextTrack);
-        scheduleLoopSnapIfNeeded(nextTrack);
-      });
-    } else {
-      setVisualTrackIdx(nextTrack);
-      scheduleLoopSnapIfNeeded(nextTrack);
-    }
-  }, [activeCarouselIdx, clonePad, extendedSlides.length, scheduleLoopSnapIfNeeded, totalProjects, useLoopClones, visualTrackIdx]);
-
-  const handleSelectBullet = useCallback(
-    (origIdx: number) => {
-      SoundEngine.playTap();
-      setHoveredSlotIdx(null);
-      setActiveCarouselIdx(origIdx);
-      setVisualTrackIdx(useLoopClones ? origIdx + clonePad : origIdx);
-    },
-    [clonePad, useLoopClones]
-  );
-
-  useEffect(() => {
-    if (!isSliderMode || mindmapProject || isFilterDropdownOpen) return;
-    const onArrowKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
-        return;
-      }
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        handlePrevCarousel();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        handleNextCarousel();
-      }
-    };
-    window.addEventListener('keydown', onArrowKey);
-    return () => window.removeEventListener('keydown', onArrowKey);
-  }, [isSliderMode, mindmapProject, isFilterDropdownOpen, handlePrevCarousel, handleNextCarousel]);
-
-  useEffect(() => {
-    if (!isSliderMode) return;
-    const el = containerRef.current;
-    if (!el) return;
-
-    const onNativeWheel = (e: WheelEvent) => {
-      if (e.ctrlKey || totalProjects <= 1) return;
-      const absX = Math.abs(e.deltaX);
-      const absY = Math.abs(e.deltaY);
-      if (absX < 0.5 && absY < 0.5) return;
-
-      const delta = absX >= absY ? e.deltaX : e.deltaY;
-      e.preventDefault();
-      e.stopPropagation();
-
-      const now = Date.now();
-      if (now - wheelCooldownRef.current < 240) return;
-
-      wheelAccumRef.current += delta;
-      if (Math.abs(wheelAccumRef.current) >= 20) {
-        wheelCooldownRef.current = now;
-        const dir = wheelAccumRef.current;
-        wheelAccumRef.current = 0;
-        if (dir > 0) {
-          handleNextCarousel();
-        } else {
-          handlePrevCarousel();
-        }
-      }
-    };
-
-    el.addEventListener('wheel', onNativeWheel, { passive: false });
-    return () => {
-      el.removeEventListener('wheel', onNativeWheel);
-    };
-  }, [isSliderMode, totalProjects, handleNextCarousel, handlePrevCarousel]);
-
-  const finishSliderDrag = useCallback(() => {
-    if (dragStartXRef.current === null) return;
-    const dx = dragDeltaXRef.current;
-    dragStartXRef.current = null;
-    dragDeltaXRef.current = 0;
-    setIsDraggingTrack(false);
-    setDragDeltaX(0);
-    if (dx <= -24) {
-      handleNextCarousel();
-    } else if (dx >= 24) {
-      handlePrevCarousel();
-    }
-    window.setTimeout(() => {
-      didDragRef.current = false;
-    }, 60);
-  }, [handleNextCarousel, handlePrevCarousel]);
-
-  useEffect(() => {
-    if (!isDraggingTrack) return;
-
-    const handleWindowPointerMove = (e: PointerEvent) => {
-      if (dragStartXRef.current === null) return;
-      const dx = e.clientX - dragStartXRef.current;
-      if (Math.abs(dx) > 6) {
-        didDragRef.current = true;
-      }
-      dragDeltaXRef.current = dx;
-      setDragDeltaX(dx);
-    };
-
-    const handleWindowPointerEnd = () => {
-      finishSliderDrag();
-    };
-
-    window.addEventListener('pointermove', handleWindowPointerMove);
-    window.addEventListener('pointerup', handleWindowPointerEnd);
-    window.addEventListener('pointercancel', handleWindowPointerEnd);
-    return () => {
-      window.removeEventListener('pointermove', handleWindowPointerMove);
-      window.removeEventListener('pointerup', handleWindowPointerEnd);
-      window.removeEventListener('pointercancel', handleWindowPointerEnd);
-    };
-  }, [isDraggingTrack, finishSliderDrag]);
-
-  const handleSliderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0 || totalProjects <= 1) return;
-    const target = e.target as HTMLElement | null;
-    if (target?.closest('.news-slider-arrow, .news-slider-bullet')) return;
-    dragStartXRef.current = e.clientX;
-    dragDeltaXRef.current = 0;
-    didDragRef.current = false;
-    setIsDraggingTrack(true);
-    setDragDeltaX(0);
-  };
-
-  const safeCarouselIndex = filteredProjects.length > 0 ? Math.min(activeCarouselIdx, filteredProjects.length - 1) : 0;
 
   return (
     <div
@@ -929,7 +839,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
           data-floating-surface="main"
           data-detail-open={selectedArticle ? 'true' : 'false'}
           data-detail-overlay="true"
-          data-slider-mode={isSliderMode ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Dự Án"
           data-element-type="card"
           data-element-page="projects"
@@ -940,15 +849,14 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
             id="projects-main-scroll-viewport"
             className={cn(
               'main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[var(--space-card-gap,16px)] overflow-x-hidden no-scrollbar box-border',
-              selectedGroup || selectedArticle || isSliderMode ? 'overflow-hidden' : 'overflow-y-auto'
+              selectedGroup || selectedArticle ? 'overflow-hidden' : 'overflow-y-auto'
             )}
           >
           <div
             id="projects-main-wrapper"
             className={cn(
               'w-full max-w-full min-w-0 flex-1 flex flex-col gap-[var(--space-card-gap,16px)] justify-start box-border',
-              (selectedGroup || selectedArticle) && 'h-full flex-1 min-h-0 gap-0',
-              isSliderMode && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
+              (selectedGroup || selectedArticle) && 'h-full flex-1 min-h-0 gap-0'
             )}
           >
       {/* Khi chưa chọn xem chi tiết dự án: Hiển thị Hero Banner và Danh sách thẻ dự án */}
@@ -1012,7 +920,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               <CompactBannerMenu
                 id="projects-compact-menu-btn"
                 label="Điều khiển"
-                ariaLabel="Bộ lọc, dạng xem và tìm kiếm dự án"
+                ariaLabel="Bộ lọc và tìm kiếm dự án"
                 activeCount={(activeCategory !== 'all' ? 1 : 0) + (searchQuery.trim() ? 1 : 0)}
               >
                 {(closeMenu) => (
@@ -1041,72 +949,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           <WebIcon name="cancel" className="w-3.5 h-3.5" />
                         </button>
                       )}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <span className="typo-label text-[var(--text-muted)] px-1">Dạng hiển thị</span>
-                      <div className="banner-control-pill w-full inline-flex items-center gap-1 p-0.5 rounded-full">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setViewMode('grid');
-                            closeMenu();
-                          }}
-                          style={
-                            viewMode === 'grid'
-                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                              : undefined
-                          }
-                          className={cn(
-                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
-                            viewMode === 'grid' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
-                          )}
-                        >
-                          <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-                          <span>Dạng lưới</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setViewMode('slider');
-                            closeMenu();
-                          }}
-                          style={
-                            viewMode === 'slider'
-                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                              : undefined
-                          }
-                          className={cn(
-                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
-                            viewMode === 'slider' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
-                          )}
-                        >
-                          <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
-                          <span>Slider Card</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setViewMode('stack');
-                            closeMenu();
-                          }}
-                          style={
-                            viewMode === 'stack'
-                              ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
-                              : undefined
-                          }
-                          className={cn(
-                            'flex-1 px-2.5 py-1 rounded-full typo-button font-play flex items-center justify-center gap-1 transition-all cursor-pointer',
-                            viewMode === 'stack' ? 'shadow-xs' : 'text-[var(--text-secondary)]'
-                          )}
-                        >
-                          <WebIcon name="copy" className="w-3.5 h-3.5 shrink-0" />
-                          <span>Xếp chồng</span>
-                        </button>
-                      </div>
                     </div>
 
                     <div className="flex flex-col gap-1">
@@ -1176,13 +1018,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
 
                 <AnimatePresence>
                   {isFilterDropdownOpen && (
-                    <motion.div
+                    <SpringDropdownMenu
                       id="projects-filter-listbox"
                       data-element-type="card"
-                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                      transition={{ duration: 0.16 }}
+                      placement="down"
+                      origin="0% 0%"
                       role="listbox"
                       className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                     >
@@ -1219,100 +1059,17 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                               <span className="truncate">{cat.label}</span>
                             </span>
                             <span className="flex items-center gap-1.5 shrink-0">
-                              {isSelected && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                              {isSelected && <SpringTick active={isSelected} />}
                             </span>
                           </button>
                         );
                       })}
-                    </motion.div>
+                    </SpringDropdownMenu>
                   )}
                 </AnimatePresence>
               </div>
 
               <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-end ml-auto max-w-full">
-                <div
-                  id="projects-view-mode-switcher"
-                  role="group"
-                  aria-label="Dạng view dự án"
-                  className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center gap-1 p-0.5 rounded-full box-border shrink-0"
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setViewMode('grid');
-                    }}
-                    style={
-                      viewMode === 'grid'
-                        ? {
-                            background: 'var(--bg-button-primary)',
-                            color: 'var(--text-button-primary, #FFFFFF)',
-                          }
-                        : undefined
-                    }
-                    className={cn(
-                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
-                      viewMode === 'grid'
-                        ? 'shadow-xs'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                    )}
-                    title="Dạng lưới"
-                  >
-                    <WebIcon name="layout-grid" className="w-3.5 h-3.5 shrink-0" />
-                    <span className="whitespace-nowrap">Dạng lưới</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setViewMode('slider');
-                    }}
-                    style={
-                      viewMode === 'slider'
-                        ? {
-                            background: 'var(--bg-button-primary)',
-                            color: 'var(--text-button-primary, #FFFFFF)',
-                          }
-                        : undefined
-                    }
-                    className={cn(
-                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
-                      viewMode === 'slider'
-                        ? 'shadow-xs'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                    )}
-                    title="Slider Card"
-                  >
-                    <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
-                    <span className="whitespace-nowrap">Slider Card</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setViewMode('stack');
-                    }}
-                    style={
-                      viewMode === 'stack'
-                        ? {
-                            background: 'var(--bg-button-primary)',
-                            color: 'var(--text-button-primary, #FFFFFF)',
-                          }
-                        : undefined
-                    }
-                    className={cn(
-                      'h-full px-2.5 py-1 rounded-full typo-button font-semibold font-play flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap min-w-0',
-                      viewMode === 'stack'
-                        ? 'shadow-xs'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                    )}
-                    title="Xếp chồng (Stacked Cards)"
-                  >
-                    <WebIcon name="copy" className="w-3.5 h-3.5 shrink-0" />
-                    <span className="whitespace-nowrap">Xếp chồng</span>
-                  </button>
-                </div>
-
                 <div className="relative flex-1 sm:w-52 sm:flex-initial min-w-[160px]">
                   <WebIcon
                     name="search"
@@ -1338,12 +1095,98 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </button>
                   )}
                 </div>
+
+                {/* Lucian UX/UI #308 Grid-to-list morph switcher */}
+                <div
+                  className="u308-vs shrink-0"
+                  role="group"
+                  aria-label="Chuyển đổi chế độ hiển thị Lưới hoặc Danh sách"
+                >
+                  <button
+                    id="projects-view-grid-btn"
+                    type="button"
+                    className="u308-v"
+                    data-v="grid"
+                    aria-pressed={viewLayoutMode === 'grid'}
+                    aria-label="Chế độ dạng lưới (Grid view)"
+                    title="Hiển thị dạng lưới (Grid)"
+                    onClick={() => handleSwitchViewLayout('grid')}
+                  >
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="2" y="2" width="5" height="5" rx="1.2" />
+                      <rect x="9" y="2" width="5" height="5" rx="1.2" />
+                      <rect x="2" y="9" width="5" height="5" rx="1.2" />
+                      <rect x="9" y="9" width="5" height="5" rx="1.2" />
+                    </svg>
+                    <span className="hidden sm:inline">Lưới</span>
+                  </button>
+                  <button
+                    id="projects-view-list-btn"
+                    type="button"
+                    className="u308-v"
+                    data-v="list"
+                    aria-pressed={viewLayoutMode === 'list'}
+                    aria-label="Chế độ dạng danh sách (List view)"
+                    title="Hiển thị dạng danh sách (List)"
+                    onClick={() => handleSwitchViewLayout('list')}
+                  >
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <rect x="2" y="2.5" width="3.5" height="3.5" rx="1" />
+                      <path d="M8 4.2h6" />
+                      <rect x="2" y="10" width="3.5" height="3.5" rx="1" />
+                      <path d="M8 11.7h6" />
+                    </svg>
+                    <span className="hidden sm:inline">Danh sách</span>
+                  </button>
+                  <button
+                    id="projects-view-fan-btn"
+                    type="button"
+                    className="u308-v"
+                    data-v="fan"
+                    aria-pressed={viewLayoutMode === 'fan'}
+                    aria-label="Giai đoạn / Nhóm theo chiến dịch (Fan Card)"
+                    title="Giai đoạn / Nhóm theo chiến dịch (Fan Card)"
+                    onClick={() => handleSwitchViewLayout('fan')}
+                  >
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M2 12l4-8 4 8M6 8h8" />
+                    </svg>
+                    <span className="hidden sm:inline">Giai đoạn / Nhóm theo chiến dịch</span>
+                  </button>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* NỘI DUNG CHÍNH: DẠNG LƯỚI HOẶC SLIDER CARD (CODEPEN NEWS SLIDER LAYOUT + EFFECT, KHÔNG ĐỔI DATA) */}
-          {filteredProjects.length === 0 ? (
+          {/* NỘI DUNG CHÍNH: DẠNG LƯỚI, DANH SÁCH HOẶC FAN CARD */}
+          {viewLayoutMode === 'fan' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-4">
+              {PROJECT_CARD_GROUPS.map((group, idx) => {
+                const fanGroup: ProjectFanGroup = {
+                  id: group.id,
+                  title: group.fourWordTitle,
+                  subtitle: group.badgeText,
+                  badge: group.code,
+                  accentColor: getCardVisualConfig(group.visualId).accentColor,
+                  artIndex: (idx % 12) + 1,
+                  projects: group.projects,
+                };
+                return (
+                  <ProjectFanGroupCard
+                    key={group.id}
+                    group={fanGroup}
+                    groupIdx={idx}
+                    isDark={isDark}
+                    onSelectProject={(proj) => {
+                      const parentGroup = PROJECT_CARD_GROUPS.find((g) => g.projects.some((p) => p.id === proj.id)) || null;
+                      setSelectedGroup(parentGroup);
+                      setSelectedArticle(proj);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ) : filteredProjects.length === 0 ? (
             <ViewState
               variant="empty"
               icon="folder-kanban"
@@ -1355,371 +1198,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                 setSearchQuery('');
               }}
             />
-          ) : viewMode === 'slider' ? (
-            <div
-              data-section-card="true"
-              data-element-type="card"
-              className="news-slider-wrapper-container projects-themed-slider bento-card glass-card relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
-              onMouseLeave={() => setHoveredSlotIdx(null)}
-            >
-              <div className="news-slider-bg" aria-hidden="true" />
-
-              <div ref={containerRef} className="news-slider-container">
-                <div
-                  className={cn('news-slider-stage', isDraggingTrack && 'is-dragging')}
-                  onPointerDown={handleSliderPointerDown}
-                  onDragStart={(e) => e.preventDefault()}
-                >
-                  <div ref={bgRef} className="news-item-bg projects-themed-item-bg" aria-hidden="true" />
-
-                  <div
-                    ref={wrpRef}
-                    style={{
-                      transform: `translate3d(${currentTrackX}px, 0, 0)`,
-                      transition:
-                        disableTrackTransition || isDraggingTrack
-                          ? 'none'
-                          : 'transform 0.43s cubic-bezier(0.22, 1, 0.36, 1)',
-                    }}
-                    className="news-slider-wrp"
-                  >
-                    {extendedSlides.map((slideItem, slotIdx) => {
-                      const { proj, origIdx, slotKey } = slideItem;
-                      const parentGroup = getParentGroupForProject(proj);
-                      const bannerInfo = getProjectCloudinaryBanner(proj);
-                      const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
-                      const orderNumber =
-                        proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || '';
-                      const cardColor = getProjectCardColor(origIdx);
-                      const isActiveCenter = slotIdx === visualTrackIdx;
-                      const isPrevSlide = slotIdx === visualTrackIdx - 1;
-                      const isNextSlide = slotIdx === visualTrackIdx + 1;
-                      const isPeekSlide = Math.abs(slotIdx - visualTrackIdx) === 2;
-                      const isHighlighted =
-                        hoveredSlotIdx !== null
-                          ? slotIdx === hoveredSlotIdx
-                          : isActiveCenter;
-
-                      return (
-                        <div
-                          key={slotKey}
-                          ref={(el) => {
-                            slotSlideRefs.current[slotIdx] = el;
-                          }}
-                          className={cn(
-                            'news-slider-slide',
-                            isActiveCenter && 'active-slide swiper-slide-active',
-                            isPrevSlide && 'swiper-slide-prev',
-                            isNextSlide && 'swiper-slide-next',
-                            isPeekSlide && 'swiper-slide-peek'
-                          )}
-                        >
-                          <div
-                            ref={(el) => {
-                              slotItemRefs.current[slotIdx] = el;
-                            }}
-                            role="button"
-                            tabIndex={isPrevSlide || isActiveCenter || isNextSlide ? 0 : -1}
-                            onMouseEnter={() => {
-                              if (typeof window !== 'undefined' && window.innerWidth > 800) {
-                                setHoveredSlotIdx(slotIdx);
-                              }
-                            }}
-                            onMouseLeave={() => {
-                              if (typeof window !== 'undefined' && window.innerWidth > 800) {
-                                setHoveredSlotIdx((prev) => (prev === slotIdx ? null : prev));
-                              }
-                            }}
-                            onClick={() => {
-                              if (didDragRef.current) return;
-                              setActiveCarouselIdx(origIdx);
-                              if (useLoopClones) {
-                                setVisualTrackIdx(origIdx + clonePad);
-                              } else {
-                                setVisualTrackIdx(origIdx);
-                              }
-                              handleOpenGroup(parentGroup, proj);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                setActiveCarouselIdx(origIdx);
-                                handleOpenGroup(parentGroup, proj);
-                              }
-                            }}
-                            className={cn(
-                              'news-card-item !p-0 !h-full !flex !flex-col !justify-between overflow-hidden rounded-[var(--radius-card,14px)] border cursor-pointer select-none transition-all duration-300',
-                              isHighlighted && 'active'
-                            )}
-                            style={{
-                              borderColor: `${cardColor}45`,
-                            }}
-                          >
-                            {/* 1. Ảnh bìa thẻ Dự án (đồng bộ dạng Grid) */}
-                            <div
-                              data-media-card="image"
-                              className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
-                            >
-                              <img
-                                src={bannerInfo.primaryUrl}
-                                alt={cleanedTitle}
-                                title={bannerInfo.imageName}
-                                loading="lazy"
-                                decoding="async"
-                                referrerPolicy="no-referrer"
-                                draggable={false}
-                                onError={(e) => {
-                                  if (
-                                    bannerInfo.fallbackUrl &&
-                                    e.currentTarget.src !== bannerInfo.fallbackUrl
-                                  ) {
-                                    e.currentTarget.src = bannerInfo.fallbackUrl;
-                                  } else {
-                                    e.currentTarget.src =
-                                      'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
-                                  }
-                                }}
-                                className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
-                              />
-                              <div
-                                className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-bl-none rounded-br-none"
-                                style={{
-                                  background:
-                                    'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',
-                                }}
-                              />
-                              <span
-                                className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[58%] truncate pointer-events-none"
-                              >
-                                <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
-                                <span className="truncate">{parentGroup.fourWordTitle}</span>
-                              </span>
-                              <span
-                                className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
-                              >
-                                <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                                <span>{orderNumber || 'Giai đoạn'}</span>
-                              </span>
-                            </div>
-
-                            {/* 2. Thân thẻ Dự án (đồng bộ dạng Grid) */}
-                            <div className="project-card-body flex-1 flex flex-col justify-between gap-2.5 p-3 sm:p-3.5 min-w-0">
-                              <div className="min-w-0 flex flex-col gap-1.5">
-                                <div className="card-header-sync w-full min-w-0 min-h-[2.6em]" style={{ color: cardColor }}>
-                                  <h3
-                                    className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug m-0 p-0 w-full min-w-0 text-left block"
-                                    data-card-title="true"
-                                    style={{
-                                      color: cardColor,
-                                      display: 'block',
-                                      textWrap: 'wrap',
-                                      wordBreak: 'normal',
-                                      overflowWrap: 'break-word',
-                                    }}
-                                    title={`${orderNumber ? `${orderNumber} · ` : ''}${cleanedTitle}`}
-                                  >
-                                    {orderNumber && (
-                                      <span className="font-mono font-bold mr-1.5 opacity-90 inline">
-                                        {orderNumber}
-                                      </span>
-                                    )}
-                                    <WebIcon
-                                      name={getProjectIconByTitle(proj)}
-                                      className="w-4 h-4 inline align-[-2px] mr-1.5 shrink-0"
-                                      style={{ color: cardColor }}
-                                    />
-                                    <span className="inline">{cleanedTitle}</span>
-                                  </h3>
-                                </div>
-
-                                <p className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 break-words m-0 text-[12px]">
-                                  {proj.description}
-                                </p>
-                              </div>
-
-                              <div className="flex items-center justify-between gap-2 pt-1.5 mt-0.5 border-t border-[var(--border-subcard)] min-w-0">
-                                <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                                  <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                                    <div
-                                      className="h-full rounded-full transition-all duration-500"
-                                      style={{ width: `${proj.progressPercent ?? 100}%`, backgroundColor: cardColor }}
-                                    />
-                                  </div>
-                                  <span className="typo-badge font-mono font-bold tabular-nums shrink-0" style={{ color: cardColor }}>
-                                    {proj.progressPercent ?? 100}%
-                                  </span>
-                                </div>
-                                <span
-                                  className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 text-[11px] group-hover:translate-x-0.5 transition-transform"
-                                  style={{ color: cardColor }}
-                                >
-                                  <span>Chi tiết Case Study</span>
-                                  <WebIcon name="arrow-right" className="w-3 h-3 shrink-0" style={{ color: cardColor }} />
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handlePrevCarousel}
-                    disabled={totalProjects <= 1}
-                    className="news-slider-arrow news-slider-prev absolute no-theme-btn"
-                    aria-label="Dự án trước"
-                  >
-                    <span className="icon-font">
-                      <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-                        <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z" />
-                      </svg>
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNextCarousel}
-                    disabled={totalProjects <= 1}
-                    className="news-slider-arrow news-slider-next absolute no-theme-btn"
-                    aria-label="Dự án tiếp theo"
-                  >
-                    <span className="icon-font">
-                      <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-                        <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.696z" />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-
-                <div className="news-slider-ctr">
-                  <div className="news-slider-pagination">
-                    {filteredProjects.map((proj, idx) => (
-                      <button
-                        key={proj.id}
-                        type="button"
-                        onClick={() => handleSelectBullet(idx)}
-                        className={cn('news-slider-bullet', idx === safeCarouselIndex && 'active-bullet')}
-                        aria-label={`Slide ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : viewMode === 'stack' ? (
-            <div
-              id="projects-stack-stage"
-              data-section-card="true"
-              data-element-type="card"
-              className="project-stack-stage bento-card glass-card relative w-full h-full max-w-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-x-auto overflow-y-visible no-scrollbar py-8 px-6"
-            >
-              <div className="project-stack-container w-full h-full max-w-full max-h-full flex items-center justify-center">
-                {filteredProjects.map((proj, idx) => {
-                  const parentGroup = getParentGroupForProject(proj);
-                  const bannerInfo = getProjectCloudinaryBanner(proj);
-                  const cleanedTitle = proj.title.replace(/^[\d.]+\s*·\s*/, '').trim();
-                  const orderNumber =
-                    proj.code || proj.number || proj.title.match(/^[\d.]+/)?.[0] || `${idx + 1}`;
-                  const cardColor = getProjectCardColor(idx);
-                  const progressPct = typeof proj.progressPercent === 'number' ? proj.progressPercent : 100;
-
-                  return (
-                    <div
-                      key={proj.id}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => {
-                        handleOpenGroup(parentGroup, proj);
-                        document
-                          .getElementById('projects-main-scroll-viewport')
-                          ?.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleOpenGroup(parentGroup, proj);
-                          document
-                            .getElementById('projects-main-scroll-viewport')
-                            ?.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                      }}
-                      style={{ '--stack-accent': cardColor, borderColor: `${cardColor}45` } as React.CSSProperties}
-                      className="card project-stack-card bento-card glass-card cursor-pointer select-none flex flex-col justify-between overflow-hidden border p-0 font-play"
-                      title={`${orderNumber} · ${cleanedTitle}`}
-                    >
-                      {/* 1. Ảnh bìa thẻ Dự án (đồng bộ dạng Grid) */}
-                      <div
-                        data-media-card="image"
-                        className="project-card-banner relative w-full aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 border-b border-[var(--border-subcard)]"
-                      >
-                        <img
-                          src={bannerInfo.primaryUrl}
-                          alt={cleanedTitle}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                        />
-                        <div
-                          className="project-card-banner-scrim absolute inset-0 pointer-events-none"
-                          style={{
-                            background:
-                              'linear-gradient(180deg, rgba(15, 23, 42, 0.38) 0%, rgba(15, 23, 42, 0.04) 45%, rgba(15, 23, 42, 0.6) 100%)',
-                          }}
-                        />
-                        <span className="absolute top-2 left-2 z-20 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-black/60 text-white backdrop-blur-md">
-                          <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
-                          <span>{parentGroup.fourWordTitle}</span>
-                        </span>
-                        <span className="absolute top-2 right-2 z-20 inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-black/60 text-white backdrop-blur-md">
-                          <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--color-primary)' }} />
-                          <span>{orderNumber}</span>
-                        </span>
-                      </div>
-
-                      {/* 2. Thân thẻ Dự án (đồng bộ dạng Grid) */}
-                      <div className="p-3.5 flex flex-col flex-1 justify-between gap-2">
-                        <div className="min-w-0 flex flex-col gap-1">
-                          <h3
-                            className="text-sm font-bold line-clamp-2 leading-snug m-0"
-                            style={{ color: cardColor }}
-                          >
-                            {orderNumber && <span className="font-mono mr-1.5 inline">{orderNumber}</span>}
-                            <WebIcon
-                              name={getProjectIconByTitle(proj)}
-                              className="w-3.5 h-3.5 inline align-[-2px] mr-1 shrink-0"
-                              style={{ color: cardColor }}
-                            />
-                            <span className="inline">{cleanedTitle}</span>
-                          </h3>
-                          <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mt-0.5 m-0 leading-relaxed">
-                            {proj.description}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between pt-2 border-t border-[var(--border-subcard)] text-[11px] text-[var(--text-tertiary)]">
-                          <div className="flex items-center gap-1.5 flex-1 min-w-0 mr-2">
-                            <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
-                              <div
-                                className="h-full rounded-full"
-                                style={{ width: `${progressPct}%`, backgroundColor: cardColor }}
-                              />
-                            </div>
-                            <span className="font-mono font-bold shrink-0" style={{ color: cardColor }}>
-                              {progressPct}%
-                            </span>
-                          </div>
-                          <span className="font-medium text-[var(--accent-color)] inline-flex items-center gap-1 shrink-0" style={{ color: cardColor }}>
-                            <span>Chi tiết →</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
           ) : (
           <div
             id="projects-grid"
-            className="unified-cards-grid projects-grid projects-responsive-grid card-grid w-full min-w-0 items-stretch"
+            ref={projectsGridRef}
+            data-view={viewLayoutMode}
+            className="unified-cards-grid projects-grid projects-responsive-grid card-grid u308-list w-full min-w-0 items-stretch"
           >
             {filteredProjects.map((proj, idx) => {
               const parentGroup = getParentGroupForProject(proj);
@@ -1728,6 +1212,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               const orderNumber = proj.code || proj.number || (proj.title.match(/^[\d.]+/)?.[0]) || '';
               const cardColor = getProjectCardColor(idx);
               const progressPct = typeof proj.progressPercent === 'number' ? proj.progressPercent : 100;
+              const isRead = Boolean(readProjectIds[proj.id]);
 
               return (
                 <motion.article
@@ -1735,8 +1220,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   key={proj.id}
                   data-element-type="card"
                   data-section-card="true"
+                  data-read={isRead ? '1' : '0'}
                   role="button"
                   tabIndex={0}
+                  onPointerMove={handleCardPointerMove}
+                  onPointerLeave={handleCardPointerLeave}
                   onClick={() => {
                     handleOpenGroup(parentGroup, proj);
                     document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1749,16 +1237,22 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card card-item bento-card glass-card group relative h-full p-0 flex flex-col justify-between border select-none transition-all duration-300 cursor-pointer font-play min-w-0 overflow-hidden"
-                  style={{
-                    borderColor: `${cardColor}45`,
-                    padding: 0,
-                  }}
+                  className="project-card card-item bento-card glass-card u050 u308-it group relative h-full p-0 flex flex-col justify-between border select-none cursor-pointer font-play min-w-0 overflow-hidden"
+                  style={
+                    {
+                      borderColor: `${cardColor}45`,
+                      padding: 0,
+                      '--u050-accent': cardColor,
+                    } as React.CSSProperties
+                  }
                 >
-                  {/* 1. Ảnh bìa thẻ Dự án: Không bo cong 4 góc, chỉ bo góc trên trái & trên phải theo Tùy chỉnh chung Bo cong 4 góc */}
+                  {/* Lucian UX/UI #050 Radial Surface Glare */}
+                  <div className="u050-glare" aria-hidden="true" />
+
+                  {/* 1. Ảnh bìa thẻ Dự án (.u308-ph cho FLIP morphing giữa Grid và List) */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
+                    className="project-card-banner u308-ph relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -1772,7 +1266,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           e.currentTarget.src = bannerInfo.fallbackUrl;
                         } else {
                           e.currentTarget.src =
-                            'https://i.postimg.cc/LXdY8nrR/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.png';
+                            'https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp';
                         }
                       }}
                       className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
@@ -1785,8 +1279,9 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       }}
                     />
                     <span
-                      className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[58%] truncate pointer-events-none"
+                      className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[64%] truncate pointer-events-none"
                     >
+                      <span className="u050-dot" aria-hidden="true" />
                       <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
                       <span className="truncate">{parentGroup.fourWordTitle}</span>
                     </span>
@@ -1798,12 +1293,15 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </span>
                   </div>
 
-                  {/* 2. Thân thẻ Dự án: Tiêu đề đồng đều · Số thứ tự, icon, tên dự án chạy hết dòng mới xuống dòng */}
-                  <div className="project-card-body project-card__content flex-1 flex flex-col justify-between gap-[var(--space-subcard-gap,12px)] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] min-w-0">
+                  {/* 2. Thân thẻ Dự án (.u308-tx cho hiệu ứng trượt chữ khi sang List) */}
+                  <div className="project-card-body project-card__content u308-tx flex-1 flex flex-col justify-between gap-[var(--space-subcard-gap,12px)] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] min-w-0">
                     <div className="min-w-0 flex flex-col gap-1.5">
                       <div className="card-header-sync w-full min-w-0 min-h-[2.85em]" style={{ color: cardColor }}>
                         <h3
-                          className="typo-h4 card-title-synced font-play font-bold line-clamp-2 leading-snug m-0 p-0 w-full min-w-0 text-left block"
+                          className={cn(
+                            'u050-h typo-h4 card-title-synced font-play font-bold leading-snug m-0 p-0 w-full min-w-0 text-left block',
+                            viewLayoutMode === 'grid' ? 'line-clamp-2' : 'line-clamp-none'
+                          )}
                           data-card-title="true"
                           style={{
                             color: cardColor,
@@ -1828,13 +1326,35 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         </h3>
                       </div>
 
-                      <p className="typo-caption text-[var(--text-secondary)] leading-relaxed line-clamp-2 break-words m-0">
+                      <p
+                        className={cn(
+                          'typo-caption text-[var(--text-secondary)] leading-relaxed break-words m-0',
+                          viewLayoutMode === 'grid' ? 'line-clamp-2' : 'line-clamp-3'
+                        )}
+                      >
                         {proj.description}
                       </p>
+
+                      {/* Thông tin mở rộng chỉ hiển thị ở chế độ Danh sách (List view #308) */}
+                      <div className="u308-list-extra flex-wrap items-center gap-1.5 pt-1">
+                        {proj.role && (
+                          <span className="px-2.5 py-0.5 rounded-full typo-badge font-semibold bg-[var(--bg-subcard)] border border-[var(--border-subcard)] text-[var(--text-primary)]">
+                            Vai trò: {proj.role}
+                          </span>
+                        )}
+                        {(proj.hashtags || []).slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2 py-0.5 rounded-full typo-badge font-mono text-[var(--text-secondary)] bg-[var(--bg-subcard)]/70 border border-[var(--border-subcard)]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    <div className="project-card__actions mt-auto flex items-center justify-between gap-2.5 pt-2 border-t border-[var(--border-subcard)] min-w-0">
-                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className="project-card__actions mt-auto flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subcard)] min-w-0">
+                      <div className="flex items-center gap-2 min-w-[90px] flex-1">
                         <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
                           <div
                             className="h-full rounded-full transition-all duration-500"
@@ -1845,11 +1365,30 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                           {progressPct}%
                         </span>
                       </div>
+
+                      {/* Lucian UX/UI #050 Mark as read toggle button */}
+                      <button
+                        type="button"
+                        className="u050-btn shrink-0"
+                        aria-pressed={isRead}
+                        title={isRead ? 'Bấm để hoàn tác trạng thái chưa xem' : 'Đánh dấu đã xem dự án này'}
+                        onClick={(e) => handleToggleProjectRead(e, proj.id)}
+                      >
+                        <svg viewBox="0 0 16 16" aria-hidden="true">
+                          {isRead ? (
+                            <path d="M3 8.5l3.2 3.2L13 5" />
+                          ) : (
+                            <circle cx="8" cy="8" r="5" />
+                          )}
+                        </svg>
+                        <span>{isRead ? 'Đã xem' : 'Đánh dấu xem'}</span>
+                      </button>
+
                       <span
                         className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 group-hover:translate-x-0.5 transition-transform"
                         style={{ color: cardColor }}
                       >
-                        <span>Chi tiết Case Study</span>
+                        <span>Chi tiết</span>
                         <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
                       </span>
                     </div>

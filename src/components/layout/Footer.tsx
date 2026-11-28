@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { AnimatePresence } from 'motion/react';
 import { TABS_DATA } from '../../data/tabs';
 import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
+import { SpringDropdownMenu, SpringTick, useSpringDropdownHighlight } from '../ui/SpringDropdown';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
 import { LETTER_14_LIGHT_HEXES, LETTER_14_PALETTE_THEME_STYLES } from '@/config/ui/themeDefaults';
@@ -51,9 +53,15 @@ const FooterComponent: React.FC<FooterProps> = ({
   const langMenuRef = useRef<HTMLDivElement>(null);
   const themePopupRef = useRef<HTMLDivElement>(null);
   const langPopupRef = useRef<HTMLDivElement>(null);
+  const langPopupHlRef = useRef<HTMLSpanElement>(null);
   const rightPillBtnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const themeLastClickTimeRef = useRef<number>(0);
   const themeDblHandledRef = useRef<boolean>(false);
+
+  useSpringDropdownHighlight(langPopupRef, langPopupHlRef, {
+    itemSelector: '.theme-dropdown-option',
+    isOpen: isLangMenuOpen,
+  });
 
   useEffect(() => {
     setIsThemeMenuOpen(false);
@@ -279,8 +287,9 @@ const FooterComponent: React.FC<FooterProps> = ({
           : 'left-auto right-0 w-72'
       } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left`}
     >
+      <span ref={langPopupHlRef} className="spring-dropdown-hl" aria-hidden="true" />
       <div
-        className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
+        className="relative z-10 px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
         style={{ color: 'var(--text-link, var(--color-primary))', borderColor: 'var(--border-subcard)' }}
       >
         <span>{isEn ? 'Select Language' : 'Chọn ngôn ngữ'}</span>
@@ -291,6 +300,8 @@ const FooterComponent: React.FC<FooterProps> = ({
 
       <button
         type="button"
+        role="option"
+        aria-selected={language === 'vi'}
         tabIndex={isLangMenuOpen ? 0 : -1}
         data-selected={language === 'vi' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('vi')}
@@ -301,11 +312,13 @@ const FooterComponent: React.FC<FooterProps> = ({
           <span className="typo-body-lg leading-none shrink-0">🇻🇳</span>
           <span className="truncate whitespace-nowrap min-w-0 flex-1">Tiếng Việt</span>
         </div>
-        {language === 'vi' && <span className="shrink-0 font-bold ml-2">✓</span>}
+        {language === 'vi' && <SpringTick active={language === 'vi'} className="ml-2" />}
       </button>
 
       <button
         type="button"
+        role="option"
+        aria-selected={language === 'en'}
         tabIndex={isLangMenuOpen ? 0 : -1}
         data-selected={language === 'en' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('en')}
@@ -316,7 +329,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           <span className="typo-body-lg leading-none shrink-0">🇬🇧</span>
           <span className="truncate whitespace-nowrap min-w-0 flex-1">English</span>
         </div>
-        {language === 'en' && <span className="shrink-0 font-bold ml-2">✓</span>}
+        {language === 'en' && <SpringTick active={language === 'en'} className="ml-2" />}
       </button>
     </div>
   );
@@ -340,11 +353,14 @@ const FooterComponent: React.FC<FooterProps> = ({
     };
 
     return (
-      <div
+      <SpringDropdownMenu
         id="footer-theme-popup"
         role="listbox"
         aria-label={isEn ? 'Select Theme' : 'Chọn giao diện'}
         ref={themePopupRef}
+        placement="up"
+        origin={mobilePlacement ? '50% 100%' : '100% 100%'}
+        itemSelector=".footer-theme-group-row"
         style={{
           background: 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff)))',
           borderColor: 'var(--surface-primary-border, var(--border-card, var(--border-color)))',
@@ -358,7 +374,7 @@ const FooterComponent: React.FC<FooterProps> = ({
             : 'left-auto right-0 w-[348px] max-w-[calc(100vw-32px)]'
         } rounded-[var(--radius-popup,16px)] border p-2 z-[9999] flex flex-col gap-1 font-play text-left pointer-events-auto`}
       >
-        <div className="max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
+        <div className="relative z-10 max-h-[min(70vh,460px)] overflow-y-auto no-scrollbar flex flex-col gap-1">
           {CARD_STYLE_GROUPS.map((group) => {
             const lightMode = group.lightMode || group.defaultMode || group.presets[0]?.id;
             const darkMode = group.darkMode;
@@ -496,7 +512,7 @@ const FooterComponent: React.FC<FooterProps> = ({
             );
           })}
         </div>
-      </div>
+      </SpringDropdownMenu>
     );
   };
 
@@ -824,7 +840,9 @@ const FooterComponent: React.FC<FooterProps> = ({
                 </div>
 
                 {/* Popup Menu Giao Diện (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
-                {!isCompactMobile && isThemeMenuOpen && renderThemePopup(false)}
+                <AnimatePresence>
+                  {!isCompactMobile && isThemeMenuOpen && renderThemePopup(false)}
+                </AnimatePresence>
               </div>
 
           {/* Button 2: Hình Nền */}
@@ -956,7 +974,9 @@ const FooterComponent: React.FC<FooterProps> = ({
 
       {/* Mobile/Compact Popups (< 768px): gắn trực tiếp vào #app-footer để không bị cắt bởi thanh cuộn ngang */}
       {isCompactMobile && renderLangPopup(true)}
-      {isCompactMobile && isThemeMenuOpen && renderThemePopup(true)}
+      <AnimatePresence>
+        {isCompactMobile && isThemeMenuOpen && renderThemePopup(true)}
+      </AnimatePresence>
     </footer>
   );
 

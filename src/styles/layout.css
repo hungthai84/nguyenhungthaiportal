@@ -83,6 +83,33 @@
   border-radius: 0px !important;
 }
 
+@media (max-width: 767px) {
+  #website-root {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-rows: none !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+
+  #app-header-container,
+  #el-p0-div-98,
+  #app-header-wrapper,
+  #app-footer-wrapper,
+  #app-header,
+  #app-footer {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 #app-header-wrapper,
 #app-footer-wrapper {
   width: 100% !important;
@@ -938,7 +965,8 @@
 
 /* Project Detail Vertical TOC Banner & Stacking Cards Layout */
 #project-detail-layout {
-  background: var(--bg-card, rgba(255, 255, 255, 0.84)) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   border-radius: var(--radius-main, 14px) !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 315px) !important;

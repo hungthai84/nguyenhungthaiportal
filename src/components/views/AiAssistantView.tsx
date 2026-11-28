@@ -15,6 +15,7 @@ import { findVerifiedFallbackAnswer } from '@/data/triNhanKnowledgeBase';
 import { SampleQuestionButton } from '@/components/ai/SampleQuestionButton';
 import { SampleQuestionDropdown } from '@/components/ai/SampleQuestionDropdown';
 import { FormattedAiMessage } from '@/components/ai/FormattedAiMessage';
+import { VoiceTalkDotLoader } from '@/components/ai/VoiceTalkDotLoader';
 import {
   AssistantVoiceLanguage,
   speakSiteText,
@@ -80,8 +81,8 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const isEn = language === 'en';
   const { isDark } = useTheme();
 
-  // Chế độ hiển thị trong khung trò chuyện: 'trinhan' (Hỏi đáp Trí Nhân + video nền động) hoặc 'did' (Nhúng trực tiếp D-ID AI Agent)
-  const [chatViewMode, setChatViewMode] = useState<'did' | 'trinhan'>('trinhan');
+  // Chế độ hiển thị trong khung trò chuyện: 'trinhan' (Hỏi đáp Trí Nhân), 'talk' (Talk AI · Voice-reactive dot loader #084) hoặc 'did' (Nhúng trực tiếp D-ID AI Agent)
+  const [chatViewMode, setChatViewMode] = useState<'did' | 'trinhan' | 'talk'>('trinhan');
   const [didStatus, setDidStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [didErrorMsg, setDidErrorMsg] = useState<string>('');
   const [didMountNonce, setDidMountNonce] = useState<number>(0);
@@ -825,6 +826,27 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
               <WebIcon name="video" className="w-3.5 h-3.5 shrink-0" />
               <span>{isEn ? 'AI Support Agent (D-ID)' : 'Trợ lý AI Hỗ trợ (D-ID)'}</span>
             </button>
+
+            <button
+              id="ai-mode-tab-talk"
+              type="button"
+              onClick={() => {
+                SoundEngine.playTap();
+                stopActiveSpeech();
+                setSpeakingMessageId(null);
+                setChatViewMode('talk');
+              }}
+              aria-pressed={chatViewMode === 'talk'}
+              style={
+                chatViewMode === 'talk'
+                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }
+                  : { color: 'var(--text-primary)' }
+              }
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-badge font-bold transition-all cursor-pointer"
+            >
+              <WebIcon name="mic" className="w-3.5 h-3.5 shrink-0" />
+              <span>{isEn ? 'Talk AI · Voice' : 'Talk AI · Giọng nói'}</span>
+            </button>
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0 ml-auto">
@@ -982,6 +1004,29 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 </div>
               </div>
             )}
+          </div>
+        ) : chatViewMode === 'talk' ? (
+          /* CHẾ ĐỘ TALK AI: LUCIAN UX/UI #084 VOICE-REACTIVE DOT LOADER */
+          <div
+            id="ai-assistant-talk-mode-panel"
+            data-element-name="Khung Talk AI Giọng nói (Voice-reactive dot loader #084)"
+            className="relative z-10 flex-1 min-h-0 flex flex-col items-center justify-center overflow-y-auto no-scrollbar py-2 px-1"
+          >
+            <VoiceTalkDotLoader
+              isEn={isEn}
+              onTranscribedQuestion={(questionText, autoSend) => {
+                setInputValue(questionText);
+                if (autoSend) {
+                  setChatViewMode('trinhan');
+                  setTimeout(() => {
+                    handleSend(questionText);
+                  }, 60);
+                } else {
+                  setChatViewMode('trinhan');
+                  focusChatInputAtEnd();
+                }
+              }}
+            />
           </div>
         ) : (
           /* CHẾ ĐỘ 2: HỘI THOẠI TRÍ NHÂN Q&A VỚI 47 CÂU HỎI MẪU & GIỌNG ĐỌC PUCK */
@@ -1230,6 +1275,28 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                   className="theme-input box-border w-full h-full pl-3.5 sm:pl-4 pr-4 border typo-input resize-none focus:outline-none shadow-inner overflow-y-auto no-scrollbar"
                 />
               </div>
+
+              <button
+                id="ai-assistant-talk-toggle-button"
+                type="button"
+                onClick={() => {
+                  SoundEngine.playTap();
+                  stopActiveSpeech();
+                  setSpeakingMessageId(null);
+                  setChatViewMode('talk');
+                }}
+                title={isEn ? 'Open Talk AI voice input' : 'Mở Talk AI giao tiếp bằng giọng nói'}
+                aria-label={isEn ? 'Open Talk AI voice input' : 'Mở Talk AI giao tiếp bằng giọng nói'}
+                style={{
+                  height: `${chatControlHeight}px`,
+                  minHeight: `${chatControlHeight}px`,
+                  maxHeight: `${chatControlHeight}px`,
+                  width: `${chatControlHeight}px`,
+                }}
+                className="box-border rounded-full border border-[var(--border-subcard)] bg-[var(--bg-subcard)]/90 text-[var(--text-primary)] hover:text-[var(--color-primary)] shadow-sm cursor-pointer transition flex items-center justify-center shrink-0"
+              >
+                <WebIcon name="mic" className="w-4 h-4 shrink-0" />
+              </button>
 
               <button
                 id="ai-assistant-submit-button"

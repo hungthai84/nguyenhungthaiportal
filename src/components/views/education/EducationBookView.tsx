@@ -15,6 +15,7 @@ import {
   BOOK_COVER_DISPLAY_FONT,
   EducationBookCoverArt,
   getBookCoverTheme,
+  getCourseShelfDesign,
 } from './EducationBookCoverArt';
 
 export interface EducationBookViewProps {
@@ -576,41 +577,29 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
       </div>
     );
 
-    // ================= PAGE 5: BÌA SAU (NỀN ĐỒNG BỘ MÀU SẮC BÌA TRƯỚC TỪNG KHÓA HỌC) =================
+    // ================= PAGE 5: BÌA SAU (ĐỒNG BỘ BÌA SÁCH TRÊN KỆ 3D) =================
     const backCoverTheme = getBookCoverTheme(course, courseColor);
+    const { palette: backPalette, pattern: backPattern, template: backTemplate } =
+      getCourseShelfDesign(course, courseColor);
     const backCover = (
       <div
         key={`back-${course.id}`}
+        data-book-template={backTemplate}
         className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border text-white"
         style={{
-          background: backCoverTheme.bottomGradient,
+          background: backTemplate === 'side-spine' ? backPalette.spineBg : backPalette.coverBg,
           borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
-          padding: 'clamp(12px, 4cqw, 18px)',
+          padding: 'clamp(14px, 4.5cqw, 22px)',
           boxShadow:
-            'inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -1px 0 rgba(2, 6, 23, 0.28)',
+            'inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -2px 0 rgba(2, 6, 23, 0.32)',
           fontFamily: BOOK_COVER_BODY_FONT,
           color: '#FFFFFF',
         }}
       >
-        {/* Full-bleed banner image filling 100% of back cover */}
-        <img
-          src={course.image}
-          alt={cleanTitle}
-          className="education-book-cover-banner-img absolute inset-0 z-0 w-full h-full object-cover object-center block"
-          loading="lazy"
-          decoding="async"
-          referrerPolicy="no-referrer"
-          onError={handleDriveImageFallback}
-        />
-
-        {/* Editorial chromatic dark scrim for crisp back cover typography */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1]"
-          style={{
-            background: `linear-gradient(180deg, rgba(2, 6, 23, 0.68) 0%, ${backCoverTheme.scrimDeep} 50%, rgba(2, 6, 23, 0.92) 100%)`,
-          }}
-        />
+        {/* Lớp họa tiết hình học, vân giấy & ánh sáng đồng bộ với bìa trước trên kệ sách */}
+        <div className={`edu-art-pattern ${backPattern}`} aria-hidden="true" />
+        <div className="edu-book-paper-grain" aria-hidden="true" />
+        <div className="edu-book-light" aria-hidden="true" />
 
         {/* Subtle right-edge French-groove spine hinge matching back hardcover */}
         <div
@@ -618,22 +607,26 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
           className="pointer-events-none absolute inset-y-0 right-0 z-30 w-[3.6cqw]"
           style={{
             background:
-              'linear-gradient(270deg, rgba(4, 10, 28, 0.32) 0%, rgba(4, 10, 28, 0.08) 42%, rgba(255, 255, 255, 0.20) 60%, transparent 100%)',
+              'linear-gradient(270deg, rgba(4, 10, 28, 0.34) 0%, rgba(4, 10, 28, 0.10) 42%, rgba(255, 255, 255, 0.22) 60%, transparent 100%)',
           }}
         />
 
-        <WebIcon
-          name="award"
-          className="relative z-10 w-[10cqw] h-[10cqw] mb-[3.2cqw]"
-          style={{ color: backCoverTheme.accentSoft }}
-        />
+        <div
+          className="relative z-10 w-[16cqw] h-[16cqw] min-w-[52px] min-h-[52px] max-w-[72px] max-h-[72px] rounded-2xl bg-black/24 border border-white/25 flex items-center justify-center mb-[3.2cqw] shadow-md"
+          style={{ color: backPalette.soft }}
+        >
+          <WebIcon
+            name="award"
+            className="w-[8.5cqw] h-[8.5cqw] min-w-[26px] min-h-[26px]"
+          />
+        </div>
 
         <p
-          className="relative z-10 font-semibold tracking-[0.06em] m-0"
+          className="relative z-10 font-bold uppercase tracking-[0.08em] m-0"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
             fontSize: 'clamp(10px, 2.95cqw, var(--fs-label, 12px))',
-            color: backCoverTheme.accentSoft,
+            color: backPalette.soft || backCoverTheme.accentSoft,
           }}
         >
           {categoryLabel}

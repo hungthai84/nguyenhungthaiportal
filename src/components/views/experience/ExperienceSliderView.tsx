@@ -508,14 +508,26 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                   onClick={() => handleSelectBullet(idx)}
                   aria-current={isActive ? 'step' : undefined}
                   title={`${item.yearBadge} · ${item.shortName}`}
+                  data-transparent-btn="true"
                   className={cn(
-                    'group relative z-10 flex flex-col items-center gap-1 shrink-0 cursor-pointer bg-transparent border-0 p-0 transition-transform duration-200 focus-visible:outline-none',
+                    'no-theme-btn exp-timeline-node-btn group relative z-10 flex flex-col items-center gap-1 shrink-0 cursor-pointer bg-transparent border-0 p-0 shadow-none transition-transform duration-200 focus-visible:outline-none',
                     isActive ? 'scale-105' : 'opacity-80 hover:opacity-100 hover:scale-105'
                   )}
+                  style={{
+                    background: 'transparent',
+                    backgroundColor: 'transparent',
+                    backgroundImage: 'none',
+                    border: 'none',
+                    boxShadow: 'none',
+                    backdropFilter: 'none',
+                    WebkitBackdropFilter: 'none',
+                  }}
                 >
                   <span
                     className="w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] rounded-full bg-transparent p-0.5 ring-0 shadow-none flex items-center justify-center overflow-hidden transition-transform duration-200"
                     style={{
+                      background: 'transparent',
+                      backgroundColor: 'transparent',
                       border: isActive
                         ? `2px dashed ${activeAccent}`
                         : isWalnutWood || isDarkLeather || isBrownLeather
@@ -623,6 +635,8 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       ref={(el) => {
                         slotItemRefs.current[slotIdx] = el;
                       }}
+                      id={isActiveCenter ? `milestone-card-${item.key}` : undefined}
+                      data-milestone-key={item.key}
                       role="button"
                       tabIndex={0}
                       onMouseEnter={() => {
@@ -652,6 +666,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         }
                       }}
                       className={cn('news-card-item h-full flex flex-col justify-between gap-2', isHighlighted && 'active')}
+                      style={{ padding: '15px' }}
                     >
                       {/* Hàng trên cùng: Bên trái là Icon lịch + Năm (cùng 1 hàng) & Thời gian; Bên phải (vùng khung đỏ) chứa nhóm Group Logo gấp đôi không viền */}
                       <div className="exp-card-top-row w-full flex items-center justify-between gap-2.5 shrink-0">
@@ -704,14 +719,14 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                         </div>
                       </div>
 
-                      {/* Icon công ty và Tên công ty: Tạo khung, ẩn viền khung, kích thước bằng Năm, chức vụ, quản lý, giới thiệu */}
+                      {/* Icon công ty và Tên công ty (H3) cùng 1 hàng */}
                       <div
                         className="exp-card-framed-box news-card-title !my-0 w-full rounded-[9px] border-0 px-1.5 py-0.5 flex flex-row items-center gap-1.5 shrink-0 min-w-0"
                         title={item.shortName}
                         style={{ border: 'none', outline: 'none' }}
                       >
-                        <WebIcon name="building-2" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
-                        <span className="truncate min-w-0 flex-1 !text-[12px] font-bold leading-snug">{item.shortName}</span>
+                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                        <h3 className="truncate min-w-0 flex-1 text-[14px] font-bold leading-snug m-0">{item.shortName}</h3>
                       </div>
 
                       {/* Chức vụ, Quản lý, Giới thiệu: Tạo khung, ẩn viền khung, cùng kích thước 12px */}

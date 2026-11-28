@@ -453,15 +453,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
   const { cardStyle } = useTheme();
   const themeLetter = getThemeLetterContent(cardStyle);
 
-  const [introState, setIntroState] = useState<'active' | 'revealed'>(() => {
-    try {
-      return sessionStorage.getItem(WELCOME_SESSION_KEY) === 'true'
-        ? 'revealed'
-        : 'active';
-    } catch {
-      return 'active';
-    }
-  });
+  const [introState, setIntroState] = useState<'active' | 'revealed'>('active');
 
   const [signatureError, setSignatureError] = useState(false);
   const [heroCardHeight, setHeroCardHeight] = useState<number | null>(null);
@@ -539,9 +531,9 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           touch-action: pan-y !important;
           -webkit-overflow-scrolling: touch !important;
           border-radius: var(--radius-card, 14px) !important;
-          background: var(--surface-secondary-bg, var(--bg-card, rgba(255, 255, 255, 0.72)));
-          border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.24)));
-          box-shadow: var(--layer-l2-shadow, var(--shadow-card, none));
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
         }
 
         /* Theme-Synchronized Open Letter Sheet inside Card nội dung thư ngỏ */
@@ -559,7 +551,8 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           color: var(--text-primary, inherit);
         }
 
-        .nht-letter-top-border {
+        .nht-letter-top-border,
+        .nht-letter-bottom-border {
           height: 7px;
           width: 100%;
           background: repeating-linear-gradient(
@@ -576,11 +569,42 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           opacity: 0.9;
         }
 
+        .nht-letter-left-border,
+        .nht-letter-right-border {
+          position: absolute;
+          top: 7px;
+          bottom: 7px;
+          width: 7px;
+          background: repeating-linear-gradient(
+            -45deg,
+            #4f46e5,
+            #4f46e5 14px,
+            #ffffff 14px,
+            #ffffff 22px,
+            #f59e0b 22px,
+            #f59e0b 36px,
+            #ffffff 36px,
+            #ffffff 44px
+          );
+          opacity: 0.9;
+          pointer-events: none;
+          z-index: 20;
+        }
+
+        .nht-letter-left-border {
+          left: 0;
+        }
+
+        .nht-letter-right-border {
+          right: 0;
+        }
+
         .nht-envelope-flap-line {
           position: absolute;
           top: 7px;
-          left: 0;
-          right: 0;
+          left: 7px;
+          right: 7px;
+          width: calc(100% - 14px);
           height: 54px;
           pointer-events: none;
           z-index: 1;
@@ -794,14 +818,14 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           display: inline-block;
         }
 
-        /* Welcome Envelope Intro Scoped Inside #letter-main-card — Đồng bộ nền của giao diện đang chọn */
+        /* Welcome Envelope Intro Scoped Inside #letter-main-card — Hiển thị trực tiếp nền Card chính của giao diện đang chọn */
         .nht-welcome-overlay {
           position: absolute;
           inset: 0;
           z-index: 40;
-          background: var(--surface-secondary-bg, var(--bg-card, var(--app-bg-gradient, transparent)));
-          backdrop-filter: blur(var(--glass-main-blur, 18px)) saturate(140%);
-          -webkit-backdrop-filter: blur(var(--glass-main-blur, 18px)) saturate(140%);
+          background: transparent !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
           color: var(--text-primary);
           display: flex;
           flex-direction: column;
@@ -1099,12 +1123,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
               ref={letterScrollViewportRef}
               id="letter-main-scroll-viewport"
               data-element-name="Card nội dung thư ngỏ"
-              data-element-type="card"
-              data-section-card="true"
+              data-element-type="container"
               data-element-page="letter"
               data-element-parent="letter-main-card"
               data-no-wheel-horizontal="true"
-              className="main-card-scroll-viewport bento-card glass-card block w-full max-w-full min-w-0 h-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y glass-scrollbar box-border rounded-[var(--radius-card,14px)]"
+              className={`main-card-scroll-viewport block w-full max-w-full min-w-0 h-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y glass-scrollbar box-border rounded-[var(--radius-card,14px)] transition-opacity duration-500 ${
+                introState === 'active' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
             >
               {/* LÁ THƯ CHÍNH (NỘI DUNG THEO CODE ĐÍNH KÈM + CARD VIDEO ĐƯA VÀO TRONG THƯ) */}
               <div
@@ -1113,12 +1138,14 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                   introState === 'active' ? 'intro-active' : 'intro-revealed'
                 }`}
               >
-                {/* Decorative Top Letter Border Strip */}
+                {/* Decorative Top, Left & Right Letter Border Strips */}
                 <div className="nht-letter-top-border" />
+                <div className="nht-letter-left-border" aria-hidden="true" />
+                <div className="nht-letter-right-border" aria-hidden="true" />
 
                 {/* Subtle Envelope Flap SVG Crease */}
                 <svg
-                  className="nht-envelope-flap-line w-full"
+                  className="nht-envelope-flap-line"
                   viewBox="0 0 1200 60"
                   preserveAspectRatio="none"
                   data-thin-stroke="true"
@@ -1135,7 +1162,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                 </svg>
 
                 {/* Letter Inner Content Padding */}
-                <div className="p-3.5 sm:p-5 lg:p-6 relative z-10">
+                <div className="px-4 sm:px-6 lg:px-7 py-3.5 sm:py-5 lg:py-6 relative z-10">
                   <div
                     id="contentGrid"
                     className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 text-[12px] leading-[1.55]"
@@ -1664,6 +1691,9 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Decorative Bottom Letter Border Strip */}
+                <div className="nht-letter-bottom-border" aria-hidden="true" />
               </div>
             </div>
           </div>

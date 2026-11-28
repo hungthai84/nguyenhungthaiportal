@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
 import QRCode from 'qrcode';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
@@ -41,6 +41,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 import { SystemBentoCard } from './systems/SystemBentoCard';
 
 export interface SystemsViewProps {
@@ -960,7 +961,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
         setAnimPhase('idle');
         setMorphRect(null);
         setWrapperMinHeight(undefined);
-      }, 720);
+      }, 520);
     });
   }, [expandedSystem, animPhase, clearTimers, originSystemId]);
 
@@ -1223,8 +1224,32 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
       data-element-type="container"
       data-element-page="systems"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border"
+      className={cn(
+        "main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-x-auto overflow-y-hidden no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border",
+        !isDark && "systems-bento-light-mode"
+      )}
     >
+      <style>{`
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card,
+        html #systems-page-container.systems-bento-light-mode .system-card {
+          background: rgba(255, 255, 255, 0.88) !important;
+          color: #172554 !important;
+          border: 1px solid rgba(255, 255, 255, 0.95) !important;
+          backdrop-filter: blur(16px) saturate(140%) !important;
+          box-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+        }
+
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card h3,
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card h3 span,
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card .sys-desc-copy,
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card .sys-fullname-copy {
+          color: #172554 !important;
+        }
+
+        html #systems-page-container.systems-bento-light-mode .sys-bento-studio-card .sys-bottom-meta {
+          border-top-color: rgba(15, 23, 42, 0.1) !important;
+        }
+      `}</style>
       <div
         id="systems-cards-track"
         data-element-name="Track căn giữa Hệ Thống"
@@ -1529,13 +1554,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
 
                   <AnimatePresence>
                     {isFilterDropdownOpen && (
-                      <motion.div
+                      <SpringDropdownMenu
                         id="systems-filter-listbox"
                         data-element-type="card"
-                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                        transition={{ duration: 0.16 }}
+                        placement="down"
+                        origin="0% 0%"
                         role="listbox"
                         className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[14.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                       >
@@ -1561,11 +1584,11 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               )}
                             >
                               <span>{seg.label}</span>
-                              {isActive && <span className="w-2 h-2 rounded-full bg-current" />}
+                              {isActive && <SpringTick active={isActive} />}
                             </button>
                           );
                         })}
-                      </motion.div>
+                      </SpringDropdownMenu>
                     )}
                   </AnimatePresence>
                 </div>
@@ -1972,37 +1995,42 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             </div>
           ) : (
             /* LƯỚI BENTO STUDIO 12 THẺ HỆ THỐNG (TỰ ĐỘNG BUNG RỘNG 4X TRONG LƯỚI + HOVER VIDEO NỀN TRẮNG) */
-            <div
-              id="systems-cards-wrapper"
-              ref={cardsWrapperRef}
-              className="relative w-full flex flex-col"
-              style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
-            >
+            <LayoutGroup id="systems-bento-layout-group">
               <div
-                id="systems-cards-grid"
-                ref={cardsGridRef}
-                data-system-bento-grid="true"
-                className={cn(
-                  'sys-bento-studio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 grid-flow-dense items-start w-full min-w-0',
-                  isGridDimmed && 'grid-dimmed'
-                )}
+                id="systems-cards-wrapper"
+                ref={cardsWrapperRef}
+                className="relative w-full flex flex-col"
+                style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
               >
-                {filteredSystems.map((item) => (
-                  <SystemBentoCard
-                    key={item.id}
-                    sys={item}
-                    isEn={isEn}
-                    isExpanded={expandedBentoId === item.id}
-                    onToggleExpand={handleToggleBentoCard}
-                    onCollapse={handleCollapseBentoCard}
-                    showToast={showToast}
-                    cardRef={(el) => {
-                      cardRefs.current[item.id] = el;
-                    }}
-                  />
-                ))}
+                <div
+                  id="systems-cards-grid"
+                  ref={cardsGridRef}
+                  data-system-bento-grid="true"
+                  data-card-layout="responsive-grid"
+                  data-card-shape="horizontal-rect"
+                  className={cn(
+                    'unified-cards-grid systems-cards-grid systems-responsive-grid sys-bento-studio-grid card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 grid-flow-dense items-stretch w-full min-w-0',
+                    isGridDimmed && 'grid-dimmed'
+                  )}
+                >
+                  {filteredSystems.map((item) => (
+                    <SystemBentoCard
+                      key={item.id}
+                      sys={item}
+                      isEn={isEn}
+                      isExpanded={expandedBentoId === item.id}
+                      hasAnyExpanded={Boolean(expandedBentoId)}
+                      onToggleExpand={handleToggleBentoCard}
+                      onCollapse={handleCollapseBentoCard}
+                      showToast={showToast}
+                      cardRef={(el) => {
+                        cardRefs.current[item.id] = el;
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            </LayoutGroup>
           )}
           </div>
 

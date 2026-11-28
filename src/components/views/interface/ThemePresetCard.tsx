@@ -3,7 +3,10 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { CardStyleConfig, CardStyleMode } from '@/config/ui/theme.types';
 import {
+  DEFAULT_CORNER_RADIUS,
   LETTER_14_COLOR_PALETTE,
+  MAX_CORNER_RADIUS,
+  MIN_CORNER_RADIUS,
   THEME_CARD_SPECS,
   THEME_DEFAULT_WALLPAPER_ID,
   THEME_DEFAULT_GLASS_SETTINGS,
@@ -93,10 +96,9 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
       getGlassSettingsForMode,
       updateGlassSettings,
       resetGlassSettings,
-      cornerRadius,
+      getCornerRadiusForMode,
       setCornerRadius,
-      cardEffect,
-      setCardEffect,
+      resetCornerRadius,
       customPrimaryColor,
       setCustomPrimaryColor,
     } = useTheme();
@@ -116,6 +118,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     };
 
     const currentGlass = getGlassSettingsForMode(preset.id);
+    const themeCornerRadius = getCornerRadiusForMode(preset.id);
     const showHoverVideo = (isVideoVisible || isMediaHovered) && !hasVideoFailed && Boolean(meta.demoVideoUrl);
 
     const mechanismMode = preset.mechanism || (preset.isDark ? 'dark' : 'light');
@@ -290,6 +293,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
     return (
       <article
         data-theme-preset-id={preset.id}
+        data-card-shape="horizontal-rect"
         data-flipped={isFlipped ? 'true' : 'false'}
         data-expanded={isCardExpanded ? 'true' : 'false'}
         onDoubleClick={(e) => {
@@ -390,9 +394,10 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
 
                   {/* Sample Mini Preview Card */}
                   <div
-                    className="p-4 rounded-[var(--radius-card,16px)] flex flex-col gap-3 shadow-md border"
+                    className="p-4 flex flex-col gap-3 shadow-md border"
                     style={{
                       ...safeSampleStyle,
+                      borderRadius: `${themeCornerRadius}px`,
                       backdropFilter: `blur(${currentGlass.blurIntensity}px)`,
                       WebkitBackdropFilter: `blur(${currentGlass.blurIntensity}px)`,
                       opacity: currentGlass.cardOpacity <= 1 ? currentGlass.cardOpacity : currentGlass.cardOpacity / 100,
@@ -417,14 +422,14 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     <div className="flex items-center justify-between text-[11px] opacity-80 pt-1 border-t border-black/10 dark:border-white/10 font-mono">
                       <span>Blur: {currentGlass.blurIntensity}px</span>
                       <span>Opacity: {Math.round(currentGlass.cardOpacity)}%</span>
-                      <span>Radius: {cornerRadius}px</span>
+                      <span>Radius: {themeCornerRadius}px</span>
                     </div>
                   </div>
 
                   {/* 4 Theme Specs Summary */}
                   <div className="grid grid-cols-2 gap-2 pt-2 text-[11px]">
                     <div className="flex items-center gap-2 p-2 rounded-lg bg-black/10 dark:bg-white/5">
-                      <div className="w-6 h-6 rounded overflow-hidden shrink-0">
+                      <div className="w-10 h-6 rounded overflow-hidden shrink-0">
                         {defaultWallpaperThumbUrl && (
                           <img src={defaultWallpaperThumbUrl} alt="" className="w-full h-full object-cover" />
                         )}
@@ -554,25 +559,68 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                   </div>
                 </div>
 
-                {/* 3. Bo góc thẻ (Corner Radius) */}
+                {/* 3. Bo cong 4 góc riêng cho giao diện này (Theme Corner Radius) */}
                 <div className={`p-3 rounded-[var(--radius-subcard,12px)] flex flex-col gap-2 ${specBoxClass}`}>
-                  <div className="flex items-center justify-between">
-                    <span className={`typo-caption font-bold ${meta.titleTextClass}`}>
-                      {isEn ? 'Corner Radius' : 'Bo góc thẻ (Radius)'}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <span className={`typo-caption font-bold block ${meta.titleTextClass}`}>
+                        {isEn ? 'Theme Corner Radius (4 Corners)' : 'Bo cong 4 góc riêng'}
+                      </span>
+                      <span className={`text-[11px] opacity-75 block truncate ${meta.bodyTextClass}`}>
+                        {isEn
+                          ? 'Applies to Card, Sub-card, Image, Video & Banner for this theme'
+                          : 'Áp dụng cho Card, Sub card, Ảnh, Video & Banner của giao diện này'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="typo-badge font-mono font-bold px-2 py-0.5 rounded-md bg-black/15 dark:bg-white/10">
+                        {themeCornerRadius}px
+                      </span>
+                      <button
+                        type="button"
+                        disabled={themeCornerRadius === DEFAULT_CORNER_RADIUS}
+                        onClick={() => {
+                          SoundEngine.playGlassChime();
+                          resetCornerRadius(preset.id);
+                        }}
+                        title={
+                          isEn
+                            ? `Reset to default (${DEFAULT_CORNER_RADIUS}px)`
+                            : `Đặt lại mặc định (${DEFAULT_CORNER_RADIUS}px)`
+                        }
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full typo-badge font-semibold transition-all ${
+                          themeCornerRadius === DEFAULT_CORNER_RADIUS
+                            ? 'opacity-45 cursor-not-allowed bg-black/10 dark:bg-white/10'
+                            : 'cursor-pointer bg-black/15 dark:bg-white/15 hover:bg-black/25 dark:hover:bg-white/25'
+                        }`}
+                      >
+                        <WebIcon name="rotate-ccw" className="w-3 h-3 shrink-0" />
+                        <span>{DEFAULT_CORNER_RADIUS}px</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[11px] font-mono opacity-70 shrink-0 ${meta.bodyTextClass}`}>
+                      {MIN_CORNER_RADIUS}px
                     </span>
-                    <span className="typo-badge font-mono font-bold px-2 py-0.5 rounded-md bg-black/15 dark:bg-white/10">
-                      {cornerRadius}px
+                    <input
+                      type="range"
+                      min={MIN_CORNER_RADIUS}
+                      max={MAX_CORNER_RADIUS}
+                      step={1}
+                      value={themeCornerRadius}
+                      onChange={(e) => setCornerRadius(Number(e.target.value), preset.id)}
+                      aria-label={
+                        isEn
+                          ? `4-corner border radius for ${displayPresetName}`
+                          : `Độ bo cong 4 góc riêng cho ${displayPresetName}`
+                      }
+                      className="w-full h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 accent-primary-500 cursor-pointer"
+                    />
+                    <span className={`text-[11px] font-mono opacity-70 shrink-0 ${meta.bodyTextClass}`}>
+                      {MAX_CORNER_RADIUS}px
                     </span>
                   </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={28}
-                    step={1}
-                    value={cornerRadius}
-                    onChange={(e) => setCornerRadius(Number(e.target.value))}
-                    className="w-full h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 accent-primary-500 cursor-pointer"
-                  />
                   <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
                     {[0, 8, 14, 20, 24, 28].map((r) => (
                       <button
@@ -580,10 +628,10 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                         type="button"
                         onClick={() => {
                           SoundEngine.playTap();
-                          setCornerRadius(r);
+                          setCornerRadius(r, preset.id);
                         }}
                         className={`px-2 py-0.5 rounded-full typo-badge font-mono cursor-pointer transition-all ${
-                          cornerRadius === r
+                          themeCornerRadius === r
                             ? 'bg-primary-500 text-white font-bold'
                             : 'bg-black/10 dark:bg-white/10 hover:bg-black/20'
                         }`}
@@ -660,6 +708,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     onClick={() => {
                       SoundEngine.playGlassChime();
                       resetGlassSettings(preset.id);
+                      resetCornerRadius(preset.id);
                     }}
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-badge font-semibold cursor-pointer transition-all border border-black/15 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/10 ${meta.bodyTextClass}`}
                   >
@@ -841,7 +890,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
-                  className={`theme-card-media-slot relative w-full overflow-hidden p-1.5 flex flex-col justify-between cursor-pointer ${
+                  className={`theme-card-media-slot aspect-[16/10] relative w-full overflow-hidden p-1.5 flex flex-col justify-between cursor-pointer ${
                     isMatteNeu ? 'border-0' : 'border border-white/25 dark:border-white/10'
                   }`}
                 >
@@ -1098,7 +1147,7 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                   className={`flex items-center gap-2 p-2 rounded-[var(--radius-subcard,12px)] min-w-0 ${specBoxClass}`}
                 >
                   <div
-                    className="w-10 h-10 rounded-[8px] shrink-0 overflow-hidden border border-white/25"
+                    className="w-14 h-9 rounded-[8px] shrink-0 overflow-hidden border border-white/25"
                     style={{
                       ...(defaultWallpaper?.previewStyle || {
                         background: bgSpec?.fallbackGradient || themeSpec?.surfaceColorHex,

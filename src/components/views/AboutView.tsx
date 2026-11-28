@@ -738,7 +738,19 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
               {/* ===================================================================== */}
               {/* LƯỚI BENTO GRID CHÍNH                                                 */}
               {/* ===================================================================== */}
-              <div id="about-bento-grid" className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch w-full">
+              <div
+                id="about-bento-grid"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch w-full bg-transparent"
+                style={{
+                  background: 'transparent',
+                  backgroundColor: 'transparent',
+                  backgroundImage: 'none',
+                  backdropFilter: 'none',
+                  WebkitBackdropFilter: 'none',
+                  boxShadow: 'none',
+                  border: 'none',
+                }}
+              >
           {/* ------------------------------------------------------------------- */}
           {/* THẺ 1: CARD VIDEO CHÂN DUNG / BẢN ĐỒ TƯƠNG TÁC                      */}
           {/* ------------------------------------------------------------------- */}

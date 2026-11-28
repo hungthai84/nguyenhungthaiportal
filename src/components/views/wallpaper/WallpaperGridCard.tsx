@@ -171,14 +171,15 @@ export const WallpaperGridCard: React.FC<WallpaperGridCardProps> = React.memo(
         }}
         title={isEn ? localizedName : wp.name}
         data-element-type="card"
+        data-card-shape="horizontal-rect"
         data-media-card={wp.type === 'video' ? 'video' : 'image'}
         style={{
           borderRadius: 'var(--radius-card, 14px)',
           padding: '0px',
           contentVisibility: 'auto',
-          containIntrinsicSize: '260px 150px',
+          containIntrinsicSize: '280px 158px',
         }}
-        className={`themed-image-card group relative flex flex-col rounded-[var(--radius-card,14px)] overflow-hidden transition-all duration-300 cursor-pointer select-none aspect-[16/10] sm:aspect-video w-full h-auto ${
+        className={`themed-image-card wallpaper-rect-card group relative flex flex-col rounded-[var(--radius-card,14px)] overflow-hidden transition-all duration-300 cursor-pointer select-none aspect-[16/9] min-h-[138px] sm:min-h-[150px] w-full h-auto ${
           isSelected
             ? 'ring-2 ring-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.35)]'
             : ''

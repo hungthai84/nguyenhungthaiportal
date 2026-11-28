@@ -1,7 +1,7 @@
  'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { SkillsView } from './SkillsView';
 import { cn, formatCardTitle } from '@/lib/utils';
@@ -12,6 +12,7 @@ import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { EducationBookView } from './education/EducationBookView';
 import { EducationBookshelfView } from './education/EducationBookshelfView';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 
 // Helper map skill tag to appropriate icon
 const getSkillTagIcon = (tag: string): string => {
@@ -240,7 +241,7 @@ function getEducationIconByTitle(title: string): string {
 }
 
 export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) => {
-  const { isDark: themeIsDark } = useTheme();
+  const { isDark: themeIsDark, cardStyle } = useTheme();
   const { language, t } = useLanguage();
   const isEn = language === 'en';
   const isDark =
@@ -562,72 +563,60 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
       ) : (() => {
         const wallStageHeader = (
           <div id="education-wall-stage-header" className="edu-wall-stage-header">
-            {/* Góc trái: Tiêu đề thư viện tinh gọn + Bộ lọc khóa học (không còn banner) */}
+            {/* Góc trái: Tiêu đề thư viện tinh gọn + Bộ lọc khóa học (rút gọn chiều cao 1/2) */}
             <div className="edu-wall-left-controls" ref={filterMenuRef}>
-              <div
-                className="card-header-sync flex items-center gap-2 min-w-0"
-                style={{ color: 'var(--text-link, var(--color-primary))' }}
-              >
-                <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
-                <h1
-                  id="education-wall-title"
-                  className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate m-0"
-                  data-card-title="true"
-                  style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+              <div className="flex flex-wrap items-center gap-2.5 min-w-0 w-full">
+                <div
+                  className="card-header-sync flex items-center gap-2 min-w-0"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
                 >
-                  {isEn ? 'Education & Credentials' : 'Học vấn bằng cấp'}
-                </h1>
-              </div>
+                  <WebIcon name="graduation-cap" className="w-5 h-5 shrink-0" />
+                  <h1
+                    id="education-wall-title"
+                    className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate m-0"
+                    data-card-title="true"
+                    style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                  >
+                    {isEn ? 'Education & Credentials' : 'Học vấn bằng cấp'}
+                  </h1>
+                </div>
 
-              <p
-                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none m-0"
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-                  fontWeight: 600,
-                }}
-              >
-                &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
-              </p>
-
-              <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
-                <button
-                  id="education-filter-toggle-btn"
-                  ref={filterButtonRef}
-                  type="button"
-                  onClick={() => {
-                    SoundEngine.playTap();
-                    setIsFilterDropdownOpen((prev) => !prev);
-                  }}
-                  className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
-                  title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
-                  aria-label="Bộ lọc khóa học"
-                  aria-expanded={isFilterDropdownOpen}
-                  aria-haspopup="listbox"
-                >
-                  <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
-                  <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
-                  {activeCategory !== 'all' && (
-                    <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
-                      {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
-                    </span>
-                  )}
-                  <WebIcon
-                    name="chevron-down"
-                    className={cn(
-                      'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
-                      isFilterDropdownOpen && 'rotate-180'
+                <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
+                  <button
+                    id="education-filter-toggle-btn"
+                    ref={filterButtonRef}
+                    type="button"
+                    onClick={() => {
+                      SoundEngine.playTap();
+                      setIsFilterDropdownOpen((prev) => !prev);
+                    }}
+                    className="banner-control-pill h-8 min-h-8 max-w-full min-w-0 inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
+                    title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
+                    aria-label="Bộ lọc khóa học"
+                    aria-expanded={isFilterDropdownOpen}
+                    aria-haspopup="listbox"
+                  >
+                    <WebIcon name="sliders" className="w-3.5 h-3.5 text-[var(--text-primary)] shrink-0" />
+                    <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
+                    {activeCategory !== 'all' && (
+                      <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
+                        {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
+                      </span>
                     )}
-                  />
-                </button>
+                    <WebIcon
+                      name="chevron-down"
+                      className={cn(
+                        'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
+                        isFilterDropdownOpen && 'rotate-180'
+                      )}
+                    />
+                  </button>
 
                 <AnimatePresence>
                   {isFilterDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                      transition={{ duration: 0.16 }}
+                    <SpringDropdownMenu
+                      placement="down"
+                      origin="0% 0%"
                       role="listbox"
                       className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[min(14rem,calc(100vw-48px))] max-w-[min(22rem,calc(100vw-48px))] rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                     >
@@ -664,15 +653,27 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                               <span className="truncate">{cat.label}</span>
                             </span>
                             <span className="flex items-center gap-1.5 shrink-0">
-                              {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                              {isActive && <SpringTick active={isActive} />}
                             </span>
                           </button>
                         );
                       })}
-                    </motion.div>
+                    </SpringDropdownMenu>
                   )}
                 </AnimatePresence>
+                </div>
               </div>
+
+              <p
+                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none leading-tight m-0"
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                  fontWeight: 600,
+                }}
+              >
+                &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
+              </p>
             </div>
 
             {/* Góc trên bên phải: Tranh khung gỗ treo tường phát nền video học vấn */}
@@ -742,6 +743,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             getCourseIcon={getEducationIconByTitle}
             isEn={isEn}
             isDark={isDark}
+            cardStyle={cardStyle}
             onSelectCourse={handleOpenDetail}
             selectedBookIndex={safeActiveBookIdx}
             onSelectBookIndex={setActiveBookIdx}

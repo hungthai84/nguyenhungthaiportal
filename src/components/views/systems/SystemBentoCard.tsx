@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   Globe,
   DollarSign,
@@ -21,6 +22,11 @@ import {
 } from 'lucide-react';
 import { SystemData } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
+import {
+  getExpandCardLayoutTransition,
+  getCardSettleTransition,
+  getExpandDetailRevealTransition,
+} from '@/components/ui/ExpandCardMotion';
 
 export interface SystemBentoStyleConfig {
   cardBg: string;
@@ -433,6 +439,7 @@ export interface SystemBentoCardProps {
   sys: SystemData;
   isEn: boolean;
   isExpanded: boolean;
+  hasAnyExpanded?: boolean;
   onToggleExpand: (id: string) => void;
   onCollapse: () => void;
   showToast: (msg: string) => void;
@@ -443,11 +450,13 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
   sys,
   isEn,
   isExpanded,
+  hasAnyExpanded = false,
   onToggleExpand,
   onCollapse,
   showToast,
   cardRef,
 }) => {
+  const prefersReducedMotion = Boolean(useReducedMotion());
   const bentoStyle = BENTO_SYSTEM_STYLES[sys.id] || BENTO_SYSTEM_STYLES.sdp;
   const inlineVideoRef = useRef<HTMLVideoElement | null>(null);
   const fullVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -564,13 +573,19 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
     }
   };
 
+  const layoutTransition = getExpandCardLayoutTransition(prefersReducedMotion);
+  const settleTransition = getCardSettleTransition(prefersReducedMotion);
+  const isSiblingDimmed = hasAnyExpanded && !isExpanded;
+
   return (
-    <article
+    <motion.article
+      layout
       ref={cardRef}
       id={`systems-card-${sys.id}`}
       data-element-name={`Thẻ hệ thống ${sys.abbr}`}
       data-element-type="card"
       data-section-card="true"
+      data-expand-motion="true"
       data-element-page="systems"
       data-element-parent="systems-cards-grid"
       data-multicolor-bento="true"
@@ -583,6 +598,27 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
       aria-expanded={isExpanded}
       onClick={handleCardClick}
       onKeyDown={handleCardKeyDown}
+      animate={
+        isSiblingDimmed
+          ? { opacity: 0.78, scale: prefersReducedMotion ? 1 : 0.982 }
+          : { opacity: 1, scale: 1 }
+      }
+      whileHover={
+        !isExpanded && !prefersReducedMotion
+          ? { y: -8, scale: 1.02 }
+          : undefined
+      }
+      whileTap={
+        !isExpanded && !prefersReducedMotion
+          ? { y: -2, scale: 0.992 }
+          : undefined
+      }
+      transition={{
+        layout: layoutTransition,
+        opacity: { duration: prefersReducedMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] },
+        scale: settleTransition,
+        y: settleTransition,
+      }}
       style={
         {
           '--theme-color': sys.themeColor || '#38bdf8',
@@ -591,11 +627,14 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
           '--sys-bento-accent': bentoStyle.accentText,
           background: bentoStyle.cardBg,
           backgroundImage: bentoStyle.cardBg,
+          zIndex: isExpanded ? 20 : 1,
         } as React.CSSProperties
       }
       className={`sys-bento-studio-card system-card bento-card ${
-        isExpanded ? 'md:col-span-2 md:row-span-2 ring-2 ring-purple-400/50' : ''
-      } relative p-4 sm:p-5 text-white cursor-pointer flex flex-col text-left`}
+        isExpanded
+          ? 'sm:col-span-2 lg:col-span-3 ring-2 ring-purple-400/50 p-4 sm:p-5 justify-start'
+          : 'h-full min-h-[154px] sm:min-h-[164px] p-3.5 sm:px-4 sm:py-3.5 justify-between'
+      } relative text-white cursor-pointer flex flex-col text-left`}
     >
       {/* Video toàn thẻ khi nhấp vào hình minh họa */}
       {sys.videoUrl && (
@@ -647,19 +686,23 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
       <div className="card-video-bg-sync" />
 
       {/* Top: Icon và Tên hệ thống chiếm trọn 1 hàng ngang phía trên cùng */}
-      <div
-        className={`card-header-top relative z-10 w-full pb-2.5 mb-2.5 border-b border-white/15 flex items-center justify-between gap-2 ${
+      <motion.div
+        layout="position"
+        transition={{ layout: layoutTransition }}
+        className={`card-header-top relative z-10 w-full ${
+          isExpanded ? 'pb-2.5 mb-2.5' : 'pb-2 mb-2'
+        } border-b border-white/15 flex items-center justify-between gap-2 ${
           isVideoFull ? 'opacity-0 pointer-events-none' : ''
         }`}
       >
         <h3
-          className="flex items-center gap-2 text-base sm:text-lg font-bold leading-snug min-w-0 m-0 font-play"
+          className="flex items-center gap-2 text-sm sm:text-base font-bold leading-snug min-w-0 m-0 font-play"
           style={{ color: bentoStyle.accentText }}
           title={displayName}
         >
           <SystemIcon
             iconName={sys.iconName}
-            className="sys-icon w-5 h-5 shrink-0"
+            className="sys-icon w-4 h-4 sm:w-5 sm:h-5 shrink-0"
             style={{ color: bentoStyle.accentText }}
           />
           <span className="truncate">{displayName}</span>
@@ -667,15 +710,17 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
         <span className="sys-category-pill text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-black/25 text-white/85 border border-white/10 shrink-0">
           {sys.category}
         </span>
-      </div>
+      </motion.div>
 
-      {/* Thân thẻ hình chữ nhật: Bên trái hình minh họa, Bên phải mô tả 4 hàng + Bottom */}
-      <div
-        className={`card-body-row relative z-10 flex items-center gap-3.5 ${
+      {/* Thân thẻ ngang hình chữ nhật: Bên trái hình minh họa chữ nhật, Bên phải mô tả + Bottom Meta gọn 1 hàng */}
+      <motion.div
+        layout="position"
+        transition={{ layout: layoutTransition }}
+        className={`card-body-row relative z-10 flex-1 min-h-0 flex flex-row items-center gap-3.5 ${
           isVideoFull ? 'opacity-0 pointer-events-none' : ''
         }`}
       >
-        {/* Cột trái (42% chiều ngang): Hình minh họa không khung bao + video inline khi hover */}
+        {/* Cột trái (Khung chữ nhật ngang): Hình minh họa + video inline khi hover */}
         <div
           role={sys.videoUrl ? 'button' : undefined}
           tabIndex={sys.videoUrl ? 0 : undefined}
@@ -705,7 +750,11 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
           aria-label={
             isEn ? `Play ${sys.abbr} video` : `Xem video toàn thẻ ${sys.abbr}`
           }
-          className="card-thumb-btn relative z-20 w-[42%] flex items-center justify-center shrink-0 overflow-hidden rounded-xl"
+          className={`card-thumb-btn relative z-20 ${
+            isExpanded
+              ? 'w-[42%] h-40 sm:h-44'
+              : 'w-[38%] max-w-[136px] h-[94px] sm:h-[104px]'
+          } flex items-center justify-center shrink-0 overflow-hidden rounded-xl`}
         >
           {!imgFailed && sys.imageUrl ? (
             <img
@@ -717,13 +766,13 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
               decoding="async"
               onLoad={smartAlignInlineVideo}
               onError={() => setImgFailed(true)}
-              className={`card-thumb-img w-full ${
-                isExpanded ? 'h-40 sm:h-44' : 'h-32 sm:h-36'
-              } object-contain select-none ${isThumbHovered ? 'opacity-0' : 'opacity-100'}`}
+              className={`card-thumb-img w-full h-full object-contain select-none ${
+                isThumbHovered ? 'opacity-0' : 'opacity-100'
+              }`}
             />
           ) : (
-            <div className="w-16 h-16 text-white flex items-center justify-center">
-              <SystemIcon iconName={sys.iconName} className="w-8 h-8" />
+            <div className="w-14 h-14 text-white flex items-center justify-center">
+              <SystemIcon iconName={sys.iconName} className="w-7 h-7" />
             </div>
           )}
 
@@ -751,47 +800,57 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
           )}
         </div>
 
-        {/* Cột phải (58% chiều ngang): Mô tả 4 hàng & Tên viết tắt / Tên đầy đủ ở Bottom */}
-        <div className="card-content flex-1 flex flex-col justify-between gap-2 min-w-0">
+        {/* Cột phải: Mô tả 2-3 hàng & Tên viết tắt / Tên đầy đủ gọn 1 hàng ở Bottom */}
+        <div className="card-content flex-1 h-full flex flex-col justify-between gap-1.5 min-w-0">
           <p
-            className={`sys-desc-copy text-white/90 text-xs sm:text-sm leading-relaxed m-0 ${
-              isExpanded ? '' : 'line-clamp-4'
+            className={`sys-desc-copy text-white font-medium text-xs sm:text-[13px] leading-snug m-0 ${
+              isExpanded ? '' : 'line-clamp-2 sm:line-clamp-3'
             }`}
           >
             {displayDesc}
           </p>
 
-          {/* Bottom: Tên viết tắt và Tên đầy đủ */}
-          <div className="sys-bottom-meta pt-2 border-t border-white/15">
-            <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
+          {/* Bottom: Tên viết tắt bên trái và Tên đầy đủ bên phải trên 1 hàng gọn */}
+          <div className="sys-bottom-meta pt-1.5 mt-auto border-t border-white/15 flex items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-1.5 shrink-0 min-w-0">
               <span
-                className="w-2 h-2 rounded-full shrink-0"
+                className="w-1.5 h-1.5 rounded-full shrink-0"
                 style={{ backgroundColor: bentoStyle.accentText }}
               />
               <span
-                className="sys-abbr-badge text-xs font-bold uppercase tracking-wider"
+                className="sys-abbr-badge text-[10px] font-bold uppercase tracking-wider truncate"
                 style={{ color: bentoStyle.accentText }}
               >
                 {badgeText}
               </span>
             </div>
             <div
-              className="sys-fullname-copy text-[11px] font-normal text-white/75 leading-tight truncate m-0"
+              className="sys-fullname-copy text-[11px] font-medium text-white/95 leading-tight truncate m-0 text-right"
               title={displayFullName}
             >
               {displayFullName}
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Nội dung chi tiết chuẩn Bento Studio khi thẻ bung rộng gấp 4 lần */}
-      {isExpanded && (
-        <div
-          className={`card-expanded-details relative z-10 mt-3.5 pt-3.5 border-t border-white/15 flex flex-col gap-3.5 ${
-            isVideoFull ? 'opacity-0 pointer-events-none' : ''
-          }`}
-        >
+      <AnimatePresence initial={false}>
+        {isExpanded && (
+          <motion.div
+            key={`expanded-details-${sys.id}`}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={
+              prefersReducedMotion
+                ? { opacity: 0 }
+                : { opacity: 0, y: 8, transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] } }
+            }
+            transition={getExpandDetailRevealTransition(prefersReducedMotion, false)}
+            className={`card-expanded-details relative z-10 mt-3.5 pt-3.5 border-t border-white/15 flex flex-col gap-3.5 ${
+              isVideoFull ? 'opacity-0 pointer-events-none' : ''
+            }`}
+          >
           {/* Widget Bento phân tích chức năng chuyên biệt từng phân hệ */}
           <ExpandedBentoModule
             sys={sys}
@@ -878,9 +937,10 @@ export const SystemBentoCard: React.FC<SystemBentoCardProps> = ({
               <ChevronUp className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
-      )}
-    </article>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.article>
   );
 };
 

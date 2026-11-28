@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import {
   WALLPAPER_PRESETS_LIST,
   WallpaperPreset,
@@ -29,6 +29,7 @@ import { WallpaperGridCard } from './wallpaper/WallpaperGridCard';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 
 export interface WallpaperViewProps {
   activeWallpaper: WallpaperPreset;
@@ -758,13 +759,11 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
 
               <AnimatePresence>
                 {isFilterDropdownOpen && (
-                  <motion.div
+                  <SpringDropdownMenu
                     id="wallpaper-filter-listbox"
                     data-element-type="card"
-                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                    transition={{ duration: 0.16 }}
+                    placement="down"
+                    origin="0% 0%"
                     role="listbox"
                     className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[15.5rem] max-w-full rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
                   >
@@ -793,12 +792,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
                             <span className="typo-badge font-mono opacity-80 tabular-nums">
                               ({cat.count})
                             </span>
-                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                            {isActive && <SpringTick active={isActive} />}
                           </span>
                         </button>
                       );
                     })}
-                  </motion.div>
+                  </SpringDropdownMenu>
                 )}
               </AnimatePresence>
             </div>
@@ -1227,7 +1226,12 @@ export const WallpaperView: React.FC<WallpaperViewProps> = ({
           </div>
         </div>
       ) : (
-        <div id="wallpaper-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[15px] items-stretch flex-1">
+        <div
+          id="wallpaper-cards-grid"
+          data-card-layout="responsive-grid"
+          data-card-shape="horizontal-rect"
+          className="unified-cards-grid wallpaper-responsive-grid card-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch flex-1 w-full min-w-0"
+        >
           {filteredWallpapers.map((wp) => (
             <WallpaperGridCard
               key={wp.id}

@@ -1,12 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { OrigamiUnfoldStage } from './experience/OrigamiUnfoldStage';
 import { ExperienceSliderView } from './experience/ExperienceSliderView';
 import { ExperienceBentoStudioCard } from './experience/ExperienceBentoStudioCard';
+import { WordFocusQuoteCard, type WordFocusQuoteItem } from '@/components/ui/WordFocusQuoteCard';
 import { COMPANY_LOGOS } from '@/utils/companyBrandAssets';
+import {
+  getExpandCardLayoutTransition,
+  getCardSettleTransition,
+  getExpandDetailRevealTransition,
+} from '@/components/ui/ExpandCardMotion';
 import {
   type OrigamiFoldPhase,
   ORIGAMI_TIMINGS,
@@ -488,56 +494,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     }
 
     SoundEngine.playTap();
+    clearOrigamiTimers();
     const reduced = isReducedMotionActive();
-    const hostEl = experienceMainCardRef.current;
-    const targetKey = originMilestoneKey || activeKey;
 
     setIsBoardDimmed(false);
+    setIsClosingDetailContent(false);
+    setFoldPhase('folded');
+    setSelectedFoldIdx(null);
 
-    if (reduced || !hostEl) {
-      clearOrigamiTimers();
-      setIsClosingDetailContent(false);
+    if (reduced) {
       setShowJobCard(false);
       setAnimPhase('idle');
       setMorphRect(null);
       setOriginMilestoneKey(null);
-      setFoldPhase('folded');
-      setSelectedFoldIdx(null);
       return;
     }
 
-    window.requestAnimationFrame(() => {
-      const originEl = milestoneRefs.current[targetKey] || document.getElementById(`milestone-card-${targetKey}`);
-      if (!originEl) {
-        setShowJobCard(false);
-        setAnimPhase('idle');
-        setMorphRect(null);
-        setOriginMilestoneKey(null);
-        setFoldPhase('folded');
-        setSelectedFoldIdx(null);
-        return;
-      }
-
-      const hostRect = hostEl.getBoundingClientRect();
-      const cardRect = originEl.getBoundingClientRect();
-
-      setAnimPhase('closing');
-      setMorphRect({
-        top: cardRect.top - hostRect.top,
-        left: cardRect.left - hostRect.left,
-        width: cardRect.width,
-        height: cardRect.height,
-      });
-
-      window.setTimeout(() => {
-        setShowJobCard(false);
-        setAnimPhase('idle');
-        setMorphRect(null);
-        setOriginMilestoneKey(null);
-        setFoldPhase('folded');
-        setSelectedFoldIdx(null);
-      }, 720);
-    });
+    setAnimPhase('closing');
+    setShowJobCard(false);
   };
 
   useEffect(() => {
@@ -594,53 +568,38 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
     setOriginMilestoneKey(key);
 
     const hostEl = experienceMainCardRef.current;
-    const originEl = milestoneRefs.current[key] || document.getElementById(`milestone-card-${key}`);
+    const originEl =
+      milestoneRefs.current[key] ||
+      (typeof document !== 'undefined'
+        ? (document.querySelector(`[data-milestone-key="${key}"].active`) as HTMLElement | null) ||
+          (document.querySelector(`[data-milestone-key="${key}"]`) as HTMLElement | null) ||
+          document.getElementById(`milestone-card-${key}`)
+        : null);
     const targetBounds = computeTargetBounds();
-
     const prefersReducedMotion = isReducedMotionActive();
 
-    if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
-      setMorphRect(targetBounds ? targetBounds : null);
-      setAnimPhase('open');
-      setIsBoardDimmed(true);
-      setFoldPhase('expanded');
-      setShowJobCard(true);
-      showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
-      return;
+    if (!prefersReducedMotion && hostEl && originEl) {
+      const hostRect = hostEl.getBoundingClientRect();
+      const cardRect = originEl.getBoundingClientRect();
+      if (cardRect.width > 0 && cardRect.height > 0) {
+        setMorphRect({
+          top: cardRect.top - hostRect.top,
+          left: cardRect.left - hostRect.left,
+          width: cardRect.width,
+          height: cardRect.height,
+        });
+      } else {
+        setMorphRect(targetBounds || null);
+      }
+    } else {
+      setMorphRect(targetBounds || null);
     }
 
-    const hostRect = hostEl.getBoundingClientRect();
-    const cardRect = originEl.getBoundingClientRect();
-
-    setAnimPhase('entering');
-    setMorphRect({
-      top: cardRect.top - hostRect.top,
-      left: cardRect.left - hostRect.left,
-      width: cardRect.width,
-      height: cardRect.height,
-    });
     setIsBoardDimmed(true);
-
-    window.requestAnimationFrame(() => {
-      if (detailCardRef.current) {
-        void detailCardRef.current.offsetHeight;
-      }
-      const liveBounds = computeTargetBounds() || targetBounds;
-      window.requestAnimationFrame(() => {
-        setAnimPhase('open');
-        if (liveBounds) {
-          setMorphRect({
-            top: liveBounds.top,
-            left: liveBounds.left,
-            width: liveBounds.width,
-            height: liveBounds.height,
-          });
-        }
-        setFoldPhase('expanded');
-        setShowJobCard(true);
-        showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
-      });
-    });
+    setAnimPhase('open');
+    setFoldPhase('expanded');
+    setShowJobCard(true);
+    showToast(`Chi tiết công tác: ${EXPERIENCE_MILESTONES[key]?.company || key}`);
   };
 
   const handleDesktopFoldClick = (itemKey: string, idx: number) => {
@@ -1593,34 +1552,74 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         );
       })()}
 
-      {/* KHUNG TIMELINE SLIDER CARD */}
-      {!showJobCard && (
-        <ExperienceSliderView
-          roadmapCards={roadmapCards.map((card) => {
-            const milestone = EXPERIENCE_MILESTONES[card.key];
-            return {
-              ...card,
-              period: milestone?.period,
-              tenure: milestone?.tenure,
-              roleTitle: milestone?.roleTitle || card.roleSummary,
-              bannerUrl: milestone?.bannerUrl || card.logo,
-            };
-          })}
-          activeKey={activeKey}
-          onSelectMilestone={(key, idx) => {
-            handleOpenJobCard(key, idx);
-          }}
-          isDarkSurface={isDarkSurface}
-          isWalnutWood={isWalnutWood}
-          isDarkLeather={isDarkLeather}
-          isBrownLeather={isBrownLeather}
-        />
-      )}
+      {/* KHUNG TIMELINE SLIDER CARD — lùi mượt theo cơ chế Expand Card khi mở chi tiết */}
+      <div
+        aria-hidden={showJobCard}
+        className={cn(
+          'w-full h-full min-h-0',
+          showJobCard ? 'absolute inset-0 pointer-events-none z-0' : 'relative z-10'
+        )}
+      >
+        <motion.div
+          data-expand-motion="true"
+          className="w-full h-full min-h-0"
+          animate={
+            isBoardDimmed || showJobCard
+              ? {
+                  opacity: 0,
+                  scale: isReducedMotionActive() ? 1 : 0.94,
+                  y: isReducedMotionActive() ? 0 : -24,
+                }
+              : { opacity: 1, scale: 1, y: 0 }
+          }
+          transition={getCardSettleTransition(isReducedMotionActive())}
+        >
+          <ExperienceSliderView
+            roadmapCards={roadmapCards.map((card) => {
+              const milestone = EXPERIENCE_MILESTONES[card.key];
+              return {
+                ...card,
+                period: milestone?.period,
+                tenure: milestone?.tenure,
+                roleTitle: milestone?.roleTitle || card.roleSummary,
+                bannerUrl: milestone?.bannerUrl || card.logo,
+              };
+            })}
+            activeKey={activeKey}
+            onSelectMilestone={(key, idx) => {
+              handleOpenJobCard(key, idx);
+            }}
+            isDarkSurface={isDarkSurface}
+            isWalnutWood={isWalnutWood}
+            isDarkLeather={isDarkLeather}
+            isBrownLeather={isBrownLeather}
+          />
+        </motion.div>
+      </div>
 
       {/* =====================================================================
-          5. THẺ CHI TIẾT CỘT MỐC ĐANG CHỌN (BENTO GRID THEO CODE THAM CHIẾU)
+          5. THẺ CHI TIẾT CỘT MỐC ĐANG CHỌN (BENTO GRID + EXPAND CARD SPRING)
           ===================================================================== */}
+      <AnimatePresence
+        onExitComplete={() => {
+          setAnimPhase('idle');
+          setMorphRect(null);
+          setOriginMilestoneKey(null);
+        }}
+      >
       {showJobCard && (() => {
+        const reducedMotion = isReducedMotionActive();
+        const hostEl = experienceMainCardRef.current;
+        const hostW = hostEl?.clientWidth || 960;
+        const hostH = hostEl?.clientHeight || 560;
+        const originCenterX = morphRect ? morphRect.left + morphRect.width / 2 : hostW / 2;
+        const originCenterY = morphRect ? morphRect.top + morphRect.height / 2 : hostH / 2;
+        const originOffsetX = morphRect ? Math.max(-180, Math.min(180, originCenterX - hostW / 2)) : 0;
+        const originOffsetY = morphRect ? Math.max(-90, Math.min(90, originCenterY - hostH / 2)) : 24;
+        const originScale = morphRect
+          ? Math.max(0.76, Math.min(0.94, morphRect.width / Math.max(1, hostW)))
+          : 0.92;
+        const expandSpring = getExpandCardLayoutTransition(reducedMotion);
         const contentKey =
           activeKey === '2014' ||
           activeKey === '2015' ||
@@ -1965,7 +1964,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
         };
 
         return (
-            <>
+            <motion.div
+              key={`experience-job-detail-${activeKey}`}
+              id="experience-job-detail-stage"
+              data-expand-motion="true"
+              initial={
+                reducedMotion
+                  ? false
+                  : { opacity: 0, x: originOffsetX * 0.45, y: originOffsetY * 0.45 + 16, scale: originScale }
+              }
+              animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+              exit={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, x: originOffsetX * 0.35, y: originOffsetY * 0.35 + 18, scale: Math.max(0.88, originScale) }
+              }
+              transition={expandSpring}
+              className="relative z-20 w-full flex flex-col"
+            >
             {/* THANH ĐIỀU HƯỚNG CHI TIẾT TĨNH: Thu gọn + Nút đóng */}
             <div
               id="experience-job-detail-toolbar"
@@ -2019,17 +2035,26 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
             </div>
 
             {/* BỐ CỤC BENTO RESPONSIVE GRID CARD (DESKTOP 4 CỘT · TABLET 2 CỘT · MOBILE 1 CỘT) */}
-            <div className="exp-bento-stage w-full min-w-0">
+            <motion.div
+              data-expand-motion="true"
+              initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, transition: { duration: 0.12 } }}
+              transition={getExpandDetailRevealTransition(reducedMotion, false)}
+              className="exp-bento-stage w-full min-w-0"
+            >
             <div
               id="experience-bento-grid"
               data-layout-mode="bento-responsive-grid"
               data-card-layout="bento-responsive-grid"
-              className="exp-studio-grid exp-bento-responsive-grid w-full min-w-0"
+              className="exp-studio-grid exp-bento-responsive-grid ux-u214-grid w-full min-w-0"
             >
               {/* THẺ 1 (2x2 Hero Bento Anchor) — MẪU THẺ 1: HERO PURPLE-INDIGO (CÔNG TY & BANNER) */}
               <ExperienceBentoStudioCard
                 id="experience-info-card"
                 variant="hero-purple"
+                u214RestText={`${activeMilestone.company} · ${activeMilestone.period}`}
+                u214TypeText={`${activeMilestone.company} · ${activeMilestone.roleTitle} (${activeMilestone.tenure})`}
                 onClick={(e) => {
                   const target = e.target as HTMLElement;
                   if (target.closest('button, a, video, .exp-bento-hero-banner, input')) return;
@@ -2111,7 +2136,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     const useCompactLogo = inlineLogos.length >= 4;
                     return (
                       <div className="flex flex-wrap items-center gap-4 min-w-0 w-full">
-                        <div className="flex flex-row items-center justify-start shrink-0 -space-x-2">
+                        <div className="u214-logo-gather flex flex-row items-center justify-start shrink-0 -space-x-2">
                           {inlineLogos.map((logoItem, logoIdx) => (
                             <div
                               key={`${logoItem.src}-${logoIdx}`}
@@ -2160,6 +2185,10 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <ExperienceBentoStudioCard
                 id="experience-general-info-card"
                 variant="amber-highlight"
+                u214MarqueeItems={derivedServicesList.map((srv, idx) => {
+                  const palette = ['#7B61FF', '#2F8FE0', '#119C72', '#D6731E', '#D93A55', '#E2B714'];
+                  return { label: srv, color: palette[idx % palette.length] };
+                })}
                 className="exp-bento-item exp-bento-span-2"
               >
                 <div className="flex items-center justify-between gap-2">
@@ -2250,6 +2279,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <ExperienceBentoStudioCard
                 id="experience-banner-card"
                 variant="roadmap-violet"
+                u214RestText={narrativeTitle}
+                u214TypeText={philosophyText}
                 className="exp-bento-item exp-bento-span-2"
               >
                 <div className="flex flex-col gap-3.5 min-w-0">
@@ -2308,12 +2339,40 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   )}
                 </div>
 
-                {/* Triết lý hành động — Mẫu Thẻ 6 Pink-Purple Highlight */}
-                <div className="exp-studio-philosophy no-card-hover flex items-start sm:items-center gap-3.5 bg-gradient-to-r from-pink-600 via-fuchsia-600 to-purple-700 text-white p-3.5 rounded-[12px] border border-white/20">
-                  <Gauge className="w-5 h-5 text-amber-300 shrink-0 mt-0.5 sm:mt-0 exp-studio-icon" />
-                  <p className="typo-body-sm font-semibold leading-snug text-white break-words m-0">
-                    {philosophyText}
-                  </p>
+                {/* Triết lý hành động — Mẫu Thẻ 6 Pink-Purple Highlight + Lucian UX/UI #388 Word-by-word focus quote */}
+                <div className="exp-studio-philosophy no-card-hover flex flex-col gap-2 bg-gradient-to-r from-pink-600 via-fuchsia-600 to-purple-700 text-white p-3.5 rounded-[12px] border border-white/20">
+                  {(() => {
+                    const palettePairs: Array<[string, string]> = [
+                      ['#FDE047', '#F472B6'],
+                      ['#38BDF8', '#818CF8'],
+                      ['#34D399', '#2DD4BF'],
+                      ['#FB923C', '#F43F5E'],
+                      ['#C084FC', '#60A5FA'],
+                    ];
+                    const activeQuoteItem: WordFocusQuoteItem = {
+                      q: philosophyText,
+                      n: activeMilestone.company,
+                      r: `${activeMilestone.roleTitle} · ${activeMilestone.period}`,
+                      c: palettePairs[0],
+                    };
+                    const otherMilestoneQuotes: WordFocusQuoteItem[] = Object.values(EXPERIENCE_MILESTONES)
+                      .filter((m) => m.id !== activeMilestone.id && Boolean(m.philosophy))
+                      .map((m, idx) => ({
+                        q: (m.philosophy || '').replace(/^["'“”]+|["'“”]+$/g, ''),
+                        n: m.company,
+                        r: `${m.roleTitle} · ${m.period}`,
+                        c: palettePairs[(idx + 1) % palettePairs.length],
+                      }));
+                    return (
+                      <WordFocusQuoteCard
+                        key={activeMilestone.id}
+                        quotes={[activeQuoteItem, ...otherMilestoneQuotes]}
+                        initialIndex={0}
+                        compact={true}
+                        isDark={true}
+                      />
+                    );
+                  })()}
                 </div>
               </ExperienceBentoStudioCard>
 
@@ -2366,6 +2425,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <ExperienceBentoStudioCard
                 id="experience-responsibility-card"
                 variant="slate-tasks"
+                u214RestText="Rê chuột xem hạng mục..."
+                u214TypeText={(tasksList[0] || activeMilestone.roleTitle).replace(/^\d+\.\s*/, '').slice(0, 42)}
                 className="exp-bento-item exp-bento-span-2"
               >
                 <div className="flex items-center justify-between gap-2 shrink-0">
@@ -2411,6 +2472,12 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <ExperienceBentoStudioCard
                 id="experience-achievement-card"
                 variant="indigo-docs"
+                u214RestText="Tìm kiếm dự án..."
+                u214TypeText={
+                  projectsList[0]
+                    ? `${projectsList[0].code} · ${projectsList[0].title}`.slice(0, 42)
+                    : activeMilestone.company
+                }
                 className={
                   kpisList.length > 0
                     ? 'exp-bento-item exp-bento-span-2'
@@ -2479,6 +2546,9 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   data-element-name="Thẻ Kết quả đạt được"
                   data-element-type="card"
                   variant="rose-kpi"
+                  u214BarHeights={kpisList.map((k) =>
+                    Math.min(1, Math.max(0.25, (Number(k.percent) || 75) / 100))
+                  )}
                   className="exp-bento-item exp-bento-span-2"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2546,8 +2616,8 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                             aria-label={`${kpi.label}: ${kpi.displayValue}`}
                           >
                             <div
-                              className={cn('h-full rounded-full bg-gradient-to-r', pal.bar)}
-                              style={{ width: `${clampedPercent}%` }}
+                              className={cn('u214-kpi-bar-fill h-full rounded-full bg-gradient-to-r', pal.bar)}
+                              style={{ width: `${clampedPercent}%`, '--i': kIdx } as React.CSSProperties}
                             />
                           </div>
                         </div>
@@ -2561,6 +2631,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               <ExperienceBentoStudioCard
                 id="experience-memories-card"
                 variant="gallery-pink"
+                u214MarqueeItems={photosList.map((ph, idx) => {
+                  const palette = ['#F472B6', '#FB7185', '#E879F9', '#C084FC', '#38BDF8', '#34D399'];
+                  const captionText =
+                    ph.title || ('caption' in ph && ph.caption ? ph.caption : undefined) || `Kỷ niệm ${idx + 1}`;
+                  return {
+                    label: captionText,
+                    color: palette[idx % palette.length],
+                  };
+                })}
                 className="exp-bento-item exp-bento-span-4"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
@@ -2656,10 +2735,11 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 )}
               </ExperienceBentoStudioCard>
             </div>
-            </div>
-          </>
+            </motion.div>
+            </motion.div>
       );
     })()}
+      </AnimatePresence>
         </div>
       </div>
 

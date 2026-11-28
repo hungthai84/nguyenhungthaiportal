@@ -25,6 +25,8 @@ import {
   MAX_CORNER_RADIUS,
   GLOBAL_CORNER_RADIUS_STORAGE_KEY,
   GLOBAL_CORNER_RADIUS_SYNC_EVENT,
+  THEME_CORNER_RADIUS_STORAGE_KEY,
+  THEME_CORNER_RADIUS_SYNC_EVENT,
   WAVE_MOTION_STORAGE_KEY,
   WAVE_MOTION_SYNC_EVENT,
   CUSTOM_SURFACE_COLOR_STORAGE_KEY,
@@ -178,20 +180,33 @@ function getDefaultWallpaperForTheme(mode: CardStyleMode): WallpaperPreset {
   return WALLPAPER_PRESETS_LIST.find((w) => w.id === targetId) || WALLPAPER_PRESETS_LIST[0];
 }
 
+type ThemeCornerRadiusMap = Partial<Record<CardStyleMode, number>>;
+
 function clampCornerRadius(raw: unknown): number {
   const num = typeof raw === 'number' ? raw : Number(raw);
   if (!Number.isFinite(num)) return DEFAULT_CORNER_RADIUS;
   return Math.min(MAX_CORNER_RADIUS, Math.max(MIN_CORNER_RADIUS, Math.round(num)));
 }
 
-function readInitialCornerRadius(): number {
-  if (typeof window === 'undefined') return DEFAULT_CORNER_RADIUS;
+function readStoredThemeCornerRadii(): ThemeCornerRadiusMap {
+  if (typeof window === 'undefined') return {};
   try {
-    const saved = localStorage.getItem(GLOBAL_CORNER_RADIUS_STORAGE_KEY);
-    if (saved === null || saved === '') return DEFAULT_CORNER_RADIUS;
-    return clampCornerRadius(saved);
+    const raw = localStorage.getItem(THEME_CORNER_RADIUS_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    if (!parsed || typeof parsed !== 'object') return {};
+    const clean: ThemeCornerRadiusMap = {};
+    for (const mode of VALID_CARD_STYLES) {
+      if (parsed[mode] !== undefined && parsed[mode] !== null && parsed[mode] !== '') {
+        const clamped = clampCornerRadius(parsed[mode]);
+        if (clamped !== DEFAULT_CORNER_RADIUS) {
+          clean[mode] = clamped;
+        }
+      }
+    }
+    return clean;
   } catch {
-    return DEFAULT_CORNER_RADIUS;
+    return {};
   }
 }
 
@@ -415,8 +430,10 @@ export interface ThemeContextType {
   setAutoTimeTheme: (enabled: boolean) => void;
   toggleAutoTimeTheme: () => void;
   cornerRadius: number;
-  setCornerRadius: (radius: number) => void;
-  resetCornerRadius: () => void;
+  getCornerRadiusForMode: (mode: CardStyleMode) => number;
+  isCornerRadiusCustomized: (mode?: CardStyleMode) => boolean;
+  setCornerRadius: (radius: number, targetMode?: CardStyleMode) => void;
+  resetCornerRadius: (targetMode?: CardStyleMode) => void;
   waveMotion: WaveMotionMode;
   setWaveMotion: (mode: WaveMotionMode) => void;
   customSurfaceColor: string;
@@ -465,6 +482,8 @@ function ensureDefaultUiSeedSync(): void {
         ADAPTIVE_ACCENT_STORAGE_KEY,
         AUTO_TIME_THEME_STORAGE_KEY,
         GLASS_CUSTOMIZATION_STORAGE_KEY,
+        THEME_CORNER_RADIUS_STORAGE_KEY,
+        GLOBAL_CORNER_RADIUS_STORAGE_KEY,
         'hungthai_layer_depth_v1',
         'hungthai_surface_depth_v1',
         CUSTOM_SURFACE_COLOR_STORAGE_KEY,
@@ -593,7 +612,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   });
 
-  const [cornerRadius, setCornerRadiusState] = useState<number>(() => readInitialCornerRadius());
+  const [themeCornerRadii, setThemeCornerRadii] = useState<ThemeCornerRadiusMap>(() =>
+    readStoredThemeCornerRadii()
+  );
 
   const [waveMotion, setWaveMotionState] = useState<WaveMotionMode>(() => {
     if (typeof window === 'undefined') return DEFAULT_WAVE_MOTION;
@@ -746,21 +767,37 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setCardEffect(THEME_CARD_SPECS[cardStyleRef.current]?.defaultCardEffect || 'default');
   }, [setCustomSurfaceColor, setCustomPrimaryColor, setCardEffect]);
 
-  const setCornerRadius = useCallback((rawRadius: number) => {
+  const setCornerRadius = useCallback((rawRadius: number, targetMode?: CardStyleMode) => {
+    const mode = targetMode || cardStyleRef.current;
     const clamped = clampCornerRadius(rawRadius);
-    setCornerRadiusState(clamped);
-    applyGlobalCornerRadiusCssVariables(clamped);
-    try {
-      localStorage.setItem(GLOBAL_CORNER_RADIUS_STORAGE_KEY, String(clamped));
-    } catch {
-      // ignore
-    }
-    window.dispatchEvent(new CustomEvent(GLOBAL_CORNER_RADIUS_SYNC_EVENT, { detail: clamped }));
+    setThemeCornerRadii((prev) => {
+      const nextMap: ThemeCornerRadiusMap = { ...prev };
+      if (clamped === DEFAULT_CORNER_RADIUS) {
+        delete nextMap[mode];
+      } else {
+        nextMap[mode] = clamped;
+      }
+      try {
+        localStorage.setItem(THEME_CORNER_RADIUS_STORAGE_KEY, JSON.stringify(nextMap));
+        localStorage.removeItem(GLOBAL_CORNER_RADIUS_STORAGE_KEY);
+      } catch {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent(THEME_CORNER_RADIUS_SYNC_EVENT, { detail: nextMap }));
+      if (mode === cardStyleRef.current) {
+        applyGlobalCornerRadiusCssVariables(clamped);
+        window.dispatchEvent(new CustomEvent(GLOBAL_CORNER_RADIUS_SYNC_EVENT, { detail: clamped }));
+      }
+      return nextMap;
+    });
   }, []);
 
-  const resetCornerRadius = useCallback(() => {
-    setCornerRadius(DEFAULT_CORNER_RADIUS);
-  }, [setCornerRadius]);
+  const resetCornerRadius = useCallback(
+    (targetMode?: CardStyleMode) => {
+      setCornerRadius(DEFAULT_CORNER_RADIUS, targetMode);
+    },
+    [setCornerRadius]
+  );
 
   const setAutoTimeTheme = useCallback((enabled: boolean) => {
     setAutoTimeThemeState(enabled);
@@ -813,6 +850,24 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 
   const glassSettings = getGlassSettingsForMode(cardStyle);
+
+  const getCornerRadiusForMode = useCallback(
+    (mode: CardStyleMode): number => {
+      const custom = themeCornerRadii[mode];
+      return typeof custom === 'number' && Number.isFinite(custom) ? clampCornerRadius(custom) : DEFAULT_CORNER_RADIUS;
+    },
+    [themeCornerRadii]
+  );
+
+  const cornerRadius = getCornerRadiusForMode(cardStyle);
+
+  const isCornerRadiusCustomized = useCallback(
+    (mode?: CardStyleMode): boolean => {
+      const target = mode || cardStyle;
+      return getCornerRadiusForMode(target) !== DEFAULT_CORNER_RADIUS;
+    },
+    [cardStyle, getCornerRadiusForMode]
+  );
 
   const isGlassCustomized = useCallback(
     (mode?: CardStyleMode): boolean => {
@@ -1035,11 +1090,25 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setColorSchemeModeState((prev) => (prev === detail ? prev : detail));
       }
     };
+    const handleThemeCornerRadiusSync = (e: Event) => {
+      const detail = (e as CustomEvent<ThemeCornerRadiusMap>).detail;
+      if (detail && typeof detail === 'object') {
+        setThemeCornerRadii(detail);
+      }
+    };
     const handleCornerRadiusSync = (e: Event) => {
       const detail = (e as CustomEvent<number>).detail;
       if (typeof detail === 'number' && Number.isFinite(detail)) {
         const clamped = clampCornerRadius(detail);
-        setCornerRadiusState((prev) => (prev === clamped ? prev : clamped));
+        const active = cardStyleRef.current;
+        setThemeCornerRadii((prev) => {
+          const currentVal = prev[active] ?? DEFAULT_CORNER_RADIUS;
+          if (currentVal === clamped) return prev;
+          const next = { ...prev };
+          if (clamped === DEFAULT_CORNER_RADIUS) delete next[active];
+          else next[active] = clamped;
+          return next;
+        });
       }
     };
     const handleWaveMotionSync = (e: Event) => {
@@ -1079,6 +1148,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     window.addEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
     window.addEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
     window.addEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
+    window.addEventListener(THEME_CORNER_RADIUS_SYNC_EVENT, handleThemeCornerRadiusSync);
     window.addEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
     window.addEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
     window.addEventListener(CUSTOM_SURFACE_COLOR_SYNC_EVENT, handleCustomSurfaceSync);
@@ -1090,6 +1160,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       window.removeEventListener(GLASS_CUSTOMIZATION_SYNC_EVENT, handleGlassSync);
       window.removeEventListener(AUTO_TIME_THEME_SYNC_EVENT, handleAutoTimeThemeSync);
       window.removeEventListener(COLOR_SCHEME_MODE_SYNC_EVENT, handleColorSchemeModeSync);
+      window.removeEventListener(THEME_CORNER_RADIUS_SYNC_EVENT, handleThemeCornerRadiusSync);
       window.removeEventListener(GLOBAL_CORNER_RADIUS_SYNC_EVENT, handleCornerRadiusSync);
       window.removeEventListener(WAVE_MOTION_SYNC_EVENT, handleWaveMotionSync);
       window.removeEventListener(CUSTOM_SURFACE_COLOR_SYNC_EVENT, handleCustomSurfaceSync);
@@ -1438,6 +1509,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setAutoTimeTheme,
         toggleAutoTimeTheme,
         cornerRadius,
+        getCornerRadiusForMode,
+        isCornerRadiusCustomized,
         setCornerRadius,
         resetCornerRadius,
         waveMotion,

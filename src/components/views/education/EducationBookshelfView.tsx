@@ -5,6 +5,13 @@ import { EducationCourse } from '@/data/education';
 import { formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { WebIcon } from '@/components/ui/WebIcon';
+import {
+  getCourseShelfDesign,
+  DISTINCT_BOOK_FALLBACK_COLORS,
+  type BookTemplate,
+  type ArtPattern,
+  type BookPalette,
+} from './EducationBookCoverArt';
 
 export interface EducationBookshelfViewProps {
   courses: EducationCourse[];
@@ -18,24 +25,8 @@ export interface EducationBookshelfViewProps {
   onSelectBookIndex?: (idx: number) => void;
   hideTopTimeline?: boolean;
   topWallContent?: React.ReactNode;
+  cardStyle?: string;
 }
-
-type BookTemplate =
-  | 'vjy-layered'
-  | 'variant-editorial'
-  | 'variant-bauhaus'
-  | 'side-spine'
-  | 'variant-zen';
-
-type ArtPattern =
-  | 'p-grid'
-  | 'p-dots'
-  | 'p-split'
-  | 'p-arch'
-  | 'p-sun'
-  | 'p-stripes'
-  | 'p-waves'
-  | 'p-rings';
 
 interface ShelfTierConfig {
   id: 'tier-1' | 'tier-2';
@@ -45,25 +36,6 @@ interface ShelfTierConfig {
   icon: string;
   match: (course: EducationCourse) => boolean;
 }
-
-const WEBSITE_BOOK_TEMPLATES: BookTemplate[] = [
-  'vjy-layered',
-  'variant-editorial',
-  'variant-bauhaus',
-  'side-spine',
-  'variant-zen',
-];
-
-const ART_PATTERNS: ArtPattern[] = [
-  'p-grid',
-  'p-dots',
-  'p-split',
-  'p-arch',
-  'p-sun',
-  'p-stripes',
-  'p-waves',
-  'p-rings',
-];
 
 const SHELF_CATEGORIES: ShelfTierConfig[] = [
   {
@@ -83,84 +55,6 @@ const SHELF_CATEGORIES: ShelfTierConfig[] = [
     match: (course) => course.category !== 'degree' && course.category !== 'tech',
   },
 ];
-
-const DISTINCT_BOOK_FALLBACK_COLORS = [
-  '#2563EB', // Sapphire Blue
-  '#06B6D4', // Glacial Aqua Cyan
-  '#E11D48', // Scarlet Crimson
-  '#10B981', // Pure Emerald Green
-  '#8B5CF6', // Royal Violet Amethyst
-  '#F59E0B', // Golden Amber
-  '#EC4899', // Fuchsia Rose
-  '#6366F1', // Midnight Indigo
-  '#14B8A6', // Oceanic Deep Teal
-  '#84CC16', // Forest Lime
-  '#1E3A8A', // Midnight Navy
-  '#F97316', // Tangerine Orange
-  '#D946EF', // Electric Orchid
-  '#475569', // Slate Charcoal
-];
-
-interface BookPalette {
-  base: string;
-  deep: string;
-  mid: string;
-  soft: string;
-  highlight: string;
-  coverBg: string;
-  spineBg: string;
-}
-
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  const clean = hex.replace('#', '').trim();
-  const full =
-    clean.length === 3
-      ? clean
-          .split('')
-          .map((ch) => ch + ch)
-          .join('')
-      : clean.padEnd(6, '0').slice(0, 6);
-  const num = parseInt(full, 16);
-  if (Number.isNaN(num)) return { r: 37, g: 99, b: 235 };
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255,
-  };
-}
-
-function mixRgb(
-  a: { r: number; g: number; b: number },
-  b: { r: number; g: number; b: number },
-  weightB: number
-): string {
-  const w = Math.max(0, Math.min(1, weightB));
-  const r = Math.round(a.r * (1 - w) + b.r * w);
-  const g = Math.round(a.g * (1 - w) + b.g * w);
-  const bl = Math.round(a.b * (1 - w) + b.b * w);
-  return `rgb(${r}, ${g}, ${bl})`;
-}
-
-function buildPaletteFromAccent(accentHex: string): BookPalette {
-  const rgb = hexToRgb(accentHex);
-  const darkAnchor = { r: 9, g: 14, b: 28 };
-  const lightAnchor = { r: 255, g: 255, b: 255 };
-
-  const deep = mixRgb(rgb, darkAnchor, 0.56);
-  const mid = mixRgb(rgb, darkAnchor, 0.22);
-  const soft = mixRgb(rgb, lightAnchor, 0.72);
-  const highlight = mixRgb(rgb, lightAnchor, 0.42);
-
-  return {
-    base: accentHex,
-    deep,
-    mid,
-    soft,
-    highlight,
-    coverBg: `radial-gradient(circle at 20% 12%, ${highlight} 0%, transparent 48%), linear-gradient(155deg, ${accentHex} 0%, ${mid} 56%, ${deep} 100%)`,
-    spineBg: `linear-gradient(90deg, ${deep} 0%, ${accentHex} 45%, ${mid} 76%, ${deep} 100%)`,
-  };
-}
 
 interface BookItemProps {
   course: EducationCourse;
@@ -190,28 +84,8 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
   onActivate,
   onOpen,
 }) => {
-  const tiltRef = useRef<HTMLDivElement | null>(null);
   const title = formatCardTitle(course.title);
   const shortCode = course.code || `EDU-${course.year}`;
-
-  const handlePointerMove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    const el = tiltRef.current;
-    if (!el) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const relX = (e.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
-    const relY = (e.clientY - rect.top) / Math.max(1, rect.height) - 0.5;
-    const rx = (-relY * 14).toFixed(2);
-    const ry = (relX * 16).toFixed(2);
-    el.style.setProperty('--tilt-rx', `${rx}deg`);
-    el.style.setProperty('--tilt-ry', `${ry}deg`);
-  }, []);
-
-  const handlePointerLeave = useCallback(() => {
-    const el = tiltRef.current;
-    if (!el) return;
-    el.style.setProperty('--tilt-rx', '0deg');
-    el.style.setProperty('--tilt-ry', '0deg');
-  }, []);
 
   const renderBookVisual = () => {
     // 1. SIDE-SPINE: Vertical standing hardcover spine facing outward
@@ -493,15 +367,13 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
     <button
       ref={registerRef}
       type="button"
-      className={`edu-book-slot ${isActive ? 'is-active' : ''}`}
+      className="edu-book-slot"
       data-book-template={template}
       aria-label={`${title} — ${course.issuer} (${course.year}). ${
         isEn ? 'Open course book' : 'Mở sách khóa học'
       }`}
       aria-pressed={isActive}
       title={`${title} · ${course.issuer} (${course.year})`}
-      onMouseMove={handlePointerMove}
-      onMouseLeave={handlePointerLeave}
       onFocus={onActivate}
       onClick={() => {
         SoundEngine.playTap?.();
@@ -509,7 +381,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
         onOpen();
       }}
     >
-      <div ref={tiltRef} className="edu-tilt-book">
+      <div className="edu-tilt-book">
         {renderBookVisual()}
       </div>
 
@@ -671,11 +543,10 @@ const WoodenShelfTier: React.FC<TierShelfProps> = ({
         <div ref={scrollRef} className="edu-wood-scroll-area">
           {items.map(({ course, globalIdx }) => {
             const accentHex = getDistinctBookColor(course, globalIdx);
-            const palette = buildPaletteFromAccent(accentHex);
-            const template =
-              WEBSITE_BOOK_TEMPLATES[globalIdx % WEBSITE_BOOK_TEMPLATES.length];
-            const pattern =
-              ART_PATTERNS[(course.id + globalIdx) % ART_PATTERNS.length];
+            const { palette, template, pattern } = getCourseShelfDesign(
+              course,
+              accentHex
+            );
             const categoryLabel = getShortCategoryLabel(course.category);
             const iconName = getCourseIcon ? getCourseIcon(course.title) : 'book-open';
 

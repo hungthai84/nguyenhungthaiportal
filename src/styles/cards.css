@@ -1105,6 +1105,7 @@ html[data-card-style] #horoscope-card-work-synergy-check,
 #horoscope-card-management-style,
 #horoscope-card-career-portrait,
 #horoscope-card-five-elements,
+#horoscope-card-4,
 #horoscope-card-leadership-philosophy,
 #horoscope-card-work-synergy-check {
   height: auto !important;
@@ -1114,21 +1115,24 @@ html[data-card-style] #horoscope-card-work-synergy-check,
 }
 
 /* Thẻ 4. Kỹ Năng Ngũ Hành: view 3 cột 2 hàng */
-#horoscope-card-five-elements .five-elements-grid {
+#horoscope-card-five-elements .five-elements-grid,
+#horoscope-card-4 #horoscope-card-4-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 15px !important;
+  gap: 12px !important;
   width: 100% !important;
 }
 
 @media (max-width: 960px) {
-  #horoscope-card-five-elements .five-elements-grid {
+  #horoscope-card-five-elements .five-elements-grid,
+  #horoscope-card-4 #horoscope-card-4-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 600px) {
-  #horoscope-card-five-elements .five-elements-grid {
+  #horoscope-card-five-elements .five-elements-grid,
+  #horoscope-card-4 #horoscope-card-4-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
@@ -1136,6 +1140,14 @@ html[data-card-style] #horoscope-card-work-synergy-check,
 #horoscope-page-container [data-subcard="true"],
 #horoscope-page-container .sub-card {
   padding: 15px !important;
+}
+
+#horoscope-page-container #horoscope-card-4-grid [data-subcard="true"].ngu-hanh-focus-box {
+  padding: 8px 10px !important;
+}
+
+#horoscope-page-container #horoscope-card-4-quote {
+  padding: 10px 14px !important;
 }
 
 #weather-widget-card,
@@ -2806,6 +2818,8 @@ article.project-card:hover,
 }
 
 .theme-dropdown-option {
+  position: relative;
+  z-index: 1;
   color: var(--text-primary) !important;
   background: transparent;
   border: 1px solid transparent;
@@ -2814,6 +2828,11 @@ article.project-card:hover,
 .theme-dropdown-option:hover {
   background: var(--bg-subcard-hover, rgba(148, 163, 184, 0.14)) !important;
   color: var(--text-heading, var(--text-primary)) !important;
+}
+
+/* Inside Spring Dropdown: let the gliding elastic .spring-dropdown-hl render the hover pill */
+.spring-dropdown-menu .theme-dropdown-option:not([data-selected="true"]):hover {
+  background: transparent !important;
 }
 
 .theme-dropdown-option[data-selected="true"] {
@@ -2858,7 +2877,21 @@ button:focus-visible,
 [aria-expanded="true"] .chevron-icon,
 [aria-expanded="true"] svg.chevron {
   transform: rotate(180deg);
-  transition: transform var(--motion-normal) var(--motion-ease);
+  transition: transform 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button[aria-haspopup="listbox"],
+button[aria-haspopup="dialog"].banner-control-pill {
+  transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color var(--motion-normal, 220ms) var(--motion-ease),
+              border-color var(--motion-normal, 220ms) var(--motion-ease),
+              box-shadow var(--motion-normal, 220ms) var(--motion-ease),
+              color var(--motion-normal, 220ms) var(--motion-ease);
+}
+
+button[aria-haspopup="listbox"]:active:not(:disabled),
+button[aria-haspopup="dialog"].banner-control-pill:active:not(:disabled) {
+  transform: scale(0.965) !important;
 }
 
 .theme-prev-next-btn:hover svg,
@@ -2906,7 +2939,11 @@ button:focus-visible,
 @keyframes dropdownFadeIn {
   0% {
     opacity: 0;
-    transform: translate3d(0, -6px, 0) scale3d(0.98, 0.98, 1);
+    transform: translate3d(0, -10px, 0) scale3d(0.9, 0.84, 1);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(0, 1.5px, 0) scale3d(1.006, 1.01, 1);
   }
   100% {
     opacity: 1;
@@ -2917,14 +2954,102 @@ button:focus-visible,
 .dropdown-menu-enter {
   will-change: transform, opacity;
   backface-visibility: hidden;
-  animation: dropdownFadeIn var(--motion-normal, 220ms) var(--motion-ease-out) both;
+  animation: dropdownFadeIn 320ms cubic-bezier(0.22, 1.28, 0.36, 1) both;
 }
 
-/* Language selection dropdown smooth fade-in & scale toggle (220ms motion system) */
+/* ========================================================================= */
+/* SPRING DROPDOWN SYSTEM (ELASTIC HIGHLIGHT + STAGGER + CHECKMARK DRAW)     */
+/* ========================================================================= */
+.spring-dropdown-menu {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  isolation: isolate;
+}
+
+.spring-dropdown-hl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, width, height, opacity;
+  background: var(
+    --bg-subcard-hover,
+    color-mix(in srgb, var(--color-primary, #6366f1) 14%, rgba(148, 163, 184, 0.14))
+  );
+  border: 1px solid color-mix(in srgb, var(--color-primary, #6366f1) 20%, transparent);
+}
+
+@keyframes springOptionFallIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 1.5px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes springOptionRiseIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  72% {
+    opacity: 1;
+    transform: translate3d(0, -1.5px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.spring-dropdown-menu[data-spring-placement="down"] :is(.theme-dropdown-option, [role="option"]) {
+  animation: springOptionFallIn 360ms cubic-bezier(0.22, 1.28, 0.36, 1) backwards;
+  animation-delay: calc(40ms + var(--spring-opt-idx, 0) * 35ms);
+}
+
+.spring-dropdown-menu[data-spring-placement="up"] :is(.theme-dropdown-option, [role="option"], .footer-theme-group-row) {
+  animation: springOptionRiseIn 360ms cubic-bezier(0.22, 1.28, 0.36, 1) backwards;
+  animation-delay: calc(40ms + var(--spring-opt-idx, 0) * 32ms);
+}
+
+@keyframes springTickDraw {
+  from {
+    stroke-dashoffset: 22;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.spring-dropdown-tick path {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  transition: stroke-dashoffset 280ms cubic-bezier(0.22, 1.28, 0.36, 1);
+}
+
+.spring-dropdown-tick.is-active path,
+[aria-selected="true"] .spring-dropdown-tick path,
+[data-selected="true"] .spring-dropdown-tick path {
+  stroke-dashoffset: 0;
+  animation: springTickDraw 320ms cubic-bezier(0.22, 1.28, 0.36, 1) 60ms backwards;
+}
+
+/* Language selection dropdown smooth Spring toggle */
 html #footer-lang-popup[data-state] {
   transform-origin: bottom right;
   will-change: transform, opacity;
   backface-visibility: hidden;
+  isolation: isolate;
 }
 
 html #footer-lang-popup[data-placement="mobile"] {
@@ -2935,11 +3060,11 @@ html #footer-lang-popup[data-state="closed"] {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  transform: translate3d(0, 6px, 0) scale3d(0.95, 0.95, 1) !important;
+  transform: translate3d(0, 10px, 0) scale3d(0.9, 0.86, 1) !important;
   transition:
-    opacity var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
-    transform var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
-    visibility 0s linear var(--motion-normal, 220ms) !important;
+    opacity 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 260ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 260ms !important;
 }
 
 html #footer-lang-popup[data-state="open"] {
@@ -2948,9 +3073,18 @@ html #footer-lang-popup[data-state="open"] {
   pointer-events: auto !important;
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
   transition:
-    opacity var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
-    transform var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 360ms cubic-bezier(0.22, 1.32, 0.36, 1),
     visibility 0s linear 0s !important;
+}
+
+html #footer-lang-popup[data-state="open"] .theme-dropdown-option {
+  animation: springOptionRiseIn 340ms cubic-bezier(0.22, 1.28, 0.36, 1) backwards;
+  animation-delay: calc(45ms + var(--spring-opt-idx, 0) * 40ms);
+}
+
+html #footer-lang-popup .theme-dropdown-option:not([data-selected="true"]):hover {
+  background: transparent !important;
 }
 
 /* ========================================================================= */
@@ -4828,12 +4962,12 @@ html.dark #services-page-container .domain-card-sub {
   gap: 15px !important;
   row-gap: 15px !important;
   column-gap: 15px !important;
-  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
+  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
 }
 
 #systems-page-container .systems-cards-grid.grid-dimmed {
-  opacity: 0.12 !important;
-  transform: scale(0.96) !important;
+  opacity: 0 !important;
+  transform: translateY(-20px) scale(0.94) !important;
   filter: blur(2px);
   pointer-events: none !important;
 }
@@ -4989,32 +5123,32 @@ html.dark #systems-page-container .system-card-sub {
 
 #systems-page-container #systems-expanded-card.is-animating {
   transition:
-    top 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-    left 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.72s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.72s ease;
+    top 0.52s cubic-bezier(0.22, 1.18, 0.36, 1),
+    left 0.52s cubic-bezier(0.22, 1.18, 0.36, 1),
+    width 0.52s cubic-bezier(0.22, 1.18, 0.36, 1),
+    height 0.52s cubic-bezier(0.22, 1.18, 0.36, 1),
+    border-radius 0.52s cubic-bezier(0.22, 1.18, 0.36, 1),
+    box-shadow 0.45s ease;
 }
 
 #systems-page-container #systems-expanded-card .expanded-detail-content {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.32s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(10px);
+  transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.22, 1.15, 0.36, 1);
   transition-delay: 0s;
 }
 
 #systems-page-container #systems-expanded-card.is-open .expanded-detail-content {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.2s;
+  transition-delay: 0.16s;
 }
 
 #systems-page-container #systems-expanded-card.is-closing .expanded-detail-content {
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(10px);
   transition-delay: 0s;
-  transition-duration: 0.16s;
+  transition-duration: 0.14s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5092,6 +5226,17 @@ html[data-card-style] .video-play-btn {
     box-shadow 260ms ease,
     color 220ms ease !important;
   cursor: pointer;
+}
+
+#home-hero-video-play-btn.db-magnetic-play-btn,
+html[data-card-style] #home-hero-video-play-btn.db-magnetic-play-btn {
+  animation: none !important;
+  transition:
+    background 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    color 220ms ease !important;
+  will-change: transform;
 }
 
 .video-play-btn--letter,
@@ -5715,9 +5860,9 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
 
 #education-book-view .education-book-media-rounded,
 #education-book-view img.education-book-media-img {
-  border-radius: var(--radius-image, 14px) !important;
-  -webkit-clip-path: inset(0 round var(--radius-image, 14px)) !important;
-  clip-path: inset(0 round var(--radius-image, 14px)) !important;
+  border-radius: var(--card-radius, var(--radius-card, var(--radius-image, 14px))) !important;
+  -webkit-clip-path: inset(0 round var(--card-radius, var(--radius-card, var(--radius-image, 14px)))) !important;
+  clip-path: inset(0 round var(--card-radius, var(--radius-card, var(--radius-image, 14px)))) !important;
 }
 
 /* Sách học vấn: bề mặt giấy sách ấm mịn, đục hoàn toàn để hiệu ứng lật góc Kokonut UI sắc nét */
@@ -7109,7 +7254,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   }
 }
 
-/* Base Bento Card — Content-sized height, zero hover/tilt/spotlight/ripple/reveal effects */
+/* Base Bento Card — Content-sized height, supports Lucian UX/UI #214 (.u214-t) hover lift & scene motion */
 html #experience-main-card #experience-bento-grid .exp-studio-card,
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
   position: relative;
@@ -7132,11 +7277,6 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   box-sizing: border-box;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-  will-change: auto !important;
 }
 
 #experience-main-card #experience-bento-grid .exp-studio-card > * {
@@ -7199,7 +7339,7 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   color: inherit;
 }
 
-/* Inner Bento Sub-cards — Sized strictly to inner content, zero effects */
+/* Inner Bento Sub-cards — Sized strictly to inner content */
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile,
 #experience-main-card #experience-bento-grid .exp-studio-subtile {
   background: rgba(0, 0, 0, 0.25) !important;
@@ -7210,9 +7350,6 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
   -webkit-backdrop-filter: none !important;
   height: fit-content !important;
   min-height: 0 !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile--amber,
@@ -7224,9 +7361,6 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
   color: #030712 !important;
   height: fit-content !important;
   min-height: 0 !important;
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
 }
 
 /* Signature Gradient Text */
@@ -7235,33 +7369,6 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
-}
-
-/* Strip ALL card & subcard hover, active, glow, shine, float, tilt, reveal, ripple, and backdrop-filter effects */
-html #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-card:active, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile:active, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-subtile--amber:active, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-studio-philosophy:active, .exp-bento-rect-btn, .exp-bento-rect-btn:hover, .exp-bento-rect-btn:active, [data-bento-studio-card="true"], [data-bento-studio-card="true"]:hover, [data-bento-studio-card="true"]:active),
-html[data-card-style] #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-card:active, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile:active, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-subtile--amber:active, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-studio-philosophy:active, .exp-bento-rect-btn, .exp-bento-rect-btn:hover, .exp-bento-rect-btn:active, [data-bento-studio-card="true"], [data-bento-studio-card="true"]:hover, [data-bento-studio-card="true"]:active),
-html[data-card-effect] #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-bento-rect-btn, .exp-bento-rect-btn:hover) {
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-  box-shadow: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  will-change: auto !important;
-  opacity: 1 !important;
-}
-
-#experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-subtile, .exp-studio-subtile--amber, .exp-studio-philosophy, .exp-bento-rect-btn)::before,
-#experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-subtile, .exp-studio-subtile--amber, .exp-studio-philosophy, .exp-bento-rect-btn)::after {
-  content: none !important;
-  display: none !important;
-}
-
-#experience-main-card #experience-bento-grid .exp-studio-card .exp-studio-icon,
-#experience-main-card #experience-bento-grid .exp-studio-card:hover .exp-studio-icon {
-  transform: none !important;
-  transition: none !important;
 }
 
 

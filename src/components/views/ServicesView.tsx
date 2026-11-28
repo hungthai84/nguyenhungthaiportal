@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react';
-import { Sparkles, Info } from 'lucide-react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
+import {
+  CARD_SETTLE_SPRING,
+  getExpandCardLayoutTransition,
+  getCardSettleTransition,
+} from '@/components/ui/ExpandCardMotion';
+import { U420CardHoverIcon, U420_STYLES, type U420Variant } from '@/components/ui/U420CardHoverIcon';
 
 const ArrowRight = createAnimatedIcon('arrow-right');
 const Smartphone = createAnimatedIcon('smartphone');
@@ -39,11 +43,11 @@ import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import {
   ServiceExpandedDetail,
   formatFourWordSentenceCase,
-  type BentoFxMode,
   type DomainIconKey,
   type KpiIconKey,
   type DomainUiMeta,
   type ServiceInteractionState,
+  type ServiceScaleOrigin,
 } from '@/components/views/services/ServiceExpandedDetail';
 
 export interface ServicesViewProps {
@@ -173,12 +177,14 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
   },
 };
 
-const CARD_EFFECT_MODES: { id: BentoFxMode; labelVi: string; labelEn: string }[] = [
-  { id: 'spotlight-3d', labelVi: 'Hiệu ứng: Ánh sáng 3D', labelEn: 'FX: 3D Spotlight' },
-  { id: 'float-shadow', labelVi: 'Hiệu ứng: Nổi Khối & Đổ Bóng', labelEn: 'FX: Float & Shadow' },
-  { id: 'neon', labelVi: 'Hiệu ứng: Viền Neon', labelEn: 'FX: Neon Border' },
-  { id: 'minimal', labelVi: 'Hiệu ứng: Tối Giản', labelEn: 'FX: Minimal' },
-];
+const DOMAIN_U420_VARIANTS: Record<string, U420Variant> = {
+  '01': 'c1',
+  '02': 'c2',
+  '03': 'c4',
+  '04': 'c3',
+  '05': 'c4',
+  '06': 'c1',
+};
 
 interface DomainBentoTemplate {
   cardBgClass: string;
@@ -209,7 +215,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     orbClass: 'bg-white/15',
     iconColor: '#e9d5ff',
     badgeClass: 'bg-purple-950/60 border border-purple-400/35 text-purple-100',
-    descClass: 'text-purple-100/90',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-purple-950/60 group-hover:bg-purple-900 border border-purple-400/35 text-white',
     ringClass: 'ring-2 ring-purple-950/70',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
@@ -220,7 +226,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     orbClass: 'bg-yellow-300/25',
     iconColor: '#fef08a',
     badgeClass: 'bg-black/25 border border-white/25 text-amber-100',
-    descClass: 'text-orange-50/90',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-white/95 group-hover:bg-white border border-white/60 text-orange-700 shadow-sm',
     ringClass: 'ring-2 ring-orange-950/60',
     dividerColor: 'rgba(255, 255, 255, 0.2)',
@@ -231,7 +237,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     orbClass: 'bg-emerald-300/20',
     iconColor: '#a7f3d0',
     badgeClass: 'bg-black/25 border border-emerald-300/35 text-emerald-100',
-    descClass: 'text-emerald-100/90',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-emerald-500/25 group-hover:bg-emerald-500/40 border border-emerald-300/40 text-emerald-50',
     ringClass: 'ring-2 ring-emerald-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
@@ -243,7 +249,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     iconColor: '#fde047',
     titleGradient: true,
     badgeClass: 'bg-black/25 border border-pink-200/30 text-yellow-200',
-    descClass: 'text-pink-100/90',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-yellow-200',
     ringClass: 'ring-2 ring-purple-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.18)',
@@ -254,7 +260,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     orbClass: 'bg-cyan-300/25',
     iconColor: '#a5f3fc',
     badgeClass: 'bg-white/15 border border-cyan-200/35 text-cyan-100',
-    descClass: 'text-cyan-100/90',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-cyan-50',
     ringClass: 'ring-2 ring-indigo-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.18)',
@@ -265,7 +271,7 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     orbClass: 'bg-indigo-400/25',
     iconColor: '#c7d2fe',
     badgeClass: 'bg-indigo-500/25 border border-indigo-400/40 text-indigo-200',
-    descClass: 'text-indigo-100/85',
+    descClass: 'text-white font-medium',
     ctaClass: 'bg-indigo-600/85 group-hover:bg-indigo-500 border border-indigo-400/40 text-white',
     ringClass: 'ring-2 ring-slate-950/80',
     dividerColor: 'rgba(255, 255, 255, 0.14)',
@@ -355,51 +361,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const [hoveredDomainId, setHoveredDomainId] = useState<string | null>(null);
   const [gridNaturalHeight, setGridNaturalHeight] = useState<number | undefined>(undefined);
   const [isGridLayerHidden, setIsGridLayerHidden] = useState<boolean>(false);
+  const [scaleOrigin, setScaleOrigin] = useState<ServiceScaleOrigin | undefined>(undefined);
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [fxIndex, setFxIndex] = useState<number>(0);
-  const [fxToast, setFxToast] = useState<string | null>(null);
-  const fxToastTimerRef = useRef<number | null>(null);
-  const currentFx = CARD_EFFECT_MODES[fxIndex];
-
-  const cycleCardEffectMode = useCallback(() => {
-    SoundEngine.playTap();
-    setFxIndex((prev) => {
-      const nextIdx = (prev + 1) % CARD_EFFECT_MODES.length;
-      const nextMode = CARD_EFFECT_MODES[nextIdx];
-      const msg = isEn
-        ? `Enabled ${nextMode.labelEn}`
-        : `Đã bật ${nextMode.labelVi}`;
-      setFxToast(msg);
-      if (fxToastTimerRef.current) {
-        window.clearTimeout(fxToastTimerRef.current);
-      }
-      fxToastTimerRef.current = window.setTimeout(() => {
-        setFxToast(null);
-      }, 2400);
-      return nextIdx;
-    });
-  }, [isEn]);
-
-  useEffect(() => {
-    if (currentFx.id !== 'spotlight-3d') {
-      Object.values(cardRefs.current).forEach((el) => {
-        if (el) {
-          el.style.setProperty('--rx', '0deg');
-          el.style.setProperty('--ry', '0deg');
-        }
-      });
-    }
-  }, [currentFx.id]);
-
-  useEffect(() => {
-    return () => {
-      if (fxToastTimerRef.current) {
-        window.clearTimeout(fxToastTimerRef.current);
-      }
-    };
-  }, []);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -434,6 +399,44 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01']
     : null;
 
+  const computeCardScaleOrigin = useCallback((domainId: string): ServiceScaleOrigin => {
+    const cardEl = cardRefs.current[domainId];
+    const wrapEl = cardsWrapperRef.current || cardsGridRef.current;
+    if (cardEl && wrapEl) {
+      const cardRect = cardEl.getBoundingClientRect();
+      const wrapRect = wrapEl.getBoundingClientRect();
+      if (wrapRect.width > 0 && wrapRect.height > 0 && cardRect.width > 0) {
+        const cardCenterX = cardRect.left - wrapRect.left + cardRect.width / 2;
+        const cardCenterY = cardRect.top - wrapRect.top + cardRect.height / 2;
+        const pctX = Math.max(8, Math.min(92, (cardCenterX / wrapRect.width) * 100));
+        const pctY = Math.max(8, Math.min(92, (cardCenterY / wrapRect.height) * 100));
+        const ratioW = cardRect.width / wrapRect.width;
+        const initialScale = Math.max(0.72, Math.min(0.88, ratioW * 1.45));
+        const offsetX = Math.max(-180, Math.min(180, cardCenterX - wrapRect.width / 2));
+        const offsetY = Math.max(-110, Math.min(110, cardCenterY - wrapRect.height / 2));
+        return {
+          originX: `${pctX.toFixed(1)}%`,
+          originY: `${pctY.toFixed(1)}%`,
+          initialScale,
+          offsetX,
+          offsetY,
+        };
+      }
+    }
+    const idx = DOMAINS_DATA.findIndex((d) => d.id === domainId);
+    const col = idx >= 0 ? idx % 3 : 1;
+    const row = idx >= 0 ? Math.floor(idx / 3) : 0;
+    const fallbackX = col === 0 ? '18%' : col === 1 ? '50%' : '82%';
+    const fallbackY = row === 0 ? '26%' : '74%';
+    return {
+      originX: fallbackX,
+      originY: fallbackY,
+      initialScale: 0.78,
+      offsetX: (col - 1) * 90,
+      offsetY: row === 0 ? -45 : 45,
+    };
+  }, []);
+
   const openExpandedCard = useCallback(
     (domain: DomainData) => {
       if (interactionState === 'expanding' || interactionState === 'closing') return;
@@ -449,6 +452,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
         }
       }
 
+      setScaleOrigin(computeCardScaleOrigin(domain.id));
       setHoveredDomainId(null);
       setActiveCategory(domain.id);
       setSelectedDomainId(domain.id);
@@ -477,17 +481,25 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
       setIsGridLayerHidden(false);
       setInteractionState('expanding');
 
-      // Sau khi 5 card còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy để thẻ mở rộng chiếm trọn vùng hiển thị
+      // Sau khi thẻ được click Scale Up & 5 thẻ còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy
       scheduleTimer(() => {
         setIsGridLayerHidden(true);
-      }, 420);
+      }, 360);
 
       scheduleTimer(() => {
         setInteractionState('expanded');
         closeButtonRef.current?.focus({ preventScroll: true });
-      }, 620);
+      }, 520);
     },
-    [interactionState, selectedDomainId, clearTimers, isGridLayerHidden, prefersReducedMotion, scheduleTimer]
+    [
+      interactionState,
+      selectedDomainId,
+      clearTimers,
+      isGridLayerHidden,
+      computeCardScaleOrigin,
+      prefersReducedMotion,
+      scheduleTimer,
+    ]
   );
 
   const closeExpandedCard = useCallback(() => {
@@ -518,14 +530,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     // Bước 2: Motion LayoutId FLIP morph Card trở về đúng vị trí trong lưới & 5 Card còn lại fade in
     scheduleTimer(() => {
       setSelectedDomainId(null);
-    }, 180);
+    }, 150);
 
     // Bước 3: Hoàn tất khôi phục trạng thái Idle & trả focus bàn phím về đúng Card nguồn
     scheduleTimer(() => {
       setInteractionState('idle');
       setGridNaturalHeight(undefined);
       cardRefs.current[closingId]?.focus({ preventScroll: true });
-    }, 760);
+    }, 560);
   }, [selectedDomainId, interactionState, clearTimers, prefersReducedMotion, scheduleTimer]);
 
   const switchExpandedDomain = useCallback(
@@ -581,36 +593,26 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng Hệ thống', icon: 'layers' },
   ];
 
-  const layoutSpring = prefersReducedMotion
-    ? { duration: 0 }
-    : { type: 'spring' as const, stiffness: 120, damping: 23, mass: 1.05 };
+  const layoutSpring = getExpandCardLayoutTransition(prefersReducedMotion);
+  const settleSpring = getCardSettleTransition(prefersReducedMotion);
+  const selectedDomainIdx = selectedDomainId
+    ? DOMAINS_DATA.findIndex((d) => d.id === selectedDomainId)
+    : -1;
   const isAnyCardExpanded = Boolean(selectedDomainId);
-
-  const fxToastNode = fxToast ? (
-    <div className="fixed bottom-6 right-6 z-50 pointer-events-none">
-      <div className="toast-enter pointer-events-auto flex items-center gap-3 bg-gray-900/95 backdrop-blur-md border border-purple-500/50 text-purple-300 px-4 py-3 rounded-xl shadow-2xl max-w-sm">
-        <Info className="w-5 h-5 shrink-0 text-purple-400" />
-        <span className="text-sm font-bold text-gray-100">{fxToast}</span>
-      </div>
-    </div>
-  ) : null;
 
   return (
     <div
       id="services-page-container"
-      data-fx={currentFx.id}
       data-element-name="Trang Dịch Vụ & Giải Pháp"
       data-element-type="container"
       data-element-page="services"
       data-element-parent="global-content-viewport"
       className={cn(
-        'main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border',
+        'u420-scope main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border',
         !isDark && 'services-bento-light-mode'
       )}
     >
-      {typeof document !== 'undefined' && fxToastNode ? createPortal(fxToastNode, document.body) : fxToastNode}
-
-      {/* Hệ CSS Creator Studio Bento: Font Play, đổ bóng đa tầng, 4 chế độ FX (Spotlight 3D, Nổi Khối, Neon, Tối Giản), Ripple & vi tương tác icon */}
+      <style>{U420_STYLES}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
 
@@ -629,196 +631,99 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           color: transparent !important;
         }
 
-        /* Cấu trúc, màu sắc & đổ bóng đa tầng Creator Studio cho 6 Thẻ Dịch Vụ (chống ghi đè bởi theme) */
         html #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
         html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
         html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] {
-          --mx: 50%;
-          --my: 50%;
-          --rx: 0deg;
-          --ry: 0deg;
           font-family: 'Play', sans-serif;
           background: var(--bento-card-bg) !important;
           color: #ffffff !important;
           border-radius: 12px !important;
           border: 1px solid rgba(255, 255, 255, 0.1) !important;
-          transform-style: preserve-3d;
           box-shadow:
             0 12px 26px -8px rgba(0, 0, 0, 0.48),
             0 4px 12px -3px rgba(0, 0, 0, 0.32),
             inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
           transition:
-            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 0.35s ease !important;
+            transform 0.5s cubic-bezier(0.3, 1.5, 0.5, 1),
+            box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            border-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
         }
 
         html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] {
-          color: #ffffff !important;
+          background: rgba(255, 255, 255, 0.88) !important;
+          color: #172554 !important;
+          border: 1px solid rgba(255, 255, 255, 0.95) !important;
+          backdrop-filter: blur(16px) saturate(140%) !important;
           box-shadow:
-            0 16px 32px -10px rgba(15, 23, 42, 0.26),
-            0 6px 14px -4px rgba(15, 23, 42, 0.14),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            0 14px 30px -8px rgba(15, 23, 42, 0.12),
+            0 4px 12px -2px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 1) !important;
         }
 
-        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:active {
-          transform: translateY(-2px) scale(0.992) !important;
-          box-shadow:
-            0 8px 18px -6px rgba(0, 0, 0, 0.5),
-            0 3px 8px -2px rgba(0, 0, 0, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-title-text,
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-title-text span,
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-desc-text {
+          color: #172554 !important;
         }
 
-        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
-        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
-        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title) > span {
-          color: #ffffff !important;
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .sys-bottom-meta {
+          border-top-color: rgba(15, 23, 42, 0.1) !important;
         }
 
-        /* Lớp ánh sáng Spotlight bám theo con trỏ chuột */
-        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          pointer-events: none;
-          z-index: 20;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          background: radial-gradient(
-            380px circle at var(--mx, 50%) var(--my, 50%),
-            rgba(255, 255, 255, 0.16),
-            rgba(168, 85, 247, 0.08) 40%,
-            transparent 72%
-          );
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .sys-fullname-copy {
+          color: #334155 !important;
+        }
+
+        .card-bounce {
+          transition: transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1);
+          will-change: transform;
+        }
+
+        .card-bounce:hover,
+        .card-bounce:active {
+          transform: scale(1.055) !important;
         }
 
         @media (hover: hover) and (pointer: fine) {
-          /* Chế độ 1: Ánh sáng Spotlight + Nghiêng 3D + Nổi khối đổ bóng (Mặc định) */
-          html #services-page-container[data-fx="spotlight-3d"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
-            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-10px) scale(1.018) !important;
-            border-color: rgba(255, 255, 255, 0.28) !important;
+          html #services-page-container .service-card.domain-card.u420-t[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: translateY(-4px) scale(1.055) !important;
+            border-color: rgba(255, 255, 255, 0.26) !important;
             box-shadow:
-              0 30px 50px -12px rgba(0, 0, 0, 0.62),
-              0 14px 24px -8px rgba(0, 0, 0, 0.42),
-              0 0 0 1px rgba(255, 255, 255, 0.24),
-              0 0 32px -6px rgba(139, 92, 246, 0.38),
-              inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
-            transition:
-              transform 0.14s ease-out,
-              box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.3s ease !important;
-          }
-
-          html #services-page-container[data-fx="spotlight-3d"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
-            opacity: 1;
-          }
-
-          /* Chế độ 2: Nổi Khối & Đổ Bóng Chuyên Sâu */
-          html #services-page-container[data-fx="float-shadow"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
-            transform: translateY(-12px) scale(1.024) !important;
-            border-color: rgba(255, 255, 255, 0.28) !important;
-            box-shadow:
-              0 36px 60px -14px rgba(0, 0, 0, 0.68),
-              0 18px 28px -10px rgba(0, 0, 0, 0.46),
-              0 0 0 1px rgba(255, 255, 255, 0.26),
-              inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-          }
-
-          html #services-page-container[data-fx="float-shadow"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
-            opacity: 0.75;
-          }
-
-          /* Chế độ 3: Viền Neon rực rỡ bám chuột + Nổi khối */
-          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]::before {
-            background: radial-gradient(
-              340px circle at var(--mx, 50%) var(--my, 50%),
-              rgba(56, 189, 248, 0.24),
-              rgba(192, 132, 252, 0.16) 42%,
-              transparent 72%
-            );
-          }
-
-          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
-            transform: translateY(-10px) scale(1.018) !important;
-            border-color: rgba(192, 132, 252, 0.75) !important;
-            box-shadow:
-              0 28px 46px -12px rgba(0, 0, 0, 0.58),
-              0 18px 34px -8px rgba(139, 92, 246, 0.48),
-              0 0 26px -2px rgba(56, 189, 248, 0.42),
-              inset 0 0 20px rgba(168, 85, 247, 0.14) !important;
-          }
-
-          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
-            opacity: 1;
-          }
-
-          /* Chế độ 4: Tối Giản (Nổi nhẹ + Đổ bóng mềm) */
-          html #services-page-container[data-fx="minimal"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
-            transform: translateY(-6px) !important;
-            border-color: rgba(255, 255, 255, 0.24) !important;
-            box-shadow:
-              0 22px 36px -10px rgba(0, 0, 0, 0.5),
-              0 10px 18px -6px rgba(0, 0, 0, 0.32),
-              inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-          }
-
-          html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:hover svg.lucide.shrink-0 {
-            transform: scale(1.14) rotate(-5deg);
+              0 0 0 1px rgba(255, 255, 255, 0.22),
+              0 18px 32px -18px rgba(0, 0, 0, 0.65),
+              inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
           }
         }
 
-        html #services-page-container .service-card.domain-card svg.lucide {
-          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        /* Hiệu ứng 1. Scale Up / Scale Transform khi click vào Thẻ Dịch Vụ */
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):active {
+          transform: translateY(-2px) scale(1.045) !important;
+          border-color: rgba(255, 255, 255, 0.44) !important;
+          box-shadow:
+            0 0 0 1.5px rgba(255, 255, 255, 0.36),
+            0 24px 48px -12px rgba(0, 0, 0, 0.72),
+            inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
+          z-index: 25 !important;
         }
 
-        .card-ripple {
-          position: absolute;
-          border-radius: 9999px;
-          pointer-events: none;
-          z-index: 25;
-          background: radial-gradient(
-            circle,
-            rgba(255, 255, 255, 0.34) 0%,
-            rgba(168, 85, 247, 0.16) 55%,
-            transparent 75%
-          );
-          transform: translate(-50%, -50%) scale(0);
-          animation: serviceCardRipple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        html #services-page-container .service-card.domain-card[data-scale-expanding="true"] {
+          z-index: 28 !important;
+          border-color: rgba(255, 255, 255, 0.48) !important;
+          box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.38),
+            0 28px 56px -12px rgba(0, 0, 0, 0.78),
+            inset 0 1px 0 rgba(255, 255, 255, 0.38) !important;
         }
 
-        @keyframes serviceCardRipple {
-          0% {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0.9;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0;
-          }
-        }
-
-        @keyframes toastSlideIn {
-          from {
-            opacity: 0;
-            transform: translateY(14px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .toast-enter {
-          animation: toastSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        html #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
+        html[data-card-style] #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
+        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title) > span {
+          color: #ffffff !important;
         }
 
         @media (prefers-reduced-motion: reduce) {
           html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:hover {
             transform: none !important;
-          }
-          .card-ripple {
-            display: none !important;
           }
         }
       `}</style>
@@ -976,18 +881,6 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         })}
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => {
-                          cycleCardEffectMode();
-                          closeMenu();
-                        }}
-                        className="banner-control-pill w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-play cursor-pointer"
-                      >
-                        <Sparkles className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                        <span className="truncate">{isEn ? currentFx.labelEn : currentFx.labelVi}</span>
-                      </button>
-
                       {expandedDomain && (
                         <button
                           type="button"
@@ -1092,16 +985,6 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                  <button
-                    type="button"
-                    onClick={cycleCardEffectMode}
-                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play group"
-                    title={isEn ? 'Switch Bento card hover FX mode' : 'Đổi hiệu ứng thẻ & rê chuột'}
-                    aria-label={isEn ? currentFx.labelEn : currentFx.labelVi}
-                  >
-                    <Sparkles className="w-4 h-4 text-purple-400 shrink-0" />
-                    <span>{isEn ? currentFx.labelEn : currentFx.labelVi}</span>
-                  </button>
                 </div>
 
                 {expandedDomain && (
@@ -1119,14 +1002,15 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
               )}
             </AnimatePresence>
 
-            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & EXPANDING SERVICE CARD (MOTION LAYOUT ANIMATION TRONG DÒNG CHẢY THẬT) */}
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & EXPANDING SERVICE CARD (1. SCALE UP / SCALE TRANSFORM) */}
             <LayoutGroup id="services-cards-layout-group">
               <div
                 id="services-cards-wrapper"
                 ref={cardsWrapperRef}
                 data-interaction-state={interactionState}
+                data-expand-effect="scale-up-transform"
                 className={cn(
-                  'relative w-full',
+                  'relative w-full grid grid-cols-1 items-start',
                   isAnyCardExpanded ? 'h-auto flex-none' : 'flex-1 min-h-0 h-auto'
                 )}
               >
@@ -1136,7 +1020,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                   data-card-layout="responsive-grid"
                   aria-hidden={isAnyCardExpanded}
                   className={cn(
-                    'unified-cards-grid services-cards-grid services-responsive-grid card-grid w-full min-w-0 h-auto',
+                    'unified-cards-grid services-cards-grid services-responsive-grid card-grid col-start-1 row-start-1 w-full min-w-0 h-auto',
                     isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
                     isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
                   )}
@@ -1172,106 +1056,85 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     const isSelectedCard = selectedDomainId === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
 
-                    // Khi Card này đang mở rộng: giữ một placeholder vô hình cùng ô để 5 Card còn lại không nhảy bố cục khi fade out
-                    if (isSelectedCard) {
-                      return (
-                        <div
-                          key={`placeholder-${domain.id}`}
-                          aria-hidden="true"
-                          className="invisible pointer-events-none select-none w-full h-full min-h-0"
-                        />
-                      );
-                    }
-
-                    const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-                      if (isAnyCardExpanded) return;
-                      const card = cardRefs.current[domain.id];
-                      if (!card) return;
-                      const rect = card.getBoundingClientRect();
-                      const x = e.clientX - rect.left;
-                      const y = e.clientY - rect.top;
-                      card.style.setProperty('--mx', `${x.toFixed(1)}px`);
-                      card.style.setProperty('--my', `${y.toFixed(1)}px`);
-                      card.style.setProperty('--hover-x', `${((x / rect.width) * 100).toFixed(1)}%`);
-                      card.style.setProperty('--hover-y', `${((y / rect.height) * 100).toFixed(1)}%`);
-
-                      if (currentFx.id === 'spotlight-3d' && !prefersReducedMotion) {
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        const rotateX = (((y - centerY) / Math.max(1, centerY)) * -4.5).toFixed(2);
-                        const rotateY = (((x - centerX) / Math.max(1, centerX)) * 4.5).toFixed(2);
-                        card.style.setProperty('--rx', `${rotateX}deg`);
-                        card.style.setProperty('--ry', `${rotateY}deg`);
-                      }
-                    };
-
                     const handleCardMouseLeave = () => {
-                      const card = cardRefs.current[domain.id];
-                      if (card) {
-                        card.style.setProperty('--rx', '0deg');
-                        card.style.setProperty('--ry', '0deg');
-                      }
                       setHoveredDomainId(null);
                       setInteractionState((prev) => (prev === 'hovered' ? 'idle' : prev));
                     };
 
-                    const handleCardMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-                      if ((e.target as HTMLElement).closest('input, textarea, select')) return;
-                      const card = e.currentTarget;
-                      if (!card || prefersReducedMotion) return;
-                      const rect = card.getBoundingClientRect();
-                      const size = Math.max(rect.width, rect.height) * 1.4;
-                      const ripple = document.createElement('span');
-                      ripple.className = 'card-ripple';
-                      ripple.style.width = `${size}px`;
-                      ripple.style.height = `${size}px`;
-                      ripple.style.left = `${e.clientX - rect.left}px`;
-                      ripple.style.top = `${e.clientY - rect.top}px`;
-                      card.appendChild(ripple);
-                      setTimeout(() => ripple.remove(), 680);
-                    };
+                    const u420Variant = DOMAIN_U420_VARIANTS[domain.id] || 'c1';
 
                     return (
                       <motion.div
                         key={domain.id}
-                        layoutId={`service-card-shell-${domain.id}`}
-                        layout
                         ref={(el) => {
                           cardRefs.current[domain.id] = el;
                         }}
                         id={getCardDomId(domain.id)}
                         data-element-type="card"
                         data-section-card="true"
+                        data-expand-motion="true"
+                        data-scale-up-motion="true"
                         data-service-themed="true"
                         data-multicolor-bento="true"
                         data-bento-styled="true"
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
+                        data-scale-expanding={isSelectedCard ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
                         tabIndex={isAnyCardExpanded ? -1 : 0}
-                        aria-expanded={false}
-                        initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                        aria-expanded={isSelectedCard}
+                        initial={prefersReducedMotion ? false : { opacity: 0, y: 14, scale: 0.96 }}
+                        whileTap={
+                          !isAnyCardExpanded && !prefersReducedMotion
+                            ? { scale: 1.045, y: -3 }
+                            : undefined
+                        }
                         animate={
-                          isOtherDimmed
-                            ? { opacity: 0, scale: prefersReducedMotion ? 1 : 0.94, y: 0 }
-                            : { opacity: 1, scale: 1, y: 0 }
+                          isSelectedCard
+                            ? {
+                                opacity: 0,
+                                scale: prefersReducedMotion ? 1 : 1.09,
+                                y: prefersReducedMotion ? 0 : -8,
+                              }
+                            : isOtherDimmed
+                              ? {
+                                  opacity: 0,
+                                  scale: prefersReducedMotion ? 1 : 0.92,
+                                  y:
+                                    prefersReducedMotion || selectedDomainIdx === -1
+                                      ? 0
+                                      : idx < selectedDomainIdx
+                                        ? -20
+                                        : 20,
+                                }
+                              : { opacity: 1, scale: 1, y: 0 }
                         }
                         transition={{
                           layout: layoutSpring,
                           opacity: {
-                            duration: prefersReducedMotion ? 0 : isOtherDimmed ? 0.34 : 0.38,
-                            delay: prefersReducedMotion || isOtherDimmed || interactionState !== 'idle' ? 0 : idx * 0.04,
+                            duration: prefersReducedMotion
+                              ? 0
+                              : isSelectedCard
+                                ? 0.28
+                                : isOtherDimmed
+                                  ? 0.24
+                                  : 0.3,
+                            delay:
+                              prefersReducedMotion ||
+                              isSelectedCard ||
+                              isOtherDimmed ||
+                              interactionState !== 'idle'
+                                ? 0
+                                : idx * 0.035,
                             ease: [0.22, 1, 0.36, 1],
                           },
-                          scale: {
-                            duration: prefersReducedMotion ? 0 : 0.36,
-                            ease: [0.22, 1, 0.36, 1],
-                          },
-                          y: {
-                            duration: prefersReducedMotion ? 0 : 0.38,
-                            delay: prefersReducedMotion ? 0 : idx * 0.04,
-                            ease: [0.22, 1, 0.36, 1],
-                          },
+                          scale: isSelectedCard
+                            ? { type: 'spring', stiffness: 320, damping: 22, mass: 0.85 }
+                            : settleSpring,
+                          y:
+                            interactionState === 'idle' && !prefersReducedMotion
+                              ? { ...CARD_SETTLE_SPRING, delay: idx * 0.035 }
+                              : settleSpring,
                         }}
                         onPointerEnter={(e) => {
                           if (e.pointerType !== 'mouse' || isAnyCardExpanded) return;
@@ -1280,9 +1143,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             setInteractionState('hovered');
                           }
                         }}
-                        onMouseMove={handleCardMouseMove}
                         onMouseLeave={handleCardMouseLeave}
-                        onMouseDown={handleCardMouseDown}
                         onClick={() => openExpandedCard(domain)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
@@ -1299,28 +1160,28 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
                         className={cn(
-                          'service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left text-white cursor-pointer overflow-hidden',
+                          'u420-t service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left text-white cursor-pointer overflow-hidden card-bounce',
                           bentoTpl.cardBgClass
                         )}
                       >
-                        {/* Ambient Glowing Orb góc thẻ từ mẫu Creator Studio Bento */}
+                        {/* Ambient Glowing Orb góc thẻ từ mẫu Creator Studio Bento (tắt lóe sáng khi rê chuột) */}
                         <div
                           className={cn(
-                            'absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-500',
+                            'absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-65',
                             bentoTpl.orbClass
                           )}
                         />
 
                         {/* 3-Part Flexible Card Body */}
                         <div className="service-card-body relative z-10 flex flex-col flex-1 min-h-0 justify-between gap-2.5 w-full min-w-0">
-                          {/* TOP: Creator Studio Header (Icon + Title) */}
+                          {/* TOP: Creator Studio Header (Icon + Title + Lucian #420 Hover SVG Badge) */}
                           <div className="flex flex-col gap-2 min-w-0 shrink-0">
                             <div className="service-card-header flex items-center justify-between gap-2 min-w-0">
                               <div className="flex items-center gap-2 min-w-0 flex-1">
                                 {renderDomainIcon(
                                   meta.iconKey,
                                   'w-5 h-5 shrink-0 stroke-[2.2] transition-transform duration-300',
-                                  bentoTpl.iconColor
+                                  accentColor
                                 )}
                                 <h3
                                   className={cn(
@@ -1330,16 +1191,18 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   title={fullTitle}
                                 >
                                   <span
+                                    style={{ color: bentoTpl.titleGradient ? undefined : accentColor }}
                                     className={
                                       bentoTpl.titleGradient
                                         ? 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200'
-                                        : 'text-white'
+                                        : ''
                                     }
                                   >
                                     {displayTitle}
                                   </span>
                                 </h3>
                               </div>
+                              <U420CardHoverIcon variant={u420Variant} />
                             </div>
                           </div>
 
@@ -1442,7 +1305,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                   })}
                 </div>
 
-                {/* 3. HIỆU ỨNG 2: THẺ CHI TIẾT MỞ RỘNG BẰNG MOTION LAYOUT ANIMATION */}
+                {/* 3. THẺ CHI TIẾT MỞ RỘNG BẰNG HIỆU ỨNG 1. SCALE UP / SCALE TRANSFORM */}
                 <AnimatePresence>
                   {expandedDomain && expandedMeta && (
                     <ServiceExpandedDetail
@@ -1452,7 +1315,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       allDomains={DOMAINS_DATA}
                       serviceAssignments={serviceAssignments}
                       interactionState={interactionState}
-                      fxMode={currentFx.id}
+                      scaleOrigin={scaleOrigin}
                       minHeightPx={gridNaturalHeight}
                       prefersReducedMotion={prefersReducedMotion}
                       isEn={isEn}

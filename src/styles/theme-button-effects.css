@@ -18,11 +18,11 @@
 ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]) {
   isolation: isolate;
   transition:
-    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms ease,
-    background-color 180ms ease,
-    filter 180ms ease !important;
+    transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color var(--motion-normal, 220ms) ease,
+    background-color var(--motion-normal, 220ms) ease,
+    filter var(--motion-normal, 220ms) ease !important;
   will-change: transform;
 }
 
@@ -78,7 +78,7 @@
   pointer-events: none;
   opacity: 0;
   z-index: 0;
-  transition: opacity 200ms ease;
+  transition: opacity var(--motion-normal, 220ms) ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1138,13 +1138,15 @@ html:root body :is(#interview-questions-card, [id$="-hero-banner"], .hero-banner
 /* 2. PROJECT CARDS: THEME-DRIVEN ELEVATION SHADOW & HOVER LIFT (ƯU TIÊN TUYỆT ĐỐI) */
 html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]) {
   box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s ease !important;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease !important;
 }
 
-html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-  transform: translate3d(0, -4px, 0) scale3d(1.01, 1.01, 1) !important;
-  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
-  box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
+@media (hover: hover) and (pointer: fine) {
+  html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+    transform: translate3d(0, -4px, 0) !important;
+    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
+    box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
+  }
 }
 
 /* 3. SERVICE CARDS: CHIỀU CAO ĐỒNG ĐỀU THEO HÀNG, KHÔNG BỊ CO 34PX */
@@ -1195,6 +1197,94 @@ html:root[data-theme] body #el-p0-div-98 {
   filter: none !important;
   transform: none !important;
   animation: none !important;
+}
+
+/* ========================================================================= */
+/* 6. HIỆU ỨNG NÚT HEADER & FOOTER ÁP DỤNG ĐỒNG NHẤT CHO TẤT CẢ GIAO DIỆN    */
+/* - Mặc định: Nền nút theo giao diện; nền hình tròn icon & tiêu đề cùng màu */
+/* - Rê chuột & Chọn trang: Nền nút lấy màu hình tròn icon; hình tròn icon   */
+/*   & tiêu đề chuyển sang màu nền giao diện (--color-bg)                    */
+/* ========================================================================= */
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule),
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule),
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule) {
+  transition:
+    background var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    background-color var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color var(--motion-normal, 220ms) ease,
+    color var(--motion-normal, 220ms) ease,
+    box-shadow var(--motion-normal, 220ms) ease !important;
+}
+
+/* A. TRẠNG THÁI MẶC ĐỊNH: Hình tròn chứa icon & tiêu đề có cùng màu accent */
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg),
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg),
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: var(--color-bg, #FFFFFF) !important;
+  stroke: var(--color-bg, #FFFFFF) !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-title {
+  color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  -webkit-text-fill-color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  text-shadow: none !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-divider,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-divider,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):not(:hover):not([aria-current="page"]):not([data-active="true"]) .nav-pill-divider {
+  background: color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #4F46E5)) 36%, transparent) !important;
+}
+
+/* B. TRẠNG THÁI RÊ CHUỘT & CHỌN TRANG: Nền nút = màu hình tròn icon; hình tròn icon & tiêu đề = màu nền giao diện */
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]),
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) {
+  background: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  background-image: none !important;
+  border-color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: var(--color-bg, #FFFFFF) !important;
+  background-color: var(--color-bg, #FFFFFF) !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg),
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg),
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+  stroke: var(--nav-pill-accent, var(--color-primary, #4F46E5)) !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-title {
+  color: var(--color-bg, #FFFFFF) !important;
+  -webkit-text-fill-color: var(--color-bg, #FFFFFF) !important;
+  text-shadow: none !important;
+}
+
+html:root body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider,
+html:root[data-card-style] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider,
+html:root[data-theme] body :is(#app-header, #app-footer) button.nav-pill:not(#footer-nav-capsule):is(:hover, [aria-current="page"], [data-active="true"]) .nav-pill-divider {
+  background: color-mix(in srgb, var(--color-bg, #FFFFFF) 48%, transparent) !important;
 }
 
 

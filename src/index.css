@@ -82,6 +82,9 @@ body {
 @import "./styles/themes/walnut-wood.css";
 @import "./styles/themes/deep-ocean.css";
 @import "./styles/themes/neumorphism-beyond.css";
+@import "./styles/themes/dark-neumorphism-beyond.css";
+@import "./styles/themes/neumorphism-soft-ui.css";
+@import "./styles/themes/neumorphism-soft-ui-dark.css";
 @import "./styles/themes/frost-ice-neu.css";
 @import "./styles/themes/flat-soft-ui.css";
 @import "./styles/themes/mica-fluent.css";
@@ -130,7 +133,7 @@ pre {
 [data-section-card="true"] {
   transition: transform var(--motion-normal, 220ms) var(--ease-standard, cubic-bezier(0.2, 0.7, 0.2, 1)),
               box-shadow var(--motion-normal, 220ms) var(--ease-standard, cubic-bezier(0.2, 0.7, 0.2, 1)),
-              border-color var(--motion-fast, 150ms) ease,
+              border-color var(--motion-normal, 220ms) ease,
               background-color var(--motion-normal, 220ms) ease !important;
   will-change: transform;
   backface-visibility: hidden;
@@ -171,10 +174,10 @@ a:not(#el-p0-div-98 *),
 input:not(#el-p0-div-98 *),
 select:not(#el-p0-div-98 *),
 textarea:not(#el-p0-div-98 *) {
-  transition: transform var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
-              box-shadow var(--motion-fast, 150ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
-              background-color var(--motion-fast, 150ms) ease,
-              color var(--motion-fast, 150ms) ease;
+  transition: transform var(--motion-normal, 220ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
+              box-shadow var(--motion-normal, 220ms) var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
+              background-color var(--motion-normal, 220ms) ease,
+              color var(--motion-normal, 220ms) ease;
 }
 
 /* Active press-down sink removed per user request */
@@ -398,19 +401,8 @@ html #el-p1-div-85,
 html #letter-cards-track #letter-slide-2-grid,
 html #letter-cards-track #letter-slide-3-grid,
 html #letter-cards-track #letter-slide-4-bento-grid,
-html #horoscope-profile-subgrid,
 html #horoscope-cards-track #horoscope-card-1-grid,
-html #horoscope-card-1-grid,
-html #horoscope-cards-track #horoscope-card-2-grid,
-html #horoscope-card-2-grid,
-html #horoscope-cards-track #horoscope-card-3-grid,
-html #horoscope-card-3-grid,
-html #horoscope-cards-track #horoscope-card-pillars-grid,
-html #horoscope-card-pillars-grid,
-html #horoscope-cards-track #horoscope-card-4-grid,
-html #horoscope-card-4-grid,
-html #horoscope-cards-track #horoscope-card-5-grid,
-html #horoscope-card-5-grid {
+html #horoscope-card-1-grid {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -436,20 +428,17 @@ html #horoscope-card-5-grid {
   box-sizing: border-box !important;
 }
 
-html #horoscope-cards-track #horoscope-row-1-horizontal,
 html #skills-swot-grid-wrapper,
 html #skills-swot-grid,
 html #skills-languages-grid,
 html #experience-bento-grid,
-html #projects-grid,
 html #wallpaper-add-panel-grid,
 html #wallpaper-cards-grid,
 html #systems-cards-grid,
 html #interface-themes-grid,
-html #services-cards-grid,
 html #about-personal-info-grid,
-html [data-card-layout],
-html .card-grid {
+html [data-card-layout]:not(#horoscope-row-1-horizontal):not(#horoscope-profile-subgrid):not(#horoscope-card-2-grid):not(#horoscope-card-3-grid):not(#horoscope-card-pillars-grid):not(#horoscope-card-4-grid):not(#horoscope-card-5-grid),
+html .card-grid:not(#projects-grid):not(#services-cards-grid):not(.unified-cards-grid) {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -571,7 +560,7 @@ html #letter-slide-2-grid > :is(article, div),
 html #letter-slide-3-grid > :is(article, div),
 html #letter-slide-4-bento-grid > :is(article, div),
 html #letter-slide-4-bento-grid [data-subcard="true"],
-html #horoscope-row-1-horizontal > :is(article, div),
+html #horoscope-row-1-horizontal > :is(article, div):not(#horoscope-card-6),
 html #horoscope-card-2-grid > :is(article, div),
 html #horoscope-card-3-grid > :is(article, div),
 html #horoscope-card-pillars-grid > :is(article, div),
@@ -704,8 +693,8 @@ html[data-card-style] #about-intro-grid-2,
 html.dark[data-card-style] #about-intro-card-1,
 html.dark[data-card-style] #about-intro-card-2,
 html.dark[data-card-style] #about-intro-grid-2 {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   min-width: 0 !important;
   height: 100% !important;
   min-height: 0 !important;
@@ -862,21 +851,38 @@ html.dark[data-card-style] #horoscope-cards-track > [data-main-card="true"] {
   width: 0 !important;
 }
 
-html #horoscope-row-1-horizontal > :is(#horoscope-card-profile, #horoscope-card-6),
-html[data-card-style] #horoscope-row-1-horizontal > :is(#horoscope-card-profile, #horoscope-card-6) {
+html #horoscope-row-1-horizontal > #horoscope-card-profile,
+html[data-card-style] #horoscope-row-1-horizontal > #horoscope-card-profile {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   height: 100% !important;
-  min-height: 0 !important;
+  min-height: 100% !important;
   align-self: stretch !important;
   flex: none !important;
   overflow: hidden !important;
   margin: 0 !important;
   padding: 15px !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  gap: 12px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-sizing: border-box !important;
+}
+
+html #horoscope-row-1-horizontal > #horoscope-card-6,
+html[data-card-style] #horoscope-row-1-horizontal > #horoscope-card-6 {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  flex: none !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 5px !important;
+  gap: 0px !important;
   border-width: 1px !important;
   border-style: solid !important;
   border-radius: var(--radius-card, 14px) !important;
@@ -884,13 +890,22 @@ html[data-card-style] #horoscope-row-1-horizontal > :is(#horoscope-card-profile,
 }
 
 html #horoscope-profile-subgrid {
-  grid-auto-rows: auto !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
   align-items: stretch !important;
-  height: auto !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+  gap: 10px !important;
 }
 
 html #horoscope-profile-subgrid > [data-subcard="true"] {
   height: 100% !important;
+  min-height: 0 !important;
   align-self: stretch !important;
 }
 
@@ -1823,7 +1838,6 @@ html [id$="-cards-track"]::after {
 
   /* Preserve 0px padding transparent containers & full-bleed media frames */
   html #card-main-letter-content,
-  html #horoscope-card-profile,
   html #horoscope-card-management-style,
   html #horoscope-card-career-portrait,
   html #horoscope-card-five-elements,
@@ -2908,7 +2922,7 @@ button#header-btn-hungthai-avatar {
   box-shadow: var(--pill-shadow, var(--surface-interactive-shadow, 0 6px 18px rgba(50, 40, 80, 0.08))) !important;
   backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
   -webkit-backdrop-filter: blur(var(--pill-blur, var(--blur-nav-pill, 16px))) saturate(150%) !important;
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), background var(--motion-normal, 220ms) ease, background-color var(--motion-normal, 220ms) ease, border-color var(--motion-normal, 220ms) ease, box-shadow var(--motion-normal, 220ms) ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -3934,7 +3948,7 @@ html[data-card-style] :is(
   .project-card-btn-primary svg,
   .project-card-btn-secondary svg
 ) {
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), filter 200ms ease, box-shadow 200ms ease;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), filter var(--motion-normal, 220ms) ease, box-shadow var(--motion-normal, 220ms) ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -4860,8 +4874,7 @@ html:root.dark[data-card-style] body .project-card .project-card-banner :is(img,
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDE: FOOTER WEATHER CARD 10PX BORDER-RADIUS           */
-/* User Request: "Card thời tiết ở footer bo cong 10px ở tất cả giao diện"   */
+/* FOOTER WEATHER CARD: ĐỒNG BỘ BO GÓC & GIAO DIỆN THEO CẤU HÌNH THEME       */
 /* ========================================================================= */
 html:root body #app-footer #weather-widget-card,
 html:root[data-card-style] body #app-footer #weather-widget-card,
@@ -4872,7 +4885,7 @@ html:root body #weather-widget-card[data-section-card="true"],
 html:root[data-card-style] body #weather-widget-card[data-section-card="true"],
 html:root body :is(#weather-widget-card, #weather-card, .weather-card),
 html:root[data-card-style] body :is(#weather-widget-card, #weather-card, .weather-card) {
-  border-radius: 10px !important;
+  border-radius: var(--radius-widget, var(--radius-subcard, var(--radius-card, 14px))) !important;
 }
 
 /* Card Elevation Hierarchy is defined at the end of this stylesheet */
@@ -5194,15 +5207,15 @@ html[data-card-style="liquid-glass"] {
   --elev-subcard-l1-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.14), 0 4px 10px -2px rgba(8, 145, 178, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
-/* Neumorphism Beyond (Light) */
+/* Neumorphism Beyond (Light · Authentic Matte Dual Shadow) */
 html[data-card-style="neumorphism-beyond"] {
   --elev-main-card: var(--elevation-primary-surface);
-  --elev-banner-card: 10px 12px 28px rgba(148, 163, 184, 0.32), -6px -6px 18px rgba(255, 255, 255, 0.84), 0 14px 34px -10px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --elev-banner-card-hover: 14px 16px 36px rgba(148, 163, 184, 0.38), -8px -8px 22px rgba(255, 255, 255, 0.92), 0 20px 44px -10px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.84);
-  --elev-card-l2: 8px 10px 24px rgba(148, 163, 184, 0.28), -6px -6px 16px rgba(255, 255, 255, 0.86), 0 10px 24px -8px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --elev-card-l2-hover: 12px 14px 32px rgba(148, 163, 184, 0.36), -8px -8px 20px rgba(255, 255, 255, 0.94), 0 16px 34px -8px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  --elev-subcard-l1: 5px 6px 14px rgba(148, 163, 184, 0.22), -4px -4px 12px rgba(255, 255, 255, 0.80), inset 0 1px 0 rgba(255, 255, 255, 0.55);
-  --elev-subcard-l1-hover: 8px 10px 20px rgba(148, 163, 184, 0.28), -5px -5px 14px rgba(255, 255, 255, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --elev-banner-card: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
+  --elev-banner-card-hover: -8px -8px 16px rgba(255, 255, 255, 0.90), 8px 8px 16px rgba(163, 177, 198, 0.66);
+  --elev-card-l2: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
+  --elev-card-l2-hover: -8px -8px 16px rgba(255, 255, 255, 0.90), 8px 8px 16px rgba(163, 177, 198, 0.66);
+  --elev-subcard-l1: -4px -4px 9px rgba(255, 255, 255, 0.85), 4px 4px 9px rgba(163, 177, 198, 0.56);
+  --elev-subcard-l1-hover: -6px -6px 12px rgba(255, 255, 255, 0.90), 6px 6px 12px rgba(163, 177, 198, 0.62);
 }
 
 /* Frost Ice Neu (Light · Pure Matte Dual Shadow) */
@@ -5295,15 +5308,15 @@ html[data-card-style="deep-ocean"] {
   --elev-card-l2-hover: 0 22px 46px -8px rgba(2, 6, 23, 0.78), 0 0 24px -4px rgba(56, 189, 248, 0.26), inset 0 1px 0 rgba(125, 211, 252, 0.28);
 }
 
-/* Dark Neumorphism Beyond */
+/* Dark Neumorphism Beyond (Authentic Matte Dual Shadow) */
 html[data-card-style="dark-neumorphism-beyond"] {
   --elev-main-card: var(--elevation-primary-surface);
-  --elev-banner-card: 10px 12px 28px rgba(4, 7, 15, 0.68), -5px -5px 14px rgba(42, 54, 78, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.13);
-  --elev-banner-card-hover: 14px 16px 36px rgba(4, 7, 15, 0.78), -6px -6px 18px rgba(51, 65, 92, 0.40), inset 0 1px 0 rgba(148, 163, 184, 0.18);
-  --elev-card-l2: 9px 11px 26px rgba(4, 7, 15, 0.65), -5px -5px 14px rgba(40, 51, 72, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.12);
-  --elev-card-l2-hover: 13px 15px 34px rgba(4, 7, 15, 0.76), -6px -6px 18px rgba(51, 65, 92, 0.42), inset 0 1px 0 rgba(148, 163, 184, 0.18);
-  --elev-subcard-l1: 6px 7px 16px rgba(4, 7, 15, 0.54), -3px -3px 10px rgba(40, 51, 72, 0.26), inset 0 1px 0 rgba(148, 163, 184, 0.08);
-  --elev-subcard-l1-hover: 9px 11px 22px rgba(4, 7, 15, 0.66), -4px -4px 12px rgba(48, 62, 88, 0.34), inset 0 1px 0 rgba(148, 163, 184, 0.14);
+  --elev-banner-card: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
+  --elev-banner-card-hover: -8px -8px 16px rgba(49, 59, 77, 0.78), 8px 8px 16px rgba(9, 12, 17, 0.84);
+  --elev-card-l2: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
+  --elev-card-l2-hover: -8px -8px 16px rgba(49, 59, 77, 0.78), 8px 8px 16px rgba(9, 12, 17, 0.84);
+  --elev-subcard-l1: -4px -4px 9px rgba(45, 54, 70, 0.68), 4px 4px 9px rgba(11, 14, 20, 0.74);
+  --elev-subcard-l1-hover: -6px -6px 12px rgba(49, 59, 77, 0.75), 6px 6px 12px rgba(9, 12, 17, 0.80);
 }
 
 /* Dark Flat Soft UI */
@@ -5361,7 +5374,7 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #app-footer #footer-ai-btn
 ) {
   box-shadow: var(--elev-pill-rest) !important;
-  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease, border-color 180ms ease !important;
+  transition: box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), background-color var(--motion-normal, 220ms) ease, border-color var(--motion-normal, 220ms) ease !important;
 }
 
 html:not([data-surface-depth="flat"]):root body :is(
@@ -5412,7 +5425,7 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-nav
 html:not([data-surface-depth="flat"]):root body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn) {
   box-shadow: var(--elev-nav-btn-rest) !important;
-  transition: box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease !important;
+  transition: box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), opacity var(--motion-normal, 220ms) ease !important;
 }
 
 html:not([data-surface-depth="flat"]):root body :is(#footer-prev-btn, #footer-next-btn, .theme-prev-next-btn, .nav-arrow-btn):is(:hover, :focus-visible),
@@ -5532,7 +5545,7 @@ html:not([data-surface-depth="flat"]):root body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)),
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-system-bento-studio="true"]):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)),
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .card,
   .bento-card,
@@ -5562,7 +5575,7 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)) {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-system-bento-studio="true"]):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)) {
   box-shadow: var(--elev-card-l2) !important;
   transition: box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease !important;
 }
@@ -5596,7 +5609,7 @@ html:not([data-surface-depth="flat"]):root body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover,
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-system-bento-studio="true"]):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover,
 html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .card,
   .bento-card,
@@ -5626,7 +5639,7 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   #horoscope-card-leadership-philosophy,
   #horoscope-card-work-synergy-check,
   [data-section-card="true"]
-):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover {
+):not(#app-header):not(#app-footer):not(.page-main-card):not([data-main-card="true"]):not(#pdf-page-container):not(#home-hero-stage-1):not(.home-split-hero-card):not([id^="home-hero-stage-"]):not(#footer-nav-capsule):not(.theme-capsule-btn):not(#el-p0-div-16):not(#el-p2-div-103):not(#interview-play-video-capsule):not(.theme-video-capsule):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(#project-detail-banner):not(#experience-banner-card):not(#interview-questions-card):not(#experience-main-card):not(#letter-slide-2-grid article):not(#letter-slide-3-grid article):not([data-system-bento-studio="true"]):not([data-subcard="true"]:not(#horoscope-card-profile):not(#horoscope-card-6)):not(.sub-card:not(#horoscope-card-profile):not(#horoscope-card-6)):hover {
   box-shadow: var(--elev-card-l2-hover) !important;
 }
 
@@ -5680,7 +5693,7 @@ html:not([data-surface-depth="flat"]):root[data-card-style] body :is(
   .letter-subcard
 ):not(#app-header):not(#app-footer):not(#weather-widget-card):not(#horoscope-card-profile):not(#horoscope-card-6) {
   box-shadow: var(--elev-subcard-l1) !important;
-  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition: box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), border-color var(--motion-normal, 220ms) ease, transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 html:not([data-surface-depth="flat"]):root body :is(
@@ -5842,7 +5855,7 @@ html[data-surface-depth="flat"] body :is(
   --tw-ring-width: 0px !important;
   --tw-ring-color: transparent !important;
   box-shadow: var(--neu-raised-shadow) !important;
-  transition: box-shadow 180ms ease, color 180ms ease !important;
+  transition: box-shadow var(--motion-normal, 220ms) ease, color var(--motion-normal, 220ms) ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -6518,8 +6531,8 @@ html:root[data-card-style] body #experience-main-card,
 html:root[data-card-style] body #contact-main-card,
 html:root[data-card-style] body #app-footer,
 html:root[data-card-style] body #el-p0-div-98 footer {
-  width: min(calc(100vw - 32px), var(--main-card-target-w, 1050px)) !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  width: min(calc(100vw - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -6771,8 +6784,8 @@ html:root body #letter-cards-track > #letter-main-card,
 html:root[data-card-style] body #letter-cards-track > #letter-main-card,
 html:root body #letter-cards-track > [id^="letter-card-"],
 html:root[data-card-style] body #letter-cards-track > [id^="letter-card-"] {
-  width: min(calc(100vw - 32px), var(--main-card-target-w, 1050px)) !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  width: min(calc(100vw - 32px), var(--main-card-target-w, 1200px)) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   height: 100% !important;
   max-height: 100% !important;
@@ -6851,10 +6864,10 @@ html:root[data-card-style] body #horoscope-page-container #horoscope-cards-track
 
 html:root body #horoscope-cards-track > :is(.page-main-card, [data-main-card="true"], [id^="horoscope-card-"]),
 html:root[data-card-style] body #horoscope-cards-track > :is(.page-main-card, [data-main-card="true"], [id^="horoscope-card-"]) {
-  width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-  min-width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
-  flex: 0 0 var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
+  width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  min-width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
+  flex: 0 0 var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -6967,8 +6980,8 @@ html:root.dark[data-card-style] body #app-header-container {
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -6996,8 +7009,8 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
 }
 
 html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -7027,8 +7040,8 @@ html:root[data-card-style="mica-fluent"] body :is(#app-header, #app-header:hover
 }
 
 html:root[data-card-style="frost-ice-neu"] body :is(#app-header, #app-header:hover, #app-header:focus-within, #app-header-container header) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
@@ -7102,7 +7115,7 @@ html:root[data-card-style] body #app-footer :is(#footer-lang-btn, #footer-appear
   margin-bottom: auto !important;
 }
 
-/* Chế độ phẳng tuyệt đối cho Header & Footer cùng các nút điều hướng bên trong (không đổ bóng, không viền sáng 3D) */
+/* Cấu hình đồng bộ theo giao diện đang chọn cho #header-center, #el-p0-div-112, #footer-nav-capsule & #weather-widget-card */
 html:root body #app-header::before,
 html:root body #app-header::after,
 html:root[data-card-style] body #app-header::before,
@@ -7117,40 +7130,65 @@ html:root[data-card-style] body #app-footer::after {
   background: none !important;
 }
 
-html:root body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
-html:root[data-card-style] body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
-html:root.dark[data-card-style] body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
-html:root body #app-footer :is(
-  button.nav-pill,
-  .nav-pill-wrapper,
-  .nav-pill-icon-badge,
-  #footer-nav-capsule,
-  #footer-prev-btn,
-  #footer-next-btn,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  #weather-widget-card,
-  .theme-capsule-btn,
-  .theme-prev-next-btn
-),
-html:root[data-card-style] body #app-footer :is(
-  button.nav-pill,
-  .nav-pill-wrapper,
-  .nav-pill-icon-badge,
-  #footer-nav-capsule,
-  #footer-prev-btn,
-  #footer-next-btn,
-  #footer-lang-btn,
-  #footer-appearance-btn,
-  #footer-wallpaper-btn,
-  #footer-ai-btn,
-  #weather-widget-card,
-  .theme-capsule-btn,
-  .theme-prev-next-btn
-),
-html:root.dark[data-card-style] body #app-footer :is(
+/* 1. #header-center & #el-p0-div-112: đồng bộ cấu hình giao diện cho các nút điều hướng trạng thái mặc định */
+html:root body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root[data-card-style] body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root.dark[data-card-style] body #app-header #header-center button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]),
+html:root.dark[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:not(:hover):not([aria-current="page"]):not([data-active="true"]) {
+  background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
+  box-shadow: var(--surface-interactive-shadow, var(--elev-pill-rest, var(--shadow-nav-pill))) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  outline: var(--outline-nav-pill, none) !important;
+  outline-offset: var(--outline-offset-nav-pill, -3px) !important;
+  border-radius: var(--radius-button, 999px) !important;
+}
+
+/* 2. #header-center & #el-p0-div-112: giữ hiệu ứng nổi & đổi màu theo giao diện khi hover / active */
+html:not([data-surface-depth="flat"]):root body #app-header #header-center button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root[data-card-style] body #app-header #header-center button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root body #app-footer #el-p0-div-112 button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]),
+html:not([data-surface-depth="flat"]):root[data-card-style] body #app-footer #el-p0-div-112 button.nav-pill:is(:hover, [aria-current="page"], [data-active="true"]) {
+  box-shadow: var(--elev-pill-hover, var(--surface-interactive-shadow, var(--shadow-nav-pill))) !important;
+  outline: var(--outline-nav-pill, none) !important;
+  outline-offset: var(--outline-offset-nav-pill, -3px) !important;
+}
+
+/* 3. #footer-nav-capsule: đồng bộ toàn diện theo giao diện đang chọn */
+html:root body #app-footer #footer-nav-capsule,
+html:root[data-card-style] body #app-footer #footer-nav-capsule,
+html:root.dark[data-card-style] body #app-footer #footer-nav-capsule {
+  background: var(--surface-interactive-bg, var(--bg-nav-pill, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-interactive-border, var(--border-nav-arrow, var(--border-color))) !important;
+  box-shadow: var(--surface-interactive-shadow, var(--elev-nav-capsule, var(--shadow-nav-pill))) !important;
+  backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  -webkit-backdrop-filter: blur(var(--surface-interactive-blur, var(--blur-nav-pill, 16px))) saturate(var(--glass-saturate, 150%)) !important;
+  outline: var(--outline-nav-pill, none) !important;
+  outline-offset: var(--outline-offset-nav-pill, -4px) !important;
+  border-radius: var(--radius-button, 999px) !important;
+  color: var(--text-primary) !important;
+}
+
+/* 4. #weather-widget-card: đồng bộ toàn diện theo giao diện đang chọn */
+html:root body #app-footer #weather-widget-card,
+html:root[data-card-style] body #app-footer #weather-widget-card,
+html:root.dark[data-card-style] body #app-footer #weather-widget-card {
+  background: var(--surface-tertiary-bg, var(--bg-subcard, var(--surface-secondary-bg, var(--bg-nav-pill)))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--surface-secondary-border, var(--border-color)))) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--elev-subcard-l1, var(--shadow-subcard))) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, var(--glass-blur, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, var(--glass-blur, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+  outline: var(--outline-subcard, none) !important;
+  outline-offset: var(--outline-offset-subcard, -4px) !important;
+  color: var(--text-primary) !important;
+}
+
+/* 5. Chỉ tắt đổ bóng khi giao diện ở chế độ phẳng (flat) */
+html[data-surface-depth="flat"] body #app-header :is(button.nav-pill, .nav-pill-wrapper, .nav-pill-icon-badge),
+html[data-surface-depth="flat"] body #app-footer :is(
   button.nav-pill,
   .nav-pill-wrapper,
   .nav-pill-icon-badge,
@@ -7183,8 +7221,8 @@ html:root.dark[data-card-style] body #el-p0-div-98 {
 html:root:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover),
 html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -7216,8 +7254,8 @@ html:root.dark[data-card-style]:not([data-card-style="frost-ice-neu"]):not([data
 }
 
 html:root[data-card-style="mica-fluent"] body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -7251,8 +7289,8 @@ html:root[data-card-style="mica-fluent"] body :is(#app-footer, #app-footer:hover
 }
 
 html:root[data-card-style="frost-ice-neu"] body :is(#app-footer, #app-footer:hover, #app-footer:focus-within, #el-p0-div-98 footer, #el-p0-div-98 footer:hover) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -8329,7 +8367,7 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   padding-right: 0px !important;
 }
 
-/* AI Assistant: Mobile stack vertical cleanly; Desktop Banner 40% & Chat 60% minus gap, with smooth expand */
+/* AI Assistant: Mobile stack vertical cleanly; Desktop Banner width matches Booking (#contact-hero-banner: 235px >=1024px, 255px >=1280px) with smooth expand */
 @media (max-width: 1023px) {
   #ai-assistant-hero-banner,
   #ai-assistant-chat-container {
@@ -8345,10 +8383,10 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
 
 @media (min-width: 1024px) {
   #ai-assistant-hero-banner {
-    width: max(0px, calc(40% - 7.5px - var(--ai-chat-extra-w, 0px))) !important;
+    width: max(0px, calc(235px - var(--ai-chat-extra-w, 0px))) !important;
     min-width: 0 !important;
-    max-width: calc(40% - 7.5px) !important;
-    flex: 0 0 max(0px, calc(40% - 7.5px - var(--ai-chat-extra-w, 0px))) !important;
+    max-width: 235px !important;
+    flex: 0 0 max(0px, calc(235px - var(--ai-chat-extra-w, 0px))) !important;
     overflow: hidden !important;
   }
   #ai-assistant-chat-container {
@@ -8359,6 +8397,15 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   }
 }
 
+@media (min-width: 1280px) {
+  #ai-assistant-hero-banner {
+    width: max(0px, calc(255px - var(--ai-chat-extra-w, 0px))) !important;
+    min-width: 0 !important;
+    max-width: 255px !important;
+    flex: 0 0 max(0px, calc(255px - var(--ai-chat-extra-w, 0px))) !important;
+  }
+}
+
 /* Projects main wrapper: grid dense layout & jitter-free smooth scale transition with center origin */
 #projects-main-wrapper {
   background: transparent !important;
@@ -8366,30 +8413,30 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   transform-origin: center center !important;
 }
 
-#projects-main-wrapper #projects-grid,
-#projects-grid.projects-responsive-grid {
-  grid-auto-flow: dense !important;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
-  grid-auto-rows: 1fr !important;
-  gap: 15px !important;
-  align-items: stretch !important;
-}
+/* #projects-grid responsive 3x2 / 2x3 / 1x6 layout is unified in src/styles/cards.css via master tokens */
 
 #projects-main-wrapper .news-slider-slide,
-#projects-main-wrapper .news-card-item,
-#projects-main-wrapper .project-card,
-#projects-main-wrapper [data-element-type="card"] {
+#projects-main-wrapper .news-card-item {
   transform-origin: center center !important;
   will-change: transform !important;
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease !important;
 }
 
-#projects-main-wrapper .news-slider-slide:hover,
-#projects-main-wrapper .news-card-item:hover,
-#projects-main-wrapper .project-card:hover,
-#projects-main-wrapper [data-element-type="card"]:hover {
-  transform: scale(1.03) !important;
-  transform-origin: center center !important;
+#projects-main-wrapper .project-card {
+  will-change: transform !important;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, border-color 220ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #projects-main-wrapper .news-slider-slide:hover,
+  #projects-main-wrapper .news-card-item:hover {
+    transform: scale(1.03) !important;
+    transform-origin: center center !important;
+  }
+
+  #projects-main-wrapper .project-card:hover {
+    transform: translate3d(0, -4px, 0) !important;
+  }
 }
 
 #projects-main-wrapper .news-slider-slide.swiper-slide-peek:hover,
@@ -8630,33 +8677,15 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 }
 
 /* ========================================================================= */
-/* UNIFIED SYSTEM & SERVICE VIBRANT CARDS (SHARED 3-TIER VIEW CARD LAYOUT)   */
+/* SYSTEM CARDS GRID (SERVICES & PROJECTS UNIFIED IN src/styles/cards.css)   */
 /* ========================================================================= */
-#services-page-container #services-main-content .services-cards-grid,
-#services-page-container #services-cards-grid.services-cards-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: minmax(216px, 1fr) !important;
-  height: auto !important;
-  min-height: 100% !important;
-  flex: 1 0 auto !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  align-items: stretch !important;
-  align-content: start !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-}
-
 #systems-page-container #systems-cards-grid.systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   grid-auto-rows: 1fr !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  gap: var(--space-card-gap, 16px) !important;
+  row-gap: var(--space-card-gap, 16px) !important;
+  column-gap: var(--space-card-gap, 16px) !important;
   align-items: stretch !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -8664,34 +8693,18 @@ html:root[data-card-style] body #letter-main-card #el-p1-div-85 #core-values-gri
 }
 
 @media (max-width: 959px) {
-  #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(204px, 1fr) !important;
-    height: auto !important;
-    min-height: 0 !important;
-    flex: 0 0 auto !important;
-  }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 599px) {
-  #services-page-container #services-main-content .services-cards-grid,
-  #services-page-container #services-cards-grid.services-cards-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-auto-rows: auto !important;
-    height: auto !important;
-    min-height: 0 !important;
-    flex: 0 0 auto !important;
-  }
   #systems-page-container #systems-cards-grid.systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
-/* System Cards: Strictly Inherit Active Website Theme (Light, Dark & All 15 Themes) */
+/* System Cards: Horizontal Rectangular Layout & Strictly Inherit Active Website Theme */
 html:root body #systems-page-container .system-card-tile.system-vibrant-card,
 html:root[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card,
 html:root.dark[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card {
@@ -8700,9 +8713,10 @@ html:root.dark[data-card-style] body #systems-page-container .system-card-tile.s
   container-type: inline-size;
   container-name: showcase-card;
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
+  align-items: center !important;
   height: 100% !important;
-  min-height: 224px !important;
+  min-height: 132px !important;
   min-width: 0 !important;
   background: var(--surface-secondary-bg, var(--bg-card)) !important;
   color: var(--text-primary) !important;
@@ -8712,7 +8726,7 @@ html:root.dark[data-card-style] body #systems-page-container .system-card-tile.s
   backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
   -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(var(--glass-card-saturate, 145%)) !important;
   overflow: hidden !important;
-  padding: clamp(0.95rem, 2vw, 1.15rem) !important;
+  padding: 14px 16px !important;
   transition:
     background 320ms cubic-bezier(0.22, 1, 0.36, 1),
     background-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -8721,10 +8735,10 @@ html:root.dark[data-card-style] body #systems-page-container .system-card-tile.s
     box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
-/* Service Cards: Strictly Inherit Active Website Theme (Light, Dark & All 15 Themes) */
-html:root body #services-page-container .service-card.service-theme-card,
-html:root[data-card-style] body #services-page-container .service-card.service-theme-card,
-html:root.dark[data-card-style] body #services-page-container .service-card.service-theme-card {
+/* Service Cards: Strictly Inherit Active Website Theme (Light, Dark & All 15 Themes) unless Creator Studio Bento styled */
+html:root body #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]),
+html:root[data-card-style] body #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]),
+html:root.dark[data-card-style] body #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]) {
   position: relative !important;
   isolation: isolate !important;
   container-type: inline-size;
@@ -8787,7 +8801,7 @@ html:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup) .th
   color: var(--text-primary) !important;
   border: 1px solid transparent !important;
   border-radius: var(--radius-subcard, var(--radius-card, 12px)) !important;
-  transition: background 180ms ease, border-color 180ms ease, color 180ms ease !important;
+  transition: background var(--motion-normal, 220ms) ease, border-color var(--motion-normal, 220ms) ease, color var(--motion-normal, 220ms) ease !important;
 }
 
 html:root body :is(#footer-theme-popup, #footer-lang-popup) .theme-dropdown-option:hover,
@@ -8811,7 +8825,7 @@ html:root.dark[data-card-style] body #footer-theme-popup :is(.footer-theme-group
   background: var(--bg-subcard, rgba(255, 255, 255, 0.45)) !important;
   border-color: var(--border-subcard, var(--border-color)) !important;
   border-radius: var(--radius-subcard, 12px) !important;
-  transition: background 180ms ease, border-color 180ms ease !important;
+  transition: background var(--motion-normal, 220ms) ease, border-color var(--motion-normal, 220ms) ease !important;
 }
 
 html:root body #footer-theme-popup .footer-theme-group-row[data-selected="true"],
@@ -8858,24 +8872,24 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html:root body #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover,
-  html:root[data-card-style] body #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover,
+  html:root body #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]):not([data-expanded-active="true"]):hover,
+  html:root[data-card-style] body #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]):not([data-expanded-active="true"]):hover,
   html:root body #systems-page-container .system-card-tile.system-vibrant-card:hover,
   html:root[data-card-style] body #systems-page-container .system-card-tile.system-vibrant-card:hover {
     transform: translateY(-3px) !important;
     border-color: color-mix(in srgb, var(--showcase-card-accent, var(--service-card-accent, var(--color-primary, #6366f1))) 48%, var(--border-card, rgba(148, 163, 184, 0.35))) !important;
   }
 
-  #services-page-container .service-card.service-theme-card:not([data-expanded-active="true"]):hover .service-card-hover-flood,
+  #services-page-container .service-card.service-theme-card:not([data-multicolor-bento="true"]):not([data-expanded-active="true"]):hover .service-card-hover-flood,
   #systems-page-container .system-card-tile.system-vibrant-card:not([data-video-hover="true"]):hover .system-card-hover-flood {
     opacity: 1 !important;
   }
 }
 
-/* Shared Center Layout: Services keeps crisp 2-col split (Text/KPI left + Illustration right) */
+/* Shared Center Layout: Services keeps crisp 2-col split (Description left + Illustration right) */
 #services-page-container .service-card.service-theme-card .service-card-middle {
   display: grid !important;
-  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
   gap: 0.75rem !important;
   align-items: center !important;
   flex: 1 1 auto !important;
@@ -8886,18 +8900,10 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-middle {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  flex: 1 1 auto !important;
+  justify-content: flex-end !important;
   min-width: 0 !important;
   width: 100% !important;
-  padding-top: 2px !important;
-}
-
-@container showcase-card (min-width: 245px) {
-  #services-page-container .service-card.service-theme-card .service-card-middle {
-    grid-template-columns: minmax(0, 1.25fr) clamp(88px, 34cqi, 124px) !important;
-    align-items: center !important;
-  }
+  padding-top: 0 !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-desc-text {
@@ -8905,6 +8911,7 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 1.52 !important;
+  text-align: left !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-card-image-box,
@@ -8916,7 +8923,7 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
   aspect-ratio: 1 / 1 !important;
   width: 100% !important;
   max-width: 134px !important;
-  justify-self: center !important;
+  justify-self: end !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -8931,9 +8938,10 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 }
 
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot {
-  min-height: 112px !important;
-  max-height: 164px !important;
-  max-width: 184px !important;
+  min-height: 82px !important;
+  max-height: 102px !important;
+  max-width: 116px !important;
+  aspect-ratio: 4 / 3 !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-img-pop,
@@ -8955,7 +8963,7 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 }
 
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot img {
-  max-height: 160px !important;
+  max-height: 100px !important;
 }
 
 #systems-page-container .system-card-tile.system-vibrant-card .system-card-image-slot video {
@@ -9896,13 +9904,7 @@ html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media
 #letter-slide-2-grid,
 #letter-slide-3-grid,
 #letter-slide-4-bento-grid,
-#horoscope-card-1-grid,
-#horoscope-card-2-grid,
-#horoscope-card-3-grid,
-#horoscope-card-pillars-grid,
-#horoscope-card-4-grid,
-#horoscope-card-5-grid,
-#horoscope-profile-subgrid {
+#horoscope-card-1-grid {
   background: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
   background-color: var(--surface-primary-bg, var(--bg-main, var(--bg-card))) !important;
   border: none !important;
@@ -9913,6 +9915,66 @@ html:root[data-card-style] body #home-hero-circle-frame .home-circle-video-media
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
   padding: 15px !important;
   gap: 15px !important;
+}
+
+/* Các thẻ chính Trang Tử Vi: luôn giữ padding 15px ở mọi kích thước màn hình, mọi thẻ con nằm gọn bên trong */
+html:root body :is(#horoscope-card-1, #horoscope-card-2, #horoscope-card-3, #horoscope-card-pillars, #horoscope-card-4, #horoscope-card-5),
+html:root[data-card-style] body :is(#horoscope-card-1, #horoscope-card-2, #horoscope-card-3, #horoscope-card-pillars, #horoscope-card-4, #horoscope-card-5) {
+  padding: 15px !important;
+  gap: 15px !important;
+  box-sizing: border-box !important;
+}
+
+/* Lưới nội dung bên trong thẻ chính Tử Vi 2, 3, 4 (Pillars), 5 (Ngũ Hành), 6 (Tương Hợp): trong suốt, padding 0 để luôn cách mép thẻ cha đúng 15px và bung full chiều cao */
+html:root body :is(#horoscope-card-2-grid, #horoscope-card-3-grid, #horoscope-card-pillars-grid, #horoscope-card-4-grid, #horoscope-card-5-grid),
+html:root[data-card-style] body :is(#horoscope-card-2-grid, #horoscope-card-3-grid, #horoscope-card-pillars-grid, #horoscope-card-4-grid, #horoscope-card-5-grid),
+html:root.dark[data-card-style] body :is(#horoscope-card-2-grid, #horoscope-card-3-grid, #horoscope-card-pillars-grid, #horoscope-card-4-grid, #horoscope-card-5-grid) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 15px !important;
+  row-gap: 15px !important;
+  column-gap: 15px !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+html:root body #horoscope-card-5-grid,
+html:root[data-card-style] body #horoscope-card-5-grid {
+  height: 100% !important;
+  align-items: stretch !important;
+  align-content: stretch !important;
+}
+
+html:root body #horoscope-card-5-grid > article,
+html:root[data-card-style] body #horoscope-card-5-grid > article {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 15px !important;
+  align-self: stretch !important;
+}
+
+html:root body #horoscope-row-1-horizontal,
+html:root[data-card-style] body #horoscope-row-1-horizontal {
+  flex: 1 1 0% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  gap: 15px !important;
+}
+
+html:root body #horoscope-card-6,
+html:root[data-card-style] body #horoscope-card-6 {
+  padding: 5px !important;
 }
 
 #horoscope-cards-track {
@@ -9985,8 +10047,8 @@ html:root[data-card-style] body :is(
   #experience-main-card,
   #contact-main-card
 ) {
-  width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-  max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1050px))) !important;
+  width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1200px))) !important;
   min-width: 0 !important;
   flex: 0 0 auto !important;
   margin-left: auto !important;
@@ -10024,8 +10086,8 @@ html:root[data-card-style] body :is(
 @media screen {
   html:root body #pdf-page-container,
   html:root[data-card-style] body #pdf-page-container {
-    width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-    max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1050px))) !important;
+    width: var(--home-main-card-w, var(--header-synced-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+    max-width: var(--home-main-card-w, var(--header-synced-w, var(--main-card-target-w, 1200px))) !important;
     min-width: 0 !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -10074,11 +10136,11 @@ html:root[data-card-style] body :is(
 /* ========================================================================= */
 #app-header button#header-btn-hungthai-avatar {
   /* Kế thừa toàn bộ visual styles của .nav-pill & theme kính lỏng mềm mại */
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
-              background 220ms ease,
-              border-color 220ms ease,
-              color 220ms ease !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+              background var(--motion-normal, 220ms) ease,
+              border-color var(--motion-normal, 220ms) ease,
+              color var(--motion-normal, 220ms) ease !important;
 }
 
 /* ========================================================================= */

@@ -109,8 +109,8 @@
   bottom: auto !important;
   flex: 1 1 auto !important;
   align-self: stretch !important;
-  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
@@ -226,8 +226,8 @@
 
 /* Đồng bộ khoảng cách, căn giữa ngang, scroll mượt và box-sizing chuẩn cho toàn bộ Page Container & Track */
 #pdf-page-container {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)));
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px));
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)));
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px));
   min-width: 0;
   height: auto !important;
   min-height: calc(100dvh - 32px) !important;
@@ -287,7 +287,7 @@
 
 #about-intro-card-1 {
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -355,7 +355,7 @@
 .page-main-card:not(#pdf-page-container):not(#app-header):not(#app-footer),
 [data-main-card="true"]:not(#pdf-page-container):not(#app-header):not(#app-footer) {
   overflow-x: hidden !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-main, 14px))) !important;
   box-sizing: border-box !important;
@@ -363,7 +363,7 @@
 
 #pdf-page-container {
   overflow-x: hidden !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
@@ -376,8 +376,8 @@
 #tab-content > [data-main-card="true"]:not(#pdf-page-container),
 .tab-content-host > .page-main-card:not(#pdf-page-container),
 .tab-content-host > [data-main-card="true"]:not(#pdf-page-container) {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
@@ -454,9 +454,9 @@
 #horoscope-cards-track > *,
 #horoscope-cards-track > .page-main-card,
 #horoscope-cards-track > [data-main-card="true"] {
-  width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-  min-width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  min-width: var(--horoscope-card-w, var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 0 !important;
@@ -600,8 +600,8 @@
 
 #app-header,
 #app-header-container header {
-  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   height: 100% !important;
   min-height: 100% !important;
   max-height: 100% !important;
@@ -649,8 +649,8 @@
 #home-main-card,
 [id^="home-main-card-"],
 .home-screen-main-card {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   height: 100% !important;
   min-height: 0 !important;
@@ -664,8 +664,8 @@
 
 #app-footer,
 #el-p0-div-98 footer {
-  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 2 * var(--shell-px, 16px)), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   align-self: stretch !important;
   height: 100% !important;
@@ -906,8 +906,8 @@
   }
 
   #pdf-page-container {
-    max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
-    width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+    max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
+    width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -916,8 +916,8 @@
   #app-footer,
   .page-main-card:not(#pdf-page-container):not(#horoscope-cards-track > .page-main-card),
   [data-main-card="true"]:not(#pdf-page-container):not(#horoscope-cards-track > [data-main-card="true"]) {
-    max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
-    width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
+    max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
+    width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
@@ -936,14 +936,13 @@
 
 /* Mobile (<430px) inherits the compact 1/3 height hero banner rules below */
 
-/* Project Detail Vertical TOC Banner (Equal height side-by-side at every viewport size) */
+/* Project Detail Vertical TOC Banner & Stacking Cards Layout */
 #project-detail-layout {
   background: var(--bg-card, rgba(255, 255, 255, 0.84)) !important;
   border-radius: var(--radius-main, 14px) !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 315px) !important;
-  grid-template-rows: repeat(10, 100%) !important;
-  grid-auto-rows: 100% !important;
+  grid-template-rows: auto !important;
   align-items: start !important;
   gap: 15px !important;
   height: 100% !important;
@@ -952,29 +951,50 @@
   overflow-y: auto !important;
   overflow-x: hidden !important;
   scroll-behavior: smooth !important;
-  scroll-snap-type: y mandatory;
   padding: 0 !important;
   box-sizing: border-box !important;
   container-type: size;
 }
 
-#project-detail-layout > [data-section-card="true"]:not(#project-detail-banner) {
+#project-detail-cards-col {
   grid-column: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0px !important;
   width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
-  scroll-snap-align: start;
+  position: relative !important;
+  padding-bottom: 0px !important;
+}
+
+#project-detail-layout .project-detail-section-card {
+  position: sticky !important;
+  top: 0px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: var(--project-banner-h, 100cqh) !important;
+  min-height: var(--project-banner-h, 100cqh) !important;
+  max-height: var(--project-banner-h, 100cqh) !important;
+  margin-bottom: 0px !important;
+  transform-origin: top center !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  background: var(--surface-primary-bg, var(--bg-card)) !important;
+  opacity: 1 !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.16), 0 14px 28px rgba(0, 0, 0, 0.28) !important;
+  will-change: transform, top !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.28s ease,
+              box-shadow 0.28s ease !important;
 }
 
 #project-detail-layout #project-detail-banner {
   grid-column: 2 !important;
-  grid-row: 1 / -1 !important;
   position: sticky !important;
   top: 0 !important;
-  height: 100cqh !important;
-  max-height: 100cqh !important;
+  height: var(--project-banner-h, 100cqh) !important;
+  max-height: var(--project-banner-h, 100cqh) !important;
   min-height: 0 !important;
   width: 100% !important;
   min-width: 0 !important;
@@ -1480,83 +1500,73 @@
   }
 }
 
-/* 3. Services, Systems & Projects Card Grids Responsive Columns */
+/* 3. Systems Card Grid Responsive Columns (Services & Projects unified in src/styles/cards.css via master tokens) */
 @media (min-width: 640px) and (max-width: 1023px) {
-  #services-cards-grid,
-  .services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 15px !important;
-    row-gap: 15px !important;
-    column-gap: 15px !important;
-  }
-
   #systems-cards-grid,
-  .systems-cards-grid,
-  #projects-grid {
+  .systems-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 12px !important;
+    gap: var(--space-subcard-gap, 12px) !important;
   }
 }
 
-/* Space-Adaptive Bento Grid & Inner Tile Container Queries for Expanded Services */
+/* 4-Column Responsive Bento Grid & Inner Tile Container Queries for Expanded Services */
+#services-expanded-card .bento-container,
 #services-expanded-card .service-bento-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-flow: dense;
   grid-auto-rows: minmax(min-content, auto);
   align-items: stretch;
-  gap: 15px;
+  gap: 16px;
   width: 100%;
   min-width: 0;
 }
 
+#services-expanded-card .bento-item,
 #services-expanded-card .service-bento-studio-card {
   container-type: inline-size;
   container-name: bento-tile;
+  background-color: #1e293b;
+  border-radius: 24px !important;
+  padding: 24px !important;
   height: 100%;
+  width: 100%;
   min-width: 0;
   align-self: stretch;
+  box-sizing: border-box;
 }
 
-@container services-bento-shell (min-width: 820px) {
-  #services-expanded-card .service-bento-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 15px !important;
-  }
-
-  #services-expanded-card .service-bento-grid > [data-bento-tile-id="hero"] {
-    grid-column: span 2 / span 2 !important;
-  }
-
-  #services-expanded-card .service-bento-grid > :not([data-bento-tile-id="hero"]) {
-    grid-column: span 1 / span 1 !important;
-  }
+#services-expanded-card .bento-container > .col-span-2 {
+  grid-column: span 2;
 }
 
-@container services-bento-shell (min-width: 540px) and (max-width: 819px) {
+#services-expanded-card .bento-container > .row-span-2 {
+  grid-row: span 2;
+}
+
+/* Tablet Responsiveness (<= 1080px): 2-column dense Bento */
+@media (max-width: 1080px) {
+  #services-expanded-card .bento-container,
   #services-expanded-card .service-bento-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+}
+
+/* Mobile Responsiveness (<= 768px): Single-column Bento */
+@media (max-width: 768px) {
+  #services-expanded-card .bento-container,
+  #services-expanded-card .service-bento-grid {
+    grid-template-columns: 1fr !important;
     gap: 14px !important;
   }
 
-  #services-expanded-card .service-bento-grid > [data-bento-tile-id="hero"],
-  #services-expanded-card .service-bento-grid > [data-bento-tile-id="tech"] {
-    grid-column: span 2 / span 2 !important;
-  }
-
-  #services-expanded-card .service-bento-grid > :not([data-bento-tile-id="hero"]):not([data-bento-tile-id="tech"]) {
-    grid-column: span 1 / span 1 !important;
-  }
-}
-
-@container services-bento-shell (max-width: 539px) {
-  #services-expanded-card .service-bento-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  #services-expanded-card .service-bento-grid > * {
-    grid-column: 1 / -1 !important;
+  #services-expanded-card .bento-item,
+  #services-expanded-card .service-bento-studio-card {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    border-radius: 20px !important;
+    padding: 18px !important;
     height: auto !important;
   }
 }
@@ -1603,7 +1613,7 @@
     background-color 220ms ease;
 }
 
-.service-bento-subtile {
+.service-bento-subtile:not([data-bento-styled="true"]) {
   border-radius: var(--radius-subcard, 14px) !important;
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.24)) !important;
   background: var(--bg-subcard, rgba(255, 255, 255, 0.52)) !important;
@@ -1618,7 +1628,7 @@
     transform: translate3d(0, -3px, 0);
   }
 
-  .service-bento-subtile:hover {
+  .service-bento-subtile:not([data-bento-styled="true"]):hover {
     transform: translate3d(0, -1.5px, 0);
     border-color: color-mix(in srgb, var(--color-primary, #4973FF) 36%, var(--border-subcard, rgba(148, 163, 184, 0.3))) !important;
   }
@@ -1665,11 +1675,8 @@
     column-gap: 12px !important;
   }
 
-  #services-cards-grid,
-  .services-cards-grid,
   #systems-cards-grid,
-  .systems-cards-grid,
-  #projects-grid {
+  .systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 12px !important;
   }

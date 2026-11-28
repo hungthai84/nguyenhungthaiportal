@@ -22,8 +22,6 @@ import {
   DEFAULT_PUCK_VOICE_PERSONA,
   ENGLISH_PUCK_VOICE_PERSONA,
 } from '@/utils/speechVoice';
-import { VideoBanner } from '@/components/common/VideoBanner';
-import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export { TRI_NHAN_CATEGORIES } from '@/data/aiSampleQuestions';
 
@@ -145,6 +143,14 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
 
     if (activeEl) {
       activeEl.muted = true;
+      activeEl.defaultMuted = true;
+      if (isAiResponding && activeEl === respondingEl && activeEl.readyState >= 1) {
+        try {
+          activeEl.currentTime = 0;
+        } catch {
+          // Ignore seek errors
+        }
+      }
       const playPromise = activeEl.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch(() => {
@@ -689,11 +695,19 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             muted
             playsInline
             preload="auto"
+            controls={false}
+            disablePictureInPicture
+            onCanPlay={(e) => {
+              if (!isAiResponding && e.currentTarget.paused) {
+                e.currentTarget.muted = true;
+                e.currentTarget.play().catch(() => {});
+              }
+            }}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
               isAiResponding ? 'opacity-0' : 'opacity-100'
             }`}
           />
-          {/* Video khi AI phản hồi chat (Responding) */}
+          {/* Video khi AI trả lời (Responding) */}
           <video
             ref={respondingBgVideoRef}
             src={AI_CHAT_RESPONDING_VIDEO_URL}
@@ -702,6 +716,14 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
             muted
             playsInline
             preload="auto"
+            controls={false}
+            disablePictureInPicture
+            onCanPlay={(e) => {
+              if (isAiResponding && e.currentTarget.paused) {
+                e.currentTarget.muted = true;
+                e.currentTarget.play().catch(() => {});
+              }
+            }}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
               isAiResponding ? 'opacity-100' : 'opacity-0'
             }`}
@@ -732,22 +754,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           >
             &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
           </p>
-        </div>
-
-        {/* Nút truy cập D-ID AI Agent Hỗ trợ */}
-        <div className="relative z-10 mt-auto pt-3 w-full">
-          <a
-            href="https://studio.d-id.com/agents/share?id=v2_agt_1tkm8qYc&utm_source=copy&key=WjI5dloyeGxMVzloZFhSb01ud3hNRGMzTkRnMk5qUTNPVGt4T1RZeU16QTJOVFk2UkVkNldUaDFXR3R3VEUxTGVWTlpObkp5VUU1UQ=="
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => SoundEngine.playTap()}
-            title={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
-            aria-label={isEn ? 'Open AI Assistant Agent (D-ID)' : 'Mở Banner AI Hỗ trợ Trí Nhân (D-ID Agent)'}
-            className="banner-primary-cta inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full typo-button font-bold transition-all cursor-pointer"
-          >
-            <WebIcon name="external-link" className="w-3.5 h-3.5 text-current" />
-            <span className="truncate">{isEn ? 'AI Support Agent' : 'Mở AI Hỗ Trợ'}</span>
-          </a>
         </div>
       </section>
 

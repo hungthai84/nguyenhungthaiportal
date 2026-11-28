@@ -1,269 +1,286 @@
 /* ========================================================================= */
-/* THEME SYSTEM: NEUMORPHISM, GLASSMORPHISM & BEYOND (MATTE ANTI-GLARE)      */
-/* Soft UI Extrusion · Restful Matte Frosted Glass · 6 Multi-Color Accents   */
-/* Palette: Canvas #EBF0F6 · Matte Surface #E9EEF5 · Recessed #DFE6F0        */
-/* Accents: Orchid Pink #EE6AD2 · Sky #64B6FF · Royal Blue #4973FF           */
-/*          Indigo #445CE6 · Bright Cyan #2AD8E6 · Fresh Mint #52E0A8        */
+/* THEME SYSTEM: NEUMORPHISM (SOFT UI — LIGHT MATTE)                         */
+/* Nổi Khối Kính Mờ · One Continuous Molded Matte Surface (#E0E5EC)          */
+/* Defining Signals:                                                         */
+/*   1. Uniform material-less matte canvas & controls (#E0E5EC) — no gloss   */
+/*   2. Dual soft shadows: light top-left (-6px -6px 12px) + dark BR         */
+/*   3. Pressed / input states invert shadow pair inward (inset)             */
+/*   4. Zero borders anywhere, generous rounded corners, WCAG focus cues     */
 /* ========================================================================= */
 
 .card-neumorphism-beyond {
-  background: linear-gradient(145deg, rgba(235, 240, 247, 0.93) 0%, rgba(226, 232, 241, 0.89) 100%) !important;
-  backdrop-filter: blur(14px) saturate(105%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(105%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  border-radius: var(--radius-card, 14px) !important;
+  background: #E0E5EC !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 20px) !important;
   box-shadow:
-    0 6px 16px rgba(148, 163, 184, 0.20),
-    3px 4px 10px rgba(163, 177, 198, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
-  color: #1E293B !important;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms ease,
-    border-color 220ms ease !important;
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  color: #243245 !important;
+  transition:
+    box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 180ms ease !important;
 }
 
 .card-neumorphism-beyond:hover {
   transform: none;
-  border-color: rgba(100, 182, 255, 0.56) !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    0 8px 18px rgba(148, 163, 184, 0.22),
-    4px 5px 12px rgba(163, 177, 198, 0.30),
-    inset 0 1px 0 rgba(255, 255, 255, 0.40) !important;
+    -8px -8px 16px rgba(255, 255, 255, 0.90),
+    8px 8px 16px rgba(163, 177, 198, 0.66) !important;
 }
 
 [data-theme="neumorphism-beyond"],
 html[data-card-style="neumorphism-beyond"],
 html[data-card-style="neumorphism-beyond"] body {
   color-scheme: light;
-  --ambient-wallpaper-opacity: 1;
+  --ambient-wallpaper-opacity: 0;
 
-  /* Core Canvas & Matte Ice-Slate Surface Tokens */
-  --color-bg: #EBF0F6;
-  --color-bg-soft: #E2E8F1;
-  --color-bg-blue: #E2ECFA;
-  --color-surface: rgba(233, 239, 246, 0.92);
-  --color-surface-elevated: rgba(238, 242, 248, 0.95);
-  --color-surface-indigo: #E4E8FA;
-  --color-surface-cyan: #DFEFF4;
-  --color-surface-green: #DFF2EA;
-  --color-surface-orange: #F6ECE4;
-  --color-surface-pink: #F5E5F2;
-  --color-surface-purple: #EAE5F9;
+  /* 1. One Continuous Uniform Matte Surface (#E0E5EC) */
+  --neu-surface: #E0E5EC;
+  --neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --neu-shadow-light-strong: rgba(255, 255, 255, 0.92);
+  --neu-shadow-dark: rgba(163, 177, 198, 0.60);
+  --neu-shadow-dark-strong: rgba(163, 177, 198, 0.68);
 
-  /* Typography Contrast Tokens (Crisp Dark Slate on Matte Ice-Slate) */
-  --color-heading: #162033;
-  --color-text: #1E293B;
-  --color-text-secondary: #475569;
-  --color-text-muted: #64748B;
+  --color-bg: #E0E5EC;
+  --color-bg-soft: #E0E5EC;
+  --color-bg-blue: #E0E5EC;
+  --color-surface: #E0E5EC;
+  --color-surface-elevated: #E0E5EC;
+  --color-surface-indigo: #E0E5EC;
+  --color-surface-cyan: #E0E5EC;
+  --color-surface-green: #E0E5EC;
+  --color-surface-orange: #E0E5EC;
+  --color-surface-pink: #E0E5EC;
+  --color-surface-purple: #E0E5EC;
+
+  /* Generous Rounded Corners */
+  --radius-main: 20px;
+  --radius-primary-surface: var(--radius-main, 20px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 20px;
+  --radius-subcard: 16px;
+  --radius-banner: 20px;
+  --radius-media: 16px;
+  --radius-video: 16px;
+  --radius-image: 16px;
+  --radius-modal: 22px;
+  --radius-popup: 18px;
+  --radius-input: 14px;
+  --radius-badge: 9999px;
+
+  /* High-Contrast Readable WCAG AA Typography on #E0E5EC */
+  --color-heading: #1A2433;
+  --color-text: #243245;
+  --color-text-secondary: #44556C;
+  --color-text-muted: #51637A;
   --color-text-inverse: #FFFFFF;
 
-  /* Exact 6 Multi-Color Reference Accents */
-  --color-primary: #4973FF;
-  --color-secondary: #64B6FF;
-  --color-tertiary: #2AD8E6;
-  --color-accent: #EE6AD2;
-  --color-sky: #64B6FF;
-  --color-blue: #4973FF;
-  --color-indigo: #445CE6;
-  --color-pink: #EE6AD2;
-  --color-cyan: #2AD8E6;
-  --color-green: #52E0A8;
-  --color-amber: #F59E0B;
-  --color-purple: #8B5CF6;
-
-  /* Semantic Text Tokens */
-  --text-primary: #1E293B;
-  --text-heading: #162033;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
-  --text-link: #3D66F0;
-  --text-accent: #D948BA;
-  --text-input: #1E293B;
-  --text-placeholder: #64748B;
+  --text-primary: #243245;
+  --text-heading: #1A2433;
+  --text-secondary: #44556C;
+  --text-muted: #51637A;
+  --text-link: #1D4ED8;
+  --text-accent: #2563EB;
+  --text-input: #1A2433;
+  --text-placeholder: #51637A;
   --text-on-dark: #FFFFFF;
-  --text-badge: #3B52DE;
-  --text-highlight: #4973FF;
+  --text-badge: #1D4ED8;
+  --text-highlight: #2563EB;
 
-  /* Neutralize Liquid Glass Specular Glare / Sheen / Rim Tokens */
-  --liquid-specular-rim: rgba(255, 255, 255, 0.34);
-  --liquid-specular-edge: rgba(203, 213, 225, 0.25);
-  --liquid-specular-bottom: rgba(148, 163, 184, 0.14);
+  /* Saturated Primary Action Accent + Harmonized Letter 14 Support */
+  --color-primary: #2563EB;
+  --color-secondary: #1D4ED8;
+  --color-tertiary: #0891B2;
+  --color-accent: #2563EB;
+  --color-sky: #0284C7;
+  --color-blue: #2563EB;
+  --color-indigo: #4F46E5;
+  --color-pink: #DB2777;
+  --color-cyan: #0891B2;
+  --color-green: #059669;
+  --color-amber: #D97706;
+  --color-purple: #7E22CE;
+
+  /* Material-less Matte: Completely Strip Specular Glare, Gloss & Reflections */
+  --liquid-specular-rim: transparent;
+  --liquid-specular-edge: transparent;
+  --liquid-specular-bottom: transparent;
   --liquid-specular-sheen: none;
   --liquid-specular-sheen-hover: none;
-  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.32);
-  --liquid-rim-inset-hover: inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  --glass-reflection-primary: linear-gradient(145deg, rgba(235, 240, 247, 0.08) 0%, rgba(226, 232, 241, 0.04) 100%);
-  --glass-reflection-secondary: linear-gradient(145deg, rgba(235, 240, 247, 0.08) 0%, rgba(226, 232, 241, 0.04) 100%);
+  --liquid-rim-inset: none;
+  --liquid-rim-inset-hover: none;
+  --glass-reflection-primary: none;
+  --glass-reflection-secondary: none;
   --glass-prism-highlight: none;
-  --glass-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.30);
-  --card-highlight: rgba(235, 240, 247, 0.50);
-  --glass-highlight: rgba(235, 240, 247, 0.50);
-  --ambient-inner-highlight: rgba(255, 255, 255, 0.32);
+  --glass-inner-highlight: none;
+  --card-highlight: transparent;
+  --glass-highlight: transparent;
+  --ambient-inner-highlight: transparent;
 
-  /* Matte Soft UI Extruded & Recessed Shadows (Zero White Outer Halo) */
+  /* 2. Dual Soft Shadow Pairs (Raised vs. 3. Pressed Inset) */
   --neu-raised-shadow:
-    0 4px 10px rgba(148, 163, 184, 0.18),
-    2px 3px 8px rgba(163, 177, 198, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    6px 6px 12px rgba(163, 177, 198, 0.60);
+  --neu-raised-shadow-hover:
+    -8px -8px 16px rgba(255, 255, 255, 0.92),
+    8px 8px 16px rgba(163, 177, 198, 0.66);
+  --neu-raised-shadow-sm:
+    -4px -4px 9px rgba(255, 255, 255, 0.84),
+    4px 4px 9px rgba(163, 177, 198, 0.54);
   --neu-inset-shadow:
-    inset 3px 3px 6px rgba(163, 177, 198, 0.42),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.48);
+    inset -6px -6px 12px rgba(255, 255, 255, 0.85),
+    inset 6px 6px 12px rgba(163, 177, 198, 0.60);
+  --neu-inset-shadow-sm:
+    inset -4px -4px 8px rgba(255, 255, 255, 0.86),
+    inset 4px 4px 8px rgba(163, 177, 198, 0.58);
 
-  /* Semantic Background Tokens (Restful Matte Slate — Anti-Glare) */
-  --bg-app: #EBF0F6;
-  --bg-page: transparent;
-  --bg-main: linear-gradient(145deg, rgba(234, 240, 247, 0.91) 0%, rgba(225, 232, 241, 0.87) 100%);
-  --bg-header: linear-gradient(145deg, rgba(236, 241, 247, 0.93) 0%, rgba(227, 233, 242, 0.89) 100%);
-  --bg-footer: linear-gradient(145deg, rgba(236, 241, 247, 0.93) 0%, rgba(227, 233, 242, 0.89) 100%);
-  --bg-card: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%);
-  --bg-card-hover: linear-gradient(145deg, rgba(238, 243, 249, 0.96) 0%, rgba(229, 236, 244, 0.92) 100%);
-  --bg-subcard: linear-gradient(145deg, rgba(233, 238, 246, 0.94) 0%, rgba(223, 230, 240, 0.90) 100%);
-  --bg-subcard-hover: linear-gradient(145deg, rgba(236, 241, 248, 0.96) 0%, rgba(227, 234, 243, 0.92) 100%);
-  --bg-nested: rgba(227, 233, 242, 0.92);
-  --bg-nested-card: rgba(227, 233, 242, 0.92);
-  --bg-nested-badge: #E4EAF3;
-  --bg-modal: rgba(235, 240, 247, 0.96);
-  --bg-popup: rgba(235, 240, 247, 0.96);
-  --bg-dropdown: rgba(236, 241, 248, 0.97);
-  --bg-tooltip: rgba(30, 41, 59, 0.95);
-  --bg-input: rgba(223, 230, 240, 0.94);
-  --bg-table: rgba(233, 238, 246, 0.90);
-  --bg-table-head: rgba(224, 231, 241, 0.94);
+  /* Semantic Background Tokens (Exact Shared Matte #E0E5EC) */
+  --bg-app: #E0E5EC;
+  --bg-page: #E0E5EC;
+  --bg-main: #E0E5EC;
+  --bg-header: #E0E5EC;
+  --bg-footer: #E0E5EC;
+  --bg-card: #E0E5EC;
+  --bg-card-hover: #E0E5EC;
+  --bg-subcard: #E0E5EC;
+  --bg-subcard-hover: #E0E5EC;
+  --bg-nested: #E0E5EC;
+  --bg-nested-card: #E0E5EC;
+  --bg-nested-badge: #E0E5EC;
+  --bg-modal: #E0E5EC;
+  --bg-popup: #E0E5EC;
+  --bg-dropdown: #E0E5EC;
+  --bg-tooltip: #1A2433;
+  --bg-input: #E0E5EC;
+  --bg-table: #E0E5EC;
+  --bg-table-head: #E0E5EC;
 
-  /* Nav Pills & Multi-Color Interactive Controls */
-  --bg-nav-button-opaque: #EDF2F8;
-  --bg-nav-pill: linear-gradient(145deg, rgba(237, 242, 248, 0.95) 0%, rgba(226, 233, 242, 0.90) 100%);
-  --bg-nav-pill-hover: linear-gradient(145deg, #EEF2F8 0%, #E1E8F2 100%);
-  --bg-button-primary: linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%);
+  /* Controls & Primary Action Accent */
+  --bg-nav-button-opaque: #E0E5EC;
+  --bg-nav-pill: #E0E5EC;
+  --bg-nav-pill-hover: #E0E5EC;
+  --bg-button-primary: var(--color-primary, #2563EB);
   --text-button-primary: #FFFFFF;
-  --bg-button-secondary: linear-gradient(145deg, #EAEFF6 0%, #DFE6F0 100%);
-  --text-button-secondary: #1E293B;
-  --bg-badge: rgba(229, 235, 243, 0.95);
-  --bg-highlight: rgba(73, 115, 255, 0.12);
-  --bg-banner: rgba(233, 239, 246, 0.91);
+  --bg-button-secondary: #E0E5EC;
+  --text-button-secondary: #243245;
+  --bg-badge: #E0E5EC;
+  --bg-highlight: rgba(37, 99, 235, 0.12);
+  --bg-banner: #E0E5EC;
 
-  /* Crisp Soft Slate Borders (Zero Pure-White Rim Glare) */
-  --color-border: rgba(196, 209, 226, 0.72);
-  --color-border-soft: rgba(174, 188, 208, 0.42);
-  --border-color: rgba(196, 209, 226, 0.72);
-  --border-card: rgba(196, 209, 226, 0.72);
-  --border-subcard: rgba(193, 207, 224, 0.68);
-  --border-nested-badge: rgba(196, 209, 226, 0.74);
-  --border-modal: rgba(196, 209, 226, 0.78);
-  --border-popup: rgba(196, 209, 226, 0.78);
-  --border-input: rgba(186, 200, 218, 0.72);
-  --color-focus-ring: #4973FF;
+  /* 4. Zero Borders Anywhere */
+  --color-border: transparent;
+  --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-nested-badge: transparent;
+  --border-modal: transparent;
+  --border-popup: transparent;
+  --border-input: transparent;
+  --color-focus-ring: #2563EB;
 
-  /* Restrained Matte Frosted Glass (Low Saturate Prevents Highlight Washout) */
-  --glass-bg: rgba(233, 239, 246, 0.90);
-  --glass-border: rgba(196, 209, 226, 0.72);
-  --glass-blur: 14px;
-  --bg-blur: 14px;
-  --blur-subcard: 12px;
-  --blur-nav-pill: 12px;
-  --blur-modal: 18px;
-  --glass-saturate: 106%;
+  /* Zero Blur / Glass Translucency */
+  --glass-bg: #E0E5EC;
+  --glass-border: transparent;
+  --glass-blur: 0px;
+  --bg-blur: 0px;
+  --blur-subcard: 0px;
+  --blur-nav-pill: 0px;
+  --blur-modal: 0px;
+  --glass-saturate: 100%;
 
-  /* Inherit shared global website border-radius tokens (--radius-main/card/subcard: 14px) */
-
-  /* Clean Glare-Free Elevation Shadows (No Negative White Outer Halo) */
-  --shadow-card:
-    0 5px 14px rgba(148, 163, 184, 0.18),
-    3px 4px 10px rgba(163, 177, 198, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
-  --shadow-card-hover:
-    0 6px 16px rgba(148, 163, 184, 0.21),
-    3px 4px 11px rgba(163, 177, 198, 0.29),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
-  --shadow-subcard:
-    0 3px 10px rgba(148, 163, 184, 0.15),
-    2px 3px 8px rgba(163, 177, 198, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  /* Elevation Tokens Built Strictly from Dual Soft Shadow Pairs */
+  --elevation-primary-surface:
+    -8px -8px 18px rgba(255, 255, 255, 0.86),
+    8px 8px 18px rgba(163, 177, 198, 0.58);
+  --shadow-card: var(--neu-raised-shadow);
+  --shadow-card-hover: var(--neu-raised-shadow-hover);
+  --shadow-subcard: var(--neu-raised-shadow-sm);
   --shadow-nested:
-    0 2px 6px rgba(148, 163, 184, 0.14),
-    2px 2px 6px rgba(163, 177, 198, 0.20);
+    -3px -3px 7px rgba(255, 255, 255, 0.82),
+    3px 3px 7px rgba(163, 177, 198, 0.52);
   --shadow-nav-pill:
-    0 3px 9px rgba(148, 163, 184, 0.16),
-    2px 3px 7px rgba(163, 177, 198, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    -5px -5px 10px rgba(255, 255, 255, 0.85),
+    5px 5px 10px rgba(163, 177, 198, 0.58);
   --shadow-button:
-    0 3px 9px rgba(148, 163, 184, 0.18),
-    2px 3px 7px rgba(163, 177, 198, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    -5px -5px 10px rgba(255, 255, 255, 0.85),
+    5px 5px 10px rgba(163, 177, 198, 0.58);
   --shadow-popup:
-    0 12px 28px rgba(100, 116, 139, 0.22),
-    4px 6px 16px rgba(148, 163, 184, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    12px 12px 26px rgba(152, 167, 190, 0.62);
   --surface-header-shadow: var(--elevation-primary-surface);
   --surface-footer-shadow: var(--elevation-primary-surface);
   --shadow-header: var(--elevation-primary-surface);
   --shadow-main-card: var(--elevation-primary-surface);
   --shadow-footer: var(--elevation-primary-surface);
-  --radius-primary-surface: var(--radius-main, 14px);
-  --radius-header: var(--radius-primary-surface);
-  --radius-footer: var(--radius-primary-surface);
 
   /* Layered Surface Tokens */
-  --surface-primary-bg: linear-gradient(145deg, rgba(234, 240, 247, 0.91) 0%, rgba(225, 232, 241, 0.87) 100%);
-  --surface-primary-border: rgba(196, 209, 226, 0.72);
+  --surface-primary-bg: #E0E5EC;
+  --surface-primary-border: transparent;
   --surface-primary-shadow: var(--elevation-primary-surface);
-  --surface-primary-blur: 14px;
-  --surface-primary-saturate: 106%;
+  --surface-primary-blur: 0px;
+  --surface-primary-saturate: 100%;
 
-  --surface-secondary-bg: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%);
-  --surface-secondary-border: rgba(196, 209, 226, 0.72);
-  --surface-secondary-shadow: var(--shadow-card);
-  --surface-secondary-blur: 12px;
-  --surface-secondary-saturate: 105%;
+  --surface-secondary-bg: #E0E5EC;
+  --surface-secondary-border: transparent;
+  --surface-secondary-shadow: var(--neu-raised-shadow);
+  --surface-secondary-blur: 0px;
+  --surface-secondary-saturate: 100%;
 
-  --surface-tertiary-bg: linear-gradient(145deg, rgba(233, 238, 246, 0.94) 0%, rgba(223, 230, 240, 0.90) 100%);
-  --surface-tertiary-border: rgba(193, 207, 224, 0.68);
-  --surface-tertiary-shadow: var(--shadow-subcard);
-  --surface-tertiary-blur: 10px;
-  --surface-tertiary-saturate: 104%;
+  --surface-tertiary-bg: #E0E5EC;
+  --surface-tertiary-border: transparent;
+  --surface-tertiary-shadow: var(--neu-raised-shadow-sm);
+  --surface-tertiary-blur: 0px;
+  --surface-tertiary-saturate: 100%;
 
-  --surface-interactive-bg: var(--bg-nav-pill);
-  --surface-interactive-hover: var(--bg-nav-pill-hover);
-  --surface-interactive-active: var(--bg-button-primary);
-  --surface-interactive-border: rgba(196, 209, 226, 0.74);
+  --surface-interactive-bg: #E0E5EC;
+  --surface-interactive-hover: #E0E5EC;
+  --surface-interactive-active: var(--color-primary, #2563EB);
+  --surface-interactive-border: transparent;
   --surface-interactive-shadow: var(--shadow-nav-pill);
-  --surface-interactive-blur: 12px;
+  --surface-interactive-blur: 0px;
   --outline-nav-pill: none;
 
-  /* Banner & Multi-Color Pillar Tokens */
-  --banner-transparent-bg: rgba(233, 239, 246, 0.91);
-  --banner-border: rgba(196, 209, 226, 0.74);
-  --bg-banner-pill: #E8EEF6;
-  --border-banner-pill: rgba(196, 209, 226, 0.78);
-  --text-banner-pill: #3D66F0;
-  --bg-banner-cta: linear-gradient(135deg, #4973FF 0%, #64B6FF 55%, #2AD8E6 100%);
+  /* Banner & Pillar Tokens */
+  --banner-transparent-bg: #E0E5EC;
+  --banner-border: transparent;
+  --bg-banner-pill: #E0E5EC;
+  --border-banner-pill: transparent;
+  --text-banner-pill: #1D4ED8;
+  --bg-banner-cta: var(--color-primary, #2563EB);
   --text-banner-cta: #FFFFFF;
-  --bg-nav-arrow: linear-gradient(145deg, rgba(237, 242, 248, 0.95) 0%, rgba(226, 233, 242, 0.90) 100%);
-  --border-nav-arrow: rgba(196, 209, 226, 0.78);
+  --bg-nav-arrow: #E0E5EC;
+  --border-nav-arrow: transparent;
 
-  --text-header-title: #162033;
-  --text-header-sub: #475569;
-  --text-nav-default: #334155;
+  --text-header-title: #1A2433;
+  --text-header-sub: #44556C;
+  --text-nav-default: #243245;
   --text-nav-active: #FFFFFF;
-  --text-nav-arrow: #334155;
-  --text-banner-input: #1E293B;
-  --text-banner-placeholder: #64748B;
+  --text-nav-arrow: #243245;
+  --text-banner-input: #1A2433;
+  --text-banner-placeholder: #51637A;
 
-  --pillar-blue: #4973FF;
-  --pillar-cyan: #2AD8E6;
-  --pillar-emerald: #52E0A8;
-  --pillar-violet: #445CE6;
-  --pillar-amber: #64B6FF;
-  --pillar-rose: #EE6AD2;
-  --pillar-heading: #162033;
-  --pillar-body: #475569;
-  --pillar-progress-track: #DFE6F0;
-  --pillar-progress-fill: linear-gradient(90deg, #64B6FF 0%, #4973FF 38%, #EE6AD2 72%, #2AD8E6 100%);
+  --pillar-blue: #2563EB;
+  --pillar-cyan: #0891B2;
+  --pillar-emerald: #059669;
+  --pillar-violet: #4F46E5;
+  --pillar-amber: #D97706;
+  --pillar-rose: #DB2777;
+  --pillar-heading: #1A2433;
+  --pillar-body: #44556C;
+  --pillar-progress-track: #E0E5EC;
+  --pillar-progress-fill: var(--color-primary, #2563EB);
 
-  /* Clean Cool Ice-Slate Base Canvas (Zero Ambient Glow Orbs/Blooms) */
-  --app-bg-base: #EBF0F6;
-  --app-bg-gradient: linear-gradient(145deg, #EAEFF6 0%, #E6ECF4 55%, #DFE6F0 100%);
-  --ambient-base-bg: var(--app-bg-gradient);
+  /* Continuous Matte Base Canvas (No Wallpapers, Orbs, or Gradients) */
+  --app-bg-base: #E0E5EC;
+  --app-bg-gradient: #E0E5EC;
+  --ambient-base-bg: #E0E5EC;
   --ambient-glow-1: transparent;
   --ambient-glow-2: transparent;
   --ambient-glow-3: transparent;
@@ -275,7 +292,7 @@ html[data-card-style="neumorphism-beyond"] body {
   --ambient-depth-vignette: none;
 }
 
-/* Disable Glow Layers & Breathing Shadow Halo so Wallpaper & Cards Stay Crisp & Glare-Free */
+/* Strip Ambient Glow, Wallpaper Textures & Orbs so Everything Reads as One Molded Surface */
 html[data-card-style="neumorphism-beyond"] :is(
   .ambient-layer-glow,
   .ambient-layer-abstract,
@@ -295,7 +312,7 @@ html[data-card-style="neumorphism-beyond"] :is(
   animation: none !important;
 }
 
-/* Layer Card Level 1: Header · Main Card · Footer */
+/* Layer Level 1: Header · Main Card · Footer (Molded from #E0E5EC, Zero Borders, Dual Shadow) */
 html[data-card-style="neumorphism-beyond"] :is(
   #app-header,
   #app-footer,
@@ -309,11 +326,24 @@ html[data-card-style="neumorphism-beyond"] :is(
   #contact-main-card,
   [id^="letter-card-"]
 ) {
-  background: linear-gradient(145deg, rgba(234, 240, 247, 0.91) 0%, rgba(225, 232, 241, 0.87) 100%) !important;
-  backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
-  -webkit-backdrop-filter: blur(var(--surface-primary-blur, 14px)) saturate(var(--surface-primary-saturate, 106%)) !important;
-  border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  background: #E0E5EC !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow: var(--elevation-primary-surface) !important;
+}
+
+/* Header Center Navigation Well (Soft Inset Trough Holding Raised Nav Pills) */
+html[data-card-style="neumorphism-beyond"] #header-center {
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow:
+    inset -4px -4px 8px rgba(255, 255, 255, 0.84),
+    inset 4px 4px 8px rgba(163, 177, 198, 0.56) !important;
 }
 
 /* Hero & Section Banners */
@@ -329,20 +359,17 @@ html[data-card-style="neumorphism-beyond"] :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  background: linear-gradient(145deg, rgba(235, 240, 247, 0.93) 0%, rgba(226, 232, 241, 0.89) 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.74) !important;
-  border-radius: var(--radius-banner, 14px) !important;
-  box-shadow: var(
-    --layer-l2-shadow,
-    0 5px 14px rgba(148, 163, 184, 0.18),
-    3px 4px 10px rgba(163, 177, 198, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34)
-  ) !important;
-  backdrop-filter: blur(14px) saturate(106%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(106%) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-banner, 20px) !important;
+  box-shadow:
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Suppress Bright White Optical Contrast Plates Inside Banners under Matte Soft UI */
 html:root[data-card-style="neumorphism-beyond"] :is(
   .hero-banner,
   .banner-card,
@@ -352,77 +379,51 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #interview-questions-card,
   [id$="-hero-banner"]
 ) :is(.card-header-sync, p.font-italianno, p.font-handwriting, p.font-moon-dance, .banner-quote) {
-  background: linear-gradient(135deg, rgba(235, 240, 247, 0.88) 0%, rgba(225, 232, 242, 0.82) 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  box-shadow: 0 3px 10px rgba(148, 163, 184, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-  backdrop-filter: blur(8px) saturate(104%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(104%) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 9px rgba(255, 255, 255, 0.84),
+    4px 4px 9px rgba(163, 177, 198, 0.54) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Layer Card Level 2: Extruded Section & Bento Cards */
+/* Layer Level 2: Extruded Section, Bento, Home, Weather & Project Detail Cards */
 html[data-card-style="neumorphism-beyond"] :is(
   [data-section-card="true"]:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card):not(#interview-questions-card):not(#app-header):not(#app-footer),
   .bento-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]):not(.hero-banner):not(.banner-card),
   .glass-card:not(.page-main-card):not([data-main-card="true"]):not([data-multicolor-bento="true"]),
   .project-card,
+  .project-detail-section-card,
   .exp-bento-surface-card:not([data-multicolor-bento="true"]),
   .education-card,
-  .education-course-card
+  .education-course-card,
+  #el-p0-div-112,
+  #weather-widget-card,
+  #about-personal-info-grid,
+  .bento-tone-sky,
+  .bento-tone-blue,
+  .bento-tone-indigo,
+  .bento-tone-purple,
+  .bento-tone-pink,
+  .bento-tone-cyan,
+  .bento-tone-teal,
+  .bento-tone-emerald,
+  .bento-tone-amber
 ) {
-  background: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  box-shadow: var(
-    --layer-l2-shadow,
-    0 5px 14px rgba(148, 163, 184, 0.18),
-    3px 4px 10px rgba(163, 177, 198, 0.26),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34)
-  ) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  backdrop-filter: blur(12px) saturate(105%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(105%) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  border-radius: var(--radius-card, 20px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Multi-Color Bento Card Accents Synchronized with the 6 Reference Hues (Matte Anti-Glare) */
-html[data-card-style="neumorphism-beyond"] .bento-tone-sky {
-  background: linear-gradient(145deg, rgba(226, 238, 250, 0.94) 0%, rgba(214, 230, 247, 0.90) 100%) !important;
-  border: 1px solid rgba(100, 182, 255, 0.42) !important;
-  box-shadow: 0 5px 14px rgba(148, 163, 184, 0.16), 3px 4px 10px rgba(154, 176, 204, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] .bento-tone-blue {
-  background: linear-gradient(145deg, rgba(227, 234, 250, 0.94) 0%, rgba(215, 224, 246, 0.90) 100%) !important;
-  border: 1px solid rgba(73, 115, 255, 0.36) !important;
-  box-shadow: 0 5px 14px rgba(148, 163, 184, 0.16), 3px 4px 10px rgba(156, 172, 204, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] .bento-tone-indigo,
-html[data-card-style="neumorphism-beyond"] .bento-tone-purple {
-  background: linear-gradient(145deg, rgba(229, 232, 250, 0.94) 0%, rgba(218, 222, 246, 0.90) 100%) !important;
-  border: 1px solid rgba(68, 92, 230, 0.34) !important;
-  box-shadow: 0 5px 14px rgba(148, 163, 184, 0.16), 3px 4px 10px rgba(156, 170, 202, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] .bento-tone-pink {
-  background: linear-gradient(145deg, rgba(244, 230, 242, 0.94) 0%, rgba(238, 217, 235, 0.90) 100%) !important;
-  border: 1px solid rgba(238, 106, 210, 0.38) !important;
-  box-shadow: 0 5px 14px rgba(164, 152, 174, 0.16), 3px 4px 10px rgba(182, 164, 190, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] .bento-tone-cyan,
-html[data-card-style="neumorphism-beyond"] .bento-tone-teal {
-  background: linear-gradient(145deg, rgba(223, 243, 247, 0.94) 0%, rgba(209, 237, 242, 0.90) 100%) !important;
-  border: 1px solid rgba(42, 216, 230, 0.40) !important;
-  box-shadow: 0 5px 14px rgba(148, 163, 184, 0.16), 3px 4px 10px rgba(152, 182, 194, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] .bento-tone-emerald,
-html[data-card-style="neumorphism-beyond"] .bento-tone-amber {
-  background: linear-gradient(145deg, rgba(224, 244, 236, 0.94) 0%, rgba(211, 238, 227, 0.90) 100%) !important;
-  border: 1px solid rgba(82, 224, 168, 0.42) !important;
-  box-shadow: 0 5px 14px rgba(148, 163, 184, 0.16), 3px 4px 10px rgba(154, 186, 176, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
-}
-
-/* Layer Card Level 3: Sub-cards & Nested Elements (Matte Soft UI) */
+/* Layer Level 3: Sub-cards & Nested Extruded Elements */
 html[data-card-style="neumorphism-beyond"] :is(
   [data-subcard="true"],
   .sub-card,
@@ -430,19 +431,23 @@ html[data-card-style="neumorphism-beyond"] :is(
   .exp-bento-item-card:not([data-bento-subtone]),
   .exp-detail-subcard,
   .education-subcard,
-  .project-detail-subcard
+  .project-detail-subcard,
+  .service-bento-subtile:not([data-bento-styled="true"])
 ) {
-  background: linear-gradient(145deg, rgba(233, 238, 246, 0.94) 0%, rgba(223, 230, 240, 0.90) 100%) !important;
-  border: 1px solid rgba(193, 207, 224, 0.68) !important;
-  box-shadow: var(
-    --layer-l3-shadow,
-    0 3px 10px rgba(148, 163, 184, 0.15),
-    2px 3px 8px rgba(163, 177, 198, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30)
-  ) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
-  backdrop-filter: blur(10px) saturate(104%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(104%) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    -4px -4px 9px rgba(255, 255, 255, 0.84),
+    4px 4px 9px rgba(163, 177, 198, 0.55) !important;
+  border-radius: var(--radius-subcard, 16px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Strict Zero-Border Rule for Utility Border Classes inside Soft UI */
+html[data-card-style="neumorphism-beyond"] :is(.border, .border-t, .border-b, .border-l, .border-r):not(.edu-shelf-board):not(.edu-wood-plank):not(.edu-book-shelf-year) {
+  border-color: transparent !important;
 }
 
 /* Modals, Popups, PiP & Dropdowns */
@@ -459,32 +464,115 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-theme-popup,
   #footer-lang-popup
 ) {
-  background: linear-gradient(145deg, rgba(236, 241, 248, 0.97) 0%, rgba(226, 233, 242, 0.95) 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.78) !important;
-  box-shadow: var(--shadow-popup) !important;
-  backdrop-filter: blur(18px) saturate(106%) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(106%) !important;
-  color: #1E293B !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-modal, 22px) !important;
+  box-shadow:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    12px 12px 26px rgba(152, 167, 190, 0.62) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #243245 !important;
 }
 
-/* Concave Recessed Inputs */
+/* Tab Boxes / Segmented Wells (Recessed Inset Track) */
+html[data-card-style="neumorphism-beyond"] :is(
+  [role="tablist"],
+  .theme-tab-box,
+  .tab-box
+) {
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset -4px -4px 8px rgba(255, 255, 255, 0.84),
+    inset 4px 4px 8px rgba(163, 177, 198, 0.56) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 3. Pressed (Inset) Wells for All Text Inputs, Textareas & Selects */
 html[data-card-style="neumorphism-beyond"] :is(input, textarea, select):not([type="range"]):not([type="checkbox"]):not([type="radio"]) {
-  background: rgba(223, 230, 240, 0.94) !important;
-  border: 1px solid rgba(186, 200, 218, 0.72) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-input, 14px) !important;
   box-shadow:
-    inset 3px 3px 6px rgba(163, 177, 198, 0.42),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.46) !important;
-  color: #1E293B !important;
+    inset -6px -6px 12px rgba(255, 255, 255, 0.85),
+    inset 6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  color: #1A2433 !important;
 }
 
-html[data-card-style="neumorphism-beyond"] :is(input, textarea, select):focus {
-  border-color: #4973FF !important;
+html[data-card-style="neumorphism-beyond"] :is(input[type="checkbox"], input[type="radio"]) {
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    inset 3px 3px 6px rgba(163, 177, 198, 0.46),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.50) !important;
+    -2px -2px 5px rgba(255, 255, 255, 0.85),
+    2px 2px 5px rgba(163, 177, 198, 0.58) !important;
 }
 
-/* Navigation Pills & Controls (Normalized Blur + Matte Anti-Glare Shadows, Outweighs index.css) */
+html[data-card-style="neumorphism-beyond"] :is(input[type="checkbox"], input[type="radio"]):checked {
+  box-shadow:
+    inset -2px -2px 5px rgba(255, 255, 255, 0.86),
+    inset 2px 2px 5px rgba(163, 177, 198, 0.62) !important;
+}
+
+/* Visible Non-Shadow Focus Cue (WCAG Non-Text Contrast Requirement) */
+html[data-card-style="neumorphism-beyond"] :is(input, textarea, select):focus-visible {
+  outline: 2.5px solid var(--color-focus-ring, #2563EB) !important;
+  outline-offset: 2px !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset -6px -6px 12px rgba(255, 255, 255, 0.90),
+    inset 6px 6px 12px rgba(163, 177, 198, 0.66) !important;
+}
+
+html[data-card-style="neumorphism-beyond"] :is(
+  button,
+  a[href],
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2.5px solid var(--color-focus-ring, #2563EB) !important;
+  outline-offset: 2px !important;
+}
+
+/* Zero-Border Baseline for All Interactive Controls */
+html:root[data-card-style="neumorphism-beyond"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .btn-pill,
+  .btn-liquid-action,
+  .project-card-btn-primary,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .theme-dropdown-option,
+  [data-element-type="button"]
+):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.edu-book-slot):not(.edu-wood-nav-btn) {
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+}
+
+/* Raised Extruded Controls, Nav Pills & Secondary Buttons (#E0E5EC + Dual Soft Shadow) */
 html:root[data-card-style="neumorphism-beyond"] :is(
   #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
   #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
@@ -499,17 +587,24 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   .theme-capsule-btn:not(.video-play-btn),
   .banner-control-pill,
   .swot-control-pill,
-  .theme-back-to-top-btn
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]),
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"])
 ) {
-  background: linear-gradient(145deg, rgba(237, 242, 248, 0.95) 0%, rgba(226, 233, 242, 0.90) 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.74) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    0 3px 9px rgba(148, 163, 184, 0.16),
-    2px 3px 7px rgba(163, 177, 198, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
-  backdrop-filter: blur(12px) saturate(105%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(105%) !important;
-  color: #334155 !important;
+    -6px -6px 12px rgba(255, 255, 255, 0.85),
+    6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #243245 !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -522,17 +617,58 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
   button.nav-pill:not([aria-current="page"]):not([data-active="true"]):hover,
   button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]):hover,
-  .radial-contact-pill:hover
+  .radial-contact-pill:hover,
+  .banner-control-pill:hover,
+  .theme-capsule-btn:not(.video-play-btn):hover,
+  .edu-bento-action-btn:hover,
+  .sys-bento-action-btn:hover,
+  .education-skill-chip:hover,
+  .project-card-btn-secondary:hover,
+  .exp-bento-rect-btn:hover,
+  .theme-dropdown-option:not([aria-selected="true"]):not([data-selected="true"]):hover,
+  [role="tab"]:not([aria-selected="true"]):not([data-active="true"]):hover
 ) {
-  background: linear-gradient(145deg, #EEF2F8 0%, #E1E8F2 100%) !important;
-  border-color: rgba(100, 182, 255, 0.65) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    0 4px 11px rgba(148, 163, 184, 0.20),
-    2px 3px 8px rgba(163, 177, 198, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38) !important;
+    -7px -7px 14px rgba(255, 255, 255, 0.92),
+    7px 7px 14px rgba(163, 177, 198, 0.66) !important;
+  color: #1A2433 !important;
 }
 
-/* Header & Footer Nav Pills (Unselected): Circle badge matches title color + white SVG */
+/* Pressed / Inset State: Shadows Invert Inward + Non-Shadow Accent Text Cue */
+html:root[data-card-style="neumorphism-beyond"] :is(
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="switch"],
+  .nav-pill,
+  .banner-control-pill,
+  .theme-capsule-btn:not(.video-play-btn),
+  .radial-contact-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .education-skill-chip,
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  .theme-dropdown-option
+):not([aria-current="page"]):not([data-active="true"]):not(:disabled):not(.edu-book-slot):not(.edu-wood-nav-btn):is(:active, [aria-pressed="true"], [aria-selected="true"], [data-selected="true"]) {
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow:
+    inset -5px -5px 10px rgba(255, 255, 255, 0.86),
+    inset 5px 5px 10px rgba(163, 177, 198, 0.62) !important;
+  color: var(--color-primary, #2563EB) !important;
+  font-weight: 700 !important;
+  transform: none !important;
+}
+
+/* Header & Footer Nav Pills (Unselected): Molded Icon Badge */
 html:root[data-card-style="neumorphism-beyond"] :is(
   #app-header button.nav-pill,
   button#header-btn-hungthai-avatar,
@@ -542,12 +678,15 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
-  background: var(--nav-pill-accent, #4973FF) !important;
-  background-color: var(--nav-pill-accent, #4973FF) !important;
+  background: var(--nav-pill-accent, var(--color-primary, #2563EB)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #2563EB)) !important;
+  --tw-ring-width: 0px !important;
   --tw-ring-color: transparent !important;
-  border: 1px solid color-mix(in srgb, var(--nav-pill-accent, #4973FF) 75%, #ffffff) !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 28%, transparent) !important;
+    -2px -2px 5px rgba(255, 255, 255, 0.78),
+    2px 2px 6px rgba(163, 177, 198, 0.56) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -568,29 +707,42 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-svg {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
   stroke: currentColor !important;
 }
 
+/* Footer Nav Capsule Prev/Next Buttons (Molded Matte + Inset on Press) */
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(2, 132, 199, 0.35) !important;
-  color: #0284c7 !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  color: var(--color-primary, #2563EB) !important;
+  box-shadow:
+    -3px -3px 6px rgba(255, 255, 255, 0.85),
+    3px 3px 6px rgba(163, 177, 198, 0.58) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):hover {
-  background: #ffffff !important;
-  border-color: #0284c7 !important;
-  color: #0284c7 !important;
+  background: #E0E5EC !important;
+  box-shadow:
+    -4px -4px 8px rgba(255, 255, 255, 0.92),
+    4px 4px 8px rgba(163, 177, 198, 0.64) !important;
+}
+
+html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn):active {
+  box-shadow:
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85),
+    inset 3px 3px 6px rgba(163, 177, 198, 0.62) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg,
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-icon,
 html:root[data-card-style="neumorphism-beyond"] #app-footer #footer-nav-capsule #footer-page-counter {
-  color: #0284c7 !important;
-  stroke: #0284c7 !important;
+  color: var(--color-primary, #2563EB) !important;
+  stroke: var(--color-primary, #2563EB) !important;
 }
 
+/* Primary Action / Active Nav Pill (Saturated Accent with Clear Non-Shadow State Cue) */
 html:root[data-card-style="neumorphism-beyond"] :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
@@ -601,20 +753,15 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 88%, #ffffff) 0%,
-    var(--nav-pill-accent, #4973FF) 54%,
-    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 84%, #0f172a) 100%
-  ) !important;
-  background-color: var(--nav-pill-accent, #4973FF) !important;
-  border-color: color-mix(in srgb, var(--nav-pill-accent, #4973FF) 62%, #ffffff) !important;
+  background: var(--nav-pill-accent, var(--color-primary, #2563EB)) !important;
+  background-color: var(--nav-pill-accent, var(--color-primary, #2563EB)) !important;
+  border: none !important;
+  border-width: 0 !important;
   color: #FFFFFF !important;
   filter: none !important;
   box-shadow:
-    0 4px 11px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 28%, transparent),
-    2px 3px 8px rgba(148, 163, 184, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26) !important;
+    -5px -5px 10px rgba(255, 255, 255, 0.82),
+    5px 5px 12px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #2563EB)) 36%, rgba(163, 177, 198, 0.56)) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -627,11 +774,10 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]):hover {
-  filter: none !important;
+  filter: brightness(0.96) !important;
   box-shadow:
-    0 5px 13px color-mix(in srgb, var(--nav-pill-accent, #4973FF) 34%, transparent),
-    2px 3px 9px rgba(148, 163, 184, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30) !important;
+    -6px -6px 12px rgba(255, 255, 255, 0.88),
+    6px 6px 14px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #2563EB)) 42%, rgba(163, 177, 198, 0.62)) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -644,10 +790,13 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  --tw-ring-color: rgba(255, 255, 255, 0.92) !important;
-  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: none !important;
+  border-width: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  box-shadow: 0 2px 6px rgba(26, 36, 51, 0.16) !important;
 }
 
 html:root[data-card-style="neumorphism-beyond"] :is(
@@ -670,135 +819,62 @@ html:root[data-card-style="neumorphism-beyond"] :is(
   #footer-wallpaper-btn,
   #footer-ai-btn
 ):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-svg {
-  color: var(--nav-pill-accent, #4973FF) !important;
+  color: var(--nav-pill-accent, var(--color-primary, #2563EB)) !important;
 }
 
-/* Concave Range Sliders & Progress Bars */
+/* Inset Range Sliders & Progress Tracks */
 html[data-card-style="neumorphism-beyond"] input[type="range"] {
-  background: #DFE6F0 !important;
-  border-radius: 999px !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: 9999px !important;
   box-shadow:
-    inset 2px 2px 4px rgba(163, 177, 198, 0.44),
-    inset -2px -2px 4px rgba(255, 255, 255, 0.42) !important;
-  accent-color: #4973FF;
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85),
+    inset 3px 3px 6px rgba(163, 177, 198, 0.60) !important;
+  accent-color: var(--color-primary, #2563EB);
 }
 
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card .pillar-progress-track {
-  background: #DFE6F0 !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow:
-    inset 2px 2px 4px rgba(163, 177, 198, 0.42),
-    inset -2px -2px 4px rgba(255, 255, 255, 0.40);
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85),
+    inset 3px 3px 6px rgba(163, 177, 198, 0.60);
 }
 
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="blue"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="blue"] .pillar-sub {
-  color: #4973FF !important;
+  color: #1D4ED8 !important;
 }
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="rose"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="rose"] .pillar-sub,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="pink"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="pink"] .pillar-sub {
-  color: #D948BA !important;
+  color: #BE185D !important;
 }
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="emerald"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="emerald"] .pillar-sub {
-  color: #10B981 !important;
+  color: #047857 !important;
 }
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="amber"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="amber"] .pillar-sub {
-  color: #0284C7 !important;
+  color: #B45309 !important;
 }
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="purple"] .pillar-heading,
 html[data-card-style="neumorphism-beyond"] .pillar-gradient-card[data-accent="purple"] .pillar-sub {
-  color: #445CE6 !important;
+  color: #4338CA !important;
 }
 
-/* ========================================================================= */
-/* NEUMORPHISM BEYOND · DARK MODE (Khối Kính Mờ Tối)                        */
-/* ========================================================================= */
-.card-dark-neumorphism-beyond {
-  background: linear-gradient(145deg, rgba(26, 34, 48, 0.94) 0%, rgba(20, 27, 38, 0.92) 100%) !important;
-  backdrop-filter: blur(14px) saturate(110%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
-  border: 1px solid rgba(51, 65, 85, 0.6) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.5),
-    4px 6px 14px rgba(4, 7, 15, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-  color: #F1F5F9 !important;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms ease,
-    border-color 220ms ease !important;
-}
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="neumorphism-beyond"],
+  html[data-card-style="neumorphism-beyond"] * {
+    transition: none !important;
+    animation: none !important;
+  }
 
-.card-dark-neumorphism-beyond:hover {
-  transform: none;
-  border-color: rgba(100, 182, 255, 0.6) !important;
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.6),
-    5px 7px 16px rgba(4, 7, 15, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-}
-
-[data-theme="dark-neumorphism-beyond"],
-html[data-card-style="dark-neumorphism-beyond"],
-html[data-card-style="dark-neumorphism-beyond"] body {
-  color-scheme: dark;
-  --ambient-wallpaper-opacity: 1;
-
-  --color-bg: #151B26;
-  --color-bg-soft: #1A2230;
-  --color-bg-blue: #1C273A;
-  --color-surface: rgba(26, 34, 48, 0.92);
-  --color-surface-elevated: rgba(32, 42, 58, 0.95);
-  --color-surface-indigo: #232C42;
-  --color-surface-cyan: #1B2F38;
-  --color-surface-green: #1A332C;
-  --color-surface-orange: #35261F;
-  --color-surface-pink: #351F30;
-  --color-surface-purple: #2A2142;
-
-  --color-heading: #F8FAFC;
-  --color-text: #E2E8F0;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #64748B;
-  --color-text-inverse: #0F172A;
-
-  --color-primary: #64B6FF;
-  --color-secondary: #EE6AD2;
-  --color-tertiary: #2AD8E6;
-  --color-accent: #64B6FF;
-  --color-indigo: #818CF8;
-  --color-blue: #64B6FF;
-  --color-cyan: #2AD8E6;
-  --color-green: #52E0A8;
-  --color-amber: #FBBF24;
-  --color-pink: #EE6AD2;
-  --color-purple: #A78BFA;
-
-  --bg-main: #151B26;
-  --bg-card: rgba(26, 34, 48, 0.92);
-  --bg-subcard: rgba(32, 42, 58, 0.88);
-  --bg-nested-card: rgba(22, 30, 42, 0.85);
-  --border-card: rgba(71, 85, 105, 0.5);
-  --border-subcard: rgba(71, 85, 105, 0.35);
-
-  --text-primary: #F8FAFC;
-  --text-heading: #FFFFFF;
-  --text-secondary: #CBD5E1;
-  --text-muted: #94A3B8;
-  --text-link: #64B6FF;
-
-  --bg-button-primary: #4973FF;
-  --text-button-primary: #FFFFFF;
-  --bg-button-secondary: rgba(51, 65, 85, 0.7);
-  --text-button-secondary: #E2E8F0;
-
-  --bg-input: #101622;
-  --border-input: rgba(71, 85, 105, 0.6);
-  --text-input: #F8FAFC;
-
-  --bg-modal: #1A2230;
-  --bg-modal-backdrop: rgba(10, 14, 22, 0.75);
+  html[data-card-style="neumorphism-beyond"] :is(button, a, .nav-pill, .bento-card, .project-card):hover {
+    transform: none !important;
+  }
 }

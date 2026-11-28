@@ -428,12 +428,13 @@ interface TalismanPageFlipProps {
   pages: React.ReactNode[];
   onSpreadChange?: (nextSpread: number) => void;
   onWillOpenBook?: () => void;
+  onRequestOpenBook?: () => void;
   onInteractionStateChange?: (interacting: boolean) => void;
 }
 
 const TalismanPageFlip = forwardRef<TalismanPageFlipHandle, TalismanPageFlipProps>(
   function TalismanPageFlip(
-    { pages, onSpreadChange, onWillOpenBook, onInteractionStateChange },
+    { pages, onSpreadChange, onWillOpenBook, onRequestOpenBook, onInteractionStateChange },
     ref
   ) {
     const frameRef = useRef<HTMLDivElement>(null);
@@ -714,6 +715,12 @@ const TalismanPageFlip = forwardRef<TalismanPageFlipHandle, TalismanPageFlipProp
         return;
       }
       if (!(press && current)) return;
+
+      if (!press.dragging && spread === 0 && current.dir === 1 && onRequestOpenBook) {
+        setAt(null);
+        onRequestOpenBook();
+        return;
+      }
 
       const crossed = current.dir === 1 ? current.at.x < size.w : current.at.x > size.w;
       const complete = press.dragging ? crossed : true;
@@ -1183,6 +1190,7 @@ export default function TuViBookCard({
 
   const [spread, setSpread] = useState(0);
   const [isPeekingOrTurning, setIsPeekingOrTurning] = useState(false);
+  const [isSpinningToOpen, setIsSpinningToOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<ModalKind>(null);
   const [scale, setScale] = useState(0.5);
 
@@ -1196,12 +1204,19 @@ export default function TuViBookCard({
   const pageFlipRef = useRef<TalismanPageFlipHandle>(null);
   const isSeekingFromFlipRef = useRef(false);
   const prevSpreadRef = useRef(0);
+  const spinOpenTimerRef = useRef<number | null>(null);
+  const openAudioDelayTimerRef = useRef<number | null>(null);
+  const isBookOpenRef = useRef(false);
+  const isActiveRef = useRef(isActive);
+  isActiveRef.current = isActive;
+  const audioUnlockedRef = useRef(false);
   const onBookOpenChangeRef = useRef(onBookOpenChange);
   onBookOpenChangeRef.current = onBookOpenChange;
   const onMp3PlayingChangeRef = useRef(onMp3PlayingChange);
   onMp3PlayingChangeRef.current = onMp3PlayingChange;
 
   const isBookOpen = spread > 0;
+  isBookOpenRef.current = isBookOpen;
 
   useEffect(() => {
     onMp3PlayingChangeRef.current?.(isMp3Playing);
@@ -1222,17 +1237,17 @@ export default function TuViBookCard({
     return () => observer.disconnect();
   }, [isDark]);
 
-  // Tự động co giãn sân khấu theo đúng diện tích thực tế của card 6 (đóng = gọn theo nội dung, mở/phát mp3 = bung rộng)
+  // Tự động co giãn sân khấu lấp đầy diện tích thực tế của Card tử vi 6 (padding 5px)
   useEffect(() => {
     const updateScale = () => {
       const container = stageWrapperRef.current;
       if (!container) return;
-      const availW = Math.max(200, container.clientWidth - 8);
+      const availW = Math.max(200, container.clientWidth);
       const rawH = container.clientHeight;
-      const availH = rawH > 120 ? Math.max(220, rawH - (isBookOpen ? 10 : 42)) : 460;
-      const baseW = isBookOpen ? 1140 : 620;
-      const baseH = isBookOpen ? 780 : 750;
-      const nextScale = Math.min(1, availW / baseW, availH / baseH);
+      const availH = rawH > 120 ? Math.max(200, rawH) : 460;
+      const baseW = isBookOpen ? 1040 : 530;
+      const baseH = isBookOpen ? 736 : 732;
+      const nextScale = Math.min(1.6, availW / baseW, availH / baseH);
       setScale(Math.max(0.2, nextScale));
     };
     updateScale();
@@ -1326,19 +1341,81 @@ export default function TuViBookCard({
     [playZenChime]
   );
 
+  const clearPendingTimers = useCallback(() => {
+    if (spinOpenTimerRef.current !== null) {
+      window.clearTimeout(spinOpenTimerRef.current);
+      spinOpenTimerRef.current = null;
+    }
+    if (openAudioDelayTimerRef.current !== null) {
+      window.clearTimeout(openAudioDelayTimerRef.current);
+      openAudioDelayTimerRef.current = null;
+    }
+    setIsSpinningToOpen(false);
+  }, []);
+
+  const unlockBookAudio = useCallback(() => {
+    const audio = bookAudioRef.current;
+    if (!audio || audioUnlockedRef.current) return;
+    try {
+      const prevMuted = audio.muted;
+      audio.muted = true;
+      const p = audio.play();
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = prevMuted;
+          audioUnlockedRef.current = true;
+        }).catch(() => {
+          audio.muted = prevMuted;
+        });
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.muted = prevMuted;
+        audioUnlockedRef.current = true;
+      }
+    } catch {
+      // Ignore unlock restriction
+    }
+  }, []);
+
   const stopBookSound = useCallback(() => {
+    clearPendingTimers();
     const audio = bookAudioRef.current;
     if (!audio) return;
     audio.pause();
     audio.currentTime = 0;
     setMp3CurrentTime(0);
     setIsMp3Playing(false);
-  }, []);
+  }, [clearPendingTimers]);
 
-  // Phát âm thanh ngay lập tức & báo bung rộng thẻ khi bấm mở sách
+  // Khi click bìa sách: xoay vòng tròn 360° trước rồi mới mở sách
+  const handleRequestOpenBook = useCallback(() => {
+    if (spinOpenTimerRef.current !== null || isBookOpenRef.current) return;
+    unlockBookAudio();
+    setIsSpinningToOpen(true);
+    spinOpenTimerRef.current = window.setTimeout(() => {
+      spinOpenTimerRef.current = null;
+      setIsSpinningToOpen(false);
+      pageFlipRef.current?.openBook();
+    }, 900);
+  }, [unlockBookAudio]);
+
+  // Báo bung rộng thẻ khi mở sách; sau khi mở sách khoảng 5 giây mới phát tiếng
   const handleWillOpenBook = useCallback(() => {
     onBookOpenChangeRef.current?.(true);
-    playBookOpenSound(0);
+    isBookOpenRef.current = true;
+    if (openAudioDelayTimerRef.current !== null) {
+      window.clearTimeout(openAudioDelayTimerRef.current);
+    }
+    openAudioDelayTimerRef.current = window.setTimeout(() => {
+      openAudioDelayTimerRef.current = null;
+      const currentSpread = pageFlipRef.current?.getSpread() ?? prevSpreadRef.current;
+      if (!isBookOpenRef.current || !isActiveRef.current || currentSpread <= 0) return;
+      const targetChapter = AUDIO_CHAPTER_SPREADS.find((c) => c.spread === currentSpread);
+      playBookOpenSound(targetChapter?.startSec ?? 0);
+    }, 5000);
   }, [playBookOpenSound]);
 
   // Đóng sách từ bên ngoài (nút Đóng sách trên header thẻ hoặc chuyển slide)
@@ -1359,11 +1436,19 @@ export default function TuViBookCard({
     }
   }, [isActive, stopBookSound]);
 
-  // Clean up audio & context on unmount
+  // Clean up audio, timers & context on unmount
   useEffect(() => {
     const audio = bookAudioRef.current;
     const ctx = audioCtxRef.current;
     return () => {
+      if (spinOpenTimerRef.current !== null) {
+        window.clearTimeout(spinOpenTimerRef.current);
+        spinOpenTimerRef.current = null;
+      }
+      if (openAudioDelayTimerRef.current !== null) {
+        window.clearTimeout(openAudioDelayTimerRef.current);
+        openAudioDelayTimerRef.current = null;
+      }
       if (audio) {
         audio.pause();
         audio.currentTime = 0;
@@ -1445,6 +1530,10 @@ export default function TuViBookCard({
 
   const handleJumpToSegment = useCallback(
     (segment: AudioSyncSegment) => {
+      if (openAudioDelayTimerRef.current !== null) {
+        window.clearTimeout(openAudioDelayTimerRef.current);
+        openAudioDelayTimerRef.current = null;
+      }
       if (pageFlipRef.current?.getTargetSpread() !== segment.spread) {
         pageFlipRef.current?.goToSpread(segment.spread);
       }
@@ -2935,6 +3024,7 @@ export default function TuViBookCard({
 
           width: 100%;
           height: 100%;
+          flex: 1 1 0%;
           min-height: 0;
           overflow: hidden;
           border-radius: var(--radius-subcard, 14px);
@@ -2943,7 +3033,7 @@ export default function TuViBookCard({
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 6px;
+          padding: 0px;
           color: var(--text-body);
           position: relative;
           transition: background 0.45s ease, color 0.35s ease;
@@ -3012,6 +3102,10 @@ export default function TuViBookCard({
 
         .nat-stage {
           width: 100%;
+          height: 100%;
+          flex: 1 1 0%;
+          min-height: 0;
+          overflow: hidden;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -3033,12 +3127,12 @@ export default function TuViBookCard({
         .nat-cerchio {
           position: absolute;
           z-index: 0;
-          left: 170px;
-          top: -10px;
-          width: 800px;
-          height: 800px;
-          opacity: 0.22;
-          transform: scale(.94) rotate(-8deg);
+          left: 140px;
+          top: -40px;
+          width: 860px;
+          height: 860px;
+          opacity: 0.42;
+          transform: scale(.96) rotate(-8deg);
           transition: opacity 1.2s ease, transform 1.6s ease;
           pointer-events: none;
         }
@@ -3060,6 +3154,35 @@ export default function TuViBookCard({
         .nat-a4 { animation-direction: reverse; animation-duration: 120s; }
         .nat-a5 { animation-duration: 80s; }
         @keyframes nat-gira { to { transform: rotate(360deg); } }
+
+        @keyframes tuviSpinCircleOpen {
+          0% {
+            transform: rotate(0deg) scale(1);
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+          }
+          50% {
+            transform: rotate(180deg) scale(1.07);
+            filter: drop-shadow(0 0 28px rgba(245, 208, 97, 0.85));
+          }
+          100% {
+            transform: rotate(360deg) scale(1);
+            filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.45));
+          }
+        }
+
+        @keyframes tuviCompassSpinBurst {
+          0% { transform: scale(0.96) rotate(0deg); opacity: 0.55; }
+          50% { transform: scale(1.04) rotate(180deg); opacity: 1; }
+          100% { transform: scale(1) rotate(360deg); opacity: 0.92; }
+        }
+
+        .nat.is-spinning-open .thien-co-medallion {
+          animation: tuviSpinCircleOpen 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+        }
+
+        .nat.is-spinning-open .nat-cerchio {
+          animation: tuviCompassSpinBurst 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+        }
 
         .nat-brilla {
           stroke: var(--nat-ngan);
@@ -3862,15 +3985,10 @@ export default function TuViBookCard({
         }
       `}</style>
 
-      <div
-        className="nat-stage"
-        style={{
-          height: `${Math.round((isBookOpen ? 780 : 750) * scale)}px`,
-        }}
-      >
+      <div className="nat-stage">
         <div
-          className={`nat ${isPeekingOrTurning ? 'is-active' : ''} ${isBookOpen ? 'is-book-open' : ''}`}
-          style={{ transform: scale < 1 ? `scale(${scale})` : 'none' }}
+          className={`nat ${isPeekingOrTurning ? 'is-active' : ''} ${isBookOpen ? 'is-book-open' : ''} ${isSpinningToOpen ? 'is-spinning-open' : ''}`}
+          style={{ transform: `scale(${scale})` }}
           tabIndex={0}
         >
           <CompassBackdrop />
@@ -3880,6 +3998,7 @@ export default function TuViBookCard({
             pages={bookPages}
             onSpreadChange={handleSpreadChange}
             onWillOpenBook={handleWillOpenBook}
+            onRequestOpenBook={handleRequestOpenBook}
             onInteractionStateChange={setIsPeekingOrTurning}
           />
         </div>

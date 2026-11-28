@@ -600,7 +600,11 @@ html[data-card-style="cowhide-leather"] .theme-video-capsule {
 html[data-card-style="cowhide-leather"] .video-play-btn svg,
 html[data-card-style="cowhide-leather"] .theme-video-capsule svg {
   color: #FDE68A !important;
-  fill: #FDE68A !important;
+  stroke: #FDE68A !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 html[data-card-style="cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted,
 html[data-card-style="cowhide-leather"] button#home-hero-video-mute-btn {
@@ -1339,15 +1343,34 @@ html[data-card-style="cowhide-leather"] #horoscope-filter-listbox button:hover {
 /* (Loại bỏ triệt để màu sắc rực rỡ ngẫu nhiên, đưa về bảng màu da bò cổ điển) */
 /* ========================================================================= */
 
-/* 1. TOÀN BỘ ICON (SVG, WEB-ICON, FA) TRÊN TOÀN BỘ WEBSITE */
+/* 1. TOÀN BỘ ICON (SVG, WEB-ICON, FA) TRÊN TOÀN BỘ WEBSITE — CHUYỂN ĐỒNG BỘ SANG ICON LINE (NÉT MẢNH SẮC NÉT) */
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
-  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg),
+  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg):not(.recharts-surface):not([data-chart-svg="true"]),
   .web-icon:not(.nav-pill-icon-badge *),
   i[class*="fa-"]:not(.nav-pill-icon-badge *)
 ) {
   color: #FDE68A !important;
   stroke: #FDE68A !important;
-  fill: currentColor;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+/* Ép toàn bộ nét vector bên trong icon SVG hiển thị thuần dạng Line (không tô đặc fill) nhưng bảo toàn biểu đồ & góc SWOT */
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.recharts-surface):not([data-chart-svg="true"]) :is(
+  path,
+  circle,
+  rect,
+  line,
+  polyline,
+  polygon,
+  ellipse
+):not(.swot-corner-outer):not(.swot-corner-inner):not([data-preserve-fill="true"]) {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 /* Biểu tượng trong nút chính / CTA / khi hover / active */
@@ -1361,6 +1384,8 @@ html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [da
 ) :is(svg, .web-icon, i) {
   color: #FFFFFF !important;
   stroke: #FFFFFF !important;
+  fill: none !important;
+  stroke-width: 1.8 !important;
 }
 
 /* 2. HUY HIỆU ICON VÀ LIÊN KẾT NHANH TRANG CHỦ (ORBIT BADGES & SOCIAL ICONS) */
@@ -1526,6 +1551,10 @@ html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [da
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
   color: #3A1F0A !important;
   stroke: #3A1F0A !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
@@ -1537,6 +1566,10 @@ html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [da
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
   color: #FFFFFF !important;
   stroke: #FFFFFF !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
@@ -1599,32 +1632,69 @@ html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is
   letter-spacing: 0.025em;
 }
 
-/* Biểu tượng icon: Xóa hiệu ứng lóe sáng (không glow / không flare), hiển thị sắc nét, thanh lịch */
+/* Biểu tượng icon: Chuẩn Icon Line sắc nét, thanh mảnh, không tô đặc fill, không glow/flare */
 html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is(
   .card-header-sync svg,
   .card-header-sync .web-icon,
   .subcard-header-sync svg,
   .subcard-header-sync .web-icon,
-  .nav-pill-icon-badge svg,
-  .nav-pill-icon-svg,
   .service-card svg,
   .swot-skill-icon svg,
   .theme-card-header svg,
   .banner-header-row svg,
-  header svg,
-  footer svg,
+  header svg:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg),
+  footer svg:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg):not(#footer-prev-btn svg):not(#footer-next-btn svg),
   [data-card-title] ~ svg,
   .feather,
-  .lucide,
-  .web-icon,
-  [data-subcard] :is(svg, .web-icon),
+  .lucide:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg):not(#footer-prev-btn svg):not(#footer-next-btn svg),
+  .web-icon:not(.nav-pill-icon-badge *):not(#footer-prev-btn *):not(#footer-next-btn *),
+  [data-subcard] :is(svg:not(.recharts-surface), .web-icon),
   [data-subcard-title] ~ svg
 ) {
   color: #FDE68A !important;
   stroke: #FDE68A !important;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
   filter: none !important;
   -webkit-filter: none !important;
   box-shadow: none !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is(
+  #app-header,
+  #app-footer
+) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #3A1F0A !important;
+  stroke: #3A1F0A !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) :is(
+  #app-header,
+  #app-footer
+) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+html:is([data-card-style="cowhide-leather"], [data-theme="cowhide-leather"]) #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 

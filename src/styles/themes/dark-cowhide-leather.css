@@ -600,7 +600,11 @@ html[data-card-style="dark-cowhide-leather"] .theme-video-capsule {
 html[data-card-style="dark-cowhide-leather"] .video-play-btn svg,
 html[data-card-style="dark-cowhide-leather"] .theme-video-capsule svg {
   color: #E5B87E !important;
-  fill: #E5B87E !important;
+  stroke: #E5B87E !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 html[data-card-style="dark-cowhide-leather"] .video-play-btn .video-play-btn__sound.is-muted,
 html[data-card-style="dark-cowhide-leather"] button#home-hero-video-mute-btn {
@@ -1314,13 +1318,31 @@ html[data-card-style="dark-cowhide-leather"] #horoscope-filter-listbox button:ho
 /* ========================================================================= */
 
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
-  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg),
+  svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.nav-pill-icon-badge svg):not(.recharts-surface):not([data-chart-svg="true"]),
   .web-icon:not(.nav-pill-icon-badge *),
   i[class*="fa-"]:not(.nav-pill-icon-badge *)
 ) {
   color: #E5B87E !important;
   stroke: #E5B87E !important;
-  fill: currentColor;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) svg:not(.no-theme-sync):not([data-preserve-color="true"]):not(.recharts-surface):not([data-chart-svg="true"]) :is(
+  path,
+  circle,
+  rect,
+  line,
+  polyline,
+  polygon,
+  ellipse
+):not(.swot-corner-outer):not(.swot-corner-inner):not([data-preserve-fill="true"]) {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
@@ -1333,6 +1355,8 @@ html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leat
 ) :is(svg, .web-icon, i) {
   color: #FFF8EE !important;
   stroke: #FFF8EE !important;
+  fill: none !important;
+  stroke-width: 1.8 !important;
 }
 
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
@@ -1477,6 +1501,10 @@ html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leat
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
   color: #140F0D !important;
   stroke: #140F0D !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
@@ -1487,6 +1515,10 @@ html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leat
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
   color: #E5B87E !important;
   stroke: #E5B87E !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(#app-header, #app-footer) .nav-pill .nav-pill-divider {
@@ -1520,31 +1552,68 @@ html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leat
   letter-spacing: 0.025em;
 }
 
-/* Biểu tượng icon: Xóa hiệu ứng lóe sáng (không glow / không flare), hiển thị sắc nét, thanh lịch */
+/* Biểu tượng icon: Chuẩn Icon Line sắc nét, thanh mảnh, không tô đặc fill, không glow/flare */
 html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
   .card-header-sync svg,
   .card-header-sync .web-icon,
   .subcard-header-sync svg,
   .subcard-header-sync .web-icon,
-  .nav-pill-icon-badge svg,
-  .nav-pill-icon-svg,
   .service-card svg,
   .swot-skill-icon svg,
   .theme-card-header svg,
   .banner-header-row svg,
-  header svg,
-  footer svg,
+  header svg:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg),
+  footer svg:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg),
   [data-card-title] ~ svg,
   .feather,
-  .lucide,
-  .web-icon,
-  [data-subcard] :is(svg, .web-icon),
+  .lucide:not(.nav-pill-icon-badge svg):not(.nav-pill-icon-svg),
+  .web-icon:not(.nav-pill-icon-badge *),
+  [data-subcard] :is(svg:not(.recharts-surface), .web-icon),
   [data-subcard-title] ~ svg
 ) {
   color: #FDE68A !important;
   stroke: #FDE68A !important;
+  fill: none !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
   filter: none !important;
   -webkit-filter: none !important;
   box-shadow: none !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  #app-header,
+  #app-footer
+) .nav-pill:not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #140F0D !important;
+  stroke: #140F0D !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) :is(
+  #app-header,
+  #app-footer
+) .nav-pill:is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg) {
+  color: #E5B87E !important;
+  stroke: #E5B87E !important;
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+html:is([data-card-style="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"]) #app-footer #footer-nav-capsule :is(#footer-prev-btn, #footer-next-btn) svg {
+  fill: none !important;
+  stroke-width: 1.85 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 

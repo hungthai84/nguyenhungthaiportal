@@ -168,6 +168,13 @@
   --card-heading-gap: 8px;
   --card-border-width: 1px;
 
+  /* Unified Responsive 6-Card Grid Tokens (Projects & Services: 3x2 -> 2x3 -> 1x6) */
+  --grid-cards-columns: 3;
+  --grid-cards-gap: var(--space-card-gap, 16px);
+  --grid-cards-padding: var(--space-card-padding, 16px);
+  --grid-cards-auto-rows: 1fr;
+  --grid-services-row-min: 220px;
+
   /* 1. MÀU NỀN (Soft Liquid Glass 3D Light Ambient) */
   --color-bg: #F7F8FD;
   --color-bg-soft: #EEE9FA;
@@ -509,19 +516,19 @@
   --outline-offset-image-card: 0px;
 
   /* Container Max Width & Unified Horizontal Frame Width (Equal to Main Card) */
-  --main-card-target-w: 1050px;
+  --main-card-target-w: 1200px;
   --main-card-target-h: 100%;
-  --container-max-w: 1050px;
-  --layout-max-width: 1050px;
-  --shell-container-w: min(calc(100% - clamp(16px, 3vw, 32px)), 1050px);
+  --container-max-w: 1200px;
+  --layout-max-width: 1200px;
+  --shell-container-w: min(calc(100% - clamp(16px, 3vw, 32px)), 1200px);
   --shell-section-gap: 0px;
   --shell-header-height: 85px;
   --shell-footer-height: 85px;
   --about-peek-reserve: 112px;
   --main-cards-gap: 10px;
-  --main-card-w: min(calc(100vw - 32px), 1050px);
+  --main-card-w: min(calc(100vw - 32px), 1200px);
   --main-card-h: min(var(--main-card-target-h, 100%), 100%);
-  --shared-frame-w: min(calc(100vw - 32px), 1050px);
+  --shared-frame-w: min(calc(100vw - 32px), 1200px);
 
   /* Services Card Liquid Color Reveal & Expanded Card Semantic Tokens (Auto-derived from Active Theme) */
   --service-hover-surface: radial-gradient(
@@ -1766,14 +1773,14 @@ html[data-card-style="dark-flat-soft-ui"],
   --pill-counter-color: #818CF8;
 }
 
-/* 15. FROSTED MICA EFFECT (CODEPEN FROSTED GLASS + MICA FLUENT) */
+/* 15. FROSTED MICA EFFECT (KÍNH MỜ PHÂN LỚP · 10-COLOR SPECTRUM) */
 html[data-card-style="mica-fluent"],
 [data-theme="mica-fluent"] {
-  --color-primary: #E84118;
-  --color-secondary: #525A65;
-  --color-accent: #C23616;
-  --color-focus-ring: #E84118;
-  --color-bg: #D7C7B5;
+  --color-primary: #EA1A7F;
+  --color-secondary: #5274FF;
+  --color-accent: #FF7C17;
+  --color-focus-ring: #5274FF;
+  --color-bg: #E8E2DC;
   --color-surface: rgba(255, 255, 255, 0.30);
   --color-surface-elevated: rgba(255, 255, 255, 0.42);
   --color-heading: #1C0708;
@@ -1782,37 +1789,37 @@ html[data-card-style="mica-fluent"],
   --text-primary: #1C0708;
   --text-secondary: #4A4A4A;
   --text-muted: #5C534F;
-  --text-link: #C23616;
+  --text-link: #5274FF;
   --bg-card: rgba(255, 255, 255, 0.30);
   --bg-subcard: rgba(255, 255, 255, 0.30);
-  --border-card: rgba(255, 255, 255, 0.35);
-  --border-subcard: rgba(255, 255, 255, 0.38);
-  --nav-pill-accent: #E84118;
-  --pill-bg: rgba(255, 255, 255, 0.36);
-  --pill-bg-hover: rgba(255, 255, 255, 0.54);
-  --pill-border: rgba(255, 255, 255, 0.45);
-  --pill-border-hover: rgba(232, 65, 24, 0.36);
+  --border-card: rgba(255, 255, 255, 0.38);
+  --border-subcard: rgba(255, 255, 255, 0.42);
+  --nav-pill-accent: #EA1A7F;
+  --pill-bg: rgba(255, 255, 255, 0.38);
+  --pill-bg-hover: rgba(255, 255, 255, 0.56);
+  --pill-border: rgba(255, 255, 255, 0.48);
+  --pill-border-hover: color-mix(in srgb, var(--nav-pill-accent, #EA1A7F) 44%, rgba(255, 255, 255, 0.65));
   --pill-text: #1C0708;
   --pill-title-color: #1C0708;
   --pill-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
-  --pill-shadow-hover: 0px 6px 12px 2px rgba(0, 0, 0, 0.14);
+  --pill-shadow-hover: 0px 6px 14px 2px rgba(82, 116, 255, 0.18);
   --pill-blur: 20px;
   --pill-divider: rgba(28, 7, 8, 0.16);
-  --pill-badge-bg: #E84118;
-  --pill-badge-border: rgba(255, 255, 255, 0.45);
+  --pill-badge-bg: var(--nav-pill-accent, #EA1A7F);
+  --pill-badge-border: rgba(255, 255, 255, 0.48);
   --pill-badge-icon: #FDFDFD;
-  --pill-badge-shadow: 0 2px 7px rgba(232, 65, 24, 0.30);
-  --pill-active-bg: #E84118;
-  --pill-active-border: rgba(255, 255, 255, 0.42);
+  --pill-badge-shadow: 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, #EA1A7F) 32%, transparent);
+  --pill-active-bg: var(--nav-pill-accent, #EA1A7F);
+  --pill-active-border: rgba(255, 255, 255, 0.48);
   --pill-active-text: #FDFDFD;
-  --pill-active-shadow: 0 8px 18px -4px rgba(232, 65, 24, 0.42);
+  --pill-active-shadow: 0 8px 20px -4px color-mix(in srgb, var(--nav-pill-accent, #EA1A7F) 44%, transparent);
   --pill-active-divider: rgba(255, 255, 255, 0.48);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: #E84118;
-  --pill-arrow-bg: rgba(255, 255, 255, 0.45);
-  --pill-arrow-hover: rgba(255, 255, 255, 0.68);
-  --pill-arrow-border: rgba(255, 255, 255, 0.45);
-  --pill-arrow-text: #E84118;
+  --pill-active-badge-bg: rgba(255, 255, 255, 0.24);
+  --pill-active-badge-icon: #FFFFFF;
+  --pill-arrow-bg: rgba(255, 255, 255, 0.48);
+  --pill-arrow-hover: rgba(255, 255, 255, 0.72);
+  --pill-arrow-border: rgba(255, 255, 255, 0.48);
+  --pill-arrow-text: #5274FF;
   --pill-counter-color: #1C0708;
 }
 
@@ -1994,6 +2001,26 @@ html[data-theme="dark-iridescent-liquid-glass"] {
   --pill-arrow-border: rgba(34, 211, 238, 0.34);
   --pill-arrow-text: #67E8F9;
   --pill-counter-color: #67E8F9;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --grid-cards-columns: 2;
+    --grid-cards-gap: var(--space-card-gap, 16px);
+    --grid-cards-padding: var(--space-card-padding, 16px);
+    --grid-cards-auto-rows: 1fr;
+    --grid-services-row-min: 204px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --grid-cards-columns: 1;
+    --grid-cards-gap: var(--space-3, 12px);
+    --grid-cards-padding: var(--space-3, 12px);
+    --grid-cards-auto-rows: auto;
+    --grid-services-row-min: auto;
+  }
 }
 
 @media (max-width: 639px) {

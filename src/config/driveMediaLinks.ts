@@ -186,12 +186,12 @@ export const DRIVE_SYSTEM_MEDIA = {
 } as const;
 
 export const DRIVE_EXPERIENCE_BANNERS = {
-  mobifone: 'https://i.postimg.cc/J0f8691x/Mobifone.webp',
-  v247: 'https://i.postimg.cc/zvsNt9J6/V247.webp',
-  lbc: 'https://i.postimg.cc/hvknyHSr/LBC.webp',
-  ved: 'https://i.postimg.cc/cCpW9Vsz/VED.webp',
-  prudential: 'https://i.postimg.cc/D09hjt2Y/Prudential.webp',
-  momo: 'https://i.postimg.cc/90628vWg/Momo.webp',
-  finviet: 'https://i.postimg.cc/3N47ZKHb/Finviet.webp',
-  opportunity: 'https://i.postimg.cc/Px871F32/Tim-Co-hoi.png',
+  mobifone: 'https://i.postimg.cc/pLg6cTGy/Mobifone.webp',
+  v247: 'https://i.postimg.cc/Sxwv1sTC/v247.webp',
+  lbc: 'https://i.postimg.cc/qv95DRbN/LBC.webp',
+  ved: 'https://i.postimg.cc/RZjDpFsw/VED.webp',
+  prudential: 'https://i.postimg.cc/Z51MsR7N/Prudentinal.webp',
+  momo: 'https://i.postimg.cc/CxWQr1P1/Momo.webp',
+  finviet: 'https://i.postimg.cc/HkfhvxZV/Finviet.webp',
+  opportunity: 'https://i.postimg.cc/P5BRVx3Z/Tim-Co-hoi.webp',
 } as const;

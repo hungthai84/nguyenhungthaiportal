@@ -344,15 +344,15 @@ html:is([data-card-style="iridescent-liquid-glass"], [data-card-style="dark-irid
   .education-course-card,
   .theme-modal-card,
   .theme-popup
-):not(.theme-preset-card):not(.theme-preset-card *):not(.service-vibrant-card) {
+):not(.theme-preset-card):not(.theme-preset-card *):not(.service-vibrant-card):not(#footer-lang-popup) {
   backdrop-filter: blur(var(--card-blur, 24px)) saturate(var(--card-saturation, 185%)) !important;
   -webkit-backdrop-filter: blur(var(--card-blur, 24px)) saturate(var(--card-saturation, 185%)) !important;
   border-width: var(--card-border-width, 1px) !important;
   transition:
-    transform var(--motion-hover-duration, 220ms) var(--motion-easing, cubic-bezier(0.22, 1, 0.36, 1)),
-    box-shadow var(--motion-hover-duration, 220ms) ease,
-    border-color var(--motion-hover-duration, 220ms) ease,
-    background-color var(--motion-duration, 280ms) ease !important;
+    transform var(--motion-normal, 220ms) var(--motion-easing, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow var(--motion-normal, 220ms) ease,
+    border-color var(--motion-normal, 220ms) ease,
+    background-color var(--motion-normal, 220ms) ease !important;
 }
 
 /* Iridescent Chrome Rainbow Rim when data-irid-border="on" (or default) */

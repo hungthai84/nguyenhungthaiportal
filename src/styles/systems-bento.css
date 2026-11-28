@@ -291,3 +291,203 @@ html[data-card-style="mica-fluent"] .sys-bento-subtile {
     transform: none !important;
   }
 }
+
+/* ========================================================================= */
+/* SYSTEMS PAGE: BENTO STUDIO SYSTEM CARDS (12 MODULES + THEME CASCADE LOCK) */
+/* Loaded after all 14 theme stylesheets so each card strictly preserves     */
+/* its exact Bento Studio gradient background & white hover video sync.      */
+/* ========================================================================= */
+html:root body #systems-page-container #systems-cards-grid.sys-bento-studio-grid,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid.sys-bento-studio-grid,
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid.sys-bento-studio-grid {
+  display: grid !important;
+  grid-auto-flow: dense !important;
+  align-items: start !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  gap: 20px !important;
+  padding-bottom: 6px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"] {
+  border-radius: 14px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: var(--sys-bento-bg) !important;
+  background-image: var(--sys-bento-bg) !important;
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 18px 20px !important;
+  gap: 0px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow:
+    0 14px 30px -8px rgba(0, 0, 0, 0.56),
+    0 6px 14px -4px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+  animation: none !important;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]::before,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]::after,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]::before,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Preserve vibrant contrast colors on gradient cards across all Light/Dark/Texture themes */
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3 span,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-icon,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-abbr-badge,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-section-label,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3 span,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-icon,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-abbr-badge,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-section-label {
+  color: var(--sys-bento-accent, #ffffff) !important;
+  text-shadow: none !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill {
+  background: rgba(0, 0, 0, 0.25) !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"] {
+  box-shadow:
+    0 0 0 2px rgba(192, 132, 252, 0.55),
+    0 22px 44px -10px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover {
+    transform: translateY(-10px) scale(1.022) !important;
+    background: var(--sys-bento-bg) !important;
+    background-image: var(--sys-bento-bg) !important;
+    border-color: rgba(255, 255, 255, 0.34) !important;
+    border-top-color: rgba(255, 255, 255, 0.34) !important;
+    box-shadow:
+      0 32px 56px -12px rgba(0, 0, 0, 0.68),
+      0 16px 28px -8px rgba(0, 0, 0, 0.46),
+      0 0 0 1px rgba(255, 255, 255, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+  }
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:active,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:active {
+  transform: translateY(-3px) scale(0.995) !important;
+}
+
+/* Lớp chuyển màu nền thẻ sang màu trắng khi rê chuột vào hình */
+#systems-page-container #systems-cards-grid .sys-bento-studio-card .card-video-bg-sync {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  transition: opacity 0.2s ease;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-video-bg-sync,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-video-bg-sync {
+  opacity: 1 !important;
+}
+
+/* Điều chỉnh màu chữ & viền sang tông tối sắc nét khi nền thẻ chuyển sang màu trắng */
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"],
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] {
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-bottom-meta,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-expanded-details,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-bottom-meta,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-expanded-details {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top h3,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top h3 span,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top .sys-icon,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-desc-copy,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top h3,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top h3 span,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .card-header-top .sys-icon,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-desc-copy {
+  color: #0f172a !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-fullname-copy,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-fullname-copy {
+  color: #475569 !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-category-pill,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-category-pill {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+  color: #334155 !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-abbr-badge,
+html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-section-label,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-abbr-badge,
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-thumb-hover="true"] .sys-section-label {
+  color: var(--badge-dark, #0f172a) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+  html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:active,
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:active {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

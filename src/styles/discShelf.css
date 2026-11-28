@@ -835,3 +835,1045 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
   0%, 48% { translate: -70% 0; }
   80%, 100% { translate: 70% 0; }
 }
+
+/* ========================================================================= */
+/* 2-TIER WOODEN BOOKSHELF & 5 DISTINCT BOOK TEMPLATES (EDUCATION VIEW)      */
+/* ========================================================================= */
+
+#education-disc-bookshelf-view.edu-wood-library,
+html[data-card-style] #education-disc-bookshelf-view.edu-wood-library,
+html[data-surface-depth] #education-disc-bookshelf-view.edu-wood-library {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 0%;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  padding: 6px 6px 14px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html[data-card-style] #education-disc-bookshelf-view .edu-book-slot,
+html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+#education-disc-bookshelf-view.edu-wood-library::-webkit-scrollbar {
+  width: 6px;
+}
+#education-disc-bookshelf-view.edu-wood-library::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.32);
+  border-radius: 999px;
+}
+
+.edu-wood-tiers-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+  margin: auto 0;
+}
+
+/* Each Shelf Tier */
+.edu-wood-tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Tier Header Row: Sign Board + Navigation Controls */
+.edu-wood-tier-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 10px 8px;
+  min-width: 0;
+}
+
+/* Sign Boards (Wooden Carved Sign & Framed Chalkboard) */
+.edu-shelf-board {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 10px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edu-shelf-board--wood {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 2px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(45, 22, 8, 0.14) 0px,
+      rgba(45, 22, 8, 0.14) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    linear-gradient(180deg, #9c663a 0%, #7d4c27 52%, #63391b 100%);
+  border: 1.5px solid #4a2811;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 232, 198, 0.42),
+    inset 0 -2px 3px rgba(34, 15, 4, 0.55),
+    0 5px 14px -4px rgba(34, 15, 4, 0.45);
+  color: #fff6e8;
+}
+
+.edu-shelf-board--wood::before,
+.edu-shelf-board--wood::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: radial-gradient(circle at 30% 30%, #fde68a, #b45309 70%, #451a03 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.edu-shelf-board--chalkboard {
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(255, 255, 255, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 72%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    linear-gradient(160deg, #253a32 0%, #1c2e28 55%, #16241f 100%);
+  border: 3px solid #8a5a32;
+  outline: 1px solid rgba(58, 32, 12, 0.65);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 5px 14px -4px rgba(15, 23, 20, 0.48);
+  color: #f4f7f2;
+}
+
+.edu-shelf-board-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.edu-shelf-board--chalkboard .edu-shelf-board-title {
+  letter-spacing: 0.03em;
+  color: rgba(248, 250, 246, 0.96);
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.22);
+}
+
+.edu-shelf-board-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  flex-shrink: 0;
+}
+
+/* Tier Nav Arrows */
+.edu-wood-nav-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.edu-wood-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.3));
+  background: var(--bg-card, rgba(255, 255, 255, 0.72));
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: transform 0.18s ease, background-color 0.18s ease, opacity 0.18s ease, border-color 0.18s ease;
+  box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.16);
+}
+
+.edu-wood-nav-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--color-primary, #2563eb);
+  color: var(--color-primary, #2563eb);
+}
+
+.edu-wood-nav-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.edu-wood-nav-btn:disabled {
+  opacity: 0.36;
+  cursor: not-allowed;
+}
+
+/* Shelf Stage & Scroll Area */
+.edu-wood-shelf-stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  padding-top: 6px;
+}
+
+.edu-wood-scroll-area {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 16px 22px 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.edu-wood-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* Book Slot (Book + Ground Shadow + Plank Year Tag) */
+.edu-book-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-bottom: 34px;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  text-align: left;
+  perspective: 950px;
+}
+
+.edu-book-slot:focus-visible .edu-tilt-book {
+  outline: 2px solid var(--color-primary, #38bdf8);
+  outline-offset: 4px;
+}
+
+/* 3D Pointer Tracking Tilt Wrapper */
+.edu-tilt-book {
+  --tilt-rx: 0deg;
+  --tilt-ry: 0deg;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) translateY(0px);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s ease;
+  will-change: transform;
+}
+
+.edu-book-slot:hover .edu-tilt-book,
+.edu-book-slot.is-active .edu-tilt-book {
+  transform: rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) translateY(-10px) scale(1.025);
+}
+
+.edu-book-slot.is-active .edu-book-frame,
+.edu-book-slot.is-active .edu-side-book {
+  box-shadow:
+    0 0 0 2px var(--color-primary, #38bdf8),
+    0 18px 30px -10px rgba(0, 0, 0, 0.55);
+}
+
+/* Ground Contact Shadow Resting on the Wooden Plank */
+.edu-book-shadow {
+  position: absolute;
+  bottom: 30px;
+  left: 8%;
+  right: 8%;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(15, 7, 2, 0.62) 0%, rgba(15, 7, 2, 0.25) 52%, transparent 78%);
+  filter: blur(2.5px);
+  pointer-events: none;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  z-index: 1;
+}
+
+.edu-book-slot:hover .edu-book-shadow,
+.edu-book-slot.is-active .edu-book-shadow {
+  transform: scaleX(0.88);
+  opacity: 0.55;
+}
+
+/* Year Tag Mounted on the Wooden Shelf Fascia Edge */
+.edu-book-shelf-year {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  color: #fef3dc;
+  background: rgba(42, 20, 7, 0.72);
+  border: 1px solid rgba(255, 224, 178, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 5px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.edu-book-slot:hover .edu-book-shelf-year,
+.edu-book-slot.is-active .edu-book-shelf-year {
+  background: var(--color-primary, #2563eb);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
+  transform: translateX(-50%) translateY(-1px);
+}
+
+/* 3D Wooden Shelf Plank Underneath Books */
+.edu-wood-plank {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 36px;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 5px 5px 8px 8px;
+}
+
+/* Top Perspective Ledge Where Books Sit */
+.edu-wood-plank-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 12px;
+  border-radius: 5px 5px 0 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0px,
+      rgba(255, 255, 255, 0.06) 14px,
+      rgba(80, 40, 12, 0.06) 14px,
+      rgba(80, 40, 12, 0.06) 28px
+    ),
+    linear-gradient(180deg, #cfa06e 0%, #b57d47 65%, #996232 100%);
+  border-top: 1px solid rgba(255, 236, 206, 0.58);
+  box-shadow: inset 0 -2px 4px rgba(56, 26, 8, 0.3);
+}
+
+/* Front Wooden Fascia with Grain */
+.edu-wood-plank-front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12px;
+  height: 24px;
+  border-radius: 0 0 8px 8px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(40, 18, 5, 0.14) 0px,
+      rgba(40, 18, 5, 0.14) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 235, 205, 0.04) 0px,
+      rgba(255, 235, 205, 0.04) 32px,
+      rgba(35, 14, 4, 0.06) 32px,
+      rgba(35, 14, 4, 0.06) 64px
+    ),
+    linear-gradient(180deg, #8e582c 0%, #73421e 55%, #552e12 100%);
+  border-top: 1px solid rgba(255, 224, 178, 0.25);
+  border-bottom: 1.5px solid #3c1e09;
+  box-shadow:
+    0 12px 22px -6px rgba(22, 10, 3, 0.52),
+    0 4px 8px -2px rgba(22, 10, 3, 0.35);
+}
+
+/* Dark Mode Richer Walnut Tone */
+.edu-wood-library[data-theme="dark"] .edu-wood-plank-top {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 14px,
+      rgba(20, 8, 2, 0.1) 14px,
+      rgba(20, 8, 2, 0.1) 28px
+    ),
+    linear-gradient(180deg, #98653c 0%, #7a4c28 65%, #5f381b 100%);
+  border-top-color: rgba(255, 218, 170, 0.32);
+}
+
+.edu-wood-library[data-theme="dark"] .edu-wood-plank-front {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(15, 6, 2, 0.22) 0px,
+      rgba(15, 6, 2, 0.22) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    linear-gradient(180deg, #683b1b 0%, #4e2b12 58%, #361c0a 100%);
+  border-bottom-color: #1f0e04;
+}
+
+/* ========================================================================= */
+/* COMMON FRONT-FACING BOOK COVER CHASSIS & TACTILE OVERLAYS                 */
+/* ========================================================================= */
+
+.edu-book-frame {
+  position: relative;
+  width: 152px;
+  height: 214px;
+  border-radius: 3px 9px 9px 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  box-shadow:
+    -3px 4px 10px -2px rgba(0, 0, 0, 0.36),
+    4px 10px 18px -6px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transition: box-shadow 0.28s ease;
+}
+
+/* Spine Crease on Left Hinge */
+.edu-book-spine-crease {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.44) 0%,
+    rgba(0, 0, 0, 0.12) 28%,
+    rgba(255, 255, 255, 0.28) 46%,
+    rgba(0, 0, 0, 0.2) 64%,
+    rgba(255, 255, 255, 0.14) 78%,
+    transparent 100%
+  );
+}
+
+/* Subtle Paper Grain Texture */
+.edu-book-paper-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.45) 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+}
+
+/* Cover Specular Sheen */
+.edu-book-light {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    122deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.04) 38%,
+    transparent 56%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+  transition: opacity 0.28s ease;
+}
+
+.edu-book-slot:hover .edu-book-light {
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0.08) 44%,
+    transparent 62%,
+    rgba(0, 0, 0, 0.14) 100%
+  );
+}
+
+/* ========================================================================= */
+/* TEMPLATE 1: VJY-LAYERED (3D ANGLED COVER + STACKED PAGE EDGES)            */
+/* ========================================================================= */
+
+.edu-vjy-wrap {
+  position: relative;
+  width: 162px;
+  height: 214px;
+  padding-right: 11px;
+  box-sizing: border-box;
+}
+
+.edu-vjy-pages {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  right: 1px;
+  width: 14px;
+  border-radius: 0 6px 6px 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f8f4eb 0px,
+      #f8f4eb 1.5px,
+      #ddd3c2 1.5px,
+      #ddd3c2 3px
+    );
+  border: 1px solid rgba(90, 68, 42, 0.35);
+  border-left: none;
+  box-shadow:
+    inset 3px 0 4px rgba(0, 0, 0, 0.18),
+    3px 4px 10px -2px rgba(0, 0, 0, 0.32);
+  transform: skewY(-2deg);
+  transition: transform 0.28s ease, right 0.28s ease;
+}
+
+.edu-vjy-backboard {
+  position: absolute;
+  top: 2px;
+  bottom: 1px;
+  left: 4px;
+  right: 0;
+  border-radius: 3px 9px 9px 3px;
+  filter: brightness(0.68);
+  z-index: 0;
+}
+
+.edu-vjy-wrap .edu-book-frame {
+  position: relative;
+  z-index: 2;
+  width: 151px;
+  height: 214px;
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
+}
+
+.edu-book-slot:hover .edu-vjy-wrap .edu-book-frame {
+  transform: perspective(600px) rotateY(-12deg);
+}
+
+.edu-book-slot:hover .edu-vjy-pages {
+  right: -1px;
+  transform: skewY(-1deg) translateX(1px);
+}
+
+/* ========================================================================= */
+/* TEMPLATE 2: VARIANT-EDITORIAL (MINIMALIST TOP ACCENT RULE)                */
+/* ========================================================================= */
+
+.edu-book-frame--editorial {
+  padding: 14px 13px 13px 19px;
+}
+
+.edu-editorial-rule {
+  width: 100%;
+  height: 2.5px;
+  border-radius: 99px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+/* ========================================================================= */
+/* TEMPLATE 3: VARIANT-BAUHAUS (GEOMETRIC ACCENT + ART PATTERN)              */
+/* ========================================================================= */
+
+.edu-book-frame--bauhaus {
+  padding: 13px 13px 13px 19px;
+}
+
+.edu-bauhaus-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.edu-bauhaus-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.edu-bauhaus-square {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+
+/* ========================================================================= */
+/* TEMPLATE 4: SIDE-SPINE (VERTICAL STANDING BOOK SPINE FACING OUTWARD)      */
+/* ========================================================================= */
+
+.edu-side-book {
+  position: relative;
+  width: 60px;
+  height: 218px;
+  border-radius: 5px 5px 3px 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 6px;
+  box-sizing: border-box;
+  box-shadow:
+    inset 6px 0 10px rgba(255, 255, 255, 0.22),
+    inset -7px 0 12px rgba(0, 0, 0, 0.38),
+    3px 8px 14px -4px rgba(0, 0, 0, 0.45);
+  transition: box-shadow 0.28s ease;
+}
+
+.edu-side-spine-band {
+  width: 100%;
+  height: 2px;
+  border-radius: 99px;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.edu-side-spine-title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.18;
+  max-height: 132px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  z-index: 3;
+}
+
+.edu-side-spine-issuer {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.82;
+  max-height: 76px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.edu-side-spine-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 3;
+}
+
+/* ========================================================================= */
+/* TEMPLATE 5: VARIANT-ZEN (CENTERED CIRCLE MOTIF)                           */
+/* ========================================================================= */
+
+.edu-book-frame--zen {
+  padding: 13px 13px 13px 18px;
+  text-align: center;
+  align-items: center;
+}
+
+.edu-zen-circle {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1.5px solid rgba(255, 255, 255, 0.36);
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.16),
+    0 6px 14px -4px rgba(0, 0, 0, 0.35);
+}
+
+/* ========================================================================= */
+/* 8 PROCEDURAL ART COVER PATTERNS (READING ROOM MOTIFS)                     */
+/* ========================================================================= */
+
+.edu-art-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.22;
+}
+
+.edu-art-pattern.p-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.38) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.38) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.edu-art-pattern.p-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.55) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+.edu-art-pattern.p-split {
+  background: linear-gradient(132deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.28) 49.5%, transparent 50%);
+}
+
+.edu-art-pattern.p-arch {
+  background: radial-gradient(circle at 50% 108%, transparent 38%, rgba(255, 255, 255, 0.26) 38.5%, rgba(255, 255, 255, 0.26) 54%, transparent 54.5%);
+}
+
+.edu-art-pattern.p-sun {
+  background: repeating-conic-gradient(
+    from 0deg at 85% 18%,
+    rgba(255, 255, 255, 0.28) 0deg 10deg,
+    transparent 10deg 22deg
+  );
+}
+
+.edu-art-pattern.p-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.24) 0px,
+    rgba(255, 255, 255, 0.24) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+}
+
+.edu-art-pattern.p-waves {
+  background:
+    radial-gradient(circle at 100% 50%, transparent 20%, rgba(255, 255, 255, 0.25) 21%, rgba(255, 255, 255, 0.25) 24%, transparent 25%),
+    radial-gradient(circle at 0% 50%, transparent 20%, rgba(255, 255, 255, 0.25) 21%, rgba(255, 255, 255, 0.25) 24%, transparent 25%);
+  background-size: 28px 28px;
+}
+
+.edu-art-pattern.p-rings {
+  background: repeating-radial-gradient(
+    circle at 75% 75%,
+    transparent 0px,
+    transparent 10px,
+    rgba(255, 255, 255, 0.26) 10px,
+    rgba(255, 255, 255, 0.26) 11.5px
+  );
+}
+
+/* ========================================================================= */
+/* RESPONSIVE COMPACT SCALING & REDUCED MOTION                               */
+/* ========================================================================= */
+
+@media (max-width: 768px) {
+  .edu-wood-scroll-area {
+    gap: 16px;
+    padding: 12px 14px 0;
+  }
+
+  .edu-book-frame,
+  .edu-vjy-wrap .edu-book-frame {
+    width: 136px;
+    height: 192px;
+  }
+
+  .edu-vjy-wrap {
+    width: 146px;
+    height: 192px;
+  }
+
+  .edu-side-book {
+    width: 54px;
+    height: 196px;
+  }
+
+  .edu-shelf-board {
+    padding: 6px 12px;
+  }
+
+  .edu-shelf-board-title {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-tilt-book,
+  .edu-vjy-wrap .edu-book-frame,
+  .edu-vjy-pages,
+  .edu-book-shadow,
+  .edu-book-shelf-year,
+  .edu-wall-frame-assembly {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ========================================================================= */
+/* WALL-HANGING VIDEO PICTURE FRAME (TOP-RIGHT OF EDUCATION BOOKSHELF WALL)  */
+/* ========================================================================= */
+
+.edu-wall-stage-header {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 2px 10px 4px;
+  box-sizing: border-box;
+  z-index: 25;
+}
+
+.edu-wall-left-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 240px;
+}
+
+/* Wall Picture Hanging Assembly (Nail + V-Wire + Framed Video Artwork) */
+.edu-wall-video-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 248px;
+  max-width: 100%;
+  padding-top: 22px;
+  z-index: 20;
+}
+
+/* Brass Wall Hook / Nail */
+.edu-wall-nail {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  z-index: 4;
+  background: radial-gradient(circle at 32% 30%, #fef08a 0%, #ca8a04 58%, #5c3309 100%);
+  border: 1px solid rgba(66, 32, 6, 0.72);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.55);
+}
+
+/* Hanging Cord SVG */
+.edu-wall-wire {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 152px;
+  height: 20px;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.edu-wall-frame-assembly {
+  position: relative;
+  width: 100%;
+  transform-origin: 50% -18px;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+}
+
+.edu-wall-video-frame:hover .edu-wall-frame-assembly {
+  transform: rotate(-1.1deg) translateY(-1px);
+}
+
+/* Outer Handcrafted Walnut Wooden Picture Frame */
+.edu-wall-frame-outer {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 232, 200, 0.04) 0px,
+      rgba(255, 232, 200, 0.04) 3px,
+      transparent 3px,
+      transparent 11px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(28, 12, 3, 0.16) 0px,
+      rgba(28, 12, 3, 0.16) 1px,
+      transparent 1px,
+      transparent 5px
+    ),
+    linear-gradient(145deg, #8b562e 0%, #633818 46%, #45230d 100%);
+  border: 1.5px solid #381a08;
+  box-shadow:
+    0 18px 34px -10px rgba(18, 9, 3, 0.52),
+    0 7px 14px -4px rgba(18, 9, 3, 0.36),
+    inset 0 1.5px 0 rgba(255, 224, 182, 0.42),
+    inset 0 -2px 4px rgba(24, 10, 2, 0.62);
+}
+
+/* Archival Cream Passe-Partout Mat + Inner Gold Fillet */
+.edu-wall-frame-mat {
+  position: relative;
+  width: 100%;
+  padding: 7px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background: linear-gradient(155deg, #f8f3e8 0%, #ede4d2 100%);
+  border: 1.5px solid #c9a15b;
+  box-shadow:
+    inset 0 2px 5px rgba(34, 18, 6, 0.35),
+    0 1px 0 rgba(255, 240, 212, 0.45);
+}
+
+.edu-wood-library[data-theme="dark"] .edu-wall-frame-mat {
+  background: linear-gradient(155deg, #e7dfd0 0%, #d4c8b3 100%);
+}
+
+/* Video Artwork Aperture */
+.edu-wall-frame-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #0f172a;
+  box-shadow:
+    inset 0 0 0 1px rgba(40, 22, 8, 0.42),
+    inset 0 2px 6px rgba(0, 0, 0, 0.48);
+}
+
+/* Subtle Museum Glass Specular Reflection */
+.edu-wall-frame-glass {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    126deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.04) 34%,
+    transparent 52%,
+    rgba(0, 0, 0, 0.14) 100%
+  );
+}
+
+/* Engraved Brushed-Brass Gallery Plaque on Bottom Rail */
+.edu-wall-frame-plaque {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  padding: 1px 8px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #3a2006;
+  background: linear-gradient(90deg, #c99b44 0%, #f5d88c 48%, #bd8c34 100%);
+  border: 0.5px solid rgba(58, 32, 6, 0.55);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .edu-wall-stage-header {
+    padding: 0 6px 2px;
+    gap: 10px;
+  }
+
+  .edu-wall-video-frame {
+    width: 186px;
+    padding-top: 18px;
+  }
+
+  .edu-wall-wire {
+    width: 118px;
+    height: 16px;
+  }
+
+  .edu-wall-frame-outer {
+    padding: 7px;
+  }
+
+  .edu-wall-frame-mat {
+    padding: 5px;
+  }
+
+  .edu-wall-frame-plaque {
+    font-size: 7px;
+    padding: 1px 6px;
+  }
+}
+
+

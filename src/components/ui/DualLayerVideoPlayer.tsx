@@ -14,6 +14,7 @@ export interface DualLayerVideoPlayerProps {
   muteVideo1?: boolean;
   loopVideo1?: boolean;
   capsuleVariant?: 'home' | 'about';
+  hideSpeaker?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -42,6 +43,7 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
   muteVideo1 = true,
   loopVideo1 = true,
   capsuleVariant = 'about',
+  hideSpeaker = false,
   className,
   style,
 }) => {
@@ -709,31 +711,35 @@ export const DualLayerVideoPlayer: React.FC<DualLayerVideoPlayerProps> = ({
             'absolute z-30 max-w-[calc(100%-24px)] inline-flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 !rounded-[999px] rounded-[999px] transition-all duration-200 pointer-events-auto select-none'
           )}
         >
-          {/* Speaker Toggle Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleVideoMute();
-            }}
-            className={cn(
-              'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
-              isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
-            )}
-            title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
-            aria-pressed={isAudioOn}
-          >
-            <span className="flex items-center justify-center">
-              {isAudioOn ? (
-                <WebIcon name="volume-2" className="w-4 h-4 text-current" />
-              ) : (
-                <WebIcon name="volume-x" className="w-4 h-4 text-white" />
-              )}
-            </span>
-          </button>
+          {!hideSpeaker && (
+            <>
+              {/* Speaker Toggle Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleVideoMute();
+                }}
+                className={cn(
+                  'video-play-btn__sound w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+                  isAudioOn ? 'text-current shadow-xs' : 'is-muted text-white shadow-md'
+                )}
+                title={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+                aria-label={isAudioOn ? 'Tắt âm thanh video' : 'Bật âm thanh video'}
+                aria-pressed={isAudioOn}
+              >
+                <span className="flex items-center justify-center">
+                  {isAudioOn ? (
+                    <WebIcon name="volume-2" className="w-4 h-4 text-current" />
+                  ) : (
+                    <WebIcon name="volume-x" className="w-4 h-4 text-white" />
+                  )}
+                </span>
+              </button>
 
-          <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
+              <div className="w-[1px] h-4 bg-current opacity-25 shrink-0" />
+            </>
+          )}
 
           {/* Play / Cancel Toggle Button */}
           {!isPlayingIntro ? (

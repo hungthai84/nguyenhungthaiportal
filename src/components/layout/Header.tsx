@@ -6,6 +6,11 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useLanguage } from '@/context/LanguageContext';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { useTheme } from '@/hooks/useTheme';
+import {
+  LETTER_14_DARK_HEXES,
+  LETTER_14_LIGHT_HEXES,
+  LETTER_14_PALETTE_THEME_STYLES,
+} from '@/config/ui/themeDefaults';
 import { RadialContactMenu } from './RadialContactMenu';
 
 export interface HeaderProps {
@@ -294,8 +299,9 @@ export const Header: React.FC<HeaderProps> = ({
   const isWalnutTheme = cardStyle === 'walnut-wood';
   const isLeatherTheme = cardStyle === 'cowhide-leather';
   const isOceanTheme = cardStyle === 'deep-ocean';
+  const isLetter14PaletteTheme = LETTER_14_PALETTE_THEME_STYLES.includes(cardStyle);
   const leatherGoldAccent = isDark ? '#E5B87E' : '#D97706';
-  const leatherTitleColor = isDark ? '#FFF8EE' : '#FDE68A';
+  const activeLetter14Palette = isDark ? LETTER_14_DARK_HEXES : LETTER_14_LIGHT_HEXES;
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -467,7 +473,7 @@ export const Header: React.FC<HeaderProps> = ({
       data-element-page="global"
       data-element-parent="website-root"
       style={{
-        maxWidth: 'var(--main-card-target-w, 1050px)',
+        maxWidth: 'var(--main-card-target-w, 1200px)',
         width: '100%',
         height: '100%',
         minHeight: '100%',
@@ -499,6 +505,7 @@ export const Header: React.FC<HeaderProps> = ({
       <nav
         ref={navRef}
         id="header-center"
+        data-theme-synced="true"
         aria-label={language === 'en' ? 'Primary navigation' : 'Điều hướng chính'}
         onPointerLeave={(e) => {
           if (e.pointerType === 'mouse') {
@@ -588,8 +595,10 @@ export const Header: React.FC<HeaderProps> = ({
                         : isLeatherTheme
                           ? leatherGoldAccent
                           : isOceanTheme
-                            ? '#0284C7'
-                            : (isDark ? styleCfg.darkAccentColor : styleCfg.accentColor) || 'var(--nav-pill-accent, var(--color-primary))',
+                            ? '#38BDF8'
+                            : isLetter14PaletteTheme
+                              ? activeLetter14Palette[index % activeLetter14Palette.length]
+                              : (isDark ? styleCfg.darkAccentColor : styleCfg.accentColor) || '#4F46E5',
                       width: '176px',
                       height: '50px',
                       minHeight: '50px',
@@ -598,7 +607,6 @@ export const Header: React.FC<HeaderProps> = ({
                       paddingBottom: '4px',
                       paddingLeft: '12px',
                       fontWeight: 'normal',
-                      borderWidth: '1px',
                     } as React.CSSProperties
                   }
                 >
@@ -632,16 +640,6 @@ export const Header: React.FC<HeaderProps> = ({
                     <span
                       style={{
                         fontWeight: 'bold',
-                        color:
-                          isSelected || hoveredNavIndex === index
-                            ? 'var(--pill-active-text, #ffffff)'
-                            : isWalnutTheme
-                              ? '#F5C478'
-                              : isLeatherTheme
-                                ? leatherTitleColor
-                                : isOceanTheme
-                                  ? '#38BDF8'
-                                  : ((isDark ? styleCfg.darkAccentColor : styleCfg.accentColor) || 'var(--text-heading, var(--color-primary))'),
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
@@ -734,8 +732,10 @@ export const Header: React.FC<HeaderProps> = ({
                         : isLeatherTheme
                           ? leatherGoldAccent
                           : isOceanTheme
-                            ? '#0284C7'
-                            : (isDark ? contactStyleCfg.darkAccentColor : contactStyleCfg.accentColor) || 'var(--nav-pill-accent, var(--color-primary))',
+                            ? '#38BDF8'
+                            : isLetter14PaletteTheme
+                              ? activeLetter14Palette[avatarNavIndex % activeLetter14Palette.length]
+                              : (isDark ? contactStyleCfg.darkAccentColor : contactStyleCfg.accentColor) || '#4338CA',
                       width: '176px',
                       height: '50px',
                       minHeight: '50px',
@@ -761,16 +761,6 @@ export const Header: React.FC<HeaderProps> = ({
                     <span
                       style={{
                         fontWeight: 'bold',
-                        color:
-                          currentPage === 12 || isRadialMenuOpen || hoveredNavIndex === avatarNavIndex
-                            ? 'var(--pill-active-text, #ffffff)'
-                            : isWalnutTheme
-                              ? '#F5C478'
-                              : isLeatherTheme
-                                ? leatherTitleColor
-                                : isOceanTheme
-                                  ? '#38BDF8'
-                                  : ((isDark ? contactStyleCfg.darkAccentColor : contactStyleCfg.accentColor) || 'var(--text-heading, var(--color-primary))'),
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >

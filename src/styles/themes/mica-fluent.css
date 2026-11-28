@@ -1,8 +1,8 @@
 /* ========================================================================= */
-/* THEME SYSTEM: FROSTED MICA EFFECT (CODEPEN FROSTED GLASS + MICA FLUENT)   */
+/* THEME SYSTEM: FROSTED MICA EFFECT (KÍNH MỜ PHÂN LỚP · 10-COLOR SPECTRUM)  */
 /* Background: rgba(255, 255, 255, 0.30) · Backdrop Blur: 20px               */
-/* Soft Elevation: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) · Espresso Ink #1C0708 */
-/* Accent Crimson-Orange (#E84118 → #C23616) · Warm Cream Scrim              */
+/* Palette: #C65927 · #FF7C17 · #FEC603 · #A8F387 · #3ABA8F                  */
+/*          #16D6FA · #5274FF · #AF64E8 · #EA1A7F · #D62424                  */
 /* ========================================================================= */
 
 .card-mica-fluent {
@@ -48,8 +48,31 @@ html[data-card-style="mica-fluent"] body,
 html[data-theme="mica-fluent"] {
   color-scheme: light;
 
-  --color-bg: #d7c7b5;
-  --color-bg-soft: #e6d8ca;
+  /* 10-Color Dopely Spectrum Palette for Kính Mờ Phân Lớp */
+  --mica-c1: #C65927;
+  --mica-c2: #FF7C17;
+  --mica-c3: #FEC603;
+  --mica-c4: #A8F387;
+  --mica-c5: #3ABA8F;
+  --mica-c6: #16D6FA;
+  --mica-c7: #5274FF;
+  --mica-c8: #AF64E8;
+  --mica-c9: #EA1A7F;
+  --mica-c10: #D62424;
+
+  --mica-grad-1: linear-gradient(135deg, #C65927 0%, #FF7C17 100%);
+  --mica-grad-2: linear-gradient(135deg, #FF7C17 0%, #FEC603 100%);
+  --mica-grad-3: linear-gradient(135deg, #FEC603 0%, #A8F387 100%);
+  --mica-grad-4: linear-gradient(135deg, #A8F387 0%, #3ABA8F 100%);
+  --mica-grad-5: linear-gradient(135deg, #3ABA8F 0%, #16D6FA 100%);
+  --mica-grad-6: linear-gradient(135deg, #16D6FA 0%, #5274FF 100%);
+  --mica-grad-7: linear-gradient(135deg, #5274FF 0%, #AF64E8 100%);
+  --mica-grad-8: linear-gradient(135deg, #AF64E8 0%, #EA1A7F 100%);
+  --mica-grad-9: linear-gradient(135deg, #EA1A7F 0%, #D62424 100%);
+  --mica-grad-10: linear-gradient(135deg, #D62424 0%, #C65927 100%);
+
+  --color-bg: #e8e2dc;
+  --color-bg-soft: #f3ede8;
   --color-surface: rgba(255, 255, 255, 0.30);
   --color-surface-elevated: rgba(255, 255, 255, 0.42);
 
@@ -57,106 +80,113 @@ html[data-theme="mica-fluent"] {
   --color-text: #1c0708;
   --color-text-secondary: #4a4a4a;
   --color-text-muted: #5c534f;
-  --color-primary: #FF2E93;
-  --color-secondary: #525a65;
-  --color-focus-ring: #FF2E93;
+  --color-primary: #EA1A7F;
+  --color-secondary: #5274FF;
+  --color-tertiary: #16D6FA;
+  --color-accent: #FF7C17;
+  --color-focus-ring: #5274FF;
 
   --text-primary: #1c0708;
   --text-secondary: #4a4a4a;
   --text-muted: #5c534f;
   --text-heading: #1c0708;
-  --text-link: #E11D48;
-  --text-accent: #FF2E93;
+  --text-link: #5274FF;
+  --text-accent: #EA1A7F;
   --text-input: #1c0708;
   --text-placeholder: #5c534f;
   --text-on-dark: #fdfdfd;
   --text-button-primary: #fdfdfd;
   --text-button-secondary: #1c0708;
   --text-badge: #1c0708;
-  --text-highlight: #FF2E93;
+  --text-highlight: #AF64E8;
 
-  --app-bg-base: #d7c7b5;
+  --app-bg-base: #e8e2dc;
   --app-bg-gradient:
-    radial-gradient(circle at 20% 22%, rgba(255, 245, 232, 0.48) 0%, transparent 52%),
-    radial-gradient(circle at 82% 24%, rgba(255, 46, 147, 0.14) 0%, transparent 48%),
-    radial-gradient(circle at 50% 82%, rgba(168, 134, 102, 0.28) 0%, transparent 56%),
-    linear-gradient(145deg, #dfd0bf 0%, #cdb9a3 52%, #bfa78e 100%);
+    radial-gradient(circle at 12% 16%, rgba(255, 124, 23, 0.24) 0%, transparent 44%),
+    radial-gradient(circle at 36% 12%, rgba(254, 198, 3, 0.20) 0%, transparent 42%),
+    radial-gradient(circle at 64% 18%, rgba(58, 186, 143, 0.20) 0%, transparent 44%),
+    radial-gradient(circle at 88% 22%, rgba(22, 214, 250, 0.24) 0%, transparent 46%),
+    radial-gradient(circle at 82% 78%, rgba(82, 116, 255, 0.22) 0%, transparent 48%),
+    radial-gradient(circle at 52% 86%, rgba(175, 100, 232, 0.22) 0%, transparent 48%),
+    radial-gradient(circle at 20% 82%, rgba(234, 26, 127, 0.20) 0%, transparent 46%),
+    radial-gradient(circle at 4% 52%, rgba(198, 89, 39, 0.16) 0%, transparent 44%),
+    linear-gradient(145deg, #efe7df 0%, #e4d8cf 48%, #d8d5e4 100%);
 
   --ambient-base-bg: var(--app-bg-gradient);
-  --ambient-glow-1: rgba(255, 244, 229, 0.42);
-  --ambient-glow-2: rgba(255, 46, 147, 0.14);
-  --ambient-glow-3: rgba(166, 130, 96, 0.24);
-  --ambient-glow-4: rgba(255, 255, 255, 0.28);
-  --ambient-wave-1: rgba(255, 255, 255, 0.22);
-  --ambient-wave-2: rgba(255, 46, 147, 0.08);
-  --ambient-depth-vignette: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
-  --app-bg-depth-veil: radial-gradient(circle at center, rgba(15, 10, 8, 0.18) 0%, rgba(15, 10, 8, 0.42) 100%);
+  --ambient-glow-1: rgba(255, 124, 23, 0.24);
+  --ambient-glow-2: rgba(234, 26, 127, 0.20);
+  --ambient-glow-3: rgba(22, 214, 250, 0.22);
+  --ambient-glow-4: rgba(82, 116, 255, 0.20);
+  --ambient-wave-1: rgba(168, 243, 135, 0.18);
+  --ambient-wave-2: rgba(175, 100, 232, 0.16);
+  --ambient-depth-vignette: radial-gradient(circle at center, rgba(15, 10, 8, 0.12) 0%, rgba(15, 10, 8, 0.34) 100%);
+  --app-bg-depth-veil: radial-gradient(circle at center, rgba(15, 10, 8, 0.12) 0%, rgba(15, 10, 8, 0.34) 100%);
   --ambient-wallpaper-opacity: 0.96;
 
   /* Frosted Mica Rim & Frosted Glass Layering */
-  --liquid-specular-rim: rgba(255, 255, 255, 0.48);
-  --liquid-rim-soft: rgba(255, 255, 255, 0.30);
-  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  --liquid-specular-sheen: rgba(255, 255, 255, 0.30);
+  --liquid-specular-rim: rgba(255, 255, 255, 0.52);
+  --liquid-rim-soft: rgba(255, 255, 255, 0.32);
+  --liquid-rim-inset: inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  --liquid-specular-sheen: rgba(255, 255, 255, 0.32);
 
   --bg-main: rgba(255, 255, 255, 0.30);
   --bg-header: rgba(255, 255, 255, 0.30);
   --bg-footer: rgba(255, 255, 255, 0.30);
   --bg-card: rgba(255, 255, 255, 0.30);
-  --bg-card-hover: rgba(255, 255, 255, 0.40);
+  --bg-card-hover: rgba(255, 255, 255, 0.42);
   --bg-subcard: rgba(255, 255, 255, 0.30);
-  --bg-subcard-hover: rgba(255, 255, 255, 0.42);
+  --bg-subcard-hover: rgba(255, 255, 255, 0.44);
   --bg-nested-card: rgba(255, 255, 255, 0.36);
-  --bg-popup: rgba(255, 255, 255, 0.72);
-  --bg-dropdown: rgba(255, 255, 255, 0.78);
+  --bg-popup: rgba(255, 255, 255, 0.78);
+  --bg-dropdown: rgba(255, 255, 255, 0.84);
   --bg-tooltip: rgba(28, 7, 8, 0.94);
 
   --bg-nav-button-opaque: #fafafa;
-  --bg-nav-pill: rgba(255, 255, 255, 0.36);
-  --bg-nav-pill-hover: rgba(255, 255, 255, 0.54);
-  --bg-nav-arrow: rgba(255, 255, 255, 0.45);
-  --border-nav-arrow: rgba(255, 255, 255, 0.45);
-  --bg-button-primary: #FF2E93;
-  --bg-button-secondary: rgba(255, 255, 255, 0.45);
-  --bg-button-hover: rgba(255, 255, 255, 0.62);
+  --bg-nav-pill: rgba(255, 255, 255, 0.38);
+  --bg-nav-pill-hover: rgba(255, 255, 255, 0.56);
+  --bg-nav-arrow: rgba(255, 255, 255, 0.48);
+  --border-nav-arrow: rgba(255, 255, 255, 0.48);
+  --bg-button-primary: linear-gradient(135deg, #EA1A7F 0%, #AF64E8 52%, #5274FF 100%);
+  --bg-button-secondary: rgba(255, 255, 255, 0.48);
+  --bg-button-hover: rgba(255, 255, 255, 0.66);
 
-  --bg-input: rgba(255, 255, 255, 0.48);
-  --bg-badge: rgba(255, 255, 255, 0.48);
-  --bg-highlight: rgba(255, 46, 147, 0.12);
+  --bg-input: rgba(255, 255, 255, 0.50);
+  --bg-badge: rgba(255, 255, 255, 0.50);
+  --bg-highlight: rgba(234, 26, 127, 0.14);
   --bg-banner: rgba(255, 255, 255, 0.30);
-  --bg-banner-pill: rgba(255, 255, 255, 0.52);
-  --bg-banner-cta: #FF2E93;
+  --bg-banner-pill: rgba(255, 255, 255, 0.54);
+  --bg-banner-cta: linear-gradient(135deg, #EA1A7F 0%, #AF64E8 52%, #5274FF 100%);
   --text-banner-cta: #fdfdfd;
-  --bg-banner-input: rgba(255, 255, 255, 0.56);
-  --bg-nested-badge: rgba(255, 255, 255, 0.48);
+  --bg-banner-input: rgba(255, 255, 255, 0.58);
+  --bg-nested-badge: rgba(255, 255, 255, 0.50);
 
-  --border-color: rgba(255, 255, 255, 0.35);
-  --border-card: rgba(255, 255, 255, 0.35);
-  --border-subcard: rgba(255, 255, 255, 0.38);
-  --border-input: rgba(28, 7, 8, 0.16);
-  --border-popup: rgba(255, 255, 255, 0.55);
-  --border-banner-pill: rgba(255, 255, 255, 0.45);
-  --border-banner-input: rgba(255, 255, 255, 0.50);
+  --border-color: rgba(255, 255, 255, 0.38);
+  --border-card: rgba(255, 255, 255, 0.38);
+  --border-subcard: rgba(255, 255, 255, 0.42);
+  --border-input: rgba(82, 116, 255, 0.24);
+  --border-popup: rgba(255, 255, 255, 0.58);
+  --border-banner-pill: rgba(255, 255, 255, 0.48);
+  --border-banner-input: rgba(255, 255, 255, 0.52);
 
   --bg-blur: 20px;
   --glass-blur: 20px;
   --blur-subcard: 20px;
   --blur-nav-pill: 20px;
   --blur-modal: 20px;
-  --glass-saturate: 100%;
+  --glass-saturate: 118%;
   --card-border-width: 1px;
 
   --shadow-card: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
-  --shadow-card-hover: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
+  --shadow-card-hover: 0px 8px 18px 2px rgba(82, 116, 255, 0.16);
   --shadow-subcard: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
-  --shadow-subcard-hover: 0px 8px 16px 2px rgba(0, 0, 0, 0.14);
+  --shadow-subcard-hover: 0px 8px 16px 2px rgba(175, 100, 232, 0.16);
   --shadow-nav-pill: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
-  --shadow-button: 0px 4px 10px 1px rgba(255, 46, 147, 0.28);
-  --shadow-popup: 0px 8px 20px 2px rgba(0, 0, 0, 0.14);
+  --shadow-button: 0px 6px 16px -2px rgba(234, 26, 127, 0.34);
+  --shadow-popup: 0px 8px 22px 2px rgba(0, 0, 0, 0.14);
 
   /* Surface Layer Tokens */
   --surface-primary-bg: rgba(255, 255, 255, 0.30);
-  --surface-primary-border: rgba(255, 255, 255, 0.35);
+  --surface-primary-border: rgba(255, 255, 255, 0.38);
   --surface-primary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-header-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-footer-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
@@ -164,30 +194,30 @@ html[data-theme="mica-fluent"] {
   --shadow-main-card: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --shadow-footer: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-primary-blur: 20px;
-  --surface-primary-saturate: 100%;
+  --surface-primary-saturate: 118%;
 
   --surface-secondary-bg: rgba(255, 255, 255, 0.30);
-  --surface-secondary-border: rgba(255, 255, 255, 0.35);
+  --surface-secondary-border: rgba(255, 255, 255, 0.38);
   --surface-secondary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-secondary-blur: 20px;
-  --surface-secondary-saturate: 100%;
+  --surface-secondary-saturate: 118%;
 
   --surface-tertiary-bg: rgba(255, 255, 255, 0.30);
-  --surface-tertiary-border: rgba(255, 255, 255, 0.38);
+  --surface-tertiary-border: rgba(255, 255, 255, 0.40);
   --surface-tertiary-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-tertiary-blur: 20px;
-  --surface-tertiary-saturate: 100%;
+  --surface-tertiary-saturate: 118%;
 
   --surface-nested-bg: rgba(255, 255, 255, 0.34);
-  --surface-nested-border: rgba(255, 255, 255, 0.42);
+  --surface-nested-border: rgba(255, 255, 255, 0.44);
   --surface-nested-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-nested-blur: 20px;
-  --surface-nested-saturate: 100%;
+  --surface-nested-saturate: 118%;
 
-  --surface-interactive-bg: rgba(255, 255, 255, 0.36);
-  --surface-interactive-hover: rgba(255, 255, 255, 0.54);
-  --surface-interactive-active: #FF2E93;
-  --surface-interactive-border: rgba(255, 255, 255, 0.45);
+  --surface-interactive-bg: rgba(255, 255, 255, 0.38);
+  --surface-interactive-hover: rgba(255, 255, 255, 0.56);
+  --surface-interactive-active: #EA1A7F;
+  --surface-interactive-border: rgba(255, 255, 255, 0.48);
   --surface-interactive-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09);
   --surface-interactive-blur: 20px;
 
@@ -357,33 +387,71 @@ html[data-card-style="mica-fluent"] :is(.hero-banner, .banner-card, [id$="-hero-
   text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85);
 }
 
-/* Primary Accent CTA (#FF2E93 -> #E11D48) & Dark Contrast Chips */
+/* Primary Accent CTA (#EA1A7F -> #AF64E8 -> #5274FF) & 10-Color Spectrum Accents */
 html[data-card-style="mica-fluent"] .banner-primary-cta,
 html[data-card-style="mica-fluent"] .project-card-btn-primary,
 html[data-card-style="mica-fluent"] #ai-assistant-submit-button {
-  background: #FF2E93 !important;
-  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  background: linear-gradient(135deg, #EA1A7F 0%, #AF64E8 52%, #5274FF 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
   color: #fdfdfd !important;
-  box-shadow: 0 10px 24px -6px rgba(255, 46, 147, 0.42) !important;
+  box-shadow: 0 10px 24px -6px rgba(234, 26, 127, 0.42) !important;
 }
 
 html[data-card-style="mica-fluent"] .banner-primary-cta:hover,
 html[data-card-style="mica-fluent"] .project-card-btn-primary:hover,
 html[data-card-style="mica-fluent"] #ai-assistant-submit-button:hover {
-  background: #E11D48 !important;
+  background: linear-gradient(135deg, #D62424 0%, #EA1A7F 52%, #AF64E8 100%) !important;
 }
 
 html[data-card-style="mica-fluent"] .project-card-order-badge {
-  background: linear-gradient(25deg, #525a65, #3b424c) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: linear-gradient(135deg, #5274FF 0%, #AF64E8 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.32) !important;
   color: #ffffff !important;
 }
 
 html[data-card-style="mica-fluent"] :is(.project-card-tag, .education-skill-chip, .project-detail-chip, .banner-count-pill) {
-  background: hsla(0, 0%, 96%, 0.85) !important;
-  border: 1px solid rgba(28, 7, 8, 0.12) !important;
-  color: #4a4a4a !important;
+  background: hsla(0, 0%, 98%, 0.84) !important;
+  border: 1px solid rgba(82, 116, 255, 0.20) !important;
+  color: #1c0708 !important;
 }
+
+/* Layered 10-Color Subtle Frosted Spectrum Accents on Cards */
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 1):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #C65927 65%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 2):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #FF7C17 68%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 3):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #FEC603 72%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 4):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #A8F387 72%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 5):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #3ABA8F 70%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 6):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #16D6FA 72%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 7):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #5274FF 70%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 8):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #AF64E8 70%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 9):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #EA1A7F 70%, rgba(255, 255, 255, 0.5)) !important;
+}
+html[data-card-style="mica-fluent"] :is(#services-cards-grid, #systems-cards-grid, #projects-grid, #education-courses-grid) > :nth-child(10n + 10):not([data-system-bento-studio="true"]) {
+  border-top: 2px solid color-mix(in srgb, #D62424 70%, rgba(255, 255, 255, 0.5)) !important;
+}
+
+/* Footer Accent Pills mapped to 10-color palette */
+html[data-card-style="mica-fluent"] #footer-lang-btn { --nav-pill-accent: #3ABA8F; }
+html[data-card-style="mica-fluent"] #footer-appearance-btn { --nav-pill-accent: #5274FF; }
+html[data-card-style="mica-fluent"] #footer-wallpaper-btn { --nav-pill-accent: #EA1A7F; }
+html[data-card-style="mica-fluent"] #footer-ai-btn { --nav-pill-accent: #16D6FA; }
 
 /* ------------------------------------------------------------------------- */
 /* 3. NAVIGATION PILLS, CAPSULE, POPUPS, MODALS & INPUTS                     */
@@ -409,9 +477,7 @@ html[data-card-style="mica-fluent"] :is(
 
 @media (hover: hover) and (pointer: fine) {
   html[data-card-style="mica-fluent"] :is(
-    #app-header button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
     #app-footer button.nav-pill:not([aria-current="page"]):not([data-active="true"]),
-    button#header-btn-hungthai-avatar:not([aria-current="page"]):not([data-active="true"]),
     .banner-control-pill,
     .nav-arrow-btn,
     .theme-prev-next-btn
@@ -421,19 +487,18 @@ html[data-card-style="mica-fluent"] :is(
   }
 }
 
+/* Header & Footer Nav Pills under Mica Fluent defer active/hover color-swap to unified theme-button-effects.css */
 html[data-card-style="mica-fluent"] :is(
-  #app-header nav button.nav-pill,
-  #header-btn-hungthai-avatar,
   #footer-lang-btn,
   #footer-appearance-btn,
   #footer-theme-mode-btn,
   #footer-wallpaper-btn,
   #footer-ai-btn
-):is([aria-current="page"], [data-active="true"]) {
-  background: #FF2E93 !important;
-  border-color: rgba(255, 255, 255, 0.42) !important;
-  color: #fdfdfd !important;
-  box-shadow: 0 10px 24px -6px rgba(255, 46, 147, 0.46) !important;
+):is(:hover, [aria-current="page"], [data-active="true"]) {
+  background: var(--nav-pill-accent, #EA1A7F) !important;
+  border-color: color-mix(in srgb, var(--nav-pill-accent, #EA1A7F) 68%, var(--color-bg, #E8E2DC)) !important;
+  color: var(--color-bg, #E8E2DC) !important;
+  box-shadow: 0 10px 24px -6px color-mix(in srgb, var(--nav-pill-accent, #EA1A7F) 46%, rgba(15, 23, 42, 0.18)) !important;
 }
 
 html[data-card-style="mica-fluent"] :is(
@@ -464,8 +529,8 @@ html[data-card-style="mica-fluent"] :is(input, textarea, select):not([type="rang
 
 html[data-card-style="mica-fluent"] :is(input, textarea, select):focus,
 html[data-card-style="mica-fluent"] :is(button, a, input, [role="button"], [role="tab"]):focus-visible {
-  border-color: #FF2E93 !important;
-  outline: 2px solid #FF2E93 !important;
+  border-color: #5274FF !important;
+  outline: 2px solid #5274FF !important;
   outline-offset: 2px !important;
 }
 
@@ -475,13 +540,13 @@ html[data-card-style="mica-fluent"] .video-play-btn {
   --vp-border: rgba(255, 255, 255, 0.48);
   --vp-text: #1c0708;
   --vp-specular: rgba(255, 255, 255, 0.72);
-  --vp-chase-a: #FF2E93;
-  --vp-chase-b: #525a65;
+  --vp-chase-a: #EA1A7F;
+  --vp-chase-b: #5274FF;
   --vp-shadow-ambient: 0 14px 28px -8px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  --vp-shadow-hover: 0 18px 36px -8px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.90);
-  --vp-sound-bg: rgba(255, 46, 147, 0.12);
-  --vp-sound-border: rgba(255, 46, 147, 0.30);
-  --vp-sound-hover: rgba(255, 46, 147, 0.22);
+  --vp-shadow-hover: 0 18px 36px -8px rgba(82, 116, 255, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --vp-sound-bg: rgba(234, 26, 127, 0.14);
+  --vp-sound-border: rgba(234, 26, 127, 0.32);
+  --vp-sound-hover: rgba(82, 116, 255, 0.22);
 }
 
 html[data-card-style="mica-fluent"] .video-play-btn--home,
@@ -493,8 +558,8 @@ html[data-card-style="mica-fluent"] .video-play-btn--systems {
 }
 
 html[data-card-style="mica-fluent"] .video-play-btn--letter {
-  --vp-bg: #FF2E93;
-  --vp-bg-hover: #E11D48;
+  --vp-bg: linear-gradient(135deg, #EA1A7F 0%, #AF64E8 55%, #5274FF 100%);
+  --vp-bg-hover: linear-gradient(135deg, #D62424 0%, #EA1A7F 55%, #AF64E8 100%);
   --vp-text: #fdfdfd;
 }
 

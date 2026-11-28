@@ -18,7 +18,7 @@ export const PageShell: React.FC<PageShellProps> = ({
   id,
   children,
   className,
-  maxWidth = 'var(--main-card-target-w, 1050px)',
+  maxWidth = 'var(--main-card-target-w, 1200px)',
   ariaLabel,
   dataPage,
 }) => {

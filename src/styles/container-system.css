@@ -243,7 +243,8 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   align-content: start !important;
 }
 
-#services-main-content .services-cards-grid,
+/* Services & Projects card grids are unified in src/styles/cards.css via master grid tokens */
+
 #systems-page-container .systems-cards-grid {
   gap: var(--mc-gap, 15px) !important;
   row-gap: var(--mc-gap, 15px) !important;
@@ -384,7 +385,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 #projects-grid .project-card .project-card-body,
 #projects-grid article .project-card-body,
 .project-card .project-card-body {
-  padding: 15px !important;
+  padding: var(--grid-cards-padding, var(--space-card-padding, 16px)) !important;
 }
 
 #projects-grid [data-card-title="true"] {
@@ -703,17 +704,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: minmax(0, 1fr) !important;
   }
 
-  #services-main-content .services-cards-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-auto-rows: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
-    align-content: start !important;
-    align-items: stretch !important;
-  }
+  /* Services Cards responsive columns (3x2 Desktop/Laptop, 2x3 Tablet, 1x6 Mobile) are governed strictly by viewport @media rules */
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: minmax(0, 1fr) !important;
@@ -724,11 +715,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: start !important;
   }
 
-  #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 260px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
-    align-items: stretch !important;
-  }
+  /* Project Cards responsive columns (3x2 Desktop/Laptop, 2x3 Tablet, 1x6 Mobile) are governed strictly by viewport @media rules */
 
   #interface-page-container .interface-group-grid,
   #interface-themes-grid.interface-themes-grid {
@@ -904,18 +891,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     overflow: hidden !important;
   }
 
-  /* Services shrinks cleanly to 2 columns on medium widths with equal-height grid cards */
-  #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(204px, 1fr) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
-    align-content: start !important;
-    align-items: stretch !important;
-  }
+  /* Services Cards responsive columns are governed strictly by viewport @media rules (768px / 1024px / 1440px) */
 
   /* Systems shrinks cleanly to 2 columns on medium widths with content-fit height */
   #systems-page-container .systems-cards-grid {
@@ -927,12 +903,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: start !important;
   }
 
-  /* Projects auto-fit responsive columns */
-  #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 270px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
-    align-items: stretch !important;
-  }
+  /* Project Cards responsive columns are governed strictly by viewport @media rules (768px / 1024px / 1440px) */
 
   /* Interface theme cards 2-column grid */
   #interface-page-container .interface-group-grid,
@@ -946,20 +917,24 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
-  /* Horoscope Card 1..6 match LetterView Bento grid proportions on medium container widths (600px-959px) */
+  /* Horoscope Card 1..6: Card 6 = 70% width full height, Profile = 30% width full height */
   #horoscope-row-1-horizontal {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
-  }
-
-  #horoscope-row-1-horizontal > #horoscope-card-profile {
-    grid-column: span 6 / span 6 !important;
     height: 100% !important;
   }
 
   #horoscope-row-1-horizontal > #horoscope-card-6 {
-    grid-column: span 6 / span 6 !important;
+    grid-column: 1 / 2 !important;
     height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  #horoscope-row-1-horizontal > #horoscope-card-profile {
+    grid-column: 2 / 3 !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
@@ -969,24 +944,31 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     height: 100% !important;
   }
 
-  #horoscope-card-2-grid,
+  #horoscope-card-2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+  }
+
   #horoscope-card-3-grid,
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-auto-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
   #horoscope-card-5-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
   #horoscope-card-5-grid > .bento-view-card,
-  #horoscope-card-5-grid[data-card-layout="grid"] > article {
-    grid-column: span 6 / span 6 !important;
+  #horoscope-card-5-grid[data-card-layout] > article {
+    grid-column: auto !important;
     height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-card-5-grid[data-card-layout="bento"] > article:first-child,
@@ -1104,18 +1086,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
-  #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(216px, 1fr) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    min-height: 100% !important;
-    flex: 1 0 auto !important;
-    align-content: start !important;
-    align-items: stretch !important;
-  }
+  /* Services Cards responsive columns are governed strictly by viewport @media rules */
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -1126,12 +1097,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: start !important;
   }
 
-  /* Projects auto-fit responsive columns */
-  #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 270px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
-    align-items: stretch !important;
-  }
+  /* Project Cards responsive columns are governed strictly by viewport @media rules */
 
   /* Interface theme cards 3-column grid in transition zone */
   #interface-page-container .interface-group-grid,
@@ -1147,18 +1113,22 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #horoscope-row-1-horizontal {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
-  }
-
-  #horoscope-row-1-horizontal > #horoscope-card-profile {
-    grid-column: span 7 / span 7 !important;
     height: 100% !important;
   }
 
   #horoscope-row-1-horizontal > #horoscope-card-6 {
-    grid-column: span 5 / span 5 !important;
+    grid-column: 1 / 2 !important;
     height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  #horoscope-row-1-horizontal > #horoscope-card-profile {
+    grid-column: 2 / 3 !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
@@ -1170,7 +1140,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #horoscope-card-2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
     align-items: stretch !important;
   }
 
@@ -1178,28 +1148,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
     align-items: stretch !important;
   }
 
   #horoscope-card-5-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
-  #horoscope-card-5-grid[data-card-layout="grid"] > article {
-    grid-column: span 6 / span 6 !important;
+  #horoscope-card-5-grid > article,
+  #horoscope-card-5-grid[data-card-layout] > article {
+    grid-column: auto !important;
     height: 100% !important;
-  }
-
-  #horoscope-card-5-grid[data-card-layout="bento"] > article:first-child {
-    grid-column: span 5 / span 5 !important;
-    height: 100% !important;
-  }
-
-  #horoscope-card-5-grid[data-card-layout="bento"] > article:last-child {
-    grid-column: span 7 / span 7 !important;
-    height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-card-1-grid {
@@ -1326,18 +1289,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     grid-column: span 7 / span 7 !important;
   }
 
-  #services-main-content .services-cards-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(216px, 1fr) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    min-height: 100% !important;
-    flex: 1 0 auto !important;
-    align-content: start !important;
-    align-items: stretch !important;
-  }
+  /* Services Cards responsive columns are governed strictly by viewport @media rules */
 
   #systems-page-container .systems-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -1348,12 +1300,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
     align-items: start !important;
   }
 
-  /* Projects auto-fit responsive columns on wide desktop */
-  #projects-grid.projects-responsive-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min-width, 275px)), var(--card-max-width, 1fr))) !important;
-    grid-auto-rows: 1fr !important;
-    align-items: stretch !important;
-  }
+  /* Project Cards responsive columns are governed strictly by viewport @media rules */
 
   /* Interface theme cards 4-column (or user-selected 5-column) grid on desktop */
   #interface-page-container .interface-group-grid,
@@ -1373,18 +1320,22 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   }
 
   #horoscope-row-1-horizontal {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
-  }
-
-  #horoscope-row-1-horizontal > #horoscope-card-profile {
-    grid-column: span 7 / span 7 !important;
     height: 100% !important;
   }
 
   #horoscope-row-1-horizontal > #horoscope-card-6 {
-    grid-column: span 5 / span 5 !important;
+    grid-column: 1 / 2 !important;
     height: 100% !important;
+    min-height: 100% !important;
+  }
+
+  #horoscope-row-1-horizontal > #horoscope-card-profile {
+    grid-column: 2 / 3 !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-row-1-horizontal[data-book-expanded="true"] > #horoscope-card-6,
@@ -1396,7 +1347,7 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
 
   #horoscope-card-2-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
     align-items: stretch !important;
   }
 
@@ -1404,28 +1355,21 @@ html [data-main-card="true"][data-detail-open="true"][data-detail-overlay="true"
   #horoscope-card-pillars-grid,
   #horoscope-card-4-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-rows: auto !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
     align-items: stretch !important;
   }
 
   #horoscope-card-5-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
-  #horoscope-card-5-grid[data-card-layout="grid"] > article {
-    grid-column: span 6 / span 6 !important;
+  #horoscope-card-5-grid > article,
+  #horoscope-card-5-grid[data-card-layout] > article {
+    grid-column: auto !important;
     height: 100% !important;
-  }
-
-  #horoscope-card-5-grid[data-card-layout="bento"] > article:first-child {
-    grid-column: span 5 / span 5 !important;
-    height: 100% !important;
-  }
-
-  #horoscope-card-5-grid[data-card-layout="bento"] > article:last-child {
-    grid-column: span 7 / span 7 !important;
-    height: 100% !important;
+    min-height: 100% !important;
   }
 
   #horoscope-card-1-grid {

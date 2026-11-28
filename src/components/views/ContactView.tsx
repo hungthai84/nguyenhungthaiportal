@@ -50,22 +50,22 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
           <div
             id="contact-main-scroll-viewport"
             data-no-wheel-horizontal="true"
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y no-scrollbar box-border"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-stretch justify-start overflow-y-auto overflow-x-hidden overscroll-y-contain touch-pan-y no-scrollbar box-border"
           >
             <div
               id="contact-main-content"
               data-element-parent="contact-main-card"
-              className="w-full h-auto shrink-0 flex flex-col justify-start gap-[15px] min-w-0 box-border"
+              className="w-full h-full min-h-0 flex-1 flex flex-col lg:flex-row items-stretch justify-start gap-[15px] min-w-0 box-border"
             >
-              {/* 1. HERO BANNER */}
+              {/* 1. HERO BANNER (CÙNG HÀNG VỚI KHUNG LỊCH TRÊN DESKTOP - VIDEO LÀM HÌNH NỀN BANNER) */}
               <section
                 id="contact-hero-banner"
                 data-element-name="Banner phần đầu Đặt lịch"
-                data-element-type="card"
+                data-element-type="banner-card"
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="bento-card glass-card w-full shrink-0 flex flex-col sm:flex-row items-stretch rounded-[14px] shadow-xl overflow-hidden relative p-[15px] gap-[15px] box-border transition-all duration-300"
+                className="banner-card bento-card glass-card group w-full min-h-[210px] sm:min-h-[230px] lg:min-h-0 lg:self-stretch shrink-0 h-auto lg:h-full flex flex-col justify-between rounded-[14px] shadow-xl overflow-hidden relative p-[15px] gap-[15px] box-border transition-all duration-300"
                 style={{
                   padding: '15px',
                   gap: '15px',
@@ -73,60 +73,112 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                   boxSizing: 'border-box',
                 }}
               >
-                <div className="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="w-full sm:w-[280px] md:w-[320px] lg:w-[360px] shrink-0 self-stretch flex flex-col rounded-[12px] overflow-hidden border relative" style={{ borderColor: 'var(--border-subcard)' }}>
+                {/* Video làm hình nền toàn khung Banner Đặt lịch */}
+                <div
+                  id="contact-banner-video-bg"
+                  aria-hidden="true"
+                  className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+                >
                   <VideoBanner
                     videoId={contactBannerVideo.videoId}
                     title={contactBannerVideo.title}
+                    className="w-full h-full"
+                    objectPosition="50% 25%"
+                    backgroundMode
                   />
                 </div>
-                <div className="flex-1 flex flex-col justify-center gap-2.5 min-w-0 z-10">
-                  <div className="flex items-center gap-2">
-                    <span
-                      id="contact-badge-label"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold uppercase tracking-wider shadow-sm"
+                <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
+
+                {/* Nội dung thông điệp đặt lịch nổi trên nền video */}
+                <div className="relative z-10 flex-1 flex flex-col justify-between gap-3 min-w-0">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <span
+                        id="contact-badge-label"
+                        className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold uppercase tracking-wider shadow-sm backdrop-blur-md"
+                        style={{
+                          background: 'var(--bg-subcard)',
+                          borderColor: 'var(--border-subcard)',
+                          color: 'var(--color-primary)',
+                        }}
+                      >
+                        <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
+                        <span>{isEn ? 'Online Appointment' : 'Đặt lịch hẹn trực tuyến'}</span>
+                      </span>
+                    </div>
+                    <h1
+                      id="contact-heading-title"
+                      className="typo-h3 sm:typo-h2 font-bold tracking-tight text-left w-full m-0 p-0 leading-tight"
+                      data-card-title="true"
                       style={{
-                        background: 'var(--bg-subcard)',
-                        borderColor: 'var(--border-subcard)',
-                        color: 'var(--color-primary)',
+                        color: 'var(--text-primary)',
+                        textShadow: '0 1px 10px rgba(0, 0, 0, 0.28)',
                       }}
                     >
-                      <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
-                      <span>{isEn ? 'Online Appointment' : 'Đặt lịch hẹn trực tuyến'}</span>
-                    </span>
+                      {isEn ? 'Schedule a Meeting' : 'Lịch hẹn & Trao đổi'}
+                    </h1>
+                    <p
+                      id="contact-desc-text"
+                      className="typo-body text-left w-full m-0 p-2.5 rounded-[12px] leading-relaxed text-[13px] line-clamp-4 backdrop-blur-md border"
+                      style={{
+                        color: 'var(--text-primary)',
+                        background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.78)) 78%, transparent)',
+                        borderColor: 'var(--border-subcard)',
+                      }}
+                    >
+                      {isEn
+                        ? 'Select a convenient time slot via Google Calendar for executive recruitment, CX consulting, or project collaboration discussions.'
+                        : 'Chọn thời gian phù hợp qua Google Calendar để trao đổi trực tiếp về cơ hội tuyển dụng, tư vấn chiến lược CX hoặc hợp tác dự án.'}
+                    </p>
                   </div>
-                  <h1
-                    id="contact-heading-title"
-                    className="typo-h2 font-bold tracking-tight text-left w-full m-0 p-0"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
-                    {isEn ? 'Schedule a Meeting' : 'Lịch hẹn & Trao đổi công việc'}
-                  </h1>
-                  <p
-                    id="contact-desc-text"
-                    className="typo-body text-left w-full m-0 p-0 leading-relaxed"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    {isEn
-                      ? 'Select a convenient time slot via Google Calendar for executive recruitment, CX consulting, or project collaboration discussions.'
-                      : 'Chọn thời gian phù hợp qua Google Calendar để trao đổi trực tiếp về cơ hội tuyển dụng, tư vấn chiến lược CX hoặc hợp tác dự án.'}
-                  </p>
-                  <p
-                    id="contact-banner-quote"
-                    className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug"
-                    style={{
-                      color: 'var(--text-secondary)',
-                      fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-                      fontWeight: 600,
-                      fontStyle: 'normal',
-                    }}
-                  >
-                    &quot;Luôn sẵn sàng lắng nghe và đồng hành ♡&quot;
-                  </p>
+
+                  {/* Kênh liên hệ bổ trợ nhanh & Câu trích dẫn */}
+                  <div className="mt-auto flex flex-col gap-2.5">
+                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/20">
+                      <a
+                        href="tel:0909097882"
+                        className="flex items-center gap-1.5 p-2 rounded-lg backdrop-blur-md border border-[var(--border-subcard)] typo-caption font-bold text-[var(--text-primary)] transition-colors hover:brightness-105"
+                        style={{
+                          background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.85)) 85%, transparent)',
+                        }}
+                        title="Gọi điện trực tiếp: 0909097882"
+                      >
+                        <WebIcon name="phone" className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+                        <span className="truncate">0909097882</span>
+                      </a>
+                      <a
+                        href="https://zalo.me/0909097882"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 p-2 rounded-lg backdrop-blur-md border border-[var(--border-subcard)] typo-caption font-bold text-[var(--text-primary)] transition-colors hover:brightness-105"
+                        style={{
+                          background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.85)) 85%, transparent)',
+                        }}
+                        title="Kết nối Zalo: 0909097882"
+                      >
+                        <WebIcon name="message-circle" className="w-3.5 h-3.5 shrink-0 text-sky-500" />
+                        <span className="truncate">Zalo Chat</span>
+                      </a>
+                    </div>
+
+                    <p
+                      id="contact-banner-quote"
+                      className="banner-quote typo-h4 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug m-0"
+                      style={{
+                        color: '#FFFFFF',
+                        fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                        fontWeight: 700,
+                        fontStyle: 'normal',
+                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.78), 0 1px 2px rgba(0, 0, 0, 0.9)',
+                      }}
+                    >
+                      &quot;Luôn sẵn sàng lắng nghe và đồng hành ♡&quot;
+                    </p>
+                  </div>
                 </div>
               </section>
 
-              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER */}
+              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER (CÙNG HÀNG) */}
               <div
                 id="contact-info-container"
                 data-element-name="Khung đặt lịch hẹn"
@@ -134,10 +186,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="bento-card glass-card w-full flex-1 min-w-0 min-h-[500px] lg:min-h-[700px] h-full lg:self-stretch flex flex-col rounded-[14px] shadow-xl gap-[15px] overflow-hidden relative p-[15px] box-border transition-all duration-300"
+                className="bento-card glass-card flex-1 min-w-0 w-full h-full min-h-[550px] lg:min-h-0 flex flex-col rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative p-[15px] box-border transition-all duration-300"
                 style={{
                   padding: '15px',
-                  gap: '15px',
+                  gap: '12px',
                   borderRadius: 'var(--radius-card, 14px)',
                   boxSizing: 'border-box',
                 }}
@@ -152,7 +204,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
 
                 <div
                   id="contact-calendar-viewport"
-                  className="relative z-10 flex-1 w-full h-full min-h-[600px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,14px)] border border-[var(--border-subcard)] bg-transparent shadow-none flex flex-col p-0 m-0"
+                  className="relative z-10 flex-1 w-full h-full min-h-[480px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,14px)] border border-[var(--border-subcard)] bg-transparent shadow-none flex flex-col p-0 m-0"
                   style={{ padding: '0px', margin: '0px', scrollbarWidth: 'none' }}
                 >
                   <iframe
@@ -164,7 +216,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                       borderRadius: 'var(--radius-subcard, 14px)',
                       width: '100%',
                       height: '100%',
-                      minHeight: '700px',
+                      minHeight: '480px',
                       padding: '0px',
                       margin: '0px',
                     }}
@@ -173,7 +225,7 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     scrolling="no"
                     frameBorder="0"
                     title="Đặt lịch hẹn Google Calendar"
-                    className="w-full h-full flex-1 min-h-[700px] rounded-[var(--radius-subcard,14px)] p-0 m-0 block"
+                    className="w-full h-full flex-1 rounded-[var(--radius-subcard,14px)] p-0 m-0 block"
                   />
                 </div>
               </div>

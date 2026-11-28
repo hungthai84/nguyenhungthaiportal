@@ -17,8 +17,8 @@
     -7px -7px 16px rgba(255, 255, 255, 0.86),
     7px 7px 16px rgba(163, 179, 199, 0.58) !important;
   color: #22344A !important;
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 180ms ease !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--motion-normal, 220ms) ease !important;
 }
 
 .card-frost-ice-neu:hover {

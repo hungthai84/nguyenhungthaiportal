@@ -67,6 +67,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
   const spec = useMemo(() => getProjectDetailedSpec(selectedArticle), [selectedArticle]);
   const outerScrollRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const bannerRef = useRef<HTMLElement>(null);
 
   const isStrategy = selectedArticle.groupKey === 'strategy';
 
@@ -84,10 +85,17 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       const effectiveStyle = cardStyleAttr || themeAttr;
       const isDarkThemeAttr =
         effectiveStyle === 'dark-liquid-glass' ||
+        effectiveStyle === 'dark-iridescent-liquid-glass' ||
         effectiveStyle === 'cowhide-leather' ||
+        effectiveStyle === 'dark-cowhide-leather' ||
         effectiveStyle === 'walnut-wood' ||
         effectiveStyle === 'deep-ocean' ||
-        effectiveStyle === 'dark-neumorphism-beyond';
+        effectiveStyle === 'dark-neumorphism-beyond' ||
+        effectiveStyle === 'dark-frost-ice-neu' ||
+        effectiveStyle === 'dark-flat-soft-ui' ||
+        effectiveStyle === 'dark-luxury' ||
+        effectiveStyle === 'dark-neon-glass' ||
+        effectiveStyle === 'neumorphism-soft-ui-dark';
       if (typeof isLight === 'boolean') {
         setIsLightMode(isLight && !isDarkClass && !isDarkThemeAttr);
       } else {
@@ -122,16 +130,35 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
   const sectionCardStyle: React.CSSProperties = {
     padding: '15px',
-    borderRadius: '14px',
-    height: '100%',
-    minHeight: '100%',
-    maxHeight: '100%',
+    borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+    height: 'var(--project-banner-h, 100cqh)',
+    minHeight: 'var(--project-banner-h, 100cqh)',
+    maxHeight: 'var(--project-banner-h, 100cqh)',
     boxSizing: 'border-box',
     overflowY: 'auto',
-    scrollSnapAlign: 'start',
+    transformOrigin: 'top center',
   };
 
-  // Theo dõi mục lục đang xem (Scroll-Spy mượt mà trên cả Desktop và Mobile, không chặn cuộn)
+  // Đồng bộ chiều cao thẻ từ 1 đến 10 chuẩn xác bằng chiều cao banner
+  useEffect(() => {
+    const banner = bannerRef.current;
+    const container = scrollContainerRef.current;
+    if (!banner || !container) return;
+
+    const updateBannerHeight = () => {
+      const h = banner.offsetHeight;
+      if (h > 100) {
+        container.style.setProperty('--project-banner-h', `${h}px`);
+      }
+    };
+
+    updateBannerHeight();
+    const observer = new ResizeObserver(updateBannerHeight);
+    observer.observe(banner);
+    return () => observer.disconnect();
+  }, [selectedArticle.id]);
+
+  // Theo dõi mục lục đang xem & Hiệu ứng Covering card (stacking cards)
   useEffect(() => {
     const desktopScroller = scrollContainerRef.current;
     const mobileScroller = outerScrollRef.current;
@@ -148,23 +175,51 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
     };
 
     const handleScroll = () => {
-      if (!onSectionChange || !desktopScroller) return;
+      if (!desktopScroller) return;
       const scroller = getActiveScroller();
       if (!scroller) return;
       const cards = Array.from(
-        desktopScroller.querySelectorAll<HTMLElement>(':scope > [data-section-card="true"]')
+        desktopScroller.querySelectorAll<HTMLElement>('.project-detail-section-card[data-section-card="true"]')
       );
       if (!cards.length) return;
       const scrollerTop = scroller.getBoundingClientRect().top;
 
       let matchedId = cards[0]?.id || 'sec-mindmap';
       for (let i = 0; i < cards.length; i++) {
-        const cardTop = cards[i].getBoundingClientRect().top;
-        if (cardTop <= scrollerTop + 140 && cards[i].id) {
-          matchedId = cards[i].id;
+        const card = cards[i];
+        const cardTop = card.getBoundingClientRect().top;
+
+        if (cardTop <= scrollerTop + 28 && card.id) {
+          matchedId = card.id;
+        }
+
+        // Nhập hẳn thẻ khi chồng lên nhau (top: 0px, không thu nhỏ viền hay chừa khoảng dư)
+        if (i < cards.length - 1) {
+          const nextCard = cards[i + 1];
+          const nextCardTop = nextCard.getBoundingClientRect().top;
+          const distToCover = nextCardTop - scrollerTop;
+
+          if (distToCover <= 0) {
+            card.style.transform = 'scale(1)';
+            card.style.filter = 'brightness(0.92)';
+          } else if (distToCover < 240) {
+            const progress = 1 - distToCover / 240;
+            const brightness = 1 - progress * 0.08;
+            card.style.transform = 'scale(1)';
+            card.style.filter = `brightness(${brightness.toFixed(3)})`;
+          } else {
+            card.style.transform = 'scale(1)';
+            card.style.filter = 'brightness(1)';
+          }
+        } else {
+          card.style.transform = 'scale(1)';
+          card.style.filter = 'brightness(1)';
         }
       }
-      onSectionChange(matchedId);
+
+      if (onSectionChange) {
+        onSectionChange(matchedId);
+      }
     };
 
     desktopScroller?.addEventListener('scroll', handleScroll, { passive: true });
@@ -200,8 +255,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
         : mobileScroller;
 
     if (scroller) {
-      const deltaTop = el.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
-      scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + deltaTop), behavior: 'smooth' });
+      const cardIdx = parseInt(el.getAttribute('data-card-index') || '0', 10);
+      const cardHeight = el.offsetHeight || bannerRef.current?.offsetHeight || scroller.clientHeight;
+      if (scroller === desktopScroller && cardHeight > 0) {
+        scroller.scrollTo({ top: Math.max(0, cardIdx * cardHeight), behavior: 'smooth' });
+      } else {
+        const deltaTop = el.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+        scroller.scrollTo({ top: Math.max(0, scroller.scrollTop + deltaTop), behavior: 'smooth' });
+      }
     } else {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -220,13 +281,14 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
       className="w-full h-full flex-1 min-h-0 p-0 box-border items-start relative glass-scrollbar rounded-[inherit] text-left font-play"
     >
       {spec && (
-        <>
+        <div id="project-detail-cards-col" className="project-detail-cards-col flex flex-col w-full min-w-0 relative">
           {/* SECTION 01: SƠ ĐỒ TƯ DUY KIẾN TRÚC DỰ ÁN */}
             <section
               id="sec-mindmap"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="0"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 10 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -625,8 +687,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-overview"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="1"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 11 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -867,8 +930,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-context"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="2"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 12 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -967,8 +1031,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-objectives"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="3"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 13 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1079,8 +1144,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-scope"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="4"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 14 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1204,8 +1270,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-methodology"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="5"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 15 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1328,8 +1395,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-metrics"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="6"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 16 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1473,8 +1541,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-roles"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="7"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 17 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1593,8 +1662,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               id="sec-outcomes"
               data-legacy-id="projects-results-card"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="8"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 18 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1721,8 +1791,9 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             <section
               id="sec-philosophy"
               data-section-card="true"
-              style={sectionCardStyle}
-              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0 transition-all duration-300"
+              data-card-index="9"
+              style={{ ...sectionCardStyle, top: '0px', zIndex: 19 }}
+              className="project-detail-section-card u223-c relative overflow-hidden w-full p-[15px] rounded-[14px] flex flex-col gap-[15px] shrink-0"
             >
               <span className="u223-art pointer-events-none select-none" aria-hidden="true" />
 
@@ -1844,30 +1915,29 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                 </div>
               </div>
             </section>
-          </>
-        )}
+        </div>
+      )}
 
-      {/* 2. KHỐI BANNER DỌC MỤC LỤC BÊN PHẢI (Chiều cao 100% khớp thẻ bài viết ở mọi kích thước) */}
+      {/* 2. KHỐI BANNER DỌC MỤC LỤC BÊN PHẢI (Chiều cao khớp thẻ bài viết ở mọi kích thước) */}
       {spec && (
         <aside
+          ref={bannerRef}
           id="project-detail-banner"
           data-banner-aspect="sidebar"
           data-banner-orientation="vertical"
           data-element-name="Banner dọc Mục lục dự án"
           data-element-type="banner-card"
           data-section-card="true"
-          className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-0 max-h-full self-stretch flex flex-col pointer-events-auto rounded-[14px] p-[15px] gap-2.5 overflow-hidden relative group"
+          data-theme-synced="true"
+          className="order-2 banner-card bento-card glass-card shrink-0 h-full min-h-0 max-h-full self-stretch flex flex-col pointer-events-auto rounded-[var(--radius-card,var(--radius-global,14px))] p-[15px] gap-2.5 overflow-hidden relative group"
         >
           {/* Nội dung phân tách trực tiếp trên Mục lục dọc (chỉ giữ nút nổi X ở góc trên phải, chừa pr-10 cho dòng đầu tiên) */}
           <div
             className="relative z-10 pr-10 typo-label font-bold leading-snug break-words shrink-0"
             style={{
               color: isStrategy
-                ? 'var(--accent-blue, #1480C0)'
-                : 'var(--accent-purple, #7c3aed)',
-              textShadow: isLightMode
-                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
-                : '0 1px 4px rgba(0, 0, 0, 0.75)',
+                ? 'var(--accent-blue, var(--text-link, var(--color-primary)))'
+                : 'var(--accent-purple, var(--text-accent, var(--color-primary)))',
             }}
           >
             {selectedArticle.groupTitle}
@@ -1878,11 +1948,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
             data-card-title="true"
             style={{
               color: isStrategy
-                ? 'var(--accent-sky, #0284c7)'
-                : 'var(--accent-fuchsia, #c026d3)',
-              textShadow: isLightMode
-                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
-                : '0 1px 4px rgba(0, 0, 0, 0.75)',
+                ? 'var(--accent-sky, var(--text-heading, var(--text-primary)))'
+                : 'var(--accent-fuchsia, var(--text-heading, var(--text-primary)))',
             }}
           >
             <WebIcon
@@ -1890,8 +1957,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
               className="w-4 h-4 shrink-0 mt-0.5 bg-transparent border-0 p-0 shadow-none"
               style={{
                 color: isStrategy
-                  ? 'var(--accent-sky, #0284c7)'
-                  : 'var(--accent-fuchsia, #c026d3)',
+                  ? 'var(--accent-sky, var(--text-link, var(--color-primary)))'
+                  : 'var(--accent-fuchsia, var(--text-accent, var(--color-primary)))',
               }}
             />
             <span className="min-w-0">{selectedArticle.title}</span>
@@ -1899,18 +1966,13 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
 
           <div
             className="relative z-10 typo-caption font-semibold text-[var(--text-primary)] leading-snug break-words shrink-0"
-            style={{
-              textShadow: isLightMode
-                ? '0 1px 2px rgba(255, 255, 255, 0.85)'
-                : '0 1px 4px rgba(0, 0, 0, 0.75)',
-            }}
           >
             Vai trò:{' '}
             <strong
               style={{
                 color: isStrategy
-                  ? 'var(--accent-sky, #0284c7)'
-                  : 'var(--accent-purple, #7c3aed)',
+                  ? 'var(--accent-sky, var(--text-link, var(--color-primary)))'
+                  : 'var(--accent-purple, var(--text-accent, var(--color-primary)))',
               }}
             >
               {selectedArticle.role}
@@ -1918,12 +1980,12 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           </div>
 
           {/* Thanh tiến độ đọc 10 phần */}
-          <div className="relative z-10 w-full h-1.5 rounded-full bg-[var(--border-subcard)] overflow-hidden shrink-0">
+          <div className="relative z-10 w-full h-1.5 rounded-full bg-[var(--border-subcard,var(--color-border-soft))] overflow-hidden shrink-0">
             <div
               className="h-full rounded-full transition-all duration-300"
               style={{
                 width: `${tocProgressPercent}%`,
-                background: 'var(--bg-button-primary)',
+                background: 'var(--bg-button-primary, var(--color-primary))',
               }}
             />
           </div>
@@ -1931,7 +1993,7 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
           {/* Danh sách 10 mục lục điều hướng xếp dọc */}
           <nav
             aria-label="Mục lục chi tiết dự án"
-            className="relative z-10 flex flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[12px] flex-col gap-1.5 pr-0.5"
+            className="relative z-10 flex flex-1 min-h-0 overflow-y-auto glass-scrollbar rounded-[var(--radius-subcard,12px)] flex-col gap-1.5 pr-0.5"
           >
             {TOC_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
@@ -1945,26 +2007,26 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   onClick={() => scrollToSection(item.id)}
                   data-active={isActive ? 'true' : 'false'}
                   style={isActive ? undefined : { color: itemColor }}
-                  className={`project-detail-toc-btn w-full text-left px-2.5 py-2 rounded-[12px] typo-label font-bold font-play tracking-wide transition-all cursor-pointer flex items-center justify-between gap-1.5 shrink-0 ${
+                  className={`project-detail-toc-btn w-full text-left px-2.5 py-2 rounded-[var(--radius-subcard,12px)] typo-label font-bold font-play tracking-wide transition-all cursor-pointer flex items-center justify-between gap-1.5 shrink-0 ${
                     isActive ? 'shadow-md' : 'hover:brightness-105 shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center gap-2 min-w-0 truncate">
                     <span
                       className="font-mono font-bold typo-label tabular-nums shrink-0"
-                      style={{ color: isActive ? '#ffffff' : itemColor }}
+                      style={{ color: isActive ? 'var(--text-button-primary, #ffffff)' : itemColor }}
                     >
                       {item.num}
                     </span>
                     <span
                       className="shrink-0 flex items-center"
-                      style={{ color: isActive ? '#ffffff' : itemColor }}
+                      style={{ color: isActive ? 'var(--text-button-primary, #ffffff)' : itemColor }}
                     >
                       <WebIcon name={item.icon} className="w-3.5 h-3.5" />
                     </span>
                     <span
                       className="truncate font-play font-bold"
-                      style={{ color: isActive ? '#ffffff' : itemColor }}
+                      style={{ color: isActive ? 'var(--text-button-primary, #ffffff)' : itemColor }}
                     >
                       {item.title}
                     </span>
@@ -1972,7 +2034,8 @@ export const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({
                   {isActive && (
                     <WebIcon
                       name="chevron-right"
-                      className="w-3.5 h-3.5 text-white shrink-0"
+                      className="w-3.5 h-3.5 shrink-0"
+                      style={{ color: 'var(--text-button-primary, #ffffff)' }}
                     />
                   )}
                 </button>

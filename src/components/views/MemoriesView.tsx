@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WebIcon } from '@/components/ui/WebIcon';
 import {
@@ -13,8 +13,8 @@ import { useToast } from '@/components/ui/Toast';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
+import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
-import { SectionHeader } from '@/components/common/SectionHeader';
 import { ViewState } from '@/components/common/ViewState';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
@@ -26,13 +26,17 @@ export interface MemoriesViewProps {
 interface ParallaxMemoryCardProps {
   item: MemoryPhoto;
   globalIdx: number;
-  isBlurred: boolean;
+  isBlurred?: boolean;
   onHoverChange: (id: string | null) => void;
   onSelect: (idx: number) => void;
 }
 
+/**
+ * Thẻ kỷ niệm Pinterest với hiệu ứng 3D Parallax Tilt, ánh sáng phản xạ (shine)
+ * và hình ảnh hiển thị trong trẻo, sạch sẽ, không bị che khuất bởi chữ.
+ */
 const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
-  ({ item, globalIdx, isBlurred, onHoverChange, onSelect }) => {
+  ({ item, globalIdx, isBlurred = false, onHoverChange, onSelect }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const shineRef = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -52,7 +56,7 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
       const offsetY = e.clientY - rect.top;
       const offsetXPercentage = offsetX / w;
       const offsetYPercentage = offsetY / h;
-      const scale = 1.08;
+      const scale = 1.03;
       const dx = offsetX - w / 2;
       const dy = offsetY - h / 2;
       const theta = Math.atan2(dy, dx);
@@ -61,15 +65,15 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
         angle += 360;
       }
 
-      cardEl.style.transform = `perspective(1000px) translateX(${(0.5 - offsetXPercentage) * 10}px) translateY(${(0.5 - offsetYPercentage) * 10}px) scale3d(${scale}, ${scale}, ${scale}) rotateX(${(0.5 - offsetYPercentage) * 16}deg) rotateY(${(offsetXPercentage - 0.5) * 16}deg)`;
+      cardEl.style.transform = `perspective(1000px) translateX(${(0.5 - offsetXPercentage) * 8}px) translateY(${(0.5 - offsetYPercentage) * 8}px) scale3d(${scale}, ${scale}, ${scale}) rotateX(${(0.5 - offsetYPercentage) * 12}deg) rotateY(${(offsetXPercentage - 0.5) * 12}deg)`;
 
       if (shineRef.current) {
-        const shineAlpha = Math.max(0, (offsetYPercentage - 0.3) * 0.32);
+        const shineAlpha = Math.max(0, (offsetYPercentage - 0.25) * 0.35);
         shineRef.current.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,${shineAlpha}) 0%, rgba(255,255,255,0) 80%)`;
       }
 
       if (imgRef.current) {
-        imgRef.current.style.transform = `translateX(${(offsetXPercentage - 0.5) * 10}px) translateY(${(offsetYPercentage - 0.5) * 10}px)`;
+        imgRef.current.style.transform = `translateX(${(offsetXPercentage - 0.5) * 8}px) translateY(${(offsetYPercentage - 0.5) * 8}px)`;
       }
     };
 
@@ -110,19 +114,22 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
           }
         }}
         className={cn(
-          'pinterest-memory-card card group relative break-inside-avoid mb-4 block rounded-[16px] overflow-hidden border border-[var(--border-subcard)] bg-[var(--surface-primary-bg,var(--bg-card))] shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2',
+          'pinterest-memory-card card memory-photo-item group relative break-inside-avoid mb-3.5 block rounded-[14px] overflow-hidden border border-[var(--border-subcard)] bg-[var(--surface-primary-bg,var(--bg-card))] shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2',
           isBlurred && 'blur'
         )}
       >
+        {/* Lớp ánh sáng phản chiếu gương khi rê chuột */}
         <div ref={shineRef} className="shineLayer absolute inset-0 z-15 pointer-events-none" />
 
+        {/* Khung giữ chỗ khi ảnh đang tải */}
         {!isLoaded && (
           <div
             aria-hidden="true"
-            className="w-full min-h-[180px] animate-pulse bg-gradient-to-br from-slate-400/20 via-slate-500/15 to-slate-400/25"
+            className="w-full min-h-[220px] animate-pulse bg-gradient-to-br from-slate-400/20 via-slate-500/15 to-slate-400/25 rounded-[inherit]"
           />
         )}
 
+        {/* Ảnh kỷ niệm độ nét cao, trọn vẹn và không bị che khuất */}
         <img
           ref={imgRef}
           src={item.imageUrl}
@@ -141,36 +148,36 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
           )}
         />
 
-        {/* Chỉ hiển thị thông tin & huy hiệu khi rê chuột hoặc focus */}
+        {/* Huy hiệu năm cố định nhẹ nhàng góc trên bên phải */}
+        <div className="absolute top-2.5 right-2.5 z-20 pointer-events-none">
+          <span className="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-black/60 text-amber-300 backdrop-blur-md border border-white/20 shadow-xs">
+            {item.year}
+          </span>
+        </div>
+
+        {/* Lớp thông tin tinh tế chỉ hiển thị dịu dàng khi rê chuột vào ảnh */}
         <div
           aria-hidden="true"
-          className="memory-parallax-meta absolute inset-0 z-20 p-3 flex flex-col justify-between bg-gradient-to-t from-slate-950/90 via-slate-950/35 to-slate-950/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 pointer-events-none"
+          className="memory-parallax-meta absolute inset-x-0 bottom-0 z-20 p-3 pt-8 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/45 to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 pointer-events-none text-left"
         >
-          <div className="flex items-center justify-between gap-1.5">
-            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-black/65 text-white border border-white/25 backdrop-blur-md shadow-xs">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/20 text-white backdrop-blur-md border border-white/25">
               {item.tagVi}
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-amber-400 text-slate-950 shadow-xs">
-              {item.year}
-            </span>
+            {item.locationVi && (
+              <span className="text-[11px] text-white/80 font-play truncate">
+                · {item.locationVi}
+              </span>
+            )}
           </div>
 
-          <div className="flex flex-col gap-1 text-left">
-            <h3 className="typo-h4 text-[13.5px] font-play font-bold text-white leading-snug line-clamp-2 drop-shadow-sm m-0">
-              {formatCardTitle(item.titleVi)}
-            </h3>
-            <div className="flex items-center justify-between gap-2 text-[11px] text-white/90 font-play">
-              <span className="flex items-center gap-1 truncate">
-                <WebIcon name="map-pin" className="w-3 h-3 shrink-0 text-emerald-400" />
-                <span className="truncate">{item.locationVi}</span>
-              </span>
-              {item.teamSize && (
-                <span className="shrink-0 flex items-center gap-1 font-bold text-rose-300 font-mono text-[10.5px]">
-                  <WebIcon name="users" className="w-3 h-3 shrink-0" />
-                  <span>{item.teamSize}</span>
-                </span>
-              )}
-            </div>
+          <h3 className="typo-h4 text-[13.5px] font-play font-bold text-white leading-snug line-clamp-2 drop-shadow-sm m-0">
+            {formatCardTitle(item.titleVi)}
+          </h3>
+
+          <div className="flex items-center gap-1 mt-1 text-[11px] text-emerald-300 font-medium">
+            <WebIcon name="maximize-2" className="w-3 h-3 shrink-0" />
+            <span>Bấm xem chi tiết</span>
           </div>
         </div>
       </div>
@@ -178,13 +185,6 @@ const ParallaxMemoryCard: React.FC<ParallaxMemoryCardProps> = React.memo(
   }
 );
 ParallaxMemoryCard.displayName = 'ParallaxMemoryCard';
-
-const CATEGORY_SECTION_SUBTITLES: Record<string, string> = {
-  team: 'Những khoảnh khắc đồng hành, gắn kết và phát triển đội ngũ qua từng chặng đường thực chiến',
-  event: 'Dấu ấn sự kiện, lễ tổng kết và vinh danh những tập thể xuất sắc qua các năm',
-  training: 'Hoạt động đào tạo nội bộ, chia sẻ quy trình và nâng tầm năng lực Chăm sóc Khách hàng',
-  office: 'Không gian làm việc, trung tâm điều hành Contact Center và môi trường văn hóa doanh nghiệp',
-};
 
 interface LazyFilmstripThumbProps {
   src: string;
@@ -267,89 +267,38 @@ LazyFilmstripThumb.displayName = 'LazyFilmstripThumb';
 export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liquid-glass' }) => {
   const { showToast } = useToast();
   const { isDark: themeIsDark } = useTheme();
+  const { language } = useLanguage();
+  const isEn = language === 'en';
   const isDark = themeIsDark || currentTheme.includes('dark');
   const [companyFilter, setCompanyFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [companyDropdownOpen, setCompanyDropdownOpen] = useState<boolean>(false);
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [activeLightboxIdx, setActiveLightboxIdx] = useState<number | null>(null);
   const [isSlideshowPlaying, setIsSlideshowPlaying] = useState<boolean>(false);
   const [isLightboxImgLoaded, setIsLightboxImgLoaded] = useState<boolean>(false);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const memoriesBannerVideo = getDefaultBannerVideoConfig('memories');
   const mainCardScrollRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const filterMenuRef = useRef<HTMLDivElement>(null);
   const filmstripRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setCompanyDropdownOpen(false);
+  const filteredMemories = useMemo(() => {
+    return MEMORIES_DATA.filter((item) => {
+      if (/logo_|_logo|\/logo\//i.test(item.imageUrl || '')) return false;
+      if (companyFilter !== 'all' && item.companyId !== companyFilter) return false;
+      if (categoryFilter !== 'all' && item.category !== categoryFilter) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        return (
+          item.titleVi.toLowerCase().includes(q) ||
+          item.descVi.toLowerCase().includes(q) ||
+          String(item.year).toLowerCase().includes(q) ||
+          item.locationVi.toLowerCase().includes(q) ||
+          item.tagVi.toLowerCase().includes(q)
+        );
       }
-      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target as Node)) {
-        setIsFilterDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const filteredMemories = MEMORIES_DATA.filter((item) => {
-    if (/logo_|_logo|\/logo\//i.test(item.imageUrl || '')) return false;
-    if (companyFilter !== 'all' && item.companyId !== companyFilter) return false;
-    if (categoryFilter !== 'all' && item.category !== categoryFilter) return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      return (
-        item.titleVi.toLowerCase().includes(q) ||
-        item.descVi.toLowerCase().includes(q) ||
-        String(item.year).toLowerCase().includes(q) ||
-        item.locationVi.toLowerCase().includes(q) ||
-        item.tagVi.toLowerCase().includes(q)
-      );
-    }
-    return true;
-  });
-
-  // Tổ chức các kỷ niệm theo từng .card-section đúng bố cục mẫu mà không thay đổi MEMORIES_DATA
-  const memorySections = React.useMemo(() => {
-    const indexMap = new Map<string, number>();
-    filteredMemories.forEach((m, i) => indexMap.set(String(m.id), i));
-
-    const categoriesToRender = MEMORIES_CATEGORIES.filter((c) => c.id !== 'all');
-    const sections = categoriesToRender
-      .map((cat) => {
-        const items = filteredMemories
-          .filter((m) => m.category === cat.id)
-          .map((item) => ({
-            item,
-            globalIdx: indexMap.get(String(item.id)) ?? 0,
-          }));
-        return {
-          id: cat.id,
-          title: cat.labelVi,
-          subtitle:
-            CATEGORY_SECTION_SUBTITLES[cat.id] ||
-            'Rê chuột vào hình ảnh để trải nghiệm hiệu ứng 3D Parallax sống động',
-          items,
-        };
-      })
-      .filter((sec) => sec.items.length > 0);
-
-    if (sections.length > 0) return sections;
-
-    return [
-      {
-        id: 'all',
-        title: 'Bộ sưu tập kỷ niệm',
-        subtitle: 'Rê chuột vào hình ảnh để trải nghiệm hiệu ứng 3D Parallax sống động',
-        items: filteredMemories.map((item, idx) => ({ item, globalIdx: idx })),
-      },
-    ];
-  }, [filteredMemories]);
+      return true;
+    });
+  }, [companyFilter, categoryFilter, searchQuery]);
 
   const activePhoto: MemoryPhoto | null =
     activeLightboxIdx !== null ? filteredMemories[activeLightboxIdx] || null : null;
@@ -408,9 +357,9 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
     if (activePhoto) {
       if (typeof navigator !== 'undefined' && navigator.clipboard) {
         navigator.clipboard.writeText(activePhoto.imageUrl);
-        showToast('Đã sao chép liên kết ảnh vào clipboard!');
+        showToast(isEn ? 'Copied photo link to clipboard!' : 'Đã sao chép liên kết ảnh vào clipboard!');
       } else {
-        showToast(`Liên kết ảnh: ${activePhoto.imageUrl}`);
+        showToast(isEn ? `Photo link: ${activePhoto.imageUrl}` : `Liên kết ảnh: ${activePhoto.imageUrl}`);
       }
     }
   };
@@ -419,8 +368,13 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
     setCompanyFilter('all');
     setCategoryFilter('all');
     setSearchQuery('');
-    showToast('Đã đặt lại toàn bộ bộ lọc');
+    showToast(isEn ? 'Reset all memory filters' : 'Đã đặt lại toàn bộ bộ lọc');
   };
+
+  const activeFiltersCount =
+    (companyFilter !== 'all' ? 1 : 0) +
+    (categoryFilter !== 'all' ? 1 : 0) +
+    (searchQuery.trim() ? 1 : 0);
 
   return (
     <div
@@ -448,165 +402,236 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           data-element-type="card"
           data-element-page="memories"
           data-element-parent="memories-cards-track"
-          className="page-main-card floating-glass-surface floating-surface--main flex flex-col justify-start p-2.5 sm:p-[15px] gap-2.5 sm:gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
+          className="page-main-card floating-glass-surface floating-surface--main flex flex-col justify-start p-2.5 sm:p-[15px] gap-3 rounded-[var(--radius-main,14px)] overflow-y-auto overflow-x-hidden glass-scrollbar font-play select-none text-left box-border"
         >
-        {/* CSS Tối ưu khoảng cách dòng, giãn chữ di động & hiệu ứng hover nhấp nháy / shimmer */}
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              @keyframes memoryCardShimmerPulse {
-                0% {
-                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0px rgba(14, 165, 233, 0);
-                }
-                50% {
-                  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.2), 0 0 18px rgba(14, 165, 233, 0.4);
-                }
-                100% {
-                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 0px rgba(14, 165, 233, 0);
-                }
-              }
-
-              #memories-main-card .exp-detail-subcard {
-                line-height: 1.68;
-                letter-spacing: 0.012em;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              }
-
-              #memories-main-card .exp-detail-subcard p {
-                line-height: 1.72;
-                letter-spacing: 0.016em;
-                font-size: clamp(13.5px, 2vw, 14.5px);
-              }
-
-              #memories-main-card .exp-detail-subcard:hover {
-                animation: memoryCardShimmerPulse 2.2s ease-in-out infinite;
-                border-color: var(--text-link, var(--color-primary));
-                transform: translateY(-2px);
-              }
-            `,
-          }}
-        />
-
-        {/* HEADER GIỐNG THẺ CHI TIẾT TRẢ LỜI (#interview-answers-card) */}
-        <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border-subcard)] min-w-0 shrink-0">
-          <h3 className="card-title card-header-sync card-title-synced typo-h3 flex items-center gap-2 text-pink-600 dark:text-pink-400 min-w-0" data-card-title="true">
-            <WebIcon name="image" className="w-5 h-5 shrink-0" />
-            <span className="truncate">Bộ sưu tập kỷ niệm</span>
-          </h3>
-          <span className="typo-caption font-semibold text-[var(--text-secondary)] shrink-0 tabular-nums whitespace-nowrap">
-            {filteredMemories.length} khoảnh khắc
-            <span aria-hidden="true" className="mx-1 opacity-60">·</span>
-            <span className="text-[var(--text-link,var(--color-primary))]">
-              {categoryFilter !== 'all' ? MEMORIES_CATEGORIES.find(c => c.id === categoryFilter)?.labelVi : 'Tất cả chủ đề'}
-            </span>
-          </span>
-        </div>
-
-        {/* VÙNG DANH SÁCH SUBCARDS CUỘN DỌC MƯỢT MÀ GIỐNG HỆT CHI TIẾT TRẢ LỜI */}
-        <div
-          data-scrollable="true"
-          data-no-wheel-horizontal="true"
-          className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar flex flex-col gap-3"
-        >
-          {filteredMemories.length === 0 ? (
-            <div className="w-full flex-grow relative min-h-[360px]">
-              <ViewState
-                id="memories-empty-card"
-                variant="empty"
-                icon="camera"
-                title="Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc."
-                description="Hãy thử chọn lại công ty hoặc chủ đề khác."
-                actionLabel="↻ Đặt lại bộ lọc"
-                onAction={handleResetFilters}
+          {/* 1. HERO BANNER TRANG KỶ NIỆM (ĐỒNG BỘ CHUẨN BANNER TOÀN BỘ CÁC TRANG) */}
+          <section
+            id="memories-hero-banner"
+            data-element-name="Banner chính trang Kỷ Niệm"
+            data-element-type="section"
+            data-element-page="memories"
+            data-element-parent="memories-main-card"
+            data-section-card="true"
+            data-has-compact-menu="true"
+            className="banner-card hero-banner group w-full max-w-full min-h-[156px] h-auto lg:h-[200px] lg:min-h-[200px] lg:max-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
+            style={{
+              padding: '15px',
+              width: '100%',
+              maxWidth: '100%',
+              borderRadius: 'var(--radius-banner, 14px)',
+            }}
+          >
+            {/* Lớp nền video và scrim */}
+            <div className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none">
+              <VideoBanner
+                videoId={memoriesBannerVideo.videoId}
+                title={memoriesBannerVideo.title}
+                className="rounded-[inherit]"
               />
             </div>
-          ) : (
-            filteredMemories.map((item, idx) => (
+            <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
+
+            {/* Hàng trên: Tiêu đề bên trái, Quote chữ ký bên phải */}
+            <div className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
               <div
-                key={item.id}
-                id={`memory-subcard-${item.id}`}
-                data-element-type="card"
-                data-subcard="true"
-                style={{ borderRadius: '14px' }}
-                className="exp-detail-subcard p-[15px] rounded-[14px] border flex flex-col gap-3 shrink-0 cursor-pointer"
-                onClick={() => {
-                  SoundEngine.playTap();
-                  setActiveLightboxIdx(idx);
+                className="card-header-sync flex items-center gap-2 min-w-0"
+                style={{ color: 'var(--text-link, var(--color-primary))' }}
+              >
+                <WebIcon name="camera-retro" className="w-[22px] h-[22px] shrink-0" />
+                <h1
+                  id="memories-hero-banner-title"
+                  className="typo-h3 card-title-synced font-bold font-play not-italic tracking-tight truncate"
+                  data-card-title="true"
+                  style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                >
+                  {isEn ? 'Memorable Milestones' : 'Khoảnh Khắc Kỷ Niệm'}
+                </h1>
+              </div>
+
+              <p
+                id="memories-hero-banner-quote"
+                className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left sm:text-right sm:ml-auto whitespace-normal break-words overflow-visible max-w-full sm:max-w-[65%]"
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                  fontWeight: 600,
+                  fontStyle: 'normal',
                 }}
               >
-                {/* Subcard Header */}
-                <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-[var(--border-subcard)] min-w-0">
-                  <div className="interview-time-heading subcard-header-sync typo-h4 flex items-center gap-2 text-sky-600 dark:text-sky-400 min-w-0">
-                    <WebIcon name="camera" className="w-4 h-4 shrink-0" />
-                    <span className="subcard-title-synced tracking-wide text-sky-600 dark:text-sky-400 truncate" data-subcard-title="true">
-                      {formatCardTitle(item.titleVi)}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-amber-400 text-slate-950 shadow-xs">
-                      {item.year}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold bg-black/10 dark:bg-white/10 text-[var(--text-secondary)]">
-                      {item.tagVi}
-                    </span>
-                  </div>
-                </div>
+                {isEn
+                  ? '"Preserving memorable milestones across every journey ♡"'
+                  : '"Lưu giữ những khoảnh khắc đáng nhớ trong từng hành trình ♡"'}
+              </p>
 
-                {/* Subcard Image Banner */}
-                <div className="relative w-full h-56 sm:h-72 rounded-[12px] overflow-hidden group bg-black/10 border border-[var(--border-subcard)]">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.titleVi}
-                    loading={idx < 4 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                    <span className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/60 px-3 py-1.5 rounded-full backdrop-blur-md">
-                      <WebIcon name="maximize-2" className="w-3.5 h-3.5" />
-                      Bấm để phóng to ảnh kỷ niệm
-                    </span>
-                  </div>
-                </div>
-
-                {/* Subcard Description & Footer Info */}
-                <div className="flex flex-col gap-2 text-left pt-1">
-                  <p className="typo-body text-[var(--text-secondary)] leading-relaxed m-0">
-                    {item.descVi}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subcard)]/60 text-[11.5px] text-[var(--text-muted)] font-play">
-                    <span className="flex items-center gap-1.5 truncate">
-                      <WebIcon name="map-pin" className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span className="truncate">{item.locationVi}</span>
-                    </span>
-                    {item.teamSize && (
-                      <span className="flex items-center gap-1 font-mono text-rose-500 font-bold shrink-0">
-                        <WebIcon name="users" className="w-3.5 h-3.5 shrink-0" />
-                        <span>{item.teamSize}</span>
+              {/* Nút Điều Khiển Gọn (Compact Menu) Đồng Bộ Hệ Thống */}
+              <CompactBannerMenu
+                id="memories-compact-menu-btn"
+                label={isEn ? 'Controls' : 'Điều khiển'}
+                ariaLabel={isEn ? 'Memory filters and search' : 'Bộ lọc và tìm kiếm kỷ niệm'}
+                activeCount={activeFiltersCount}
+              >
+                {(closeMenu) => (
+                  <>
+                    {/* Tìm kiếm */}
+                    <div className="flex flex-col gap-1.5">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Search' : 'Tìm kiếm'}
                       </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+                      <div className="relative w-full">
+                        <WebIcon
+                          name="search"
+                          className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                        />
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          placeholder={isEn ? 'Search title, year, tag...' : 'Tìm tên, năm, chủ đề, nơi chốn...'}
+                          className="banner-search-input h-9 w-full pl-8 pr-8 py-0 rounded-full typo-input font-play focus:outline-none"
+                        />
+                        {searchQuery && (
+                          <button
+                            type="button"
+                            onClick={() => setSearchQuery('')}
+                            aria-label={isEn ? 'Clear search' : 'Xóa từ khóa'}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+                          >
+                            <WebIcon name="x" className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
 
+                    {/* Lọc theo chủ đề */}
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Category' : 'Chủ đề'}
+                      </span>
+                      {MEMORIES_CATEGORIES.map((cat) => {
+                        const isActive = categoryFilter === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            data-selected={isActive ? 'true' : 'false'}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setCategoryFilter(cat.id);
+                              closeMenu();
+                            }}
+                            className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                          >
+                            <span className="inline-flex items-center gap-2 min-w-0">
+                              <WebIcon name={cat.icon} className="w-3.5 h-3.5 shrink-0 opacity-85" />
+                              <span className="truncate">{cat.labelVi}</span>
+                            </span>
+                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0 text-emerald-400" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Lọc theo đơn vị công tác */}
+                    <div className="flex flex-col gap-1">
+                      <span className="typo-label text-[var(--text-muted)] px-1">
+                        {isEn ? 'Organization' : 'Đơn vị'}
+                      </span>
+                      {MEMORIES_COMPANIES.map((comp) => {
+                        const isActive = companyFilter === comp.id;
+                        return (
+                          <button
+                            key={comp.id}
+                            type="button"
+                            data-selected={isActive ? 'true' : 'false'}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setCompanyFilter(comp.id);
+                              closeMenu();
+                            }}
+                            className="theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[12px] typo-nav font-play transition-all cursor-pointer text-left"
+                          >
+                            <span className="inline-flex items-center gap-2 min-w-0">
+                              <WebIcon name="building" className="w-3.5 h-3.5 shrink-0 opacity-85" />
+                              <span className="truncate">{comp.labelVi}</span>
+                            </span>
+                            {isActive && <WebIcon name="check" className="w-3.5 h-3.5 shrink-0 text-emerald-400" />}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Nút đặt lại */}
+                    {activeFiltersCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleResetFilters();
+                          closeMenu();
+                        }}
+                        className="w-full mt-1 px-3 py-2 rounded-[12px] text-xs font-semibold text-rose-500 hover:bg-rose-500/10 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <WebIcon name="rotate-ccw" className="w-3.5 h-3.5" />
+                        <span>{isEn ? 'Reset all filters' : 'Đặt lại bộ lọc'}</span>
+                      </button>
+                    )}
+                  </>
+                )}
+              </CompactBannerMenu>
+            </div>
+          </section>
+
+          {/* 3. LƯỚI ẢNH PINTEREST MASONRY WATERFALL THỰC SỰ */}
+          <div
+            data-scrollable="true"
+            data-no-wheel-horizontal="true"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden glass-scrollbar"
+          >
+            {filteredMemories.length === 0 ? (
+              <div className="w-full flex-grow relative min-h-[360px]">
+                <ViewState
+                  id="memories-empty-card"
+                  variant="empty"
+                  icon="camera"
+                  title={isEn ? 'No memory photos match the filter.' : 'Không tìm thấy ảnh kỷ niệm phù hợp với bộ lọc.'}
+                  description={isEn ? 'Try selecting another company or category.' : 'Hãy thử chọn lại công ty hoặc chủ đề khác.'}
+                  actionLabel={isEn ? '↻ Reset filters' : '↻ Đặt lại bộ lọc'}
+                  onAction={handleResetFilters}
+                />
+              </div>
+            ) : (
+              <div
+                id="memories-grid"
+                className="w-full columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-3.5 space-y-3.5 pt-1"
+              >
+                {filteredMemories.map((item, idx) => (
+                  <ParallaxMemoryCard
+                    key={item.id}
+                    item={item}
+                    globalIdx={idx}
+                    isBlurred={hoveredCardId !== null && hoveredCardId !== String(item.id)}
+                    onHoverChange={setHoveredCardId}
+                    onSelect={(selectIdx) => {
+                      setActiveLightboxIdx(selectIdx);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* 3. Lightbox Modal với Slideshow & Filmstrip */}
+      {/* 4. LIGHTBOX MODAL VỚI SLIDESHOW & FILMSTRIP THUMBNAILS */}
       {activePhoto && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={`Xem ảnh kỷ niệm: ${activePhoto.titleVi}`}
+          aria-label={`${isEn ? 'View memory photo' : 'Xem ảnh kỷ niệm'}: ${activePhoto.titleVi}`}
           className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-5"
           style={{
             background: 'var(--bg-modal-backdrop)',
-            backdropFilter: 'blur(var(--blur-modal, 6px))',
-            WebkitBackdropFilter: 'blur(var(--blur-modal, 6px))',
+            backdropFilter: 'blur(var(--blur-modal, 8px))',
+            WebkitBackdropFilter: 'blur(var(--blur-modal, 8px))',
           }}
           onClick={() => {
             setActiveLightboxIdx(null);
@@ -616,7 +641,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
           <div
             id="memories-lightbox-card"
             data-element-type="card"
-            className="theme-modal-card w-full max-w-6xl max-h-[94vh] overflow-y-auto no-scrollbar rounded-[14px] flex flex-col relative text-left"
+            className="theme-modal-card w-full max-w-6xl max-h-[94vh] overflow-y-auto no-scrollbar rounded-[14px] flex flex-col relative text-left border border-[var(--border-subcard)] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Ảnh lớn & Điều khiển */}
@@ -663,7 +688,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                     prev !== null ? (prev > 0 ? prev - 1 : filteredMemories.length - 1) : 0
                   )
                 }
-                title="Ảnh trước (Mũi tên trái)"
+                title={isEn ? 'Previous photo (Left arrow)' : 'Ảnh trước (Mũi tên trái)'}
                 className="nav-arrow-btn theme-prev-next-btn absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all shadow-lg hover:scale-110 cursor-pointer z-20"
               >
                 <WebIcon name="chevron-left" className="w-5 h-5 stroke-[2.5]" />
@@ -677,7 +702,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                     prev !== null ? (prev < filteredMemories.length - 1 ? prev + 1 : 0) : 0
                   )
                 }
-                title="Ảnh tiếp theo (Mũi tên phải)"
+                title={isEn ? 'Next photo (Right arrow)' : 'Ảnh tiếp theo (Mũi tên phải)'}
                 className="nav-arrow-btn theme-prev-next-btn absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all shadow-lg hover:scale-110 cursor-pointer z-20"
               >
                 <WebIcon name="chevron-right" className="w-5 h-5 stroke-[2.5]" />
@@ -706,7 +731,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                     ) : (
                       <WebIcon name="play" className="w-3.5 h-3.5" />
                     )}
-                    <span>{isSlideshowPlaying ? 'Tạm dừng' : 'Trình chiếu'}</span>
+                    <span>{isSlideshowPlaying ? (isEn ? 'Pause' : 'Tạm dừng') : (isEn ? 'Slideshow' : 'Trình chiếu')}</span>
                   </button>
                 </div>
 
@@ -714,7 +739,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                   <button
                     type="button"
                     onClick={handleShareLink}
-                    title="Sao chép link ảnh"
+                    title={isEn ? 'Copy photo URL' : 'Sao chép link ảnh'}
                     className="p-2 rounded-full bg-[#111827]/80 hover:bg-[#1F2937] text-white transition-colors border border-white/20 cursor-pointer"
                   >
                     <WebIcon name="share" className="w-4 h-4" />
@@ -722,7 +747,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
 
                   <button
                     type="button"
-                    aria-label="Đóng trình xem ảnh"
+                    aria-label={isEn ? 'Close photo viewer' : 'Đóng trình xem ảnh'}
                     onClick={() => {
                       setActiveLightboxIdx(null);
                       setIsSlideshowPlaying(false);
@@ -745,7 +770,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                     {activePhoto.year}
                   </span>
                   <span className="typo-badge font-mono capitalize text-[#FCD34D] bg-amber-950/80 px-3 py-0.5 rounded-full border border-amber-500/40">
-                    {activePhoto.companyId}
+                    {MEMORIES_COMPANIES.find((c) => c.id === activePhoto.companyId)?.labelVi || activePhoto.companyId}
                   </span>
                 </div>
                 <h3 className="typo-popup-title text-[#F8FAFC] flex items-center gap-2">
@@ -758,14 +783,14 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
             {/* Dải cuộn ảnh thu nhỏ (Filmstrip) */}
             <div
               ref={filmstripRef}
-              className="theme-modal-footer w-full flex items-center gap-2 px-4 py-2 overflow-x-auto horizontal-scroll-smooth"
+              className="theme-modal-footer w-full flex items-center gap-2 px-4 py-2 overflow-x-auto horizontal-scroll-smooth border-t border-[var(--border-subcard)]/60"
             >
               {filteredMemories.map((thumb, tIdx) => (
                 <button
                   key={thumb.id}
                   type="button"
                   onClick={() => setActiveLightboxIdx(tIdx)}
-                  className={`w-14 h-10 rounded-[14px] overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
+                  className={`w-14 h-10 rounded-[8px] overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
                     activeLightboxIdx === tIdx
                       ? 'border-emerald-400 scale-105 shadow-md'
                       : 'border-transparent opacity-65 hover:opacity-100'
@@ -803,7 +828,7 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
                 </div>
               </div>
 
-              <p className="typo-body text-[var(--text-primary)]">
+              <p className="typo-body text-[var(--text-primary)] leading-relaxed m-0">
                 {activePhoto.descVi}
               </p>
             </div>
@@ -813,3 +838,5 @@ export const MemoriesView: React.FC<MemoriesViewProps> = ({ currentTheme = 'liqu
     </div>
   );
 };
+
+export default MemoriesView;

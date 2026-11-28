@@ -1045,65 +1045,65 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         </button>
       </div>
 
-      {/* Lưới 4 sub-card thông tin bản mệnh (chiều cao theo nội dung, cùng hàng bằng nhau) */}
+      {/* Lưới 4 sub-card thông tin bản mệnh (chiều cao full trong cột 30%) */}
       <div
         id="horoscope-profile-subgrid"
         data-card-layout={resolveAdaptiveCardLayout(4, false)}
         data-subcard-count={4}
-        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto items-stretch gap-[15px] p-[15px] w-full min-w-0 flex-none h-auto border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-        style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', border: 'none', boxShadow: 'none', outline: 'none' }}
+        className="grid grid-cols-1 grid-rows-4 items-stretch gap-[10px] p-0 w-full flex-1 h-full min-h-0 min-w-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
+        style={{ gap: '10px', rowGap: '10px', columnGap: '10px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none' }}
       >
-        {/* Bento Tile 1: Ngày sinh dương lịch (Mẫu Thẻ 58 Bento Studio: Lịch Vạn Niên Hoàng Đạo) */}
+        {/* Bento Tile 1: Ngày sinh dương lịch */}
         <div
           data-subcard="true"
           style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-w-0 flex flex-col justify-between gap-1.5 p-3.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
         >
           <div className="flex items-center justify-between gap-1">
             <h5 className="typo-label font-play font-bold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0">
               Ngày sinh dương lịch
             </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20">Dương</span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20 shrink-0">Dương</span>
           </div>
           <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h3 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">22/06/1984</div>
+            <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">22/06/1984</div>
             <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
               (17:00 • Giáp Tý • Canh Ngọ • Quý Dậu)
             </div>
           </div>
         </div>
 
-        {/* Bento Tile 2: Ngày sinh âm lịch (Mẫu Thẻ 58 Bento Studio) */}
+        {/* Bento Tile 2: Ngày sinh âm lịch */}
         <div
           data-subcard="true"
           style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-w-0 flex flex-col justify-between gap-1.5 p-3.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-purple-500/20 hover:border-purple-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
         >
           <div className="flex items-center justify-between gap-1">
             <h5 className="typo-label font-play font-bold tracking-wide text-purple-600 dark:text-purple-400 whitespace-normal break-words m-0">
               Ngày sinh âm lịch
             </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20">Âm</span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20 shrink-0">Âm</span>
           </div>
           <div className="min-w-0 flex flex-col gap-0.5">
-            <div className="typo-h3 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">24/05/1984</div>
+            <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words tracking-tight">24/05/1984</div>
             <div className="typo-caption text-[var(--text-secondary)] break-words leading-snug">
               (Năm Giáp Tý 1984)
             </div>
           </div>
         </div>
 
-        {/* Bento Tile 3: Giờ sinh can chi (Mẫu Thẻ 58 Bento Studio) */}
+        {/* Bento Tile 3: Giờ sinh can chi */}
         <div
           data-subcard="true"
           style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-w-0 flex flex-col justify-between gap-1.5 p-3.5 border border-amber-500/20 hover:border-amber-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-amber-500/20 hover:border-amber-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
         >
           <div className="flex items-center justify-between gap-1">
             <h5 className="typo-label font-play font-bold tracking-wide text-amber-600 dark:text-amber-400 whitespace-normal break-words m-0">
               Giờ sinh can chi
             </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20">Hoàng Đạo</span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20 shrink-0">Hoàng Đạo</span>
           </div>
           <div className="min-w-0 flex flex-col gap-0.5">
             <div className="typo-h4 font-play font-extrabold text-[var(--text-primary)] break-words">Giờ Quý Dậu (17h - 19h)</div>
@@ -1113,17 +1113,17 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           </div>
         </div>
 
-        {/* Bento Tile 4: Năm sinh nạp âm (Mẫu Thẻ 58 Bento Studio) */}
+        {/* Bento Tile 4: Năm sinh nạp âm */}
         <div
           data-subcard="true"
           style={level2InnerCardStyle}
-          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-w-0 flex flex-col justify-between gap-1.5 p-3.5 border border-emerald-500/20 hover:border-emerald-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+          className="sub-card letter-subcard rounded-[var(--radius-subcard,14px)] w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-1 p-2.5 border border-emerald-500/20 hover:border-emerald-400/40 hover:shadow-lg transition-all duration-300 relative overflow-hidden"
         >
           <div className="flex items-center justify-between gap-1">
             <h5 className="typo-label font-play font-bold tracking-wide text-emerald-600 dark:text-emerald-400 whitespace-normal break-words m-0">
               Năm sinh nạp âm
             </h5>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">Mệnh Kim</span>
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 shrink-0">Mệnh Kim</span>
           </div>
           <div className="min-w-0 flex flex-col gap-0.5">
             <div className="typo-h4 font-play font-extrabold text-emerald-700 dark:text-emerald-300 break-words">Hải Trung Kim</div>
@@ -1241,20 +1241,19 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-2"
           data-card-layout={resolveAdaptiveCardLayout(WORK_PERSONALITY_TRAITS.length, false)}
           data-subcard-count={WORK_PERSONALITY_TRAITS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-[15px] p-[15px] items-stretch rounded-[var(--radius-global,var(--radius-main,14px))] border-0 shadow-none outline-none box-border"
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
           style={{
             gap: '15px',
             rowGap: '15px',
             columnGap: '15px',
-            padding: '15px',
-            background: 'var(--surface-primary-bg, var(--bg-main, var(--bg-card)))',
-            backgroundColor: 'var(--surface-primary-bg, var(--bg-main, var(--bg-card)))',
+            padding: '0px',
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none',
             border: 'none',
-            borderRadius: 'var(--radius-global, var(--radius-main, 14px))',
             boxShadow: 'none',
             outline: 'none',
-            backdropFilter: 'var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 16px)))',
-            WebkitBackdropFilter: 'var(--lg-clear-backdrop, blur(var(--surface-primary-blur, 16px)))',
             width: '100%',
           }}
         >
@@ -1273,7 +1272,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
               >
                 <div className="w-full flex flex-col gap-2.5 min-w-0">
                   <div className={`subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] ${p.text}`}>
@@ -1359,12 +1358,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-3"
           data-card-layout="responsive-grid"
           data-subcard-count={SIX_CORE_PALACES.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[15px] p-[15px] items-stretch border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
           style={{
             gap: '15px',
             rowGap: '15px',
             columnGap: '15px',
-            padding: '15px',
+            padding: '0px',
+            background: 'transparent',
+            backgroundColor: 'transparent',
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none',
             border: 'none',
             boxShadow: 'none',
             outline: 'none',
@@ -1388,7 +1391,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[12px] gap-[12px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[10px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
               >
                 <div className="w-full flex flex-col gap-2 min-w-0">
                   <div className={`subcard-header-sync w-full flex items-center gap-1.5 min-w-0 pb-2 border-b border-[var(--border-subcard)] ${titleColor}`}>
@@ -1488,8 +1491,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-pillars"
           data-card-layout={resolveAdaptiveCardLayout(ACTION_PHILOSOPHY_CARDS.length, false)}
           data-subcard-count={ACTION_PHILOSOPHY_CARDS.length}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto items-stretch gap-[15px] p-[15px] border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 items-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
         >
           {ACTION_PHILOSOPHY_CARDS.map((card, idx) => {
             const iconName = pillarIcons[idx % pillarIcons.length];
@@ -1499,7 +1502,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
+                className="bento-view-card bento-card glass-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[14px]"
               >
                 <div className="w-full flex flex-col gap-2.5 min-w-0">
                   <div className="pb-2.5 border-b border-[var(--border-subcard)] flex items-center justify-between gap-2">
@@ -1523,6 +1526,26 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               </article>
             );
           })}
+        </div>
+
+        {/* Câu nói hay bên dưới Card 4 (padding 15px, luôn nằm gọn trong thẻ) */}
+        <div
+          id="horoscope-card-pillars-quote"
+          data-subcard="true"
+          style={level2InnerCardStyle}
+          className="sub-card letter-subcard shrink-0 w-full p-[15px] rounded-[var(--radius-subcard,14px)] border border-amber-500/30 flex items-center gap-3 box-border"
+        >
+          <div className="w-8 h-8 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 flex items-center justify-center shrink-0">
+            <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
+          </div>
+          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+            <p className="typo-body font-play font-semibold italic text-[var(--text-primary)] leading-snug m-0">
+              “Lãnh đạo bền vững không đến từ uy quyền áp đặt, mà từ tầm nhìn sáng rõ, dữ liệu minh bạch, trái tim thấu cảm và kỷ luật hành động nhất quán mỗi ngày.”
+            </p>
+            <span className="typo-caption font-semibold text-amber-700 dark:text-amber-300">
+              — Triết lý lãnh đạo · Nguyễn Hùng Thái
+            </span>
+          </div>
         </div>
       </section>
     );
@@ -1582,8 +1605,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-4"
           data-card-layout={resolveAdaptiveCardLayout(FIVE_ELEMENTS_GOVERNANCE.length, false)}
           data-subcard-count={FIVE_ELEMENTS_GOVERNANCE.length}
-          className="five-elements-grid w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[15px] p-[15px] items-stretch border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="five-elements-grid w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-[15px] p-0 items-stretch bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
         >
           {FIVE_ELEMENTS_GOVERNANCE.map((item, idx) => {
             const iconName = elementIcons[idx % elementIcons.length];
@@ -1601,7 +1624,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   background: cardElementBg,
                   borderColor: borderElementColor,
                 }}
-                className="bento-view-card bento-card glass-card ngu-hanh-element-card flex flex-col justify-between p-[15px] gap-[15px] relative transition-colors duration-200 overflow-hidden w-full h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)]"
+                className="bento-view-card bento-card glass-card ngu-hanh-element-card flex flex-col justify-between p-[15px] gap-[12px] relative transition-colors duration-200 overflow-y-auto overflow-x-hidden no-scrollbar w-full h-full min-h-0 min-w-0 text-left rounded-[var(--radius-card,14px)]"
               >
                 {/* Icon chìm Ngũ Hành & Chữ Hán chìm góc dưới bên phải */}
                 <div
@@ -1677,6 +1700,26 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             );
           })}
         </div>
+
+        {/* Câu nói hay bên dưới 4. Kỹ Năng Ngũ Hành (padding 15px, luôn nằm gọn trong thẻ) */}
+        <div
+          id="horoscope-card-4-quote"
+          data-subcard="true"
+          style={level2InnerCardStyle}
+          className="sub-card letter-subcard shrink-0 w-full p-[15px] rounded-[var(--radius-subcard,14px)] border border-cyan-500/30 flex items-center gap-3 box-border"
+        >
+          <div className="w-8 h-8 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-600 dark:text-cyan-300 flex items-center justify-center shrink-0">
+            <WebIcon name="layers" className="w-4 h-4 shrink-0" />
+          </div>
+          <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+            <p className="typo-body font-play font-semibold italic text-[var(--text-primary)] leading-snug m-0">
+              “Kim giữ chuẩn mực, Thủy khai hiệu suất, Mộc nuôi nội lực, Hỏa thắp trải nghiệm, Thổ dựng nền sâu — khi ngũ hành tương sinh, tổ chức tự khắc vận hành bền vững.”
+            </p>
+            <span className="typo-caption font-semibold text-cyan-700 dark:text-cyan-300">
+              — Ngũ Hành Quản Trị · Hải Trung Kim 1984
+            </span>
+          </div>
+        </div>
       </section>
     );
   };
@@ -1745,15 +1788,15 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
           data-element-parent="horoscope-card-5"
           data-card-layout={resolveAdaptiveCardLayout(2, false)}
           data-subcard-count={2}
-          className="w-full max-w-full min-w-0 min-h-0 flex-none h-auto grid grid-cols-1 lg:grid-cols-12 auto-rows-auto items-stretch content-start gap-[15px] p-[15px] border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
-          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '15px', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
+          className="w-full max-w-full min-w-0 flex-1 min-h-0 h-full grid grid-cols-1 md:grid-cols-2 md:grid-rows-1 items-stretch content-stretch gap-[15px] p-0 bg-transparent border-0 shadow-none outline-none rounded-[var(--radius-global,var(--radius-main,14px))] box-border"
+          style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', border: 'none', boxShadow: 'none', outline: 'none', width: '100%' }}
         >
-          {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI */}
+          {/* TRA CỨU 12 CON GIÁP - CỘT TRÁI (FULL CHIỀU CAO) */}
               <article
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full lg:col-span-6 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 text-left"
+                className="bento-view-card bento-card glass-card h-full min-h-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
               >
                 <div className="space-y-3">
                   <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] text-indigo-600 dark:text-indigo-300">
@@ -1832,16 +1875,16 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 </div>
               </article>
 
-              {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU */}
+              {/* CỘT PHẢI: KẾT QUẢ ĐỐI CHIẾU (FULL CHIỀU CAO) */}
               <article
                 id="horoscope-match-result-card"
                 data-element-name="Thẻ Kết Quả Đối Chiếu Với Giáp Tý 1984"
                 data-element-type="card"
                 data-section-card="true"
                 style={level2CardStyle}
-                className="bento-view-card bento-card glass-card h-full lg:col-span-6 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 text-left"
+                className="bento-view-card bento-card glass-card h-full min-h-0 flex flex-col justify-between p-[15px] gap-[15px] rounded-[14px] min-w-0 overflow-y-auto overflow-x-hidden no-scrollbar text-left"
               >
-                <div className="space-y-3">
+                <div className="flex-1 min-h-0 flex flex-col justify-between gap-3">
                   <div className="subcard-header-sync flex items-center gap-1.5 min-w-0 pb-2.5 border-b border-[var(--border-subcard)] text-purple-600 dark:text-purple-300">
                     <WebIcon name="sparkles" className="w-4 h-4 shrink-0" />
                     <h4
@@ -1853,11 +1896,7 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                   </div>
 
                   {/* Thông tin Con Giáp Được Chọn */}
-                  <div
-                    data-subcard="true"
-                    style={level2InnerCardStyle}
-                    className="sub-card letter-subcard flex flex-col gap-2 rounded-[var(--radius-subcard,14px)]"
-                  >
+                  <div className="flex flex-col gap-2">
                     <h5 className="typo-h5 font-play font-bold text-[var(--text-heading)] break-words leading-snug m-0">
                       Tuổi {signInfo.name} ({activeLookupYear} • {currentCanChiResult.canChi} • Mệnh {currentCanChiResult.element})
                     </h5>
@@ -1960,17 +1999,17 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
         {/* Banner trang Tử Vi nằm trong Thẻ chính Tử Vi 1 */}
         {renderHeroBanner()}
 
-        {/* BỐ CỤC BENTO 12 CỘT RESPONSIVE: 6. LUẬN GIẢI LÁ SỐ TỬ VI & HỒ SƠ NGUYỄN HÙNG THÁI (chiều cao 2 thẻ maxx full) */}
+        {/* BỐ CỤC 70% CARD TỬ VI 6 & 30% HỒ SƠ NGUYỄN HÙNG THÁI (CHIỀU CAO FULL) */}
         <div
           ref={row1HorizontalRef}
           id="horoscope-row-1-horizontal"
           data-card-layout={resolveAdaptiveCardLayout(isTuViExpanded ? 1 : 2, true)}
           data-subcard-count={isTuViExpanded ? 1 : 2}
           data-book-expanded={isTuViExpanded ? 'true' : 'false'}
-          className="relative z-10 w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-[15px] p-0 items-stretch bg-transparent box-border"
+          className="relative z-10 w-full max-w-full min-w-0 flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] md:grid-rows-[minmax(0,1fr)] gap-[15px] p-0 items-stretch bg-transparent box-border"
           style={{ gap: '15px', rowGap: '15px', columnGap: '15px', padding: '0px', background: 'transparent', width: '100%', height: '100%', flex: '1 1 0%' }}
         >
-          {/* Vị trí 1: Thẻ 6. Luận giải lá số tử vi (chiều cao maxx full bằng #horoscope-card-profile) */}
+          {/* Vị trí 1: Thẻ 6. Luận giải lá số tử vi (70% chiều ngang, full chiều cao, padding 5px) */}
           <article
             ref={card6Ref}
             id="horoscope-card-6"
@@ -1982,6 +2021,8 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
             data-expanded={isTuViExpanded ? 'true' : 'false'}
             style={{
               ...level2CardStyle,
+              padding: '5px',
+              gap: '0px',
               height: '100%',
               minHeight: '100%',
               ...(isTuViExpanded
@@ -1991,16 +2032,14 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
                 : {}),
             }}
             className={cn(
-              'bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[15px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left transition-all duration-300',
-              isTuViExpanded
-                ? 'h-full md:col-span-12 lg:col-span-12'
-                : 'md:col-span-6 lg:col-span-5'
+              'bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-0 p-[5px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left transition-all duration-300',
+              isTuViExpanded ? 'h-full col-span-full' : ''
             )}
           >
             {renderCard6LuanGiaiContent()}
           </article>
 
-          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (chiều cao maxx full) */}
+          {/* Vị trí 2: Thẻ Hồ sơ Nguyễn Hùng Thái (30% chiều ngang, full chiều cao, padding 15px) */}
           {!isTuViExpanded && (
             <article
               ref={profileCardRef}
@@ -2012,16 +2051,17 @@ export const HoroscopeView: React.FC<HoroscopeViewProps> = () => {
               data-element-parent="horoscope-card-1"
               style={{
                 ...level2CardStyle,
+                padding: '15px',
                 height: '100%',
                 minHeight: '100%',
                 containerType: 'inline-size',
                 containerName: 'horoscope-profile-card',
               }}
-              className="md:col-span-6 lg:col-span-7 bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[15px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left relative shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="bento-view-card bento-card glass-card w-full h-full min-h-0 min-w-0 flex flex-col justify-between gap-[12px] p-[15px] rounded-[var(--radius-card,14px)] overflow-hidden box-border text-left relative shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               {/* Bento Studio glowing ambient orb */}
               <div className="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="relative z-10 w-full h-full flex flex-col justify-between gap-[15px]">
+              <div className="relative z-10 w-full h-full min-h-0 flex flex-col justify-between gap-[12px]">
                 {renderCard1HoSoTuViContent()}
               </div>
             </article>

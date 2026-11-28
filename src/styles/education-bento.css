@@ -154,7 +154,7 @@ html[data-card-style="frost-ice-neu"] .edu-bento-tile {
   border-radius: var(--radius-subcard, 14px);
   border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.22));
   background: var(--bg-subcard, rgba(255, 255, 255, 0.55));
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, background-color 200ms ease;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), border-color var(--motion-normal, 220ms) ease, background-color var(--motion-normal, 220ms) ease;
 }
 
 html.dark .edu-bento-subtile,
@@ -232,7 +232,7 @@ html[data-card-style="walnut-wood"] .edu-bento-subtile {
 }
 
 .banner-timeline-pill {
-  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 

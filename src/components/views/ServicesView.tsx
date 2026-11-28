@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react';
+import { Sparkles, Info } from 'lucide-react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 
@@ -37,6 +39,7 @@ import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import {
   ServiceExpandedDetail,
   formatFourWordSentenceCase,
+  type BentoFxMode,
   type DomainIconKey,
   type KpiIconKey,
   type DomainUiMeta,
@@ -170,6 +173,105 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
   },
 };
 
+const CARD_EFFECT_MODES: { id: BentoFxMode; labelVi: string; labelEn: string }[] = [
+  { id: 'spotlight-3d', labelVi: 'Hiệu ứng: Ánh sáng 3D', labelEn: 'FX: 3D Spotlight' },
+  { id: 'float-shadow', labelVi: 'Hiệu ứng: Nổi Khối & Đổ Bóng', labelEn: 'FX: Float & Shadow' },
+  { id: 'neon', labelVi: 'Hiệu ứng: Viền Neon', labelEn: 'FX: Neon Border' },
+  { id: 'minimal', labelVi: 'Hiệu ứng: Tối Giản', labelEn: 'FX: Minimal' },
+];
+
+interface DomainBentoTemplate {
+  cardBgClass: string;
+  cardBgCss: string;
+  orbClass: string;
+  iconColor: string;
+  titleGradient?: boolean;
+  badgeClass: string;
+  descClass: string;
+  ctaClass: string;
+  ringClass: string;
+  dividerColor: string;
+}
+
+/**
+ * Ánh xạ 6 mẫu thẻ Creator Studio Bento cho 6 thẻ Lĩnh vực Dịch vụ:
+ * 01 → Thẻ 1 (Hero Purple → Indigo)
+ * 02 → Thẻ 32 / 45 (Vibrant Rose → Orange → Amber)
+ * 03 → Thẻ 3 / 16 (Emerald → Teal Zero-Trust)
+ * 04 → Thẻ 6 / 10 (Pink → Rose → Purple + Gradient Title Accent)
+ * 05 → Thẻ 14 / 19 (Cyan → Blue → Indigo Edge)
+ * 06 → Thẻ 73 / 25 (Slate → Indigo → Violet Architect)
+ */
+const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
+  '01': {
+    cardBgClass: 'bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900',
+    cardBgCss: 'linear-gradient(135deg, #9333ea 0%, #7e22ce 50%, #312e81 100%)',
+    orbClass: 'bg-white/15',
+    iconColor: '#e9d5ff',
+    badgeClass: 'bg-purple-950/60 border border-purple-400/35 text-purple-100',
+    descClass: 'text-purple-100/90',
+    ctaClass: 'bg-purple-950/60 group-hover:bg-purple-900 border border-purple-400/35 text-white',
+    ringClass: 'ring-2 ring-purple-950/70',
+    dividerColor: 'rgba(255, 255, 255, 0.16)',
+  },
+  '02': {
+    cardBgClass: 'bg-gradient-to-br from-rose-600 via-orange-600 to-amber-600',
+    cardBgCss: 'linear-gradient(135deg, #e11d48 0%, #ea580c 52%, #d97706 100%)',
+    orbClass: 'bg-yellow-300/25',
+    iconColor: '#fef08a',
+    badgeClass: 'bg-black/25 border border-white/25 text-amber-100',
+    descClass: 'text-orange-50/90',
+    ctaClass: 'bg-white/95 group-hover:bg-white border border-white/60 text-orange-700 shadow-sm',
+    ringClass: 'ring-2 ring-orange-950/60',
+    dividerColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  '03': {
+    cardBgClass: 'bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-950',
+    cardBgCss: 'linear-gradient(135deg, #059669 0%, #0f766e 52%, #022c22 100%)',
+    orbClass: 'bg-emerald-300/20',
+    iconColor: '#a7f3d0',
+    badgeClass: 'bg-black/25 border border-emerald-300/35 text-emerald-100',
+    descClass: 'text-emerald-100/90',
+    ctaClass: 'bg-emerald-500/25 group-hover:bg-emerald-500/40 border border-emerald-300/40 text-emerald-50',
+    ringClass: 'ring-2 ring-emerald-950/75',
+    dividerColor: 'rgba(255, 255, 255, 0.16)',
+  },
+  '04': {
+    cardBgClass: 'bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800',
+    cardBgCss: 'linear-gradient(135deg, #db2777 0%, #e11d48 50%, #6b21a8 100%)',
+    orbClass: 'bg-yellow-300/30',
+    iconColor: '#fde047',
+    titleGradient: true,
+    badgeClass: 'bg-black/25 border border-pink-200/30 text-yellow-200',
+    descClass: 'text-pink-100/90',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-yellow-200',
+    ringClass: 'ring-2 ring-purple-950/75',
+    dividerColor: 'rgba(255, 255, 255, 0.18)',
+  },
+  '05': {
+    cardBgClass: 'bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-900',
+    cardBgCss: 'linear-gradient(135deg, #0891b2 0%, #1d4ed8 52%, #312e81 100%)',
+    orbClass: 'bg-cyan-300/25',
+    iconColor: '#a5f3fc',
+    badgeClass: 'bg-white/15 border border-cyan-200/35 text-cyan-100',
+    descClass: 'text-cyan-100/90',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-cyan-50',
+    ringClass: 'ring-2 ring-indigo-950/75',
+    dividerColor: 'rgba(255, 255, 255, 0.18)',
+  },
+  '06': {
+    cardBgClass: 'bg-gradient-to-br from-slate-800 via-indigo-950 to-violet-950',
+    cardBgCss: 'linear-gradient(135deg, #1e293b 0%, #1e1b4b 52%, #2e1065 100%)',
+    orbClass: 'bg-indigo-400/25',
+    iconColor: '#c7d2fe',
+    badgeClass: 'bg-indigo-500/25 border border-indigo-400/40 text-indigo-200',
+    descClass: 'text-indigo-100/85',
+    ctaClass: 'bg-indigo-600/85 group-hover:bg-indigo-500 border border-indigo-400/40 text-white',
+    ringClass: 'ring-2 ring-slate-950/80',
+    dividerColor: 'rgba(255, 255, 255, 0.14)',
+  },
+};
+
 const renderDomainIcon = (key: DomainIconKey, className?: string, color?: string) => {
   const props = { className: className || 'w-4 h-4 shrink-0', style: color ? { color } : undefined };
   switch (key) {
@@ -243,7 +345,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isEn = language === 'en';
-  const isLeatherTheme = cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
+  const isLeatherTheme =
+    cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
+  const micaServiceAccents = ['#C65927', '#FF7C17', '#3ABA8F', '#EA1A7F', '#16D6FA', '#5274FF'];
 
   // Controlled interaction state machine: idle | hovered | expanding | expanded | closing
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
@@ -254,6 +358,48 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [fxIndex, setFxIndex] = useState<number>(0);
+  const [fxToast, setFxToast] = useState<string | null>(null);
+  const fxToastTimerRef = useRef<number | null>(null);
+  const currentFx = CARD_EFFECT_MODES[fxIndex];
+
+  const cycleCardEffectMode = useCallback(() => {
+    SoundEngine.playTap();
+    setFxIndex((prev) => {
+      const nextIdx = (prev + 1) % CARD_EFFECT_MODES.length;
+      const nextMode = CARD_EFFECT_MODES[nextIdx];
+      const msg = isEn
+        ? `Enabled ${nextMode.labelEn}`
+        : `Đã bật ${nextMode.labelVi}`;
+      setFxToast(msg);
+      if (fxToastTimerRef.current) {
+        window.clearTimeout(fxToastTimerRef.current);
+      }
+      fxToastTimerRef.current = window.setTimeout(() => {
+        setFxToast(null);
+      }, 2400);
+      return nextIdx;
+    });
+  }, [isEn]);
+
+  useEffect(() => {
+    if (currentFx.id !== 'spotlight-3d') {
+      Object.values(cardRefs.current).forEach((el) => {
+        if (el) {
+          el.style.setProperty('--rx', '0deg');
+          el.style.setProperty('--ry', '0deg');
+        }
+      });
+    }
+  }, [currentFx.id]);
+
+  useEffect(() => {
+    return () => {
+      if (fxToastTimerRef.current) {
+        window.clearTimeout(fxToastTimerRef.current);
+      }
+    };
+  }, []);
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
   const mainCardRef = useRef<HTMLDivElement | null>(null);
@@ -440,15 +586,243 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     : { type: 'spring' as const, stiffness: 120, damping: 23, mass: 1.05 };
   const isAnyCardExpanded = Boolean(selectedDomainId);
 
+  const fxToastNode = fxToast ? (
+    <div className="fixed bottom-6 right-6 z-50 pointer-events-none">
+      <div className="toast-enter pointer-events-auto flex items-center gap-3 bg-gray-900/95 backdrop-blur-md border border-purple-500/50 text-purple-300 px-4 py-3 rounded-xl shadow-2xl max-w-sm">
+        <Info className="w-5 h-5 shrink-0 text-purple-400" />
+        <span className="text-sm font-bold text-gray-100">{fxToast}</span>
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div
       id="services-page-container"
+      data-fx={currentFx.id}
       data-element-name="Trang Dịch Vụ & Giải Pháp"
       data-element-type="container"
       data-element-page="services"
       data-element-parent="global-content-viewport"
-      className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border"
+      className={cn(
+        'main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border',
+        !isDark && 'services-bento-light-mode'
+      )}
     >
+      {typeof document !== 'undefined' && fxToastNode ? createPortal(fxToastNode, document.body) : fxToastNode}
+
+      {/* Hệ CSS Creator Studio Bento: Font Play, đổ bóng đa tầng, 4 chế độ FX (Spotlight 3D, Nổi Khối, Neon, Tối Giản), Ripple & vi tương tác icon */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+        .bento-unified-title,
+        .service-title-text {
+          font-family: 'Play', sans-serif !important;
+          font-size: 16px !important;
+          line-height: 1.3 !important;
+          font-weight: 700 !important;
+          letter-spacing: 0em !important;
+        }
+
+        .gradient-text {
+          background-clip: text !important;
+          -webkit-background-clip: text !important;
+          color: transparent !important;
+        }
+
+        /* Cấu trúc, màu sắc & đổ bóng đa tầng Creator Studio cho 6 Thẻ Dịch Vụ (chống ghi đè bởi theme) */
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
+        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
+        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] {
+          --mx: 50%;
+          --my: 50%;
+          --rx: 0deg;
+          --ry: 0deg;
+          font-family: 'Play', sans-serif;
+          background: var(--bento-card-bg) !important;
+          color: #ffffff !important;
+          border-radius: 12px !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          transform-style: preserve-3d;
+          box-shadow:
+            0 12px 26px -8px rgba(0, 0, 0, 0.48),
+            0 4px 12px -3px rgba(0, 0, 0, 0.32),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+          transition:
+            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s ease !important;
+        }
+
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] {
+          color: #ffffff !important;
+          box-shadow:
+            0 16px 32px -10px rgba(15, 23, 42, 0.26),
+            0 6px 14px -4px rgba(15, 23, 42, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        }
+
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:active {
+          transform: translateY(-2px) scale(0.992) !important;
+          box-shadow:
+            0 8px 18px -6px rgba(0, 0, 0, 0.5),
+            0 3px 8px -2px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        }
+
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
+        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
+        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title) > span {
+          color: #ffffff !important;
+        }
+
+        /* Lớp ánh sáng Spotlight bám theo con trỏ chuột */
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 20;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          background: radial-gradient(
+            380px circle at var(--mx, 50%) var(--my, 50%),
+            rgba(255, 255, 255, 0.16),
+            rgba(168, 85, 247, 0.08) 40%,
+            transparent 72%
+          );
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          /* Chế độ 1: Ánh sáng Spotlight + Nghiêng 3D + Nổi khối đổ bóng (Mặc định) */
+          html #services-page-container[data-fx="spotlight-3d"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-10px) scale(1.018) !important;
+            border-color: rgba(255, 255, 255, 0.28) !important;
+            box-shadow:
+              0 30px 50px -12px rgba(0, 0, 0, 0.62),
+              0 14px 24px -8px rgba(0, 0, 0, 0.42),
+              0 0 0 1px rgba(255, 255, 255, 0.24),
+              0 0 32px -6px rgba(139, 92, 246, 0.38),
+              inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+            transition:
+              transform 0.14s ease-out,
+              box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s ease !important;
+          }
+
+          html #services-page-container[data-fx="spotlight-3d"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
+            opacity: 1;
+          }
+
+          /* Chế độ 2: Nổi Khối & Đổ Bóng Chuyên Sâu */
+          html #services-page-container[data-fx="float-shadow"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: translateY(-12px) scale(1.024) !important;
+            border-color: rgba(255, 255, 255, 0.28) !important;
+            box-shadow:
+              0 36px 60px -14px rgba(0, 0, 0, 0.68),
+              0 18px 28px -10px rgba(0, 0, 0, 0.46),
+              0 0 0 1px rgba(255, 255, 255, 0.26),
+              inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+          }
+
+          html #services-page-container[data-fx="float-shadow"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
+            opacity: 0.75;
+          }
+
+          /* Chế độ 3: Viền Neon rực rỡ bám chuột + Nổi khối */
+          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]::before {
+            background: radial-gradient(
+              340px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(56, 189, 248, 0.24),
+              rgba(192, 132, 252, 0.16) 42%,
+              transparent 72%
+            );
+          }
+
+          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: translateY(-10px) scale(1.018) !important;
+            border-color: rgba(192, 132, 252, 0.75) !important;
+            box-shadow:
+              0 28px 46px -12px rgba(0, 0, 0, 0.58),
+              0 18px 34px -8px rgba(139, 92, 246, 0.48),
+              0 0 26px -2px rgba(56, 189, 248, 0.42),
+              inset 0 0 20px rgba(168, 85, 247, 0.14) !important;
+          }
+
+          html #services-page-container[data-fx="neon"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover::before {
+            opacity: 1;
+          }
+
+          /* Chế độ 4: Tối Giản (Nổi nhẹ + Đổ bóng mềm) */
+          html #services-page-container[data-fx="minimal"] .service-card.domain-card[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: translateY(-6px) !important;
+            border-color: rgba(255, 255, 255, 0.24) !important;
+            box-shadow:
+              0 22px 36px -10px rgba(0, 0, 0, 0.5),
+              0 10px 18px -6px rgba(0, 0, 0, 0.32),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+          }
+
+          html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:hover svg.lucide.shrink-0 {
+            transform: scale(1.14) rotate(-5deg);
+          }
+        }
+
+        html #services-page-container .service-card.domain-card svg.lucide {
+          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .card-ripple {
+          position: absolute;
+          border-radius: 9999px;
+          pointer-events: none;
+          z-index: 25;
+          background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(168, 85, 247, 0.16) 55%,
+            transparent 75%
+          );
+          transform: translate(-50%, -50%) scale(0);
+          animation: serviceCardRipple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes serviceCardRipple {
+          0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0.9;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0;
+          }
+        }
+
+        @keyframes toastSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .toast-enter {
+          animation: toastSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:hover {
+            transform: none !important;
+          }
+          .card-ripple {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       <div
         id="services-cards-track"
         data-element-name="Track căn giữa Dịch Vụ"
@@ -474,14 +848,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           <div
             id="services-main-scroll-viewport"
             ref={scrollViewportRef}
-            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
+            className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[var(--space-card-gap,16px)] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
           <div
             id="services-main-content"
             data-element-parent="service-main-card"
             className={cn(
-              'w-full flex flex-col justify-start gap-[15px] min-w-0 box-border',
-              isAnyCardExpanded ? 'h-auto flex-none' : 'flex-1 h-full min-h-0'
+              'w-full flex flex-col justify-start gap-[var(--space-card-gap,16px)] min-w-0 box-border',
+              isAnyCardExpanded ? 'h-auto flex-none' : 'flex-1 min-h-full h-auto'
             )}
           >
             {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC — TỰ ĐỘNG ẨN MƯỢT KHI THẺ DỊCH VỤ BUNG RỘNG */}
@@ -501,9 +875,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       : { opacity: 0, y: -14, scale: 0.98 }
                   }
                   transition={{ duration: prefersReducedMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                  className="banner-card hero-banner group w-full max-w-full min-h-[110px] h-[clamp(120px,17vh,155px)] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 box-border transition-all duration-300"
+                  className="banner-card hero-banner group w-full max-w-full min-h-[110px] h-[clamp(120px,17vh,155px)] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[var(--space-card-padding,16px)] z-30 box-border transition-all duration-300"
                   style={{
-                    padding: '15px',
+                    padding: 'var(--space-card-padding, 16px)',
                     width: '100%',
                     maxWidth: '100%',
                     borderRadius: 'var(--radius-banner, 14px)',
@@ -601,6 +975,18 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           );
                         })}
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cycleCardEffectMode();
+                          closeMenu();
+                        }}
+                        className="banner-control-pill w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full typo-button font-play cursor-pointer"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                        <span className="truncate">{isEn ? currentFx.labelEn : currentFx.labelVi}</span>
+                      </button>
 
                       {expandedDomain && (
                         <button
@@ -706,6 +1092,16 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+                  <button
+                    type="button"
+                    onClick={cycleCardEffectMode}
+                    className="banner-control-pill h-9 inline-flex items-center gap-2 px-3.5 py-0 rounded-full transition-colors cursor-pointer typo-button font-play group"
+                    title={isEn ? 'Switch Bento card hover FX mode' : 'Đổi hiệu ứng thẻ & rê chuột'}
+                    aria-label={isEn ? currentFx.labelEn : currentFx.labelVi}
+                  >
+                    <Sparkles className="w-4 h-4 text-purple-400 shrink-0" />
+                    <span>{isEn ? currentFx.labelEn : currentFx.labelVi}</span>
+                  </button>
                 </div>
 
                 {expandedDomain && (
@@ -737,9 +1133,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                 <div
                   id="services-cards-grid"
                   ref={cardsGridRef}
+                  data-card-layout="responsive-grid"
                   aria-hidden={isAnyCardExpanded}
                   className={cn(
-                    'services-cards-grid card-grid w-full min-w-0 flex-1 min-h-0 h-auto',
+                    'unified-cards-grid services-cards-grid services-responsive-grid card-grid w-full min-w-0 h-auto',
                     isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
                     isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
                   )}
@@ -758,10 +1155,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     const serviceImage =
                       driveServiceImg || domain.customIllustrationUrl || meta.illustrationSrc;
 
-                    const accentColor = isDark ? meta.accentDark : meta.accentLight;
-                    const primaryInk = 'var(--text-primary)';
-                    const secondaryInk = 'var(--text-secondary)';
-                    const dividerBorder = 'var(--border-subcard, var(--border-color))';
+                    const accentColor =
+                      cardStyle === 'walnut-wood'
+                        ? '#F5C478'
+                        : cardStyle === 'cowhide-leather'
+                          ? '#E5B87E'
+                          : cardStyle === 'deep-ocean'
+                            ? '#38BDF8'
+                            : cardStyle === 'mica-fluent'
+                              ? micaServiceAccents[idx % micaServiceAccents.length]
+                              : isDark
+                                ? meta.accentDark
+                                : meta.accentLight;
+                    const bentoTpl = DOMAIN_BENTO_TEMPLATES[domain.id] || DOMAIN_BENTO_TEMPLATES['01'];
 
                     const isSelectedCard = selectedDomainId === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
@@ -772,7 +1178,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         <div
                           key={`placeholder-${domain.id}`}
                           aria-hidden="true"
-                          className="invisible pointer-events-none select-none min-h-[224px]"
+                          className="invisible pointer-events-none select-none w-full h-full min-h-0"
                         />
                       );
                     }
@@ -789,11 +1195,11 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       card.style.setProperty('--hover-x', `${((x / rect.width) * 100).toFixed(1)}%`);
                       card.style.setProperty('--hover-y', `${((y / rect.height) * 100).toFixed(1)}%`);
 
-                      if (!prefersReducedMotion) {
+                      if (currentFx.id === 'spotlight-3d' && !prefersReducedMotion) {
                         const centerX = rect.width / 2;
                         const centerY = rect.height / 2;
-                        const rotateX = (((y - centerY) / centerY) * -3.2).toFixed(2);
-                        const rotateY = (((x - centerX) / centerX) * 3.2).toFixed(2);
+                        const rotateX = (((y - centerY) / Math.max(1, centerY)) * -4.5).toFixed(2);
+                        const rotateY = (((x - centerX) / Math.max(1, centerX)) * 4.5).toFixed(2);
                         card.style.setProperty('--rx', `${rotateX}deg`);
                         card.style.setProperty('--ry', `${rotateY}deg`);
                       }
@@ -810,11 +1216,11 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     };
 
                     const handleCardMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-                      if ((e.target as HTMLElement).closest('button, a, input')) return;
+                      if ((e.target as HTMLElement).closest('input, textarea, select')) return;
                       const card = e.currentTarget;
-                      if (!card) return;
+                      if (!card || prefersReducedMotion) return;
                       const rect = card.getBoundingClientRect();
-                      const size = Math.max(rect.width, rect.height) * 1.3;
+                      const size = Math.max(rect.width, rect.height) * 1.4;
                       const ripple = document.createElement('span');
                       ripple.className = 'card-ripple';
                       ripple.style.width = `${size}px`;
@@ -837,6 +1243,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         data-element-type="card"
                         data-section-card="true"
                         data-service-themed="true"
+                        data-multicolor-bento="true"
+                        data-bento-styled="true"
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
@@ -883,107 +1291,81 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           }
                         }}
                         style={{
+                          '--bento-card-bg': bentoTpl.cardBgCss,
                           '--service-card-accent': meta.accentLight,
                           '--service-card-accent-dark': meta.accentDark,
                           '--service-card-active-accent': accentColor,
                           '--service-card-tint': meta.tintBg,
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
-                        className="service-card domain-card service-theme-card bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] p-3.5 sm:p-4 md:p-[15px] box-border w-full h-full flex flex-col justify-between text-left cursor-pointer overflow-hidden transition-all duration-300"
+                        className={cn(
+                          'service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left text-white cursor-pointer overflow-hidden',
+                          bentoTpl.cardBgClass
+                        )}
                       >
-                        {/* Ambient Glowing Orb góc thẻ lấy cảm hứng từ BentoCard */}
+                        {/* Ambient Glowing Orb góc thẻ từ mẫu Creator Studio Bento */}
                         <div
-                          className="absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-20 group-hover:opacity-35 transition-opacity duration-500"
-                          style={{ background: accentColor }}
+                          className={cn(
+                            'absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-500',
+                            bentoTpl.orbClass
+                          )}
                         />
 
                         {/* 3-Part Flexible Card Body */}
                         <div className="service-card-body relative z-10 flex flex-col flex-1 min-h-0 justify-between gap-2.5 w-full min-w-0">
-                          {/* TOP: Tag Badge + Live Indicator + Icon & Short Title */}
+                          {/* TOP: Creator Studio Header (Icon + Title) */}
                           <div className="flex flex-col gap-2 min-w-0 shrink-0">
-                            <div className="flex items-center justify-between gap-2 min-w-0">
-                              <span
-                                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold font-play border shadow-2xs"
-                                style={{
-                                  background: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.03)',
-                                  borderColor: accentColor,
-                                  color: accentColor,
-                                }}
-                              >
-                                <span className="truncate">{isEn ? meta.tagsEn[0] : meta.tags[0]}</span>
-                              </span>
-
-                              <span
-                                className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/15 dark:bg-white/10 text-white/80 shrink-0 tabular-nums"
-                              >
-                                {domain.id}
-                              </span>
-                            </div>
-
-                            <div
-                              className="service-card-header flex items-center gap-2 min-w-0"
-                              style={{ color: accentColor }}
-                            >
-                              <div
-                                className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
-                                style={{
-                                  background: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.75)',
-                                  borderColor: accentColor,
-                                  color: accentColor,
-                                }}
-                              >
+                            <div className="service-card-header flex items-center justify-between gap-2 min-w-0">
+                              <div className="flex items-center gap-2 min-w-0 flex-1">
                                 {renderDomainIcon(
                                   meta.iconKey,
-                                  'w-4 h-4 shrink-0 stroke-[2.2]',
-                                  accentColor
+                                  'w-5 h-5 shrink-0 stroke-[2.2] transition-transform duration-300',
+                                  bentoTpl.iconColor
                                 )}
+                                <h3
+                                  className={cn(
+                                    'service-title-text bento-unified-title font-play text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 [text-wrap:balance]',
+                                    bentoTpl.titleGradient && 'has-gradient-title'
+                                  )}
+                                  title={fullTitle}
+                                >
+                                  <span
+                                    className={
+                                      bentoTpl.titleGradient
+                                        ? 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200'
+                                        : 'text-white'
+                                    }
+                                  >
+                                    {displayTitle}
+                                  </span>
+                                </h3>
                               </div>
-                              <h3
-                                className="service-title-text font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 flex-1 line-clamp-2 [text-wrap:balance]"
-                                style={{ color: accentColor }}
-                                title={fullTitle}
-                              >
-                                <span style={{ color: accentColor }}>{displayTitle}</span>
-                              </h3>
                             </div>
                           </div>
 
-                          {/* CENTER: Left Description + KPI Stat & Right Frameless Illustration */}
-                          <div className="service-card-middle flex-1 min-w-0 w-full">
-                            <div className="service-card-text-col flex flex-col justify-center gap-2 min-w-0">
+                          {/* CENTER: Left Description & Right Frameless Zoomable Illustration */}
+                          <div className="service-card-middle grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 flex-1 min-w-0 w-full">
+                            <div className="service-card-text-col flex flex-col justify-center gap-2 min-w-0 text-left">
                               <div className="service-card-copy min-w-0 flex items-center">
                                 <p
                                   id={`service-card-desc-${domain.id}`}
-                                  className="service-desc-text relative z-10 m-0 leading-[1.52] text-[13px] font-normal line-clamp-3 break-words"
-                                  style={{ color: secondaryInk }}
+                                  className={cn(
+                                    'service-desc-text relative z-10 m-0 leading-[1.52] text-[13px] font-normal line-clamp-4 break-words text-left',
+                                    bentoTpl.descClass
+                                  )}
                                   title={summaryText}
                                 >
                                   {summaryText}
                                 </p>
                               </div>
-
-                              {meta.detailKpis && meta.detailKpis.length > 0 && (
-                                <div
-                                  className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl border text-xs min-w-0"
-                                  style={{
-                                    background: isDark ? 'rgba(0, 0, 0, 0.28)' : 'rgba(255, 255, 255, 0.65)',
-                                    borderColor: 'var(--border-subcard, rgba(255, 255, 255, 0.12))',
-                                  }}
-                                >
-                                  <span className="font-bold truncate text-[11px]" style={{ color: secondaryInk }}>
-                                    {isEn ? meta.detailKpis[0].labelEn : meta.detailKpis[0].label}:
-                                  </span>
-                                  <span className="font-mono font-bold text-xs shrink-0 tabular-nums" style={{ color: accentColor }}>
-                                    {isEn && meta.detailKpis[0].valueEn ? meta.detailKpis[0].valueEn : meta.detailKpis[0].value}
-                                  </span>
-                                </div>
-                              )}
                             </div>
 
-                            <div className="service-card-image-box min-w-0 relative flex items-center justify-center w-full max-h-[120px] overflow-visible rounded-xl">
+                            <div className="service-card-image-box min-w-0 relative flex items-center justify-center shrink-0 justify-self-end overflow-visible">
                               <img
                                 src={serviceImage}
                                 alt={fullTitle}
+                                width={104}
+                                height={104}
                                 loading={idx < 3 ? 'eager' : 'lazy'}
                                 fetchPriority={idx < 3 ? 'high' : 'auto'}
                                 decoding="async"
@@ -993,26 +1375,28 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                     e.currentTarget.src = meta.fallbackIllustration;
                                   }
                                 }}
-                                className="service-img-pop relative z-10 max-h-[115px] w-auto max-w-full object-contain select-none pointer-events-none transition-transform duration-500 group-hover:scale-105"
+                                className="service-img-pop relative z-10 max-h-[104px] w-auto max-w-full object-contain select-none pointer-events-none transition-transform duration-500 ease-out group-hover:scale-120 group-hover:-translate-y-2 drop-shadow-lg group-hover:drop-shadow-2xl"
                               />
                             </div>
                           </div>
 
-                          {/* BOTTOM: Partner Logos + Action Button */}
+                          {/* BOTTOM: Thẻ 4 Overlapping Partner Avatar Stack + Creator Studio CTA Pill */}
                           <div
                             className="service-divider mt-auto pt-2.5 flex items-center justify-between gap-2 min-w-0 shrink-0"
-                            style={{ borderTop: `1px solid ${dividerBorder}` }}
+                            style={{ borderTop: `1px solid ${bentoTpl.dividerColor}` }}
                           >
                             {(domain.companyLogos || []).length > 0 && (
-                              <div className="flex items-center -space-x-1.5 min-w-0">
+                              <div className="flex items-center -space-x-2.5 min-w-0">
                                 {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className="company-logo-surface service-partner-logo w-[28px] h-[28px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-xs border ring-1 ring-black/20"
+                                    className={cn(
+                                      'company-logo-surface service-partner-logo w-[30px] h-[30px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-sm bg-white',
+                                      bentoTpl.ringClass
+                                    )}
                                     style={{
-                                      borderColor: 'rgba(255, 255, 255, 0.2)',
-                                      background: isDark ? '#111827' : '#ffffff',
+                                      background: '#ffffff',
                                     }}
                                   >
                                     <img
@@ -1021,7 +1405,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                       loading="lazy"
                                       decoding="async"
                                       referrerPolicy="no-referrer"
-                                      className="w-full h-full object-cover rounded-full"
+                                      className="w-full h-full object-contain rounded-full select-none"
+                                      style={{
+                                        imageRendering: '-webkit-optimize-contrast',
+                                      }}
                                       onError={(e) => {
                                         if (
                                           partner.fallbackLogo &&
@@ -1039,8 +1426,11 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             )}
 
                             <span
-                              className="inline-flex items-center gap-1 text-[12px] font-bold font-play transition-all duration-200 group-hover:translate-x-1 shrink-0 ml-auto"
-                              style={{ color: accentColor }}
+                              data-bento-styled="true"
+                              className={cn(
+                                'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[12px] font-bold font-play transition-all duration-200 group-hover:translate-x-0.5 shrink-0 ml-auto',
+                                bentoTpl.ctaClass
+                              )}
                             >
                               <span>{isEn ? 'Explore' : 'Chi tiết'}</span>
                               <ArrowRight className="w-3.5 h-3.5 shrink-0" />
@@ -1062,6 +1452,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       allDomains={DOMAINS_DATA}
                       serviceAssignments={serviceAssignments}
                       interactionState={interactionState}
+                      fxMode={currentFx.id}
                       minHeightPx={gridNaturalHeight}
                       prefersReducedMotion={prefersReducedMotion}
                       isEn={isEn}

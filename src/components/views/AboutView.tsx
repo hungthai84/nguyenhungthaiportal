@@ -32,9 +32,9 @@ import {
   CheckCircle,
   Info,
   Maximize2,
-  Volume1,
-  Copy,
 } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme';
+import { cn } from '@/lib/utils';
 
 // ============================================================================
 // 1. DỮ LIỆU GỐC (GIỮ NGUYÊN 100% DATA CỦA CHUYÊN GIA NGUYỄN HÙNG THÁI)
@@ -102,9 +102,10 @@ const BentoCard: React.FC<BentoCardProps> = ({ className = '', onClick, children
   return (
     <div
       id={id}
+      data-section-card="true"
       onClick={onClick}
       style={style}
-      className={`bento-card bento-border ${className}`}
+      className={`bento-card glass-card bento-border ${className}`}
     >
       {children}
     </div>
@@ -128,7 +129,19 @@ interface ToastMessage {
 // 3. ỨNG DỤNG CHÍNH: HỒ SƠ CHUYÊN GIA NGUYỄN HÙNG THÁI (ABOUT VIEW)
 // ============================================================================
 
-export function AboutView({ onShowNotification }: AboutViewProps = {}) {
+export function AboutView({ currentTheme, onShowNotification }: AboutViewProps = {}) {
+  const { isDark: themeIsDark } = useTheme();
+  const isDark =
+    themeIsDark ||
+    currentTheme === 'dark-liquid-glass' ||
+    currentTheme === 'cowhide-leather' ||
+    currentTheme === 'dark-cowhide-leather' ||
+    currentTheme === 'walnut-wood' ||
+    currentTheme === 'deep-ocean' ||
+    currentTheme === 'dark-neumorphism-beyond' ||
+    currentTheme === 'dark-flat-soft-ui' ||
+    currentTheme === 'dark-iridescent-liquid-glass';
+
   // Hệ thống thông báo Toast
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -151,9 +164,6 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
   // Modal phóng to chi tiết từng Bento Card
   const [focusedBentoCard, setFocusedBentoCard] = useState<'hero' | 'stats' | null>(null);
-
-  // State đọc thuyết minh TTS
-  const [speakingId, setSpeakingId] = useState<string | null>(null);
 
   const showToast = useCallback(
     (message: string, type: 'info' | 'success' = 'info') => {
@@ -243,34 +253,6 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
     showToast(nextAudio ? 'Đã bật âm thanh video' : 'Đã tắt âm thanh video', 'info');
   }, [isAudioOn, isPlayingIntro, showToast]);
 
-  // Thuyết minh giọng đọc Web Speech API
-  const handleSpeakSection = useCallback(
-    (id: string, title: string, text: string) => {
-      if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-        showToast(`${title}: ${text}`, 'info');
-        return;
-      }
-
-      if (speakingId === id) {
-        window.speechSynthesis.cancel();
-        setSpeakingId(null);
-        showToast(`Đã dừng thuyết trình: ${title}`, 'info');
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(`${title}. ${text}`);
-      utterance.lang = 'vi-VN';
-      utterance.rate = 1.02;
-      utterance.onstart = () => setSpeakingId(id);
-      utterance.onend = () => setSpeakingId(null);
-      utterance.onerror = () => setSpeakingId(null);
-      window.speechSynthesis.speak(utterance);
-      showToast(`Đang thuyết trình: ${title}...`, 'success');
-    },
-    [speakingId, showToast]
-  );
-
   // Tương quan sáng viền giữa 3 Trụ Cột & 3 Giá Trị Cốt Lõi
   const isPillarHighlighted = useCallback(
     (pillarId: string) => {
@@ -307,15 +289,6 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
     return () => window.removeEventListener('keydown', onKey);
   }, [focusedBentoCard, isPlayingIntro, handleCancelIntro]);
 
-  // Clean up speech synthesis on unmount
-  useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, []);
-
   // Danh sách thông tin Cá nhân (Giữ nguyên 100% dữ liệu)
   const personalItems = useMemo(
     () => [
@@ -324,8 +297,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Sinh nhật',
         value: '22/06/1984',
         icon: Calendar,
-        iconCls: 'text-amber-300',
-        chipCls: 'bg-amber-500/15 border-amber-400/30 hover:bg-amber-500/25',
+        iconCls: 'text-amber-600 dark:text-amber-300',
+        chipCls: 'bg-amber-500/10 border-amber-400/40 dark:bg-amber-500/15 dark:border-amber-400/30 hover:bg-amber-500/20 dark:hover:bg-amber-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => showToast('Sinh nhật: 22/06/1984', 'info'),
       },
@@ -334,8 +307,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Tử vi',
         value: 'Giáp Tý · Hải Trung Kim',
         icon: Sparkles,
-        iconCls: 'text-purple-300',
-        chipCls: 'bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25',
+        iconCls: 'text-purple-600 dark:text-purple-300',
+        chipCls: 'bg-purple-500/10 border-purple-400/40 dark:bg-purple-500/15 dark:border-purple-400/30 hover:bg-purple-500/20 dark:hover:bg-purple-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => showToast('Tử vi: Giáp Tý - Mệnh Hải Trung Kim', 'info'),
       },
@@ -344,8 +317,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Giới tính',
         value: 'Nam giới',
         icon: User,
-        iconCls: 'text-sky-300',
-        chipCls: 'bg-sky-500/15 border-sky-400/30 hover:bg-sky-500/25',
+        iconCls: 'text-sky-600 dark:text-sky-300',
+        chipCls: 'bg-sky-500/10 border-sky-400/40 dark:bg-sky-500/15 dark:border-sky-400/30 hover:bg-sky-500/20 dark:hover:bg-sky-500/25',
         colSpan: 'col-span-1 sm:col-span-2',
         action: () => showToast('Giới tính: Nam giới', 'info'),
       },
@@ -354,8 +327,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Dân tộc',
         value: 'Kinh',
         icon: Globe,
-        iconCls: 'text-emerald-300',
-        chipCls: 'bg-emerald-500/15 border-emerald-400/30 hover:bg-emerald-500/25',
+        iconCls: 'text-emerald-600 dark:text-emerald-300',
+        chipCls: 'bg-emerald-500/10 border-emerald-400/40 dark:bg-emerald-500/15 dark:border-emerald-400/30 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/25',
         colSpan: 'col-span-1 sm:col-span-2',
         action: () => showToast('Dân tộc: Kinh', 'info'),
       },
@@ -364,8 +337,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Hôn nhân',
         value: 'Độc thân',
         icon: Heart,
-        iconCls: 'text-rose-300',
-        chipCls: 'bg-rose-500/15 border-rose-400/30 hover:bg-rose-500/25',
+        iconCls: 'text-rose-600 dark:text-rose-300',
+        chipCls: 'bg-rose-500/10 border-rose-400/40 dark:bg-rose-500/15 dark:border-rose-400/30 hover:bg-rose-500/20 dark:hover:bg-rose-500/25',
         colSpan: 'col-span-1 sm:col-span-2',
         action: () => showToast('Hôn nhân: Độc thân', 'info'),
       },
@@ -381,8 +354,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Điện thoại',
         value: '+84 0909097882',
         icon: Phone,
-        iconCls: 'text-orange-300',
-        chipCls: 'bg-orange-500/15 border-orange-400/30 hover:bg-orange-500/25',
+        iconCls: 'text-orange-600 dark:text-orange-300',
+        chipCls: 'bg-orange-500/10 border-orange-400/40 dark:bg-orange-500/15 dark:border-orange-400/30 hover:bg-orange-500/20 dark:hover:bg-orange-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => {
           if (typeof window !== 'undefined') {
@@ -395,8 +368,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Hộp thư',
         value: 'hungthai84@gmail.com',
         icon: Mail,
-        iconCls: 'text-pink-300',
-        chipCls: 'bg-pink-500/15 border-pink-400/30 hover:bg-pink-500/25',
+        iconCls: 'text-pink-600 dark:text-pink-300',
+        chipCls: 'bg-pink-500/10 border-pink-400/40 dark:bg-pink-500/15 dark:border-pink-400/30 hover:bg-pink-500/20 dark:hover:bg-pink-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => copySnippet('hungthai84@gmail.com', 'Email'),
       },
@@ -405,8 +378,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Website',
         value: 'Vào website',
         icon: Globe,
-        iconCls: 'text-sky-300',
-        chipCls: 'bg-sky-500/15 border-sky-400/30 hover:bg-sky-500/25',
+        iconCls: 'text-sky-600 dark:text-sky-300',
+        chipCls: 'bg-sky-500/10 border-sky-400/40 dark:bg-sky-500/15 dark:border-sky-400/30 hover:bg-sky-500/20 dark:hover:bg-sky-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => {
           if (typeof window !== 'undefined') {
@@ -419,8 +392,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'LinkedIn',
         value: 'Vào linkedin',
         icon: UserCheck,
-        iconCls: 'text-indigo-300',
-        chipCls: 'bg-indigo-500/15 border-indigo-400/30 hover:bg-indigo-500/25',
+        iconCls: 'text-indigo-600 dark:text-indigo-300',
+        chipCls: 'bg-indigo-500/10 border-indigo-400/40 dark:bg-indigo-500/15 dark:border-indigo-400/30 hover:bg-indigo-500/20 dark:hover:bg-indigo-500/25',
         colSpan: 'col-span-1 sm:col-span-3',
         action: () => {
           if (typeof window !== 'undefined') {
@@ -433,10 +406,10 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Tạm trú',
         value: 'P.Tân Phú (Q7) , TP. Hồ Chí Minh',
         icon: MapPin,
-        iconCls: 'text-cyan-300',
-        chipCls: `bg-cyan-500/15 border-cyan-400/30 hover:bg-cyan-500/25 ${
+        iconCls: 'text-cyan-600 dark:text-cyan-300',
+        chipCls: `bg-cyan-500/10 border-cyan-400/40 dark:bg-cyan-500/15 dark:border-cyan-400/30 hover:bg-cyan-500/20 dark:hover:bg-cyan-500/25 ${
           activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru'
-            ? 'ring-2 ring-cyan-300'
+            ? 'ring-2 ring-cyan-500 dark:ring-cyan-300'
             : ''
         }`,
         colSpan: 'col-span-1 sm:col-span-6',
@@ -451,10 +424,10 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
         label: 'Cư trú',
         value: 'Phường Mỹ Tho, Tỉnh Đồng Tháp',
         icon: Home,
-        iconCls: 'text-teal-300',
-        chipCls: `bg-teal-500/15 border-teal-400/30 hover:bg-teal-500/25 ${
+        iconCls: 'text-teal-600 dark:text-teal-300',
+        chipCls: `bg-teal-500/10 border-teal-400/40 dark:bg-teal-500/15 dark:border-teal-400/30 hover:bg-teal-500/20 dark:hover:bg-teal-500/25 ${
           activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru'
-            ? 'ring-2 ring-teal-300'
+            ? 'ring-2 ring-teal-500 dark:ring-teal-300'
             : ''
         }`,
         colSpan: 'col-span-1 sm:col-span-6',
@@ -473,18 +446,22 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
       {toasts.map((t) => (
         <div
           key={t.id}
-          className={`pointer-events-auto flex items-center gap-3 bg-gray-900/95 backdrop-blur-md border px-4 py-3 rounded-xl shadow-2xl max-w-sm ${
-            t.type === 'success'
-              ? 'border-emerald-500/50 text-emerald-300'
-              : 'border-purple-500/50 text-purple-300'
-          }`}
+          className="glass-card pointer-events-auto flex items-center gap-3 border px-4 py-3 rounded-[var(--radius-card,14px)] shadow-2xl max-w-sm"
+          style={{
+            background: 'var(--surface-secondary-bg, var(--bg-card))',
+            borderColor:
+              t.type === 'success'
+                ? 'color-mix(in srgb, #10b981 48%, var(--border-card, var(--border-color)))'
+                : 'color-mix(in srgb, var(--color-primary, #6366f1) 48%, var(--border-card, var(--border-color)))',
+            color: 'var(--text-primary)',
+          }}
         >
           {t.type === 'success' ? (
-            <CheckCircle className="w-5 h-5 shrink-0" />
+            <CheckCircle className="w-5 h-5 shrink-0 text-emerald-500" />
           ) : (
-            <Info className="w-5 h-5 shrink-0" />
+            <Info className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
           )}
-          <span className="text-sm font-bold text-gray-100">{t.message}</span>
+          <span className="text-sm font-bold text-[var(--text-primary)]">{t.message}</span>
         </div>
       ))}
     </div>
@@ -497,6 +474,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
       data-element-type="container"
       data-element-page="about"
       data-element-parent="global-content-viewport"
+      data-theme-mode={isDark ? 'dark' : 'light'}
       data-no-wheel-horizontal="true"
       className="main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border"
     >
@@ -553,25 +531,24 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           background: transparent;
         }
 
-        .bento-card {
-          border-radius: 14px;
+        #about-page-container .bento-card {
+          border-radius: var(--radius-card, var(--radius-global, 14px));
           padding: 16px;
           position: relative;
           overflow: hidden;
-          box-shadow:
-            0 12px 26px -8px rgba(0, 0, 0, 0.48),
-            0 4px 12px -3px rgba(0, 0, 0, 0.32),
-            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+          background: var(--surface-secondary-bg, var(--bg-card));
+          color: var(--text-primary);
+          border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card, var(--border-color)));
+          box-shadow: var(--surface-secondary-shadow, var(--shadow-card));
+          backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 18px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 140%)));
+          -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 18px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 140%)));
+          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .gradient-text {
           background-clip: text;
           -webkit-background-clip: text;
           color: transparent;
-        }
-
-        .bento-border {
-          border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         /* Chuẩn hóa đồng nhất 100% kích thước, độ đậm và giãn cách chữ cho tiêu đề Card & Sub-card */
@@ -583,7 +560,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           letter-spacing: 0em !important;
         }
 
-        /* Box Tab liền mạch cho Card Thông tin chi tiết (Cá nhân & Liên hệ) */
+        /* Box Tab liền mạch cho Card Thông tin chi tiết (Cá nhân & Liên hệ) - Cấu hình đồng bộ 100% theo giao diện */
         #about-personal-info-card-right {
           gap: 0px !important;
           row-gap: 0px !important;
@@ -601,67 +578,127 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           align-items: flex-end !important;
           gap: 6px !important;
           margin: 0 !important;
+          margin-bottom: calc(-1 * var(--card-border-width, 1px)) !important;
           padding: 0 !important;
           position: relative !important;
           z-index: 30 !important;
+          border-bottom: none !important;
         }
 
+        html:root body #about-page-container #about-box-tabs-shell button[role="tab"],
+        html:root[data-card-style] body #about-page-container #about-box-tabs-shell button[role="tab"],
+        html:root body #el-p2-button-4,
+        html:root body #el-p2-button-5,
         #about-box-tabs-shell [role="tab"] {
           position: relative !important;
           overflow: visible !important;
-          border-top-left-radius: 12px !important;
-          border-top-right-radius: 12px !important;
+          border-top-left-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
+          border-top-right-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
           border-bottom-left-radius: 0px !important;
           border-bottom-right-radius: 0px !important;
+          border-radius: var(--radius-subcard, var(--radius-card, 14px)) var(--radius-subcard, var(--radius-card, 14px)) 0px 0px !important;
           border-bottom: none !important;
-          box-shadow: none !important;
           transform: none !important;
           margin: 0 !important;
+          cursor: pointer !important;
+          backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+          -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+          transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease !important;
         }
 
         #about-box-tabs-shell [role="tab"]::before {
           display: none !important;
         }
 
-        #about-box-tabs-shell [role="tab"][aria-selected="true"] {
-          background: #0b101b !important;
-          border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
-          border-left: 1px solid rgba(255, 255, 255, 0.16) !important;
-          border-right: 1px solid rgba(255, 255, 255, 0.16) !important;
+        #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="true"] {
+          background: var(--surface-tertiary-bg, var(--bg-subcard, var(--bg-card))) !important;
+          border-top: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) !important;
+          border-left: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) !important;
+          border-right: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) !important;
           border-bottom: none !important;
-          padding-bottom: 10px !important;
-          margin-bottom: -1px !important;
-          z-index: 35 !important;
+          box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard, none)) !important;
+          outline: var(--outline-subcard, none) !important;
+          outline-offset: var(--outline-offset-subcard, -4px) !important;
+          color: var(--text-link, var(--color-primary)) !important;
+          padding-top: 8px !important;
+          padding-bottom: 11px !important;
+          margin-bottom: calc(-1 * var(--card-border-width, 1px)) !important;
+          z-index: 40 !important;
         }
 
-        #about-box-tabs-shell [role="tab"][aria-selected="true"]::after {
+        #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="true"]::after {
           content: '' !important;
           position: absolute !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: -2px !important;
-          height: 4px !important;
-          background: #0b101b !important;
+          left: 0px !important;
+          right: 0px !important;
+          bottom: -3px !important;
+          height: 6px !important;
+          background: var(--surface-tertiary-bg, var(--bg-subcard, var(--bg-card))) !important;
+          z-index: 50 !important;
           pointer-events: none !important;
         }
 
-        #about-box-tabs-shell [role="tab"][aria-selected="false"] {
-          background: rgba(15, 23, 42, 0.55) !important;
-          border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-          border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
-          border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-          border-bottom: none !important;
+        #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"] {
+          background: color-mix(in srgb, var(--surface-tertiary-bg, var(--bg-subcard, var(--bg-card))) 58%, transparent) !important;
+          border-top: var(--card-border-width, 1px) solid color-mix(in srgb, var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) 72%, transparent) !important;
+          border-left: var(--card-border-width, 1px) solid color-mix(in srgb, var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) 72%, transparent) !important;
+          border-right: var(--card-border-width, 1px) solid color-mix(in srgb, var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) 72%, transparent) !important;
+          border-bottom: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) !important;
+          box-shadow: none !important;
+          color: var(--text-secondary) !important;
+          padding-top: 6px !important;
           padding-bottom: 8px !important;
           margin-bottom: 0px !important;
           z-index: 15 !important;
+          opacity: 0.82 !important;
         }
 
-        #about-box-tabs-shell [role="tabpanel"] {
-          background: #0b101b !important;
-          border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"]:hover {
+          opacity: 1 !important;
+          color: var(--text-primary) !important;
+          background: color-mix(in srgb, var(--surface-tertiary-bg, var(--bg-subcard, var(--bg-card))) 86%, transparent) !important;
+        }
+
+        #about-page-container #about-box-tabs-shell [role="tabpanel"] {
+          background: var(--surface-tertiary-bg, var(--bg-subcard, var(--bg-card))) !important;
+          border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--border-color))) !important;
+          box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard, none)) !important;
+          backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+          -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+          outline: var(--outline-subcard, none) !important;
+          outline-offset: var(--outline-offset-subcard, -5px) !important;
+          border-bottom-left-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
+          border-bottom-right-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
+          border-top-right-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
           margin-top: 0px !important;
           position: relative !important;
           z-index: 20 !important;
+          transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease !important;
+        }
+
+        #about-page-container #about-box-tabs-shell [role="tabpanel"][data-active-tab="personal"] {
+          border-top-left-radius: 0px !important;
+        }
+
+        #about-page-container #about-box-tabs-shell [role="tabpanel"][data-active-tab="contact"] {
+          border-top-left-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
+        }
+
+        #about-page-container #about-box-tabs-shell .about-tab-info-chip {
+          background: var(--bg-nested-card, var(--bg-nested, var(--bg-subcard))) !important;
+          border: var(--card-border-width, 1px) solid var(--border-nested-badge, var(--border-subcard, var(--border-color))) !important;
+          box-shadow: var(--shadow-nested, none) !important;
+          border-radius: var(--radius-subcard, 12px) !important;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+        }
+
+        #about-page-container #about-box-tabs-shell .about-tab-info-chip:hover {
+          border-color: color-mix(in srgb, var(--color-primary, #4F46E5) 52%, var(--border-subcard, var(--border-color))) !important;
+          background: var(--bg-subcard-hover, var(--bg-nested-card, var(--bg-subcard))) !important;
+        }
+
+        html[data-surface-depth="flat"] #about-page-container #about-box-tabs-shell :is([role="tab"], [role="tabpanel"], .about-tab-info-chip) {
+          box-shadow: none !important;
         }
       `}</style>
 
@@ -696,7 +733,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
             <div
               id="about-main-content"
               data-element-parent="about-main-card"
-              className="bento-app-root text-white antialiased selection:bg-purple-500 selection:text-white w-full h-auto shrink-0 flex flex-col justify-start gap-4 min-w-0 box-border"
+              className="bento-app-root text-[var(--text-primary)] antialiased selection:bg-purple-500 selection:text-white w-full h-auto shrink-0 flex flex-col justify-start gap-4 min-w-0 box-border"
             >
               {/* ===================================================================== */}
               {/* LƯỚI BENTO GRID CHÍNH                                                 */}
@@ -707,9 +744,9 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-hero-video-container"
-            className="lg:col-span-7 bg-gray-800/90 backdrop-blur-md flex flex-col justify-between min-h-[300px] sm:min-h-[370px]"
+            className="lg:col-span-7 flex flex-col justify-between min-h-[300px] sm:min-h-[370px] text-[var(--text-primary)]"
           >
-            <div className="relative w-full h-full flex-1 rounded-xl overflow-hidden min-h-[270px] flex items-center justify-center border border-white/15 bg-gray-950 shadow-inner">
+            <div className="relative w-full h-full flex-1 rounded-xl overflow-hidden min-h-[270px] flex items-center justify-center border border-[var(--border-subcard,var(--border-color))] bg-slate-950 shadow-inner">
               {activeHeroMedia === 'video' ? (
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
                   {/* Ảnh nền chân dung tải trước */}
@@ -836,14 +873,20 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                   />
 
                   <div className="relative z-20 p-3 flex items-center justify-between gap-2">
-                    <div className="inline-flex items-center gap-1.5 p-1 rounded-full bg-gray-950/85 backdrop-blur-md border border-white/20 shadow-lg">
+                    <div
+                      className="inline-flex items-center gap-1.5 p-1 rounded-full backdrop-blur-md border shadow-lg"
+                      style={{
+                        background: 'var(--surface-secondary-bg, var(--bg-card))',
+                        borderColor: 'var(--border-card, var(--border-color))',
+                      }}
+                    >
                       <button
                         type="button"
                         onClick={() => setActiveHeroMapType('tam_tru')}
                         className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
                           activeHeroMapType === 'tam_tru'
-                            ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white'
-                            : 'text-gray-300 hover:text-white'
+                            ? 'bg-[var(--bg-button-primary,var(--color-primary))] text-[var(--text-button-primary,#ffffff)]'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                         }`}
                       >
                         <span className="w-2 h-2 rounded-full bg-red-500 ring-1 ring-white" />
@@ -854,8 +897,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                         onClick={() => setActiveHeroMapType('cu_tru')}
                         className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
                           activeHeroMapType === 'cu_tru'
-                            ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white'
-                            : 'text-gray-300 hover:text-white'
+                            ? 'bg-[var(--bg-button-primary,var(--color-primary))] text-[var(--text-button-primary,#ffffff)]'
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                         }`}
                       >
                         <span className="w-2 h-2 rounded-full bg-red-500 ring-1 ring-white" />
@@ -866,30 +909,40 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                     <button
                       type="button"
                       onClick={() => setActiveHeroMedia('video')}
-                      className="px-3 py-1.5 rounded-full shadow-lg bg-gray-950/85 hover:bg-gray-900 backdrop-blur-md border border-white/20 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                      className="px-3 py-1.5 rounded-full shadow-lg backdrop-blur-md border text-[var(--text-primary)] text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                      style={{
+                        background: 'var(--surface-secondary-bg, var(--bg-card))',
+                        borderColor: 'var(--border-card, var(--border-color))',
+                      }}
                     >
                       <X className="w-3.5 h-3.5" />
                       <span>Quay lại video</span>
                     </button>
                   </div>
 
-                  <div className="relative z-20 m-3 p-3 rounded-xl bg-gray-950/90 backdrop-blur-md border border-white/20 text-white shadow-xl flex flex-col gap-2">
+                  <div
+                    className="relative z-20 m-3 p-3 rounded-xl backdrop-blur-md border text-[var(--text-primary)] shadow-xl flex flex-col gap-2"
+                    style={{
+                      background: 'var(--surface-secondary-bg, var(--bg-card))',
+                      borderColor: 'var(--border-card, var(--border-color))',
+                    }}
+                  >
                     <div className="flex items-start gap-2.5">
                       <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center shrink-0 text-base">
                         📍
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-bold text-xs text-cyan-300">
+                          <span className="font-bold text-xs text-[var(--text-link,var(--color-primary))]">
                             {activeHeroMapType === 'tam_tru'
                               ? 'Tạm trú hiện tại'
                               : 'Cư trú quê quán'}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold">
+                          <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-500 border border-red-500/30 text-[10px] font-bold">
                             Đã ghim đỏ trên Map
                           </span>
                         </div>
-                        <p className="text-xs text-gray-100 font-bold mt-0.5 leading-snug">
+                        <p className="text-xs text-[var(--text-primary)] font-bold mt-0.5 leading-snug">
                           {activeHeroMapType === 'tam_tru'
                             ? 'Chung Cư Tân Mỹ , Phường Tân mỹ , TP. Hồ Chí Minh'
                             : '7D7 Hoàng Hoa Tám, Phường Mỹ Tho, Tỉnh Đồng Tháp'}
@@ -897,7 +950,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/10 text-xs">
+                    <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-[var(--border-subcard,var(--border-color))] text-xs">
                       <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                           activeHeroMapType === 'tam_tru'
@@ -906,7 +959,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold inline-flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-full bg-[var(--bg-button-primary,var(--color-primary))] text-[var(--text-button-primary,#ffffff)] font-bold inline-flex items-center gap-1.5"
                       >
                         <span>Mở Google Maps</span>
                         <ExternalLink className="w-3 h-3" />
@@ -920,7 +973,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white font-bold inline-flex items-center gap-1.5"
+                        className="px-3 py-1.5 rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] text-[var(--text-primary)] font-bold inline-flex items-center gap-1.5"
                       >
                         <span>Chỉ đường</span>
                         <Navigation className="w-3 h-3" />
@@ -937,9 +990,13 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-personal-info-card-right"
-            className="lg:col-span-5 bg-gradient-to-br from-slate-800 via-gray-800 to-slate-900 flex flex-col justify-start gap-0"
+            className="lg:col-span-5 flex flex-col justify-start gap-0 text-[var(--text-primary)]"
           >
-            <div id="about-box-tabs-shell" className="flex-1 flex flex-col justify-start gap-0 min-h-0 w-full">
+            <div
+              id="about-box-tabs-shell"
+              data-theme-synced="true"
+              className="flex-1 flex flex-col justify-start gap-0 min-h-0 w-full"
+            >
               {/* Box Tabs Header */}
               <div className="flex items-end justify-between gap-2 relative z-30">
                 <div
@@ -950,17 +1007,21 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                   <button
                     type="button"
                     role="tab"
+                    data-box-tab="true"
+                    data-theme-synced="true"
                     aria-selected={detailInfoTab === 'personal'}
                     onClick={() => setDetailInfoTab('personal')}
-                    className={`no-theme-btn relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 rounded-t-xl rounded-b-none text-xs sm:text-sm font-bold cursor-pointer transition-colors ${
+                    className={`no-theme-btn bento-unified-title relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 font-play text-[16px] font-bold cursor-pointer transition-colors ${
                       detailInfoTab === 'personal'
-                        ? 'text-sky-300'
-                        : 'text-gray-400 hover:text-gray-200'
+                        ? 'text-[var(--text-link,var(--color-primary))]'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <User
                       className={`w-4 h-4 shrink-0 ${
-                        detailInfoTab === 'personal' ? 'text-sky-300' : 'text-current'
+                        detailInfoTab === 'personal'
+                          ? 'text-[var(--text-link,var(--color-primary))]'
+                          : 'text-current'
                       }`}
                     />
                     <span className="leading-tight">Cá nhân</span>
@@ -969,17 +1030,21 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                   <button
                     type="button"
                     role="tab"
+                    data-box-tab="true"
+                    data-theme-synced="true"
                     aria-selected={detailInfoTab === 'contact'}
                     onClick={() => setDetailInfoTab('contact')}
-                    className={`no-theme-btn relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 rounded-t-xl rounded-b-none text-xs sm:text-sm font-bold cursor-pointer transition-colors ${
+                    className={`no-theme-btn bento-unified-title relative inline-flex items-center gap-1.5 px-4 pt-2 pb-2 font-play text-[16px] font-bold cursor-pointer transition-colors ${
                       detailInfoTab === 'contact'
-                        ? 'text-emerald-300'
-                        : 'text-gray-400 hover:text-gray-200'
+                        ? 'text-[var(--text-link,var(--color-primary))]'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <Phone
                       className={`w-4 h-4 shrink-0 ${
-                        detailInfoTab === 'contact' ? 'text-emerald-300' : 'text-current'
+                        detailInfoTab === 'contact'
+                          ? 'text-[var(--text-link,var(--color-primary))]'
+                          : 'text-current'
                       }`}
                     />
                     <span className="leading-tight">Liên hệ</span>
@@ -987,12 +1052,12 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                 </div>
               </div>
 
-              {/* Box Tabs Content Container (Liền mạch hoàn toàn với tab đang chọn, không có line ngăn) */}
+              {/* Box Tabs Content Container (Liền mạch hoàn toàn với tab đang chọn, đồng bộ theo giao diện đang dùng) */}
               <div
                 role="tabpanel"
-                className={`flex-1 rounded-b-xl rounded-tr-xl ${
-                  detailInfoTab === 'contact' ? 'rounded-tl-xl' : 'rounded-tl-none'
-                } p-2.5 sm:p-3 bg-[#0b101b] border border-white/15 flex flex-col justify-between gap-2 relative z-20`}
+                data-active-tab={detailInfoTab}
+                data-theme-synced="true"
+                className="flex-1 p-2.5 sm:p-3 flex flex-col justify-between gap-2 relative z-20"
               >
               {detailInfoTab === 'personal' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full">
@@ -1003,7 +1068,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                         key={item.id}
                         onClick={item.action}
                         title={`${item.label}: ${item.value}`}
-                        className={`flex flex-col justify-center gap-1 p-2.5 rounded-xl border cursor-pointer min-w-0 ${item.colSpan} ${item.chipCls}`}
+                        className={`about-tab-info-chip flex flex-col justify-center gap-1 p-2.5 cursor-pointer min-w-0 transition-colors ${item.colSpan}`}
                       >
                         <div className="flex items-center gap-1.5 min-w-0">
                           <IconComp className={`w-3.5 h-3.5 shrink-0 ${item.iconCls}`} />
@@ -1011,52 +1076,29 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                             {item.label}
                           </span>
                         </div>
-                        <div className="text-xs sm:text-[13px] font-bold text-white truncate">
+                        <div className="text-xs sm:text-[13px] font-bold text-[var(--text-primary)] truncate">
                           {item.value}
                         </div>
                       </div>
                     );
                   })}
-
-                  {/* Quick Stats Strip (4 chỉ số cốt lõi) */}
-                  <div className="col-span-1 sm:col-span-6 grid grid-cols-4 gap-2 pt-1.5">
-                    {ABOUT_PROFILE_STATS.map((st) => (
-                      <button
-                        key={st.id}
-                        type="button"
-                        onClick={() => setFocusedBentoCard('stats')}
-                        className="p-2 rounded-xl bg-gray-900/75 hover:bg-gray-800 border border-white/10 text-center cursor-pointer"
-                        title={st.desc}
-                      >
-                        <div
-                          className="text-sm sm:text-base font-bold leading-tight"
-                          style={{ color: st.color }}
-                        >
-                          {st.metric}
-                        </div>
-                        <div className="text-[10px] font-bold text-gray-300 truncate mt-0.5">
-                          {st.id === 'experience'
-                            ? 'Kinh nghiệm'
-                            : st.id === 'scale'
-                            ? 'Quy mô lớn'
-                            : st.id === 'automation'
-                            ? 'AI CRM'
-                            : 'Hài lòng'}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full">
                   {contactItems.map((item) => {
                     const IconComp = item.icon;
+                    const isMapSelected =
+                      activeHeroMedia === 'map' &&
+                      ((item.id === 'tam_tru' && activeHeroMapType === 'tam_tru') ||
+                        (item.id === 'cu_tru' && activeHeroMapType === 'cu_tru'));
                     return (
                       <div
                         key={item.id}
                         onClick={item.action}
                         title={`${item.label}: ${item.value}`}
-                        className={`flex flex-col justify-center gap-1 p-2.5 rounded-xl border cursor-pointer min-w-0 ${item.colSpan} ${item.chipCls}`}
+                        className={`about-tab-info-chip flex flex-col justify-center gap-1 p-2.5 cursor-pointer min-w-0 transition-colors ${item.colSpan} ${
+                          isMapSelected ? 'ring-2 ring-[var(--color-primary)]' : ''
+                        }`}
                       >
                         <div className="flex items-center gap-1.5 min-w-0">
                           <IconComp className={`w-3.5 h-3.5 shrink-0 ${item.iconCls}`} />
@@ -1064,7 +1106,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                             {item.label}
                           </span>
                         </div>
-                        <div className="text-xs sm:text-[13px] font-bold text-white truncate">
+                        <div className="text-xs sm:text-[13px] font-bold text-[var(--text-primary)] truncate">
                           {item.value}
                         </div>
                       </div>
@@ -1081,45 +1123,34 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-career-goal-card"
-            className="lg:col-span-5 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900 flex flex-col justify-between gap-3 relative overflow-hidden"
+            className="lg:col-span-5 flex flex-col justify-between gap-3 relative overflow-hidden text-[var(--text-primary)]"
           >
-            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-white/15">
-              <div className="flex items-start gap-2 text-purple-200">
-                <User className="w-5 h-5 text-purple-200 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-purple-200">
+            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
+              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
+                <User className="w-5 h-5 shrink-0 mt-0.5" />
+                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
                   Giới thiệu bản thân
                 </h3>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleSpeakSection(
-                      'intro',
-                      'Giới thiệu bản thân',
-                      'Một chuyên gia dịch vụ khách hàng với hơn 22 năm kinh nghiệm thực chiến. Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.'
-                    )
-                  }
-                  className={`p-1.5 rounded-lg border cursor-pointer ${
-                    speakingId === 'intro'
-                      ? 'bg-white text-purple-900 border-white'
-                      : 'bg-purple-950/50 hover:bg-purple-900 text-purple-200 border-purple-400/30'
-                  }`}
-                  title="Nghe thuyết minh Giới thiệu bản thân"
+                <span
+                  className="text-[11px] font-bold uppercase px-2.5 py-1 rounded-full border"
+                  style={{
+                    background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                    borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                    color: 'var(--text-link, var(--color-primary))',
+                  }}
                 >
-                  <Volume1 className="w-4 h-4" />
-                </button>
-                <span className="text-[11px] font-bold uppercase px-2.5 py-1 rounded-full bg-purple-950/60 border border-purple-300/30 text-purple-100">
                   22+ Năm CX
                 </span>
               </div>
             </div>
 
             <div className="relative z-10 flex-1 flex items-center">
-              <p className="text-sm sm:text-[15px] text-purple-100 leading-relaxed">
+              <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] leading-relaxed">
                 Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                <strong className="font-bold text-white">22 năm kinh nghiệm</strong> thực chiến.
+                <strong className="font-bold text-[var(--text-primary)]">22 năm kinh nghiệm</strong> thực chiến.
                 Với tôi, Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc
                 trò chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá để lắng
                 nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
@@ -1128,45 +1159,53 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           </BentoCard>
 
           {/* ------------------------------------------------------------------- */}
-          {/* THẺ 4: CARD TRỤ CỘT VẬN HÀNH (3 Ô CON MÀU SẮC TƯƠNG ỨNG)            */}
+          {/* THẺ 4: CARD TRỤ CỘT VẬN HÀNH (3 Ô CON ĐỒNG BỘ GIAO DIỆN ĐANG DÙNG)  */}
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-operating-pillars-card"
-            className="lg:col-span-7 bg-gray-800/90 backdrop-blur-md flex flex-col justify-between gap-3"
+            className="lg:col-span-7 flex flex-col justify-between gap-3 text-[var(--text-primary)]"
           >
-            <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-              <div className="flex items-start gap-2 text-cyan-400">
-                <Target className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-cyan-400">
+            <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
+              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
+                <Target className="w-5 h-5 shrink-0 mt-0.5" />
+                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
                   Trụ cột vận hành
                 </h3>
               </div>
             </div>
 
-            <div className="flex-1 grid grid-cols-1 xl:grid-cols-3 gap-2.5 items-stretch">
+            <div className="flex-1 grid grid-cols-3 grid-rows-1 gap-2.5 items-stretch min-w-0">
               {/* Pillar 1: Hiệu Quả */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-1')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                className={`rounded-xl p-3 bg-gradient-to-br from-cyan-600/35 to-blue-900/55 border border-cyan-400/30 shadow-md flex flex-col justify-start relative overflow-hidden min-w-0 ${
-                  isPillarHighlighted('pillar-1') ? 'ring-2 ring-cyan-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #06b6d4 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isPillarHighlighted('pillar-1')
+                    ? '#06b6d4'
+                    : 'color-mix(in srgb, #06b6d4 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
+                  isPillarHighlighted('pillar-1') ? 'ring-2 ring-cyan-400/70' : ''
+                )}
               >
                 <BarChart3
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-cyan-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-cyan-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-cyan-300">
-                    <BarChart3 className="w-4 h-4 text-cyan-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-cyan-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-cyan-600 dark:text-cyan-300 min-w-0">
+                    <BarChart3 className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Hiệu quả vận hành
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-cyan-200">
+                  <span className="text-[11px] font-bold text-cyan-600 dark:text-cyan-300 opacity-90 break-words">
                     Tối ưu &amp; Kết quả
                   </span>
-                  <p className="text-xs text-cyan-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Chuẩn hóa SLAs, tối ưu hiệu suất quy trình và tạo kết quả đo lường rõ ràng.
                   </p>
                 </div>
@@ -1174,27 +1213,35 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
               {/* Pillar 2: Nhân Văn */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-2')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                className={`rounded-xl p-3 bg-gradient-to-br from-rose-600/35 via-pink-800/45 to-purple-900/55 border border-rose-400/30 shadow-md flex flex-col justify-start relative overflow-hidden min-w-0 ${
-                  isPillarHighlighted('pillar-2') ? 'ring-2 ring-pink-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #f43f5e 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isPillarHighlighted('pillar-2')
+                    ? '#f43f5e'
+                    : 'color-mix(in srgb, #f43f5e 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
+                  isPillarHighlighted('pillar-2') ? 'ring-2 ring-rose-400/70' : ''
+                )}
               >
                 <Heart
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-rose-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-rose-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-rose-300">
-                    <Heart className="w-4 h-4 text-rose-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-rose-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-rose-600 dark:text-rose-300 min-w-0">
+                    <Heart className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Nhân văn con người
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-rose-200">
+                  <span className="text-[11px] font-bold text-rose-600 dark:text-rose-300 opacity-90 break-words">
                     Đồng cảm &amp; Thấu hiểu
                   </span>
-                  <p className="text-xs text-rose-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Lắng nghe chân thành, phục vụ từ tâm và lấy con người làm trọng tâm.
                   </p>
                 </div>
@@ -1202,27 +1249,35 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
               {/* Pillar 3: Bền Vững */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('pillar-3')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
-                className={`rounded-xl p-3 bg-gradient-to-br from-emerald-600/35 to-teal-900/55 border border-emerald-400/30 shadow-md flex flex-col justify-start relative overflow-hidden min-w-0 ${
-                  isPillarHighlighted('pillar-3') ? 'ring-2 ring-emerald-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #10b981 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isPillarHighlighted('pillar-3')
+                    ? '#10b981'
+                    : 'color-mix(in srgb, #10b981 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden min-w-0 h-full transition-all',
+                  isPillarHighlighted('pillar-3') ? 'ring-2 ring-emerald-400/70' : ''
+                )}
               >
                 <Leaf
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-emerald-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-emerald-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-emerald-300">
-                    <Leaf className="w-4 h-4 text-emerald-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-emerald-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-emerald-600 dark:text-emerald-300 min-w-0">
+                    <Leaf className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Bền vững dài hạn
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-200">
+                  <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-300 opacity-90 break-words">
                     Giá trị &amp; Tin cậy
                   </span>
-                  <p className="text-xs text-emerald-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Xây dựng niềm tin vững bền, bảo chứng chất lượng và đồng hành lâu dài.
                   </p>
                 </div>
@@ -1231,48 +1286,56 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           </BentoCard>
 
           {/* ------------------------------------------------------------------- */}
-          {/* THẺ 5: CARD GIÁ TRỊ CỐT LÕI (3 Ô CON MÀU SẮC TƯƠNG ỨNG)             */}
+          {/* THẺ 5: CARD GIÁ TRỊ CỐT LÕI (3 Ô CON ĐỒNG BỘ GIAO DIỆN ĐANG DÙNG)   */}
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-core-values-card"
-            className="lg:col-span-7 bg-gray-800/90 backdrop-blur-md flex flex-col justify-between gap-3"
+            className="lg:col-span-7 flex flex-col justify-between gap-3 text-[var(--text-primary)]"
           >
-            <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-              <div className="flex items-start gap-2 text-amber-300">
-                <Star className="w-5 h-5 text-amber-300 fill-current shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-amber-300">
+            <div className="flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
+              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
+                <Star className="w-5 h-5 fill-current shrink-0 mt-0.5" />
+                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
                   Giá trị cốt lõi
                 </h3>
               </div>
             </div>
 
-            <div className="flex-1 grid grid-cols-1 xl:grid-cols-3 gap-2.5 items-stretch">
+            <div className="flex-1 grid grid-cols-3 grid-rows-1 gap-2.5 items-stretch min-w-0">
               {/* Core Value 1: Tận tâm trách nhiệm */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('val-1')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 01: Tận tâm trách nhiệm - Dốc trọn tâm sức', 'success')
                 }
-                className={`rounded-xl p-3 bg-gradient-to-br from-amber-500/35 via-orange-600/45 to-amber-950/60 border border-amber-400/35 shadow-md flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 ${
-                  isValueHighlighted('val-1') ? 'ring-2 ring-amber-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #f59e0b 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isValueHighlighted('val-1')
+                    ? '#f59e0b'
+                    : 'color-mix(in srgb, #f59e0b 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
+                  isValueHighlighted('val-1') ? 'ring-2 ring-amber-400/70' : ''
+                )}
               >
                 <Award
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-amber-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-amber-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-amber-300">
-                    <Award className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-amber-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-amber-600 dark:text-amber-300 min-w-0">
+                    <Award className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Tận tâm trách nhiệm
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-amber-200">
+                  <span className="text-[11px] font-bold text-amber-600 dark:text-amber-300 opacity-90 break-words">
                     Trách nhiệm &amp; Hết lòng
                   </span>
-                  <p className="text-xs text-amber-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Dốc trọn tâm sức, chăm chút tỉ mỉ từng trải nghiệm khách hàng với tinh thần
                     phụng sự cao nhất.
                   </p>
@@ -1281,30 +1344,38 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
               {/* Core Value 2: Kịp thời nhanh nhạy */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('val-2')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 02: Kịp Thời - Nhanh nhạy & Đúng lúc', 'success')
                 }
-                className={`rounded-xl p-3 bg-gradient-to-br from-pink-600/35 to-purple-900/55 border border-pink-400/35 shadow-md flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 ${
-                  isValueHighlighted('val-2') ? 'ring-2 ring-pink-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #ec4899 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isValueHighlighted('val-2')
+                    ? '#ec4899'
+                    : 'color-mix(in srgb, #ec4899 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
+                  isValueHighlighted('val-2') ? 'ring-2 ring-pink-400/70' : ''
+                )}
               >
                 <Clock
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-pink-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-pink-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-pink-300">
-                    <Clock className="w-4 h-4 text-pink-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-pink-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-pink-600 dark:text-pink-300 min-w-0">
+                    <Clock className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Kịp thời nhanh nhạy
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-pink-200">
+                  <span className="text-[11px] font-bold text-pink-600 dark:text-pink-300 opacity-90 break-words">
                     Tốc độ &amp; Đúng lúc
                   </span>
-                  <p className="text-xs text-pink-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Phản ứng nhanh chóng, đồng hành đúng thời điểm để giải quyết triệt để mọi vướng
                     mắc.
                   </p>
@@ -1313,30 +1384,38 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
               {/* Core Value 3: Đồng cảm chân thành */}
               <div
+                data-subcard="true"
                 onMouseEnter={() => setHoveredPillarOrValue('val-3')}
                 onMouseLeave={() => setHoveredPillarOrValue(null)}
                 onClick={() =>
                   showToast('Giá trị 03: Đồng Cảm Chân Thành - Lắng nghe & Thấu cảm', 'success')
                 }
-                className={`rounded-xl p-3 bg-gradient-to-br from-violet-600/35 to-fuchsia-900/55 border border-violet-400/35 shadow-md flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 ${
-                  isValueHighlighted('val-3') ? 'ring-2 ring-purple-300' : ''
-                }`}
+                style={{
+                  background: 'color-mix(in srgb, #8b5cf6 10%, var(--bg-subcard, var(--bg-card)))',
+                  borderColor: isValueHighlighted('val-3')
+                    ? '#8b5cf6'
+                    : 'color-mix(in srgb, #8b5cf6 30%, var(--border-subcard, var(--border-color)))',
+                }}
+                className={cn(
+                  'rounded-[var(--radius-subcard,12px)] p-2.5 sm:p-3 border flex flex-col justify-start relative overflow-hidden cursor-pointer min-w-0 h-full transition-all',
+                  isValueHighlighted('val-3') ? 'ring-2 ring-violet-400/70' : ''
+                )}
               >
                 <HeartHandshake
                   aria-hidden="true"
-                  className="w-16 h-16 absolute -bottom-2 -right-2 opacity-15 text-violet-300 pointer-events-none"
+                  className="w-16 h-16 absolute -bottom-2 -right-2 pointer-events-none opacity-12 text-violet-500"
                 />
-                <div className="relative z-10 flex flex-col gap-1.5">
-                  <div className="flex items-start gap-1.5 text-violet-300">
-                    <HeartHandshake className="w-4 h-4 text-violet-300 shrink-0 mt-0.5" />
-                    <h4 className="bento-unified-title text-violet-300 whitespace-nowrap">
+                <div className="relative z-10 flex flex-col gap-1.5 min-w-0">
+                  <div className="flex items-start gap-1.5 text-violet-600 dark:text-violet-300 min-w-0">
+                    <HeartHandshake className="w-4 h-4 shrink-0 mt-0.5" />
+                    <h4 className="bento-unified-title break-words min-w-0">
                       Đồng cảm chân thành
                     </h4>
                   </div>
-                  <span className="text-[11px] font-bold text-violet-200">
+                  <span className="text-[11px] font-bold text-violet-600 dark:text-violet-300 opacity-90 break-words">
                     Lắng nghe &amp; Thấu cảm
                   </span>
-                  <p className="text-xs text-violet-50/90 leading-relaxed">
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed break-words">
                     Đặt trọn trái tim để lắng nghe, thấu hiểu cảm xúc và kết nối sâu sắc với từng
                     khách hàng.
                   </p>
@@ -1350,59 +1429,42 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           {/* ------------------------------------------------------------------- */}
           <BentoCard
             id="about-philosophy-card"
-            className="lg:col-span-5 bg-gradient-to-br from-violet-800 via-purple-900 to-slate-900 flex flex-col justify-between gap-3 relative overflow-hidden"
+            className="lg:col-span-5 flex flex-col justify-between gap-3 relative overflow-hidden text-[var(--text-primary)]"
           >
-            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-white/10">
-              <div className="flex items-start gap-2 text-amber-300">
-                <Target className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
-                <h3 className="bento-unified-title text-amber-300">
+            <div className="relative z-10 flex items-center justify-between pb-2.5 border-b border-[var(--border-subcard,var(--border-color))]">
+              <div className="flex items-start gap-2 text-[var(--text-link,var(--color-primary))]">
+                <Target className="w-5 h-5 shrink-0 mt-0.5" />
+                <h3 className="bento-unified-title text-[var(--text-link,var(--color-primary))]">
                   Triết lý tầm nhìn
                 </h3>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleSpeakSection(
-                      'quote',
-                      'Triết lý tầm nhìn',
-                      'Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.'
-                    )
-                  }
-                  className={`p-1.5 rounded-lg border cursor-pointer ${
-                    speakingId === 'quote'
-                      ? 'bg-amber-400 text-gray-950 border-amber-300'
-                      : 'bg-white/10 hover:bg-white/20 text-amber-300 border-amber-400/30'
-                  }`}
-                  title="Nghe thuyết minh Triết lý tầm nhìn"
+                <span
+                  className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border"
+                  style={{
+                    background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                    borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                    color: 'var(--text-link, var(--color-primary))',
+                  }}
                 >
-                  <Volume1 className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    copySnippet(
-                      '“Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý. Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn được lắng nghe.” — Nguyễn Hùng Thái',
-                      'Triết lý tầm nhìn'
-                    )
-                  }
-                  className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-200 cursor-pointer"
-                  title="Sao chép câu nói"
-                >
-                  <Copy className="w-4 h-4" />
-                </button>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
                   Tầm nhìn 2026+
                 </span>
               </div>
             </div>
 
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-2 py-2 gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-amber-400/15 border border-amber-300/30 flex items-center justify-center shadow-xs">
-                <Quote className="w-4 h-4 text-amber-300 shrink-0" />
+              <div
+                className="w-9 h-9 rounded-full border flex items-center justify-center shadow-xs"
+                style={{
+                  background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                  borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                  color: 'var(--text-link, var(--color-primary))',
+                }}
+              >
+                <Quote className="w-4 h-4 shrink-0" />
               </div>
-              <blockquote className="text-sm sm:text-[15px] font-bold italic text-white leading-relaxed">
+              <blockquote className="text-sm sm:text-[15px] font-bold italic text-[var(--text-primary)] leading-relaxed">
                 “Tôi luôn nỗ lực để mang lại sản phẩm, dịch vụ chất lượng cao với chi phí hợp lý.
                 Và trên hết, để mỗi khách hàng cảm nhận được một điều đơn giản mà rất lớn: họ luôn
                 được lắng nghe.”
@@ -1426,16 +1488,19 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-4xl rounded-2xl bg-gray-900/95 border border-white/15 p-5 sm:p-6 shadow-2xl text-white max-h-[90vh] overflow-y-auto"
+              className="glass-card bento-card w-full max-w-4xl rounded-[var(--radius-card,var(--radius-global,16px))] border border-[var(--border-card,var(--border-color))] p-5 sm:p-6 shadow-2xl text-[var(--text-primary)] max-h-[90vh] overflow-y-auto"
+              style={{
+                background: 'var(--surface-secondary-bg, var(--bg-card))',
+              }}
             >
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-              <div className={`flex items-start gap-2.5 ${focusedBentoCard === 'hero' ? 'text-cyan-400' : 'text-emerald-400'}`}>
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--border-subcard,var(--border-color))]">
+              <div className="flex items-start gap-2.5 text-[var(--text-link,var(--color-primary))]">
                 {focusedBentoCard === 'hero' ? (
-                  <Bot className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+                  <Bot className="w-5 h-5 shrink-0 mt-0.5" />
                 ) : (
-                  <BarChart3 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <BarChart3 className="w-5 h-5 shrink-0 mt-0.5" />
                 )}
-                <h3 className={`text-lg font-bold leading-tight ${focusedBentoCard === 'hero' ? 'text-cyan-400' : 'text-emerald-400'}`}>
+                <h3 className="text-lg font-bold leading-tight text-[var(--text-link,var(--color-primary))]">
                   {focusedBentoCard === 'hero'
                     ? 'Chân Dung Chuyên Gia & Trợ Lý Ảo'
                     : '4 Dấu Ấn Năng Lực Vận Hành Thực Chiến'}
@@ -1444,7 +1509,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
               <button
                 type="button"
                 onClick={() => setFocusedBentoCard(null)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer"
+                className="theme-modal-close p-2 rounded-full bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] cursor-pointer"
                 aria-label="Đóng cửa sổ"
               >
                 <X className="w-4 h-4" />
@@ -1453,7 +1518,7 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
 
             {focusedBentoCard === 'hero' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/15">
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-[var(--border-subcard,var(--border-color))]">
                   <video
                     src={ABOUT_VIDEO_2_STREAM_URL}
                     autoPlay
@@ -1463,20 +1528,27 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                     className="w-full h-full object-cover object-[50%_20%]"
                   />
                 </div>
-                <div className="space-y-3 text-sm text-gray-200">
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400">
+                <div className="space-y-3 text-sm text-[var(--text-secondary)]">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text-link,var(--color-primary))]">
                     <Sparkles className="w-4 h-4" />
                     <span>Lãnh Đạo Vận Hành CX 22+ Năm</span>
                   </div>
-                  <h4 className="text-xl font-bold text-white">Nguyễn Hùng Thái</h4>
+                  <h4 className="text-xl font-bold text-[var(--text-primary)]">Nguyễn Hùng Thái</h4>
                   <p className="leading-relaxed">
                     Một chuyên gia dịch vụ khách hàng với hơn{' '}
-                    <strong className="text-white">22 năm kinh nghiệm thực chiến</strong>. Với tôi,
+                    <strong className="text-[var(--text-primary)]">22 năm kinh nghiệm thực chiến</strong>. Với tôi,
                     Chăm Sóc Khách Hàng không chỉ là phục vụ, mà là sự đồng hành. Mỗi cuộc trò
                     chuyện, mỗi khoảnh khắc, dù là nhỏ nhất, đều là một cơ hội quý giá: để lắng
                     nghe, để thấu hiểu, và để tạo ra những trải nghiệm vượt trên cả sự mong đợi.
                   </p>
-                  <div className="p-2.5 rounded-xl bg-purple-600/25 border border-purple-400/30 text-purple-200 font-bold text-center text-xs sm:text-sm">
+                  <div
+                    className="p-2.5 rounded-xl border font-bold text-center text-xs sm:text-sm"
+                    style={{
+                      background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
+                      borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
+                      color: 'var(--text-link, var(--color-primary))',
+                    }}
+                  >
                     Hiệu quả – Nhân văn – Bền vững
                   </div>
                 </div>
@@ -1489,7 +1561,8 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                     return (
                       <div
                         key={stat.id}
-                        className="p-4 rounded-xl bg-gray-800/90 border border-white/10 flex flex-col justify-between"
+                        data-subcard="true"
+                        className="p-4 rounded-xl bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] flex flex-col justify-between"
                       >
                         <div
                           className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -1504,17 +1577,17 @@ export function AboutView({ onShowNotification }: AboutViewProps = {}) {
                           >
                             {stat.metric}
                           </span>
-                          <span className="text-xs font-bold text-gray-400 block mt-0.5">
+                          <span className="text-xs font-bold text-[var(--text-secondary)] block mt-0.5">
                             {stat.unitVi}
                           </span>
                         </div>
-                        <p className="text-xs text-gray-300 leading-relaxed">{stat.desc}</p>
+                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{stat.desc}</p>
                       </div>
                     );
                   })}
                 </div>
-                <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm text-gray-300">
-                  <strong className="text-white">💡 Triết lý đo lường thực chiến:</strong> Số liệu
+                <div className="p-3.5 rounded-xl bg-[var(--bg-subcard)] border border-[var(--border-subcard,var(--border-color))] text-xs sm:text-sm text-[var(--text-secondary)]">
+                  <strong className="text-[var(--text-primary)]">💡 Triết lý đo lường thực chiến:</strong> Số liệu
                   phản ánh năng lực kiểm soát chi tiết từ vi mô (từng cuộc gọi, khiếu nại, phản
                   hồi khách hàng) đến vĩ mô (chiến lược ngân sách, nhân sự, kiến trúc hệ thống CRM
                   và chuyển đổi số).

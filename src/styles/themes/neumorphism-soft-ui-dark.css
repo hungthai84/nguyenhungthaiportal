@@ -1,0 +1,293 @@
+/* ========================================================================= */
+/* THEME: NEUMORPHISM SOFT UI DARK (PURE SOFT EXTRUDED INTERFACE)            */
+/* Palette: Background/Surface #202633 · Highlight #343E50 · Shadow #151A23  */
+/* Accents: Blue #7185FF · Cyan #36D4D7 · Pink #E879C5 · Mint #6DE0C0        */
+/* Text: Primary #E6ECF5 · Secondary #A5B2C6                                 */
+/* ========================================================================= */
+
+:root,
+html[data-card-style="dark-neumorphism-beyond"],
+html[data-card-style="dark-neumorphism-soft-ui"],
+html[data-card-style="neumorphism-soft-ui-dark"],
+[data-theme="dark-neumorphism-beyond"],
+[data-theme="dark-neumorphism-soft-ui"],
+[data-theme="neumorphism-soft-ui-dark"] {
+  --neu-dark-bg: #202633;
+  --neu-dark-surface: #202633;
+  --neu-dark-highlight: #343E50;
+  --neu-dark-shadow: #151A23;
+  --neu-dark-shadow-deep: #0A0E16;
+
+  --neu-dark-primary-blue: #7185FF;
+  --neu-dark-cyan: #36D4D7;
+  --neu-dark-pink: #E879C5;
+  --neu-dark-mint: #6DE0C0;
+
+  --neu-dark-text-primary: #E6ECF5;
+  --neu-dark-text-secondary: #A5B2C6;
+  --neu-dark-text-muted: #7E8D9E;
+
+  /* Neumorphic Dark Shadow Tokens */
+  --neu-dark-raised-l1: -10px -10px 20px rgba(55, 66, 85, 0.6), 10px 10px 20px rgba(10, 14, 22, 0.75);
+  --neu-dark-raised-l2: -6px -6px 12px rgba(55, 66, 85, 0.55), 6px 6px 12px rgba(10, 14, 22, 0.7);
+  --neu-dark-raised-l3: -4px -4px 8px rgba(55, 66, 85, 0.45), 4px 4px 8px rgba(10, 14, 22, 0.6);
+  --neu-dark-raised-hover: -7px -7px 14px rgba(55, 66, 85, 0.65), 7px 7px 14px rgba(10, 14, 22, 0.8);
+  --neu-dark-inset: inset -4px -4px 8px rgba(55, 66, 85, 0.4), inset 4px 4px 8px rgba(10, 14, 22, 0.65);
+  --neu-dark-inset-shallow: inset -3px -3px 6px rgba(55, 66, 85, 0.35), inset 3px 3px 6px rgba(10, 14, 22, 0.55);
+}
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) {
+  color-scheme: dark;
+
+  --bg-blur: 0px !important;
+  --glass-blur: 0px !important;
+  --blur-modal: 0px !important;
+  --surface-primary-blur: 0px !important;
+  --backdrop-blur: 0px !important;
+
+  /* Global Colors */
+  --color-bg: #202633;
+  --color-bg-soft: #202633;
+  --color-bg-blue: #202633;
+  --color-surface: #202633;
+  --color-surface-elevated: #202633;
+
+  --color-heading: #E6ECF5;
+  --color-text: #E6ECF5;
+  --color-text-secondary: #A5B2C6;
+  --color-text-muted: #7E8D9E;
+  --color-text-inverse: #10141D;
+
+  --color-primary: #7185FF;
+  --color-secondary: #36D4D7;
+  --color-tertiary: #36D4D7;
+  --color-accent: #E879C5;
+  --color-sky: #7185FF;
+  --color-blue: #7185FF;
+  --color-cyan: #36D4D7;
+  --color-pink: #E879C5;
+  --color-green: #6DE0C0;
+  --color-mint: #6DE0C0;
+  --color-amber: #FBBF24;
+  --color-purple: #A78BFA;
+
+  --color-border: transparent;
+  --border-color: transparent;
+  --color-border-soft: transparent;
+  --border-subcard: transparent;
+  --border-default: transparent;
+
+  --bg-main: #202633;
+  --bg-header: #202633;
+  --bg-footer: #202633;
+  --bg-card: #202633;
+  --bg-subcard: #202633;
+  --bg-modal: #202633;
+  --bg-popup: #202633;
+  --bg-dropdown: #202633;
+  --bg-input: #202633;
+  --bg-tab: #202633;
+
+  --text-primary: #E6ECF5;
+  --text-heading: #E6ECF5;
+  --text-secondary: #A5B2C6;
+  --text-muted: #7E8D9E;
+  --text-link: #7185FF;
+  --text-accent: #7185FF;
+  --text-input: #E6ECF5;
+  --text-placeholder: #7E8D9E;
+
+  /* Surfaces */
+  --surface-primary-bg: #202633;
+  --surface-primary-border: transparent;
+  --surface-primary-shadow: var(--neu-dark-raised-l1);
+  --surface-secondary-bg: #202633;
+  --surface-secondary-border: transparent;
+  --surface-secondary-shadow: var(--neu-dark-raised-l2);
+  --surface-tertiary-bg: #202633;
+  --surface-tertiary-border: transparent;
+  --surface-tertiary-shadow: var(--neu-dark-raised-l3);
+
+  --shadow-main-card: var(--neu-dark-raised-l1);
+  --shadow-header: var(--neu-dark-raised-l2);
+  --shadow-footer: var(--neu-dark-raised-l2);
+  --shadow-card: var(--neu-dark-raised-l2);
+  --shadow-subcard: var(--neu-dark-raised-l3);
+  --shadow-popup: var(--neu-dark-raised-l1);
+
+  --bg-nav-pill: #202633;
+  --shadow-nav-pill: var(--neu-dark-raised-l3);
+  --border-nav-pill: transparent;
+  --bg-button-primary: #7185FF;
+  --text-button-primary: #FFFFFF;
+
+  --app-bg-base: #202633;
+  --app-bg-gradient: none;
+  --app-bg-opacity: 1;
+}
+
+/* Base Body Background */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) body {
+  background-color: #202633 !important;
+  color: #E6ECF5 !important;
+}
+
+/* Level 1: Main Card & Shell Chrome */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #about-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #contact-main-card,
+  #systems-main-card
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: -10px -10px 20px rgba(55, 66, 85, 0.6), 10px 10px 20px rgba(10, 14, 22, 0.75) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #E6ECF5 !important;
+}
+
+/* Level 2: Section Cards, Banner Cards, Bento Tiles */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  .banner-card,
+  .hero-banner,
+  [data-section-card="true"],
+  .bento-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  .experience-card,
+  .modal-card
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: -6px -6px 12px rgba(55, 66, 85, 0.55), 6px 6px 12px rgba(10, 14, 22, 0.7) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Level 3: Subcards & Minor Badges */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  .subcard,
+  [data-subcard="true"],
+  .service-bento-subtile,
+  .project-detail-subcard
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: -4px -4px 8px rgba(55, 66, 85, 0.45), 4px 4px 8px rgba(10, 14, 22, 0.6) !important;
+}
+
+/* Level 4: Inset Elements (Inputs, Search, Progress Tracks, Depressed Areas) */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select,
+  .banner-search-input,
+  .theme-search-input,
+  .progress-track,
+  .pillar-progress-track
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: inset -4px -4px 8px rgba(55, 66, 85, 0.4), inset 4px 4px 8px rgba(10, 14, 22, 0.65) !important;
+  color: #E6ECF5 !important;
+}
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  input:focus,
+  textarea:focus,
+  select:focus
+) {
+  outline: 2px solid #7185FF !important;
+  outline-offset: 1px !important;
+}
+
+/* Buttons: Soft Raised with Inset Active */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  button.nav-pill,
+  button.nav-arrow-btn,
+  button.banner-control-pill,
+  .theme-modal-close,
+  .action-btn,
+  .btn-raised
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: -4px -4px 8px rgba(55, 66, 85, 0.55), 4px 4px 8px rgba(10, 14, 22, 0.7) !important;
+  color: #E6ECF5 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  button.nav-pill,
+  button.nav-arrow-btn,
+  button.banner-control-pill,
+  .theme-modal-close,
+  .action-btn,
+  .btn-raised
+):hover {
+  transform: translateY(-1px);
+  box-shadow: -6px -6px 12px rgba(55, 66, 85, 0.65), 6px 6px 12px rgba(10, 14, 22, 0.8) !important;
+}
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  button.nav-pill,
+  button.nav-arrow-btn,
+  button.banner-control-pill,
+  .theme-modal-close,
+  .action-btn,
+  .btn-raised
+):active,
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) [aria-selected="true"] {
+  transform: translateY(0);
+  box-shadow: inset -3px -3px 6px rgba(55, 66, 85, 0.4), inset 3px 3px 6px rgba(10, 14, 22, 0.65) !important;
+}
+
+/* Tabs: Soft Inset when Active */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) [role="tab"][aria-selected="true"] {
+  background: #202633 !important;
+  box-shadow: inset -3px -3px 6px rgba(55, 66, 85, 0.45), inset 3px 3px 6px rgba(10, 14, 22, 0.7) !important;
+  color: #7185FF !important;
+  border: none !important;
+}
+
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) [role="tab"][aria-selected="false"] {
+  background: #202633 !important;
+  box-shadow: -3px -3px 6px rgba(55, 66, 85, 0.45), 3px 3px 6px rgba(10, 14, 22, 0.6) !important;
+  color: #A5B2C6 !important;
+  border: none !important;
+}
+
+/* Progress Fill */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) .progress-fill,
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) [role="progressbar"] > div {
+  background: linear-gradient(90deg, #7185FF, #36D4D7) !important;
+}
+
+/* Modals & Popups */
+html:is([data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-neumorphism-soft-ui"], [data-card-style="neumorphism-soft-ui-dark"]) :is(
+  .theme-modal,
+  .dialog-content,
+  .popup-card,
+  [role="dialog"]
+) {
+  background: #202633 !important;
+  border: none !important;
+  box-shadow: -12px -12px 24px rgba(55, 66, 85, 0.7), 12px 12px 24px rgba(10, 14, 22, 0.85) !important;
+}

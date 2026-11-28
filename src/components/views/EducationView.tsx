@@ -537,272 +537,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
           isBookshelfMode && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
         )}
       >
-      {/* Banner trang Học Vấn (Kích thước đồng bộ chuẩn banner Kỹ năng) */}
-      {!selectedCourse && (
-        <section
-          id="education-hero-banner"
-          data-element-name="Banner card"
-          data-element-type="banner-card"
-          data-element-page="education"
-          data-section-card="true"
-          data-has-compact-menu="true"
-          className="banner-card hero-banner group w-full max-w-full min-w-0 min-h-[140px] h-auto lg:min-h-[200px] mx-auto rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[15px] z-30 transition-all duration-300 box-border"
-          style={{ padding: '15px', width: '100%', maxWidth: '100%', borderRadius: 'var(--radius-banner, 14px)' }}
-        >
-        <div
-          id="education-hero-banner-bg"
-          className="project-detail-banner-media absolute inset-0 z-0 rounded-[inherit] overflow-hidden pointer-events-none"
-        >
-          <VideoBanner
-            videoId={educationBannerVideo.videoId}
-            title={educationBannerVideo.title}
-            className="rounded-[inherit]"
-          />
-        </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
-
-        <div id="education-hero-banner-header" className="banner-header-row relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-4 w-full min-w-0">
-          <div className="card-header-sync flex items-center gap-2 min-w-0 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
-            <h1
-              id="education-hero-banner-title"
-              className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate"
-              data-card-title="true"
-              style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
-            >
-              Học vấn bằng cấp
-            </h1>
-          </div>
-
-          <p
-            id="education-hero-banner-quote"
-            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-right ml-auto whitespace-normal break-words overflow-visible hidden md:block max-w-[60%]"
-            style={{ color: 'var(--text-secondary)', fontFamily: "var(--font-quote, 'Dancing Script', cursive)", fontWeight: 600, fontStyle: 'normal' }}
-          >
-            &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
-          </p>
-        </div>
-
-        <div
-          id="education-hero-banner-filter-row"
-          className="banner-desktop-controls edu-banner-bottom-row relative z-30 flex items-center justify-between gap-3 mt-auto w-full min-w-0"
-          ref={filterMenuRef}
-        >
-          <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
-            <button
-              id="education-filter-toggle-btn"
-              ref={filterButtonRef}
-              type="button"
-              onClick={() => {
-                SoundEngine.playTap();
-                setIsFilterDropdownOpen((prev) => !prev);
-              }}
-              style={matchedControlWidth ? { minWidth: `${matchedControlWidth}px`, maxWidth: '100%' } : { maxWidth: '100%' }}
-              className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
-              title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
-              aria-label="Bộ lọc khóa học"
-              aria-expanded={isFilterDropdownOpen}
-              aria-haspopup="listbox"
-            >
-              <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
-              <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
-              {activeCategory !== 'all' && (
-                <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
-                  {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
-                </span>
-              )}
-              <WebIcon
-                name="chevron-down"
-                className={cn(
-                  'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
-                  isFilterDropdownOpen && 'rotate-180'
-                )}
-              />
-            </button>
-
-            {/* Drop menu list chứa các hình thức phân loại đào tạo */}
-            <AnimatePresence>
-              {isFilterDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                  transition={{ duration: 0.16 }}
-                  role="listbox"
-                  className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[min(14rem,calc(100vw-48px))] max-w-[min(22rem,calc(100vw-48px))] rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                >
-                  {TRAINING_TYPE_CATEGORIES.map((cat) => {
-                    const isActive = activeCategory === cat.id;
-
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        data-selected={isActive ? 'true' : undefined}
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setActiveCategory(cat.id);
-                          setActiveBookIdx(0);
-                          setIsFilterDropdownOpen(false);
-                        }}
-                        className={cn(
-                          'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
-                          isActive
-                            ? 'shadow-xs font-bold'
-                            : ''
-                        )}
-                      >
-                        <span className="flex items-center gap-2 truncate">
-                          <span
-                            className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors"
-                            style={{
-                              background: isActive ? 'var(--color-primary)' : 'var(--bg-button-secondary)',
-                              color: isActive ? '#ffffff' : 'var(--text-secondary)',
-                            }}
-                          >
-                            {renderTrainingTypeIcon(cat.id, 'w-3 h-3')}
-                          </span>
-                          <span className="truncate">{cat.label}</span>
-                        </span>
-                        <span className="flex items-center gap-1.5 shrink-0">
-                          {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Timeline nằm ở góc dưới bên phải banner (trên màn hình đầy đủ) và góc trên bên phải khi thu gọn */}
-          <div
-            id="education-banner-timeline"
-            className="edu-banner-compact-timeline relative z-20 flex items-center gap-1.5 max-w-[min(680px,calc(100%-190px))] min-w-0 ml-auto"
-          >
-            {/* Nút lùi nhanh khóa học trước */}
-            <button
-              type="button"
-              onClick={() => {
-                if (safeActiveBookIdx > 0) {
-                  setActiveBookIdx(safeActiveBookIdx - 1);
-                  SoundEngine.playTap?.();
-                }
-              }}
-              disabled={safeActiveBookIdx === 0}
-              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)] cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
-              title={isEn ? "Previous certificate" : "Khóa học trước"}
-              aria-label={isEn ? "Previous certificate" : "Khóa học trước"}
-            >
-              <WebIcon name="chevron-left" className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Dãy mốc thời gian cuộn ngang mượt tự căn giữa */}
-            <div
-              ref={bannerTimelineScrollRef}
-              role="navigation"
-              aria-label={isEn ? 'Course Timeline' : 'Dòng thời gian các khóa học'}
-              className="edu-banner-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-1.5 py-1 px-1.5 rounded-[12px] border border-[var(--border-subcard)] bg-[var(--bg-subcard)] backdrop-blur-md"
-              style={{
-                maskImage: 'linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%)'
-              }}
-            >
-              {filteredCourses.map((course, idx) => {
-                const isActive = idx === safeActiveBookIdx;
-                const cleanTitle = formatCardTitle(course.title);
-                return (
-                  <button
-                    key={`banner-timeline-${course.id}`}
-                    ref={(el) => {
-                      bannerTimelineNodeRefs.current[idx] = el;
-                    }}
-                    type="button"
-                    data-active={isActive ? 'true' : 'false'}
-                    onClick={() => {
-                      setActiveBookIdx(idx);
-                      SoundEngine.playTap?.();
-                    }}
-                    aria-current={isActive ? 'step' : undefined}
-                    title={`${course.year} · ${cleanTitle}`}
-                    className={cn(
-                      'banner-timeline-node group relative flex flex-col items-center justify-center py-1 px-2.5 rounded-[8px] transition-all duration-200 cursor-pointer shrink-0 select-none text-center',
-                      isActive
-                        ? 'shadow-xs font-semibold'
-                        : 'hover:text-[var(--text-primary)] opacity-85 hover:opacity-100'
-                    )}
-                    style={{
-                      background: isActive ? 'var(--color-primary)' : 'transparent',
-                      color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-secondary)',
-                      minWidth: '82px',
-                      maxWidth: '136px',
-                    }}
-                  >
-                    {/* Bên trên hiển thị tên khóa học */}
-                    <span
-                      className="banner-timeline-node-title text-[11px] leading-tight font-medium truncate max-w-full block"
-                      style={{
-                        color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-primary)',
-                      }}
-                    >
-                      {cleanTitle}
-                    </span>
-
-                    {/* Bên dưới hiển thị icon lịch + Năm */}
-                    <span
-                      className="banner-timeline-node-year inline-flex items-center gap-1 text-[10px] font-mono leading-none mt-0.5"
-                      style={{
-                        color: isActive ? 'var(--text-button-primary, #ffffff)' : 'var(--text-muted, var(--text-secondary))',
-                      }}
-                    >
-                      <WebIcon
-                        name="calendar"
-                        className={cn(
-                          'w-2.5 h-2.5 shrink-0',
-                          isActive ? 'text-white' : 'text-[var(--color-primary)]'
-                        )}
-                      />
-                      <span className="font-semibold tracking-tight">{course.year}</span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Nút tiến nhanh khóa học tiếp theo */}
-            <button
-              type="button"
-              onClick={() => {
-                if (safeActiveBookIdx < filteredCourses.length - 1) {
-                  setActiveBookIdx(safeActiveBookIdx + 1);
-                  SoundEngine.playTap?.();
-                }
-              }}
-              disabled={safeActiveBookIdx >= filteredCourses.length - 1}
-              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors disabled:opacity-20 disabled:cursor-not-allowed hover:bg-[var(--bg-hover)] cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
-              title={isEn ? "Next certificate" : "Khóa học kế tiếp"}
-              aria-label={isEn ? "Next certificate" : "Khóa học kế tiếp"}
-            >
-              <WebIcon name="chevron-right" className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Chỉ số thứ tự khóa học hiện tại */}
-            <span
-              className="px-2 py-1 rounded-[8px] typo-badge font-mono text-[11px] font-semibold shrink-0 select-none border border-[var(--border-subcard)] bg-[var(--bg-subcard)]"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              <b style={{ color: 'var(--color-primary)' }}>{safeActiveBookIdx + 1}</b>/{filteredCourses.length}
-            </span>
-          </div>
-        </div>
-      </section>
-      )}
-
-
       {selectedCourse ? (() => {
         const course = selectedCourse;
         const courseIdx = EDUCATION_COURSES.findIndex((c) => c.id === course.id);
@@ -825,41 +559,197 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         );
       })() : mainSection === 'skills' ? (
         <SkillsView currentTheme={currentTheme} embedded />
-      ) : (
-        <>
+      ) : (() => {
+        const wallStageHeader = (
+          <div id="education-wall-stage-header" className="edu-wall-stage-header">
+            {/* Góc trái: Tiêu đề thư viện tinh gọn + Bộ lọc khóa học (không còn banner) */}
+            <div className="edu-wall-left-controls" ref={filterMenuRef}>
+              <div
+                className="card-header-sync flex items-center gap-2 min-w-0"
+                style={{ color: 'var(--text-link, var(--color-primary))' }}
+              >
+                <WebIcon name="graduation-cap" className="w-[22px] h-[22px] shrink-0" />
+                <h1
+                  id="education-wall-title"
+                  className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate m-0"
+                  data-card-title="true"
+                  style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
+                >
+                  {isEn ? 'Education & Credentials' : 'Học vấn bằng cấp'}
+                </h1>
+              </div>
 
+              <p
+                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none m-0"
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
+                  fontWeight: 600,
+                }}
+              >
+                &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
+              </p>
 
-      {/* 4. NỘI DUNG CHÍNH: KỆ SÁCH 3D (ĐÃ XÓA DẠNG LƯỚI THEO YÊU CẦU) */}
-      {filteredCourses.length === 0 ? (
-        <div
-          className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md"
-        >
-          <p className="typo-body font-semibold font-play" style={{ color: 'var(--text-primary)' }}>Không tìm thấy chứng chỉ nào khớp với bộ lọc hiện tại.</p>
-          <button
-            type="button"
-            onClick={handleResetFilters}
-            style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
-            className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer"
-          >
-            Hiển thị tất cả 14 chứng chỉ
-          </button>
-        </div>
-      ) : (
-        <EducationBookshelfView
-          courses={filteredCourses}
-          getCourseColor={getCourseColor}
-          getShortCategoryLabel={getShortCategoryLabel}
-          getCourseIcon={getEducationIconByTitle}
-          isEn={isEn}
-          isDark={isDark}
-          onSelectCourse={handleOpenDetail}
-          selectedBookIndex={safeActiveBookIdx}
-          onSelectBookIndex={setActiveBookIdx}
-          hideTopTimeline={true}
-        />
-      )}
-        </>
-      )}
+              <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
+                <button
+                  id="education-filter-toggle-btn"
+                  ref={filterButtonRef}
+                  type="button"
+                  onClick={() => {
+                    SoundEngine.playTap();
+                    setIsFilterDropdownOpen((prev) => !prev);
+                  }}
+                  className="banner-control-pill h-auto min-h-9 max-w-full min-w-0 inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
+                  title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
+                  aria-label="Bộ lọc khóa học"
+                  aria-expanded={isFilterDropdownOpen}
+                  aria-haspopup="listbox"
+                >
+                  <WebIcon name="sliders" className="w-4 h-4 text-[var(--text-primary)] shrink-0" />
+                  <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
+                  {activeCategory !== 'all' && (
+                    <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
+                      {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
+                    </span>
+                  )}
+                  <WebIcon
+                    name="chevron-down"
+                    className={cn(
+                      'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
+                      isFilterDropdownOpen && 'rotate-180'
+                    )}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {isFilterDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                      transition={{ duration: 0.16 }}
+                      role="listbox"
+                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[min(14rem,calc(100vw-48px))] max-w-[min(22rem,calc(100vw-48px))] rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                    >
+                      {TRAINING_TYPE_CATEGORIES.map((cat) => {
+                        const isActive = activeCategory === cat.id;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            role="option"
+                            aria-selected={isActive}
+                            data-selected={isActive ? 'true' : undefined}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setActiveCategory(cat.id);
+                              setActiveBookIdx(0);
+                              setIsFilterDropdownOpen(false);
+                            }}
+                            className={cn(
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
+                              isActive ? 'shadow-xs font-bold' : ''
+                            )}
+                          >
+                            <span className="flex items-center gap-2 truncate">
+                              <span
+                                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors"
+                                style={{
+                                  background: isActive ? 'var(--color-primary)' : 'var(--bg-button-secondary)',
+                                  color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                                }}
+                              >
+                                {renderTrainingTypeIcon(cat.id, 'w-3 h-3')}
+                              </span>
+                              <span className="truncate">{cat.label}</span>
+                            </span>
+                            <span className="flex items-center gap-1.5 shrink-0">
+                              {isActive && <WebIcon name="check" className="w-3.5 h-3.5 text-current stroke-[2.5] shrink-0" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Góc trên bên phải: Tranh khung gỗ treo tường phát nền video học vấn */}
+            <figure
+              id="education-wall-video-frame"
+              className="edu-wall-video-frame m-0"
+              aria-label={isEn ? 'Wall-mounted study video artwork' : 'Tranh video treo tường trang Học vấn'}
+            >
+              <span className="edu-wall-nail" aria-hidden="true" />
+              <svg
+                className="edu-wall-wire"
+                viewBox="0 0 152 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M76 2 L14 20 M76 2 L138 20"
+                  stroke="rgba(161, 118, 66, 0.85)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+
+              <div className="edu-wall-frame-assembly">
+                <div className="edu-wall-frame-outer">
+                  <div className="edu-wall-frame-mat">
+                    <div className="edu-wall-frame-canvas">
+                      <VideoBanner
+                        videoId={educationBannerVideo.videoId}
+                        title={educationBannerVideo.title}
+                        className="w-full h-full"
+                      />
+                      <div className="edu-wall-frame-glass" aria-hidden="true" />
+                    </div>
+                  </div>
+                  <figcaption className="edu-wall-frame-plaque">
+                    {isEn ? 'Academy Gallery' : 'Góc Tri Thức'}
+                  </figcaption>
+                </div>
+              </div>
+            </figure>
+          </div>
+        );
+
+        return filteredCourses.length === 0 ? (
+          <div className="flex flex-col gap-[15px] w-full">
+            {wallStageHeader}
+            <div className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md">
+              <p className="typo-body font-semibold font-play" style={{ color: 'var(--text-primary)' }}>
+                Không tìm thấy chứng chỉ nào khớp với bộ lọc hiện tại.
+              </p>
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                style={{ background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)' }}
+                className="px-4 py-1.5 rounded-full typo-button hover:opacity-90 transition cursor-pointer"
+              >
+                Hiển thị tất cả 14 chứng chỉ
+              </button>
+            </div>
+          </div>
+        ) : (
+          <EducationBookshelfView
+            courses={filteredCourses}
+            getCourseColor={getCourseColor}
+            getShortCategoryLabel={getShortCategoryLabel}
+            getCourseIcon={getEducationIconByTitle}
+            isEn={isEn}
+            isDark={isDark}
+            onSelectCourse={handleOpenDetail}
+            selectedBookIndex={safeActiveBookIdx}
+            onSelectBookIndex={setActiveBookIdx}
+            hideTopTimeline={true}
+            topWallContent={wallStageHeader}
+          />
+        );
+      })()}
       </div>
       </div>
       </div>

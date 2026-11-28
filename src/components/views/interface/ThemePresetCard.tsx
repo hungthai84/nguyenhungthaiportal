@@ -3,6 +3,7 @@ import { WebIcon } from '@/components/ui/WebIcon';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { CardStyleConfig, CardStyleMode } from '@/config/ui/theme.types';
 import {
+  LETTER_14_COLOR_PALETTE,
   THEME_CARD_SPECS,
   THEME_DEFAULT_WALLPAPER_ID,
   THEME_DEFAULT_GLASS_SETTINGS,
@@ -618,30 +619,26 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     >
                       {isEn ? 'Default' : 'Mặc định'}
                     </button>
-                    {[
-                      { hex: '#06b6d4', name: 'Cyan' },
-                      { hex: '#3b82f6', name: 'Blue' },
-                      { hex: '#8b5cf6', name: 'Purple' },
-                      { hex: '#ec4899', name: 'Pink' },
-                      { hex: '#f59e0b', name: 'Amber' },
-                      { hex: '#10b981', name: 'Emerald' },
-                    ].map((c) => (
-                      <button
-                        key={c.hex}
-                        type="button"
-                        onClick={() => {
-                          SoundEngine.playTap();
-                          setCustomPrimaryColor(c.hex);
-                        }}
-                        title={c.name}
-                        className={`w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-110 border ${
-                          customPrimaryColor.toLowerCase() === c.hex.toLowerCase()
-                            ? 'ring-2 ring-primary-400 scale-110 border-white'
-                            : 'border-white/30'
-                        }`}
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    ))}
+                    {LETTER_14_COLOR_PALETTE.map((c) => {
+                      const displayHex = preset.isDark ? c.darkHex : c.hex;
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            setCustomPrimaryColor(displayHex);
+                          }}
+                          title={`${isEn ? c.labelEn : c.labelVi} (${displayHex})`}
+                          className={`w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-110 border ${
+                            customPrimaryColor.toLowerCase() === displayHex.toLowerCase()
+                              ? 'ring-2 ring-primary-400 scale-110 border-white'
+                              : 'border-white/30'
+                          }`}
+                          style={{ backgroundColor: displayHex }}
+                        />
+                      );
+                    })}
                     <label
                       title={isEn ? 'Pick custom color' : 'Chọn màu tùy ý'}
                       className="w-6 h-6 rounded-full border border-white/40 cursor-pointer overflow-hidden relative flex items-center justify-center bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-500"
@@ -796,8 +793,8 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     <span className={`typo-badge font-semibold truncate ${meta.accentTextClass}`}>
                       {groupLabel} · {mechanismLabel}
                     </span>
-                    <div className="flex items-center gap-1 shrink-0">
-                      {meta.primaryPalette.slice(0, 4).map((swatch) => (
+                    <div className="flex items-center flex-wrap gap-1 min-w-0">
+                      {meta.primaryPalette.slice(0, 10).map((swatch) => (
                         <span
                           key={`${preset.id}-front-${swatch.hex}-${swatch.name}`}
                           title={`${swatch.name} (${swatch.hex.toLowerCase()})`}

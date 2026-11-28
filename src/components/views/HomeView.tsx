@@ -306,8 +306,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   ];
 
   const mainCardInlineStyle: React.CSSProperties = {
-    width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px)))',
-    maxWidth: 'var(--main-card-target-w, 1050px)',
+    width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))',
+    maxWidth: 'var(--main-card-target-w, 1200px)',
     flex: '0 0 auto',
     height: '100%',
     minHeight: '0px',
@@ -383,7 +383,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               WebkitBackdropFilter: 'none',
             }}
           >
-            <div className="relative z-10 w-full my-auto grid grid-cols-1 md:grid-cols-12 items-center gap-3 sm:gap-6 lg:gap-8 px-3 py-2 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
+            <div className="relative z-10 w-full my-auto grid grid-cols-1 md:grid-cols-12 items-center gap-3 sm:gap-5 lg:gap-6 px-3 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
               {/* Cột Trái: Tiêu đề, mô tả, nút CTA & liên kết */}
               <div className="md:col-span-6 flex flex-col justify-center items-start gap-2.5 sm:gap-5 min-w-0 order-2 md:order-1">
                 <div
@@ -514,11 +514,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
-                className="md:col-span-6 flex items-center justify-center order-1 md:order-2 py-1 sm:py-4"
+                className="md:col-span-6 flex items-center justify-center order-1 md:order-2 py-0 sm:py-2"
               >
                 <div
                   id="el-p0-div-96"
-                  className="relative flex items-center justify-center w-[min(212px,54vw)] h-[min(212px,54vw)] sm:w-[min(375px,68vw)] sm:h-[min(375px,68vw)] md:w-[min(390px,42vw)] md:h-[min(390px,42vw)] lg:w-[min(450px,44vw,58vh)] lg:h-[min(450px,44vw,58vh)] xl:w-[min(465px,44vw,62vh)] xl:h-[min(465px,44vw,62vh)] shrink-0"
+                  className="relative flex items-center justify-center w-[min(276px,72vw)] h-[min(276px,72vw)] sm:w-[min(420px,76vw)] sm:h-[min(420px,76vw)] md:w-[min(440px,46vw,66vh)] md:h-[min(440px,46vw,66vh)] lg:w-[min(520px,48vw,70vh)] lg:h-[min(520px,48vw,70vh)] xl:w-[min(560px,50vw,74vh)] xl:h-[min(560px,50vw,74vh)] shrink-0"
                 >
                   <div
                     aria-hidden="true"
@@ -568,7 +568,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
                   <div
                     id="home-hero-circle-frame"
-                    className="relative w-[calc(100%-44px)] h-[calc(100%-44px)] sm:w-[calc(100%-56px)] sm:h-[calc(100%-56px)] rounded-full overflow-visible flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
+                    className="relative w-[calc(100%-22px)] h-[calc(100%-22px)] sm:w-[calc(100%-28px)] sm:h-[calc(100%-28px)] rounded-full overflow-visible flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
                     style={{
                       borderRadius: '9999px',
                       background: isDark

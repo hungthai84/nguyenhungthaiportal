@@ -603,10 +603,8 @@ export const WeatherWidget: React.FC<WeatherWidgetProps> = ({
               ? `Weather ${displayLabel} (${displayTemp}°C) • Area: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
               : `Thời tiết ${displayLabel} (${displayTemp}°C) • Khu vực: ${displayLocation} • ${dateInfo.timeStr} • ${dateInfo.fullDateHeader}`
           }
-          className="relative h-[36px] sm:h-[50px] px-1.5 sm:px-3.5 lg:px-4 py-1 sm:py-1.5 rounded-[12px] flex items-center justify-between gap-1 sm:gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-          style={{
-            borderRadius: '12px',
-          }}
+          data-theme-synced="true"
+          className="relative h-[36px] sm:h-[50px] px-1.5 sm:px-3.5 lg:px-4 py-1 sm:py-1.5 rounded-[var(--radius-widget,var(--radius-subcard,var(--radius-card,14px)))] flex items-center justify-between gap-1 sm:gap-2.5 lg:gap-3 cursor-pointer overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
         >
           {/* 1. BÊN TRÁI: ĐỒNG HỒ HH:MM (24H) */}
           <div className="relative z-20 flex flex-col items-start justify-center shrink-0">

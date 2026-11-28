@@ -1,0 +1,1226 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import {
+  Globe,
+  DollarSign,
+  Users,
+  Briefcase,
+  FileText,
+  Target,
+  Gift,
+  GraduationCap,
+  Headphones,
+  TrendingUp,
+  Cpu,
+  ShoppingCart,
+  Sun,
+  Moon,
+  ArrowRight,
+  Play,
+  ChevronUp,
+  X,
+} from 'lucide-react';
+
+// GIỮ NGUYÊN 100% DATA GỐC
+const ENTERPRISE_SYSTEMS_LIST = [
+  {
+    id: 'sdp',
+    code: 'SDP',
+    abbr: 'SDP',
+    name: 'Cổng làm việc CSKH',
+    nameEn: 'Service Delivery Platform',
+    fullName: 'Service Delivery Platform',
+    category: 'Operations',
+    url: 'https://www.sdpplatfrom.powerservice.one',
+    badge: 'SDP',
+    description:
+      'Service Delivery Platform: Trang làm việc chính của Phòng CSKH, cổng truy cập tập trung để sử dụng toàn bộ các hệ thống nghiệp vụ.',
+    features: [
+      'Cổng đăng nhập và truy cập tập trung (Single Sign-On & Portal) vào toàn bộ hệ sinh thái công cụ CSKH.',
+      'Tích hợp bàn làm việc hợp nhất cho tư vấn viên (Single Agent Workspace & Omnichannel Interaction Hub).',
+      'Kết nối và chuyển tiếp dữ liệu linh hoạt giữa các hệ thống CRM, ERP, HRM, BPM, OKR, LMS và AI Assistant.',
+      'Quản lý phân quyền người dùng, điều phối luồng công việc và giám sát trạng thái vận hành thời gian thực.',
+    ],
+    metrics: '99.98% SLA · < 12ms Latency',
+    iconName: 'globe',
+    themeColor: '#FFDF25',
+    badgeTextColor: '#854d0e',
+    gradient: 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/8485876e6e13f4462daf8ebefe6a51a43141e1ab1e7ea52af33fc57694b7f7e8.mp4',
+    imageUrl: 'https://i.postimg.cc/L5tSWxnm/SDP-Cong-lam-viec-CSKH.webp',
+  },
+  {
+    id: 'erp',
+    code: 'ERP',
+    abbr: 'ERP',
+    name: 'Tài chính kế toán',
+    nameEn: 'Enterprise Resource Planning',
+    fullName: 'Enterprise Resource Planning',
+    category: 'Enterprise',
+    url: 'https://www.erpplatfrom.powerservice.one',
+    badge: 'ERP',
+    description:
+      'Quản lý nguồn lực doanh nghiệp, tài chính, kế toán, mua hàng, kho, sản xuất và tài sản.',
+    features: [
+      'Quản lý hoạch định nguồn lực doanh nghiệp và tài chính kế toán.',
+      'Tối ưu hóa quy trình mua hàng, quản lý kho và tài sản.',
+    ],
+    metrics: '99.99% ACID Ledger',
+    iconName: 'chart',
+    themeColor: '#5DC3C8',
+    badgeTextColor: '#0f766e',
+    gradient: 'linear-gradient(135deg, #5DC3C8 0%, #0d9488 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/203b4658aaef306e8e3a83990a3814869df355cbd59a5919402f5b7b6c2fdc8a.mp4',
+    imageUrl: 'https://i.postimg.cc/Fz5mGMs9/ERP-Tai-chinh-ke-toan.webp',
+  },
+  {
+    id: 'crm',
+    code: 'CRM',
+    abbr: 'CRM',
+    name: 'Quản lý Quan hệ Khách hàng',
+    nameEn: 'Customer Relationship Management',
+    fullName: 'Customer Relationship Management',
+    category: 'CRM & CX',
+    url: 'https://www.crmplatfrom.powerservice.one',
+    badge: 'CRM',
+    description:
+      'Quản lý thông tin khách hàng 360 độ, bán hàng, marketing và hành trình trải nghiệm người dùng.',
+    features: [
+      'Quản lý dữ liệu thông tin khách hàng 360 độ tập trung.',
+      'Tối ưu hóa chiến dịch marketing, bán hàng và chăm sóc khách hàng.',
+    ],
+    metrics: '+45% CSAT · 360° Real-time',
+    iconName: 'users',
+    themeColor: '#E64C72',
+    badgeTextColor: '#be123c',
+    gradient: 'linear-gradient(135deg, #E64C72 0%, #be123c 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/3789ef6b78508540ff5ee79d99e40b5c81f24970492cacbed1d1c5c7a637721d.mp4',
+    imageUrl: 'https://i.postimg.cc/SRFqVBNS/CRM-Quan-ly-Quan-he-Khach-hang.webp',
+  },
+  {
+    id: 'hrm',
+    code: 'HRM',
+    abbr: 'HRM',
+    name: 'Quản lý Nguồn nhân lực',
+    nameEn: 'Human Resource Management',
+    fullName: 'Human Resource Management',
+    category: 'HR & WFM',
+    url: 'https://www.hrmplatfrom.powerservice.one',
+    badge: 'HRM',
+    description:
+      'Quản lý toàn bộ vòng đời nhân viên từ tuyển dụng, chấm công, tính lương đến đào tạo phát triển.',
+    features: [
+      'Quản lý tuyển dụng, hồ sơ nhân sự, chấm công và tính lương.',
+      'Theo dõi đánh giá hiệu suất và lộ trình phát triển nhân viên.',
+    ],
+    metrics: '95% Schedule Adherence',
+    iconName: 'briefcase',
+    themeColor: '#1480C0',
+    badgeTextColor: '#1e40af',
+    gradient: 'linear-gradient(135deg, #1480C0 0%, #1e3a8a 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/27f8e502acc309a66846a49a5d40392a3d0d3126014a4127190a8d6a3a6d259a.mp4',
+    imageUrl: 'https://i.postimg.cc/MH7wL9Xh/HRM-Quan-ly-Nguon-nhan-luc.webp',
+  },
+  {
+    id: 'bpm',
+    code: 'BPM',
+    abbr: 'BPM',
+    name: 'Quản lý Quy trình Nghiệp vụ',
+    nameEn: 'Business Process Management',
+    fullName: 'Business Process Management',
+    category: 'Automation',
+    url: 'https://www.bmpplatform.powerservice.one',
+    badge: 'BPM',
+    description:
+      'Số hóa và tự động hóa quy trình nghiệp vụ nhằm nâng cao hiệu quả vận hành liên phòng ban.',
+    features: [
+      'Số hóa và thiết kế quy trình luồng công việc tự động.',
+      'Theo dõi và tối ưu hóa hiệu suất vận hành liên phòng ban.',
+    ],
+    metrics: 'Tiết kiệm 1.200+ giờ/tháng',
+    iconName: 'file-text',
+    themeColor: '#F05A36',
+    badgeTextColor: '#c2410c',
+    gradient: 'linear-gradient(135deg, #F05A36 0%, #c2410c 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/6e35f67580ff9bfd89b68f588bc8cc3e17fb8f8346413c674adc1ba5c36e5b74.mp4',
+    imageUrl: 'https://i.postimg.cc/6qJwzk5J/BPM-Quan-ly-Quy-trinh-Nghiep-vu.webp',
+  },
+  {
+    id: 'okr',
+    code: 'OKR',
+    abbr: 'OKR',
+    name: 'Quản lý Mục tiêu & Kết quả',
+    nameEn: 'Objectives & Key Results',
+    fullName: 'Objectives & Key Results',
+    category: 'Governance',
+    url: 'https://www.okrplatfrom.powerservice.one',
+    badge: 'OKR',
+    description:
+      'Thiết lập mục tiêu chiến lược, theo dõi kết quả then chốt và đánh giá hiệu suất minh bạch.',
+    features: [
+      'Thiết lập và quản lý bộ mục tiêu OKR chiến lược toàn công ty.',
+      'Theo dõi tiến độ kết quả then chốt và đánh giá hiệu suất minh bạch.',
+    ],
+    metrics: '100% Minh bạch mục tiêu',
+    iconName: 'target',
+    themeColor: '#A3D43A',
+    badgeTextColor: '#3f6212',
+    gradient: 'linear-gradient(135deg, #65a30d 0%, #4d7c0f 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/05ff79efd7b36c90400d88f88db4142c6223c97d11de9c88b6fdf34845e62596.mp4',
+    imageUrl: 'https://i.postimg.cc/BbT3zmXf/OKR-Quan-ly-Muc-tieu-Ket-qua.webp',
+  },
+  {
+    id: 'clp',
+    code: 'CLP',
+    abbr: 'CLP',
+    name: 'Khách hàng Thân thiết (Loyalty)',
+    nameEn: 'Customer Loyalty Program',
+    fullName: 'Customer Loyalty Program',
+    category: 'CRM & CX',
+    url: 'https://www.clpplatform.powerservice.one',
+    badge: 'CLP',
+    description:
+      'Quản lý chương trình thành viên, tích điểm, ưu đãi voucher và chiến dịch gia tăng sự trung thành.',
+    features: [
+      'Quản lý phân hạng thành viên, chương trình tích điểm đổi quà.',
+      'Phát hành voucher ưu đãi và triển khai các chiến dịch chăm sóc khách hàng thân thiết.',
+    ],
+    metrics: '+32 Điểm NPS · +28% Retention',
+    iconName: 'gift',
+    themeColor: '#0D9488',
+    badgeTextColor: '#0f766e',
+    gradient: 'linear-gradient(135deg, #0D9488 0%, #0f766e 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/fcec73d22dd54308ca9dde1590b8914ad92afdae78541e455cfba580ae02fc12.mp4',
+    imageUrl: 'https://i.postimg.cc/0jRxZT21/CLP-Khach-hang-Than-thiet.webp',
+  },
+  {
+    id: 'lms',
+    code: 'LMS',
+    abbr: 'LMS',
+    name: 'Quản lý Đào tạo (Learning)',
+    nameEn: 'Learning Management System',
+    fullName: 'Learning Management System',
+    category: 'Training & HR',
+    url: 'https://www.lmsplatfrom.powerservice.one',
+    badge: 'LMS',
+    description:
+      'Xây dựng khóa học trực tuyến, kiểm tra đánh giá năng lực tự động và phát triển nguồn nhân lực.',
+    features: [
+      'Quản lý nội dung bài giảng, khóa học trực tuyến E-learning.',
+      'Tự động hóa bài kiểm tra sát hạch và theo dõi tiến trình học tập.',
+    ],
+    metrics: '-50% Thời gian Onboarding',
+    iconName: 'graduation',
+    themeColor: '#2563EB',
+    badgeTextColor: '#1d4ed8',
+    gradient: 'linear-gradient(135deg, #2563EB 0%, #1d4ed8 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/1c510958fd1ed4599a18bdeb1cd1a867d489817acb403ed6d5bc1243a8ee3640.mp4',
+    imageUrl: 'https://i.postimg.cc/kGQCHTB3/LMS-Quan-ly-Dao-tao.webp',
+  },
+  {
+    id: 'csc',
+    code: 'CSC',
+    abbr: 'CSC',
+    name: 'Trung tâm Chăm sóc Khách hàng',
+    nameEn: 'Customer Service Center',
+    fullName: 'Customer Service Center',
+    category: 'Contact Center',
+    url: 'https://www.cscplatform.powerservice.one',
+    badge: 'CSC',
+    description:
+      'Quản lý tương tác đa kênh (Omnichannel), tiếp nhận và xử lý Ticket, giám sát SLA và Helpdesk.',
+    features: [
+      'Tiếp nhận và quản lý yêu cầu hỗ trợ (Ticketing System) đa kênh.',
+      'Theo dõi giám sát tuân thủ cam kết chất lượng dịch vụ SLA và Helpdesk.',
+    ],
+    metrics: '99.98% Uptime · 85% FCR',
+    iconName: 'headphones',
+    themeColor: '#EC7D21',
+    badgeTextColor: '#c2410c',
+    gradient: 'linear-gradient(135deg, #EC7D21 0%, #c2410c 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/9248b81cc506a77992bd57a64e4d9df8fbe22b5e9f98dbe11b2591e47cb34977.mp4',
+    imageUrl: 'https://i.postimg.cc/sxdyKkDf/CSC-Trung-tam-Cham-soc-Khach-hang.webp',
+  },
+  {
+    id: 'bi',
+    code: 'BI Dashboard',
+    abbr: 'BI Dashboard',
+    name: 'Báo cáo & Phân tích',
+    nameEn: 'Business Intelligence Dashboard',
+    fullName: 'Business Intelligence Dashboard',
+    category: 'Analytics & BI',
+    url: '',
+    badge: 'BI Dashboard',
+    description:
+      'Trực quan hóa dữ liệu theo thời gian thực (Real-time Wallboard) hỗ trợ ra quyết định kinh doanh.',
+    features: [
+      'Tổng hợp và trực quan hóa các dữ liệu vận hành thời gian thực.',
+      'Cung cấp báo cáo phân tích thông minh cho ban quản lý và C-Level.',
+    ],
+    metrics: '100% Data-Driven Decisions',
+    iconName: 'trending',
+    themeColor: '#A78BFA',
+    badgeTextColor: '#6d28d9',
+    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/93b1585c6641ff7c9324680805f82ab42ce7d89d1eda9629937ea945a5c7b5ed.mp4',
+    imageUrl: 'https://i.postimg.cc/Y0Kk85q7/BI-Dashboard-Bao-cao-Phan-tich.webp',
+  },
+  {
+    id: 'ai',
+    code: 'AI Assistant',
+    abbr: 'AI Assistant',
+    name: 'Trợ lý Trí tuệ Nhân tạo',
+    nameEn: 'Artificial Intelligence Assistant',
+    fullName: 'Artificial Intelligence Assistant',
+    category: 'AI & Automation',
+    url: 'https://www.aiplatfrom.powerservice.one',
+    badge: 'AI Assistant',
+    description:
+      'Hỗ trợ người dùng bằng AI trong việc tìm kiếm tri thức, phân tích dữ liệu tự động và xử lý tác vụ 24/7.',
+    features: [
+      'Tìm kiếm và truy xuất cơ sở tri thức nghiệp vụ tự động 24/7.',
+      'Hỗ trợ tư vấn viên gợi ý câu trả lời và tự động hóa xử lý tác vụ.',
+    ],
+    metrics: '72% Tự động hóa · < 400ms',
+    iconName: 'robot',
+    themeColor: '#6353B5',
+    badgeTextColor: '#4c1d95',
+    gradient: 'linear-gradient(135deg, #6353B5 0%, #4c1d95 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/a70a8cb6885b78383cd13c32a9a52832819344448e21cf4c61440bc45692856c.mp4',
+    imageUrl: 'https://i.postimg.cc/D0kF59yK/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.webp',
+  },
+  {
+    id: 'pos',
+    code: 'POS',
+    abbr: 'POS',
+    name: 'Quản lý Bán hàng tại Quầy',
+    nameEn: 'Point of Sale',
+    fullName: 'Point of Sale',
+    category: 'Commerce',
+    url: 'https://www.posplatform.powerservice.one',
+    badge: 'POS',
+    description:
+      'Quản lý đơn hàng, thanh toán, hóa đơn, tồn kho và đồng bộ hóa dữ liệu trực tiếp với CRM/ERP.',
+    features: [
+      'Quản lý giao dịch bán hàng, tạo đơn và thanh toán hóa đơn tại quầy.',
+      'Đồng bộ dữ liệu đơn hàng và tồn kho trực tiếp với CRM/ERP.',
+    ],
+    metrics: '99.99% Uptime · PCI-DSS',
+    iconName: 'shopping-cart',
+    themeColor: '#3BB8E6',
+    badgeTextColor: '#0369a1',
+    gradient: 'linear-gradient(135deg, #3BB8E6 0%, #0284c7 100%)',
+    videoUrl:
+      'https://cdn.scena.ai/project/10223/fab0f9fa77c07d721c36d5dd4b244154958a53025128f8a897df4cdb18212197.mp4',
+    imageUrl: 'https://i.postimg.cc/5yBJrs6M/POS-Quan-ly-Ban-hang-tai-Quay.webp',
+  },
+];
+
+// Ánh xạ màu sắc Bento Studio chuẩn theo hệ thống thẻ mẫu
+const BENTO_SYSTEM_STYLES = {
+  sdp: {
+    cardBg: 'linear-gradient(135deg, #d97706 0%, #92400e 52%, #1e1b4b 100%)',
+    accentText: '#fde047',
+    pillBg: 'rgba(253, 224, 71, 0.16)',
+    archetype: 'portal',
+  },
+  erp: {
+    cardBg: 'linear-gradient(135deg, #0d9488 0%, #115e59 55%, #0f172a 100%)',
+    accentText: '#5eead4',
+    pillBg: 'rgba(94, 234, 212, 0.16)',
+    archetype: 'stats',
+  },
+  crm: {
+    cardBg: 'linear-gradient(135deg, #e11d48 0%, #9f1239 55%, #3b0764 100%)',
+    accentText: '#fda4af',
+    pillBg: 'rgba(253, 164, 175, 0.16)',
+    archetype: 'social',
+  },
+  hrm: {
+    cardBg: 'linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 58%, #0f172a 100%)',
+    accentText: '#93c5fd',
+    pillBg: 'rgba(147, 197, 253, 0.16)',
+    archetype: 'team',
+  },
+  bpm: {
+    cardBg: 'linear-gradient(135deg, #ea580c 0%, #9a3412 58%, #1c1917 100%)',
+    accentText: '#fdba74',
+    pillBg: 'rgba(253, 186, 116, 0.16)',
+    archetype: 'roadmap',
+  },
+  okr: {
+    cardBg: 'linear-gradient(135deg, #4d7c0f 0%, #14532d 58%, #0f172a 100%)',
+    accentText: '#bef264',
+    pillBg: 'rgba(190, 242, 100, 0.16)',
+    archetype: 'progress',
+  },
+  clp: {
+    cardBg: 'linear-gradient(135deg, #0f766e 0%, #164e63 58%, #090d16 100%)',
+    accentText: '#67e8f9',
+    pillBg: 'rgba(103, 232, 249, 0.16)',
+    archetype: 'tiers',
+  },
+  lms: {
+    cardBg: 'linear-gradient(135deg, #2563eb 0%, #3730a3 58%, #1e1b4b 100%)',
+    accentText: '#bfdbfe',
+    pillBg: 'rgba(191, 219, 254, 0.16)',
+    archetype: 'learning',
+  },
+  csc: {
+    cardBg: 'linear-gradient(135deg, #c2410c 0%, #7c2d12 58%, #18181b 100%)',
+    accentText: '#fed7aa',
+    pillBg: 'rgba(254, 215, 170, 0.16)',
+    archetype: 'kanban',
+  },
+  bi: {
+    cardBg: 'linear-gradient(135deg, #6d28d9 0%, #4c1d95 55%, #0f172a 100%)',
+    accentText: '#ddd6fe',
+    pillBg: 'rgba(221, 214, 254, 0.16)',
+    archetype: 'chart',
+  },
+  ai: {
+    cardBg: 'linear-gradient(135deg, #5b21b6 0%, #86198f 55%, #1e1b4b 100%)',
+    accentText: '#f5d0fe',
+    pillBg: 'rgba(245, 208, 254, 0.16)',
+    archetype: 'ai',
+  },
+  pos: {
+    cardBg: 'linear-gradient(135deg, #0284c7 0%, #1e40af 58%, #0f172a 100%)',
+    accentText: '#7dd3fc',
+    pillBg: 'rgba(125, 211, 252, 0.16)',
+    archetype: 'commerce',
+  },
+};
+
+// Component hiển thị Icon tương ứng theo tên
+const SystemIcon = ({ iconName, className = 'w-4 h-4', style }) => {
+  const props = { className, style };
+  switch (iconName) {
+    case 'globe':
+      return <Globe {...props} />;
+    case 'chart':
+      return <DollarSign {...props} />;
+    case 'users':
+      return <Users {...props} />;
+    case 'briefcase':
+      return <Briefcase {...props} />;
+    case 'file-text':
+      return <FileText {...props} />;
+    case 'target':
+      return <Target {...props} />;
+    case 'gift':
+      return <Gift {...props} />;
+    case 'graduation':
+      return <GraduationCap {...props} />;
+    case 'headphones':
+      return <Headphones {...props} />;
+    case 'trending':
+      return <TrendingUp {...props} />;
+    case 'robot':
+      return <Cpu {...props} />;
+    case 'shopping-cart':
+      return <ShoppingCart {...props} />;
+    default:
+      return <Globe {...props} />;
+  }
+};
+
+// Component dựng bố cục mẫu Bento chuyên biệt tương ứng với từng phân hệ khi bung rộng
+const ExpandedBentoModule = ({ sys, bentoStyle, showToast }) => {
+  switch (bentoStyle.archetype) {
+    case 'portal':
+      return (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {['CRM 360°', 'ERP Ledger', 'HRM Core', 'AI Agent'].map((mod) => (
+            <div
+              key={mod}
+              className="bg-black/30 border border-white/10 rounded-xl p-2.5 text-center hover:bg-white/10 transition-colors"
+            >
+              <div className="text-xs font-bold text-amber-300">{mod}</div>
+              <div className="text-[10px] text-white/70 mt-0.5">SSO Kết nối</div>
+            </div>
+          ))}
+        </div>
+      );
+    case 'stats':
+      return (
+        <div className="bg-black/30 border border-white/10 rounded-xl p-3">
+          <div className="flex justify-between text-xs font-bold mb-2">
+            <span className="text-teal-200">Phân Bổ Nguồn Lực & Tài Chính</span>
+            <span className="text-emerald-300">{sys.metrics}</span>
+          </div>
+          <div className="w-full h-2.5 bg-black/40 rounded-full overflow-hidden flex gap-0.5">
+            <div className="bg-teal-400 h-full w-[42%]" title="Kế toán" />
+            <div className="bg-cyan-300 h-full w-[33%]" title="Kho vận" />
+            <div className="bg-amber-300 h-full w-[25%]" title="Tài sản" />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-2 text-[11px] text-white/80">
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-teal-400" />
+              Tài chính 42%
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-cyan-300" />
+              Mua hàng & Kho 33%
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-amber-300" />
+              Tài sản 25%
+            </span>
+          </div>
+        </div>
+      );
+    case 'social':
+      return (
+        <div className="grid grid-cols-3 gap-2.5 text-center">
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="text-lg font-bold text-white">360°</div>
+            <div className="text-[10px] text-rose-200 uppercase">Hồ Sơ Tập Trung</div>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="text-lg font-bold text-emerald-300">+45%</div>
+            <div className="text-[10px] text-rose-200 uppercase">Chỉ Số CSAT</div>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="text-lg font-bold text-amber-300">Real-time</div>
+            <div className="text-[10px] text-rose-200 uppercase">Hành Trình CX</div>
+          </div>
+        </div>
+      );
+    case 'team':
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl flex items-center justify-between">
+            <span className="text-blue-200">Tuân thủ lịch ca</span>
+            <span className="font-bold text-emerald-300">95%</span>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl flex items-center justify-between">
+            <span className="text-blue-200">Chu trình nhân sự</span>
+            <span className="font-bold text-sky-300">Tuyển dụng → Lương</span>
+          </div>
+        </div>
+      );
+    case 'roadmap':
+      return (
+        <div className="grid grid-cols-3 gap-2 text-xs">
+          <div className="bg-black/30 border border-emerald-400/30 p-2.5 rounded-xl">
+            <div className="text-[10px] font-bold text-emerald-300">BƯỚC 01</div>
+            <div className="font-bold text-white mt-0.5">Số hóa biểu mẫu</div>
+          </div>
+          <div className="bg-black/30 border border-amber-400/30 p-2.5 rounded-xl">
+            <div className="text-[10px] font-bold text-amber-300">BƯỚC 02</div>
+            <div className="font-bold text-white mt-0.5">Phê duyệt tự động</div>
+          </div>
+          <div className="bg-black/30 border border-sky-400/30 p-2.5 rounded-xl">
+            <div className="text-[10px] font-bold text-sky-300">BƯỚC 03</div>
+            <div className="font-bold text-white mt-0.5">Tối ưu liên phòng</div>
+          </div>
+        </div>
+      );
+    case 'progress':
+      return (
+        <div className="bg-black/30 border border-white/10 rounded-xl p-3 space-y-2 text-xs">
+          <div className="flex justify-between font-bold">
+            <span className="text-lime-200">Mức độ minh bạch & liên kết mục tiêu</span>
+            <span className="text-lime-300">100%</span>
+          </div>
+          <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden">
+            <div className="bg-gradient-to-r from-lime-300 to-emerald-400 h-full rounded-full w-full" />
+          </div>
+        </div>
+      );
+    case 'tiers':
+      return (
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="font-bold text-teal-200">Thành Viên</div>
+            <div className="text-[10px] text-white/70 mt-0.5">Tích điểm cơ bản</div>
+          </div>
+          <div className="bg-teal-500/20 border border-teal-300/40 p-2.5 rounded-xl">
+            <div className="font-bold text-amber-300">Hạng Vàng</div>
+            <div className="text-[10px] text-white/85 mt-0.5">Voucher ưu đãi x2</div>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="font-bold text-cyan-300">Kim Cương</div>
+            <div className="text-[10px] text-white/70 mt-0.5">+32 Điểm NPS</div>
+          </div>
+        </div>
+      );
+    case 'learning':
+      return (
+        <div className="bg-black/30 border border-white/10 rounded-xl p-3 text-xs">
+          <div className="flex justify-between mb-1.5">
+            <span className="text-blue-200 font-bold">
+              Hiệu quả rút ngắn thời gian đào tạo hội nhập
+            </span>
+            <span className="text-emerald-300 font-bold">-50% Onboarding</span>
+          </div>
+          <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden">
+            <div className="bg-gradient-to-r from-sky-400 to-indigo-300 h-full rounded-full w-[85%]" />
+          </div>
+        </div>
+      );
+    case 'kanban':
+      return (
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="text-base font-bold text-white">Đa Kênh</div>
+            <div className="text-[10px] text-orange-200">Omnichannel</div>
+          </div>
+          <div className="bg-black/30 border border-emerald-400/30 p-2.5 rounded-xl">
+            <div className="text-base font-bold text-emerald-300">85% FCR</div>
+            <div className="text-[10px] text-orange-200">Giải quyết ngay</div>
+          </div>
+          <div className="bg-black/30 border border-amber-400/30 p-2.5 rounded-xl">
+            <div className="text-base font-bold text-amber-300">99.98%</div>
+            <div className="text-[10px] text-orange-200">Cam kết SLA</div>
+          </div>
+        </div>
+      );
+    case 'chart':
+      return (
+        <div className="bg-black/30 border border-white/10 rounded-xl p-3">
+          <div className="flex items-center justify-between text-xs mb-2">
+            <span className="text-purple-200 font-bold">Real-time Wallboard Analytics</span>
+            <span className="text-emerald-300 font-bold">100% Data-Driven</span>
+          </div>
+          <div className="flex items-end gap-1.5 h-12">
+            <div className="flex-1 bg-purple-400/40 rounded-t h-2/5" />
+            <div className="flex-1 bg-purple-400/55 rounded-t h-3/5" />
+            <div className="flex-1 bg-purple-400/70 rounded-t h-1/2" />
+            <div className="flex-1 bg-purple-300/80 rounded-t h-4/5" />
+            <div className="flex-1 bg-indigo-300/90 rounded-t h-3/4" />
+            <div className="flex-1 bg-gradient-to-t from-violet-400 to-fuchsia-300 rounded-t h-full" />
+          </div>
+        </div>
+      );
+    case 'ai':
+      return (
+        <div className="bg-black/30 border border-white/10 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-fuchsia-200">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>Trợ lý tri thức 24/7 • Phản hồi &lt; 400ms</span>
+          </div>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              showToast('AI Assistant đã sẵn sàng hỗ trợ tra cứu tri thức!', 'success');
+            }}
+            className="px-3 py-1.5 rounded-lg bg-white text-purple-950 font-bold hover:bg-purple-100 transition-colors shrink-0 cursor-pointer"
+          >
+            Hỏi Trợ Lý AI
+          </button>
+        </div>
+      );
+    case 'commerce':
+    default:
+      return (
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="font-bold text-sky-300 text-sm">Tức Thì</div>
+            <div className="text-[10px] text-white/75">Thanh toán quầy</div>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="font-bold text-emerald-300 text-sm">CRM / ERP</div>
+            <div className="text-[10px] text-white/75">Đồng bộ tồn kho</div>
+          </div>
+          <div className="bg-black/30 border border-white/10 p-2.5 rounded-xl">
+            <div className="font-bold text-amber-300 text-sm">PCI-DSS</div>
+            <div className="text-[10px] text-white/75">99.99% Uptime</div>
+          </div>
+        </div>
+      );
+  }
+};
+
+// Component Thẻ Hệ Thống BentoCard
+const SystemBentoCard = ({
+  sys,
+  bentoStyle,
+  isExpanded,
+  onToggleExpand,
+  onCollapse,
+  showToast,
+}) => {
+  const inlineVideoRef = useRef(null);
+  const fullVideoRef = useRef(null);
+  const thumbImgRef = useRef(null);
+
+  const [isThumbHovered, setIsThumbHovered] = useState(false);
+  const [isVideoFull, setIsVideoFull] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
+  const [inlineVideoStyle, setInlineVideoStyle] = useState({});
+  const [inlineVideoFit, setInlineVideoFit] = useState('object-contain');
+
+  // Tự động căn chỉnh thông minh video theo kích thước & tỷ lệ thực tế của hình ảnh
+  const smartAlignInlineVideo = useCallback(() => {
+    const videoEl = inlineVideoRef.current;
+    const imgEl = thumbImgRef.current;
+    if (!videoEl || !imgEl) return;
+
+    const imgRect = imgEl.getBoundingClientRect();
+    const parentRect = imgEl.parentElement?.getBoundingClientRect();
+
+    if (imgRect.width > 0 && imgRect.height > 0 && parentRect && parentRect.width > 0) {
+      setInlineVideoStyle({
+        left: `${imgRect.left - parentRect.left}px`,
+        top: `${imgRect.top - parentRect.top}px`,
+        width: `${imgRect.width}px`,
+        height: `${imgRect.height}px`,
+      });
+    }
+
+    if (videoEl.videoWidth && videoEl.videoHeight && imgRect.width && imgRect.height) {
+      const videoRatio = videoEl.videoWidth / videoEl.videoHeight;
+      const imgRatio = imgRect.width / imgRect.height;
+      setInlineVideoFit(Math.abs(videoRatio - imgRatio) < 0.35 ? 'object-cover' : 'object-contain');
+    }
+  }, []);
+
+  // Xử lý rê chuột vào vùng hình: chuyển nền thẻ sang trắng & phát video ngay tại hình
+  const handleThumbMouseEnter = () => {
+    if (isVideoFull) return;
+    setIsThumbHovered(true);
+    smartAlignInlineVideo();
+    if (inlineVideoRef.current) {
+      inlineVideoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleThumbMouseLeave = () => {
+    setIsThumbHovered(false);
+    if (inlineVideoRef.current) {
+      inlineVideoRef.current.pause();
+    }
+  };
+
+  // Mở chế độ video toàn thẻ
+  const enterFullCardVideo = useCallback(() => {
+    setIsVideoFull(true);
+    setIsThumbHovered(false);
+    if (inlineVideoRef.current) inlineVideoRef.current.pause();
+    if (fullVideoRef.current) {
+      fullVideoRef.current.currentTime = 0;
+      fullVideoRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  const exitFullCardVideo = useCallback(() => {
+    setIsVideoFull(false);
+    if (fullVideoRef.current) {
+      fullVideoRef.current.pause();
+    }
+  }, []);
+
+  const handleCardClick = (e) => {
+    if (isVideoFull) return;
+    if (
+      e.target.closest('button') ||
+      e.target.closest('a') ||
+      e.target.closest('.card-thumb-btn')
+    ) {
+      return;
+    }
+    onToggleExpand(sys.id);
+  };
+
+  return (
+    <div
+      onClick={handleCardClick}
+      data-expanded={isExpanded ? 'true' : 'false'}
+      data-video-full={isVideoFull ? 'true' : 'false'}
+      data-thumb-hover={isThumbHovered ? 'true' : 'false'}
+      style={{
+        '--theme-color': sys.themeColor,
+        '--badge-dark': sys.badgeTextColor,
+        background: bentoStyle.cardBg,
+      }}
+      className={`system-card bento-card ${
+        isExpanded ? 'md:col-span-2 md:row-span-2 ring-2 ring-purple-400/50' : ''
+      } relative p-4 sm:p-5 text-white cursor-pointer flex flex-col`}
+    >
+      {/* Video toàn thẻ khi nhấp vào hình minh họa */}
+      {sys.videoUrl && (
+        <>
+          <div
+            onClick={(e) => {
+              if (isVideoFull) {
+                e.stopPropagation();
+                exitFullCardVideo();
+              }
+            }}
+            className={`card-video-wrapper absolute inset-0 overflow-hidden rounded-[14px] ${
+              isVideoFull
+                ? 'opacity-100 z-20 pointer-events-auto'
+                : 'opacity-0 z-0 pointer-events-none'
+            }`}
+          >
+            <video
+              ref={fullVideoRef}
+              src={sys.videoUrl}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full h-full object-cover scale-200 origin-center"
+            />
+          </div>
+
+          {isVideoFull && (
+            <button
+              type="button"
+              title="Thoát video"
+              onClick={(e) => {
+                e.stopPropagation();
+                exitFullCardVideo();
+              }}
+              className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900/75 hover:bg-slate-900 text-white flex items-center justify-center shadow-md cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </>
+      )}
+
+      {/* Lớp chuyển màu nền sang màu trắng khi rê chuột vào hình */}
+      <div className="card-video-bg-sync" />
+
+      {/* Top: Icon và Tên hệ thống chiếm trọn 1 hàng ngang phía trên cùng */}
+      <div
+        className={`card-header-top relative z-10 w-full pb-2.5 mb-2.5 border-b border-white/15 flex items-center justify-between gap-2 ${
+          isVideoFull ? 'opacity-0 pointer-events-none' : ''
+        }`}
+      >
+        <h3
+          className="flex items-center gap-2 text-base sm:text-lg font-bold leading-snug min-w-0"
+          style={{ color: bentoStyle.accentText }}
+        >
+          <SystemIcon
+            iconName={sys.iconName}
+            className="sys-icon w-5 h-5 shrink-0"
+            style={{ color: bentoStyle.accentText }}
+          />
+          <span className="truncate">{sys.name}</span>
+        </h3>
+        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-black/25 text-white/85 border border-white/10 shrink-0">
+          {sys.category}
+        </span>
+      </div>
+
+      {/* Thân thẻ hình chữ nhật: Bên trái hình minh họa, Bên phải mô tả 4 hàng + Bottom */}
+      <div
+        className={`card-body-row relative z-10 flex items-center gap-3.5 ${
+          isVideoFull ? 'opacity-0 pointer-events-none' : ''
+        }`}
+      >
+        {/* Cột trái (42% chiều ngang): Hình minh họa không khung bao + video inline khi hover */}
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            if (isVideoFull) {
+              exitFullCardVideo();
+            } else {
+              enterFullCardVideo();
+            }
+          }}
+          onMouseEnter={handleThumbMouseEnter}
+          onMouseLeave={handleThumbMouseLeave}
+          title="Nhấp để xem video toàn thẻ"
+          className="card-thumb-btn relative z-20 w-[42%] flex items-center justify-center shrink-0 overflow-hidden rounded-xl"
+        >
+          {!imgFailed ? (
+            <img
+              ref={thumbImgRef}
+              src={sys.imageUrl}
+              alt={sys.abbr}
+              onLoad={smartAlignInlineVideo}
+              onError={() => setImgFailed(true)}
+              className={`card-thumb-img w-full ${
+                isExpanded ? 'h-40 sm:h-44' : 'h-32 sm:h-36'
+              } object-contain ${isThumbHovered ? 'opacity-0' : 'opacity-100'}`}
+            />
+          ) : (
+            <div className="w-16 h-16 text-white flex items-center justify-center">
+              <SystemIcon iconName={sys.iconName} className="w-8 h-8" />
+            </div>
+          )}
+          {/* Video phát ngay tại vị trí hình khi rê chuột vào hình (phóng to gấp 2 lần) */}
+          <video
+            ref={inlineVideoRef}
+            src={sys.videoUrl}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onLoadedMetadata={smartAlignInlineVideo}
+            style={{
+              ...inlineVideoStyle,
+              transform: 'scale(2)',
+              transformOrigin: 'center center',
+            }}
+            className={`card-inline-video absolute inset-0 w-full h-full ${inlineVideoFit} pointer-events-none ${
+              isThumbHovered ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        </div>
+
+        {/* Cột phải (58% chiều ngang): Mô tả 4 hàng & Tên viết tắt / Tên đầy đủ ở Bottom */}
+        <div className="card-content flex-1 flex flex-col justify-between gap-2 min-w-0">
+          <p
+            className={`text-white/90 text-xs sm:text-sm leading-relaxed ${
+              isExpanded ? '' : 'line-clamp-4'
+            }`}
+          >
+            {sys.description}
+          </p>
+
+          {/* Bottom: Tên viết tắt và Tên đầy đủ */}
+          <div className="pt-2 border-t border-white/15">
+            <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ backgroundColor: bentoStyle.accentText }}
+              />
+              <span
+                className="text-xs font-bold uppercase tracking-wider"
+                style={{ color: bentoStyle.accentText }}
+              >
+                {sys.badge}
+              </span>
+            </div>
+            <p
+              className="text-[11px] font-normal text-white/75 leading-tight truncate"
+              title={sys.fullName}
+            >
+              {sys.fullName}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Nội dung chi tiết chuẩn Bento Studio khi thẻ bung rộng gấp 4 lần */}
+      {isExpanded && (
+        <div
+          className={`card-expanded-details relative z-10 mt-3.5 pt-3.5 border-t border-white/15 flex flex-col gap-3.5 ${
+            isVideoFull ? 'opacity-0 pointer-events-none' : ''
+          }`}
+        >
+          {/* Widget Bento phân tích chức năng chuyên biệt từng phân hệ */}
+          <ExpandedBentoModule sys={sys} bentoStyle={bentoStyle} showToast={showToast} />
+
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span
+                className="text-xs font-bold uppercase tracking-wider"
+                style={{ color: bentoStyle.accentText }}
+              >
+                Tính năng &amp; Chỉ số vận hành
+              </span>
+              <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-black/30 text-white border border-white/15">
+                {sys.metrics}
+              </span>
+            </div>
+            <ul className="space-y-1.5 bg-black/20 border border-white/10 rounded-xl p-3">
+              {sys.features.map((feat, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-white/90">
+                  <span
+                    className="w-2 h-2 rounded-full mt-1.5 shrink-0"
+                    style={{ backgroundColor: bentoStyle.accentText }}
+                  />
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/15">
+            <div className="flex flex-wrap items-center gap-2">
+              {sys.url ? (
+                <a
+                  href={sys.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-gray-950 hover:bg-gray-100 text-xs font-bold shadow-lg"
+                >
+                  <span>Truy cập hệ thống</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-black/35 text-amber-300 border border-amber-400/30 text-xs font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  <span>Đang hoàn thiện tích hợp</span>
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  enterFullCardVideo();
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 text-xs font-bold cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Xem Video</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onCollapse();
+              }}
+              className="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-white/80 hover:text-white hover:bg-white/15 text-xs font-bold cursor-pointer"
+            >
+              <span>Thu gọn</span>
+              <ChevronUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default function App() {
+  const [isLightMode, setIsLightMode] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
+  const [toasts, setToasts] = useState([]);
+
+  const showToast = useCallback((message, type = 'info') => {
+    const id = Date.now() + Math.random();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
+  }, []);
+
+  const toggleThemeMode = () => {
+    setIsLightMode((prev) => {
+      const next = !prev;
+      showToast(
+        next
+          ? 'Đã chuyển sang giao diện Sáng (Light Mode)'
+          : 'Đã chuyển sang giao diện Tối (Dark Mode)',
+        next ? 'success' : 'info'
+      );
+      return next;
+    });
+  };
+
+  const handleToggleExpand = useCallback((id) => {
+    setExpandedId((prev) => (prev === id ? null : id));
+  }, []);
+
+  const handleCollapse = useCallback(() => {
+    setExpandedId(null);
+  }, []);
+
+  // Nhấn ESC để thu gọn thẻ đang bung rộng
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && expandedId) {
+        setExpandedId(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [expandedId]);
+
+  return (
+    <div
+      className={`bento-app-root text-white antialiased selection:bg-purple-500 selection:text-white min-h-screen py-10 px-4 sm:px-6 lg:px-8 ${
+        isLightMode ? 'light-mode' : ''
+      }`}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Play:wght@400;700&display=swap');
+
+        .bento-app-root {
+          font-family: 'Play', 'Inter', sans-serif;
+          background-color: #090d16;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(139, 92, 246, 0.24) 0%, transparent 42%),
+            radial-gradient(circle at 88% 18%, rgba(56, 189, 248, 0.18) 0%, transparent 40%),
+            radial-gradient(circle at 50% 92%, rgba(236, 72, 153, 0.15) 0%, transparent 45%),
+            radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
+          background-attachment: fixed;
+        }
+
+        .bento-app-root.light-mode {
+          background-color: #f4f7fb;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.16) 0%, transparent 44%),
+            radial-gradient(circle at 88% 18%, rgba(14, 165, 233, 0.16) 0%, transparent 42%),
+            radial-gradient(circle at 52% 90%, rgba(244, 114, 182, 0.14) 0%, transparent 46%),
+            radial-gradient(rgba(71, 85, 105, 0.13) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px;
+          background-attachment: fixed;
+          color: #0f172a;
+        }
+
+        .bento-app-root.light-mode .studio-title {
+          color: #0f172a !important;
+        }
+
+        .system-card.bento-card {
+          border-radius: 14px;
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          box-shadow:
+            0 14px 30px -8px rgba(0, 0, 0, 0.56),
+            0 6px 14px -4px rgba(0, 0, 0, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.22);
+          transition:
+            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s ease;
+        }
+
+        .system-card.bento-card:hover {
+          transform: translateY(-10px) scale(1.022);
+          border-color: rgba(255, 255, 255, 0.34);
+          box-shadow:
+            0 32px 56px -12px rgba(0, 0, 0, 0.68),
+            0 16px 28px -8px rgba(0, 0, 0, 0.46),
+            0 0 0 1px rgba(255, 255, 255, 0.24),
+            inset 0 1px 0 rgba(255, 255, 255, 0.32);
+        }
+
+        .system-card.bento-card:active {
+          transform: translateY(-3px) scale(0.995);
+        }
+
+        /* Lớp chuyển màu nền thẻ sang màu trắng khi rê chuột vào hình */
+        .card-video-bg-sync {
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 1;
+          opacity: 0;
+          background: #ffffff !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] .card-video-bg-sync {
+          opacity: 1;
+        }
+
+        /* Điều chỉnh màu chữ & viền sang tông tối sắc nét khi nền thẻ chuyển sang màu trắng */
+        .system-card.bento-card[data-thumb-hover="true"] {
+          color: #0f172a !important;
+          border-color: rgba(15, 23, 42, 0.15) !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] .card-header-top,
+        .system-card.bento-card[data-thumb-hover="true"] .card-content > div,
+        .system-card.bento-card[data-thumb-hover="true"] .card-expanded-details {
+          border-color: rgba(15, 23, 42, 0.12) !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] h3,
+        .system-card.bento-card[data-thumb-hover="true"] .card-content p {
+          color: #0f172a !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] .card-content p[title] {
+          color: #475569 !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] .card-header-top > span {
+          background-color: rgba(15, 23, 42, 0.06) !important;
+          color: #334155 !important;
+          border-color: rgba(15, 23, 42, 0.12) !important;
+        }
+
+        .system-card.bento-card[data-thumb-hover="true"] .card-content span[style] {
+          color: var(--badge-dark, #0f172a) !important;
+        }
+      `}</style>
+
+      {/* Vùng thông báo nổi (Toast) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
+        {toasts.map((t) => (
+          <div
+            key={t.id}
+            className={`pointer-events-auto flex items-center gap-3 bg-gray-900/95 backdrop-blur-md border px-4 py-3 rounded-xl shadow-2xl max-w-sm ${
+              t.type === 'success'
+                ? 'border-emerald-500/50 text-emerald-300'
+                : 'border-purple-500/50 text-purple-300'
+            }`}
+          >
+            <span
+              className={`w-2 h-2 rounded-full shrink-0 ${
+                t.type === 'success' ? 'bg-emerald-400' : 'bg-purple-400'
+              }`}
+            />
+            <span className="text-sm font-bold text-gray-100">{t.message}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Container chính */}
+      <div className="max-w-7xl mx-auto">
+        {/* Thanh điều khiển giao diện */}
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div>
+            <span className="text-xs font-bold tracking-wider uppercase text-purple-300 bg-purple-950/70 border border-purple-600/50 px-3 py-1 rounded-full">
+              Hệ Sinh Thái Enterprise 2.0
+            </span>
+            <h1 className="studio-title text-2xl sm:text-3xl font-bold text-gray-100 mt-2 tracking-tight">
+              Bảng Điều Khiển Hệ Thống Nghiệp Vụ
+            </h1>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5 text-white">
+            <button
+              type="button"
+              onClick={toggleThemeMode}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800/85 hover:bg-gray-700 border border-gray-700 text-xs sm:text-sm font-bold cursor-pointer shadow-md"
+            >
+              {isLightMode ? (
+                <Moon className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-amber-400" />
+              )}
+              <span>{isLightMode ? 'Giao diện Tối' : 'Giao diện Sáng'}</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Lưới Bento Grid chứa 12 thẻ hệ thống */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 grid-flow-dense items-start">
+          {ENTERPRISE_SYSTEMS_LIST.map((sys) => {
+            const bentoStyle = BENTO_SYSTEM_STYLES[sys.id] || BENTO_SYSTEM_STYLES.sdp;
+            return (
+              <SystemBentoCard
+                key={sys.id}
+                sys={sys}
+                bentoStyle={bentoStyle}
+                isExpanded={expandedId === sys.id}
+                onToggleExpand={handleToggleExpand}
+                onCollapse={handleCollapse}
+                showToast={showToast}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}

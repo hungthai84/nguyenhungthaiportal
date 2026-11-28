@@ -497,7 +497,7 @@ html.dark .bento-tone-sky {
   background: var(--bg-nested-badge, #FFFFFF) !important;
   border-color: var(--border-nested-badge, #CBD5E1) !important;
   box-shadow: var(--shadow-nested);
-  transition: transform var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) var(--motion-ease);
+  transition: transform var(--motion-normal, 220ms) var(--motion-ease), box-shadow var(--motion-normal, 220ms) var(--motion-ease);
 }
 
 .pillar-gradient-card {
@@ -641,14 +641,12 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #skills-swot-grid,
 #skills-languages-grid,
 #experience-bento-grid,
-#projects-grid,
 #wallpaper-add-panel-grid,
 #wallpaper-cards-grid,
 #systems-cards-grid,
 #interface-themes-grid,
-#services-cards-grid,
 #about-personal-info-grid,
-.card-grid,
+.card-grid:not(#projects-grid):not(#services-cards-grid):not(.unified-cards-grid),
 [data-card-layout] {
   box-sizing: border-box !important;
   width: 100% !important;
@@ -747,7 +745,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #about-intro-grid-2 {
   box-sizing: border-box !important;
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   margin: 0 auto !important;
   padding: var(--main-card-padding, clamp(10px, 1.4vw, 16px)) !important;
@@ -800,7 +798,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
 #about-intro-card-2 {
   box-sizing: border-box !important;
   width: 100% !important;
-  max-width: var(--main-card-target-w, 1050px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   min-width: 0 !important;
   flex-shrink: 0 !important;
   height: 100% !important;
@@ -894,6 +892,10 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   align-self: stretch !important;
 }
 
+#horoscope-card-1 #horoscope-row-1-horizontal > #horoscope-card-6 {
+  padding: 5px !important;
+}
+
 /* ========================================================================= */
 /* 4. TRANG DỊCH VỤ: BANNER CARD & 6 THẺ NẰM GỌN TRONG THẺ CHÍNH, CÁCH 15PX   */
 /* Kích thước thẻ dịch vụ tự động co giãn theo chiều cao khả dụng           */
@@ -974,84 +976,7 @@ html.dark .pillar-gradient-card[data-accent="purple"] .pillar-sub {
   box-sizing: border-box !important;
 }
 
-#services-cards-grid {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  flex: 1 1 0% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  align-items: stretch !important;
-}
-
-@media (max-width: 959px) {
-  #services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(180px, 1fr) !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
-  }
-}
-
-@media (max-width: 599px) {
-  #services-cards-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: minmax(170px, 1fr) !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
-  }
-}
-
-#services-cards-grid > * {
-  height: 100% !important;
-  min-height: 0 !important;
-  box-sizing: border-box !important;
-}
-
-#services-cards-grid .service-card.domain-card {
-  height: 100% !important;
-  min-height: 0 !important;
-  padding: clamp(10px, 1.2vw, 15px) !important;
-  box-sizing: border-box !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-}
-
-#services-cards-grid .service-card-body {
-  height: 100% !important;
-  min-height: 0 !important;
-  flex: 1 1 0% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  gap: clamp(6px, 1vh, 10px) !important;
-}
-
-#services-cards-grid .service-card-middle {
-  flex: 1 1 0% !important;
-  min-height: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-}
-
-#services-cards-grid .service-card-middle .service-img-pop {
-  max-height: clamp(50px, 8vh, 85px) !important;
-  width: auto !important;
-  object-fit: contain !important;
-}
+/* #services-cards-grid responsive 3x2 / 2x3 / 1x6 layout & card padding are unified below with #projects-grid via master tokens */
 
 
 #home-main-card,
@@ -1177,7 +1102,6 @@ html[data-card-style] #horoscope-card-work-synergy-check,
   box-sizing: border-box !important;
 }
 
-#horoscope-card-profile,
 #horoscope-card-management-style,
 #horoscope-card-career-portrait,
 #horoscope-card-five-elements,
@@ -1221,23 +1145,29 @@ html.dark[data-card-style] #weather-widget-card {
   height: 50px !important;
   padding-left: 10px !important;
   padding-right: 10px !important;
-  border-radius: 10px !important;
-  background: var(--bg-subcard, var(--surface-secondary-bg, var(--bg-nav-pill))) !important;
-  border: 1px solid var(--border-subcard, var(--surface-secondary-border, var(--border-color))) !important;
-  box-shadow: var(--elev-subcard-l1, var(--shadow-subcard, 0 2px 8px rgba(15, 23, 42, 0.08))) !important;
-  transition: box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  border-radius: var(--radius-widget, var(--radius-subcard, var(--radius-card, 14px))) !important;
+  background: var(--surface-tertiary-bg, var(--bg-subcard, var(--surface-secondary-bg, var(--bg-nav-pill)))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--surface-secondary-border, var(--border-color)))) !important;
+  box-shadow: var(--surface-tertiary-shadow, var(--elev-subcard-l1, var(--shadow-subcard, 0 2px 8px rgba(15, 23, 42, 0.08)))) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, var(--glass-blur, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, var(--glass-blur, 14px)))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 140%))) !important;
+  outline: var(--outline-subcard, none) !important;
+  outline-offset: var(--outline-offset-subcard, -4px) !important;
+  color: var(--text-primary) !important;
+  transition: box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1), border-color var(--motion-normal, 220ms) ease, background var(--motion-normal, 220ms) ease, transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 #weather-widget-card:hover,
 html[data-card-style] #weather-widget-card:hover,
 html.dark #weather-widget-card:hover,
 html.dark[data-card-style] #weather-widget-card:hover {
-  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 38%, var(--border-subcard, var(--border-color))) !important;
-  box-shadow: var(--elev-subcard-l1-hover, var(--shadow-subcard-hover, 0 6px 16px rgba(15, 23, 42, 0.12))) !important;
+  background: var(--bg-subcard-hover, var(--surface-tertiary-bg, var(--bg-subcard))) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #4973FF) 42%, var(--surface-tertiary-border, var(--border-subcard, var(--border-color)))) !important;
+  box-shadow: var(--elev-subcard-l1-hover, var(--shadow-card-hover, var(--shadow-subcard, 0 6px 16px rgba(15, 23, 42, 0.12)))) !important;
 }
 
 /* BUTTON & HOME SCREEN SWITCHER DOCK BORDER RADIUS 999PX FORMAT */
-button:not(#weather-widget-card):not([data-weather-card="true"]),
+button:not(#weather-widget-card):not([data-weather-card="true"]):not([data-box-tab="true"]):not(#el-p2-button-4):not(#el-p2-button-5),
 [data-element-type="button"],
 .btn-pill,
 .theme-capsule-btn,
@@ -1276,10 +1206,10 @@ button:not(#weather-widget-card):not([data-weather-card="true"]),
   outline-offset: var(--outline-offset-nav-pill, 0px);
   border-radius: 999px !important;
   color: var(--text-primary) !important;
-  transition: transform var(--liquid-pill-flex-ms, 230ms) var(--liquid-pill-flex-ease, cubic-bezier(0.22, 1, 0.36, 1)),
-    box-shadow 220ms ease,
-    border-color 220ms ease,
-    background 220ms ease !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--motion-normal, 220ms) ease,
+    border-color var(--motion-normal, 220ms) ease,
+    background var(--motion-normal, 220ms) ease !important;
 }
 
 #el-p0-div-16 [role="tab"][aria-selected="true"] {
@@ -1321,7 +1251,7 @@ html[data-surface-depth="flat"] #el-p0-div-16 [role="tab"] {
 #app-footer #footer-nav-capsule #footer-next-btn {
   min-width: 34px;
   min-height: 34px;
-  transition: background-color 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+  transition: background-color var(--motion-normal, 220ms) ease, box-shadow var(--motion-normal, 220ms) ease, opacity var(--motion-normal, 220ms) ease;
 }
 
 #app-footer #footer-nav-capsule #footer-prev-btn:hover,
@@ -1394,8 +1324,8 @@ h3.card-title,
 /* ========================================================================= */
 #pdf-page-container {
   box-sizing: border-box !important;
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   min-width: 0 !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -1552,10 +1482,10 @@ h3.card-title,
 #header-btn-hungthai-avatar,
 .nav-arrow-btn,
 .radial-contact-pill {
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
-              background-color 180ms ease,
-              border-color 180ms ease !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+              background-color var(--motion-normal, 220ms) ease,
+              border-color var(--motion-normal, 220ms) ease !important;
   will-change: transform, box-shadow;
 }
 
@@ -1782,35 +1712,35 @@ html[data-card-style="mica-fluent"] .swot-quadrant-card .swot-corner-inner {
   -webkit-backdrop-filter: blur(18px);
 }
 
-/* Neumorphism & Frost Ice Neumorphism */
+/* Neumorphism & Frost Ice Neumorphism — Authentic Matte Soft UI (No Borders, Dual Shadows) */
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-outer {
-  background: color-mix(in srgb, var(--swot-accent) 14%, var(--surface-secondary-bg, var(--bg-card)));
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 32%, var(--surface-secondary-border, rgba(255, 255, 255, 0.65)));
-  box-shadow: var(--neu-raised-shadow, 6px 6px 14px rgba(163, 177, 198, 0.52), -6px -6px 14px rgba(255, 255, 255, 0.85));
+  background: var(--surface-primary-bg, #E0E5EC);
+  border: none;
+  box-shadow: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
 }
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-inner {
-  background: color-mix(in srgb, var(--swot-accent) 22%, var(--surface-primary-bg, var(--bg-main)));
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 44%, rgba(255, 255, 255, 0.72));
-  box-shadow: var(--neu-inset-shadow, inset 4px 4px 10px rgba(163, 177, 198, 0.45), inset -4px -4px 10px rgba(255, 255, 255, 0.88));
+  background: var(--surface-primary-bg, #E0E5EC);
+  border: none;
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.85), inset 4px 4px 8px rgba(163, 177, 198, 0.60);
 }
 html:is([data-card-style="neumorphism-beyond"], [data-card-style="frost-ice-neu"]) .swot-quadrant-card .swot-corner-letter {
   color: var(--swot-accent);
-  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75);
+  text-shadow: none;
 }
 
 html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-outer {
-  background: color-mix(in srgb, var(--swot-accent) 18%, var(--surface-secondary-bg, var(--bg-card)));
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 38%, var(--surface-secondary-border, rgba(255, 255, 255, 0.10)));
-  box-shadow: var(--neu-raised-shadow, 6px 6px 14px rgba(2, 6, 23, 0.68), -5px -5px 12px rgba(255, 255, 255, 0.06));
+  background: var(--surface-primary-bg, #1E242E);
+  border: none;
+  box-shadow: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
 }
 html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-inner {
-  background: color-mix(in srgb, var(--swot-accent) 28%, var(--surface-primary-bg, var(--bg-main)));
-  border: 1px solid color-mix(in srgb, var(--swot-accent) 52%, rgba(255, 255, 255, 0.10));
-  box-shadow: var(--neu-inset-shadow, inset 4px 4px 10px rgba(2, 6, 23, 0.7), inset -3px -3px 8px rgba(255, 255, 255, 0.06));
+  background: var(--surface-primary-bg, #1E242E);
+  border: none;
+  box-shadow: inset -4px -4px 8px rgba(45, 54, 70, 0.68), inset 4px 4px 8px rgba(11, 14, 20, 0.82);
 }
 html[data-card-style="dark-neumorphism-beyond"] .swot-quadrant-card .swot-corner-letter {
-  color: #FFFFFF;
-  text-shadow: 0 0 12px var(--swot-accent);
+  color: var(--swot-accent);
+  text-shadow: none;
 }
 
 /* Cowhide Leather, Dark Cowhide Leather & Walnut Wood */
@@ -1928,12 +1858,29 @@ html[data-card-style="neumorphism-beyond"] :is(
   #pdf-hero-banner,
   [id$="-hero-banner"]
 ) {
-  background: linear-gradient(145deg, #EAEFF6 0%, #E1E8F2 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.78) !important;
-  box-shadow:
-    0 8px 20px rgba(148, 163, 184, 0.24),
-    3px 5px 12px rgba(163, 177, 198, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+  background: #E0E5EC !important;
+  border: none !important;
+  box-shadow: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="dark-neumorphism-beyond"] :is(
+  .hero-banner,
+  .banner-card,
+  [data-element-type="banner-card"],
+  #services-hero-banner,
+  #project-detail-banner,
+  #contact-hero-banner,
+  #ai-assistant-hero-banner,
+  #pdf-hero-banner,
+  [id$="-hero-banner"]
+) {
+  background: #1E242E !important;
+  border: none !important;
+  box-shadow: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 :is(
@@ -2001,7 +1948,7 @@ html[data-card-style="neumorphism-beyond"] :is(
   white-space: nowrap !important;
   text-align: center !important;
   cursor: pointer !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.2s ease !important;
+  transition: transform var(--motion-normal, 220ms) ease, box-shadow var(--motion-normal, 220ms) ease, filter var(--motion-normal, 220ms) ease, background var(--motion-normal, 220ms) ease !important;
 }
 
 @media (max-width: 639px) {
@@ -2455,22 +2402,38 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
 
 .project-detail-toc-btn[data-active="false"] {
   background: var(--surface-tertiary-bg, var(--bg-subcard)) !important;
-  border: 1px solid var(--surface-tertiary-border, var(--border-subcard, var(--color-border-soft))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--border-subcard, var(--color-border-soft))) !important;
+  box-shadow: var(--shadow-nested, none) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
   color: var(--text-primary) !important;
-  backdrop-filter: blur(var(--surface-tertiary-blur, 12px)) saturate(125%) !important;
-  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, 12px)) saturate(125%) !important;
+  backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 12px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 125%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--blur-subcard, 12px))) saturate(var(--surface-tertiary-saturate, var(--glass-saturate, 125%))) !important;
 }
 
 .project-detail-toc-btn[data-active="false"]:hover {
   background: var(--bg-subcard-hover, var(--surface-tertiary-bg, var(--bg-subcard))) !important;
+  border-color: color-mix(in srgb, var(--color-primary, #4F46E5) 45%, var(--surface-tertiary-border, var(--border-subcard, var(--color-border-soft)))) !important;
   transform: none;
 }
 
 .project-detail-toc-btn[data-active="true"] {
-  background: var(--bg-button-primary) !important;
+  background: var(--bg-button-primary, var(--color-primary)) !important;
   color: var(--text-button-primary, #FFFFFF) !important;
-  border: 1px solid var(--border-banner-cta, transparent) !important;
+  border: var(--card-border-width, 1px) solid var(--border-banner-cta, transparent) !important;
+  border-radius: var(--radius-subcard, 12px) !important;
   box-shadow: var(--shadow-button-primary, var(--shadow-subcard)) !important;
+}
+
+#project-detail-banner {
+  background: var(--surface-secondary-bg, var(--surface-card-glass, var(--bg-card))) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--glass-card-border, var(--border-color))) !important;
+  box-shadow: var(--surface-secondary-shadow, var(--elev-card-l2, var(--shadow-card))) !important;
+  backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
+  border-radius: var(--radius-card, var(--radius-global, 14px)) !important;
+  outline: var(--outline-card, none) !important;
+  outline-offset: var(--outline-offset-card, -6px) !important;
+  color: var(--text-primary) !important;
 }
 
 .project-detail-section-card {
@@ -2482,7 +2445,10 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
   box-shadow: var(--surface-secondary-shadow, var(--elev-card-l2, var(--shadow-card))) !important;
   backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-secondary-blur, var(--glass-card-blur, 19px))) saturate(var(--surface-secondary-saturate, var(--glass-card-saturate, 134%))) !important;
-  border-radius: 14px !important;
+  outline: var(--outline-card, none) !important;
+  outline-offset: var(--outline-offset-card, -6px) !important;
+  border-radius: var(--radius-card, var(--radius-global, 14px)) !important;
+  color: var(--text-primary) !important;
   padding: 15px !important;
   box-sizing: border-box !important;
   overflow-y: auto !important;
@@ -2495,20 +2461,20 @@ html[data-card-style="cowhide-leather"] .themed-image-card-badge {
 .letter-header-subcard,
 .letter-footer-subcard {
   background: var(--surface-tertiary-bg, var(--surface-subcard-glass, var(--bg-subcard))) !important;
-  border: 1px solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft)))) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+  border: var(--card-border-width, 1px) solid var(--surface-tertiary-border, var(--glass-subcard-border, var(--border-subcard, var(--color-border-soft)))) !important;
+  border-radius: var(--radius-subcard, var(--radius-card, 14px)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard-glass, var(--shadow-subcard))) !important;
   backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   -webkit-backdrop-filter: blur(var(--surface-tertiary-blur, var(--glass-subcard-blur, 14px))) saturate(var(--surface-tertiary-saturate, var(--glass-subcard-saturate, 122%))) !important;
   outline: var(--outline-subcard, none);
-  outline-offset: var(--outline-offset-subcard, 0px);
+  outline-offset: var(--outline-offset-subcard, -5px);
 }
 
 .project-detail-chip,
 .education-skill-chip,
 .project-card-tag {
-  background: var(--bg-nested-badge, rgba(255, 255, 255, 0.86)) !important;
-  border: 1px solid var(--border-nested-badge, var(--color-border-soft)) !important;
+  background: var(--bg-nested-badge, var(--bg-subcard, rgba(255, 255, 255, 0.86))) !important;
+  border: var(--card-border-width, 1px) solid var(--border-nested-badge, var(--border-subcard, var(--color-border-soft))) !important;
   color: var(--text-primary) !important;
 }
 
@@ -2624,7 +2590,7 @@ article.project-card:hover,
 .project-card-body,
 .project-card .project-card-body,
 #projects-grid article .project-card-body {
-  padding: 15px !important;
+  padding: var(--grid-cards-padding, var(--space-card-padding, 16px)) !important;
   margin: 0 !important;
   box-sizing: border-box !important;
 }
@@ -2651,7 +2617,7 @@ article.project-card:hover,
 [role="listbox"],
 .floating-panel {
   box-shadow: var(--shadow-floating) !important;
-  transition: transform var(--motion-fast) var(--motion-ease), box-shadow var(--motion-fast) var(--motion-ease);
+  transition: transform var(--motion-normal, 220ms) var(--motion-ease), box-shadow var(--motion-normal, 220ms) var(--motion-ease);
 }
 
 .theme-popup,
@@ -2868,11 +2834,11 @@ article.project-card:hover,
 button:not(:disabled),
 [data-element-type="button"]:not(:disabled),
 .btn-pill:not(:disabled) {
-  transition: transform var(--motion-fast) var(--motion-ease),
-              background-color var(--motion-fast) var(--motion-ease),
-              border-color var(--motion-fast) var(--motion-ease),
-              box-shadow var(--motion-fast) var(--motion-ease),
-              color var(--motion-fast) var(--motion-ease);
+  transition: transform var(--motion-normal, 220ms) var(--motion-ease),
+              background-color var(--motion-normal, 220ms) var(--motion-ease),
+              border-color var(--motion-normal, 220ms) var(--motion-ease),
+              box-shadow var(--motion-normal, 220ms) var(--motion-ease),
+              color var(--motion-normal, 220ms) var(--motion-ease);
 }
 
 /* Active button sink effects removed per user request */
@@ -2951,7 +2917,40 @@ button:focus-visible,
 .dropdown-menu-enter {
   will-change: transform, opacity;
   backface-visibility: hidden;
-  animation: dropdownFadeIn var(--motion-fast) var(--motion-ease-out) both;
+  animation: dropdownFadeIn var(--motion-normal, 220ms) var(--motion-ease-out) both;
+}
+
+/* Language selection dropdown smooth fade-in & scale toggle (220ms motion system) */
+html #footer-lang-popup[data-state] {
+  transform-origin: bottom right;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+html #footer-lang-popup[data-placement="mobile"] {
+  transform-origin: bottom center;
+}
+
+html #footer-lang-popup[data-state="closed"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate3d(0, 6px, 0) scale3d(0.95, 0.95, 1) !important;
+  transition:
+    opacity var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    transform var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    visibility 0s linear var(--motion-normal, 220ms) !important;
+}
+
+html #footer-lang-popup[data-state="open"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+  transition:
+    opacity var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    transform var(--motion-normal, 220ms) var(--motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    visibility 0s linear 0s !important;
 }
 
 /* ========================================================================= */
@@ -3571,8 +3570,8 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"])
 }
 
 #ai-assistant-main-card[data-chat-expanded="true"] {
-  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1050px))) !important;
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  width: var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px))) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   flex: 0 0 auto !important;
   transition: width 180ms ease-out, flex-basis 180ms ease-out !important;
 }
@@ -3980,9 +3979,9 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 .card-grid {
   --card-min-width: 265px;
   --card-max-width: 1fr;
-  --card-grid-gap: var(--mc-gap, 16px);
+  --card-grid-gap: var(--space-card-gap, 16px);
   --card-aspect-ratio: auto;
-  --card-padding: 15px;
+  --card-padding: var(--space-card-padding, 16px);
   --card-grid-align: stretch;
   --card-grid-justify: stretch;
 
@@ -4118,19 +4117,12 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   }
 }
 
-#projects-grid.projects-responsive-grid {
-  --card-min-width: 270px;
-  --card-padding: 15px;
-}
-
 #systems-cards-grid.systems-cards-grid {
   --card-min-width: 305px;
   --card-padding: 15px;
 }
 
 .education-responsive-grid,
-.projects-responsive-grid,
-#projects-grid,
 #systems-page-container .systems-cards-grid {
   display: grid !important;
   grid-template-columns: repeat(
@@ -4148,6 +4140,57 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   align-content: start !important;
   overflow: visible !important;
   box-sizing: border-box !important;
+}
+
+/* ========================================================================= */
+/* UNIFIED PROJECT & SERVICE CARDS RESPONSIVE GRID (SINGLE SOURCE OF TRUTH)  */
+/* Driven by master design tokens in src/styles/tokens.css:                  */
+/* Desktop/Laptop >=1024px: 3 cols (3x2) | Tablet 768-1023px: 2 cols (2x3)   */
+/* Mobile <=767px: 1 col (1x6) — consistent gap & card padding, zero CLS     */
+/* ========================================================================= */
+.unified-cards-grid,
+.projects-grid,
+.projects-responsive-grid,
+#projects-grid,
+#services-page-container .services-cards-grid,
+#services-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(var(--grid-cards-columns, 3), minmax(0, 1fr)) !important;
+  grid-template-rows: none !important;
+  grid-auto-rows: var(--grid-cards-auto-rows, 1fr) !important;
+  gap: var(--grid-cards-gap, var(--space-card-gap, 16px)) !important;
+  row-gap: var(--grid-cards-gap, var(--space-card-gap, 16px)) !important;
+  column-gap: var(--grid-cards-gap, var(--space-card-gap, 16px)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  align-content: start !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#services-page-container .services-cards-grid,
+#services-cards-grid {
+  grid-area: 1 / 1 !important;
+  grid-auto-rows: minmax(var(--grid-services-row-min, 220px), 1fr) !important;
+}
+
+@media (max-width: 767px) {
+  #services-page-container .services-cards-grid,
+  #services-cards-grid {
+    grid-auto-rows: auto !important;
+  }
 }
 
 /* Thẻ hệ thống: Mặc định 3 cột, thu nhỏ chuyển 2 cột hoặc 1 cột, tất cả thẻ có chiều cao bằng nhau (+1/3 chiều cao) */
@@ -4175,12 +4218,17 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 .education-responsive-grid > *,
+.unified-cards-grid > *,
+.projects-grid > *,
 .projects-responsive-grid > *,
-#projects-grid > * {
+#projects-grid > *,
+#services-page-container .services-cards-grid > *,
+#services-cards-grid > * {
   min-width: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
   height: 100% !important;
+  min-height: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -4195,9 +4243,11 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   box-sizing: border-box !important;
 }
 
+/* Unified Project Card geometry & token spacing */
 #projects-grid .project-card {
   container-type: inline-size;
   container-name: project-card;
+  min-width: 0 !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
@@ -4209,6 +4259,8 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
 }
 
 #projects-grid .project-card .project-card-banner {
+  aspect-ratio: 16 / 10 !important;
+  flex: 0 0 auto !important;
   border-top-left-radius: var(--radius-global, var(--radius-card, 14px)) !important;
   border-top-right-radius: var(--radius-global, var(--radius-card, 14px)) !important;
   border-bottom-left-radius: 0px !important;
@@ -4222,13 +4274,19 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   padding: 0 !important;
 }
 
-#projects-grid .project-card .project-card-body {
-  padding: 15px !important;
+#projects-grid .project-card .project-card-body,
+#projects-grid .project-card .project-card__content {
+  padding: var(--grid-cards-padding, var(--space-card-padding, 16px)) !important;
   display: flex !important;
   flex-direction: column !important;
   flex: 1 1 auto !important;
   justify-content: space-between !important;
-  gap: 12px !important;
+  gap: var(--space-subcard-gap, 12px) !important;
+  min-width: 0 !important;
+}
+
+#projects-grid .project-card .project-card__actions {
+  margin-top: auto !important;
 }
 
 #projects-grid [data-card-title],
@@ -4240,6 +4298,39 @@ html.dark #skills-languages-section #skills-language-card-ai :is(.skills-lang-ti
   text-wrap: wrap !important;
   word-break: normal !important;
   overflow-wrap: break-word !important;
+}
+
+/* Unified Service Card geometry & token spacing */
+#services-cards-grid .service-card.domain-card {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: var(--grid-cards-padding, var(--space-card-padding, 16px)) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: var(--space-subcard-gap, 12px) !important;
+}
+
+#services-cards-grid .service-card-body {
+  container-type: inline-size;
+  container-name: service-card-inner;
+  height: 100% !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: var(--space-subcard-gap, 12px) !important;
+}
+
+#services-cards-grid .service-card-middle {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: var(--space-3, 12px) !important;
 }
 
 html .page-main-card #education-courses-grid .education-course-card,
@@ -4405,58 +4496,7 @@ html #education-courses-grid .education-course-card,
   box-sizing: border-box !important;
 }
 
-/* Lưới Dịch vụ: Responsive Grid View (3 cột desktop, 2 cột tablet, 1 cột mobile, hàng cao đều nhau) */
-#services-page-container .services-cards-grid,
-#services-cards-grid.services-cards-grid {
-  grid-area: 1 / 1 !important;
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-rows: minmax(216px, 1fr) !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 100% !important;
-  flex: 1 0 auto !important;
-  align-items: stretch !important;
-  align-content: start !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  box-sizing: border-box !important;
-}
-
-@media (max-width: 959px) {
-  #services-page-container .services-cards-grid,
-  #services-cards-grid.services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(204px, 1fr) !important;
-    min-height: 0 !important;
-    flex: 0 0 auto !important;
-  }
-}
-
-@media (max-width: 599px) {
-  #services-page-container .services-cards-grid,
-  #services-cards-grid.services-cards-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-auto-rows: auto !important;
-    min-height: 0 !important;
-    flex: 0 0 auto !important;
-  }
-}
-
-#services-page-container .services-cards-grid > * {
-  min-width: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 0 !important;
-  box-sizing: border-box !important;
-}
+/* Lưới Dịch vụ sử dụng chung hệ Unified Project & Service Cards Responsive Grid ở trên */
 
 /* Khi một Service Card đã mở rộng hoàn toàn: ẩn tầng lưới nền khỏi dòng chảy và chặn click */
 #services-page-container .services-cards-grid.is-hidden-layer {
@@ -4532,10 +4572,10 @@ html #education-courses-grid .education-course-card,
   overflow: visible !important;
 }
 
-#services-page-container .domain-card .service-title-text,
-#services-page-container .domain-card .service-title-text > span,
-html[data-card-style] #services-page-container .domain-card .service-title-text,
-html[data-card-style] #services-page-container .domain-card .service-title-text > span {
+#services-page-container .domain-card:not([data-multicolor-bento="true"]) .service-title-text,
+#services-page-container .domain-card:not([data-multicolor-bento="true"]) .service-title-text > span,
+html[data-card-style] #services-page-container .domain-card:not([data-multicolor-bento="true"]) .service-title-text,
+html[data-card-style] #services-page-container .domain-card:not([data-multicolor-bento="true"]) .service-title-text > span {
   font-size: var(--fs-h4, 17px) !important;
   line-height: 1.32 !important;
   color: var(--service-card-active-accent, var(--color-primary)) !important;
@@ -4803,11 +4843,12 @@ html.dark #services-page-container .domain-card-sub {
   container-name: system-card;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  padding: 18px !important;
+  padding: 14px 16px !important;
   height: 100% !important;
-  min-height: 160px !important;
+  min-height: 132px !important;
   align-self: stretch !important;
   box-sizing: border-box !important;
   border-radius: var(--radius-card, 14px);
@@ -4836,9 +4877,9 @@ html.dark #services-page-container .domain-card-sub {
   position: relative !important;
   inset: auto !important;
   width: 100% !important;
-  height: 100% !important;
-  min-height: 110px !important;
-  max-height: none !important;
+  height: 92px !important;
+  min-height: 82px !important;
+  max-height: 104px !important;
   padding: 0 !important;
   background: transparent !important;
   box-sizing: border-box !important;
@@ -5347,26 +5388,27 @@ html[data-card-style="deep-ocean"] .video-play-btn--letter {
   --vp-text: #FFFFFF;
 }
 
-/* --- Theme 11: Nổi Khối Kính Mờ (Neumorphism, Glassmorphism & Beyond — Matte Anti-Glare) --- */
+/* --- Theme 11: Nổi Khối Kính Mờ (Authentic Neumorphism · Soft UI Light) --- */
 html[data-card-style="neumorphism-beyond"] .video-play-btn {
-  --vp-backdrop: blur(12px) saturate(105%);
-  --vp-border: rgba(196, 209, 226, 0.78);
+  --vp-backdrop: none;
+  --vp-border: transparent;
   --vp-text: #1E293B;
-  --vp-specular: rgba(255, 255, 255, 0.34);
+  --vp-specular: transparent;
   --vp-chase-a: transparent;
   --vp-chase-b: transparent;
-  --vp-shadow-ambient: 0 4px 12px rgba(148, 163, 184, 0.20), 2px 3px 8px rgba(163, 177, 198, 0.26);
-  --vp-shadow-hover: 0 6px 14px rgba(148, 163, 184, 0.24), 3px 4px 10px rgba(163, 177, 198, 0.30);
-  --vp-sound-bg: rgba(73, 115, 255, 0.12);
-  --vp-sound-border: rgba(73, 115, 255, 0.28);
-  --vp-sound-hover: rgba(238, 106, 210, 0.20);
+  --vp-shadow-ambient: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
+  --vp-shadow-hover: -8px -8px 16px rgba(255, 255, 255, 0.90), 8px 8px 16px rgba(163, 177, 198, 0.66);
+  --vp-sound-bg: #E0E5EC;
+  --vp-sound-border: transparent;
+  --vp-sound-hover: #E0E5EC;
   animation: none !important;
 }
 html[data-card-style="neumorphism-beyond"] .video-play-btn:hover,
 html[data-card-style="neumorphism-beyond"] .video-play-btn:focus-visible {
-  box-shadow:
-    var(--vp-shadow-hover),
-    inset 0 1px 0 rgba(255, 255, 255, 0.36) !important;
+  box-shadow: var(--vp-shadow-hover) !important;
+}
+html[data-card-style="neumorphism-beyond"] .video-play-btn:active {
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.85), inset 4px 4px 8px rgba(163, 177, 198, 0.60) !important;
 }
 html[data-card-style="neumorphism-beyond"] .video-play-btn::before {
   display: none !important;
@@ -5376,36 +5418,37 @@ html[data-card-style="neumorphism-beyond"] .video-play-btn--home,
 html[data-card-style="neumorphism-beyond"] .video-play-btn--about,
 html[data-card-style="neumorphism-beyond"] .video-play-btn--interview,
 html[data-card-style="neumorphism-beyond"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, rgba(236, 241, 247, 0.94) 0%, rgba(226, 233, 242, 0.90) 100%);
-  --vp-bg-hover: linear-gradient(145deg, #EEF2F8 0%, #E1E8F2 100%);
+  --vp-bg: #E0E5EC;
+  --vp-bg-hover: #E0E5EC;
 }
 html[data-card-style="neumorphism-beyond"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #EE6AD2 0%, #4973FF 55%, #2AD8E6 100%);
-  --vp-bg-hover: linear-gradient(135deg, #E55EC9 0%, #3E68F5 55%, #20CDDB 100%);
+  --vp-bg: #2563EB;
+  --vp-bg-hover: #1D4ED8;
   --vp-text: #FFFFFF;
   animation: none !important;
 }
 
-/* --- Theme 12: Nổi Khối Kính Mờ Tối (Dark Soft UI Matte Anti-Glare) --- */
+/* --- Theme 12: Nổi Khối Kính Mờ Tối (Authentic Neumorphism · Soft UI Dark) --- */
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn {
-  --vp-backdrop: blur(12px) saturate(110%);
-  --vp-border: rgba(71, 85, 105, 0.50);
-  --vp-text: #F1F5F9;
-  --vp-specular: rgba(148, 163, 184, 0.14);
+  --vp-backdrop: none;
+  --vp-border: transparent;
+  --vp-text: #E6EDF7;
+  --vp-specular: transparent;
   --vp-chase-a: transparent;
   --vp-chase-b: transparent;
-  --vp-shadow-ambient: 5px 6px 14px rgba(4, 7, 15, 0.65), -3px -3px 10px rgba(40, 51, 72, 0.36);
-  --vp-shadow-hover: 7px 9px 18px rgba(4, 7, 15, 0.72), -4px -4px 12px rgba(46, 59, 82, 0.44);
-  --vp-sound-bg: rgba(100, 182, 255, 0.14);
-  --vp-sound-border: rgba(100, 182, 255, 0.30);
-  --vp-sound-hover: rgba(238, 106, 210, 0.24);
+  --vp-shadow-ambient: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
+  --vp-shadow-hover: -8px -8px 16px rgba(49, 59, 77, 0.78), 8px 8px 16px rgba(9, 12, 17, 0.84);
+  --vp-sound-bg: #1E242E;
+  --vp-sound-border: transparent;
+  --vp-sound-hover: #1E242E;
   animation: none !important;
 }
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn:hover,
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn:focus-visible {
-  box-shadow:
-    var(--vp-shadow-hover),
-    inset 0 1px 0 rgba(148, 163, 184, 0.16) !important;
+  box-shadow: var(--vp-shadow-hover) !important;
+}
+html[data-card-style="dark-neumorphism-beyond"] .video-play-btn:active {
+  box-shadow: inset -4px -4px 8px rgba(45, 54, 70, 0.68), inset 4px 4px 8px rgba(11, 14, 20, 0.82) !important;
 }
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn::before {
   display: none !important;
@@ -5415,12 +5458,12 @@ html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--home,
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--about,
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--interview,
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--systems {
-  --vp-bg: linear-gradient(145deg, rgba(30, 38, 53, 0.94) 0%, rgba(22, 28, 41, 0.92) 100%);
-  --vp-bg-hover: linear-gradient(145deg, #252F42 0%, #1C2333 100%);
+  --vp-bg: #1E242E;
+  --vp-bg-hover: #1E242E;
 }
 html[data-card-style="dark-neumorphism-beyond"] .video-play-btn--letter {
-  --vp-bg: linear-gradient(135deg, #EE6AD2 0%, #4973FF 55%, #2AD8E6 100%);
-  --vp-bg-hover: linear-gradient(135deg, #F27FD9 0%, #64B6FF 55%, #4CE3EF 100%);
+  --vp-bg: #3B82F6;
+  --vp-bg-hover: #2563EB;
   --vp-text: #FFFFFF;
   animation: none !important;
 }
@@ -5576,11 +5619,11 @@ html[data-card-style="dark-flat-soft-ui"] .video-play-btn--letter {
   will-change: transform;
   backface-visibility: hidden;
   transition:
-    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 200ms ease,
-    filter 200ms ease,
-    background-color 200ms ease;
+    transform var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow var(--motion-normal, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color var(--motion-normal, 220ms) ease,
+    filter var(--motion-normal, 220ms) ease,
+    background-color var(--motion-normal, 220ms) ease;
 }
 
 html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]) :is(
@@ -5725,7 +5768,7 @@ html.dark #education-book-view .education-book-paper--back {
 /* UNIFIED SHELL WIDTH (1000PX) FOR HEADER/FOOTER/MAIN CARDS; PDF 1250PX     */
 /* ========================================================================= */
 #pdf-page-container {
-  max-width: var(--home-main-card-w, var(--main-card-target-w, 1050px)) !important;
+  max-width: var(--home-main-card-w, var(--main-card-target-w, 1200px)) !important;
   box-sizing: border-box !important;
 }
 
@@ -5734,7 +5777,7 @@ html.dark #education-book-view .education-book-paper--back {
 .page-main-card:not(#pdf-page-container),
 [data-main-card="true"]:not(#pdf-page-container),
 #main-card-container {
-  max-width: var(--main-card-target-w, 1050px) !important;
+  max-width: var(--main-card-target-w, 1200px) !important;
   box-sizing: border-box !important;
 }
 
@@ -5849,6 +5892,8 @@ html[data-card-style="cowhide-leather"] :is(.bento-color-blue, .bento-color-emer
 #about-operating-pillars-card .grid,
 #about-core-values-card .grid {
   display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-rows: minmax(0, 1fr) !important;
   align-items: stretch !important;
   height: auto !important;
 }
@@ -5953,59 +5998,77 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
 /* THẺ DỊCH VỤ (SERVICES CARDS): FORMAT HỆ THỐNG & ẢNH LỚN GẤP ĐÔI           */
 /* ========================================================================= */
 #services-page-container #services-cards-wrapper {
+  container-type: inline-size;
+  container-name: services-grid;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
   grid-template-rows: auto !important;
+  align-content: start !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
 }
 
-#services-page-container .services-cards-grid,
-#services-cards-grid {
+/* Trang Dịch vụ: Responsive Grid Card thích ứng linh hoạt theo độ rộng container & màn hình */
+#services-page-container #services-cards-grid.services-responsive-grid,
+#services-page-container .services-cards-grid.services-responsive-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-area: 1 / 1 !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) !important;
   grid-auto-rows: minmax(216px, 1fr) !important;
+  gap: clamp(12px, 1.4vw, 18px) !important;
+  row-gap: clamp(12px, 1.4vw, 18px) !important;
+  column-gap: clamp(12px, 1.4vw, 18px) !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
   align-items: stretch !important;
-  gap: 15px !important;
-  row-gap: 15px !important;
-  column-gap: 15px !important;
+  justify-items: stretch !important;
+  align-content: start !important;
+  padding-bottom: 4px !important;
 }
 
-@media (max-width: 959px) {
-  #services-page-container .services-cards-grid,
-  #services-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: minmax(204px, 1fr) !important;
+@container services-grid (min-width: 960px) {
+  #services-page-container #services-cards-grid.services-responsive-grid,
+  #services-page-container .services-cards-grid.services-responsive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(220px, 1fr) !important;
   }
 }
 
-@media (max-width: 599px) {
-  #services-page-container .services-cards-grid,
-  #services-cards-grid {
+@container services-grid (min-width: 600px) and (max-width: 959.98px) {
+  #services-page-container #services-cards-grid.services-responsive-grid,
+  #services-page-container .services-cards-grid.services-responsive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(212px, 1fr) !important;
+  }
+}
+
+@container services-grid (max-width: 599.98px) {
+  #services-page-container #services-cards-grid.services-responsive-grid,
+  #services-page-container .services-cards-grid.services-responsive-grid {
     grid-template-columns: minmax(0, 1fr) !important;
     grid-auto-rows: auto !important;
   }
 }
 
-/* Thẻ Dịch vụ: ảnh minh họa tỷ lệ cân đối, chuyển động nhẹ khi tương tác */
+/* Thẻ Dịch vụ: ảnh minh họa tỷ lệ cố định (zero CLS khi tải ảnh), chuyển động nhẹ khi tương tác */
 #services-page-container .domain-card .service-card-illustration,
 #services-page-container .domain-card .service-card-image-slot,
 #services-page-container .domain-card .service-card-image-box,
 #services-page-container .service-card-image-box {
   align-self: center !important;
-  justify-self: center !important;
+  justify-self: end !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 100% !important;
-  max-width: 128px !important;
-  height: auto !important;
-  min-height: 88px !important;
-  max-height: 124px !important;
+  flex: 0 0 104px !important;
+  width: 104px !important;
+  min-width: 104px !important;
+  max-width: 104px !important;
+  height: 104px !important;
+  min-height: 104px !important;
+  max-height: 104px !important;
   aspect-ratio: 1 / 1 !important;
   background: transparent !important;
   border: none !important;
@@ -6013,6 +6076,45 @@ html body #projects-grid :is(.project-card, article.project-card, [id^="project-
   border-radius: 0px !important;
   padding: 0px !important;
   overflow: visible !important;
+}
+
+@container service-card-inner (max-width: 319px) {
+  #services-page-container .domain-card .service-card-image-box,
+  #services-page-container .service-card-image-box {
+    flex: 0 0 86px !important;
+    width: 86px !important;
+    min-width: 86px !important;
+    max-width: 86px !important;
+    height: 86px !important;
+    min-height: 86px !important;
+    max-height: 86px !important;
+  }
+}
+
+@container service-card-inner (max-width: 249px) {
+  #services-page-container .domain-card .service-card-image-box,
+  #services-page-container .service-card-image-box {
+    flex: 0 0 74px !important;
+    width: 74px !important;
+    min-width: 74px !important;
+    max-width: 74px !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 74px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #services-page-container .domain-card .service-card-image-box,
+  #services-page-container .service-card-image-box {
+    flex: 0 0 88px !important;
+    width: 88px !important;
+    min-width: 88px !important;
+    max-width: 88px !important;
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+  }
 }
 
 /* Hiệu ứng ảnh GIF chuyển động liên tục cho thẻ Dịch vụ */
@@ -6922,5 +7024,247 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
     border-radius 0.72s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.72s ease;
 }
+
+/* ========================================================================= */
+/* EXPERIENCE EXPANDED BENTO GRID (CONTENT-SIZED, ZERO CARD EFFECTS)         */
+/* ========================================================================= */
+
+.exp-bento-stage {
+  container-type: inline-size;
+  container-name: exp-bento-stage;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Bento Responsive Grid Card: Desktop 4-col -> Tablet 2-col -> Mobile 1-col, items sized to content */
+#experience-bento-grid.exp-studio-grid,
+#experience-bento-grid.exp-bento-responsive-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-auto-flow: dense !important;
+  grid-auto-rows: auto !important;
+  gap: 16px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  align-items: start !important;
+}
+
+#experience-bento-grid.exp-studio-grid .exp-bento-hero-2x2 {
+  grid-column: span 2;
+  grid-row: auto;
+}
+
+#experience-bento-grid.exp-studio-grid .exp-bento-span-2 {
+  grid-column: span 2;
+}
+
+#experience-bento-grid.exp-studio-grid .exp-bento-span-4 {
+  grid-column: span 4;
+}
+
+@container exp-bento-stage (max-width: 959.98px) {
+  #experience-bento-grid.exp-studio-grid,
+  #experience-bento-grid.exp-bento-responsive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  #experience-bento-grid.exp-studio-grid .exp-bento-hero-2x2,
+  #experience-bento-grid.exp-studio-grid .exp-bento-span-4 {
+    grid-column: span 2 !important;
+    grid-row: span 1 !important;
+  }
+
+  #experience-bento-grid.exp-studio-grid .exp-bento-span-2 {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+  }
+}
+
+@container exp-bento-stage (max-width: 639.98px) {
+  #experience-bento-grid.exp-studio-grid,
+  #experience-bento-grid.exp-bento-responsive-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  #experience-bento-grid.exp-studio-grid .exp-bento-item {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    height: fit-content !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #experience-bento-grid.exp-studio-grid,
+  #experience-bento-grid.exp-bento-responsive-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  #experience-bento-grid.exp-studio-grid .exp-bento-item {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    height: fit-content !important;
+  }
+}
+
+/* Base Bento Card — Content-sized height, zero hover/tilt/spotlight/ripple/reveal effects */
+html #experience-main-card #experience-bento-grid .exp-studio-card,
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px !important;
+  padding: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  outline: none !important;
+  color: #ffffff !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  align-self: start !important;
+  flex: 0 0 auto !important;
+  height: fit-content !important;
+  min-height: 0 !important;
+  gap: 14px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+#experience-main-card #experience-bento-grid .exp-studio-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 8 Authentic Bento Card Color Variants */
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple,
+#experience-main-card #experience-bento-grid .exp-studio-card--hero-purple {
+  background: linear-gradient(135deg, #9333ea 0%, #6d28d9 48%, #312e81 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight,
+#experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight {
+  background: linear-gradient(135deg, #fbbf24 0%, #f97316 52%, #ea580c 100%) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  color: #030712 !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet,
+#experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet {
+  background: linear-gradient(135deg, #4c1d95 0%, #312e81 48%, #0f172a 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust,
+#experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust {
+  background: linear-gradient(135deg, #065f46 0%, #115e59 50%, #111827 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks,
+#experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks {
+  background: linear-gradient(145deg, #1f2937 0%, #172031 55%, #0f172a 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs,
+#experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs {
+  background: linear-gradient(135deg, #4338ca 0%, #1d4ed8 50%, #172554 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi,
+#experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi {
+  background: linear-gradient(135deg, #be123c 0%, #9d174d 48%, #3b0764 100%) !important;
+  color: #ffffff !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink,
+#experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink {
+  background: linear-gradient(135deg, #be185d 0%, #9f1239 48%, #111827 100%) !important;
+  color: #ffffff !important;
+}
+
+/* Preserve crisp high-contrast ink inside Amber Highlight card */
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight :where(h1, h2, h3, p, span) {
+  color: inherit;
+}
+
+/* Inner Bento Sub-cards — Sized strictly to inner content, zero effects */
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile,
+#experience-main-card #experience-bento-grid .exp-studio-subtile {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  height: fit-content !important;
+  min-height: 0 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile--amber,
+#experience-main-card #experience-bento-grid .exp-studio-subtile--amber {
+  background: rgba(255, 255, 255, 0.30) !important;
+  border: 1px solid rgba(3, 7, 18, 0.14) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: #030712 !important;
+  height: fit-content !important;
+  min-height: 0 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Signature Gradient Text */
+.exp-studio-gradient-text {
+  background: linear-gradient(90deg, #fef08a 0%, #fde047 50%, #fbcfe8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* Strip ALL card & subcard hover, active, glow, shine, float, tilt, reveal, ripple, and backdrop-filter effects */
+html #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-card:active, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile:active, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-subtile--amber:active, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-studio-philosophy:active, .exp-bento-rect-btn, .exp-bento-rect-btn:hover, .exp-bento-rect-btn:active, [data-bento-studio-card="true"], [data-bento-studio-card="true"]:hover, [data-bento-studio-card="true"]:active),
+html[data-card-style] #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-card:active, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile:active, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-subtile--amber:active, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-studio-philosophy:active, .exp-bento-rect-btn, .exp-bento-rect-btn:hover, .exp-bento-rect-btn:active, [data-bento-studio-card="true"], [data-bento-studio-card="true"]:hover, [data-bento-studio-card="true"]:active),
+html[data-card-effect] #experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-card:hover, .exp-studio-subtile, .exp-studio-subtile:hover, .exp-studio-subtile--amber, .exp-studio-subtile--amber:hover, .exp-studio-philosophy, .exp-studio-philosophy:hover, .exp-bento-rect-btn, .exp-bento-rect-btn:hover) {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  will-change: auto !important;
+  opacity: 1 !important;
+}
+
+#experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-subtile, .exp-studio-subtile--amber, .exp-studio-philosophy, .exp-bento-rect-btn)::before,
+#experience-main-card #experience-bento-grid :is(.exp-studio-card, .exp-studio-subtile, .exp-studio-subtile--amber, .exp-studio-philosophy, .exp-bento-rect-btn)::after {
+  content: none !important;
+  display: none !important;
+}
+
+#experience-main-card #experience-bento-grid .exp-studio-card .exp-studio-icon,
+#experience-main-card #experience-bento-grid .exp-studio-card:hover .exp-studio-icon {
+  transform: none !important;
+  transition: none !important;
+}
+
+
+
 
 

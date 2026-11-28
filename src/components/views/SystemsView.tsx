@@ -41,6 +41,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
+import { SystemBentoCard } from './systems/SystemBentoCard';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -669,9 +670,9 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
   const [isBannerHiddenForExpand, setIsBannerHiddenForExpand] = useState<boolean>(false);
 
-  // Level 1 Full-Card Video (triggered by clicking image or Demo button)
+  // Level 1 Full-Card Video & Bento 4x In-Grid Expansion
   const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
-  const [hoveredCardVideoId, setHoveredCardVideoId] = useState<string | null>(null);
+  const [expandedBentoId, setExpandedBentoId] = useState<string | null>(null);
 
   // Level 2 Expanded Card Interactive Tools: Video Sound, Comparison Mode, QR Quick Access
   const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
@@ -764,12 +765,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const filteredSystems = useMemo(() => {
     let list = [...SYSTEMS_DATA];
     if (activeCategory === 'all' && !searchQuery.trim()) {
-      list.sort((a, b) => {
-        const idxA = REFERENCE_GRID_ORDER.indexOf(a.id);
-        const idxB = REFERENCE_GRID_ORDER.indexOf(b.id);
-        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-        return 0;
-      });
       return list;
     }
     if (activeCategory !== 'all') {
@@ -1135,6 +1130,14 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isFilterDropdownOpen]);
 
+  const handleToggleBentoCard = useCallback((id: string) => {
+    setExpandedBentoId((prev) => (prev === id ? null : id));
+  }, []);
+
+  const handleCollapseBentoCard = useCallback(() => {
+    setExpandedBentoId(null);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
@@ -1146,6 +1149,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
         setIsQrOpen(false);
       } else if (isCompareOpen) {
         setIsCompareOpen(false);
+      } else if (expandedBentoId) {
+        setExpandedBentoId(null);
       } else if (expandedSystem) {
         closeExpandedSystem();
       } else if (activeCardDemoId) {
@@ -1161,6 +1166,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     isEcosystemDiagramOpen,
     isQrOpen,
     isCompareOpen,
+    expandedBentoId,
     expandedSystem,
     closeExpandedSystem,
     activeCardDemoId,
@@ -1965,7 +1971,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               </table>
             </div>
           ) : (
-            /* CẤP 1 + CẤP 2 WRAPPER (FLIP MORPH TỪ THẺ GỐC PHỦ TOÀN LƯỚI) */
+            /* LƯỚI BENTO STUDIO 12 THẺ HỆ THỐNG (TỰ ĐỘNG BUNG RỘNG 4X TRONG LƯỚI + HOVER VIDEO NỀN TRẮNG) */
             <div
               id="systems-cards-wrapper"
               ref={cardsWrapperRef}
@@ -1975,316 +1981,26 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               <div
                 id="systems-cards-grid"
                 ref={cardsGridRef}
+                data-system-bento-grid="true"
                 className={cn(
-                  'systems-cards-grid card-grid w-full min-w-0',
+                  'sys-bento-studio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 grid-flow-dense items-start w-full min-w-0',
                   isGridDimmed && 'grid-dimmed'
                 )}
               >
-                {filteredSystems.map((item) => {
-                  const meta = SYSTEM_DESIGN_MAP[item.id] || SYSTEM_DESIGN_MAP.sdp;
-                  const localizedDesc = isEn
-                    ? item.descEn || item.description
-                    : item.descVi || item.description;
-                  const isDemoActive = activeCardDemoId === item.id;
-                  const isHovered = hoveredCardVideoId === item.id;
-                  const primaryImg = meta.illustrationSrc || item.imageUrl;
-                  const isRightHoverVideoPlaying = isHovered && Boolean(item.videoUrl) && !isDemoActive;
-                  const activeIsLight = isRightHoverVideoPlaying ? meta.videoIsLight : isLight;
-                  const cardAccent = getAccentColor(item.id);
-                  const primaryInk = isRightHoverVideoPlaying
-                    ? meta.videoIsLight
-                      ? '#111827'
-                      : '#ffffff'
-                    : 'var(--text-primary)';
-                  const secondaryInk = isRightHoverVideoPlaying
-                    ? meta.videoIsLight
-                      ? 'rgba(17, 24, 39, 0.86)'
-                      : 'rgba(255, 255, 255, 0.88)'
-                    : 'var(--text-secondary)';
-                  const mutedInk = isRightHoverVideoPlaying
-                    ? meta.videoIsLight
-                      ? 'rgba(17, 24, 39, 0.72)'
-                      : 'rgba(255, 255, 255, 0.76)'
-                    : 'var(--text-muted, var(--text-secondary))';
-                  const dividerBorder = isRightHoverVideoPlaying
-                    ? meta.videoIsLight
-                      ? 'rgba(17, 24, 39, 0.16)'
-                      : 'rgba(255, 255, 255, 0.20)'
-                    : 'var(--border-subcard, var(--border-color))';
-                  const pillBg = isRightHoverVideoPlaying
-                    ? meta.videoIsLight
-                      ? 'rgba(17, 24, 39, 0.12)'
-                      : 'rgba(255, 255, 255, 0.18)'
-                    : `color-mix(in srgb, ${cardAccent} 14%, transparent)`;
-                  const pillInk = isRightHoverVideoPlaying ? primaryInk : cardAccent;
-                  const iconInk = isRightHoverVideoPlaying ? primaryInk : cardAccent;
-                  const isSelectedOrigin = Boolean(expandedSystem && (originSystemId === item.id || expandedSystem.id === item.id));
-                  const systemFullName = isEn
-                    ? item.nameEn || meta.subtitle || item.name
-                    : item.nameVi || SYSTEM_VI_SIX_WORD_NAMES[item.id] || item.name;
-                  const englishSubName = item.nameEn || meta.subtitle;
-
-                  const updateHoverOrigin = (e: React.MouseEvent<HTMLElement>) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    if (!rect.width || !rect.height) return;
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    e.currentTarget.style.setProperty('--hover-x', `${x.toFixed(1)}%`);
-                    e.currentTarget.style.setProperty('--hover-y', `${y.toFixed(1)}%`);
-                  };
-
-                  const handleRightMediaEnter = () => {
-                    if (item.videoUrl) setHoveredCardVideoId(item.id);
-                  };
-                  const handleRightMediaLeave = () => {
-                    setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
-                  };
-                  const handleRightMediaClick = (e: React.MouseEvent) => {
-                    if (!item.videoUrl) return;
-                    e.stopPropagation();
-                    SoundEngine.playTap();
-                    setActiveCardDemoId(item.id);
-                  };
-                  const handleRightMediaKeyDown = (e: React.KeyboardEvent) => {
-                    if (!item.videoUrl) return;
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      SoundEngine.playTap();
-                      setActiveCardDemoId(item.id);
-                    }
-                  };
-
-                  return (
-                    <article
-                      key={item.id}
-                      ref={(el) => {
-                        cardRefs.current[item.id] = el;
-                      }}
-                      id={`systems-card-${item.id}`}
-                      data-element-name={`Thẻ hệ thống ${item.abbr}`}
-                      data-element-type="card"
-                      data-section-card="true"
-                      data-element-page="systems"
-                      data-element-parent="systems-cards-grid"
-                      data-light-card={activeIsLight ? 'true' : 'false'}
-                      data-video-hover={isRightHoverVideoPlaying ? 'true' : 'false'}
-                      role="button"
-                      tabIndex={0}
-                      onClick={(e) => openExpandedSystem(item, e.currentTarget)}
-                      onMouseEnter={updateHoverOrigin}
-                      onMouseMove={updateHoverOrigin}
-                      onMouseLeave={() => {
-                        setHoveredCardVideoId((prev) => (prev === item.id ? null : prev));
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.target !== e.currentTarget) return;
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          openExpandedSystem(item, e.currentTarget);
-                        }
-                      }}
-                      style={
-                        {
-                          '--showcase-card-accent': cardAccent,
-                          '--system-card-video-bg': meta.videoBg,
-                        } as React.CSSProperties
-                      }
-                      className={cn(
-                        'system-card-tile system-vibrant-card system-theme-card system-item card-item bento-card glass-card group relative rounded-[var(--radius-card,var(--radius-global,14px))] box-border w-full h-full flex flex-col text-left overflow-hidden cursor-pointer transition-all duration-300',
-                        isSelectedOrigin && 'opacity-0 pointer-events-none select-none',
-                        expandedSystem && !isSelectedOrigin && 'opacity-0 scale-95 pointer-events-none select-none'
-                      )}
-                    >
-                      {/* Full-Card Video Overlay khi Click */}
-                      {isDemoActive && item.videoUrl && (
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            SoundEngine.playTap();
-                            setActiveCardDemoId(null);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setActiveCardDemoId(null);
-                            }
-                          }}
-                          title={isEn ? 'Click to return to card view' : 'Bấm vào video để quay lại thẻ'}
-                          aria-label={isEn ? `Close ${item.abbr} video` : `Đóng video ${item.abbr}`}
-                          className="absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden cursor-pointer"
-                          style={{ backgroundColor: meta.videoBg }}
-                        >
-                          <video
-                            src={item.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
-                            controls={false}
-                            disablePictureInPicture
-                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                            aria-hidden="true"
-                            tabIndex={-1}
-                            onLoadedMetadata={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              v.controls = false;
-                              v.disablePictureInPicture = true;
-                              (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                            }}
-                            onCanPlay={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              if (v.paused) v.play().catch(() => {});
-                            }}
-                            onEnded={(e) => {
-                              const v = e.currentTarget;
-                              v.currentTime = 0;
-                              v.play().catch(() => {});
-                            }}
-                            className="absolute inset-0 w-full h-full object-contain rounded-[inherit] select-none pointer-events-none"
-                          />
-                          <div className="absolute top-2.5 right-2.5 z-40 p-1.5 rounded-full bg-black/60 text-white/85 hover:text-white transition-all">
-                            <Minimize2 className="w-3.5 h-3.5" />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Full-Card Video Overlay khi rê chuột vào hình (pointer-events-none để giữ trạng thái hover mượt mà) */}
-                      {isRightHoverVideoPlaying && item.videoUrl && (
-                        <div
-                          aria-hidden="true"
-                          className="system-card-full-hover-video absolute inset-0 z-30 w-full h-full rounded-[inherit] overflow-hidden pointer-events-none"
-                          style={{ backgroundColor: meta.videoBg }}
-                        >
-                          <video
-                            src={item.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            controls={false}
-                            disablePictureInPicture
-                            controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                            aria-hidden="true"
-                            tabIndex={-1}
-                            onLoadedMetadata={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              v.controls = false;
-                              v.disablePictureInPicture = true;
-                              (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                              if (v.paused) v.play().catch(() => {});
-                            }}
-                            onCanPlay={(e) => {
-                              const v = e.currentTarget;
-                              v.defaultMuted = true;
-                              v.muted = true;
-                              v.loop = true;
-                              if (v.paused) v.play().catch(() => {});
-                            }}
-                            onEnded={(e) => {
-                              const v = e.currentTarget;
-                              v.currentTime = 0;
-                              v.play().catch(() => {});
-                            }}
-                            className="absolute inset-0 w-full h-full object-cover rounded-[inherit] select-none pointer-events-none"
-                          />
-                        </div>
-                      )}
-
-                      {/* 2-Tier Unified Card Body: Top (Icon + Abbr + English), Center (Left Body Text + Right Frameless Image) */}
-                      <div
-                        className={cn(
-                          'system-card-body relative z-10 flex flex-col flex-1 gap-3 w-full min-w-0 transition-opacity duration-200',
-                          (isDemoActive || isRightHoverVideoPlaying) && item.videoUrl && 'opacity-0 invisible pointer-events-none'
-                        )}
-                      >
-                        {/* TOP: Icon + Tên viết tắt + Sub tiêu đề tiếng Anh */}
-                        <div className="flex items-start gap-2.5 min-w-0 shrink-0">
-                          <WebIcon
-                            name={meta.iconName}
-                            className="w-5 h-5 mt-0.5 shrink-0 bg-transparent border-0 p-0 shadow-none transition-colors duration-300"
-                            style={{ color: iconInk }}
-                          />
-                          <div className="flex flex-col min-w-0 flex-1 gap-0.5">
-                            <h3
-                              className="font-play text-[15px] sm:text-[16px] font-bold tracking-tight leading-snug m-0 min-w-0 truncate transition-colors duration-300"
-                              data-card-title="true"
-                              style={{ color: primaryInk }}
-                              title={systemFullName}
-                            >
-                              {item.abbr}
-                            </h3>
-                            <span
-                              className="typo-caption font-medium opacity-90 truncate"
-                              style={{ color: mutedInk }}
-                              title={englishSubName}
-                            >
-                              {englishSubName}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* CENTER: Centered Frameless Illustration (Description hidden on card tile; Hover triggers full-card video) */}
-                        <div className="system-card-middle flex-1 min-w-0 w-full flex items-center justify-center">
-
-                          <div
-                            role={item.videoUrl ? 'button' : undefined}
-                            tabIndex={item.videoUrl ? 0 : undefined}
-                            onMouseEnter={handleRightMediaEnter}
-                            onMouseLeave={handleRightMediaLeave}
-                            onClick={handleRightMediaClick}
-                            onKeyDown={handleRightMediaKeyDown}
-                            title={
-                              item.videoUrl
-                                ? isEn
-                                  ? 'Hover to play full-card video'
-                                  : 'Rê chuột vào hình để phát video lấp đầy thẻ'
-                                : systemFullName
-                            }
-                            aria-label={
-                              item.videoUrl
-                                ? isEn
-                                  ? `Play ${item.abbr} video`
-                                  : `Xem video ${item.abbr}`
-                                : systemFullName
-                            }
-                            data-media-card={isRightHoverVideoPlaying ? 'video' : 'image'}
-                            className={cn(
-                              'system-card-image-slot relative flex items-center justify-center bg-transparent border-0 shadow-none outline-none ring-0',
-                              item.videoUrl && 'cursor-pointer'
-                            )}
-                          >
-                            <img
-                              src={primaryImg}
-                              alt={systemFullName}
-                              referrerPolicy="no-referrer"
-                              loading="lazy"
-                              decoding="async"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                              }}
-                              className="relative z-10 w-full h-full object-contain p-0 m-0 border-0 shadow-none outline-none ring-0 select-none pointer-events-none transition-opacity duration-300"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
+                {filteredSystems.map((item) => (
+                  <SystemBentoCard
+                    key={item.id}
+                    sys={item}
+                    isEn={isEn}
+                    isExpanded={expandedBentoId === item.id}
+                    onToggleExpand={handleToggleBentoCard}
+                    onCollapse={handleCollapseBentoCard}
+                    showToast={showToast}
+                    cardRef={(el) => {
+                      cardRefs.current[item.id] = el;
+                    }}
+                  />
+                ))}
               </div>
             </div>
           )}

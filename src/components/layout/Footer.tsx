@@ -4,20 +4,21 @@ import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
 import { useTheme, getCardStyleProperties } from '@/hooks/useTheme';
 import { CARD_STYLE_GROUPS, THEME_FOUR_WORD_NAMES, getCardStyleConfig } from '@/config/ui/cardStyles';
+import { LETTER_14_LIGHT_HEXES, LETTER_14_PALETTE_THEME_STYLES } from '@/config/ui/themeDefaults';
 import { useLanguage, LanguagePreference } from '@/context/LanguageContext';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
 const UNIFORM_RIGHT_PILL_WIDTH = 176;
 
 const FAMILY_SWATCHES: Record<string, string[]> = {
-  'liquid-glass': ['#6D28D9', '#4F46E5', '#0891B2'],
+  'liquid-glass': LETTER_14_LIGHT_HEXES,
   'cowhide-leather': ['#8B5A2B', '#2B221E', '#E5B87E'],
   'walnut-wood': ['#F5C478', '#4E2F1B', '#2A190F'],
   'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
-  'neumorphism-beyond': ['#4973FF', '#EE6AD2', '#2AD8E6'],
+  'neumorphism-beyond': LETTER_14_LIGHT_HEXES,
   'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#94A3B8'],
-  'flat-soft-ui': ['#4F46E5', '#3B82F6', '#2DD4BF'],
-  'mica-fluent': ['#E84118', '#1C0708', '#525A65'],
+  'flat-soft-ui': LETTER_14_LIGHT_HEXES,
+  'mica-fluent': LETTER_14_LIGHT_HEXES,
   'gradient-dopamine': ['#FF2E93', '#7C3AED', '#00D2FF'],
   'iridescent-liquid-glass': ['#06B6D4', '#FB923C', '#8B5CF6', '#EC4899'],
 };
@@ -143,26 +144,37 @@ const FooterComponent: React.FC<FooterProps> = ({
   const isWalnutTheme = cardStyle === 'walnut-wood';
   const isLeatherTheme = cardStyle === 'cowhide-leather';
   const isOceanTheme = cardStyle === 'deep-ocean';
+  const isMicaFluentTheme = cardStyle === 'mica-fluent';
+  const isLetter14Theme = LETTER_14_PALETTE_THEME_STYLES.includes(cardStyle);
   const leatherGoldAccent = isDark ? '#E5B87E' : '#D97706';
-  const leatherTitleColor = isDark ? '#FFF8EE' : '#FDE68A';
   const walnutGoldAccent = '#F5C478';
-  const walnutTitleColor = '#FFFBF4';
+  const resolveFooterPillAccent = (defaultLight: string, defaultDark: string, letterLight: string, letterDark: string) =>
+    isWalnutTheme
+      ? walnutGoldAccent
+      : isLeatherTheme
+        ? leatherGoldAccent
+        : isOceanTheme
+          ? '#38BDF8'
+          : isLetter14Theme
+            ? isDark
+              ? letterDark
+              : letterLight
+            : isDark
+              ? defaultDark
+              : defaultLight;
+  const langPillAccent = resolveFooterPillAccent('#059669', '#34D399', '#059669', '#34D399');
+  const appearancePillAccent = resolveFooterPillAccent('#4F46E5', '#818CF8', '#7E22CE', '#C084FC');
+  const wallpaperPillAccent = resolveFooterPillAccent('#E11D48', '#FB7185', '#DB2777', '#F472B6');
+  const aiPillAccent = resolveFooterPillAccent('#0284C7', '#38BDF8', '#0891B2', '#22D3EE');
   const rightPillAccent = isWalnutTheme
     ? walnutGoldAccent
     : isLeatherTheme
       ? leatherGoldAccent
       : isOceanTheme
         ? '#38BDF8'
-        : 'var(--nav-pill-accent, var(--color-primary))';
-  const rightPillTitleColor = isWalnutTheme
-    ? walnutGoldAccent
-    : isLeatherTheme
-      ? leatherTitleColor
-      : isOceanTheme
-        ? '#38BDF8'
-        : isDark
-          ? 'var(--text-heading, #E2E8F0)'
-          : 'var(--text-heading, var(--color-primary))';
+        : isMicaFluentTheme
+          ? '#DB2777'
+          : 'var(--color-primary)';
   const footerCardStyle = getCardStyleProperties(cardStyle);
   const {
     border: _b,
@@ -251,6 +263,10 @@ const FooterComponent: React.FC<FooterProps> = ({
       id="footer-lang-popup"
       role="listbox"
       aria-label={isEn ? 'Select Language' : 'Chọn ngôn ngữ'}
+      aria-hidden={!isLangMenuOpen}
+      inert={!isLangMenuOpen}
+      data-state={isLangMenuOpen ? 'open' : 'closed'}
+      data-placement={mobilePlacement ? 'mobile' : 'desktop'}
       ref={langPopupRef}
       style={{
         background: 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 99%, var(--app-bg-base, var(--color-bg, #ffffff)))',
@@ -261,7 +277,7 @@ const FooterComponent: React.FC<FooterProps> = ({
         mobilePlacement
           ? 'left-1/2 -translate-x-1/2 right-auto w-[min(288px,calc(100vw-24px))]'
           : 'left-auto right-0 w-72'
-      } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left pointer-events-auto`}
+      } rounded-[var(--radius-popup,20px)] p-2.5 z-[9999] flex flex-col gap-1.5 font-play text-left`}
     >
       <div
         className="px-2.5 py-1 typo-label font-bold tracking-wide border-b flex items-center justify-between"
@@ -275,6 +291,7 @@ const FooterComponent: React.FC<FooterProps> = ({
 
       <button
         type="button"
+        tabIndex={isLangMenuOpen ? 0 : -1}
         data-selected={language === 'vi' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('vi')}
         data-no-translate="true"
@@ -289,6 +306,7 @@ const FooterComponent: React.FC<FooterProps> = ({
 
       <button
         type="button"
+        tabIndex={isLangMenuOpen ? 0 : -1}
         data-selected={language === 'en' ? 'true' : undefined}
         onClick={() => handleSelectLanguageMode('en')}
         data-no-translate="true"
@@ -392,7 +410,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                       {groupTitle}
                     </span>
                     {swatches.length > 0 && (
-                      <span className="inline-flex items-center gap-1 mt-0.5" aria-hidden="true">
+                      <span className="inline-flex items-center flex-wrap gap-1 mt-0.5" aria-hidden="true">
                         {swatches.map((hex) => (
                           <span
                             key={hex}
@@ -491,7 +509,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       data-element-parent="website-root"
       style={{
         ...cleanFooterStyle,
-        maxWidth: 'var(--main-card-target-w, 1050px)',
+        maxWidth: 'var(--main-card-target-w, 1200px)',
         width: '100%',
         height: '100%',
         minHeight: '100%',
@@ -545,6 +563,7 @@ const FooterComponent: React.FC<FooterProps> = ({
           role="group"
           aria-label={isEn ? 'Page Navigation' : 'Điều hướng trang'}
           data-element-type="button"
+          data-theme-synced="true"
           style={{
             borderRadius: '999px',
             width: isSmallMobile ? '100px' : '176px',
@@ -627,6 +646,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       {/* Area 3: Utility Buttons (Ngôn ngữ + Giao diện + Hình Nền + AI Hỗ trợ) */}
       <div
         id="el-p0-div-112"
+        data-theme-synced="true"
         onPointerLeave={(e) => {
           if (e.pointerType === 'mouse') setHoveredRightBtn(null);
         }}
@@ -678,7 +698,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
-                    '--nav-pill-accent': rightPillAccent,
+                    '--nav-pill-accent': langPillAccent,
                     width: `${pillWidthPx}px`,
                     height: isSmallMobile ? '36px' : '50px',
                     minHeight: isSmallMobile ? '36px' : '50px',
@@ -687,7 +707,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                     paddingLeft: isSmallMobile ? '1px' : '12px',
                     paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
-                    borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
@@ -701,10 +720,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                       data-no-translate="true"
                       style={{
                         fontWeight: 'bold',
-                        color:
-                          isLangMenuOpen || hoveredRightBtn === 0
-                            ? 'var(--pill-active-text, #ffffff)'
-                            : rightPillTitleColor,
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
@@ -716,7 +731,7 @@ const FooterComponent: React.FC<FooterProps> = ({
             </div>
 
             {/* Popup Danh sách Ngôn Ngữ (Desktop/Tablet >= 768px gắn trực tiếp vào nút) */}
-            {!isCompactMobile && isLangMenuOpen && renderLangPopup(false)}
+            {!isCompactMobile && renderLangPopup(false)}
           </div>
 
           {/* Button 1: Giao diện */}
@@ -777,7 +792,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                     className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                     style={
                       {
-                        '--nav-pill-accent': rightPillAccent,
+                        '--nav-pill-accent': appearancePillAccent,
                         width: `${pillWidthPx}px`,
                         height: isSmallMobile ? '36px' : '50px',
                         minHeight: isSmallMobile ? '36px' : '50px',
@@ -786,7 +801,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                         paddingLeft: isSmallMobile ? '1px' : '12px',
                         paddingRight: isSmallMobile ? '1px' : '12px',
                         fontWeight: 'normal',
-                        borderWidth: '1px',
                       } as React.CSSProperties
                     }
                   >
@@ -799,10 +813,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                         <span
                           style={{
                             fontWeight: 'bold',
-                            color:
-                              currentTabIndex === 15 || isThemeMenuOpen || hoveredRightBtn === 1
-                                ? 'var(--pill-active-text, #ffffff)'
-                                : rightPillTitleColor,
                           }}
                           className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                         >
@@ -844,7 +854,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
-                    '--nav-pill-accent': rightPillAccent,
+                    '--nav-pill-accent': wallpaperPillAccent,
                     width: `${pillWidthPx}px`,
                     height: isSmallMobile ? '36px' : '50px',
                     minHeight: isSmallMobile ? '36px' : '50px',
@@ -853,7 +863,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                     paddingLeft: isSmallMobile ? '1px' : '12px',
                     paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
-                    borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
@@ -866,10 +875,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                     <span
                       style={{
                         fontWeight: 'bold',
-                        color:
-                          currentTabIndex === 14 || hoveredRightBtn === 2
-                            ? 'var(--pill-active-text, #ffffff)'
-                            : rightPillTitleColor,
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
@@ -914,7 +919,7 @@ const FooterComponent: React.FC<FooterProps> = ({
                 className="nav-pill relative z-10 inline-flex items-center justify-center sm:justify-start rounded-[999px] gap-0 sm:gap-[8px] cursor-pointer border"
                 style={
                   {
-                    '--nav-pill-accent': rightPillAccent,
+                    '--nav-pill-accent': aiPillAccent,
                     width: `${pillWidthPx}px`,
                     height: isSmallMobile ? '36px' : '50px',
                     minHeight: isSmallMobile ? '36px' : '50px',
@@ -923,7 +928,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                     paddingLeft: isSmallMobile ? '1px' : '12px',
                     paddingRight: isSmallMobile ? '1px' : '12px',
                     fontWeight: 'normal',
-                    borderWidth: '1px',
                   } as React.CSSProperties
                 }
               >
@@ -936,10 +940,6 @@ const FooterComponent: React.FC<FooterProps> = ({
                     <span
                       style={{
                         fontWeight: 'bold',
-                        color:
-                          currentTabIndex === 13 || hoveredRightBtn === 3
-                            ? 'var(--pill-active-text, #ffffff)'
-                            : rightPillTitleColor,
                       }}
                       className="nav-pill-title text-[15px] font-bold leading-tight font-play tracking-tight truncate"
                     >
@@ -955,7 +955,7 @@ const FooterComponent: React.FC<FooterProps> = ({
       </div>
 
       {/* Mobile/Compact Popups (< 768px): gắn trực tiếp vào #app-footer để không bị cắt bởi thanh cuộn ngang */}
-      {isCompactMobile && isLangMenuOpen && renderLangPopup(true)}
+      {isCompactMobile && renderLangPopup(true)}
       {isCompactMobile && isThemeMenuOpen && renderThemePopup(true)}
     </footer>
   );

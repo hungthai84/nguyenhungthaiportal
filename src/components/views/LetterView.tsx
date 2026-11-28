@@ -147,20 +147,16 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
   const [isVisible, setIsVisible] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [isExpanding, setIsExpanding] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   const isOpenedRef = useRef(false);
-  const isExpandingRef = useRef(false);
   const isClosedRef = useRef(false);
   const autoOpenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const autoExpandTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const crossFadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hideOverlayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearAllIntroTimers = () => {
     if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
-    if (autoExpandTimerRef.current) clearTimeout(autoExpandTimerRef.current);
     if (crossFadeTimerRef.current) clearTimeout(crossFadeTimerRef.current);
     if (hideOverlayTimerRef.current) clearTimeout(hideOverlayTimerRef.current);
   };
@@ -176,41 +172,13 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
       // Ignore storage access restrictions
     }
 
-    setIsExpanding(true);
     setIsClosing(true);
     if (onRevealStart) onRevealStart();
 
     hideOverlayTimerRef.current = setTimeout(() => {
       setIsVisible(false);
       if (onComplete) onComplete();
-    }, 650);
-  };
-
-  const handleStartSlowZoom = () => {
-    if (isExpandingRef.current || isClosedRef.current) return;
-    isExpandingRef.current = true;
-
-    try {
-      sessionStorage.setItem(WELCOME_SESSION_KEY, 'true');
-    } catch {
-      // Ignore storage access restrictions
-    }
-
-    // Bước 2: Lá thư nằm trên bao thư bắt đầu phóng to ra từ từ
-    setIsExpanding(true);
-
-    // Khi lá thư đã phóng to gần lấp đầy khung, bắt đầu hiện thư chính bên dưới và mờ dần lớp intro
-    crossFadeTimerRef.current = setTimeout(() => {
-      if (isClosedRef.current) return;
-      isClosedRef.current = true;
-      if (onRevealStart) onRevealStart();
-      setIsClosing(true);
-    }, 1050);
-
-    hideOverlayTimerRef.current = setTimeout(() => {
-      setIsVisible(false);
-      if (onComplete) onComplete();
-    }, 1800);
+    }, 450);
   };
 
   const handleOpenEnvelope = () => {
@@ -219,13 +187,26 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
     SoundEngine.playTap?.();
 
     if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
-    // Bước 1: Mở nắp bao thư, lá thư trượt lên và nằm ngay ngắn trên mặt bao thư
+    // Mở nắp bao thư, lá thư trượt lên ngay ngắn (không phóng to) rồi chuyển mượt vào nội dung thư chính
     setIsOpened(true);
 
-    // Sau khi lá thư đã nằm ổn định trên bao thư, mới bắt đầu phóng to ra từ từ
-    autoExpandTimerRef.current = setTimeout(() => {
-      handleStartSlowZoom();
-    }, 1650);
+    try {
+      sessionStorage.setItem(WELCOME_SESSION_KEY, 'true');
+    } catch {
+      // Ignore storage access restrictions
+    }
+
+    crossFadeTimerRef.current = setTimeout(() => {
+      if (isClosedRef.current) return;
+      isClosedRef.current = true;
+      if (onRevealStart) onRevealStart();
+      setIsClosing(true);
+    }, 1500);
+
+    hideOverlayTimerRef.current = setTimeout(() => {
+      setIsVisible(false);
+      if (onComplete) onComplete();
+    }, 2150);
   };
 
   useEffect(() => {
@@ -264,7 +245,12 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
         id="skipIntroBtn"
         type="button"
         onClick={handleSkipIntro}
-        className="no-theme-btn absolute top-3 right-3 sm:top-4 sm:right-4 z-30 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-700 dark:hover:text-cyan-300 text-xs font-semibold border border-slate-200/90 dark:border-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 cursor-pointer"
+        className="no-theme-btn absolute top-3 right-3 sm:top-4 sm:right-4 z-30 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm backdrop-blur-md transition-all duration-200 cursor-pointer hover:opacity-90"
+        style={{
+          background: 'var(--bg-card, var(--surface-secondary-bg))',
+          color: 'var(--text-primary)',
+          border: '1px solid var(--border-subcard, var(--border-color))',
+        }}
       >
         <span>Bỏ qua</span>
         <FastForward className="w-3 h-3" />
@@ -272,9 +258,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
       <div
         id="envelopeStage"
-        className={`nht-envelope-stage ${isOpened ? 'is-opened' : ''} ${
-          isExpanding ? 'is-expanding' : ''
-        }`}
+        className={`nht-envelope-stage ${isOpened ? 'is-opened' : ''}`}
       >
         <div
           className="nht-envelope-3d-wrapper cursor-pointer"
@@ -293,18 +277,22 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
               className="h-1.5 w-full rounded-full mb-3.5 opacity-90"
               style={{
                 background:
-                  'repeating-linear-gradient(-45deg, #4f46e5, #4f46e5 10px, #ffffff 10px, #ffffff 16px, #f59e0b 16px, #f59e0b 26px, #ffffff 26px, #ffffff 32px)',
+                  'repeating-linear-gradient(-45deg, var(--color-primary, #4f46e5), var(--color-primary, #4f46e5) 10px, transparent 10px, transparent 16px, var(--color-accent, #f59e0b) 16px, var(--color-accent, #f59e0b) 26px, transparent 26px, transparent 32px)',
               }}
             />
 
             <div className="flex items-center justify-between gap-3 mb-2.5 nht-letter-stagger nht-letter-stagger-1">
               <div>
-                <p className="text-[11px] font-bold tracking-wide text-amber-600 dark:text-amber-400 mb-0.5">
+                <p
+                  className="text-[11px] font-bold tracking-wide mb-0.5"
+                  style={{ color: 'var(--color-accent, var(--color-primary, #d97706))' }}
+                >
                   Lời chào trân trọng
                 </p>
                 <h2
                   id="welcomeLetterHeading"
-                  className="text-xl sm:text-2xl font-bold text-indigo-950 dark:text-slate-100 tracking-tight"
+                  className="text-xl sm:text-2xl font-bold tracking-tight"
+                  style={{ color: 'var(--text-primary)' }}
                 >
                   {themeLetter.title}
                 </h2>
@@ -312,28 +300,43 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
 
             </div>
 
-            <div className="space-y-2.5 text-slate-700 dark:text-slate-300 text-[12.5px] sm:text-[13.5px] leading-[1.62]">
+            <div
+              className="space-y-2.5 text-[12.5px] sm:text-[13.5px] leading-[1.62]"
+              style={{ color: 'var(--text-secondary, var(--text-primary))' }}
+            >
               <p className="nht-letter-stagger nht-letter-stagger-2">
                 {themeLetter.intro}
               </p>
               <p className="nht-letter-stagger nht-letter-stagger-3">
                 Lĩnh vực chuyên môn trọng tâm:{' '}
-                <strong className="font-bold text-indigo-900 dark:text-cyan-300">
+                <strong
+                  className="font-bold"
+                  style={{ color: 'var(--text-link, var(--color-primary))' }}
+                >
                   {themeLetter.focusArea}
                 </strong>
                 .
               </p>
-              <p className="italic font-semibold text-amber-800 dark:text-amber-300 border-l-2 border-amber-400 pl-3 py-0.5 nht-letter-stagger nht-letter-stagger-4">
+              <p
+                className="italic font-semibold pl-3 py-0.5 nht-letter-stagger nht-letter-stagger-4"
+                style={{
+                  color: 'var(--text-primary)',
+                  borderLeft: '2px solid var(--color-accent, var(--color-primary, #f59e0b))',
+                }}
+              >
                 {themeLetter.quote}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-dashed border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-end justify-between gap-3 nht-letter-stagger nht-letter-stagger-5">
+            <div
+              className="mt-4 pt-3 border-t border-dashed flex flex-col sm:flex-row sm:items-end justify-between gap-3 nht-letter-stagger nht-letter-stagger-5"
+              style={{ borderColor: 'var(--border-subcard, var(--border-color))' }}
+            >
               <div>
-                <p className="text-slate-500 dark:text-slate-400 text-xs">
+                <p className="text-xs" style={{ color: 'var(--text-muted, var(--text-secondary))' }}>
                   Trân trọng,
                 </p>
-                <p className="font-bold text-indigo-950 dark:text-white text-sm mt-0.5">
+                <p className="font-bold text-sm mt-0.5" style={{ color: 'var(--text-primary)' }}>
                   Nguyễn Hùng Thái
                 </p>
               </div>
@@ -414,8 +417,14 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
         </div>
 
         <div className="nht-envelope-cta-area">
-          <p className="text-slate-700 dark:text-slate-200 font-semibold text-sm sm:text-base flex items-center justify-center gap-2">
-            <MailOpen className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+          <p
+            className="font-semibold text-sm sm:text-base flex items-center justify-center gap-2"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            <MailOpen
+              className="w-4 h-4 shrink-0"
+              style={{ color: 'var(--color-accent, var(--color-primary, #d97706))' }}
+            />
             <span>Bạn có một lá thư mới</span>
           </p>
           <button
@@ -785,19 +794,15 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           display: inline-block;
         }
 
-        /* Welcome Envelope Intro Scoped Inside #letter-main-card */
+        /* Welcome Envelope Intro Scoped Inside #letter-main-card — Đồng bộ nền của giao diện đang chọn */
         .nht-welcome-overlay {
           position: absolute;
           inset: 0;
           z-index: 40;
-          background: radial-gradient(
-            circle at 50% 42%,
-            rgba(255, 255, 255, 0.96) 0%,
-            rgba(238, 242, 255, 0.96) 52%,
-            rgba(254, 243, 199, 0.95) 100%
-          );
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          background: var(--surface-secondary-bg, var(--bg-card, var(--app-bg-gradient, transparent)));
+          backdrop-filter: blur(var(--glass-main-blur, 18px)) saturate(140%);
+          -webkit-backdrop-filter: blur(var(--glass-main-blur, 18px)) saturate(140%);
+          color: var(--text-primary);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -808,15 +813,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
             visibility 0.75s ease;
           overflow: hidden;
-        }
-
-        html.dark .nht-welcome-overlay {
-          background: radial-gradient(
-            circle at 50% 42%,
-            rgba(15, 23, 42, 0.96) 0%,
-            rgba(30, 27, 75, 0.96) 55%,
-            rgba(15, 23, 42, 0.98) 100%
-          );
         }
 
         .nht-welcome-overlay.is-closing {
@@ -893,7 +889,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           z-index: 2;
         }
 
-        /* Lá thư: Ban đầu nằm trong bao thư, khi bao thư mở sẽ đặt nằm ngay trên mặt bao thư, sau đó mới phóng to ra từ từ */
+        /* Lá thư: Đồng bộ nền thẻ & viền theo giao diện đang chọn */
         .nht-welcome-letter-sheet {
           position: absolute;
           left: 50%;
@@ -905,14 +901,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           transform: translate(-50%, -44%) translateZ(2px) scale(0.84);
           transform-origin: center center;
           opacity: 0;
-          background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
-          border-radius: 16px;
-          border: 1.5px solid #fde68a;
-          box-shadow:
-            0 22px 48px -10px rgba(15, 23, 42, 0.34),
-            0 0 28px rgba(251, 191, 36, 0.22),
-            inset 0 0 0 5px #ffffff,
-            inset 0 0 0 6px rgba(226, 232, 240, 0.85);
+          background: var(--surface-primary-bg, var(--bg-card, #ffffff));
+          color: var(--text-primary);
+          border-radius: var(--radius-card, 16px);
+          border: var(--card-border-width, 1.5px) solid var(--surface-secondary-border, var(--border-subcard, rgba(148, 163, 184, 0.35)));
+          box-shadow: var(--shadow-card-hover, 0 22px 48px -10px rgba(15, 23, 42, 0.3));
+          backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(140%);
+          -webkit-backdrop-filter: blur(var(--glass-card-blur, 18px)) saturate(140%);
           padding: 1.15rem 1.35rem;
           z-index: 4;
           pointer-events: none;
@@ -923,16 +918,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             box-shadow 0.8s ease;
         }
 
-        html.dark .nht-welcome-letter-sheet {
-          background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-          border-color: rgba(251, 191, 36, 0.45);
-          box-shadow:
-            0 22px 48px -10px rgba(2, 6, 23, 0.72),
-            inset 0 0 0 5px #0f172a,
-            inset 0 0 0 6px rgba(148, 163, 184, 0.24);
-        }
-
-        /* Bước 1: Khi bao thư mở, lá thư nằm đè lên trên mặt bao thư */
+        /* Khi bao thư mở, lá thư hiện ra ngay ngắn trên mặt bao thư (không phóng to) */
         .nht-envelope-stage.is-opened .nht-welcome-letter-sheet {
           transform: translate(-50%, -50%) translateZ(28px) scale(1);
           opacity: 1;
@@ -940,32 +926,8 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           pointer-events: auto;
         }
 
-        /* Bước 2: Từ vị trí nằm trên bao thư, lá thư phóng to ra từ từ */
-        .nht-envelope-stage.is-expanding .nht-welcome-letter-sheet {
-          transform: translate(-50%, -50%) translateZ(48px) scale(1.68);
-          opacity: 1;
-          z-index: 30;
-          box-shadow:
-            0 32px 72px -12px rgba(15, 23, 42, 0.42),
-            0 0 40px rgba(251, 191, 36, 0.28),
-            inset 0 0 0 5px #ffffff,
-            inset 0 0 0 6px rgba(226, 232, 240, 0.9);
-          transition:
-            transform 1.55s cubic-bezier(0.22, 1, 0.36, 1) 0s,
-            box-shadow 1.2s ease 0s,
-            opacity 0.55s ease 0s;
-        }
-
         .nht-welcome-overlay.is-closing .nht-welcome-letter-sheet {
           opacity: 0;
-        }
-
-        .nht-envelope-stage.is-expanding .nht-envelope-back,
-        .nht-envelope-stage.is-expanding .nht-envelope-front-pocket,
-        .nht-envelope-stage.is-expanding .nht-envelope-gold-trim,
-        .nht-envelope-stage.is-expanding .nht-envelope-top-flap {
-          opacity: 0.32;
-          transition: opacity 1.1s ease;
         }
 
         .nht-letter-stagger {
@@ -1065,17 +1027,13 @@ export const LetterView: React.FC<LetterViewProps> = () => {
         }
 
         .nht-letter-sheet-reveal {
-          transform-origin: center center;
-          transition:
-            opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-            filter 0.65s ease;
+          transition: opacity 0.55s ease;
         }
 
         .nht-letter-sheet-reveal.intro-active {
           opacity: 0;
-          transform: perspective(1600px) scale(0.95) translateY(16px);
-          filter: blur(2px);
+          transform: none;
+          filter: none;
         }
 
         .nht-letter-sheet-reveal.intro-revealed {
@@ -1131,10 +1089,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             }}
             className="group/letter page-main-card floating-glass-surface floating-surface--main relative z-10 w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col justify-start p-[14px] sm:p-[15px] overflow-hidden font-play text-left box-border opacity-100 transition-colors duration-200"
           >
-            {/* Hiệu ứng hào quang & hình nền chiều sâu giống Thẻ main chính tử vi 1 */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 bg-purple-500/15 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none z-0" />
-            <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-sky-500/12 dark:bg-sky-500/16 rounded-full blur-3xl pointer-events-none z-0" />
-
             {/* Hiệu ứng mở phong bì thư 3D trong khung Thư ngỏ */}
             <WelcomeEnvelopeIntro
               onRevealStart={() => setIntroState('revealed')}
@@ -1522,6 +1476,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           autoPlayVideo1={true}
                           muteVideo1={true}
                           loopVideo1={true}
+                          hideSpeaker={true}
                           className="absolute inset-0 z-0 pointer-events-auto"
                         />
                       </article>

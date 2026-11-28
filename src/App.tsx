@@ -324,7 +324,7 @@ export default function App() {
           .getPropertyValue('--main-card-target-w')
           .trim();
         const parsedTargetW = Number.parseFloat(rawTargetW);
-        const targetMaxW = Number.isFinite(parsedTargetW) && parsedTargetW > 300 ? parsedTargetW : 1050;
+        const targetMaxW = Number.isFinite(parsedTargetW) && parsedTargetW > 300 ? parsedTargetW : 1200;
         const targetWidth =
           vw < 640
             ? Math.max(260, vw - 16)

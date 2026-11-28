@@ -58,7 +58,6 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
       rawFamily === 'cowhide-leather' ||
       rawFamily === 'walnut-wood' ||
       rawFamily === 'deep-ocean' ||
-      rawFamily === 'neumorphism-beyond' ||
       rawFamily === 'frost-ice-neu' ||
       rawFamily === 'flat-soft-ui' ||
       rawFamily === 'mica-fluent' ||
@@ -249,84 +248,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Trench Aqua', hex: '#06B6D4' },
       { name: 'Abyssal Blue', hex: '#0284C7' },
       { name: 'Deep Trench', hex: '#0A1128' },
-    ],
-  },
-  'neumorphism-beyond': {
-    radius: '20px',
-    activeRingColor: '#2563EB',
-    activeBorderClass: 'border-0',
-    idleBorderClass: 'border-0',
-    activeBadgeClass:
-      'bg-[#E0E5EC] text-[#2563EB] border-0 shadow-[-4px_-4px_8px_rgba(255,255,255,0.85),4px_4px_8px_rgba(163,177,198,0.60)]',
-    iconColor: '#2563EB',
-    titleTextClass: 'text-[#1E293B]',
-    bodyTextClass: 'text-[#475569]',
-    accentTextClass: 'text-[#2563EB]',
-    previewBorderClass: 'border-0',
-    dividerClass: 'border-0',
-    ctaIdleClass:
-      'bg-[#E0E5EC] text-[#1E293B] hover:text-[#2563EB] border-0 shadow-[-4px_-4px_9px_rgba(255,255,255,0.85),4px_4px_9px_rgba(163,177,198,0.60)] hover:shadow-[-6px_-6px_12px_rgba(255,255,255,0.90),6px_6px_12px_rgba(163,177,198,0.66)] active:shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.85),inset_3px_3px_6px_rgba(163,177,198,0.60)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]',
-    ctaActiveClass:
-      'bg-[#2563EB] text-white border-0 shadow-[-4px_-4px_9px_rgba(255,255,255,0.82),4px_4px_10px_rgba(37,99,235,0.42)]',
-    toggleTrackDarkClass:
-      'bg-[#E0E5EC] border-0 shadow-[inset_-3px_-3px_6px_rgba(255,255,255,0.85),inset_3px_3px_6px_rgba(163,177,198,0.60)]',
-    toggleTrackLightClass: 'bg-[#2563EB] border-0',
-    toggleThumbDarkClass:
-      'bg-[#E0E5EC] text-[#475569] shadow-[-2px_-2px_5px_rgba(255,255,255,0.85),2px_2px_5px_rgba(163,177,198,0.55)]',
-    toggleThumbLightClass: 'bg-[#E0E5EC] text-[#2563EB]',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Blue', width: '78%', gradient: '#2563EB' },
-      { label: 'Indigo', width: '64%', gradient: '#4F46E5' },
-      { label: 'Cyan', width: '82%', gradient: '#0891B2' },
-      { label: 'Teal', width: '58%', gradient: '#0D9488' },
-      { label: 'Amber', width: '48%', gradient: '#D97706' },
-      { label: 'Rose', width: '70%', gradient: '#E11D48' },
-    ],
-    primaryPalette: [
-      { name: 'Soft Matte', hex: '#E0E5EC' },
-      { name: 'Royal Blue', hex: '#2563EB' },
-      { name: 'Cool Shadow', hex: '#A3B1C6' },
-      { name: 'Deep Ink', hex: '#1E293B' },
-    ],
-  },
-  'dark-neumorphism-beyond': {
-    radius: '20px',
-    activeRingColor: '#60A5FA',
-    activeBorderClass: 'border-0',
-    idleBorderClass: 'border-0',
-    activeBadgeClass:
-      'bg-[#1E242E] text-[#60A5FA] border-0 shadow-[-4px_-4px_8px_rgba(45,54,70,0.72),4px_4px_8px_rgba(11,14,20,0.78)]',
-    iconColor: '#60A5FA',
-    titleTextClass: 'text-[#E6EDF7]',
-    bodyTextClass: 'text-[#B6C3D6]',
-    accentTextClass: 'text-[#60A5FA]',
-    previewBorderClass: 'border-0',
-    dividerClass: 'border-0',
-    ctaIdleClass:
-      'bg-[#1E242E] text-[#E6EDF7] hover:text-[#60A5FA] border-0 shadow-[-4px_-4px_9px_rgba(45,54,70,0.72),4px_4px_9px_rgba(11,14,20,0.78)] hover:shadow-[-6px_-6px_12px_rgba(49,59,77,0.78),6px_6px_12px_rgba(9,12,17,0.84)] active:shadow-[inset_-3px_-3px_6px_rgba(45,54,70,0.68),inset_3px_3px_6px_rgba(11,14,20,0.82)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#60A5FA]',
-    ctaActiveClass:
-      'bg-[#3B82F6] text-white border-0 shadow-[-4px_-4px_9px_rgba(45,54,70,0.55),4px_4px_10px_rgba(11,14,20,0.80)]',
-    toggleTrackDarkClass:
-      'bg-[#1E242E] border-0 shadow-[inset_-3px_-3px_6px_rgba(45,54,70,0.68),inset_3px_3px_6px_rgba(11,14,20,0.82)]',
-    toggleTrackLightClass: 'bg-[#3B82F6] border-0',
-    toggleThumbDarkClass:
-      'bg-[#1E242E] text-[#60A5FA] shadow-[-2px_-2px_5px_rgba(45,54,70,0.72),2px_2px_5px_rgba(11,14,20,0.78)]',
-    toggleThumbLightClass: 'bg-[#E6EDF7] text-[#1E242E]',
-    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
-    gradientBars: [
-      { label: 'Sky', width: '78%', gradient: '#60A5FA' },
-      { label: 'Indigo', width: '64%', gradient: '#818CF8' },
-      { label: 'Cyan', width: '82%', gradient: '#22D3EE' },
-      { label: 'Teal', width: '58%', gradient: '#2DD4BF' },
-      { label: 'Amber', width: '48%', gradient: '#FBBF24' },
-      { label: 'Rose', width: '70%', gradient: '#FB7185' },
-    ],
-    primaryPalette: [
-      { name: 'Dark Matte', hex: '#1E242E' },
-      { name: 'Soft Sky', hex: '#60A5FA' },
-      { name: 'Lift Slate', hex: '#2D3646' },
-      { name: 'Mist Ink', hex: '#E6EDF7' },
     ],
   },
   'frost-ice-neu': {
@@ -690,7 +611,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       } catch {
         // ignore storage errors
       }
-      const targetNeuStyle: CardStyleMode = 'neumorphism-beyond';
+      const targetNeuStyle: CardStyleMode = isDark ? 'dark-flat-soft-ui' : 'flat-soft-ui';
       const targetCfg = getCardStyleConfig(targetNeuStyle);
       setCardStyle(targetNeuStyle);
       onShowNotification?.(

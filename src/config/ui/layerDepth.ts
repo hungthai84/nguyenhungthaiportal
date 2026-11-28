@@ -20,8 +20,6 @@ export const THEME_LAYER_DEPTH_MAP: Record<CardStyleMode, number> = {
   'cowhide-leather': 100,
   'walnut-wood': 100,
   'deep-ocean': 100,
-  'neumorphism-beyond': 100,
-  'dark-neumorphism-beyond': 100,
   'frost-ice-neu': 100,
   'flat-soft-ui': 100,
   'dark-flat-soft-ui': 100,

@@ -76,7 +76,6 @@ html:is(
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
   [data-card-style="dark-iridescent-liquid-glass"],
-  [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"],
   [data-card-style="dark-cowhide-leather"],
   [data-card-style="walnut-wood"]
@@ -96,7 +95,6 @@ html:is(
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
   [data-card-style="dark-iridescent-liquid-glass"],
-  [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-tile {
   background: var(--surface-secondary-bg, rgba(15, 23, 42, 0.56)) !important;
@@ -165,7 +163,6 @@ html[data-card-style="mica-fluent"] .sys-bento-tile {
   -webkit-backdrop-filter: blur(20px) !important;
 }
 
-html[data-card-style="neumorphism-beyond"] .sys-bento-tile,
 html[data-card-style="frost-ice-neu"] .sys-bento-tile {
   border-color: rgba(196, 209, 226, 0.78) !important;
   box-shadow:
@@ -181,7 +178,6 @@ html[data-card-style="frost-ice-neu"] .sys-bento-tile {
     box-shadow: var(--shadow-card-hover, 0 16px 36px -8px rgba(15, 23, 42, 0.14)) !important;
   }
 
-  html[data-card-style="neumorphism-beyond"] .sys-bento-tile:hover,
   html[data-card-style="frost-ice-neu"] .sys-bento-tile:hover {
     border-color: rgba(100, 182, 255, 0.64) !important;
     box-shadow:
@@ -214,7 +210,6 @@ html:is(
   [data-card-style="deep-ocean"],
   [data-card-style="dark-liquid-glass"],
   [data-card-style="dark-iridescent-liquid-glass"],
-  [data-card-style="dark-neumorphism-beyond"],
   [data-card-style="dark-flat-soft-ui"]
 ) .sys-bento-subtile {
   background: var(--bg-subcard, rgba(15, 23, 42, 0.46));
@@ -314,18 +309,16 @@ html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
-html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
-html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
-html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"] {
+html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"] {
   border-radius: 14px !important;
   position: relative !important;
   overflow: hidden !important;
   background: var(--sys-bento-bg) !important;
   background-image: var(--sys-bento-bg) !important;
   background-color: transparent !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
+  color: #0f172a !important;
+  border: 1px solid var(--sys-bento-border, rgba(148, 163, 184, 0.24)) !important;
+  border-top: 1px solid var(--sys-bento-border, rgba(148, 163, 184, 0.24)) !important;
   outline: none !important;
   outline-offset: 0 !important;
   backdrop-filter: none !important;
@@ -337,13 +330,25 @@ html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-gr
   justify-content: space-between !important;
   align-self: stretch !important;
   box-shadow:
-    0 14px 30px -8px rgba(0, 0, 0, 0.56),
-    0 6px 14px -4px rgba(0, 0, 0, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+    0 10px 24px -8px rgba(15, 23, 42, 0.09),
+    0 4px 10px -4px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
   animation: none !important;
   transition:
     box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.32s ease !important;
+}
+
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="dark-iridescent-liquid-glass"]) body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"] {
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow:
+    0 14px 30px -8px rgba(0, 0, 0, 0.56),
+    0 6px 14px -4px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
@@ -364,7 +369,7 @@ html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys
   display: none !important;
 }
 
-/* Preserve vibrant contrast colors on gradient cards across all Light/Dark/Texture themes */
+/* Preserve vibrant contrast colors on Light & Dark Bento cards */
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3,
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .card-header-top h3 span,
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-icon,
@@ -375,47 +380,77 @@ html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-icon,
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-abbr-badge,
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-section-label {
-  color: var(--sys-bento-accent, #ffffff) !important;
+  color: var(--sys-bento-accent, #1e293b) !important;
   text-shadow: none !important;
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy,
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy {
+  color: #1e293b !important;
+}
+
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy,
+html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy,
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="dark-iridescent-liquid-glass"]) body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-desc-copy {
   color: rgba(255, 255, 255, 0.92) !important;
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy,
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy {
+  color: #475569 !important;
+}
+
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy,
+html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy,
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="dark-iridescent-liquid-glass"]) body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-fullname-copy {
   color: rgba(255, 255, 255, 0.78) !important;
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill,
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill {
+  background: rgba(255, 255, 255, 0.90) !important;
+  color: #334155 !important;
+  border-color: rgba(148, 163, 184, 0.30) !important;
+}
+
+html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill,
+html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill,
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="dark-iridescent-liquid-glass"]) body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-thumb-hover="true"]) .sys-category-pill {
   background: rgba(0, 0, 0, 0.25) !important;
   color: rgba(255, 255, 255, 0.88) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"] {
   box-shadow:
-    0 0 0 2px rgba(192, 132, 252, 0.55),
-    0 22px 44px -10px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26) !important;
+    0 0 0 2px color-mix(in srgb, var(--sys-bento-accent, #4f46e5) 38%, transparent),
+    0 20px 42px -10px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-expand-motion="true"]):hover,
   html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-expand-motion="true"]):hover,
   html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:not([data-expand-motion="true"]):hover {
-    transform: translateY(-10px) scale(1.022) !important;
+    transform: translateY(-6px) scale(1.015) !important;
   }
 
   html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
-  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
-  html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover {
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover {
     background: var(--sys-bento-bg) !important;
     background-image: var(--sys-bento-bg) !important;
+    border-color: color-mix(in srgb, var(--sys-bento-accent, #4f46e5) 40%, rgba(148, 163, 184, 0.35)) !important;
+    border-top-color: color-mix(in srgb, var(--sys-bento-accent, #4f46e5) 40%, rgba(148, 163, 184, 0.35)) !important;
+    box-shadow:
+      0 20px 38px -10px rgba(15, 23, 42, 0.14),
+      0 8px 18px -6px rgba(15, 23, 42, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+  }
+
+  html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html[data-theme-mode="dark"]:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+  html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="dark-iridescent-liquid-glass"]) body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover {
     border-color: rgba(255, 255, 255, 0.34) !important;
     border-top-color: rgba(255, 255, 255, 0.34) !important;
     box-shadow:

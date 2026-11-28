@@ -566,6 +566,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             {/* Góc trái: Tiêu đề thư viện tinh gọn + Bộ lọc khóa học (rút gọn chiều cao 1/2) */}
             <div className="edu-wall-left-controls" ref={filterMenuRef}>
               <div className="flex flex-wrap items-center gap-2.5 min-w-0 w-full">
+                {/* Tiêu đề góc trái: Học vấn bằng cấp */}
                 <div
                   className="card-header-sync flex items-center gap-2 min-w-0"
                   style={{ color: 'var(--text-link, var(--color-primary))' }}
@@ -580,92 +581,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
                     {isEn ? 'Education & Credentials' : 'Học vấn bằng cấp'}
                   </h1>
                 </div>
-
-                <div id="education-filter-dropdown-wrap" className="relative inline-block shrink-0 max-w-full min-w-0 text-left">
-                  <button
-                    id="education-filter-toggle-btn"
-                    ref={filterButtonRef}
-                    type="button"
-                    onClick={() => {
-                      SoundEngine.playTap();
-                      setIsFilterDropdownOpen((prev) => !prev);
-                    }}
-                    className="banner-control-pill h-8 min-h-8 max-w-full min-w-0 inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full transition-colors cursor-pointer typo-button font-bold font-play group box-border"
-                    title={isEn ? 'Course Filter' : 'Bộ lọc khóa học'}
-                    aria-label="Bộ lọc khóa học"
-                    aria-expanded={isFilterDropdownOpen}
-                    aria-haspopup="listbox"
-                  >
-                    <WebIcon name="sliders" className="w-3.5 h-3.5 text-[var(--text-primary)] shrink-0" />
-                    <span className="truncate">{isEn ? 'Course Filter' : 'Bộ lọc khóa học'}</span>
-                    {activeCategory !== 'all' && (
-                      <span className="banner-count-pill px-1.5 py-0.5 rounded-full typo-badge font-mono truncate max-w-[140px]">
-                        {TRAINING_TYPE_CATEGORIES.find((c) => c.id === activeCategory)?.label || activeCategory}
-                      </span>
-                    )}
-                    <WebIcon
-                      name="chevron-down"
-                      className={cn(
-                        'w-3.5 h-3.5 text-[var(--text-primary)] transition-transform duration-200 shrink-0',
-                        isFilterDropdownOpen && 'rotate-180'
-                      )}
-                    />
-                  </button>
-
-                <AnimatePresence>
-                  {isFilterDropdownOpen && (
-                    <SpringDropdownMenu
-                      placement="down"
-                      origin="0% 0%"
-                      role="listbox"
-                      className="banner-dropdown-menu bento-card glass-card absolute left-0 top-[calc(100%+8px)] w-max min-w-[min(14rem,calc(100vw-48px))] max-w-[min(22rem,calc(100vw-48px))] rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
-                    >
-                      {TRAINING_TYPE_CATEGORIES.map((cat) => {
-                        const isActive = activeCategory === cat.id;
-                        return (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            role="option"
-                            aria-selected={isActive}
-                            data-selected={isActive ? 'true' : undefined}
-                            onClick={() => {
-                              SoundEngine.playTap();
-                              setActiveCategory(cat.id);
-                              setActiveBookIdx(0);
-                              setIsFilterDropdownOpen(false);
-                            }}
-                            className={cn(
-                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[14px] typo-nav font-play transition-all cursor-pointer text-left',
-                              isActive ? 'shadow-xs font-bold' : ''
-                            )}
-                          >
-                            <span className="flex items-center gap-2 truncate">
-                              <span
-                                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors"
-                                style={{
-                                  background: isActive ? 'var(--color-primary)' : 'var(--bg-button-secondary)',
-                                  color: isActive ? '#ffffff' : 'var(--text-secondary)',
-                                }}
-                              >
-                                {renderTrainingTypeIcon(cat.id, 'w-3 h-3')}
-                              </span>
-                              <span className="truncate">{cat.label}</span>
-                            </span>
-                            <span className="flex items-center gap-1.5 shrink-0">
-                              {isActive && <SpringTick active={isActive} />}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </SpringDropdownMenu>
-                  )}
-                </AnimatePresence>
-                </div>
               </div>
+            </div>
 
+            {/* Góc trên bên phải: Câu nói hay chuyển qua nằm cạnh khung ảnh + Khung tranh gỗ treo tường (tăng kích thước 1/3) */}
+            <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
               <p
-                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none leading-tight m-0"
+                id="education-banner-quote"
+                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none leading-tight m-0 text-right max-w-[170px] sm:max-w-[240px] md:max-w-[300px]"
                 style={{
                   color: 'var(--text-secondary)',
                   fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
@@ -674,47 +597,46 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
               >
                 &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
               </p>
-            </div>
 
-            {/* Góc trên bên phải: Tranh khung gỗ treo tường phát nền video học vấn */}
-            <figure
-              id="education-wall-video-frame"
-              className="edu-wall-video-frame m-0"
-              aria-label={isEn ? 'Wall-mounted study video artwork' : 'Tranh video treo tường trang Học vấn'}
-            >
-              <span className="edu-wall-nail" aria-hidden="true" />
-              <svg
-                className="edu-wall-wire"
-                viewBox="0 0 152 20"
-                fill="none"
-                aria-hidden="true"
+              <figure
+                id="education-wall-video-frame"
+                className="edu-wall-video-frame m-0"
+                aria-label={isEn ? 'Wall-mounted study video artwork' : 'Tranh video treo tường trang Học vấn'}
               >
-                <path
-                  d="M76 2 L14 20 M76 2 L138 20"
-                  stroke="rgba(161, 118, 66, 0.85)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
+                <span className="edu-wall-nail" aria-hidden="true" />
+                <svg
+                  className="edu-wall-wire"
+                  viewBox="0 0 152 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M76 2 L14 20 M76 2 L138 20"
+                    stroke="rgba(161, 118, 66, 0.85)"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
+                </svg>
 
-              <div className="edu-wall-frame-assembly">
-                <div className="edu-wall-frame-outer">
-                  <div className="edu-wall-frame-mat">
-                    <div className="edu-wall-frame-canvas">
-                      <VideoBanner
-                        videoId={educationBannerVideo.videoId}
-                        title={educationBannerVideo.title}
-                        className="w-full h-full"
-                      />
-                      <div className="edu-wall-frame-glass" aria-hidden="true" />
+                <div className="edu-wall-frame-assembly">
+                  <div className="edu-wall-frame-outer">
+                    <div className="edu-wall-frame-mat">
+                      <div className="edu-wall-frame-canvas">
+                        <VideoBanner
+                          videoId={educationBannerVideo.videoId}
+                          title={educationBannerVideo.title}
+                          className="w-full h-full"
+                        />
+                        <div className="edu-wall-frame-glass" aria-hidden="true" />
+                      </div>
                     </div>
+                    <figcaption className="edu-wall-frame-plaque">
+                      {isEn ? 'Academy Gallery' : 'Góc Tri Thức'}
+                    </figcaption>
                   </div>
-                  <figcaption className="edu-wall-frame-plaque">
-                    {isEn ? 'Academy Gallery' : 'Góc Tri Thức'}
-                  </figcaption>
                 </div>
-              </div>
-            </figure>
+              </figure>
+            </div>
           </div>
         );
 

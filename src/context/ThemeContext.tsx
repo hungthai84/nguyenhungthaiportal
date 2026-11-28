@@ -538,7 +538,7 @@ function readInitialCardStyle(initialSchemeMode: ColorSchemeMode): CardStyleMode
     if (!savedStyle) {
       const savedVisualMode = localStorage.getItem(VISUAL_THEME_MODE_STORAGE_KEY);
       if (savedVisualMode === 'neumorphism') {
-        baseStyle = 'neumorphism-beyond';
+        baseStyle = 'flat-soft-ui';
       }
     }
     if (initialSchemeMode === 'system') {

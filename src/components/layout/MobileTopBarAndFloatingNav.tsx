@@ -95,14 +95,14 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
   const b2Ref = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
-  // Total rows inside Dynamic Menu: 14 primary pages + 4 right-side utility rows = 18 items
+  // Total rows inside Dynamic Menu: 14 primary pages + 5 right-side utility rows (including Weather) = 19 items
   const orderedPrimaryPages = useMemo(() => {
     return PRIMARY_PAGE_ORDER.map((id) => TABS_DATA.find((p) => p.id === id)).filter(
       (p): p is TabItem => Boolean(p)
     );
   }, []);
 
-  const totalMenuItemsCount = orderedPrimaryPages.length + 4;
+  const totalMenuItemsCount = orderedPrimaryPages.length + 5;
 
   // DesignBookmark Dynamic Menu spring state:
   // Width W = S(178, 320, 26), Height H = S(40, 240, 22), Cross X = S(0, 380, 24)
@@ -113,7 +113,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
     items: Spring1D[];
     timers: ScheduledTimer[];
   }>({
-    W: createSpring(178, 320, 26),
+    W: createSpring(172, 320, 26),
     H: createSpring(40, 240, 22),
     X: createSpring(0, 380, 24),
     items: Array.from({ length: 24 }, () => createSpring(0, 260, 22)),
@@ -153,9 +153,9 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
 
     const vw = typeof window !== 'undefined' ? window.innerWidth : 375;
     const vh = typeof window !== 'undefined' ? window.innerHeight : 720;
-    const expandedW = Math.min(316, Math.max(256, vw - 20));
-    const closedW = Math.min(188, Math.max(158, Math.floor(vw * 0.48)));
-    const expandedH = Math.min(vh - 76, 540);
+    const expandedW = Math.min(316, Math.max(264, vw - 20));
+    const closedW = Math.min(182, Math.max(150, Math.floor(vw * 0.46)));
+    const expandedH = Math.min(vh - 76, 560);
 
     sp.W.t = nextOpen ? expandedW : closedW;
     sp.H.t = nextOpen ? expandedH : 40;
@@ -163,8 +163,8 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
 
     for (let i = 0; i < totalMenuItemsCount; i++) {
       const delaySec = nextOpen
-        ? 0.06 + i * 0.032
-        : (totalMenuItemsCount - 1 - i) * 0.018;
+        ? 0.06 + i * 0.028
+        : (totalMenuItemsCount - 1 - i) * 0.016;
       sp.timers.push({
         t: delaySec,
         fn: () => {
@@ -287,22 +287,20 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
 
   return (
     <>
-      {/* 1. THANH TRÊN THẺ CHÍNH Ở CHẾ ĐỘ MOBILE (< 768px):
-          - Góc trái trên: Danh mục · Trang chủ gom gọn (DesignBookmark Dynamic Menu)
-          - Bên phải trên: Thời tiết (WeatherWidget) */}
+      {/* 1. NÚT DANH MỤC & CHUYỂN TRANG CHỦ NHANH GÓC TRÊN BÊN TRÁI THẺ CHÍNH Ở CHẾ ĐỘ MOBILE (< 768px) */}
       <div
         id="mobile-top-controls-bar"
-        data-element-name="Thanh Danh mục & Thời tiết phía trên thẻ chính (Mobile)"
-        className="md:hidden w-full max-w-[var(--home-main-card-w,calc(100vw-12px))] mx-auto pt-1 pb-0.5 px-1.5 flex items-center justify-between gap-1.5 relative z-[9995] shrink-0 select-none"
+        data-element-name="Danh mục góc trên bên trái thẻ chính (Mobile)"
+        className="md:hidden w-full max-w-[var(--home-main-card-w,calc(100vw-16px))] mx-auto pt-1.5 pb-0 px-0 flex items-center justify-start gap-2 relative z-[9995] shrink-0 select-none"
       >
-        {/* GÓC TRÁI: NÚT DANH MỤC · TRANG HIỆN TẠI GOM GỌN (DesignBookmark db-dynamic-menu) */}
-        <div className="relative h-[40px] w-[178px] shrink-0">
+        {/* GÓC TRÁI TRÊN THẺ CHÍNH: NÚT DANH MỤC · TRANG HIỆN TẠI (DesignBookmark db-dynamic-menu) */}
+        <div className="relative h-[40px] w-[172px] sm:w-[182px] shrink-0">
           <div
             ref={menuRef}
             id="mobile-dynamic-menu"
             data-open={isOpen ? 'true' : 'false'}
             style={{
-              width: '178px',
+              width: '172px',
               height: '40px',
               borderRadius: '20px',
               background: isDark
@@ -368,12 +366,25 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
               </span>
             </button>
 
-            {/* Danh sách trang & các nút tiện ích bên phải đưa vào menu (.links) */}
+            {/* Danh sách trang & các nút tiện ích (gồm Thời tiết) đưa vào menu (.links) */}
             <ul
               id="mobile-dynamic-menu-links"
               className="w-full max-h-[calc(100%-44px)] overflow-y-auto no-scrollbar px-2 pt-1 pb-3 m-0 list-none flex flex-col gap-1"
               style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
             >
+              {/* PHẦN 0: TIỆN ÍCH THỜI TIẾT BÊN TRONG DANH MỤC */}
+              <li
+                ref={(el) => {
+                  itemRefs.current[0] = el;
+                }}
+                style={{ opacity: 0 }}
+                className="will-change-[transform,opacity] pb-1 mb-0.5 border-b border-[var(--border-subcard)]"
+              >
+                <div className="w-full flex items-center justify-center overflow-hidden rounded-[12px] bg-[var(--bg-subcard)]/65 border border-[var(--border-subcard)] px-1.5 py-1">
+                  <WeatherWidget onShowNotification={onShowNotification} />
+                </div>
+              </li>
+
               {/* PHẦN 1: CÁC TRANG DANH MỤC CHÍNH */}
               {orderedPrimaryPages.map((page, idx) => {
                 const isSelected = page.id === currentTabIndex;
@@ -388,7 +399,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
                   <li
                     key={`dyn-page-${page.id}`}
                     ref={(el) => {
-                      itemRefs.current[idx] = el;
+                      itemRefs.current[idx + 1] = el;
                     }}
                     style={{ opacity: 0 }}
                     className="will-change-[transform,opacity]"
@@ -432,7 +443,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
 
               {/* VÁCH NGĂN: CÁC NÚT BÊN PHẢI FOOTER ĐƯA VÀO DANH MỤC MENU */}
               <li className="px-2 pt-1.5 pb-0.5">
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] border-t border-[var(--border-subcard)] pt-1.5">
+                <div className="flex items-center justify-between text-[10px] font-bold tracking-wider text-[var(--text-muted)] border-t border-[var(--border-subcard)] pt-1.5">
                   <span>{isEn ? 'Utilities & Settings' : 'Tiện ích & Cài đặt'}</span>
                   <span>4</span>
                 </div>
@@ -441,7 +452,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
               {/* Utility 1: AI Trí Nhân (tabIndex = 13) */}
               <li
                 ref={(el) => {
-                  itemRefs.current[orderedPrimaryPages.length] = el;
+                  itemRefs.current[orderedPrimaryPages.length + 1] = el;
                 }}
                 style={{ opacity: 0 }}
                 className="will-change-[transform,opacity]"
@@ -484,7 +495,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
               {/* Utility 2: Hình Nền (tabIndex = 14) */}
               <li
                 ref={(el) => {
-                  itemRefs.current[orderedPrimaryPages.length + 1] = el;
+                  itemRefs.current[orderedPrimaryPages.length + 2] = el;
                 }}
                 style={{ opacity: 0 }}
                 className="will-change-[transform,opacity]"
@@ -527,7 +538,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
               {/* Utility 3: Giao Diện (tabIndex = 15 + nút đổi nhanh Sáng/Tối & danh sách giao diện) */}
               <li
                 ref={(el) => {
-                  itemRefs.current[orderedPrimaryPages.length + 2] = el;
+                  itemRefs.current[orderedPrimaryPages.length + 3] = el;
                 }}
                 style={{ opacity: 0 }}
                 className="will-change-[transform,opacity] flex flex-col gap-1"
@@ -624,7 +635,7 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
               {/* Utility 4: Ngôn Ngữ (Tiếng Việt / English) */}
               <li
                 ref={(el) => {
-                  itemRefs.current[orderedPrimaryPages.length + 3] = el;
+                  itemRefs.current[orderedPrimaryPages.length + 4] = el;
                 }}
                 style={{ opacity: 0 }}
                 className="will-change-[transform,opacity]"
@@ -680,13 +691,56 @@ export const MobileTopBarAndFloatingNav: React.FC<MobileTopBarAndFloatingNavProp
           </div>
         </div>
 
-        {/* BÊN PHẢI PHÍA TRÊN THẺ CHÍNH: THỜI TIẾT (WeatherWidget) */}
-        <div
-          id="mobile-top-weather-container"
-          className="flex items-center justify-end min-w-0 shrink-0"
+        {/* NÚT CHUYỂN NHANH VỀ TRANG CHỦ Ở CHẾ ĐỘ MOBILE */}
+        <button
+          id="mobile-home-quick-btn"
+          type="button"
+          aria-current={currentTabIndex === 0 ? 'page' : undefined}
+          title={isEn ? 'Go to Home' : 'Chuyển về Trang chủ'}
+          aria-label={isEn ? 'Home' : 'Trang chủ'}
+          onClick={() => {
+            if (isOpenRef.current) {
+              triggerMenuState(false);
+            }
+            if (currentTabIndex === 0) {
+              SoundEngine.playTap();
+              onBackToTop();
+            } else {
+              SoundEngine.playPageSpecificSound(0);
+              onSelectPage(0);
+            }
+          }}
+          style={{
+            height: '40px',
+            borderRadius: '20px',
+            background:
+              currentTabIndex === 0
+                ? isDark
+                  ? 'color-mix(in srgb, #F59E0B 18%, var(--bg-popup, var(--bg-card, #141824)))'
+                  : 'color-mix(in srgb, #F59E0B 14%, var(--bg-popup, var(--bg-card, #ffffff)))'
+                : isDark
+                  ? 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #141824)) 96%, #090d16)'
+                  : 'color-mix(in srgb, var(--bg-popup, var(--bg-card, #ffffff)) 97%, #f8fafc)',
+            borderColor:
+              currentTabIndex === 0
+                ? '#F59E0B'
+                : 'var(--surface-primary-border, var(--border-card, rgba(148,163,184,0.32)))',
+            boxShadow: 'var(--surface-primary-shadow, 0 6px 18px rgba(15, 23, 42, 0.14))',
+            backdropFilter: 'blur(24px) saturate(170%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(170%)',
+          }}
+          className="h-[40px] px-2.5 border inline-flex items-center gap-1.5 font-play text-[var(--text-primary)] shrink-0 cursor-pointer active:scale-95 transition-all"
         >
-          <WeatherWidget onShowNotification={onShowNotification} />
-        </div>
+          <span
+            className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-white shadow-xs"
+            style={{ backgroundColor: '#F59E0B' }}
+          >
+            <WebIcon name="fa-house-chimney" className="w-3.5 h-3.5 text-white shrink-0" />
+          </span>
+          <span className="text-[12.5px] font-bold tracking-tight whitespace-nowrap text-[var(--text-primary)]">
+            {isEn ? 'Home' : 'Trang chủ'}
+          </span>
+        </button>
       </div>
 
       {/* 2. NÚT CHUYỂN TRANG NỔI GÓC DƯỚI BÊN PHẢI Ở CHẾ ĐỘ MOBILE (< 768px):

@@ -606,7 +606,7 @@ export const Header: React.FC<HeaderProps> = ({
                       style={{ color: mobileTriggerAccent }}
                     />
                     <span
-                      className="text-xs font-bold uppercase tracking-wider truncate"
+                      className="text-xs font-bold tracking-wider truncate"
                       style={{ color: 'var(--text-primary)' }}
                     >
                       {language === 'en' ? 'Menu Categories' : 'Danh mục menu'}

@@ -83,8 +83,7 @@ html.dark .u084-host,
 .u084-lab {
   font-size: 12.5px;
   font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: .04em;
   color: var(--ux-ink-3);
   transition: color .3s;
 }

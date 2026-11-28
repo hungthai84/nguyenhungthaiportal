@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
+import NotificationStack, { type StackNotification } from '@/components/ui/NotificationStack';
 
 // ============================================================================
 // 1. DỮ LIỆU GỐC (GIỮ NGUYÊN 100% DATA CỦA CHUYÊN GIA NGUYỄN HÙNG THÁI)
@@ -42,8 +43,6 @@ import { cn } from '@/lib/utils';
 
 const ABOUT_VIDEO_1_STREAM_URL =
   'https://cdn.scena.ai/project/8606/e48a67884f3a52e8a68cf06b97979f3b22835ec92bf466a058c0d78da97c83b0.mp4';
-const ABOUT_VIDEO_1_POSTER_URL =
-  'https://lh3.googleusercontent.com/d/1QsrsSttLLg_AtUxWiWc4WOe0EWLZ-kPm';
 const ABOUT_VIDEO_2_STREAM_URL =
   'https://cdn.scena.ai/project/9626/42eba857297b415c8be72327102671129b5ebbdbaab55ac9eb6897411b4bdeda.mp4';
 
@@ -441,6 +440,163 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
     [activeHeroMapType, activeHeroMedia, copySnippet, showToast]
   );
 
+  const personalStackItems = useMemo<StackNotification[]>(
+    () => [
+      {
+        id: 'birthday',
+        app: 'Hồ sơ cá nhân',
+        title: 'Sinh nhật · 22/06/1984',
+        body: 'Cung Cự Giải · Hành trình hơn 22 năm gắn bó ngành dịch vụ khách hàng.',
+        time: '1984',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-amber-400/35 bg-amber-500/15 text-amber-600 dark:text-amber-300">
+            <Calendar className="size-4" />
+          </span>
+        ),
+        onClick: personalItems[0]?.action,
+      },
+      {
+        id: 'horoscope',
+        app: 'Tử vi & Bản mệnh',
+        title: 'Giáp Tý · Hải Trung Kim',
+        body: 'Bản mệnh Vàng trong biển · Điềm tĩnh, sâu sắc và bền bỉ trong quản trị.',
+        time: 'Mệnh Kim',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-purple-400/35 bg-purple-500/15 text-purple-600 dark:text-purple-300">
+            <Sparkles className="size-4" />
+          </span>
+        ),
+        onClick: personalItems[1]?.action,
+      },
+      {
+        id: 'gender',
+        app: 'Thông tin cơ bản',
+        title: 'Giới tính · Nam giới',
+        body: 'Phong thái chuyên nghiệp, quyết đoán và tận tâm trong từng điểm chạm.',
+        time: 'Cá nhân',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15 text-sky-600 dark:text-sky-300">
+            <User className="size-4" />
+          </span>
+        ),
+        onClick: personalItems[2]?.action,
+      },
+      {
+        id: 'ethnicity',
+        app: 'Quốc tịch & Văn hóa',
+        title: 'Dân tộc · Kinh',
+        body: 'Việt Nam · Am hiểu văn hóa bản địa và chuẩn mực dịch vụ quốc tế.',
+        time: 'Việt Nam',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-emerald-400/35 bg-emerald-500/15 text-emerald-600 dark:text-emerald-300">
+            <Globe className="size-4" />
+          </span>
+        ),
+        onClick: personalItems[3]?.action,
+      },
+      {
+        id: 'marital',
+        app: 'Gia đình',
+        title: 'Hôn nhân · Độc thân',
+        body: 'Sẵn sàng linh hoạt công tác, tập trung toàn tâm cho sự nghiệp CX.',
+        time: 'Hiện tại',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-rose-400/35 bg-rose-500/15 text-rose-600 dark:text-rose-300">
+            <Heart className="size-4" />
+          </span>
+        ),
+        onClick: personalItems[4]?.action,
+      },
+    ],
+    [personalItems]
+  );
+
+  const contactStackItems = useMemo<StackNotification[]>(
+    () => [
+      {
+        id: 'phone',
+        app: 'Zalo & Hotline',
+        title: 'Điện thoại · +84 0909097882',
+        body: 'Liên hệ trực tiếp hoặc nhắn tin qua Zalo để trao đổi công việc nhanh.',
+        time: 'Mở Zalo',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-orange-400/35 bg-orange-500/15 text-orange-600 dark:text-orange-300">
+            <Phone className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[0]?.action,
+      },
+      {
+        id: 'email',
+        app: 'Hộp thư điện tử',
+        title: 'hungthai84@gmail.com',
+        body: 'Bấm để sao chép nhanh địa chỉ email hợp tác và tư vấn chuyên môn.',
+        time: 'Sao chép',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-pink-400/35 bg-pink-500/15 text-pink-600 dark:text-pink-300">
+            <Mail className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[1]?.action,
+      },
+      {
+        id: 'website',
+        app: 'Trang web chính thức',
+        title: 'nguyenhungthai.powerservice.one',
+        body: 'Khám phá hệ sinh thái năng lực, dịch vụ và tài liệu CX của chuyên gia.',
+        time: 'Truy cập',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-sky-400/35 bg-sky-500/15 text-sky-600 dark:text-sky-300">
+            <Globe className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[2]?.action,
+      },
+      {
+        id: 'linkedin',
+        app: 'Mạng lưới nghề nghiệp',
+        title: 'LinkedIn · /in/hungthai84',
+        body: 'Kết nối hồ sơ quản trị và kinh nghiệm điều hành dịch vụ khách hàng.',
+        time: 'Kết nối',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-indigo-400/35 bg-indigo-500/15 text-indigo-600 dark:text-indigo-300">
+            <UserCheck className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[3]?.action,
+      },
+      {
+        id: 'tam_tru',
+        app: 'Địa điểm tạm trú',
+        title: 'Tạm trú · P. Tân Phú (Q7)',
+        body: 'TP. Hồ Chí Minh · Bấm để ghim và xem vị trí trực tiếp trên bản đồ.',
+        time: 'Xem Map',
+        active: activeHeroMedia === 'map' && activeHeroMapType === 'tam_tru',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-cyan-400/35 bg-cyan-500/15 text-cyan-600 dark:text-cyan-300">
+            <MapPin className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[4]?.action,
+      },
+      {
+        id: 'cu_tru',
+        app: 'Địa điểm cư trú',
+        title: 'Cư trú · Phường Mỹ Tho',
+        body: 'Tỉnh Đồng Tháp · Bấm để chuyển bản đồ sang khu vực quê quán.',
+        time: 'Xem Map',
+        active: activeHeroMedia === 'map' && activeHeroMapType === 'cu_tru',
+        icon: (
+          <span className="flex size-8 items-center justify-center rounded-[10px] border border-teal-400/35 bg-teal-500/15 text-teal-600 dark:text-teal-300">
+            <Home className="size-4" />
+          </span>
+        ),
+        onClick: contactItems[5]?.action,
+      },
+    ],
+    [activeHeroMapType, activeHeroMedia, contactItems]
+  );
+
   const toastOverlay = (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none">
       {toasts.map((t) => (
@@ -761,18 +917,10 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
             <div className="relative w-full h-full flex-1 rounded-xl overflow-hidden min-h-[270px] flex items-center justify-center border border-[var(--border-subcard,var(--border-color))] bg-slate-950 shadow-inner">
               {activeHeroMedia === 'video' ? (
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
-                  {/* Ảnh nền chân dung tải trước */}
-                  <img
-                    src={ABOUT_VIDEO_1_POSTER_URL}
-                    alt="Hình nền chân dung chuyên gia Nguyễn Hùng Thái"
-                    className="absolute inset-0 w-full h-full object-cover object-[50%_22%] select-none pointer-events-none z-0"
-                  />
-
                   {/* VIDEO 1 — Hình nền mặc định (tự động phát, tắt âm thanh, phát vòng lặp) */}
                   <video
                     ref={video1Ref}
                     src={ABOUT_VIDEO_1_STREAM_URL}
-                    poster={ABOUT_VIDEO_1_POSTER_URL}
                     autoPlay
                     loop
                     muted={!(!isPlayingIntro && isAudioOn)}
@@ -901,7 +1049,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                         }`}
                       >
-                        <span className="w-2 h-2 rounded-full bg-red-500 ring-1 ring-white" />
+                        <MapPin className="w-3.5 h-3.5 shrink-0" />
                         <span>Tạm trú</span>
                       </button>
                       <button
@@ -913,7 +1061,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                         }`}
                       >
-                        <span className="w-2 h-2 rounded-full bg-red-500 ring-1 ring-white" />
+                        <MapPin className="w-3.5 h-3.5 shrink-0" />
                         <span>Cư trú</span>
                       </button>
                     </div>
@@ -1069,63 +1217,53 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
                 role="tabpanel"
                 data-active-tab={detailInfoTab}
                 data-theme-synced="true"
-                className="flex-1 p-2.5 sm:p-3 flex flex-col justify-between gap-2 relative z-20"
+                className="flex-1 p-3 sm:p-3.5 flex flex-col justify-between gap-3 relative z-20"
               >
-              {detailInfoTab === 'personal' ? (
-                <div className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full">
-                  {personalItems.map((item) => {
-                    const IconComp = item.icon;
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={item.action}
-                        title={`${item.label}: ${item.value}`}
-                        className={`about-tab-info-chip flex flex-col justify-center gap-1 p-2.5 cursor-pointer min-w-0 transition-colors ${item.colSpan}`}
-                      >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <IconComp className={`w-3.5 h-3.5 shrink-0 ${item.iconCls}`} />
-                          <span className={`text-[11px] font-bold truncate ${item.iconCls}`}>
-                            {item.label}
-                          </span>
-                        </div>
-                        <div className="text-xs sm:text-[13px] font-bold text-[var(--text-primary)] truncate">
-                          {item.value}
-                        </div>
-                      </div>
-                    );
-                  })}
+                {detailInfoTab === 'personal' ? (
+                  <NotificationStack
+                    key="personal-stack"
+                    notifications={personalStackItems}
+                    headerTitle="Hồ sơ cá nhân"
+                    showAllLabel="Xem tất cả"
+                    showLessLabel="Thu gọn"
+                    emptyLabel="Đã ẩn các thẻ thông tin cá nhân."
+                    resetLabel="Hiện lại thẻ"
+                    onDismiss={(id) => showToast(`Đã ẩn thẻ ${id} — bấm "Hiện lại thẻ" để khôi phục`, 'info')}
+                  />
+                ) : (
+                  <NotificationStack
+                    key="contact-stack"
+                    notifications={contactStackItems}
+                    headerTitle="Kênh liên hệ & Địa chỉ"
+                    showAllLabel="Xem tất cả"
+                    showLessLabel="Thu gọn"
+                    emptyLabel="Đã ẩn các thẻ thông tin liên hệ."
+                    resetLabel="Hiện lại thẻ"
+                    onDismiss={(id) => showToast(`Đã ẩn thẻ ${id} — bấm "Hiện lại thẻ" để khôi phục`, 'info')}
+                  />
+                )}
+
+                <div className="pt-2.5 border-t border-[var(--border-subcard,var(--border-color))] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-muted)]">
+                  <span>Di chuột hoặc chạm để bung thẻ · Vuốt ngang để ẩn</span>
+                  <div className="flex items-center gap-3 shrink-0 font-bold">
+                    <button
+                      type="button"
+                      onClick={() => copySnippet('hungthai84@gmail.com', 'Email')}
+                      className="no-theme-btn text-[var(--text-link,var(--color-primary))] hover:underline cursor-pointer whitespace-nowrap"
+                    >
+                      Sao chép Email
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveHeroMedia((prev) => (prev === 'map' ? 'video' : 'map'));
+                      }}
+                      className="no-theme-btn text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer whitespace-nowrap"
+                    >
+                      {activeHeroMedia === 'map' ? 'Xem Video' : 'Xem Bản đồ'}
+                    </button>
+                  </div>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-6 gap-2 w-full">
-                  {contactItems.map((item) => {
-                    const IconComp = item.icon;
-                    const isMapSelected =
-                      activeHeroMedia === 'map' &&
-                      ((item.id === 'tam_tru' && activeHeroMapType === 'tam_tru') ||
-                        (item.id === 'cu_tru' && activeHeroMapType === 'cu_tru'));
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={item.action}
-                        title={`${item.label}: ${item.value}`}
-                        className={`about-tab-info-chip flex flex-col justify-center gap-1 p-2.5 cursor-pointer min-w-0 transition-colors ${item.colSpan} ${
-                          isMapSelected ? 'ring-2 ring-[var(--color-primary)]' : ''
-                        }`}
-                      >
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <IconComp className={`w-3.5 h-3.5 shrink-0 ${item.iconCls}`} />
-                          <span className={`text-[11px] font-bold truncate ${item.iconCls}`}>
-                            {item.label}
-                          </span>
-                        </div>
-                        <div className="text-xs sm:text-[13px] font-bold text-[var(--text-primary)] truncate">
-                          {item.value}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
               </div>
             </div>
           </BentoCard>
@@ -1147,7 +1285,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
 
               <div className="flex items-center gap-2 shrink-0">
                 <span
-                  className="text-[11px] font-bold uppercase px-2.5 py-1 rounded-full border"
+                  className="text-[11px] font-bold px-2.5 py-1 rounded-full border"
                   style={{
                     background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
                     borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',
@@ -1453,7 +1591,7 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
 
               <div className="flex items-center gap-2 shrink-0">
                 <span
-                  className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border"
+                  className="text-[11px] font-bold tracking-wider px-2.5 py-0.5 rounded-full border"
                   style={{
                     background: 'color-mix(in srgb, var(--color-primary, #4F46E5) 14%, var(--bg-subcard))',
                     borderColor: 'color-mix(in srgb, var(--color-primary, #4F46E5) 32%, var(--border-subcard))',

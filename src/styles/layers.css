@@ -172,38 +172,38 @@ html:not([data-surface-depth="flat"]) :is(
     border-color: color-mix(in srgb, var(--color-primary, #4973FF) 36%, var(--border-subcard, rgba(148, 163, 184, 0.28))) !important;
   }
 
-  /* Material-authentic hover glow accents per theme family */
-  html[data-card-style="liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  /* Material-authentic hover glow accents per theme family (excluding .project-card hover) */
+  html[data-card-style="liquid-glass"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(167, 139, 250, 0.62) !important;
   }
 
-  html[data-card-style="dark-liquid-glass"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="dark-liquid-glass"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(181, 167, 244, 0.56) !important;
   }
 
-  html[data-card-style="mica-fluent"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="mica-fluent"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(255, 255, 255, 0.55) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     box-shadow: 0px 4px 7px 2px rgba(0, 0, 0, 0.09) !important;
   }
 
-  html[data-card-style="cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="cowhide-leather"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: #b45309 !important;
     outline-color: rgba(253, 230, 138, 0.85) !important;
   }
 
-  html[data-card-style="dark-cowhide-leather"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="dark-cowhide-leather"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(229, 184, 126, 0.62) !important;
     outline-color: rgba(245, 222, 179, 0.68) !important;
   }
 
-  html[data-card-style="walnut-wood"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="walnut-wood"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(245, 196, 120, 0.54) !important;
     outline-color: rgba(245, 196, 120, 0.48) !important;
   }
 
-  html[data-card-style="deep-ocean"] :is([data-section-card="true"], .bento-card, .project-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
+  html[data-card-style="deep-ocean"] :is([data-section-card="true"], .bento-card, .education-course-card, .service-card, .domain-card, .home-hero-card):not(.page-main-card):not([data-main-card="true"]):hover {
     border-color: rgba(56, 189, 248, 0.64) !important;
     box-shadow:
       0 18px 38px -8px rgba(2, 6, 23, 0.76),
@@ -337,34 +337,6 @@ html[data-card-style="deep-ocean"] :is(
   border-radius: var(--radius-card, 14px) !important;
   color: #E6F1FF !important;
   box-shadow: 0 16px 38px -6px rgba(3, 9, 20, 0.65), inset 0 1px 0 rgba(125, 211, 252, 0.20) !important;
-}
-
-html[data-card-style="neumorphism-beyond"] :is(
-  .home-hero-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-) {
-  background: linear-gradient(145deg, #EAEFF6 0%, #E1E8F2 100%) !important;
-  border: 1px solid rgba(196, 209, 226, 0.72) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  color: #1E293B !important;
-  box-shadow: 0 6px 16px rgba(148, 163, 184, 0.20), 3px 4px 10px rgba(163, 177, 198, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
-}
-
-html[data-card-style="dark-neumorphism-beyond"] :is(
-  .home-hero-card,
-  #home-intro-card,
-  #home-stats-card,
-  #home-capabilities-card,
-  #home-achievements-card
-) {
-  background: linear-gradient(145deg, #1E2635 0%, #171E2B 100%) !important;
-  border: 1px solid rgba(71, 85, 105, 0.42) !important;
-  border-radius: var(--radius-card, 14px) !important;
-  color: #F1F5F9 !important;
-  box-shadow: 8px 10px 22px rgba(4, 7, 15, 0.65), -4px -4px 14px rgba(40, 51, 72, 0.38), inset 0 1px 0 rgba(148, 163, 184, 0.12) !important;
 }
 
 html[data-card-style="frost-ice-neu"] :is(

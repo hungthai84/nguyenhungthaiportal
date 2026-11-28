@@ -24,6 +24,7 @@ import {
   FastForward,
 } from 'lucide-react';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
+import { BentoCard } from '@/components/ui/BentoCard';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -531,9 +532,6 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           touch-action: pan-y !important;
           -webkit-overflow-scrolling: touch !important;
           border-radius: var(--radius-card, 14px) !important;
-          background: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
         }
 
         /* Theme-Synchronized Open Letter Sheet inside Card nội dung thư ngỏ */
@@ -688,17 +686,31 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           color: transparent;
         }
 
-        /* Timeline inside Letter */
+        /* Timeline inside Letter (Card Thông Tin Nền Sáng Bento) */
+        div#leftCol > div.nht-timeline-container.flex-grow,
         .nht-timeline-container {
           position: relative;
-          padding-left: 34px;
+          padding: 14px 14px 14px 44px;
+          border-radius: var(--radius-subcard, 16px);
+          background: linear-gradient(155deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 55%, rgba(238, 242, 255, 0.90) 100%);
+          border: 1px solid rgba(148, 163, 184, 0.28);
+          box-shadow:
+            0 10px 26px -8px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.96);
+        }
+
+        html.dark div#leftCol > div.nht-timeline-container.flex-grow,
+        html.dark .nht-timeline-container {
+          background: var(--surface-tertiary-bg, rgba(15, 23, 42, 0.72));
+          border-color: var(--border-subcard, rgba(148, 163, 184, 0.22));
+          box-shadow: var(--shadow-subcard, 0 10px 24px -8px rgba(0, 0, 0, 0.35));
         }
 
         .nht-timeline-line {
           position: absolute;
-          left: 11px;
-          top: 14px;
-          bottom: 14px;
+          left: 22px;
+          top: 22px;
+          bottom: 22px;
           width: 2.5px;
           background: linear-gradient(
             180deg,
@@ -718,11 +730,11 @@ export const LetterView: React.FC<LetterViewProps> = () => {
           display: flex;
           align-items: flex-start;
           margin-bottom: 8px;
-          padding: 8px 11px;
+          padding: 9px 12px;
           border-radius: 0.85rem;
-          background-color: rgba(248, 250, 252, 0.96);
-          border: 1px solid #e2e8f0;
-          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+          background-color: rgba(255, 255, 255, 0.92);
+          border: 1px solid rgba(203, 213, 225, 0.75);
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
           transition: all 0.2s ease;
         }
 
@@ -734,8 +746,8 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
         .nht-timeline-item:hover {
           background-color: #ffffff;
-          border-color: #c4b5fd;
-          box-shadow: 0 6px 14px rgba(99, 102, 241, 0.08);
+          border-color: #a5b4fc;
+          box-shadow: 0 6px 14px rgba(99, 102, 241, 0.09);
           transform: translateX(3px);
         }
 
@@ -1173,10 +1185,14 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       className="lg:col-span-6 lg:border-r lg:border-dashed lg:border-slate-300 dark:lg:border-slate-700 lg:pr-5 flex flex-col justify-between gap-3"
                     >
                       {/* TOP BENTO HERO CARD: Vibrant Purple-Indigo Letterhead (Mẫu Thẻ 1: Bento Studio Hero Card) */}
-                      <div
+                      <BentoCard
+                        as="div"
                         id="letter-profile-capability-card"
-                        ref={profileCardRef}
-                        className="nht-bento-item bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900 p-4 sm:p-5 relative overflow-hidden shadow-xl text-white rounded-[var(--radius-subcard,16px)] border border-white/20 transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5"
+                        cardRef={profileCardRef}
+                        variant="gradient"
+                        fxMode="spotlight-3d"
+                        isDarkText={false}
+                        className="nht-bento-item bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900 !p-4 sm:!p-5 relative overflow-hidden shadow-xl text-white rounded-[var(--radius-subcard,16px)] border border-white/25"
                       >
                         {/* Bento Studio glowing ambient orb */}
                         <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
@@ -1220,7 +1236,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </BentoCard>
 
                       {/* TIMELINE SECTION (8 Cột mốc doanh nghiệp) */}
                       <div className="nht-timeline-container flex-grow flex flex-col justify-between">
@@ -1468,8 +1484,14 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                       className="lg:col-span-6 flex flex-col justify-between gap-2.5"
                     >
                       {/* 0. CARD VIDEO THƯ NGỎ ĐƯỢC ĐƯA TRỰC TIẾP VÀO TRONG THƯ */}
-                      <article
+                      <BentoCard
+                        as="article"
                         id="bento-letter-video"
+                        variant="info"
+                        fxMode="minimal"
+                        disableTilt={true}
+                        hasRipple={false}
+                        isDarkText={false}
                         data-element-name="Video card Thư ngỏ"
                         data-element-type="card"
                         data-media-card="video"
@@ -1493,7 +1515,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           heroCardHeight
                             ? ''
                             : 'aspect-video min-h-[195px] sm:min-h-[220px]'
-                        } rounded-[var(--radius-subcard,16px)] overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/70 bg-slate-900`}
+                        } rounded-[var(--radius-subcard,16px)] overflow-hidden shadow-md border border-slate-200/80 dark:border-slate-700/70 !bg-slate-900`}
                       >
                         <DualLayerVideoPlayer
                           video1Id={LETTER_VIDEO_1_ID}
@@ -1506,10 +1528,16 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           hideSpeaker={true}
                           className="absolute inset-0 z-0 pointer-events-auto"
                         />
-                      </article>
+                      </BentoCard>
 
                       {/* 1. Philosophy Highlight Bento Card (Mẫu Thẻ 52: Triết Lý Tối Giản) */}
-                      <div className="nht-bento-item bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 p-4 relative overflow-hidden shadow-lg text-white rounded-[var(--radius-subcard,16px)] border border-white/15 transition-all duration-300 hover:-translate-y-0.5">
+                      <BentoCard
+                        as="div"
+                        variant="gradient"
+                        fxMode="float-shadow"
+                        isDarkText={false}
+                        className="nht-bento-item bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 !p-4 relative overflow-hidden shadow-lg text-white rounded-[var(--radius-subcard,16px)] border border-white/20"
+                      >
                         <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
                         <p className="relative z-10 text-[12.5px] leading-[1.6] text-blue-50 text-left font-medium">
                           Qua mỗi môi trường làm việc, tôi nhận ra rằng{' '}
@@ -1517,18 +1545,24 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             chăm sóc khách hàng không chỉ là giải quyết vấn đề, mà còn là xây dựng một hệ thống giúp doanh nghiệp phát triển bền vững.
                           </strong>
                         </p>
-                      </div>
+                      </BentoCard>
 
-                      {/* 2. 3 Core Principles Bento Card (Mẫu Thẻ 21 & 25: Pipeline Action Grid) */}
-                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-4 border border-[var(--border-subcard,rgba(148,163,184,0.3))] rounded-[var(--radius-subcard,16px)] shadow-md transition-all duration-300 hover:shadow-lg">
-                        <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-[var(--border-subcard,rgba(148,163,184,0.2))]">
+                      {/* 2. 3 Core Principles Bento Card (Mẫu Thẻ 21 & 25: Pipeline Action Grid - Light Mode) */}
+                      <BentoCard
+                        as="div"
+                        variant="info"
+                        fxMode="minimal"
+                        isDarkText={true}
+                        className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !p-4 border border-slate-200/85 dark:border-slate-700/60 rounded-[var(--radius-subcard,16px)] shadow-md"
+                      >
+                        <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-200/80 dark:border-slate-700/60">
                           <div className="flex items-center gap-2">
-                            <Target className="w-4 h-4 text-indigo-500 shrink-0" />
-                            <p className="text-[12.5px] font-bold text-[var(--text-primary)]">
+                            <Target className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                            <p className="text-[12.5px] font-bold text-slate-900 dark:text-white">
                               Tôi luôn làm việc với ba nguyên tắc cốt lõi:
                             </p>
                           </div>
-                          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-white/10 border border-white/10 text-[var(--text-muted)]">
+                          <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-700 dark:bg-white/10 dark:border-white/10 dark:text-slate-300">
                             Core Pillars
                           </span>
                         </div>
@@ -1567,10 +1601,16 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </BentoCard>
 
                       {/* 3. Tech Focus Bento Card */}
-                      <div className="nht-bento-item bg-gradient-to-r from-emerald-600 to-teal-700 p-3.5 shadow-md flex items-center gap-3 text-white rounded-[var(--radius-subcard,16px)] border border-emerald-400/20">
+                      <BentoCard
+                        as="div"
+                        variant="gradient"
+                        fxMode="neon"
+                        isDarkText={false}
+                        className="nht-bento-item bg-gradient-to-r from-emerald-600 to-teal-700 !p-3.5 shadow-md flex items-center gap-3 text-white rounded-[var(--radius-subcard,16px)] border border-emerald-400/25"
+                      >
                         <Cpu className="w-5 h-5 text-amber-300 shrink-0" />
                         <p className="text-[12px] leading-[1.55] text-emerald-50">
                           Từ những nguyên tắc đó, tôi tập trung xây dựng các hệ thống{' '}
@@ -1583,14 +1623,20 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           </strong>{' '}
                           nhằm nâng cao hiệu quả vận hành.
                         </p>
-                      </div>
+                      </BentoCard>
 
                       {/* 4. People & Training Bento Card */}
-                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-3.5 border border-[var(--border-subcard,rgba(148,163,184,0.3))] relative overflow-hidden flex items-center gap-3 rounded-[var(--radius-subcard,16px)] shadow-xs">
-                        <Users className="w-5 h-5 text-indigo-500 shrink-0 relative z-10" />
-                        <p className="text-[12px] text-[var(--text-secondary)] leading-[1.55] relative z-10">
+                      <BentoCard
+                        as="div"
+                        variant="subcard"
+                        fxMode="float-shadow"
+                        isDarkText={true}
+                        className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !p-3.5 border border-indigo-200/70 dark:border-slate-700/60 relative overflow-hidden flex items-center gap-3 rounded-[var(--radius-subcard,16px)] shadow-sm"
+                      >
+                        <Users className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 relative z-10" />
+                        <p className="text-[12px] text-slate-700 dark:text-slate-200 leading-[1.55] relative z-10">
                           Bên cạnh công nghệ, tôi luôn chú trọng{' '}
-                          <strong className="font-bold text-[var(--text-primary)]">
+                          <strong className="font-bold text-slate-900 dark:text-white">
                             đào tạo đội ngũ
                           </strong>{' '}
                           biết{' '}
@@ -1603,39 +1649,51 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           </strong>{' '}
                           cho khách hàng.
                         </p>
-                      </div>
+                      </BentoCard>
 
                       {/* 5. Standalone Quote Bento Card (Mẫu Thẻ 51: Trích Dẫn Bento Studio) */}
-                      <div className="nht-bento-item bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800 p-4 overflow-hidden relative shadow-xl flex items-center gap-3.5 text-white rounded-[var(--radius-subcard,16px)] border border-white/20 transition-all duration-300 hover:shadow-2xl">
+                      <BentoCard
+                        as="div"
+                        variant="gradient"
+                        fxMode="spotlight-3d"
+                        isDarkText={false}
+                        className="nht-bento-item bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800 !p-4 overflow-hidden relative shadow-xl flex items-center gap-3.5 text-white rounded-[var(--radius-subcard,16px)] border border-white/25"
+                      >
                         <Quote className="w-16 h-16 text-white/10 absolute right-2 -bottom-2 pointer-events-none" />
 
                         <div className="w-10 h-10 rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0 shadow-sm">
                           <Quote className="w-5 h-5 text-yellow-300 shrink-0 rotate-180" />
                         </div>
                         <div className="flex-grow relative z-10">
-                          <p className="text-[11px] font-extrabold uppercase tracking-wider text-yellow-200 mb-1 flex items-center gap-1.5">
-                            <Heart className="w-3 h-3 text-yellow-300 fill-yellow-300" />{' '}
+                          <p className="text-[11px] font-extrabold tracking-wider text-yellow-200 mb-1 flex items-center gap-1.5">
+                            <Heart className="w-3 h-3 text-yellow-300 fill-yellow-300 shrink-0" />{' '}
                             Triết lý tâm niệm
                           </p>
                           <p className="italic font-bold text-white text-[13.5px] leading-[1.5] drop-shadow-xs">
                             “Sự hài lòng của khách hàng không đến từ sự hoàn hảo, mà đến từ sự đồng cảm kịp thời.”
                           </p>
                         </div>
-                      </div>
+                      </BentoCard>
 
                       {/* 6. Standalone Partnership Callout Bento Card (Mẫu Thẻ 38: Kết Nối Thiện Chí) */}
-                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] p-4 border border-[var(--border-subcard,rgba(148,163,184,0.3))] relative overflow-hidden flex items-center gap-3.5 rounded-[var(--radius-subcard,16px)] shadow-md transition-all duration-300 hover:shadow-lg">
+                      <BentoCard
+                        as="div"
+                        variant="info"
+                        fxMode="float-shadow"
+                        isDarkText={true}
+                        className="nht-bento-item bg-gradient-to-br from-amber-50/90 via-white to-orange-50/60 dark:from-slate-900/80 dark:via-slate-900/75 dark:to-amber-950/30 !p-4 border border-amber-200/80 dark:border-amber-500/25 relative overflow-hidden flex items-center gap-3.5 rounded-[var(--radius-subcard,16px)] shadow-md"
+                      >
                         <div className="w-10 h-10 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-sm">
                           <Handshake className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
                         </div>
                         <div className="flex-grow relative z-10">
-                          <p className="text-[11px] font-bold text-amber-600 dark:text-amber-400 mb-1 flex items-center gap-1.5 uppercase tracking-wider">
-                            <Star className="w-3 h-3 text-amber-500 fill-amber-500" />{' '}
-                            Mục tiêu & thiện chí hợp tác
+                          <p className="text-[11px] font-bold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1.5 tracking-wide">
+                            <Star className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />{' '}
+                            Mục tiêu &amp; thiện chí hợp tác
                           </p>
-                          <p className="text-[12px] text-[var(--text-secondary)] leading-[1.55]">
+                          <p className="text-[12px] text-slate-700 dark:text-slate-200 leading-[1.55]">
                             Tôi mong muốn được{' '}
-                            <strong className="font-bold text-[var(--text-primary)]">
+                            <strong className="font-bold text-slate-900 dark:text-white">
                               đồng hành cùng Quý Công ty
                             </strong>{' '}
                             để xây dựng một hệ thống chăm sóc khách hàng hiện đại,{' '}
@@ -1649,18 +1707,24 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             .
                           </p>
                         </div>
-                      </div>
+                      </BentoCard>
 
                       {/* 7. Closing Letter Sign-off Section */}
-                      <div className="nht-bento-item bg-[var(--surface-tertiary-bg,var(--bg-subcard))] px-4 py-3 border-t-2 border-dashed border-[var(--border-subcard,rgba(148,163,184,0.4))] border-x border-b border-[var(--border-subcard,rgba(148,163,184,0.25))] rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-sm">
+                      <BentoCard
+                        as="div"
+                        variant="subcard"
+                        fxMode="minimal"
+                        isDarkText={true}
+                        className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !px-4 !py-3 border border-slate-200/85 dark:border-slate-700/60 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-sm"
+                      >
                         <div className="max-w-[290px]">
-                          <p className="font-bold text-[var(--text-primary)] text-[12.5px] leading-snug">
+                          <p className="font-bold text-slate-900 dark:text-white text-[12.5px] leading-snug">
                             Xin trân trọng cảm ơn Quý Công ty đã dành thời gian lắng nghe!
                           </p>
                         </div>
 
                         <div className="flex flex-col items-end text-right shrink-0">
-                          <p className="text-[var(--text-muted)] text-[11px] font-medium">
+                          <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium">
                             Trân trọng,
                           </p>
                           <div className="my-0.5 flex justify-end min-h-[36px] items-center">
@@ -1677,17 +1741,17 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                             ) : (
                               <span
                                 style={{ fontFamily: "'Dancing Script', cursive" }}
-                                className="text-2xl font-bold text-[var(--text-primary)] pr-1"
+                                className="text-2xl font-bold text-slate-900 dark:text-white pr-1"
                               >
                                 Nguyễn Hùng Thái
                               </span>
                             )}
                           </div>
-                          <p className="font-bold text-[var(--text-primary)] text-[13.5px] mt-0.5">
+                          <p className="font-bold text-slate-900 dark:text-white text-[13.5px] mt-0.5">
                             Nguyễn Hùng Thái
                           </p>
                         </div>
-                      </div>
+                      </BentoCard>
                     </div>
                   </div>
                 </div>

@@ -466,112 +466,159 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
           </div>
         </header>
 
-        {/* Horizontal Career Timeline containing Company Logo (Doubled Size, No Border) & Year */}
-        <div
-          ref={timelineScrollRef}
-          role="navigation"
-          aria-label="Timeline logo và năm công tác các công ty"
-          className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar py-0.5"
-        >
-          <div className="relative inline-flex md:flex items-center justify-between gap-2 sm:gap-3 min-w-full px-2">
-            {/* Horizontal dashed connecting line behind logos */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute left-7 right-7 top-[26px] sm:top-[28px] h-0"
-              style={{
-                borderTop: isWalnutWood
-                  ? '2px dashed rgba(245, 196, 120, 0.58)'
-                  : isDarkLeather || isBrownLeather
-                    ? '2px dashed rgba(229, 184, 126, 0.62)'
-                    : '2px dashed color-mix(in srgb, var(--color-primary, #6366f1) 46%, transparent)',
-              }}
-            />
+        {/* Horizontal Career Timeline containing < / > Controls, Gradient Track, Conic Active Halo & Blue Year Pill */}
+        <div className="flex-1 min-w-0 flex items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            onClick={handlePrevCarousel}
+            disabled={totalCards <= 1 || activeCarouselIdx <= 0}
+            aria-label="Mốc công tác trước"
+            className={cn(
+              'no-theme-btn w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed',
+              isDarkSurface
+                ? 'bg-slate-900/75 border-white/20 text-white hover:bg-slate-800'
+                : 'bg-white/90 border-slate-200 text-slate-700 hover:bg-white shadow-xs'
+            )}
+          >
+            <WebIcon name="chevron-left" className="w-4 h-4" />
+          </button>
 
-            {roadmapCards.map((item, idx) => {
-              const isActive = idx === activeCarouselIdx;
-              const shortYear = item.yearBadge.replace(/^Năm\s+/i, '').trim() || item.yearBadge;
-              const activeAccent = isWalnutWood
-                ? '#F5C478'
-                : isDarkLeather
-                  ? '#E5B87E'
-                  : isBrownLeather
-                    ? '#FDE68A'
-                    : 'var(--color-primary, #4F46E5)';
+          <div
+            ref={timelineScrollRef}
+            role="navigation"
+            aria-label="Timeline logo và năm công tác các công ty"
+            className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar py-1"
+          >
+            <div className="relative inline-flex md:flex items-center justify-between gap-2 sm:gap-3 min-w-full px-2">
+              {/* Horizontal gradient timeline track behind logos */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-7 right-7 top-[27px] sm:top-[29px] h-[3px] rounded-full"
+                style={{
+                  background: isWalnutWood
+                    ? 'linear-gradient(90deg, rgba(245, 196, 120, 0.35), rgba(245, 196, 120, 0.85), rgba(238, 42, 123, 0.65))'
+                    : isDarkLeather || isBrownLeather
+                      ? 'linear-gradient(90deg, rgba(229, 184, 126, 0.35), rgba(229, 184, 126, 0.85), rgba(238, 42, 123, 0.65))'
+                      : 'linear-gradient(90deg, rgba(14, 165, 233, 0.45) 0%, rgba(124, 58, 237, 0.68) 45%, rgba(238, 42, 123, 0.72) 78%, rgba(16, 185, 129, 0.55) 100%)',
+                }}
+              />
 
-              return (
-                <button
-                  key={`header-timeline-${item.key}`}
-                  ref={(el) => {
-                    timelineNodeRefs.current[idx] = el;
-                  }}
-                  type="button"
-                  onClick={() => handleSelectBullet(idx)}
-                  aria-current={isActive ? 'step' : undefined}
-                  title={`${item.yearBadge} · ${item.shortName}`}
-                  data-transparent-btn="true"
-                  className={cn(
-                    'no-theme-btn exp-timeline-node-btn group relative z-10 flex flex-col items-center gap-1 shrink-0 cursor-pointer bg-transparent border-0 p-0 shadow-none transition-transform duration-200 focus-visible:outline-none',
-                    isActive ? 'scale-105' : 'opacity-80 hover:opacity-100 hover:scale-105'
-                  )}
-                  style={{
-                    background: 'transparent',
-                    backgroundColor: 'transparent',
-                    backgroundImage: 'none',
-                    border: 'none',
-                    boxShadow: 'none',
-                    backdropFilter: 'none',
-                    WebkitBackdropFilter: 'none',
-                  }}
-                >
-                  <span
-                    className="w-[52px] h-[52px] sm:w-[56px] sm:h-[56px] rounded-full bg-transparent p-0.5 ring-0 shadow-none flex items-center justify-center overflow-hidden transition-transform duration-200"
+              {roadmapCards.map((item, idx) => {
+                const isActive = idx === activeCarouselIdx;
+                const shortYear = item.yearBadge.replace(/^Năm\s+/i, '').trim() || item.yearBadge;
+
+                return (
+                  <button
+                    key={`header-timeline-${item.key}`}
+                    ref={(el) => {
+                      timelineNodeRefs.current[idx] = el;
+                    }}
+                    type="button"
+                    onClick={() => handleSelectBullet(idx)}
+                    aria-current={isActive ? 'step' : undefined}
+                    title={`${item.yearBadge} · ${item.shortName}`}
+                    data-transparent-btn="true"
+                    className={cn(
+                      'no-theme-btn exp-timeline-node-btn group relative z-10 flex flex-col items-center gap-1.5 shrink-0 cursor-pointer bg-transparent border-0 p-0 shadow-none transition-transform duration-200 focus-visible:outline-none',
+                      isActive ? 'scale-105' : 'opacity-85 hover:opacity-100 hover:scale-105'
+                    )}
                     style={{
                       background: 'transparent',
                       backgroundColor: 'transparent',
-                      border: isActive
-                        ? `2px dashed ${activeAccent}`
-                        : isWalnutWood || isDarkLeather || isBrownLeather
-                          ? '1.5px dashed rgba(245, 222, 179, 0.45)'
-                          : '1.5px dashed color-mix(in srgb, var(--color-primary, #6366f1) 36%, transparent)',
+                      backgroundImage: 'none',
+                      border: 'none',
                       boxShadow: 'none',
+                      backdropFilter: 'none',
+                      WebkitBackdropFilter: 'none',
                     }}
                   >
-                    <img
-                      src={item.logo}
-                      alt={item.shortName}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      draggable={false}
-                      onError={(e) => {
-                        const fallback = resolveCompanyLogo(item.shortName);
-                        if (e.currentTarget.src !== fallback) {
-                          e.currentTarget.src = fallback;
-                        }
-                      }}
-                      className="w-full h-full object-contain rounded-full select-none pointer-events-none"
-                    />
-                  </span>
-                  <span
-                    className={cn(
-                      'inline-flex items-center gap-1 text-[10.5px] sm:text-[11px] leading-none tabular-nums whitespace-nowrap transition-colors duration-200',
-                      isActive ? 'font-extrabold' : 'font-semibold'
-                    )}
-                    style={{
-                      color: isActive
-                        ? activeAccent
-                        : isWalnutWood || isDarkLeather || isBrownLeather
-                          ? 'rgba(255, 245, 232, 0.80)'
-                          : 'var(--text-secondary)',
-                    }}
-                  >
-                    <WebIcon name="calendar" className="w-3 h-3 shrink-0" />
-                    <span>{shortYear}</span>
-                  </span>
-                </button>
-              );
-            })}
+                    <span className="relative flex items-center justify-center w-[54px] h-[54px] sm:w-[58px] sm:h-[58px]">
+                      {isActive && (
+                        <>
+                          <span
+                            aria-hidden="true"
+                            className="absolute -inset-1.5 rounded-full opacity-75 blur-[6px] pointer-events-none"
+                            style={{
+                              background: 'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
+                            }}
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="absolute -inset-[2px] rounded-full pointer-events-none"
+                            style={{
+                              background: 'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
+                            }}
+                          />
+                        </>
+                      )}
+                      <span
+                        className={cn(
+                          'relative z-10 w-full h-full rounded-full p-1 flex items-center justify-center overflow-hidden transition-transform duration-200',
+                          isActive
+                            ? 'bg-white shadow-md'
+                            : isDarkSurface
+                              ? 'bg-slate-900/90 border border-white/25'
+                              : 'bg-white/95 border border-slate-200/90 shadow-xs'
+                        )}
+                      >
+                        <img
+                          src={item.logo}
+                          alt={item.shortName}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          draggable={false}
+                          onError={(e) => {
+                            const fallback = resolveCompanyLogo(item.shortName);
+                            if (e.currentTarget.src !== fallback) {
+                              e.currentTarget.src = fallback;
+                            }
+                          }}
+                          className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                        />
+                      </span>
+                    </span>
+                    <span
+                      className={cn(
+                        'inline-flex items-center gap-1 text-[10.5px] sm:text-[11px] leading-none tabular-nums whitespace-nowrap transition-all duration-200',
+                        isActive
+                          ? 'px-2 py-0.5 rounded-full bg-[#2563EB] text-white font-bold shadow-xs'
+                          : 'px-1.5 py-0.5 rounded-full font-semibold'
+                      )}
+                      style={
+                        isActive
+                          ? undefined
+                          : {
+                              color:
+                                isWalnutWood || isDarkLeather || isBrownLeather
+                                  ? 'rgba(255, 245, 232, 0.84)'
+                                  : 'var(--text-secondary)',
+                            }
+                      }
+                    >
+                      <WebIcon name="calendar" className="w-2.5 h-2.5 shrink-0" />
+                      <span>{shortYear}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={handleNextCarousel}
+            disabled={totalCards <= 1 || activeCarouselIdx >= totalCards - 1}
+            aria-label="Mốc công tác tiếp theo"
+            className={cn(
+              'no-theme-btn w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed',
+              isDarkSurface
+                ? 'bg-slate-900/75 border-white/20 text-white hover:bg-slate-800'
+                : 'bg-white/90 border-slate-200 text-slate-700 hover:bg-white shadow-xs'
+            )}
+          >
+            <WebIcon name="chevron-right" className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -665,15 +712,28 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           onSelectMilestone(item.key, origIdx);
                         }
                       }}
-                      className={cn('news-card-item h-full flex flex-col justify-between gap-2', isHighlighted && 'active')}
+                      className={cn('news-card-item relative h-full flex flex-col justify-between gap-2', isHighlighted && 'active')}
                       style={{ padding: '15px' }}
                     >
-                      {/* Hàng trên cùng: Bên trái là Icon lịch + Năm (cùng 1 hàng) & Thời gian; Bên phải (vùng khung đỏ) chứa nhóm Group Logo gấp đôi không viền */}
+                      {/* Nhãn Đang xem trên thẻ trung tâm */}
+                      {isActiveCenter && (
+                        <div className="flex items-center justify-between gap-2 w-full shrink-0 -mb-0.5">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white shadow-xs">
+                            <span aria-hidden="true">★</span>
+                            <span>Đang xem</span>
+                          </span>
+                          <span className="text-[11px] font-semibold opacity-70 truncate">
+                            Nhấn để mở chi tiết
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Hàng trên cùng: Bên trái là Icon lịch + Năm (cùng 1 hàng) & Thời gian; Bên phải chứa nhóm Group Logo */}
                       <div className="exp-card-top-row w-full flex items-center justify-between gap-2.5 shrink-0">
                         <div className="news-card-date !mb-0 flex flex-col gap-1 shrink-0 min-w-0">
                           <span className="news-card-date-title !flex flex-row items-center gap-1.5 !mb-0 whitespace-nowrap">
-                            <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
-                            <span className="leading-none">{item.yearBadge}</span>
+                            <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-[#2563EB] dark:text-sky-400" />
+                            <span className="leading-none font-bold">{item.yearBadge}</span>
                           </span>
                           <span className="news-card-date-txt !text-[11.5px] font-semibold opacity-90 block truncate">
                             {item.period && item.tenure
@@ -682,7 +742,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           </span>
                         </div>
 
-                        {/* Vùng khung đỏ bên phải: Nhóm Group Logo tăng gấp đôi, bỏ viền logo */}
+                        {/* Nhóm Logo công ty */}
                         <div
                           className={cn(
                             'exp-card-logo-group flex items-center justify-end shrink-0',
@@ -721,26 +781,26 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 
                       {/* Icon công ty và Tên công ty (H3) cùng 1 hàng */}
                       <div
-                        className="exp-card-framed-box news-card-title !my-0 w-full rounded-[9px] border-0 px-1.5 py-0.5 flex flex-row items-center gap-1.5 shrink-0 min-w-0"
+                        className="exp-card-framed-box news-card-title !my-0 w-full rounded-[9px] border-0 px-2 py-1 flex flex-row items-center gap-1.5 shrink-0 min-w-0"
                         title={item.shortName}
                         style={{ border: 'none', outline: 'none' }}
                       >
-                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
+                        <WebIcon name="building-2" className="w-4 h-4 shrink-0 text-[#2563EB] dark:text-sky-400" />
                         <h3 className="truncate min-w-0 flex-1 text-[14px] font-bold leading-snug m-0">{item.shortName}</h3>
                       </div>
 
-                      {/* Chức vụ, Quản lý, Giới thiệu: Tạo khung, ẩn viền khung, cùng kích thước 12px */}
+                      {/* Chức vụ (#EE2A7B magenta), Quản lý, Giới thiệu */}
                       <div className="news-card-txt !mb-0 w-full !flex flex-col gap-1 text-[12px] leading-snug shrink-0">
-                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
-                          <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 text-[var(--color-primary)]" />
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-2 py-1 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
+                          <WebIcon name="briefcase" className="w-3.5 h-3.5 shrink-0 text-[#EE2A7B]" />
                           <span className="min-w-0 truncate !text-[12px]">
                             <strong className="font-bold">Chức vụ:</strong>{' '}
-                            <span className="font-semibold text-[var(--color-primary)]">
+                            <span className="font-bold text-[#EE2A7B]">
                               {item.roleTitle || item.roleSummary}
                             </span>
                           </span>
                         </div>
-                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
+                        <div className="exp-card-framed-box w-full rounded-[9px] border-0 px-2 py-1 flex items-center gap-1.5 min-w-0" style={{ border: 'none', outline: 'none' }}>
                           <WebIcon name="users" className="w-3.5 h-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
                           <span className="min-w-0 truncate !text-[12px]">
                             <strong className="font-bold">Quản lý:</strong>{' '}
@@ -748,7 +808,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           </span>
                         </div>
                         <div
-                          className="exp-card-framed-box w-full rounded-[9px] border-0 px-1.5 py-0.5 flex items-start gap-1.5 min-w-0"
+                          className="exp-card-framed-box w-full rounded-[9px] border-0 px-2 py-1 flex items-start gap-1.5 min-w-0"
                           title={item.description}
                           style={{ border: 'none', outline: 'none' }}
                         >
@@ -761,7 +821,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       </div>
 
                       {/* Hình banner: Căn chỉnh hình thấy toàn bộ hình banner (object-contain) */}
-                      <div className="news-card-img !mt-auto flex-1 min-h-[120px] w-full p-1 overflow-hidden rounded-[12px] relative bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                      <div className="news-card-img !mt-auto flex-1 min-h-[120px] w-full p-1.5 overflow-hidden rounded-[12px] relative bg-slate-900/5 dark:bg-white/5 flex items-center justify-center">
                         <img
                           src={item.bannerUrl || item.logo}
                           alt={`Banner công việc ${item.shortName}`}

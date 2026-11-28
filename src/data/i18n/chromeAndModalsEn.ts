@@ -195,12 +195,6 @@ export const CHROME_AND_MODALS_EN: Record<string, string> = {
     'Dark Deep Ocean theme: abyssal navy canvas (#050B14), layered oceanic slate surfaces, luminous sky typography, and aqua accents.',
   'Giao diện Ocean Navy Light – Glossy Liquid Glass UI: nền Ocean Navy sáng (#1951FC), card xanh kính nhiều lớp (#3781FC/#73BFFF), nhận diện Navy Deep (#03195B) và phản chiếu Glossy cao cấp.':
     'Light Ocean Navy Glossy Liquid Glass UI: bright ocean navy canvas (#1951FC), layered sky glass cards, Deep Navy (#03195B) typography, and glossy highlights.',
-  'Nổi Khối Kính Mờ': 'Frosted Glass',
-  'Nổi Khối Kính Mờ Tối': 'Dark Frosted',
-  'Giao diện Neumorphism, Glassmorphism & Beyond nổi khối kép sắc nét, không phát sáng trên nền #EBF0F6 với bộ 6 màu (#EE6AD2, #64B6FF, #4973FF, #445CE6, #2AD8E6, #52E0A8).':
-    'Neumorphism, Glassmorphism & Beyond with crisp dual extrusion on a matte #EBF0F6 canvas and 6 vivid reference accents.',
-  'Phiên bản tối của Nổi Khối Kính Mờ: bề mặt than chì mờ chống chói #151B26, đổ bóng nổi khối mềm kép cùng hệ 6 màu chuẩn dịu mắt.':
-    'Dark Soft UI Glass Beyond: anti-glare matte charcoal #151B26 surface, dual soft shadows, and balanced 6-hue reference accents.',
   'Băng Tuyết Nổi Khối (Sáng)': 'Frost Ice',
   'Băng Tuyết Nổi Khối (Tối)': 'Dark Frost',
   'Băng Tuyết Nổi Khối': 'Frost Ice',

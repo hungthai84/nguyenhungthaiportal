@@ -8,14 +8,6 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
   'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Cowhide Leather' },
   'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Walnut Wood' },
   'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean' },
-  'neumorphism-beyond': {
-    vi: 'Nổi Khối Kính Mờ',
-    en: 'Frosted Glass',
-  },
-  'dark-neumorphism-beyond': {
-    vi: 'Khối Kính Mờ Tối',
-    en: 'Dark Frosted',
-  },
   'frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối',
     en: 'Frost Ice',
@@ -110,19 +102,6 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     icon: 'compass',
     defaultMode: 'deep-ocean',
     darkMode: 'deep-ocean',
-  },
-  {
-    id: 'neumorphism-beyond',
-    label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Frosted Glass',
-    description:
-      'Giao diện nổi khối kép kết hợp kính mờ hiện đại trên nền sáng #EBF0F6 và nền tối #151B26 cùng bảng 14 sắc màu Thư ngỏ hài hòa.',
-    descriptionEn:
-      'Neumorphism, Glassmorphism & Beyond: tactile Soft UI extrusion blended with frosted glassmorphism in light ice-slate and dark matte charcoal editions with the 14-color Open Letter palette.',
-    icon: 'sliders',
-    defaultMode: 'neumorphism-beyond',
-    lightMode: 'neumorphism-beyond',
-    darkMode: 'dark-neumorphism-beyond',
   },
   {
     id: 'flat-soft-ui',
@@ -379,98 +358,6 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#101C38] text-sky-200 border-sky-400/40',
   },
   {
-    id: 'neumorphism-beyond',
-    familyId: 'neumorphism-beyond',
-    familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Neumorphism Soft UI',
-    mechanism: 'light',
-    counterpartMode: 'dark-neumorphism-beyond',
-    cardClassName: 'card-neumorphism-beyond',
-    name: 'Nổi Khối Kính Mờ',
-    label: 'Nổi Khối Kính Mờ',
-    shortBadge: 'Nổi Khối Kính Mờ',
-    tagLabel: 'Neumorphism · Soft UI · Không viền',
-    modeLabel: 'Nổi Khối Kính Mờ',
-    isDark: false,
-    icon: 'sliders',
-    color: '#2563EB',
-    desc: 'Chuẩn Neumorphism (Soft UI): bề mặt lì đồng nhất #E0E5EC không viền, đổ bóng kép sáng–tối góc chéo, ô nhập nhấn lõm vào nền và điểm nhấn màu sắc rõ nét.',
-    cardSampleStyle: {
-      background: '#E0E5EC',
-      backdropFilter: 'none',
-      WebkitBackdropFilter: 'none',
-      borderRadius: '20px',
-      border: 'none',
-      boxShadow:
-        '-6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60)',
-      color: '#1E293B',
-    },
-    miniPreviewWrapStyle: {
-      background: '#E0E5EC',
-      borderColor: 'transparent',
-      boxShadow:
-        'inset -4px -4px 8px rgba(255, 255, 255, 0.85), inset 4px 4px 8px rgba(163, 177, 198, 0.60)',
-    },
-    miniTabStyle: {
-      background: '#E0E5EC',
-      color: '#1E293B',
-      borderColor: 'transparent',
-      boxShadow:
-        '-3px -3px 6px rgba(255, 255, 255, 0.85), 3px 3px 6px rgba(163, 177, 198, 0.56)',
-    },
-    miniBtnStyle: {
-      background: '#2563EB',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-[#E0E5EC] text-[#2563EB] border-transparent',
-  },
-  {
-    id: 'dark-neumorphism-beyond',
-    familyId: 'neumorphism-beyond',
-    familyLabel: 'Nổi Khối Kính Mờ',
-    familyLabelEn: 'Neumorphism Soft UI',
-    mechanism: 'dark',
-    counterpartMode: 'neumorphism-beyond',
-    cardClassName: 'card-dark-neumorphism-beyond',
-    name: 'Khối Kính Mờ Tối',
-    label: 'Khối Kính Mờ Tối',
-    shortBadge: 'Khối Kính Mờ Tối',
-    tagLabel: 'Neumorphism Tối · Soft UI · Không viền',
-    modeLabel: 'Khối Kính Mờ Tối',
-    isDark: true,
-    icon: 'moon',
-    color: '#60A5FA',
-    desc: 'Phiên bản tối chuẩn Neumorphism (Soft UI): bề mặt than lì đồng nhất #1E242E không viền, đổ bóng kép nổi khối dịu mắt và trạng thái nhấn lún trực tiếp vào nền.',
-    cardSampleStyle: {
-      background: '#1E242E',
-      backdropFilter: 'none',
-      WebkitBackdropFilter: 'none',
-      borderRadius: '20px',
-      border: 'none',
-      boxShadow:
-        '-6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78)',
-      color: '#E6EDF7',
-    },
-    miniPreviewWrapStyle: {
-      background: '#1E242E',
-      borderColor: 'transparent',
-      boxShadow:
-        'inset -4px -4px 8px rgba(45, 54, 70, 0.68), inset 4px 4px 8px rgba(11, 14, 20, 0.82)',
-    },
-    miniTabStyle: {
-      background: '#1E242E',
-      color: '#E6EDF7',
-      borderColor: 'transparent',
-      boxShadow:
-        '-3px -3px 6px rgba(45, 54, 70, 0.68), 3px 3px 6px rgba(11, 14, 20, 0.75)',
-    },
-    miniBtnStyle: {
-      background: '#3B82F6',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-[#1E242E] text-[#60A5FA] border-transparent',
-  },
-  {
     id: 'flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
@@ -717,16 +604,6 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['deep-ocean'],
     dark: CARD_STYLES_MAP['deep-ocean'],
   },
-  'neumorphism-beyond': {
-    familyId: 'neumorphism-beyond',
-    label: 'Nổi Khối Kính Mờ',
-    labelEn: 'Tactile Extruded Frosted Glass',
-    description: 'Nổi khối kép sắc nét kết hợp kính mờ phiên bản Sáng & Tối cùng 6 sắc màu chuẩn.',
-    descriptionEn: 'Neumorphism, Glassmorphism & Beyond dual-shadow extrusion in Light & Dark editions with 6 reference accents.',
-    icon: 'sliders',
-    light: CARD_STYLES_MAP['neumorphism-beyond'],
-    dark: CARD_STYLES_MAP['dark-neumorphism-beyond'],
-  },
   'flat-soft-ui': {
     familyId: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
@@ -830,11 +707,11 @@ export const getThemeForMechanism = (
 };
 
 const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
-  'frost-ice-neu': 'neumorphism-beyond',
-  'dark-frost-ice-neu': 'dark-neumorphism-beyond',
+  'frost-ice-neu': 'flat-soft-ui',
+  'dark-frost-ice-neu': 'dark-flat-soft-ui',
   'iridescent-liquid-glass': 'liquid-glass',
   'dark-iridescent-liquid-glass': 'dark-liquid-glass',
-  'soft-indigo-fintech': 'neumorphism-beyond',
+  'soft-indigo-fintech': 'flat-soft-ui',
   'dark-soft-indigo-fintech': 'dark-liquid-glass',
   'light-cowhide-leather': 'liquid-glass',
   'ice-blue-neu': 'liquid-glass',

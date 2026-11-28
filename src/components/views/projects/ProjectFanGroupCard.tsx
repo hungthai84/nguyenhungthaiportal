@@ -181,7 +181,7 @@ export const ProjectFanGroupCard: React.FC<ProjectFanGroupCardProps> = ({
         <div className="flex flex-col gap-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span
-              className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase"
+              className="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide"
               style={{
                 background: `${group.accentColor}20`,
                 color: group.accentColor,
@@ -309,7 +309,7 @@ export const ProjectFanGroupCard: React.FC<ProjectFanGroupCardProps> = ({
 
                 {/* Top Badge Row */}
                 <div className="relative z-10 flex items-center justify-between gap-1 w-full">
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-black/35 backdrop-blur-md border border-white/20 text-white/95">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-black/35 backdrop-blur-md border border-white/20 text-white/95">
                     {orderCode}
                   </span>
                   <span className="w-5 h-5 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-white/90">

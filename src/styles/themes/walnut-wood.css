@@ -1579,12 +1579,14 @@ html[data-card-style="walnut-wood"] #home-hero-cta-primary {
 }
 html[data-card-style="walnut-wood"] #home-hero-cta-primary svg {
   color: #FFFBF4 !important;
+  stroke-width: 2.55 !important;
 }
 html[data-card-style="walnut-wood"] #home-hero-cta-secondary {
   background: rgba(42, 25, 15, 0.85) !important;
   border: 1px solid rgba(245, 196, 120, 0.45) !important;
-  color: #FFFBF4 !important;
+  color: #F5C478 !important;
 }
 html[data-card-style="walnut-wood"] #home-hero-cta-secondary svg {
   color: #F5C478 !important;
+  stroke-width: 2.55 !important;
 }

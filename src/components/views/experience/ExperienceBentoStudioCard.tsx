@@ -84,21 +84,51 @@ html:not(.dark)[data-theme="light"] .ux-u214-grid {
 }
 
 #experience-main-card #experience-bento-grid .u214-t.exp-studio-card {
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
   position: relative;
   overflow: hidden;
   border-radius: 16px !important;
-  transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s ease, border-color .3s ease !important;
+  transform-style: preserve-3d;
+  transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s ease, border-color .3s ease, opacity .45s ease !important;
   will-change: transform, box-shadow !important;
+}
+
+#experience-main-card #experience-bento-grid .u214-t.exp-studio-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 12;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  background: radial-gradient(
+    360px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--u214-tile-accent, var(--ux-accent)) 18%, transparent),
+    transparent 70%
+  );
+}
+
+#experience-main-card #experience-bento-grid .u214-t.exp-studio-card:hover::before {
+  opacity: 1;
 }
 
 #experience-main-card #experience-bento-grid .u214-t.exp-studio-card:hover,
 #experience-main-card #experience-bento-grid .u214-t.exp-studio-card.is-on,
 #experience-main-card #experience-bento-grid .u214-t.exp-studio-card:focus-visible {
-  transform: translateY(-3px) !important;
+  transform: perspective(920px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-3px) !important;
   border-color: color-mix(in srgb, var(--u214-tile-accent, var(--ux-accent)) 68%, rgba(255, 255, 255, 0.45)) !important;
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--u214-tile-accent, var(--ux-accent)) 58%, transparent),
               0 16px 30px -14px color-mix(in srgb, var(--u214-tile-accent, var(--ux-accent)) 65%, rgba(0, 0, 0, 0.45)) !important;
   outline: none !important;
+}
+
+#experience-main-card #experience-bento-grid .u214-t.exp-studio-card:hover .exp-studio-icon {
+  transform: scale(1.12) rotate(-4deg);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Subtile interactive micro-lift when parent tile is active (.is-on) */
@@ -362,6 +392,41 @@ html:not(.dark)[data-theme="light"] .ux-u214-grid {
   font-weight: 900;
 }
 
+/* Light Mode Overrides for U214 Bento Footer Scenes */
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-scene-bar {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-ty,
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-sb {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(148, 163, 184, 0.32) !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-sb svg {
+  color: #475569 !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-rs i {
+  background: rgba(15, 23, 42, 0.14) !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-lt i {
+  background: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(148, 163, 184, 0.3) !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-sh {
+  color: #059669 !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .u214-scene-label {
+  color: #0f172a !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   #experience-main-card #experience-bento-grid .u214-t.exp-studio-card,
   .u214-av i,
@@ -398,9 +463,36 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
   const scene = u214Scene || VARIANT_TO_DEFAULT_SCENE[variant];
   const tileAccent = VARIANT_TO_ACCENT[variant];
 
+  const cardRef = useRef<HTMLElement | null>(null);
   const [isOn, setIsOn] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [typedText, setTypedText] = useState(u214RestText || '');
   const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rm =
+      typeof window !== 'undefined' &&
+      Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+    if (rm || !('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (typeof document !== 'undefined' && !u214StyleInjected) {
@@ -453,6 +545,42 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
     void fallbackText;
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    el.style.setProperty('--mx', `${x.toFixed(1)}px`);
+    el.style.setProperty('--my', `${y.toFixed(1)}px`);
+    const rm =
+      typeof window !== 'undefined' &&
+      Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+    if (!rm && rect.width > 0 && rect.height > 0) {
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      el.style.setProperty('--rx', `${(((y - cy) / cy) * -2.6).toFixed(2)}deg`);
+      el.style.setProperty('--ry', `${(((x - cx) / cx) * 2.6).toFixed(2)}deg`);
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button, a, input, video')) return;
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.3;
+    const ripple = document.createElement('span');
+    ripple.className = 'bento-card-ripple';
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left}px`;
+    ripple.style.top = `${e.clientY - rect.top}px`;
+    el.appendChild(ripple);
+    window.setTimeout(() => ripple.remove(), 680);
+  };
+
   const handleEnter = (e: React.PointerEvent<HTMLElement>) => {
     setIsOn(true);
     if ((scene === 'a' || scene === 'b') && u214TypeText) {
@@ -463,6 +591,10 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
 
   const handleLeave = (e: React.PointerEvent<HTMLElement>) => {
     setIsOn(false);
+    if (cardRef.current) {
+      cardRef.current.style.setProperty('--rx', '0deg');
+      cardRef.current.style.setProperty('--ry', '0deg');
+    }
     onPointerLeave?.(e);
   };
 
@@ -494,10 +626,13 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
 
   return (
     <section
+      ref={cardRef}
       data-bento-studio-card="true"
       data-studio-variant={variant}
       data-u214-scene={scene}
       tabIndex={0}
+      onMouseMove={handleMouseMove}
+      onMouseDown={handleMouseDown}
       onPointerEnter={handleEnter}
       onPointerLeave={handleLeave}
       onFocus={handleFocus}
@@ -512,6 +647,8 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
         'u214-t',
         `u214-${scene}`,
         isOn && 'is-on',
+        'card-reveal',
+        isVisible && 'is-visible',
         'exp-studio-card',
         `exp-studio-card--${variant}`,
         className
@@ -553,7 +690,7 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
       {/* Scene C Footer Widget: Stats Growing Vertical Bars */}
       {scene === 'c' && (
         <div className="u214-scene-bar mt-auto" aria-hidden="true">
-          <span className="text-[11px] font-bold tracking-wide text-white/85 truncate">
+          <span className="u214-scene-label text-[11px] font-bold tracking-wide text-white/85 truncate">
             Biểu đồ tăng trưởng KPI
           </span>
           <div className="u214-br">
@@ -570,7 +707,7 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
       {/* Scene D Footer Widget: Pulsing Security Shield */}
       {scene === 'd' && (
         <div className="u214-scene-bar mt-auto" aria-hidden="true">
-          <span className="text-[11px] font-bold tracking-wide text-emerald-100/90 truncate">
+          <span className="u214-scene-label text-[11px] font-bold tracking-wide text-emerald-100/90 truncate">
             Bảo chứng cam kết SLA & Bảo mật
           </span>
           <span className="u214-sh">
@@ -615,7 +752,7 @@ export const ExperienceBentoStudioCard: React.FC<ExperienceBentoStudioCardProps>
         >
           <span
             className={cn(
-              'text-[11px] font-bold tracking-wide truncate',
+              'u214-scene-label text-[11px] font-bold tracking-wide truncate',
               variant === 'amber-highlight' ? 'text-gray-950' : 'text-white/90'
             )}
           >

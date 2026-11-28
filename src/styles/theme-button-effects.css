@@ -165,8 +165,6 @@
     [data-card-style="dark-iridescent-liquid-glass"],
     [data-card-style="gradient-dopamine"],
     [data-card-style="deep-ocean"],
-    [data-card-style="neumorphism-beyond"],
-    [data-card-style="dark-neumorphism-beyond"],
     [data-card-style="cowhide-leather"],
     [data-card-style="dark-cowhide-leather"],
     [data-card-style="walnut-wood"],
@@ -182,127 +180,6 @@
   ):not([disabled]):hover::after {
     opacity: 1;
     transform: translate3d(120%, 0, 0) skewX(-18deg);
-  }
-}
-
-/* ------------------------------------------------------------------------- */
-/* 1. NEUMORPHISM & BEYOND (Nổi Khối Kính Mờ — Matte Soft UI Tactile Press)  */
-/* ------------------------------------------------------------------------- */
-html[data-card-style="neumorphism-beyond"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(255, 255, 255, 0.56) 0%,
-    rgba(100, 182, 255, 0.16) 48%,
-    transparent 78%
-  );
-}
-
-html[data-card-style="neumorphism-beyond"] :where(
-  button.nav-pill,
-  .banner-control-pill,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  .radial-contact-pill
-)::after {
-  background: linear-gradient(
-    112deg,
-    transparent 24%,
-    rgba(255, 255, 255, 0.44) 50%,
-    rgba(100, 182, 255, 0.18) 60%,
-    transparent 82%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html[data-card-style="neumorphism-beyond"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(100, 182, 255, 0.72) !important;
-    box-shadow:
-      0 8px 18px rgba(148, 163, 184, 0.26),
-      3px 5px 12px rgba(163, 177, 198, 0.34),
-      inset 0 1px 0 rgba(255, 255, 255, 0.56) !important;
-  }
-}
-
-/* 1B. DARK NEUMORPHISM BEYOND */
-html[data-card-style="dark-neumorphism-beyond"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(96, 165, 250, 0.24) 0%,
-    rgba(167, 139, 250, 0.14) 48%,
-    transparent 78%
-  );
-}
-
-html[data-card-style="dark-neumorphism-beyond"] :where(
-  button.nav-pill,
-  .banner-control-pill,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  .education-skill-chip,
-  .radial-contact-pill
-)::after {
-  background: linear-gradient(
-    112deg,
-    transparent 24%,
-    rgba(148, 189, 232, 0.24) 50%,
-    transparent 78%
-  );
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html[data-card-style="dark-neumorphism-beyond"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(96, 165, 250, 0.56) !important;
-    box-shadow:
-      7px 9px 18px rgba(4, 7, 15, 0.72),
-      -4px -4px 12px rgba(44, 60, 88, 0.42),
-      inset 0 1px 0 rgba(186, 218, 250, 0.18) !important;
   }
 }
 
@@ -1135,17 +1012,16 @@ html:root body :is(#interview-questions-card, [id$="-hero-banner"], .hero-banner
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.92), 0 4px 14px rgba(0, 0, 0, 0.75), 0 0 2px rgba(0, 0, 0, 0.96) !important;
 }
 
-/* 2. PROJECT CARDS: THEME-DRIVEN ELEVATION SHADOW & HOVER LIFT (ƯU TIÊN TUYỆT ĐỐI) */
+/* 2. PROJECT CARDS: STATIC SHADOW WITHOUT HOVER EFFECTS */
 html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]) {
   box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease !important;
+  transition: none !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   html:root body :is(#projects-grid, #projects-page-container) :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-    transform: translate3d(0, -4px, 0) !important;
-    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
-    box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
+    transform: none !important;
+    box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
   }
 }
 

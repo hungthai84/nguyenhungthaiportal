@@ -787,10 +787,7 @@ export const PullCord: React.FC<PullCordProps> = ({
   const themeVisual = PULL_CORD_THEME_VISUALS[cardStyle] || PULL_CORD_THEME_VISUALS['liquid-glass'];
   const activeThemeLabel = CARD_STYLES_MAP[cardStyle]?.shortBadge || 'Kính lỏng';
 
-  const isGlowDisabledTheme =
-    cardStyle === 'neumorphism-beyond' ||
-    cardStyle === 'dark-neumorphism-beyond' ||
-    cardStyle === 'frost-ice-neu';
+  const isGlowDisabledTheme = cardStyle === 'frost-ice-neu';
 
   const activeBulbStop = isColorMode
     ? COLOR_MODE_BULB_PALETTE[colorIndex]

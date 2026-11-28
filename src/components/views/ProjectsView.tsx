@@ -80,34 +80,91 @@ const PROJECTS_UX_308_050_CSS = `
   box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
 }
 
-/* #308 List Layout Morph */
-#projects-grid[data-view="list"] {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
-}
-#projects-grid[data-view="list"] .u308-it {
+/* #308 Responsive Grid Card View */
+html body #projects-page-container #projects-grid[data-view="grid"] {
   display: grid !important;
-  grid-template-columns: minmax(190px, 240px) 1fr !important;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)) !important;
+  grid-auto-rows: 1fr !important;
+  gap: var(--grid-cards-gap, 16px) !important;
+  row-gap: var(--grid-cards-gap, 16px) !important;
+  column-gap: var(--grid-cards-gap, 16px) !important;
   align-items: stretch !important;
-  padding: 10px !important;
-  gap: 14px !important;
+  justify-items: stretch !important;
 }
-@media (max-width: 640px) {
-  #projects-grid[data-view="list"] .u308-it {
-    grid-template-columns: 1fr !important;
+@media (max-width: 639px) {
+  html body #projects-page-container #projects-grid[data-view="grid"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    gap: 12px !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
   }
 }
-#projects-grid[data-view="list"] .u308-it .u308-ph {
+html body #projects-page-container #projects-grid[data-view="grid"] .project-card-body {
+  padding: 14px 16px !important;
+  gap: 10px !important;
+}
+
+/* #308 2-Column List Layout Morph */
+html body #projects-page-container #projects-grid[data-view="list"] {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-auto-rows: 1fr !important;
+  gap: var(--grid-cards-gap, 16px) !important;
+  row-gap: var(--grid-cards-gap, 16px) !important;
+  column-gap: var(--grid-cards-gap, 16px) !important;
+  align-items: stretch !important;
+}
+@media (max-width: 899px) {
+  html body #projects-page-container #projects-grid[data-view="list"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+  }
+}
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it {
+  display: grid !important;
+  grid-template-columns: minmax(145px, 185px) minmax(0, 1fr) !important;
+  align-items: stretch !important;
+  padding: 10px !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
+  height: 100% !important;
+}
+@media (max-width: 560px) {
+  html body #projects-page-container #projects-grid[data-view="list"] .u308-it {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html body #projects-page-container #projects-grid[data-view="list"] .u308-it .u308-ph {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+}
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .u308-ph {
   width: 100% !important;
+  height: 100% !important;
+  min-height: 136px !important;
   margin: 0 !important;
-  aspect-ratio: 16 / 10 !important;
+  aspect-ratio: 4 / 3 !important;
   border-radius: 12px !important;
   border-bottom: 0 !important;
 }
-#projects-grid[data-view="list"] .u308-it .u308-ph img,
-#projects-grid[data-view="list"] .u308-it .u308-ph .project-card-banner-scrim {
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .u308-ph img,
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .u308-ph .project-card-banner-scrim {
   border-radius: 12px !important;
+}
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .project-card-code-badge {
+  display: none !important;
+}
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .project-card-group-badge {
+  max-width: calc(100% - 16px) !important;
+  top: 8px !important;
+  left: 8px !important;
+}
+html body #projects-page-container #projects-grid[data-view="list"] .u308-it .project-card-body {
+  padding: 2px 2px 2px 0 !important;
+  gap: 8px !important;
 }
 .u308-ph {
   transform-origin: 0 0;
@@ -120,47 +177,10 @@ const PROJECTS_UX_308_050_CSS = `
   display: flex;
 }
 
-/* #050 Spotlight-Tilt Card */
+/* #050 Project Card (Hover effects disabled per UX request) */
 .u050 {
-  --mx: 50%;
-  --my: 50%;
-  --rx: 0deg;
-  --ry: 0deg;
-  --tx: 0px;
-  --ty: 0px;
-  --spot: 0;
-  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(var(--tx), var(--ty), 0);
-  transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms, border-color 220ms;
-  will-change: transform;
-}
-.u050:hover {
-  --spot: 1;
-}
-.u050::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: radial-gradient(240px circle at var(--mx) var(--my), var(--u050-accent, var(--ux-accent)), transparent 65%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: var(--spot);
-  transition: opacity 240ms;
-  pointer-events: none;
-  z-index: 25;
-}
-.u050-glare {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255, 255, 255, .18), transparent 60%);
-  opacity: var(--spot);
-  transition: opacity 240ms;
-  mix-blend-mode: overlay;
-  z-index: 24;
+  transform: none !important;
+  transition: none !important;
 }
 .u050-dot {
   width: 8px;
@@ -196,9 +216,6 @@ const PROJECTS_UX_308_050_CSS = `
   font-weight: 700;
   cursor: pointer;
   transition: background 200ms, border-color 200ms, color 200ms, transform 140ms;
-}
-.u050-btn:hover {
-  border-color: var(--u050-accent, var(--ux-accent));
 }
 .u050-btn:active {
   transform: scale(.96);
@@ -447,8 +464,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     currentTheme === 'dark-liquid-glass' ||
     currentTheme === 'cowhide-leather' ||
     currentTheme === 'walnut-wood' ||
-    currentTheme === 'deep-ocean' ||
-    currentTheme === 'dark-neumorphism-beyond';
+    currentTheme === 'deep-ocean';
   const isLight = !isDark;
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -459,8 +475,12 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   const [activeSection, setActiveSection] = useState<string>('sec-mindmap');
   const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
-  // Lucian UX/UI #308 Grid-to-list morph state & #050 Spotlight-tilt read state
-  const [viewLayoutMode, setViewLayoutMode] = useState<'grid' | 'list' | 'fan'>('grid');
+  const [isPhaseDropdownOpen, setIsPhaseDropdownOpen] = useState<boolean>(false);
+  const [isCampaignDropdownOpen, setIsCampaignDropdownOpen] = useState<boolean>(false);
+  // Lucian UX/UI #308 Grid / List / Phase / Campaign view switcher
+  const [viewLayoutMode, setViewLayoutMode] = useState<'grid' | 'list' | 'phase' | 'fan'>('grid');
+  const [selectedPhaseFilter, setSelectedPhaseFilter] = useState<string>('all');
+  const [selectedCampaignFilter, setSelectedCampaignFilter] = useState<string>('all');
   const [readProjectIds, setReadProjectIds] = useState<Record<string, boolean>>({});
 
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
@@ -468,24 +488,34 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
   const projectsGridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (typeof document !== 'undefined' && !projectsUxStyleInjected) {
-      const styleEl = document.createElement('style');
-      styleEl.id = 'lucian-ux-308-050-projects-styles';
-      styleEl.textContent = PROJECTS_UX_308_050_CSS;
-      document.head.appendChild(styleEl);
-      projectsUxStyleInjected = true;
+    if (typeof document !== 'undefined') {
+      let styleEl = document.getElementById('lucian-ux-308-050-projects-styles') as HTMLStyleElement | null;
+      if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'lucian-ux-308-050-projects-styles';
+        document.head.appendChild(styleEl);
+      }
+      if (!projectsUxStyleInjected || styleEl.textContent !== PROJECTS_UX_308_050_CSS) {
+        styleEl.textContent = PROJECTS_UX_308_050_CSS;
+        projectsUxStyleInjected = true;
+      }
     }
   }, []);
 
-  // Lucian UX/UI #308 Web Animations API FLIP morphing between Grid and List
+  // Lucian UX/UI #308 Web Animations API FLIP morphing between Grid, List, Phase, and Campaign
   const handleSwitchViewLayout = useCallback(
-    (nextMode: 'grid' | 'list' | 'fan') => {
-      if (nextMode === viewLayoutMode) return;
-      SoundEngine.playTap();
-      if (nextMode === 'fan') {
-        setViewLayoutMode('fan');
+    (nextMode: 'grid' | 'list' | 'phase' | 'fan') => {
+      if (nextMode !== viewLayoutMode) {
+        SoundEngine.playTap();
+      }
+      if (nextMode === 'phase' || nextMode === 'fan') {
+        setViewLayoutMode(nextMode);
         return;
       }
+      setIsPhaseDropdownOpen(false);
+      setIsCampaignDropdownOpen(false);
+      if (nextMode === viewLayoutMode) return;
+
       const gridEl = projectsGridRef.current;
       if (!gridEl) {
         setViewLayoutMode(nextMode);
@@ -549,31 +579,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     [viewLayoutMode]
   );
 
-  // Lucian UX/UI #050 Pointer tilt & radial spotlight handler
-  const handleCardPointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const r = el.getBoundingClientRect();
-    if (!r.width || !r.height) return;
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    const px = x / r.width - 0.5;
-    const py = y / r.height - 0.5;
-    el.style.setProperty('--mx', `${x.toFixed(1)}px`);
-    el.style.setProperty('--my', `${y.toFixed(1)}px`);
-    el.style.setProperty('--ry', `${(px * 9).toFixed(2)}deg`);
-    el.style.setProperty('--rx', `${(-py * 9).toFixed(2)}deg`);
-    el.style.setProperty('--tx', `${(px * 4).toFixed(2)}px`);
-    el.style.setProperty('--ty', `${(py * 4).toFixed(2)}px`);
-  }, []);
-
-  const handleCardPointerLeave = useCallback((e: React.PointerEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    el.style.setProperty('--rx', '0deg');
-    el.style.setProperty('--ry', '0deg');
-    el.style.setProperty('--tx', '0px');
-    el.style.setProperty('--ty', '0px');
-  }, []);
-
   const handleToggleProjectRead = useCallback((e: React.MouseEvent, projectId: string) => {
     e.stopPropagation();
     SoundEngine.playTap();
@@ -587,21 +592,25 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (filterMenuRef.current && !filterMenuRef.current.contains(event.target as Node)) {
         setIsFilterDropdownOpen(false);
+        setIsPhaseDropdownOpen(false);
+        setIsCampaignDropdownOpen(false);
       }
     };
-    if (isFilterDropdownOpen) {
+    if (isFilterDropdownOpen || isPhaseDropdownOpen || isCampaignDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isFilterDropdownOpen]);
+  }, [isFilterDropdownOpen, isPhaseDropdownOpen, isCampaignDropdownOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
       if (mindmapProject) {
         setMindmapProject(null);
-      } else if (isFilterDropdownOpen) {
+      } else if (isFilterDropdownOpen || isPhaseDropdownOpen || isCampaignDropdownOpen) {
         setIsFilterDropdownOpen(false);
+        setIsPhaseDropdownOpen(false);
+        setIsCampaignDropdownOpen(false);
       } else if (selectedArticle || selectedGroup) {
         setSelectedArticle(null);
         setSelectedGroup(null);
@@ -609,7 +618,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [mindmapProject, isFilterDropdownOpen, selectedArticle, selectedGroup]);
+  }, [mindmapProject, isFilterDropdownOpen, isPhaseDropdownOpen, isCampaignDropdownOpen, selectedArticle, selectedGroup]);
 
   // Tự động kiểm tra URL / Hash để mở trang chi tiết dự án tương ứng
   useEffect(() => {
@@ -795,6 +804,81 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
       return haystack.includes(q);
     });
   }, [activeCategory, searchQuery]);
+
+  const PHASE_GROUPS: ProjectFanGroup[] = useMemo(() => {
+    const phaseMeta: Array<{
+      phase: string;
+      badge: string;
+      title: string;
+      subtitle: string;
+      accentColor: string;
+      artIndex: number;
+    }> = [
+      {
+        phase: 'Giai đoạn 1',
+        badge: 'Giai đoạn 1',
+        title: 'Nền tảng & Cấu trúc CSKH',
+        subtitle: 'Xây dựng phòng ban, thiết lập OKR/KPI và chuẩn hóa quy trình SOP lõi',
+        accentColor: isLight ? '#0284c7' : '#38bdf8',
+        artIndex: 1,
+      },
+      {
+        phase: 'Giai đoạn 2',
+        badge: 'Giai đoạn 2',
+        title: 'Tối ưu Đa kênh & Dữ liệu',
+        subtitle: 'Omnichannel, CRM 360, báo cáo BI, khung năng lực & trung tâm tự phục vụ',
+        accentColor: isLight ? '#7c3aed' : '#c084fc',
+        artIndex: 2,
+      },
+      {
+        phase: 'Giai đoạn 3',
+        badge: 'Giai đoạn 3',
+        title: 'Trải nghiệm & Tự động hóa AI',
+        subtitle: 'CJM, VoC, kiểm soát rời bỏ, Chatbot/Voicebot AI, RPA & CS Academy',
+        accentColor: isLight ? '#ea580c' : '#fb923c',
+        artIndex: 3,
+      },
+      {
+        phase: 'Xuyên suốt',
+        badge: 'Xuyên suốt',
+        title: 'Văn hóa Dịch vụ & Đổi mới AI',
+        subtitle: 'Customer-Centric COPC, quản trị khủng hoảng & AI Copilot nâng cao hiệu suất',
+        accentColor: isLight ? '#059669' : '#34d399',
+        artIndex: 4,
+      },
+    ];
+
+    return phaseMeta
+      .map((meta) => {
+        const projects = filteredProjects.filter((p) => (p.phase || 'Xuyên suốt') === meta.phase);
+        return {
+          id: `phase-${meta.phase}`,
+          title: meta.title,
+          subtitle: meta.subtitle,
+          badge: meta.badge,
+          accentColor: meta.accentColor,
+          artIndex: meta.artIndex,
+          projects,
+        };
+      })
+      .filter((g) => g.projects.length > 0 && (selectedPhaseFilter === 'all' || g.badge === selectedPhaseFilter));
+  }, [filteredProjects, isLight, selectedPhaseFilter]);
+
+  const CAMPAIGN_GROUPS: ProjectFanGroup[] = useMemo(() => {
+    return PROJECT_CARD_GROUPS.map((group, idx) => {
+      const matchedIds = new Set(filteredProjects.map((p) => p.id));
+      const projects = group.projects.filter((p) => matchedIds.has(p.id));
+      return {
+        id: group.id,
+        title: group.fourWordTitle,
+        subtitle: group.badgeText,
+        badge: group.code,
+        accentColor: getCardVisualConfig(group.visualId).accentColor,
+        artIndex: (idx % 12) + 1,
+        projects,
+      };
+    }).filter((g) => g.projects.length > 0 && (selectedCampaignFilter === 'all' || g.id === selectedCampaignFilter));
+  }, [filteredProjects, selectedCampaignFilter, isLight]);
 
   const handleOpenGroup = (group: ProjectCardGroup, initialProject?: ProjectData) => {
     SoundEngine.playTap();
@@ -1096,11 +1180,11 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   )}
                 </div>
 
-                {/* Lucian UX/UI #308 Grid-to-list morph switcher */}
+                {/* Lucian UX/UI #308 Grid / List / Phase / Campaign switcher */}
                 <div
-                  className="u308-vs shrink-0"
+                  className="u308-vs shrink-0 relative"
                   role="group"
-                  aria-label="Chuyển đổi chế độ hiển thị Lưới hoặc Danh sách"
+                  aria-label="Chuyển đổi chế độ hiển thị Lưới, Danh sách, Giai đoạn hoặc Chiến dịch"
                 >
                   <button
                     id="projects-view-grid-btn"
@@ -1126,8 +1210,8 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     className="u308-v"
                     data-v="list"
                     aria-pressed={viewLayoutMode === 'list'}
-                    aria-label="Chế độ dạng danh sách (List view)"
-                    title="Hiển thị dạng danh sách (List)"
+                    aria-label="Chế độ dạng danh sách 2 cột (List view)"
+                    title="Hiển thị dạng danh sách 2 cột"
                     onClick={() => handleSwitchViewLayout('list')}
                   >
                     <svg viewBox="0 0 16 16" aria-hidden="true">
@@ -1138,42 +1222,200 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     </svg>
                     <span className="hidden sm:inline">Danh sách</span>
                   </button>
-                  <button
-                    id="projects-view-fan-btn"
-                    type="button"
-                    className="u308-v"
-                    data-v="fan"
-                    aria-pressed={viewLayoutMode === 'fan'}
-                    aria-label="Giai đoạn / Nhóm theo chiến dịch (Fan Card)"
-                    title="Giai đoạn / Nhóm theo chiến dịch (Fan Card)"
-                    onClick={() => handleSwitchViewLayout('fan')}
-                  >
-                    <svg viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M2 12l4-8 4 8M6 8h8" />
-                    </svg>
-                    <span className="hidden sm:inline">Giai đoạn / Nhóm theo chiến dịch</span>
-                  </button>
+
+                  <div className="relative inline-flex">
+                    <button
+                      id="projects-view-phase-btn"
+                      type="button"
+                      className="u308-v"
+                      data-v="phase"
+                      aria-pressed={viewLayoutMode === 'phase'}
+                      aria-expanded={isPhaseDropdownOpen}
+                      aria-haspopup="listbox"
+                      aria-label="Hiển thị theo giai đoạn"
+                      title="Nhóm dự án theo giai đoạn"
+                      onClick={() => {
+                        handleSwitchViewLayout('phase');
+                        setIsCampaignDropdownOpen(false);
+                        setIsPhaseDropdownOpen((prev) => (viewLayoutMode === 'phase' ? !prev : true));
+                      }}
+                    >
+                      <WebIcon name="git-branch" className="w-3.5 h-3.5 shrink-0" />
+                      <span className="hidden sm:inline">
+                        {selectedPhaseFilter === 'all' ? 'Giai đoạn' : selectedPhaseFilter}
+                      </span>
+                      <WebIcon
+                        name="chevron-down"
+                        className={cn(
+                          'w-3 h-3 shrink-0 transition-transform duration-200',
+                          isPhaseDropdownOpen && 'rotate-180'
+                        )}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isPhaseDropdownOpen && (
+                        <SpringDropdownMenu
+                          id="projects-phase-listbox"
+                          data-element-type="card"
+                          placement="down"
+                          origin="100% 0%"
+                          role="listbox"
+                          className="banner-dropdown-menu bento-card glass-card absolute right-0 top-[calc(100%+8px)] w-max min-w-[13rem] max-w-xs rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                        >
+                          {[
+                            { id: 'all', label: 'Tất cả giai đoạn' },
+                            { id: 'Giai đoạn 1', label: 'Giai đoạn 1' },
+                            { id: 'Giai đoạn 2', label: 'Giai đoạn 2' },
+                            { id: 'Giai đoạn 3', label: 'Giai đoạn 3' },
+                            { id: 'Xuyên suốt', label: 'Xuyên suốt' },
+                          ].map((phaseOpt) => {
+                            const isSelected = selectedPhaseFilter === phaseOpt.id;
+                            return (
+                              <button
+                                key={phaseOpt.id}
+                                type="button"
+                                role="option"
+                                aria-selected={isSelected}
+                                data-selected={isSelected ? 'true' : undefined}
+                                onClick={() => {
+                                  SoundEngine.playTap();
+                                  setSelectedPhaseFilter(phaseOpt.id);
+                                  setViewLayoutMode('phase');
+                                  setIsPhaseDropdownOpen(false);
+                                }}
+                                className={cn(
+                                  'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-semibold font-play transition-all cursor-pointer text-left',
+                                  isSelected ? 'shadow-xs font-bold' : ''
+                                )}
+                              >
+                                <span className="truncate">{phaseOpt.label}</span>
+                                {isSelected && <SpringTick active={isSelected} />}
+                              </button>
+                            );
+                          })}
+                        </SpringDropdownMenu>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <div className="relative inline-flex">
+                    <button
+                      id="projects-view-fan-btn"
+                      type="button"
+                      className="u308-v"
+                      data-v="fan"
+                      aria-pressed={viewLayoutMode === 'fan'}
+                      aria-expanded={isCampaignDropdownOpen}
+                      aria-haspopup="listbox"
+                      aria-label="Nhóm theo chiến dịch (Fan Card)"
+                      title="Nhóm dự án theo chiến dịch"
+                      onClick={() => {
+                        handleSwitchViewLayout('fan');
+                        setIsPhaseDropdownOpen(false);
+                        setIsCampaignDropdownOpen((prev) => (viewLayoutMode === 'fan' ? !prev : true));
+                      }}
+                    >
+                      <WebIcon name="layers" className="w-3.5 h-3.5 shrink-0" />
+                      <span className="hidden sm:inline">
+                        {selectedCampaignFilter === 'all'
+                          ? 'Chiến dịch'
+                          : PROJECT_CARD_GROUPS.find((g) => g.id === selectedCampaignFilter)?.code || 'Chiến dịch'}
+                      </span>
+                      <WebIcon
+                        name="chevron-down"
+                        className={cn(
+                          'w-3 h-3 shrink-0 transition-transform duration-200',
+                          isCampaignDropdownOpen && 'rotate-180'
+                        )}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isCampaignDropdownOpen && (
+                        <SpringDropdownMenu
+                          id="projects-campaign-listbox"
+                          data-element-type="card"
+                          placement="down"
+                          origin="100% 0%"
+                          role="listbox"
+                          className="banner-dropdown-menu bento-card glass-card absolute right-0 top-[calc(100%+8px)] w-max min-w-[15rem] max-w-xs rounded-[14px] py-2 px-2 z-50 flex flex-col gap-1"
+                        >
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={selectedCampaignFilter === 'all'}
+                            data-selected={selectedCampaignFilter === 'all' ? 'true' : undefined}
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setSelectedCampaignFilter('all');
+                              setViewLayoutMode('fan');
+                              setIsCampaignDropdownOpen(false);
+                            }}
+                            className={cn(
+                              'theme-dropdown-option w-full flex items-center justify-between px-3 py-1.5 rounded-[12px] typo-nav font-semibold font-play transition-all cursor-pointer text-left',
+                              selectedCampaignFilter === 'all' ? 'shadow-xs font-bold' : ''
+                            )}
+                          >
+                            <span className="truncate">Tất cả chiến dịch</span>
+                            {selectedCampaignFilter === 'all' && <SpringTick active />}
+                          </button>
+                          {PROJECT_CARD_GROUPS.map((group) => {
+                            const isSelected = selectedCampaignFilter === group.id;
+                            return (
+                              <button
+                                key={group.id}
+                                type="button"
+                                role="option"
+                                aria-selected={isSelected}
+                                data-selected={isSelected ? 'true' : undefined}
+                                onClick={() => {
+                                  SoundEngine.playTap();
+                                  setSelectedCampaignFilter(group.id);
+                                  setViewLayoutMode('fan');
+                                  setIsCampaignDropdownOpen(false);
+                                }}
+                                className={cn(
+                                  'theme-dropdown-option w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[12px] typo-nav font-semibold font-play transition-all cursor-pointer text-left',
+                                  isSelected ? 'shadow-xs font-bold' : ''
+                                )}
+                              >
+                                <span className="truncate">
+                                  {group.code} · {group.fourWordTitle}
+                                </span>
+                                {isSelected && <SpringTick active={isSelected} />}
+                              </button>
+                            );
+                          })}
+                        </SpringDropdownMenu>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* NỘI DUNG CHÍNH: DẠNG LƯỚI, DANH SÁCH HOẶC FAN CARD */}
-          {viewLayoutMode === 'fan' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-4">
-              {PROJECT_CARD_GROUPS.map((group, idx) => {
-                const fanGroup: ProjectFanGroup = {
-                  id: group.id,
-                  title: group.fourWordTitle,
-                  subtitle: group.badgeText,
-                  badge: group.code,
-                  accentColor: getCardVisualConfig(group.visualId).accentColor,
-                  artIndex: (idx % 12) + 1,
-                  projects: group.projects,
-                };
-                return (
+          {/* NỘI DUNG CHÍNH: DẠNG LƯỚI, DANH SÁCH, GIAI ĐOẠN HOẶC CHIẾN DỊCH FAN CARD */}
+          {viewLayoutMode === 'phase' ? (
+            PHASE_GROUPS.length === 0 ? (
+              <ViewState
+                variant="empty"
+                icon="folder-kanban"
+                title="Không tìm thấy dự án nào trong giai đoạn đã chọn."
+                actionLabel="Hiển thị tất cả giai đoạn"
+                onAction={() => {
+                  SoundEngine.playTap();
+                  setSelectedPhaseFilter('all');
+                  setActiveCategory('all');
+                  setSearchQuery('');
+                }}
+              />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-4">
+                {PHASE_GROUPS.map((fanGroup, idx) => (
                   <ProjectFanGroupCard
-                    key={group.id}
+                    key={fanGroup.id}
                     group={fanGroup}
                     groupIdx={idx}
                     isDark={isDark}
@@ -1183,9 +1425,40 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       setSelectedArticle(proj);
                     }}
                   />
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )
+          ) : viewLayoutMode === 'fan' ? (
+            CAMPAIGN_GROUPS.length === 0 ? (
+              <ViewState
+                variant="empty"
+                icon="folder-kanban"
+                title="Không tìm thấy dự án nào trong chiến dịch đã chọn."
+                actionLabel="Hiển thị tất cả chiến dịch"
+                onAction={() => {
+                  SoundEngine.playTap();
+                  setSelectedCampaignFilter('all');
+                  setActiveCategory('all');
+                  setSearchQuery('');
+                }}
+              />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-4">
+                {CAMPAIGN_GROUPS.map((fanGroup, idx) => (
+                  <ProjectFanGroupCard
+                    key={fanGroup.id}
+                    group={fanGroup}
+                    groupIdx={idx}
+                    isDark={isDark}
+                    onSelectProject={(proj) => {
+                      const parentGroup = PROJECT_CARD_GROUPS.find((g) => g.projects.some((p) => p.id === proj.id)) || null;
+                      setSelectedGroup(parentGroup);
+                      setSelectedArticle(proj);
+                    }}
+                  />
+                ))}
+              </div>
+            )
           ) : filteredProjects.length === 0 ? (
             <ViewState
               variant="empty"
@@ -1215,7 +1488,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
               const isRead = Boolean(readProjectIds[proj.id]);
 
               return (
-                <motion.article
+                <article
                   id={`project-card-${proj.id}`}
                   key={proj.id}
                   data-element-type="card"
@@ -1223,8 +1496,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                   data-read={isRead ? '1' : '0'}
                   role="button"
                   tabIndex={0}
-                  onPointerMove={handleCardPointerMove}
-                  onPointerLeave={handleCardPointerLeave}
                   onClick={() => {
                     handleOpenGroup(parentGroup, proj);
                     document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1237,7 +1508,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       document.getElementById('projects-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                   }}
-                  className="project-card card-item bento-card glass-card u050 u308-it group relative h-full p-0 flex flex-col justify-between border select-none cursor-pointer font-play min-w-0 overflow-hidden"
+                  className="project-card card-item bento-card glass-card u050 u308-it relative h-full p-0 flex flex-col justify-between border select-none cursor-pointer font-play min-w-0 overflow-hidden"
                   style={
                     {
                       borderColor: `${cardColor}45`,
@@ -1246,13 +1517,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                     } as React.CSSProperties
                   }
                 >
-                  {/* Lucian UX/UI #050 Radial Surface Glare */}
-                  <div className="u050-glare" aria-hidden="true" />
-
                   {/* 1. Ảnh bìa thẻ Dự án (.u308-ph cho FLIP morphing giữa Grid và List) */}
                   <div
                     data-media-card="image"
-                    className="project-card-banner u308-ph relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 group/img p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
+                    className="project-card-banner u308-ph relative w-[calc(100%-4px)] m-[2px] mb-0 aspect-[16/10] overflow-hidden bg-[var(--surface-tertiary-bg,var(--bg-subcard))] shrink-0 p-0 box-border rounded-bl-none rounded-br-none border-0 border-b border-[var(--border-subcard)]"
                   >
                     <img
                       src={bannerInfo.primaryUrl}
@@ -1269,7 +1537,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                             'https://i.postimg.cc/fRLM4D4K/1-1-Xay-dung-Phong-Dich-vu-Khach-hang.webp';
                         }
                       }}
-                      className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0 transition-transform duration-500 group-hover:scale-[1.03]"
+                      className="w-full h-full object-cover object-center rounded-bl-none rounded-br-none block m-0 p-0"
                     />
                     <div
                       className="project-card-banner-scrim absolute inset-0 pointer-events-none rounded-bl-none rounded-br-none"
@@ -1279,7 +1547,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       }}
                     />
                     <span
-                      className="absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[64%] truncate pointer-events-none"
+                      className="project-card-group-badge absolute top-2.5 left-2.5 z-20 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full typo-badge font-semibold text-white bg-slate-950/60 border border-white/25 backdrop-blur-md max-w-[64%] truncate pointer-events-none"
                     >
                       <span className="u050-dot" aria-hidden="true" />
                       <WebIcon name="layers" className="w-3 h-3 shrink-0" style={{ color: '#38BDF8' }} />
@@ -1289,7 +1557,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       className="project-card-code-badge education-year-badge banner-control-pill absolute top-2.5 right-2.5 z-20 typo-badge font-mono px-2.5 py-1 rounded-full inline-flex items-center gap-1 font-semibold"
                     >
                       <WebIcon name="folder" className="w-3 h-3 shrink-0" style={{ color: 'var(--text-link, var(--color-primary))' }} />
-                      <span>Giai đoạn</span>
+                      <span>{proj.phase || 'Giai đoạn'}</span>
                     </span>
                   </div>
 
@@ -1300,7 +1568,7 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         <h3
                           className={cn(
                             'u050-h typo-h4 card-title-synced font-play font-bold leading-snug m-0 p-0 w-full min-w-0 text-left block',
-                            viewLayoutMode === 'grid' ? 'line-clamp-2' : 'line-clamp-none'
+                            'line-clamp-2'
                           )}
                           data-card-title="true"
                           style={{
@@ -1329,32 +1597,30 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                       <p
                         className={cn(
                           'typo-caption text-[var(--text-secondary)] leading-relaxed break-words m-0',
-                          viewLayoutMode === 'grid' ? 'line-clamp-2' : 'line-clamp-3'
+                          'line-clamp-2'
                         )}
                       >
                         {proj.description}
                       </p>
 
-                      {/* Thông tin mở rộng chỉ hiển thị ở chế độ Danh sách (List view #308) */}
-                      <div className="u308-list-extra flex-wrap items-center gap-1.5 pt-1">
-                        {proj.role && (
-                          <span className="px-2.5 py-0.5 rounded-full typo-badge font-semibold bg-[var(--bg-subcard)] border border-[var(--border-subcard)] text-[var(--text-primary)]">
-                            Vai trò: {proj.role}
+                      {/* Thông tin mở rộng chỉ hiển thị ở chế độ Danh sách 2 cột (List view #308) */}
+                      <div className="u308-list-extra flex-wrap items-center gap-x-2 gap-y-1 pt-0.5 text-xs text-[var(--text-secondary)] min-w-0">
+                        {proj.phase && (
+                          <span className="font-bold text-[var(--text-primary)] truncate">
+                            {proj.phase}
                           </span>
                         )}
-                        {(proj.hashtags || []).slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-0.5 rounded-full typo-badge font-mono text-[var(--text-secondary)] bg-[var(--bg-subcard)]/70 border border-[var(--border-subcard)]"
-                          >
-                            {tag}
+                        {proj.phase && proj.role && <span aria-hidden="true">·</span>}
+                        {proj.role && (
+                          <span className="truncate">
+                            Vai trò: <strong className="text-[var(--text-primary)]">{proj.role}</strong>
                           </span>
-                        ))}
+                        )}
                       </div>
                     </div>
 
-                    <div className="project-card__actions mt-auto flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subcard)] min-w-0">
-                      <div className="flex items-center gap-2 min-w-[90px] flex-1">
+                    <div className="project-card__actions mt-auto flex flex-col gap-2 pt-2.5 border-t border-[var(--border-subcard)] min-w-0">
+                      <div className="flex items-center gap-2 w-full min-w-0">
                         <div className="flex-1 h-1.5 rounded-full bg-[var(--pillar-progress-track,rgba(148,163,184,0.28))] overflow-hidden">
                           <div
                             className="h-full rounded-full transition-all duration-500"
@@ -1366,34 +1632,36 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({
                         </span>
                       </div>
 
-                      {/* Lucian UX/UI #050 Mark as read toggle button */}
-                      <button
-                        type="button"
-                        className="u050-btn shrink-0"
-                        aria-pressed={isRead}
-                        title={isRead ? 'Bấm để hoàn tác trạng thái chưa xem' : 'Đánh dấu đã xem dự án này'}
-                        onClick={(e) => handleToggleProjectRead(e, proj.id)}
-                      >
-                        <svg viewBox="0 0 16 16" aria-hidden="true">
-                          {isRead ? (
-                            <path d="M3 8.5l3.2 3.2L13 5" />
-                          ) : (
-                            <circle cx="8" cy="8" r="5" />
-                          )}
-                        </svg>
-                        <span>{isRead ? 'Đã xem' : 'Đánh dấu xem'}</span>
-                      </button>
+                      <div className="flex items-center justify-between gap-2 w-full min-w-0">
+                        {/* Lucian UX/UI #050 Mark as read toggle button */}
+                        <button
+                          type="button"
+                          className="u050-btn shrink-0 whitespace-nowrap"
+                          aria-pressed={isRead}
+                          title={isRead ? 'Bấm để hoàn tác trạng thái chưa xem' : 'Đánh dấu đã xem dự án này'}
+                          onClick={(e) => handleToggleProjectRead(e, proj.id)}
+                        >
+                          <svg viewBox="0 0 16 16" aria-hidden="true">
+                            {isRead ? (
+                              <path d="M3 8.5l3.2 3.2L13 5" />
+                            ) : (
+                              <circle cx="8" cy="8" r="5" />
+                            )}
+                          </svg>
+                          <span>{isRead ? 'Đã xem' : 'Đánh dấu xem'}</span>
+                        </button>
 
-                      <span
-                        className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 group-hover:translate-x-0.5 transition-transform"
-                        style={{ color: cardColor }}
-                      >
-                        <span>Chi tiết</span>
-                        <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
-                      </span>
+                        <span
+                          className="inline-flex items-center gap-1 typo-caption font-bold shrink-0 whitespace-nowrap"
+                          style={{ color: cardColor }}
+                        >
+                          <span>Chi tiết</span>
+                          <WebIcon name="arrow-right" className="w-3.5 h-3.5 shrink-0" style={{ color: cardColor }} />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               );
             })}
           </div>

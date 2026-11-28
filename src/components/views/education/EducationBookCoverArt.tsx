@@ -533,7 +533,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
               aria-hidden="true"
             />
             <div
-              className="flex items-center justify-between gap-2 font-bold uppercase tracking-[0.1em]"
+              className="flex items-center justify-between gap-2 font-bold tracking-[0.06em]"
               style={{ fontSize: metaFontSize }}
             >
               <span className="truncate" style={{ color: palette.soft }}>
@@ -621,7 +621,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
               />
             </div>
             <span
-              className="font-extrabold uppercase tracking-wider px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/28 border border-white/15 text-white/95 tabular-nums"
+              className="font-extrabold tracking-wide px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/28 border border-white/15 text-white/95 tabular-nums"
               style={{ fontSize: metaFontSize }}
             >
               {shortCode}
@@ -637,7 +637,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
               aria-hidden="true"
             />
             <span
-              className="font-bold uppercase tracking-widest"
+              className="font-bold tracking-wide"
               style={{ fontSize: metaFontSize, color: palette.soft }}
             >
               {categoryLabel} · {course.year}
@@ -686,7 +686,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         <>
           <div className="relative z-10 w-full flex items-center justify-between pb-[2cqw] border-b border-white/22">
             <span
-              className="font-bold uppercase tracking-[0.12em] truncate"
+              className="font-bold tracking-[0.06em] truncate"
               style={{ fontSize: metaFontSize, color: palette.soft }}
             >
               {categoryLabel}
@@ -758,7 +758,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
             />
             <div className="w-full flex items-center justify-between gap-2">
               <span
-                className="font-bold uppercase tracking-wider px-[2cqw] py-[0.7cqw] rounded bg-black/25 border border-white/20 truncate"
+                className="font-bold tracking-wide px-[2cqw] py-[0.7cqw] rounded bg-black/25 border border-white/20 truncate"
                 style={{ fontSize: metaFontSize, color: palette.soft }}
               >
                 {categoryLabel}
@@ -834,7 +834,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         <>
           <div className="relative z-10 flex items-center justify-between gap-2 w-full">
             <span
-              className="font-bold uppercase tracking-wider truncate px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/26 border border-white/18"
+              className="font-bold tracking-wide truncate px-[2.2cqw] py-[0.8cqw] rounded-md bg-black/26 border border-white/18"
               style={{ fontSize: metaFontSize, color: palette.soft }}
             >
               {categoryLabel}

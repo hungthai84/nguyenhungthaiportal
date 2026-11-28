@@ -230,34 +230,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
     },
   ];
 
-  // 1 orbiting circular badge around portrait frame
-  const orbitBadges = [
-    {
-      id: 'home-orbit-icon-sparkles',
-      icon: 'sparkles',
-      posClass: 'top-[4%] right-[12%] sm:top-[5%] sm:right-[13%]',
-      gradient: isLeatherTheme
-        ? 'linear-gradient(135deg, #7A4A20 0%, #4E2B10 100%)'
-        : isOceanTheme
-          ? 'linear-gradient(145deg, rgba(14, 34, 68, 0.92) 0%, rgba(8, 20, 44, 0.96) 100%)'
-          : 'linear-gradient(135deg, #EC4899 0%, #F43F5E 100%)',
-      glow: isLeatherTheme
-        ? '0 4px 12px rgba(0, 0, 0, 0.45)'
-        : isOceanTheme
-          ? '0 4px 14px rgba(3, 9, 20, 0.55)'
-          : '0 10px 24px rgba(236, 72, 153, 0.42)',
-      borderColor: isLeatherTheme
-        ? 'rgba(245, 222, 179, 0.55)'
-        : isOceanTheme
-          ? 'rgba(56, 189, 248, 0.45)'
-          : 'rgba(255, 255, 255, 0.85)',
-      floatY: [-5, 5, -5],
-      floatX: [-2, 2, -2],
-      duration: 4.2,
-      delay: 0,
-    },
-  ];
-
   const mainCardInlineStyle: React.CSSProperties = {
     width: 'var(--home-main-card-w, min(calc(100vw - 32px), var(--main-card-target-w, 1200px)))',
     maxWidth: 'var(--main-card-target-w, 1200px)',
@@ -390,10 +362,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     type="button"
                     onClick={handleQuickNavigateAbout}
                     onMouseEnter={() => SoundEngine.playTap()}
-                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] font-bold typo-button hover:brightness-105 hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer border"
+                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] font-extrabold typo-button hover:brightness-105 hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer border"
                   >
-                    <WebIcon name="user-round" className="w-4 h-4 shrink-0" />
-                    <span>{isEn ? 'Explore Profile' : 'Hồ Sơ Năng Lực'}</span>
+                    <WebIcon name="user-round" strokeWidth={2.6} className="w-4 h-4 shrink-0" />
+                    <span className="font-extrabold">{isEn ? 'Explore Profile' : 'Hồ Sơ Năng Lực'}</span>
                   </button>
 
                   <button
@@ -401,13 +373,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     type="button"
                     onClick={handleQuickNavigateContact}
                     onMouseEnter={() => SoundEngine.playTap()}
-                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] border font-bold typo-button hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full sm:w-[190px] min-w-[185px] h-[48px] min-h-[48px] px-4 py-2.5 rounded-[var(--radius-global,14px)] border font-extrabold typo-button hover:-translate-y-0.5 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <WebIcon
                       name="mail"
+                      strokeWidth={2.6}
                       className="w-4 h-4 shrink-0"
                     />
-                    <span>{isEn ? 'Contact & Booking' : 'Liên Hệ Ngay'}</span>
+                    <span className="font-extrabold">{isEn ? 'Contact & Booking' : 'Liên Hệ Ngay'}</span>
                   </button>
                 </div>
 
@@ -619,42 +592,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         />
                       </svg>
                     </div>
-
-                    {/* 3 biểu tượng đa sắc kích thước lớn bay quanh viền vòng tròn */}
-                    {orbitBadges.map((badge) => (
-                      <motion.div
-                        key={badge.id}
-                        id={badge.id}
-                        aria-hidden="true"
-                        animate={
-                          prefersReducedMotion
-                            ? undefined
-                            : {
-                                y: badge.floatY,
-                                x: badge.floatX,
-                              }
-                        }
-                        transition={
-                          prefersReducedMotion
-                            ? undefined
-                            : {
-                                duration: badge.duration,
-                                repeat: Infinity,
-                                ease: 'easeInOut',
-                                delay: badge.delay,
-                              }
-                        }
-                        style={{
-                          background: badge.gradient,
-                          borderColor: badge.borderColor || 'rgba(255, 255, 255, 0.85)',
-                          color: isLeatherTheme ? '#FDE68A' : isOceanTheme ? '#38BDF8' : '#FFFFFF',
-                          boxShadow: badge.glow,
-                        }}
-                        className={`pointer-events-none select-none absolute z-10 w-11 h-11 sm:w-[52px] sm:h-[52px] rounded-full border-2 flex items-center justify-center ${badge.posClass}`}
-                      >
-                        <WebIcon name={badge.icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${isLeatherTheme ? 'text-[#FDE68A]' : isOceanTheme ? 'text-[#38BDF8]' : 'text-white'} drop-shadow-xs`} />
-                      </motion.div>
-                    ))}
 
                     <div
                       id="home-hero-circle-frame"

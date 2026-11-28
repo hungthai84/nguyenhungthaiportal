@@ -565,7 +565,7 @@ export const PdfView: React.FC<PdfViewProps> = ({ onShowNotification, onNavigate
             </div>
             <div className="mt-3">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-badge font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <WebIcon name="check-circle" className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 Sẵn sàng đảm nhận vai trò quản trị
               </span>
             </div>

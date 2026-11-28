@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
+import { BentoCard } from '@/components/ui/BentoCard';
 import { useLanguage } from '@/context/LanguageContext';
-import { VideoBanner } from '@/components/common/VideoBanner';
-import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 
 export interface ContactViewProps {
   currentTheme?: string;
@@ -16,7 +15,6 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
   void onShowNotification;
   const { language } = useLanguage();
   const isEn = language === 'en';
-  const contactBannerVideo = getDefaultBannerVideoConfig('contact');
 
   return (
     <div
@@ -55,156 +53,139 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
             <div
               id="contact-main-content"
               data-element-parent="contact-main-card"
-              className="w-full h-full min-h-0 flex-1 flex flex-col lg:flex-row items-stretch justify-start gap-[15px] min-w-0 box-border"
+              className="w-full h-full min-h-0 flex-1 flex flex-col items-stretch justify-start gap-[14px] min-w-0 box-border"
             >
-              {/* 1. HERO BANNER (CÙNG HÀNG VỚI KHUNG LỊCH TRÊN DESKTOP - VIDEO LÀM HÌNH NỀN BANNER) */}
-              <section
-                id="contact-hero-banner"
-                data-element-name="Banner phần đầu Đặt lịch"
-                data-element-type="banner-card"
+              {/* 1. THẺ THÔNG TIN ĐẶT LỊCH & KÊNH LIÊN HỆ NHANH (BentoCard Action + Info Light Mode) */}
+              <BentoCard
+                as="section"
+                id="contact-quick-info-card"
+                variant="info"
+                fxMode="spotlight-3d"
+                isDarkText={true}
+                data-element-name="Thẻ Thông tin đặt lịch & Liên hệ nhanh"
+                data-element-type="card"
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="banner-card bento-card glass-card group w-full min-h-[210px] sm:min-h-[230px] lg:min-h-0 lg:self-stretch shrink-0 h-auto lg:h-full flex flex-col justify-between rounded-[14px] shadow-xl overflow-hidden relative p-[15px] gap-[15px] box-border transition-all duration-300"
-                style={{
-                  padding: '15px',
-                  gap: '15px',
-                  borderRadius: 'var(--radius-card, 14px)',
-                  boxSizing: 'border-box',
-                }}
+                className="w-full shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 bg-gradient-to-br from-white via-slate-50/95 to-indigo-50/75 dark:from-slate-900/90 dark:via-slate-900/85 dark:to-indigo-950/60 border border-indigo-200/70 dark:border-indigo-400/25 shadow-md"
               >
-                {/* Video làm hình nền toàn khung Banner Đặt lịch */}
-                <div
-                  id="contact-banner-video-bg"
-                  aria-hidden="true"
-                  className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
-                >
-                  <VideoBanner
-                    videoId={contactBannerVideo.videoId}
-                    title={contactBannerVideo.title}
-                    className="w-full h-full"
-                    objectPosition="50% 25%"
-                    backgroundMode
-                  />
-                </div>
-                <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
-
-                {/* Nội dung thông điệp đặt lịch nổi trên nền video */}
-                <div className="relative z-10 flex-1 flex flex-col justify-between gap-3 min-w-0">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <span
-                        id="contact-badge-label"
-                        className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold uppercase tracking-wider shadow-sm backdrop-blur-md"
-                        style={{
-                          background: 'var(--bg-subcard)',
-                          borderColor: 'var(--border-subcard)',
-                          color: 'var(--color-primary)',
-                        }}
-                      >
-                        <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
-                        <span>{isEn ? 'Online Appointment' : 'Đặt lịch hẹn trực tuyến'}</span>
-                      </span>
-                    </div>
-                    <h1
-                      id="contact-heading-title"
-                      className="typo-h3 sm:typo-h2 font-bold tracking-tight text-left w-full m-0 p-0 leading-tight"
-                      data-card-title="true"
-                      style={{
-                        color: 'var(--text-primary)',
-                        textShadow: '0 1px 10px rgba(0, 0, 0, 0.28)',
-                      }}
+                <div className="flex flex-col gap-1.5 min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      id="contact-badge-label"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border typo-badge font-bold tracking-wide bg-indigo-50 border-indigo-200/80 text-indigo-700 dark:bg-indigo-500/15 dark:border-indigo-400/30 dark:text-indigo-300"
                     >
-                      {isEn ? 'Schedule a Meeting' : 'Lịch hẹn & Trao đổi'}
-                    </h1>
-                    <p
-                      id="contact-desc-text"
-                      className="typo-body text-left w-full m-0 p-2.5 rounded-[12px] leading-relaxed text-[13px] line-clamp-4 backdrop-blur-md border"
-                      style={{
-                        color: 'var(--text-primary)',
-                        background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.78)) 78%, transparent)',
-                        borderColor: 'var(--border-subcard)',
-                      }}
-                    >
-                      {isEn
-                        ? 'Select a convenient time slot via Google Calendar for executive recruitment, CX consulting, or project collaboration discussions.'
-                        : 'Chọn thời gian phù hợp qua Google Calendar để trao đổi trực tiếp về cơ hội tuyển dụng, tư vấn chiến lược CX hoặc hợp tác dự án.'}
-                    </p>
-                  </div>
-
-                  {/* Kênh liên hệ bổ trợ nhanh & Câu trích dẫn */}
-                  <div className="mt-auto flex flex-col gap-2.5">
-                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-white/20">
-                      <a
-                        href="tel:0909097882"
-                        className="flex items-center gap-1.5 p-2 rounded-lg backdrop-blur-md border border-[var(--border-subcard)] typo-caption font-bold text-[var(--text-primary)] transition-colors hover:brightness-105"
-                        style={{
-                          background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.85)) 85%, transparent)',
-                        }}
-                        title="Gọi điện trực tiếp: 0909097882"
-                      >
-                        <WebIcon name="phone" className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
-                        <span className="truncate">0909097882</span>
-                      </a>
-                      <a
-                        href="https://zalo.me/0909097882"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 p-2 rounded-lg backdrop-blur-md border border-[var(--border-subcard)] typo-caption font-bold text-[var(--text-primary)] transition-colors hover:brightness-105"
-                        style={{
-                          background: 'color-mix(in srgb, var(--bg-subcard, rgba(255,255,255,0.85)) 85%, transparent)',
-                        }}
-                        title="Kết nối Zalo: 0909097882"
-                      >
-                        <WebIcon name="message-circle" className="w-3.5 h-3.5 shrink-0 text-sky-500" />
-                        <span className="truncate">Zalo Chat</span>
-                      </a>
-                    </div>
-
+                      <WebIcon name="calendar" className="w-3.5 h-3.5 shrink-0" />
+                      <span>{isEn ? 'Online Appointment' : 'Đặt lịch hẹn trực tuyến'}</span>
+                    </span>
                     <p
                       id="contact-banner-quote"
-                      className="banner-quote typo-h4 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug m-0"
-                      style={{
-                        color: '#FFFFFF',
-                        fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-                        fontWeight: 700,
-                        fontStyle: 'normal',
-                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.78), 0 1px 2px rgba(0, 0, 0, 0.9)',
-                      }}
+                      className="banner-quote typo-body-sm font-handwriting font-quote not-italic font-bold select-none text-left m-0 text-indigo-600 dark:text-indigo-300"
+                      style={{ fontFamily: "var(--font-quote, 'Dancing Script', cursive)" }}
                     >
                       &quot;Luôn sẵn sàng lắng nghe và đồng hành ♡&quot;
                     </p>
                   </div>
-                </div>
-              </section>
 
-              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER (CÙNG HÀNG) */}
-              <div
+                  <h1
+                    id="contact-heading-title"
+                    className="typo-h3 font-bold tracking-tight text-left m-0 leading-tight text-slate-900 dark:text-white"
+                    data-card-title="true"
+                  >
+                    {isEn ? 'Schedule a Meeting' : 'Lịch hẹn & Trao đổi'}
+                  </h1>
+
+                  <p
+                    id="contact-desc-text"
+                    className="typo-caption sm:typo-body-sm text-left m-0 leading-relaxed text-slate-600 dark:text-slate-300"
+                  >
+                    {isEn
+                      ? 'Select a convenient time slot via Google Calendar for executive recruitment, CX consulting, or project collaboration discussions.'
+                      : 'Chọn thời gian phù hợp qua Google Calendar để trao đổi trực tiếp về cơ hội tuyển dụng, tư vấn chiến lược CX hoặc hợp tác dự án.'}
+                  </p>
+                </div>
+
+                {/* Các Sub-card hành động kết nối nhanh */}
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 shrink-0">
+                  <BentoCard
+                    as="div"
+                    variant="action"
+                    fxMode="float-shadow"
+                    className="!p-0 border border-emerald-200/85 bg-gradient-to-br from-emerald-50 to-teal-50/80 dark:from-emerald-950/60 dark:to-teal-950/50 dark:border-emerald-500/30 shadow-sm"
+                  >
+                    <a
+                      href="tel:0909097882"
+                      className="flex items-center gap-2 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-emerald-100 no-underline"
+                      title="Gọi điện trực tiếp: 0909097882"
+                    >
+                      <span className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                        <WebIcon name="phone" className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                      </span>
+                      <div className="flex flex-col leading-tight min-w-0">
+                        <span className="text-[10.5px] font-semibold text-emerald-700 dark:text-emerald-300">
+                          {isEn ? 'Direct Call' : 'Gọi trực tiếp'}
+                        </span>
+                        <span className="text-[13px] font-extrabold tracking-tight truncate">0909097882</span>
+                      </div>
+                    </a>
+                  </BentoCard>
+
+                  <BentoCard
+                    as="div"
+                    variant="action"
+                    fxMode="neon"
+                    className="!p-0 border border-sky-200/85 bg-gradient-to-br from-sky-50 to-indigo-50/80 dark:from-sky-950/60 dark:to-indigo-950/50 dark:border-sky-500/30 shadow-sm"
+                  >
+                    <a
+                      href="https://zalo.me/0909097882"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3.5 py-2.5 typo-caption font-bold text-slate-800 dark:text-sky-100 no-underline"
+                      title="Kết nối Zalo: 0909097882"
+                    >
+                      <span className="w-7 h-7 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0">
+                        <WebIcon name="message-circle" className="w-4 h-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                      </span>
+                      <div className="flex flex-col leading-tight min-w-0">
+                        <span className="text-[10.5px] font-semibold text-sky-700 dark:text-sky-300">
+                          {isEn ? 'Quick Message' : 'Nhắn tin nhanh'}
+                        </span>
+                        <span className="text-[13px] font-extrabold tracking-tight truncate">Zalo Chat</span>
+                      </div>
+                    </a>
+                  </BentoCard>
+                </div>
+              </BentoCard>
+
+              {/* 2. GOOGLE CALENDAR APPOINTMENT SCHEDULER (BentoCard Main Container Light Mode) */}
+              <BentoCard
+                as="div"
                 id="contact-info-container"
+                variant="main"
+                fxMode="minimal"
+                isDarkText={true}
                 data-element-name="Khung đặt lịch hẹn"
                 data-element-type="card"
                 data-section-card="true"
                 data-element-page="contact"
                 data-element-parent="contact-main-card"
-                className="bento-card glass-card flex-1 min-w-0 w-full h-full min-h-[550px] lg:min-h-0 flex flex-col rounded-[14px] shadow-xl gap-[12px] overflow-hidden relative p-[15px] box-border transition-all duration-300"
-                style={{
-                  padding: '15px',
-                  gap: '12px',
-                  borderRadius: 'var(--radius-card, 14px)',
-                  boxSizing: 'border-box',
-                }}
+                className="flex-1 min-w-0 w-full h-full min-h-[540px] lg:min-h-0 flex flex-col gap-[12px] overflow-hidden relative !p-[15px] bg-white/95 dark:bg-slate-900/85 border border-slate-200/85 dark:border-slate-700/60 shadow-lg"
               >
-                <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="relative z-10 flex items-center justify-between gap-2 pb-2 border-b" style={{ borderColor: 'var(--border-subcard)' }}>
-                  <h3 className="typo-h5 font-bold flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
-                    <WebIcon name="calendar" className="w-4 h-4 shrink-0" />
+                <div className="relative z-10 flex items-center justify-between gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-700/60">
+                  <h3 className="typo-h5 font-bold flex items-center gap-2 text-indigo-700 dark:text-indigo-300 m-0">
+                    <span className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                      <WebIcon name="calendar" className="w-4 h-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+                    </span>
                     <span>{isEn ? 'Google Calendar Appointment Schedule' : 'Lịch hẹn trực tuyến Google Calendar'}</span>
                   </h3>
+                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30">
+                    {isEn ? 'Available' : 'Sẵn sàng'}
+                  </span>
                 </div>
 
                 <div
                   id="contact-calendar-viewport"
-                  className="relative z-10 flex-1 w-full h-full min-h-[480px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,14px)] border border-[var(--border-subcard)] bg-transparent shadow-none flex flex-col p-0 m-0"
+                  className="relative z-10 flex-1 w-full h-full min-h-[470px] lg:min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar rounded-[var(--radius-subcard,12px)] border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-950/60 shadow-inner flex flex-col p-0 m-0"
                   style={{ padding: '0px', margin: '0px', scrollbarWidth: 'none' }}
                 >
                   <iframe
@@ -213,10 +194,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     style={{
                       display: 'block',
                       border: 0,
-                      borderRadius: 'var(--radius-subcard, 14px)',
+                      borderRadius: 'var(--radius-subcard, 12px)',
                       width: '100%',
                       height: '100%',
-                      minHeight: '480px',
+                      minHeight: '470px',
                       padding: '0px',
                       margin: '0px',
                     }}
@@ -225,10 +206,10 @@ export const ContactView: React.FC<ContactViewProps> = ({ currentTheme = 'liquid
                     scrolling="no"
                     frameBorder="0"
                     title="Đặt lịch hẹn Google Calendar"
-                    className="w-full h-full flex-1 rounded-[var(--radius-subcard,14px)] p-0 m-0 block"
+                    className="w-full h-full flex-1 rounded-[var(--radius-subcard,12px)] p-0 m-0 block"
                   />
                 </div>
-              </div>
+              </BentoCard>
             </div>
           </div>
         </div>

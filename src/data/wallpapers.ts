@@ -3,8 +3,6 @@ import { toOptimizedWebPUrl } from '@/utils/imageWebp';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
-import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
@@ -59,14 +57,6 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
   'deep-ocean': {
     light: deepOceanWallpaper,
     dark: deepOceanWallpaper,
-  },
-  'neumorphism-beyond': {
-    light: neumorphismBeyondWallpaper,
-    dark: darkNeumorphismBeyondWallpaper,
-  },
-  'dark-neumorphism-beyond': {
-    light: neumorphismBeyondWallpaper,
-    dark: darkNeumorphismBeyondWallpaper,
   },
   'frost-ice-neu': {
     light:
@@ -512,36 +502,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000020,
-  },
-  {
-    id: 'theme-bg-neumorphism-beyond',
-    name: '🧊 Nền Khối Mềm Sáng Mịn (Giao diện riêng)',
-    type: 'image',
-    value: neumorphismBeyondWallpaper,
-    bg: `url('${neumorphismBeyondWallpaper}') center/cover no-repeat`,
-    previewStyle: {
-      background: 'linear-gradient(145deg, #EEF2F8 0%, #EBF0F6 55%, #E5EBF3 100%)',
-      backgroundImage: `url('${neumorphismBeyondWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000022,
-  },
-  {
-    id: 'theme-bg-dark-neumorphism-beyond',
-    name: '🌑 Nền Khối Mềm Đêm Tối (Giao diện riêng)',
-    type: 'image',
-    value: darkNeumorphismBeyondWallpaper,
-    bg: `url('${darkNeumorphismBeyondWallpaper}') center/cover no-repeat`,
-    previewStyle: {
-      background: 'linear-gradient(145deg, #171E2B 0%, #141A25 55%, #111620 100%)',
-      backgroundImage: `url('${darkNeumorphismBeyondWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000024,
   },
   {
     id: 'theme-bg-frost-ice-neu',

@@ -618,13 +618,15 @@ html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-ct
 }
 html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-primary svg {
   color: #FFFFFF !important;
+  stroke-width: 2.55 !important;
 }
 html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-secondary {
   background: rgba(9, 28, 54, 0.85) !important;
   border: 1px solid rgba(56, 189, 248, 0.45) !important;
-  color: #E0F2FE !important;
+  color: #38BDF8 !important;
 }
 html:is([data-card-style="deep-ocean"], [data-theme="deep-ocean"]) #home-hero-cta-secondary svg {
   color: #38BDF8 !important;
+  stroke-width: 2.55 !important;
 }
 

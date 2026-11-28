@@ -2,8 +2,6 @@ import { CardEffectMode, CardStyleMode, SurfaceDepthMode, ThemeMechanismMode, Wa
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import neumorphismBeyondWallpaper from '@/assets/images/neumorphism_beyond_wallpaper_1795201986751.jpg';
-import darkNeumorphismBeyondWallpaper from '@/assets/images/dark_neumorphism_beyond_wallpaper_1795344399348.jpg';
 import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
@@ -53,8 +51,6 @@ export const THEME_NATIVE_SURFACE_DEPTH: Record<CardStyleMode, SurfaceDepthMode>
   'cowhide-leather': 'depth',
   'walnut-wood': 'depth',
   'deep-ocean': 'depth',
-  'neumorphism-beyond': 'depth',
-  'dark-neumorphism-beyond': 'depth',
   'frost-ice-neu': 'depth',
   'flat-soft-ui': 'flat',
   'dark-flat-soft-ui': 'flat',
@@ -67,8 +63,7 @@ export const THEME_NATIVE_SURFACE_DEPTH: Record<CardStyleMode, SurfaceDepthMode>
 export const getThemeNativeSurfaceDepth = (style: CardStyleMode): SurfaceDepthMode =>
   THEME_NATIVE_SURFACE_DEPTH[style] ?? 'depth';
 
-export const isNeumorphismCardStyle = (style: CardStyleMode): boolean =>
-  style === 'neumorphism-beyond' || style === 'dark-neumorphism-beyond';
+export const isNeumorphismCardStyle = (_style: CardStyleMode): boolean => false;
 
 export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   CardStyleMode,
@@ -79,8 +74,6 @@ export const THEME_DEFAULT_GLASS_SETTINGS: Record<
   'cowhide-leather': { cardOpacity: 100, blurIntensity: 0 },
   'walnut-wood': { cardOpacity: 100, blurIntensity: 0 },
   'deep-ocean': { cardOpacity: 84, blurIntensity: 20 },
-  'neumorphism-beyond': { cardOpacity: 100, blurIntensity: 0 },
-  'dark-neumorphism-beyond': { cardOpacity: 100, blurIntensity: 0 },
   'frost-ice-neu': { cardOpacity: 100, blurIntensity: 0 },
   'flat-soft-ui': { cardOpacity: 98, blurIntensity: 0 },
   'dark-flat-soft-ui': { cardOpacity: 96, blurIntensity: 0 },
@@ -150,24 +143,6 @@ export const THEME_BACKGROUNDS: Record<CardStyleMode, ThemeBackgroundSpec> = {
     fallbackGradient:
       'radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.18) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), linear-gradient(145deg, #0A1128 0%, #050B14 50%, #030712 100%)',
     overlayBg: 'rgba(5, 11, 20, 0.22)',
-  },
-  'neumorphism-beyond': {
-    id: 'neumorphism-beyond',
-    presetId: 'theme-bg-neumorphism-beyond',
-    label: 'Nền Lì Nổi Khối Soft UI Sáng',
-    themeMode: 'light',
-    imagePath: '',
-    fallbackGradient: '#E0E5EC',
-    overlayBg: 'transparent',
-  },
-  'dark-neumorphism-beyond': {
-    id: 'dark-neumorphism-beyond',
-    presetId: 'theme-bg-dark-neumorphism-beyond',
-    label: 'Nền Lì Nổi Khối Soft UI Tối',
-    themeMode: 'dark',
-    imagePath: '',
-    fallbackGradient: '#1E242E',
-    overlayBg: 'transparent',
   },
   'frost-ice-neu': {
     id: 'frost-ice-neu',
@@ -247,8 +222,6 @@ export const THEME_DEFAULT_WALLPAPER_ID: Record<CardStyleMode, string> = {
   'cowhide-leather': THEME_BACKGROUNDS['cowhide-leather'].presetId,
   'walnut-wood': THEME_BACKGROUNDS['walnut-wood'].presetId,
   'deep-ocean': THEME_BACKGROUNDS['deep-ocean'].presetId,
-  'neumorphism-beyond': THEME_BACKGROUNDS['neumorphism-beyond'].presetId,
-  'dark-neumorphism-beyond': THEME_BACKGROUNDS['dark-neumorphism-beyond'].presetId,
   'frost-ice-neu': THEME_BACKGROUNDS['frost-ice-neu'].presetId,
   'flat-soft-ui': THEME_BACKGROUNDS['flat-soft-ui'].presetId,
   'dark-flat-soft-ui': THEME_BACKGROUNDS['dark-flat-soft-ui'].presetId,
@@ -284,11 +257,10 @@ export interface LetterColorToken extends InterfaceColorPreset {
 
 /**
  * 14 sắc màu phân tích & phát triển từ hệ thẻ màu Trang Thư Ngỏ (LetterView.tsx)
- * Ứng dụng đồng bộ cho 4 nhóm giao diện:
+ * Ứng dụng đồng bộ cho các nhóm giao diện:
  *   1. Kính Lỏng Mềm Mại (liquid-glass / dark-liquid-glass)
- *   2. Nổi Khối Kính Mờ (neumorphism-beyond / dark-neumorphism-beyond)
- *   3. Giao Diện Phẳng Mềm (flat-soft-ui / dark-flat-soft-ui)
- *   4. Kính Mờ Phân Lớp (mica-fluent)
+ *   2. Giao Diện Phẳng Mềm (flat-soft-ui / dark-flat-soft-ui)
+ *   3. Kính Mờ Phân Lớp (mica-fluent)
  */
 export const LETTER_14_COLOR_PALETTE: LetterColorToken[] = [
   { id: 'letter-c1', labelVi: 'Tím Năng Lực', labelEn: 'Royal Amethyst', hex: '#7E22CE', darkHex: '#C084FC', sourceVi: 'Thẻ Hồ sơ năng lực', previewBg: 'linear-gradient(135deg, #9333EA, #7E22CE)' },
@@ -313,8 +285,6 @@ export const LETTER_14_DARK_HEXES: string[] = LETTER_14_COLOR_PALETTE.map((c) =>
 export const LETTER_14_PALETTE_THEME_STYLES: CardStyleMode[] = [
   'liquid-glass',
   'dark-liquid-glass',
-  'neumorphism-beyond',
-  'dark-neumorphism-beyond',
   'flat-soft-ui',
   'dark-flat-soft-ui',
   'mica-fluent',
@@ -477,32 +447,6 @@ export const THEME_CARD_SPECS: Record<CardStyleMode, ThemeCardSpec> = {
     cardEffectKindEn: 'Sonar Aura Glow',
     cardEffectDescVi: 'Phát sáng viền xanh lam sâu dịu theo nhịp đại dương',
     cardEffectDescEn: 'Soft deep-sea cyan edge glow on hover',
-  },
-  'neumorphism-beyond': {
-    surfaceColorHex: '#E0E5EC',
-    surfaceColorNameVi: 'Xám xanh lì Soft UI',
-    surfaceColorNameEn: 'Matte Soft UI Slate',
-    primaryColorHex: '#2563EB',
-    primaryColorNameVi: '14 Sắc Màu Thư Ngỏ (Xanh Quy Trình)',
-    primaryColorNameEn: '14-Color Letter Spectrum (Royal Blue)',
-    defaultCardEffect: 'inset',
-    cardEffectKindVi: 'Nổi khối & nhấn lún không viền',
-    cardEffectKindEn: 'Borderless Dual-Shadow Soft UI',
-    cardEffectDescVi: 'Một bề mặt lì đồng nhất #E0E5EC không viền, đổ bóng kép sáng–tối và nhấn lún mềm chuẩn Neumorphism',
-    cardEffectDescEn: 'One continuous matte #E0E5EC surface with dual soft shadows, inset press states, and zero borders',
-  },
-  'dark-neumorphism-beyond': {
-    surfaceColorHex: '#1E242E',
-    surfaceColorNameVi: 'Than xanh lì Soft UI',
-    surfaceColorNameEn: 'Dark Soft UI Slate',
-    primaryColorHex: '#60A5FA',
-    primaryColorNameVi: '14 Sắc Màu Thư Ngỏ (Xanh Đêm)',
-    primaryColorNameEn: '14-Color Letter Spectrum (Sky Glow)',
-    defaultCardEffect: 'inset',
-    cardEffectKindVi: 'Nổi khối & nhấn lún tối không viền',
-    cardEffectKindEn: 'Dark Borderless Dual-Shadow Soft UI',
-    cardEffectDescVi: 'Bề mặt than lì đồng nhất #1E242E không viền, bóng kép góc chéo và trạng thái nhấn lõm dịu mắt',
-    cardEffectDescEn: 'One continuous matte #1E242E dark surface with dual soft shadows, inset press states, and zero borders',
   },
   'frost-ice-neu': {
     surfaceColorHex: '#E0E8F2',

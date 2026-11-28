@@ -217,39 +217,6 @@ const U270_STYLES = `
   color: var(--ux-ink);
 }
 
-.u270-cur {
-  left: -14px;
-  top: 58%;
-}
-
-.u270-cur .u270-card {
-  padding: 0;
-  background: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-  display: flex;
-  align-items: flex-start;
-}
-
-.u270-cur svg {
-  width: 16px;
-  height: 16px;
-  color: #EC4899;
-  filter: drop-shadow(0 3px 6px rgba(236, 72, 153, 0.35));
-}
-
-.u270-cur span {
-  margin-top: 12px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: #EC4899;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  box-shadow: 0 6px 14px rgba(236, 72, 153, 0.35);
-}
-
 .u270-ch {
   right: -8px;
   top: 14%;
@@ -311,10 +278,6 @@ const U270_STYLES = `
   .u270-ch svg {
     width: 74px;
     height: 22px;
-  }
-  .u270-cur {
-    left: -8px;
-    top: 54%;
   }
   .u270-rt {
     left: 2%;
@@ -494,22 +457,6 @@ export const HomeCursorParallaxFloatingHero: React.FC<HomeCursorParallaxFloating
               {metricsList[metricIndex]}
             </b>
           </div>
-        </div>
-      </div>
-
-      {/* Layer 3: Teammate / Leader Cursor (.u270-cur) */}
-      <div
-        ref={setLayerRef(2)}
-        className="u270-l u270-cur"
-        data-z="1.6"
-        style={{ ['--t' as string]: '3.6s', ['--dl' as string]: '-1s' }}
-        aria-hidden="true"
-      >
-        <div className="u270-card">
-          <svg viewBox="0 0 16 16">
-            <path d="M2 1l11 6-5 1.4L6 14z" fill="currentColor" />
-          </svg>
-          <span>{isEn ? 'Hung Thai · CX' : 'Hùng Thái · CX'}</span>
         </div>
       </div>
 

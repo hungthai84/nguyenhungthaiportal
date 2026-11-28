@@ -153,7 +153,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
             {/* Top Kicker Row */}
             <div className="relative z-10 flex items-center justify-between gap-1.5 w-full">
               <span
-                className="text-[9px] font-bold uppercase tracking-wider truncate px-1.5 py-0.5 rounded bg-black/25 border border-white/15"
+                className="text-[9.5px] font-bold tracking-wide truncate px-1.5 py-0.5 rounded bg-black/25 border border-white/15"
                 style={{ color: palette.soft }}
               >
                 {categoryLabel}
@@ -210,7 +210,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
               style={{ background: palette.soft }}
               aria-hidden="true"
             />
-            <div className="flex items-center justify-between gap-1 text-[9px] font-bold uppercase tracking-widest">
+            <div className="flex items-center justify-between gap-1 text-[9.5px] font-bold tracking-wide">
               <span className="truncate" style={{ color: palette.soft }}>
                 {categoryLabel}
               </span>
@@ -273,7 +273,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
                 style={{ background: palette.highlight, opacity: 0.65 }}
               />
             </div>
-            <span className="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded bg-black/28 text-white/90 tabular-nums">
+            <span className="text-[9px] font-extrabold tracking-wide px-1.5 py-0.5 rounded bg-black/28 text-white/90 tabular-nums">
               {shortCode}
             </span>
           </div>
@@ -291,7 +291,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
               {title}
             </h3>
             <span
-              className="text-[9.5px] font-bold uppercase tracking-wide truncate"
+              className="text-[10px] font-bold tracking-wide truncate"
               style={{ color: palette.soft }}
             >
               {categoryLabel}
@@ -326,7 +326,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
 
         <div className="relative z-10 w-full flex items-center justify-center pb-1.5 border-b border-white/20">
           <span
-            className="text-[9px] font-bold uppercase tracking-[0.12em] truncate"
+            className="text-[10px] font-bold tracking-wide truncate"
             style={{ color: palette.soft }}
           >
             {categoryLabel}

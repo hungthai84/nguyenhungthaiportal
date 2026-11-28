@@ -52,7 +52,7 @@ body {
   }
 }
 
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"] *, [data-theme="walnut-wood"], [data-theme="walnut-wood"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-neumorphism-beyond"], [data-theme="dark-neumorphism-beyond"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *, [data-theme="dark-iridescent-liquid-glass"], [data-theme="dark-iridescent-liquid-glass"] *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *, [data-theme="dark-liquid-glass"], [data-theme="dark-liquid-glass"] *, [data-theme="cowhide-leather"], [data-theme="cowhide-leather"] *, [data-theme="dark-cowhide-leather"], [data-theme="dark-cowhide-leather"] *, [data-theme="walnut-wood"], [data-theme="walnut-wood"] *, [data-theme="deep-ocean"], [data-theme="deep-ocean"] *, [data-theme="dark-flat-soft-ui"], [data-theme="dark-flat-soft-ui"] *, [data-theme="dark-iridescent-liquid-glass"], [data-theme="dark-iridescent-liquid-glass"] *));
 
 @theme {
   --font-play: "Play", sans-serif;
@@ -81,8 +81,6 @@ body {
 @import "./styles/themes/dark-cowhide-leather.css";
 @import "./styles/themes/walnut-wood.css";
 @import "./styles/themes/deep-ocean.css";
-@import "./styles/themes/neumorphism-beyond.css";
-@import "./styles/themes/dark-neumorphism-beyond.css";
 @import "./styles/themes/neumorphism-soft-ui.css";
 @import "./styles/themes/neumorphism-soft-ui-dark.css";
 @import "./styles/themes/frost-ice-neu.css";
@@ -2995,7 +2993,7 @@ html.dark:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-co
   #footer-theme-mode-btn,
   .radial-contact-pill
 ) .nav-pill-title,
-html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-flat-soft-ui"]) :is(
+html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3011,7 +3009,7 @@ html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [
 }
 
 /* Default pill icon badges synced per theme family: unselected circle matches title color */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3029,7 +3027,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   box-shadow: var(--pill-badge-shadow, 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6D28D9)) 28%, transparent)) !important;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3044,7 +3042,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   stroke: currentColor !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3063,7 +3061,7 @@ html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-oce
   box-shadow: var(--pill-badge-shadow, 0 3px 8px rgba(2, 6, 23, 0.44)) !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3185,7 +3183,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="neumorphism-beyond"]):not([data-card-style="dark-neumorphism-beyond"]):not([data-card-style="frost-ice-neu"]) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3498,7 +3496,7 @@ html #el-p0-div-98::after {
 /* ========================================================================= */
 /* HEADER SURFACE SYNC & SUB-MEDIA CLIP-PATH PARITY (ALL ACTIVE THEMES)      */
 /* ========================================================================= */
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"], [data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="frost-ice-neu"], [data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leather"], [data-card-style="walnut-wood"], [data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) :is(
   #education-courses-grid .education-course-card .education-card-banner,
   .hero-banner .project-detail-banner-media,
   .hero-banner .project-detail-banner-media :is(img, video),
@@ -3588,15 +3586,6 @@ html[data-surface-depth="flat"] :is(
   animation: navPillRippleWave 560ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-html[data-card-style="neumorphism-beyond"] .nav-pill-ripple-wave {
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--nav-pill-accent, #4973FF) 42%, #ffffff) 0%,
-    rgba(100, 182, 255, 0.26) 52%,
-    transparent 76%
-  );
-}
-
 html[data-card-style="liquid-glass"] .nav-pill-ripple-wave {
   background: radial-gradient(
     circle,
@@ -3649,15 +3638,6 @@ html[data-card-style="deep-ocean"] .nav-pill-ripple-wave {
     rgba(6, 182, 212, 0.44) 48%,
     rgba(56, 189, 248, 0.18) 66%,
     transparent 78%
-  );
-}
-
-html[data-card-style="dark-neumorphism-beyond"] .nav-pill-ripple-wave {
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--nav-pill-accent, #64B6FF) 52%, #E2E8F0) 0%,
-    rgba(73, 115, 255, 0.28) 52%,
-    transparent 76%
   );
 }
 
@@ -3960,43 +3940,6 @@ html[data-card-style] :is(
 }
 
 @media (hover: hover) and (pointer: fine) {
-  /* 1. Nổi khối kính mờ (neumorphism-beyond) */
-  html[data-card-style="neumorphism-beyond"] :is(
-    button.nav-pill,
-    button#header-btn-hungthai-avatar,
-    #footer-lang-btn,
-    #footer-appearance-btn,
-    #footer-theme-mode-btn,
-    #footer-wallpaper-btn,
-    #footer-ai-btn,
-    .radial-contact-pill,
-    .theme-capsule-btn,
-    .theme-prev-next-btn,
-    .nav-arrow-btn,
-    .banner-control-pill,
-    .banner-primary-cta,
-    .swot-control-pill,
-    .theme-back-to-top-btn,
-    .btn-pill,
-    .btn-liquid-action,
-    .project-card-btn-primary,
-    .project-card-btn-secondary,
-    .exp-bento-rect-btn,
-    [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-  ):hover {
-    transform: translate3d(0, -1.5px, 0) !important;
-    border-color: rgba(100, 182, 255, 0.72) !important;
-    box-shadow:
-      0 8px 18px rgba(148, 163, 184, 0.28),
-      3px 5px 12px rgba(163, 177, 198, 0.36),
-      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
-  }
-
-  html[data-card-style="neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-    transform: scale(1.06);
-  }
-
   /* 2. Liquid Glass (Sáng & Tối): Hover thanh thoát đúng 180–240ms, không phóng đại/sink */
   html[data-card-style="liquid-glass"] :is(
     button.nav-pill,
@@ -4224,43 +4167,6 @@ html[data-card-style] :is(
   html[data-card-style="deep-ocean"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
     transform: scale(1.06);
     filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.65));
-  }
-
-  /* 8. Nổi khối kính mờ tối (dark-neumorphism-beyond) */
-  html[data-card-style="dark-neumorphism-beyond"] :is(
-    button.nav-pill,
-    button#header-btn-hungthai-avatar,
-    #footer-lang-btn,
-    #footer-appearance-btn,
-    #footer-theme-mode-btn,
-    #footer-wallpaper-btn,
-    #footer-ai-btn,
-    .radial-contact-pill,
-    .theme-capsule-btn,
-    .theme-prev-next-btn,
-    .nav-arrow-btn,
-    .banner-control-pill,
-    .banner-primary-cta,
-    .swot-control-pill,
-    .theme-back-to-top-btn,
-    .btn-pill,
-    .btn-liquid-action,
-    .project-card-btn-primary,
-    .project-card-btn-secondary,
-    .exp-bento-rect-btn,
-    [data-element-type="button"],
-    main button:not(.nav-pill-wrapper):not(.u306-ic):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.nht-wax-seal):not(.themed-image-card):not([id^="wallpaper-card-"]):not(.memory-photo-item):not(.project-card):not(.education-course-card):not([data-section-card="true"]):not([data-subcard="true"]):not(:disabled)
-  ):hover {
-    transform: translate3d(0, -1.5px, 0) !important;
-    border-color: rgba(100, 182, 255, 0.48) !important;
-    box-shadow:
-      6px 8px 18px rgba(4, 7, 15, 0.68),
-      -3px -3px 10px rgba(42, 54, 76, 0.42),
-      inset 0 1px 0 rgba(148, 163, 184, 0.18) !important;
-  }
-
-  html[data-card-style="dark-neumorphism-beyond"] :is(button.nav-pill, .radial-contact-pill):hover :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
-    transform: scale(1.06);
   }
 
   /* 9. Băng tuyết nổi khối (frost-ice-neu) */
@@ -4521,19 +4427,15 @@ html[data-card-style] :is(
 }
 
 /* ========================================================================= */
-/* ABSOLUTE FINAL OVERRIDES: PROJECT CARDS ELEVATION SHADOW & HOVER LIFT     */
+/* ABSOLUTE FINAL OVERRIDES: PROJECT CARDS STATIC SHADOW (NO HOVER LIFT)     */
 /* ========================================================================= */
 html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]) {
   box-shadow: var(--layer-l2-shadow, var(--shadow-card, 0 10px 25px -4px rgba(15, 23, 42, 0.12))) !important;
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease !important;
+  transition: none !important;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
-    transform: translate3d(0, -4px, 0) !important;
-    border-color: color-mix(in srgb, var(--color-primary, #4973FF) 48%, transparent) !important;
-    box-shadow: var(--layer-l2-shadow-hover, var(--shadow-card-hover, 0 22px 44px -10px rgba(15, 23, 42, 0.22))) !important;
-  }
+html body #projects-grid :is(.project-card, article.project-card, [id^="project-card-"]):hover {
+  transform: none !important;
 }
 
 /* ========================================================================= */
@@ -5215,17 +5117,6 @@ html[data-card-style="liquid-glass"] {
   --elev-subcard-l1-hover: 0 12px 26px -6px rgba(109, 40, 217, 0.14), 0 4px 10px -2px rgba(8, 145, 178, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
-/* Neumorphism Beyond (Light · Authentic Matte Dual Shadow) */
-html[data-card-style="neumorphism-beyond"] {
-  --elev-main-card: var(--elevation-primary-surface);
-  --elev-banner-card: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
-  --elev-banner-card-hover: -8px -8px 16px rgba(255, 255, 255, 0.90), 8px 8px 16px rgba(163, 177, 198, 0.66);
-  --elev-card-l2: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.60);
-  --elev-card-l2-hover: -8px -8px 16px rgba(255, 255, 255, 0.90), 8px 8px 16px rgba(163, 177, 198, 0.66);
-  --elev-subcard-l1: -4px -4px 9px rgba(255, 255, 255, 0.85), 4px 4px 9px rgba(163, 177, 198, 0.56);
-  --elev-subcard-l1-hover: -6px -6px 12px rgba(255, 255, 255, 0.90), 6px 6px 12px rgba(163, 177, 198, 0.62);
-}
-
 /* Frost Ice Neu (Light · Pure Matte Dual Shadow) */
 html[data-card-style="frost-ice-neu"] {
   --elev-main-card: var(--elevation-primary-surface);
@@ -5314,17 +5205,6 @@ html[data-card-style="deep-ocean"] {
   --elev-banner-card-hover: 0 26px 54px -10px rgba(2, 6, 23, 0.82), 0 0 28px -4px rgba(56, 189, 248, 0.28), inset 0 1px 0 rgba(125, 211, 252, 0.30);
   --elev-card-l2: 0 16px 36px -8px rgba(2, 6, 23, 0.66), 0 0 18px -6px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(125, 211, 252, 0.18);
   --elev-card-l2-hover: 0 22px 46px -8px rgba(2, 6, 23, 0.78), 0 0 24px -4px rgba(56, 189, 248, 0.26), inset 0 1px 0 rgba(125, 211, 252, 0.28);
-}
-
-/* Dark Neumorphism Beyond (Authentic Matte Dual Shadow) */
-html[data-card-style="dark-neumorphism-beyond"] {
-  --elev-main-card: var(--elevation-primary-surface);
-  --elev-banner-card: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
-  --elev-banner-card-hover: -8px -8px 16px rgba(49, 59, 77, 0.78), 8px 8px 16px rgba(9, 12, 17, 0.84);
-  --elev-card-l2: -6px -6px 12px rgba(45, 54, 70, 0.72), 6px 6px 12px rgba(11, 14, 20, 0.78);
-  --elev-card-l2-hover: -8px -8px 16px rgba(49, 59, 77, 0.78), 8px 8px 16px rgba(9, 12, 17, 0.84);
-  --elev-subcard-l1: -4px -4px 9px rgba(45, 54, 70, 0.68), 4px 4px 9px rgba(11, 14, 20, 0.74);
-  --elev-subcard-l1-hover: -6px -6px 12px rgba(49, 59, 77, 0.75), 6px 6px 12px rgba(9, 12, 17, 0.80);
 }
 
 /* Dark Flat Soft UI */
@@ -7689,7 +7569,7 @@ html:is([data-card-style="cowhide-leather"], [data-card-style="dark-cowhide-leat
   -webkit-backdrop-filter: none;
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="dark-neumorphism-beyond"], [data-card-style="frost-ice-neu"])
+html[data-card-style="frost-ice-neu"]
   :is(#projects-main-card, #experience-main-card) .projects-themed-slider .news-item-bg {
   box-shadow: var(--neu-raised-shadow, var(--shadow-card));
 }
@@ -8480,29 +8360,11 @@ div#root:nth-of-type(1) > div#website-root:nth-of-type(1) > main#global-content-
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease !important;
 }
 
-#projects-main-wrapper .project-card {
-  will-change: transform !important;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, border-color 220ms ease !important;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #projects-main-wrapper .news-slider-slide:hover,
-  #projects-main-wrapper .news-card-item:hover {
-    transform: scale(1.03) !important;
-    transform-origin: center center !important;
-  }
-
-  #projects-main-wrapper .project-card:hover {
-    transform: translate3d(0, -4px, 0) !important;
-  }
-}
-
-#projects-main-wrapper .news-slider-slide.swiper-slide-peek:hover,
-#projects-main-wrapper .news-slider-slide.swiper-slide-prev:hover,
-#projects-main-wrapper .news-slider-slide.swiper-slide-next:hover {
-  transform: scale(1.06) translateY(-4px) !important;
-  transform-origin: center center !important;
-  z-index: 40 !important;
+#projects-main-wrapper .project-card,
+#projects-main-wrapper .project-card:hover {
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
 }
 
 /* Banner dropdown menu isolation: absolute position, zero effect on banner dimensions */
@@ -9039,8 +8901,21 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 }
 
 #services-page-container .service-card.service-theme-card .service-partner-logo {
-  background: rgba(255, 255, 255, 0.94) !important;
-  background-color: rgba(255, 255, 255, 0.94) !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#services-page-container .service-card.service-theme-card .service-partner-logo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  display: block !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-partner-logo::before {
@@ -9082,8 +8957,21 @@ html.dark[data-card-style] body #services-page-container #services-expanded-card
 }
 
 #services-page-container #services-expanded-card .company-logo-surface {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#services-page-container #services-expanded-card .company-logo-surface img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  display: block !important;
 }
 
 #services-page-container #services-expanded-card .company-logo-surface::before {
@@ -9165,22 +9053,6 @@ html[data-card-style="deep-ocean"] {
     0 18px 44px -12px rgba(2, 8, 22, 0.80),
     0 0 22px -10px rgba(56, 189, 248, 0.26),
     inset 0 1px 0 rgba(125, 211, 252, 0.22);
-}
-
-/* 11. Nổi Khối Kính Mờ (Neumorphism Beyond Light) — Đùn nổi kép + kính mờ */
-html[data-card-style="neumorphism-beyond"] {
-  --shell-surface-shadow:
-    -6px -6px 14px rgba(255, 255, 255, 0.72),
-    6px 8px 18px rgba(148, 163, 184, 0.30),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-
-/* 12. Khối Kính Mờ Tối (Neumorphism Beyond Dark) — Đùn nổi tối dịu mắt */
-html[data-card-style="dark-neumorphism-beyond"] {
-  --shell-surface-shadow:
-    -5px -5px 14px rgba(36, 48, 68, 0.42),
-    8px 10px 22px rgba(3, 6, 12, 0.68),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* 13. Băng Tuyết Nổi Khối (Frost Ice Neu Light) — Nổi khối lì đối xứng chuẩn Neumorphism */
@@ -10241,8 +10113,25 @@ html:root[data-card-style] body :is(
 /* FINAL OVERRIDE 3: OPEN LETTER CONTENT CARD (#letter-main-scroll-viewport) */
 /* ========================================================================= */
 html:root body #letter-main-card #letter-main-scroll-viewport,
-html:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport,
-html.dark:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport,
+html:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 55%, rgba(238, 244, 255, 0.90) 100%) !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.24) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  padding: 14px !important;
+  color: var(--text-primary, #0f172a) !important;
+}
+
+html.dark:root[data-card-style] body #letter-main-card #letter-main-scroll-viewport {
+  background: var(--bg-subcard, rgba(15, 23, 42, 0.86)) !important;
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.20)) !important;
+  box-shadow: var(--shadow-subcard, 0 12px 28px -8px rgba(0, 0, 0, 0.45)) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  padding: 14px !important;
+  color: var(--text-primary, #f8fafc) !important;
+}
+
 html:root body #letter-main-card #welcomeEnvelopeOverlay,
 html:root[data-card-style] body #letter-main-card #welcomeEnvelopeOverlay,
 html.dark:root[data-card-style] body #letter-main-card #welcomeEnvelopeOverlay {

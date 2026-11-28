@@ -195,7 +195,6 @@ interface DomainBentoTemplate {
   badgeClass: string;
   descClass: string;
   ctaClass: string;
-  ringClass: string;
   dividerColor: string;
 }
 
@@ -217,7 +216,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-purple-950/60 border border-purple-400/35 text-purple-100',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-purple-950/60 group-hover:bg-purple-900 border border-purple-400/35 text-white',
-    ringClass: 'ring-2 ring-purple-950/70',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '02': {
@@ -228,7 +226,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-black/25 border border-white/25 text-amber-100',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-white/95 group-hover:bg-white border border-white/60 text-orange-700 shadow-sm',
-    ringClass: 'ring-2 ring-orange-950/60',
     dividerColor: 'rgba(255, 255, 255, 0.2)',
   },
   '03': {
@@ -239,7 +236,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-black/25 border border-emerald-300/35 text-emerald-100',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-emerald-500/25 group-hover:bg-emerald-500/40 border border-emerald-300/40 text-emerald-50',
-    ringClass: 'ring-2 ring-emerald-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '04': {
@@ -251,7 +247,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-black/25 border border-pink-200/30 text-yellow-200',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-yellow-200',
-    ringClass: 'ring-2 ring-purple-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.18)',
   },
   '05': {
@@ -262,7 +257,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-white/15 border border-cyan-200/35 text-cyan-100',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-cyan-50',
-    ringClass: 'ring-2 ring-indigo-950/75',
     dividerColor: 'rgba(255, 255, 255, 0.18)',
   },
   '06': {
@@ -273,7 +267,6 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
     badgeClass: 'bg-indigo-500/25 border border-indigo-400/40 text-indigo-200',
     descClass: 'text-white font-medium',
     ctaClass: 'bg-indigo-600/85 group-hover:bg-indigo-500 border border-indigo-400/40 text-white',
-    ringClass: 'ring-2 ring-slate-950/80',
     dividerColor: 'rgba(255, 255, 255, 0.14)',
   },
 };
@@ -1254,12 +1247,10 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className={cn(
-                                      'company-logo-surface service-partner-logo w-[30px] h-[30px] rounded-full overflow-hidden flex items-center justify-center p-0.5 shrink-0 shadow-sm bg-white',
-                                      bentoTpl.ringClass
-                                    )}
+                                    className="company-logo-surface service-partner-logo w-[30px] h-[30px] aspect-square rounded-full p-0 border-0 ring-0 outline-none overflow-hidden flex items-center justify-center shrink-0 shadow-sm"
                                     style={{
-                                      background: '#ffffff',
+                                      border: 'none',
+                                      padding: 0,
                                     }}
                                   >
                                     <img
@@ -1268,7 +1259,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                       loading="lazy"
                                       decoding="async"
                                       referrerPolicy="no-referrer"
-                                      className="w-full h-full object-contain rounded-full select-none"
+                                      className="w-full h-full object-cover rounded-full block select-none"
                                       style={{
                                         imageRendering: '-webkit-optimize-contrast',
                                       }}

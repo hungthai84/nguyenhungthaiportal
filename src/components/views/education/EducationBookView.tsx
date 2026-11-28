@@ -622,7 +622,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         </div>
 
         <p
-          className="relative z-10 font-bold uppercase tracking-[0.08em] m-0"
+          className="relative z-10 font-bold tracking-[0.06em] m-0"
           style={{
             fontFamily: BOOK_COVER_BODY_FONT,
             fontSize: 'clamp(10px, 2.95cqw, var(--fs-label, 12px))',

@@ -296,6 +296,11 @@ function applyCustomSurfaceColorVariables(surfaceColor: string): void {
     '--text-muted',
     '--border-subcard',
     '--border-color',
+    '--neu-base',
+    '--neu-bg',
+    '--neu-surface',
+    '--neu-shadow-light',
+    '--neu-shadow-dark',
   ];
 
   const rgb = surfaceColor !== 'default' ? parseHexRgb(surfaceColor) : null;
@@ -309,6 +314,13 @@ function applyCustomSurfaceColorVariables(surfaceColor: string): void {
 
   const lum = getRelativeLum(rgb.r, rgb.g, rgb.b);
   const darkSurface = lum < 0.42;
+  const solidHex = toHexColor(rgb.r, rgb.g, rgb.b);
+  const neuLightShadow = darkSurface
+    ? `rgba(${clampByteVal(rgb.r + 36)}, ${clampByteVal(rgb.g + 40)}, ${clampByteVal(rgb.b + 48)}, 0.45)`
+    : `rgba(255, 255, 255, 0.88)`;
+  const neuDarkShadow = darkSurface
+    ? `rgba(0, 0, 0, 0.65)`
+    : `rgba(${clampByteVal(rgb.r - 61)}, ${clampByteVal(rgb.g - 52)}, ${clampByteVal(rgb.b - 38)}, 0.62)`;
   const mainBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.78 : 0.72})`;
   const cardBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.84 : 0.80})`;
   const cardHover = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${darkSurface ? 0.92 : 0.90})`;
@@ -327,6 +339,11 @@ function applyCustomSurfaceColorVariables(surfaceColor: string): void {
 
   for (const el of targets) {
     el.setAttribute('data-custom-surface', 'true');
+    el.style.setProperty('--neu-base', solidHex, 'important');
+    el.style.setProperty('--neu-bg', solidHex, 'important');
+    el.style.setProperty('--neu-surface', solidHex, 'important');
+    el.style.setProperty('--neu-shadow-light', neuLightShadow, 'important');
+    el.style.setProperty('--neu-shadow-dark', neuDarkShadow, 'important');
     el.style.setProperty('--bg-main', mainBg, 'important');
     el.style.setProperty('--surface-primary-bg', mainBg, 'important');
     el.style.setProperty('--glass-main-bg', mainBg, 'important');
@@ -364,6 +381,7 @@ function applyCustomPrimaryColorVariables(primaryColor: string, isThemeDark: boo
     '--surface-interactive-active',
     '--color-primary-rgb',
     '--text-button-primary',
+    '--neu-accent',
   ];
 
   const rgb = primaryColor !== 'default' ? parseHexRgb(primaryColor) : null;
@@ -390,6 +408,7 @@ function applyCustomPrimaryColorVariables(primaryColor: string, isThemeDark: boo
 
   for (const el of targets) {
     el.setAttribute('data-custom-primary', 'true');
+    el.style.setProperty('--neu-accent', primaryHex, 'important');
     el.style.setProperty('--color-primary', primaryHex, 'important');
     el.style.setProperty('--color-accent', primaryHex, 'important');
     el.style.setProperty('--color-focus-ring', primaryHex, 'important');

@@ -82,8 +82,6 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const wrpRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
-  const timelineScrollRef = useRef<HTMLDivElement>(null);
-  const timelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const slotSlideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const slotItemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragStartXRef = useRef<number | null>(null);
@@ -92,18 +90,6 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   const wheelCooldownRef = useRef<number>(0);
   const wheelAccumRef = useRef<number>(0);
   const snapTimerRef = useRef<number | null>(null);
-
-  // Tự động căn giữa mốc công ty đang chọn trên thanh timeline ngang phía trên
-  useEffect(() => {
-    const scrollEl = timelineScrollRef.current;
-    const nodeEl = timelineNodeRefs.current[activeCarouselIdx];
-    if (!scrollEl || !nodeEl) return;
-    const targetLeft = nodeEl.offsetLeft - scrollEl.clientWidth / 2 + nodeEl.offsetWidth / 2;
-    scrollEl.scrollTo({
-      left: Math.max(0, targetLeft),
-      behavior: 'smooth',
-    });
-  }, [activeCarouselIdx, totalCards]);
 
   const extendedSlides = useMemo<ExtendedRoadmapSlide[]>(() => {
     return roadmapCards.map((item, idx) => ({
@@ -420,8 +406,8 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 
   return (
     <div className="exp-slider-view-root w-full h-full min-h-0 flex-1 flex flex-col justify-start gap-0 overflow-hidden relative">
-      {/* 2-Tier Header: Title & Subtitle Row + Full-Width Company Logo Timeline */}
-      <div className="w-full flex flex-col gap-1.5 px-[14px] sm:px-[24px] pt-[8px] pb-0 z-20 shrink-0">
+      {/* Header: Title & Subtitle Row */}
+      <div className="w-full flex flex-col gap-1 px-[14px] sm:px-[24px] pt-[8px] pb-0 z-20 shrink-0">
         <header className="w-full min-w-0 flex flex-col gap-1">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <Briefcase
@@ -481,164 +467,6 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             </p>
           </div>
         </header>
-
-        {/* Full-Width Horizontal Career Timeline (< | Logos + Years + Active Halo + Downward Pointer | >) */}
-        <div className="w-full min-w-0 flex items-center gap-1.5 sm:gap-2.5">
-          <button
-            type="button"
-            onClick={handlePrevCarousel}
-            disabled={totalCards <= 1 || activeCarouselIdx <= 0}
-            aria-label="Mốc công tác trước"
-            className={cn(
-              'no-theme-btn w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed',
-              isDarkSurface
-                ? 'bg-slate-900/80 border-white/25 text-white hover:bg-slate-800'
-                : 'bg-white/95 border-slate-200 text-slate-800 hover:bg-white shadow-sm'
-            )}
-          >
-            <WebIcon name="chevron-left" className="w-4 h-4" />
-          </button>
-
-          <div
-            ref={timelineScrollRef}
-            role="navigation"
-            aria-label="Timeline logo và năm công tác các công ty"
-            className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar pt-0.5 pb-0"
-          >
-            <div className="relative inline-flex md:flex items-center justify-between gap-2.5 sm:gap-3 min-w-full px-2 sm:px-4">
-              {/* Horizontal gradient timeline track behind logos */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute left-8 right-8 top-[27px] sm:top-[29px] h-[3px] rounded-full"
-                style={{
-                  background: isWalnutWood
-                    ? 'linear-gradient(90deg, rgba(245, 196, 120, 0.35), rgba(245, 196, 120, 0.85), rgba(238, 42, 123, 0.65))'
-                    : isDarkLeather || isBrownLeather
-                      ? 'linear-gradient(90deg, rgba(229, 184, 126, 0.35), rgba(229, 184, 126, 0.85), rgba(238, 42, 123, 0.65))'
-                      : 'linear-gradient(90deg, rgba(56, 189, 248, 0.55) 0%, rgba(59, 130, 246, 0.78) 32%, rgba(236, 72, 153, 0.75) 62%, rgba(250, 204, 21, 0.72) 82%, rgba(99, 102, 241, 0.68) 100%)',
-                }}
-              />
-
-              {roadmapCards.map((item, idx) => {
-                const isActive = idx === activeCarouselIdx;
-                const shortYear = item.yearBadge.replace(/^Năm\s+/i, '').trim() || item.yearBadge;
-
-                return (
-                  <button
-                    key={`header-timeline-${item.key}`}
-                    ref={(el) => {
-                      timelineNodeRefs.current[idx] = el;
-                    }}
-                    type="button"
-                    onClick={() => handleSelectBullet(idx)}
-                    aria-current={isActive ? 'step' : undefined}
-                    title={`${item.yearBadge} · ${item.shortName}`}
-                    data-transparent-btn="true"
-                    className={cn(
-                      'no-theme-btn exp-timeline-node-btn group relative z-10 flex flex-col items-center gap-1 shrink-0 cursor-pointer bg-transparent border-0 p-0 shadow-none transition-transform duration-200 focus-visible:outline-none',
-                      isActive ? 'scale-105' : 'opacity-90 hover:opacity-100 hover:scale-105'
-                    )}
-                    style={{
-                      background: 'transparent',
-                      backgroundColor: 'transparent',
-                      backgroundImage: 'none',
-                      border: 'none',
-                      boxShadow: 'none',
-                      backdropFilter: 'none',
-                      WebkitBackdropFilter: 'none',
-                    }}
-                  >
-                    <span className="relative flex items-center justify-center w-[52px] h-[52px] sm:w-[58px] sm:h-[58px]">
-                      {isActive && (
-                        <>
-                          <span
-                            aria-hidden="true"
-                            className="absolute -inset-2 rounded-full opacity-75 blur-[8px] pointer-events-none"
-                            style={{
-                              background: 'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
-                            }}
-                          />
-                          <span
-                            aria-hidden="true"
-                            className="absolute -inset-[2.5px] rounded-full pointer-events-none"
-                            style={{
-                              background: 'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
-                            }}
-                          />
-                        </>
-                      )}
-                      <span
-                        className={cn(
-                          'relative z-10 w-full h-full rounded-full p-1.5 flex items-center justify-center overflow-hidden transition-transform duration-200',
-                          isActive
-                            ? 'bg-white shadow-md'
-                            : isDarkSurface
-                              ? 'bg-slate-900/90 border border-white/25'
-                              : 'bg-white border border-sky-300/80 shadow-xs'
-                        )}
-                      >
-                        <BlurUpImage
-                          src={item.logo}
-                          fallbackSrc={resolveCompanyLogo(item.shortName)}
-                          alt={item.shortName}
-                          priority={isActive ? 'eager' : 'lazy'}
-                          variant="contain"
-                          draggable={false}
-                          className="w-full h-full object-contain rounded-full select-none pointer-events-none"
-                        />
-                      </span>
-                    </span>
-                    <div className="relative flex flex-col items-center">
-                      <span
-                        className={cn(
-                          'inline-flex items-center justify-center text-[11px] sm:text-[12px] leading-none tabular-nums whitespace-nowrap transition-all duration-200',
-                          isActive
-                            ? 'px-3 py-1 rounded-full bg-[#2563EB] text-white font-bold shadow-sm'
-                            : 'px-1.5 py-0.5 rounded-full font-bold'
-                        )}
-                        style={
-                          isActive
-                            ? undefined
-                            : {
-                                color:
-                                  isWalnutWood || isDarkLeather || isBrownLeather
-                                    ? 'rgba(255, 245, 232, 0.9)'
-                                    : isDarkSurface
-                                      ? '#E2E8F0'
-                                      : '#0F172A',
-                              }
-                        }
-                      >
-                        {shortYear}
-                      </span>
-                      {isActive && (
-                        <span
-                          aria-hidden="true"
-                          className="w-2.5 h-2.5 rotate-45 bg-[#2563EB] -mt-1 rounded-[1px]"
-                        />
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleNextCarousel}
-            disabled={totalCards <= 1 || activeCarouselIdx >= totalCards - 1}
-            aria-label="Mốc công tác tiếp theo"
-            className={cn(
-              'no-theme-btn w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed',
-              isDarkSurface
-                ? 'bg-slate-900/80 border-white/25 text-white hover:bg-slate-800'
-                : 'bg-white/95 border-slate-200 text-slate-800 hover:bg-white shadow-sm'
-            )}
-          >
-            <WebIcon name="chevron-right" className="w-4 h-4" />
-          </button>
-        </div>
       </div>
 
       {/* News-Slider CodePen Architecture + Theme Integration */}
@@ -691,19 +519,37 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                 const isPrevSlide = slotIdx === visualTrackIdx - 1;
                 const isNextSlide = slotIdx === visualTrackIdx + 1;
                 const isPeekSlide = Math.abs(slotIdx - visualTrackIdx) === 2;
+                const isFirstSlide = slotIdx === 0;
+                const isLastSlide = slotIdx === extendedSlides.length - 1;
                 const isHighlighted =
                   hoveredSlotIdx !== null ? slotIdx === hoveredSlotIdx : isActiveCenter;
+                const shortYear = item.yearBadge.replace(/^Năm\s+/i, '').trim() || item.yearBadge;
                 const cardLogos =
                   item.logos && item.logos.length > 0
                     ? item.logos
                     : [{ src: item.logo, alt: item.shortName }];
                 const logoSizeClass = 'w-9 h-9 sm:w-10 sm:h-10';
+                const railGradient = isWalnutWood
+                  ? 'linear-gradient(90deg, rgba(245, 196, 120, 0.45), rgba(245, 196, 120, 0.9), rgba(238, 42, 123, 0.7))'
+                  : isDarkLeather || isBrownLeather
+                    ? 'linear-gradient(90deg, rgba(229, 184, 126, 0.45), rgba(229, 184, 126, 0.9), rgba(238, 42, 123, 0.7))'
+                    : 'linear-gradient(90deg, rgba(56, 189, 248, 0.65) 0%, rgba(59, 130, 246, 0.85) 35%, rgba(236, 72, 153, 0.8) 70%, rgba(99, 102, 241, 0.75) 100%)';
 
                 return (
                   <div
                     key={slotKey}
                     ref={(el) => {
                       slotSlideRefs.current[slotIdx] = el;
+                    }}
+                    onMouseEnter={() => {
+                      if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                        setHoveredSlotIdx(slotIdx);
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (typeof window !== 'undefined' && window.innerWidth > 800) {
+                        setHoveredSlotIdx((prev) => (prev === slotIdx ? null : prev));
+                      }
                     }}
                     className={cn(
                       'news-slider-slide',
@@ -713,6 +559,140 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       isPeekSlide && 'swiper-slide-peek'
                     )}
                   >
+                    {/* Merged Timeline Node Cap: Continuous Rail + Logo Halo + Year Pill + Pointer directly attached to Milestone Card */}
+                    <div className="exp-merged-timeline-cap relative w-full flex flex-col items-center shrink-0 pt-2 pb-0.5 select-none">
+                      {/* Continuous horizontal timeline rail connecting adjacent slides */}
+                      {extendedSlides.length > 1 && (
+                        <span
+                          aria-hidden="true"
+                          className={cn(
+                            'pointer-events-none absolute top-[34px] sm:top-[37px] h-[3px]',
+                            isFirstSlide
+                              ? 'left-1/2 right-0 rounded-l-full'
+                              : isLastSlide
+                                ? 'left-0 right-1/2 rounded-r-full'
+                                : 'inset-x-0'
+                          )}
+                          style={{ background: railGradient }}
+                        />
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (didDragRef.current) return;
+                          if (isActiveCenter) {
+                            SoundEngine.playTap?.();
+                            onSelectMilestone(item.key, origIdx);
+                          } else {
+                            handleSelectBullet(origIdx);
+                          }
+                        }}
+                        aria-current={isActiveCenter ? 'step' : undefined}
+                        title={`${item.yearBadge} · ${item.shortName}`}
+                        data-transparent-btn="true"
+                        className={cn(
+                          'no-theme-btn exp-timeline-node-btn group relative z-20 flex flex-col items-center gap-1.5 shrink-0 cursor-pointer bg-transparent border-0 p-0 shadow-none transition-transform duration-200 focus-visible:outline-none',
+                          isActiveCenter ? 'scale-[1.03]' : 'opacity-90 hover:opacity-100 hover:scale-[1.03]'
+                        )}
+                        style={{
+                          background: 'transparent',
+                          backgroundColor: 'transparent',
+                          backgroundImage: 'none',
+                          border: 'none',
+                          boxShadow: 'none',
+                          backdropFilter: 'none',
+                          WebkitBackdropFilter: 'none',
+                        }}
+                      >
+                        <span className="relative flex items-center justify-center w-[52px] h-[52px] sm:w-[58px] sm:h-[58px]">
+                          {isActiveCenter && (
+                            <>
+                              <span
+                                aria-hidden="true"
+                                className="absolute -inset-2 rounded-full opacity-75 blur-[8px] pointer-events-none"
+                                style={{
+                                  background:
+                                    'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
+                                }}
+                              />
+                              <span
+                                aria-hidden="true"
+                                className="absolute -inset-[2.5px] rounded-full pointer-events-none"
+                                style={{
+                                  background:
+                                    'conic-gradient(from 45deg, #EC4899, #8B5CF6, #38BDF8, #EC4899)',
+                                }}
+                              />
+                            </>
+                          )}
+                          <span
+                            className={cn(
+                              'relative z-10 w-full h-full rounded-full p-1.5 flex items-center justify-center overflow-hidden transition-transform duration-200',
+                              isActiveCenter
+                                ? 'bg-white shadow-md'
+                                : isDarkSurface
+                                  ? 'bg-slate-900/90 border border-white/25'
+                                  : 'bg-white border border-sky-300/80 shadow-xs'
+                            )}
+                          >
+                            <BlurUpImage
+                              src={item.logo}
+                              fallbackSrc={resolveCompanyLogo(item.shortName)}
+                              alt={item.shortName}
+                              priority={isActiveCenter ? 'eager' : 'lazy'}
+                              variant="contain"
+                              draggable={false}
+                              className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                            />
+                          </span>
+                        </span>
+
+                        <div className="relative flex flex-col items-center">
+                          <span
+                            className={cn(
+                              'inline-flex items-center justify-center gap-1 text-[11px] sm:text-[12px] leading-none tabular-nums whitespace-nowrap transition-all duration-200',
+                              isActiveCenter
+                                ? 'px-3 py-1 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] text-white font-bold shadow-md border border-white/40'
+                                : 'px-2 py-0.5 rounded-full font-bold'
+                            )}
+                            style={
+                              isActiveCenter
+                                ? undefined
+                                : {
+                                    color:
+                                      isWalnutWood || isDarkLeather || isBrownLeather
+                                        ? 'rgba(255, 245, 232, 0.92)'
+                                        : isDarkSurface
+                                          ? '#E2E8F0'
+                                          : '#0F172A',
+                                  }
+                            }
+                          >
+                            {isActiveCenter && (
+                              <span aria-hidden="true" className="text-amber-300 text-[11px]">
+                                ★
+                              </span>
+                            )}
+                            <span>{shortYear}</span>
+                            {isActiveCenter && (
+                              <span className="text-[10.5px] font-semibold opacity-95">
+                                · Đang xem
+                              </span>
+                            )}
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              'w-2.5 h-2.5 rotate-45 -mt-1 rounded-[1px] transition-opacity duration-200',
+                              isActiveCenter ? 'bg-[#2563EB] opacity-100' : 'opacity-0'
+                            )}
+                          />
+                        </div>
+                      </button>
+                    </div>
+
                     <div
                       ref={(el) => {
                         slotItemRefs.current[slotIdx] = el;
@@ -721,16 +701,6 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                       data-milestone-key={item.key}
                       role="button"
                       tabIndex={0}
-                      onMouseEnter={() => {
-                        if (typeof window !== 'undefined' && window.innerWidth > 800) {
-                          setHoveredSlotIdx(slotIdx);
-                        }
-                      }}
-                      onMouseLeave={() => {
-                        if (typeof window !== 'undefined' && window.innerWidth > 800) {
-                          setHoveredSlotIdx((prev) => (prev === slotIdx ? null : prev));
-                        }
-                      }}
                       onClick={() => {
                         if (didDragRef.current) return;
                         SoundEngine.playTap?.();
@@ -747,20 +717,13 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           onSelectMilestone(item.key, origIdx);
                         }
                       }}
-                      className={cn('news-card-item relative h-full flex flex-col justify-between gap-2 overflow-visible', isHighlighted && 'active')}
+                      className={cn(
+                        'news-card-item relative flex-1 min-h-0 flex flex-col justify-between gap-2 overflow-visible',
+                        isHighlighted && 'active'
+                      )}
                       style={{ padding: '14px' }}
                     >
-                      {/* Nhãn nổi ★ Đang xem nằm đè lên viền trên cùng của thẻ trung tâm */}
-                      {isActiveCenter && (
-                        <div className="pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2 z-30">
-                          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-gradient-to-r from-[#0EA5E9] to-[#2563EB] text-white shadow-md whitespace-nowrap border border-white/40">
-                            <span aria-hidden="true" className="text-amber-300">★</span>
-                            <span>Đang xem</span>
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Hàng trên cùng: Bên trái là Icon lịch + Năm + Thời gian + gạch gradient; Bên phải là vòng logo */}
+                      {/* Hàng trên cùng: Icon lịch + Năm + Thời gian + gạch gradient; kèm nhóm sub-logo khi công ty có nhiều thương hiệu */}
                       <div className="exp-card-top-row w-full flex items-start justify-between gap-2.5 shrink-0 pt-0.5">
                         <div className="news-card-date !mb-0 flex flex-col gap-1 min-w-0 flex-1">
                           <span className="news-card-date-title !flex flex-row items-center gap-1.5 !mb-0 whitespace-nowrap">
@@ -793,33 +756,30 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
                           />
                         </div>
 
-                        {/* Nhóm Logo công ty đặt trong vòng tròn trắng sắc nét */}
-                        <div
-                          className={cn(
-                            'exp-card-logo-group flex items-center justify-end shrink-0',
-                            cardLogos.length > 1 ? '-space-x-2' : ''
-                          )}
-                        >
-                          {cardLogos.map((lg, lgIdx) => (
-                            <div
-                              key={`${item.key}-logo-${lgIdx}`}
-                              className={cn(
-                                logoSizeClass,
-                                'rounded-full bg-white border border-sky-200/80 ring-2 ring-white/90 p-1 shadow-xs overflow-hidden flex items-center justify-center shrink-0'
-                              )}
-                              title={lg.alt}
-                            >
-                              <BlurUpImage
-                                src={lg.src}
-                                fallbackSrc={resolveCompanyLogo(lg.alt || item.shortName)}
-                                alt={lg.alt}
-                                variant="contain"
-                                draggable={false}
-                                className="w-full h-full object-contain rounded-full select-none pointer-events-none"
-                              />
-                            </div>
-                          ))}
-                        </div>
+                        {/* Chỉ hiển thị cụm sub-logo phụ khi mốc có nhiều thương hiệu (logo chính đã gộp ở đỉnh thẻ) */}
+                        {cardLogos.length > 1 && (
+                          <div className="exp-card-logo-group flex items-center justify-end shrink-0 -space-x-2">
+                            {cardLogos.map((lg, lgIdx) => (
+                              <div
+                                key={`${item.key}-logo-${lgIdx}`}
+                                className={cn(
+                                  logoSizeClass,
+                                  'rounded-full bg-white border border-sky-200/80 ring-2 ring-white/90 p-1 shadow-xs overflow-hidden flex items-center justify-center shrink-0'
+                                )}
+                                title={lg.alt}
+                              >
+                                <BlurUpImage
+                                  src={lg.src}
+                                  fallbackSrc={resolveCompanyLogo(lg.alt || item.shortName)}
+                                  alt={lg.alt}
+                                  variant="contain"
+                                  draggable={false}
+                                  className="w-full h-full object-contain rounded-full select-none pointer-events-none"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       {/* 4 Sub-row đồng bộ: Công ty, Chức vụ (#EE2A7B), Quản lý, Giới thiệu */}

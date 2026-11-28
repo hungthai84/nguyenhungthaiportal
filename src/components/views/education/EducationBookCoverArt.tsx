@@ -476,6 +476,7 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
   categoryLabel,
   courseIconName,
   isEn,
+  variant = 'book',
   showSpine = true,
   showGlint = false,
 }) => {
@@ -496,10 +497,10 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
 
   const summaryText = course.result || course.desc;
 
-  const titleFontSize = 'clamp(15px, 5.5cqw, 22px)';
-  const subtitleFontSize = 'clamp(11px, 3.2cqw, 13.5px)';
-  const metaFontSize = 'clamp(10px, 2.9cqw, 12px)';
-  const summaryFontSize = 'clamp(10px, 2.85cqw, 12.5px)';
+  const titleFontSize = 'clamp(19px, 6.8cqw, 28px)';
+  const subtitleFontSize = 'clamp(12.5px, 3.8cqw, 15.5px)';
+  const metaFontSize = 'clamp(11px, 3.3cqw, 13.5px)';
+  const summaryFontSize = 'clamp(11.5px, 3.4cqw, 14px)';
 
   return (
     <div
@@ -507,7 +508,10 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
       className="education-book-cover relative flex size-full flex-col items-stretch justify-between select-none overflow-hidden box-border text-white"
       style={{
         background: template === 'side-spine' ? palette.spineBg : palette.coverBg,
-        borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+        borderRadius:
+          variant === 'book'
+            ? 'inherit'
+            : 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
         padding: 'clamp(14px, 4.4cqw, 22px) clamp(14px, 4.6cqw, 22px) clamp(14px, 4.4cqw, 22px) clamp(18px, 5.6cqw, 26px)',
         border: 'none',
         boxShadow: `0 12px 26px -12px ${theme.glowShadow}, inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -2px 0 rgba(0,0,0,0.32)`,
@@ -516,7 +520,6 @@ export const EducationBookCoverArt: React.FC<EducationBookCoverArtProps> = ({
         color: '#FFFFFF',
       }}
     >
-      {/* Lớp họa tiết hình học, vân giấy & ánh sáng đồng bộ 100% với bìa sách trên kệ */}
       <div className={`edu-art-pattern ${pattern}`} aria-hidden="true" />
       {showSpine && <div className="edu-book-spine-crease" aria-hidden="true" />}
       <div className="edu-book-paper-grain" aria-hidden="true" />

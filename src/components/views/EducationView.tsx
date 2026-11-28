@@ -344,7 +344,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-parent="education-cards-track"
         className={cn(
           'page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border',
-          isBookshelfMode ? 'pt-[10px] px-[12px] pb-[4px]' : 'p-[15px]'
+          isBookshelfMode ? 'pt-[10px] px-[12px] pb-[15px]' : 'p-[15px]'
         )}
       >
       <div

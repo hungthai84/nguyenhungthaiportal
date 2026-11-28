@@ -228,6 +228,31 @@ html[data-card-style="flat-soft-ui"] {
   --radius-image: 14px;
   --radius-pill: 9999px;
   --card-border-width: 1px;
+
+  /* Horoscope (Tử Vi) 6-Color Luminous Light Pastel Palette for Giao Diện Phẳng Sáng */
+  --tuvi-card-1: linear-gradient(145deg, #FFFFFF 0%, #F0F9FF 54%, #E0F2FE 100%);
+  --tuvi-card-2: linear-gradient(145deg, #FFFFFF 0%, #F0FDFA 54%, #CCFBF1 100%);
+  --tuvi-card-3: linear-gradient(145deg, #FFFFFF 0%, #ECFDF5 54%, #D1FAE5 100%);
+  --tuvi-card-4: linear-gradient(145deg, #FFFFFF 0%, #FFF1F2 54%, #FFE4E6 100%);
+  --tuvi-card-5: linear-gradient(145deg, #FFFFFF 0%, #FFFBEB 54%, #FEF3C7 100%);
+  --tuvi-card-6: linear-gradient(145deg, #FFFFFF 0%, #FAF5FF 54%, #F3E8FF 100%);
+  --tuvi-card-border-1: rgba(14, 165, 233, 0.24);
+  --tuvi-card-border-2: rgba(20, 184, 166, 0.24);
+  --tuvi-card-border-3: rgba(16, 185, 129, 0.24);
+  --tuvi-card-border-4: rgba(244, 63, 94, 0.22);
+  --tuvi-card-border-5: rgba(245, 158, 11, 0.28);
+  --tuvi-card-border-6: rgba(168, 85, 247, 0.24);
+  --tuvi-card-border: rgba(203, 213, 225, 0.85);
+  --tuvi-card-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.04),
+    0 10px 24px -6px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --tuvi-card-shadow-hover:
+    0 14px 32px -8px rgba(15, 23, 42, 0.11),
+    0 6px 14px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  --tuvi-subtile-bg: rgba(255, 255, 255, 0.90);
+  --tuvi-subtile-border: rgba(203, 213, 225, 0.78);
 }
 
 /* --------------------------------------------------------------------------
@@ -449,6 +474,7 @@ html[data-card-style="flat-soft-ui"] :is(
   background: var(--surface-primary-bg, #FFFFFF) !important;
   border: 1px solid var(--surface-primary-border, rgba(226, 232, 240, 0.90)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
+  color: #0F172A !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(
@@ -469,18 +495,204 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
 }
 
-/* Level 2: Section Cards, Bento Cards & Banner Cards */
+/* Level 2: Section Cards, Bento Cards & Content Cards — Luminous Bright Pastel Horoscope Palette */
 html[data-card-style="flat-soft-ui"] :is(
   [data-section-card="true"],
   .bento-card,
-  .banner-card,
-  .hero-banner,
-  .exp-bento-surface-card
-):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
-  background: var(--surface-secondary-bg, #F8FAFC) !important;
-  border: 1px solid var(--surface-secondary-border, rgba(203, 213, 225, 0.85)) !important;
-  box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
+  .exp-bento-surface-card,
+  .project-card,
+  .swot-quadrant-card
+):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(.education-book-paper):not(.company-logo-surface):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *) {
+  --text-primary: #0F172A;
+  --text-heading: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --color-heading: #0F172A;
+  --color-text: #0F172A;
+  --color-text-secondary: #334155;
+  --border-subcard: rgba(203, 213, 225, 0.80);
+  --pillar-progress-track: rgba(15, 23, 42, 0.10);
+  background: var(--tuvi-card-1) !important;
+  border: 1px solid var(--tuvi-card-border-1, rgba(14, 165, 233, 0.24)) !important;
+  box-shadow: var(--tuvi-card-shadow) !important;
+  border-radius: 12px !important;
+  color: #0F172A !important;
+}
+
+/* 6-Color Luminous Pastel Horoscope Cycle across sibling cards */
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 1) {
+  background: var(--tuvi-card-1) !important;
+  border-color: var(--tuvi-card-border-1) !important;
+}
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 2) {
+  background: var(--tuvi-card-2) !important;
+  border-color: var(--tuvi-card-border-2) !important;
+}
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 3) {
+  background: var(--tuvi-card-3) !important;
+  border-color: var(--tuvi-card-border-3) !important;
+}
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 4) {
+  background: var(--tuvi-card-4) !important;
+  border-color: var(--tuvi-card-border-4) !important;
+}
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 5) {
+  background: var(--tuvi-card-5) !important;
+  border-color: var(--tuvi-card-border-5) !important;
+}
+html[data-card-style="flat-soft-ui"] :is([data-section-card="true"], .bento-card, .project-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 6) {
+  background: var(--tuvi-card-6) !important;
+  border-color: var(--tuvi-card-border-6) !important;
+}
+
+/* Explicit Semantic Pastel Horoscope Mapping for SWOT Quadrants */
+html[data-card-style="flat-soft-ui"] .swot-quadrant-card[data-swot="S"] {
+  background: var(--tuvi-card-3) !important;
+  border-color: var(--tuvi-card-border-3) !important;
+}
+html[data-card-style="flat-soft-ui"] .swot-quadrant-card[data-swot="W"] {
+  background: var(--tuvi-card-4) !important;
+  border-color: var(--tuvi-card-border-4) !important;
+}
+html[data-card-style="flat-soft-ui"] .swot-quadrant-card[data-swot="O"] {
+  background: var(--tuvi-card-1) !important;
+  border-color: var(--tuvi-card-border-1) !important;
+}
+html[data-card-style="flat-soft-ui"] .swot-quadrant-card[data-swot="T"] {
+  background: var(--tuvi-card-6) !important;
+  border-color: var(--tuvi-card-border-6) !important;
+}
+
+/* Hero Banners remain clean neutral / media surface */
+html[data-card-style="flat-soft-ui"] :is(.banner-card, .hero-banner):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
   border-radius: var(--radius-card, 14px) !important;
+}
+
+/* High-Contrast Dark Ink Typography on Luminous Pastel Cards */
+html[data-card-style="flat-soft-ui"] :is(
+  [data-section-card="true"],
+  .bento-card,
+  .exp-bento-surface-card,
+  .project-card,
+  .swot-quadrant-card
+):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not([data-horoscope-bento="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not([data-media-card]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *) :is(
+  h1, h2, h3, h4, h5, h6,
+  [data-card-title="true"],
+  [data-subcard-title="true"],
+  .card-header-sync,
+  .card-title-synced,
+  .swot-quadrant-title
+):not(.banner-control-pill):not(.banner-control-pill *):not(.company-logo-surface *):not(#contact-calendar-viewport *):not([role="dialog"] *):not(.banner-dropdown-menu *):not(.project-card-group-badge):not(.project-card-group-badge *) {
+  color: #0F172A !important;
+}
+
+/* Preserve bright white viewport for embedded Google Calendar & logo badges */
+html[data-card-style="flat-soft-ui"] #contact-calendar-viewport,
+html[data-card-style="flat-soft-ui"] .company-logo-surface {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+/* ==========================================================================
+   HOROSCOPE VIEW (TRANG TỬ VI) — BRIGHT LUMINOUS LIGHT EDITION IN FLAT-SOFT-UI
+   Converts heavy dark jewel cards into airy, high-contrast pastel cards
+   ========================================================================== */
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card {
+  color: #0F172A !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.04),
+    0 12px 26px -8px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:hover {
+  box-shadow:
+    0 18px 36px -10px rgba(15, 23, 42, 0.13),
+    0 6px 14px -4px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 1) {
+  background: var(--tuvi-card-1) !important;
+  border-color: var(--tuvi-card-border-1) !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 2) {
+  background: var(--tuvi-card-2) !important;
+  border-color: var(--tuvi-card-border-2) !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 3) {
+  background: var(--tuvi-card-3) !important;
+  border-color: var(--tuvi-card-border-3) !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 4) {
+  background: var(--tuvi-card-4) !important;
+  border-color: var(--tuvi-card-border-4) !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 5) {
+  background: var(--tuvi-card-5) !important;
+  border-color: var(--tuvi-card-border-5) !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card:nth-child(6n + 6) {
+  background: var(--tuvi-card-6) !important;
+  border-color: var(--tuvi-card-border-6) !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: #0F172A !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(
+  p, li, span, div,
+  .text-white, .text-white\/90, .text-white\/85, .text-white\/80, .text-white\/75, .text-white\/70,
+  .text-slate-100, .text-slate-200, .text-slate-300, .text-gray-100, .text-gray-200, .text-gray-300,
+  .text-sky-50, .text-sky-100, .text-teal-50, .text-teal-100, .text-emerald-50, .text-emerald-100,
+  .text-rose-50, .text-rose-100, .text-amber-50, .text-amber-100, .text-purple-50, .text-purple-100,
+  .text-indigo-50, .text-indigo-100, .text-fuchsia-50, .text-fuchsia-100, .text-cyan-50, .text-cyan-100
+):not(button[aria-pressed="true"]):not(button[aria-pressed="true"] *) {
+  color: #1E293B !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(.text-sky-200, .text-sky-300, .text-cyan-200, .text-cyan-300) {
+  color: #0369A1 !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(.text-teal-200, .text-teal-300, .text-emerald-200, .text-emerald-300) {
+  color: #047857 !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(.text-rose-200, .text-rose-300, .text-pink-200, .text-pink-300) {
+  color: #BE123C !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(.text-amber-200, .text-amber-300, .text-yellow-200, .text-yellow-300, .text-orange-200, .text-orange-300) {
+  color: #B45309 !important;
+}
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(.text-purple-200, .text-purple-300, .text-fuchsia-200, .text-fuchsia-300, .text-violet-200, .text-violet-300, .text-indigo-200, .text-indigo-300) {
+  color: #6D28D9 !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card :is(
+  [class*="bg-black/"],
+  [class*="bg-white/"],
+  [class*="bg-slate-900"],
+  [class*="bg-slate-950"]
+):not([class*="bg-gradient-to-"]) {
+  background-color: rgba(255, 255, 255, 0.86) !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+html[data-card-style="flat-soft-ui"] #horoscope-page-shell .horoscope-bento-studio-card [class*="border-white/"] {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+/* ==========================================================================
+   AI ASSISTANT VIEW — LIGHT SURFACE FOR D-ID HOST IN FLAT-SOFT-UI
+   ========================================================================== */
+html[data-card-style="flat-soft-ui"] #ai-assistant-page-container [class*="bg-slate-950"] {
+  background-color: #F8FAFC !important;
+  border-color: rgba(203, 213, 225, 0.90) !important;
+  color: #0F172A !important;
+}
+html[data-card-style="flat-soft-ui"] #ai-assistant-page-container [class*="bg-slate-950"] :is(p, span, h1, h2, h3, h4) {
+  color: #0F172A !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(
@@ -496,20 +708,53 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   border-radius: var(--radius-card, 14px) !important;
 }
 
-/* Level 3: Nested Subcards & Detail Blocks */
+/* Level 3: Nested Subcards & Detail Blocks — Crisp Luminous White Tiles */
 html[data-card-style="flat-soft-ui"] :is(
   [data-subcard="true"],
   .sub-card,
+  .skill-swot-subcard,
   .exp-bento-item-card,
   .exp-detail-subcard,
   .education-subcard,
   .project-detail-subcard,
   #experience-job-detail-card
-):not(.skill-swot-subcard):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
-  background: var(--surface-tertiary-bg, #F1F5F9) !important;
-  border: 1px solid var(--surface-tertiary-border, rgba(203, 213, 225, 0.72)) !important;
-  box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
-  border-radius: var(--radius-subcard, 14px) !important;
+):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):not(#contact-calendar-viewport):not(.company-logo-surface):not(.education-book-paper):not([role="dialog"] *):not(.banner-dropdown-menu *) {
+  --text-primary: #0F172A;
+  --text-heading: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  background: var(--tuvi-subtile-bg, rgba(255, 255, 255, 0.90)) !important;
+  border: 1px solid var(--tuvi-subtile-border, rgba(203, 213, 225, 0.78)) !important;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: 12px !important;
+  color: #0F172A !important;
+}
+
+/* Standalone Level 3 subcards placed directly on white Level 1 main cards use soft pastel tints */
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):not(#contact-calendar-viewport):not(.company-logo-surface):not(.education-book-paper) {
+  background: var(--tuvi-card-1) !important;
+  border: 1px solid var(--tuvi-card-border-1) !important;
+  box-shadow: var(--tuvi-card-shadow) !important;
+}
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 2) {
+  background: var(--tuvi-card-2) !important;
+  border-color: var(--tuvi-card-border-2) !important;
+}
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 3) {
+  background: var(--tuvi-card-3) !important;
+  border-color: var(--tuvi-card-border-3) !important;
+}
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 4) {
+  background: var(--tuvi-card-4) !important;
+  border-color: var(--tuvi-card-border-4) !important;
+}
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 5) {
+  background: var(--tuvi-card-5) !important;
+  border-color: var(--tuvi-card-border-5) !important;
+}
+html[data-card-style="flat-soft-ui"] .page-main-card > * > :is([data-subcard="true"], .sub-card):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]):not(#letter-page-container *):not(#services-page-container *):not(#pdf-page-container *):nth-child(6n + 6) {
+  background: var(--tuvi-card-6) !important;
+  border-color: var(--tuvi-card-border-6) !important;
 }
 
 html[data-card-style="dark-flat-soft-ui"] :is(
@@ -608,13 +853,323 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   -webkit-backdrop-filter: none !important;
 }
 
-html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .theme-modal-header {
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"]) .theme-modal-header {
   background: var(--surface-secondary-bg) !important;
   border-bottom: 1px solid var(--surface-secondary-border) !important;
 }
 
-html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) .theme-modal-subcard {
+html:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"]) .theme-modal-subcard {
   background: var(--surface-tertiary-bg) !important;
   border: 1px solid var(--surface-tertiary-border) !important;
 }
+
+/* ==========================================================================
+   5. FLAT SOFT UI · COLOR MODE (GIAO DIỆN PHẲNG MÀU · color-flat-soft-ui)
+   20-Token Color System:
+   - Surfaces : Dark Canvas Base #090D16 · Light Canvas Base #F4F7FB
+                Card Glass Dark #111827 · Sub-Card Overlay #0000004D
+   - Studio   : Studio Violet #8B5CF6 · Cyber Indigo #4F46E5
+                Electric Cyan #06B6D4 · Emerald Success #10B981
+   - Modules  : 01 SDP Gold #FFDF25 · 02 ERP Teal #5DC3C8 · 03 CRM Rose #E64C72
+                04 HRM Azure #1480C0 · 05 BPM Coral #F05A36 · 06 OKR Lime #A3D43A
+                07 CLP Emerald #0D9488 · 08 LMS Cobalt #2563EB · 09 CSC Amber #EC7D21
+                10 BI Lavender #A78BFA · 11 AI Iris #6353B5 · 12 POS Sky #3BB8E6
+   ========================================================================== */
+.card-color-flat-soft-ui {
+  background: #111827 !important;
+  border: 1px solid rgba(139, 92, 246, 0.36) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-shadow:
+    0 8px 24px -4px rgba(9, 13, 22, 0.56),
+    inset 0 1px 0 rgba(244, 247, 251, 0.08) !important;
+  color: #F4F7FB !important;
+  transition: transform var(--motion-normal, 220ms) cubic-bezier(0.16, 1, 0.3, 1),
+              border-color var(--motion-normal, 220ms) ease !important;
+}
+
+.card-color-flat-soft-ui:hover {
+  transform: translateY(-2px);
+  border-color: rgba(6, 182, 212, 0.55) !important;
+}
+
+[data-theme="color-flat-soft-ui"],
+html[data-card-style="color-flat-soft-ui"],
+html.dark[data-card-style="color-flat-soft-ui"] {
+  color-scheme: dark;
+  --ambient-wallpaper-opacity: 0.94;
+
+  /* Exact 20 User-Specified Flat Color Tokens */
+  --flat-color-dark-canvas: #090D16;
+  --flat-color-light-canvas: #F4F7FB;
+  --flat-color-card-dark: #111827;
+  --flat-color-subcard-overlay: #0000004D;
+  --flat-color-studio-violet: #8B5CF6;
+  --flat-color-cyber-indigo: #4F46E5;
+  --flat-color-electric-cyan: #06B6D4;
+  --flat-color-emerald-success: #10B981;
+
+  --flat-color-01-sdp-gold: #FFDF25;
+  --flat-color-02-erp-teal: #5DC3C8;
+  --flat-color-03-crm-rose: #E64C72;
+  --flat-color-04-hrm-azure: #1480C0;
+  --flat-color-05-bpm-coral: #F05A36;
+  --flat-color-06-okr-lime: #A3D43A;
+  --flat-color-07-clp-emerald: #0D9488;
+  --flat-color-08-lms-cobalt: #2563EB;
+  --flat-color-09-csc-amber: #EC7D21;
+  --flat-color-10-bi-lavender: #A78BFA;
+  --flat-color-11-ai-iris: #6353B5;
+  --flat-color-12-pos-sky: #3BB8E6;
+
+  /* Core Theme Mapping */
+  --app-bg-base: #090D16;
+  --color-bg: #090D16;
+  --color-bg-soft: #111827;
+  --color-surface: #111827;
+  --color-surface-elevated: #172033;
+
+  --color-heading: #F4F7FB;
+  --color-text: #F4F7FB;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #090D16;
+
+  --color-primary: #8B5CF6;
+  --color-secondary: #06B6D4;
+  --color-tertiary: #4F46E5;
+  --color-accent: #10B981;
+  --color-focus-ring: #06B6D4;
+
+  --text-primary: #F4F7FB;
+  --text-heading: #F4F7FB;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-link: #3BB8E6;
+  --text-accent: #A78BFA;
+  --text-input: #F4F7FB;
+  --text-placeholder: #94A3B8;
+  --text-on-dark: #F4F7FB;
+  --text-button-primary: #F4F7FB;
+  --text-button-secondary: #F4F7FB;
+  --text-badge: #FFDF25;
+  --text-highlight: #5DC3C8;
+
+  --bg-primary: #090D16;
+  --bg-secondary: #111827;
+  --bg-app: #090D16;
+  --bg-page: transparent;
+  --bg-main: #111827;
+  --bg-header: #111827;
+  --bg-footer: #111827;
+  --bg-card: #111827;
+  --bg-card-hover: #172033;
+  --bg-subcard: rgba(0, 0, 0, 0.30);
+  --bg-subcard-hover: rgba(0, 0, 0, 0.44);
+  --bg-nested: rgba(0, 0, 0, 0.30);
+  --bg-nested-card: rgba(0, 0, 0, 0.30);
+  --bg-modal: #111827;
+  --bg-popup: #111827;
+  --bg-dropdown: #111827;
+  --bg-tooltip: #090D16;
+  --bg-input: #090D16;
+  --bg-table: #111827;
+  --bg-table-head: rgba(0, 0, 0, 0.30);
+  --bg-banner: #111827;
+
+  --bg-nav-button-opaque: #111827;
+  --bg-nav-pill: rgba(0, 0, 0, 0.30);
+  --bg-nav-pill-hover: rgba(139, 92, 246, 0.20);
+  --bg-nav-arrow: #111827;
+  --border-nav-arrow: rgba(139, 92, 246, 0.32);
+  --text-nav-arrow: #F4F7FB;
+  --bg-button-primary: linear-gradient(135deg, #8B5CF6 0%, #4F46E5 55%, #06B6D4 100%);
+  --bg-button-secondary: rgba(0, 0, 0, 0.30);
+  --bg-button-hover: rgba(139, 92, 246, 0.24);
+  --bg-badge: rgba(139, 92, 246, 0.18);
+  --bg-highlight: rgba(6, 182, 212, 0.16);
+  --bg-banner-pill: rgba(0, 0, 0, 0.30);
+  --border-banner-pill: rgba(139, 92, 246, 0.34);
+  --text-banner-pill: #F4F7FB;
+  --bg-banner-cta: linear-gradient(135deg, #8B5CF6 0%, #4F46E5 55%, #06B6D4 100%);
+  --text-banner-cta: #F4F7FB;
+
+  --color-border: rgba(139, 92, 246, 0.26);
+  --color-border-soft: rgba(244, 247, 251, 0.12);
+  --border-color: rgba(139, 92, 246, 0.26);
+  --border-card: rgba(139, 92, 246, 0.28);
+  --border-subcard: rgba(244, 247, 251, 0.14);
+  --border-modal: rgba(139, 92, 246, 0.36);
+  --border-input: rgba(6, 182, 212, 0.34);
+  --border-popup: rgba(139, 92, 246, 0.36);
+
+  --surface-primary-bg: #111827;
+  --surface-primary-border: rgba(139, 92, 246, 0.28);
+  --surface-primary-blur: 0px;
+  --surface-secondary-bg: #111827;
+  --surface-secondary-border: rgba(139, 92, 246, 0.28);
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-bg: rgba(0, 0, 0, 0.30);
+  --surface-tertiary-border: rgba(244, 247, 251, 0.14);
+  --surface-tertiary-blur: 0px;
+  --surface-nested-bg: rgba(0, 0, 0, 0.30);
+  --surface-nested-border: rgba(244, 247, 251, 0.14);
+  --surface-nested-blur: 0px;
+  --surface-interactive-bg: rgba(0, 0, 0, 0.30);
+  --surface-interactive-hover: rgba(139, 92, 246, 0.20);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: rgba(139, 92, 246, 0.32);
+
+  --radius-main: 14px;
+  --radius-primary-surface: var(--radius-main, 14px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 14px;
+  --radius-subcard: 12px;
+  --radius-banner: 14px;
+  --radius-pill: 9999px;
+  --card-border-width: 1px;
+}
+
+/* Strip backdrop blur across all Flat Color tiers */
+html[data-card-style="color-flat-soft-ui"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  [data-section-card="true"],
+  .bento-card,
+  [data-subcard="true"],
+  .sub-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-course-card,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Level 1: Main Shell (Card Glass Dark #111827 on Dark Canvas Base #090D16) */
+html[data-card-style="color-flat-soft-ui"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  #home-main-card,
+  [id$="-main-card"]:not(#pdf-page-container),
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #about-intro-grid-2,
+  #contact-main-card,
+  [id^="letter-card-"]
+) {
+  background: #111827 !important;
+  border: 1px solid rgba(139, 92, 246, 0.28) !important;
+  box-shadow: none !important;
+  color: #F4F7FB !important;
+}
+
+/* Level 2: Content & Bento Cards — 12-Module Color-Coded Flat Surface Cycle */
+html[data-card-style="color-flat-soft-ui"] :is(
+  [data-section-card="true"],
+  .home-hero-card,
+  .bento-card,
+  .exp-bento-surface-card,
+  .project-card,
+  .service-card,
+  .domain-card,
+  .education-course-card,
+  .swot-quadrant-card
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not([id$="-hero-banner"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(.theme-modal-card):not(.theme-popup):not(#footer-theme-popup):not(#footer-lang-popup):not(.education-book-paper):not(.company-logo-surface):not(#pdf-page-container *) {
+  background: color-mix(in srgb, var(--flat-mod-accent, #8B5CF6) 13%, #111827) !important;
+  border: 1px solid color-mix(in srgb, var(--flat-mod-accent, #8B5CF6) 44%, rgba(244, 247, 251, 0.14)) !important;
+  border-radius: var(--radius-card, 14px) !important;
+  box-shadow: none !important;
+  color: #F4F7FB !important;
+}
+
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 1) { --flat-mod-accent: #FFDF25; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 2) { --flat-mod-accent: #5DC3C8; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 3) { --flat-mod-accent: #E64C72; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 4) { --flat-mod-accent: #1480C0; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 5) { --flat-mod-accent: #F05A36; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 6) { --flat-mod-accent: #A3D43A; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 7) { --flat-mod-accent: #0D9488; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 8) { --flat-mod-accent: #2563EB; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 9) { --flat-mod-accent: #EC7D21; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 10) { --flat-mod-accent: #A78BFA; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 11) { --flat-mod-accent: #6353B5; }
+html[data-card-style="color-flat-soft-ui"] :is([data-section-card="true"], .home-hero-card, .bento-card, .project-card, .service-card, .domain-card, .education-course-card, .swot-quadrant-card):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):nth-child(12n + 12) { --flat-mod-accent: #3BB8E6; }
+
+/* Level 3: Sub-Card Overlay (#0000004D / bg-black/30) */
+html[data-card-style="color-flat-soft-ui"] :is(
+  [data-subcard="true"],
+  .sub-card,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card,
+  .about-stack-card
+):not(.skill-swot-subcard):not(.company-logo-surface):not(#contact-calendar-viewport):not(.education-book-paper):not(#pdf-page-container *) {
+  background: rgba(0, 0, 0, 0.30) !important;
+  border: 1px solid rgba(244, 247, 251, 0.14) !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-subcard, 12px) !important;
+  color: #F4F7FB !important;
+}
+
+/* Nav Pills, Controls, Inputs & Popups */
+html[data-card-style="color-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]) {
+  background: rgba(0, 0, 0, 0.30) !important;
+  border: 1px solid rgba(139, 92, 246, 0.30) !important;
+  color: #F4F7FB !important;
+  box-shadow: none !important;
+  border-radius: 9999px !important;
+}
+
+html[data-card-style="color-flat-soft-ui"] .nav-pill:not([aria-current="page"]):not([data-active="true"]):hover {
+  background: rgba(139, 92, 246, 0.20) !important;
+  border-color: #06B6D4 !important;
+}
+
+html[data-card-style="color-flat-soft-ui"] .nav-pill:is([aria-current="page"], [data-active="true"]) {
+  background: linear-gradient(135deg, #8B5CF6 0%, #4F46E5 55%, #06B6D4 100%) !important;
+  border-color: transparent !important;
+  color: #F4F7FB !important;
+  box-shadow: none !important;
+  border-radius: 9999px !important;
+}
+
+html[data-card-style="color-flat-soft-ui"] :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select,
+  .theme-input
+) {
+  background: #090D16 !important;
+  border: 1px solid rgba(6, 182, 212, 0.36) !important;
+  color: #F4F7FB !important;
+}
+
+html[data-card-style="color-flat-soft-ui"] :is(
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: #111827 !important;
+  border: 1px solid rgba(139, 92, 246, 0.36) !important;
+  box-shadow: 0 18px 42px -10px rgba(0, 0, 0, 0.65) !important;
+  border-radius: var(--radius-popup, 14px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #F4F7FB !important;
+}
+
 

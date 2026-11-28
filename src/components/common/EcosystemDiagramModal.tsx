@@ -1325,20 +1325,18 @@ export const EcosystemDiagramModal: React.FC<EcosystemDiagramModalProps> = ({
               color: var(--text-primary) !important;
             }
 
-            /* Light Material & Glass Themes (Frost Ice Neu, Mica Fluent, Iridescent Light, Neumorphism Light, Gradient Dopamine) */
+            /* Light Material & Glass Themes (Frost Ice Neu, Mica Fluent, Iridescent Light, Neumorphism Light) */
             html:is(
               [data-card-style="frost-ice-neu"],
               [data-card-style="mica-fluent"],
               [data-card-style="iridescent-liquid-glass"],
-              [data-card-style="neumorphism-beyond"],
-              [data-card-style="gradient-dopamine"]
+              [data-card-style="neumorphism-beyond"]
             ) #ecosystem-diagram-modal .glass-flat,
             html:is(
               [data-card-style="frost-ice-neu"],
               [data-card-style="mica-fluent"],
               [data-card-style="iridescent-liquid-glass"],
-              [data-card-style="neumorphism-beyond"],
-              [data-card-style="gradient-dopamine"]
+              [data-card-style="neumorphism-beyond"]
             ) #ecosystem-diagram-modal :is(.theme-sdp, .theme-crm, .theme-csc, .theme-clp, .theme-pos, .theme-erp, .theme-hrm, .theme-bpm, .theme-okr, .theme-lms, .theme-ai, .theme-bi) {
               background: var(--surface-secondary-bg, var(--bg-card)) !important;
               border: var(--card-border-width, 1px) solid var(--surface-secondary-border, var(--border-card)) !important;

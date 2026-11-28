@@ -70,16 +70,6 @@ export const getThemeLetterContent = (cardStyle: string) => {
       partnershipText: 'Sẵn sàng cùng Quý Công ty bứt phá giới hạn, dẫn dắt xu hướng dịch vụ khách hàng trong kỷ nguyên số.',
     };
   }
-  if (cardStyle === 'gradient-dopamine') {
-    return {
-      title: 'Thư Ngỏ Năng Lượng & Tăng Trưởng Đột Phá',
-      greeting: 'Kính chào Quý Doanh nghiệp Đầy Nhiệt Huyết!',
-      intro: 'Mang đến nguồn năng lượng tích cực, giải pháp tối ưu hóa hiệu suất và chiến lược tăng trưởng đột phá cho hệ thống kinh doanh và chăm sóc khách hàng.',
-      focusArea: 'Hiệu Suất Tối Đa & Tăng Trưởng Đột Phá',
-      quote: '“Năng lượng tích cực và sự tận tâm là chìa khóa mở mọi cánh cửa thành công.”',
-      partnershipText: 'Đồng hành tạo nên những cột mốc tăng trưởng ấn tượng và trải nghiệm khách hàng tràn đầy cảm hứng.',
-    };
-  }
   return {
     title: 'Thư Ngỏ Hành Trình Chuyên Sâu & Tâm Quyết',
     greeting: 'Kính chào Quý Công ty!',
@@ -143,6 +133,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
   onComplete,
 }) => {
   const { cardStyle } = useTheme();
+  const isFlatSoftLight = cardStyle === 'flat-soft-ui';
   const themeLetter = getThemeLetterContent(cardStyle);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -353,17 +344,17 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
             >
               <defs>
                 <linearGradient id="nhtEnvLeftFlap" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4338ca" />
-                  <stop offset="100%" stopColor="#312e81" />
+                  <stop offset="0%" stopColor={isFlatSoftLight ? '#e0e7ff' : '#4338ca'} />
+                  <stop offset="100%" stopColor={isFlatSoftLight ? '#c7d2fe' : '#312e81'} />
                 </linearGradient>
                 <linearGradient id="nhtEnvRightFlap" x1="100%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#4f46e5" />
-                  <stop offset="100%" stopColor="#312e81" />
+                  <stop offset="0%" stopColor={isFlatSoftLight ? '#eef2ff' : '#4f46e5'} />
+                  <stop offset="100%" stopColor={isFlatSoftLight ? '#c7d2fe' : '#312e81'} />
                 </linearGradient>
                 <linearGradient id="nhtEnvBottomFlap" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#4f46e5" />
-                  <stop offset="55%" stopColor="#3730a3" />
-                  <stop offset="100%" stopColor="#2e1065" />
+                  <stop offset="0%" stopColor={isFlatSoftLight ? '#f8fafc' : '#4f46e5'} />
+                  <stop offset="55%" stopColor={isFlatSoftLight ? '#e0e7ff' : '#3730a3'} />
+                  <stop offset="100%" stopColor={isFlatSoftLight ? '#ddd6fe' : '#2e1065'} />
                 </linearGradient>
               </defs>
               {/* Left & Right Side Flaps */}
@@ -374,11 +365,11 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
                 d="M 0,275 L 204,138 Q 220,127 236,138 L 440,275 Z"
                 fill="url(#nhtEnvBottomFlap)"
               />
-              {/* Crisp Gold Seam Accent Lines */}
+              {/* Crisp Seam Accent Lines */}
               <path
                 d="M 0,275 L 204,138 Q 220,127 236,138 L 440,275"
                 fill="none"
-                stroke="rgba(253, 224, 71, 0.35)"
+                stroke={isFlatSoftLight ? 'rgba(99, 102, 241, 0.32)' : 'rgba(253, 224, 71, 0.35)'}
                 strokeWidth="1.2"
               />
             </svg>
@@ -396,8 +387,8 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
             >
               <defs>
                 <linearGradient id="nhtEnvTopFlap" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="100%" stopColor="#3730a3" />
+                  <stop offset="0%" stopColor={isFlatSoftLight ? '#ffffff' : '#6366f1'} />
+                  <stop offset="100%" stopColor={isFlatSoftLight ? '#dbeafe' : '#3730a3'} />
                 </linearGradient>
               </defs>
               <path
@@ -407,7 +398,7 @@ const WelcomeEnvelopeIntro: React.FC<WelcomeEnvelopeIntroProps> = ({
               <path
                 d="M 8,14 L 206,151 Q 220,161 234,151 L 432,14"
                 fill="none"
-                stroke="rgba(253, 224, 71, 0.45)"
+                stroke={isFlatSoftLight ? 'rgba(99, 102, 241, 0.38)' : 'rgba(253, 224, 71, 0.45)'}
                 strokeWidth="1.25"
               />
             </svg>
@@ -1089,6 +1080,209 @@ export const LetterView: React.FC<LetterViewProps> = () => {
             animation-duration: 0.1s !important;
           }
         }
+
+        /* ===================================================================== */
+        /* GIAO DIỆN PHẲNG SÁNG (flat-soft-ui) — TRANG THƯ NGỎ SÁNG TINH TẾ     */
+        /* Biến toàn bộ Thư Ngỏ thành bảng màu sáng phẳng hiện đại, sắc nét      */
+        /* ===================================================================== */
+        html[data-card-style="flat-soft-ui"] #letter-page-container .nht-envelope-back {
+          background: linear-gradient(145deg, #e0e7ff 0%, #c7d2fe 100%) !important;
+          box-shadow:
+            0 20px 42px -12px rgba(79, 70, 229, 0.18),
+            0 0 0 1px rgba(99, 102, 241, 0.24) inset !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container .nht-envelope-gold-trim {
+          border-color: rgba(99, 102, 241, 0.30) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #pageContainer.nht-letter-sheet {
+          background: #ffffff !important;
+          color: #0f172a !important;
+          border: 1px solid rgba(226, 232, 240, 0.92) !important;
+          box-shadow:
+            0 4px 20px -4px rgba(15, 23, 42, 0.05),
+            0 12px 32px -10px rgba(15, 23, 42, 0.06) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container .nht-timeline-item {
+          background: #ffffff !important;
+          border: 1px solid rgba(226, 232, 240, 0.90) !important;
+          color: #334155 !important;
+          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container .nht-timeline-icon-box {
+          background: #f8fafc !important;
+          border: 1px solid rgba(203, 213, 225, 0.90) !important;
+          box-shadow: 0 2px 5px rgba(15, 23, 42, 0.05) !important;
+        }
+
+        /* Hero Profile Capability Card — Light Lavender-Indigo Pastel */
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card {
+          background: linear-gradient(145deg, #ffffff 0%, #f5f3ff 52%, #e0e7ff 100%) !important;
+          border: 1px solid rgba(99, 102, 241, 0.26) !important;
+          color: #0f172a !important;
+          box-shadow:
+            0 4px 16px -4px rgba(79, 70, 229, 0.10),
+            inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card .nht-gradient-text {
+          background: linear-gradient(90deg, #4338ca 0%, #7c3aed 55%, #db2777 100%) !important;
+          -webkit-background-clip: text !important;
+          background-clip: text !important;
+          color: transparent !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card [class*="border-white/"] {
+          border-color: rgba(99, 102, 241, 0.20) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card [class*="bg-white/15"] {
+          background: rgba(255, 255, 255, 0.88) !important;
+          border-color: rgba(99, 102, 241, 0.22) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card :is(.text-white, strong) {
+          color: #0f172a !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card .text-purple-100 {
+          color: #334155 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card :is(.text-yellow-300, .text-amber-300) {
+          color: #4338ca !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #letter-page-container #letter-profile-capability-card .text-pink-200 {
+          color: #be185d !important;
+        }
+
+        /* Philosophy Highlight Card — Light Sky-Blue Pastel */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="philosophy"] {
+          background: linear-gradient(145deg, #ffffff 0%, #eff6ff 54%, #dbeafe 100%) !important;
+          border: 1px solid rgba(59, 130, 246, 0.24) !important;
+          color: #1e293b !important;
+          box-shadow: 0 4px 14px -4px rgba(37, 99, 235, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="philosophy"] p {
+          color: #334155 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="philosophy"] strong {
+          color: #1e3a8a !important;
+        }
+
+        /* 3 Core Principles Card & 3 Luminous Pastel Pillars */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="pillars"] {
+          background: #ffffff !important;
+          border: 1px solid rgba(203, 213, 225, 0.85) !important;
+          color: #0f172a !important;
+          box-shadow: 0 4px 14px -4px rgba(15, 23, 42, 0.06) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="1"] {
+          background: linear-gradient(145deg, #ffffff 0%, #eff6ff 55%, #dbeafe 100%) !important;
+          border: 1px solid rgba(59, 130, 246, 0.26) !important;
+          box-shadow: 0 3px 10px -3px rgba(37, 99, 235, 0.10) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="1"] span:first-of-type {
+          color: #1e3a8a !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="1"] span:last-of-type {
+          color: #3b82f6 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="1"] svg {
+          color: rgba(37, 99, 235, 0.10) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="2"] {
+          background: linear-gradient(145deg, #ffffff 0%, #fffbeb 55%, #fef3c7 100%) !important;
+          border: 1px solid rgba(245, 158, 11, 0.30) !important;
+          box-shadow: 0 3px 10px -3px rgba(217, 119, 6, 0.10) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="2"] span:first-of-type {
+          color: #92400e !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="2"] span:last-of-type {
+          color: #b45309 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="3"] {
+          background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 55%, #d1fae5 100%) !important;
+          border: 1px solid rgba(16, 185, 129, 0.28) !important;
+          box-shadow: 0 3px 10px -3px rgba(5, 150, 105, 0.10) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="3"] span:first-of-type {
+          color: #065f46 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="3"] span:last-of-type {
+          color: #047857 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-pillar="3"] svg {
+          color: rgba(5, 150, 105, 0.10) !important;
+        }
+
+        /* Tech Focus Card — Light Emerald-Mint Pastel */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="tech"] {
+          background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 54%, #ccfbf1 100%) !important;
+          border: 1px solid rgba(16, 185, 129, 0.26) !important;
+          color: #0f172a !important;
+          box-shadow: 0 4px 14px -4px rgba(13, 148, 136, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="tech"] svg {
+          color: #0d9488 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="tech"] p {
+          color: #334155 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="tech"] strong {
+          color: #065f46 !important;
+        }
+
+        /* People & Training Card — Clean Bright White */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="people"] {
+          background: linear-gradient(145deg, #ffffff 0%, #f8fafc 60%, #eef2ff 100%) !important;
+          border: 1px solid rgba(199, 210, 254, 0.90) !important;
+          color: #0f172a !important;
+          box-shadow: 0 3px 10px -3px rgba(15, 23, 42, 0.05) !important;
+        }
+
+        /* Quote Card — Light Rose-Blush Pastel */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="quote"] {
+          background: linear-gradient(145deg, #ffffff 0%, #fff1f2 52%, #fce7f3 100%) !important;
+          border: 1px solid rgba(244, 63, 94, 0.24) !important;
+          color: #0f172a !important;
+          box-shadow: 0 4px 14px -4px rgba(225, 29, 72, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="quote"] .bg-white\/15 {
+          background: rgba(244, 63, 94, 0.10) !important;
+          border-color: rgba(244, 63, 94, 0.24) !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="quote"] :is(.text-yellow-300, .text-yellow-200) {
+          color: #be123c !important;
+          fill: #e11d48 !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="quote"] .text-white {
+          color: #0f172a !important;
+        }
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="quote"] .text-white\/10 {
+          color: rgba(244, 63, 94, 0.09) !important;
+        }
+
+        /* Partnership Callout Card — Warm Amber-Cream Pastel */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="partnership"] {
+          background: linear-gradient(145deg, #ffffff 0%, #fffbeb 54%, #fef3c7 100%) !important;
+          border: 1px solid rgba(245, 158, 11, 0.28) !important;
+          color: #0f172a !important;
+          box-shadow: 0 4px 14px -4px rgba(217, 119, 6, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+        }
+
+        /* Closing Sign-Off Card — Pure Crisp White */
+        html[data-card-style="flat-soft-ui"] #letter-page-container [data-letter-card="signoff"] {
+          background: #ffffff !important;
+          border: 1px solid rgba(203, 213, 225, 0.88) !important;
+          color: #0f172a !important;
+          box-shadow: 0 3px 10px -3px rgba(15, 23, 42, 0.05) !important;
+        }
       `}</style>
 
       <div
@@ -1535,6 +1729,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="gradient"
                         fxMode="float-shadow"
                         isDarkText={false}
+                        data-letter-card="philosophy"
                         className="nht-bento-item bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 !p-4 relative overflow-hidden shadow-lg text-white rounded-[var(--radius-subcard,16px)] border border-white/20"
                       >
                         <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -1552,6 +1747,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="info"
                         fxMode="minimal"
                         isDarkText={true}
+                        data-letter-card="pillars"
                         className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !p-4 border border-slate-200/85 dark:border-slate-700/60 rounded-[var(--radius-subcard,16px)] shadow-md"
                       >
                         <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-200/80 dark:border-slate-700/60">
@@ -1568,7 +1764,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center">
                           {/* Pillar 1 */}
-                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                          <div
+                            data-letter-pillar="1"
+                            className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]"
+                          >
                             <Settings className="w-14 h-14 text-white/10 absolute -right-2 -bottom-2 transform group-hover:rotate-45 transition-transform duration-500 pointer-events-none" />
                             <span className="relative z-10 font-bold text-white text-[13.5px] tracking-wide">
                               Quy trình
@@ -1579,7 +1778,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           </div>
 
                           {/* Pillar 2 */}
-                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-slate-950 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                          <div
+                            data-letter-pillar="2"
+                            className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-slate-950 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]"
+                          >
                             <Users className="w-14 h-14 text-slate-950/15 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
                             <span className="relative z-10 font-black text-slate-950 text-[13.5px] tracking-wide">
                               Con người
@@ -1590,7 +1792,10 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                           </div>
 
                           {/* Pillar 3 */}
-                          <div className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]">
+                          <div
+                            data-letter-pillar="3"
+                            className="relative overflow-hidden py-3.5 px-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 flex flex-col items-center justify-center group shadow-md transition-all duration-300 hover:scale-[1.03]"
+                          >
                             <TrendingUp className="w-14 h-14 text-white/10 absolute -right-2 -bottom-2 transform group-hover:scale-110 transition-transform duration-500 pointer-events-none" />
                             <span className="relative z-10 font-bold text-white text-[13.5px] tracking-wide">
                               Công nghệ
@@ -1608,6 +1813,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="gradient"
                         fxMode="neon"
                         isDarkText={false}
+                        data-letter-card="tech"
                         className="nht-bento-item bg-gradient-to-r from-emerald-600 to-teal-700 !p-3.5 shadow-md flex items-center gap-3 text-white rounded-[var(--radius-subcard,16px)] border border-emerald-400/25"
                       >
                         <Cpu className="w-5 h-5 text-amber-300 shrink-0" />
@@ -1630,6 +1836,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="subcard"
                         fxMode="float-shadow"
                         isDarkText={true}
+                        data-letter-card="people"
                         className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !p-3.5 border border-indigo-200/70 dark:border-slate-700/60 relative overflow-hidden flex items-center gap-3 rounded-[var(--radius-subcard,16px)] shadow-sm"
                       >
                         <Users className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 relative z-10" />
@@ -1656,6 +1863,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="gradient"
                         fxMode="spotlight-3d"
                         isDarkText={false}
+                        data-letter-card="quote"
                         className="nht-bento-item bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800 !p-4 overflow-hidden relative shadow-xl flex items-center gap-3.5 text-white rounded-[var(--radius-subcard,16px)] border border-white/25"
                       >
                         <Quote className="w-16 h-16 text-white/10 absolute right-2 -bottom-2 pointer-events-none" />
@@ -1680,6 +1888,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="info"
                         fxMode="float-shadow"
                         isDarkText={true}
+                        data-letter-card="partnership"
                         className="nht-bento-item bg-gradient-to-br from-amber-50/90 via-white to-orange-50/60 dark:from-slate-900/80 dark:via-slate-900/75 dark:to-amber-950/30 !p-4 border border-amber-200/80 dark:border-amber-500/25 relative overflow-hidden flex items-center gap-3.5 rounded-[var(--radius-subcard,16px)] shadow-md"
                       >
                         <div className="w-10 h-10 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-sm">
@@ -1714,6 +1923,7 @@ export const LetterView: React.FC<LetterViewProps> = () => {
                         variant="subcard"
                         fxMode="minimal"
                         isDarkText={true}
+                        data-letter-card="signoff"
                         className="nht-bento-item bg-white/95 dark:bg-slate-900/75 !px-4 !py-3 border border-slate-200/85 dark:border-slate-700/60 rounded-[var(--radius-subcard,16px)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-sm"
                       >
                         <div className="max-w-[290px]">

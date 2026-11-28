@@ -55,13 +55,16 @@ function readInterfaceUiPrefs(): InterfaceUiPrefs {
     const migratedFamily: 'all' | ThemeFamilyId =
       rawFamily === 'all' ||
       rawFamily === 'liquid-glass' ||
+      rawFamily === 'glassmorphism' ||
       rawFamily === 'cowhide-leather' ||
       rawFamily === 'walnut-wood' ||
       rawFamily === 'deep-ocean' ||
       rawFamily === 'frost-ice-neu' ||
+      rawFamily === 'neumorphism-soft-ui' ||
       rawFamily === 'flat-soft-ui' ||
+      rawFamily === 'flat-ui' ||
+      rawFamily === 'nexus-bento' ||
       rawFamily === 'mica-fluent' ||
-      rawFamily === 'gradient-dopamine' ||
       rawFamily === 'iridescent-liquid-glass'
         ? rawFamily
         : fallback.selectedFamilyFilter;
@@ -144,6 +147,37 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Frost Cyan', hex: '#67E8F9' },
       { name: 'Rose Blush', hex: '#F5A8B7' },
       { name: 'Deep Indigo', hex: '#101A2B' },
+    ],
+  },
+  'glassmorphism': {
+    radius: '18px',
+    activeRingColor: '#38BDF8',
+    activeBorderClass: 'border-white/45',
+    idleBorderClass: 'border-white/25 hover:border-white/45',
+    activeBadgeClass: 'bg-white/15 text-white border-white/30 shadow-xs backdrop-blur-[16px]',
+    iconColor: '#38BDF8',
+    titleTextClass: 'text-white',
+    bodyTextClass: 'text-white/85',
+    accentTextClass: 'text-[#7DD3FC]',
+    previewBorderClass: 'border-white/25',
+    dividerClass: 'border-white/20',
+    ctaIdleClass: 'bg-white/12 text-white hover:bg-white/20 border border-white/25 shadow-xs backdrop-blur-[16px]',
+    ctaActiveClass: 'bg-gradient-to-r from-[#38BDF8] via-[#8B5CF6] to-[#EC4899] text-white font-bold shadow-xs border border-white/40',
+    toggleTrackDarkClass: 'bg-white/12 border-white/25',
+    toggleTrackLightClass: 'bg-white/20 border-white/35',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#38BDF8] to-[#8B5CF6] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#38BDF8] to-[#EC4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Frosted', width: '94%', gradient: 'linear-gradient(90deg, #38BDF8, #8B5CF6)', glow: '0 0 12px rgba(56, 189, 248, 0.40)' },
+      { label: 'Aurora', width: '82%', gradient: 'linear-gradient(90deg, #8B5CF6, #EC4899)', glow: '0 0 12px rgba(236, 72, 153, 0.35)' },
+      { label: 'Mint', width: '70%', gradient: 'linear-gradient(90deg, #2DD4BF, #38BDF8)', glow: '0 0 12px rgba(45, 212, 191, 0.32)' },
+    ],
+    primaryPalette: [
+      { name: 'Glass Frost', hex: '#FFFFFF' },
+      { name: 'Aurora Cyan', hex: '#38BDF8' },
+      { name: 'Prism Violet', hex: '#8B5CF6' },
+      { name: 'Magenta Bloom', hex: '#EC4899' },
     ],
   },
   'cowhide-leather': {
@@ -282,6 +316,39 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Frost Ink', hex: '#18273B' },
     ],
   },
+  'neumorphism-soft-ui': {
+    radius: '22px',
+    activeRingColor: '#4F46E5',
+    activeBorderClass: 'border-0',
+    idleBorderClass: 'border-0',
+    activeBadgeClass:
+      'bg-[#E0E5EC] text-[#3730A3] border-0 shadow-[-4px_-4px_8px_rgba(255,255,255,0.85),4px_4px_8px_rgba(163,177,198,0.6)]',
+    iconColor: '#4F46E5',
+    titleTextClass: 'text-[#1E293B]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#3730A3]',
+    previewBorderClass: 'border-0',
+    dividerClass: 'border-0',
+    ctaIdleClass:
+      'bg-[#E0E5EC] text-[#1E293B] hover:text-[#3730A3] border-0 shadow-[-6px_-6px_12px_rgba(255,255,255,0.85),6px_6px_12px_rgba(163,177,198,0.6)] active:shadow-[inset_-6px_-6px_12px_rgba(255,255,255,0.85),inset_6px_6px_12px_rgba(163,177,198,0.6)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F46E5]',
+    ctaActiveClass:
+      'bg-[#4F46E5] text-white border-0 shadow-[-4px_-4px_10px_rgba(255,255,255,0.82),5px_5px_12px_rgba(79,70,229,0.36)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3730A3]',
+    toggleTrackDarkClass: 'bg-[#E0E5EC] border-0',
+    toggleTrackLightClass: 'bg-[#4F46E5] border-0',
+    toggleThumbDarkClass: 'bg-[#E0E5EC] text-[#334155]',
+    toggleThumbLightClass: 'bg-[#FFFFFF] text-[#4F46E5]',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Accent', width: '84%', gradient: '#4F46E5' },
+      { label: 'Matte', width: '68%', gradient: '#6366F1' },
+    ],
+    primaryPalette: [
+      { name: 'Matte Base', hex: '#E0E5EC' },
+      { name: 'Primary Indigo', hex: '#4F46E5' },
+      { name: 'Soft Shadow', hex: '#A3B1C6' },
+      { name: 'Slate Ink', hex: '#1E293B' },
+    ],
+  },
   'flat-soft-ui': {
     radius: '14px',
     activeRingColor: '#4F46E5',
@@ -344,6 +411,150 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Obsidian Matte', hex: '#0F172A' },
     ],
   },
+  'color-flat-soft-ui': {
+    radius: '14px',
+    activeRingColor: '#8B5CF6',
+    activeBorderClass: 'border-[#8B5CF6]',
+    idleBorderClass: 'border-white/15 hover:border-[#06B6D4]/70',
+    activeBadgeClass: 'bg-[#111827] text-[#FFDF25] border-[#8B5CF6]/55 shadow-xs',
+    iconColor: '#8B5CF6',
+    titleTextClass: 'text-[#F4F7FB]',
+    bodyTextClass: 'text-[#CBD5E1]',
+    accentTextClass: 'text-[#06B6D4]',
+    previewBorderClass: 'border-white/15',
+    dividerClass: 'border-white/12',
+    ctaIdleClass: 'bg-[#111827] text-[#F4F7FB] hover:bg-[#1E293B] border border-white/15',
+    ctaActiveClass: 'bg-gradient-to-r from-[#8B5CF6] via-[#4F46E5] to-[#06B6D4] text-white font-bold border border-[#8B5CF6]/60',
+    toggleTrackDarkClass: 'bg-[#090D16] border-white/15',
+    toggleTrackLightClass: 'bg-[#F4F7FB] border-slate-300',
+    toggleThumbDarkClass: 'bg-[#8B5CF6] text-white',
+    toggleThumbLightClass: 'bg-[#4F46E5] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/18230475/file/original-d7ab36998c2277e97c1996d837a4673c.mp4',
+    gradientBars: [
+      { label: 'Studio', width: '96%', gradient: 'linear-gradient(90deg, #8B5CF6, #4F46E5, #06B6D4, #10B981)' },
+      { label: 'Modules 01–06', width: '88%', gradient: 'linear-gradient(90deg, #FFDF25, #5DC3C8, #E64C72, #1480C0, #F05A36, #A3D43A)' },
+      { label: 'Modules 07–12', width: '80%', gradient: 'linear-gradient(90deg, #0D9488, #2563EB, #EC7D21, #A78BFA, #6353B5, #3BB8E6)' },
+    ],
+    primaryPalette: [
+      { name: 'Dark Canvas Base', hex: '#090D16' },
+      { name: 'Light Canvas Base', hex: '#F4F7FB' },
+      { name: 'Card Glass Dark', hex: '#111827' },
+      { name: 'Sub-Card Overlay', hex: '#0000004D' },
+      { name: 'Studio Violet', hex: '#8B5CF6' },
+      { name: 'Cyber Indigo', hex: '#4F46E5' },
+      { name: 'Electric Cyan', hex: '#06B6D4' },
+      { name: 'Emerald Success', hex: '#10B981' },
+      { name: '01 · SDP Gold', hex: '#FFDF25' },
+      { name: '02 · ERP Teal', hex: '#5DC3C8' },
+      { name: '03 · CRM Rose', hex: '#E64C72' },
+      { name: '04 · HRM Azure', hex: '#1480C0' },
+      { name: '05 · BPM Coral', hex: '#F05A36' },
+      { name: '06 · OKR Lime', hex: '#A3D43A' },
+      { name: '07 · CLP Emerald', hex: '#0D9488' },
+      { name: '08 · LMS Cobalt', hex: '#2563EB' },
+      { name: '09 · CSC Amber', hex: '#EC7D21' },
+      { name: '10 · BI Lavender', hex: '#A78BFA' },
+      { name: '11 · AI Iris', hex: '#6353B5' },
+      { name: '12 · POS Sky', hex: '#3BB8E6' },
+    ],
+  },
+  'flat-ui': {
+    radius: '8px',
+    activeRingColor: '#3B82F6',
+    activeBorderClass: 'border-2 border-[#3B82F6]',
+    idleBorderClass: 'border-0',
+    activeBadgeClass: 'bg-[#3B82F6] text-white border-0',
+    iconColor: '#3B82F6',
+    titleTextClass: 'text-[#111827]',
+    bodyTextClass: 'text-[#374151]',
+    accentTextClass: 'text-[#2563EB]',
+    previewBorderClass: 'border-0',
+    dividerClass: 'border-[#E5E7EB]',
+    ctaIdleClass: 'bg-[#F3F4F6] text-[#111827] hover:bg-[#E5E7EB] hover:scale-105 border-0 rounded-md transition-all duration-200',
+    ctaActiveClass: 'bg-[#3B82F6] text-white hover:bg-[#2563EB] hover:scale-105 border-0 rounded-md transition-all duration-200',
+    toggleTrackDarkClass: 'bg-[#111827] border-0',
+    toggleTrackLightClass: 'bg-[#F3F4F6] border-0',
+    toggleThumbDarkClass: 'bg-[#3B82F6] text-white',
+    toggleThumbLightClass: 'bg-[#3B82F6] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Primary', width: '92%', gradient: '#3B82F6' },
+      { label: 'Secondary', width: '78%', gradient: '#10B981' },
+      { label: 'Accent', width: '64%', gradient: '#F59E0B' },
+    ],
+    primaryPalette: [
+      { name: 'Action Blue', hex: '#3B82F6' },
+      { name: 'Emerald 500', hex: '#10B981' },
+      { name: 'Amber 500', hex: '#F59E0B' },
+      { name: 'Gray 100', hex: '#F3F4F6' },
+      { name: 'Pure White', hex: '#FFFFFF' },
+      { name: 'Gray 900', hex: '#111827' },
+    ],
+  },
+  'nexus-bento': {
+    radius: '12px',
+    activeRingColor: '#8B5CF6',
+    activeBorderClass: 'border border-[#8B5CF6]/70',
+    idleBorderClass: 'border border-white/10 hover:border-[#8B5CF6]/50',
+    activeBadgeClass: 'bg-[#111827] text-[#38BDF8] border border-white/15 shadow-xs backdrop-blur-xl',
+    iconColor: '#8B5CF6',
+    titleTextClass: 'text-[#F8FAFC]',
+    bodyTextClass: 'text-[#CBD5E1]',
+    accentTextClass: 'text-[#38BDF8]',
+    previewBorderClass: 'border-white/10',
+    dividerClass: 'border-white/10',
+    ctaIdleClass: 'bg-[#111827]/85 text-[#F8FAFC] hover:bg-[#1E293B] border border-white/10 rounded-xl transition-all duration-200',
+    ctaActiveClass: 'bg-gradient-to-r from-[#8B5CF6] via-[#38BDF8] to-[#EC4899] text-white border border-white/20 rounded-xl shadow-md transition-all duration-200',
+    toggleTrackDarkClass: 'bg-[#111827] border border-white/15',
+    toggleTrackLightClass: 'bg-[#F4F7FB] border border-slate-200',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#38BDF8] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#7C3AED] to-[#EC4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Violet Halo', width: '94%', gradient: 'linear-gradient(90deg, #8B5CF6, #38BDF8)' },
+      { label: 'Pink Halo', width: '82%', gradient: 'linear-gradient(90deg, #38BDF8, #EC4899)' },
+    ],
+    primaryPalette: [
+      { name: 'Dark Canvas', hex: '#090D16' },
+      { name: 'Frosted Nav', hex: '#111827' },
+      { name: 'Violet Halo', hex: '#8B5CF6' },
+      { name: 'Sky Halo', hex: '#38BDF8' },
+      { name: 'Pink Halo', hex: '#EC4899' },
+      { name: 'Light Canvas', hex: '#F4F7FB' },
+    ],
+  },
+  'light-nexus-bento': {
+    radius: '12px',
+    activeRingColor: '#7C3AED',
+    activeBorderClass: 'border border-[#7C3AED]/60',
+    idleBorderClass: 'border border-slate-200 hover:border-[#7C3AED]/45',
+    activeBadgeClass: 'bg-white text-[#7C3AED] border border-[#7C3AED]/30 shadow-xs backdrop-blur-xl',
+    iconColor: '#7C3AED',
+    titleTextClass: 'text-[#0F172A]',
+    bodyTextClass: 'text-[#334155]',
+    accentTextClass: 'text-[#7C3AED]',
+    previewBorderClass: 'border-slate-200',
+    dividerClass: 'border-slate-200',
+    ctaIdleClass: 'bg-white/90 text-[#0F172A] hover:bg-[#F5F3FF] border border-slate-200 rounded-xl transition-all duration-200',
+    ctaActiveClass: 'bg-gradient-to-r from-[#7C3AED] via-[#0284C7] to-[#EC4899] text-white border border-white/25 rounded-xl shadow-md transition-all duration-200',
+    toggleTrackDarkClass: 'bg-[#111827] border border-white/15',
+    toggleTrackLightClass: 'bg-[#F4F7FB] border border-slate-200',
+    toggleThumbDarkClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#38BDF8] text-white',
+    toggleThumbLightClass: 'bg-gradient-to-br from-[#7C3AED] to-[#EC4899] text-white',
+    demoVideoUrl: 'https://cdn.dribbble.com/userupload/13498087/file/original-b120f6a1a15d71e493f8d4b2d13b0296.mp4',
+    gradientBars: [
+      { label: 'Violet Halo', width: '92%', gradient: 'linear-gradient(90deg, #7C3AED, #0284C7)' },
+      { label: 'Pink Halo', width: '80%', gradient: 'linear-gradient(90deg, #0284C7, #EC4899)' },
+    ],
+    primaryPalette: [
+      { name: 'Light Canvas', hex: '#F4F7FB' },
+      { name: 'Pure Card', hex: '#FFFFFF' },
+      { name: 'Violet Halo', hex: '#7C3AED' },
+      { name: 'Sky Halo', hex: '#0284C7' },
+      { name: 'Pink Halo', hex: '#EC4899' },
+      { name: 'Dark Canvas', hex: '#090D16' },
+    ],
+  },
   'mica-fluent': {
     radius: '18px',
     activeRingColor: '#EA1A7F',
@@ -378,36 +589,6 @@ const THEME_VISUAL_META: Record<CardStyleMode, ThemeVisualMeta> = {
       { name: 'Orchid Purple', hex: '#AF64E8' },
       { name: 'Hot Magenta', hex: '#EA1A7F' },
       { name: 'Crimson Red', hex: '#D62424' },
-    ],
-  },
-  'gradient-dopamine': {
-    radius: '18px',
-    activeRingColor: '#FF2E93',
-    activeBorderClass: 'border-[#FF2E93]',
-    idleBorderClass: 'border-pink-300/60 hover:border-[#FF2E93]',
-    activeBadgeClass: 'bg-pink-50/90 text-[#FF2E93] border-pink-300/75 shadow-xs backdrop-blur-md',
-    iconColor: '#FF2E93',
-    titleTextClass: 'text-[#181028]',
-    bodyTextClass: 'text-[#3B2654]',
-    accentTextClass: 'text-[#FF2E93]',
-    previewBorderClass: 'border-pink-300/55',
-    dividerClass: 'border-pink-200/70',
-    ctaIdleClass: 'bg-white/90 text-[#FF2E93] hover:bg-white border border-pink-200/80 shadow-xs',
-    ctaActiveClass: 'bg-gradient-to-r from-[#FF2E93] via-[#7C3AED] to-[#FF6B00] text-white shadow-xs border border-white/60',
-    toggleTrackDarkClass: 'bg-[#181028] border-pink-400/50',
-    toggleTrackLightClass: 'bg-pink-50 border-pink-200',
-    toggleThumbDarkClass: 'bg-gradient-to-br from-[#FF2E93] to-[#00D2FF] text-white',
-    toggleThumbLightClass: 'bg-gradient-to-br from-[#FF2E93] via-[#7C3AED] to-[#FF6B00] text-white',
-    demoVideoUrl: 'https://cdn.scena.ai/project/10223/13eee325b1e14c3b5496ca67e6bf5a3558a5ff156c17f40045f15f82d9e29391.mp4',
-    gradientBars: [
-      { label: 'Dopamine', width: '96%', gradient: 'linear-gradient(90deg, #FF2E93, #7C3AED, #00D2FF)', glow: '0 0 12px rgba(255, 46, 147, 0.42)' },
-      { label: 'Energy', width: '84%', gradient: 'linear-gradient(90deg, #FF6B00, #FF2E93)', glow: '0 0 12px rgba(255, 107, 0, 0.38)' },
-    ],
-    primaryPalette: [
-      { name: 'Hot Magenta', hex: '#FF2E93' },
-      { name: 'Electric Violet', hex: '#7C3AED' },
-      { name: 'Sunset Coral', hex: '#FF6B00' },
-      { name: 'Cyber Cyan', hex: '#00D2FF' },
     ],
   },
   'iridescent-liquid-glass': {
@@ -611,7 +792,7 @@ export const InterfaceView: React.FC<InterfaceViewProps> = ({ onShowNotification
       } catch {
         // ignore storage errors
       }
-      const targetNeuStyle: CardStyleMode = isDark ? 'dark-flat-soft-ui' : 'flat-soft-ui';
+      const targetNeuStyle: CardStyleMode = 'neumorphism-soft-ui';
       const targetCfg = getCardStyleConfig(targetNeuStyle);
       setCardStyle(targetNeuStyle);
       onShowNotification?.(

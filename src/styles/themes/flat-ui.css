@@ -1,0 +1,689 @@
+/* ==========================================================================
+   FLAT UI THEME — CONFIDENT REDUCTION & BOLD COLOR BLOCKING
+   Single Palette (Light Mode):
+     - Background Canvas : #FFFFFF (Pure White)
+     - Foreground Ink    : #111827 (Gray 900)
+     - Primary Action    : #3B82F6 (Blue 500)  · Hover #2563EB
+     - Secondary Accent  : #10B981 (Emerald 500) · Hover #059669
+     - Highlight Accent  : #F59E0B (Amber 500) · Hover #D97706
+     - Muted Surface     : #F3F4F6 (Gray 100)  · Hover #E5E7EB
+     - Border (sparing)  : #E5E7EB (Gray 200)
+   Rules:
+     - ZERO box-shadows anywhere (box-shadow: none)
+     - ZERO backdrop-filter blur anywhere
+     - ZERO gradients on cards or buttons (solid flat fills only)
+     - Typography: 'Outfit', sans-serif (700/800 headings -0.02em, 400 body, 500/600 labels)
+     - Consistent geometric radii: 6px (rounded-md) / 8px (rounded-lg)
+     - Snappy 200ms hover feedback via color shift + scale (1.02 cards / 1.05 buttons)
+     - Accessible high-contrast focus outlines & prefers-reduced-motion support
+   ========================================================================== */
+
+html[data-card-style="flat-ui"],
+html[data-card-style="flat-ui"] body,
+html[data-theme="flat-ui"] {
+  --flat-ui-bg: #FFFFFF;
+  --flat-ui-fg: #111827;
+  --flat-ui-fg-secondary: #374151;
+  --flat-ui-fg-muted: #4B5563;
+  --flat-ui-primary: #3B82F6;
+  --flat-ui-primary-hover: #2563EB;
+  --flat-ui-primary-tint: #EFF6FF;
+  --flat-ui-primary-tint-hover: #DBEAFE;
+  --flat-ui-secondary: #10B981;
+  --flat-ui-secondary-hover: #059669;
+  --flat-ui-secondary-tint: #ECFDF5;
+  --flat-ui-secondary-tint-hover: #D1FAE5;
+  --flat-ui-accent: #F59E0B;
+  --flat-ui-accent-hover: #D97706;
+  --flat-ui-accent-tint: #FFFBEB;
+  --flat-ui-accent-tint-hover: #FEF3C7;
+  --flat-ui-muted: #F3F4F6;
+  --flat-ui-muted-hover: #E5E7EB;
+  --flat-ui-border: #E5E7EB;
+
+  /* Core Design Tokens */
+  --font-sans: "Outfit", sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Outfit", sans-serif;
+  --font-mono: "Outfit", sans-serif;
+
+  --app-bg-base: #FFFFFF;
+  --color-bg: #FFFFFF;
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-active: #1D4ED8;
+  --color-secondary: #10B981;
+  --color-accent: #F59E0B;
+  --color-focus-ring: #3B82F6;
+
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F3F4F6;
+  --color-heading: #111827;
+  --color-text: #111827;
+  --color-text-secondary: #374151;
+
+  --text-primary: #111827;
+  --text-heading: #111827;
+  --text-secondary: #374151;
+  --text-muted: #4B5563;
+  --text-link: #2563EB;
+  --text-button-primary: #FFFFFF;
+
+  --bg-main: #F3F4F6;
+  --bg-header: #F3F4F6;
+  --bg-footer: #F3F4F6;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #EFF6FF;
+  --bg-subcard: #F3F4F6;
+  --bg-subcard-hover: #E5E7EB;
+  --bg-button-primary: #3B82F6;
+  --bg-button-secondary: #F3F4F6;
+
+  --surface-primary-bg: #F3F4F6;
+  --surface-primary-border: transparent;
+  --surface-primary-shadow: none;
+  --surface-primary-blur: 0px;
+  --surface-primary-saturate: 100%;
+
+  --surface-secondary-bg: #FFFFFF;
+  --surface-secondary-border: transparent;
+  --surface-secondary-shadow: none;
+
+  --surface-tertiary-bg: #F3F4F6;
+  --surface-tertiary-border: transparent;
+  --surface-tertiary-shadow: none;
+
+  --border-color: transparent;
+  --border-card: transparent;
+  --border-subcard: transparent;
+  --border-muted: #E5E7EB;
+  --card-border-width: 0px;
+
+  --radius-card: 8px;
+  --radius-subcard: 6px;
+  --radius-banner: 8px;
+  --radius-button: 6px;
+  --card-radius: 8px;
+
+  --shadow-card: none;
+  --shadow-hover: none;
+  --shadow-glow: none;
+  --glass-blur: 0px;
+  --glass-saturate: 100%;
+
+  /* Navigation Pills — Flat Solid Geometric */
+  --nav-pill-accent: #3B82F6;
+  --pill-bg: #FFFFFF;
+  --pill-bg-hover: #E5E7EB;
+  --pill-border: transparent;
+  --pill-border-hover: transparent;
+  --pill-text: #111827;
+  --pill-title-color: #111827;
+  --pill-shadow: none;
+  --pill-shadow-hover: none;
+  --pill-blur: 0px;
+  --pill-divider: #E5E7EB;
+  --pill-badge-bg: #3B82F6;
+  --pill-badge-border: transparent;
+  --pill-badge-icon: #FFFFFF;
+  --pill-badge-shadow: none;
+  --pill-active-bg: #3B82F6;
+  --pill-active-border: transparent;
+  --pill-active-text: #FFFFFF;
+  --pill-active-shadow: none;
+  --pill-active-divider: rgba(255, 255, 255, 0.35);
+  --pill-active-badge-bg: #FFFFFF;
+  --pill-active-badge-icon: #2563EB;
+  --pill-arrow-bg: #FFFFFF;
+  --pill-arrow-hover: #3B82F6;
+  --pill-arrow-border: transparent;
+  --pill-arrow-text: #111827;
+  --pill-counter-color: #111827;
+
+  /* Elevation Tokens: Strictly Zero Depth */
+  --elev-shell-header: none;
+  --elev-shell-footer: none;
+  --elev-main-card: none;
+  --elev-banner-card: none;
+  --elev-banner-card-hover: none;
+  --elev-card-l2: none;
+  --elev-card-l2-hover: none;
+  --elev-subcard-l1: none;
+  --elev-subcard-l1-hover: none;
+  --elev-pill-rest: none;
+  --elev-pill-hover: none;
+}
+
+/* ==========================================================================
+   1. PURE WHITE CANVAS + STRATEGIC FLAT GEOMETRIC POSTER SHAPES
+   ========================================================================== */
+html[data-card-style="flat-ui"] body {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  font-family: "Outfit", sans-serif !important;
+}
+
+html[data-card-style="flat-ui"] body::before {
+  content: "";
+  position: fixed;
+  top: -120px;
+  right: -90px;
+  width: 420px;
+  height: 420px;
+  border-radius: 9999px;
+  background-color: rgba(59, 130, 246, 0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+html[data-card-style="flat-ui"] body::after {
+  content: "";
+  position: fixed;
+  bottom: -110px;
+  left: -80px;
+  width: 340px;
+  height: 340px;
+  border-radius: 16px;
+  transform: rotate(18deg);
+  background-color: rgba(16, 185, 129, 0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   2. GEOMETRIC TYPOGRAPHY ('Outfit') — HIERARCHY BY SIZE & WEIGHT
+   ========================================================================== */
+html[data-card-style="flat-ui"] :is(body, .font-play, p, span, li, a, button, input, textarea, select, label, td, th) {
+  font-family: "Outfit", sans-serif;
+}
+
+html[data-card-style="flat-ui"] :is(h1, h2, h3, h4, .typo-h1, .typo-h2, .typo-h3, .card-title-synced) {
+  font-family: "Outfit", sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: #111827;
+}
+
+html[data-card-style="flat-ui"] .font-handwriting,
+html[data-card-style="flat-ui"] .font-quote,
+html[data-card-style="flat-ui"] .font-moon-dance {
+  font-family: var(--font-quote, "Dancing Script", cursive) !important;
+}
+
+/* ==========================================================================
+   3. ZERO ARTIFICIAL DEPTH (NO SHADOWS, NO BLUR, NO CARD/BTN GRADIENTS)
+   ========================================================================== */
+html[data-card-style="flat-ui"] .card-flat-ui {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111827 !important;
+}
+
+/* L1 Shell Parity: Header, Footer, Main Page Containers (Solid Muted #F3F4F6) */
+html:root[data-card-style="flat-ui"] body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container) {
+  background: #F3F4F6 !important;
+  background-color: #F3F4F6 !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111827 !important;
+}
+
+/* ==========================================================================
+   4. COLOR-BLOCK CARDS (L2): CRISP SOLID BLOCKS, ZERO BORDER, SCALE HOVER
+   ========================================================================== */
+html:root[data-card-style="flat-ui"] body :is(
+  .page-subcard,
+  .section-card,
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .edu-bento-tile,
+  .sys-bento-tile,
+  .sys-bento-studio-card,
+  .exp-studio-card,
+  .service-card,
+  .domain-card,
+  .theme-modal-card,
+  [data-section-card="true"],
+  [data-bento-card="true"]
+):not(.banner-card):not(.hero-banner) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111827 !important;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease !important;
+}
+
+/* Alternating Bold Flat Tint Color Blocks (Blue-50 / Emerald-50 / Amber-50 / Pure White) */
+html:root[data-card-style="flat-ui"] body :is(
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .edu-bento-tile,
+  .sys-bento-tile,
+  .sys-bento-studio-card,
+  .exp-studio-card,
+  .service-card,
+  .domain-card
+):nth-of-type(4n + 1) {
+  background: #EFF6FF !important;
+  background-color: #EFF6FF !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .edu-bento-tile,
+  .sys-bento-tile,
+  .sys-bento-studio-card,
+  .exp-studio-card,
+  .service-card,
+  .domain-card
+):nth-of-type(4n + 2) {
+  background: #ECFDF5 !important;
+  background-color: #ECFDF5 !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .edu-bento-tile,
+  .sys-bento-tile,
+  .sys-bento-studio-card,
+  .exp-studio-card,
+  .service-card,
+  .domain-card
+):nth-of-type(4n + 3) {
+  background: #FFFBEB !important;
+  background-color: #FFFBEB !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .edu-bento-tile,
+  .sys-bento-tile,
+  .sys-bento-studio-card,
+  .exp-studio-card,
+  .service-card,
+  .domain-card
+):nth-of-type(4n + 4) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Card Hover: Subtle Scale (1.02) + Color Intensification, ZERO Shadow */
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):hover {
+    transform: scale(1.02) !important;
+    box-shadow: none !important;
+  }
+
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):nth-of-type(4n + 1):hover {
+    background: #DBEAFE !important;
+    background-color: #DBEAFE !important;
+  }
+
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):nth-of-type(4n + 2):hover {
+    background: #D1FAE5 !important;
+    background-color: #D1FAE5 !important;
+  }
+
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):nth-of-type(4n + 3):hover {
+    background: #FEF3C7 !important;
+    background-color: #FEF3C7 !important;
+  }
+
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):nth-of-type(4n + 4):hover {
+    background: #E5E7EB !important;
+    background-color: #E5E7EB !important;
+  }
+
+  /* Icons inside cards scale up 1.1x on card hover */
+  html:root[data-card-style="flat-ui"] body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .edu-bento-tile,
+    .sys-bento-tile,
+    .sys-bento-studio-card,
+    .exp-studio-card,
+    .service-card,
+    .domain-card
+  ):hover :is(.card-icon-badge, .icon-circle, .service-icon-wrap, svg:first-of-type) {
+    transform: scale(1.1);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* L3 Sub-Cards: Crisp Solid White / Gray 100, Rounded-md (6px), No Border, No Shadow */
+html:root[data-card-style="flat-ui"] body :is(
+  .sub-card,
+  .subcard,
+  .bento-subcard,
+  .service-bento-subtile,
+  .exp-studio-subtile,
+  .theme-modal-subcard,
+  .skill-swot-subcard
+) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111827 !important;
+}
+
+/* Hero Banners — Flat Poster Header with High-Contrast Readable Scrim */
+html:root[data-card-style="flat-ui"] body :is(.banner-card, .hero-banner) {
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: #EFF6FF !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(.banner-card, .hero-banner) .project-detail-banner-scrim {
+  background: rgba(255, 255, 255, 0.84) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ==========================================================================
+   5. BUTTONS & NAVIGATION PILLS: SOLID FILLS, SCALE 1.05, ZERO SHADOWS
+   ========================================================================== */
+html:root[data-card-style="flat-ui"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]):not([aria-selected="true"]) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  color: #111827 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  font-weight: 600 !important;
+  transition: transform 200ms ease, background-color 200ms ease, color 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="flat-ui"] body :is(
+    #app-header button.nav-pill,
+    #app-footer button.nav-pill,
+    button.nav-pill,
+    #header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    #footer-theme-mode-btn,
+    .banner-control-pill,
+    .edu-bento-action-btn,
+    .sys-bento-action-btn,
+    .radial-contact-pill
+  ):not([aria-current="page"]):not([data-active="true"]):not([aria-selected="true"]):hover {
+    background: #E5E7EB !important;
+    background-color: #E5E7EB !important;
+    color: #111827 !important;
+    transform: scale(1.05) !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Primary / Active State: Solid Blue 500 (#3B82F6), Pure White Text, Zero Shadow */
+html:root[data-card-style="flat-ui"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  button[role="tab"],
+  .banner-control-pill,
+  .edu-bento-action-btn,
+  .sys-bento-action-btn
+):is([aria-current="page"], [data-active="true"], [aria-selected="true"]) {
+  background: #3B82F6 !important;
+  background-color: #3B82F6 !important;
+  background-image: none !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  font-weight: 600 !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="flat-ui"] body :is(
+    #app-header button.nav-pill,
+    #app-footer button.nav-pill,
+    button.nav-pill,
+    #header-btn-hungthai-avatar,
+    button[role="tab"]
+  ):is([aria-current="page"], [data-active="true"], [aria-selected="true"]):hover {
+    background: #2563EB !important;
+    background-color: #2563EB !important;
+    transform: scale(1.05) !important;
+  }
+}
+
+html:root[data-card-style="flat-ui"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #header-btn-hungthai-avatar
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-title, span) {
+  color: #FFFFFF !important;
+}
+
+/* Icon Badge Circles: Solid Flat Circles (Pure Geometric Iconography) */
+html:root[data-card-style="flat-ui"] body :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  border-radius: 9999px !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(button.nav-pill, #header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge {
+  background: #EFF6FF !important;
+  background-color: #EFF6FF !important;
+  color: #3B82F6 !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(button.nav-pill, #header-btn-hungthai-avatar):not([aria-current="page"]):not([data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: #2563EB !important;
+  stroke: currentColor !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(button.nav-pill, #header-btn-hungthai-avatar):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #2563EB !important;
+}
+
+html:root[data-card-style="flat-ui"] body :is(button.nav-pill, #header-btn-hungthai-avatar):is([aria-current="page"], [data-active="true"]) .nav-pill-icon-badge :is(svg, .nav-pill-icon-svg) {
+  color: #2563EB !important;
+  stroke: currentColor !important;
+}
+
+/* Strip shine pseudo-elements from theme-button-effects for 100% pure flat look */
+html[data-card-style="flat-ui"] :is(button, a[role="button"], .nav-pill, .banner-control-pill)::before,
+html[data-card-style="flat-ui"] :is(button, a[role="button"], .nav-pill, .banner-control-pill)::after {
+  background-image: none !important;
+}
+
+/* ==========================================================================
+   6. INPUTS & FORM CONTROLS: GRAY 100 NORMAL -> WHITE + 2PX SOLID BLUE FOCUS
+   ========================================================================== */
+html[data-card-style="flat-ui"] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), textarea, select) {
+  background: #F3F4F6 !important;
+  background-color: #F3F4F6 !important;
+  color: #111827 !important;
+  border: 2px solid transparent !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  transition: background-color 200ms ease, border-color 200ms ease !important;
+}
+
+html[data-card-style="flat-ui"] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), textarea, select):focus {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 2px solid #3B82F6 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Dropdowns & Popups */
+html[data-card-style="flat-ui"] :is(.theme-dropdown-menu, [role="menu"], [role="listbox"]) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 2px solid #E5E7EB !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #111827 !important;
+}
+
+/* ==========================================================================
+   7. ACCESSIBILITY: SOLID HIGH-CONTRAST FOCUS RING & REDUCED MOTION
+   ========================================================================== */
+html[data-card-style="flat-ui"] :is(button, a, [tabindex], [role="tab"], [role="button"], [role="option"], [role="switch"]):focus-visible {
+  outline: 2px solid #3B82F6 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-card-style="flat-ui"] *,
+  html[data-card-style="flat-ui"] *::before,
+  html[data-card-style="flat-ui"] *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  html[data-card-style="flat-ui"] :is(.bento-card, .bento-item, .home-hero-card, .service-card, .domain-card, button, .nav-pill):hover {
+    transform: none !important;
+  }
+}

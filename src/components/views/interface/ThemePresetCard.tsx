@@ -5,6 +5,7 @@ import { SoundEngine } from '@/components/ui/SoundEngine';
 import { CardStyleConfig, CardStyleMode } from '@/config/ui/theme.types';
 import {
   DEFAULT_CORNER_RADIUS,
+  FLAT_COLOR_SYSTEM_PALETTE,
   LETTER_14_COLOR_PALETTE,
   MAX_CORNER_RADIUS,
   MIN_CORNER_RADIUS,
@@ -171,17 +172,6 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
           border: '1px solid rgba(255, 255, 255, 0.35)',
           boxShadow: '0px 4px 7px 2px rgba(0, 0, 0, 0.09)',
           color: '#1C0708',
-        };
-      }
-      if (preset.id === 'gradient-dopamine') {
-        return {
-          ...sampleProps,
-          background:
-            'linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 240, 248, 0.86) 48%, rgba(240, 247, 255, 0.88) 100%)',
-          backdropFilter: 'blur(18px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-          border: '1.5px solid rgba(255, 46, 147, 0.35)',
-          color: '#181028',
         };
       }
       if (preset.id === 'iridescent-liquid-glass') {
@@ -673,26 +663,44 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                     >
                       {isEn ? 'Default' : 'Mặc định'}
                     </button>
-                    {LETTER_14_COLOR_PALETTE.map((c) => {
-                      const displayHex = preset.isDark ? c.darkHex : c.hex;
-                      return (
-                        <button
-                          key={c.id}
-                          type="button"
-                          onClick={() => {
-                            SoundEngine.playTap();
-                            setCustomPrimaryColor(displayHex);
-                          }}
-                          title={`${isEn ? c.labelEn : c.labelVi} (${displayHex})`}
-                          className={`w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-110 border ${
-                            customPrimaryColor.toLowerCase() === displayHex.toLowerCase()
-                              ? 'ring-2 ring-primary-400 scale-110 border-white'
-                              : 'border-white/30'
-                          }`}
-                          style={{ backgroundColor: displayHex }}
-                        />
-                      );
-                    })}
+                    {preset.id === 'color-flat-soft-ui'
+                      ? FLAT_COLOR_SYSTEM_PALETTE.filter((c) => c.group !== 'surface').map((c) => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            onClick={() => {
+                              SoundEngine.playTap();
+                              setCustomPrimaryColor(c.hex);
+                            }}
+                            title={`${c.label}: ${c.hex} (${c.tailwindClass})`}
+                            className={`w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-110 border ${
+                              customPrimaryColor.toLowerCase() === c.hex.toLowerCase()
+                                ? 'ring-2 ring-primary-400 scale-110 border-white'
+                                : 'border-white/30'
+                            }`}
+                            style={{ backgroundColor: c.hex }}
+                          />
+                        ))
+                      : LETTER_14_COLOR_PALETTE.map((c) => {
+                          const displayHex = preset.isDark ? c.darkHex : c.hex;
+                          return (
+                            <button
+                              key={c.id}
+                              type="button"
+                              onClick={() => {
+                                SoundEngine.playTap();
+                                setCustomPrimaryColor(displayHex);
+                              }}
+                              title={`${isEn ? c.labelEn : c.labelVi} (${displayHex})`}
+                              className={`w-6 h-6 rounded-full cursor-pointer transition-transform hover:scale-110 border ${
+                                customPrimaryColor.toLowerCase() === displayHex.toLowerCase()
+                                  ? 'ring-2 ring-primary-400 scale-110 border-white'
+                                  : 'border-white/30'
+                              }`}
+                              style={{ backgroundColor: displayHex }}
+                            />
+                          );
+                        })}
                     <label
                       title={isEn ? 'Pick custom color' : 'Chọn màu tùy ý'}
                       className="w-6 h-6 rounded-full border border-white/40 cursor-pointer overflow-hidden relative flex items-center justify-center bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-500"
@@ -705,6 +713,36 @@ export const ThemePresetCard: React.FC<ThemePresetCardProps> = React.memo(
                       />
                     </label>
                   </div>
+                  {preset.id === 'color-flat-soft-ui' && (
+                    <div className="mt-1.5 pt-2 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      {FLAT_COLOR_SYSTEM_PALETTE.map((token) => (
+                        <button
+                          key={token.id}
+                          type="button"
+                          onClick={() => {
+                            SoundEngine.playTap();
+                            if (token.group !== 'surface') {
+                              setCustomPrimaryColor(token.hex);
+                            }
+                            if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                              navigator.clipboard.writeText(token.hex).catch(() => {});
+                            }
+                          }}
+                          title={`${token.label}: ${token.hex} (${token.tailwindClass})`}
+                          className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/30 border border-white/10 hover:border-white/30 text-left cursor-pointer transition-colors min-w-0"
+                        >
+                          <span
+                            className="w-3 h-3 rounded-sm shrink-0 border border-white/30"
+                            style={{ backgroundColor: token.hex }}
+                          />
+                          <span className="min-w-0 flex-1 truncate text-[10px] leading-tight text-[#F4F7FB]">
+                            <span className="font-semibold block truncate">{token.label}</span>
+                            <span className="font-mono opacity-75">{token.hex}</span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* 5. Bottom Actions */}

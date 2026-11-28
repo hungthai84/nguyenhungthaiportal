@@ -235,7 +235,7 @@ html[data-surface-depth="flat"] :is(
 /* (#home-intro-card, #home-stats-card, #home-capabilities-card,             */
 /*  #home-achievements-card)                                                 */
 /* ========================================================================= */
-html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="mica-fluent"]):not([data-card-style="gradient-dopamine"]):not([data-card-style="iridescent-liquid-glass"]):not([data-card-style="dark-iridescent-liquid-glass"]) :is(
+html[data-card-style]:not([data-card-style="liquid-glass"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="glassmorphism"]):not([data-card-style="mica-fluent"]):not([data-card-style="iridescent-liquid-glass"]):not([data-card-style="dark-iridescent-liquid-glass"]) :is(
   .home-hero-card,
   #home-intro-card,
   #home-stats-card,

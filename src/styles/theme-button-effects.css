@@ -163,13 +163,16 @@
     [data-card-style="dark-liquid-glass"],
     [data-card-style="iridescent-liquid-glass"],
     [data-card-style="dark-iridescent-liquid-glass"],
-    [data-card-style="gradient-dopamine"],
+    [data-card-style="glassmorphism"],
     [data-card-style="deep-ocean"],
     [data-card-style="cowhide-leather"],
     [data-card-style="dark-cowhide-leather"],
     [data-card-style="walnut-wood"],
     [data-card-style="flat-soft-ui"],
     [data-card-style="dark-flat-soft-ui"],
+    [data-card-style="color-flat-soft-ui"],
+    [data-card-style="nexus-bento"],
+    [data-card-style="light-nexus-bento"],
     [data-card-style="mica-fluent"]
   ) :where(
     .banner-control-pill,
@@ -323,27 +326,7 @@ html:is([data-card-style="dark-liquid-glass"], [data-card-style="dark-iridescent
   );
 }
 
-html[data-card-style="gradient-dopamine"] :where(
-  button,
-  a[role="button"],
-  .nav-pill,
-  .banner-control-pill,
-  .theme-capsule-btn,
-  .radial-contact-pill,
-  .education-skill-chip,
-  .edu-bento-action-btn,
-  .sys-bento-action-btn,
-  [data-element-type="button"]
-):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled])::before {
-  background: radial-gradient(
-    96px circle at var(--btn-mx, 50%) var(--btn-my, 50%),
-    rgba(255, 46, 147, 0.22) 0%,
-    rgba(124, 58, 237, 0.16) 48%,
-    transparent 78%
-  );
-}
-
-html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"], [data-card-style="gradient-dopamine"]) :where(
+html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"], [data-card-style="glassmorphism"], [data-card-style="iridescent-liquid-glass"], [data-card-style="dark-iridescent-liquid-glass"]) :where(
   button.nav-pill,
   .banner-control-pill,
   .edu-bento-action-btn,
@@ -398,26 +381,6 @@ html:is([data-card-style="liquid-glass"], [data-card-style="dark-liquid-glass"],
       0 14px 28px -6px rgba(2, 6, 23, 0.74),
       0 0 22px rgba(181, 167, 244, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.34) !important;
-  }
-
-  html[data-card-style="gradient-dopamine"] :where(
-    button,
-    a[role="button"],
-    .nav-pill,
-    .banner-control-pill,
-    .theme-capsule-btn,
-    .radial-contact-pill,
-    .education-skill-chip,
-    .edu-bento-action-btn,
-    .sys-bento-action-btn,
-    [data-element-type="button"]
-  ):not(#el-p0-div-16 [role="tab"]):not(.u306-ic):not(li.skill-swot-subcard):not(.ai-mascot-btn):not(.plant-widget-btn):not(.no-theme-btn):not(.video-play-btn):not([disabled]):hover {
-    transform: translate3d(0, -2px, 0) !important;
-    border-color: rgba(255, 46, 147, 0.56) !important;
-    box-shadow:
-      0 12px 26px -6px rgba(255, 46, 147, 0.24),
-      0 4px 12px -2px rgba(124, 58, 237, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
   }
 }
 

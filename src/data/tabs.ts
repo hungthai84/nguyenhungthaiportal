@@ -37,6 +37,9 @@ export const TABS_DATA: TabItem[] = [
   { id: 16, name: "Tải PDF", nameEn: "Download PDF", shortTitleEn: "PDF CV", color: "#2563EB", textColor: "#ffffff", icon: "fa-file-text", quote: "Hồ sơ năng lực và kinh nghiệm công tác bản chuẩn PDF ♡", quoteEn: "Official executive profile & career dossier in PDF format ♡", data: { type: 'pdf' } }
 ];
 
+// Thứ tự chính xác các trang trên thanh Menu Icon (Header): Trang chủ (0) -> ... -> Kỷ niệm (11) -> Tải PDF (16) -> Liên hệ (12)
+export const MENU_ICON_PAGE_ORDER: readonly number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12];
+
 export const PAGE_NEON_COLORS: Record<number, NeonColorData> = {
   0: { neon: '#FFDF25', glow: 'rgba(255, 223, 37, 0.75)' },
   1: { neon: '#EC7D21', glow: 'rgba(236, 125, 33, 0.75)' },

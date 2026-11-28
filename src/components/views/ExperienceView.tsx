@@ -2029,19 +2029,19 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
               </div>
             </motion.div>
 
-            {/* BỐ CỤC BENTO CHI TIẾT CÔNG VIỆC — ĐỒNG BỘ MẪU 7 KHỐI + THƯ VIỆN ẢNH & BANNER */}
+            {/* BỐ CỤC BENTO CHI TIẾT CÔNG VIỆC — 1 CSS GRID 4 CỘT (span 2 / row-span 2) */}
             <motion.div
               id="experience-bento-grid"
               data-expand-motion="true"
-              data-layout-mode="bento-responsive-grid"
-              data-card-layout="bento-responsive-grid"
+              data-layout-mode="bento-4col-grid"
+              data-card-layout="bento-4col-grid"
               initial={reducedMotion ? false : { opacity: 0, y: 10, scale: originScale }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, transition: { duration: 0.12 } }}
               transition={getExpandDetailRevealTransition(reducedMotion, false)}
-              className="relative z-20 exp-studio-grid exp-bento-responsive-grid ux-u214-grid w-full min-w-0"
+              className="relative z-20 exp-studio-grid exp-bento-4col-grid ux-u214-grid w-full min-w-0"
             >
-              {/* KHỐI ĐẦU TRANG: LOGO + ĐỊNH DANH CÔNG TY + BANNER */}
+              {/* Ô NỔI BẬT (2x2): LOGO + ĐỊNH DANH CÔNG TY + BANNER */}
               <ExperienceBentoStudioCard
                 id="experience-info-card"
                 variant="hero-purple"
@@ -2053,23 +2053,23 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   handleCloseJobCard();
                 }}
                 title="Bấm vào vùng trống để thu gọn lại"
-                className="exp-bento-item cursor-pointer space-y-4"
+                className="exp-bento-item exp-bento-span-2x2 cursor-pointer"
               >
                 {/* Header Identity Row */}
                 <div
                   id="experience-company-name-card"
-                  className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-white/10 min-w-0"
+                  className="relative z-10 flex flex-col gap-3 pb-3 border-b border-white/10 min-w-0 shrink-0"
                 >
-                  <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
+                  <div className="flex items-start gap-3 sm:gap-3.5 min-w-0">
                     <div className="u214-logo-gather flex items-center -space-x-2 shrink-0">
                       {inlineLogos.map((logoItem, logoIdx) => (
                         <div
                           key={`${logoItem.src}-${logoIdx}`}
                           style={{ zIndex: inlineLogos.length - logoIdx }}
                           className={cn(
-                            'rounded-2xl bg-white p-1.5 shadow-lg border border-white/20 shrink-0 overflow-hidden flex items-center justify-center',
+                            'rounded-2xl bg-white p-1.5 shadow-sm border border-white/20 shrink-0 overflow-hidden flex items-center justify-center',
                             inlineLogos.length >= 4
-                              ? 'w-11 h-11 sm:w-12 sm:h-12'
+                              ? 'w-10 h-10 sm:w-11 sm:h-11'
                               : 'w-12 h-12 sm:w-14 sm:h-14'
                           )}
                         >
@@ -2085,35 +2085,39 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-rose-200 bg-rose-500/20 border border-rose-400/30 px-2.5 py-0.5 rounded-full">
-                          {activeMilestone.cardYearLabel || activeMilestone.year} • {shortTagLabel}
-                        </span>
-                        <span className="text-[11px] font-bold text-amber-300 bg-amber-500/15 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
-                          {activeMilestone.roleTitle} ({activeMilestone.tenure})
-                        </span>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] font-semibold text-rose-200 mb-1 tabular-nums">
+                        <span>{activeMilestone.cardYearLabel || activeMilestone.year}</span>
+                        <span aria-hidden="true">·</span>
+                        <span className="text-amber-300">{activeMilestone.roleTitle}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{activeMilestone.tenure}</span>
                       </div>
-                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight break-words m-0">
+                      <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight [text-wrap:balance] break-words m-0">
                         {companyFullName}
                       </h1>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 text-xs shrink-0 max-w-full">
-                    <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 font-bold text-gray-100">
-                      {activeMilestone.tag}
-                    </span>
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-medium text-gray-200">
+                    <span className="font-semibold text-white">{activeMilestone.tag}</span>
                     {activeMilestone.location && (
-                      <span className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 font-bold text-emerald-300">
-                        {activeMilestone.location}
-                      </span>
+                      <>
+                        <span aria-hidden="true" className="opacity-50">·</span>
+                        <span className="text-emerald-300 font-semibold">{activeMilestone.location}</span>
+                      </>
+                    )}
+                    {shortTagLabel && shortTagLabel !== companyFullName && (
+                      <>
+                        <span aria-hidden="true" className="opacity-50">·</span>
+                        <span className="opacity-85">{shortTagLabel}</span>
+                      </>
                     )}
                   </div>
                 </div>
 
-                {/* Banner Video / Image Preview */}
+                {/* Banner Video / Image Preview filling remaining vertical space of the 2x2 compartment */}
                 {activeMilestone.videoCard ? (
-                  <div className="exp-bento-hero-banner relative h-44 sm:h-52 w-full rounded-[14px] overflow-hidden shrink-0 bg-slate-950/60 border border-white/15">
+                  <div className="exp-bento-hero-banner relative flex-1 min-h-[210px] sm:min-h-[240px] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-white/15">
                     <DualLayerVideoPlayer
                       video1Id=""
                       video2Id=""
@@ -2129,95 +2133,93 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 ) : (
                   !bannerImgError &&
                   activeMilestone.bannerUrl && (
-                    <div className="exp-bento-hero-banner relative h-40 sm:h-52 w-full rounded-[14px] p-[4px] overflow-hidden shrink-0 bg-black/25 border border-white/15">
+                    <div className="exp-bento-hero-banner relative flex-1 min-h-[210px] sm:min-h-[240px] w-full rounded-[12px] overflow-hidden bg-slate-950 border border-white/15">
                       <BlurUpImage
                         src={activeMilestone.bannerUrl}
                         alt={`Banner ${companyFullName}`}
                         priority="eager"
                         variant="cover"
                         onError={() => setBannerImgError(true)}
-                        className="w-full h-full object-cover object-center rounded-[10px] brightness-105 contrast-105 saturate-105 block"
+                        className="w-full h-full object-cover object-center brightness-105 contrast-105 saturate-105 block"
                       />
-                      <div className="absolute inset-1 rounded-[10px] bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/20 pointer-events-none" />
                     </div>
                   )
                 )}
               </ExperienceBentoStudioCard>
 
-              {/* HÀNG 1 (1 CỘT + 2 CỘT): 1. THÔNG TIN CÔNG TY & 2. GIỚI THIỆU HÀNH TRÌNH */}
-              <div className="exp-bento-row-3">
-                {/* 1. THÔNG TIN CÔNG TY */}
-                <ExperienceBentoStudioCard
-                  id="experience-general-info-card"
-                  variant="amber-highlight"
-                  u214MarqueeItems={derivedServicesList.map((srv, idx) => {
-                    const palette = ['#7B61FF', '#2F8FE0', '#119C72', '#D6731E', '#D93A55', '#E2B714'];
-                    return { label: srv, color: palette[idx % palette.length] };
-                  })}
-                  className="exp-bento-item justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Briefcase className="w-4 h-4 text-amber-300 shrink-0 exp-studio-icon" />
-                        <span
-                          className="text-xs font-bold uppercase tracking-wider text-rose-200 truncate"
-                          data-card-title="true"
-                        >
-                          1. Thông Tin Công Ty
+              {/* Ô 1 (2x1): 1. THÔNG TIN CÔNG TY */}
+              <ExperienceBentoStudioCard
+                id="experience-general-info-card"
+                variant="amber-highlight"
+                u214MarqueeItems={derivedServicesList.map((srv, idx) => {
+                  const palette = ['#7B61FF', '#2F8FE0', '#119C72', '#D6731E', '#D93A55', '#E2B714'];
+                  return { label: srv, color: palette[idx % palette.length] };
+                })}
+                className="exp-bento-item exp-bento-span-2x1 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Briefcase className="w-4 h-4 text-amber-300 shrink-0 exp-studio-icon" />
+                      <h2
+                        className="text-xs font-bold tracking-wide text-rose-200 truncate m-0"
+                        data-card-title="true"
+                      >
+                        1. Thông Tin Công Ty
+                      </h2>
+                    </div>
+                    <span className="text-[11px] font-semibold text-gray-200 tabular-nums shrink-0">
+                      {activeMilestone.tenure}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-xs">
+                    <div
+                      id="experience-company-services"
+                      className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-xl px-3 py-2 min-w-0"
+                    >
+                      <Layers className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2 mb-0.5">
+                          <span className="text-rose-200/80 block text-[11px]">Lĩnh vực</span>
+                          <button
+                            type="button"
+                            onClick={navigateToServices}
+                            className="inline-flex items-center gap-0.5 text-[11px] font-bold text-amber-300 hover:underline cursor-pointer shrink-0 whitespace-nowrap"
+                            title="Xem chi tiết Lĩnh vực & Dịch vụ"
+                          >
+                            <span>{derivedServicesList.length} dịch vụ</span>
+                            <ArrowUpRight className="w-3 h-3 shrink-0" />
+                          </button>
+                        </div>
+                        <span className="font-bold text-white block break-words">
+                          {activeMilestone.industry || activeMilestone.tag}
                         </span>
+                        {derivedServicesList.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-1.5">
+                            {derivedServicesList.map((serviceName, idx) => {
+                              const { Icon } = getIndustryChipVisual(serviceName, idx);
+                              return (
+                                <button
+                                  key={serviceName}
+                                  type="button"
+                                  onClick={navigateToServices}
+                                  title={`${serviceName} — Click để xem chi tiết dịch vụ`}
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/10 border border-white/15 text-[11px] font-semibold text-gray-100 hover:bg-white/20 cursor-pointer whitespace-nowrap"
+                                >
+                                  <Icon className="w-3 h-3 shrink-0" />
+                                  <span>{serviceName}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
-                      <span className="text-[11px] font-bold bg-white/15 px-2.5 py-0.5 rounded-full shrink-0 text-white">
-                        {activeMilestone.tenure}
-                      </span>
                     </div>
 
-                    <div className="space-y-2 text-xs">
-                      <div
-                        id="experience-company-services"
-                        className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0"
-                      >
-                        <Layers className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-rose-200/80 block text-[11px]">Lĩnh vực</span>
-                            <button
-                              type="button"
-                              onClick={navigateToServices}
-                              className="inline-flex items-center gap-0.5 text-[11px] font-bold text-amber-300 hover:underline cursor-pointer shrink-0"
-                              title="Xem chi tiết Lĩnh vực & Dịch vụ"
-                            >
-                              <span>{derivedServicesList.length} dịch vụ</span>
-                              <ArrowUpRight className="w-3 h-3 shrink-0" />
-                            </button>
-                          </div>
-                          <span className="font-bold text-white block break-words">
-                            {activeMilestone.industry || activeMilestone.tag}
-                          </span>
-                          {derivedServicesList.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1.5">
-                              {derivedServicesList.map((serviceName, idx) => {
-                                const { Icon } = getIndustryChipVisual(serviceName, idx);
-                                return (
-                                  <button
-                                    key={serviceName}
-                                    type="button"
-                                    onClick={navigateToServices}
-                                    title={`${serviceName} — Click để xem chi tiết dịch vụ`}
-                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/10 border border-white/15 text-[11px] font-semibold text-gray-100 hover:bg-white/20 cursor-pointer"
-                                  >
-                                    <Icon className="w-3 h-3 shrink-0" />
-                                    <span>{serviceName}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {activeMilestone.location && (
-                        <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                        <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-xl px-3 py-2 min-w-0">
                           <MapPin className="w-4 h-4 text-emerald-300 shrink-0 mt-0.5" />
                           <div className="min-w-0">
                             <span className="text-rose-200/80 block text-[11px]">Địa điểm</span>
@@ -2228,27 +2230,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         </div>
                       )}
 
-                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-xl px-3 py-2 min-w-0">
                         <Clock className="w-4 h-4 text-sky-300 shrink-0 mt-0.5" />
                         <div className="min-w-0">
                           <span className="text-rose-200/80 block text-[11px]">Thời gian</span>
-                          <span className="font-bold text-white break-words">
-                            {activeMilestone.period} ({activeMilestone.tenure})
+                          <span className="font-bold text-white break-words tabular-nums">
+                            {activeMilestone.period}
                           </span>
                         </div>
                       </div>
 
-                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-xl px-3 py-2 min-w-0">
                         <Award className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
                         <div className="min-w-0">
                           <span className="text-rose-200/80 block text-[11px]">Chức danh</span>
                           <span className="font-bold text-amber-300 break-words">
-                            {activeMilestone.roleTitle} ({activeMilestone.tenure})
+                            {activeMilestone.roleTitle}
                           </span>
                         </div>
                       </div>
 
-                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-lg px-3 py-2 min-w-0">
+                      <div className="exp-studio-subtile no-card-hover flex items-start gap-2 rounded-xl px-3 py-2 min-w-0">
                         <Users className="w-4 h-4 text-cyan-300 shrink-0 mt-0.5" />
                         <div className="min-w-0">
                           <span className="text-rose-200/80 block text-[11px]">Quy mô vận hành</span>
@@ -2259,284 +2261,272 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </div>
                     </div>
                   </div>
-                </ExperienceBentoStudioCard>
+                </div>
+              </ExperienceBentoStudioCard>
 
-                {/* 2. GIỚI THIỆU HÀNH TRÌNH */}
-                <ExperienceBentoStudioCard
-                  id="experience-banner-card"
-                  variant="roadmap-violet"
-                  u214RestText={narrativeTitle}
-                  u214TypeText={philosophyText}
-                  className="exp-bento-item lg:col-span-2 justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Compass className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
-                        <span
-                          className="text-xs font-bold uppercase tracking-wider text-purple-200"
-                          data-card-title="true"
-                        >
-                          2. Giới Thiệu Hành Trình
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-white/12 border border-white/20 text-purple-100">
-                        {narrativeTitle}
-                      </span>
-                    </div>
-
-                    {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
-                      <p className="exp-studio-subtile no-card-hover text-xs sm:text-sm text-purple-100/95 leading-relaxed mb-3.5 rounded-xl p-3.5 break-words m-0">
-                        {activeMilestone.highlightText || activeMilestone.cardDescription}
-                      </p>
-                    )}
-
-                    {introBlocks.length > 0 && (
-                      <div
-                        className={cn(
-                          'grid gap-3',
-                          introBlocks.length === 1
-                            ? 'grid-cols-1'
-                            : introBlocks.length === 2
-                              ? 'grid-cols-1 sm:grid-cols-2'
-                              : 'grid-cols-1 sm:grid-cols-3'
-                        )}
-                      >
-                        {introBlocks.map((item, idx) => (
-                          <div
-                            key={idx}
-                            className="exp-studio-subtile no-card-hover rounded-xl p-3 min-w-0 flex flex-col gap-1"
-                          >
-                            <div
-                              className={cn(
-                                'text-xs font-bold mb-0.5 break-words',
-                                introPillarColors[idx % introPillarColors.length]
-                              )}
-                              data-subcard-title="true"
-                            >
-                              {item.title}
-                            </div>
-                            <p className="text-xs text-gray-200 leading-relaxed break-words m-0">
-                              {item.desc}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+              {/* Ô 2 (1x1): 5. CAM KẾT CỦA DOANH NGHIỆP */}
+              <ExperienceBentoStudioCard
+                id="experience-enterprise-commitment-card"
+                variant="commitment-amber"
+                u214RestText={activeMilestone.roleTitle}
+                u214TypeText={philosophyText.slice(0, 48)}
+                className="exp-bento-item exp-bento-span-1x1 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Award className="w-4 h-4 text-yellow-200 shrink-0 exp-studio-icon" />
+                    <h2
+                      className="text-xs font-bold tracking-wide text-amber-100 truncate m-0"
+                      data-card-title="true"
+                    >
+                      5. Cam Kết Doanh Nghiệp
+                    </h2>
                   </div>
-                </ExperienceBentoStudioCard>
-              </div>
+                  <blockquote className="exp-studio-subtile no-card-hover text-xs font-semibold text-white leading-relaxed rounded-xl p-3 my-1 break-words">
+                    “{philosophyText}”
+                  </blockquote>
+                </div>
 
-              {/* HÀNG 2 (2 CỘT + 1 CỘT): 3. DANH SÁCH CÔNG VIỆC & 4. CAM KẾT CHẤT LƯỢNG */}
-              <div className="exp-bento-row-3">
-                {/* 3. DANH SÁCH CÔNG VIỆC */}
-                <ExperienceBentoStudioCard
-                  id="experience-responsibility-card"
-                  variant="slate-tasks"
-                  u214RestText="Rê chuột xem hạng mục..."
-                  u214TypeText={(tasksList[0] || activeMilestone.roleTitle).replace(/^\d+\.\s*/, '').slice(0, 42)}
-                  className="exp-bento-item lg:col-span-2 justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2 border-b border-white/10">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
-                        <h4
-                          className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
-                          data-card-title="true"
-                        >
-                          3. Danh Sách Công Việc
-                        </h4>
-                      </div>
-                      <span className="text-xs font-bold bg-purple-500/20 text-purple-300 px-3 py-0.5 rounded-full shrink-0 tabular-nums">
-                        {tasksList.length} Hạng mục
-                      </span>
-                    </div>
-
-                    <ul className="divide-y divide-white/10 text-xs sm:text-sm m-0 p-0 list-none">
-                      {tasksList.map((task, idx) => {
-                        const cleanTask = task.replace(/^\d+\.\s*/, '');
-                        return (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-3 py-2.5 px-1.5 rounded-lg hover:bg-white/5 transition-colors min-w-0"
-                          >
-                            <span className="w-6 h-6 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 tabular-nums">
-                              {idx + 1}
-                            </span>
-                            <span className="text-gray-100 leading-relaxed break-words [overflow-wrap:anywhere] min-w-0 flex-1">
-                              {cleanTask}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                <div className="pt-2.5 border-t border-white/15 text-xs min-w-0">
+                  <div className="font-bold text-yellow-200 truncate">
+                    {companyFullName}
                   </div>
-                </ExperienceBentoStudioCard>
-
-                {/* 4. CAM KẾT CHẤT LƯỢNG */}
-                <ExperienceBentoStudioCard
-                  id="experience-commitments-card"
-                  variant="emerald-trust"
-                  className="exp-bento-item justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Shield className="w-4 h-4 text-emerald-300 shrink-0 exp-studio-icon" />
-                        <span
-                          className="text-xs font-bold uppercase tracking-wider text-emerald-200 truncate"
-                          data-card-title="true"
-                        >
-                          4. Cam Kết Chất Lượng
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-bold bg-emerald-400/20 text-emerald-200 px-2.5 py-0.5 rounded-full shrink-0">
-                        {commitmentsList.length} Tiêu chuẩn
-                      </span>
-                    </div>
-
-                    <div className="space-y-3">
-                      {commitmentsList.map((cmtText, cIdx) => {
-                        const CmtIcon = cIdx % 2 === 0 ? Zap : Shield;
-                        const colonIdx = cmtText.indexOf(':');
-                        const hasCustomLabel = colonIdx > 0 && colonIdx < 36;
-                        const cmtHeading = hasCustomLabel
-                          ? `Tiêu chuẩn ${cIdx + 1}: ${cmtText.slice(0, colonIdx).trim()}`
-                          : `Tiêu chuẩn ${cIdx + 1}`;
-                        const cmtBody = hasCustomLabel
-                          ? cmtText.slice(colonIdx + 1).trim()
-                          : cmtText;
-                        return (
-                          <div
-                            key={cIdx}
-                            className="exp-studio-subtile no-card-hover rounded-xl p-3 min-w-0"
-                          >
-                            <div
-                              className={cn(
-                                'flex items-center gap-1.5 text-xs font-bold mb-1',
-                                cIdx % 2 === 0 ? 'text-amber-300' : 'text-cyan-300'
-                              )}
-                            >
-                              <CmtIcon className="w-3.5 h-3.5 shrink-0" />
-                              <span className="break-words">{cmtHeading}</span>
-                            </div>
-                            <p className="text-xs text-emerald-50/90 leading-relaxed break-words m-0">
-                              {cmtBody}
-                            </p>
-                          </div>
-                        );
-                      })}
-                    </div>
+                  <div className="text-amber-100/85 mt-0.5 truncate tabular-nums">
+                    {activeMilestone.period}
                   </div>
+                </div>
+              </ExperienceBentoStudioCard>
 
-                  <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-xs font-bold text-emerald-300">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
-                    <span>Bảo chứng cam kết SLA &amp; Bảo mật.</span>
-                  </div>
-                </ExperienceBentoStudioCard>
-              </div>
-
-              {/* HÀNG 3 (1 CỘT + 2 CỘT): 5. CAM KẾT CỦA DOANH NGHIỆP & 6. DANH SÁCH DỰ ÁN */}
-              <div className="exp-bento-row-3">
-                {/* 5. CAM KẾT CỦA DOANH NGHIỆP */}
-                <ExperienceBentoStudioCard
-                  id="experience-enterprise-commitment-card"
-                  variant="commitment-amber"
-                  u214RestText={activeMilestone.roleTitle}
-                  u214TypeText={philosophyText.slice(0, 48)}
-                  className="exp-bento-item justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Award className="w-4 h-4 text-yellow-200 shrink-0 exp-studio-icon" />
-                      <span
-                        className="text-xs font-bold uppercase tracking-wider text-amber-100"
+              {/* Ô 3 (1x1): 4. CAM KẾT CHẤT LƯỢNG */}
+              <ExperienceBentoStudioCard
+                id="experience-commitments-card"
+                variant="emerald-trust"
+                className="exp-bento-item exp-bento-span-1x1 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Shield className="w-4 h-4 text-emerald-300 shrink-0 exp-studio-icon" />
+                      <h2
+                        className="text-xs font-bold tracking-wide text-emerald-200 truncate m-0"
                         data-card-title="true"
                       >
-                        5. Cam Kết Của Doanh Nghiệp
-                      </span>
+                        4. Cam Kết Chất Lượng
+                      </h2>
                     </div>
-                    <blockquote className="exp-studio-subtile no-card-hover text-xs sm:text-sm font-bold text-white leading-relaxed rounded-xl p-3.5 my-1 break-words">
-                      “{philosophyText}”
-                    </blockquote>
+                    <span className="text-[11px] font-semibold text-emerald-200 tabular-nums shrink-0">
+                      {commitmentsList.length} chuẩn
+                    </span>
                   </div>
 
-                  <div className="pt-3 border-t border-white/15 text-xs min-w-0">
-                    <div className="font-bold text-yellow-200 break-words">
-                      {companyFullName}
-                    </div>
-                    <div className="text-amber-100/85 mt-0.5 break-words">
-                      {activeMilestone.roleTitle} · {activeMilestone.period}
-                    </div>
+                  <div className="space-y-2">
+                    {commitmentsList.map((cmtText, cIdx) => {
+                      const CmtIcon = cIdx % 2 === 0 ? Zap : Shield;
+                      const colonIdx = cmtText.indexOf(':');
+                      const hasCustomLabel = colonIdx > 0 && colonIdx < 36;
+                      const cmtHeading = hasCustomLabel
+                        ? cmtText.slice(0, colonIdx).trim()
+                        : `Tiêu chuẩn ${cIdx + 1}`;
+                      const cmtBody = hasCustomLabel
+                        ? cmtText.slice(colonIdx + 1).trim()
+                        : cmtText;
+                      return (
+                        <div
+                          key={cIdx}
+                          className="exp-studio-subtile no-card-hover rounded-xl p-2.5 min-w-0"
+                        >
+                          <div
+                            className={cn(
+                              'flex items-center gap-1.5 text-[11px] font-bold mb-0.5',
+                              cIdx % 2 === 0 ? 'text-amber-300' : 'text-cyan-300'
+                            )}
+                          >
+                            <CmtIcon className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">{cmtHeading}</span>
+                          </div>
+                          <p className="text-xs text-emerald-50/90 leading-snug break-words m-0">
+                            {cmtBody}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
-                </ExperienceBentoStudioCard>
+                </div>
+              </ExperienceBentoStudioCard>
 
-                {/* 6. DANH SÁCH DỰ ÁN */}
-                <ExperienceBentoStudioCard
-                  id="experience-achievement-card"
-                  variant="indigo-docs"
-                  u214RestText="Tìm kiếm dự án..."
-                  u214TypeText={
-                    projectsList[0]
-                      ? `${projectsList[0].code} · ${projectsList[0].title}`.slice(0, 42)
-                      : activeMilestone.company
-                  }
-                  className="exp-bento-item lg:col-span-2 justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Folder className="w-4 h-4 text-cyan-400 shrink-0 exp-studio-icon" />
-                        <h4
-                          className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
-                          data-card-title="true"
-                        >
-                          6. Danh Sách Dự Án
-                        </h4>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                        <span className="text-xs font-bold bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full">
-                          {projectsList.length} Dự án trọng điểm
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => navigateToProjects()}
-                          className="min-h-[44px] sm:min-h-0 px-3 py-1.5 sm:py-1 rounded-full text-xs font-bold bg-white/10 border border-white/20 text-sky-200 hover:bg-white/20 flex items-center gap-1 cursor-pointer shrink-0"
-                          title="Chuyển đến trang Dự án"
-                        >
-                          <span>Tất cả dự án</span>
-                          <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
-                        </button>
-                      </div>
+              {/* Ô NỔI BẬT (2x2): 3. DANH SÁCH CÔNG VIỆC */}
+              <ExperienceBentoStudioCard
+                id="experience-responsibility-card"
+                variant="slate-tasks"
+                u214RestText="Rê chuột xem hạng mục..."
+                u214TypeText={(tasksList[0] || activeMilestone.roleTitle).replace(/^\d+\.\s*/, '').slice(0, 42)}
+                className="exp-bento-item exp-bento-span-2x2 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2 border-b border-white/10">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <CheckCircle2 className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
+                      <h4
+                        className="text-xs sm:text-sm font-bold text-white tracking-wide m-0"
+                        data-card-title="true"
+                      >
+                        3. Danh Sách Công Việc
+                      </h4>
                     </div>
+                    <span className="text-xs font-semibold text-purple-300 shrink-0 tabular-nums">
+                      {tasksList.length} hạng mục
+                    </span>
+                  </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs my-auto">
-                      {projectsList.map((proj, pIdx) => (
-                        <button
-                          key={pIdx}
-                          type="button"
-                          onClick={() => navigateToProjects(proj.projectId)}
-                          title={`${proj.rawTitle} — Click để mở liên kết dự án`}
+                  <ul className="divide-y divide-white/10 text-xs sm:text-sm m-0 p-0 list-none">
+                    {tasksList.map((task, idx) => {
+                      const cleanTask = task.replace(/^\d+\.\s*/, '');
+                      return (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-3 py-2.5 px-1.5 rounded-lg hover:bg-white/5 transition-colors min-w-0"
+                        >
+                          <span className="w-6 h-6 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 tabular-nums">
+                            {idx + 1}
+                          </span>
+                          <span className="text-gray-100 leading-relaxed break-words [overflow-wrap:anywhere] min-w-0 flex-1">
+                            {cleanTask}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </ExperienceBentoStudioCard>
+
+              {/* Ô 5 (2x1): 2. GIỚI THIỆU HÀNH TRÌNH */}
+              <ExperienceBentoStudioCard
+                id="experience-banner-card"
+                variant="roadmap-violet"
+                u214RestText={narrativeTitle}
+                u214TypeText={philosophyText}
+                className="exp-bento-item exp-bento-span-2x1 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Compass className="w-4 h-4 text-purple-300 shrink-0 exp-studio-icon" />
+                      <h2
+                        className="text-xs sm:text-sm font-bold tracking-wide text-purple-200 m-0"
+                        data-card-title="true"
+                      >
+                        2. Giới Thiệu Hành Trình
+                      </h2>
+                    </div>
+                    <span className="text-[11px] font-semibold text-purple-100 opacity-85 truncate">
+                      {narrativeTitle}
+                    </span>
+                  </div>
+
+                  {(activeMilestone.highlightText || activeMilestone.cardDescription) && (
+                    <p className="exp-studio-subtile no-card-hover text-xs sm:text-sm text-purple-100/95 leading-relaxed mb-3 rounded-xl p-3 break-words m-0">
+                      {activeMilestone.highlightText || activeMilestone.cardDescription}
+                    </p>
+                  )}
+
+                  {introBlocks.length > 0 && (
+                    <div
+                      className={cn(
+                        'grid gap-2.5',
+                        introBlocks.length === 1
+                          ? 'grid-cols-1'
+                          : 'grid-cols-1 sm:grid-cols-2'
+                      )}
+                    >
+                      {introBlocks.map((item, idx) => (
+                        <div
+                          key={idx}
                           className={cn(
-                            'exp-studio-subtile no-card-hover w-full rounded-xl p-3 cursor-pointer flex items-start gap-2.5 text-left transition-colors min-w-0',
-                            projectCardPalettes[pIdx % projectCardPalettes.length]
+                            'exp-studio-subtile no-card-hover rounded-xl p-3 min-w-0 flex flex-col gap-1',
+                            introBlocks.length === 3 && idx === 2 && 'sm:col-span-2'
                           )}
                         >
-                          <span className="font-bold text-sm shrink-0 tabular-nums">
-                            {proj.code}
-                          </span>
-                          <span className="text-white font-bold leading-snug break-words min-w-0 flex-1">
-                            – {proj.title}
-                          </span>
-                        </button>
+                          <div
+                            className={cn(
+                              'text-xs font-bold mb-0.5 break-words',
+                              introPillarColors[idx % introPillarColors.length]
+                            )}
+                            data-subcard-title="true"
+                          >
+                            {item.title}
+                          </div>
+                          <p className="text-xs text-gray-200 leading-relaxed break-words m-0">
+                            {item.desc}
+                          </p>
+                        </div>
                       ))}
                     </div>
-                  </div>
-                </ExperienceBentoStudioCard>
-              </div>
+                  )}
+                </div>
+              </ExperienceBentoStudioCard>
 
-              {/* HÀNG 4 (TOÀN CHIỀU RỘNG): 7. KẾT QUẢ ĐẠT ĐƯỢC */}
+              {/* Ô 6 (2x1): 6. DANH SÁCH DỰ ÁN */}
+              <ExperienceBentoStudioCard
+                id="experience-achievement-card"
+                variant="indigo-docs"
+                u214RestText="Tìm kiếm dự án..."
+                u214TypeText={
+                  projectsList[0]
+                    ? `${projectsList[0].code} · ${projectsList[0].title}`.slice(0, 42)
+                    : activeMilestone.company
+                }
+                className="exp-bento-item exp-bento-span-2x1 justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Folder className="w-4 h-4 text-cyan-400 shrink-0 exp-studio-icon" />
+                      <h4
+                        className="text-xs sm:text-sm font-bold text-white tracking-wide m-0"
+                        data-card-title="true"
+                      >
+                        6. Danh Sách Dự Án
+                      </h4>
+                      <span className="text-xs font-semibold text-cyan-300 tabular-nums">
+                        · {projectsList.length} dự án
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => navigateToProjects()}
+                      className="min-h-[40px] sm:min-h-0 px-3 py-1.5 sm:py-1 rounded-lg text-xs font-bold bg-white/10 border border-white/20 text-sky-200 hover:bg-white/20 flex items-center gap-1 cursor-pointer shrink-0 whitespace-nowrap"
+                      title="Chuyển đến trang Dự án"
+                    >
+                      <span>Tất cả dự án</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                    {projectsList.map((proj, pIdx) => (
+                      <button
+                        key={pIdx}
+                        type="button"
+                        onClick={() => navigateToProjects(proj.projectId)}
+                        title={`${proj.rawTitle} — Click để mở liên kết dự án`}
+                        className={cn(
+                          'exp-studio-subtile no-card-hover w-full rounded-xl p-2.5 cursor-pointer flex items-start gap-2 text-left transition-colors min-w-0',
+                          projectCardPalettes[pIdx % projectCardPalettes.length]
+                        )}
+                      >
+                        <span className="font-bold text-sm shrink-0 tabular-nums">
+                          {proj.code}
+                        </span>
+                        <span className="text-white font-bold leading-snug break-words min-w-0 flex-1">
+                          – {proj.title}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </ExperienceBentoStudioCard>
+
+              {/* Ô 7 (2x1): 7. KẾT QUẢ ĐẠT ĐƯỢC */}
               {kpisList.length > 0 && (
                 <ExperienceBentoStudioCard
                   id="experience-results-card"
@@ -2546,27 +2536,27 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                   u214BarHeights={kpisList.map((k) =>
                     Math.min(1, Math.max(0.25, (Number(k.percent) || 75) / 100))
                   )}
-                  className="exp-bento-item"
+                  className="exp-bento-item exp-bento-span-2x1 justify-between"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/10">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-white/10">
                     <div className="flex items-center gap-2 min-w-0">
                       <Target className="w-4 h-4 text-emerald-400 shrink-0 exp-studio-icon" />
                       <h4
-                        className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider m-0"
+                        className="text-xs sm:text-sm font-bold text-white tracking-wide m-0"
                         data-card-title="true"
                       >
                         7. Kết Quả Đạt Được
                       </h4>
                     </div>
-                    <span className="text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-3 py-0.5 rounded-full shrink-0 tabular-nums">
-                      {kpisList.length} Chỉ số nổi bật
+                    <span className="text-xs font-semibold text-emerald-300 shrink-0 tabular-nums">
+                      {kpisList.length} chỉ số nổi bật
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch min-w-0">
+                  <div className="grid grid-cols-1 gap-3 items-stretch min-w-0">
                     {/* Bảng Chỉ số -> Kết quả */}
                     <div className="exp-studio-subtile no-card-hover rounded-xl overflow-hidden flex flex-col justify-between min-w-0">
-                      <div className="grid grid-cols-3 bg-white/10 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-300">
+                      <div className="grid grid-cols-3 bg-white/10 px-3.5 py-2 text-[11px] font-bold tracking-wide text-gray-300">
                         <span className="col-span-2">Chỉ số</span>
                         <span className="text-right">Kết quả</span>
                       </div>
@@ -2574,7 +2564,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {kpisList.map((kpi, kIdx) => (
                           <div
                             key={`${kpi.label}-${kIdx}`}
-                            className="grid grid-cols-3 items-center px-4 py-3 gap-2 min-w-0"
+                            className="grid grid-cols-3 items-center px-3.5 py-2.5 gap-2 min-w-0"
                           >
                             <span className="col-span-2 text-gray-100 font-bold break-words min-w-0">
                               {kpi.label}
@@ -2593,15 +2583,15 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     </div>
 
                     {/* Biểu đồ tăng trưởng KPI */}
-                    <div className="exp-studio-subtile no-card-hover rounded-xl p-4 flex flex-col justify-between min-w-0">
-                      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="exp-studio-subtile no-card-hover rounded-xl p-3.5 flex flex-col justify-between min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
                         <div className="flex items-center gap-2 min-w-0">
                           <BarChart3 className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                          <span className="text-xs font-bold tracking-wide text-emerald-300">
                             Biểu đồ tăng trưởng KPI
                           </span>
                         </div>
-                        <span className="text-[11px] text-gray-300 font-bold tabular-nums">
+                        <span className="text-[11px] text-gray-300 font-semibold tabular-nums">
                           {activeMilestone.cardYearLabel
                             ? activeMilestone.cardYearLabel.replace(/\s*-\s*/, ' → ')
                             : activeMilestone.period}
@@ -2609,7 +2599,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                       </div>
 
                       <div
-                        className="grid gap-2 sm:gap-3 items-end h-36 pt-3"
+                        className="grid gap-2 sm:gap-3 items-end h-32 pt-2"
                         style={{
                           gridTemplateColumns: `repeat(${Math.max(1, kpisList.length)}, minmax(0, 1fr))`,
                         }}
@@ -2617,24 +2607,24 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         {kpisList.map((kpi, kIdx) => {
                           const clampedPercent = Math.min(100, Math.max(12, Number(kpi.percent) || 75));
                           const shortLabel =
-                            kpi.label.length > 18 ? `${kpi.label.slice(0, 16)}…` : kpi.label;
+                            kpi.label.length > 16 ? `${kpi.label.slice(0, 14)}…` : kpi.label;
                           return (
                             <div
                               key={`${kpi.label}-bar-${kIdx}`}
                               title={`${kpi.label}: ${kpi.displayValue}`}
-                              className="flex flex-col items-center gap-1.5 h-full justify-end min-w-0"
+                              className="flex flex-col items-center gap-1 h-full justify-end min-w-0"
                             >
                               <span className="text-[11px] font-bold text-white tabular-nums truncate max-w-full">
                                 {kpi.displayValue}
                               </span>
                               <div
                                 className={cn(
-                                  'w-full rounded-t-xl bg-gradient-to-t shadow-lg transition-transform duration-200 hover:scale-[1.03]',
+                                  'w-full rounded-t-lg bg-gradient-to-t transition-transform duration-200 hover:scale-[1.03]',
                                   kpiBarGradients[kIdx % kpiBarGradients.length]
                                 )}
                                 style={{ height: `${clampedPercent}%` }}
                               />
-                              <span className="text-[10.5px] sm:text-[11px] text-gray-300 font-bold text-center truncate max-w-full">
+                              <span className="text-[10.5px] text-gray-300 font-semibold text-center truncate max-w-full">
                                 {shortLabel}
                               </span>
                             </div>
@@ -2646,7 +2636,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 </ExperienceBentoStudioCard>
               )}
 
-              {/* HÀNG 5 (TOÀN CHIỀU RỘNG): 8. HÌNH ẢNH KỶ NIỆM */}
+              {/* Ô 8 (2x1 hoặc 4x1 nếu không có KPI): 8. HÌNH ẢNH KỶ NIỆM */}
               <ExperienceBentoStudioCard
                 id="experience-memories-card"
                 variant="gallery-pink"
@@ -2659,11 +2649,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                     color: palette[idx % palette.length],
                   };
                 })}
-                className="exp-bento-item"
+                className={cn(
+                  'exp-bento-item justify-between',
+                  kpisList.length > 0 ? 'exp-bento-span-2x1' : 'exp-bento-span-4x1'
+                )}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
                   <h4
-                    className="text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-white m-0"
+                    className="text-xs sm:text-sm font-bold tracking-wide flex items-center gap-2 text-white m-0"
                     data-card-title="true"
                   >
                     <Camera className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 text-pink-300 exp-studio-icon" />
@@ -2677,7 +2670,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                         setCarouselSlideIdx(0);
                         setIsPhotoLightboxOpen(true);
                       }}
-                      className="min-h-[44px] sm:min-h-0 typo-badge flex items-center gap-1.5 shrink-0 cursor-pointer font-bold px-3.5 py-2 sm:px-3 sm:py-1 rounded-full bg-white/15 border border-white/25 text-white"
+                      className="min-h-[40px] sm:min-h-0 typo-badge flex items-center gap-1.5 shrink-0 cursor-pointer font-bold px-3 py-1.5 sm:py-1 rounded-lg bg-white/15 border border-white/25 text-white whitespace-nowrap"
                       title="Phóng to thư viện ảnh kỷ niệm"
                     >
                       <ZoomIn className="w-3.5 h-3.5 shrink-0 text-amber-300" />
@@ -2689,14 +2682,16 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                 {photosList.length > 0 ? (
                   <div
                     className={cn(
-                      'grid gap-3 content-start items-start',
-                      photosList.length === 1
-                        ? 'grid-cols-1 sm:grid-cols-2'
-                        : photosList.length === 2
-                          ? 'grid-cols-1 sm:grid-cols-2'
+                      'grid gap-2.5 content-start items-start',
+                      kpisList.length === 0
+                        ? photosList.length >= 4
+                          ? 'grid-cols-1 min-[375px]:grid-cols-2 sm:grid-cols-4'
                           : photosList.length === 3
                             ? 'grid-cols-1 sm:grid-cols-3'
-                            : 'grid-cols-1 min-[375px]:grid-cols-2 sm:grid-cols-4'
+                            : 'grid-cols-1 sm:grid-cols-2'
+                        : photosList.length === 1
+                          ? 'grid-cols-1'
+                          : 'grid-cols-1 min-[375px]:grid-cols-2'
                     )}
                   >
                     {photosList.map((photo, pIdx) => {
@@ -2713,7 +2708,7 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                           }}
                           aria-label={`Phóng to hình kỷ niệm ${pIdx + 1}: ${photo.title || companyFullName}`}
                           style={{ padding: '0px', borderRadius: '12px' }}
-                          className="exp-bento-rect-btn no-card-hover relative rounded-[12px] overflow-hidden border border-white/20 bg-black/30 focus:outline-none cursor-pointer p-0 text-left w-full aspect-[16/10]"
+                          className="exp-bento-rect-btn no-card-hover relative rounded-[12px] overflow-hidden border border-white/20 bg-slate-950 focus:outline-none cursor-pointer p-0 text-left w-full aspect-[16/10]"
                         >
                           {!hasImgFailed ? (
                             <BlurUpImage
@@ -2726,14 +2721,14 @@ export const ExperienceView: React.FC<ExperienceViewProps> = ({
                               className="w-full h-full object-cover block"
                             />
                           ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 bg-slate-900/70 text-slate-200">
+                            <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-3 bg-slate-900 text-slate-200">
                               <Camera className="w-6 h-6 text-pink-300" />
                               <span className="typo-caption font-semibold text-center truncate max-w-full">
                                 {photo.title || companyFullName}
                               </span>
                             </div>
                           )}
-                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-transparent flex items-end justify-between gap-2 p-2.5">
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent flex items-end justify-between gap-2 p-2.5">
                             <span className="typo-caption font-semibold text-white truncate">
                               {photo.title || `Kỷ niệm #${pIdx + 1}`}
                             </span>

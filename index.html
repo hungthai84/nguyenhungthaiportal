@@ -17,8 +17,8 @@
     <link rel="preconnect" href="https://cdn.scena.ai" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Google Fonts: Play (Primary System Font), Plus Jakarta Sans (Vietnamese-native 3D Book Cover Display), Dancing Script (Handwritten Quotes & Signatures) -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Play:wght@400;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Google Fonts: Play (Primary System Font), Plus Jakarta Sans (3D Book Cover Display), Outfit (Flat UI Geometric Sans), Dancing Script (Handwritten Quotes & Signatures) -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=Play:wght@400;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <!-- FontAwesome for Icons (Non-blocking load) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /></noscript>
@@ -98,6 +98,7 @@
           var validStyles = [
             'liquid-glass',
             'dark-liquid-glass',
+            'glassmorphism',
             'multicolor-glass',
             'dark-neon-glass',
             'cowhide-leather',
@@ -107,8 +108,13 @@
             'light-deep-ocean',
             'frost-ice-neu',
             'dark-frost-ice-neu',
+            'neumorphism-soft-ui',
             'flat-soft-ui',
             'dark-flat-soft-ui',
+            'color-flat-soft-ui',
+            'flat-ui',
+            'nexus-bento',
+            'light-nexus-bento',
             'mica-fluent',
             'gradient-dopamine',
             'dark-luxury',
@@ -127,6 +133,7 @@
           document.documentElement.setAttribute('data-card-style', cardStyle);
           var darkThemes = [
             'dark-liquid-glass',
+            'glassmorphism',
             'dark-neon-glass',
             'cowhide-leather',
             'dark-cowhide-leather',
@@ -134,12 +141,14 @@
             'deep-ocean',
             'dark-frost-ice-neu',
             'dark-flat-soft-ui',
+            'color-flat-soft-ui',
+            'nexus-bento',
             'dark-luxury',
             'bento-multicolor',
             'dark-iridescent-liquid-glass'
           ];
-          var colorThemes = ['cowhide-leather', 'multicolor-glass', 'gradient-dopamine', 'bento-multicolor'];
-          var flatThemes = ['flat-soft-ui', 'dark-flat-soft-ui', 'minimalism'];
+          var colorThemes = ['cowhide-leather', 'multicolor-glass', 'gradient-dopamine', 'bento-multicolor', 'color-flat-soft-ui'];
+          var flatThemes = ['flat-soft-ui', 'dark-flat-soft-ui', 'flat-ui', 'minimalism'];
           var mechanism = colorThemes.indexOf(cardStyle) !== -1
             ? 'color'
             : darkThemes.indexOf(cardStyle) !== -1

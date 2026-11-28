@@ -1,0 +1,668 @@
+/* ==========================================================================
+   GLASSMORPHISM THEME (glassmorphism)
+   Defining signals:
+   - Semi-transparent panels with strong backdrop blur:
+       background: rgba(255, 255, 255, 0.12)
+       backdrop-filter: blur(16px)
+       border: 1px solid rgba(255, 255, 255, 0.25)
+   - Vivid gradient or photographic backdrop whose color bleeds through
+     every panel (flexible — supports any user wallpaper).
+   - Decorative frosted-glass skin across ALL surfaces including content
+     cards, bento cards, subcards, and detail panels (distinct from Liquid
+     Glass, which reserves glass only for floating chrome above content).
+   - Layered floating depth with soft wide shadows.
+   - Contrast scrim protection so text stays readable over any backdrop
+     region, visible controls and focus states, plus reduced-motion and
+     reduced-transparency / no-backdrop-filter fallbacks.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. STANDALONE PREVIEW CARD CLASS
+   -------------------------------------------------------------------------- */
+.card-glassmorphism {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-card, 18px);
+  box-shadow:
+    0 20px 48px -12px rgba(5, 8, 26, 0.44),
+    0 8px 20px -6px rgba(5, 8, 26, 0.26);
+  color: #f8fafc;
+  transition:
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 220ms ease;
+}
+
+.card-glassmorphism:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.17);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    0 28px 60px -12px rgba(5, 8, 26, 0.54),
+    0 12px 26px -6px rgba(5, 8, 26, 0.32);
+}
+
+/* --------------------------------------------------------------------------
+   2. ROOT DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+[data-theme="glassmorphism"],
+html[data-card-style="glassmorphism"],
+html.dark[data-card-style="glassmorphism"] {
+  color-scheme: dark;
+
+  /* Core Glassmorphism Material Tokens */
+  --gm-surface-l1: rgba(255, 255, 255, 0.12);
+  --gm-surface-l2: rgba(255, 255, 255, 0.14);
+  --gm-surface-l2-hover: rgba(255, 255, 255, 0.20);
+  --gm-surface-l3: rgba(255, 255, 255, 0.10);
+  --gm-surface-l3-hover: rgba(255, 255, 255, 0.16);
+  --gm-surface-control: rgba(255, 255, 255, 0.14);
+  --gm-surface-control-hover: rgba(255, 255, 255, 0.23);
+  --gm-surface-scrim: rgba(10, 14, 34, 0.34);
+  --gm-surface-popup: rgba(15, 20, 44, 0.74);
+  --gm-border: rgba(255, 255, 255, 0.25);
+  --gm-border-strong: rgba(255, 255, 255, 0.40);
+  --gm-blur: 16px;
+  --gm-shadow-l1:
+    0 24px 56px -14px rgba(5, 8, 26, 0.46),
+    0 8px 24px -6px rgba(5, 8, 26, 0.28);
+  --gm-shadow-l2:
+    0 18px 42px -12px rgba(5, 8, 26, 0.38),
+    0 6px 18px -6px rgba(5, 8, 26, 0.24);
+  --gm-shadow-l2-hover:
+    0 26px 56px -12px rgba(5, 8, 26, 0.50),
+    0 10px 26px -6px rgba(5, 8, 26, 0.32);
+  --gm-shadow-l3:
+    0 10px 28px -8px rgba(5, 8, 26, 0.30);
+  --gm-shadow-popup:
+    0 28px 64px -12px rgba(4, 7, 22, 0.62),
+    0 10px 26px -6px rgba(4, 7, 22, 0.40);
+
+  /* Vivid Flexible Backdrop Default */
+  --app-bg-base: #0d102b;
+  --app-bg-gradient:
+    radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%),
+    radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%),
+    radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%),
+    radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%),
+    linear-gradient(135deg, #0d102b 0%, #17143d 46%, #131b3a 100%);
+  --ambient-base-bg: var(--app-bg-gradient);
+  --ambient-wallpaper-opacity: 0.98;
+  --ambient-depth-vignette: linear-gradient(180deg, rgba(8, 12, 28, 0.22) 0%, rgba(10, 14, 34, 0.32) 100%);
+  --app-bg-depth-veil: linear-gradient(180deg, rgba(8, 12, 28, 0.22) 0%, rgba(10, 14, 34, 0.32) 100%);
+
+  /* Core Color & Typography Tokens (High-Contrast Over Vivid Frosted Glass) */
+  --color-bg: #0d102b;
+  --color-bg-soft: rgba(255, 255, 255, 0.12);
+  --color-surface: rgba(255, 255, 255, 0.12);
+  --color-surface-elevated: rgba(255, 255, 255, 0.16);
+
+  --color-heading: #ffffff;
+  --color-text: #f8fafc;
+  --color-text-secondary: #e2e8f0;
+  --color-text-muted: #cbd5e1;
+  --color-text-inverse: #0f172a;
+
+  --color-primary: #38bdf8;
+  --color-secondary: #a78bfa;
+  --color-tertiary: #f472b6;
+  --color-accent: #38bdf8;
+  --color-focus-ring: #38bdf8;
+
+  --text-primary: #ffffff;
+  --text-heading: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --text-link: #7dd3fc;
+  --text-accent: #38bdf8;
+  --text-input: #ffffff;
+  --text-placeholder: rgba(226, 232, 240, 0.72);
+  --text-on-dark: #ffffff;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #ffffff;
+  --text-badge: #f8fafc;
+  --text-highlight: #7dd3fc;
+  --text-header-title: #ffffff;
+  --text-header-sub: #e2e8f0;
+  --text-nav-default: #f8fafc;
+  --text-nav-active: #ffffff;
+  --text-nav-arrow: #ffffff;
+  --text-banner-pill: #ffffff;
+  --text-banner-input: #ffffff;
+  --text-banner-placeholder: rgba(226, 232, 240, 0.74);
+  --pillar-heading: #ffffff;
+  --pillar-body: #e2e8f0;
+  --pillar-progress-track: rgba(255, 255, 255, 0.18);
+
+  /* Glass Surfaces */
+  --bg-main: var(--gm-surface-l1);
+  --bg-header: var(--gm-surface-l1);
+  --bg-footer: var(--gm-surface-l1);
+  --bg-card: var(--gm-surface-l2);
+  --bg-card-hover: var(--gm-surface-l2-hover);
+  --bg-subcard: var(--gm-surface-l3);
+  --bg-subcard-hover: var(--gm-surface-l3-hover);
+  --bg-nested: var(--gm-surface-l3);
+  --bg-nested-card: var(--gm-surface-l3);
+  --bg-modal: var(--gm-surface-popup);
+  --bg-popup: var(--gm-surface-popup);
+  --bg-dropdown: var(--gm-surface-popup);
+  --bg-tooltip: rgba(10, 14, 34, 0.94);
+  --bg-input: var(--gm-surface-scrim);
+  --bg-table: var(--gm-surface-l2);
+  --bg-table-head: rgba(255, 255, 255, 0.16);
+  --bg-banner: var(--gm-surface-l2);
+
+  --bg-nav-button-opaque: rgba(20, 26, 56, 0.88);
+  --bg-nav-pill: var(--gm-surface-control);
+  --bg-nav-pill-hover: var(--gm-surface-control-hover);
+  --bg-nav-arrow: var(--gm-surface-control);
+  --border-nav-arrow: var(--gm-border);
+  --bg-button-primary: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #ec4899 100%);
+  --bg-button-secondary: var(--gm-surface-control);
+  --bg-button-hover: var(--gm-surface-control-hover);
+  --bg-badge: rgba(255, 255, 255, 0.16);
+  --bg-highlight: rgba(56, 189, 248, 0.22);
+  --bg-banner-pill: var(--gm-surface-control);
+  --border-banner-pill: var(--gm-border);
+  --bg-banner-cta: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #ec4899 100%);
+  --text-banner-cta: #ffffff;
+  --bg-banner-input: var(--gm-surface-scrim);
+  --border-banner-input: var(--gm-border);
+  --bg-nested-badge: rgba(255, 255, 255, 0.16);
+
+  /* Crisp 1px Semi-Transparent White Borders */
+  --card-border-width: 1px;
+  --color-border: var(--gm-border);
+  --color-border-soft: rgba(255, 255, 255, 0.18);
+  --border-color: var(--gm-border);
+  --border-card: var(--gm-border);
+  --border-subcard: var(--gm-border);
+  --border-nested-badge: var(--gm-border);
+  --border-modal: var(--gm-border-strong);
+  --border-input: var(--gm-border);
+  --border-popup: var(--gm-border-strong);
+
+  /* Blur & Shadows */
+  --bg-blur: 16px;
+  --glass-blur: 16px;
+  --glass-card-blur: 16px;
+  --blur-subcard: 16px;
+  --blur-nav-pill: 16px;
+  --blur-modal: 22px;
+  --glass-saturate: 130%;
+  --glass-card-saturate: 130%;
+  --lg-clear-backdrop: blur(16px) saturate(130%);
+
+  --shadow-card: var(--gm-shadow-l2);
+  --shadow-card-hover: var(--gm-shadow-l2-hover);
+  --shadow-subcard: var(--gm-shadow-l3);
+  --shadow-subcard-hover: var(--gm-shadow-l2);
+  --shadow-nav-pill: 0 8px 22px -6px rgba(5, 8, 26, 0.34);
+  --shadow-button: 0 10px 26px -6px rgba(99, 102, 241, 0.48);
+  --shadow-popup: var(--gm-shadow-popup);
+
+  /* Surface Tier Integration */
+  --surface-primary-bg: var(--gm-surface-l1);
+  --surface-primary-border: var(--gm-border);
+  --surface-primary-shadow: var(--gm-shadow-l1);
+  --surface-primary-blur: 16px;
+  --surface-primary-saturate: 130%;
+  --surface-header-shadow: var(--gm-shadow-l1);
+  --surface-footer-shadow: var(--gm-shadow-l1);
+  --shadow-header: var(--gm-shadow-l1);
+  --shadow-main-card: var(--gm-shadow-l1);
+  --shadow-footer: var(--gm-shadow-l1);
+  --shell-surface-shadow: var(--gm-shadow-l1);
+  --elevation-primary-surface: var(--gm-shadow-l1);
+
+  --surface-secondary-bg: var(--gm-surface-l2);
+  --surface-secondary-border: var(--gm-border);
+  --surface-secondary-shadow: var(--gm-shadow-l2);
+  --surface-secondary-blur: 16px;
+  --surface-secondary-saturate: 130%;
+
+  --surface-tertiary-bg: var(--gm-surface-l3);
+  --surface-tertiary-border: var(--gm-border);
+  --surface-tertiary-shadow: var(--gm-shadow-l3);
+  --surface-tertiary-blur: 16px;
+  --surface-tertiary-saturate: 130%;
+
+  --surface-nested-bg: var(--gm-surface-l3);
+  --surface-nested-border: var(--gm-border);
+  --surface-nested-shadow: var(--gm-shadow-l3);
+  --surface-nested-blur: 16px;
+  --surface-nested-saturate: 130%;
+
+  --surface-interactive-bg: var(--gm-surface-control);
+  --surface-interactive-hover: var(--gm-surface-control-hover);
+  --surface-interactive-active: var(--bg-button-primary);
+  --surface-interactive-border: var(--gm-border);
+  --surface-interactive-shadow: var(--shadow-nav-pill);
+  --surface-interactive-blur: 16px;
+
+  /* Rounded Panel Corners */
+  --radius-main: 18px;
+  --radius-primary-surface: var(--radius-main, 18px);
+  --radius-header: var(--radius-primary-surface);
+  --radius-footer: var(--radius-primary-surface);
+  --radius-card: 16px;
+  --radius-subcard: 14px;
+  --radius-banner: 16px;
+  --radius-modal: 18px;
+  --radius-popup: 16px;
+  --radius-widget: 16px;
+  --radius-input: 12px;
+  --radius-button: 9999px;
+  --radius-pill: 9999px;
+  --radius-badge: 9999px;
+}
+
+/* --------------------------------------------------------------------------
+   3. PROTECTIVE BACKDROP CONTRAST SCRIM
+   Guarantees readable text over bright regions of ANY user photo/gradient
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 110% 100% at 50% 40%,
+    rgba(9, 13, 30, 0.22) 0%,
+    rgba(9, 13, 30, 0.42) 100%
+  );
+}
+
+/* --------------------------------------------------------------------------
+   4. LEVEL 1: SHELL & MAIN CONTAINERS
+   background: rgba(255,255,255,0.12) · blur(16px) · 1px white/25 border
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #about-intro-grid-2,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container) {
+  background: var(--gm-surface-l1, rgba(255, 255, 255, 0.12)) !important;
+  background-color: var(--gm-surface-l1, rgba(255, 255, 255, 0.12)) !important;
+  background-image: none !important;
+  backdrop-filter: blur(var(--gm-blur, 16px)) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(var(--gm-blur, 16px)) saturate(130%) !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: var(--gm-shadow-l1) !important;
+  color: #ffffff !important;
+}
+
+/* Keep transparent Home parallax stage unobstructed */
+html:root[data-card-style="glassmorphism"] body #home-u270-parallax-stage {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. LEVEL 2: ALL CONTENT CARDS, BENTO CARDS & DETAIL PANELS
+   Glassmorphism skins EVERY content surface — never opaque solid cards!
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  [data-section-card="true"],
+  .home-hero-card,
+  #home-intro-card,
+  #home-stats-card,
+  #home-capabilities-card,
+  #home-achievements-card,
+  .bento-card,
+  .bento-studio-card,
+  .banner-card,
+  .hero-banner,
+  .service-card,
+  .domain-card,
+  .project-card,
+  .swot-quadrant-card,
+  .exp-bento-surface-card,
+  .exp-studio-card,
+  .education-course-card,
+  .sys-bento-studio-card,
+  .horoscope-bento-studio-card,
+  .service-bento-tile,
+  #letter-page-container #pageContainer.nht-letter-sheet,
+  #letter-page-container #letter-profile-capability-card,
+  #letter-page-container [data-letter-card],
+  #about-page-container .bento-card,
+  #services-page-container #services-expanded-card,
+  #services-page-container #services-expanded-card .bento-item,
+  #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
+  #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+  #experience-main-card #experience-bento-grid .exp-studio-card,
+  #ai-assistant-page-container [class*="bg-slate-950"]
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.education-book-paper):not(.company-logo-surface):not(#contact-calendar-viewport):not(#pdf-page-container):not(#pdf-page-container *) {
+  background: var(--gm-surface-l2, rgba(255, 255, 255, 0.14)) !important;
+  background-color: var(--gm-surface-l2, rgba(255, 255, 255, 0.14)) !important;
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  ) !important;
+  backdrop-filter: blur(var(--gm-blur, 16px)) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(var(--gm-blur, 16px)) saturate(130%) !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  border-radius: var(--radius-card, 16px) !important;
+  box-shadow: var(--gm-shadow-l2) !important;
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  [data-section-card="true"],
+  .home-hero-card,
+  .bento-card,
+  .bento-studio-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  .swot-quadrant-card,
+  .exp-bento-surface-card,
+  .exp-studio-card,
+  .education-course-card,
+  .sys-bento-studio-card,
+  .horoscope-bento-studio-card,
+  .service-bento-tile
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-card):not(.hero-banner):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(#pdf-page-container):not(#pdf-page-container *):hover {
+  background: var(--gm-surface-l2-hover, rgba(255, 255, 255, 0.20)) !important;
+  border-color: var(--gm-border-strong, rgba(255, 255, 255, 0.40)) !important;
+  box-shadow: var(--gm-shadow-l2-hover) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. LEVEL 3: SUBCARDS, NESTED TILES & TAB PANELS
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  [data-subcard="true"],
+  .sub-card,
+  .skill-swot-subcard,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card,
+  .about-stack-card,
+  .about-tab-info-chip,
+  #about-page-container #about-box-tabs-shell [role="tabpanel"],
+  #services-page-container #services-expanded-card .bento-item .service-bento-subtile,
+  #experience-main-card #experience-bento-grid .exp-studio-card .exp-studio-subtile,
+  #systems-page-container #systems-cards-grid .sys-bento-studio-card .sys-category-pill
+):not(.company-logo-surface):not(#contact-calendar-viewport):not(.education-book-paper):not(#pdf-page-container):not(#pdf-page-container *) {
+  background: var(--gm-surface-l3, rgba(255, 255, 255, 0.10)) !important;
+  background-color: var(--gm-surface-l3, rgba(255, 255, 255, 0.10)) !important;
+  background-image: none !important;
+  backdrop-filter: blur(var(--gm-blur, 16px)) !important;
+  -webkit-backdrop-filter: blur(var(--gm-blur, 16px)) !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: var(--gm-shadow-l3) !important;
+  color: #f8fafc !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. TYPOGRAPHY LEGIBILITY SCRIM & CONTRAST PROTECTION
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  h1, h2, h3, h4, h5, h6,
+  [data-card-title="true"],
+  [data-subcard-title="true"],
+  .bento-unified-title
+):not(.education-book-paper *):not(.company-logo-surface *):not(#contact-calendar-viewport *):not(#pdf-page-container *) {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(5, 8, 26, 0.42);
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  p, li, label, dt, dd
+):not(.education-book-paper *):not(.company-logo-surface *):not(#contact-calendar-viewport *):not(#pdf-page-container *):not(button *) {
+  color: #f1f5f9 !important;
+  text-shadow: 0 1px 2px rgba(5, 8, 26, 0.28);
+}
+
+/* Preserve readable light surfaces inside book paper, calendar, and logos */
+html:root[data-card-style="glassmorphism"] body :is(.company-logo-surface, #contact-calendar-viewport) {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  text-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. INTERACTIVE CONTROLS, NAV PILLS, TABS & INPUTS
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill,
+  .banner-control-pill
+):not([aria-current="page"]):not([data-active="true"]):not([aria-pressed="true"]) {
+  background: var(--gm-surface-control, rgba(255, 255, 255, 0.14)) !important;
+  background-color: var(--gm-surface-control, rgba(255, 255, 255, 0.14)) !important;
+  background-image: none !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  box-shadow: var(--shadow-nav-pill) !important;
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill,
+  .banner-control-pill
+):not([aria-current="page"]):not([data-active="true"]):not([aria-pressed="true"]):hover {
+  background: var(--gm-surface-control-hover, rgba(255, 255, 255, 0.23)) !important;
+  border-color: var(--gm-border-strong, rgba(255, 255, 255, 0.40)) !important;
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  .radial-contact-pill
+):is([aria-current="page"], [data-active="true"]) {
+  background: var(--bg-button-primary) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 10px 26px -6px rgba(56, 189, 248, 0.45) !important;
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="glassmorphism"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="true"] {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.36) !important;
+  border-bottom: none !important;
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="glassmorphism"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="true"]::after {
+  background: transparent !important;
+}
+
+html:root[data-card-style="glassmorphism"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="false"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.20) !important;
+  color: #e2e8f0 !important;
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select,
+  .theme-input
+) {
+  background: var(--gm-surface-scrim, rgba(10, 14, 34, 0.34)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="glassmorphism"] body :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select,
+  .theme-input
+)::placeholder {
+  color: rgba(226, 232, 240, 0.72) !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. POPUPS, DROPDOWNS & MODALS (CONTRAST-SCRIMMED FROSTED GLASS)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: var(--gm-surface-popup, rgba(15, 20, 44, 0.74)) !important;
+  background-color: var(--gm-surface-popup, rgba(15, 20, 44, 0.74)) !important;
+  background-image: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  ) !important;
+  backdrop-filter: blur(22px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(135%) !important;
+  border: 1px solid var(--gm-border-strong, rgba(255, 255, 255, 0.35)) !important;
+  box-shadow: var(--gm-shadow-popup) !important;
+  color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. ACCESSIBLE VISIBLE FOCUS STATES (WCAG NON-TEXT CONTRAST)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="glassmorphism"] body :is(
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.36) !important;
+}
+
+/* --------------------------------------------------------------------------
+   11. REDUCED-MOTION FALLBACK
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html:root[data-card-style="glassmorphism"] *,
+  html:root[data-card-style="glassmorphism"] *::before,
+  html:root[data-card-style="glassmorphism"] *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  html:root[data-card-style="glassmorphism"] body :is(
+    .card-glassmorphism,
+    .bento-card,
+    [data-section-card="true"],
+    .service-card,
+    .project-card,
+    .education-course-card
+  ):hover {
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. REDUCED-TRANSPARENCY & NO-BACKDROP-FILTER FALLBACKS
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-transparency: reduce) {
+  html:root[data-card-style="glassmorphism"] {
+    --gm-surface-l1: #161b36;
+    --gm-surface-l2: #1f2649;
+    --gm-surface-l2-hover: #27305b;
+    --gm-surface-l3: #28315c;
+    --gm-surface-l3-hover: #313c6e;
+    --gm-surface-control: #242c54;
+    --gm-surface-control-hover: #2e3869;
+    --gm-surface-scrim: #12172f;
+    --gm-surface-popup: #141933;
+    --gm-border: rgba(255, 255, 255, 0.34);
+    --gm-border-strong: rgba(255, 255, 255, 0.50);
+    --bg-blur: 0px;
+    --glass-blur: 0px;
+    --surface-primary-blur: 0px;
+    --surface-secondary-blur: 0px;
+    --surface-tertiary-blur: 0px;
+  }
+
+  html:root[data-card-style="glassmorphism"] body * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+@supports not ((backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px))) {
+  html:root[data-card-style="glassmorphism"] {
+    --gm-surface-l1: rgba(20, 26, 54, 0.84);
+    --gm-surface-l2: rgba(28, 36, 70, 0.86);
+    --gm-surface-l2-hover: rgba(36, 46, 88, 0.90);
+    --gm-surface-l3: rgba(22, 28, 58, 0.88);
+    --gm-surface-control: rgba(32, 40, 78, 0.86);
+    --gm-surface-popup: rgba(14, 18, 40, 0.96);
+  }
+}

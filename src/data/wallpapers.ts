@@ -3,7 +3,6 @@ import { toOptimizedWebPUrl } from '@/utils/imageWebp';
 import wpLiquidGlass from '@/assets/images/wp_liquid_glass_1795447886339.jpg';
 import darkRainbowGlassWallpaper from '@/assets/images/wallpaper_dark_rainbow_glass_clean_1795175810945.jpg';
 import deepOceanWallpaper from '@/assets/images/wallpaper_deep_ocean_1795175773255.jpg';
-import multicolorGlassWallpaper from '@/assets/images/multicolor_glass_wallpaper_1795250561824.jpg';
 import walnutWoodWallpaper from '@/assets/images/walnut_wood_grain_bg_1795551578186.jpg';
 import wpFlatSoftUi from '@/assets/images/wp_flat_soft_ui_1795447887016.jpg';
 import wpDarkFlatSoftUi from '@/assets/images/wp_dark_flat_soft_ui_1795447886342.jpg';
@@ -44,6 +43,12 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: 'https://i.pinimg.com/1200x/fc/6c/6a/fc6c6a2b63a7034a08aba58149feb702.jpg',
     dark: darkRainbowGlassWallpaper,
   },
+  'glassmorphism': {
+    light:
+      'radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%), radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%), radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%), radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%), radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%), linear-gradient(135deg, #0D102B 0%, #17143D 46%, #131B3A 100%)',
+    dark:
+      'radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%), radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%), radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%), radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%), radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%), linear-gradient(135deg, #0D102B 0%, #17143D 46%, #131B3A 100%)',
+  },
   'cowhide-leather': {
     light:
       'radial-gradient(circle at 22% 20%, rgba(180, 115, 58, 0.34) 0%, transparent 52%), linear-gradient(145deg, #3A1F0D 0%, #241206 55%, #4A2912 100%)',
@@ -64,6 +69,10 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     dark:
       'radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.65) 0%, transparent 52%), radial-gradient(circle at 82% 84%, rgba(196, 212, 232, 0.55) 0%, transparent 56%), linear-gradient(145deg, #E6EEF8 0%, #E0E8F2 52%, #D6E1EE 100%)',
   },
+  'neumorphism-soft-ui': {
+    light: '#E0E5EC',
+    dark: '#E0E5EC',
+  },
   'flat-soft-ui': {
     light: wpFlatSoftUi,
     dark: wpDarkFlatSoftUi,
@@ -72,13 +81,31 @@ export const THEME_BACKGROUND_CONFIGS: Record<string, ThemeBackground> = {
     light: wpFlatSoftUi,
     dark: wpDarkFlatSoftUi,
   },
+  'color-flat-soft-ui': {
+    light:
+      'radial-gradient(ellipse 56% 48% at 14% 16%, rgba(139, 92, 246, 0.22) 0%, transparent 56%), radial-gradient(ellipse 54% 48% at 86% 18%, rgba(6, 182, 212, 0.18) 0%, transparent 56%), radial-gradient(ellipse 52% 46% at 78% 84%, rgba(79, 70, 229, 0.18) 0%, transparent 54%), radial-gradient(ellipse 48% 44% at 18% 82%, rgba(16, 185, 129, 0.14) 0%, transparent 52%), linear-gradient(145deg, #090D16 0%, #0D1322 52%, #090D16 100%)',
+    dark:
+      'radial-gradient(ellipse 56% 48% at 14% 16%, rgba(139, 92, 246, 0.22) 0%, transparent 56%), radial-gradient(ellipse 54% 48% at 86% 18%, rgba(6, 182, 212, 0.18) 0%, transparent 56%), radial-gradient(ellipse 52% 46% at 78% 84%, rgba(79, 70, 229, 0.18) 0%, transparent 54%), radial-gradient(ellipse 48% 44% at 18% 82%, rgba(16, 185, 129, 0.14) 0%, transparent 52%), linear-gradient(145deg, #090D16 0%, #0D1322 52%, #090D16 100%)',
+  },
+  'flat-ui': {
+    light: '#FFFFFF',
+    dark: '#FFFFFF',
+  },
+  'nexus-bento': {
+    light:
+      'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.14) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 60%), linear-gradient(180deg, #F4F7FB 0%, #EEF3FA 100%)',
+    dark:
+      'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.24) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.20) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 60%), linear-gradient(180deg, #090D16 0%, #0B1120 100%)',
+  },
+  'light-nexus-bento': {
+    light:
+      'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.14) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 60%), linear-gradient(180deg, #F4F7FB 0%, #EEF3FA 100%)',
+    dark:
+      'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.24) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.20) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 60%), linear-gradient(180deg, #090D16 0%, #0B1120 100%)',
+  },
   'mica-fluent': {
     light: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
     dark: 'https://assets.codepen.io/4927073/AdobeStock_78589840.jpeg',
-  },
-  'gradient-dopamine': {
-    light: multicolorGlassWallpaper,
-    dark: multicolorGlassWallpaper,
   },
   'iridescent-liquid-glass': {
     light:
@@ -412,22 +439,6 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000007,
   },
   {
-    id: 'theme-bg-gradient-dopamine',
-    name: '🌈 Nền Sắc Màu Rực Rỡ (Giao diện riêng)',
-    type: 'image',
-    value: multicolorGlassWallpaper,
-    bg: `url('${multicolorGlassWallpaper}') center/cover no-repeat`,
-    previewStyle: {
-      background:
-        'radial-gradient(circle at 14% 16%, rgba(255, 46, 147, 0.45) 0%, transparent 50%), radial-gradient(circle at 86% 18%, rgba(0, 210, 255, 0.42) 0%, transparent 48%), linear-gradient(135deg, #FFF0F7 0%, #F3E8FF 50%, #E0F7FF 100%)',
-      backgroundImage: `url('${multicolorGlassWallpaper}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    isCustom: false,
-    createdAt: 1794300000008,
-  },
-  {
     id: 'theme-bg-iridescent-liquid-glass',
     name: '✨ Nền Xà Cừ Ánh Sáng (Giao diện riêng)',
     type: 'gradient',
@@ -518,6 +529,32 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     createdAt: 1794300000025,
   },
   {
+    id: 'theme-bg-neumorphism-soft-ui',
+    name: '☁️ Nền Lì Neumorphism Soft UI (#E0E5EC)',
+    type: 'css',
+    value: 'background: #E0E5EC;',
+    bg: '#E0E5EC',
+    previewStyle: {
+      background: '#E0E5EC',
+    },
+    isCustom: false,
+    createdAt: 1794300000027,
+  },
+  {
+    id: 'theme-bg-glassmorphism',
+    name: '✨ Nền Aurora Đa Sắc Glassmorphism',
+    type: 'css',
+    value:
+      'background: radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%), radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%), radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%), radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%), radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%), linear-gradient(135deg, #0D102B 0%, #17143D 46%, #131B3A 100%);',
+    bg: 'radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%), radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%), radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%), radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%), radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%), linear-gradient(135deg, #0D102B 0%, #17143D 46%, #131B3A 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(ellipse 62% 56% at 14% 18%, rgba(6, 182, 212, 0.72) 0%, transparent 58%), radial-gradient(ellipse 58% 54% at 86% 20%, rgba(236, 72, 153, 0.68) 0%, transparent 56%), radial-gradient(ellipse 64% 58% at 50% 52%, rgba(99, 102, 241, 0.62) 0%, transparent 62%), radial-gradient(ellipse 58% 52% at 82% 84%, rgba(249, 115, 22, 0.54) 0%, transparent 56%), radial-gradient(ellipse 60% 56% at 16% 86%, rgba(139, 92, 246, 0.68) 0%, transparent 58%), linear-gradient(135deg, #0D102B 0%, #17143D 46%, #131B3A 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000026,
+  },
+  {
     id: 'theme-bg-flat-soft-ui',
     name: '🎨 Nền Phẳng Mềm Tinh Khiết (Giao diện riêng)',
     type: 'image',
@@ -548,6 +585,60 @@ export const WALLPAPER_PRESETS_LIST: WallpaperPreset[] = [
     },
     isCustom: false,
     createdAt: 1794300000029,
+  },
+  {
+    id: 'theme-bg-flat-ui',
+    name: '⬜ Nền Trắng Phẳng Flat UI (#FFFFFF)',
+    type: 'css',
+    value: 'background: #FFFFFF;',
+    bg: '#FFFFFF',
+    previewStyle: {
+      background: '#FFFFFF',
+    },
+    isCustom: false,
+    createdAt: 1794300000031,
+  },
+  {
+    id: 'theme-bg-nexus-bento',
+    name: '🌌 Nền Nexus Bento Đêm Tối (#090D16)',
+    type: 'css',
+    value:
+      'background: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px) 0 0 / 24px 24px, radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.24) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.20) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 60%), #090D16;',
+    bg: 'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.24) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.20) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 60%), #090D16',
+    previewStyle: {
+      background:
+        'radial-gradient(rgba(148, 163, 184, 0.16) 1px, transparent 1px) 0 0 / 16px 16px, radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.28) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.24) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.22) 0%, transparent 60%), #090D16',
+    },
+    isCustom: false,
+    createdAt: 1794300000032,
+  },
+  {
+    id: 'theme-bg-light-nexus-bento',
+    name: '☁️ Nền Nexus Bento Sáng (#F4F7FB)',
+    type: 'css',
+    value:
+      'background: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px) 0 0 / 24px 24px, radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.14) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 60%), #F4F7FB;',
+    bg: 'radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.14) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 60%), #F4F7FB',
+    previewStyle: {
+      background:
+        'radial-gradient(rgba(15, 23, 42, 0.10) 1px, transparent 1px) 0 0 / 16px 16px, radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.18) 0%, transparent 62%), radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.16) 0%, transparent 60%), radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.14) 0%, transparent 60%), #F4F7FB',
+    },
+    isCustom: false,
+    createdAt: 1794300000033,
+  },
+  {
+    id: 'theme-bg-color-flat-soft-ui',
+    name: '🎨 Nền Phẳng Màu Studio (#090D16)',
+    type: 'css',
+    value:
+      'background: radial-gradient(ellipse 56% 48% at 14% 16%, rgba(139, 92, 246, 0.22) 0%, transparent 56%), radial-gradient(ellipse 54% 48% at 86% 18%, rgba(6, 182, 212, 0.18) 0%, transparent 56%), radial-gradient(ellipse 52% 46% at 78% 84%, rgba(79, 70, 229, 0.18) 0%, transparent 54%), radial-gradient(ellipse 48% 44% at 18% 82%, rgba(16, 185, 129, 0.14) 0%, transparent 52%), linear-gradient(145deg, #090D16 0%, #0D1322 52%, #090D16 100%);',
+    bg: 'radial-gradient(ellipse 56% 48% at 14% 16%, rgba(139, 92, 246, 0.22) 0%, transparent 56%), radial-gradient(ellipse 54% 48% at 86% 18%, rgba(6, 182, 212, 0.18) 0%, transparent 56%), radial-gradient(ellipse 52% 46% at 78% 84%, rgba(79, 70, 229, 0.18) 0%, transparent 54%), radial-gradient(ellipse 48% 44% at 18% 82%, rgba(16, 185, 129, 0.14) 0%, transparent 52%), linear-gradient(145deg, #090D16 0%, #0D1322 52%, #090D16 100%)',
+    previewStyle: {
+      background:
+        'radial-gradient(ellipse 56% 48% at 14% 16%, rgba(139, 92, 246, 0.22) 0%, transparent 56%), radial-gradient(ellipse 54% 48% at 86% 18%, rgba(6, 182, 212, 0.18) 0%, transparent 56%), radial-gradient(ellipse 52% 46% at 78% 84%, rgba(79, 70, 229, 0.18) 0%, transparent 54%), radial-gradient(ellipse 48% 44% at 18% 82%, rgba(16, 185, 129, 0.14) 0%, transparent 52%), linear-gradient(145deg, #090D16 0%, #0D1322 52%, #090D16 100%)',
+    },
+    isCustom: false,
+    createdAt: 1794300000030,
   },
 
   {

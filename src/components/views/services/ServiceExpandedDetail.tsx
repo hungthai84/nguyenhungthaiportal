@@ -8,10 +8,7 @@ import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { DomainData } from '@/types';
 import { ServiceAssignmentsMap } from '@/context/BannerVideoContext';
 import { ServiceDomainKey } from '@/utils/bannerVideoMatcher';
-import {
-  getExpandCardLayoutTransition,
-  getExpandDetailRevealTransition,
-} from '@/components/ui/ExpandCardMotion';
+import { getExpandDetailRevealTransition } from '@/components/ui/ExpandCardMotion';
 import { U420CardHoverIcon, U420_STYLES, type U420Variant } from '@/components/ui/U420CardHoverIcon';
 import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
@@ -98,6 +95,13 @@ export interface ServiceScaleOrigin {
   initialScale: number;
   offsetX: number;
   offsetY: number;
+  clipTopPct?: number;
+  clipRightPct?: number;
+  clipBottomPct?: number;
+  clipLeftPct?: number;
+  isMobile?: boolean;
+  cardBgCss?: string;
+  isDarkTextCard?: boolean;
 }
 
 interface ExpandedBentoTileProps {
@@ -239,6 +243,7 @@ interface ServiceExpandedDetailProps {
   expandedBodyRef: React.RefObject<HTMLDivElement | null>;
   closeButtonRef: React.RefObject<HTMLButtonElement | null>;
   onClose: () => void;
+  onExpandComplete?: () => void;
   onSwitchDomain: (domain: DomainData) => void;
   renderDomainIcon: (key: DomainIconKey, className?: string, color?: string) => React.ReactNode;
   renderKpiIcon: (key: KpiIconKey, className?: string) => React.ReactNode;
@@ -269,6 +274,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   expandedBodyRef,
   closeButtonRef,
   onClose,
+  onExpandComplete,
   onSwitchDomain: _onSwitchDomain,
   renderDomainIcon,
   renderKpiIcon,
@@ -312,12 +318,25 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     expandedMeta.illustrationSrc;
 
   const isClosing = interactionState === 'closing';
-  const layoutTransition = getExpandCardLayoutTransition(prefersReducedMotion);
+  const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+  const FLIP_DURATION_S = 0.8; // 800ms
+  const flipLayoutTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : {
+        duration: FLIP_DURATION_S,
+        ease: smoothEase,
+      };
   const originX = scaleOrigin?.originX || '50%';
   const originY = scaleOrigin?.originY || '50%';
-  const startScale = scaleOrigin?.initialScale ?? 0.78;
-  const startOffsetX = scaleOrigin?.offsetX ?? 0;
-  const startOffsetY = scaleOrigin?.offsetY ?? 18;
+  const isMobileExpand = Boolean(scaleOrigin?.isMobile);
+  const lockToGridHeight = Boolean(minHeightPx && minHeightPx > 0 && !isMobileExpand);
+  const morphVeilBg = scaleOrigin?.cardBgCss || expandedMeta.cardGradient;
+
+  useEffect(() => {
+    if (prefersReducedMotion && !isClosing) {
+      onExpandComplete?.();
+    }
+  }, [prefersReducedMotion, isClosing, onExpandComplete]);
 
   const partners = expandedDomain.companyLogos || [];
   const scaleItems = expandedDomain.scaleAndScope || [];
@@ -341,71 +360,48 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
     <motion.div
       id="services-expanded-card"
       ref={expandedCardRef}
-      initial={
-        prefersReducedMotion
-          ? false
-          : {
-              opacity: 0,
-              scale: startScale,
-              x: startOffsetX * 0.32,
-              y: startOffsetY * 0.32,
-            }
-      }
-      animate={
-        isClosing
-          ? {
-              opacity: 0,
-              scale: prefersReducedMotion ? 1 : Math.max(0.74, startScale),
-              x: prefersReducedMotion ? 0 : startOffsetX * 0.24,
-              y: prefersReducedMotion ? 0 : startOffsetY * 0.24,
-            }
-          : {
-              opacity: 1,
-              scale: 1,
-              x: 0,
-              y: 0,
-            }
-      }
+      layout
+      layoutId={`service-card-flip-${expandedDomain.id}`}
+      initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0.96 }}
+      animate={{ opacity: 1 }}
       exit={
         prefersReducedMotion
-          ? { opacity: 0 }
+          ? { opacity: 0, transition: { duration: 0.1 } }
           : {
               opacity: 0,
-              scale: Math.max(0.74, startScale),
-              x: startOffsetX * 0.24,
-              y: startOffsetY * 0.24,
+              transition: {
+                duration: 0.42,
+                ease: smoothEase,
+              },
             }
       }
       transition={{
-        layout: layoutTransition,
+        layout: flipLayoutTransition,
         opacity: {
-          duration: prefersReducedMotion ? 0 : isClosing ? 0.2 : 0.26,
-          ease: [0.22, 1, 0.36, 1],
+          duration: prefersReducedMotion ? 0 : 0.28,
+          ease: smoothEase,
         },
-        scale: prefersReducedMotion
-          ? { duration: 0 }
-          : isClosing
-            ? { duration: 0.24, ease: [0.32, 0, 0.67, 0] }
-            : { type: 'spring', stiffness: 265, damping: 23, mass: 0.92 },
-        x: prefersReducedMotion
-          ? { duration: 0 }
-          : { type: 'spring', stiffness: 265, damping: 24, mass: 0.92 },
-        y: prefersReducedMotion
-          ? { duration: 0 }
-          : { type: 'spring', stiffness: 265, damping: 24, mass: 0.92 },
+      }}
+      onLayoutAnimationComplete={() => {
+        if (!isClosing) {
+          onExpandComplete?.();
+        }
       }}
       data-element-type="card"
       data-section-card="true"
       data-bento-styled={!isDarkMode ? 'true' : undefined}
       data-bento-canvas={isFlatSoftLight ? 'true' : undefined}
       data-expand-motion="true"
+      data-flip-motion="true"
+      data-expanded="true"
       data-scale-up-motion="true"
       data-compact-service-card="true"
       data-bento-service-detail="true"
+      data-locked-grid-height={lockToGridHeight ? 'true' : 'false'}
       data-interaction-state={interactionState}
       role="region"
       aria-label={fullTitle}
-      className={`u420-scope service-expanded-bento-shell col-start-1 row-start-1 bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-3 sm:p-4 md:p-5 box-border text-[var(--text-primary)] shadow-2xl ${
+      className={`u420-scope service-expanded-bento-shell service-card--expanded service-card-flip-surface col-start-1 row-start-1 bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,16px))] p-3 sm:p-4 md:p-5 box-border text-[var(--text-primary)] shadow-2xl no-scrollbar ${
         !isDarkMode
           ? isFlatSoftLight
             ? 'service-bento-light-host service-flat-soft-bento-studio'
@@ -413,11 +409,32 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           : ''
       }`}
       style={{
-        minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
-        borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
+        height: lockToGridHeight ? `${minHeightPx}px` : undefined,
+        maxHeight: lockToGridHeight ? `${minHeightPx}px` : undefined,
+        minHeight: minHeightPx && !isMobileExpand ? `${minHeightPx}px` : undefined,
+        borderRadius: 16,
         transformOrigin: `${originX} ${originY}`,
-      }}
+        willChange: 'transform, opacity',
+        ...(isFlatSoftLight && scaleOrigin?.cardBgCss
+          ? { ['--service-hero-matched-bg' as string]: scaleOrigin.cardBgCss }
+          : {}),
+      } as React.CSSProperties}
     >
+      {/* Seamless Progressive Morph Veil: starts with clicked card's color & dissolves into full 6-card Grid view during 800ms FLIP */}
+      {!prefersReducedMotion && (
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0.94 }}
+          animate={{ opacity: 0 }}
+          exit={{
+            opacity: 0.92,
+            transition: { duration: 0.32, ease: smoothEase },
+          }}
+          transition={{ duration: 0.52, delay: 0.1, ease: smoothEase }}
+          className="absolute inset-0 z-30 pointer-events-none rounded-[inherit]"
+          style={{ background: morphVeilBg }}
+        />
+      )}
       <style>{U420_STYLES}</style>
       {/* 4-Column Responsive Bento Grid (.bento-container / .bento-item) + Lucian UX/UI #420 hover lift & Click Scale Up */}
       <style>{`
@@ -551,7 +568,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         }
 
         html #services-page-container #services-expanded-card.service-bento-light-host .bento-item[data-bento-tile-id="hero"] {
-          background: linear-gradient(145deg, #ffffff 0%, #f5f3ff 54%, #ede9fe 100%) !important;
+          background: var(--service-hero-matched-bg, linear-gradient(145deg, #ffffff 0%, #f5f3ff 54%, #ede9fe 100%)) !important;
           border-color: rgba(124, 58, 237, 0.24) !important;
           color: #0f172a !important;
         }
@@ -849,32 +866,53 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
       {typeof document !== 'undefined' && copyToast ? createPortal(copyToast, document.body) : copyToast}
 
-      {/* Nút đóng nổi (Floating Close Button) nằm trên góc phải */}
-      <motion.button
-        ref={closeButtonRef}
-        type="button"
-        onClick={onClose}
-        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.85 }}
-        animate={isClosing ? { opacity: 0, scale: 0.85 } : { opacity: 1, scale: 1 }}
-        transition={{
-          duration: prefersReducedMotion ? 0 : isClosing ? 0.14 : 0.26,
-          delay: prefersReducedMotion ? 0 : isClosing ? 0 : 0.08,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="theme-modal-close nav-arrow-btn absolute top-3 right-3 sm:top-4 sm:right-4 z-40 w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer bg-gray-900/85 hover:bg-purple-600 text-white border border-white/20 shadow-xl backdrop-blur-md"
-        aria-label={isEn ? 'Close service detail' : 'Đóng chi tiết dịch vụ'}
-        title={isEn ? 'Close (Esc)' : 'Đóng (Esc)'}
-      >
-        <X className="w-4 h-4 shrink-0" />
-      </motion.button>
+      {/* Nút đóng nổi (Sticky Floating Close Button) luôn nằm ở góc trên bên phải */}
+      <div className="sticky top-0 z-40 h-0 w-full flex justify-end pointer-events-none">
+        <motion.button
+          ref={closeButtonRef}
+          type="button"
+          onClick={onClose}
+          initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.84 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={
+            prefersReducedMotion
+              ? { opacity: 0 }
+              : { opacity: 0, scale: 0.84, transition: { duration: 0.22, ease: smoothEase } }
+          }
+          transition={{
+            duration: prefersReducedMotion ? 0 : 0.4,
+            delay: prefersReducedMotion ? 0 : 0.26,
+            ease: smoothEase,
+          }}
+          className="pointer-events-auto theme-modal-close nav-arrow-btn -mt-0.5 -mr-0.5 w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer bg-gray-900/85 hover:bg-purple-600 text-white border border-white/20 shadow-xl backdrop-blur-md"
+          aria-label={isEn ? 'Close service detail' : 'Đóng chi tiết dịch vụ'}
+          title={isEn ? 'Close (Esc)' : 'Đóng (Esc)'}
+        >
+          <X className="w-4 h-4 shrink-0" />
+        </motion.button>
+      </div>
 
       {/* Bố cục 4-Column Responsive Bento Grid (.bento-container / .bento-item / .col-span-2 / .row-span-2) */}
       <motion.div
         key={expandedDomain.id}
         ref={expandedBodyRef}
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
-        animate={isClosing ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}
-        transition={getExpandDetailRevealTransition(prefersReducedMotion, isClosing)}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 14, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={
+          prefersReducedMotion
+            ? { opacity: 0 }
+            : {
+                opacity: 0,
+                y: 8,
+                scale: 0.985,
+                transition: { duration: 0.24, ease: smoothEase },
+              }
+        }
+        transition={
+          prefersReducedMotion
+            ? getExpandDetailRevealTransition(true, isClosing)
+            : { duration: 0.48, delay: 0.2, ease: smoothEase }
+        }
         className="bento-container service-bento-grid w-full min-w-0"
       >
         {/* BENTO ITEM 1 (Cols 1-2, Row 1): Tổng Quan Lĩnh Vực — col-span-2 */}

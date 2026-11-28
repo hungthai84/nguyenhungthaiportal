@@ -5,11 +5,7 @@ import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/r
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
 import { BlurUpImage } from '@/components/ui/BlurUpImage';
-import {
-  CARD_SETTLE_SPRING,
-  getExpandCardLayoutTransition,
-  getCardSettleTransition,
-} from '@/components/ui/ExpandCardMotion';
+import { CARD_SETTLE_SPRING } from '@/components/ui/ExpandCardMotion';
 import { U420CardHoverIcon, U420_STYLES, type U420Variant } from '@/components/ui/U420CardHoverIcon';
 
 const ArrowRight = createAnimatedIcon('arrow-right');
@@ -61,9 +57,9 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitleEn: 'Telecom contact center ops',
     iconKey: 'smartphone',
     accentLight: '#8b5cf6',
-    accentDark: '#a78bfa',
-    cardGradient: 'linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(49, 46, 129, 0.92) 55%, rgba(15, 23, 42, 0.96) 100%)',
-    tintBg: 'rgba(139, 92, 246, 0.22)',
+    accentDark: '#7dd3fc',
+    cardGradient: 'linear-gradient(135deg, #0284c7 0%, #1e40af 52%, #0f172a 100%)',
+    tintBg: 'rgba(14, 165, 233, 0.22)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/05cJC8p7/Vien-thong-di-dong.webp',
     fallbackIllustration: 'https://i.postimg.cc/05cJC8p7/Vien-thong-di-dong.webp',
@@ -80,10 +76,10 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitle: 'Thương mại điện tử',
     shortTitleEn: 'Digital commerce support ops',
     iconKey: 'shopping-bag',
-    accentLight: '#f97316',
-    accentDark: '#fb923c',
-    cardGradient: 'linear-gradient(135deg, rgba(124, 45, 18, 0.95) 0%, rgba(234, 88, 12, 0.92) 55%, rgba(69, 26, 3, 0.96) 100%)',
-    tintBg: 'rgba(249, 115, 22, 0.24)',
+    accentLight: '#e11d48',
+    accentDark: '#fda4af',
+    cardGradient: 'linear-gradient(135deg, #e11d48 0%, #c2410c 55%, #450a0a 100%)',
+    tintBg: 'rgba(225, 29, 72, 0.24)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/FFDJx9jD/Thuong-mai-dien-tu.webp',
     fallbackIllustration: 'https://i.postimg.cc/FFDJx9jD/Thuong-mai-dien-tu.webp',
@@ -100,10 +96,10 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitle: 'Tài chính bảo hiểm',
     shortTitleEn: 'Finance insurance quality ops',
     iconKey: 'shield-check',
-    accentLight: '#10b981',
-    accentDark: '#34d399',
-    cardGradient: 'linear-gradient(135deg, rgba(6, 78, 59, 0.95) 0%, rgba(5, 150, 105, 0.92) 55%, rgba(2, 44, 34, 0.96) 100%)',
-    tintBg: 'rgba(16, 185, 129, 0.22)',
+    accentLight: '#059669',
+    accentDark: '#a7f3d0',
+    cardGradient: 'linear-gradient(135deg, #059669 0%, #047857 52%, #052e16 100%)',
+    tintBg: 'rgba(5, 150, 105, 0.22)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/2y8LfJf1/Dich-vu-bao-hiem.webp',
     fallbackIllustration: 'https://i.postimg.cc/2y8LfJf1/Dich-vu-bao-hiem.webp',
@@ -120,10 +116,10 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitle: 'Thể thao điện tử',
     shortTitleEn: 'Esports gaming support ops',
     iconKey: 'gamepad-2',
-    accentLight: '#ec4899',
-    accentDark: '#f472b6',
-    cardGradient: 'linear-gradient(135deg, rgba(131, 24, 67, 0.95) 0%, rgba(219, 39, 119, 0.92) 55%, rgba(59, 7, 100, 0.96) 100%)',
-    tintBg: 'rgba(236, 72, 153, 0.22)',
+    accentLight: '#7e22ce',
+    accentDark: '#f5d0fe',
+    cardGradient: 'linear-gradient(135deg, #7e22ce 0%, #86198f 52%, #1e1b4b 100%)',
+    tintBg: 'rgba(126, 34, 206, 0.24)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/cC4tNjNr/The-thao-dien-tu.webp',
     fallbackIllustration: 'https://i.postimg.cc/cC4tNjNr/The-thao-dien-tu.webp',
@@ -140,10 +136,10 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitle: 'Thanh toán ví điện',
     shortTitleEn: 'Fintech digital payment ops',
     iconKey: 'wallet',
-    accentLight: '#0ea5e9',
-    accentDark: '#38bdf8',
-    cardGradient: 'linear-gradient(135deg, rgba(12, 74, 110, 0.95) 0%, rgba(2, 132, 199, 0.92) 55%, rgba(8, 47, 73, 0.96) 100%)',
-    tintBg: 'rgba(14, 165, 233, 0.22)',
+    accentLight: '#0d9488',
+    accentDark: '#67e8f9',
+    cardGradient: 'linear-gradient(135deg, #0d9488 0%, #155e75 52%, #172554 100%)',
+    tintBg: 'rgba(13, 148, 136, 0.22)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/zvtbDjJV/Thanh-toan-dien-tu.webp',
     fallbackIllustration: 'https://i.postimg.cc/zvtbDjJV/Thanh-toan-dien-tu.webp',
@@ -160,10 +156,10 @@ const DOMAIN_UI_META: Record<string, DomainUiMeta> = {
     shortTitle: 'Xây dựng hệ thống',
     shortTitleEn: 'System architecture cx ops',
     iconKey: 'cpu',
-    accentLight: '#6366f1',
-    accentDark: '#818cf8',
-    cardGradient: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.92) 55%, rgba(49, 46, 129, 0.96) 100%)',
-    tintBg: 'rgba(99, 102, 241, 0.22)',
+    accentLight: '#b45309',
+    accentDark: '#fde047',
+    cardGradient: 'linear-gradient(135deg, #b45309 0%, #9a3412 52%, #1c1917 100%)',
+    tintBg: 'rgba(180, 83, 9, 0.24)',
     isLightCard: false,
     illustrationSrc: 'https://i.postimg.cc/L4NZVHzT/Xay-dung-he-thong.webp',
     fallbackIllustration: 'https://i.postimg.cc/L4NZVHzT/Xay-dung-he-thong.webp',
@@ -190,6 +186,7 @@ const DOMAIN_U420_VARIANTS: Record<string, U420Variant> = {
 interface DomainBentoTemplate {
   cardBgClass: string;
   cardBgCss: string;
+  borderColor?: string;
   orbClass: string;
   iconColor: string;
   titleGradient?: boolean;
@@ -201,149 +198,160 @@ interface DomainBentoTemplate {
 }
 
 /**
- * Ánh xạ 6 mẫu thẻ Creator Studio Bento cho 6 thẻ Lĩnh vực Dịch vụ:
- * 01 → Thẻ 1 (Hero Purple → Indigo)
- * 02 → Thẻ 32 / 45 (Vibrant Rose → Orange → Amber)
- * 03 → Thẻ 3 / 16 (Emerald → Teal Zero-Trust)
- * 04 → Thẻ 6 / 10 (Pink → Rose → Purple + Gradient Title Accent)
- * 05 → Thẻ 14 / 19 (Cyan → Blue → Indigo Edge)
- * 06 → Thẻ 73 / 25 (Slate → Indigo → Violet Architect)
+ * Đồng bộ 6 màu nền thẻ Lĩnh vực Dịch vụ giống hệt 6 màu nền thẻ Trang Tử Vi (HoroscopeView):
+ * 01 → Kim (Sky → Blue → Slate: #0284c7 → #1e40af → #0f172a)
+ * 02 → Hỏa (Rose → Orange → Deep Red: #e11d48 → #c2410c → #450a0a)
+ * 03 → Mộc (Emerald → Forest: #059669 → #047857 → #052e16)
+ * 04 → Hợp (Purple → Fuchsia → Indigo: #7e22ce → #86198f → #1e1b4b)
+ * 05 → Thủy (Teal → Cyan → Deep Blue: #0d9488 → #155e75 → #172554)
+ * 06 → Thổ (Amber → Rust → Stone: #b45309 → #9a3412 → #1c1917)
  */
 const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
   '01': {
-    cardBgClass: 'bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-900',
-    cardBgCss: 'linear-gradient(135deg, #9333ea 0%, #7e22ce 50%, #312e81 100%)',
-    orbClass: 'bg-white/15',
-    iconColor: '#e9d5ff',
-    badgeClass: 'bg-purple-950/60 border border-purple-400/35 text-purple-100',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-purple-950/60 group-hover:bg-purple-900 border border-purple-400/35 text-white',
+    cardBgClass: 'bg-gradient-to-br from-sky-600 via-blue-800 to-slate-900',
+    cardBgCss: 'linear-gradient(135deg, #0284c7 0%, #1e40af 52%, #0f172a 100%)',
+    orbClass: 'bg-sky-300/20',
+    iconColor: '#7dd3fc',
+    badgeClass: 'bg-white/15 border border-sky-200/30 text-sky-100',
+    descClass: 'text-sky-100/95 font-medium',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-sky-200/30 text-sky-50',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '02': {
-    cardBgClass: 'bg-gradient-to-br from-rose-600 via-orange-600 to-amber-600',
-    cardBgCss: 'linear-gradient(135deg, #e11d48 0%, #ea580c 52%, #d97706 100%)',
-    orbClass: 'bg-yellow-300/25',
-    iconColor: '#fef08a',
-    badgeClass: 'bg-black/25 border border-white/25 text-amber-100',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-white/95 group-hover:bg-white border border-white/60 text-orange-700 shadow-sm',
-    dividerColor: 'rgba(255, 255, 255, 0.2)',
+    cardBgClass: 'bg-gradient-to-br from-rose-600 via-orange-700 to-red-950',
+    cardBgCss: 'linear-gradient(135deg, #e11d48 0%, #c2410c 55%, #450a0a 100%)',
+    orbClass: 'bg-rose-300/20',
+    iconColor: '#fda4af',
+    badgeClass: 'bg-black/28 border border-rose-200/30 text-rose-100',
+    descClass: 'text-rose-100/95 font-medium',
+    ctaClass: 'bg-black/28 group-hover:bg-black/40 border border-rose-200/30 text-rose-50',
+    dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '03': {
-    cardBgClass: 'bg-gradient-to-br from-emerald-600 via-teal-700 to-emerald-950',
-    cardBgCss: 'linear-gradient(135deg, #059669 0%, #0f766e 52%, #022c22 100%)',
+    cardBgClass: 'bg-gradient-to-br from-emerald-600 via-emerald-700 to-green-950',
+    cardBgCss: 'linear-gradient(135deg, #059669 0%, #047857 52%, #052e16 100%)',
     orbClass: 'bg-emerald-300/20',
     iconColor: '#a7f3d0',
-    badgeClass: 'bg-black/25 border border-emerald-300/35 text-emerald-100',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-emerald-500/25 group-hover:bg-emerald-500/40 border border-emerald-300/40 text-emerald-50',
+    badgeClass: 'bg-white/15 border border-emerald-200/30 text-emerald-100',
+    descClass: 'text-emerald-100/95 font-medium',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-emerald-200/30 text-emerald-50',
     dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '04': {
-    cardBgClass: 'bg-gradient-to-br from-pink-600 via-rose-600 to-purple-800',
-    cardBgCss: 'linear-gradient(135deg, #db2777 0%, #e11d48 50%, #6b21a8 100%)',
-    orbClass: 'bg-yellow-300/30',
+    cardBgClass: 'bg-gradient-to-br from-purple-700 via-fuchsia-800 to-indigo-950',
+    cardBgCss: 'linear-gradient(135deg, #7e22ce 0%, #86198f 52%, #1e1b4b 100%)',
+    orbClass: 'bg-fuchsia-300/25',
     iconColor: '#fde047',
     titleGradient: true,
-    badgeClass: 'bg-black/25 border border-pink-200/30 text-yellow-200',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-yellow-200',
+    badgeClass: 'bg-white/15 border border-fuchsia-200/30 text-fuchsia-100',
+    descClass: 'text-fuchsia-100/95 font-medium',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-fuchsia-200/30 text-yellow-200',
     dividerColor: 'rgba(255, 255, 255, 0.18)',
   },
   '05': {
-    cardBgClass: 'bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-900',
-    cardBgCss: 'linear-gradient(135deg, #0891b2 0%, #1d4ed8 52%, #312e81 100%)',
-    orbClass: 'bg-cyan-300/25',
-    iconColor: '#a5f3fc',
-    badgeClass: 'bg-white/15 border border-cyan-200/35 text-cyan-100',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-white/25 text-cyan-50',
-    dividerColor: 'rgba(255, 255, 255, 0.18)',
+    cardBgClass: 'bg-gradient-to-br from-teal-600 via-cyan-800 to-blue-950',
+    cardBgCss: 'linear-gradient(135deg, #0d9488 0%, #155e75 52%, #172554 100%)',
+    orbClass: 'bg-cyan-300/20',
+    iconColor: '#67e8f9',
+    badgeClass: 'bg-white/15 border border-cyan-200/30 text-cyan-100',
+    descClass: 'text-cyan-100/95 font-medium',
+    ctaClass: 'bg-white/15 group-hover:bg-white/25 border border-cyan-200/30 text-cyan-50',
+    dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
   '06': {
-    cardBgClass: 'bg-gradient-to-br from-slate-800 via-indigo-950 to-violet-950',
-    cardBgCss: 'linear-gradient(135deg, #1e293b 0%, #1e1b4b 52%, #2e1065 100%)',
-    orbClass: 'bg-indigo-400/25',
-    iconColor: '#c7d2fe',
-    badgeClass: 'bg-indigo-500/25 border border-indigo-400/40 text-indigo-200',
-    descClass: 'text-white font-medium',
-    ctaClass: 'bg-indigo-600/85 group-hover:bg-indigo-500 border border-indigo-400/40 text-white',
-    dividerColor: 'rgba(255, 255, 255, 0.14)',
+    cardBgClass: 'bg-gradient-to-br from-amber-700 via-orange-800 to-stone-900',
+    cardBgCss: 'linear-gradient(135deg, #b45309 0%, #9a3412 52%, #1c1917 100%)',
+    orbClass: 'bg-amber-300/20',
+    iconColor: '#fde047',
+    badgeClass: 'bg-black/28 border border-amber-200/30 text-amber-100',
+    descClass: 'text-amber-100/95 font-medium',
+    ctaClass: 'bg-black/28 group-hover:bg-black/40 border border-amber-200/30 text-amber-100',
+    dividerColor: 'rgba(255, 255, 255, 0.16)',
   },
 };
 
 /**
- * Bộ mẫu Creator Studio Bento cho Giao Diện Phẳng Sáng (flat-soft-ui):
- * Giữ nguyên màu sắc thẻ của giao diện sáng giống hệt mẫu Creator Studio Bento,
- * trong đó thẻ 02 áp dụng mẫu Thẻ 5 (Amber -> Orange nền rực với chữ đậm text-gray-950).
+ * Giao diện phẳng sáng (flat-soft-ui): Màu nền 6 thẻ Dịch vụ lấy trực tiếp từ dải màu
+ * chủ đạo của từng hình minh họa dịch vụ (pixel-sampled harmony):
+ * 01 Viễn thông      → #396CB4 / #8BC9F0 (Sky Cobalt Pastel)
+ * 02 Thương mại ĐT   → #EFBB76 / #E6A780 / #D94842 (Warm Peach Apricot Honey)
+ * 03 Tài chính BH    → #FCE5E4 / #F58D96 / #EB6A81 (Blush Rose Coral — tiệp nền hình #FCE5E4)
+ * 04 Thể thao ĐT     → #563CD0 / #3C43C8 / #9D5CE5 (Periwinkle Lavender Violet)
+ * 05 Thanh toán Ví   → #FCD1E6 / #8A6ED6 / #F7B9DF (Orchid Pink Lilac — tiệp nền hình #FCD1E6)
+ * 06 Xây dựng HT     → #7FDCE1 / #92DDC7 / #96C4D6 (Aqua Mint Glacier)
  */
 const DOMAIN_FLAT_LIGHT_TEMPLATES: Record<string, DomainBentoTemplate> = {
   '01': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-indigo-500/10',
-    iconColor: '#4f46e5',
+    cardBgClass: 'bg-gradient-to-br from-[#F5FAFF] via-[#E3F2FD] to-[#CBE6FB]',
+    cardBgCss: 'linear-gradient(145deg, #F5FAFF 0%, #E3F2FD 52%, #CBE6FB 100%)',
+    borderColor: 'rgba(57, 108, 180, 0.28)',
+    orbClass: 'bg-[#8BC9F0]/40',
+    iconColor: '#2557A7',
     isDarkTextCard: true,
-    badgeClass: 'bg-indigo-50 border border-indigo-200 text-indigo-800',
+    badgeClass: 'bg-white/85 border border-[#396CB4]/25 text-[#1E4B94]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-indigo-600 group-hover:bg-indigo-700 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#396CB4]/28 text-[#1E4B94] shadow-xs',
+    dividerColor: 'rgba(57, 108, 180, 0.18)',
   },
   '02': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-amber-500/10',
-    iconColor: '#d97706',
+    cardBgClass: 'bg-gradient-to-br from-[#FFFBF5] via-[#FEF0DC] to-[#FBE0BF]',
+    cardBgCss: 'linear-gradient(145deg, #FFFBF5 0%, #FEF0DC 52%, #FBE0BF 100%)',
+    borderColor: 'rgba(217, 119, 66, 0.30)',
+    orbClass: 'bg-[#EFBB76]/45',
+    iconColor: '#C24B24',
     isDarkTextCard: true,
-    badgeClass: 'bg-amber-50 border border-amber-200 text-amber-800',
+    badgeClass: 'bg-white/85 border border-[#D94842]/25 text-[#B4411C]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-amber-600 group-hover:bg-amber-700 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#D97742]/30 text-[#B4411C] shadow-xs',
+    dividerColor: 'rgba(217, 119, 66, 0.20)',
   },
   '03': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-emerald-500/10',
-    iconColor: '#059669',
+    cardBgClass: 'bg-gradient-to-br from-[#FFF8F8] via-[#FCE5E4] to-[#F9D2D5]',
+    cardBgCss: 'linear-gradient(145deg, #FFF8F8 0%, #FCE5E4 54%, #F9D2D5 100%)',
+    borderColor: 'rgba(235, 106, 129, 0.30)',
+    orbClass: 'bg-[#F58D96]/40',
+    iconColor: '#C93B59',
     isDarkTextCard: true,
-    badgeClass: 'bg-emerald-50 border border-emerald-200 text-emerald-800',
+    badgeClass: 'bg-white/85 border border-[#EB6A81]/28 text-[#BE2E4C]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-emerald-600 group-hover:bg-emerald-700 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#EB6A81]/30 text-[#BE2E4C] shadow-xs',
+    dividerColor: 'rgba(235, 106, 129, 0.20)',
   },
   '04': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-rose-500/10',
-    iconColor: '#e11d48',
+    cardBgClass: 'bg-gradient-to-br from-[#F7F5FF] via-[#EAE5FF] to-[#DDD4FD]',
+    cardBgCss: 'linear-gradient(145deg, #F7F5FF 0%, #EAE5FF 52%, #DDD4FD 100%)',
+    borderColor: 'rgba(86, 60, 208, 0.28)',
+    orbClass: 'bg-[#9D5CE5]/35',
+    iconColor: '#4F36C4',
     isDarkTextCard: true,
-    badgeClass: 'bg-rose-50 border border-rose-200 text-rose-800',
+    badgeClass: 'bg-white/85 border border-[#563CD0]/25 text-[#452EB3]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-rose-600 group-hover:bg-rose-700 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#563CD0]/28 text-[#452EB3] shadow-xs',
+    dividerColor: 'rgba(86, 60, 208, 0.18)',
   },
   '05': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-cyan-500/10',
-    iconColor: '#0891b2',
+    cardBgClass: 'bg-gradient-to-br from-[#FFF5FA] via-[#FCE0EE] to-[#F6D0EB]',
+    cardBgCss: 'linear-gradient(145deg, #FFF5FA 0%, #FCE0EE 52%, #F6D0EB 100%)',
+    borderColor: 'rgba(174, 123, 233, 0.32)',
+    orbClass: 'bg-[#F7B9DF]/45',
+    iconColor: '#8B3D9E',
     isDarkTextCard: true,
-    badgeClass: 'bg-cyan-50 border border-cyan-200 text-cyan-800',
+    badgeClass: 'bg-white/85 border border-[#8A6ED6]/28 text-[#7E3191]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-cyan-600 group-hover:bg-cyan-700 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#AE7BE9]/34 text-[#7E3191] shadow-xs',
+    dividerColor: 'rgba(138, 110, 214, 0.20)',
   },
   '06': {
-    cardBgClass: 'bg-white',
-    cardBgCss: '#FFFFFF',
-    orbClass: 'bg-slate-500/10',
-    iconColor: '#475569',
+    cardBgClass: 'bg-gradient-to-br from-[#F2FCFC] via-[#DEF6F5] to-[#C9EFEA]',
+    cardBgCss: 'linear-gradient(145deg, #F2FCFC 0%, #DEF6F5 52%, #C9EFEA 100%)',
+    borderColor: 'rgba(45, 165, 165, 0.30)',
+    orbClass: 'bg-[#7FDCE1]/45',
+    iconColor: '#0E7490',
     isDarkTextCard: true,
-    badgeClass: 'bg-slate-100 border border-slate-200 text-slate-800',
+    badgeClass: 'bg-white/85 border border-[#0E7490]/25 text-[#0F6973]',
     descClass: 'text-slate-700 font-medium',
-    ctaClass: 'bg-slate-900 group-hover:bg-slate-800 text-white shadow-xs',
-    dividerColor: 'rgba(15, 23, 42, 0.1)',
+    ctaClass: 'bg-white/88 group-hover:bg-white border border-[#2DA5A5]/32 text-[#0F6973] shadow-xs',
+    dividerColor: 'rgba(14, 116, 144, 0.18)',
   },
 };
 
@@ -425,13 +433,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
   const micaServiceAccents = ['#C65927', '#FF7C17', '#3ABA8F', '#EA1A7F', '#16D6FA', '#5274FF'];
 
-  // Controlled interaction state machine: idle | hovered | expanding | expanded | closing
-  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
+  const SERVICE_FLIP_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+  const SERVICE_FLIP_DURATION = 0.8; // 800ms
+
+  // Controlled React state managing the `expanded` service card & FLIP lifecycle
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const selectedDomainId = expanded;
   const [interactionState, setInteractionState] = useState<ServiceInteractionState>('idle');
   const [hoveredDomainId, setHoveredDomainId] = useState<string | null>(null);
   const [gridNaturalHeight, setGridNaturalHeight] = useState<number | undefined>(undefined);
-  const [isGridLayerHidden, setIsGridLayerHidden] = useState<boolean>(false);
   const [scaleOrigin, setScaleOrigin] = useState<ServiceScaleOrigin | undefined>(undefined);
+  const [siblingVectors, setSiblingVectors] = useState<
+    Record<string, { dx: number; dy: number; delay: number }>
+  >({});
 
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -445,187 +459,257 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const expandedBodyRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const timersRef = useRef<number[]>([]);
+  const lastOpenedIdRef = useRef<string | null>(null);
+  const closeFlipTimerRef = useRef<number | null>(null);
+  const hasMountedGridRef = useRef<boolean>(false);
 
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach((id) => window.clearTimeout(id));
-    timersRef.current = [];
+  useEffect(() => {
+    hasMountedGridRef.current = true;
+    return () => {
+      if (closeFlipTimerRef.current) {
+        window.clearTimeout(closeFlipTimerRef.current);
+      }
+    };
   }, []);
 
-  const scheduleTimer = useCallback((fn: () => void, ms: number) => {
-    const id = window.setTimeout(() => {
-      timersRef.current = timersRef.current.filter((tId) => tId !== id);
-      fn();
-    }, ms);
-    timersRef.current.push(id);
-  }, []);
-
-  useEffect(() => clearTimers, [clearTimers]);
-
-  const expandedDomain = selectedDomainId
-    ? DOMAINS_DATA.find((d) => d.id === selectedDomainId) || null
+  const expandedDomain = expanded
+    ? DOMAINS_DATA.find((d) => d.id === expanded) || null
     : null;
   const expandedMeta = expandedDomain
     ? DOMAIN_UI_META[expandedDomain.id] || DOMAIN_UI_META['01']
     : null;
 
-  const computeCardScaleOrigin = useCallback((domainId: string): ServiceScaleOrigin => {
-    const cardEl = cardRefs.current[domainId];
-    const wrapEl = cardsWrapperRef.current || cardsGridRef.current;
-    if (cardEl && wrapEl) {
-      const cardRect = cardEl.getBoundingClientRect();
-      const wrapRect = wrapEl.getBoundingClientRect();
-      if (wrapRect.width > 0 && wrapRect.height > 0 && cardRect.width > 0) {
-        const cardCenterX = cardRect.left - wrapRect.left + cardRect.width / 2;
-        const cardCenterY = cardRect.top - wrapRect.top + cardRect.height / 2;
-        const pctX = Math.max(8, Math.min(92, (cardCenterX / wrapRect.width) * 100));
-        const pctY = Math.max(8, Math.min(92, (cardCenterY / wrapRect.height) * 100));
-        const ratioW = cardRect.width / wrapRect.width;
-        const initialScale = Math.max(0.72, Math.min(0.88, ratioW * 1.45));
-        const offsetX = Math.max(-180, Math.min(180, cardCenterX - wrapRect.width / 2));
-        const offsetY = Math.max(-110, Math.min(110, cardCenterY - wrapRect.height / 2));
-        return {
-          originX: `${pctX.toFixed(1)}%`,
-          originY: `${pctY.toFixed(1)}%`,
-          initialScale,
-          offsetX,
-          offsetY,
-        };
-      }
-    }
-    const idx = DOMAINS_DATA.findIndex((d) => d.id === domainId);
-    const col = idx >= 0 ? idx % 3 : 1;
-    const row = idx >= 0 ? Math.floor(idx / 3) : 0;
-    const fallbackX = col === 0 ? '18%' : col === 1 ? '50%' : '82%';
-    const fallbackY = row === 0 ? '26%' : '74%';
-    return {
-      originX: fallbackX,
-      originY: fallbackY,
-      initialScale: 0.78,
-      offsetX: (col - 1) * 90,
-      offsetY: row === 0 ? -45 : 45,
-    };
-  }, []);
+  const computeCardScaleOrigin = useCallback(
+    (domainId: string): { origin: ServiceScaleOrigin; vectors: Record<string, { dx: number; dy: number; delay: number }>; measuredGridHeight?: number } => {
+      const cardEl = cardRefs.current[domainId];
+      const gridEl = cardsGridRef.current || cardsWrapperRef.current;
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const bentoTpl = isFlatSoftLight
+        ? DOMAIN_FLAT_LIGHT_TEMPLATES[domainId] || DOMAIN_FLAT_LIGHT_TEMPLATES['01']
+        : DOMAIN_BENTO_TEMPLATES[domainId] || DOMAIN_BENTO_TEMPLATES['01'];
 
-  const openExpandedCard = useCallback(
-    (domain: DomainData) => {
-      if (interactionState === 'expanding' || interactionState === 'closing') return;
-      if (selectedDomainId === domain.id) return;
+      const vectors: Record<string, { dx: number; dy: number; delay: number }> = {};
 
-      clearTimers();
-      SoundEngine.playTap();
+      if (cardEl && gridEl) {
+        const cardRect = cardEl.getBoundingClientRect();
+        const gridRect = gridEl.getBoundingClientRect();
+        if (gridRect.width > 0 && gridRect.height > 0 && cardRect.width > 0 && cardRect.height > 0) {
+          const fromLeft = Math.max(0, cardRect.left - gridRect.left);
+          const fromTop = Math.max(0, cardRect.top - gridRect.top);
+          const fromRight = Math.max(0, gridRect.width - (fromLeft + cardRect.width));
+          const fromBottom = Math.max(0, gridRect.height - (fromTop + cardRect.height));
 
-      if (cardsGridRef.current && !isGridLayerHidden) {
-        const measuredHeight = cardsGridRef.current.offsetHeight;
-        if (measuredHeight > 0) {
-          setGridNaturalHeight(measuredHeight);
+          const cardCenterX = fromLeft + cardRect.width / 2;
+          const cardCenterY = fromTop + cardRect.height / 2;
+          const pctX = Math.max(6, Math.min(94, (cardCenterX / gridRect.width) * 100));
+          const pctY = Math.max(6, Math.min(94, (cardCenterY / gridRect.height) * 100));
+
+          const rawClipTop = Math.max(0, Math.min(86, (fromTop / gridRect.height) * 100));
+          const rawClipRight = Math.max(0, Math.min(86, (fromRight / gridRect.width) * 100));
+          const rawClipBottom = Math.max(0, Math.min(86, (fromBottom / gridRect.height) * 100));
+          const rawClipLeft = Math.max(0, Math.min(86, (fromLeft / gridRect.width) * 100));
+
+          // On mobile 1x6 vertical stacks, keep initial clip band well inside viewport
+          const clipTopPct = isMobile ? Math.min(rawClipTop, 56) : rawClipTop;
+          const clipBottomPct = isMobile
+            ? Math.max(8, Math.min(72, 100 - clipTopPct - 24))
+            : rawClipBottom;
+
+          // Compute directional outward push vectors & staggered delays for the 5 sibling cards
+          DOMAINS_DATA.forEach((d) => {
+            if (d.id === domainId) return;
+            const sibEl = cardRefs.current[d.id];
+            if (!sibEl) {
+              vectors[d.id] = { dx: 0, dy: 14, delay: 0.03 };
+              return;
+            }
+            const sibRect = sibEl.getBoundingClientRect();
+            const sibCenterX = sibRect.left - gridRect.left + sibRect.width / 2;
+            const sibCenterY = sibRect.top - gridRect.top + sibRect.height / 2;
+            const deltaX = sibCenterX - cardCenterX;
+            const deltaY = sibCenterY - cardCenterY;
+            const dist = Math.hypot(deltaX, deltaY) || 1;
+            const normX = deltaX / dist;
+            const normY = deltaY / dist;
+            const maxGridDist = Math.hypot(gridRect.width, gridRect.height) || 1;
+            const normalizedDist = Math.min(1, dist / maxGridDist);
+            vectors[d.id] = {
+              dx: Math.round(normX * 20),
+              dy: Math.round(normY * 18),
+              delay: Number((normalizedDist * 0.09).toFixed(3)),
+            };
+          });
+
+          const ratioW = cardRect.width / gridRect.width;
+          const initialScale = Math.max(0.72, Math.min(0.94, ratioW * 1.45));
+
+          return {
+            measuredGridHeight: Math.round(gridRect.height),
+            vectors,
+            origin: {
+              originX: `${pctX.toFixed(1)}%`,
+              originY: `${pctY.toFixed(1)}%`,
+              initialScale,
+              offsetX: Math.max(-180, Math.min(180, cardCenterX - gridRect.width / 2)),
+              offsetY: Math.max(-110, Math.min(110, cardCenterY - gridRect.height / 2)),
+              clipTopPct,
+              clipRightPct: isMobile ? 2 : rawClipRight,
+              clipBottomPct,
+              clipLeftPct: isMobile ? 2 : rawClipLeft,
+              isMobile,
+              cardBgCss: bentoTpl.cardBgCss,
+              isDarkTextCard: bentoTpl.isDarkTextCard,
+            },
+          };
         }
       }
 
-      setScaleOrigin(computeCardScaleOrigin(domain.id));
+      const idx = DOMAINS_DATA.findIndex((d) => d.id === domainId);
+      const col = idx >= 0 ? idx % 3 : 1;
+      const row = idx >= 0 ? Math.floor(idx / 3) : 0;
+      const fallbackX = col === 0 ? '17%' : col === 1 ? '50%' : '83%';
+      const fallbackY = row === 0 ? '25%' : '75%';
+      DOMAINS_DATA.forEach((d, i) => {
+        if (d.id === domainId) return;
+        const c = i % 3;
+        const r = Math.floor(i / 3);
+        vectors[d.id] = {
+          dx: (c - col) * 14,
+          dy: (r - row) * 16,
+          delay: Math.min(0.09, (Math.abs(c - col) + Math.abs(r - row)) * 0.03),
+        };
+      });
+
+      return {
+        vectors,
+        origin: {
+          originX: fallbackX,
+          originY: fallbackY,
+          initialScale: 0.78,
+          offsetX: (col - 1) * 90,
+          offsetY: row === 0 ? -45 : 45,
+          clipTopPct: row === 0 ? 0 : 52,
+          clipRightPct: col === 2 ? 0 : col === 1 ? 34 : 68,
+          clipBottomPct: row === 0 ? 52 : 0,
+          clipLeftPct: col === 0 ? 0 : col === 1 ? 34 : 68,
+          isMobile,
+          cardBgCss: bentoTpl.cardBgCss,
+          isDarkTextCard: bentoTpl.isDarkTextCard,
+        },
+      };
+    },
+    [isFlatSoftLight]
+  );
+
+  const openExpandedCard = useCallback(
+    (domain: DomainData) => {
+      if (expanded === domain.id) return;
+
+      if (closeFlipTimerRef.current) {
+        window.clearTimeout(closeFlipTimerRef.current);
+        closeFlipTimerRef.current = null;
+      }
+
+      SoundEngine.playTap();
+
+      const { origin, vectors, measuredGridHeight } = computeCardScaleOrigin(domain.id);
+      if (measuredGridHeight && measuredGridHeight > 0 && !expanded) {
+        setGridNaturalHeight(measuredGridHeight);
+      }
+
+      lastOpenedIdRef.current = domain.id;
+      setScaleOrigin(origin);
+      setSiblingVectors(vectors);
       setHoveredDomainId(null);
       setActiveCategory(domain.id);
-      setSelectedDomainId(domain.id);
+      setExpanded(domain.id);
+      setInteractionState(prefersReducedMotion ? 'expanded' : 'expanding');
 
-      // Giữ vùng thẻ mở rộng trong tầm nhìn trên mobile/tablet
-      if (scrollViewportRef.current && cardsWrapperRef.current) {
+      // On mobile/tablet, smoothly keep the expanded grid area in view
+      if (origin.isMobile && scrollViewportRef.current && cardsWrapperRef.current) {
         const vpRect = scrollViewportRef.current.getBoundingClientRect();
         const wrapRect = cardsWrapperRef.current.getBoundingClientRect();
-        if (wrapRect.top < vpRect.top) {
+        if (wrapRect.top < vpRect.top || wrapRect.top > vpRect.top + 80) {
           scrollViewportRef.current.scrollTo({
             top: Math.max(0, scrollViewportRef.current.scrollTop + (wrapRect.top - vpRect.top)),
             behavior: prefersReducedMotion ? 'auto' : 'smooth',
           });
         }
       }
-
-      if (prefersReducedMotion) {
-        setIsGridLayerHidden(true);
-        setInteractionState('expanded');
-        scheduleTimer(() => {
-          closeButtonRef.current?.focus({ preventScroll: true });
-        }, 20);
-        return;
-      }
-
-      setIsGridLayerHidden(false);
-      setInteractionState('expanding');
-
-      // Sau khi thẻ được click Scale Up & 5 thẻ còn lại fade/scale out mượt mà, ẩn tầng lưới khỏi dòng chảy
-      scheduleTimer(() => {
-        setIsGridLayerHidden(true);
-      }, 360);
-
-      scheduleTimer(() => {
-        setInteractionState('expanded');
-        closeButtonRef.current?.focus({ preventScroll: true });
-      }, 520);
     },
-    [
-      interactionState,
-      selectedDomainId,
-      clearTimers,
-      isGridLayerHidden,
-      computeCardScaleOrigin,
-      prefersReducedMotion,
-      scheduleTimer,
-    ]
+    [expanded, computeCardScaleOrigin, prefersReducedMotion]
   );
 
+  const handleExpandComplete = useCallback(() => {
+    if (!expanded) return;
+    setInteractionState('expanded');
+    closeButtonRef.current?.focus({ preventScroll: true });
+  }, [expanded]);
+
   const closeExpandedCard = useCallback(() => {
-    if (!selectedDomainId || interactionState === 'closing' || interactionState === 'idle') return;
+    if (!expanded) return;
 
-    clearTimers();
-    SoundEngine.playTap();
-
-    const closingId = selectedDomainId;
-    setActiveCategory('ALL');
-    setHoveredDomainId(null);
-
-    if (prefersReducedMotion) {
-      setIsGridLayerHidden(false);
-      setSelectedDomainId(null);
-      setInteractionState('idle');
-      setGridNaturalHeight(undefined);
-      scheduleTimer(() => {
-        cardRefs.current[closingId]?.focus({ preventScroll: true });
-      }, 20);
-      return;
+    if (closeFlipTimerRef.current) {
+      window.clearTimeout(closeFlipTimerRef.current);
+      closeFlipTimerRef.current = null;
     }
 
-    // Bước 1: Fade out nội dung chi tiết & bật lại tầng lưới nền để sẵn sàng đón Card thu nhỏ về ô cũ
-    setInteractionState('closing');
-    setIsGridLayerHidden(false);
+    SoundEngine.playTap();
+    lastOpenedIdRef.current = expanded;
+    setActiveCategory('ALL');
+    setHoveredDomainId(null);
+    setInteractionState(prefersReducedMotion ? 'idle' : 'closing');
+    setExpanded(null);
 
-    // Bước 2: Motion LayoutId FLIP morph Card trở về đúng vị trí trong lưới & 5 Card còn lại fade in
-    scheduleTimer(() => {
-      setSelectedDomainId(null);
-    }, 150);
-
-    // Bước 3: Hoàn tất khôi phục trạng thái Idle & trả focus bàn phím về đúng Card nguồn
-    scheduleTimer(() => {
-      setInteractionState('idle');
+    if (prefersReducedMotion) {
       setGridNaturalHeight(undefined);
+      const closingId = lastOpenedIdRef.current;
+      if (closingId) {
+        cardRefs.current[closingId]?.focus({ preventScroll: true });
+      }
+    } else {
+      // Keep FLIP guard active for the full 800ms return transition before restoring idle hover transitions
+      closeFlipTimerRef.current = window.setTimeout(() => {
+        closeFlipTimerRef.current = null;
+        setInteractionState('idle');
+        setGridNaturalHeight(undefined);
+        const closingId = lastOpenedIdRef.current;
+        if (closingId) {
+          cardRefs.current[closingId]?.focus({ preventScroll: true });
+        }
+      }, Math.round(SERVICE_FLIP_DURATION * 1000) + 30);
+    }
+  }, [expanded, prefersReducedMotion]);
+
+  const handleExpandExitComplete = useCallback(() => {
+    if (expanded || closeFlipTimerRef.current) return;
+    setInteractionState('idle');
+    setGridNaturalHeight(undefined);
+    const closingId = lastOpenedIdRef.current;
+    if (closingId) {
       cardRefs.current[closingId]?.focus({ preventScroll: true });
-    }, 560);
-  }, [selectedDomainId, interactionState, clearTimers, prefersReducedMotion, scheduleTimer]);
+    }
+  }, [expanded]);
 
   const switchExpandedDomain = useCallback(
     (domain: DomainData) => {
-      if (interactionState === 'closing' || domain.id === selectedDomainId) return;
+      if (domain.id === expanded) return;
       SoundEngine.playTap();
-      setSelectedDomainId(domain.id);
+      const { origin, vectors } = computeCardScaleOrigin(domain.id);
+      lastOpenedIdRef.current = domain.id;
+      setScaleOrigin(origin);
+      setSiblingVectors(vectors);
+      setExpanded(domain.id);
       setActiveCategory(domain.id);
       setInteractionState('expanded');
-      setIsGridLayerHidden(true);
-      if (expandedBodyRef.current) {
-        expandedBodyRef.current.scrollTo({
+      if (expandedCardRef.current) {
+        expandedCardRef.current.scrollTo({
           top: 0,
           behavior: prefersReducedMotion ? 'auto' : 'smooth',
         });
       }
     },
-    [interactionState, selectedDomainId, prefersReducedMotion]
+    [expanded, computeCardScaleOrigin, prefersReducedMotion]
   );
 
   useEffect(() => {
@@ -663,12 +747,20 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
     { id: '06', label: isEn ? 'System Architecture' : 'Xây dựng Hệ thống', icon: 'layers' },
   ];
 
-  const layoutSpring = getExpandCardLayoutTransition(prefersReducedMotion);
-  const settleSpring = getCardSettleTransition(prefersReducedMotion);
-  const selectedDomainIdx = selectedDomainId
-    ? DOMAINS_DATA.findIndex((d) => d.id === selectedDomainId)
+  const flipLayoutTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : {
+        duration: SERVICE_FLIP_DURATION,
+        ease: SERVICE_FLIP_EASE,
+      };
+  const selectedDomainIdx = expanded
+    ? DOMAINS_DATA.findIndex((d) => d.id === expanded)
     : -1;
-  const isAnyCardExpanded = Boolean(selectedDomainId);
+  const isAnyCardExpanded = Boolean(expanded);
+  const isFlipAnimating =
+    interactionState === 'expanding' ||
+    interactionState === 'expanded' ||
+    interactionState === 'closing';
 
   return (
     <div
@@ -705,12 +797,13 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
 
         html #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
         html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
-        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] {
+        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
+        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] {
           font-family: 'Play', sans-serif;
           background: var(--bento-card-bg) !important;
           color: #ffffff !important;
           border-radius: 12px !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
           box-shadow:
             0 12px 26px -8px rgba(0, 0, 0, 0.48),
             0 4px 12px -3px rgba(0, 0, 0, 0.32),
@@ -721,29 +814,13 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
             border-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
         }
 
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] {
-          background: rgba(255, 255, 255, 0.88) !important;
-          color: #172554 !important;
-          border: 1px solid rgba(255, 255, 255, 0.95) !important;
-          backdrop-filter: blur(16px) saturate(140%) !important;
-          box-shadow:
-            0 14px 30px -8px rgba(15, 23, 42, 0.12),
-            0 4px 12px -2px rgba(15, 23, 42, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title) > span {
+          color: #ffffff !important;
         }
 
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-title-text,
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-title-text span,
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .service-desc-text {
-          color: #172554 !important;
-        }
-
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .sys-bottom-meta {
-          border-top-color: rgba(15, 23, 42, 0.1) !important;
-        }
-
-        html #services-page-container.services-bento-light-mode .service-card.domain-card[data-multicolor-bento="true"] .sys-fullname-copy {
-          color: #334155 !important;
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-desc-text {
+          color: rgba(248, 250, 252, 0.94) !important;
         }
 
         .card-bounce {
@@ -778,8 +855,66 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           z-index: 25 !important;
         }
 
+        html #services-page-container #services-cards-wrapper.services-flip-stage--expanded {
+          isolation: isolate;
+        }
+
+        html #services-page-container #services-cards-grid.services-grid--expanded {
+          pointer-events: none;
+        }
+
+        html #services-page-container .service-card-grid-slot {
+          min-width: 0;
+          min-height: 0;
+        }
+
+        /* FLIP CSS classes: yield transform control 100% to Framer Motion during 800ms cubic-bezier(0.22, 1, 0.36, 1) expansion */
+        html #services-page-container #services-cards-wrapper[data-flip-animating="true"] .service-card.domain-card[data-multicolor-bento="true"],
+        html[data-card-style] #services-page-container #services-cards-wrapper[data-flip-animating="true"] .service-card.domain-card[data-multicolor-bento="true"],
+        html.dark[data-card-style] #services-page-container #services-cards-wrapper[data-flip-animating="true"] .service-card.domain-card[data-multicolor-bento="true"],
+        html #services-page-container .service-card.domain-card[data-expanded-active="true"],
+        html[data-card-style] #services-page-container .service-card.domain-card[data-expanded-active="true"],
+        html #services-page-container .service-card.service-card--sibling-hidden,
+        html #services-page-container .service-card.service-card--flip-animating {
+          transition:
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            filter 0.35s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+
+        html #services-page-container .service-card.domain-card[data-expanded-active="true"],
+        html #services-page-container .service-card.service-card--sibling-hidden {
+          pointer-events: none !important;
+        }
+
+        html #services-page-container #services-cards-wrapper[data-flip-animating="true"] .card-bounce:hover,
+        html #services-page-container #services-cards-wrapper[data-flip-animating="true"] .card-bounce:active,
+        html #services-page-container .service-card.service-card--sibling-hidden:hover,
+        html #services-page-container .service-card.service-card--sibling-hidden:active {
+          transform: none !important;
+        }
+
+        /* Active expanded CSS class occupying 100% of the 6-card Grid container for FLIP target */
+        html:root body #services-page-container #services-expanded-card.service-card--expanded,
+        html:root[data-card-style] body #services-page-container #services-expanded-card.service-card--expanded {
+          grid-column: 1 / -1 !important;
+          grid-row: 1 / -1 !important;
+          width: 100% !important;
+          z-index: 30 !important;
+          transition:
+            box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+
+        html:root body #services-page-container #services-expanded-card.service-card--expanded[data-locked-grid-height="true"],
+        html:root[data-card-style] body #services-page-container #services-expanded-card.service-card--expanded[data-locked-grid-height="true"] {
+          overflow-y: auto !important;
+          overflow-x: hidden !important;
+        }
+
         html #services-page-container .service-card.domain-card[data-scale-expanding="true"] {
           z-index: 28 !important;
+          filter: brightness(1.06);
           border-color: rgba(255, 255, 255, 0.48) !important;
           box-shadow:
             0 0 0 2px rgba(255, 255, 255, 0.38),
@@ -787,8 +922,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.38) !important;
         }
 
-        html #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
-        html[data-card-style] #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
+        html #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
+        html[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
         html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title) > span {
           color: #ffffff !important;
         }
@@ -814,14 +949,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           --ry: 0deg;
           transform-style: preserve-3d;
           background: var(--bento-card-bg) !important;
-          color: #ffffff !important;
+          color: #0f172a !important;
           border-radius: 12px !important;
           padding: 15px !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid var(--bento-card-border, rgba(148, 163, 184, 0.28)) !important;
           box-shadow:
-            0 16px 32px -10px rgba(15, 23, 42, 0.26),
-            0 6px 14px -4px rgba(15, 23, 42, 0.14),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            0 4px 14px -4px rgba(15, 23, 42, 0.08),
+            0 10px 24px -8px rgba(15, 23, 42, 0.07),
+            inset 0 1px 0 rgba(255, 255, 255, 0.92) !important;
           transition:
             transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
             box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -829,12 +964,16 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
         }
 
         html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] {
-          color: #030712 !important;
+          color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] .service-title-text,
         html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] .service-title-text > span {
-          color: #030712 !important;
+          color: #0f172a !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] .service-desc-text {
+          color: #334155 !important;
         }
 
         html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"]::before {
@@ -848,8 +987,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           transition: opacity 0.28s ease;
           background: radial-gradient(
             380px circle at var(--mx, 50%) var(--my, 50%),
-            rgba(255, 255, 255, 0.18),
-            rgba(255, 255, 255, 0.05) 42%,
+            rgba(255, 255, 255, 0.48),
+            rgba(255, 255, 255, 0.14) 42%,
             transparent 72%
           ) !important;
         }
@@ -864,13 +1003,12 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
 
         @media (hover: hover) and (pointer: fine) {
           html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card.u420-t[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
-            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-10px) scale(1.018) !important;
-            border-color: rgba(255, 255, 255, 0.28) !important;
+            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-8px) scale(1.018) !important;
+            border-color: var(--bento-card-border, rgba(99, 102, 241, 0.36)) !important;
             box-shadow:
-              0 30px 52px -12px rgba(15, 23, 42, 0.34),
-              0 14px 24px -8px rgba(15, 23, 42, 0.2),
-              0 0 0 1px rgba(255, 255, 255, 0.28),
-              inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+              0 22px 42px -12px rgba(15, 23, 42, 0.16),
+              0 10px 20px -6px rgba(15, 23, 42, 0.09),
+              inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
           }
 
           html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"]:hover::before {
@@ -950,6 +1088,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           data-element-type="card"
           data-element-page="services"
           data-element-parent="services-cards-track"
+          onClick={(e) => {
+            if (!selectedDomainId) return;
+            const target = e.target as HTMLElement;
+            if (
+              target.closest('#services-expanded-card') ||
+              target.closest('#services-hero-banner-controls') ||
+              target.closest('#services-compact-menu-btn') ||
+              target.closest('button, a, [role="listbox"], [role="option"]')
+            ) {
+              return;
+            }
+            closeExpandedCard();
+          }}
           className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start p-[var(--main-card-padding,20px)] gap-0 rounded-[var(--radius-global,var(--radius-main,14px))] overflow-hidden box-border"
           style={{ padding: 'var(--main-card-padding, 20px)', gap: '0px', borderRadius: 'var(--radius-global, var(--radius-main, 14px))' }}
         >
@@ -961,29 +1112,15 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           <div
             id="services-main-content"
             data-element-parent="service-main-card"
-            className={cn(
-              'w-full flex flex-col justify-start gap-[var(--space-card-gap,16px)] min-w-0 box-border',
-              isAnyCardExpanded ? 'h-auto flex-none' : 'flex-1 min-h-full h-auto'
-            )}
+            className="w-full flex flex-col justify-start gap-[var(--space-card-gap,16px)] min-w-0 flex-1 min-h-full h-auto box-border"
           >
-            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC — TỰ ĐỘNG ẨN MƯỢT KHI THẺ DỊCH VỤ BUNG RỘNG */}
-            <AnimatePresence initial={false}>
-              {!isAnyCardExpanded && (
-                <motion.div
-                  key="services-hero-banner"
-                  id="services-hero-banner"
-                  data-element-type="section"
-                  data-section-card="true"
-                  data-has-compact-menu="true"
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: -10, scale: 0.99 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: -14, scale: 0.98 }
-                  }
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.36, ease: [0.22, 1, 0.36, 1] }}
-                  className="banner-card hero-banner group w-full max-w-full min-h-[110px] h-[clamp(120px,17vh,155px)] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[var(--space-card-padding,16px)] z-30 box-border transition-all duration-300"
+            {/* 1. HERO BANNER ĐẦU TRANG LĨNH VỰC — GIỮ NGUYÊN VỊ TRÍ ĐỂ ZERO LAYOUT SHIFT */}
+            <div
+              id="services-hero-banner"
+              data-element-type="section"
+              data-section-card="true"
+              data-has-compact-menu="true"
+              className="banner-card hero-banner group w-full max-w-full min-h-[110px] h-[clamp(120px,17vh,155px)] mx-0 rounded-[var(--radius-banner,14px)] overflow-visible relative border text-[var(--text-primary)] shrink-0 flex flex-col justify-between gap-2 p-[var(--space-card-padding,16px)] z-30 box-border transition-all duration-300"
                   style={{
                     padding: 'var(--space-card-padding, 16px)',
                     width: '100%',
@@ -1201,31 +1338,32 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                   </button>
                 )}
               </div>
-            </motion.div>
-              )}
-            </AnimatePresence>
+            </div>
 
-            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & EXPANDING SERVICE CARD (1. SCALE UP / SCALE TRANSFORM) */}
+            {/* 2. VÙNG LƯỚI 6 THẺ LĨNH VỰC & PROGRESSIVE FULL-GRID EXPANSION */}
             <LayoutGroup id="services-cards-layout-group">
               <div
                 id="services-cards-wrapper"
                 ref={cardsWrapperRef}
                 data-interaction-state={interactionState}
-                data-expand-effect="scale-up-transform"
+                data-expanded={isAnyCardExpanded ? 'true' : 'false'}
+                data-flip-animating={isFlipAnimating ? 'true' : 'false'}
+                data-expand-effect="framer-flip-full-grid"
                 className={cn(
-                  'relative w-full grid grid-cols-1 items-start',
-                  isAnyCardExpanded ? 'h-auto flex-none' : 'flex-1 min-h-0 h-auto'
+                  'relative w-full grid grid-cols-1 items-start flex-1 min-h-0 h-auto',
+                  isAnyCardExpanded && 'services-flip-stage--expanded'
                 )}
               >
                 <div
                   id="services-cards-grid"
                   ref={cardsGridRef}
                   data-card-layout="responsive-grid"
+                  data-expanded={isAnyCardExpanded ? 'true' : 'false'}
                   aria-hidden={isAnyCardExpanded}
                   className={cn(
                     'unified-cards-grid services-cards-grid services-responsive-grid card-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 col-start-1 row-start-1 w-full min-w-0 h-auto',
-                    isAnyCardExpanded && !isGridLayerHidden && 'is-exiting-layer',
-                    isAnyCardExpanded && isGridLayerHidden && 'is-hidden-layer'
+                    isAnyCardExpanded && 'services-grid--expanded is-exiting-layer',
+                    isAnyCardExpanded && scaleOrigin?.isMobile && 'is-hidden-layer'
                   )}
                 >
                   {DOMAINS_DATA.map((domain, idx) => {
@@ -1257,14 +1395,12 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     const bentoTpl = isFlatSoftLight
                       ? DOMAIN_FLAT_LIGHT_TEMPLATES[domain.id] || DOMAIN_FLAT_LIGHT_TEMPLATES['01']
                       : DOMAIN_BENTO_TEMPLATES[domain.id] || DOMAIN_BENTO_TEMPLATES['01'];
-                    const effectiveIconColor = isFlatSoftLight
-                      ? bentoTpl.isDarkTextCard
-                        ? '#030712'
-                        : '#ffffff'
-                      : accentColor;
+                    const effectiveIconColor = bentoTpl.iconColor;
 
-                    const isSelectedCard = selectedDomainId === domain.id;
+                    const isSelectedCard = expanded === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
+                    const isReturningFromFlip =
+                      hasMountedGridRef.current && lastOpenedIdRef.current === domain.id;
 
                     const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
                       const el = cardRefs.current[domain.id];
@@ -1310,8 +1446,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                     const u420Variant = DOMAIN_U420_VARIANTS[domain.id] || 'c1';
 
                     return (
-                      <motion.div
+                      <div
                         key={domain.id}
+                        data-service-slot={domain.id}
+                        data-expanded={isSelectedCard ? 'true' : 'false'}
+                        className={cn(
+                          'service-card-grid-slot relative w-full h-full min-h-[196px] sm:min-h-[216px]',
+                          isSelectedCard && 'service-card-grid-slot--expanded'
+                        )}
+                      >
+                        {!isSelectedCard && (
+                      <motion.div
+                        layout
+                        layoutId={`service-card-flip-${domain.id}`}
                         ref={(el) => {
                           cardRefs.current[domain.id] = el;
                         }}
@@ -1319,6 +1466,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         data-element-type="card"
                         data-section-card="true"
                         data-expand-motion="true"
+                        data-flip-motion="true"
                         data-scale-up-motion="true"
                         data-service-themed="true"
                         data-multicolor-bento="true"
@@ -1326,64 +1474,103 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         data-dark-text-card={
                           isFlatSoftLight && bentoTpl.isDarkTextCard ? 'true' : 'false'
                         }
+                        data-expanded="false"
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
-                        data-scale-expanding={isSelectedCard ? 'true' : 'false'}
+                        data-scale-expanding="false"
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
                         role="button"
                         tabIndex={isAnyCardExpanded ? -1 : 0}
-                        aria-expanded={isSelectedCard}
-                        initial={prefersReducedMotion ? false : { opacity: 0, y: 14, scale: 0.96 }}
+                        aria-expanded={false}
+                        initial={
+                          prefersReducedMotion || isReturningFromFlip
+                            ? false
+                            : { opacity: 0, y: 14, scale: 0.96 }
+                        }
                         whileTap={
                           !isAnyCardExpanded && !prefersReducedMotion
-                            ? { scale: 1.045, y: -3 }
+                            ? { scale: 1.03, y: -2 }
                             : undefined
                         }
                         animate={
-                          isSelectedCard
+                          isOtherDimmed
                             ? {
                                 opacity: 0,
-                                scale: prefersReducedMotion ? 1 : 1.09,
-                                y: prefersReducedMotion ? 0 : -8,
-                              }
-                            : isOtherDimmed
-                              ? {
-                                  opacity: 0,
-                                  scale: prefersReducedMotion ? 1 : 0.92,
-                                  y:
-                                    prefersReducedMotion || selectedDomainIdx === -1
+                                scale: prefersReducedMotion ? 1 : 0.88,
+                                x: prefersReducedMotion
+                                  ? 0
+                                  : siblingVectors[domain.id]?.dx ?? 0,
+                                y: prefersReducedMotion
+                                  ? 0
+                                  : siblingVectors[domain.id]?.dy ??
+                                    (selectedDomainIdx === -1
                                       ? 0
                                       : idx < selectedDomainIdx
-                                        ? -20
-                                        : 20,
-                                }
-                              : { opacity: 1, scale: 1, y: 0 }
+                                        ? -16
+                                        : 16),
+                              }
+                            : { opacity: 1, scale: 1, x: 0, y: 0 }
                         }
                         transition={{
-                          layout: layoutSpring,
+                          layout: flipLayoutTransition,
                           opacity: {
                             duration: prefersReducedMotion
                               ? 0
-                              : isSelectedCard
-                                ? 0.28
-                                : isOtherDimmed
-                                  ? 0.24
-                                  : 0.3,
-                            delay:
-                              prefersReducedMotion ||
-                              isSelectedCard ||
-                              isOtherDimmed ||
-                              interactionState !== 'idle'
-                                ? 0
-                                : idx * 0.035,
-                            ease: [0.22, 1, 0.36, 1],
+                              : isOtherDimmed
+                                ? 0.44
+                                : 0.48,
+                            delay: prefersReducedMotion
+                              ? 0
+                              : isOtherDimmed
+                                ? siblingVectors[domain.id]?.delay ?? 0
+                                : interactionState === 'closing'
+                                  ? 0.16 + (siblingVectors[domain.id]?.delay ?? 0) * 0.6
+                                  : interactionState === 'idle' && !hasMountedGridRef.current
+                                    ? idx * 0.03
+                                    : 0,
+                            ease: SERVICE_FLIP_EASE,
                           },
-                          scale: isSelectedCard
-                            ? { type: 'spring', stiffness: 320, damping: 22, mass: 0.85 }
-                            : settleSpring,
+                          scale: {
+                            duration: prefersReducedMotion
+                              ? 0
+                              : isOtherDimmed
+                                ? 0.48
+                                : 0.56,
+                            delay: prefersReducedMotion
+                              ? 0
+                              : isOtherDimmed
+                                ? siblingVectors[domain.id]?.delay ?? 0
+                                : interactionState === 'closing'
+                                  ? 0.12
+                                  : 0,
+                            ease: SERVICE_FLIP_EASE,
+                          },
+                          x: {
+                            duration: prefersReducedMotion ? 0 : 0.52,
+                            delay: prefersReducedMotion
+                              ? 0
+                              : isOtherDimmed
+                                ? siblingVectors[domain.id]?.delay ?? 0
+                                : interactionState === 'closing'
+                                  ? 0.12
+                                  : 0,
+                            ease: SERVICE_FLIP_EASE,
+                          },
                           y:
-                            interactionState === 'idle' && !prefersReducedMotion
+                            interactionState === 'idle' &&
+                            !prefersReducedMotion &&
+                            !hasMountedGridRef.current
                               ? { ...CARD_SETTLE_SPRING, delay: idx * 0.035 }
-                              : settleSpring,
+                              : {
+                                  duration: prefersReducedMotion ? 0 : 0.52,
+                                  delay: prefersReducedMotion
+                                    ? 0
+                                    : isOtherDimmed
+                                      ? siblingVectors[domain.id]?.delay ?? 0
+                                      : interactionState === 'closing'
+                                        ? 0.12
+                                        : 0,
+                                  ease: SERVICE_FLIP_EASE,
+                                },
                         }}
                         onPointerEnter={(e) => {
                           if (e.pointerType !== 'mouse' || isAnyCardExpanded) return;
@@ -1403,7 +1590,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           }
                         }}
                         style={{
+                          borderRadius: 12,
                           '--bento-card-bg': bentoTpl.cardBgCss,
+                          '--bento-card-border': bentoTpl.borderColor,
                           '--service-card-accent': meta.accentLight,
                           '--service-card-accent-dark': meta.accentDark,
                           '--service-card-active-accent': accentColor,
@@ -1412,7 +1601,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         } as React.CSSProperties}
                         className={cn(
                           'u420-t service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left cursor-pointer overflow-hidden card-bounce',
-                          isFlatSoftLight && bentoTpl.isDarkTextCard ? 'text-gray-950' : 'text-white',
+                          isOtherDimmed && 'service-card--sibling-hidden',
+                          isFlipAnimating && 'service-card--flip-animating',
+                          isFlatSoftLight && bentoTpl.isDarkTextCard ? 'text-slate-900' : 'text-white',
                           bentoTpl.cardBgClass
                         )}
                       >
@@ -1444,12 +1635,18 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                 >
                                   <span
                                     style={{
-                                      color: bentoTpl.titleGradient ? undefined : effectiveIconColor,
+                                      color: bentoTpl.titleGradient
+                                        ? undefined
+                                        : isFlatSoftLight && bentoTpl.isDarkTextCard
+                                          ? '#0f172a'
+                                          : '#ffffff',
                                     }}
                                     className={
                                       bentoTpl.titleGradient
                                         ? 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200'
-                                        : ''
+                                        : isFlatSoftLight && bentoTpl.isDarkTextCard
+                                          ? 'text-slate-900'
+                                          : 'text-white'
                                     }
                                   >
                                     {displayTitle}
@@ -1533,12 +1730,14 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           </div>
                         </div>
                       </motion.div>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
 
-                {/* 3. THẺ CHI TIẾT MỞ RỘNG BẰNG HIỆU ỨNG 1. SCALE UP / SCALE TRANSFORM */}
-                <AnimatePresence>
+                {/* 3. THẺ CHI TIẾT MỞ RỘNG CHIẾM TOÀN BỘ VÙNG GRID 6 THẺ (PROGRESSIVE FLIP) */}
+                <AnimatePresence onExitComplete={handleExpandExitComplete}>
                   {expandedDomain && expandedMeta && (
                     <ServiceExpandedDetail
                       key="services-expanded-detail-panel"
@@ -1558,6 +1757,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       expandedBodyRef={expandedBodyRef}
                       closeButtonRef={closeButtonRef}
                       onClose={closeExpandedCard}
+                      onExpandComplete={handleExpandComplete}
                       onSwitchDomain={switchExpandedDomain}
                       renderDomainIcon={renderDomainIcon}
                       renderKpiIcon={renderKpiIcon}

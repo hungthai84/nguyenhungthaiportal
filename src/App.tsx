@@ -8,7 +8,7 @@ import { GlobalLoadingOverlay } from './components/common/GlobalLoadingOverlay';
 
 import { MapLocation } from './data/aboutData';
 import { ExperienceMilestone } from './data/experience';
-import { TABS_DATA } from './data/tabs';
+import { TABS_DATA, MENU_ICON_PAGE_ORDER } from './data/tabs';
 import { useTheme } from './hooks/useTheme';
 import { useGlobalHorizontalScroll } from './hooks/useGlobalHorizontalScroll';
 import { useDesktopMomentumScroll } from './hooks/useDesktopMomentumScroll';
@@ -107,8 +107,8 @@ export default function App() {
     nonce: number;
   } | null>(null);
 
-  // Thứ tự trang theo Menu Icon trên Header (0..11, PDF 16, Hùng Thái 12) rồi tới các trang tiện ích Footer (15, 14, 13)
-  const MENU_ICON_ORDER = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 12, 15, 14, 13];
+  // Thứ tự trang theo đúng Menu Icon trên Header (0..11 -> Tải PDF 16 -> Liên hệ 12)
+  const MENU_ICON_ORDER = MENU_ICON_PAGE_ORDER;
   const PAGE_SLIDE_COUNTS: Record<number, number> = {
     0: 1,
     1: 1,
@@ -434,10 +434,30 @@ export default function App() {
 
   const showNotification = useCallback((_msg: string) => {}, []);
 
-  // Điều hướng Tới trang / Qua trang theo thứ tự sắp xếp trên Menu Icon; nếu trang có slide thì qua từng slide rồi mới tới trang kế tiếp
+  // Điều hướng Tới trang / Qua trang theo đúng thứ tự trang trên Menu Icon (Header)
   const navigatePage = useCallback(
     (direction: number, preventLoop = false) => {
-      const activeIdx = MENU_ICON_ORDER.includes(currentTabIndex) ? currentTabIndex : 0;
+      const currentPos = MENU_ICON_ORDER.indexOf(currentTabIndex);
+      const isInMenuOrder = currentPos !== -1;
+
+      if (!isInMenuOrder) {
+        SoundEngine.playPageFlip();
+        const fallbackTab =
+          direction >= 0
+            ? MENU_ICON_ORDER[0]
+            : MENU_ICON_ORDER[MENU_ICON_ORDER.length - 1];
+        const fallbackSlides = PAGE_SLIDE_COUNTS[fallbackTab] || 1;
+        if (fallbackSlides > 1) {
+          setPendingSlideTarget({
+            tabIndex: fallbackTab,
+            slide: direction >= 0 ? 0 : fallbackSlides - 1,
+          });
+        }
+        setCurrentTabIndex(fallbackTab);
+        return;
+      }
+
+      const activeIdx = currentTabIndex;
       const totalSlides = PAGE_SLIDE_COUNTS[activeIdx] || 1;
       const currentSlide = pageSlides[activeIdx] ?? 0;
 
@@ -453,12 +473,11 @@ export default function App() {
           );
           return;
         }
-        const pos = MENU_ICON_ORDER.indexOf(activeIdx);
-        if (preventLoop && pos >= MENU_ICON_ORDER.length - 1) {
+        if (preventLoop && currentPos >= MENU_ICON_ORDER.length - 1) {
           return;
         }
         SoundEngine.playPageFlip();
-        const nextPos = (pos + 1) % MENU_ICON_ORDER.length;
+        const nextPos = (currentPos + 1) % MENU_ICON_ORDER.length;
         const nextTab = MENU_ICON_ORDER[nextPos];
         if ((PAGE_SLIDE_COUNTS[nextTab] || 1) > 1) {
           setPendingSlideTarget({ tabIndex: nextTab, slide: 0 });
@@ -476,12 +495,11 @@ export default function App() {
           );
           return;
         }
-        const pos = MENU_ICON_ORDER.indexOf(activeIdx);
-        if (preventLoop && pos <= 0) {
+        if (preventLoop && currentPos <= 0) {
           return;
         }
         SoundEngine.playPageFlip();
-        const prevPos = (pos - 1 + MENU_ICON_ORDER.length) % MENU_ICON_ORDER.length;
+        const prevPos = (currentPos - 1 + MENU_ICON_ORDER.length) % MENU_ICON_ORDER.length;
         const prevTab = MENU_ICON_ORDER[prevPos];
         const prevTotalSlides = PAGE_SLIDE_COUNTS[prevTab] || 1;
         if (prevTotalSlides > 1) {
@@ -490,7 +508,7 @@ export default function App() {
         setCurrentTabIndex(prevTab);
       }
     },
-    [currentTabIndex, pageSlides]
+    [currentTabIndex, pageSlides, MENU_ICON_ORDER]
   );
 
   const activeTheme = cardStyle || (isDark ? 'dark-liquid-glass' : 'liquid-glass');

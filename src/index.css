@@ -77,6 +77,7 @@ body {
 @import "./styles/layout.css";
 @import "./styles/cards.css";
 @import "./styles/themes/liquid-glass.css";
+@import "./styles/themes/glassmorphism.css";
 @import "./styles/themes/cowhide-leather.css";
 @import "./styles/themes/dark-cowhide-leather.css";
 @import "./styles/themes/walnut-wood.css";
@@ -85,8 +86,9 @@ body {
 @import "./styles/themes/neumorphism-soft-ui-dark.css";
 @import "./styles/themes/frost-ice-neu.css";
 @import "./styles/themes/flat-soft-ui.css";
+@import "./styles/themes/flat-ui.css";
+@import "./styles/themes/nexus-bento.css";
 @import "./styles/themes/mica-fluent.css";
-@import "./styles/themes/gradient-dopamine.css";
 @import "./styles/themes/iridescent-liquid-glass.css";
 @import "./styles/layers.css";
 @import "./styles/container-system.css";
@@ -430,13 +432,12 @@ html #horoscope-card-1-grid {
 html #skills-swot-grid-wrapper,
 html #skills-swot-grid,
 html #skills-languages-grid,
-html #experience-bento-grid,
 html #wallpaper-add-panel-grid,
 html #wallpaper-cards-grid,
 html #systems-cards-grid,
 html #interface-themes-grid,
 html #about-personal-info-grid,
-html [data-card-layout]:not(#horoscope-row-1-horizontal):not(#horoscope-profile-subgrid):not(#horoscope-card-2-grid):not(#horoscope-card-3-grid):not(#horoscope-card-pillars-grid):not(#horoscope-card-4-grid):not(#horoscope-card-5-grid),
+html [data-card-layout]:not(#experience-bento-grid):not(#horoscope-row-1-horizontal):not(#horoscope-profile-subgrid):not(#horoscope-card-2-grid):not(#horoscope-card-3-grid):not(#horoscope-card-pillars-grid):not(#horoscope-card-4-grid):not(#horoscope-card-5-grid),
 html .card-grid:not(#projects-grid):not(#services-cards-grid):not(.unified-cards-grid) {
   width: 100% !important;
   max-width: 100% !important;
@@ -1798,7 +1799,6 @@ html [id$="-cards-track"]::after {
 
   /* Inner structural grid & stack containers inside #experience-main-card and similar cards */
   html #experience-main-card > *,
-  html #experience-bento-grid,
   html #experience-company-memories-row,
   html #experience-results-commitments-row,
   html #experience-bento-col-left,
@@ -3010,7 +3010,7 @@ html:is([data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [
 }
 
 /* Default pill icon badges synced per theme family: unselected circle matches title color */
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="glassmorphism"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="neumorphism-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="color-flat-soft-ui"]):not([data-card-style="flat-ui"]):not([data-card-style="nexus-bento"]):not([data-card-style="light-nexus-bento"]):not(.dark) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3028,7 +3028,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   box-shadow: var(--pill-badge-shadow, 0 2px 7px color-mix(in srgb, var(--nav-pill-accent, var(--color-primary, #6D28D9)) 28%, transparent)) !important;
 }
 
-html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="dark-flat-soft-ui"]):not(.dark) :is(
+html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-liquid-glass"]):not([data-card-style="glassmorphism"]):not([data-card-style="deep-ocean"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="neumorphism-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="color-flat-soft-ui"]):not([data-card-style="flat-ui"]):not([data-card-style="nexus-bento"]):not([data-card-style="light-nexus-bento"]):not(.dark) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3043,7 +3043,7 @@ html:not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide
   stroke: currentColor !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="glassmorphism"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -3062,7 +3062,7 @@ html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-oce
   box-shadow: var(--pill-badge-shadow, 0 3px 8px rgba(2, 6, 23, 0.44)) !important;
 }
 
-html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
+html:is(.dark, [data-card-style="dark-liquid-glass"], [data-card-style="glassmorphism"], [data-card-style="deep-ocean"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]) :is(
   #app-header button.nav-pill,
   #app-footer button.nav-pill,
   button.nav-pill,
@@ -5230,19 +5230,6 @@ html[data-card-style="mica-fluent"] {
   --elev-card-l2-hover: 0 18px 38px -8px rgba(232, 65, 24, 0.15), 0 6px 14px -3px rgba(28, 7, 8, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --elev-subcard-l1: 0 6px 16px -4px rgba(28, 7, 8, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.60);
   --elev-subcard-l1-hover: 0 10px 22px -4px rgba(232, 65, 24, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.75);
-}
-
-/* Gradient Dopamine */
-html[data-card-style="gradient-dopamine"] {
-  --elev-shell-header: none;
-  --elev-shell-footer: none;
-  --elev-main-card: none;
-  --elev-banner-card: 0 20px 44px -10px rgba(255, 46, 147, 0.22), 0 8px 20px -6px rgba(124, 58, 237, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.92);
-  --elev-banner-card-hover: 0 26px 54px -10px rgba(255, 46, 147, 0.28), 0 10px 24px -6px rgba(0, 210, 255, 0.20), inset 0 1.5px 0 rgba(255, 255, 255, 0.98);
-  --elev-card-l2: 0 14px 34px -8px rgba(124, 58, 237, 0.16), 0 6px 16px -4px rgba(255, 46, 147, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.90);
-  --elev-card-l2-hover: 0 22px 46px -8px rgba(255, 46, 147, 0.24), 0 8px 20px -4px rgba(0, 210, 255, 0.16), inset 0 1.5px 0 rgba(255, 255, 255, 0.96);
-  --elev-subcard-l1: 0 8px 20px -6px rgba(124, 58, 237, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.86);
-  --elev-subcard-l1-hover: 0 14px 28px -6px rgba(255, 46, 147, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.94);
 }
 
 /* 1. Header Menu Icons & Footer Right-Side Button Group (Layered Stack Elevation) */
@@ -9075,13 +9062,22 @@ html[data-card-style="frost-ice-neu"] {
     6px 6px 14px rgba(163, 179, 199, 0.52);
 }
 
+/* 13b. Neumorphism Soft UI — Mặt lì #e0e5ec không viền, cặp bóng mềm kép */
+html[data-card-style="neumorphism-soft-ui"] {
+  --shell-surface-shadow:
+    -9px -9px 18px var(--neu-shadow-light, rgba(255, 255, 255, 0.85)),
+    9px 9px 18px var(--neu-shadow-dark, rgba(163, 177, 198, 0.6));
+}
+
 /* 14. Giao Diện Phẳng Sáng (Flat Soft UI) — Phẳng tinh khiết, không blur, không shadow */
 html[data-card-style="flat-soft-ui"] {
   --shell-surface-shadow: none;
 }
 
-/* 15. Giao Diện Phẳng Tối (Dark Flat Soft UI) — Phẳng tối êm dịu, không blur, không shadow */
-html[data-card-style="dark-flat-soft-ui"] {
+/* 15. Giao Diện Phẳng Tối, Phẳng Màu & Flat UI — Phẳng tuyệt đối, không blur, không shadow */
+html[data-card-style="dark-flat-soft-ui"],
+html[data-card-style="color-flat-soft-ui"],
+html[data-card-style="flat-ui"] {
   --shell-surface-shadow: none;
 }
 
@@ -9092,20 +9088,20 @@ html[data-card-style="mica-fluent"] {
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-/* 17. Gradient / Dopamine UI — Đa sắc năng lượng tỏa hào quang */
-html[data-card-style="gradient-dopamine"] {
+/* 17. Glassmorphism — Kính mờ bán trong suốt, viền trắng 1px, bóng nổi rộng mềm */
+html[data-card-style="glassmorphism"] {
   --shell-surface-shadow:
-    0 14px 34px -10px rgba(255, 46, 147, 0.22),
-    0 6px 18px -6px rgba(124, 58, 237, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    0 24px 60px -14px rgba(5, 8, 24, 0.44),
+    0 10px 26px -8px rgba(15, 23, 42, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 /* ========================================================================= */
 /* HIGH-SPECIFICITY 3-WAY SHELL PARITY (HEADER = CENTER MAIN CARD = FOOTER)  */
 /* ========================================================================= */
 
-/* 1. Giao diện phẳng thuần (Flat Soft UI Sáng/Tối): đồng bộ phẳng sạch tuyệt đối */
-html:root:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) body :is(
+/* 1. Giao diện phẳng thuần (Flat Soft UI Sáng/Tối/Màu & Flat UI): đồng bộ phẳng sạch tuyệt đối */
+html:root:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"], [data-card-style="flat-ui"]) body :is(
   #app-header,
   #app-footer,
   .page-main-card,
@@ -9138,7 +9134,7 @@ html:root:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-
   #interface-main-card,
   #memories-main-card
 ):is(*, :hover, :focus-within),
-html:root.dark:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"]) body :is(
+html:root.dark:is([data-card-style="flat-soft-ui"], [data-card-style="dark-flat-soft-ui"], [data-card-style="color-flat-soft-ui"], [data-card-style="flat-ui"]) body :is(
   #app-header,
   #app-footer,
   .page-main-card,
@@ -9340,8 +9336,125 @@ html:root[data-card-style="mica-fluent"] body :is(
   box-shadow: var(--shell-surface-shadow, 0 6px 18px -4px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.55)) !important;
 }
 
-/* 5. Toàn bộ các giao diện kính lỏng, đại dương, nổi khối kính mờ, dopamine, xà cừ: đồng nhất tuyệt đối */
-html:root[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
+/* 4b. Neumorphism Soft UI: đồng nhất bề mặt lì không viền (#e0e5ec), bo góc rộng và bóng kép mềm */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container):is(*, :hover, :focus-within) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: var(--neu-raised-l1, -9px -9px 18px rgba(255, 255, 255, 0.85), 9px 9px 18px rgba(163, 177, 198, 0.6)) !important;
+}
+
+/* 4c. Glassmorphism: đồng nhất tấm kính mờ rgba(255,255,255,0.12), blur(16px), viền 1px trắng mờ và bóng rộng mềm */
+html:root[data-card-style="glassmorphism"] body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container):is(*, :hover, :focus-within),
+html:root.dark[data-card-style="glassmorphism"] body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container):is(*, :hover, :focus-within) {
+  background: var(--gm-surface-l1, rgba(255, 255, 255, 0.12)) !important;
+  background-color: var(--gm-surface-l1, rgba(255, 255, 255, 0.12)) !important;
+  background-image: none !important;
+  border: 1px solid var(--gm-border, rgba(255, 255, 255, 0.25)) !important;
+  backdrop-filter: blur(var(--gm-blur, 16px)) saturate(var(--gm-saturate, 130%)) !important;
+  -webkit-backdrop-filter: blur(var(--gm-blur, 16px)) saturate(var(--gm-saturate, 130%)) !important;
+  box-shadow: var(--gm-shadow-l1, var(--shell-surface-shadow)) !important;
+}
+
+/* 5. Toàn bộ các giao diện kính lỏng, đại dương, nổi khối kính mờ, xà cừ: đồng nhất tuyệt đối */
+html:root[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="color-flat-soft-ui"]):not([data-card-style="flat-ui"]):not([data-card-style="nexus-bento"]):not([data-card-style="light-nexus-bento"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="neumorphism-soft-ui"]):not([data-card-style="mica-fluent"]):not([data-card-style="glassmorphism"]) body :is(
   #app-header,
   #app-footer,
   .page-main-card,
@@ -9374,7 +9487,7 @@ html:root[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-
   #interface-main-card,
   #memories-main-card
 ):is(*, :hover, :focus-within),
-html:root.dark[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="mica-fluent"]) body :is(
+html:root.dark[data-card-style]:not([data-card-style="flat-soft-ui"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="color-flat-soft-ui"]):not([data-card-style="flat-ui"]):not([data-card-style="nexus-bento"]):not([data-card-style="light-nexus-bento"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="frost-ice-neu"]):not([data-card-style="neumorphism-soft-ui"]):not([data-card-style="mica-fluent"]):not([data-card-style="glassmorphism"]) body :is(
   #app-header,
   #app-footer,
   .page-main-card,
@@ -9516,17 +9629,28 @@ html:root[data-card-style] body :is(
 }
 
 /* ========================================================================= */
-/* EXPERIENCE SLIDER: FULL MAX HEIGHT CARDS + FULL BANNER MEDIA              */
+/* EXPERIENCE SLIDER: MERGED TIMELINE NODE + FULL-HEIGHT MILESTONE CARD      */
 /* ========================================================================= */
 #experience-main-card .exp-slider-view-root,
 #experience-main-card .exp-slider-view-root .news-slider-container,
 #experience-main-card .exp-slider-view-root .news-slider-stage,
 #experience-main-card .exp-slider-view-root .news-slider-wrp,
-#experience-main-card .exp-slider-view-root .news-slider-slide,
-#experience-main-card .exp-slider-view-root .news-card-item {
+#experience-main-card .exp-slider-view-root .news-slider-slide {
   height: 100% !important;
   max-height: 100% !important;
   min-height: 0 !important;
+}
+
+#experience-main-card .exp-slider-view-root .news-slider-slide {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
+}
+
+#experience-main-card .exp-slider-view-root .exp-merged-timeline-cap {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  overflow: visible !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-wrapper-container {
@@ -9541,7 +9665,7 @@ html:root[data-card-style] body :is(
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-stage {
-  padding-top: 10px !important;
+  padding-top: 4px !important;
   padding-bottom: 6px !important;
   justify-content: flex-start !important;
   overflow-y: visible !important;
@@ -9559,11 +9683,14 @@ html:root[data-card-style] body :is(
 }
 
 #experience-main-card .exp-slider-view-root .news-item-bg {
-  height: 100% !important;
   max-height: 100% !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-card-item {
+  flex: 1 1 0% !important;
+  height: auto !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   padding: clamp(12px, 2.2cqh, 16px) clamp(12px, 1.8cqi, 16px) !important;
   gap: 6px !important;
   justify-content: flex-start !important;
@@ -10553,6 +10680,41 @@ html:root body #about-main-card #about-bento-grid::after {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+  opacity: 0 !important;
+}
+
+/* ========================================================================= */
+/* FOCUS MODE: TRANG CHỦ — #home-u270-parallax-stage NỀN TRONG SUỐT 100% & ẨN LINE VIỀN */
+/* ========================================================================= */
+html:root body #home-u270-parallax-stage,
+html:root body #home-main-card-1 #home-u270-parallax-stage,
+html:root[data-card-style] body #home-u270-parallax-stage,
+html:root[data-card-style] body #home-main-card-1 #home-u270-parallax-stage,
+html.dark:root[data-card-style] body #home-u270-parallax-stage,
+html.dark:root[data-card-style] body #home-main-card-1 #home-u270-parallax-stage,
+html:root body #home-u270-parallax-stage #home-hero-circle-frame,
+html:root[data-card-style] body #home-u270-parallax-stage #home-hero-circle-frame,
+html.dark:root[data-card-style] body #home-u270-parallax-stage #home-hero-circle-frame {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:root body #home-u270-parallax-stage::before,
+html:root body #home-u270-parallax-stage::after,
+html:root[data-card-style] body #home-u270-parallax-stage::before,
+html:root[data-card-style] body #home-u270-parallax-stage::after,
+html:root body #home-u270-parallax-stage .home-circle-orbit-lines,
+html:root[data-card-style] body #home-u270-parallax-stage .home-circle-orbit-lines {
+  content: none !important;
+  display: none !important;
+  border: none !important;
   opacity: 0 !important;
 }
 

@@ -1747,61 +1747,6 @@ html[data-card-style="mica-fluent"],
 }
 
 /* ========================================================================= */
-/* 10. GRADIENT / DOPAMINE UI — ĐA SẮC                                       */
-/* ========================================================================= */
-html[data-card-style="gradient-dopamine"],
-html[data-theme="gradient-dopamine"] {
-  --app-bg-base: #FFF5F8;
-  --color-primary: #FF2E93;
-  --color-primary-hover: #E01B7B;
-  --color-primary-active: #BE1265;
-  --color-secondary: #7928CA;
-  --color-accent: #FF8A00;
-  --color-focus-ring: #FF2E93;
-  --color-bg: #FFF5F8;
-  --color-surface: rgba(255, 255, 255, 0.86);
-  --color-surface-elevated: rgba(255, 255, 255, 0.94);
-  --color-heading: #190A28;
-  --color-text: #190A28;
-  --color-text-secondary: #4A256B;
-  --text-primary: #190A28;
-  --text-secondary: #4A256B;
-  --text-muted: #7B529E;
-  --text-link: #FF2E93;
-  --bg-card: rgba(255, 255, 255, 0.86);
-  --bg-subcard: rgba(255, 255, 255, 0.92);
-  --border-card: rgba(255, 46, 147, 0.28);
-  --border-subcard: rgba(121, 40, 202, 0.22);
-  --nav-pill-accent: #FF2E93;
-  --pill-bg: rgba(255, 255, 255, 0.88);
-  --pill-bg-hover: rgba(255, 255, 255, 0.98);
-  --pill-border: rgba(255, 46, 147, 0.30);
-  --pill-border-hover: rgba(255, 46, 147, 0.52);
-  --pill-text: #190A28;
-  --pill-title-color: #190A28;
-  --pill-shadow: 0 8px 20px -6px rgba(255, 46, 147, 0.18), 0 4px 12px -2px rgba(121, 40, 202, 0.12);
-  --pill-shadow-hover: 0 12px 26px -6px rgba(255, 46, 147, 0.26);
-  --pill-blur: 20px;
-  --pill-divider: rgba(121, 40, 202, 0.18);
-  --pill-badge-bg: linear-gradient(135deg, #FF2E93 0%, #7928CA 55%, #FF8A00 100%);
-  --pill-badge-border: rgba(255, 255, 255, 0.65);
-  --pill-badge-icon: #FFFFFF;
-  --pill-badge-shadow: 0 4px 12px rgba(255, 46, 147, 0.35);
-  --pill-active-bg: linear-gradient(135deg, #FF2E93 0%, #7928CA 52%, #FF8A00 100%);
-  --pill-active-border: rgba(255, 255, 255, 0.72);
-  --pill-active-text: #FFFFFF;
-  --pill-active-shadow: 0 10px 24px -4px rgba(255, 46, 147, 0.45);
-  --pill-active-divider: rgba(255, 255, 255, 0.50);
-  --pill-active-badge-bg: #FFFFFF;
-  --pill-active-badge-icon: #FF2E93;
-  --pill-arrow-bg: rgba(255, 255, 255, 0.90);
-  --pill-arrow-hover: #FFFFFF;
-  --pill-arrow-border: rgba(255, 46, 147, 0.32);
-  --pill-arrow-text: #FF2E93;
-  --pill-counter-color: #190A28;
-}
-
-/* ========================================================================= */
 /* 11. IRIDESCENT LIQUID GLASS — LIGHT & DARK (KÍNH LỎNG ÁNH XÀ CỪ ĐA SẮC)   */
 /* ========================================================================= */
 html[data-card-style="iridescent-liquid-glass"],

@@ -913,20 +913,31 @@ function Paper({
   style?: CSSProperties;
   children: ReactNode;
 }) {
+  const outerRadius = 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))';
+  const sideBorderRadius =
+    side === 'left'
+      ? `${outerRadius} 0px 0px ${outerRadius}`
+      : `0px ${outerRadius} ${outerRadius} 0px`;
+
   return (
     <div
+      data-book-side={side}
       className={cn(
         '@container education-book-paper absolute top-0 h-full w-1/2 origin-top-left overflow-hidden text-zinc-900 dark:text-zinc-100',
         back
           ? 'education-book-paper--back bg-[#f1efe9] dark:bg-zinc-800'
           : 'education-book-paper--front bg-[#fbfaf7] dark:bg-zinc-900',
         side === 'left'
-          ? 'left-0 shadow-[inset_-1px_0_0_rgb(0_0_0/0.06)]'
-          : 'left-1/2 shadow-[inset_1px_0_0_rgb(0_0_0/0.06)]',
+          ? 'education-book-paper--left left-0 shadow-[inset_-1px_0_0_rgb(0_0_0/0.06)]'
+          : 'education-book-paper--right left-1/2 shadow-[inset_1px_0_0_rgb(0_0_0/0.06)]',
         'ring-1 ring-black/5 dark:ring-white/10'
       )}
       style={{
-        borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+        borderRadius: sideBorderRadius,
+        borderTopLeftRadius: side === 'left' ? outerRadius : '0px',
+        borderTopRightRadius: side === 'right' ? outerRadius : '0px',
+        borderBottomRightRadius: side === 'right' ? outerRadius : '0px',
+        borderBottomLeftRadius: side === 'left' ? outerRadius : '0px',
         backgroundColor: isDark ? 'var(--surface-primary-bg, var(--bg-main-card, #18181b))' : 'var(--surface-primary-bg, var(--bg-main-card, #fbfaf7))',
         ...style,
         outlineColor: accentColor ? `${accentColor}22` : undefined,

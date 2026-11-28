@@ -610,7 +610,7 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
         className="education-book-back-cover relative flex size-full flex-col items-center justify-center text-center select-none overflow-hidden box-border text-white"
         style={{
           background: backTemplate === 'side-spine' ? backPalette.spineBg : backPalette.coverBg,
-          borderRadius: 'var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)))',
+          borderRadius: 'inherit',
           padding: 'clamp(14px, 4.5cqw, 22px)',
           boxShadow:
             'inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -2px 0 rgba(2, 6, 23, 0.32)',

@@ -5,12 +5,17 @@ import { DEFAULT_CARD_STYLE } from './themeDefaults';
 export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: string }> = {
   'liquid-glass': { vi: 'Kính Lỏng Mềm Sáng', en: 'Liquid Glass' },
   'dark-liquid-glass': { vi: 'Kính Lỏng Mềm Tối', en: 'Dark Glass' },
+  'glassmorphism': { vi: 'Glassmorphism', en: 'Glassmorphism' },
   'cowhide-leather': { vi: 'Da Bò Cổ Điển', en: 'Cowhide Leather' },
   'walnut-wood': { vi: 'Vân Gỗ Óc Chó', en: 'Walnut Wood' },
   'deep-ocean': { vi: 'Đại Dương Sâu Thẳm', en: 'Deep Ocean' },
   'frost-ice-neu': {
     vi: 'Băng Tuyết Nổi Khối',
     en: 'Frost Ice',
+  },
+  'neumorphism-soft-ui': {
+    vi: 'Neumorphism Soft UI',
+    en: 'Neumorphism Soft UI',
   },
   'flat-soft-ui': {
     vi: 'Giao Diện Phẳng Sáng',
@@ -20,13 +25,25 @@ export const THEME_FOUR_WORD_NAMES: Record<CardStyleMode, { vi: string; en: stri
     vi: 'Giao Diện Phẳng Tối',
     en: 'Dark Flat',
   },
+  'color-flat-soft-ui': {
+    vi: 'Giao Diện Phẳng Màu',
+    en: 'Color Flat',
+  },
+  'flat-ui': {
+    vi: 'Flat UI',
+    en: 'Flat UI',
+  },
+  'nexus-bento': {
+    vi: 'Nexus Bento Tối',
+    en: 'Nexus Bento Dark',
+  },
+  'light-nexus-bento': {
+    vi: 'Nexus Bento Sáng',
+    en: 'Nexus Bento Light',
+  },
   'mica-fluent': {
     vi: 'Kính Mờ Phân Lớp',
     en: 'Mica Fluent',
-  },
-  'gradient-dopamine': {
-    vi: 'Đa Sắc Năng Lượng',
-    en: 'Gradient Dopamine',
   },
   'iridescent-liquid-glass': {
     vi: 'Kính Xà Cừ Sáng',
@@ -67,6 +84,19 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     darkMode: 'dark-liquid-glass',
   },
   {
+    id: 'glassmorphism',
+    label: 'Glassmorphism',
+    labelEn: 'Glassmorphism',
+    description:
+      'Bề mặt kính mờ bán trong suốt (rgba(255,255,255,0.12) · blur 16px) phủ đồng bộ lên toàn bộ thẻ nội dung, viền trắng mảnh 1px trong suốt, nền gradient sống động xuyên qua từng lớp và bóng nổi mềm rộng.',
+    descriptionEn:
+      'Classic Glassmorphism applied across all panels and content cards: semi-transparent frosted glass (rgba(255,255,255,0.12), blur 16px), 1px white edge borders, vivid gradient/photo bleed-through, wide floating shadows, contrast scrims, and reduced-transparency fallbacks.',
+    icon: 'sparkles',
+    defaultMode: 'glassmorphism',
+    darkMode: 'glassmorphism',
+    colorMode: 'glassmorphism',
+  },
+  {
     id: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
     labelEn: 'Cowhide Leather',
@@ -104,6 +134,18 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     darkMode: 'deep-ocean',
   },
   {
+    id: 'neumorphism-soft-ui',
+    label: 'Neumorphism Soft UI',
+    labelEn: 'Neumorphism Soft UI',
+    description:
+      'Bề mặt Soft UI lì đồng nhất không viền (#E0E5EC), đùn nổi bằng cặp bóng đổ kép sáng–tối mềm mại, trạng thái nhấn lún chìm vào trong và một sắc nhấn bão hòa cho nút chính.',
+    descriptionEn:
+      'Pure material-less matte Neumorphism (#E0E5EC) with dual soft raised/inset shadows, zero borders, generous rounded corners, a single saturated primary accent, and accessible focus cues.',
+    icon: 'layers',
+    defaultMode: 'neumorphism-soft-ui',
+    lightMode: 'neumorphism-soft-ui',
+  },
+  {
     id: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
     labelEn: 'Flat Soft',
@@ -115,6 +157,32 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     defaultMode: 'flat-soft-ui',
     lightMode: 'flat-soft-ui',
     darkMode: 'dark-flat-soft-ui',
+    colorMode: 'color-flat-soft-ui',
+  },
+  {
+    id: 'flat-ui',
+    label: 'Flat UI',
+    labelEn: 'Flat UI',
+    description:
+      'Phong cách Flat Design thuần túy không bóng đổ, không gradient, không làm mờ — phân cấp bằng khối màu đậm rõ nét (#FFFFFF, #F3F4F6, #3B82F6, #10B981, #F59E0B), hình học gọn và kiểu chữ Outfit hiện đại.',
+    descriptionEn:
+      'Pure Flat Design with zero shadows, zero blur, and zero gradients — bold color blocking (#FFFFFF, #F3F4F6, #3B82F6, #10B981, #F59E0B), crisp geometric shapes, Outfit typography, and snappy 200ms scale feedback.',
+    icon: 'layout',
+    defaultMode: 'flat-ui',
+    lightMode: 'flat-ui',
+  },
+  {
+    id: 'nexus-bento',
+    label: 'Nexus Bento',
+    labelEn: 'Nexus Bento',
+    description:
+      'Phong cách Nexus Bento UI hiện đại: phông Play (400/700), chế độ tối mặc định #090D16 với lưới chấm bi 24px và 3 quầng sáng radial (Tím #8B5CF6, Xanh trời #38BDF8, Hồng #EC4899), thẻ Bento 12px nổi chiều sâu 3D (hover nâng -6px · phóng 1.012x) và chuyển đổi mượt sang chế độ sáng #F4F7FB.',
+    descriptionEn:
+      'Modern Nexus Bento UI: Play typography (400/700), default Dark Mode (#090D16) with 24px dot-grid and 3 radial halos (Violet #8B5CF6, Sky #38BDF8, Pink #EC4899), frosted #111827 nav chrome (18px radius), 12px 3D BentoCards with -6px/1.012x glow hover, and smooth Light Mode (#F4F7FB) switching.',
+    icon: 'grid',
+    defaultMode: 'nexus-bento',
+    darkMode: 'nexus-bento',
+    lightMode: 'light-nexus-bento',
   },
   {
     id: 'mica-fluent',
@@ -128,19 +196,6 @@ export const THEME_FAMILY_DEFINITIONS: Array<Omit<ThemeFamilyGroupMeta, 'presets
     defaultMode: 'mica-fluent',
     lightMode: 'mica-fluent',
     colorMode: 'mica-fluent',
-  },
-  {
-    id: 'gradient-dopamine',
-    label: 'Đa Sắc Năng Lượng',
-    labelEn: 'Gradient Dopamine',
-    description:
-      'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
-    descriptionEn:
-      'Gradient / Dopamine UI: vivid color transitions, vibrant multi-hue surfaces, and high-energy dopamine color palettes.',
-    icon: 'sparkles',
-    defaultMode: 'gradient-dopamine',
-    lightMode: 'gradient-dopamine',
-    colorMode: 'gradient-dopamine',
   },
 ];
 
@@ -235,6 +290,50 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#101A2B',
     },
     badgeColorClass: 'bg-[#171F33]/90 text-[#C084FC] border-purple-300/25',
+  },
+  {
+    id: 'glassmorphism',
+    familyId: 'glassmorphism',
+    familyLabel: 'Glassmorphism',
+    familyLabelEn: 'Glassmorphism',
+    mechanism: 'dark',
+    counterpartMode: 'glassmorphism',
+    cardClassName: 'card-glassmorphism',
+    name: 'Glassmorphism',
+    label: 'Glassmorphism',
+    shortBadge: 'Glassmorphism',
+    tagLabel: 'Kính mờ 16px · Viền 1px · Xuyên nền đa sắc',
+    modeLabel: 'Glassmorphism',
+    isDark: true,
+    icon: 'sparkles',
+    color: '#38BDF8',
+    desc: 'Bề mặt kính mờ bán trong suốt (blur 16px, nền trắng 12%) phủ lên toàn bộ thẻ nội dung, viền trắng 1px thanh mảnh, màu nền sống động xuyên qua từng lớp nổi và đảm bảo chữ dễ đọc.',
+    cardSampleStyle: {
+      background: 'rgba(255, 255, 255, 0.12)',
+      backdropFilter: 'blur(16px) saturate(130%)',
+      WebkitBackdropFilter: 'blur(16px) saturate(130%)',
+      borderRadius: '18px',
+      border: '1px solid rgba(255, 255, 255, 0.25)',
+      boxShadow:
+        '0 20px 48px -12px rgba(5, 8, 26, 0.44), 0 8px 20px -6px rgba(5, 8, 26, 0.26)',
+      color: '#F8FAFC',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'radial-gradient(circle at 18% 20%, rgba(56, 189, 248, 0.55) 0%, transparent 56%), radial-gradient(circle at 82% 24%, rgba(236, 72, 153, 0.50) 0%, transparent 56%), radial-gradient(circle at 52% 84%, rgba(139, 92, 246, 0.52) 0%, transparent 58%), #121530',
+      borderColor: 'rgba(255, 255, 255, 0.25)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.14)',
+      color: '#FFFFFF',
+      borderColor: 'rgba(255, 255, 255, 0.25)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #38BDF8 0%, #6366F1 55%, #EC4899 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white/15 text-white border-white/25',
   },
   {
     id: 'cowhide-leather',
@@ -358,6 +457,56 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#101C38] text-sky-200 border-sky-400/40',
   },
   {
+    id: 'neumorphism-soft-ui',
+    familyId: 'neumorphism-soft-ui',
+    familyLabel: 'Neumorphism Soft UI',
+    familyLabelEn: 'Neumorphism Soft UI',
+    mechanism: 'light',
+    counterpartMode: 'neumorphism-soft-ui',
+    cardClassName: 'card-neumorphism-soft-ui',
+    name: 'Neumorphism Soft UI',
+    label: 'Neumorphism Soft UI',
+    shortBadge: 'Neumorphism Soft UI',
+    tagLabel: 'Soft UI lì · Không viền · Bóng kép',
+    modeLabel: 'Neumorphism Soft UI',
+    isDark: false,
+    icon: 'layers',
+    color: '#4F46E5',
+    desc: 'Bề mặt lì đồng màu nền (#E0E5EC) không viền, bo góc rộng, đùn nổi & lún chìm bằng cặp bóng mềm kép, tương phản chữ rõ nét và một sắc nhấn chính bão hòa.',
+    cardSampleStyle: {
+      background: '#E0E5EC',
+      backdropFilter: 'none',
+      WebkitBackdropFilter: 'none',
+      borderRadius: '22px',
+      border: 'none',
+      boxShadow:
+        '-6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.6)',
+      color: '#1E293B',
+    },
+    miniPreviewWrapStyle: {
+      background: '#E0E5EC',
+      borderWidth: '0px',
+      borderColor: 'transparent',
+      boxShadow:
+        'inset -4px -4px 8px rgba(255, 255, 255, 0.85), inset 4px 4px 8px rgba(163, 177, 198, 0.6)',
+    },
+    miniTabStyle: {
+      background: '#E0E5EC',
+      color: '#1E293B',
+      borderWidth: '0px',
+      borderColor: 'transparent',
+      boxShadow:
+        '-3px -3px 6px rgba(255, 255, 255, 0.85), 3px 3px 6px rgba(163, 177, 198, 0.55)',
+    },
+    miniBtnStyle: {
+      background: '#4F46E5',
+      color: '#FFFFFF',
+      boxShadow:
+        '-3px -3px 8px rgba(255, 255, 255, 0.82), 4px 4px 10px rgba(79, 70, 229, 0.35)',
+    },
+    badgeColorClass: 'bg-[#E0E5EC] text-[#3730A3] border-0',
+  },
+  {
     id: 'flat-soft-ui',
     familyId: 'flat-soft-ui',
     familyLabel: 'Giao Diện Phẳng Mềm',
@@ -444,6 +593,177 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
     badgeColorClass: 'bg-[#161F30] text-[#A5B4FC] border-slate-700/60 shadow-sm',
   },
   {
+    id: 'color-flat-soft-ui',
+    familyId: 'flat-soft-ui',
+    familyLabel: 'Giao Diện Phẳng Mềm',
+    familyLabelEn: 'Modern Matte Flat Soft',
+    mechanism: 'color',
+    counterpartMode: 'flat-soft-ui',
+    cardClassName: 'card-color-flat-soft-ui',
+    name: 'Giao Diện Phẳng Màu',
+    label: 'Giao Diện Phẳng Màu',
+    shortBadge: 'Giao Diện Phẳng Màu',
+    tagLabel: 'Phẳng màu · 20 Mã màu Studio & 12 Module',
+    modeLabel: 'Giao Diện Phẳng Màu',
+    isDark: true,
+    icon: 'palette',
+    color: '#8B5CF6',
+    desc: 'Giao diện phẳng màu xây dựng từ nền tối #090D16, thẻ #111827, sub-card phủ #0000004D kết hợp 4 sắc Studio (Violet, Indigo, Cyan, Emerald) và 12 mã màu module SDP → POS.',
+    cardSampleStyle: {
+      background: '#111827',
+      backdropFilter: 'none',
+      WebkitBackdropFilter: 'none',
+      borderRadius: '14px',
+      border: '1px solid rgba(139, 92, 246, 0.36)',
+      boxShadow:
+        '0 8px 24px -4px rgba(9, 13, 22, 0.56), inset 0 1px 0 rgba(244, 247, 251, 0.08)',
+      color: '#F4F7FB',
+    },
+    miniPreviewWrapStyle: {
+      background: '#090D16',
+      borderColor: 'rgba(139, 92, 246, 0.36)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(0, 0, 0, 0.30)',
+      color: '#F4F7FB',
+      borderColor: 'rgba(93, 195, 200, 0.35)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #8B5CF6 0%, #4F46E5 52%, #06B6D4 100%)',
+      color: '#F4F7FB',
+    },
+    badgeColorClass: 'bg-[#111827] text-[#FFDF25] border-[#8B5CF6]/45 shadow-sm',
+  },
+  {
+    id: 'flat-ui',
+    familyId: 'flat-ui',
+    familyLabel: 'Flat UI',
+    familyLabelEn: 'Pure Flat Design System',
+    mechanism: 'light',
+    counterpartMode: 'flat-ui',
+    cardClassName: 'card-flat-ui',
+    name: 'Flat UI',
+    label: 'Flat UI',
+    shortBadge: 'Flat UI',
+    tagLabel: 'Flat Design thuần · Không bóng đổ · Outfit',
+    modeLabel: 'Flat UI',
+    isDark: false,
+    icon: 'layout',
+    color: '#3B82F6',
+    desc: 'Thiết kế phẳng tuyệt đối: không box-shadow, không blur, không gradient trên thẻ/nút — sử dụng khối màu đặc (#FFFFFF, #F3F4F6, #3B82F6, #10B981, #F59E0B), bo góc hình học 6–8px và phản hồi phóng nhẹ 200ms.',
+    cardSampleStyle: {
+      background: '#FFFFFF',
+      borderRadius: '8px',
+      border: '0px solid transparent',
+      boxShadow: 'none',
+      color: '#111827',
+    },
+    miniPreviewWrapStyle: {
+      background: '#F3F4F6',
+      borderColor: 'transparent',
+      borderWidth: '0px',
+    },
+    miniTabStyle: {
+      background: '#EFF6FF',
+      color: '#111827',
+      borderColor: 'transparent',
+    },
+    miniBtnStyle: {
+      background: '#3B82F6',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#EFF6FF] text-[#2563EB] border-0',
+  },
+  {
+    id: 'nexus-bento',
+    familyId: 'nexus-bento',
+    familyLabel: 'Nexus Bento',
+    familyLabelEn: 'Nexus Bento UI',
+    mechanism: 'dark',
+    counterpartMode: 'light-nexus-bento',
+    cardClassName: 'card-nexus-bento',
+    name: 'Nexus Bento Tối',
+    label: 'Nexus Bento Tối',
+    shortBadge: 'Nexus Bento',
+    tagLabel: 'Dark mặc định · #090D16 Lưới chấm bi · Play',
+    modeLabel: 'Nexus Bento Tối',
+    isDark: true,
+    icon: 'grid',
+    color: '#8B5CF6',
+    desc: 'Bento Dashboard chuẩn Dark Mode (#090D16 + lưới chấm 24px + 3 quầng sáng #8B5CF6 · #38BDF8 · #EC4899), thanh điều hướng kính mờ #111827 bo 18px, thẻ Bento bo 12px đổ bóng 3D nâng -6px & phóng 1.012x khi hover.',
+    cardSampleStyle: {
+      background: 'rgba(17, 24, 39, 0.90)',
+      backdropFilter: 'blur(20px) saturate(140%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(140%)',
+      borderRadius: '12px',
+      border: '1px solid rgba(255, 255, 255, 0.10)',
+      boxShadow:
+        '0 18px 40px -12px rgba(0, 0, 0, 0.72), 0 0 24px -6px rgba(139, 92, 246, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+      color: '#F8FAFC',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px) 0 0 / 10px 10px, radial-gradient(circle at 18% 20%, rgba(139, 92, 246, 0.35), transparent 55%), radial-gradient(circle at 85% 24%, rgba(56, 189, 248, 0.28), transparent 55%), radial-gradient(circle at 68% 88%, rgba(236, 72, 153, 0.25), transparent 55%), #090D16',
+      borderColor: 'rgba(255, 255, 255, 0.12)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(17, 24, 39, 0.88)',
+      color: '#F8FAFC',
+      borderColor: 'rgba(255, 255, 255, 0.12)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #8B5CF6 0%, #38BDF8 58%, #EC4899 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-[#111827] text-[#38BDF8] border-white/15 shadow-sm',
+  },
+  {
+    id: 'light-nexus-bento',
+    familyId: 'nexus-bento',
+    familyLabel: 'Nexus Bento',
+    familyLabelEn: 'Nexus Bento UI',
+    mechanism: 'light',
+    counterpartMode: 'nexus-bento',
+    cardClassName: 'card-light-nexus-bento',
+    name: 'Nexus Bento Sáng',
+    label: 'Nexus Bento Sáng',
+    shortBadge: 'Nexus Bento Sáng',
+    tagLabel: 'Light Mode · #F4F7FB Lưới chấm bi · Play',
+    modeLabel: 'Nexus Bento Sáng',
+    isDark: false,
+    icon: 'grid',
+    color: '#7C3AED',
+    desc: 'Chế độ sáng mượt mà của Nexus Bento trên nền #F4F7FB lưới chấm 24px cùng 3 quầng sáng dịu (#8B5CF6 · #38BDF8 · #EC4899), thẻ Bento trắng sắc nét bo 12px nâng -6px & phóng 1.012x khi hover.',
+    cardSampleStyle: {
+      background: 'rgba(255, 255, 255, 0.94)',
+      backdropFilter: 'blur(20px) saturate(140%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(140%)',
+      borderRadius: '12px',
+      border: '1px solid rgba(15, 23, 42, 0.09)',
+      boxShadow:
+        '0 14px 30px -10px rgba(15, 23, 42, 0.14), 0 0 20px -6px rgba(124, 58, 237, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.96)',
+      color: '#0F172A',
+    },
+    miniPreviewWrapStyle: {
+      background:
+        'radial-gradient(rgba(15, 23, 42, 0.12) 1px, transparent 1px) 0 0 / 10px 10px, radial-gradient(circle at 18% 20%, rgba(139, 92, 246, 0.18), transparent 55%), radial-gradient(circle at 85% 24%, rgba(56, 189, 248, 0.16), transparent 55%), radial-gradient(circle at 68% 88%, rgba(236, 72, 153, 0.14), transparent 55%), #F4F7FB',
+      borderColor: 'rgba(15, 23, 42, 0.09)',
+      borderWidth: '1px',
+    },
+    miniTabStyle: {
+      background: 'rgba(255, 255, 255, 0.92)',
+      color: '#0F172A',
+      borderColor: 'rgba(15, 23, 42, 0.09)',
+    },
+    miniBtnStyle: {
+      background: 'linear-gradient(135deg, #7C3AED 0%, #0284C7 62%, #EC4899 100%)',
+      color: '#FFFFFF',
+    },
+    badgeColorClass: 'bg-white text-[#7C3AED] border-slate-200 shadow-xs',
+  },
+  {
     id: 'mica-fluent',
     familyId: 'mica-fluent',
     familyLabel: 'Kính Mờ Phân Lớp',
@@ -484,51 +804,6 @@ export const UNIFIED_INTERFACE_THEMES: CardStyleConfig[] = [
       color: '#FDFDFD',
     },
     badgeColorClass: 'bg-pink-50 text-[#DB2777] border-pink-300/45 shadow-xs',
-  },
-  {
-    id: 'gradient-dopamine',
-    familyId: 'gradient-dopamine',
-    familyLabel: 'Đa Sắc Năng Lượng',
-    familyLabelEn: 'Vibrant Gradient Dopamine UI',
-    mechanism: 'color',
-    counterpartMode: 'gradient-dopamine',
-    cardClassName: 'card-gradient-dopamine',
-    name: 'Đa Sắc Năng Lượng',
-    label: 'Đa Sắc Năng Lượng',
-    shortBadge: 'Đa Sắc Năng Lượng',
-    tagLabel: 'Gradient chuyển màu · Đa sắc năng lượng',
-    modeLabel: 'Đa Sắc Năng Lượng',
-    isDark: false,
-    icon: 'sparkles',
-    color: '#FF2E93',
-    desc: 'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
-    cardSampleStyle: {
-      background:
-        'linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 240, 248, 0.84) 48%, rgba(240, 247, 255, 0.86) 100%)',
-      backdropFilter: 'blur(18px) saturate(180%)',
-      WebkitBackdropFilter: 'blur(18px) saturate(180%)',
-      borderRadius: '18px',
-      border: '1.5px solid rgba(255, 46, 147, 0.35)',
-      boxShadow:
-        '0 16px 36px -10px rgba(255, 46, 147, 0.22), 0 8px 20px -6px rgba(124, 58, 237, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)',
-      color: '#181028',
-    },
-    miniPreviewWrapStyle: {
-      background:
-        'linear-gradient(135deg, rgba(255, 46, 147, 0.14) 0%, rgba(124, 58, 237, 0.14) 50%, rgba(0, 210, 255, 0.14) 100%)',
-      borderColor: 'rgba(255, 46, 147, 0.35)',
-      borderWidth: '1px',
-    },
-    miniTabStyle: {
-      background: 'rgba(255, 255, 255, 0.90)',
-      color: '#181028',
-      borderColor: 'rgba(255, 46, 147, 0.32)',
-    },
-    miniBtnStyle: {
-      background: 'linear-gradient(135deg, #FF2E93 0%, #7C3AED 52%, #FF6B00 100%)',
-      color: '#FFFFFF',
-    },
-    badgeColorClass: 'bg-pink-50 text-[#FF2E93] border-pink-300/70 shadow-xs',
   },
 ];
 
@@ -573,6 +848,19 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['liquid-glass'],
     dark: CARD_STYLES_MAP['dark-liquid-glass'],
   },
+  'glassmorphism': {
+    familyId: 'glassmorphism',
+    label: 'Glassmorphism',
+    labelEn: 'Glassmorphism',
+    description:
+      'Glassmorphism: bề mặt kính mờ bán trong suốt (blur 16px, rgba(255,255,255,0.12)) cho mọi thẻ nội dung, viền trắng 1px, chiều sâu nổi rộng và lớp bảo vệ độ tương phản chữ.',
+    descriptionEn:
+      'Glassmorphism: semi-transparent frosted panels (blur 16px, rgba(255,255,255,0.12)) across all content cards, thin 1px white edge borders, vivid backdrop bleed-through, soft wide shadows, and accessible fallbacks.',
+    icon: 'sparkles',
+    light: CARD_STYLES_MAP['glassmorphism'],
+    dark: CARD_STYLES_MAP['glassmorphism'],
+    color: CARD_STYLES_MAP['glassmorphism'],
+  },
   'cowhide-leather': {
     familyId: 'cowhide-leather',
     label: 'Da Bò Thủ Công',
@@ -604,6 +892,18 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['deep-ocean'],
     dark: CARD_STYLES_MAP['deep-ocean'],
   },
+  'neumorphism-soft-ui': {
+    familyId: 'neumorphism-soft-ui',
+    label: 'Neumorphism Soft UI',
+    labelEn: 'Neumorphism Soft UI',
+    description:
+      'Neumorphism Soft UI: bề mặt lì đồng nhất không viền (#E0E5EC), đùn nổi và lún chìm bằng cặp bóng kép mềm mại, bo góc rộng và sắc nhấn bão hòa.',
+    descriptionEn:
+      'Neumorphism Soft UI: uniform material-less matte surface (#E0E5EC), zero borders, generous rounded corners, dual soft shadows, inset states, and a single saturated primary accent.',
+    icon: 'layers',
+    light: CARD_STYLES_MAP['neumorphism-soft-ui'],
+    dark: CARD_STYLES_MAP['neumorphism-soft-ui'],
+  },
   'flat-soft-ui': {
     familyId: 'flat-soft-ui',
     label: 'Giao Diện Phẳng Mềm',
@@ -615,6 +915,31 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     icon: 'layout',
     light: CARD_STYLES_MAP['flat-soft-ui'],
     dark: CARD_STYLES_MAP['dark-flat-soft-ui'],
+    color: CARD_STYLES_MAP['color-flat-soft-ui'],
+  },
+  'flat-ui': {
+    familyId: 'flat-ui',
+    label: 'Flat UI',
+    labelEn: 'Pure Flat Design',
+    description:
+      'Flat Design thuần túy: không bóng đổ, không gradient, phân cấp bằng khối màu đậm rõ nét, hình học gọn và kiểu chữ Outfit.',
+    descriptionEn:
+      'Pure Flat Design: zero artificial depth, bold color blocking (#FFFFFF, #F3F4F6, #3B82F6, #10B981, #F59E0B), Outfit typography, and snappy scale hover.',
+    icon: 'layout',
+    light: CARD_STYLES_MAP['flat-ui'],
+    dark: CARD_STYLES_MAP['flat-ui'],
+  },
+  'nexus-bento': {
+    familyId: 'nexus-bento',
+    label: 'Nexus Bento',
+    labelEn: 'Nexus Bento UI',
+    description:
+      'Nexus Bento UI: phông Play (400/700), nền tối #090D16 lưới chấm 24px cùng 3 quầng sáng #8B5CF6 · #38BDF8 · #EC4899, thanh kính mờ #111827 bo 18px, thẻ Bento bo 12px nổi 3D và chế độ sáng #F4F7FB.',
+    descriptionEn:
+      'Nexus Bento UI: Play typography, #090D16 24px dot-grid dark canvas with 3 radial halos (#8B5CF6, #38BDF8, #EC4899), frosted #111827 18px nav chrome, 12px 3D BentoCards (-6px/1.012x hover), and smooth #F4F7FB Light Mode.',
+    icon: 'grid',
+    light: CARD_STYLES_MAP['light-nexus-bento'],
+    dark: CARD_STYLES_MAP['nexus-bento'],
   },
   'mica-fluent': {
     familyId: 'mica-fluent',
@@ -628,19 +953,6 @@ export const THEME_REGISTRY: Record<ThemeFamilyId, ThemeFamilyRegistryEntry> = {
     light: CARD_STYLES_MAP['mica-fluent'],
     dark: CARD_STYLES_MAP['mica-fluent'],
     color: CARD_STYLES_MAP['mica-fluent'],
-  },
-  'gradient-dopamine': {
-    familyId: 'gradient-dopamine',
-    label: 'Đa Sắc Năng Lượng',
-    labelEn: 'Vibrant Gradient Dopamine UI',
-    description:
-      'Gradient chuyển màu, màu sắc sinh động, phối màu giàu năng lượng.',
-    descriptionEn:
-      'Gradient / Dopamine UI: vivid color transitions, vibrant multi-hue surfaces, and high-energy dopamine color palettes.',
-    icon: 'sparkles',
-    light: CARD_STYLES_MAP['gradient-dopamine'],
-    dark: CARD_STYLES_MAP['gradient-dopamine'],
-    color: CARD_STYLES_MAP['gradient-dopamine'],
   },
   'frost-ice-neu': {
     familyId: 'frost-ice-neu',
@@ -707,6 +1019,7 @@ export const getThemeForMechanism = (
 };
 
 const DELETED_THEME_MIGRATION_MAP: Record<string, CardStyleMode> = {
+  'gradient-dopamine': 'color-flat-soft-ui',
   'frost-ice-neu': 'flat-soft-ui',
   'dark-frost-ice-neu': 'dark-flat-soft-ui',
   'iridescent-liquid-glass': 'liquid-glass',

@@ -1,0 +1,1307 @@
+/* ==========================================================================
+   NEXUS BENTO UI THEME — DARK DEFAULT (nexus-bento) & LIGHT MODE (light-nexus-bento)
+   Architecture & Design Tokens:
+   - Typography: Google Font 'Play' (400 & 700), Card Title 16px bold, Sub-card body 12px
+   - Dark Canvas Base: #090D16 + 24px dot-grid (rgba(148, 163, 184, 0.12))
+     + 3 blurred ambient radial halos: Violet #8B5CF6, Sky #38BDF8, Pink #EC4899
+   - Light Canvas Base: #F4F7FB + 24px crisp dot-grid (rgba(15, 23, 42, 0.08))
+     + 3 soft pastel radial halos (#8B5CF6, #38BDF8, #EC4899)
+   - Nav / Shell Chrome (#app-header, #app-footer, main shell):
+     Frosted glass #111827 (rgba(17, 24, 39, 0.90) · backdrop-blur 24px), radius 18px
+   - Hero / Banner Cards: radius 16px
+   - BentoCard Surfaces: radius 12px, padding 15px, border 1px solid rgba(255, 255, 255, 0.1),
+     3D depth shadow; Hover lifts -6px, scales 1.012x with subtle glowing rim
+   - Accessible focus-visible rings & prefers-reduced-motion support
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. STANDALONE PREVIEW CARD CLASSES
+   -------------------------------------------------------------------------- */
+.card-nexus-bento {
+  position: relative;
+  overflow: hidden;
+  font-family: "Play", sans-serif;
+  background: rgba(17, 24, 39, 0.88);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+  color: #f8fafc;
+  box-shadow:
+    0 18px 40px -12px rgba(0, 0, 0, 0.72),
+    0 6px 18px -4px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 260ms ease,
+    background-color 220ms ease;
+}
+
+.card-nexus-bento:hover {
+  transform: translateY(-6px) scale(1.012);
+  border-color: rgba(139, 92, 246, 0.48);
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.82),
+    0 0 0 1px rgba(139, 92, 246, 0.28),
+    0 0 28px -4px rgba(139, 92, 246, 0.32),
+    0 0 18px -6px rgba(56, 189, 248, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.card-light-nexus-bento {
+  position: relative;
+  overflow: hidden;
+  font-family: "Play", sans-serif;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  border-radius: 12px;
+  padding: 15px;
+  color: #0f172a;
+  box-shadow:
+    0 14px 32px -10px rgba(15, 23, 42, 0.14),
+    0 4px 12px -4px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 260ms ease,
+    background-color 220ms ease;
+}
+
+.card-light-nexus-bento:hover {
+  transform: translateY(-6px) scale(1.012);
+  border-color: rgba(139, 92, 246, 0.42);
+  box-shadow:
+    0 22px 44px -12px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(139, 92, 246, 0.22),
+    0 0 24px -4px rgba(139, 92, 246, 0.22),
+    0 0 16px -6px rgba(56, 189, 248, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. DARK MODE ROOT DESIGN TOKENS (DEFAULT: nexus-bento)
+   -------------------------------------------------------------------------- */
+[data-theme="nexus-bento"],
+html[data-card-style="nexus-bento"],
+html.dark[data-card-style="nexus-bento"] {
+  color-scheme: dark;
+
+  /* Nexus Bento Material Tokens (Dark) */
+  --nb-canvas: #090d16;
+  --nb-dot-color: rgba(148, 163, 184, 0.12);
+  --nb-chrome-bg: rgba(17, 24, 39, 0.9);
+  --nb-chrome-border: rgba(255, 255, 255, 0.1);
+  --nb-chrome-shadow:
+    0 20px 48px -14px rgba(0, 0, 0, 0.72),
+    0 8px 20px -6px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --nb-card-bg: rgba(17, 24, 39, 0.88);
+  --nb-card-bg-hover: rgba(21, 30, 48, 0.94);
+  --nb-card-border: rgba(255, 255, 255, 0.1);
+  --nb-card-border-hover: rgba(139, 92, 246, 0.5);
+  --nb-card-shadow:
+    0 16px 38px -10px rgba(0, 0, 0, 0.72),
+    0 6px 16px -4px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --nb-card-shadow-hover:
+    0 26px 52px -12px rgba(0, 0, 0, 0.84),
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 0 30px -4px rgba(139, 92, 246, 0.34),
+    0 0 20px -6px rgba(56, 189, 248, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+  --nb-subcard-bg: rgba(9, 13, 22, 0.62);
+  --nb-subcard-bg-hover: rgba(15, 23, 42, 0.84);
+  --nb-subcard-border: rgba(255, 255, 255, 0.09);
+  --nb-subcard-shadow:
+    0 8px 20px -6px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --nb-control-bg: rgba(17, 24, 39, 0.78);
+  --nb-control-bg-hover: rgba(30, 41, 59, 0.92);
+  --nb-popup-bg: rgba(15, 23, 42, 0.95);
+  --nb-accent-violet: #8b5cf6;
+  --nb-accent-sky: #38bdf8;
+  --nb-accent-pink: #ec4899;
+
+  /* Typography */
+  --font-sans: "Play", sans-serif;
+  --font-display: "Play", sans-serif;
+  --font-serif: "Play", sans-serif;
+  --font-mono: "Play", sans-serif;
+
+  /* Ambient Canvas */
+  --app-bg-base: #090d16;
+  --app-bg-gradient:
+    radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+    radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.24) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 60%),
+    linear-gradient(180deg, #090d16 0%, #0b1120 100%);
+  --ambient-base-bg: #090d16;
+  --ambient-wallpaper-opacity: 0.96;
+  --ambient-depth-vignette: linear-gradient(180deg, rgba(9, 13, 22, 0.16) 0%, rgba(9, 13, 22, 0.34) 100%);
+  --app-bg-depth-veil: linear-gradient(180deg, rgba(9, 13, 22, 0.16) 0%, rgba(9, 13, 22, 0.34) 100%);
+
+  /* Core Color & Typography Tokens */
+  --color-bg: #090d16;
+  --color-bg-soft: rgba(17, 24, 39, 0.9);
+  --color-surface: rgba(17, 24, 39, 0.9);
+  --color-surface-elevated: rgba(24, 33, 52, 0.94);
+
+  --color-heading: #ffffff;
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-inverse: #090d16;
+
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-primary-active: #6d28d9;
+  --color-secondary: #38bdf8;
+  --color-tertiary: #ec4899;
+  --color-accent: #38bdf8;
+  --color-focus-ring: #38bdf8;
+
+  --text-primary: #f8fafc;
+  --text-heading: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-link: #38bdf8;
+  --text-accent: #a78bfa;
+  --text-input: #f8fafc;
+  --text-placeholder: rgba(148, 163, 184, 0.74);
+  --text-on-dark: #ffffff;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #f8fafc;
+  --text-badge: #f8fafc;
+  --text-highlight: #38bdf8;
+  --text-header-title: #ffffff;
+  --text-header-sub: #cbd5e1;
+  --text-nav-default: #e2e8f0;
+  --text-nav-active: #ffffff;
+  --text-nav-arrow: #f8fafc;
+  --text-banner-pill: #f8fafc;
+  --text-banner-input: #f8fafc;
+  --text-banner-placeholder: rgba(148, 163, 184, 0.74);
+  --pillar-heading: #ffffff;
+  --pillar-body: #cbd5e1;
+  --pillar-progress-track: rgba(255, 255, 255, 0.12);
+
+  /* Surface Mapping */
+  --bg-main: var(--nb-chrome-bg);
+  --bg-header: var(--nb-chrome-bg);
+  --bg-footer: var(--nb-chrome-bg);
+  --bg-card: var(--nb-card-bg);
+  --bg-card-hover: var(--nb-card-bg-hover);
+  --bg-subcard: var(--nb-subcard-bg);
+  --bg-subcard-hover: var(--nb-subcard-bg-hover);
+  --bg-nested: var(--nb-subcard-bg);
+  --bg-nested-card: var(--nb-subcard-bg);
+  --bg-modal: var(--nb-popup-bg);
+  --bg-popup: var(--nb-popup-bg);
+  --bg-dropdown: var(--nb-popup-bg);
+  --bg-tooltip: rgba(9, 13, 22, 0.96);
+  --bg-input: rgba(9, 13, 22, 0.72);
+  --bg-table: var(--nb-card-bg);
+  --bg-table-head: rgba(139, 92, 246, 0.16);
+  --bg-banner: var(--nb-card-bg);
+
+  --bg-nav-button-opaque: rgba(17, 24, 39, 0.92);
+  --bg-nav-pill: var(--nb-control-bg);
+  --bg-nav-pill-hover: var(--nb-control-bg-hover);
+  --bg-nav-arrow: var(--nb-control-bg);
+  --border-nav-arrow: var(--nb-card-border);
+  --bg-button-primary: linear-gradient(135deg, #8b5cf6 0%, #38bdf8 55%, #ec4899 100%);
+  --bg-button-secondary: var(--nb-control-bg);
+  --bg-button-hover: var(--nb-control-bg-hover);
+  --bg-badge: rgba(139, 92, 246, 0.18);
+  --bg-highlight: rgba(56, 189, 248, 0.18);
+  --bg-banner-pill: var(--nb-control-bg);
+  --border-banner-pill: var(--nb-card-border);
+  --bg-banner-cta: linear-gradient(135deg, #8b5cf6 0%, #6366f1 55%, #38bdf8 100%);
+  --text-banner-cta: #ffffff;
+  --bg-banner-input: rgba(9, 13, 22, 0.72);
+  --border-banner-input: var(--nb-card-border);
+  --bg-nested-badge: rgba(255, 255, 255, 0.1);
+
+  /* Borders & Radii */
+  --border-color: var(--nb-card-border);
+  --border-card: var(--nb-card-border);
+  --border-subcard: var(--nb-subcard-border);
+  --border-muted: rgba(255, 255, 255, 0.08);
+  --card-border-width: 1px;
+
+  --radius-card: 12px;
+  --radius-subcard: 10px;
+  --radius-banner: 16px;
+  --radius-button: 10px;
+  --card-radius: 12px;
+
+  /* Surface Layers */
+  --surface-primary-bg: var(--nb-chrome-bg);
+  --surface-primary-border: var(--nb-chrome-border);
+  --surface-primary-shadow: var(--nb-chrome-shadow);
+  --surface-primary-blur: 24px;
+  --surface-primary-saturate: 145%;
+
+  --surface-secondary-bg: var(--nb-card-bg);
+  --surface-secondary-border: var(--nb-card-border);
+  --surface-secondary-shadow: var(--nb-card-shadow);
+
+  --surface-tertiary-bg: var(--nb-subcard-bg);
+  --surface-tertiary-border: var(--nb-subcard-border);
+  --surface-tertiary-shadow: var(--nb-subcard-shadow);
+
+  --shadow-card: var(--nb-card-shadow);
+  --shadow-card-hover: var(--nb-card-shadow-hover);
+  --shadow-hover: var(--nb-card-shadow-hover);
+  --shadow-subcard: var(--nb-subcard-shadow);
+  --shadow-glow: 0 0 28px rgba(139, 92, 246, 0.34);
+  --glass-blur: 24px;
+  --glass-saturate: 145%;
+
+  /* Navigation Pills */
+  --nav-pill-accent: #8b5cf6;
+  --pill-bg: rgba(17, 24, 39, 0.78);
+  --pill-bg-hover: rgba(30, 41, 59, 0.92);
+  --pill-border: rgba(255, 255, 255, 0.1);
+  --pill-border-hover: rgba(139, 92, 246, 0.45);
+  --pill-text: #e2e8f0;
+  --pill-title-color: #f8fafc;
+  --pill-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.45);
+  --pill-shadow-hover: 0 10px 24px -6px rgba(139, 92, 246, 0.32);
+  --pill-blur: 16px;
+  --pill-divider: rgba(255, 255, 255, 0.1);
+  --pill-badge-bg: rgba(139, 92, 246, 0.22);
+  --pill-badge-border: rgba(139, 92, 246, 0.42);
+  --pill-badge-icon: #c4b5fd;
+  --pill-badge-shadow: 0 2px 10px rgba(139, 92, 246, 0.28);
+  --pill-active-bg: linear-gradient(135deg, rgba(139, 92, 246, 0.94) 0%, rgba(56, 189, 248, 0.88) 100%);
+  --pill-active-border: rgba(255, 255, 255, 0.28);
+  --pill-active-text: #ffffff;
+  --pill-active-shadow: 0 10px 24px -6px rgba(139, 92, 246, 0.52);
+  --pill-active-divider: rgba(255, 255, 255, 0.28);
+  --pill-active-badge-bg: rgba(255, 255, 255, 0.22);
+  --pill-active-badge-icon: #ffffff;
+  --pill-arrow-bg: rgba(17, 24, 39, 0.85);
+  --pill-arrow-hover: rgba(139, 92, 246, 0.32);
+  --pill-arrow-border: rgba(255, 255, 255, 0.12);
+  --pill-arrow-text: #f8fafc;
+  --pill-counter-color: #e2e8f0;
+
+  /* Elevation Tokens */
+  --elev-shell-header: var(--nb-chrome-shadow);
+  --elev-shell-footer: var(--nb-chrome-shadow);
+  --elev-main-card: var(--nb-chrome-shadow);
+  --elev-banner-card: var(--nb-card-shadow);
+  --elev-banner-card-hover: var(--nb-card-shadow-hover);
+  --elev-card-l2: var(--nb-card-shadow);
+  --elev-card-l2-hover: var(--nb-card-shadow-hover);
+  --elev-subcard-l1: var(--nb-subcard-shadow);
+  --elev-subcard-l1-hover: var(--nb-card-shadow);
+  --elev-pill-rest: var(--pill-shadow);
+  --elev-pill-hover: var(--pill-shadow-hover);
+}
+
+/* --------------------------------------------------------------------------
+   3. LIGHT MODE ROOT DESIGN TOKENS (light-nexus-bento)
+   -------------------------------------------------------------------------- */
+[data-theme="light-nexus-bento"],
+html[data-card-style="light-nexus-bento"] {
+  color-scheme: light;
+
+  /* Nexus Bento Material Tokens (Light) */
+  --nb-canvas: #f4f7fb;
+  --nb-dot-color: rgba(15, 23, 42, 0.08);
+  --nb-chrome-bg: rgba(255, 255, 255, 0.88);
+  --nb-chrome-border: rgba(15, 23, 42, 0.09);
+  --nb-chrome-shadow:
+    0 18px 40px -14px rgba(15, 23, 42, 0.12),
+    0 6px 16px -6px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+
+  --nb-card-bg: rgba(255, 255, 255, 0.92);
+  --nb-card-bg-hover: rgba(255, 255, 255, 0.99);
+  --nb-card-border: rgba(15, 23, 42, 0.09);
+  --nb-card-border-hover: rgba(139, 92, 246, 0.44);
+  --nb-card-shadow:
+    0 12px 28px -10px rgba(15, 23, 42, 0.12),
+    0 4px 12px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  --nb-card-shadow-hover:
+    0 24px 46px -12px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(139, 92, 246, 0.24),
+    0 0 26px -4px rgba(139, 92, 246, 0.22),
+    0 0 18px -6px rgba(56, 189, 248, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+
+  --nb-subcard-bg: rgba(244, 247, 251, 0.88);
+  --nb-subcard-bg-hover: rgba(238, 242, 255, 0.96);
+  --nb-subcard-border: rgba(15, 23, 42, 0.08);
+  --nb-subcard-shadow:
+    0 6px 16px -6px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+
+  --nb-control-bg: rgba(255, 255, 255, 0.88);
+  --nb-control-bg-hover: rgba(245, 243, 255, 0.98);
+  --nb-popup-bg: rgba(255, 255, 255, 0.96);
+  --nb-accent-violet: #7c3aed;
+  --nb-accent-sky: #0284c7;
+  --nb-accent-pink: #db2777;
+
+  /* Typography */
+  --font-sans: "Play", sans-serif;
+  --font-display: "Play", sans-serif;
+  --font-serif: "Play", sans-serif;
+  --font-mono: "Play", sans-serif;
+
+  /* Ambient Canvas */
+  --app-bg-base: #f4f7fb;
+  --app-bg-gradient:
+    radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px),
+    radial-gradient(ellipse 48% 44% at 14% 16%, rgba(139, 92, 246, 0.14) 0%, transparent 62%),
+    radial-gradient(ellipse 46% 42% at 86% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 48% 44% at 72% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 60%),
+    linear-gradient(180deg, #f4f7fb 0%, #eef3fa 100%);
+  --ambient-base-bg: #f4f7fb;
+  --ambient-wallpaper-opacity: 0.96;
+  --ambient-depth-vignette: linear-gradient(180deg, rgba(244, 247, 251, 0.06) 0%, rgba(226, 232, 240, 0.16) 100%);
+  --app-bg-depth-veil: linear-gradient(180deg, rgba(244, 247, 251, 0.06) 0%, rgba(226, 232, 240, 0.16) 100%);
+
+  /* Core Color & Typography Tokens */
+  --color-bg: #f4f7fb;
+  --color-bg-soft: rgba(255, 255, 255, 0.88);
+  --color-surface: rgba(255, 255, 255, 0.92);
+  --color-surface-elevated: #ffffff;
+
+  --color-heading: #0f172a;
+  --color-text: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+  --color-primary-active: #5b21b6;
+  --color-secondary: #0284c7;
+  --color-tertiary: #db2777;
+  --color-accent: #7c3aed;
+  --color-focus-ring: #7c3aed;
+
+  --text-primary: #0f172a;
+  --text-heading: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-link: #6d28d9;
+  --text-accent: #7c3aed;
+  --text-input: #0f172a;
+  --text-placeholder: rgba(100, 116, 139, 0.78);
+  --text-on-dark: #ffffff;
+  --text-button-primary: #ffffff;
+  --text-button-secondary: #0f172a;
+  --text-badge: #4c1d95;
+  --text-highlight: #0284c7;
+  --text-header-title: #0f172a;
+  --text-header-sub: #475569;
+  --text-nav-default: #1e293b;
+  --text-nav-active: #ffffff;
+  --text-nav-arrow: #0f172a;
+  --text-banner-pill: #0f172a;
+  --text-banner-input: #0f172a;
+  --text-banner-placeholder: rgba(100, 116, 139, 0.8);
+  --pillar-heading: #0f172a;
+  --pillar-body: #334155;
+  --pillar-progress-track: rgba(15, 23, 42, 0.1);
+
+  /* Surface Mapping */
+  --bg-main: var(--nb-chrome-bg);
+  --bg-header: var(--nb-chrome-bg);
+  --bg-footer: var(--nb-chrome-bg);
+  --bg-card: var(--nb-card-bg);
+  --bg-card-hover: var(--nb-card-bg-hover);
+  --bg-subcard: var(--nb-subcard-bg);
+  --bg-subcard-hover: var(--nb-subcard-bg-hover);
+  --bg-nested: var(--nb-subcard-bg);
+  --bg-nested-card: var(--nb-subcard-bg);
+  --bg-modal: var(--nb-popup-bg);
+  --bg-popup: var(--nb-popup-bg);
+  --bg-dropdown: var(--nb-popup-bg);
+  --bg-tooltip: rgba(15, 23, 42, 0.94);
+  --bg-input: rgba(255, 255, 255, 0.94);
+  --bg-table: var(--nb-card-bg);
+  --bg-table-head: rgba(139, 92, 246, 0.08);
+  --bg-banner: var(--nb-card-bg);
+
+  --bg-nav-button-opaque: rgba(255, 255, 255, 0.94);
+  --bg-nav-pill: var(--nb-control-bg);
+  --bg-nav-pill-hover: var(--nb-control-bg-hover);
+  --bg-nav-arrow: var(--nb-control-bg);
+  --border-nav-arrow: var(--nb-card-border);
+  --bg-button-primary: linear-gradient(135deg, #7c3aed 0%, #0284c7 62%, #ec4899 100%);
+  --bg-button-secondary: var(--nb-control-bg);
+  --bg-button-hover: var(--nb-control-bg-hover);
+  --bg-badge: rgba(124, 58, 237, 0.1);
+  --bg-highlight: rgba(2, 132, 199, 0.1);
+  --bg-banner-pill: var(--nb-control-bg);
+  --border-banner-pill: var(--nb-card-border);
+  --bg-banner-cta: linear-gradient(135deg, #7c3aed 0%, #4f46e5 55%, #0284c7 100%);
+  --text-banner-cta: #ffffff;
+  --bg-banner-input: rgba(255, 255, 255, 0.94);
+  --border-banner-input: var(--nb-card-border);
+  --bg-nested-badge: rgba(15, 23, 42, 0.06);
+
+  /* Borders & Radii */
+  --border-color: var(--nb-card-border);
+  --border-card: var(--nb-card-border);
+  --border-subcard: var(--nb-subcard-border);
+  --border-muted: rgba(15, 23, 42, 0.08);
+  --card-border-width: 1px;
+
+  --radius-card: 12px;
+  --radius-subcard: 10px;
+  --radius-banner: 16px;
+  --radius-button: 10px;
+  --card-radius: 12px;
+
+  /* Surface Layers */
+  --surface-primary-bg: var(--nb-chrome-bg);
+  --surface-primary-border: var(--nb-chrome-border);
+  --surface-primary-shadow: var(--nb-chrome-shadow);
+  --surface-primary-blur: 24px;
+  --surface-primary-saturate: 145%;
+
+  --surface-secondary-bg: var(--nb-card-bg);
+  --surface-secondary-border: var(--nb-card-border);
+  --surface-secondary-shadow: var(--nb-card-shadow);
+
+  --surface-tertiary-bg: var(--nb-subcard-bg);
+  --surface-tertiary-border: var(--nb-subcard-border);
+  --surface-tertiary-shadow: var(--nb-subcard-shadow);
+
+  --shadow-card: var(--nb-card-shadow);
+  --shadow-card-hover: var(--nb-card-shadow-hover);
+  --shadow-hover: var(--nb-card-shadow-hover);
+  --shadow-subcard: var(--nb-subcard-shadow);
+  --shadow-glow: 0 0 24px rgba(124, 58, 237, 0.24);
+  --glass-blur: 24px;
+  --glass-saturate: 145%;
+
+  /* Navigation Pills */
+  --nav-pill-accent: #7c3aed;
+  --pill-bg: rgba(255, 255, 255, 0.88);
+  --pill-bg-hover: rgba(245, 243, 255, 0.98);
+  --pill-border: rgba(15, 23, 42, 0.1);
+  --pill-border-hover: rgba(124, 58, 237, 0.36);
+  --pill-text: #1e293b;
+  --pill-title-color: #0f172a;
+  --pill-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.08);
+  --pill-shadow-hover: 0 10px 22px -6px rgba(124, 58, 237, 0.18);
+  --pill-blur: 16px;
+  --pill-divider: rgba(15, 23, 42, 0.08);
+  --pill-badge-bg: rgba(124, 58, 237, 0.12);
+  --pill-badge-border: rgba(124, 58, 237, 0.24);
+  --pill-badge-icon: #6d28d9;
+  --pill-badge-shadow: 0 2px 8px rgba(124, 58, 237, 0.14);
+  --pill-active-bg: linear-gradient(135deg, #7c3aed 0%, #0284c7 100%);
+  --pill-active-border: rgba(124, 58, 237, 0.4);
+  --pill-active-text: #ffffff;
+  --pill-active-shadow: 0 10px 22px -6px rgba(124, 58, 237, 0.34);
+  --pill-active-divider: rgba(255, 255, 255, 0.32);
+  --pill-active-badge-bg: rgba(255, 255, 255, 0.24);
+  --pill-active-badge-icon: #ffffff;
+  --pill-arrow-bg: rgba(255, 255, 255, 0.92);
+  --pill-arrow-hover: rgba(124, 58, 237, 0.12);
+  --pill-arrow-border: rgba(15, 23, 42, 0.1);
+  --pill-arrow-text: #0f172a;
+  --pill-counter-color: #1e293b;
+
+  /* Elevation Tokens */
+  --elev-shell-header: var(--nb-chrome-shadow);
+  --elev-shell-footer: var(--nb-chrome-shadow);
+  --elev-main-card: var(--nb-chrome-shadow);
+  --elev-banner-card: var(--nb-card-shadow);
+  --elev-banner-card-hover: var(--nb-card-shadow-hover);
+  --elev-card-l2: var(--nb-card-shadow);
+  --elev-card-l2-hover: var(--nb-card-shadow-hover);
+  --elev-subcard-l1: var(--nb-subcard-shadow);
+  --elev-subcard-l1-hover: var(--nb-card-shadow);
+  --elev-pill-rest: var(--pill-shadow);
+  --elev-pill-hover: var(--pill-shadow-hover);
+}
+
+/* --------------------------------------------------------------------------
+   4. CANVAS DOT GRID (24px) + 3 AMBIENT RADIAL GLOWS (VIOLET, SKY, PINK)
+   -------------------------------------------------------------------------- */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body {
+  background-color: var(--nb-canvas) !important;
+  font-family: "Play", sans-serif;
+}
+
+/* 24px dot-grid layer */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(var(--nb-dot-color) 1.25px, transparent 1.25px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+
+/* 3 blurred radial halos: Violet #8B5CF6, Sky #38BDF8, Pink #EC4899 */
+html[data-card-style="nexus-bento"] body::after {
+  content: "";
+  position: fixed;
+  inset: -8%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(42% 40% at 15% 18%, rgba(139, 92, 246, 0.24) 0%, transparent 66%),
+    radial-gradient(40% 38% at 85% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 66%),
+    radial-gradient(42% 40% at 62% 86%, rgba(236, 72, 153, 0.18) 0%, transparent 66%);
+  filter: blur(42px);
+}
+
+html[data-card-style="light-nexus-bento"] body::after {
+  content: "";
+  position: fixed;
+  inset: -8%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(42% 40% at 15% 18%, rgba(139, 92, 246, 0.14) 0%, transparent 66%),
+    radial-gradient(40% 38% at 85% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 66%),
+    radial-gradient(42% 40% at 62% 86%, rgba(236, 72, 153, 0.11) 0%, transparent 66%);
+  filter: blur(46px);
+}
+
+/* --------------------------------------------------------------------------
+   5. TYPOGRAPHY ENFORCEMENT ('Play' 400/700 · Card Title 16px · Sub-card 12px)
+   -------------------------------------------------------------------------- */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  body,
+  .font-play,
+  p,
+  span,
+  li,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  td,
+  th
+) {
+  font-family: "Play", sans-serif;
+}
+
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  .typo-h1,
+  .typo-h2,
+  .typo-h3,
+  .card-title-synced
+) {
+  font-family: "Play", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Preserve expressive calligraphy/quote fonts when explicitly applied */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  .font-handwriting,
+  .font-quote,
+  .font-moon-dance
+) {
+  font-family: var(--font-quote, "Moon Dance", cursive) !important;
+}
+
+/* Synchronized 16px bold titles on BentoCard items */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  .bento-card,
+  .bento-item,
+  .service-card,
+  .domain-card,
+  .system-card-tile,
+  .project-card,
+  .education-course-card,
+  .theme-preset-card,
+  .exp-studio-card
+) :is([data-card-title="true"], .card-title-synced) {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+
+/* Synchronized 12px body copy inside sub-cards */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  [data-subcard="true"],
+  .sub-card,
+  .nested-card,
+  .exp-studio-subtile
+) :is(p, li, .subcard-body) {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   6. SHELL CHROME & MAIN CONTAINERS (Frosted #111827 · blur 24px · 18px radius)
+   -------------------------------------------------------------------------- */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"],
+  [id$="-main-card"],
+  #letter-main-card,
+  #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #experience-main-card,
+  #education-main-card,
+  #skills-main-card,
+  #service-main-card,
+  #services-main-card,
+  #systems-main-card,
+  #projects-main-card,
+  #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
+  #contact-main-card,
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container):is(*, :hover, :focus-within) {
+  background: var(--nb-chrome-bg) !important;
+  background-color: var(--nb-chrome-bg) !important;
+  background-image: none !important;
+  border: 1px solid var(--nb-chrome-border) !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(24px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(145%) !important;
+  box-shadow: var(--nb-chrome-shadow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. HERO & HEADER BANNERS (16px radius)
+   -------------------------------------------------------------------------- */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  .banner-card,
+  .hero-banner
+) {
+  background: var(--nb-card-bg) !important;
+  border: 1px solid var(--nb-card-border) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  box-shadow: var(--nb-card-shadow) !important;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 260ms ease !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. BENTO CARD SURFACES (12px radius · 15px padding · 1px rim · 3D shadow)
+   -------------------------------------------------------------------------- */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  .bento-card,
+  .bento-item,
+  .home-hero-card,
+  .service-card,
+  .domain-card,
+  .system-card-tile,
+  .project-card,
+  .education-course-card,
+  .theme-preset-card,
+  .exp-studio-card,
+  [data-section-card="true"],
+  [data-card-level="2"]
+):not([data-main-card="true"]):not(.page-main-card):not(#app-header):not(#app-footer):not(#pdf-page-container) {
+  background: var(--nb-card-bg) !important;
+  border: 1px solid var(--nb-card-border) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(18px) saturate(138%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(138%) !important;
+  box-shadow: var(--nb-card-shadow) !important;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 260ms ease,
+    background-color 220ms ease !important;
+}
+
+/* Consistent 15px BentoCard padding on standard tile containers */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  .bento-card,
+  .bento-item,
+  .service-card,
+  .domain-card,
+  .system-card-tile,
+  .education-course-card
+):not([data-no-bento-pad="true"]) {
+  padding: 15px;
+}
+
+/* Hover Lift (-6px) + Scale (1.012) + Subtle Violet/Sky Glow Rim */
+@media (hover: hover) and (pointer: fine) {
+  html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .service-card,
+    .domain-card,
+    .system-card-tile,
+    .project-card,
+    .education-course-card,
+    .theme-preset-card,
+    .exp-studio-card,
+    [data-section-card="true"],
+    [data-card-level="2"]
+  ):not([data-main-card="true"]):not(.page-main-card):not(#app-header):not(#app-footer):not(#pdf-page-container):not([data-static-card="true"]):hover {
+    transform: translateY(-6px) scale(1.012) !important;
+    background: var(--nb-card-bg-hover) !important;
+    border-color: var(--nb-card-border-hover) !important;
+    box-shadow: var(--nb-card-shadow-hover) !important;
+    z-index: 6;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. SUB-CARDS & NESTED TILES (10px radius · crisp contrast · 12px copy)
+   -------------------------------------------------------------------------- */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  [data-subcard="true"],
+  [data-card-level="3"],
+  .sub-card,
+  .nested-card,
+  .exp-studio-subtile
+) {
+  background: var(--nb-subcard-bg) !important;
+  border: 1px solid var(--nb-subcard-border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--nb-subcard-shadow) !important;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    background-color 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+    [data-subcard="true"],
+    [data-card-level="3"],
+    .sub-card,
+    .nested-card,
+    .exp-studio-subtile
+  ):hover {
+    background: var(--nb-subcard-bg-hover) !important;
+    border-color: var(--nb-card-border-hover) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. NAVIGATION PILLS, BUTTONS & FLOATING UTILITY CONTROLS
+   -------------------------------------------------------------------------- */
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill,
+  .banner-control-pill
+):not([aria-current="page"]):not([data-active="true"]) {
+  background: var(--pill-bg) !important;
+  border: 1px solid var(--pill-border) !important;
+  color: var(--pill-text) !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  box-shadow: var(--pill-shadow) !important;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 200ms ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+    #app-header button.nav-pill,
+    #app-footer button.nav-pill,
+    button.nav-pill,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    #footer-theme-mode-btn,
+    .radial-contact-pill,
+    .banner-control-pill
+  ):not([aria-current="page"]):not([data-active="true"]):hover {
+    transform: translateY(-2px);
+    background: var(--pill-bg-hover) !important;
+    border-color: var(--pill-border-hover) !important;
+    box-shadow: var(--pill-shadow-hover) !important;
+  }
+}
+
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  #app-header button.nav-pill,
+  #app-footer button.nav-pill,
+  button.nav-pill,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  #footer-theme-mode-btn,
+  .radial-contact-pill
+):is([aria-current="page"], [data-active="true"]) {
+  background: var(--pill-active-bg) !important;
+  border: 1px solid var(--pill-active-border) !important;
+  color: var(--pill-active-text) !important;
+  box-shadow: var(--pill-active-shadow) !important;
+}
+
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  button.nav-pill,
+  #header-btn-hungthai-avatar
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: var(--pill-badge-bg) !important;
+  border: 1px solid var(--pill-badge-border) !important;
+  box-shadow: var(--pill-badge-shadow) !important;
+}
+
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  button.nav-pill,
+  #header-btn-hungthai-avatar
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) :is(svg, .nav-pill-icon-svg) {
+  color: var(--pill-badge-icon) !important;
+}
+
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  button.nav-pill,
+  #header-btn-hungthai-avatar
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: var(--pill-active-badge-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+}
+
+html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+  button.nav-pill,
+  #header-btn-hungthai-avatar
+):is([aria-current="page"], [data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) :is(svg, .nav-pill-icon-svg) {
+  color: var(--pill-active-badge-icon) !important;
+}
+
+/* --------------------------------------------------------------------------
+   11. INPUTS, DROPDOWNS, MODALS & TOAST NOTIFICATIONS
+   -------------------------------------------------------------------------- */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  textarea,
+  select
+) {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--nb-card-border) !important;
+  border-radius: 10px !important;
+  color: var(--text-input) !important;
+}
+
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  textarea,
+  select
+):focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.24) !important;
+  outline: none !important;
+}
+
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  .theme-dropdown-menu,
+  [role="menu"],
+  [role="listbox"],
+  [role="dialog"],
+  .toast-notification
+) {
+  background: var(--nb-popup-bg) !important;
+  border: 1px solid var(--nb-card-border) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  box-shadow: var(--nb-card-shadow) !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. ACCESSIBILITY: FOCUS-VISIBLE & REDUCED MOTION / TRANSPARENCY
+   -------------------------------------------------------------------------- */
+html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) :is(
+  button,
+  a,
+  [tabindex],
+  [role="tab"],
+  [role="button"],
+  [role="option"],
+  [role="switch"]
+):focus-visible {
+  outline: 2px solid var(--color-focus-ring) !important;
+  outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) *,
+  html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) *::before,
+  html:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  html:root:is([data-card-style="nexus-bento"], [data-card-style="light-nexus-bento"]) body :is(
+    .card-nexus-bento,
+    .card-light-nexus-bento,
+    .bento-card,
+    .bento-item,
+    .home-hero-card,
+    .service-card,
+    .domain-card,
+    .system-card-tile,
+    .project-card,
+    .education-course-card,
+    .theme-preset-card,
+    .exp-studio-card,
+    button.nav-pill
+  ):hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  html[data-card-style="nexus-bento"] {
+    --nb-chrome-bg: #111827;
+    --nb-card-bg: #111827;
+    --nb-card-bg-hover: #182236;
+    --nb-subcard-bg: #0c1220;
+    --nb-popup-bg: #0f172a;
+  }
+
+  html[data-card-style="light-nexus-bento"] {
+    --nb-chrome-bg: #ffffff;
+    --nb-card-bg: #ffffff;
+    --nb-card-bg-hover: #f8fafc;
+    --nb-subcard-bg: #f4f7fb;
+    --nb-popup-bg: #ffffff;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. ABOUT PAGE (TRANG GIỚI THIỆU) — 6 DISTINCT MULTI-COLOR BENTO CARDS
+       Card 1 (#about-hero-video-container)     : Electric Sky / Cyan  (#38BDF8)
+       Card 2 (#about-personal-info-card-right) : Cyber Indigo         (#6366F1)
+       Card 3 (#about-career-goal-card)         : Studio Violet        (#8B5CF6)
+       Card 4 (#about-operating-pillars-card)   : Emerald Teal         (#10B981)
+       Card 5 (#about-core-values-card)         : Solar Amber          (#F59E0B)
+       Card 6 (#about-philosophy-card)          : Neon Rose Pink       (#EC4899)
+   -------------------------------------------------------------------------- */
+
+/* --- DARK MODE (nexus-bento) --- */
+
+/* Card 1: Video chân dung / Bản đồ — Electric Sky Cyan */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-hero-video-container {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(56, 189, 248, 0.28) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(12, 74, 110, 0.90) 0%, rgba(8, 47, 73, 0.92) 55%, rgba(12, 34, 58, 0.94) 100%) !important;
+  border-color: rgba(56, 189, 248, 0.34) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(2, 13, 28, 0.78),
+    0 0 24px -8px rgba(56, 189, 248, 0.24),
+    inset 0 1px 0 rgba(186, 230, 253, 0.16) !important;
+}
+
+/* Card 2: Thông tin chi tiết (Cá nhân & Liên hệ) — Cyber Indigo */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(99, 102, 241, 0.30) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(49, 46, 129, 0.90) 0%, rgba(30, 27, 75, 0.93) 55%, rgba(23, 23, 62, 0.95) 100%) !important;
+  border-color: rgba(129, 140, 248, 0.36) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(9, 10, 32, 0.78),
+    0 0 24px -8px rgba(99, 102, 241, 0.28),
+    inset 0 1px 0 rgba(199, 210, 254, 0.16) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tabpanel"],
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tab"][aria-selected="true"] {
+  background: rgba(19, 22, 58, 0.78) !important;
+  border-color: rgba(129, 140, 248, 0.32) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tab"][aria-selected="true"]::after {
+  background: rgba(19, 22, 58, 0.95) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tab"][aria-selected="false"] {
+  background: rgba(30, 27, 75, 0.52) !important;
+  border-color: rgba(129, 140, 248, 0.22) !important;
+  color: #c7d2fe !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell .about-stack-card {
+  background: rgba(15, 18, 48, 0.72) !important;
+  border-color: rgba(129, 140, 248, 0.26) !important;
+}
+
+/* Card 3: Giới thiệu bản thân & 4 dấu ấn — Studio Violet */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-career-goal-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(168, 85, 247, 0.32) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(76, 29, 149, 0.90) 0%, rgba(46, 16, 101, 0.93) 55%, rgba(32, 14, 74, 0.95) 100%) !important;
+  border-color: rgba(167, 139, 250, 0.38) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(17, 6, 38, 0.80),
+    0 0 26px -8px rgba(139, 92, 246, 0.32),
+    inset 0 1px 0 rgba(221, 214, 254, 0.16) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-career-goal-card [data-subcard="true"] {
+  background: rgba(24, 10, 56, 0.62) !important;
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+
+/* Card 4: Trụ cột vận hành — Emerald Teal */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-operating-pillars-card {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(16, 185, 129, 0.28) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(6, 78, 59, 0.90) 0%, rgba(2, 44, 34, 0.93) 55%, rgba(4, 36, 32, 0.95) 100%) !important;
+  border-color: rgba(52, 211, 153, 0.36) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(2, 22, 18, 0.78),
+    0 0 24px -8px rgba(16, 185, 129, 0.26),
+    inset 0 1px 0 rgba(167, 243, 208, 0.16) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-operating-pillars-card [data-subcard="true"] {
+  background: rgba(4, 32, 26, 0.66) !important;
+  border-color: rgba(52, 211, 153, 0.26) !important;
+}
+
+/* Card 5: Giá trị cốt lõi — Solar Amber */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-core-values-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(245, 158, 11, 0.28) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(120, 53, 15, 0.90) 0%, rgba(69, 26, 3, 0.93) 55%, rgba(52, 22, 6, 0.95) 100%) !important;
+  border-color: rgba(251, 191, 36, 0.36) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(26, 11, 2, 0.78),
+    0 0 24px -8px rgba(245, 158, 11, 0.26),
+    inset 0 1px 0 rgba(253, 230, 138, 0.16) !important;
+}
+
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-core-values-card [data-subcard="true"] {
+  background: rgba(44, 18, 4, 0.64) !important;
+  border-color: rgba(251, 191, 36, 0.28) !important;
+}
+
+/* Card 6: Triết lý tầm nhìn — Neon Rose Pink */
+html:root[data-card-style="nexus-bento"] body #about-page-container #about-philosophy-card {
+  background:
+    radial-gradient(120% 90% at 100% 100%, rgba(236, 72, 153, 0.32) 0%, transparent 58%),
+    linear-gradient(145deg, rgba(131, 24, 67, 0.90) 0%, rgba(80, 7, 36, 0.93) 55%, rgba(58, 9, 32, 0.95) 100%) !important;
+  border-color: rgba(244, 114, 182, 0.38) !important;
+  box-shadow:
+    0 18px 40px -12px rgba(32, 4, 18, 0.80),
+    0 0 26px -8px rgba(236, 72, 153, 0.30),
+    inset 0 1px 0 rgba(251, 207, 232, 0.16) !important;
+}
+
+/* Color-matched Hover Glow Rims (Dark Mode) */
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-hero-video-container:hover {
+    border-color: rgba(56, 189, 248, 0.72) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(2, 13, 28, 0.86),
+      0 0 0 1px rgba(56, 189, 248, 0.36),
+      0 0 32px -4px rgba(56, 189, 248, 0.42),
+      inset 0 1px 0 rgba(186, 230, 253, 0.24) !important;
+  }
+
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-personal-info-card-right:hover {
+    border-color: rgba(129, 140, 248, 0.72) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(9, 10, 32, 0.86),
+      0 0 0 1px rgba(99, 102, 241, 0.38),
+      0 0 32px -4px rgba(99, 102, 241, 0.42),
+      inset 0 1px 0 rgba(199, 210, 254, 0.24) !important;
+  }
+
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-career-goal-card:hover {
+    border-color: rgba(167, 139, 250, 0.75) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(17, 6, 38, 0.86),
+      0 0 0 1px rgba(139, 92, 246, 0.40),
+      0 0 34px -4px rgba(139, 92, 246, 0.46),
+      inset 0 1px 0 rgba(221, 214, 254, 0.24) !important;
+  }
+
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-operating-pillars-card:hover {
+    border-color: rgba(52, 211, 153, 0.72) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(2, 22, 18, 0.86),
+      0 0 0 1px rgba(16, 185, 129, 0.38),
+      0 0 32px -4px rgba(16, 185, 129, 0.42),
+      inset 0 1px 0 rgba(167, 243, 208, 0.24) !important;
+  }
+
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-core-values-card:hover {
+    border-color: rgba(251, 191, 36, 0.72) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(26, 11, 2, 0.86),
+      0 0 0 1px rgba(245, 158, 11, 0.38),
+      0 0 32px -4px rgba(245, 158, 11, 0.42),
+      inset 0 1px 0 rgba(253, 230, 138, 0.24) !important;
+  }
+
+  html:root[data-card-style="nexus-bento"] body #about-page-container #about-philosophy-card:hover {
+    border-color: rgba(244, 114, 182, 0.75) !important;
+    box-shadow:
+      0 26px 52px -12px rgba(32, 4, 18, 0.86),
+      0 0 0 1px rgba(236, 72, 153, 0.40),
+      0 0 34px -4px rgba(236, 72, 153, 0.44),
+      inset 0 1px 0 rgba(251, 207, 232, 0.24) !important;
+  }
+}
+
+/* --- LIGHT MODE (light-nexus-bento) --- */
+
+/* Card 1: Video chân dung / Bản đồ — Ice Sky Cyan */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-hero-video-container {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(56, 189, 248, 0.22) 0%, transparent 60%),
+    linear-gradient(145deg, #e0f2fe 0%, #f0f9ff 56%, #e6f6fe 100%) !important;
+  border-color: rgba(2, 132, 199, 0.26) !important;
+}
+
+/* Card 2: Thông tin chi tiết (Cá nhân & Liên hệ) — Periwinkle Indigo */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(99, 102, 241, 0.20) 0%, transparent 60%),
+    linear-gradient(145deg, #e0e7ff 0%, #eef2ff 56%, #e6ebff 100%) !important;
+  border-color: rgba(79, 70, 229, 0.26) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tabpanel"],
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tab"][aria-selected="true"] {
+  background: rgba(255, 255, 255, 0.86) !important;
+  border-color: rgba(79, 70, 229, 0.22) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell [role="tab"][aria-selected="true"]::after {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right #about-box-tabs-shell .about-stack-card {
+  background: rgba(248, 250, 255, 0.94) !important;
+  border-color: rgba(79, 70, 229, 0.16) !important;
+}
+
+/* Card 3: Giới thiệu bản thân & 4 dấu ấn — Soft Lavender Violet */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-career-goal-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(139, 92, 246, 0.22) 0%, transparent 60%),
+    linear-gradient(145deg, #ede9fe 0%, #f5f3ff 56%, #efe9fe 100%) !important;
+  border-color: rgba(124, 58, 237, 0.26) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-career-goal-card [data-subcard="true"] {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(124, 58, 237, 0.20) !important;
+}
+
+/* Card 4: Trụ cột vận hành — Mint Emerald Teal */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-operating-pillars-card {
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(16, 185, 129, 0.20) 0%, transparent 60%),
+    linear-gradient(145deg, #d1fae5 0%, #ecfdf5 56%, #ddfbe9 100%) !important;
+  border-color: rgba(5, 150, 105, 0.26) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-operating-pillars-card [data-subcard="true"] {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(5, 150, 105, 0.20) !important;
+}
+
+/* Card 5: Giá trị cốt lõi — Warm Sunlit Amber */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-core-values-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(245, 158, 11, 0.22) 0%, transparent 60%),
+    linear-gradient(145deg, #fef3c7 0%, #fffbeb 56%, #fef5d4 100%) !important;
+  border-color: rgba(217, 119, 6, 0.28) !important;
+}
+
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-core-values-card [data-subcard="true"] {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(217, 119, 6, 0.22) !important;
+}
+
+/* Card 6: Triết lý tầm nhìn — Blossom Rose Pink */
+html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-philosophy-card {
+  background:
+    radial-gradient(120% 90% at 100% 100%, rgba(236, 72, 153, 0.20) 0%, transparent 60%),
+    linear-gradient(145deg, #fce7f3 0%, #fdf2f8 56%, #fce9f4 100%) !important;
+  border-color: rgba(219, 39, 119, 0.26) !important;
+}
+
+/* Color-matched Hover Glow Rims (Light Mode) */
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-hero-video-container:hover {
+    border-color: rgba(2, 132, 199, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(2, 132, 199, 0.24), 0 0 0 1px rgba(2, 132, 199, 0.24) !important;
+  }
+
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-personal-info-card-right:hover {
+    border-color: rgba(79, 70, 229, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(79, 70, 229, 0.24), 0 0 0 1px rgba(79, 70, 229, 0.24) !important;
+  }
+
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-career-goal-card:hover {
+    border-color: rgba(124, 58, 237, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(124, 58, 237, 0.24), 0 0 0 1px rgba(124, 58, 237, 0.24) !important;
+  }
+
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-operating-pillars-card:hover {
+    border-color: rgba(5, 150, 105, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(5, 150, 105, 0.24), 0 0 0 1px rgba(5, 150, 105, 0.24) !important;
+  }
+
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-core-values-card:hover {
+    border-color: rgba(217, 119, 6, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(217, 119, 6, 0.24), 0 0 0 1px rgba(217, 119, 6, 0.24) !important;
+  }
+
+  html:root[data-card-style="light-nexus-bento"] body #about-page-container #about-philosophy-card:hover {
+    border-color: rgba(219, 39, 119, 0.58) !important;
+    box-shadow: 0 22px 44px -12px rgba(219, 39, 119, 0.24), 0 0 0 1px rgba(219, 39, 119, 0.24) !important;
+  }
+}
+

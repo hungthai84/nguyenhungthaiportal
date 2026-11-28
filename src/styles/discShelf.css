@@ -840,19 +840,23 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
 /* 2-TIER WOODEN BOOKSHELF & 5 DISTINCT BOOK TEMPLATES (EDUCATION VIEW)      */
 /* ========================================================================= */
 
+#education-main-card[data-bookshelf-mode="true"] {
+  padding-bottom: 15px !important;
+}
+
 #education-disc-bookshelf-view.edu-wood-library,
 html[data-card-style] #education-disc-bookshelf-view.edu-wood-library,
 html[data-surface-depth] #education-disc-bookshelf-view.edu-wood-library {
-  --edu-book-h: clamp(120px, min(37.5cqh, calc(50cqh - 64px)), 268px);
-  --edu-book-w: calc(var(--edu-book-h) * 0.71);
-  --edu-vjy-w: calc(var(--edu-book-w) + 10px);
-  --edu-side-h: clamp(124px, min(38.2cqh, calc(50cqh - 61px)), 272px);
-  --edu-side-w: clamp(46px, 8.8cqh, 66px);
-  --edu-plank-h: clamp(24px, 4.8cqh, 34px);
-  --edu-plank-top: clamp(7px, 1.5cqh, 11px);
+  --edu-book-h: clamp(122px, min(35.8cqh, calc(47cqh - 62px)), 220px);
+  --edu-book-w: calc(var(--edu-book-h) * 0.72);
+  --edu-vjy-w: calc(var(--edu-book-w) + 9px);
+  --edu-side-h: clamp(126px, min(36.5cqh, calc(47cqh - 59px)), 224px);
+  --edu-side-w: clamp(46px, 8.8cqh, 64px);
+  --edu-plank-h: clamp(27px, 4.9cqh, 34px);
+  --edu-plank-top: clamp(6px, 1.2cqh, 8px);
   --edu-plank-front: calc(var(--edu-plank-h) - var(--edu-plank-top));
-  --edu-slot-pb: clamp(23px, 4.6cqh, 33px);
-  --edu-frame-w: clamp(142px, 31cqh, 240px);
+  --edu-slot-pb: clamp(26px, 4.7cqh, 33px);
+  --edu-frame-w: clamp(142px, 29.5cqh, 218px);
   container-type: size;
   container-name: edu-library;
   position: relative;
@@ -865,7 +869,7 @@ html[data-surface-depth] #education-disc-bookshelf-view.edu-wood-library {
   min-height: 0;
   height: 100%;
   max-height: 100%;
-  padding: 0 4px;
+  padding: 0 4px 0;
   box-sizing: border-box;
   overflow: hidden !important;
   background: transparent !important;
@@ -891,11 +895,13 @@ html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
 .edu-wood-tiers-stack {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex: 1 1 0%;
   min-height: 0;
   height: 100%;
-  gap: clamp(4px, 1cqh, 10px);
+  gap: clamp(6px, 1.4cqh, 13px);
+  padding-bottom: clamp(12px, 2.4cqh, 22px);
+  box-sizing: border-box;
   width: 100%;
   min-width: 0;
   margin: 0;
@@ -917,8 +923,8 @@ html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 0 10px clamp(2px, 0.8cqh, 6px);
+  gap: 8px;
+  padding: 0 8px clamp(2px, 0.6cqh, 5px);
   min-width: 0;
   flex-shrink: 0;
 }
@@ -1143,11 +1149,11 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   z-index: 3;
   display: flex;
   align-items: flex-end;
-  gap: clamp(14px, 2.2cqi, 24px);
+  gap: clamp(10px, 1.5cqi, 18px);
   width: 100%;
   overflow-x: auto;
   overflow-y: visible;
-  padding: clamp(4px, 1.4cqh, 14px) 18px 0;
+  padding: clamp(4px, 1cqh, 10px) 14px 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -1249,24 +1255,25 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* Year Tag Mounted on the Shelf Fascia Edge (Calendar icon + Year synced to active theme) */
 .edu-book-shelf-year {
   position: absolute;
-  bottom: clamp(1px, 0.5cqh, 4px);
+  bottom: clamp(3px, 0.65cqh, 5.5px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 1.5px 6px;
-  border-radius: 6px;
-  font-size: clamp(9px, 1.35cqh, 10px);
-  font-weight: 700;
+  padding: 2px 7.5px;
+  border-radius: 5px;
+  font-size: clamp(9.5px, 1.5cqh, 11.5px);
+  font-weight: 800;
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
   white-space: nowrap;
   color: var(--text-primary, #0f172a);
-  background: var(--bg-subcard, var(--surface-tertiary-bg, rgba(255, 255, 255, 0.85)));
-  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34));
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  background: var(--bg-subcard, var(--surface-tertiary-bg, rgba(255, 255, 255, 0.92)));
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.42));
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
@@ -1401,7 +1408,7 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 14px;
+  width: 12px;
   z-index: 6;
   pointer-events: none;
   background: linear-gradient(
@@ -1459,9 +1466,9 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 
 .edu-vjy-wrap {
   position: relative;
-  width: var(--edu-vjy-w, 158px);
-  height: var(--edu-book-h, 208px);
-  padding-right: 10px;
+  width: var(--edu-vjy-w, 152px);
+  height: var(--edu-book-h, 198px);
+  padding-right: 9px;
   box-sizing: border-box;
 }
 
@@ -1470,7 +1477,7 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   top: 4px;
   bottom: 4px;
   right: 1px;
-  width: 14px;
+  width: 13px;
   border-radius: 0 6px 6px 0;
   background:
     repeating-linear-gradient(
@@ -1503,8 +1510,8 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 .edu-vjy-wrap .edu-book-frame {
   position: relative;
   z-index: 2;
-  width: var(--edu-book-w, 148px);
-  height: var(--edu-book-h, 208px);
+  width: var(--edu-book-w, 143px);
+  height: var(--edu-book-h, 198px);
   transform-origin: left center;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
@@ -1523,7 +1530,7 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 /* ========================================================================= */
 
 .edu-book-frame--editorial {
-  padding: clamp(7px, 1.8cqh, 14px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(14px, 2.5cqh, 19px);
+  padding: clamp(7px, 1.6cqh, 12px) clamp(8px, 1.5cqh, 12px) clamp(7px, 1.5cqh, 12px) clamp(13px, 2.2cqh, 17px);
 }
 
 .edu-editorial-rule {
@@ -1531,7 +1538,7 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   height: 2.5px;
   border-radius: 99px;
   opacity: 0.9;
-  margin-bottom: clamp(4px, 1cqh, 8px);
+  margin-bottom: clamp(4px, 0.9cqh, 7px);
 }
 
 /* ========================================================================= */
@@ -1539,24 +1546,24 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 /* ========================================================================= */
 
 .edu-book-frame--bauhaus {
-  padding: clamp(7px, 1.7cqh, 13px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(14px, 2.5cqh, 19px);
+  padding: clamp(7px, 1.6cqh, 12px) clamp(8px, 1.5cqh, 12px) clamp(7px, 1.5cqh, 12px) clamp(13px, 2.2cqh, 17px);
 }
 
 .edu-bauhaus-dots {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .edu-bauhaus-dot {
-  width: clamp(6px, 1.2cqh, 9px);
-  height: clamp(6px, 1.2cqh, 9px);
+  width: clamp(6px, 1.1cqh, 8px);
+  height: clamp(6px, 1.1cqh, 8px);
   border-radius: 50%;
 }
 
 .edu-bauhaus-square {
-  width: clamp(6px, 1.2cqh, 9px);
-  height: clamp(6px, 1.2cqh, 9px);
+  width: clamp(6px, 1.1cqh, 8px);
+  height: clamp(6px, 1.1cqh, 8px);
   border-radius: 2px;
 }
 
@@ -1566,15 +1573,15 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 
 .edu-side-book {
   position: relative;
-  width: var(--edu-side-w, 58px);
-  height: var(--edu-side-h, 212px);
+  width: var(--edu-side-w, 54px);
+  height: var(--edu-side-h, 202px);
   border-radius: 5px 5px 3px 3px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(6px, 1.4cqh, 11px) 5px;
+  padding: clamp(6px, 1.3cqh, 10px) 4px;
   box-sizing: border-box;
   box-shadow:
     inset 6px 0 10px rgba(255, 255, 255, 0.22),
@@ -1595,42 +1602,42 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
-  font-size: clamp(10px, 1.75cqh, 12.5px);
+  font-size: clamp(12px, 2.05cqh, 14.5px);
   font-weight: 800;
-  letter-spacing: 0.03em;
-  line-height: 1.18;
-  max-height: clamp(64px, 17cqh, 130px);
+  letter-spacing: 0.025em;
+  line-height: 1.15;
+  max-height: clamp(80px, 21cqh, 145px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
-  z-index: 3;
+  z-index: 10;
 }
 
 .edu-side-spine-issuer {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
-  font-size: clamp(7.5px, 1.2cqh, 9px);
+  font-size: clamp(9px, 1.35cqh, 10.5px);
   font-weight: 600;
-  opacity: 0.82;
-  max-height: clamp(36px, 9cqh, 76px);
+  opacity: 0.88;
+  max-height: clamp(36px, 8.5cqh, 72px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  z-index: 3;
+  z-index: 10;
 }
 
 .edu-side-spine-badge {
-  font-size: clamp(7.5px, 1.2cqh, 9px);
+  font-size: clamp(9.5px, 1.45cqh, 11px);
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
-  padding: 1.5px 4px;
+  padding: 2px 5px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  z-index: 3;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  z-index: 10;
 }
 
 /* ========================================================================= */
@@ -1638,15 +1645,15 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 /* ========================================================================= */
 
 .edu-book-frame--zen {
-  padding: clamp(7px, 1.7cqh, 13px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(13px, 2.3cqh, 18px);
+  padding: clamp(7px, 1.6cqh, 12px) clamp(8px, 1.5cqh, 12px) clamp(7px, 1.5cqh, 12px) clamp(12px, 2.1cqh, 16px);
   text-align: center;
   align-items: center;
 }
 
 .edu-zen-circle {
   position: relative;
-  width: clamp(44px, 10.5cqh, 78px);
-  height: clamp(44px, 10.5cqh, 78px);
+  width: clamp(42px, 9.2cqh, 66px);
+  height: clamp(42px, 9.2cqh, 66px);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -1655,8 +1662,8 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   gap: 2px;
   border: 1.5px solid rgba(255, 255, 255, 0.36);
   box-shadow:
-    inset 0 0 18px rgba(255, 255, 255, 0.16),
-    0 6px 14px -4px rgba(0, 0, 0, 0.35);
+    inset 0 0 16px rgba(255, 255, 255, 0.16),
+    0 5px 12px -4px rgba(0, 0, 0, 0.35);
 }
 
 /* ========================================================================= */
@@ -1736,56 +1743,67 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
   }
 
   .edu-book-frame h3 {
-    font-size: clamp(10.5px, 2cqh, 13px) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(13.5px, 2.35cqh, 16px) !important;
+    line-height: 1.14 !important;
   }
 
   .edu-book-frame p {
-    font-size: 8.5px !important;
+    font-size: 10.5px !important;
   }
 
   .edu-shelf-board {
-    padding: 4px 11px;
-  }
-
-  .edu-shelf-board-title {
-    font-size: 12px;
-  }
-
-  .edu-wood-nav-btn {
-    width: 26px;
-    height: 26px;
-  }
-}
-
-@media (max-width: 768px) {
-  .edu-wood-scroll-area {
-    gap: 14px;
-    padding: clamp(4px, 1.2cqh, 10px) 12px 0;
-  }
-
-  .edu-book-frame,
-  .edu-vjy-wrap .edu-book-frame {
-    width: min(158px, var(--edu-book-w, 158px));
-    height: min(222px, var(--edu-book-h, 222px));
-  }
-
-  .edu-vjy-wrap {
-    width: calc(min(158px, var(--edu-book-w, 158px)) + 10px);
-    height: min(222px, var(--edu-book-h, 222px));
-  }
-
-  .edu-side-book {
-    width: min(60px, var(--edu-side-w, 60px));
-    height: min(226px, var(--edu-side-h, 226px));
-  }
-
-  .edu-shelf-board {
-    padding: 4px 11px;
+    padding: 3px 10px;
   }
 
   .edu-shelf-board-title {
     font-size: 11.5px;
+  }
+
+  .edu-wood-nav-btn {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  #education-disc-bookshelf-view.edu-wood-library,
+  html[data-card-style] #education-disc-bookshelf-view.edu-wood-library,
+  html[data-surface-depth] #education-disc-bookshelf-view.edu-wood-library {
+    --edu-book-h: clamp(120px, min(32.5cqh, calc(46cqh - 60px)), 176px);
+    --edu-book-w: calc(var(--edu-book-h) * 0.72);
+    --edu-vjy-w: calc(var(--edu-book-w) + 9px);
+    --edu-side-h: clamp(124px, min(33.2cqh, calc(46cqh - 57px)), 180px);
+    --edu-side-w: clamp(44px, 8.6cqh, 58px);
+    --edu-frame-w: clamp(134px, 29.5cqh, 178px);
+  }
+
+  .edu-wood-scroll-area {
+    gap: 12px;
+    padding: clamp(4px, 1cqh, 8px) 10px 0;
+  }
+
+  .edu-book-frame,
+  .edu-vjy-wrap .edu-book-frame {
+    width: var(--edu-book-w, 124px);
+    height: var(--edu-book-h, 172px);
+  }
+
+  .edu-vjy-wrap {
+    width: var(--edu-vjy-w, 133px);
+    height: var(--edu-book-h, 172px);
+  }
+
+  .edu-side-book {
+    width: var(--edu-side-w, 48px);
+    height: var(--edu-side-h, 176px);
+  }
+
+  .edu-shelf-board {
+    padding: 3px 10px;
+  }
+
+  .edu-shelf-board-title {
+    font-size: 11px;
   }
 }
 
@@ -2039,8 +2057,8 @@ html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
 
   .edu-wall-video-frame,
   .edu-shelf-standing-frame {
-    width: min(170px, var(--edu-frame-w, 170px));
-    padding: 0 0 var(--edu-slot-pb, 32px);
+    width: min(176px, var(--edu-frame-w, 176px));
+    padding: 0 0 var(--edu-slot-pb, 24px);
     margin: 0 0 0 4px;
   }
 

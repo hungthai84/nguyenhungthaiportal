@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { TABS_DATA } from '../../data/tabs';
+import { TABS_DATA, MENU_ICON_PAGE_ORDER } from '../../data/tabs';
 import { WeatherWidget } from '../common/WeatherWidget';
 import { WebIcon } from '../ui/WebIcon';
 import { SpringDropdownMenu, SpringTick, useSpringDropdownHighlight } from '../ui/SpringDropdown';
@@ -14,14 +14,17 @@ const UNIFORM_RIGHT_PILL_WIDTH = 176;
 
 const FAMILY_SWATCHES: Record<string, string[]> = {
   'liquid-glass': LETTER_14_LIGHT_HEXES,
+  'glassmorphism': ['#38BDF8', '#8B5CF6', '#EC4899', '#2DD4BF'],
   'cowhide-leather': ['#8B5A2B', '#2B221E', '#E5B87E'],
   'walnut-wood': ['#F5C478', '#4E2F1B', '#2A190F'],
   'deep-ocean': ['#1951FC', '#38BDF8', '#0A1128'],
   'neumorphism-beyond': LETTER_14_LIGHT_HEXES,
+  'neumorphism-soft-ui': ['#E0E5EC', '#4F46E5', '#1E293B'],
   'frost-ice-neu': ['#5B57E8', '#E0E8F2', '#94A3B8'],
-  'flat-soft-ui': LETTER_14_LIGHT_HEXES,
+  'flat-soft-ui': ['#8B5CF6', '#4F46E5', '#06B6D4', '#10B981', '#FFDF25', '#E64C72'],
+  'flat-ui': ['#3B82F6', '#10B981', '#F59E0B', '#F3F4F6'],
+  'nexus-bento': ['#090D16', '#111827', '#8B5CF6', '#38BDF8', '#EC4899', '#F4F7FB'],
   'mica-fluent': LETTER_14_LIGHT_HEXES,
-  'gradient-dopamine': ['#FF2E93', '#7C3AED', '#00D2FF'],
   'iridescent-liquid-glass': ['#06B6D4', '#FB923C', '#8B5CF6', '#EC4899'],
 };
 
@@ -592,70 +595,107 @@ const FooterComponent: React.FC<FooterProps> = ({
           }}
           className="theme-capsule-btn nav-pill relative z-10 flex items-center justify-between text-[var(--text-primary)] border group font-play font-bold"
         >
-          {/* Prev Button */}
-          <button
-            id="footer-prev-btn"
-            type="button"
-            tabIndex={hideCenterNavCapsule ? -1 : 0}
-            aria-hidden={hideCenterNavCapsule}
-            aria-label={isEn ? 'Previous Page' : 'Trang trước'}
-            onClick={(e) => {
-              e.stopPropagation();
-              onNavigate(-1);
-            }}
-            title={isEn ? 'Previous Page' : 'Trang trước'}
-            className={`theme-prev-next-btn ${
-              isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[36px] min-h-[36px]'
-            } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
-              hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
-            }`}
-          >
-            <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
-          </button>
+          {(() => {
+            const menuOrderPos = MENU_ICON_PAGE_ORDER.indexOf(currentTabIndex);
+            const totalMenuPages = MENU_ICON_PAGE_ORDER.length;
+            const prevTabId =
+              menuOrderPos !== -1
+                ? MENU_ICON_PAGE_ORDER[(menuOrderPos - 1 + totalMenuPages) % totalMenuPages]
+                : MENU_ICON_PAGE_ORDER[totalMenuPages - 1];
+            const nextTabId =
+              menuOrderPos !== -1
+                ? MENU_ICON_PAGE_ORDER[(menuOrderPos + 1) % totalMenuPages]
+                : MENU_ICON_PAGE_ORDER[0];
+            const prevTabInfo = TABS_DATA.find((tab) => tab.id === prevTabId);
+            const nextTabInfo = TABS_DATA.find((tab) => tab.id === nextTabId);
+            const prevTitle = prevTabInfo
+              ? isEn
+                ? `Previous: ${prevTabInfo.nameEn || prevTabInfo.name}`
+                : `Trang trước: ${prevTabInfo.name}`
+              : isEn
+                ? 'Previous Page'
+                : 'Trang trước';
+            const nextTitle = nextTabInfo
+              ? isEn
+                ? `Next: ${nextTabInfo.nameEn || nextTabInfo.name}`
+                : `Trang sau: ${nextTabInfo.name}`
+              : isEn
+                ? 'Next Page'
+                : 'Trang sau';
+            const pageCounterLabel =
+              menuOrderPos !== -1
+                ? `${String(menuOrderPos + 1).padStart(2, '0')}/${String(totalMenuPages).padStart(2, '0')}`
+                : `••/${String(totalMenuPages).padStart(2, '0')}`;
 
-          {/* Page Number with Active Page Icon */}
-          <span className="flex-1 h-full mx-0.5 sm:mx-1 flex items-center justify-center gap-1 sm:gap-1.5 select-none pointer-events-none">
-            <WebIcon
-              id="footer-page-icon"
-              name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
-              strokeWidth={2.85}
-              className="hidden sm:inline-block w-[18px] h-[18px] shrink-0"
-              style={{ color: rightPillAccent }}
-            />
-            <span
-              id="footer-page-counter"
-              className="text-[13px] sm:text-[15px] font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
-              style={{
-                color: rightPillAccent,
-                fontWeight: 800,
-                letterSpacing: '0.03em',
-                WebkitTextStroke: '0.28px currentColor',
-              }}
-            >
-              {String(currentTabIndex + 1).padStart(2, '0')}/{String(TABS_DATA.length).padStart(2, '0')}
-            </span>
-          </span>
+            return (
+              <>
+                {/* Prev Button */}
+                <button
+                  id="footer-prev-btn"
+                  type="button"
+                  tabIndex={hideCenterNavCapsule ? -1 : 0}
+                  aria-hidden={hideCenterNavCapsule}
+                  aria-label={prevTitle}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onNavigate(-1);
+                  }}
+                  title={prevTitle}
+                  className={`theme-prev-next-btn ${
+                    isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[36px] min-h-[36px]'
+                  } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+                    hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
+                  }`}
+                >
+                  <WebIcon name="chevron-left" strokeWidth={2.85} className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px]" />
+                </button>
 
-          {/* Next Button */}
-          <button
-            id="footer-next-btn"
-            type="button"
-            tabIndex={hideCenterNavCapsule ? -1 : 0}
-            aria-hidden={hideCenterNavCapsule}
-            aria-label={isEn ? 'Next Page' : 'Trang sau'}
-            onClick={(e) => {
-              e.stopPropagation();
-              onNavigate(1);
-            }}
-            title={isEn ? 'Next Page' : 'Trang sau'}
-            className={`theme-prev-next-btn ${
-              isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[32px] min-h-[32px]'
-            } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
-              hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
-            }`}
-          >
-            <WebIcon name="chevron-right" strokeWidth={2.85} className="w-4 h-4" />
-          </button>
+                {/* Page Number with Active Page Icon */}
+                <span className="flex-1 h-full mx-0.5 sm:mx-1 flex items-center justify-center gap-1 sm:gap-1.5 select-none pointer-events-none">
+                  <WebIcon
+                    id="footer-page-icon"
+                    name={TABS_DATA[currentTabIndex]?.icon || 'grid'}
+                    strokeWidth={2.85}
+                    className="hidden sm:inline-block w-[18px] h-[18px] shrink-0"
+                    style={{ color: rightPillAccent }}
+                  />
+                  <span
+                    id="footer-page-counter"
+                    className="text-[13px] sm:text-[15px] font-play font-extrabold tracking-wide leading-none tabular-nums whitespace-nowrap"
+                    style={{
+                      color: rightPillAccent,
+                      fontWeight: 800,
+                      letterSpacing: '0.03em',
+                      WebkitTextStroke: '0.28px currentColor',
+                    }}
+                  >
+                    {pageCounterLabel}
+                  </span>
+                </span>
+
+                {/* Next Button */}
+                <button
+                  id="footer-next-btn"
+                  type="button"
+                  tabIndex={hideCenterNavCapsule ? -1 : 0}
+                  aria-hidden={hideCenterNavCapsule}
+                  aria-label={nextTitle}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onNavigate(1);
+                  }}
+                  title={nextTitle}
+                  className={`theme-prev-next-btn ${
+                    isSmallMobile ? 'min-w-[28px] min-h-[28px]' : 'min-w-[32px] min-h-[32px]'
+                  } h-full aspect-square rounded-[999px] flex items-center justify-center cursor-pointer shrink-0 border-0 ${
+                    hideCenterNavCapsule ? 'opacity-0 pointer-events-none' : ''
+                  }`}
+                >
+                  <WebIcon name="chevron-right" strokeWidth={2.85} className="w-4 h-4" />
+                </button>
+              </>
+            );
+          })()}
         </div>
       </div>
 

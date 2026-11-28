@@ -38,6 +38,20 @@ const U270_STYLES = `
   color: var(--ux-ink);
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.01em;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+#home-u270-parallax-stage::before,
+#home-u270-parallax-stage::after {
+  content: none !important;
+  display: none !important;
 }
 
 .dark .u270-stage,
@@ -396,7 +410,17 @@ export const HomeCursorParallaxFloatingHero: React.FC<HomeCursorParallaxFloating
       data-theme={isDark ? 'dark' : 'light'}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="ux u270-stage relative flex items-center justify-center w-full h-full"
+      className="ux u270-stage relative flex items-center justify-center w-full h-full bg-transparent border-0 shadow-none"
+      style={{
+        background: 'transparent',
+        backgroundColor: 'transparent',
+        backgroundImage: 'none',
+        border: 'none',
+        outline: 'none',
+        boxShadow: 'none',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+      }}
     >
       <style>{U270_STYLES}</style>
 

@@ -447,163 +447,16 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   className="relative flex items-center justify-center w-[min(276px,72vw)] h-[min(276px,72vw)] sm:w-[min(420px,76vw)] sm:h-[min(420px,76vw)] md:w-[min(440px,46vw,66vh)] md:h-[min(440px,46vw,66vh)] lg:w-[min(520px,48vw,70vh)] lg:h-[min(520px,48vw,70vh)] xl:w-[min(560px,50vw,74vh)] xl:h-[min(560px,50vw,74vh)] shrink-0"
                 >
                   <HomeCursorParallaxFloatingHero isEn={isEn} isDark={isDark}>
-                    {/* Các đường line chuyển động xoay đồng tâm xung quanh hình tròn Trang chủ */}
-                    <div
-                      aria-hidden="true"
-                      className="home-circle-orbit-lines pointer-events-none select-none absolute inset-[-6px] sm:inset-[-8px] z-0"
-                    >
-                      {/* Vòng line đứt nét ngoài cùng xoay theo chiều kim đồng hồ */}
-                      <svg
-                        viewBox="0 0 400 400"
-                        className="absolute inset-0 w-full h-full overflow-visible"
-                        style={{
-                          animation: prefersReducedMotion
-                            ? 'none'
-                            : 'homeOrbitSpinCw 26s linear infinite',
-                          willChange: 'transform',
-                        }}
-                      >
-                        <defs>
-                          <linearGradient id="homeOrbitGradOuter" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop
-                              offset="0%"
-                              stopColor={
-                                isLeatherTheme
-                                  ? '#FDE68A'
-                                  : isOceanTheme
-                                    ? '#38BDF8'
-                                    : 'var(--color-primary, #4F46E5)'
-                              }
-                              stopOpacity="0.92"
-                            />
-                            <stop
-                              offset="50%"
-                              stopColor={
-                                isLeatherTheme
-                                  ? '#D97706'
-                                  : isOceanTheme
-                                    ? '#0EA5E9'
-                                    : '#EC4899'
-                              }
-                              stopOpacity="0.35"
-                            />
-                            <stop
-                              offset="100%"
-                              stopColor={
-                                isLeatherTheme
-                                  ? '#FDE68A'
-                                  : isOceanTheme
-                                    ? '#22D3EE'
-                                    : '#06B6D4'
-                              }
-                              stopOpacity="0.92"
-                            />
-                          </linearGradient>
-                        </defs>
-                        <circle
-                          cx="200"
-                          cy="200"
-                          r="196"
-                          fill="none"
-                          stroke="url(#homeOrbitGradOuter)"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeDasharray="64 16 14 14 38 18"
-                        />
-                      </svg>
-
-                      {/* Vòng cung sáng giữa xoay ngược chiều kim đồng hồ */}
-                      <svg
-                        viewBox="0 0 400 400"
-                        className="absolute inset-0 w-full h-full overflow-visible"
-                        style={{
-                          animation: prefersReducedMotion
-                            ? 'none'
-                            : 'homeOrbitSpinCcw 18s linear infinite',
-                          willChange: 'transform',
-                        }}
-                      >
-                        <defs>
-                          <linearGradient id="homeOrbitGradMid" x1="100%" y1="0%" x2="0%" y2="100%">
-                            <stop
-                              offset="0%"
-                              stopColor={
-                                isLeatherTheme
-                                  ? '#F5C478'
-                                  : isOceanTheme
-                                    ? '#7DD3FC'
-                                    : '#06B6D4'
-                              }
-                              stopOpacity="0.95"
-                            />
-                            <stop
-                              offset="100%"
-                              stopColor={
-                                isLeatherTheme
-                                  ? '#92400E'
-                                  : isOceanTheme
-                                    ? '#2563EB'
-                                    : 'var(--color-primary, #6366F1)'
-                              }
-                              stopOpacity="0.18"
-                            />
-                          </linearGradient>
-                        </defs>
-                        <circle
-                          cx="200"
-                          cy="200"
-                          r="189"
-                          fill="none"
-                          stroke="url(#homeOrbitGradMid)"
-                          strokeWidth="1.35"
-                          strokeLinecap="round"
-                          strokeDasharray="96 110 72 110"
-                        />
-                      </svg>
-
-                      {/* Vòng line nét mảnh sát viền trong xoay chậm cùng chiều */}
-                      <svg
-                        viewBox="0 0 400 400"
-                        className="absolute inset-0 w-full h-full overflow-visible"
-                        style={{
-                          animation: prefersReducedMotion
-                            ? 'none'
-                            : 'homeOrbitSpinCw 14s linear infinite',
-                          willChange: 'transform',
-                        }}
-                      >
-                        <circle
-                          cx="200"
-                          cy="200"
-                          r="182"
-                          fill="none"
-                          stroke={
-                            isLeatherTheme
-                              ? 'rgba(253, 230, 138, 0.45)'
-                              : isOceanTheme
-                                ? 'rgba(56, 189, 248, 0.45)'
-                                : isDark
-                                  ? 'rgba(255, 255, 255, 0.36)'
-                                  : 'rgba(99, 102, 241, 0.35)'
-                          }
-                          strokeWidth="1"
-                          strokeLinecap="round"
-                          strokeDasharray="4 10"
-                        />
-                      </svg>
-                    </div>
-
                     <div
                       id="home-hero-circle-frame"
-                      className="relative w-[calc(100%-34px)] h-[calc(100%-34px)] sm:w-[calc(100%-44px)] sm:h-[calc(100%-44px)] rounded-full overflow-visible flex items-center justify-center shadow-[0_20px_48px_rgba(15,23,42,0.18)]"
+                      className="relative w-[calc(100%-34px)] h-[calc(100%-34px)] sm:w-[calc(100%-44px)] sm:h-[calc(100%-44px)] rounded-full overflow-visible flex items-center justify-center bg-transparent border-0 shadow-none"
                       style={{
                         borderRadius: '9999px',
-                        background: isDark
-                          ? 'linear-gradient(145deg, rgba(30,41,59,0.72), rgba(51,65,85,0.45))'
-                          : 'linear-gradient(145deg, rgba(255,255,255,0.75), rgba(238,242,255,0.58))',
-                        border: isDark
-                          ? '2px solid rgba(255, 255, 255, 0.22)'
-                          : '2px solid rgba(255, 255, 255, 0.92)',
+                        background: 'transparent',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        outline: 'none',
+                        boxShadow: 'none',
                       }}
                     >
                       <DualLayerVideoPlayer

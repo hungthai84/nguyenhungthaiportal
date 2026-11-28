@@ -120,7 +120,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
             </span>
           </div>
 
-          <span className="edu-side-spine-title drop-shadow-[0_1px_3px_rgba(0,0,0,0.65)]">
+          <span className="edu-side-spine-title drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]">
             {title}
           </span>
 
@@ -149,7 +149,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
           />
           <div className="edu-vjy-pages" aria-hidden="true" />
           <div
-            className="edu-book-frame text-white p-3.5 pl-5"
+            className="edu-book-frame text-white p-2.5 pl-4"
             style={{ background: palette.coverBg }}
           >
             <div className={`edu-art-pattern ${pattern}`} aria-hidden="true" />
@@ -160,37 +160,37 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
             {/* Top Kicker Row */}
             <div className="relative z-10 flex items-center justify-between gap-1.5 w-full">
               <span
-                className="text-[9.5px] font-bold tracking-wide truncate px-1.5 py-0.5 rounded bg-black/25 border border-white/15"
+                className="text-[10.5px] font-bold tracking-wide truncate px-1.5 py-0.5 rounded bg-black/25 border border-white/18"
                 style={{ color: palette.soft }}
               >
                 {categoryLabel}
               </span>
-              <span className="text-[9px] font-bold tabular-nums text-white/85 shrink-0">
+              <span className="text-[10px] font-bold tabular-nums text-white/90 shrink-0">
                 {shortCode}
               </span>
             </div>
 
-            {/* Center Cover Artwork Emblem */}
-            <div className="relative z-10 flex flex-col items-start gap-2 my-auto">
+            {/* Center Cover Artwork Emblem & Bold Title */}
+            <div className="relative z-10 flex flex-col items-start gap-1.5 my-auto">
               <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center bg-black/22 border border-white/22 shadow-sm"
+                className="w-8 h-8 rounded-lg flex items-center justify-center bg-black/22 border border-white/22 shadow-sm"
                 style={{ color: palette.soft }}
               >
-                <WebIcon name={iconName} className="w-4.5 h-4.5" />
+                <WebIcon name={iconName} className="w-4 h-4" />
               </div>
-              <h3 className="m-0 text-[13.5px] font-extrabold leading-tight tracking-tight text-white line-clamp-3 drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+              <h3 className="m-0 text-[15.5px] font-extrabold leading-[1.15] tracking-tight text-white line-clamp-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
                 {title}
               </h3>
             </div>
 
             {/* Bottom Colophon */}
-            <div className="relative z-10 pt-2 border-t border-white/20 flex items-center justify-between gap-1 w-full">
-              <span className="text-[9.5px] font-semibold text-white/88 truncate">
+            <div className="relative z-10 pt-1.5 border-t border-white/22 flex items-center justify-between gap-1 w-full">
+              <span className="text-[10.5px] font-semibold text-white/92 truncate">
                 {course.issuer}
               </span>
               <WebIcon
                 name="arrow-up-right"
-                className="w-3 h-3 shrink-0 opacity-80"
+                className="w-3.5 h-3.5 shrink-0 opacity-85"
                 style={{ color: palette.soft }}
               />
             </div>
@@ -217,33 +217,33 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
               style={{ background: palette.soft }}
               aria-hidden="true"
             />
-            <div className="flex items-center justify-between gap-1 text-[9.5px] font-bold tracking-wide">
+            <div className="flex items-center justify-between gap-1 text-[10.5px] font-bold tracking-wide">
               <span className="truncate" style={{ color: palette.soft }}>
                 {categoryLabel}
               </span>
-              <span className="tabular-nums text-white/80 shrink-0">
+              <span className="tabular-nums text-white/90 shrink-0">
                 {course.year}
               </span>
             </div>
           </div>
 
           <div className="relative z-10 flex flex-col gap-1.5 my-auto">
-            <h3 className="m-0 text-[14.5px] font-extrabold leading-[1.18] tracking-tight text-white line-clamp-3 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+            <h3 className="m-0 text-[16px] font-extrabold leading-[1.15] tracking-tight text-white line-clamp-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.42)]">
               {title}
             </h3>
-            <p className="m-0 text-[9.5px] leading-snug text-white/82 line-clamp-2">
+            <p className="m-0 text-[10.5px] font-semibold leading-snug text-white/85 line-clamp-2">
               {course.type || course.issuer}
             </p>
           </div>
 
-          <div className="relative z-10 w-full flex items-center justify-between gap-1.5 pt-2 border-t border-white/20">
+          <div className="relative z-10 w-full flex items-center justify-between gap-1.5 pt-1.5 border-t border-white/22">
             <span className="inline-flex items-center gap-1 min-w-0">
               <WebIcon
                 name={iconName}
                 className="w-3.5 h-3.5 shrink-0"
                 style={{ color: palette.soft }}
               />
-              <span className="text-[9.5px] font-semibold text-white/90 truncate">
+              <span className="text-[10.5px] font-semibold text-white/92 truncate">
                 {course.issuer}
               </span>
             </span>
@@ -273,32 +273,32 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
               />
               <span
                 className="edu-bauhaus-square"
-                style={{ background: '#ffffff', opacity: 0.85 }}
+                style={{ background: '#ffffff', opacity: 0.9 }}
               />
               <span
                 className="edu-bauhaus-dot"
-                style={{ background: palette.highlight, opacity: 0.65 }}
+                style={{ background: palette.highlight, opacity: 0.78 }}
               />
             </div>
-            <span className="text-[9px] font-extrabold tracking-wide px-1.5 py-0.5 rounded bg-black/28 text-white/90 tabular-nums">
+            <span className="text-[10px] font-extrabold tracking-wide px-1.5 py-0.5 rounded bg-black/28 text-white/95 tabular-nums">
               {shortCode}
             </span>
           </div>
 
           {/* Geometric Center Block */}
-          <div className="relative z-10 w-full my-auto flex flex-col gap-2">
+          <div className="relative z-10 w-full my-auto flex flex-col gap-1.5">
             <div
-              className="w-full h-[3px] rounded-full opacity-55"
+              className="w-full h-[2.5px] rounded-full opacity-75"
               style={{
                 background: `linear-gradient(90deg, ${palette.soft} 0%, transparent 100%)`,
               }}
               aria-hidden="true"
             />
-            <h3 className="m-0 text-[14px] font-extrabold leading-[1.2] tracking-tight text-white line-clamp-3 drop-shadow-[0_2px_6px_rgba(0,0,0,0.48)]">
+            <h3 className="m-0 text-[15.5px] font-extrabold leading-[1.15] tracking-tight text-white line-clamp-3 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
               {title}
             </h3>
             <span
-              className="text-[10px] font-bold tracking-wide truncate"
+              className="text-[11px] font-bold tracking-wide truncate"
               style={{ color: palette.soft }}
             >
               {categoryLabel}
@@ -306,8 +306,8 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
           </div>
 
           {/* Bauhaus Footer Strip */}
-          <div className="relative z-10 w-full flex items-center justify-between gap-1.5 px-2 py-1.5 rounded-md bg-black/26 border border-white/15">
-            <span className="text-[9px] font-semibold text-white/92 truncate">
+          <div className="relative z-10 w-full flex items-center justify-between gap-1.5 px-2 py-1.5 rounded-md bg-black/28 border border-white/18">
+            <span className="text-[10.5px] font-semibold text-white/95 truncate">
               {course.issuer}
             </span>
             <WebIcon
@@ -331,38 +331,38 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
         <div className="edu-book-paper-grain" aria-hidden="true" />
         <div className="edu-book-light" aria-hidden="true" />
 
-        <div className="relative z-10 w-full flex items-center justify-center pb-1.5 border-b border-white/20">
+        <div className="relative z-10 w-full flex items-center justify-center pb-1.5 border-b border-white/22">
           <span
-            className="text-[10px] font-bold tracking-wide truncate"
+            className="text-[11px] font-bold tracking-wide truncate"
             style={{ color: palette.soft }}
           >
             {categoryLabel}
           </span>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center gap-2 my-auto w-full">
+        <div className="relative z-10 flex flex-col items-center gap-1.5 my-auto w-full">
           <div
             className="edu-zen-circle"
             style={{
-              background: `radial-gradient(circle at 35% 30%, ${palette.highlight} 0%, rgba(0,0,0,0.28) 100%)`,
+              background: `radial-gradient(circle at 35% 30%, ${palette.highlight} 0%, rgba(0,0,0,0.32) 100%)`,
             }}
           >
             <WebIcon
               name={iconName}
-              className="w-5 h-5 text-white drop-shadow"
+              className="w-4.5 h-4.5 text-white drop-shadow"
             />
-            <span className="text-[8.5px] font-extrabold tracking-widest tabular-nums text-white/90">
+            <span className="text-[10px] font-extrabold tracking-wider tabular-nums text-white/95">
               {course.year}
             </span>
           </div>
 
-          <h3 className="m-0 text-[13px] font-extrabold leading-tight tracking-tight text-white line-clamp-2 px-0.5 drop-shadow-[0_2px_5px_rgba(0,0,0,0.5)]">
+          <h3 className="m-0 text-[15px] font-extrabold leading-[1.15] tracking-tight text-white line-clamp-2 px-0.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
             {title}
           </h3>
         </div>
 
-        <div className="relative z-10 w-full pt-1.5 border-t border-white/20">
-          <span className="block text-[9px] font-semibold text-white/85 truncate">
+        <div className="relative z-10 w-full pt-1.5 border-t border-white/22">
+          <span className="block text-[10.5px] font-semibold text-white/92 truncate">
             {course.issuer}
           </span>
         </div>
@@ -392,25 +392,12 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
         {renderBookVisual()}
       </div>
 
-      {/* Hover Tooltip (Title, Author/Issuer, Publication Year) */}
-      <div className="edu-book-tooltip" role="tooltip">
-        <span className="text-xs font-bold leading-snug line-clamp-2 text-white">
-          {title}
-        </span>
-        <span className="text-[10px] font-semibold text-purple-300 truncate">
-          {course.issuer}
-        </span>
-        <span className="text-[9.5px] font-mono text-slate-300 tabular-nums">
-          {isEn ? `Published: ${course.year}` : `Năm XB: ${course.year}`}
-        </span>
-      </div>
-
       {/* Contact shadow on wooden ledge */}
       <span className="edu-book-shadow" aria-hidden="true" />
 
       {/* Calendar year badge mounted on the wooden plank fascia */}
       <span className="edu-book-shelf-year" aria-hidden="true">
-        <WebIcon name="calendar" className="edu-book-shelf-year-icon w-2.5 h-2.5 shrink-0" />
+        <WebIcon name="calendar" className="edu-book-shelf-year-icon w-3 h-3 shrink-0" />
         <span>{isEn ? course.year : `Năm ${course.year}`}</span>
       </span>
     </button>

@@ -1,292 +1,1013 @@
-/* ========================================================================= */
-/* THEME: NEUMORPHISM SOFT UI LIGHT (PURE SOFT EXTRUDED INTERFACE)           */
-/* Palette: Background/Surface #E9EDF4 · Highlight #FFFFFF · Shadow #C8D0DE  */
-/* Accents: Blue #4F65E8 · Sky #64B5F6 · Cyan #25C5C9 · Pink #D95CB7 · Mint #5AD5B5 */
-/* Text: Primary #26344A · Secondary #66748B                                 */
-/* ========================================================================= */
+/* ==========================================================================
+   THEME: NEUMORPHISM (SOFT UI)
+   Pure material-less matte surface sculpted exclusively by dual soft shadows:
+   - Controls share the background's exact uniform matte color (--neu-base: #e0e5ec)
+   - Raised elements use dual soft shadows (light top-left, dark bottom-right)
+   - Pressed / input states invert the shadow pair inward (inset)
+   - Zero borders anywhere; generous rounded corners; zero gloss/texture/blur
+   - One saturated accent (--neu-accent: #4F46E5) for primary actions & cues
+   - WCAG AAA/AA readable text contrast + visible non-shadow focus/state cues
+   - Full prefers-reduced-motion support
+   ========================================================================== */
 
-:root,
-html[data-card-style="neumorphism-beyond"],
-html[data-card-style="neumorphism-soft-ui"],
-[data-theme="neumorphism-beyond"],
-[data-theme="neumorphism-soft-ui"] {
-  --neu-bg: #E9EDF4;
-  --neu-surface: #E9EDF4;
-  --neu-highlight: #FFFFFF;
-  --neu-shadow: #C8D0DE;
-  --neu-shadow-dark: #A3B1C6;
-
-  --neu-primary-blue: #4F65E8;
-  --neu-sky: #64B5F6;
-  --neu-cyan: #25C5C9;
-  --neu-pink: #D95CB7;
-  --neu-mint: #5AD5B5;
-
-  --neu-text-primary: #26344A;
-  --neu-text-secondary: #66748B;
-  --neu-text-muted: #8896AB;
-
-  /* Neumorphic Shadow Tokens */
-  --neu-raised-l1: -10px -10px 20px rgba(255, 255, 255, 0.9), 10px 10px 20px rgba(163, 177, 198, 0.65);
-  --neu-raised-l2: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.6);
-  --neu-raised-l3: -4px -4px 8px rgba(255, 255, 255, 0.8), 4px 4px 8px rgba(163, 177, 198, 0.5);
-  --neu-raised-hover: -7px -7px 14px rgba(255, 255, 255, 0.95), 7px 7px 14px rgba(163, 177, 198, 0.7);
-  --neu-inset: inset -4px -4px 8px rgba(255, 255, 255, 0.8), inset 4px 4px 8px rgba(163, 177, 198, 0.55);
-  --neu-inset-shallow: inset -3px -3px 6px rgba(255, 255, 255, 0.85), inset 3px 3px 6px rgba(163, 177, 198, 0.45);
+/* --------------------------------------------------------------------------
+   1. STANDALONE CARD UTILITY CLASS (used in theme preview cards)
+   -------------------------------------------------------------------------- */
+.card-neumorphism-soft-ui {
+  background: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  border-radius: 22px !important;
+  box-shadow:
+    -6px -6px 12px var(--neu-shadow-light, rgba(255, 255, 255, 0.85)),
+    6px 6px 12px var(--neu-shadow-dark, rgba(163, 177, 198, 0.6)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #1e293b !important;
+  transition: box-shadow 180ms ease, transform 180ms ease !important;
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) {
+.card-neumorphism-soft-ui:hover {
+  box-shadow:
+    -8px -8px 16px var(--neu-shadow-light, rgba(255, 255, 255, 0.9)),
+    8px 8px 16px var(--neu-shadow-dark, rgba(163, 177, 198, 0.68)) !important;
+}
+
+.card-neumorphism-soft-ui:active {
+  box-shadow:
+    inset -6px -6px 12px var(--neu-shadow-light, rgba(255, 255, 255, 0.85)),
+    inset 6px 6px 12px var(--neu-shadow-dark, rgba(163, 177, 198, 0.6)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. CORE TOKENS (FLEXIBLE MATTE BASE HUE + ONE SATURATED ACCENT)
+   -------------------------------------------------------------------------- */
+[data-theme="neumorphism-soft-ui"],
+html[data-card-style="neumorphism-soft-ui"] {
   color-scheme: light;
 
-  --bg-blur: 0px !important;
-  --glass-blur: 0px !important;
-  --blur-modal: 0px !important;
-  --surface-primary-blur: 0px !important;
-  --backdrop-blur: 0px !important;
+  /* Flexible matte base hue — classically pale grey-blue #e0e5ec */
+  --neu-base: #e0e5ec;
+  --neu-bg: var(--neu-base);
+  --neu-surface: var(--neu-base);
+  --neu-shadow-light: rgba(255, 255, 255, 0.85);
+  --neu-shadow-dark: rgba(163, 177, 198, 0.6);
 
-  /* Global Colors */
-  --color-bg: #E9EDF4;
-  --color-bg-soft: #E9EDF4;
-  --color-bg-blue: #E9EDF4;
-  --color-surface: #E9EDF4;
-  --color-surface-elevated: #E9EDF4;
+  /* One saturated accent for primary actions & accessible state cues */
+  --neu-accent: #4f46e5;
+  --neu-accent-ink: #3730a3;
+  --neu-accent-on: #ffffff;
+  --neu-danger: #dc2626;
 
-  --color-heading: #26344A;
-  --color-text: #26344A;
-  --color-text-secondary: #66748B;
-  --color-text-muted: #8896AB;
-  --color-text-inverse: #FFFFFF;
+  /* Dual soft shadow pairs (raised & inverted inset) */
+  --neu-raised-l1:
+    -9px -9px 18px var(--neu-shadow-light),
+    9px 9px 18px var(--neu-shadow-dark);
+  --neu-raised-l2:
+    -6px -6px 12px var(--neu-shadow-light),
+    6px 6px 12px var(--neu-shadow-dark);
+  --neu-raised-l3:
+    -4px -4px 9px var(--neu-shadow-light),
+    4px 4px 9px var(--neu-shadow-dark);
+  --neu-raised-hover:
+    -8px -8px 15px var(--neu-shadow-light),
+    8px 8px 15px var(--neu-shadow-dark);
+  --neu-inset:
+    inset -6px -6px 12px var(--neu-shadow-light),
+    inset 6px 6px 12px var(--neu-shadow-dark);
+  --neu-inset-sm:
+    inset -4px -4px 8px var(--neu-shadow-light),
+    inset 4px 4px 8px var(--neu-shadow-dark);
 
-  --color-primary: #4F65E8;
-  --color-secondary: #64B5F6;
-  --color-tertiary: #25C5C9;
-  --color-accent: #D95CB7;
-  --color-sky: #64B5F6;
-  --color-blue: #4F65E8;
-  --color-cyan: #25C5C9;
-  --color-pink: #D95CB7;
-  --color-green: #5AD5B5;
-  --color-mint: #5AD5B5;
-  --color-amber: #F59E0B;
-  --color-purple: #7C3AED;
+  /* Material-less: strictly zero blur */
+  --bg-blur: 0px;
+  --glass-blur: 0px;
+  --blur-subcard: 0px;
+  --blur-nav-pill: 0px;
+  --blur-modal: 0px;
+  --surface-primary-blur: 0px;
+  --surface-secondary-blur: 0px;
+  --surface-tertiary-blur: 0px;
+  --surface-nested-blur: 0px;
+  --backdrop-blur: 0px;
+  --ambient-wallpaper-opacity: 0;
 
+  /* High-contrast readable text tokens (WCAG AAA / AA on #e0e5ec) */
+  --color-heading: #1e293b;
+  --color-text: #1e293b;
+  --color-text-secondary: #334155;
+  --color-text-muted: #475569;
+  --color-text-inverse: #ffffff;
+
+  --text-primary: #1e293b;
+  --text-heading: #1e293b;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --text-link: var(--neu-accent-ink);
+  --text-accent: var(--neu-accent-ink);
+  --text-input: #1e293b;
+  --text-placeholder: #526177;
+  --text-on-dark: #ffffff;
+  --text-button-primary: var(--neu-accent-on);
+  --text-button-secondary: #1e293b;
+  --text-badge: var(--neu-accent-ink);
+  --text-highlight: var(--neu-accent-ink);
+  --liquid-text-primary: #1e293b;
+  --liquid-text-secondary: #334155;
+
+  /* Uniform matte color across every surface */
+  --color-bg: var(--neu-base);
+  --color-bg-soft: var(--neu-base);
+  --color-bg-blue: var(--neu-base);
+  --color-surface: var(--neu-base);
+  --color-surface-elevated: var(--neu-base);
+  --liquid-page-bg: var(--neu-base);
+  --liquid-page-bg-secondary: var(--neu-base);
+  --liquid-glass-surface: var(--neu-base);
+  --liquid-glass-surface-strong: var(--neu-base);
+  --liquid-glass-border: transparent;
+
+  --bg-primary: var(--neu-base);
+  --bg-secondary: var(--neu-base);
+  --bg-app: var(--neu-base);
+  --bg-page: var(--neu-base);
+  --bg-main: var(--neu-base);
+  --bg-header: var(--neu-base);
+  --bg-footer: var(--neu-base);
+  --bg-card: var(--neu-base);
+  --bg-card-hover: var(--neu-base);
+  --bg-subcard: var(--neu-base);
+  --bg-subcard-hover: var(--neu-base);
+  --bg-nested: var(--neu-base);
+  --bg-nested-card: var(--neu-base);
+  --bg-modal: var(--neu-base);
+  --bg-popup: var(--neu-base);
+  --bg-dropdown: var(--neu-base);
+  --bg-tooltip: #1e293b;
+  --bg-input: var(--neu-base);
+  --bg-table: var(--neu-base);
+  --bg-table-head: var(--neu-base);
+  --bg-banner: var(--neu-base);
+  --bg-nav-button-opaque: var(--neu-base);
+  --bg-nav-pill: var(--neu-base);
+  --bg-nav-pill-hover: var(--neu-base);
+  --bg-nav-arrow: var(--neu-base);
+  --bg-banner-pill: var(--neu-base);
+  --bg-button-secondary: var(--neu-base);
+  --bg-button-hover: var(--neu-base);
+  --bg-badge: var(--neu-base);
+  --bg-highlight: rgba(79, 70, 229, 0.1);
+
+  /* Single saturated accent */
+  --color-primary: var(--neu-accent);
+  --color-accent: var(--neu-accent);
+  --color-focus-ring: var(--neu-accent);
+  --bg-button-primary: var(--neu-accent);
+  --bg-banner-cta: var(--neu-accent);
+  --text-banner-cta: var(--neu-accent-on);
+  --text-banner-pill: #1e293b;
+  --text-nav-arrow: #1e293b;
+
+  /* Zero borders anywhere */
+  --card-border-width: 0px;
   --color-border: transparent;
-  --border-color: transparent;
   --color-border-soft: transparent;
+  --border-color: transparent;
+  --border-card: transparent;
   --border-subcard: transparent;
-  --border-default: transparent;
+  --border-modal: transparent;
+  --border-input: transparent;
+  --border-popup: transparent;
+  --border-nav-arrow: transparent;
+  --border-banner-pill: transparent;
 
-  --bg-main: #E9EDF4;
-  --bg-header: #E9EDF4;
-  --bg-footer: #E9EDF4;
-  --bg-card: #E9EDF4;
-  --bg-subcard: #E9EDF4;
-  --bg-modal: #E9EDF4;
-  --bg-popup: #E9EDF4;
-  --bg-dropdown: #E9EDF4;
-  --bg-input: #E9EDF4;
-  --bg-tab: #E9EDF4;
+  /* Surface elevation shadows */
+  --shadow-main-card: var(--neu-raised-l1);
+  --shadow-header: var(--neu-raised-l1);
+  --shadow-footer: var(--neu-raised-l1);
+  --shadow-card: var(--neu-raised-l2);
+  --shadow-card-hover: var(--neu-raised-hover);
+  --shadow-subcard: var(--neu-raised-l3);
+  --shadow-subcard-hover: var(--neu-raised-l2);
+  --shadow-nav-pill: var(--neu-raised-l3);
+  --shadow-button: var(--neu-raised-l3);
+  --shadow-popup: var(--neu-raised-l1);
+  --shell-surface-shadow: var(--neu-raised-l1);
 
-  --text-primary: #26344A;
-  --text-heading: #26344A;
-  --text-secondary: #66748B;
-  --text-muted: #8896AB;
-  --text-link: #4F65E8;
-  --text-accent: #4F65E8;
-  --text-input: #26344A;
-  --text-placeholder: #8896AB;
-
-  /* Surfaces */
-  --surface-primary-bg: #E9EDF4;
+  --surface-primary-bg: var(--neu-base);
   --surface-primary-border: transparent;
   --surface-primary-shadow: var(--neu-raised-l1);
-  --surface-secondary-bg: #E9EDF4;
+  --surface-header-shadow: var(--neu-raised-l1);
+  --surface-footer-shadow: var(--neu-raised-l1);
+
+  --surface-secondary-bg: var(--neu-base);
   --surface-secondary-border: transparent;
   --surface-secondary-shadow: var(--neu-raised-l2);
-  --surface-tertiary-bg: #E9EDF4;
+
+  --surface-tertiary-bg: var(--neu-base);
   --surface-tertiary-border: transparent;
   --surface-tertiary-shadow: var(--neu-raised-l3);
 
-  --shadow-main-card: var(--neu-raised-l1);
-  --shadow-header: var(--neu-raised-l2);
-  --shadow-footer: var(--neu-raised-l2);
-  --shadow-card: var(--neu-raised-l2);
-  --shadow-subcard: var(--neu-raised-l3);
-  --shadow-popup: var(--neu-raised-l1);
+  --surface-nested-bg: var(--neu-base);
+  --surface-nested-border: transparent;
+  --surface-nested-shadow: var(--neu-raised-l3);
 
-  --bg-nav-pill: #E9EDF4;
-  --shadow-nav-pill: var(--neu-raised-l3);
-  --border-nav-pill: transparent;
-  --bg-button-primary: #4F65E8;
-  --text-button-primary: #FFFFFF;
+  --surface-interactive-bg: var(--neu-base);
+  --surface-interactive-hover: var(--neu-base);
+  --surface-interactive-active: var(--neu-accent);
+  --surface-interactive-border: transparent;
 
-  --app-bg-base: #E9EDF4;
+  /* Generous rounded corners */
+  --radius-main: 24px;
+  --radius-primary-surface: 24px;
+  --radius-header: 22px;
+  --radius-footer: 22px;
+  --radius-card: 22px;
+  --radius-subcard: 18px;
+  --radius-banner: 22px;
+  --radius-media: 20px;
+  --radius-video: 20px;
+  --radius-image: 18px;
+  --radius-modal: 24px;
+  --radius-popup: 22px;
+  --radius-input: 16px;
+  --radius-pill: 9999px;
+
+  --app-bg-base: var(--neu-base);
   --app-bg-gradient: none;
   --app-bg-opacity: 1;
 }
 
-/* Base Body Background */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) body {
-  background-color: #E9EDF4 !important;
-  color: #26344A !important;
+/* --------------------------------------------------------------------------
+   3. UNIFORM MATTE VIEWPORT CANVAS (ZERO TEXTURE / GLOSS / ORBS / WAVES)
+   -------------------------------------------------------------------------- */
+html[data-card-style="neumorphism-soft-ui"],
+html[data-card-style="neumorphism-soft-ui"] body {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  color: #1e293b !important;
 }
 
-/* Level 1: Main Card & Shell Chrome */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
+html[data-card-style="neumorphism-soft-ui"] #global-wallpaper-layer {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+}
+
+html[data-card-style="neumorphism-soft-ui"] #global-wallpaper-layer :is(
+  .ambient-layer-base,
+  .ambient-layer-glow,
+  .ambient-layer-abstract,
+  .ambient-layer-depth,
+  .ambient-layer-transition,
+  #global-wallpaper-dim-layer
+) {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Strip backdrop blur and pseudo-element glass sheen/gloss everywhere */
+html[data-card-style="neumorphism-soft-ui"] :is(
+  #app-header,
+  #app-footer,
+  .page-main-card,
+  [data-main-card="true"]:not(#pdf-page-container),
+  [data-section-card="true"],
+  .bento-card,
+  .bento-studio-card,
+  .service-card,
+  .domain-card,
+  .project-card,
+  .swot-quadrant-card,
+  .exp-studio-card,
+  .exp-bento-surface-card,
+  .sys-bento-studio-card,
+  .horoscope-bento-studio-card,
+  [data-subcard="true"],
+  .sub-card,
+  .subcard,
+  .service-bento-subtile,
+  .exp-studio-subtile,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .education-course-card,
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card,
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-card-style="neumorphism-soft-ui"] :is(
+  .bento-card,
+  .bento-studio-card,
+  .service-card,
+  .horoscope-bento-studio-card,
+  .exp-studio-card
+)::before,
+html[data-card-style="neumorphism-soft-ui"] :is(
+  .bento-card,
+  .bento-studio-card,
+  .service-card,
+  .horoscope-bento-studio-card,
+  .exp-studio-card
+)::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. LEVEL 1: SHELL & MAIN CONTAINERS (RAISED DUAL SOFT SHADOWS, NO BORDERS)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   #app-header,
   #app-footer,
   .page-main-card,
   [data-main-card="true"],
   [id$="-main-card"],
   #home-main-card,
+  #home-main-card-1,
+  [id^="home-main-card-"],
+  .home-screen-main-card,
+  #letter-main-card,
   #about-main-card,
+  #about-intro-card-1,
+  #about-intro-card-2,
+  #about-intro-grid-2,
   #experience-main-card,
   #education-main-card,
   #skills-main-card,
   #service-main-card,
   #services-main-card,
+  #systems-main-card,
   #projects-main-card,
   #interview-main-card,
+  #horoscope-card-1,
+  #horoscope-cards-track > .page-main-card,
+  #horoscope-cards-track > [data-main-card="true"],
+  #horoscope-cards-track > [id^="horoscope-card-"],
   #contact-main-card,
-  #systems-main-card
-) {
-  background: #E9EDF4 !important;
+  #ai-assistant-main-card,
+  #wallpaper-main-card,
+  #interface-main-card,
+  #memories-main-card
+):not(#pdf-page-container) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
   border: none !important;
-  box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.9), 10px 10px 20px rgba(163, 177, 198, 0.65) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  color: #26344A !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-main, 24px) !important;
+  box-shadow: var(--neu-raised-l1) !important;
+  color: #1e293b !important;
 }
 
-/* Level 2: Section Cards, Banner Cards, Bento Tiles */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
-  .banner-card,
-  .hero-banner,
+html:root[data-card-style="neumorphism-soft-ui"] body :is(#app-header, #app-footer) {
+  border-radius: var(--radius-header, 22px) !important;
+}
+
+/* Keep the transparent Home parallax stage clean & borderless */
+html:root[data-card-style="neumorphism-soft-ui"] body #home-u270-parallax-stage {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. LEVEL 2: SECTION CARDS, BENTO CARDS & CONTENT CARDS
+   Exact raised shadow pair: -6px -6px 12px rgba(255,255,255,.85),
+                              6px  6px 12px rgba(163,177,198,.6)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   [data-section-card="true"],
   .bento-card,
+  .bento-studio-card,
+  .banner-card,
+  .hero-banner,
   .service-card,
   .domain-card,
   .project-card,
-  .experience-card,
-  .modal-card
-) {
-  background: #E9EDF4 !important;
+  .swot-quadrant-card,
+  .exp-bento-surface-card,
+  .exp-studio-card,
+  .education-course-card,
+  .sys-bento-studio-card,
+  .horoscope-bento-studio-card,
+  .service-bento-tile,
+  #letter-page-container #pageContainer.nht-letter-sheet,
+  #letter-page-container #letter-profile-capability-card,
+  #letter-page-container [data-letter-card],
+  #about-page-container .bento-card,
+  #services-page-container #services-expanded-card,
+  #services-page-container #services-expanded-card .bento-item,
+  #ai-assistant-page-container [class*="bg-slate-950"]
+):not(.page-main-card):not([data-main-card="true"]):not(.banner-dropdown-menu):not([role="dialog"]):not([role="listbox"]):not(#footer-theme-popup):not(#footer-lang-popup):not(.education-book-paper):not(.company-logo-surface):not(#contact-calendar-viewport):not(#pdf-page-container):not(#pdf-page-container *) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
   border: none !important;
-  box-shadow: -6px -6px 12px rgba(255, 255, 255, 0.85), 6px 6px 12px rgba(163, 177, 198, 0.6) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-card, 22px) !important;
+  box-shadow: var(--neu-raised-l2) !important;
+  color: #1e293b !important;
+  transition: box-shadow 200ms ease, transform 200ms ease !important;
 }
 
-/* Level 3: Subcards & Minor Badges */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
-  .subcard,
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="neumorphism-soft-ui"] body :is(
+    .service-card:not([data-expanded-active="true"]),
+    .project-card,
+    .sys-bento-studio-card:not([data-expand-motion="true"]),
+    .horoscope-bento-studio-card,
+    #services-page-container #services-expanded-card .bento-item,
+    #about-page-container .bento-card
+  ):hover {
+    box-shadow: var(--neu-raised-hover) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .service-card:not([data-expanded-active="true"]),
+  .project-card,
+  .sys-bento-studio-card:not([data-expand-motion="true"])
+):active {
+  box-shadow: var(--neu-inset) !important;
+  transform: translateY(0) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. LEVEL 3: SUB-CARDS, NESTED PANELS & DEPRESSED TRAYS (NO BORDERS)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   [data-subcard="true"],
+  .sub-card,
+  .subcard,
+  .skill-swot-subcard,
+  .exp-bento-item-card,
+  .exp-detail-subcard,
+  .exp-studio-subtile,
   .service-bento-subtile,
-  .project-detail-subcard
-) {
-  background: #E9EDF4 !important;
+  .education-subcard,
+  .project-detail-subcard,
+  #experience-job-detail-card,
+  #about-page-container #about-box-tabs-shell .about-stack-card,
+  #letter-page-container .nht-timeline-item,
+  #letter-page-container [data-letter-pillar]
+):not(#pdf-page-container *):not(.education-book-paper):not(.company-logo-surface):not(#contact-calendar-viewport):not([role="dialog"] *):not(.banner-dropdown-menu *) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
   border: none !important;
-  box-shadow: -4px -4px 8px rgba(255, 255, 255, 0.8), 4px 4px 8px rgba(163, 177, 198, 0.5) !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-subcard, 18px) !important;
+  box-shadow: var(--neu-raised-l3) !important;
+  color: #1e293b !important;
 }
 
-/* Level 4: Inset Elements (Inputs, Search, Progress Tracks, Depressed Areas) */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
-  input[type="text"],
-  input[type="search"],
-  input[type="email"],
-  input[type="tel"],
+/* Tab panels & nested inner glass/dark wrappers become matte recessed wells */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  #about-page-container #about-box-tabs-shell [role="tabpanel"],
+  #horoscope-page-shell .horoscope-bento-studio-card [class*="bg-black/"],
+  #horoscope-page-shell .horoscope-bento-studio-card [class*="bg-white/"],
+  #horoscope-page-shell .horoscope-bento-studio-card [class*="bg-slate-9"],
+  #services-page-container .service-card [class*="bg-white/"],
+  #services-page-container .service-card [class*="bg-black/"],
+  #experience-main-card #experience-bento-grid .exp-studio-card [class*="bg-white/"],
+  #experience-main-card #experience-bento-grid .exp-studio-card [class*="bg-black/"],
+  #letter-page-container [class*="bg-white/"]
+):not(button):not([aria-current="page"]):not([data-active="true"]):not(.company-logo-surface):not(.company-logo-surface *) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--neu-inset-sm) !important;
+}
+
+/* Strip residual utility borders inside cards so no hairline borders remain */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .page-main-card,
+  [data-section-card="true"],
+  .bento-card,
+  [data-subcard="true"]
+):not(#pdf-page-container) [class*="border-"]:not(.education-book-paper):not(.education-book-paper *):not(#contact-calendar-viewport) {
+  border-color: transparent !important;
+}
+
+/* Hide glowing blur orbs used in gradient/glass themes (material-less matte) */
+html[data-card-style="neumorphism-soft-ui"] :is(
+  #services-page-container .service-card > div.blur-3xl,
+  #horoscope-page-shell .blur-3xl,
+  #about-page-container .blur-3xl
+) {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. READABLE HIGH-CONTRAST TEXT ACROSS EVERY VIEW (WCAG AAA / AA)
+   Prevents white/pale text from becoming invisible on #e0e5ec matte cards
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  h1, h2, h3, h4, h5, h6,
+  [data-card-title="true"],
+  [data-subcard-title="true"],
+  .card-header-sync,
+  .card-title-synced,
+  .service-title-text,
+  .service-title-text > span,
+  .swot-quadrant-title,
+  .bento-card-label
+):not([aria-current="page"] *):not([data-active="true"] *):not(button[type="submit"] *):not(.banner-primary-cta *):not(.project-card-btn-primary *):not([data-primary-action="true"] *) {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+  background-image: none !important;
+  text-shadow: none !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  #horoscope-page-shell .horoscope-bento-studio-card,
+  #services-page-container .service-card,
+  #services-page-container #services-expanded-card .bento-item,
+  #about-page-container .bento-card,
+  #letter-page-container,
+  #experience-main-card #experience-bento-grid .exp-studio-card,
+  #systems-page-container #systems-cards-grid .sys-bento-studio-card,
+  #ai-assistant-page-container
+) :is(
+  p, li, span, div, strong, small,
+  .text-white, [class*="text-white/"],
+  .text-slate-100, .text-slate-200, .text-slate-300,
+  .text-gray-100, .text-gray-200, .text-gray-300,
+  .text-sky-50, .text-sky-100, .text-sky-200,
+  .text-teal-50, .text-teal-100, .text-teal-200,
+  .text-emerald-50, .text-emerald-100, .text-emerald-200,
+  .text-rose-50, .text-rose-100, .text-rose-200,
+  .text-amber-50, .text-amber-100, .text-amber-200,
+  .text-yellow-200, .text-yellow-300,
+  .text-purple-50, .text-purple-100, .text-purple-200,
+  .text-indigo-50, .text-indigo-100, .text-indigo-200,
+  .text-fuchsia-50, .text-fuchsia-100, .text-fuchsia-200,
+  .text-cyan-50, .text-cyan-100, .text-cyan-200,
+  .text-pink-100, .text-pink-200,
+  .service-desc-text,
+  .sys-desc-copy,
+  .sys-fullname-copy
+):not(button[type="submit"]):not(button[type="submit"] *):not([aria-current="page"]):not([aria-current="page"] *):not([data-active="true"]):not([data-active="true"] *):not(.banner-primary-cta):not(.banner-primary-cta *):not(.project-card-btn-primary):not(.project-card-btn-primary *):not([data-primary-action="true"]):not([data-primary-action="true"] *) {
+  color: #334155 !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  #horoscope-page-shell .horoscope-bento-studio-card,
+  #services-page-container .service-card,
+  #services-page-container #services-expanded-card .bento-item,
+  #about-page-container .bento-card,
+  #letter-page-container,
+  #experience-main-card #experience-bento-grid .exp-studio-card,
+  #systems-page-container #systems-cards-grid .sys-bento-studio-card
+) :is(strong, b, .font-bold, .font-semibold):not(button[type="submit"]):not(button[type="submit"] *):not([aria-current="page"]):not([aria-current="page"] *):not([data-active="true"]):not([data-active="true"] *):not(.banner-primary-cta):not(.banner-primary-cta *) {
+  color: #1e293b !important;
+}
+
+/* Preserve special pure-white media/document viewports */
+html[data-card-style="neumorphism-soft-ui"] #contact-calendar-viewport,
+html[data-card-style="neumorphism-soft-ui"] .company-logo-surface {
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--neu-inset-sm) !important;
+  color: #1e293b !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. INPUTS, TEXTAREAS, SELECTS & PROGRESS TRACKS (INSET SHADOW PAIR)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
   textarea,
   select,
+  .theme-input,
   .banner-search-input,
-  .theme-search-input,
+  .theme-search-input
+) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-input, 16px) !important;
+  box-shadow: var(--neu-inset) !important;
+  color: #1e293b !important;
+  caret-color: var(--neu-accent, #4f46e5) !important;
+  transition: box-shadow 180ms ease, outline-color 180ms ease !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  input::placeholder,
+  textarea::placeholder
+) {
+  color: #526177 !important;
+  opacity: 1 !important;
+}
+
+/* Progress tracks are carved inset; fills use the single saturated accent */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   .progress-track,
-  .pillar-progress-track
+  .pillar-progress-track,
+  [role="progressbar"]
 ) {
-  background: #E9EDF4 !important;
+  background: var(--neu-base, #e0e5ec) !important;
   border: none !important;
-  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.85), inset 4px 4px 8px rgba(163, 177, 198, 0.55) !important;
-  color: #26344A !important;
+  border-radius: 9999px !important;
+  box-shadow: var(--neu-inset-sm) !important;
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
-  input:focus,
-  textarea:focus,
-  select:focus
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .progress-fill,
+  [role="progressbar"] > div
 ) {
-  outline: 2px solid #4F65E8 !important;
-  outline-offset: 1px !important;
+  background: var(--neu-accent, #4f46e5) !important;
+  background-image: none !important;
+  border-radius: 9999px !important;
 }
 
-/* Buttons: Soft Raised with Inset Active */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
+/* --------------------------------------------------------------------------
+   9. BUTTONS, NAV PILLS & TABS
+   Raised idle -> deeper lift hover -> inverted INSET pressed
+   One saturated accent reserved for active/primary actions
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   button.nav-pill,
-  button.nav-arrow-btn,
-  button.banner-control-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
   .theme-modal-close,
+  .btn-pill,
+  .btn-raised,
   .action-btn,
-  .btn-raised
-) {
-  background: #E9EDF4 !important;
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [role="tab"]
+):not([aria-current="page"]):not([data-active="true"]):not([aria-selected="true"]):not([aria-pressed="true"]):not(button[type="submit"]):not(.banner-primary-cta):not(.project-card-btn-primary):not([data-primary-action="true"]) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
   border: none !important;
-  box-shadow: -4px -4px 8px rgba(255, 255, 255, 0.85), 4px 4px 8px rgba(163, 177, 198, 0.6) !important;
-  color: #26344A !important;
-  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+  border-width: 0 !important;
+  box-shadow: var(--neu-raised-l3) !important;
+  color: #1e293b !important;
+  transition: box-shadow 160ms ease, transform 160ms ease, color 160ms ease !important;
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
+/* Unselected pill icon badges sit cleanly in uniform matte */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   button.nav-pill,
-  button.nav-arrow-btn,
-  button.banner-control-pill,
-  .theme-modal-close,
-  .action-btn,
-  .btn-raised
-):hover {
-  transform: translateY(-1px);
-  box-shadow: -6px -6px 12px rgba(255, 255, 255, 0.95), 6px 6px 12px rgba(163, 177, 198, 0.7) !important;
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge, .radial-contact-icon-badge) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  box-shadow: var(--neu-inset-sm) !important;
 }
 
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
   button.nav-pill,
-  button.nav-arrow-btn,
-  button.banner-control-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill
+):not([aria-current="page"]):not([data-active="true"]) :is(.nav-pill-icon-badge svg, .nav-pill-icon-svg, .nav-pill-title) {
+  color: #1e293b !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root[data-card-style="neumorphism-soft-ui"] body :is(
+    button.nav-pill,
+    button#header-btn-hungthai-avatar,
+    #footer-lang-btn,
+    #footer-appearance-btn,
+    #footer-theme-mode-btn,
+    #footer-wallpaper-btn,
+    #footer-ai-btn,
+    .radial-contact-pill,
+    .theme-capsule-btn,
+    .theme-prev-next-btn,
+    .nav-arrow-btn,
+    .banner-control-pill,
+    .swot-control-pill,
+    .theme-back-to-top-btn,
+    .theme-modal-close,
+    .btn-pill,
+    .btn-raised,
+    .action-btn,
+    .project-card-btn-secondary,
+    .exp-bento-rect-btn,
+    [role="tab"]
+  ):not([aria-current="page"]):not([data-active="true"]):not([aria-selected="true"]):not([aria-pressed="true"]):hover {
+    box-shadow: var(--neu-raised-l2) !important;
+    color: var(--neu-accent-ink, #3730a3) !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* Pressed / Active / Selected Tab / Pressed Toggle: INSET shadow + non-shadow accent cue */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  button.nav-pill,
+  button#header-btn-hungthai-avatar,
+  #footer-lang-btn,
+  #footer-appearance-btn,
+  #footer-theme-mode-btn,
+  #footer-wallpaper-btn,
+  #footer-ai-btn,
+  .radial-contact-pill,
+  .theme-capsule-btn,
+  .theme-prev-next-btn,
+  .nav-arrow-btn,
+  .banner-control-pill,
+  .swot-control-pill,
+  .theme-back-to-top-btn,
   .theme-modal-close,
+  .btn-pill,
+  .btn-raised,
   .action-btn,
-  .btn-raised
+  .project-card-btn-secondary,
+  .exp-bento-rect-btn,
+  [role="tab"]
 ):active,
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) [aria-selected="true"] {
-  transform: translateY(0);
-  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.8), inset 3px 3px 6px rgba(163, 177, 198, 0.55) !important;
-}
-
-/* Tabs: Soft Inset when Active */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) [role="tab"][aria-selected="true"] {
-  background: #E9EDF4 !important;
-  box-shadow: inset -3px -3px 6px rgba(255, 255, 255, 0.85), inset 3px 3px 6px rgba(163, 177, 198, 0.55) !important;
-  color: #4F65E8 !important;
-  border: none !important;
-}
-
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) [role="tab"][aria-selected="false"] {
-  background: #E9EDF4 !important;
-  box-shadow: -3px -3px 6px rgba(255, 255, 255, 0.8), 3px 3px 6px rgba(163, 177, 198, 0.5) !important;
-  color: #66748B !important;
-  border: none !important;
-}
-
-/* Progress Fill */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) .progress-fill,
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) [role="progressbar"] > div {
-  background: linear-gradient(90deg, #4F65E8, #25C5C9) !important;
-}
-
-/* Modals & Popups */
-html:is([data-card-style="neumorphism-beyond"], [data-card-style="neumorphism-soft-ui"]) :is(
-  .theme-modal,
-  .dialog-content,
-  .popup-card,
-  [role="dialog"]
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  [role="tab"][aria-selected="true"],
+  button[aria-pressed="true"]:not([aria-current="page"]):not([data-active="true"])
 ) {
-  background: #E9EDF4 !important;
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
   border: none !important;
-  box-shadow: -12px -12px 24px rgba(255, 255, 255, 0.95), 12px 12px 24px rgba(163, 177, 198, 0.7) !important;
+  box-shadow: var(--neu-inset) !important;
+  color: var(--neu-accent-ink, #3730a3) !important;
+  font-weight: 700 !important;
+  transform: translateY(0) !important;
+}
+
+/* Non-shadow WCAG state indicator on selected tabs & pressed toggles */
+html:root[data-card-style="neumorphism-soft-ui"] body [role="tab"][aria-selected="true"],
+html:root[data-card-style="neumorphism-soft-ui"] body button[aria-pressed="true"]:not([aria-current="page"]):not([data-active="true"]) {
+  position: relative;
+  text-decoration: underline !important;
+  text-decoration-color: var(--neu-accent, #4f46e5) !important;
+  text-decoration-thickness: 2.5px !important;
+  text-underline-offset: 4px !important;
+}
+
+/* Single Saturated Accent reserved for Primary Actions & Active Navigation */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .nav-pill[aria-current="page"],
+  .nav-pill[data-active="true"],
+  button#header-btn-hungthai-avatar[aria-current="page"],
+  button#header-btn-hungthai-avatar[data-active="true"],
+  button[type="submit"],
+  .banner-primary-cta,
+  .project-card-btn-primary,
+  [data-primary-action="true"]
+) {
+  background: var(--neu-accent, #4f46e5) !important;
+  background-color: var(--neu-accent, #4f46e5) !important;
+  background-image: none !important;
+  border: none !important;
+  color: var(--neu-accent-on, #ffffff) !important;
+  box-shadow:
+    -4px -4px 10px var(--neu-shadow-light, rgba(255, 255, 255, 0.85)),
+    5px 5px 12px rgba(79, 70, 229, 0.36) !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .nav-pill[aria-current="page"],
+  .nav-pill[data-active="true"],
+  button#header-btn-hungthai-avatar[aria-current="page"],
+  button#header-btn-hungthai-avatar[data-active="true"],
+  button[type="submit"],
+  .banner-primary-cta,
+  .project-card-btn-primary,
+  [data-primary-action="true"]
+) :is(span, svg, .nav-pill-title) {
+  color: #ffffff !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  .nav-pill[aria-current="page"],
+  .nav-pill[data-active="true"]
+) .nav-pill-icon-badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  button[type="submit"],
+  .banner-primary-cta,
+  .project-card-btn-primary,
+  [data-primary-action="true"]
+):active {
+  box-shadow:
+    inset -3px -3px 7px rgba(255, 255, 255, 0.28),
+    inset 3px 3px 7px rgba(30, 27, 75, 0.45) !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. MODALS, POPUPS & DROPDOWNS (RAISED MATTE, GENEROUS CORNERS, NO BORDERS)
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  [role="dialog"],
+  .theme-modal-card,
+  .theme-popup,
+  .banner-dropdown-menu,
+  [role="listbox"],
+  #footer-theme-popup,
+  #footer-lang-popup
+) {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  border-radius: var(--radius-popup, 22px) !important;
+  box-shadow: var(--neu-raised-l1) !important;
+  color: #1e293b !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body .theme-modal-header {
+  background: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body .theme-modal-subcard {
+  background: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  border-radius: 18px !important;
+  box-shadow: var(--neu-inset-sm) !important;
+}
+
+/* --------------------------------------------------------------------------
+   11. ACCESSIBLE NON-SHADOW FOCUS & ERROR CUES (WCAG 1.4.11 NON-TEXT CONTRAST)
+   Shadows alone fail non-text contrast — every focusable control receives a
+   high-contrast solid focus outline in the saturated accent color.
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  summary,
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2.5px solid var(--neu-accent, #4f46e5) !important;
+  outline-offset: 3px !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select
+):focus {
+  outline: 2.5px solid var(--neu-accent, #4f46e5) !important;
+  outline-offset: 2px !important;
+  box-shadow: var(--neu-inset) !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body :is(
+  input[aria-invalid="true"],
+  textarea[aria-invalid="true"],
+  select[aria-invalid="true"]
+) {
+  outline: 2px solid var(--neu-danger, #dc2626) !important;
+  outline-offset: 2px !important;
+}
+
+/* Native checkbox / radio / range accent */
+html[data-card-style="neumorphism-soft-ui"] :is(
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"]
+) {
+  accent-color: var(--neu-accent, #4f46e5);
+}
+
+/* --------------------------------------------------------------------------
+   11b. HIGH-SPECIFICITY PER-VIEW PARITY (SYSTEMS · SERVICES · EXPERIENCE · ABOUT)
+   Guarantees uniform matte #e0e5ec, zero borders, dual soft shadows, and crisp
+   WCAG ink even against late-imported view stylesheets and inline <style> tags.
+   -------------------------------------------------------------------------- */
+html:root[data-card-style="neumorphism-soft-ui"] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"],
+html:root[data-card-style="neumorphism-soft-ui"] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]:hover,
+html:root[data-card-style="neumorphism-soft-ui"] body #services-page-container .service-card.domain-card[data-multicolor-bento="true"],
+html:root[data-card-style="neumorphism-soft-ui"] body #services-page-container #services-expanded-card.service-bento-light-host,
+html:root[data-card-style="neumorphism-soft-ui"] body #services-page-container #services-expanded-card.service-bento-light-host .bento-item,
+html:root[data-card-style="neumorphism-soft-ui"] body #services-page-container #services-expanded-card.service-bento-light-host .bento-item[data-bento-tile-id],
+html:root[data-card-style="neumorphism-soft-ui"] body #experience-main-card #experience-bento-grid .exp-studio-card {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  border: none !important;
+  border-top: none !important;
+  border-radius: var(--radius-card, 22px) !important;
+  box-shadow: var(--neu-raised-l2) !important;
+  color: #1e293b !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-bento-subtile,
+html:root[data-card-style="neumorphism-soft-ui"] body #experience-main-card #experience-bento-grid .exp-studio-card .exp-studio-subtile,
+html:root[data-card-style="neumorphism-soft-ui"] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"] .sys-category-pill {
+  background: var(--neu-base, #e0e5ec) !important;
+  background-color: var(--neu-base, #e0e5ec) !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--neu-inset-sm) !important;
+  color: #1e293b !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="false"] {
+  background: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--neu-raised-l3) !important;
+  color: #334155 !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="true"] {
+  background: var(--neu-base, #e0e5ec) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--neu-inset-sm) !important;
+  color: var(--neu-accent-ink, #3730a3) !important;
+}
+
+html:root[data-card-style="neumorphism-soft-ui"] body #about-page-container #about-box-tabs-shell button[role="tab"][aria-selected="true"]::after {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. REDUCED-MOTION SUPPORT
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html:root[data-card-style="neumorphism-soft-ui"] *,
+  html:root[data-card-style="neumorphism-soft-ui"] *::before,
+  html:root[data-card-style="neumorphism-soft-ui"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html:root[data-card-style="neumorphism-soft-ui"] body :is(
+    button,
+    a,
+    .bento-card,
+    .service-card,
+    .project-card,
+    .sys-bento-studio-card,
+    .horoscope-bento-studio-card
+  ):hover,
+  html:root[data-card-style="neumorphism-soft-ui"] body :is(
+    button,
+    a,
+    .bento-card,
+    .service-card,
+    .project-card,
+    .sys-bento-studio-card,
+    .horoscope-bento-studio-card
+  ):active {
+    transform: none !important;
+  }
 }

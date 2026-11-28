@@ -13,27 +13,35 @@ export type CardEffectMode = 'default' | 'float' | 'inset' | 'glow' | 'shine' | 
 export type CardStyleMode =
   | 'liquid-glass'
   | 'dark-liquid-glass'
+  | 'glassmorphism'
   | 'cowhide-leather'
   | 'walnut-wood'
   | 'deep-ocean'
   | 'frost-ice-neu'
+  | 'neumorphism-soft-ui'
   | 'flat-soft-ui'
   | 'dark-flat-soft-ui'
+  | 'color-flat-soft-ui'
+  | 'flat-ui'
+  | 'nexus-bento'
+  | 'light-nexus-bento'
   | 'mica-fluent'
-  | 'gradient-dopamine'
   | 'iridescent-liquid-glass'
   | 'dark-iridescent-liquid-glass';
 
 export type ThemeFamilyId =
   | 'liquid-glass'
+  | 'glassmorphism'
   | 'iridescent-liquid-glass'
   | 'cowhide-leather'
   | 'walnut-wood'
   | 'deep-ocean'
   | 'frost-ice-neu'
+  | 'neumorphism-soft-ui'
   | 'flat-soft-ui'
-  | 'mica-fluent'
-  | 'gradient-dopamine';
+  | 'flat-ui'
+  | 'nexus-bento'
+  | 'mica-fluent';
 
 export interface CardStyleConfig {
   id: CardStyleMode;

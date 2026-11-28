@@ -893,20 +893,28 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         }
 
         /* ===================================================================== */
-        /* GIAO DIỆN PHẲNG SÁNG (flat-soft-ui) — BENTO CARD SÁNG TINH KHIẾT     */
-        /* Áp dụng cho trang Giới thiệu (#about-page-container) & giữ nguyên data */
+        /* GIAO DIỆN PHẲNG SÁNG (flat-soft-ui) — BENTO CARD SÁNG PASTEL          */
+        /* Áp dụng 6 dải màu pastel sáng hài hòa cho trang Giới thiệu            */
         /* ===================================================================== */
         html[data-card-style="flat-soft-ui"] #about-page-container .bento-card {
+          --text-primary: #0f172a;
+          --text-heading: #0f172a;
+          --text-secondary: #334155;
+          --text-muted: #475569;
+          --color-heading: #0f172a;
+          --color-text: #0f172a;
+          --color-text-secondary: #334155;
+          --border-subcard: rgba(203, 213, 225, 0.80);
           border-radius: 12px !important;
           padding: 15px !important;
-          border: 1px solid rgba(226, 232, 240, 0.95) !important;
+          border: 1px solid rgba(203, 213, 225, 0.85) !important;
           color: #0f172a !important;
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
           box-shadow:
-            0 12px 26px -10px rgba(15, 23, 42, 0.08),
-            0 4px 10px -4px rgba(15, 23, 42, 0.04),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+            0 2px 6px rgba(15, 23, 42, 0.04),
+            0 12px 26px -8px rgba(15, 23, 42, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
           transition:
             transform 0.14s ease-out,
             box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
@@ -915,11 +923,19 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container .bento-card:hover {
-          border-color: rgba(199, 210, 254, 0.95) !important;
+          border-color: rgba(99, 102, 241, 0.34) !important;
           box-shadow:
-            0 20px 38px -12px rgba(79, 70, 229, 0.14),
-            0 8px 16px -6px rgba(15, 23, 42, 0.06),
-            0 0 0 1px rgba(165, 180, 252, 0.35) !important;
+            0 20px 38px -12px rgba(15, 23, 42, 0.13),
+            0 8px 18px -6px rgba(15, 23, 42, 0.07),
+            inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-card :is(h1, h2, h3, h4, h5, h6, .bento-card-label) {
+          color: #0f172a !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #about-page-container .bento-card :is(p, .bento-card-body, li) {
+          color: #334155 !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container .bento-studio-card[data-fx-mode="spotlight-3d"]::before {
@@ -931,8 +947,8 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           opacity: 0;
           background: radial-gradient(
             280px circle at var(--mx, 50%) var(--my, 50%),
-            rgba(79, 70, 229, 0.07),
-            rgba(168, 85, 247, 0.04) 42%,
+            rgba(99, 102, 241, 0.09),
+            rgba(14, 165, 233, 0.05) 42%,
             transparent 72%
           );
           transition: opacity 0.28s ease;
@@ -957,22 +973,24 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
           transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Card 1 — Media Video/Map Showcase (Light) */
+        /* Card 1 — Media Video/Map Showcase (Light Pastel Sky Ice) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-hero-video-container {
-          background: linear-gradient(145deg, #ffffff 0%, #f8fafc 58%, #eef2ff 100%) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 56%, #e0f2fe 100%) !important;
+          border-color: rgba(14, 165, 233, 0.24) !important;
         }
 
-        /* Card 2 — Thông Tin Chi Tiết & Box Tabs (Light) */
+        /* Card 2 — Thông Tin Chi Tiết & Box Tabs (Light Pastel Teal Aqua) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-personal-info-card-right {
-          background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #f0fdfa 56%, #ccfbf1 100%) !important;
+          border-color: rgba(20, 184, 166, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="true"] {
           background: #ffffff !important;
-          border-top: 1px solid rgba(203, 213, 225, 0.95) !important;
-          border-left: 1px solid rgba(203, 213, 225, 0.95) !important;
-          border-right: 1px solid rgba(203, 213, 225, 0.95) !important;
-          color: #4f46e5 !important;
+          border-top: 1px solid rgba(20, 184, 166, 0.34) !important;
+          border-left: 1px solid rgba(20, 184, 166, 0.34) !important;
+          border-right: 1px solid rgba(20, 184, 166, 0.34) !important;
+          color: #0f766e !important;
           box-shadow: none !important;
         }
 
@@ -981,41 +999,41 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"] {
-          background: #f1f5f9 !important;
-          border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
-          border-left: 1px solid rgba(226, 232, 240, 0.9) !important;
-          border-right: 1px solid rgba(226, 232, 240, 0.9) !important;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.95) !important;
+          background: rgba(255, 255, 255, 0.62) !important;
+          border-top: 1px solid rgba(148, 163, 184, 0.26) !important;
+          border-left: 1px solid rgba(148, 163, 184, 0.26) !important;
+          border-right: 1px solid rgba(148, 163, 184, 0.26) !important;
+          border-bottom: 1px solid rgba(20, 184, 166, 0.22) !important;
           color: #475569 !important;
           opacity: 0.92 !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tab"][aria-selected="false"]:hover {
-          background: #e2e8f0 !important;
+          background: rgba(255, 255, 255, 0.90) !important;
           color: #0f172a !important;
           opacity: 1 !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell [role="tabpanel"] {
-          background: #ffffff !important;
-          border: 1px solid rgba(203, 213, 225, 0.95) !important;
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+          background: rgba(255, 255, 255, 0.92) !important;
+          border: 1px solid rgba(20, 184, 166, 0.24) !important;
+          box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.05) !important;
           border-bottom-left-radius: 12px !important;
           border-bottom-right-radius: 12px !important;
           border-top-right-radius: 12px !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card {
-          background: #f8fafc !important;
+          background: #ffffff !important;
           border: 1px solid rgba(226, 232, 240, 0.95) !important;
           border-radius: 12px !important;
-          box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.06) !important;
+          box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.05) !important;
           color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card:hover {
-          background: #ffffff !important;
-          border-color: rgba(165, 180, 252, 0.95) !important;
+          background: #f8fafc !important;
+          border-color: rgba(20, 184, 166, 0.36) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card p:first-child {
@@ -1027,92 +1045,100 @@ export function AboutView({ currentTheme, onShowNotification }: AboutViewProps =
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card span.tabular-nums {
-          color: #64748b !important;
+          color: #0f766e !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card button[type="button"] {
-          background: #ffffff !important;
-          border-color: rgba(203, 213, 225, 0.9) !important;
-          color: #475569 !important;
+          background: #f1f5f9 !important;
+          border-color: rgba(203, 213, 225, 0.90) !important;
+          color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-box-tabs-shell .about-stack-card button[type="button"]:hover {
-          color: #0f172a !important;
-          background: #f1f5f9 !important;
+          color: #0f766e !important;
+          background: #e2e8f0 !important;
         }
 
-        /* Card 3 — Hero Giới Thiệu Bản Thân + 4 Dấu Ấn Năng Lực (Light Pearl-Lavender) */
+        /* Card 3 — Hero Giới Thiệu Bản Thân + 4 Dấu Ấn Năng Lực (Light Pastel Lavender) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card {
-          background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 54%, #eef2ff 100%) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #faf5ff 54%, #f3e8ff 100%) !important;
+          border-color: rgba(168, 85, 247, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card [data-subcard="true"] {
-          background: rgba(255, 255, 255, 0.92) !important;
-          border: 1px solid rgba(199, 210, 254, 0.85) !important;
+          background: rgba(255, 255, 255, 0.90) !important;
+          border: 1px solid rgba(168, 85, 247, 0.22) !important;
           border-radius: 12px !important;
-          box-shadow: 0 4px 12px -4px rgba(79, 70, 229, 0.08) !important;
+          box-shadow: 0 3px 10px -3px rgba(15, 23, 42, 0.06) !important;
+          color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-career-goal-card [data-subcard="true"]:hover {
           background: #ffffff !important;
-          border-color: rgba(99, 102, 241, 0.55) !important;
+          border-color: rgba(168, 85, 247, 0.42) !important;
           transform: translateY(-2px);
         }
 
-        /* Card 4 — Trụ Cột Vận Hành (Light White + 3 Subcards Pastel Cyan/Rose/Emerald) */
+        /* Card 4 — Trụ Cột Vận Hành (Light Pastel Sky + 3 Luminous Pastel Subcards) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card {
-          background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 56%, #e0f2fe 100%) !important;
+          border-color: rgba(14, 165, 233, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-subcard="true"] {
           border-radius: 12px !important;
-          box-shadow: 0 6px 16px -6px rgba(15, 23, 42, 0.06) !important;
+          border: 1px solid rgba(203, 213, 225, 0.85) !important;
+          box-shadow: 0 3px 10px -3px rgba(15, 23, 42, 0.06) !important;
+          color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="1"] {
-          background: linear-gradient(135deg, #ecfeff 0%, #eff6ff 100%) !important;
-          border: 1px solid rgba(6, 182, 212, 0.28) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #f0fdfa 55%, #ccfbf1 100%) !important;
+          border-color: rgba(20, 184, 166, 0.26) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="2"] {
-          background: linear-gradient(135deg, #fff1f2 0%, #fdf2f8 100%) !important;
-          border: 1px solid rgba(244, 63, 94, 0.25) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #fff1f2 55%, #ffe4e6 100%) !important;
+          border-color: rgba(244, 63, 94, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-operating-pillars-card [data-pillar-slot="3"] {
-          background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%) !important;
-          border: 1px solid rgba(16, 185, 129, 0.28) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 55%, #d1fae5 100%) !important;
+          border-color: rgba(16, 185, 129, 0.26) !important;
         }
 
-        /* Card 5 — Giá Trị Cốt Lõi (Light White + 3 Subcards Pastel Amber/Pink/Violet) */
+        /* Card 5 — Giá Trị Cốt Lõi (Light Pastel Emerald + 3 Luminous Pastel Subcards) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card {
-          background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 56%, #d1fae5 100%) !important;
+          border-color: rgba(16, 185, 129, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-subcard="true"] {
           border-radius: 12px !important;
-          box-shadow: 0 6px 16px -6px rgba(15, 23, 42, 0.06) !important;
+          border: 1px solid rgba(203, 213, 225, 0.85) !important;
+          box-shadow: 0 3px 10px -3px rgba(15, 23, 42, 0.06) !important;
+          color: #0f172a !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="1"] {
-          background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 100%) !important;
-          border: 1px solid rgba(245, 158, 11, 0.30) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #fffbeb 55%, #fef3c7 100%) !important;
+          border-color: rgba(245, 158, 11, 0.28) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="2"] {
-          background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%) !important;
-          border: 1px solid rgba(236, 72, 153, 0.25) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #fff1f2 55%, #ffe4e6 100%) !important;
+          border-color: rgba(244, 63, 94, 0.24) !important;
         }
 
         html[data-card-style="flat-soft-ui"] #about-page-container #about-core-values-card [data-value-slot="3"] {
-          background: linear-gradient(135deg, #f5f3ff 0%, #faf5ff 100%) !important;
-          border: 1px solid rgba(139, 92, 246, 0.26) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #faf5ff 55%, #f3e8ff 100%) !important;
+          border-color: rgba(168, 85, 247, 0.24) !important;
         }
 
-        /* Card 6 — Triết Lý Tầm Nhìn & Câu Nói Hay (Light Editorial) */
+        /* Card 6 — Triết Lý Tầm Nhìn & Câu Nói Hay (Light Pastel Amber Cream) */
         html[data-card-style="flat-soft-ui"] #about-page-container #about-philosophy-card {
-          background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 52%, #fffbeb 100%) !important;
-          border: 1px solid rgba(139, 92, 246, 0.24) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #fffbeb 54%, #fef3c7 100%) !important;
+          border: 1px solid rgba(245, 158, 11, 0.28) !important;
         }
 
         /* ===================================================================== */

@@ -4888,7 +4888,13 @@ html.dark #services-page-container .domain-card-sub {
   box-sizing: border-box;
 }
 
-#services-page-container #services-expanded-card:hover {
+#services-page-container #services-expanded-card[data-locked-grid-height="true"] {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+}
+
+#services-page-container #services-expanded-card:not([data-flip-motion="true"]):hover {
   transform: none !important;
 }
 
@@ -5762,6 +5768,26 @@ html.dark #education-book-view .education-book-paper {
 
 html.dark #education-book-view .education-book-paper--back {
   background: #27272a !important;
+}
+
+/* Trang bên trái: chỉ bo góc trên-trái và dưới-trái, 2 góc giáp gáy sách vuông thẳng */
+#education-book-view .education-book-paper--left,
+html[data-card-style] #education-book-view .education-book-paper--left {
+  border-top-left-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) 0px 0px var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+}
+
+/* Trang bên phải: chỉ bo góc trên-phải và dưới-phải, 2 góc giáp gáy sách vuông thẳng */
+#education-book-view .education-book-paper--right,
+html[data-card-style] #education-book-view .education-book-paper--right {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  border-bottom-right-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) !important;
+  border-bottom-left-radius: 0px !important;
+  border-radius: 0px var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px))) 0px !important;
 }
 
 .project-detail-banner-media,
@@ -7062,7 +7088,7 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
 }
 
 /* ========================================================================= */
-/* EXPERIENCE EXPANDED BENTO GRID (CONTENT-SIZED, ZERO CARD EFFECTS)         */
+/* EXPERIENCE EXPANDED BENTO GRID (TRUE 4-COL CSS GRID, OPAQUE COMPARTMENTS) */
 /* ========================================================================= */
 
 .exp-bento-stage {
@@ -7072,58 +7098,118 @@ html[data-card-effect="static"] :is(.bento-card, .bento-view-card, .glass-card, 
   min-width: 0;
 }
 
-/* Bento Responsive Grid Card: Desktop 12/3-col row sections -> Mobile 1-col stack, items sized to content */
-#experience-bento-grid.exp-studio-grid,
-#experience-bento-grid.exp-bento-responsive-grid {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 16px !important;
+/* Single Rounded Bento Box: One CSS Grid (4 cols desktop -> 2 cols tablet -> 1 col mobile), 12px consistent gap, concentric 28px outer frame */
+html #experience-main-card #experience-bento-grid.exp-bento-4col-grid,
+html[data-card-style] #experience-main-card #experience-bento-grid.exp-bento-4col-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-auto-flow: dense !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  row-gap: 12px !important;
+  column-gap: 12px !important;
+  padding: 12px !important;
+  border-radius: 28px !important;
+  background: #090D16 !important;
+  background-color: #090D16 !important;
+  background-image: none !important;
+  border: 1px solid #1E293B !important;
+  box-shadow: 0 20px 44px -20px rgba(2, 6, 23, 0.72) !important;
   width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
-#experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-  width: 100%;
-  min-width: 0;
-  align-items: stretch;
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid.exp-bento-4col-grid {
+  background: #E4EAF3 !important;
+  background-color: #E4EAF3 !important;
+  background-image: none !important;
+  border: 1px solid #CFD8E6 !important;
+  box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.22) !important;
 }
 
+/* Tablet: 2-column Bento Grid */
+@media (min-width: 640px) {
+  html #experience-main-card #experience-bento-grid.exp-bento-4col-grid,
+  html[data-card-style] #experience-main-card #experience-bento-grid.exp-bento-4col-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-2x2,
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-2x1,
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-4x1 {
+    grid-column: span 2 / span 2 !important;
+    grid-row: span 1 / span 1 !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-1x1 {
+    grid-column: span 1 / span 1 !important;
+    grid-row: span 1 / span 1 !important;
+  }
+}
+
+/* Desktop: True 4-column Bento Grid (repeat(4, 1fr)) with span 2 / row-span 2 feature compartments */
 @media (min-width: 1024px) {
-  #experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  html #experience-main-card #experience-bento-grid.exp-bento-4col-grid,
+  html[data-card-style] #experience-main-card #experience-bento-grid.exp-bento-4col-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-2x2 {
+    grid-column: span 2 / span 2 !important;
+    grid-row: span 2 / span 2 !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-2x1 {
+    grid-column: span 2 / span 2 !important;
+    grid-row: span 1 / span 1 !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-1x1 {
+    grid-column: span 1 / span 1 !important;
+    grid-row: span 1 / span 1 !important;
+  }
+
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > .exp-bento-span-4x1 {
+    grid-column: span 4 / span 4 !important;
+    grid-row: span 1 / span 1 !important;
   }
 }
 
-@media (max-width: 767.98px) {
-  #experience-bento-grid.exp-studio-grid,
-  #experience-bento-grid.exp-bento-responsive-grid {
-    gap: 12px !important;
-    padding-bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 68px)) !important;
+@media (max-width: 639.98px) {
+  html #experience-main-card #experience-bento-grid.exp-bento-4col-grid,
+  html[data-card-style] #experience-main-card #experience-bento-grid.exp-bento-4col-grid {
+    padding: 10px !important;
+    gap: 10px !important;
+    row-gap: 10px !important;
+    column-gap: 10px !important;
+    border-radius: 24px !important;
+    margin-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 48px)) !important;
   }
 
-  #experience-bento-grid.exp-studio-grid .exp-bento-row-3 {
-    gap: 12px !important;
+  #experience-main-card #experience-bento-grid.exp-bento-4col-grid > [class*="exp-bento-span-"] {
+    grid-column: span 1 / span 1 !important;
+    grid-row: span 1 / span 1 !important;
   }
 }
 
-/* Base Bento Card — Supports Lucian UX/UI #214 (.u214-t) hover lift & scene motion */
+/* Base Bento Compartment Tile — Uniform 16px corner radius, 100% opaque surface */
 html #experience-main-card #experience-bento-grid .exp-studio-card,
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
   position: relative;
   overflow: hidden;
   border-radius: 16px !important;
   padding: 18px !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid #263248 !important;
   outline: none !important;
   color: #ffffff !important;
   display: flex;
   flex-direction: column;
   justify-content: flex-start !important;
+  height: 100% !important;
   min-height: 0 !important;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -7131,20 +7217,12 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   -webkit-backdrop-filter: none !important;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 639.98px) {
   html #experience-main-card #experience-bento-grid .exp-studio-card,
   html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
-    padding: 13px !important;
-    gap: 11px !important;
-    border-radius: 14px !important;
-  }
-}
-
-@media (max-width: 374.98px) {
-  html #experience-main-card #experience-bento-grid .exp-studio-card,
-  html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card {
-    padding: 11px !important;
+    padding: 14px !important;
     gap: 10px !important;
+    border-radius: 14px !important;
   }
 }
 
@@ -7153,72 +7231,85 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-c
   z-index: 1;
 }
 
-/* Bento Card Color Variants */
+/* Bento Compartment Opaque Dark Surfaces (100% opaque solid hex, zero translucency) */
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple,
 #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 27, 75, 0.92) 52%, rgba(76, 5, 25, 0.9) 100%) !important;
+  background: #16142B !important;
+  background-color: #16142B !important;
+  border-color: #2E2A52 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight,
 #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight {
-  background: linear-gradient(135deg, rgba(136, 19, 55, 0.62) 0%, rgba(127, 29, 29, 0.56) 52%, rgba(15, 23, 42, 0.88) 100%) !important;
-  border-color: rgba(244, 63, 94, 0.28) !important;
+  background: #231424 !important;
+  background-color: #231424 !important;
+  border-color: #4A233D !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber,
 #experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber {
-  background: linear-gradient(135deg, rgba(180, 83, 9, 0.62) 0%, rgba(154, 52, 18, 0.62) 52%, rgba(76, 5, 25, 0.82) 100%) !important;
-  border-color: rgba(245, 158, 11, 0.3) !important;
+  background: #271A10 !important;
+  background-color: #271A10 !important;
+  border-color: #54371B !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet,
 #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet {
-  background: linear-gradient(135deg, rgba(59, 7, 100, 0.68) 0%, rgba(30, 27, 75, 0.72) 52%, rgba(15, 23, 42, 0.86) 100%) !important;
-  border-color: rgba(168, 85, 247, 0.28) !important;
+  background: #1B1630 !important;
+  background-color: #1B1630 !important;
+  border-color: #362E61 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust,
 #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust {
-  background: linear-gradient(135deg, rgba(6, 78, 59, 0.68) 0%, rgba(19, 78, 74, 0.68) 50%, rgba(15, 23, 42, 0.88) 100%) !important;
-  border-color: rgba(16, 185, 129, 0.28) !important;
+  background: #0E2421 !important;
+  background-color: #0E2421 !important;
+  border-color: #1B4740 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks,
 #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks {
-  background: linear-gradient(145deg, rgba(17, 24, 39, 0.86) 0%, rgba(23, 32, 49, 0.88) 55%, rgba(15, 23, 42, 0.92) 100%) !important;
+  background: #111827 !important;
+  background-color: #111827 !important;
+  border-color: #263248 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs,
 #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.86) 0%, rgba(17, 24, 39, 0.86) 50%, rgba(8, 51, 68, 0.78) 100%) !important;
-  border-color: rgba(6, 182, 212, 0.28) !important;
+  background: #101E2B !important;
+  background-color: #101E2B !important;
+  border-color: #1F3C54 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi,
 #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi {
-  background: linear-gradient(135deg, rgba(30, 27, 75, 0.82) 0%, rgba(15, 23, 42, 0.88) 48%, rgba(2, 44, 34, 0.82) 100%) !important;
-  border-color: rgba(16, 185, 129, 0.28) !important;
+  background: #151B2E !important;
+  background-color: #151B2E !important;
+  border-color: #283558 !important;
   color: #ffffff !important;
 }
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink,
 #experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink {
-  background: linear-gradient(135deg, #be185d 0%, #9f1239 48%, #111827 100%) !important;
+  background: #261322 !important;
+  background-color: #261322 !important;
+  border-color: #4E2242 !important;
   color: #ffffff !important;
 }
 
-/* Inner Bento Sub-cards — Sized strictly to inner content */
+/* Inner Bento Sub-blocks — Opaque dark surfaces */
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile,
 #experience-main-card #experience-bento-grid .exp-studio-subtile {
-  background: rgba(0, 0, 0, 0.34) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #1B2336 !important;
+  background-color: #1B2336 !important;
+  border: 1px solid #2C3852 !important;
   border-radius: 12px !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -7229,8 +7320,9 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
 
 html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-subtile--amber,
 #experience-main-card #experience-bento-grid .exp-studio-subtile--amber {
-  background: rgba(0, 0, 0, 0.34) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #1B2336 !important;
+  background-color: #1B2336 !important;
+  border: 1px solid #2C3852 !important;
   border-radius: 12px !important;
   box-shadow: none !important;
   color: #ffffff !important;
@@ -7247,72 +7339,89 @@ html[data-card-style] #experience-main-card #experience-bento-grid .exp-studio-s
 }
 
 /* ========================================================================= */
-/* LIGHT MODE FOR EXPERIENCE DETAIL BENTO CARDS (#experience-bento-grid)     */
+/* LIGHT MODE FOR EXPERIENCE DETAIL BENTO COMPARTMENTS (100% OPAQUE TILES)   */
 /* ========================================================================= */
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card {
   color: #0f172a !important;
-  border: 1px solid rgba(148, 163, 184, 0.28) !important;
-  box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #DCE4F0 !important;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.05) !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--hero-purple {
-  background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 52%, #E0E7FF 100%) !important;
-  border-color: rgba(139, 92, 246, 0.28) !important;
+  background: #F4F1FF !important;
+  background-color: #F4F1FF !important;
+  border-color: #DDD6FE !important;
   color: #1E1B4B !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--amber-highlight {
-  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 52%, #FCE7F3 100%) !important;
-  border-color: rgba(244, 63, 94, 0.24) !important;
+  background: #FFF1F4 !important;
+  background-color: #FFF1F4 !important;
+  border-color: #FECDD3 !important;
   color: #4C0519 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--commitment-amber {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 52%, #FED7AA 100%) !important;
-  border-color: rgba(245, 158, 11, 0.34) !important;
+  background: #FEF6E4 !important;
+  background-color: #FEF6E4 !important;
+  border-color: #FDE68A !important;
   color: #451A03 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--roadmap-violet {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 60%, #EEF2FF 100%) !important;
-  border-color: rgba(124, 58, 237, 0.22) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--emerald-trust {
-  background: linear-gradient(135deg, #FFFFFF 0%, #ECFDF5 58%, #E6FFFA 100%) !important;
-  border-color: rgba(16, 185, 129, 0.26) !important;
+  background: #ECFDF5 !important;
+  background-color: #ECFDF5 !important;
+  border-color: #A7F3D0 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--slate-tasks {
-  background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 62%, #F1F5F9 100%) !important;
-  border-color: rgba(100, 116, 139, 0.24) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--indigo-docs {
-  background: linear-gradient(135deg, #FFFFFF 0%, #EFF6FF 58%, #ECFEFF 100%) !important;
-  border-color: rgba(14, 165, 233, 0.26) !important;
+  background: #F0F9FF !important;
+  background-color: #F0F9FF !important;
+  border-color: #BAE6FD !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--rose-kpi {
-  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 52%, #ECFDF5 100%) !important;
-  border-color: rgba(16, 185, 129, 0.24) !important;
+  background: #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  border-color: #CBD5E1 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-card--gallery-pink {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FDF2F8 58%, #FCE7F3 100%) !important;
-  border-color: rgba(236, 72, 153, 0.24) !important;
+  background: #FDF2F8 !important;
+  background-color: #FDF2F8 !important;
+  border-color: #FBCFE8 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-subtile {
-  background: rgba(255, 255, 255, 0.88) !important;
-  border: 1px solid rgba(148, 163, 184, 0.24) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
   color: #0f172a !important;
-  box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.06) !important;
+  box-shadow: none !important;
+}
+
+html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid :is(.exp-studio-card--roadmap-violet, .exp-studio-card--slate-tasks) .exp-studio-subtile {
+  background: #F4F7FB !important;
+  background-color: #F4F7FB !important;
+  border-color: #E2E8F0 !important;
 }
 
 html:not(.dark):not([data-card-style="dark-liquid-glass"]):not([data-card-style="deep-ocean"]):not([data-card-style="dark-flat-soft-ui"]):not([data-card-style="cowhide-leather"]):not([data-card-style="dark-cowhide-leather"]):not([data-card-style="walnut-wood"]):not([data-card-style="dark-iridescent-liquid-glass"]) #experience-main-card #experience-bento-grid .exp-studio-subtile--amber {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border: 1px solid rgba(244, 63, 94, 0.18) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #FECDD3 !important;
   color: #0f172a !important;
 }
 

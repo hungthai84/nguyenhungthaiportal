@@ -1,9 +1,7 @@
  'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { AnimatePresence } from 'motion/react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { SkillsView } from './SkillsView';
 import { cn, formatCardTitle } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
 import { useLanguage } from '@/context/LanguageContext';
@@ -11,8 +9,6 @@ import { VideoBanner } from '@/components/common/VideoBanner';
 import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { EducationBookView } from './education/EducationBookView';
 import { EducationBookshelfView } from './education/EducationBookshelfView';
-import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
-import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
 // Helper map skill tag to appropriate icon
@@ -143,55 +139,12 @@ import {
   EDUCATION_COURSES,
   EducationCourse,
   CREDENTIAL_VERIFICATION_MAP,
-  ACADEMIC_COMPETENCY_RADAR,
-  AcademicRadarAxis,
 } from '@/data/education';
 import { SiteTheme } from '@/types';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 
 export interface EducationViewProps {
   currentTheme?: SiteTheme;
-}
-
-// Phân loại hình thức đào tạo chuẩn: Đào tạo nội bộ / Đào tạo bên ngoài / Đào tạo chính quy / Đào tạo học nghề / Tự học phát triển
-const TRAINING_TYPE_CATEGORIES = [
-  { id: 'all', label: 'Tất cả khóa học' },
-  { id: 'Đào tạo nội bộ', label: 'Đào tạo nội bộ' },
-  { id: 'Đào tạo bên ngoài', label: 'Đào tạo bên ngoài' },
-  { id: 'Đào tạo chính quy', label: 'Đào tạo chính quy' },
-  { id: 'Đào tạo học nghề', label: 'Đào tạo học nghề' },
-  { id: 'Tự học phát triển', label: 'Tự học phát triển' },
-] as const;
-
-// Helper render icon hình thức đào tạo
-function renderTrainingTypeIcon(typeId: string, className = 'w-3.5 h-3.5 shrink-0') {
-  switch (typeId) {
-    case 'Đào tạo chính quy': return <WebIcon name="graduation" className={className} />;
-    case 'Đào tạo nội bộ': return <WebIcon name="building" className={className} />;
-    case 'Đào tạo bên ngoài': return <WebIcon name="briefcase" className={className} />;
-    case 'Đào tạo học nghề': return <WebIcon name="cpu" className={className} />;
-    case 'Tự học phát triển': return <WebIcon name="sparkles" className={className} />;
-    case 'all': default: return <WebIcon name="grid" className={className} />;
-  }
-}
-
-// Các mốc năm tốt nghiệp thực tế từ 2005 đến 2026
-const GRADUATION_YEARS = [2005, 2006, 2007, 2013, 2014, 2015, 2016, 2017, 2019, 2026] as const;
-
-// Rút gọn tiêu đề thành đúng 2 chữ súc tích khi ở chế độ Dạng view tiêu đề 2 chữ
-function formatTwoWordTitle(course: EducationCourse): string {
-  const verifyInfo = CREDENTIAL_VERIFICATION_MAP[course.id];
-  if (verifyInfo?.twoWordTitle) return verifyInfo.twoWordTitle;
-  const cleaned = formatCardTitle(course.title);
-  return cleaned.split(/\s+/).slice(0, 2).join(' ');
-}
-
-// Thu gọn tên khóa học / bằng cấp tối đa 4 từ
-function formatFourWordTitle(title: string): string {
-  const cleaned = formatCardTitle(title);
-  const words = cleaned.trim().split(/\s+/);
-  if (words.length <= 4) return cleaned;
-  return words.slice(0, 4).join(' ');
 }
 
 // Nhãn danh mục 2 chữ trên từng thẻ (loại bỏ hoàn toàn dấu &)
@@ -207,18 +160,6 @@ function getShortCategoryLabel(category: EducationCourse['category']): string {
     default:
       return 'Kỹ năng';
   }
-}
-
-function renderCategoryIcon(category: string, className = 'w-3.5 h-3.5 shrink-0') {
-  let name = 'grid';
-  switch (category) {
-    case 'degree': name = 'graduation'; break;
-    case 'management': name = 'briefcase'; break;
-    case 'tech': name = 'cpu'; break;
-    case 'skills': name = 'sparkles'; break;
-    case 'all': default: name = 'grid';
-  }
-  return <WebIcon name={name} className={className} />;
 }
 
 // Phân tích tiêu đề khóa học để chọn icon đại diện tương ứng
@@ -243,7 +184,7 @@ function getEducationIconByTitle(title: string): string {
 
 export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) => {
   const { isDark: themeIsDark, cardStyle } = useTheme();
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const isEn = language === 'en';
   const isDark =
     themeIsDark ||
@@ -253,96 +194,38 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     currentTheme === 'deep-ocean' ||
     currentTheme === 'dark-neumorphism-beyond';
 
-  const [mainSection, setMainSection] = useState<'education' | 'skills'>('education');
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  // Chế độ xem: 'grid' (Lưới chuẩn) hoặc 'bookshelf' (Kệ sách 3D)
-  const [viewMode, setViewMode] = useState<'grid' | 'bookshelf'>('bookshelf');
-  const [hoveredCourseId, setHoveredCourseId] = useState<string | null>(null);
   // Bộ lọc năm tốt nghiệp Timeline (2005 - 2026)
   const [maxYearFilter, setMaxYearFilter] = useState<number>(2026);
   const [exactYearFilter, setExactYearFilter] = useState<number | null>(null);
 
   const [selectedCourse, setSelectedCourse] = useState<EducationCourse | null>(null);
+  const [autoFlipBookOnOpen, setAutoFlipBookOnOpen] = useState<boolean>(false);
   const [activeBookIdx, setActiveBookIdx] = useState<number>(0);
   const [verifyingCourse, setVerifyingCourse] = useState<EducationCourse | null>(null);
   const [copiedCredentialId, setCopiedCredentialId] = useState<string | null>(null);
 
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
-  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState<boolean>(false);
   const [lightboxImage, setLightboxImage] = useState<string>('');
   const [lightboxTitle, setLightboxTitle] = useState<string>('');
-  const [isBannerMuted, setIsBannerMuted] = useState<boolean>(true);
   const educationBannerVideo = getDefaultBannerVideoConfig('education');
-
-  const bannerVideoRef = useRef<HTMLVideoElement | null>(null);
-  const filterMenuRef = useRef<HTMLDivElement | null>(null);
-  const filterButtonRef = useRef<HTMLButtonElement | null>(null);
-  const bannerTimelineScrollRef = useRef<HTMLDivElement | null>(null);
-  const bannerTimelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [matchedControlWidth, setMatchedControlWidth] = useState<number | null>(null);
-
-  useEffect(() => {
-    const syncControlSize = () => {
-      const btn = filterButtonRef.current;
-      const row = filterMenuRef.current;
-      if (!btn || !row) return;
-      const rowW = Math.floor(row.getBoundingClientRect().width);
-      const w = Math.ceil(btn.getBoundingClientRect().width);
-      if (rowW <= 0) return;
-      if (rowW < 450) {
-        setMatchedControlWidth(null);
-        return;
-      }
-      if (w > 0) {
-        const maxPerControl = Math.max(160, Math.floor((rowW - 12) / 2));
-        setMatchedControlWidth(Math.min(Math.max(w, 200), maxPerControl));
-      }
-    };
-    syncControlSize();
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      ro = new ResizeObserver(syncControlSize);
-      if (filterButtonRef.current) ro.observe(filterButtonRef.current);
-      if (filterMenuRef.current) ro.observe(filterMenuRef.current);
-    }
-    window.addEventListener('resize', syncControlSize);
-    return () => {
-      if (ro) ro.disconnect();
-      window.removeEventListener('resize', syncControlSize);
-    };
-  }, [activeCategory, isEn, selectedCourse]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (filterMenuRef.current && !filterMenuRef.current.contains(event.target as Node)) {
-        setIsFilterDropdownOpen(false);
-      }
-    };
-    if (isFilterDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isFilterDropdownOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
+      if (e.defaultPrevented || e.key !== 'Escape') return;
       if (isLightboxOpen) {
         setIsLightboxOpen(false);
       } else if (verifyingCourse) {
         setVerifyingCourse(null);
-      } else if (isFilterDropdownOpen) {
-        setIsFilterDropdownOpen(false);
       } else if (selectedCourse) {
         SoundEngine.playBookClose();
+        setAutoFlipBookOnOpen(false);
         setSelectedCourse(null);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isLightboxOpen, verifyingCourse, isFilterDropdownOpen, selectedCourse]);
+  }, [isLightboxOpen, verifyingCourse, selectedCourse]);
 
   // Lọc danh sách theo hình thức đào tạo / danh mục + năm tốt nghiệp
   const filteredCourses = useMemo(() => {
@@ -368,19 +251,14 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     }
   }, [activeBookIdx, filteredCourses.length]);
 
-  useEffect(() => {
-    const container = bannerTimelineScrollRef.current;
-    const node = bannerTimelineNodeRefs.current[safeActiveBookIdx];
-    if (!container || !node) return;
-    const targetLeft = node.offsetLeft - container.clientWidth / 2 + node.offsetWidth / 2;
-    container.scrollTo({
-      left: Math.max(0, targetLeft),
-      behavior: 'smooth',
-    });
-  }, [safeActiveBookIdx, filteredCourses.length]);
-
-  const handleOpenDetail = (course: EducationCourse) => {
-    SoundEngine.playBookOpen();
+  const handleOpenDetail = (
+    course: EducationCourse,
+    options?: { skipSound?: boolean; autoFlip?: boolean }
+  ) => {
+    if (!options?.skipSound) {
+      SoundEngine.playBookOpen();
+    }
+    setAutoFlipBookOnOpen(Boolean(options?.autoFlip));
     setSelectedCourse(course);
     document.getElementById('education-main-scroll-viewport')?.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('education-main-card')?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -425,14 +303,6 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     setIsLightboxOpen(true);
   };
 
-  const handleToggleBannerMute = () => {
-    const video = bannerVideoRef.current;
-    if (!video) return;
-    const next = !isBannerMuted;
-    setIsBannerMuted(next);
-    video.muted = next;
-  };
-
   const handleResetFilters = () => {
     SoundEngine.playTap();
     setActiveCategory('all');
@@ -440,57 +310,7 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
     setExactYearFilter(null);
   };
 
-  // Tính toán tọa độ đa giác cho Biểu đồ Radar 6 trục
-  const radarGeometry = useMemo(() => {
-    const cx = 150;
-    const cy = 150;
-    const maxR = 102;
-    const axes = ACADEMIC_COMPETENCY_RADAR;
-    const total = axes.length;
-
-    const getPoint = (idx: number, radiusRatio: number) => {
-      const angle = (Math.PI * 2 * idx) / total - Math.PI / 2;
-      const r = maxR * radiusRatio;
-      return {
-        x: cx + r * Math.cos(angle),
-        y: cy + r * Math.sin(angle),
-        labelX: cx + (maxR + 30) * Math.cos(angle),
-        labelY: cy + (maxR + 24) * Math.sin(angle),
-      };
-    };
-
-    const gridLevels = [0.25, 0.5, 0.75, 1].map((lvl) => {
-      const pts = axes.map((_, idx) => {
-        const p = getPoint(idx, lvl);
-        return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
-      });
-      return pts.join(' ');
-    });
-
-    const dataPoints = axes.map((axis, idx) => {
-      const p = getPoint(idx, axis.score / 100);
-      const outer = getPoint(idx, 1);
-      return {
-        axis,
-        x: p.x,
-        y: p.y,
-        outerX: outer.x,
-        outerY: outer.y,
-        labelX: outer.labelX,
-        labelY: outer.labelY,
-      };
-    });
-
-    const polygonPoints = dataPoints.map((d) => `${d.x.toFixed(1)},${d.y.toFixed(1)}`).join(' ');
-
-    return { cx, cy, maxR, gridLevels, dataPoints, polygonPoints };
-  }, []);
-
-  const isBookshelfMode =
-    !selectedCourse &&
-    mainSection === 'education' &&
-    viewMode === 'bookshelf' &&
-    filteredCourses.length > 0;
+  const isBookshelfMode = !selectedCourse && filteredCourses.length > 0;
 
   return (
     <div
@@ -522,21 +342,20 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
         data-element-type="card"
         data-element-page="education"
         data-element-parent="education-cards-track"
-        className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border"
+        className={cn(
+          'page-main-card floating-glass-surface floating-surface--main relative flex flex-col justify-start gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left box-border',
+          isBookshelfMode ? 'pt-[10px] px-[12px] pb-[4px]' : 'p-[15px]'
+        )}
       >
       <div
         id="education-main-scroll-viewport"
-        className={cn(
-          'main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-x-hidden no-scrollbar box-border',
-          selectedCourse || isBookshelfMode ? 'overflow-hidden' : 'overflow-y-auto'
-        )}
+        className="main-card-scroll-viewport w-full max-w-full min-w-0 h-full flex-1 min-h-0 flex flex-col items-stretch justify-start gap-[15px] overflow-hidden no-scrollbar box-border"
       >
       <div
         id="education-main-wrapper"
         className={cn(
-          'w-full max-w-full min-w-0 flex-1 flex flex-col gap-[15px] justify-start box-border',
-          selectedCourse && 'h-full flex-1 min-h-0 gap-0',
-          isBookshelfMode && 'h-full max-h-full flex-1 min-h-0 overflow-hidden'
+          'w-full max-w-full min-w-0 h-full max-h-full flex-1 min-h-0 flex flex-col gap-[15px] justify-start overflow-hidden box-border',
+          selectedCourse && 'gap-0'
         )}
       >
       {selectedCourse ? (() => {
@@ -552,99 +371,52 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             isEn={isEn}
             isDark={isDark}
             getSkillTagIcon={getSkillTagIcon}
-            onClose={() => setSelectedCourse(null)}
+            autoFlipOnMount={autoFlipBookOnOpen}
+            onClose={() => {
+              setAutoFlipBookOnOpen(false);
+              setSelectedCourse(null);
+            }}
             onNavigateSkillToSwot={handleNavigateSkillToSwot}
             onOpenVerifyModal={handleOpenVerifyModal}
             onOpenLightbox={handleOpenLightbox}
             disableKeyboardNav={isLightboxOpen || Boolean(verifyingCourse)}
           />
         );
-      })() : mainSection === 'skills' ? (
-        <SkillsView currentTheme={currentTheme} embedded />
-      ) : (() => {
-        const wallStageHeader = (
-          <div id="education-wall-stage-header" className="edu-wall-stage-header">
-            {/* Góc trái: Tiêu đề thư viện tinh gọn + Bộ lọc khóa học (rút gọn chiều cao 1/2) */}
-            <div className="edu-wall-left-controls" ref={filterMenuRef}>
-              <div className="flex flex-wrap items-center gap-2.5 min-w-0 w-full">
-                {/* Tiêu đề góc trái: Học vấn bằng cấp */}
-                <div
-                  className="card-header-sync flex items-center gap-2 min-w-0"
-                  style={{ color: 'var(--text-link, var(--color-primary))' }}
-                >
-                  <WebIcon name="graduation-cap" className="w-5 h-5 shrink-0" />
-                  <h1
-                    id="education-wall-title"
-                    className="typo-h3 card-title-synced font-play not-italic tracking-tight truncate m-0"
-                    data-card-title="true"
-                    style={{ textTransform: 'none', fontStyle: 'normal', transform: 'none' }}
-                  >
-                    {isEn ? 'Education & Credentials' : 'Học vấn bằng cấp'}
-                  </h1>
+      })() : (() => {
+        const shelfVideoFrame = (
+          <figure
+            id="education-wall-video-frame"
+            className="edu-wall-video-frame edu-shelf-standing-frame m-0"
+            aria-label={isEn ? 'Bookshelf study video frame' : 'Khung hình video đặt trên kệ sách trang Học vấn'}
+          >
+            <div className="edu-shelf-frame-3d">
+              <span className="edu-shelf-frame-easel" aria-hidden="true" />
+              <div className="edu-wall-frame-assembly">
+                <div className="edu-wall-frame-outer">
+                  <div className="edu-wall-frame-mat">
+                    <div className="edu-wall-frame-canvas">
+                      <VideoBanner
+                        videoId={educationBannerVideo.videoId}
+                        title={educationBannerVideo.title}
+                        className="w-full h-full"
+                      />
+                      <div className="edu-wall-frame-glass" aria-hidden="true" />
+                    </div>
+                  </div>
+                  <figcaption className="edu-wall-frame-plaque">
+                    {isEn ? 'Academy Gallery' : 'Góc Tri Thức'}
+                  </figcaption>
                 </div>
               </div>
+              <span className="edu-shelf-frame-stand" aria-hidden="true" />
             </div>
-
-            {/* Góc trên bên phải: Câu nói hay chuyển qua nằm cạnh khung ảnh + Khung tranh gỗ treo tường (tăng kích thước 1/3) */}
-            <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
-              <p
-                id="education-banner-quote"
-                className="typo-body-sm font-handwriting font-quote not-italic font-semibold select-none leading-tight m-0 text-right max-w-[170px] sm:max-w-[240px] md:max-w-[300px]"
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-                  fontWeight: 600,
-                }}
-              >
-                &quot;Tri thức mở đường, tư duy định hình tương lai ♡&quot;
-              </p>
-
-              <figure
-                id="education-wall-video-frame"
-                className="edu-wall-video-frame m-0"
-                aria-label={isEn ? 'Wall-mounted study video artwork' : 'Tranh video treo tường trang Học vấn'}
-              >
-                <span className="edu-wall-nail" aria-hidden="true" />
-                <svg
-                  className="edu-wall-wire"
-                  viewBox="0 0 152 20"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M76 2 L14 20 M76 2 L138 20"
-                    stroke="rgba(161, 118, 66, 0.85)"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                  />
-                </svg>
-
-                <div className="edu-wall-frame-assembly">
-                  <div className="edu-wall-frame-outer">
-                    <div className="edu-wall-frame-mat">
-                      <div className="edu-wall-frame-canvas">
-                        <VideoBanner
-                          videoId={educationBannerVideo.videoId}
-                          title={educationBannerVideo.title}
-                          className="w-full h-full"
-                        />
-                        <div className="edu-wall-frame-glass" aria-hidden="true" />
-                      </div>
-                    </div>
-                    <figcaption className="edu-wall-frame-plaque">
-                      {isEn ? 'Academy Gallery' : 'Góc Tri Thức'}
-                    </figcaption>
-                  </div>
-                </div>
-              </figure>
-            </div>
-          </div>
+            <span className="edu-shelf-frame-shadow" aria-hidden="true" />
+          </figure>
         );
 
         return filteredCourses.length === 0 ? (
-          <div className="flex flex-col gap-[15px] w-full">
-            {wallStageHeader}
-            <div className="theme-muted-surface w-full p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md">
+          <div className="flex flex-col gap-[15px] w-full flex-1 min-h-0 items-center justify-center">
+            <div className="theme-muted-surface w-full max-w-md p-6 sm:p-8 rounded-[14px] text-center space-y-2 backdrop-blur-md">
               <p className="typo-body font-semibold font-play" style={{ color: 'var(--text-primary)' }}>
                 Không tìm thấy chứng chỉ nào khớp với bộ lọc hiện tại.
               </p>
@@ -667,11 +439,11 @@ export const EducationView: React.FC<EducationViewProps> = ({ currentTheme }) =>
             isEn={isEn}
             isDark={isDark}
             cardStyle={cardStyle}
-            onSelectCourse={handleOpenDetail}
+            onSelectCourse={(course) => handleOpenDetail(course, { skipSound: true, autoFlip: true })}
             selectedBookIndex={safeActiveBookIdx}
             onSelectBookIndex={setActiveBookIdx}
             hideTopTimeline={true}
-            topWallContent={wallStageHeader}
+            shelfWallFrame={shelfVideoFrame}
           />
         );
       })()}

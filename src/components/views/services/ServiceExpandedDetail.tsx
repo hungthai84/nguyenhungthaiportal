@@ -233,6 +233,7 @@ interface ServiceExpandedDetailProps {
   prefersReducedMotion: boolean;
   isEn: boolean;
   isDarkMode?: boolean;
+  isFlatSoftLight?: boolean;
   isLeatherTheme: boolean;
   expandedCardRef: React.RefObject<HTMLDivElement | null>;
   expandedBodyRef: React.RefObject<HTMLDivElement | null>;
@@ -263,6 +264,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
   prefersReducedMotion,
   isEn,
   isDarkMode = false,
+  isFlatSoftLight = false,
   expandedCardRef,
   expandedBodyRef,
   closeButtonRef,
@@ -394,6 +396,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
       }}
       data-element-type="card"
       data-section-card="true"
+      data-bento-styled={!isDarkMode ? 'true' : undefined}
+      data-bento-canvas={isFlatSoftLight ? 'true' : undefined}
       data-expand-motion="true"
       data-scale-up-motion="true"
       data-compact-service-card="true"
@@ -402,7 +406,11 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
       role="region"
       aria-label={fullTitle}
       className={`u420-scope service-expanded-bento-shell col-start-1 row-start-1 bento-card glass-card relative w-full min-w-0 rounded-[var(--radius-card,var(--radius-global,14px))] p-3 sm:p-4 md:p-5 box-border text-[var(--text-primary)] shadow-2xl ${
-        isDarkMode ? '' : 'service-bento-light-host'
+        !isDarkMode
+          ? isFlatSoftLight
+            ? 'service-bento-light-host service-flat-soft-bento-studio'
+            : 'service-bento-light-host'
+          : ''
       }`}
       style={{
         minHeight: minHeightPx ? `${minHeightPx}px` : undefined,
@@ -456,6 +464,70 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           grid-row: span 2;
         }
 
+        html #services-page-container #services-expanded-card .service-bento-studio-card h2:not(.gradient-text),
+        html #services-page-container #services-expanded-card .service-bento-studio-card h3:not(.gradient-text) {
+          font-family: 'Play', sans-serif !important;
+          font-size: 16px !important;
+          line-height: 1.3 !important;
+          font-weight: 700 !important;
+          letter-spacing: 0em !important;
+          color: #ffffff !important;
+          text-transform: none !important;
+        }
+
+        html #services-page-container #services-expanded-card .service-bento-studio-card .gradient-text {
+          background-clip: text !important;
+          -webkit-background-clip: text !important;
+          color: transparent !important;
+          font-family: 'Play', sans-serif !important;
+          font-size: 16px !important;
+          line-height: 1.3 !important;
+          font-weight: 700 !important;
+        }
+
+        html #services-page-container #services-expanded-card .bento-item[data-bento-tile-id="experience"] {
+          container-type: inline-size;
+          container-name: bento-exp-tile;
+        }
+
+        html #services-page-container #services-expanded-card .bento-exp-logos-row {
+          display: flex !important;
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+          align-items: center !important;
+          gap: 8px !important;
+        }
+
+        html #services-page-container #services-expanded-card .bento-exp-logos-row .company-logo-surface {
+          margin-left: 0 !important;
+          transition:
+            margin-left 220ms cubic-bezier(0.22, 1, 0.36, 1),
+            transform 220ms ease !important;
+        }
+
+        @container bento-exp-tile (max-width: 325px) {
+          html #services-page-container #services-expanded-card .bento-exp-logos-row {
+            gap: 0px !important;
+          }
+
+          html #services-page-container #services-expanded-card .bento-exp-logos-row .company-logo-surface + .company-logo-surface {
+            margin-left: -10px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          html #services-page-container #services-expanded-card .bento-exp-logos-row {
+            gap: 0px !important;
+          }
+
+          html #services-page-container #services-expanded-card .bento-exp-logos-row .company-logo-surface + .company-logo-surface {
+            margin-left: -10px !important;
+          }
+        }
+
+        /* ========================================================================= */
+        /* LIGHT MODE SERVICE EXPANDED BENTO (Tất cả 8 Bento tiles sáng sắc nét)     */
+        /* ========================================================================= */
         html #services-page-container #services-expanded-card.service-bento-light-host {
           background: rgba(255, 255, 255, 0.94) !important;
           border: 1px solid rgba(148, 163, 184, 0.24) !important;
@@ -465,14 +537,23 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item[data-bento-tile-id="hero"] {
-          background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 48%, #3730a3 100%) !important;
-          border-color: rgba(124, 58, 237, 0.38) !important;
+        html #services-page-container #services-expanded-card.service-bento-light-host .theme-modal-close {
+          background: rgba(255, 255, 255, 0.94) !important;
+          color: #0f172a !important;
+          border: 1px solid rgba(148, 163, 184, 0.36) !important;
+          box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.14) !important;
+        }
+
+        html #services-page-container #services-expanded-card.service-bento-light-host .theme-modal-close:hover {
+          background: #4f46e5 !important;
           color: #ffffff !important;
-          box-shadow:
-            0 18px 38px -10px rgba(109, 40, 217, 0.34),
-            0 6px 16px -4px rgba(15, 23, 42, 0.14),
-            inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+          border-color: #4f46e5 !important;
+        }
+
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item[data-bento-tile-id="hero"] {
+          background: linear-gradient(145deg, #ffffff 0%, #f5f3ff 54%, #ede9fe 100%) !important;
+          border-color: rgba(124, 58, 237, 0.24) !important;
+          color: #0f172a !important;
         }
 
         html #services-page-container #services-expanded-card.service-bento-light-host .bento-item[data-bento-tile-id="partners"] {
@@ -510,7 +591,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           border-color: rgba(16, 185, 129, 0.24) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item {
           color: #0f172a !important;
           box-shadow:
             0 12px 26px -8px rgba(15, 23, 42, 0.08),
@@ -518,8 +599,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-bento-subtile {
-          background: rgba(255, 255, 255, 0.88) !important;
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-bento-subtile {
+          background: rgba(255, 255, 255, 0.9) !important;
           border: 1px solid rgba(148, 163, 184, 0.26) !important;
           color: #0f172a !important;
           box-shadow:
@@ -527,65 +608,72 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-bento-subtile:hover {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-bento-subtile:hover {
           background: #ffffff !important;
           border-color: rgba(99, 102, 241, 0.36) !important;
           box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.1) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) h3:not(.gradient-text) {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item h2:not(.gradient-text),
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item h3:not(.gradient-text) {
           color: #0f172a !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .gradient-text {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .gradient-text {
           background: linear-gradient(90deg, #be123c 0%, #db2777 50%, #7c3aed 100%) !important;
           -webkit-background-clip: text !important;
           background-clip: text !important;
           color: transparent !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-ink {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-ink {
           color: #0f172a !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-muted {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-muted {
           color: #475569 !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-purple {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-purple {
           color: #6d28d9 !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-cyan {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-cyan {
           color: #0369a1 !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-rose {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-rose {
           color: #be123c !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-emerald {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-emerald {
           color: #047857 !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-blue {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-blue {
           color: #1d4ed8 !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-track {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-track {
           background: rgba(225, 29, 72, 0.14) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-icon-chip {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-icon-chip {
           background: rgba(244, 63, 94, 0.12) !important;
           color: #be123c !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-divider {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-hero-chip {
+          background: rgba(124, 58, 237, 0.12) !important;
+          border-color: rgba(124, 58, 237, 0.26) !important;
+          color: #6d28d9 !important;
+        }
+
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-divider {
           border-color: rgba(148, 163, 184, 0.24) !important;
         }
 
-        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item:not([data-bento-tile-id="hero"]) .service-light-ring {
+        html #services-page-container #services-expanded-card.service-bento-light-host .bento-item .service-light-ring {
           --tw-ring-color: #ffffff !important;
         }
 
@@ -599,13 +687,110 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
           }
 
-          html #services-page-container #services-expanded-card.service-bento-light-host .bento-item.u420-t:not([data-bento-tile-id="hero"]):hover {
+          html #services-page-container #services-expanded-card.service-bento-light-host .bento-item.u420-t:hover {
             border-color: rgba(99, 102, 241, 0.34) !important;
             box-shadow:
               0 20px 36px -10px rgba(15, 23, 42, 0.14),
               0 8px 18px -6px rgba(99, 102, 241, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
           }
+        }
+
+        /* ========================================================================= */
+        /* CREATOR STUDIO BENTO (GIAO DIỆN PHẲNG SÁNG — FLAT-SOFT-UI)               */
+        /* Dotted pastel canvas + hiệu ứng Spotlight 3D, Float & Neon trên nền sáng  */
+        /* ========================================================================= */
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio {
+          background-color: #f4f7fb !important;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.16) 0%, transparent 44%),
+            radial-gradient(circle at 88% 18%, rgba(14, 165, 233, 0.16) 0%, transparent 42%),
+            radial-gradient(circle at 52% 90%, rgba(244, 114, 182, 0.14) 0%, transparent 46%),
+            radial-gradient(rgba(71, 85, 105, 0.13) 1px, transparent 1px) !important;
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px !important;
+          border: 1px solid rgba(255, 255, 255, 0.85) !important;
+          box-shadow:
+            0 20px 44px -14px rgba(15, 23, 42, 0.14),
+            0 6px 16px -4px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item,
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item.u420-t {
+          border-radius: 14px !important;
+          padding: 16px !important;
+          transition:
+            transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            border-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 5;
+          opacity: 0;
+          transition: opacity 0.28s ease;
+          background: radial-gradient(
+            380px circle at var(--mx, 50%) var(--my, 50%),
+            rgba(99, 102, 241, 0.1),
+            rgba(255, 255, 255, 0.28) 42%,
+            transparent 72%
+          ) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item::after {
+          display: none !important;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item.u420-t:hover {
+            border-color: rgba(99, 102, 241, 0.34) !important;
+            box-shadow:
+              0 22px 38px -12px rgba(15, 23, 42, 0.16),
+              0 10px 20px -8px rgba(99, 102, 241, 0.16),
+              inset 0 1px 0 rgba(255, 255, 255, 0.98) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="spotlight-3d"]:hover {
+            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-8px) scale(1.015) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="spotlight-3d"]:hover::before,
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="neon"]:hover::before {
+            opacity: 1 !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="float-shadow"]:hover {
+            transform: translateY(-8px) scale(1.012) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="float-shadow"]:hover::before {
+            opacity: 0.72 !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="neon"]:hover {
+            transform: translateY(-6px) scale(1.012) !important;
+            border-color: rgba(244, 63, 94, 0.42) !important;
+            box-shadow:
+              0 22px 40px -12px rgba(15, 23, 42, 0.16),
+              0 0 22px -4px rgba(244, 63, 94, 0.22),
+              0 0 14px -4px rgba(168, 85, 247, 0.2) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item[data-fx-mode="minimal"]:hover {
+            transform: translateY(-4px) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item:hover svg.shrink-0 {
+            transform: scale(1.14) rotate(-5deg);
+          }
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item svg.shrink-0 {
+          transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         html #services-page-container #services-expanded-card .bento-item[data-scale-clicked="true"] {
@@ -634,27 +819,10 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             padding: 18px !important;
             height: auto !important;
           }
-        }
-
-        html #services-page-container #services-expanded-card .service-bento-studio-card h2:not(.gradient-text),
-        html #services-page-container #services-expanded-card .service-bento-studio-card h3:not(.gradient-text) {
-          font-family: 'Play', sans-serif !important;
-          font-size: 16px !important;
-          line-height: 1.3 !important;
-          font-weight: 700 !important;
-          letter-spacing: 0em !important;
-          color: #ffffff !important;
-          text-transform: none !important;
-        }
-
-        html #services-page-container #services-expanded-card .service-bento-studio-card .gradient-text {
-          background-clip: text !important;
-          -webkit-background-clip: text !important;
-          color: transparent !important;
-          font-family: 'Play', sans-serif !important;
-          font-size: 16px !important;
-          line-height: 1.3 !important;
-          font-weight: 700 !important;
+          html[data-card-style="flat-soft-ui"] #services-page-container #services-expanded-card.service-flat-soft-bento-studio .bento-item {
+            border-radius: 14px !important;
+            padding: 15px !important;
+          }
         }
 
         @keyframes toastSlideIn {
@@ -697,7 +865,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
         aria-label={isEn ? 'Close service detail' : 'Đóng chi tiết dịch vụ'}
         title={isEn ? 'Close (Esc)' : 'Đóng (Esc)'}
       >
-        <X className="w-4 h-4 shrink-0 text-white" />
+        <X className="w-4 h-4 shrink-0" />
       </motion.button>
 
       {/* Bố cục 4-Column Responsive Bento Grid (.bento-container / .bento-item / .col-span-2 / .row-span-2) */}
@@ -725,17 +893,21 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               <div className="flex items-start sm:items-center gap-3 min-w-0">
                 <span
                   data-bento-styled="true"
-                  className="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-purple-950/60 border border-purple-400/35 text-purple-100 shrink-0 shadow-md mt-0.5 sm:mt-0"
+                  className="service-light-hero-chip inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-purple-950/60 border border-purple-400/35 text-purple-100 shrink-0 shadow-md mt-0.5 sm:mt-0"
                 >
-                  {renderDomainIcon(expandedMeta.iconKey, 'w-5 h-5 shrink-0 stroke-[2.2]', '#e9d5ff')}
+                  {renderDomainIcon(
+                    expandedMeta.iconKey,
+                    'w-5 h-5 shrink-0 stroke-[2.2]',
+                    !isDarkMode ? '#6d28d9' : '#e9d5ff'
+                  )}
                 </span>
                 <div className="min-w-0 flex flex-col flex-1">
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs font-semibold text-purple-200/95">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs font-semibold text-purple-200/95 service-light-purple">
                     <span className="shrink-0 tabular-nums">
                       {isEn ? `Domain #${expandedDomain.id}` : `Lĩnh vực #${expandedDomain.id}`}
                     </span>
-                    <span aria-hidden="true" className="text-purple-300/60">·</span>
-                    <span className="break-words text-purple-100/95">{fullTitle}</span>
+                    <span aria-hidden="true" className="text-purple-300/60 service-light-muted">·</span>
+                    <span className="break-words text-purple-100/95 service-light-ink">{fullTitle}</span>
                   </div>
                   <h2
                     className="bento-unified-title font-play text-[16px] font-bold tracking-tight leading-snug text-white m-0 mt-1 [text-wrap:balance] break-words"
@@ -747,7 +919,7 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
                 <U420CardHoverIcon variant="c1" />
               </div>
               {summaryText && (
-                <p className="text-sm sm:text-[15px] text-purple-100/90 leading-relaxed m-0 max-w-2xl">
+                <p className="text-sm sm:text-[15px] text-purple-100/90 service-light-muted leading-relaxed m-0 max-w-2xl">
                   {summaryText}
                 </p>
               )}
@@ -765,26 +937,26 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
             </div>
           </div>
 
-          <div className="relative z-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-3.5 border-t border-white/15 text-xs font-semibold text-purple-100/90">
-            <span className="text-white font-bold">
+          <div className="service-light-divider relative z-10 flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-3.5 border-t border-white/15 text-xs font-semibold text-purple-100/90">
+            <span className="text-white service-light-ink font-bold">
               {isEn ? 'Standardized Ops' : 'Vận hành chuẩn hóa'}
             </span>
             {(isEn ? expandedMeta.tagsEn : expandedMeta.tags).slice(0, 4).map((tag, tIdx) => (
               <React.Fragment key={tIdx}>
-                <span aria-hidden="true" className="text-purple-300/50">·</span>
-                <span className="text-purple-100/90">{tag}</span>
+                <span aria-hidden="true" className="text-purple-300/50 service-light-muted">·</span>
+                <span className="text-purple-100/90 service-light-purple">{tag}</span>
               </React.Fragment>
             ))}
           </div>
         </ExpandedBentoTile>
 
-        {/* BENTO ITEM 2 (Col 3, Row 1): Doanh nghiệp tiêu biểu — 1x1 */}
+        {/* BENTO ITEM 2 (Col 3, Row 1): Doanh nghiệp tiêu biểu — 1x1 (Thẻ 4 + Thẻ 21) */}
         <ExpandedBentoTile
           tileId="partners"
           fxMode="float-shadow"
           prefersReducedMotion={prefersReducedMotion}
-          tileBgCss="linear-gradient(135deg, #1e293b 0%, #1f2937 55%, #0f172a 100%)"
-          className="justify-between gap-3.5 bg-slate-800"
+          tileBgCss="linear-gradient(135deg, #1f2937 0%, #111827 100%)"
+          className="justify-between gap-3.5 bg-gray-800/90"
         >
           <div className="relative z-10 flex flex-col gap-1.5">
             <div className="flex items-center justify-between gap-2">
@@ -814,15 +986,14 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               const content = (
                 <>
                   <div
-                    className="company-logo-surface w-8 h-8 aspect-square rounded-full overflow-hidden shrink-0 flex items-center justify-center p-0 border-0 ring-0 outline-none shadow-sm"
-                    style={{ border: 'none', padding: 0 }}
+                    className="company-logo-surface w-8 h-8 aspect-square rounded-full overflow-hidden shrink-0 flex items-center justify-center shadow-sm"
                   >
                     <BlurUpImage
                       src={partner.logo}
                       fallbackSrc={partner.fallbackLogo || illustrationUrl}
                       alt={partner.name}
                       variant="contain"
-                      className="w-full h-full object-cover rounded-full block"
+                      className="w-full h-full object-contain rounded-full block"
                     />
                   </div>
                   <div className="min-w-0 flex-1 flex items-center gap-1">
@@ -987,20 +1158,19 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
 
             {partners.length > 0 && (
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center -space-x-2.5 shrink-0">
+                <div className="bento-exp-logos-row flex items-center flex-nowrap shrink-0">
                   {partners.slice(0, 4).map((partner, pIdx) => (
                     <div
                       key={partner.name || pIdx}
                       title={partner.name}
-                      className="company-logo-surface w-9 h-9 aspect-square rounded-full overflow-hidden flex items-center justify-center p-0 border-0 ring-0 outline-none shadow-md"
-                      style={{ border: 'none', padding: 0 }}
+                      className="company-logo-surface w-9 h-9 aspect-square rounded-full overflow-hidden flex items-center justify-center shadow-md"
                     >
                       <BlurUpImage
                         src={partner.logo}
                         fallbackSrc={partner.fallbackLogo || illustrationUrl}
                         alt={partner.name}
                         variant="contain"
-                        className="w-full h-full object-cover rounded-full block"
+                        className="w-full h-full object-contain rounded-full block"
                       />
                     </div>
                   ))}
@@ -1028,7 +1198,8 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
               {rolesHeld.map((role, rIdx) => (
                 <span
                   key={rIdx}
-                  className="text-xs font-semibold text-purple-200 service-light-purple leading-snug"
+                  data-bento-styled="true"
+                  className="service-bento-subtile text-xs font-semibold text-purple-200 service-light-purple leading-snug px-2.5 py-1.5 rounded-xl bg-black/25 border border-white/10"
                 >
                   {role}
                 </span>
@@ -1085,13 +1256,13 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           )}
         </ExpandedBentoTile>
 
-        {/* BENTO ITEM 7 (Col 2, Row 3): Trọng tâm vận hành — 1x1 */}
+        {/* BENTO ITEM 7 (Col 2, Row 3): Trọng tâm vận hành — 1x1 (Thẻ 7) */}
         <ExpandedBentoTile
           tileId="focus"
           fxMode="float-shadow"
           prefersReducedMotion={prefersReducedMotion}
-          tileBgCss="linear-gradient(135deg, #1e293b 0%, #1e1b4b 60%, #172554 100%)"
-          className="justify-start gap-3.5 bg-slate-800"
+          tileBgCss="linear-gradient(135deg, #1f2937 0%, #111827 100%)"
+          className="justify-start gap-3.5 bg-gray-800/90"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-15 pointer-events-none" />
 
@@ -1128,13 +1299,13 @@ export const ServiceExpandedDetail: React.FC<ServiceExpandedDetailProps> = ({
           </ol>
         </ExpandedBentoTile>
 
-        {/* BENTO ITEM 8 (Cols 3-4, Row 3): Giải pháp công nghệ — col-span-2 */}
+        {/* BENTO ITEM 8 (Cols 3-4, Row 3): Giải pháp công nghệ — col-span-2 (Thẻ 25 + Thẻ 16 + Thẻ 78) */}
         <ExpandedBentoTile
           tileId="tech"
           fxMode="spotlight-3d"
           prefersReducedMotion={prefersReducedMotion}
-          tileBgCss="linear-gradient(135deg, #1e293b 0%, #134e4a 55%, #022c22 100%)"
-          className="col-span-2 justify-between gap-3.5 bg-gradient-to-br from-slate-800 via-teal-950 to-emerald-950"
+          tileBgCss="linear-gradient(135deg, #1e293b 0%, #1f2937 52%, #022c22 100%)"
+          className="col-span-2 justify-between gap-3.5 bg-gradient-to-br from-slate-800 via-gray-800 to-emerald-950"
         >
           <div className="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-emerald-400/15 blur-3xl pointer-events-none" />
 

@@ -2,39 +2,21 @@
 
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { DualLayerVideoPlayer } from '@/components/ui/DualLayerVideoPlayer';
-import QRCode from 'qrcode';
 import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import { createAnimatedIcon } from '@/components/ui/MotionIcons';
 import { WebIcon } from '@/components/ui/WebIcon';
-import { BlurUpImage } from '@/components/ui/BlurUpImage';
 
-const Maximize2 = createAnimatedIcon('maximize-2');
 const Minimize2 = createAnimatedIcon('minimize-2');
-const Play = createAnimatedIcon('play');
-const Square = createAnimatedIcon('square');
-const QrCode = createAnimatedIcon('qr-code');
-const ArrowLeftRight = createAnimatedIcon('arrow-left-right');
 const ExternalLink = createAnimatedIcon('external-link');
-const Copy = createAnimatedIcon('copy');
-const Check = createAnimatedIcon('check');
-const Cpu = createAnimatedIcon('cpu');
-const ShieldCheck = createAnimatedIcon('shield-check');
-const Activity = createAnimatedIcon('activity');
-const Users = createAnimatedIcon('users');
 const Database = createAnimatedIcon('database');
 const Network = createAnimatedIcon('network');
-const Volume2 = createAnimatedIcon('volume-2');
-const VolumeX = createAnimatedIcon('volume-x');
 const Table = createAnimatedIcon('table');
 const LayoutGrid = createAnimatedIcon('grid');
-const ArrowRight = createAnimatedIcon('arrow-right');
-const Server = createAnimatedIcon('server');
 import { SYSTEMS_DATA } from '@/data/systems';
 import { SystemData, SiteTheme } from '@/types';
 import { useToast } from '@/components/ui/Toast';
 import { SoundEngine } from '@/components/ui/SoundEngine';
 import { cn } from '@/lib/utils';
-import { getSavedMutedPref, saveMutedPref, AUDIO_PREF_EVENT } from '@/utils/audioPreference';
 import { EcosystemDiagramModal } from '@/components/common/EcosystemDiagramModal';
 import { useTheme } from '@/hooks/useTheme';
 import { stopActiveSpeech } from '@/utils/speechVoice';
@@ -44,6 +26,7 @@ import { getDefaultBannerVideoConfig } from '@/data/driveBannerDefaults';
 import { CompactBannerMenu } from '@/components/ui/CompactBannerMenu';
 import { SpringDropdownMenu, SpringTick } from '@/components/ui/SpringDropdown';
 import { SystemBentoCard } from './systems/SystemBentoCard';
+import { SYSTEM_TECH_SPECS_MAP, SYSTEM_DESIGN_MAP } from './systems/systemsMeta';
 
 export interface SystemsViewProps {
   currentTheme?: SiteTheme;
@@ -54,486 +37,6 @@ const SYSTEM_FLOATING_IDLE_VIDEO_URL =
   'https://cdn.scena.ai/project/8606/581097478f9de72616d982e302e1c8d0aab6d66cbee040430c610424c0c72a44.mp4';
 const SYSTEM_FLOATING_INTRO_VIDEO_URL =
   'https://cdn.scena.ai/project/8606/ac120a105730c378447fd67f5e8b6aeb9557b5e4e8854ac2e21148d5316f780b.mp4';
-
-interface SystemTechSpecItem {
-  database: string;
-  apiProtocol: string;
-  slaCommitment: string;
-  isoSecurity: string;
-  uptimePct: string;
-  baseOnlineUsers: number;
-  onlineRoleLabel: string;
-  onlineRoleLabelEn: string;
-  ecosystemGroup: 'cskh' | 'enterprise' | 'ai_analytics';
-  ecosystemLabel: string;
-  ecosystemLabelEn: string;
-}
-
-const SYSTEM_TECH_SPECS_MAP: Record<string, SystemTechSpecItem> = {
-  sdp: {
-    database: 'PostgreSQL 16 + Redis Cluster',
-    apiProtocol: 'RESTful / GraphQL / SSO OAuth2',
-    slaCommitment: '99.98% (< 12ms Latency)',
-    isoSecurity: 'ISO/IEC 27001:2022 • Zero-Trust SSO',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 340,
-    onlineRoleLabel: 'Agents trực tuyến',
-    onlineRoleLabelEn: 'Agents Online',
-    ecosystemGroup: 'cskh',
-    ecosystemLabel: 'Vận hành CSKH',
-    ecosystemLabelEn: 'Customer Operations',
-  },
-  csc: {
-    database: 'PostgreSQL + Elasticsearch 8',
-    apiProtocol: 'WebRTC / SIP Trunk / Webhook',
-    slaCommitment: '99.98% (Real-time Queue)',
-    isoSecurity: 'ISO/IEC 27001:2022 • TLS 1.3 / SRTP',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 295,
-    onlineRoleLabel: 'Agents trực tuyến',
-    onlineRoleLabelEn: 'Agents Online',
-    ecosystemGroup: 'cskh',
-    ecosystemLabel: 'Vận hành CSKH',
-    ecosystemLabelEn: 'Customer Operations',
-  },
-  crm: {
-    database: 'PostgreSQL + MongoDB Atlas',
-    apiProtocol: 'RESTful API / Event Webhook',
-    slaCommitment: '99.98% (Đồng bộ 360° < 15ms)',
-    isoSecurity: 'ISO/IEC 27001:2022 • AES-256 PII Masking',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 210,
-    onlineRoleLabel: 'Nhân sự khai thác',
-    onlineRoleLabelEn: 'Active Operators',
-    ecosystemGroup: 'cskh',
-    ecosystemLabel: 'Vận hành CSKH',
-    ecosystemLabelEn: 'Customer Operations',
-  },
-  clp: {
-    database: 'PostgreSQL + Redis Pub/Sub',
-    apiProtocol: 'RESTful / Kafka Event Stream',
-    slaCommitment: '99.97% (Tích điểm tức thì)',
-    isoSecurity: 'ISO/IEC 27001:2022 • Tokenization',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 65,
-    onlineRoleLabel: 'Chuyên viên VIP',
-    onlineRoleLabelEn: 'Loyalty Specialists',
-    ecosystemGroup: 'cskh',
-    ecosystemLabel: 'Vận hành CSKH',
-    ecosystemLabelEn: 'Customer Operations',
-  },
-  pos: {
-    database: 'PostgreSQL + SQLite Offline Sync',
-    apiProtocol: 'gRPC / REST API / Payment Gateway',
-    slaCommitment: '99.99% (Offline-First Sync)',
-    isoSecurity: 'ISO/IEC 27001:2022 & PCI-DSS Level 1',
-    uptimePct: '99.99%',
-    baseOnlineUsers: 85,
-    onlineRoleLabel: 'Điểm thu ngân',
-    onlineRoleLabelEn: 'Cashiers Online',
-    ecosystemGroup: 'cskh',
-    ecosystemLabel: 'Vận hành CSKH',
-    ecosystemLabelEn: 'Customer Operations',
-  },
-  erp: {
-    database: 'Oracle DB / PostgreSQL HA',
-    apiProtocol: 'REST / SOAP / EDI / Banking API',
-    slaCommitment: '99.99% (ACID Financial Ledger)',
-    isoSecurity: 'ISO/IEC 27001:2022 • SOC2 Type II',
-    uptimePct: '99.99%',
-    baseOnlineUsers: 55,
-    onlineRoleLabel: 'Kế toán & Vận hành',
-    onlineRoleLabelEn: 'Finance Users',
-    ecosystemGroup: 'enterprise',
-    ecosystemLabel: 'Quản trị doanh nghiệp',
-    ecosystemLabelEn: 'Enterprise Governance',
-  },
-  hrm: {
-    database: 'PostgreSQL + TimescaleDB',
-    apiProtocol: 'RESTful API / Biometric IoT Sync',
-    slaCommitment: '99.95% (Auto Payroll Engine)',
-    isoSecurity: 'ISO/IEC 27001:2022 • E2E Payroll Encrypt',
-    uptimePct: '99.97%',
-    baseOnlineUsers: 48,
-    onlineRoleLabel: 'Quản lý & HRBP',
-    onlineRoleLabelEn: 'HR & Managers',
-    ecosystemGroup: 'enterprise',
-    ecosystemLabel: 'Quản trị doanh nghiệp',
-    ecosystemLabelEn: 'Enterprise Governance',
-  },
-  bpm: {
-    database: 'PostgreSQL + Camunda Workflow DB',
-    apiProtocol: 'BPMN 2.0 REST / Webhook / gRPC',
-    slaCommitment: '99.98% (Zero Bottleneck)',
-    isoSecurity: 'ISO/IEC 27001:2022 • Digital Signature',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 42,
-    onlineRoleLabel: 'Cấp phê duyệt',
-    onlineRoleLabelEn: 'Approvers Online',
-    ecosystemGroup: 'enterprise',
-    ecosystemLabel: 'Quản trị doanh nghiệp',
-    ecosystemLabelEn: 'Enterprise Governance',
-  },
-  okr: {
-    database: 'PostgreSQL + Graph Analytics',
-    apiProtocol: 'RESTful / GraphQL KPI Sync',
-    slaCommitment: '99.96% (Real-time Alignment)',
-    isoSecurity: 'ISO/IEC 27001:2022 • RBAC Hierarchy',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 35,
-    onlineRoleLabel: 'Trưởng nhóm & C-Level',
-    onlineRoleLabelEn: 'Leaders Online',
-    ecosystemGroup: 'enterprise',
-    ecosystemLabel: 'Quản trị doanh nghiệp',
-    ecosystemLabelEn: 'Enterprise Governance',
-  },
-  lms: {
-    database: 'PostgreSQL + S3 Media CDN',
-    apiProtocol: 'xAPI / SCORM / HLS Streaming',
-    slaCommitment: '99.95% (Full HD Adaptive)',
-    isoSecurity: 'ISO/IEC 27001:2022 • DRM Content Guard',
-    uptimePct: '99.96%',
-    baseOnlineUsers: 30,
-    onlineRoleLabel: 'Học viên trực tuyến',
-    onlineRoleLabelEn: 'Trainees Online',
-    ecosystemGroup: 'enterprise',
-    ecosystemLabel: 'Quản trị doanh nghiệp',
-    ecosystemLabelEn: 'Enterprise Governance',
-  },
-  bi: {
-    database: 'ClickHouse OLAP + BigQuery',
-    apiProtocol: 'WebSocket Stream / GraphQL / SQL',
-    slaCommitment: '99.98% (Sub-second Query)',
-    isoSecurity: 'ISO/IEC 27001:2022 • Row-Level Security',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 20,
-    onlineRoleLabel: 'Chuyên viên phân tích',
-    onlineRoleLabelEn: 'Analysts Online',
-    ecosystemGroup: 'ai_analytics',
-    ecosystemLabel: 'Phân tích & AI',
-    ecosystemLabelEn: 'AI & Analytics',
-  },
-  ai: {
-    database: 'Vector DB (Pinecone/PGVector) + Redis',
-    apiProtocol: 'LLM Streaming API / RAG Webhook',
-    slaCommitment: '99.98% (24/7 < 400ms First Token)',
-    isoSecurity: 'ISO/IEC 27001:2022 • Guardrails & DLP',
-    uptimePct: '99.98%',
-    baseOnlineUsers: 25,
-    onlineRoleLabel: 'AI Agents hoạt động',
-    onlineRoleLabelEn: 'AI Bots Active',
-    ecosystemGroup: 'ai_analytics',
-    ecosystemLabel: 'Phân tích & AI',
-    ecosystemLabelEn: 'AI & Analytics',
-  },
-};
-
-const SYSTEM_CONNECTIONS_MAP: Record<string, string[]> = {
-  sdp: ['csc', 'crm', 'ai', 'bi'],
-  csc: ['sdp', 'crm', 'bpm', 'ai'],
-  crm: ['sdp', 'csc', 'clp', 'bi'],
-  clp: ['crm', 'pos', 'erp', 'bi'],
-  pos: ['clp', 'erp', 'crm', 'bi'],
-  erp: ['pos', 'hrm', 'bpm', 'bi'],
-  hrm: ['okr', 'lms', 'erp', 'bpm'],
-  bpm: ['sdp', 'csc', 'erp', 'hrm'],
-  okr: ['hrm', 'bi', 'sdp', 'lms'],
-  lms: ['hrm', 'ai', 'okr', 'sdp'],
-  bi: ['sdp', 'crm', 'erp', 'ai'],
-  ai: ['sdp', 'csc', 'lms', 'bi'],
-};
-
-interface SystemDesignMeta {
-  displayTitle: string;
-  subtitle: string;
-  shortCodeLabel: string;
-  gradient: string;
-  cardBgLight: string;
-  cardBgDark: string;
-  tintBgLight: string;
-  tintBgDark: string;
-  borderLight: string;
-  borderDark: string;
-  lightAccent: string;
-  darkAccent: string;
-  iconName: string;
-  illustrationSrc: string;
-  cardTheme: string;
-  vibrantBg: string;
-  isLightCard: boolean;
-  videoBg: string;
-  videoIsLight: boolean;
-}
-
-const SYSTEM_DESIGN_MAP: Record<string, SystemDesignMeta> = {
-  sdp: {
-    displayTitle: 'Cổng Dịch Vụ Số & Bàn Làm Việc Hợp Nhất',
-    subtitle: 'Service Delivery Platform',
-    shortCodeLabel: 'SDP',
-    gradient: 'linear-gradient(135deg, #d97706 0%, #ca8a04 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(254, 249, 195, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(113, 63, 18, 0.48) 100%)',
-    tintBgLight: 'rgba(254, 249, 195, 0.62)',
-    tintBgDark: 'rgba(161, 98, 7, 0.24)',
-    borderLight: 'rgba(234, 179, 8, 0.42)',
-    borderDark: 'rgba(250, 204, 21, 0.42)',
-    lightAccent: '#a16207',
-    darkAccent: '#facc15',
-    iconName: 'globe',
-    illustrationSrc: 'https://i.postimg.cc/L5tSWxnm/SDP-Cong-lam-viec-CSKH.webp',
-    cardTheme: '#EAB308',
-    vibrantBg: 'linear-gradient(135deg, #fde047 0%, #facc15 52%, #f59e0b 100%)',
-    isLightCard: true,
-    videoBg: '#1c1917',
-    videoIsLight: false,
-  },
-  csc: {
-    displayTitle: 'Trung Tâm Chăm Sóc Khách Hàng Đa Kênh',
-    subtitle: 'Customer Service Center',
-    shortCodeLabel: 'CSC',
-    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(224, 242, 254, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(12, 74, 110, 0.54) 100%)',
-    tintBgLight: 'rgba(224, 242, 254, 0.62)',
-    tintBgDark: 'rgba(2, 132, 199, 0.24)',
-    borderLight: 'rgba(14, 165, 233, 0.36)',
-    borderDark: 'rgba(56, 189, 248, 0.38)',
-    lightAccent: '#0369a1',
-    darkAccent: '#38bdf8',
-    iconName: 'headphones',
-    illustrationSrc: 'https://i.postimg.cc/sxdyKkDf/CSC-Trung-tam-Cham-soc-Khach-hang.webp',
-    cardTheme: '#0EA5E9',
-    vibrantBg: 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 52%, #2563eb 100%)',
-    isLightCard: false,
-    videoBg: '#082f49',
-    videoIsLight: false,
-  },
-  crm: {
-    displayTitle: 'Hệ Thống Quản Trị Quan Hệ Khách Hàng 360°',
-    subtitle: 'Customer Relationship Management',
-    shortCodeLabel: 'CRM',
-    gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(209, 250, 229, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(6, 78, 59, 0.54) 100%)',
-    tintBgLight: 'rgba(209, 250, 229, 0.62)',
-    tintBgDark: 'rgba(5, 150, 105, 0.24)',
-    borderLight: 'rgba(16, 185, 129, 0.36)',
-    borderDark: 'rgba(52, 211, 153, 0.38)',
-    lightAccent: '#047857',
-    darkAccent: '#34d399',
-    iconName: 'users',
-    illustrationSrc: 'https://i.postimg.cc/SRFqVBNS/CRM-Quan-ly-Quan-he-Khach-hang.webp',
-    cardTheme: '#10B981',
-    vibrantBg: 'linear-gradient(135deg, #059669 0%, #10b981 52%, #047857 100%)',
-    isLightCard: false,
-    videoBg: '#064e3b',
-    videoIsLight: false,
-  },
-  clp: {
-    displayTitle: 'Hệ Thống Chăm Sóc Khách Hàng Thân Thiết',
-    subtitle: 'Customer Loyalty Program',
-    shortCodeLabel: 'CLP',
-    gradient: 'linear-gradient(135deg, #f43f5e 0%, #db2777 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 228, 230, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(136, 19, 55, 0.54) 100%)',
-    tintBgLight: 'rgba(255, 228, 230, 0.62)',
-    tintBgDark: 'rgba(225, 29, 72, 0.24)',
-    borderLight: 'rgba(244, 63, 94, 0.36)',
-    borderDark: 'rgba(251, 113, 133, 0.38)',
-    lightAccent: '#be123c',
-    darkAccent: '#fb7185',
-    iconName: 'gift',
-    illustrationSrc: 'https://i.postimg.cc/0jRxZT21/CLP-Khach-hang-Than-thiet.webp',
-    cardTheme: '#F43F5E',
-    vibrantBg: 'linear-gradient(135deg, #e11d48 0%, #f43f5e 52%, #be185d 100%)',
-    isLightCard: false,
-    videoBg: '#4c0519',
-    videoIsLight: false,
-  },
-  pos: {
-    displayTitle: 'Hệ Thống Quản Lý Bán Hàng & Thanh Toán Tại Quầy',
-    subtitle: 'Point of Sale Management',
-    shortCodeLabel: 'POS',
-    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0284c7 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(207, 250, 254, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(22, 78, 99, 0.54) 100%)',
-    tintBgLight: 'rgba(207, 250, 254, 0.62)',
-    tintBgDark: 'rgba(8, 145, 178, 0.24)',
-    borderLight: 'rgba(6, 182, 212, 0.36)',
-    borderDark: 'rgba(34, 211, 238, 0.38)',
-    lightAccent: '#0e7490',
-    darkAccent: '#22d3ee',
-    iconName: 'shopping-cart',
-    illustrationSrc: 'https://i.postimg.cc/5yBJrs6M/POS-Quan-ly-Ban-hang-tai-Quay.webp',
-    cardTheme: '#06B6D4',
-    vibrantBg: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 52%, #0369a1 100%)',
-    isLightCard: false,
-    videoBg: '#083344',
-    videoIsLight: false,
-  },
-  erp: {
-    displayTitle: 'Hệ Thống Hoạch Định Nguồn Lực Doanh Nghiệp',
-    subtitle: 'Enterprise Resource Planning',
-    shortCodeLabel: 'ERP',
-    gradient: 'linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(204, 251, 241, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(19, 78, 74, 0.54) 100%)',
-    tintBgLight: 'rgba(204, 251, 241, 0.62)',
-    tintBgDark: 'rgba(13, 148, 136, 0.24)',
-    borderLight: 'rgba(20, 184, 166, 0.36)',
-    borderDark: 'rgba(45, 212, 191, 0.38)',
-    lightAccent: '#0f766e',
-    darkAccent: '#2dd4bf',
-    iconName: 'chart',
-    illustrationSrc: 'https://i.postimg.cc/Fz5mGMs9/ERP-Tai-chinh-ke-toan.webp',
-    cardTheme: '#14B8A6',
-    vibrantBg: 'linear-gradient(135deg, #0f766e 0%, #14b8a6 52%, #0d9488 100%)',
-    isLightCard: false,
-    videoBg: '#134e4a',
-    videoIsLight: false,
-  },
-  hrm: {
-    displayTitle: 'Hệ Thống Quản Trị Nguồn Nhân Lực Toàn Diện',
-    subtitle: 'Human Resource Management',
-    shortCodeLabel: 'HRM',
-    gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 237, 213, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(124, 45, 18, 0.54) 100%)',
-    tintBgLight: 'rgba(255, 237, 213, 0.62)',
-    tintBgDark: 'rgba(234, 88, 12, 0.24)',
-    borderLight: 'rgba(249, 115, 22, 0.36)',
-    borderDark: 'rgba(251, 146, 60, 0.38)',
-    lightAccent: '#c2410c',
-    darkAccent: '#fb923c',
-    iconName: 'briefcase',
-    illustrationSrc: 'https://i.postimg.cc/MH7wL9Xh/HRM-Quan-ly-Nguon-nhan-luc.webp',
-    cardTheme: '#F97316',
-    vibrantBg: 'linear-gradient(135deg, #ea580c 0%, #f97316 52%, #c2410c 100%)',
-    isLightCard: false,
-    videoBg: '#431407',
-    videoIsLight: false,
-  },
-  bpm: {
-    displayTitle: 'Hệ Thống Số Hóa & Tự Động Hóa Quy Trình',
-    subtitle: 'Business Process Management',
-    shortCodeLabel: 'BPM',
-    gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(237, 233, 254, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(76, 29, 149, 0.54) 100%)',
-    tintBgLight: 'rgba(237, 233, 254, 0.62)',
-    tintBgDark: 'rgba(124, 58, 237, 0.24)',
-    borderLight: 'rgba(139, 92, 246, 0.36)',
-    borderDark: 'rgba(167, 139, 250, 0.38)',
-    lightAccent: '#6d28d9',
-    darkAccent: '#c084fc',
-    iconName: 'file-text',
-    illustrationSrc: 'https://i.postimg.cc/6qJwzk5J/BPM-Quan-ly-Quy-trinh-Nghiep-vu.webp',
-    cardTheme: '#8B5CF6',
-    vibrantBg: 'linear-gradient(135deg, #6d28d9 0%, #8b5cf6 52%, #4f46e5 100%)',
-    isLightCard: false,
-    videoBg: '#2e1065',
-    videoIsLight: false,
-  },
-  okr: {
-    displayTitle: 'Hệ Thống Quản Trị Mục Tiêu & Kết Quả Then Chốt',
-    subtitle: 'Objectives & Key Results',
-    shortCodeLabel: 'OKR',
-    gradient: 'linear-gradient(135deg, #65a30d 0%, #15803d 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(220, 252, 231, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(20, 83, 45, 0.54) 100%)',
-    tintBgLight: 'rgba(220, 252, 231, 0.62)',
-    tintBgDark: 'rgba(22, 163, 74, 0.24)',
-    borderLight: 'rgba(34, 197, 94, 0.36)',
-    borderDark: 'rgba(74, 222, 128, 0.38)',
-    lightAccent: '#15803d',
-    darkAccent: '#4ade80',
-    iconName: 'target',
-    illustrationSrc: 'https://i.postimg.cc/BbT3zmXf/OKR-Quan-ly-Muc-tieu-Ket-qua.webp',
-    cardTheme: '#22C55E',
-    vibrantBg: 'linear-gradient(135deg, #15803d 0%, #22c55e 52%, #166534 100%)',
-    isLightCard: false,
-    videoBg: '#052e16',
-    videoIsLight: false,
-  },
-  lms: {
-    displayTitle: 'Hệ Thống Quản Lý Đào Tạo Trực Tuyến',
-    subtitle: 'Learning Management System',
-    shortCodeLabel: 'LMS',
-    gradient: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(219, 234, 254, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 58, 138, 0.54) 100%)',
-    tintBgLight: 'rgba(219, 234, 254, 0.62)',
-    tintBgDark: 'rgba(37, 99, 235, 0.24)',
-    borderLight: 'rgba(59, 130, 246, 0.36)',
-    borderDark: 'rgba(96, 165, 250, 0.38)',
-    lightAccent: '#1d4ed8',
-    darkAccent: '#60a5fa',
-    iconName: 'graduation',
-    illustrationSrc: 'https://i.postimg.cc/kGQCHTB3/LMS-Quan-ly-Dao-tao.webp',
-    cardTheme: '#2563EB',
-    vibrantBg: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 52%, #1e40af 100%)',
-    isLightCard: false,
-    videoBg: '#172554',
-    videoIsLight: false,
-  },
-  bi: {
-    displayTitle: 'Hệ Thống Báo Cáo & Phân Tích Dữ Liệu',
-    subtitle: 'Business Intelligence Dashboard',
-    shortCodeLabel: 'BI',
-    gradient: 'linear-gradient(135deg, #9333ea 0%, #7c3aed 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(243, 232, 255, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(88, 28, 135, 0.54) 100%)',
-    tintBgLight: 'rgba(243, 232, 255, 0.62)',
-    tintBgDark: 'rgba(147, 51, 234, 0.24)',
-    borderLight: 'rgba(168, 85, 247, 0.36)',
-    borderDark: 'rgba(192, 132, 252, 0.38)',
-    lightAccent: '#7e22ce',
-    darkAccent: '#d8b4fe',
-    iconName: 'trending',
-    illustrationSrc: 'https://i.postimg.cc/Y0Kk85q7/BI-Dashboard-Bao-cao-Phan-tich.webp',
-    cardTheme: '#9333EA',
-    vibrantBg: 'linear-gradient(135deg, #7e22ce 0%, #9333ea 52%, #6b21a8 100%)',
-    isLightCard: false,
-    videoBg: '#3b0764',
-    videoIsLight: false,
-  },
-  ai: {
-    displayTitle: 'Trợ Lý Trí Tuệ Nhân Tạo Đa Nhiệm 24/7',
-    subtitle: 'Artificial Intelligence Assistant',
-    shortCodeLabel: 'AI',
-    gradient: 'linear-gradient(135deg, #4f46e5 0%, #0284c7 100%)',
-    cardBgLight: 'linear-gradient(140deg, rgba(255, 255, 255, 0.90) 0%, rgba(224, 231, 255, 0.72) 100%)',
-    cardBgDark: 'linear-gradient(140deg, rgba(15, 23, 42, 0.88) 0%, rgba(49, 46, 129, 0.56) 100%)',
-    tintBgLight: 'rgba(224, 231, 255, 0.62)',
-    tintBgDark: 'rgba(79, 70, 229, 0.24)',
-    borderLight: 'rgba(99, 102, 241, 0.36)',
-    borderDark: 'rgba(129, 140, 248, 0.38)',
-    lightAccent: '#4338ca',
-    darkAccent: '#818cf8',
-    iconName: 'robot',
-    illustrationSrc: 'https://i.postimg.cc/D0kF59yK/AI-Assistant-Tro-ly-Tri-tue-Nhan-tao.webp',
-    cardTheme: '#4F46E5',
-    vibrantBg: 'linear-gradient(135deg, #4338ca 0%, #4f46e5 52%, #0284c7 100%)',
-    isLightCard: false,
-    videoBg: '#1e1b4b',
-    videoIsLight: false,
-  },
-};
-
-const SYSTEM_VI_SIX_WORD_NAMES: Record<string, string> = {
-  sdp: 'Cổng làm việc dịch vụ số',
-  csc: 'Trung tâm chăm sóc đa kênh',
-  crm: 'Quản trị quan hệ khách hàng',
-  clp: 'Chương trình khách hàng thân thiết',
-  pos: 'Quản lý bán hàng tại quầy',
-  erp: 'Hoạch định nguồn lực doanh nghiệp',
-  hrm: 'Quản trị nguồn lực nhân sự',
-  bpm: 'Số hóa quy trình làm việc',
-  okr: 'Quản trị mục tiêu kết quả',
-  lms: 'Hệ thống đào tạo trực tuyến',
-  bi: 'Báo cáo phân tích dữ liệu',
-  ai: 'Trợ lý trí tuệ nhân tạo',
-};
 
 const REFERENCE_GRID_ORDER = [
   'csc',
@@ -549,88 +52,6 @@ const REFERENCE_GRID_ORDER = [
   'lms',
   'bi',
 ];
-
-function getRealtimeFlowDescription(
-  sysA: SystemData,
-  sysB: SystemData,
-  isEn = false
-): {
-  protocol: string;
-  latency: string;
-  payloadSummary: string;
-} {
-  const pairKey = [sysA.id, sysB.id].sort().join('-');
-  const presetMap: Record<
-    string,
-    { protocol: string; latency: string; vi: string; en: string }
-  > = {
-    'crm-sdp': {
-      protocol: 'RESTful API + Webhook 2 chiều',
-      latency: '11ms',
-      vi: 'Đồng bộ tức thì Hồ sơ Khách hàng 360°, lịch sử tương tác đa kênh, hạng thẻ và Ticket đang xử lý ngay trên màn hình Single Agent Workspace.',
-      en: 'Instantly syncs 360° customer profiles, omnichannel history, VIP tiers, and active tickets into Single Agent Workspace.',
-    },
-    'csc-sdp': {
-      protocol: 'WebRTC + SIP Trunk + WebSocket',
-      latency: '9ms',
-      vi: 'Tích hợp trực tiếp cuộc gọi VoIP, định tuyến ACD thông minh, ghi âm và cảnh báo SLA thời gian thực về bàn làm việc SDP.',
-      en: 'Streams live VoIP call states, smart ACD routing, call recordings, and SLA alerts directly to SDP.',
-    },
-    'crm-csc': {
-      protocol: 'Webhook Stream + CTI Screen-Pop',
-      latency: '14ms',
-      vi: 'Tự động bật Pop-up định danh khách hàng ngay khi đổ chuông và lưu đồng bộ nhật ký cuộc gọi / phiếu ghi vào CRM.',
-      en: 'Triggers automatic customer Screen-Pop on incoming calls and logs all interactions back into CRM.',
-    },
-    'erp-pos': {
-      protocol: 'gRPC + Kafka Event Bus',
-      latency: '18ms',
-      vi: 'Khấu trừ tồn kho tức thì ngay khi xuất hóa đơn POS, tự động hạch toán doanh thu và công nợ về sổ cái ERP.',
-      en: 'Deducts live inventory on POS checkout and automatically posts revenue ledger entries into ERP.',
-    },
-    'ai-sdp': {
-      protocol: 'SSE Streaming + RAG Vector API',
-      latency: '16ms',
-      vi: 'Trợ lý AI lắng nghe ngữ cảnh hội thoại trên SDP để gợi ý câu trả lời chuẩn SOP, tóm tắt phiếu ghi và tra cứu tri thức 24/7.',
-      en: 'AI Copilot listens to live SDP context to recommend SOP responses, summarize tickets, and search knowledge 24/7.',
-    },
-    'crm-clp': {
-      protocol: 'REST API + Redis Pub/Sub',
-      latency: '12ms',
-      vi: 'Cập nhật điểm thưởng Loyalty, hạng thành viên VIP và kho Voucher khả dụng theo thời gian thực.',
-      en: 'Updates loyalty points, VIP tiers, and eligible vouchers in real time across customer journeys.',
-    },
-    'hrm-okr': {
-      protocol: 'GraphQL Sync + OAuth2',
-      latency: '19ms',
-      vi: 'Liên kết kết quả hoàn thành OKR/KPI cá nhân và phòng ban trực tiếp với đánh giá năng lực và thưởng hiệu suất HRM.',
-      en: 'Links individual and team OKR attainment directly to HRM performance reviews and incentive payouts.',
-    },
-    'bi-sdp': {
-      protocol: 'ClickHouse Stream + WebSocket',
-      latency: '15ms',
-      vi: 'Thu thập toàn bộ luồng sự kiện vận hành từ SDP để kết xuất biểu đồ Real-time Wallboard (AHT, CSAT, FCR, SLA).',
-      en: 'Captures live operational telemetry from SDP to power real-time AHT, CSAT, FCR, and SLA dashboards.',
-    },
-  };
-
-  if (presetMap[pairKey]) {
-    const match = presetMap[pairKey];
-    return {
-      protocol: match.protocol,
-      latency: match.latency,
-      payloadSummary: isEn ? match.en : match.vi,
-    };
-  }
-
-  return {
-    protocol: 'Enterprise Service Bus (REST / Kafka)',
-    latency: '14ms',
-    payloadSummary: isEn
-      ? `Bi-directional real-time data synchronization between ${sysA.abbr} and ${sysB.abbr} via TLS 1.3 API Gateway.`
-      : `Đồng bộ dữ liệu hai chiều thời gian thực giữa ${sysA.abbr} (${sysA.nameVi}) và ${sysB.abbr} (${sysB.nameVi}) qua API Gateway chuẩn TLS 1.3.`,
-  };
-}
 
 export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const { showToast } = useToast();
@@ -658,78 +79,33 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   const systemsBannerVideo = getDefaultBannerVideoConfig('systems');
   const filterDropdownRef = useRef<HTMLDivElement>(null);
 
-  // FLIP Morph Expansion State (giống ServicesView)
-  const [expandedSystem, setExpandedSystem] = useState<SystemData | null>(null);
-  const [originSystemId, setOriginSystemId] = useState<string | null>(null);
-  const [animPhase, setAnimPhase] = useState<'idle' | 'entering' | 'open' | 'closing'>('idle');
-  const [isGridDimmed, setIsGridDimmed] = useState<boolean>(false);
-  const [morphRect, setMorphRect] = useState<{
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-  } | null>(null);
-  const [wrapperMinHeight, setWrapperMinHeight] = useState<number | undefined>(undefined);
-  const [isBannerHiddenForExpand, setIsBannerHiddenForExpand] = useState<boolean>(false);
-
-  // Level 1 Full-Card Video & Bento 4x In-Grid Expansion
-  const [activeCardDemoId, setActiveCardDemoId] = useState<string | null>(null);
+  // Unified In-Grid 6-Card Bento Expansion
   const [expandedBentoId, setExpandedBentoId] = useState<string | null>(null);
+  const [baseCardHeight, setBaseCardHeight] = useState<number>(172);
+  const [gridCols, setGridCols] = useState<1 | 2 | 3>(() => {
+    if (typeof window === 'undefined') return 3;
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
+  });
 
-  // Level 2 Expanded Card Interactive Tools: Video Sound, Comparison Mode, QR Quick Access
-  const [isExpandedVideoMuted, setIsExpandedVideoMuted] = useState<boolean>(true);
-  const [isCompareOpen, setIsCompareOpen] = useState<boolean>(false);
-  const [compareTargetId, setCompareTargetId] = useState<string>('crm');
-  const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
-  const [qrDataUrl, setQrDataUrl] = useState<string>('');
-  const [copiedQrUrl, setCopiedQrUrl] = useState<boolean>(false);
-  const [selectedConnectionId, setSelectedConnectionId] = useState<string | null>(null);
-
-  // Floating Intro Video Circle + 9-Card Stage
-  const circleVideoRef = useRef<HTMLVideoElement>(null);
+  // Floating Intro Video Circle
   const introStageVideoRef = useRef<HTMLVideoElement>(null);
   const [isCircleVideoPlaying, setIsCircleVideoPlaying] = useState<boolean>(false);
   const [isIntroStageMuted, setIsIntroStageMuted] = useState<boolean>(false);
   const [nineCardBoxSize, setNineCardBoxSize] = useState<{ width: number; height: number } | null>(null);
 
-  // Refs for layout measurement & timers
+  // Refs for layout measurement
   const systemsMainRef = useRef<HTMLDivElement | null>(null);
   const cardsWrapperRef = useRef<HTMLDivElement | null>(null);
   const cardsGridRef = useRef<HTMLDivElement | null>(null);
-  const expandedCardRef = useRef<HTMLDivElement | null>(null);
-  const expandedBodyRef = useRef<HTMLDivElement | null>(null);
-  const expandedVideoRef = useRef<HTMLVideoElement | null>(null);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
-  const animTimerRef = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    setIsExpandedVideoMuted(getSavedMutedPref(true));
-    const handleAudioPref = (e: Event) => {
-      const customEvent = e as CustomEvent<{ muted: boolean }>;
-      if (customEvent.detail && typeof customEvent.detail.muted === 'boolean') {
-        setIsExpandedVideoMuted(customEvent.detail.muted);
-      }
-    };
-    window.addEventListener(AUDIO_PREF_EVENT, handleAudioPref);
     return () => {
-      window.removeEventListener(AUDIO_PREF_EVENT, handleAudioPref);
       stopActiveSpeech();
     };
   }, []);
-
-  const clearTimers = useCallback(() => {
-    if (animTimerRef.current !== null) {
-      window.clearTimeout(animTimerRef.current);
-      animTimerRef.current = null;
-    }
-    if (rafRef.current !== null) {
-      window.cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-  }, []);
-
-  useEffect(() => clearTimers, [clearTimers]);
 
   const getSystemCategory = (id: string): string => {
     if (['sdp', 'csc', 'crm', 'clp', 'pos'].includes(id)) return 'cskh';
@@ -816,225 +192,60 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     [isLeatherTheme, cardStyle, isLight]
   );
 
-  const computeTargetBounds = useCallback(() => {
-    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
-    if (!hostEl) return null;
+  // Measure single collapsed card height & responsive column count to size expanded card = 6 cards combined
+  useEffect(() => {
+    const updateGridGeometry = () => {
+      const w = typeof window !== 'undefined' ? window.innerWidth : 1280;
+      const nextCols: 1 | 2 | 3 = w >= 1024 ? 3 : w >= 640 ? 2 : 1;
+      setGridCols(nextCols);
 
-    const computedStyle = typeof window !== 'undefined' ? window.getComputedStyle(hostEl) : null;
-    const padX = computedStyle ? parseFloat(computedStyle.paddingLeft || '15') : 15;
-    const padY = computedStyle ? parseFloat(computedStyle.paddingTop || '15') : 15;
-    const insetX = Number.isFinite(padX) && padX >= 0 ? padX : 15;
-    const insetY = Number.isFinite(padY) && padY >= 0 ? padY : 15;
-    return {
-      top: insetY,
-      left: insetX,
-      width: Math.max(240, hostEl.clientWidth - insetX * 2),
-      height: Math.max(240, hostEl.clientHeight - insetY * 2),
-      needsWrapperMinHeight: undefined,
+      const collapsedSample = Object.entries(cardRefs.current).find(
+        ([id, el]) => el && id !== expandedBentoId
+      )?.[1];
+      if (collapsedSample) {
+        const rect = collapsedSample.getBoundingClientRect();
+        if (rect.height >= 140) {
+          setBaseCardHeight(Math.round(rect.height));
+        }
+      }
     };
-  }, []);
 
-  const openExpandedSystem = useCallback(
-    (sys: SystemData, explicitEl?: HTMLElement | null) => {
-      clearTimers();
-      SoundEngine.playTechChimeExpand();
-      setIsCircleVideoPlaying(false);
-      setActiveCardDemoId(null);
-      setViewMode('grid');
-
-      const defaultConnections = SYSTEM_CONNECTIONS_MAP[sys.id] || ['sdp', 'crm'];
-      const defaultCompare = defaultConnections.find((cId) => cId !== sys.id) || (sys.id === 'sdp' ? 'crm' : 'sdp');
-      setCompareTargetId(defaultCompare);
-      setSelectedConnectionId(defaultConnections[0] || null);
-      setIsCompareOpen(false);
-      setIsQrOpen(false);
-
-      const hostEl = systemsMainRef.current || cardsWrapperRef.current;
-      const originEl = explicitEl || cardRefs.current[sys.id];
-      const targetBounds = computeTargetBounds();
-
-      const prefersReducedMotion =
-        typeof window !== 'undefined' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      setOriginSystemId(sys.id);
-      setExpandedSystem(sys);
-
-      if (prefersReducedMotion || !hostEl || !originEl || !targetBounds) {
-        setIsBannerHiddenForExpand(true);
-        if (targetBounds) {
-          setMorphRect({
-            top: targetBounds.top,
-            left: targetBounds.left,
-            width: targetBounds.width,
-            height: targetBounds.height,
-          });
-          setWrapperMinHeight(undefined);
-        }
-        setAnimPhase('open');
-        setIsGridDimmed(true);
-        return;
-      }
-
-      const hostRect = hostEl.getBoundingClientRect();
-      const cardRect = originEl.getBoundingClientRect();
-
-      setWrapperMinHeight(undefined);
-      setIsBannerHiddenForExpand(true);
-      setAnimPhase('entering');
-      setMorphRect({
-        top: cardRect.top - hostRect.top,
-        left: cardRect.left - hostRect.left,
-        width: cardRect.width,
-        height: cardRect.height,
-      });
-
-      rafRef.current = window.requestAnimationFrame(() => {
-        if (expandedCardRef.current) {
-          void expandedCardRef.current.offsetHeight;
-        }
-        const liveBounds = computeTargetBounds() || targetBounds;
-        rafRef.current = window.requestAnimationFrame(() => {
-          setIsGridDimmed(true);
-          setAnimPhase('open');
-          setMorphRect({
-            top: liveBounds.top,
-            left: liveBounds.left,
-            width: liveBounds.width,
-            height: liveBounds.height,
-          });
-        });
-      });
-    },
-    [clearTimers, computeTargetBounds]
-  );
-
-  const closeExpandedSystem = useCallback(() => {
-    if (!expandedSystem || animPhase === 'idle' || animPhase === 'closing') return;
-    clearTimers();
-    SoundEngine.playTechChimeCollapse();
-
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
-    const targetId = originSystemId || expandedSystem.id;
-
-    setIsGridDimmed(false);
-    setIsCompareOpen(false);
-    setIsQrOpen(false);
-    setIsBannerHiddenForExpand(false);
-
-    if (prefersReducedMotion || !hostEl) {
-      setExpandedSystem(null);
-      setOriginSystemId(null);
-      setAnimPhase('idle');
-      setMorphRect(null);
-      setWrapperMinHeight(undefined);
-      return;
+    updateGridGeometry();
+    window.addEventListener('resize', updateGridGeometry, { passive: true });
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && cardsGridRef.current) {
+      ro = new ResizeObserver(updateGridGeometry);
+      ro.observe(cardsGridRef.current);
     }
-
-    rafRef.current = window.requestAnimationFrame(() => {
-      const originEl = cardRefs.current[targetId];
-      if (!originEl) {
-        setExpandedSystem(null);
-        setOriginSystemId(null);
-        setAnimPhase('idle');
-        setMorphRect(null);
-        setWrapperMinHeight(undefined);
-        return;
-      }
-      const hostRect = hostEl.getBoundingClientRect();
-      const cardRect = originEl.getBoundingClientRect();
-
-      setAnimPhase('closing');
-      setMorphRect({
-        top: cardRect.top - hostRect.top,
-        left: cardRect.left - hostRect.left,
-        width: cardRect.width,
-        height: cardRect.height,
-      });
-
-      animTimerRef.current = window.setTimeout(() => {
-        setExpandedSystem(null);
-        setOriginSystemId(null);
-        setAnimPhase('idle');
-        setMorphRect(null);
-        setWrapperMinHeight(undefined);
-      }, 520);
-    });
-  }, [expandedSystem, animPhase, clearTimers, originSystemId]);
-
-  const switchExpandedSystem = useCallback((sys: SystemData) => {
-    SoundEngine.playTap();
-    setExpandedSystem(sys);
-    setOriginSystemId(sys.id);
-    const conns = SYSTEM_CONNECTIONS_MAP[sys.id] || ['sdp', 'crm'];
-    setSelectedConnectionId(conns[0] || null);
-    setCompareTargetId((prev) => (prev === sys.id ? conns[0] || (sys.id === 'sdp' ? 'crm' : 'sdp') : prev));
-    if (expandedBodyRef.current) {
-      expandedBodyRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, []);
-
-  // Live resize observer sync while expanded card is open
-  useEffect(() => {
-    const hostEl = systemsMainRef.current || cardsWrapperRef.current;
-    if (!hostEl || typeof ResizeObserver === 'undefined') return;
-
-    const observer = new ResizeObserver(() => {
-      if (animPhase !== 'open') return;
-      const bounds = computeTargetBounds();
-      if (!bounds) return;
-      setMorphRect({
-        top: bounds.top,
-        left: bounds.left,
-        width: bounds.width,
-        height: bounds.height,
-      });
-      setWrapperMinHeight(undefined);
-    });
-
-    observer.observe(hostEl);
-    return () => observer.disconnect();
-  }, [animPhase, computeTargetBounds]);
-
-  // Auto-play demo video cleanly when expanded system changes
-  useEffect(() => {
-    if (!expandedSystem?.videoUrl) return;
-    const video = expandedVideoRef.current;
-    if (video) {
-      video.muted = isExpandedVideoMuted;
-      video.play().catch(() => {});
-    }
-  }, [expandedSystem?.id, expandedSystem?.videoUrl, isExpandedVideoMuted]);
-
-  // Generate dynamic QR Code when QR panel is opened or expanded system switches
-  useEffect(() => {
-    if (!isQrOpen || !expandedSystem) return;
-    const targetUrl =
-      expandedSystem.url ||
-      (typeof window !== 'undefined' ? window.location.href : 'https://powerservice.one');
-    let active = true;
-    QRCode.toDataURL(targetUrl, {
-      width: 240,
-      margin: 2,
-      color: {
-        dark: '#0f172a',
-        light: '#ffffff',
-      },
-    })
-      .then((url) => {
-        if (active) setQrDataUrl(url);
-      })
-      .catch(() => {
-        if (active) setQrDataUrl('');
-      });
     return () => {
-      active = false;
+      window.removeEventListener('resize', updateGridGeometry);
+      if (ro) ro.disconnect();
     };
-  }, [isQrOpen, expandedSystem]);
+  }, [filteredSystems.length, viewMode, expandedBentoId]);
+
+  const expandedSixCardHeight = useMemo(() => {
+    const h = Math.max(156, baseCardHeight);
+    if (gridCols === 3) {
+      // Desktop: 3 cols x 2 rows = 6 system cards combined
+      return h * 2 + 16;
+    }
+    if (gridCols === 2) {
+      // Tablet: 2 cols x 3 rows = 6 system cards combined
+      return h * 3 + 32;
+    }
+    return undefined;
+  }, [baseCardHeight, gridCols]);
+
+  const selectAndScrollSystem = useCallback((id: string) => {
+    SoundEngine.playTechChimeExpand();
+    setIsCircleVideoPlaying(false);
+    setViewMode('grid');
+    setExpandedBentoId(id);
+    window.setTimeout(() => {
+      const targetEl = cardRefs.current[id];
+      targetEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 80);
+  }, []);
 
   // Floating intro circle video helpers
   const measureNineCardsBox = useCallback((): { width: number; height: number } | null => {
@@ -1106,19 +317,13 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
-    if (expandedSystem) {
-      setExpandedSystem(null);
-      setOriginSystemId(null);
-      setAnimPhase('idle');
-      setMorphRect(null);
-      setIsGridDimmed(false);
-    }
+    setExpandedBentoId(null);
     const measured = measureNineCardsBox();
     if (measured) setNineCardBoxSize(measured);
     setViewMode('grid');
     setIsCircleVideoPlaying(true);
     showToast(isEn ? 'Playing systems intro video' : 'Đang phát video giới thiệu 12 hệ thống 🔊');
-  }, [isCircleVideoPlaying, handleCloseIntroVideo, expandedSystem, measureNineCardsBox, isEn, showToast]);
+  }, [isCircleVideoPlaying, handleCloseIntroVideo, measureNineCardsBox, isEn, showToast]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -1147,16 +352,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
         setIsFilterDropdownOpen(false);
       } else if (isEcosystemDiagramOpen) {
         setIsEcosystemDiagramOpen(false);
-      } else if (isQrOpen) {
-        setIsQrOpen(false);
-      } else if (isCompareOpen) {
-        setIsCompareOpen(false);
       } else if (expandedBentoId) {
         setExpandedBentoId(null);
-      } else if (expandedSystem) {
-        closeExpandedSystem();
-      } else if (activeCardDemoId) {
-        setActiveCardDemoId(null);
       } else if (isCircleVideoPlaying) {
         handleCloseIntroVideo();
       }
@@ -1166,12 +363,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
   }, [
     isFilterDropdownOpen,
     isEcosystemDiagramOpen,
-    isQrOpen,
-    isCompareOpen,
     expandedBentoId,
-    expandedSystem,
-    closeExpandedSystem,
-    activeCardDemoId,
     isCircleVideoPlaying,
     handleCloseIntroVideo,
   ]);
@@ -1194,29 +386,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
     a.click();
     document.body.removeChild(a);
   };
-
-  const handleCopyPortalUrl = async (url: string) => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopiedQrUrl(true);
-      showToast(isEn ? 'System URL copied!' : 'Đã sao chép đường dẫn truy cập hệ thống!');
-      window.setTimeout(() => setCopiedQrUrl(false), 1800);
-    } catch {
-      showToast(isEn ? 'Unable to copy URL' : 'Không thể sao chép liên kết lúc này');
-    }
-  };
-
-  const expandedMeta = expandedSystem
-    ? SYSTEM_DESIGN_MAP[expandedSystem.id] || SYSTEM_DESIGN_MAP.sdp
-    : null;
-  const expandedTech = expandedSystem
-    ? SYSTEM_TECH_SPECS_MAP[expandedSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp
-    : null;
-  const expandedAccent = expandedSystem ? getAccentColor(expandedSystem.id) : '#0284c7';
-  const compareTargetSystem = useMemo(
-    () => orderedAllSystems.find((s) => s.id === compareTargetId) || orderedAllSystems[0],
-    [orderedAllSystems, compareTargetId]
-  );
 
   return (
     <div
@@ -1264,8 +433,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
           ref={systemsMainRef}
           data-main-card="true"
           data-floating-surface="main"
-          data-detail-open={expandedSystem || isCircleVideoPlaying ? 'true' : 'false'}
-          data-detail-overlay={expandedSystem ? 'true' : 'false'}
+          data-detail-open={isCircleVideoPlaying ? 'true' : 'false'}
+          data-detail-overlay="false"
           data-element-name="Thẻ chính Trang Hệ Thống Vận Hành"
           data-element-type="card"
           data-element-page="systems"
@@ -1281,8 +450,8 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             id="systems-main-scroll-viewport"
             className="main-card-scroll-viewport w-full h-full flex-1 min-h-0 flex flex-col items-center justify-start gap-[15px] overflow-y-auto overflow-x-hidden no-scrollbar box-border"
           >
-          {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG (Tạm ẩn khi mở rộng thẻ hệ thống) */}
-          {!isCircleVideoPlaying && !isBannerHiddenForExpand && (
+          {/* 1. HERO BANNER ĐẦU TRANG HỆ THỐNG */}
+          {!isCircleVideoPlaying && (
           <motion.section
             id="systems-hero-banner"
             data-element-name="Banner card"
@@ -1362,7 +531,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           value={searchQuery}
                           onChange={(e) => {
                             setSearchQuery(e.target.value);
-                            if (expandedSystem) closeExpandedSystem();
+                            if (expandedBentoId) setExpandedBentoId(null);
                           }}
                           placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
                           className="banner-search-input h-9 w-full pl-8 pr-7 py-0 rounded-full typo-input font-play focus:outline-none"
@@ -1389,7 +558,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           type="button"
                           onClick={() => {
                             SoundEngine.playTap();
-                            if (expandedSystem) closeExpandedSystem();
                             setIsCircleVideoPlaying(false);
                             setViewMode('grid');
                             closeMenu();
@@ -1411,7 +579,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                           type="button"
                           onClick={() => {
                             SoundEngine.playTap();
-                            if (expandedSystem) closeExpandedSystem();
+                            setExpandedBentoId(null);
                             setIsCircleVideoPlaying(false);
                             setViewMode('matrix');
                             closeMenu();
@@ -1446,7 +614,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                             onClick={() => {
                               SoundEngine.playTap();
                               setActiveCategory(seg.id);
-                              if (expandedSystem) closeExpandedSystem();
+                              setExpandedBentoId(null);
                               setIsCircleVideoPlaying(false);
                               closeMenu();
                             }}
@@ -1496,17 +664,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                         </span>
                       </button>
 
-                      {expandedSystem && (
+                      {expandedBentoId && (
                         <button
                           type="button"
                           onClick={() => {
-                            closeExpandedSystem();
+                            setExpandedBentoId(null);
                             closeMenu();
                           }}
                           className="banner-control-pill h-9 w-full inline-flex items-center justify-center gap-1.5 px-3 rounded-full typo-button font-play cursor-pointer"
                         >
                           <Minimize2 className="w-3.5 h-3.5 shrink-0" />
-                          <span>{isEn ? 'Back to 12 Systems' : 'Quay lại 12 thẻ'}</span>
+                          <span>{isEn ? 'Back to 12 Systems' : 'Thu gọn 12 thẻ'}</span>
                         </button>
                       )}
                     </div>
@@ -1575,7 +743,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                               onClick={() => {
                                 SoundEngine.playTap();
                                 setActiveCategory(seg.id);
-                                if (expandedSystem) closeExpandedSystem();
+                                setExpandedBentoId(null);
                                 setIsCircleVideoPlaying(false);
                                 setIsFilterDropdownOpen(false);
                               }}
@@ -1613,7 +781,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   type="button"
                   onClick={() => {
                     SoundEngine.playTap();
-                    if (expandedSystem) closeExpandedSystem();
+                    setExpandedBentoId(null);
                     setIsCircleVideoPlaying(false);
                     setViewMode((prev) => (prev === 'grid' ? 'matrix' : 'grid'));
                   }}
@@ -1641,14 +809,17 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   )}
                 </button>
 
-                {expandedSystem && (
+                {expandedBentoId && (
                   <button
                     type="button"
-                    onClick={closeExpandedSystem}
+                    onClick={() => {
+                      SoundEngine.playTechChimeCollapse?.();
+                      setExpandedBentoId(null);
+                    }}
                     className="banner-control-pill inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition"
                   >
                     <Minimize2 className="w-3.5 h-3.5" />
-                    <span>{isEn ? 'Back to 12 Systems' : 'Quay lại 12 thẻ'}</span>
+                    <span>{isEn ? 'Collapse Card' : 'Thu gọn thẻ'}</span>
                   </button>
                 )}
               </div>
@@ -1666,7 +837,7 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                     value={searchQuery}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
-                      if (expandedSystem) closeExpandedSystem();
+                      if (expandedBentoId) setExpandedBentoId(null);
                     }}
                     placeholder={isEn ? 'Search systems...' : 'Tìm hệ thống...'}
                     aria-label={isEn ? 'Search systems' : 'Tìm kiếm hệ thống'}
@@ -1919,12 +1090,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                       <tr
                         key={item.id}
                         tabIndex={0}
-                        onClick={() => openExpandedSystem(item)}
+                        onClick={() => selectAndScrollSystem(item.id)}
                         onKeyDown={(e) => {
                           if (e.target !== e.currentTarget) return;
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
-                            openExpandedSystem(item);
+                            selectAndScrollSystem(item.id);
                           }
                         }}
                         className="hover:bg-sky-500/10 transition-colors cursor-pointer"
@@ -1995,13 +1166,12 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
               </table>
             </div>
           ) : (
-            /* LƯỚI BENTO STUDIO 12 THẺ HỆ THỐNG (TỰ ĐỘNG BUNG RỘNG 4X TRONG LƯỚI + HOVER VIDEO NỀN TRẮNG) */
+            /* LƯỚI BENTO STUDIO 12 THẺ HỆ THỐNG (TÍCH HỢP CHI TIẾT VÀO THẺ + BUNG RỘNG BẰNG 6 THẺ CỘNG LẠI) */
             <LayoutGroup id="systems-bento-layout-group">
               <div
                 id="systems-cards-wrapper"
                 ref={cardsWrapperRef}
                 className="relative w-full flex flex-col"
-                style={wrapperMinHeight ? { minHeight: `${wrapperMinHeight}px` } : undefined}
               >
                 <div
                   id="systems-cards-grid"
@@ -2009,20 +1179,26 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
                   data-system-bento-grid="true"
                   data-card-layout="responsive-grid"
                   data-card-shape="horizontal-rect"
-                  className={cn(
-                    'unified-cards-grid systems-cards-grid systems-responsive-grid sys-bento-studio-grid card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 grid-flow-dense items-stretch w-full min-w-0',
-                    isGridDimmed && 'grid-dimmed'
-                  )}
+                  style={
+                    gridCols >= 2 && baseCardHeight > 0
+                      ? { gridAutoRows: `${baseCardHeight}px` }
+                      : undefined
+                  }
+                  className="unified-cards-grid systems-cards-grid systems-responsive-grid sys-bento-studio-grid card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 grid-flow-dense items-stretch w-full min-w-0"
                 >
                   {filteredSystems.map((item) => (
                     <SystemBentoCard
                       key={item.id}
                       sys={item}
+                      allSystems={orderedAllSystems}
                       isEn={isEn}
                       isExpanded={expandedBentoId === item.id}
                       hasAnyExpanded={Boolean(expandedBentoId)}
+                      expandedSixCardHeight={expandedSixCardHeight}
                       onToggleExpand={handleToggleBentoCard}
                       onCollapse={handleCollapseBentoCard}
+                      onSelectSystem={selectAndScrollSystem}
+                      onOpenDiagram={() => setIsEcosystemDiagramOpen(true)}
                       showToast={showToast}
                       cardRef={(el) => {
                         cardRefs.current[item.id] = el;
@@ -2034,813 +1210,6 @@ export const SystemsView: React.FC<SystemsViewProps> = ({ currentTheme }) => {
             </LayoutGroup>
           )}
           </div>
-
-          {/* CẤP 2: THẺ MỞ RỘNG FLIP MORPH CHI TIẾT HỆ THỐNG (PHỦ TOÀN BỘ THẺ CHÍNH) */}
-          {expandedSystem && expandedMeta && expandedTech && morphRect && (
-            <div
-              id="systems-expanded-card"
-              ref={expandedCardRef}
-              data-element-type="card"
-              role="region"
-              aria-label={
-                isEn
-                  ? expandedSystem.nameEn || expandedSystem.name
-                  : expandedSystem.nameVi || expandedSystem.name
-              }
-              onClick={(e) => e.stopPropagation()}
-              className={cn(
-                'system-card-tile system-theme-card bento-card glass-card',
-                animPhase === 'entering'
-                  ? ''
-                  : animPhase === 'open'
-                    ? 'is-animating is-open'
-                    : animPhase === 'closing'
-                      ? 'is-animating is-closing'
-                      : ''
-              )}
-              style={{
-                top: `${morphRect.top}px`,
-                left: `${morphRect.left}px`,
-                width: `${morphRect.width}px`,
-                height: `${morphRect.height}px`,
-                borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
-                zIndex: 50,
-              }}
-            >
-                  {/* Header Expanded Card */}
-                  <div
-                    className="expanded-detail-content shrink-0 px-4 sm:px-5 py-3 border-b border-[var(--border-subcard)] flex flex-wrap items-center justify-between gap-3"
-                    style={{
-                      background: 'var(--bg-subcard, var(--surface-tertiary-bg, transparent))',
-                    }}
-                  >
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <div
-                        style={{ borderRadius: 'var(--radius-card, 14px)' }}
-                        className="relative w-11 h-11 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center overflow-hidden border-0 shadow-none"
-                      >
-                        <img
-                          src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
-                          alt={expandedSystem.nameVi}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="relative z-10 w-full h-full object-contain rounded-[inherit] select-none border-0 shadow-none"
-                        />
-                      </div>
-
-                      <div className="card-header-sync flex items-center gap-2 min-w-0 flex-1" style={{ color: expandedAccent }}>
-                        <WebIcon name={expandedMeta.iconName} className="w-5 h-5 shrink-0" style={{ color: expandedAccent }} />
-                        <h2
-                          className="typo-h4 sm:typo-h3 card-title-synced font-play font-bold tracking-tight truncate m-0"
-                          data-card-title="true"
-                          style={{ color: expandedAccent }}
-                        >
-                          {isEn
-                            ? expandedSystem.nameEn || expandedSystem.name
-                            : expandedSystem.nameVi || expandedSystem.name}
-                        </h2>
-                      </div>
-                    </div>
-
-                    {/* Action buttons */}
-                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0">
-                      {expandedSystem.url && (
-                        <button
-                          type="button"
-                          onClick={(e) => handleOpenExternalUrl(e, expandedSystem.url)}
-                          className="banner-control-pill inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full typo-button font-play cursor-pointer transition"
-                          title={expandedSystem.url}
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">
-                            {isEn ? 'Open Live' : 'Mở cổng Live'}
-                          </span>
-                        </button>
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={closeExpandedSystem}
-                        className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full typo-button font-play font-semibold text-white cursor-pointer transition hover:opacity-95 shadow-sm"
-                        style={{ background: expandedMeta.gradient }}
-                        aria-label={isEn ? 'Minimize details' : 'Thu nhỏ chi tiết hệ thống'}
-                      >
-                        <Minimize2 className="w-3.5 h-3.5" />
-                        <span>{isEn ? 'Minimize' : 'Thu nhỏ'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Body Expanded Card — Responsive Bento Grid (Mobile 1 col / Tablet 2 cols / Desktop 4 cols) */}
-                  <div
-                    ref={expandedBodyRef}
-                    className="expanded-detail-content flex-1 min-h-0 overflow-y-auto glass-scrollbar p-[15px]"
-                  >
-                    <div className="sys-bento-grid">
-                      {/* BENTO TILE 1 (Full Row): 4 Chỉ Số KPI Trọng Tâm */}
-                      <div
-                        data-subcard="true"
-                        className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3"
-                      >
-                        <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <div className="flex items-center gap-1.5 min-w-0 w-full">
-                              <Activity
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <div
-                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                                style={{ color: expandedAccent }}
-                                title={expandedSystem.metrics}
-                              >
-                                {expandedSystem.metrics}
-                              </div>
-                            </div>
-                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
-                              {isEn ? 'Core Performance' : 'Hiệu năng cốt lõi'}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <div className="flex items-center gap-1.5 min-w-0 w-full">
-                              <Server
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <div
-                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                                style={{ color: expandedAccent }}
-                                title={expandedTech.slaCommitment}
-                              >
-                                {expandedTech.slaCommitment}
-                              </div>
-                            </div>
-                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
-                              {isEn ? 'SLA Commitment' : 'Cam kết SLA'}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <div className="flex items-center gap-1.5 min-w-0 w-full">
-                              <Users
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <div
-                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                                style={{ color: expandedAccent }}
-                              >
-                                ~{expandedTech.baseOnlineUsers}+{' '}
-                                {isEn
-                                  ? expandedTech.onlineRoleLabelEn
-                                  : expandedTech.onlineRoleLabel}
-                              </div>
-                            </div>
-                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
-                              {isEn ? 'Active Concurrency' : 'Quy mô trực tuyến'}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <div className="flex items-center gap-1.5 min-w-0 w-full">
-                              <ShieldCheck
-                                className="w-4 h-4 shrink-0"
-                                style={{ color: expandedAccent }}
-                              />
-                              <div
-                                className="typo-body-sm sm:typo-body font-bold leading-tight truncate min-w-0 flex-1"
-                                style={{ color: expandedAccent }}
-                                title={expandedTech.isoSecurity}
-                              >
-                                {expandedTech.isoSecurity}
-                              </div>
-                            </div>
-                            <span className="typo-caption text-[var(--text-secondary)] truncate w-full">
-                              {isEn ? 'Security Compliance' : 'Chuẩn bảo mật'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* OPTIONAL DRAWER BENTO TILE: QR Truy cập nhanh */}
-                      {isQrOpen && (
-                        <div
-                          data-subcard="true"
-                          className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3.5 sm:flex-row sm:items-center"
-                          style={{
-                            borderColor: isLeatherTheme
-                              ? 'var(--border-subcard)'
-                              : isLight
-                                ? expandedMeta.borderLight
-                                : expandedMeta.borderDark,
-                          }}
-                        >
-                          <div
-                            className="w-28 h-28 rounded-[var(--radius-subcard,14px)] bg-white p-1.5 border shrink-0 flex items-center justify-center shadow-xs"
-                            style={{ borderColor: 'var(--border-subcard, rgba(148, 163, 184, 0.35))' }}
-                          >
-                            {qrDataUrl ? (
-                              <img
-                                src={qrDataUrl}
-                                alt={`QR ${expandedSystem.abbr}`}
-                                loading="lazy"
-                                decoding="async"
-                                className="w-full h-full object-contain"
-                              />
-                            ) : (
-                              <QrCode className="w-10 h-10 text-slate-400" />
-                            )}
-                          </div>
-                          <div className="flex-1 min-w-0 flex flex-col gap-2 text-left">
-                            <div className="flex items-center justify-between gap-2 w-full">
-                              <h3
-                                className="typo-h4 subcard-header-sync subcard-title-synced font-bold m-0 text-[var(--text-primary)] flex items-center gap-2"
-                                data-subcard-title="true"
-                              >
-                                <QrCode className="w-4 h-4 shrink-0 text-[var(--color-primary)]" />
-                                <span>
-                                  {isEn
-                                    ? `Quick QR Portal Access — ${expandedSystem.abbr}`
-                                    : `Mã QR truy cập nhanh — ${expandedSystem.abbr}`}
-                                </span>
-                              </h3>
-                              <button
-                                type="button"
-                                onClick={() => setIsQrOpen(false)}
-                                className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                              >
-                                {isEn ? 'Close' : 'Đóng'}
-                              </button>
-                            </div>
-                            <p className="typo-caption text-[var(--text-secondary)] m-0">
-                              {expandedSystem.url
-                                ? isEn
-                                  ? 'Scan on mobile/tablet to launch the live system portal directly.'
-                                  : 'Quét bằng điện thoại hoặc máy tính bảng để mở trực tiếp cổng vận hành hệ thống.'
-                                : isEn
-                                  ? 'BI Dashboard live domain is under final integration; QR links to the Systems Hub.'
-                                  : 'Cổng BI Dashboard đang hoàn thiện tích hợp API; mã QR liên kết tới trang Hệ sinh thái.'}
-                            </p>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <code className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subcard)] typo-caption font-mono text-[var(--text-primary)] truncate max-w-full">
-                                {expandedSystem.url || 'https://powerservice.one (Systems Hub)'}
-                              </code>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  handleCopyPortalUrl(
-                                    expandedSystem.url || window.location.href
-                                  )
-                                }
-                                className="sys-bento-action-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full typo-badge font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)] hover:bg-[var(--bg-subcard)] cursor-pointer"
-                              >
-                                {copiedQrUrl ? (
-                                  <Check className="w-3 h-3 text-emerald-500" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                                <span>
-                                  {copiedQrUrl ? (isEn ? 'Copied' : 'Đã chép') : isEn ? 'Copy URL' : 'Sao chép'}
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* OPTIONAL DRAWER BENTO TILE: So sánh song song */}
-                      {isCompareOpen && compareTargetSystem && (() => {
-                        const targetTech =
-                          SYSTEM_TECH_SPECS_MAP[compareTargetSystem.id] || SYSTEM_TECH_SPECS_MAP.sdp;
-                        const pairFlow = getRealtimeFlowDescription(
-                          expandedSystem,
-                          compareTargetSystem,
-                          isEn
-                        );
-                        return (
-                          <div
-                            data-subcard="true"
-                            className="sys-bento-tile md:col-span-2 lg:col-span-4 gap-3"
-                          >
-                            <div className="flex flex-wrap items-center justify-between gap-2 w-full">
-                              <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
-                                <ArrowLeftRight className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                                <h3 className="typo-h4 subcard-title-synced font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                                  {isEn
-                                    ? `Side-by-Side Comparison: ${expandedSystem.abbr} vs ${compareTargetSystem.abbr}`
-                                    : `So sánh trực tiếp: ${expandedSystem.abbr} ⇄ ${compareTargetSystem.abbr}`}
-                                </h3>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => setIsCompareOpen(false)}
-                                className="typo-caption font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                              >
-                                {isEn ? 'Hide Compare' : 'Ẩn so sánh'}
-                              </button>
-                            </div>
-
-                            <div className="flex items-center gap-1.5 flex-wrap w-full">
-                              <span className="typo-caption text-[var(--text-secondary)] mr-1">
-                                {isEn ? 'Compare with:' : 'Chọn phân hệ đối chiếu:'}
-                              </span>
-                              {orderedAllSystems
-                                .filter((s) => s.id !== expandedSystem.id)
-                                .map((cand) => {
-                                  const isTarget = cand.id === compareTargetSystem.id;
-                                  return (
-                                    <button
-                                      key={cand.id}
-                                      type="button"
-                                      onClick={() => {
-                                        SoundEngine.playTap();
-                                        setCompareTargetId(cand.id);
-                                      }}
-                                      className={cn(
-                                        'sys-bento-action-btn px-2.5 py-0.5 rounded-full typo-badge font-bold border cursor-pointer',
-                                        isTarget
-                                          ? 'text-white border-transparent shadow-xs'
-                                          : 'bg-[var(--bg-card)]/80 border-[var(--border-subcard)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                                      )}
-                                      style={
-                                        isTarget
-                                          ? {
-                                              background:
-                                                SYSTEM_DESIGN_MAP[cand.id]?.gradient ||
-                                                expandedMeta.gradient,
-                                            }
-                                          : undefined
-                                      }
-                                    >
-                                      {cand.abbr}
-                                    </button>
-                                  );
-                                })}
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full items-stretch">
-                              <div className="sys-bento-subtile p-3 gap-1.5">
-                                <span className="typo-body-sm font-bold" style={{ color: expandedAccent }}>
-                                  {expandedSystem.abbr} — {isEn ? expandedSystem.nameEn : expandedSystem.nameVi}
-                                </span>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong> {expandedSystem.metrics}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>DB:</strong> {expandedTech.database}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>API:</strong> {expandedTech.apiProtocol}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>ISO:</strong> {expandedTech.isoSecurity}
-                                </div>
-                              </div>
-
-                              <div className="sys-bento-subtile p-3 gap-1.5">
-                                <div className="flex items-center justify-between gap-2 w-full">
-                                  <span
-                                    className="typo-body-sm font-bold"
-                                    style={{ color: getAccentColor(compareTargetSystem.id) }}
-                                  >
-                                    {compareTargetSystem.abbr} —{' '}
-                                    {isEn ? compareTargetSystem.nameEn : compareTargetSystem.nameVi}
-                                  </span>
-                                  <button
-                                    type="button"
-                                    onClick={() => switchExpandedSystem(compareTargetSystem)}
-                                    className="typo-badge font-bold text-[var(--color-primary)] hover:underline cursor-pointer shrink-0"
-                                  >
-                                    {isEn ? 'Switch →' : 'Mở thẻ này →'}
-                                  </button>
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>{isEn ? 'Metrics:' : 'Hiệu năng:'}</strong> {compareTargetSystem.metrics}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>DB:</strong> {targetTech.database}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>API:</strong> {targetTech.apiProtocol}
-                                </div>
-                                <div className="typo-caption text-[var(--text-secondary)]">
-                                  <strong>ISO:</strong> {targetTech.isoSecurity}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="sys-bento-subtile p-3 gap-1 w-full">
-                              <div className="flex items-center justify-between gap-2 flex-wrap w-full">
-                                <span className="typo-caption font-bold text-[var(--text-primary)]">
-                                  {isEn ? 'Real-Time Data Bridge:' : 'Cơ chế đồng bộ dữ liệu trực tiếp:'}{' '}
-                                  <span style={{ color: expandedAccent }}>{pairFlow.protocol}</span>
-                                </span>
-                                <span className="px-2 py-0.5 rounded-full typo-badge font-mono font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
-                                  Latency ~{pairFlow.latency}
-                                </span>
-                              </div>
-                              <p className="typo-caption text-[var(--text-secondary)] m-0 leading-relaxed">
-                                {pairFlow.payloadSummary}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })()}
-
-                      {/* BENTO TILE 2 (Hero Overview & Live Media: Mẫu Thẻ 1 & 3 Bento Studio) */}
-                      <div
-                        id="system-detail-overview-card"
-                        data-subcard="true"
-                        className="sys-bento-tile sys-bento-tile--media md:col-span-2 lg:col-span-2 gap-3.5 justify-between relative overflow-hidden"
-                      >
-                        {/* Bento Studio glowing ambient orb */}
-                        <div
-                          className="absolute -right-12 -top-12 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-25"
-                          style={{ backgroundColor: expandedAccent }}
-                        />
-
-                        <div className="w-full flex flex-col gap-3 min-w-0 relative z-10">
-                          <div className="w-full flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-subcard)]">
-                            <h3
-                              className="typo-h4 subcard-header-sync subcard-title-synced font-play font-bold m-0 flex items-center gap-2"
-                              data-subcard-title="true"
-                              style={{ color: expandedAccent }}
-                            >
-                              <WebIcon name={expandedMeta.iconName} className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                              <span>{isEn ? 'System Overview' : 'Tổng quan phân hệ'}</span>
-                            </h3>
-                            <span className="typo-badge font-mono text-[var(--text-muted)] truncate max-w-[180px]">
-                              {expandedSystem.abbr}
-                            </span>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start w-full min-w-0">
-                            {(expandedSystem.videoUrl ||
-                              expandedMeta.illustrationSrc ||
-                              expandedSystem.imageUrl) && (
-                              <div
-                                data-media-card={expandedSystem.videoUrl ? 'video' : 'image'}
-                                className={cn(
-                                  'sys-bento-media-frame sm:col-span-5 relative aspect-video p-1 box-border rounded-xl overflow-hidden shadow-md border border-white/10',
-                                  expandedSystem.videoUrl ? 'bg-black' : 'bg-[var(--bg-card)]'
-                                )}
-                              >
-                                {expandedSystem.videoUrl ? (
-                                  <>
-                                    <video
-                                      ref={expandedVideoRef}
-                                      src={expandedSystem.videoUrl}
-                                      poster={
-                                        expandedMeta.illustrationSrc ||
-                                        expandedSystem.imageUrl ||
-                                        undefined
-                                      }
-                                      autoPlay
-                                      loop
-                                      muted={isExpandedVideoMuted}
-                                      playsInline
-                                      preload="metadata"
-                                      controls={false}
-                                      disablePictureInPicture
-                                      controlsList="nodownload nofullscreen noremoteplayback noplaybackrate"
-                                      onLoadedMetadata={(e) => {
-                                        const v = e.currentTarget;
-                                        v.controls = false;
-                                        v.disablePictureInPicture = true;
-                                        (v as HTMLVideoElement & { disableRemotePlayback?: boolean }).disableRemotePlayback = true;
-                                      }}
-                                      onError={(e) => {
-                                        const v = e.currentTarget;
-                                        const m = v.src.match(/[?&]id=([^&#]+)/i);
-                                        if (m?.[1] && v.dataset.driveAltTried !== m[1]) {
-                                          v.dataset.driveAltTried = m[1];
-                                          v.src = `https://drive.usercontent.google.com/download?id=${m[1]}&export=download&confirm=t`;
-                                          v.play().catch(() => {});
-                                        }
-                                      }}
-                                      onEnded={(e) => {
-                                        const v = e.currentTarget;
-                                        v.currentTime = 0;
-                                        v.play().catch(() => {});
-                                      }}
-                                      style={{
-                                        objectFit: 'cover',
-                                        transform: 'translateZ(0)',
-                                        backfaceVisibility: 'hidden',
-                                        filter: 'contrast(1.08) saturate(1.1) brightness(1.04)',
-                                      }}
-                                      className="w-full h-full min-w-full min-h-full object-cover rounded-[inherit] pointer-events-none banner-video-sharp"
-                                    />
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const next = !isExpandedVideoMuted;
-                                        setIsExpandedVideoMuted(next);
-                                        saveMutedPref(next);
-                                        if (expandedVideoRef.current) {
-                                          expandedVideoRef.current.muted = next;
-                                        }
-                                      }}
-                                      aria-label={
-                                        isExpandedVideoMuted
-                                          ? isEn
-                                            ? 'Unmute demo video'
-                                            : 'Bật âm thanh'
-                                          : isEn
-                                            ? 'Mute demo video'
-                                            : 'Tắt âm thanh'
-                                      }
-                                      className="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-black/65 hover:bg-black/85 text-white border border-white/25 flex items-center justify-center cursor-pointer backdrop-blur-sm"
-                                    >
-                                      {isExpandedVideoMuted ? (
-                                        <VolumeX className="w-3.5 h-3.5" />
-                                      ) : (
-                                        <Volume2 className="w-3.5 h-3.5 text-emerald-300" />
-                                      )}
-                                    </button>
-                                  </>
-                                ) : (
-                                  <BlurUpImage
-                                    src={expandedMeta.illustrationSrc || expandedSystem.imageUrl}
-                                    alt={expandedSystem.nameVi}
-                                    priority="eager"
-                                    variant="contain"
-                                    className="w-full h-full object-contain rounded-[inherit] p-0 border-0 shadow-none"
-                                  />
-                                )}
-                              </div>
-                            )}
-
-                            <p
-                              className={cn(
-                                'typo-body-sm text-[var(--text-primary)] leading-relaxed m-0 min-w-0',
-                                expandedSystem.videoUrl ||
-                                  expandedMeta.illustrationSrc ||
-                                  expandedSystem.imageUrl
-                                  ? 'sm:col-span-7'
-                                  : 'sm:col-span-12'
-                              )}
-                            >
-                              {isEn
-                                ? expandedSystem.descEn || expandedSystem.description
-                                : expandedSystem.descVi || expandedSystem.description}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="w-full typo-badge font-mono text-[var(--text-muted)] pt-2 border-t border-[var(--border-subcard)] truncate">
-                          {expandedSystem.fullName}
-                        </div>
-                      </div>
-
-                      {/* BENTO TILE 3 (Technical Stack 2x2 Sub-Cards: 1 col tablet / 2 cols desktop) */}
-                      <div
-                        data-subcard="true"
-                        className="sys-bento-tile md:col-span-1 lg:col-span-2 gap-3 justify-between"
-                      >
-                        <div className="subcard-header-sync w-full flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
-                          <Server className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                          <h3
-                            className="typo-h4 subcard-title-synced font-play font-bold m-0"
-                            data-subcard-title="true"
-                            style={{ color: expandedAccent }}
-                          >
-                            {isEn ? 'Technical Architecture' : 'Hạ tầng kỹ thuật'}
-                          </h3>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full flex-1">
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <span className="typo-label font-mono text-[var(--text-secondary)]">
-                              {isEn ? 'Database Stack' : 'Cơ sở dữ liệu (DB)'}
-                            </span>
-                            <span className="typo-body-sm font-bold text-[var(--text-primary)] break-words">
-                              {expandedTech.database}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <span className="typo-label font-mono text-[var(--text-secondary)]">
-                              {isEn ? 'API & Streaming Protocol' : 'Giao thức API kết nối'}
-                            </span>
-                            <span className="typo-body-sm font-bold text-[var(--color-primary)] break-words">
-                              {expandedTech.apiProtocol}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <span className="typo-label font-mono text-[var(--text-secondary)]">
-                              {isEn ? 'Service Level & Availability' : 'Cam kết chất lượng (SLA)'}
-                            </span>
-                            <span className="typo-body-sm font-bold text-emerald-700 dark:text-emerald-300 break-words">
-                              {expandedTech.slaCommitment}
-                            </span>
-                          </div>
-
-                          <div className="sys-bento-subtile p-3 gap-1">
-                            <span className="typo-label font-mono text-[var(--text-secondary)]">
-                              {isEn ? 'Compliance & Encryption' : 'Bảo mật & Tuân thủ ISO'}
-                            </span>
-                            <span className="typo-body-sm font-bold text-[var(--text-primary)] break-words">
-                              {expandedTech.isoSecurity}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* BENTO TILE 4 (Core Capabilities & Features Sub-Cards: 1 col tablet / 2 cols desktop) */}
-                      <div
-                        id="system-detail-features-card"
-                        data-subcard="true"
-                        className="sys-bento-tile md:col-span-1 lg:col-span-2 gap-3"
-                      >
-                        <div className="subcard-header-sync w-full flex items-center gap-2 pb-2 border-b border-[var(--border-subcard)]" style={{ color: expandedAccent }}>
-                          <Activity className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                          <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                            {isEn ? 'Core Capabilities & Features' : 'Tính năng trọng tâm'}
-                          </h3>
-                        </div>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full m-0 p-0 list-none">
-                          {(expandedSystem.featuresVi || expandedSystem.features || []).map(
-                            (feat, fIdx) => (
-                              <li
-                                key={fIdx}
-                                className="sys-bento-subtile p-2.5 flex-row items-start gap-2.5 typo-body-sm text-[var(--text-primary)] leading-relaxed"
-                              >
-                                <span
-                                  className="w-5 h-5 rounded-full text-white typo-badge font-bold flex items-center justify-center shrink-0 mt-0.5 shadow-2xs"
-                                  style={{ background: expandedMeta.gradient }}
-                                >
-                                  {fIdx + 1}
-                                </span>
-                                <span className="min-w-0 flex-1">{feat}</span>
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-
-                      {/* BENTO TILE 5 (Connected Systems + Omnichannel Architecture Hub: 2 cols tablet / 2 cols desktop) */}
-                      <div
-                        id="system-detail-connections-card"
-                        data-subcard="true"
-                        className="sys-bento-tile md:col-span-2 lg:col-span-2 gap-3 justify-between"
-                      >
-                        <div className="w-full flex flex-col gap-3 min-w-0">
-                          <div className="w-full flex items-center justify-between gap-2 flex-wrap pb-2 border-b border-[var(--border-subcard)]">
-                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
-                              <Network className="w-4 h-4 shrink-0" style={{ color: expandedAccent }} />
-                              <h3 className="typo-h4 subcard-title-synced font-play font-bold m-0 text-[var(--text-primary)]" data-subcard-title="true">
-                                {isEn ? 'Connected Systems & Ecosystem' : 'Hệ thống liên thông & Kiến trúc ESB'}
-                              </h3>
-                            </div>
-                            <span className="typo-caption text-[var(--text-muted)]">
-                              {isEn
-                                ? 'Click to inspect sync or jump'
-                                : 'Chọn để xem luồng dữ liệu'}
-                            </span>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2 w-full">
-                            {(SYSTEM_CONNECTIONS_MAP[expandedSystem.id] || ['sdp', 'crm']).map(
-                              (connId) => {
-                                const connSys = orderedAllSystems.find((s) => s.id === connId);
-                                if (!connSys) return null;
-                                const isSel = selectedConnectionId === connId;
-                                const connMeta = SYSTEM_DESIGN_MAP[connId] || SYSTEM_DESIGN_MAP.sdp;
-                                return (
-                                  <button
-                                    key={connId}
-                                    type="button"
-                                    onClick={() => {
-                                      SoundEngine.playTap();
-                                      setSelectedConnectionId(connId);
-                                    }}
-                                    className={cn(
-                                      'sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full typo-caption font-bold border cursor-pointer',
-                                      isSel
-                                        ? 'text-white border-transparent shadow-sm'
-                                        : 'bg-[var(--bg-card)]/85 border-[var(--border-subcard)] text-[var(--text-primary)] hover:border-[var(--color-primary)]/50'
-                                    )}
-                                    style={isSel ? { background: connMeta.gradient } : undefined}
-                                  >
-                                    <WebIcon name={connMeta.iconName} className="w-3.5 h-3.5 shrink-0" />
-                                    <span>{connSys.abbr}</span>
-                                  </button>
-                                );
-                              }
-                            )}
-                          </div>
-
-                          {selectedConnectionId &&
-                            (() => {
-                              const connTarget = orderedAllSystems.find(
-                                (s) => s.id === selectedConnectionId
-                              );
-                              if (!connTarget) return null;
-                              const flow = getRealtimeFlowDescription(
-                                expandedSystem,
-                                connTarget,
-                                isEn
-                              );
-                              return (
-                                <div className="sys-bento-subtile p-3 gap-1.5 w-full">
-                                  <div className="flex items-center justify-between gap-2 flex-wrap w-full">
-                                    <span className="typo-caption font-bold text-[var(--text-primary)]">
-                                      {expandedSystem.abbr} ⇄ {connTarget.abbr} ·{' '}
-                                      <span style={{ color: expandedAccent }}>
-                                        {flow.protocol}
-                                      </span>{' '}
-                                      ({flow.latency})
-                                    </span>
-                                    <button
-                                      type="button"
-                                      onClick={() => switchExpandedSystem(connTarget)}
-                                      className="sys-bento-action-btn inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full typo-badge font-bold text-white cursor-pointer hover:brightness-110"
-                                      style={{
-                                        background:
-                                          SYSTEM_DESIGN_MAP[connTarget.id]?.gradient ||
-                                          expandedMeta.gradient,
-                                      }}
-                                    >
-                                      <span>
-                                        {isEn
-                                          ? `Open ${connTarget.abbr}`
-                                          : `Xem ${connTarget.abbr}`}
-                                      </span>
-                                      <ArrowRight className="w-3 h-3" />
-                                    </button>
-                                  </div>
-                                  <p className="typo-caption text-[var(--text-secondary)] m-0 leading-relaxed">
-                                    {flow.payloadSummary}
-                                  </p>
-                                </div>
-                              );
-                            })()}
-
-                          <div
-                            className="sys-bento-subtile p-3 gap-1 w-full"
-                            style={{
-                              backgroundColor: isLeatherTheme
-                                ? undefined
-                                : isLight
-                                  ? expandedMeta.tintBgLight
-                                  : expandedMeta.tintBgDark,
-                              borderColor: isLeatherTheme
-                                ? 'var(--border-subcard)'
-                                : isLight
-                                  ? expandedMeta.borderLight
-                                  : expandedMeta.borderDark,
-                            }}
-                          >
-                            <div className="subcard-header-sync flex items-center gap-2" style={{ color: expandedAccent }}>
-                              <WebIcon name="git-merge" className="w-3.5 h-3.5 shrink-0" style={{ color: expandedAccent }} />
-                              <span className="typo-caption font-bold" style={{ color: expandedAccent }}>
-                                {isEn ? 'Omnichannel Architecture' : 'Kiến trúc kết nối toàn hệ sinh thái'}
-                              </span>
-                            </div>
-                            <p className="typo-caption text-[var(--text-secondary)] leading-relaxed m-0">
-                              {isEn
-                                ? `${expandedSystem.abbr} operates inside the ${expandedTech.ecosystemLabelEn} layer, exchanging real-time telemetry with 11 companion modules.`
-                                : `${expandedSystem.abbr} vận hành trong phân hệ ${expandedTech.ecosystemLabel}, liên thông dữ liệu thời gian thực với 11 phân hệ còn lại qua Enterprise Service Bus.`}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="w-full flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-subcard)]/70">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              SoundEngine.playTechChimeExpand();
-                              setIsEcosystemDiagramOpen(true);
-                            }}
-                            className="sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold text-white shadow-sm cursor-pointer hover:brightness-110"
-                            style={{ background: expandedMeta.gradient }}
-                          >
-                            <WebIcon name="git-merge" className="w-3.5 h-3.5 text-white" />
-                            <span>
-                              {isEn ? 'Open Full Diagram' : 'Xem sơ đồ toàn hệ thống'}
-                            </span>
-                          </button>
-
-                          {expandedSystem.url && (
-                            <button
-                              type="button"
-                              onClick={(e) => handleOpenExternalUrl(e, expandedSystem.url)}
-                              className="sys-bento-action-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full typo-caption font-bold border border-[var(--border-subcard)] bg-[var(--bg-card)]/85 text-[var(--text-primary)] cursor-pointer hover:bg-[var(--bg-card)]"
-                            >
-                              <span>{isEn ? 'Launch Website' : 'Truy cập Website'}</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
         </div>
       </div>
 

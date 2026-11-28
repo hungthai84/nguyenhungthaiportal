@@ -32,6 +32,7 @@ export interface EducationBookViewProps {
   onOpenVerifyModal: (course: EducationCourse, e?: React.MouseEvent) => void;
   onOpenLightbox: (imgSrc: string, title: string, e?: React.MouseEvent) => void;
   disableKeyboardNav?: boolean;
+  autoFlipOnMount?: boolean;
 }
 
 function getDriveFallbackSrc(url?: string): string | undefined {
@@ -63,10 +64,12 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
   onOpenVerifyModal,
   onOpenLightbox,
   disableKeyboardNav = false,
+  autoFlipOnMount = false,
 }) => {
   const bookHandleRef = useRef<PageFlipHandle | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const lastStageWheelRef = useRef<number>(0);
+  const hasAutoFlippedRef = useRef<boolean>(false);
   const [stageBounds, setStageBounds] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
   const verifyInfo = CREDENTIAL_VERIFICATION_MAP[course.id];
@@ -87,6 +90,22 @@ export const EducationBookView: React.FC<EducationBookViewProps> = ({
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    hasAutoFlippedRef.current = false;
+  }, [course.id]);
+
+  // Khi mở sách từ hiệu ứng rút sách khỏi kệ: hiện bìa rồi tự động lật mở sang trang nội dung 1-2
+  useEffect(() => {
+    if (!autoFlipOnMount || hasAutoFlippedRef.current) return;
+    if (stageBounds.w <= 0 || stageBounds.h <= 0) return;
+    const timer = window.setTimeout(() => {
+      if (hasAutoFlippedRef.current) return;
+      hasAutoFlippedRef.current = true;
+      bookHandleRef.current?.go(1);
+    }, 180);
+    return () => window.clearTimeout(timer);
+  }, [autoFlipOnMount, stageBounds.w, stageBounds.h]);
 
   // Tỷ lệ khung sách chuẩn Kokonut UI (3:2 trang đôi = 1.5, 3:4 trang đơn = 0.75)
   const navBarReserve = 0;

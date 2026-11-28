@@ -8912,17 +8912,18 @@ html:root[data-card-style] body #footer-theme-popup .footer-theme-group-row:hove
 }
 
 #services-page-container .service-card.service-theme-card .service-partner-logo {
-  padding: 0 !important;
-  border: none !important;
+  padding: 3px !important;
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34)) !important;
   outline: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
+  background: var(--surface-primary-bg, var(--bg-main-card, var(--bg-card))) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main-card, var(--bg-card))) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14) !important;
 }
 
 #services-page-container .service-card.service-theme-card .service-partner-logo img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
   object-position: center center !important;
   border-radius: 9999px !important;
   border: none !important;
@@ -8968,17 +8969,18 @@ html.dark[data-card-style] body #services-page-container #services-expanded-card
 }
 
 #services-page-container #services-expanded-card .company-logo-surface {
-  padding: 0 !important;
-  border: none !important;
+  padding: 3px !important;
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34)) !important;
   outline: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
+  background: var(--surface-primary-bg, var(--bg-main-card, var(--bg-card))) !important;
+  background-color: var(--surface-primary-bg, var(--bg-main-card, var(--bg-card))) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14) !important;
 }
 
 #services-page-container #services-expanded-card .company-logo-surface img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
   object-position: center center !important;
   border-radius: 9999px !important;
   border: none !important;
@@ -9532,17 +9534,22 @@ html:root[data-card-style] body :is(
   height: auto !important;
   max-height: 100% !important;
   min-height: 0 !important;
-  padding: 6px 8px 6px !important;
+  padding-top: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-stage {
-  padding-top: 14px !important;
+  padding-top: 10px !important;
   padding-bottom: 6px !important;
+  justify-content: flex-start !important;
   overflow-y: visible !important;
 }
 
 #experience-main-card .exp-slider-view-root .news-slider-container {
-  gap: 8px !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
 }
 
 #experience-main-card .exp-slider-view-root > .news-slider-ctr {
@@ -10462,21 +10469,32 @@ html.dark:root[data-card-style] body :is(#footer-theme-popup, #footer-lang-popup
 }
 
 /* ========================================================================= */
-/* FOCUS MODE: TRANG KINH NGHIỆM — NỀN SLIDER TRONG SUỐT 100%               */
+/* FOCUS MODE: TRANG KINH NGHIỆM — NỀN SLIDER TRONG SUỐT, 0 PADDING, KHÔNG BÓNG/NỔ/KÍNH MỜ */
 /* ========================================================================= */
 html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active),
 html:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active),
-html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active) {
+html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider:is(*, :hover, :focus, :focus-within, :active),
+html:not([data-surface-depth="flat"]) body div#experience-main-card #experience-slider-wrapper:is(*, :hover, :focus, :focus-within, :active) {
+  padding-top: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
   border: none !important;
+  border-width: 0px !important;
   outline: none !important;
   box-shadow: none !important;
+  -webkit-box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   filter: none !important;
   -webkit-filter: none !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto !important;
 }
 
 html:root body div#experience-main-card .exp-slider-view-root > div.news-slider-wrapper-container.projects-themed-slider::before,
@@ -10499,6 +10517,11 @@ html.dark:root[data-card-style] body div#experience-main-card .exp-slider-view-r
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  transform: none !important;
   opacity: 0 !important;
 }
 

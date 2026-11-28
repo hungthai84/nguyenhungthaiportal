@@ -419,9 +419,9 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
   }, [totalCards, handleNextCarousel, handlePrevCarousel]);
 
   return (
-    <div className="exp-slider-view-root w-full h-full min-h-0 flex-1 flex flex-col justify-between overflow-hidden relative">
+    <div className="exp-slider-view-root w-full h-full min-h-0 flex-1 flex flex-col justify-start gap-0 overflow-hidden relative">
       {/* 2-Tier Header: Title & Subtitle Row + Full-Width Company Logo Timeline */}
-      <div className="w-full flex flex-col gap-2.5 px-[14px] sm:px-[24px] pt-[10px] pb-[4px] z-20 shrink-0">
+      <div className="w-full flex flex-col gap-1.5 px-[14px] sm:px-[24px] pt-[8px] pb-0 z-20 shrink-0">
         <header className="w-full min-w-0 flex flex-col gap-1">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <Briefcase
@@ -503,7 +503,7 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
             ref={timelineScrollRef}
             role="navigation"
             aria-label="Timeline logo và năm công tác các công ty"
-            className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar py-1"
+            className="exp-header-timeline-scroll flex-1 min-w-0 overflow-x-auto no-scrollbar pt-0.5 pb-0"
           >
             <div className="relative inline-flex md:flex items-center justify-between gap-2.5 sm:gap-3 min-w-full px-2 sm:px-4">
               {/* Horizontal gradient timeline track behind logos */}
@@ -643,9 +643,25 @@ export const ExperienceSliderView: React.FC<ExperienceSliderViewProps> = ({
 
       {/* News-Slider CodePen Architecture + Theme Integration */}
       <div
-        data-section-card="true"
-        data-element-type="card"
-        className="news-slider-wrapper-container projects-themed-slider bento-card glass-card relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-center overflow-hidden"
+        id="experience-slider-wrapper"
+        className="news-slider-wrapper-container projects-themed-slider relative w-full h-full max-h-full flex-1 min-h-0 flex flex-col justify-start overflow-hidden"
+        style={{
+          paddingTop: '0px',
+          paddingLeft: '0px',
+          paddingRight: '0px',
+          paddingBottom: '0px',
+          background: 'transparent',
+          backgroundColor: 'transparent',
+          backgroundImage: 'none',
+          border: 'none',
+          outline: 'none',
+          boxShadow: 'none',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+          transform: 'none',
+          animation: 'none',
+          transition: 'none',
+        }}
         onMouseLeave={() => setHoveredSlotIdx(null)}
       >
         <div className="news-slider-bg" aria-hidden="true" />

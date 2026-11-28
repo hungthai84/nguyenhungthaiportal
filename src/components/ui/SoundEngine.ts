@@ -727,6 +727,136 @@ class SoundEngineClass {
     } catch {}
   }
 
+  /**
+   * Tactile paper-slide + subtle shelf-lift thud when pulling a book off the bookshelf
+   */
+  playBookPullOut() {
+    try {
+      if (!this.canPlaySound(false)) return;
+      const now = Date.now();
+      if (now - this.lastBookSoundTime < 85) return;
+      this.lastBookSoundTime = now;
+
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const volScale = this.studioOverrideActive
+        ? Math.max(0.2, Math.min(1.4, (this.settings.volume / 100) * 1.4))
+        : 1;
+      if (volScale <= 0) return;
+
+      const t = ctx.currentTime;
+      const noiseBuf = this.getNoiseBuffer(ctx);
+
+      // 1. Subtle low wooden shelf thud / tactile grip impulse
+      const thudOsc = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thudOsc.type = 'triangle';
+      thudOsc.frequency.setValueAtTime(148, t);
+      thudOsc.frequency.exponentialRampToValueAtTime(62, t + 0.075);
+      thudGain.gain.setValueAtTime(0.001, t);
+      thudGain.gain.linearRampToValueAtTime(0.11 * volScale, t + 0.01);
+      thudGain.gain.exponentialRampToValueAtTime(0.001, t + 0.085);
+      thudOsc.connect(thudGain);
+      thudGain.connect(ctx.destination);
+      thudOsc.start(t);
+      thudOsc.stop(t + 0.095);
+
+      // 2. Crisp paper-slide / cloth-spine friction sweep along neighboring books
+      const slideSrc = ctx.createBufferSource();
+      slideSrc.buffer = noiseBuf;
+      const slideFilter = ctx.createBiquadFilter();
+      slideFilter.type = 'bandpass';
+      slideFilter.Q.setValueAtTime(1.35, t);
+      slideFilter.frequency.setValueAtTime(640, t + 0.012);
+      slideFilter.frequency.exponentialRampToValueAtTime(1880, t + 0.11);
+      slideFilter.frequency.exponentialRampToValueAtTime(860, t + 0.25);
+
+      const slideGain = ctx.createGain();
+      slideGain.gain.setValueAtTime(0.001, t + 0.01);
+      slideGain.gain.linearRampToValueAtTime(0.24 * volScale, t + 0.055);
+      slideGain.gain.exponentialRampToValueAtTime(0.001, t + 0.26);
+
+      slideSrc.connect(slideFilter);
+      slideFilter.connect(slideGain);
+      slideGain.connect(ctx.destination);
+      slideSrc.start(t + 0.01, 0.04);
+      slideSrc.stop(t + 0.27);
+
+      // 3. Soft airy release brush as book clears the shelf edge
+      const airSrc = ctx.createBufferSource();
+      airSrc.buffer = noiseBuf;
+      const airFilter = ctx.createBiquadFilter();
+      airFilter.type = 'highpass';
+      airFilter.frequency.setValueAtTime(2100, t + 0.06);
+      const airGain = ctx.createGain();
+      airGain.gain.setValueAtTime(0.001, t + 0.06);
+      airGain.gain.linearRampToValueAtTime(0.085 * volScale, t + 0.11);
+      airGain.gain.exponentialRampToValueAtTime(0.001, t + 0.24);
+
+      airSrc.connect(airFilter);
+      airFilter.connect(airGain);
+      airGain.connect(ctx.destination);
+      airSrc.start(t + 0.06, 0.16);
+      airSrc.stop(t + 0.25);
+    } catch {}
+  }
+
+  /**
+   * Gentle reverse paper-slide + wooden shelf settle thud when returning a book to its slot
+   */
+  playBookReturnThud() {
+    try {
+      if (!this.canPlaySound(false)) return;
+      const now = Date.now();
+      if (now - this.lastBookSoundTime < 85) return;
+      this.lastBookSoundTime = now;
+
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const volScale = this.studioOverrideActive
+        ? Math.max(0.2, Math.min(1.4, (this.settings.volume / 100) * 1.4))
+        : 1;
+      if (volScale <= 0) return;
+
+      const t = ctx.currentTime;
+      const noiseBuf = this.getNoiseBuffer(ctx);
+
+      // 1. Soft reverse slide into shelf gap
+      const slideSrc = ctx.createBufferSource();
+      slideSrc.buffer = noiseBuf;
+      const slideFilter = ctx.createBiquadFilter();
+      slideFilter.type = 'bandpass';
+      slideFilter.Q.setValueAtTime(1.2, t);
+      slideFilter.frequency.setValueAtTime(1450, t);
+      slideFilter.frequency.exponentialRampToValueAtTime(520, t + 0.17);
+      const slideGain = ctx.createGain();
+      slideGain.gain.setValueAtTime(0.001, t);
+      slideGain.gain.linearRampToValueAtTime(0.16 * volScale, t + 0.04);
+      slideGain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+      slideSrc.connect(slideFilter);
+      slideFilter.connect(slideGain);
+      slideGain.connect(ctx.destination);
+      slideSrc.start(t, 0.12);
+      slideSrc.stop(t + 0.19);
+
+      // 2. Warm wooden shelf settle thud
+      const thudOsc = ctx.createOscillator();
+      const thudGain = ctx.createGain();
+      thudOsc.type = 'sine';
+      thudOsc.frequency.setValueAtTime(125, t + 0.11);
+      thudOsc.frequency.exponentialRampToValueAtTime(50, t + 0.22);
+      thudGain.gain.setValueAtTime(0.001, t + 0.11);
+      thudGain.gain.linearRampToValueAtTime(0.11 * volScale, t + 0.125);
+      thudGain.gain.exponentialRampToValueAtTime(0.001, t + 0.23);
+      thudOsc.connect(thudGain);
+      thudGain.connect(ctx.destination);
+      thudOsc.start(t + 0.11);
+      thudOsc.stop(t + 0.24);
+    } catch {}
+  }
+
   playCardFlip() {
     this.playPageFlip();
   }

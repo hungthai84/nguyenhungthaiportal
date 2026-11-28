@@ -355,10 +355,20 @@ html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-car
 html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
 html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"] {
   height: auto !important;
+  max-height: 82vh !important;
   min-height: 0 !important;
-  padding: 18px 20px !important;
+  padding: 16px 18px !important;
   justify-content: flex-start !important;
-  align-self: start !important;
+  align-self: stretch !important;
+}
+
+@media (min-width: 640px) {
+  html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
+  html:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"],
+  html.dark:root[data-card-style] body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"][data-expanded="true"] {
+    height: var(--sys-expanded-height, 100%) !important;
+    max-height: var(--sys-expanded-height, none) !important;
+  }
 }
 
 html:root body #systems-page-container #systems-cards-grid .sys-bento-studio-card[data-system-bento-studio="true"]::before,

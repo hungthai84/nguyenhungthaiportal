@@ -193,6 +193,7 @@ interface DomainBentoTemplate {
   orbClass: string;
   iconColor: string;
   titleGradient?: boolean;
+  isDarkTextCard?: boolean;
   badgeClass: string;
   descClass: string;
   ctaClass: string;
@@ -272,6 +273,80 @@ const DOMAIN_BENTO_TEMPLATES: Record<string, DomainBentoTemplate> = {
   },
 };
 
+/**
+ * Bộ mẫu Creator Studio Bento cho Giao Diện Phẳng Sáng (flat-soft-ui):
+ * Giữ nguyên màu sắc thẻ của giao diện sáng giống hệt mẫu Creator Studio Bento,
+ * trong đó thẻ 02 áp dụng mẫu Thẻ 5 (Amber -> Orange nền rực với chữ đậm text-gray-950).
+ */
+const DOMAIN_FLAT_LIGHT_TEMPLATES: Record<string, DomainBentoTemplate> = {
+  '01': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-indigo-500/10',
+    iconColor: '#4f46e5',
+    isDarkTextCard: true,
+    badgeClass: 'bg-indigo-50 border border-indigo-200 text-indigo-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-indigo-600 group-hover:bg-indigo-700 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+  '02': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-amber-500/10',
+    iconColor: '#d97706',
+    isDarkTextCard: true,
+    badgeClass: 'bg-amber-50 border border-amber-200 text-amber-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-amber-600 group-hover:bg-amber-700 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+  '03': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-emerald-500/10',
+    iconColor: '#059669',
+    isDarkTextCard: true,
+    badgeClass: 'bg-emerald-50 border border-emerald-200 text-emerald-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-emerald-600 group-hover:bg-emerald-700 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+  '04': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-rose-500/10',
+    iconColor: '#e11d48',
+    isDarkTextCard: true,
+    badgeClass: 'bg-rose-50 border border-rose-200 text-rose-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-rose-600 group-hover:bg-rose-700 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+  '05': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-cyan-500/10',
+    iconColor: '#0891b2',
+    isDarkTextCard: true,
+    badgeClass: 'bg-cyan-50 border border-cyan-200 text-cyan-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-cyan-600 group-hover:bg-cyan-700 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+  '06': {
+    cardBgClass: 'bg-white',
+    cardBgCss: '#FFFFFF',
+    orbClass: 'bg-slate-500/10',
+    iconColor: '#475569',
+    isDarkTextCard: true,
+    badgeClass: 'bg-slate-100 border border-slate-200 text-slate-800',
+    descClass: 'text-slate-700 font-medium',
+    ctaClass: 'bg-slate-900 group-hover:bg-slate-800 text-white shadow-xs',
+    dividerColor: 'rgba(15, 23, 42, 0.1)',
+  },
+};
+
 const renderDomainIcon = (key: DomainIconKey, className?: string, color?: string) => {
   const props = { className: className || 'w-4 h-4 shrink-0', style: color ? { color } : undefined };
   switch (key) {
@@ -345,6 +420,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
   const { serviceAssignments } = useBannerVideo();
   const servicesBannerVideo = getDefaultBannerVideoConfig('services');
   const isEn = language === 'en';
+  const isFlatSoftLight = cardStyle === 'flat-soft-ui';
   const isLeatherTheme =
     cardStyle === 'cowhide-leather' || cardStyle === 'walnut-wood';
   const micaServiceAccents = ['#C65927', '#FF7C17', '#3ABA8F', '#EA1A7F', '#16D6FA', '#5274FF'];
@@ -603,7 +679,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
       data-element-parent="global-content-viewport"
       className={cn(
         'u420-scope main-card relative w-full max-w-full min-w-0 h-full mx-0 flex-1 flex flex-row items-stretch justify-start p-0 gap-[15px] overflow-visible no-scrollbar font-play select-none text-left rounded-[var(--radius-global,var(--radius-main,14px))] text-[var(--text-primary)] box-border',
-        !isDark && 'services-bento-light-mode'
+        isFlatSoftLight
+          ? 'services-flat-soft-bento-studio'
+          : !isDark && 'services-bento-light-mode'
       )}
     >
       <style>{U420_STYLES}</style>
@@ -709,10 +787,140 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.38) !important;
         }
 
-        html #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
-        html[data-card-style] #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title),
-        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"] .service-title-text:not(.has-gradient-title) > span {
+        html #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
+        html[data-card-style] #services-page-container:not(.services-bento-light-mode) .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title),
+        html.dark[data-card-style] #services-page-container .service-card.domain-card[data-multicolor-bento="true"]:not([data-dark-text-card="true"]) .service-title-text:not(.has-gradient-title) > span {
           color: #ffffff !important;
+        }
+
+        /* =================================================================== */
+        /* CREATOR STUDIO BENTO (GIAO DIỆN PHẲNG SÁNG — FLAT-SOFT-UI)         */
+        /* Dotted pastel canvas + full-color Bento cards + Spotlight & 3D Tilt */
+        /* =================================================================== */
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio #service-main-card {
+          background-color: #f4f7fb !important;
+          background-image:
+            radial-gradient(circle at 12% 14%, rgba(168, 85, 247, 0.16) 0%, transparent 44%),
+            radial-gradient(circle at 88% 18%, rgba(14, 165, 233, 0.16) 0%, transparent 42%),
+            radial-gradient(circle at 52% 90%, rgba(244, 114, 182, 0.14) 0%, transparent 46%),
+            radial-gradient(rgba(71, 85, 105, 0.13) 1px, transparent 1px) !important;
+          background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"] {
+          --mx: 50%;
+          --my: 50%;
+          --rx: 0deg;
+          --ry: 0deg;
+          transform-style: preserve-3d;
+          background: var(--bento-card-bg) !important;
+          color: #ffffff !important;
+          border-radius: 12px !important;
+          padding: 15px !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          box-shadow:
+            0 16px 32px -10px rgba(15, 23, 42, 0.26),
+            0 6px 14px -4px rgba(15, 23, 42, 0.14),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+          transition:
+            transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+            border-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] {
+          color: #030712 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] .service-title-text,
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-dark-text-card="true"] .service-title-text > span {
+          color: #030712 !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"]::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          pointer-events: none;
+          z-index: 5;
+          opacity: 0;
+          transition: opacity 0.28s ease;
+          background: radial-gradient(
+            380px circle at var(--mx, 50%) var(--my, 50%),
+            rgba(255, 255, 255, 0.18),
+            rgba(255, 255, 255, 0.05) 42%,
+            transparent 72%
+          ) !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"]::after {
+          display: none !important;
+        }
+
+        html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card .service-card-header svg {
+          transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card.u420-t[data-multicolor-bento="true"]:not([data-expanded-active="true"]):hover {
+            transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-10px) scale(1.018) !important;
+            border-color: rgba(255, 255, 255, 0.28) !important;
+            box-shadow:
+              0 30px 52px -12px rgba(15, 23, 42, 0.34),
+              0 14px 24px -8px rgba(15, 23, 42, 0.2),
+              0 0 0 1px rgba(255, 255, 255, 0.28),
+              inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card[data-multicolor-bento="true"]:hover::before {
+            opacity: 1 !important;
+          }
+
+          html[data-card-style="flat-soft-ui"] #services-page-container.services-flat-soft-bento-studio .service-card.domain-card:hover .service-card-header svg {
+            transform: scale(1.14) rotate(-5deg);
+          }
+        }
+
+        html #services-page-container .service-card.domain-card {
+          container-type: inline-size;
+          container-name: service-card-box;
+        }
+
+        html #services-page-container .service-partner-logos-row {
+          display: flex !important;
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+          align-items: center !important;
+          gap: 8px !important;
+          min-width: 0 !important;
+        }
+
+        html #services-page-container .service-partner-logos-row .service-partner-logo {
+          margin-left: 0 !important;
+          transition:
+            margin-left 220ms cubic-bezier(0.22, 1, 0.36, 1),
+            transform 220ms ease !important;
+        }
+
+        @container service-card-box (max-width: 315px) {
+          html #services-page-container .service-partner-logos-row {
+            gap: 0px !important;
+          }
+
+          html #services-page-container .service-partner-logos-row .service-partner-logo + .service-partner-logo {
+            margin-left: -10px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          html #services-page-container .service-partner-logos-row {
+            gap: 0px !important;
+          }
+
+          html #services-page-container .service-partner-logos-row .service-partner-logo + .service-partner-logo {
+            margin-left: -10px !important;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -734,6 +942,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
           id="service-main-card"
           ref={mainCardRef}
           data-main-card="true"
+          data-bento-canvas={isFlatSoftLight ? 'true' : undefined}
           data-floating-surface="main"
           data-detail-open={expandedDomain ? 'true' : 'false'}
           data-detail-overlay={expandedDomain ? 'true' : 'false'}
@@ -1045,14 +1254,57 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                               : isDark
                                 ? meta.accentDark
                                 : meta.accentLight;
-                    const bentoTpl = DOMAIN_BENTO_TEMPLATES[domain.id] || DOMAIN_BENTO_TEMPLATES['01'];
+                    const bentoTpl = isFlatSoftLight
+                      ? DOMAIN_FLAT_LIGHT_TEMPLATES[domain.id] || DOMAIN_FLAT_LIGHT_TEMPLATES['01']
+                      : DOMAIN_BENTO_TEMPLATES[domain.id] || DOMAIN_BENTO_TEMPLATES['01'];
+                    const effectiveIconColor = isFlatSoftLight
+                      ? bentoTpl.isDarkTextCard
+                        ? '#030712'
+                        : '#ffffff'
+                      : accentColor;
 
                     const isSelectedCard = selectedDomainId === domain.id;
                     const isOtherDimmed = isAnyCardExpanded && !isSelectedCard;
 
+                    const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+                      const el = cardRefs.current[domain.id];
+                      if (!el) return;
+                      const rect = el.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      el.style.setProperty('--mx', `${x.toFixed(1)}px`);
+                      el.style.setProperty('--my', `${y.toFixed(1)}px`);
+                      if (!prefersReducedMotion && rect.width > 0 && rect.height > 0) {
+                        const cx = rect.width / 2;
+                        const cy = rect.height / 2;
+                        el.style.setProperty('--rx', `${(((y - cy) / cy) * -3.5).toFixed(2)}deg`);
+                        el.style.setProperty('--ry', `${(((x - cx) / cx) * 3.5).toFixed(2)}deg`);
+                      }
+                    };
+
                     const handleCardMouseLeave = () => {
+                      const el = cardRefs.current[domain.id];
+                      if (el) {
+                        el.style.setProperty('--rx', '0deg');
+                        el.style.setProperty('--ry', '0deg');
+                      }
                       setHoveredDomainId(null);
                       setInteractionState((prev) => (prev === 'hovered' ? 'idle' : prev));
+                    };
+
+                    const handleCardMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+                      const el = cardRefs.current[domain.id];
+                      if (!el) return;
+                      const rect = el.getBoundingClientRect();
+                      const size = Math.max(rect.width, rect.height) * 1.3;
+                      const ripple = document.createElement('span');
+                      ripple.className = 'bento-card-ripple';
+                      ripple.style.width = `${size}px`;
+                      ripple.style.height = `${size}px`;
+                      ripple.style.left = `${e.clientX - rect.left}px`;
+                      ripple.style.top = `${e.clientY - rect.top}px`;
+                      el.appendChild(ripple);
+                      window.setTimeout(() => ripple.remove(), 680);
                     };
 
                     const u420Variant = DOMAIN_U420_VARIANTS[domain.id] || 'c1';
@@ -1071,6 +1323,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                         data-service-themed="true"
                         data-multicolor-bento="true"
                         data-bento-styled="true"
+                        data-dark-text-card={
+                          isFlatSoftLight && bentoTpl.isDarkTextCard ? 'true' : 'false'
+                        }
                         data-expanded-active={isAnyCardExpanded ? 'true' : 'false'}
                         data-scale-expanding={isSelectedCard ? 'true' : 'false'}
                         data-hovered={hoveredDomainId === domain.id ? 'true' : 'false'}
@@ -1137,7 +1392,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             setInteractionState('hovered');
                           }
                         }}
+                        onMouseMove={handleCardMouseMove}
                         onMouseLeave={handleCardMouseLeave}
+                        onMouseDown={handleCardMouseDown}
                         onClick={() => openExpandedCard(domain)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
@@ -1154,7 +1411,8 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                           '--service-card-img-url': `url("${serviceImage}")`,
                         } as React.CSSProperties}
                         className={cn(
-                          'u420-t service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left text-white cursor-pointer overflow-hidden card-bounce',
+                          'u420-t service-card domain-card service-theme-card bento-card bento-border group relative rounded-[12px] p-[var(--grid-cards-padding,var(--space-card-padding,16px))] box-border w-full h-full min-h-[196px] sm:min-h-[216px] flex flex-col justify-between text-left cursor-pointer overflow-hidden card-bounce',
+                          isFlatSoftLight && bentoTpl.isDarkTextCard ? 'text-gray-950' : 'text-white',
                           bentoTpl.cardBgClass
                         )}
                       >
@@ -1175,7 +1433,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                 {renderDomainIcon(
                                   meta.iconKey,
                                   'w-5 h-5 shrink-0 stroke-[2.2] transition-transform duration-300',
-                                  accentColor
+                                  effectiveIconColor
                                 )}
                                 <h3
                                   className={cn(
@@ -1185,7 +1443,9 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                                   title={fullTitle}
                                 >
                                   <span
-                                    style={{ color: bentoTpl.titleGradient ? undefined : accentColor }}
+                                    style={{
+                                      color: bentoTpl.titleGradient ? undefined : effectiveIconColor,
+                                    }}
                                     className={
                                       bentoTpl.titleGradient
                                         ? 'gradient-text bg-gradient-to-r from-yellow-200 via-yellow-300 to-pink-200'
@@ -1238,23 +1498,19 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                             style={{ borderTop: `1px solid ${bentoTpl.dividerColor}` }}
                           >
                             {(domain.companyLogos || []).length > 0 && (
-                              <div className="flex items-center -space-x-2.5 min-w-0">
+                              <div className="service-partner-logos-row flex items-center flex-nowrap min-w-0">
                                 {(domain.companyLogos || []).slice(0, 4).map((partner, pIdx) => (
                                   <div
                                     key={partner.name || pIdx}
                                     title={partner.name}
-                                    className="company-logo-surface service-partner-logo w-[30px] h-[30px] aspect-square rounded-full p-0 border-0 ring-0 outline-none overflow-hidden flex items-center justify-center shrink-0 shadow-sm"
-                                    style={{
-                                      border: 'none',
-                                      padding: 0,
-                                    }}
+                                    className="company-logo-surface service-partner-logo w-[30px] h-[30px] aspect-square rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-sm"
                                   >
                                     <BlurUpImage
                                       src={partner.logo}
                                       fallbackSrc={partner.fallbackLogo || serviceImage}
                                       alt={partner.name}
                                       variant="contain"
-                                      className="w-full h-full object-cover rounded-full block select-none"
+                                      className="w-full h-full object-contain rounded-full block select-none"
                                       style={{
                                         imageRendering: '-webkit-optimize-contrast',
                                       }}
@@ -1296,6 +1552,7 @@ export const ServicesView: React.FC<ServicesViewProps> = () => {
                       prefersReducedMotion={prefersReducedMotion}
                       isEn={isEn}
                       isDarkMode={isDark}
+                      isFlatSoftLight={isFlatSoftLight}
                       isLeatherTheme={isLeatherTheme}
                       expandedCardRef={expandedCardRef}
                       expandedBodyRef={expandedBodyRef}

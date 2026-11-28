@@ -445,7 +445,7 @@ html[data-card-style="flat-soft-ui"] :is(
   #about-intro-grid-2,
   #contact-main-card,
   [id^="letter-card-"]
-) {
+):not([data-bento-canvas="true"]) {
   background: var(--surface-primary-bg, #FFFFFF) !important;
   border: 1px solid var(--surface-primary-border, rgba(226, 232, 240, 0.90)) !important;
   box-shadow: var(--layer-l1-shadow, var(--elevation-primary-surface)) !important;
@@ -476,7 +476,7 @@ html[data-card-style="flat-soft-ui"] :is(
   .banner-card,
   .hero-banner,
   .exp-bento-surface-card
-):not(.page-main-card):not([data-main-card="true"]) {
+):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
   background: var(--surface-secondary-bg, #F8FAFC) !important;
   border: 1px solid var(--surface-secondary-border, rgba(203, 213, 225, 0.85)) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
@@ -489,7 +489,7 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   .banner-card,
   .hero-banner,
   .exp-bento-surface-card
-):not(.page-main-card):not([data-main-card="true"]) {
+):not(.page-main-card):not([data-main-card="true"]):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
   background: var(--surface-secondary-bg, #162032) !important;
   border: 1px solid var(--surface-secondary-border, rgba(148, 163, 184, 0.18)) !important;
   box-shadow: var(--surface-secondary-shadow, var(--shadow-card)) !important;
@@ -505,7 +505,7 @@ html[data-card-style="flat-soft-ui"] :is(
   .education-subcard,
   .project-detail-subcard,
   #experience-job-detail-card
-):not(.skill-swot-subcard) {
+):not(.skill-swot-subcard):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
   background: var(--surface-tertiary-bg, #F1F5F9) !important;
   border: 1px solid var(--surface-tertiary-border, rgba(203, 213, 225, 0.72)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;
@@ -520,7 +520,7 @@ html[data-card-style="dark-flat-soft-ui"] :is(
   .education-subcard,
   .project-detail-subcard,
   #experience-job-detail-card
-):not(.skill-swot-subcard) {
+):not(.skill-swot-subcard):not([data-bento-styled="true"]):not([data-multicolor-bento="true"]) {
   background: var(--surface-tertiary-bg, #1A2438) !important;
   border: 1px solid var(--surface-tertiary-border, rgba(148, 163, 184, 0.14)) !important;
   box-shadow: var(--surface-tertiary-shadow, var(--shadow-subcard)) !important;

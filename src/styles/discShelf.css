@@ -843,22 +843,31 @@ html[data-card-style] #education-disc-bookshelf-view .edu-shelf-cover-media[data
 #education-disc-bookshelf-view.edu-wood-library,
 html[data-card-style] #education-disc-bookshelf-view.edu-wood-library,
 html[data-surface-depth] #education-disc-bookshelf-view.edu-wood-library {
+  --edu-book-h: clamp(120px, min(37.5cqh, calc(50cqh - 64px)), 268px);
+  --edu-book-w: calc(var(--edu-book-h) * 0.71);
+  --edu-vjy-w: calc(var(--edu-book-w) + 10px);
+  --edu-side-h: clamp(124px, min(38.2cqh, calc(50cqh - 61px)), 272px);
+  --edu-side-w: clamp(46px, 8.8cqh, 66px);
+  --edu-plank-h: clamp(24px, 4.8cqh, 34px);
+  --edu-plank-top: clamp(7px, 1.5cqh, 11px);
+  --edu-plank-front: calc(var(--edu-plank-h) - var(--edu-plank-top));
+  --edu-slot-pb: clamp(23px, 4.6cqh, 33px);
+  --edu-frame-w: clamp(142px, 31cqh, 240px);
+  container-type: size;
+  container-name: edu-library;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(1px, 0.4cqh, 4px);
   width: 100%;
   min-width: 0;
   flex: 1 1 0%;
   min-height: 0;
   height: 100%;
   max-height: 100%;
-  padding: 6px 6px 14px;
+  padding: 0 4px;
   box-sizing: border-box;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+  overflow: hidden !important;
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
@@ -879,21 +888,17 @@ html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
   backdrop-filter: none !important;
 }
 
-#education-disc-bookshelf-view.edu-wood-library::-webkit-scrollbar {
-  width: 6px;
-}
-#education-disc-bookshelf-view.edu-wood-library::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.32);
-  border-radius: 999px;
-}
-
 .edu-wood-tiers-stack {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  justify-content: space-between;
+  flex: 1 1 0%;
+  min-height: 0;
+  height: 100%;
+  gap: clamp(4px, 1cqh, 10px);
   width: 100%;
   min-width: 0;
-  margin: auto 0;
+  margin: 0;
 }
 
 /* Each Shelf Tier */
@@ -901,6 +906,8 @@ html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
   width: 100%;
   min-width: 0;
 }
@@ -910,9 +917,18 @@ html[data-surface-depth] #education-disc-bookshelf-view .edu-book-slot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 0 10px 8px;
+  gap: 10px;
+  padding: 0 10px clamp(2px, 0.8cqh, 6px);
   min-width: 0;
+  flex-shrink: 0;
+}
+
+.edu-wood-tier-header--right {
+  justify-content: flex-end;
+}
+
+.edu-wood-tier-header--right .edu-wood-nav-group {
+  margin-right: auto;
 }
 
 /* Theme-synced Shelf Header Boards (section#el-p3-section-1 & section#el-p3-section-2) */
@@ -923,7 +939,7 @@ section#el-p3-section-2 > .edu-wood-tier-header > .edu-shelf-board.edu-shelf-boa
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 15px;
+  padding: clamp(4px, 0.9cqh, 7px) 14px;
   border-radius: var(--radius-subcard, 12px);
   min-width: 0;
   max-width: 100%;
@@ -1119,7 +1135,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   position: relative;
   width: 100%;
   min-width: 0;
-  padding-top: 6px;
+  padding-top: clamp(2px, 0.6cqh, 5px);
 }
 
 .edu-wood-scroll-area {
@@ -1127,11 +1143,11 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   z-index: 3;
   display: flex;
   align-items: flex-end;
-  gap: 22px;
+  gap: clamp(14px, 2.2cqi, 24px);
   width: 100%;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 16px 22px 0;
+  padding: clamp(4px, 1.4cqh, 14px) 18px 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -1149,7 +1165,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  padding-bottom: 34px;
+  padding-bottom: var(--edu-slot-pb, 32px);
   cursor: pointer;
   outline: none;
   background: transparent;
@@ -1158,12 +1174,26 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   padding-right: 0;
   padding-top: 0;
   text-align: left;
-  perspective: 950px;
+  perspective: 1200px;
+  transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1), filter 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .edu-book-slot:focus-visible .edu-tilt-book {
   outline: 2px solid var(--color-primary, #38bdf8);
   outline-offset: 4px;
+}
+
+/* Stage 1: Neighbor books subtly dim when a book is pulled from the shelf */
+#education-disc-bookshelf-view[data-has-pulled-book="true"] .edu-book-slot:not([data-pulled="true"]) {
+  opacity: 0.48;
+  filter: saturate(0.76) brightness(0.92);
+}
+
+/* Hide original book visuals while its 3D FLIP twin is pulled out, keeping shelf slot geometry intact */
+#education-disc-bookshelf-view .edu-book-slot[data-pulled="true"] .edu-tilt-book,
+#education-disc-bookshelf-view .edu-book-slot[data-pulled="true"] .edu-book-shadow {
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 /* 3D Pointer Tracking Tilt Wrapper */
@@ -1172,25 +1202,39 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   --tilt-ry: 0deg;
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) translateY(0px);
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s ease;
+  transform: rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) translate3d(0, 0, 0);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s ease, opacity 0.16s ease;
   will-change: transform;
 }
 
-.edu-book-slot:hover .edu-tilt-book,
-.edu-book-slot.is-active .edu-tilt-book {
-  transform: none !important;
+/* Stage 1 Hover Lift: raises book 5px off shelf and slightly forward along Z */
+@media (hover: hover) and (pointer: fine) {
+  .edu-book-slot:hover .edu-tilt-book {
+    transform: rotateX(var(--tilt-rx)) rotateY(calc(var(--tilt-ry) - 4deg)) translate3d(0, -5px, 14px) !important;
+  }
+
+  .edu-book-slot:hover .edu-book-frame,
+  .edu-book-slot:hover .edu-side-book {
+    box-shadow:
+      -5px 10px 20px -4px rgba(0, 0, 0, 0.45),
+      8px 16px 28px -6px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+  }
+
+  .edu-book-slot:hover .edu-book-shadow {
+    transform: scaleX(1.08) scaleY(1.12) !important;
+    opacity: 0.92;
+  }
 }
 
-.edu-book-slot.is-active .edu-book-frame,
-.edu-book-slot.is-active .edu-side-book {
-  box-shadow: none !important;
+.edu-book-slot:active .edu-tilt-book {
+  transform: translate3d(0, -2px, 24px) scale(0.99) !important;
 }
 
 /* Ground Contact Shadow Resting on the Wooden Plank */
 .edu-book-shadow {
   position: absolute;
-  bottom: 30px;
+  bottom: calc(var(--edu-slot-pb, 32px) - 4px);
   left: 8%;
   right: 8%;
   height: 11px;
@@ -1198,45 +1242,64 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   background: radial-gradient(ellipse at center, rgba(15, 7, 2, 0.62) 0%, rgba(15, 7, 2, 0.25) 52%, transparent 78%);
   filter: blur(2.5px);
   pointer-events: none;
-  transition: transform 0.28s ease, opacity 0.28s ease;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
   z-index: 1;
 }
 
-.edu-book-slot:hover .edu-book-shadow,
-.edu-book-slot.is-active .edu-book-shadow {
-  transform: none !important;
-  opacity: 0.72;
-}
-
-/* Year Tag Mounted on the Wooden Shelf Fascia Edge */
+/* Year Tag Mounted on the Shelf Fascia Edge (Calendar icon + Year synced to active theme) */
 .edu-book-shelf-year {
   position: absolute;
-  bottom: 4px;
+  bottom: clamp(1px, 0.5cqh, 4px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 10.5px;
+  padding: 1.5px 6px;
+  border-radius: 6px;
+  font-size: clamp(9px, 1.35cqh, 10px);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-  color: #fef3dc;
-  background: rgba(42, 20, 7, 0.72);
-  border: 1px solid rgba(255, 224, 178, 0.28);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 5px rgba(0, 0, 0, 0.35);
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  color: var(--text-primary, #0f172a);
+  background: var(--bg-subcard, var(--surface-tertiary-bg, rgba(255, 255, 255, 0.85)));
+  border: 1px solid var(--border-subcard, rgba(148, 163, 184, 0.34));
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.edu-book-slot.is-active .edu-book-shelf-year {
-  background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.55);
-  color: #ffffff;
-  transform: translateX(-50%);
+.edu-book-shelf-year-icon {
+  color: var(--color-primary, #0284c7);
+}
+
+html.dark .edu-book-shelf-year,
+.edu-wood-library[data-theme="dark"] .edu-book-shelf-year {
+  color: var(--text-heading, #f8fafc);
+  background: var(--bg-subcard, var(--surface-tertiary-bg, rgba(15, 23, 42, 0.78)));
+  border-color: var(--border-subcard, rgba(255, 255, 255, 0.22));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 6px rgba(0, 0, 0, 0.38);
+}
+
+html[data-card-style="walnut-wood"] .edu-book-shelf-year,
+html[data-card-style="cowhide-leather"] .edu-book-shelf-year,
+html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year {
+  color: #fef3dc;
+  background: rgba(42, 20, 7, 0.78);
+  border-color: rgba(255, 224, 178, 0.32);
+}
+
+html[data-card-style="walnut-wood"] .edu-book-shelf-year-icon,
+html[data-card-style="cowhide-leather"] .edu-book-shelf-year-icon,
+html[data-card-style="dark-cowhide-leather"] .edu-book-shelf-year-icon {
+  color: #fcd34d;
+}
+
+.edu-book-slot.is-active .edu-book-shelf-year,
+.edu-book-slot:hover .edu-book-shelf-year {
+  border-color: color-mix(in srgb, var(--color-primary, #0284c7) 58%, transparent);
+  box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--color-primary, #0284c7) 35%, transparent);
 }
 
 /* 3D Wooden Shelf Plank Underneath Books */
@@ -1245,7 +1308,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   left: 0;
   right: 0;
   bottom: 0;
-  height: 36px;
+  height: var(--edu-plank-h, 34px);
   z-index: 2;
   pointer-events: none;
   border-radius: 5px 5px 8px 8px;
@@ -1257,7 +1320,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   left: 0;
   right: 0;
   top: 0;
-  height: 12px;
+  height: var(--edu-plank-top, 11px);
   border-radius: 5px 5px 0 0;
   background: var(--surface-primary-bg, var(--bg-card, rgba(255, 255, 255, 0.45))) !important;
   backdrop-filter: blur(12px) !important;
@@ -1271,8 +1334,8 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   position: absolute;
   left: 0;
   right: 0;
-  top: 12px;
-  height: 24px;
+  top: var(--edu-plank-top, 11px);
+  height: var(--edu-plank-front, 23px);
   border-radius: 0 0 8px 8px;
   background: var(--surface-secondary-bg, var(--card-bg, var(--bg-card, rgba(30, 35, 45, 0.75)))) !important;
   backdrop-filter: blur(16px) !important;
@@ -1317,8 +1380,8 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 
 .edu-book-frame {
   position: relative;
-  width: 152px;
-  height: 214px;
+  width: var(--edu-book-w, 148px);
+  height: var(--edu-book-h, 208px);
   border-radius: 3px 9px 9px 3px;
   overflow: hidden;
   display: flex;
@@ -1396,9 +1459,9 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 
 .edu-vjy-wrap {
   position: relative;
-  width: 162px;
-  height: 214px;
-  padding-right: 11px;
+  width: var(--edu-vjy-w, 158px);
+  height: var(--edu-book-h, 208px);
+  padding-right: 10px;
   box-sizing: border-box;
 }
 
@@ -1440,19 +1503,19 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 .edu-vjy-wrap .edu-book-frame {
   position: relative;
   z-index: 2;
-  width: 151px;
-  height: 214px;
+  width: var(--edu-book-w, 148px);
+  height: var(--edu-book-h, 208px);
   transform-origin: left center;
   transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
 
 .edu-book-slot:hover .edu-vjy-wrap .edu-book-frame {
-  transform: none !important;
+  transform: rotateY(-7deg);
 }
 
 .edu-book-slot:hover .edu-vjy-pages {
-  right: 1px;
-  transform: skewY(-2deg) !important;
+  right: 0px;
+  transform: skewY(-2deg) translateX(1px);
 }
 
 /* ========================================================================= */
@@ -1460,7 +1523,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* ========================================================================= */
 
 .edu-book-frame--editorial {
-  padding: 14px 13px 13px 19px;
+  padding: clamp(7px, 1.8cqh, 14px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(14px, 2.5cqh, 19px);
 }
 
 .edu-editorial-rule {
@@ -1468,7 +1531,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   height: 2.5px;
   border-radius: 99px;
   opacity: 0.9;
-  margin-bottom: 8px;
+  margin-bottom: clamp(4px, 1cqh, 8px);
 }
 
 /* ========================================================================= */
@@ -1476,7 +1539,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* ========================================================================= */
 
 .edu-book-frame--bauhaus {
-  padding: 13px 13px 13px 19px;
+  padding: clamp(7px, 1.7cqh, 13px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(14px, 2.5cqh, 19px);
 }
 
 .edu-bauhaus-dots {
@@ -1486,14 +1549,14 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 }
 
 .edu-bauhaus-dot {
-  width: 9px;
-  height: 9px;
+  width: clamp(6px, 1.2cqh, 9px);
+  height: clamp(6px, 1.2cqh, 9px);
   border-radius: 50%;
 }
 
 .edu-bauhaus-square {
-  width: 9px;
-  height: 9px;
+  width: clamp(6px, 1.2cqh, 9px);
+  height: clamp(6px, 1.2cqh, 9px);
   border-radius: 2px;
 }
 
@@ -1503,15 +1566,15 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 
 .edu-side-book {
   position: relative;
-  width: 60px;
-  height: 218px;
+  width: var(--edu-side-w, 58px);
+  height: var(--edu-side-h, 212px);
   border-radius: 5px 5px 3px 3px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 11px 6px;
+  padding: clamp(6px, 1.4cqh, 11px) 5px;
   box-sizing: border-box;
   box-shadow:
     inset 6px 0 10px rgba(255, 255, 255, 0.22),
@@ -1532,11 +1595,11 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
-  font-size: 12.5px;
+  font-size: clamp(10px, 1.75cqh, 12.5px);
   font-weight: 800;
   letter-spacing: 0.03em;
   line-height: 1.18;
-  max-height: 132px;
+  max-height: clamp(64px, 17cqh, 130px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1548,10 +1611,10 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
-  font-size: 9px;
+  font-size: clamp(7.5px, 1.2cqh, 9px);
   font-weight: 600;
   opacity: 0.82;
-  max-height: 76px;
+  max-height: clamp(36px, 9cqh, 76px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1559,11 +1622,11 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 }
 
 .edu-side-spine-badge {
-  font-size: 9px;
+  font-size: clamp(7.5px, 1.2cqh, 9px);
   font-weight: 800;
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
-  padding: 2px 4px;
+  padding: 1.5px 4px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1575,15 +1638,15 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* ========================================================================= */
 
 .edu-book-frame--zen {
-  padding: 13px 13px 13px 18px;
+  padding: clamp(7px, 1.7cqh, 13px) clamp(8px, 1.7cqh, 13px) clamp(7px, 1.7cqh, 13px) clamp(13px, 2.3cqh, 18px);
   text-align: center;
   align-items: center;
 }
 
 .edu-zen-circle {
   position: relative;
-  width: 72px;
-  height: 72px;
+  width: clamp(44px, 10.5cqh, 78px);
+  height: clamp(44px, 10.5cqh, 78px);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -1667,34 +1730,62 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* RESPONSIVE COMPACT SCALING & REDUCED MOTION                               */
 /* ========================================================================= */
 
-@media (max-width: 768px) {
-  .edu-wood-scroll-area {
-    gap: 16px;
-    padding: 12px 14px 0;
+@container edu-library (max-height: 590px) {
+  .edu-book-frame {
+    padding: 8px 8px 8px 14px !important;
   }
 
-  .edu-book-frame,
-  .edu-vjy-wrap .edu-book-frame {
-    width: 136px;
-    height: 192px;
+  .edu-book-frame h3 {
+    font-size: clamp(10.5px, 2cqh, 13px) !important;
+    line-height: 1.15 !important;
   }
 
-  .edu-vjy-wrap {
-    width: 146px;
-    height: 192px;
-  }
-
-  .edu-side-book {
-    width: 54px;
-    height: 196px;
+  .edu-book-frame p {
+    font-size: 8.5px !important;
   }
 
   .edu-shelf-board {
-    padding: 6px 12px;
+    padding: 4px 11px;
   }
 
   .edu-shelf-board-title {
     font-size: 12px;
+  }
+
+  .edu-wood-nav-btn {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .edu-wood-scroll-area {
+    gap: 14px;
+    padding: clamp(4px, 1.2cqh, 10px) 12px 0;
+  }
+
+  .edu-book-frame,
+  .edu-vjy-wrap .edu-book-frame {
+    width: min(158px, var(--edu-book-w, 158px));
+    height: min(222px, var(--edu-book-h, 222px));
+  }
+
+  .edu-vjy-wrap {
+    width: calc(min(158px, var(--edu-book-w, 158px)) + 10px);
+    height: min(222px, var(--edu-book-h, 222px));
+  }
+
+  .edu-side-book {
+    width: min(60px, var(--edu-side-w, 60px));
+    height: min(226px, var(--edu-side-h, 226px));
+  }
+
+  .edu-shelf-board {
+    padding: 4px 11px;
+  }
+
+  .edu-shelf-board-title {
+    font-size: 11.5px;
   }
 }
 
@@ -1711,7 +1802,7 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 }
 
 /* ========================================================================= */
-/* WALL-HANGING VIDEO PICTURE FRAME (TOP-RIGHT OF EDUCATION BOOKSHELF WALL)  */
+/* SHELF-STANDING VIDEO PICTURE FRAME (RESTING ON THE BOOKSHELF PLANK)       */
 /* ========================================================================= */
 
 .edu-wall-stage-header {
@@ -1737,75 +1828,81 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   flex: 1 1 240px;
 }
 
-/* Wall Picture Hanging Assembly (Nail + V-Wire + Framed Video Artwork) */
-.edu-wall-video-frame {
-  position: absolute;
-  right: 12px;
-  top: -10px;
+/* Standing Picture Frame Slot (matches .edu-book-slot plank offset) */
+.edu-wall-video-frame,
+.edu-shelf-standing-frame {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+  align-self: flex-end;
   flex-shrink: 0;
-  width: 172px;
-  max-width: 48vw;
-  padding-top: 10px;
-  z-index: 40;
+  width: var(--edu-frame-w, 198px);
+  max-width: 56vw;
+  padding: 0 0 var(--edu-slot-pb, 32px);
+  margin: 0 0 0 6px;
+  z-index: 10;
   pointer-events: auto;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  perspective: 960px;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.32s ease;
 }
 
-.edu-wall-video-frame:hover {
-  transform: scale(1.05) translateY(-2px);
+#education-disc-bookshelf-view[data-has-pulled-book="true"] .edu-shelf-standing-frame {
+  opacity: 0.62;
 }
 
-/* Brass Wall Hook / Nail */
-.edu-wall-nail {
+.edu-shelf-frame-3d {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edu-shelf-standing-frame:hover .edu-shelf-frame-3d {
+  transform: translate3d(0, -4px, 10px);
+}
+
+/* Rear wooden easel strut supporting the standing frame */
+.edu-shelf-frame-easel {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  z-index: 4;
-  background: radial-gradient(circle at 32% 30%, #fef08a 0%, #ca8a04 58%, #5c3309 100%);
-  border: 1px solid rgba(66, 32, 6, 0.72);
-  box-shadow:
-    0 1.5px 3px rgba(0, 0, 0, 0.45),
-    inset 0 1px 1px rgba(255, 255, 255, 0.55);
-}
-
-/* Hanging Cord SVG */
-.edu-wall-wire {
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 118px;
-  height: 10px;
-  z-index: 1;
+  bottom: 4px;
+  right: 18px;
+  width: 26px;
+  height: 74%;
+  border-radius: 3px 3px 2px 2px;
+  background: linear-gradient(160deg, #5a3317 0%, #3d1f0b 65%, #241105 100%);
+  border: 1px solid rgba(28, 12, 3, 0.72);
+  transform-origin: bottom center;
+  transform: skewX(11deg) translate3d(10px, 0, -14px);
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.36);
   pointer-events: none;
-  overflow: visible;
+  z-index: 0;
 }
 
 .edu-wall-frame-assembly {
   position: relative;
   width: 100%;
-  transform-origin: 50% -10px;
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+  z-index: 2;
+  transform-origin: bottom center;
+  transform: rotateX(4deg);
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), filter 0.32s ease;
 }
 
-.edu-wall-video-frame:hover .edu-wall-frame-assembly {
-  transform: rotate(-1.1deg) translateY(-1px);
+.edu-shelf-standing-frame:hover .edu-wall-frame-assembly {
+  transform: rotateX(1deg);
 }
 
 /* Outer Handcrafted Walnut Wooden Picture Frame */
 .edu-wall-frame-outer {
   position: relative;
   width: 100%;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 6px 6px 11px;
+  border-radius: 5px 5px 3px 3px;
   box-sizing: border-box;
   background:
     repeating-linear-gradient(
@@ -1825,9 +1922,9 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
     linear-gradient(145deg, #8b562e 0%, #633818 46%, #45230d 100%);
   border: 1.5px solid #381a08;
   box-shadow:
-    0 10px 20px -6px rgba(18, 9, 3, 0.48),
-    0 4px 8px -3px rgba(18, 9, 3, 0.32),
-    inset 0 1px 0 rgba(255, 224, 182, 0.42),
+    0 8px 18px -5px rgba(18, 9, 3, 0.45),
+    0 3px 6px -2px rgba(18, 9, 3, 0.28),
+    inset 0 1px 0 rgba(255, 224, 182, 0.44),
     inset 0 -1.5px 3px rgba(24, 10, 2, 0.62);
 }
 
@@ -1880,13 +1977,13 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
 /* Engraved Brushed-Brass Gallery Plaque on Bottom Rail */
 .edu-wall-frame-plaque {
   position: absolute;
-  bottom: 1px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
-  padding: 0.5px 6px;
+  padding: 0.5px 7px;
   border-radius: 2px;
-  font-size: 6.5px;
+  font-size: 7px;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: none;
@@ -1898,24 +1995,57 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   pointer-events: none;
 }
 
+/* Stepped Walnut Plinth Base Sitting Directly on Shelf Plank */
+.edu-shelf-frame-stand {
+  position: relative;
+  z-index: 3;
+  width: 82%;
+  height: 9px;
+  margin-top: -1px;
+  border-radius: 2px 2px 4px 4px;
+  background: linear-gradient(180deg, #754520 0%, #522d12 58%, #361b08 100%);
+  border: 1px solid #2b1405;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 224, 182, 0.36),
+    0 3px 6px -1px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* Contact Shadow Under the Frame Plinth on the Bookshelf Plank */
+.edu-shelf-frame-shadow {
+  position: absolute;
+  bottom: calc(var(--edu-slot-pb, 32px) - 4px);
+  left: 6%;
+  right: 6%;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(15, 7, 2, 0.62) 0%, rgba(15, 7, 2, 0.25) 54%, transparent 78%);
+  filter: blur(2.5px);
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.32s ease;
+  z-index: 1;
+}
+
+.edu-shelf-standing-frame:hover .edu-shelf-frame-shadow {
+  transform: scaleX(1.06) scaleY(1.1);
+  opacity: 0.88;
+}
+
 @media (max-width: 768px) {
   .edu-wall-stage-header {
     padding: 0 6px 2px;
     gap: 8px;
   }
 
-  .edu-wall-video-frame {
-    width: 150px;
-    padding-top: 8px;
-  }
-
-  .edu-wall-wire {
-    width: 98px;
-    height: 8px;
+  .edu-wall-video-frame,
+  .edu-shelf-standing-frame {
+    width: min(170px, var(--edu-frame-w, 170px));
+    padding: 0 0 var(--edu-slot-pb, 32px);
+    margin: 0 0 0 4px;
   }
 
   .edu-wall-frame-outer {
-    padding: 4px;
+    padding: 4px 4px 9px;
   }
 
   .edu-wall-frame-mat {
@@ -1925,6 +2055,10 @@ html[data-card-style="dark-neumorphism-beyond"] section#el-p3-section-2 > .edu-w
   .edu-wall-frame-plaque {
     font-size: 6px;
     padding: 0.5px 5px;
+  }
+
+  .edu-shelf-frame-stand {
+    height: 7px;
   }
 }
 
@@ -1970,6 +2104,250 @@ html.dark #education-disc-bookshelf-view[data-glass-shelf="true"] .edu-wood-plan
   border: 1px solid var(--border-subcard, rgba(255, 255, 255, 0.75));
   box-shadow: var(--shadow-subcard, 0 8px 24px rgba(31, 38, 135, 0.12));
   color: var(--text-heading, var(--text-primary, #0f172a));
+}
+
+/* ========================================================================= */
+/* BOOK PRESENTATION OVERLAY (3D FLIP PULL-OUT & CENTER STAGE)               */
+/* ========================================================================= */
+
+.edu-book-presentation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.edu-book-presentation-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 22, 0.44);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: auto;
+}
+
+.edu-book-presentation-backdrop[data-visible="true"] {
+  opacity: 1;
+}
+
+.edu-book-presentation-close {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top, 16px));
+  right: max(16px, env(safe-area-inset-right, 16px));
+  z-index: 1220;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(15, 23, 42, 0.62);
+  color: #ffffff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms ease;
+}
+
+.edu-book-presentation-close[data-visible="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.edu-book-presentation-close:hover {
+  background: rgba(225, 29, 72, 0.88);
+  transform: scale(1.06);
+}
+
+.edu-book-presentation-close:active {
+  transform: scale(0.94);
+}
+
+.edu-book-presentation-close:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.edu-book-presentation-stage {
+  position: relative;
+  z-index: 1210;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.edu-presented-book-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  pointer-events: auto;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  text-align: left;
+  border-radius: var(--radius-global, var(--radius-primary-surface, var(--radius-card, 14px)));
+}
+
+.edu-presented-book-3d:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 6px;
+}
+
+/* Multi-layered physical book ambient + contact shadow */
+.edu-presented-book-shadow {
+  position: absolute;
+  inset: 4% 2% -6% 2%;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(2, 6, 23, 0.58) 0%,
+    rgba(2, 6, 23, 0.28) 55%,
+    transparent 82%
+  );
+  filter: blur(22px);
+  transform: translate3d(0, 18px, -28px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edu-presented-book-3d[data-lit="true"] .edu-presented-book-shadow {
+  opacity: 1;
+}
+
+/* Front cover volume shell with crisp multi-layer depth shadow */
+.edu-presented-book-cover-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+  box-shadow:
+    0 24px 54px -12px rgba(2, 6, 23, 0.62),
+    0 12px 26px -8px rgba(2, 6, 23, 0.42),
+    -8px 0 18px -6px rgba(2, 6, 23, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  transition: filter 250ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edu-presented-book-3d[data-lit="true"] .edu-presented-book-cover-shell {
+  filter: contrast(1.04) brightness(1.03);
+}
+
+/* Subtle 3D left hardcover spine edge */
+.edu-presented-book-spine {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: -14px;
+  width: 16px;
+  border-radius: 5px 0 0 5px;
+  transform-origin: right center;
+  transform: rotateY(-78deg);
+  backface-visibility: hidden;
+  pointer-events: none;
+  box-shadow:
+    inset 2px 0 6px rgba(255, 255, 255, 0.25),
+    inset -3px 0 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtle 3D cream page edges on right side */
+.edu-presented-book-pages {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  right: -7px;
+  width: 10px;
+  border-radius: 0 5px 5px 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #f9f5ec 0px,
+    #f9f5ec 1.5px,
+    #dfd6c5 1.5px,
+    #dfd6c5 3px
+  );
+  border: 1px solid rgba(90, 68, 42, 0.28);
+  border-left: none;
+  box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.16);
+  transform: translate3d(0, 0, -6px);
+  pointer-events: none;
+}
+
+/* Stage 4: 250ms Front cover lighting sheen completion */
+.edu-presented-book-lighting {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 25;
+  overflow: hidden;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at 32% 20%,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.06) 44%,
+    transparent 74%
+  );
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edu-presented-book-lighting::after {
+  content: "";
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    108deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.32) 49%,
+    rgba(255, 255, 255, 0.08) 54%,
+    transparent 65%
+  );
+  transform: translate3d(-45%, 0, 0);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edu-presented-book-3d[data-lit="true"] .edu-presented-book-lighting {
+  opacity: 1;
+}
+
+.edu-presented-book-3d[data-lit="true"] .edu-presented-book-lighting::after {
+  transform: translate3d(55%, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edu-book-presentation-backdrop,
+  .edu-book-presentation-close,
+  .edu-presented-book-shadow,
+  .edu-presented-book-cover-shell,
+  .edu-presented-book-lighting,
+  .edu-presented-book-lighting::after {
+    transition: none !important;
+  }
 }
 
 

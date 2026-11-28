@@ -12,6 +12,10 @@ import {
   type ArtPattern,
   type BookPalette,
 } from './EducationBookCoverArt';
+import {
+  EducationBookPresentationOverlay,
+  type PresentedBookData,
+} from './EducationBookPresentationOverlay';
 
 export interface EducationBookshelfViewProps {
   courses: EducationCourse[];
@@ -25,6 +29,7 @@ export interface EducationBookshelfViewProps {
   onSelectBookIndex?: (idx: number) => void;
   hideTopTimeline?: boolean;
   topWallContent?: React.ReactNode;
+  shelfWallFrame?: React.ReactNode;
   cardStyle?: string;
 }
 
@@ -65,6 +70,7 @@ interface BookItemProps {
   categoryLabel: string;
   iconName: string;
   isActive: boolean;
+  isPulled: boolean;
   isEn: boolean;
   registerRef: (el: HTMLButtonElement | null) => void;
   onActivate: () => void;
@@ -79,6 +85,7 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
   categoryLabel,
   iconName,
   isActive,
+  isPulled,
   isEn,
   registerRef,
   onActivate,
@@ -367,8 +374,9 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
     <button
       ref={registerRef}
       type="button"
-      className="edu-book-slot"
+      className={isActive ? 'edu-book-slot is-active' : 'edu-book-slot'}
       data-book-template={template}
+      data-pulled={isPulled ? 'true' : undefined}
       aria-label={`${title} — ${course.issuer} (${course.year}). ${
         isEn ? 'Open course book' : 'Mở sách khóa học'
       }`}
@@ -376,7 +384,6 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
       title={`${title} · ${course.issuer} (${course.year})`}
       onFocus={onActivate}
       onClick={() => {
-        SoundEngine.playTap?.();
         onActivate();
         onOpen();
       }}
@@ -385,13 +392,26 @@ const ShelfBookItem: React.FC<BookItemProps> = ({
         {renderBookVisual()}
       </div>
 
+      {/* Hover Tooltip (Title, Author/Issuer, Publication Year) */}
+      <div className="edu-book-tooltip" role="tooltip">
+        <span className="text-xs font-bold leading-snug line-clamp-2 text-white">
+          {title}
+        </span>
+        <span className="text-[10px] font-semibold text-purple-300 truncate">
+          {course.issuer}
+        </span>
+        <span className="text-[9.5px] font-mono text-slate-300 tabular-nums">
+          {isEn ? `Published: ${course.year}` : `Năm XB: ${course.year}`}
+        </span>
+      </div>
+
       {/* Contact shadow on wooden ledge */}
       <span className="edu-book-shadow" aria-hidden="true" />
 
       {/* Calendar year badge mounted on the wooden plank fascia */}
       <span className="edu-book-shelf-year" aria-hidden="true">
-        <WebIcon name="calendar" className="w-2.5 h-2.5 shrink-0 opacity-85" />
-        <span>{course.year}</span>
+        <WebIcon name="calendar" className="edu-book-shelf-year-icon w-2.5 h-2.5 shrink-0" />
+        <span>{isEn ? course.year : `Năm ${course.year}`}</span>
       </span>
     </button>
   );
@@ -401,26 +421,39 @@ interface TierShelfProps {
   tier: ShelfTierConfig;
   items: Array<{ course: EducationCourse; globalIdx: number }>;
   safeSel: number;
+  pulledGlobalIdx: number | null;
   getDistinctBookColor: (course: EducationCourse, idx: number) => string;
   getShortCategoryLabel: (category: EducationCourse['category']) => string;
   getCourseIcon?: (title: string) => string;
   isEn: boolean;
   bookRefs: React.MutableRefObject<Record<number, HTMLButtonElement | null>>;
+  shelfWallFrame?: React.ReactNode;
   onSelectBookIndex: (idx: number) => void;
-  onSelectCourse: (course: EducationCourse) => void;
+  onPullOutBook: (payload: {
+    course: EducationCourse;
+    globalIdx: number;
+    template: BookTemplate;
+    pattern: ArtPattern;
+    palette: BookPalette;
+    accentHex: string;
+    categoryLabel: string;
+    iconName: string;
+  }) => void;
 }
 
 const WoodenShelfTier: React.FC<TierShelfProps> = ({
   tier,
   items,
   safeSel,
+  pulledGlobalIdx,
   getDistinctBookColor,
   getShortCategoryLabel,
   getCourseIcon,
   isEn,
   bookRefs,
+  shelfWallFrame,
   onSelectBookIndex,
-  onSelectCourse,
+  onPullOutBook,
 }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -490,6 +523,50 @@ const WoodenShelfTier: React.FC<TierShelfProps> = ({
     ? `${items.length} ${items.length === 1 ? 'book' : 'books'}`
     : `${items.length} cuốn`;
 
+  const isRightAlignedHeader = tier.id === 'tier-1' || tier.id === 'tier-2';
+
+  const shelfBoardEl = (
+    <div
+      className={`edu-shelf-board ${
+        tier.boardStyle === 'wood'
+          ? 'edu-shelf-board--wood'
+          : 'edu-shelf-board--chalkboard'
+      }`}
+    >
+      <WebIcon
+        name={tier.icon}
+        className="w-4 h-4 shrink-0 opacity-90"
+      />
+      <h2 className="edu-shelf-board-title m-0">
+        {isEn ? tier.titleEn : tier.titleVi}
+      </h2>
+      <span className="edu-shelf-board-count">{countLabel}</span>
+    </div>
+  );
+
+  const navControlsEl = (canScrollLeft || canScrollRight) ? (
+    <div className="edu-wood-nav-group">
+      <button
+        type="button"
+        className="edu-wood-nav-btn"
+        disabled={!canScrollLeft}
+        onClick={() => scrollByAmount(-1)}
+        aria-label={isEn ? 'Scroll shelf left' : 'Cuộn kệ sang trái'}
+      >
+        <WebIcon name="chevron-left" className="w-4 h-4" />
+      </button>
+      <button
+        type="button"
+        className="edu-wood-nav-btn"
+        disabled={!canScrollRight}
+        onClick={() => scrollByAmount(1)}
+        aria-label={isEn ? 'Scroll shelf right' : 'Cuộn kệ sang phải'}
+      >
+        <WebIcon name="chevron-right" className="w-4 h-4" />
+      </button>
+    </div>
+  ) : null;
+
   return (
     <section
       id={tier.id === 'tier-1' ? 'el-p3-section-1' : 'el-p3-section-2'}
@@ -497,80 +574,78 @@ const WoodenShelfTier: React.FC<TierShelfProps> = ({
       aria-label={isEn ? tier.titleEn : tier.titleVi}
     >
       {/* Sign Board Header + Horizontal Scroll Controls */}
-      <div className="edu-wood-tier-header">
-        <div
-          className={`edu-shelf-board ${
-            tier.boardStyle === 'wood'
-              ? 'edu-shelf-board--wood'
-              : 'edu-shelf-board--chalkboard'
-          }`}
-        >
-          <WebIcon
-            name={tier.icon}
-            className="w-4 h-4 shrink-0 opacity-90"
-          />
-          <h2 className="edu-shelf-board-title m-0">
-            {isEn ? tier.titleEn : tier.titleVi}
-          </h2>
-          <span className="edu-shelf-board-count">{countLabel}</span>
-        </div>
-
-        {(canScrollLeft || canScrollRight) && (
-          <div className="edu-wood-nav-group">
-            <button
-              type="button"
-              className="edu-wood-nav-btn"
-              disabled={!canScrollLeft}
-              onClick={() => scrollByAmount(-1)}
-              aria-label={isEn ? 'Scroll shelf left' : 'Cuộn kệ sang trái'}
-            >
-              <WebIcon name="chevron-left" className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="edu-wood-nav-btn"
-              disabled={!canScrollRight}
-              onClick={() => scrollByAmount(1)}
-              aria-label={isEn ? 'Scroll shelf right' : 'Cuộn kệ sang phải'}
-            >
-              <WebIcon name="chevron-right" className="w-4 h-4" />
-            </button>
-          </div>
+      <div
+        className={`edu-wood-tier-header ${
+          isRightAlignedHeader ? 'edu-wood-tier-header--right' : ''
+        }`}
+      >
+        {isRightAlignedHeader ? (
+          <>
+            {navControlsEl}
+            {shelfBoardEl}
+          </>
+        ) : (
+          <>
+            {shelfBoardEl}
+            {navControlsEl}
+          </>
         )}
       </div>
 
       {/* Horizontal Book Row Resting on 3D Wooden Plank */}
       <div className="edu-wood-shelf-stage">
         <div ref={scrollRef} className="edu-wood-scroll-area">
-          {items.map(({ course, globalIdx }) => {
-            const accentHex = getDistinctBookColor(course, globalIdx);
-            const { palette, template, pattern } = getCourseShelfDesign(
-              course,
-              accentHex
-            );
-            const categoryLabel = getShortCategoryLabel(course.category);
-            const iconName = getCourseIcon ? getCourseIcon(course.title) : 'book-open';
-
+          {(() => {
+            const hasMcsaBook = items.some(({ course }) => course.id === 14);
             return (
-              <ShelfBookItem
-                key={course.id}
-                course={course}
-                globalIdx={globalIdx}
-                template={template}
-                pattern={pattern}
-                palette={palette}
-                categoryLabel={categoryLabel}
-                iconName={iconName}
-                isActive={globalIdx === safeSel}
-                isEn={isEn}
-                registerRef={(el) => {
-                  bookRefs.current[globalIdx] = el;
-                }}
-                onActivate={() => onSelectBookIndex(globalIdx)}
-                onOpen={() => onSelectCourse(course)}
-              />
+              <>
+                {items.map(({ course, globalIdx }) => {
+                  const accentHex = getDistinctBookColor(course, globalIdx);
+                  const { palette, template, pattern } = getCourseShelfDesign(
+                    course,
+                    accentHex
+                  );
+                  const categoryLabel = getShortCategoryLabel(course.category);
+                  const iconName = getCourseIcon ? getCourseIcon(course.title) : 'book-open';
+
+                  return (
+                    <React.Fragment key={course.id}>
+                      <ShelfBookItem
+                        course={course}
+                        globalIdx={globalIdx}
+                        template={template}
+                        pattern={pattern}
+                        palette={palette}
+                        categoryLabel={categoryLabel}
+                        iconName={iconName}
+                        isActive={globalIdx === safeSel}
+                        isPulled={pulledGlobalIdx === globalIdx}
+                        isEn={isEn}
+                        registerRef={(el) => {
+                          bookRefs.current[globalIdx] = el;
+                        }}
+                        onActivate={() => onSelectBookIndex(globalIdx)}
+                        onOpen={() =>
+                          onPullOutBook({
+                            course,
+                            globalIdx,
+                            template,
+                            pattern,
+                            palette,
+                            accentHex,
+                            categoryLabel,
+                            iconName,
+                          })
+                        }
+                      />
+                      {shelfWallFrame && course.id === 14 && shelfWallFrame}
+                    </React.Fragment>
+                  );
+                })}
+                {shelfWallFrame && !hasMcsaBook && shelfWallFrame}
+              </>
             );
-          })}
+          })()}
         </div>
 
         {/* 3D Wood Grain Shelf Plank */}
@@ -595,8 +670,10 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   onSelectBookIndex,
   hideTopTimeline = false,
   topWallContent,
+  shelfWallFrame,
 }) => {
   const [internalSel, setInternalSel] = useState<number>(0);
+  const [presentedBook, setPresentedBook] = useState<PresentedBookData | null>(null);
   const bookRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const timelineScrollRef = useRef<HTMLDivElement | null>(null);
   const timelineNodeRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -616,15 +693,21 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     [safeSel, lastIdx, onSelectBookIndex]
   );
 
-  // Sync horizontal scroll on the matching wooden shelf tier when selectedBookIndex changes (e.g., from top banner timeline)
+  // Sync horizontal scroll on the matching wooden shelf tier when selectedBookIndex changes (without triggering vertical scroll)
   useEffect(() => {
     const activeBookEl = bookRefs.current[safeSel];
     if (!activeBookEl) return;
-    activeBookEl.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'nearest',
-      block: 'nearest',
-    });
+    const shelfArea = activeBookEl.closest('.edu-wood-scroll-area') as HTMLElement | null;
+    if (!shelfArea) return;
+    const bookLeft = activeBookEl.offsetLeft;
+    const bookRight = bookLeft + activeBookEl.offsetWidth;
+    const viewLeft = shelfArea.scrollLeft;
+    const viewRight = viewLeft + shelfArea.clientWidth;
+    if (bookLeft < viewLeft + 12) {
+      shelfArea.scrollTo({ left: Math.max(0, bookLeft - 18), behavior: 'smooth' });
+    } else if (bookRight > viewRight - 12) {
+      shelfArea.scrollTo({ left: bookRight - shelfArea.clientWidth + 18, behavior: 'smooth' });
+    }
   }, [safeSel, courses.length]);
 
   // Keep optional built-in timeline centered when visible
@@ -644,6 +727,7 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
   // Keyboard navigation across books on the shelves
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (presentedBook) return;
       if (
         document.activeElement &&
         ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)
@@ -662,7 +746,45 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lastIdx, setSel]);
+  }, [lastIdx, setSel, presentedBook]);
+
+  const getBookSourceRect = useCallback((globalIdx: number): DOMRect | null => {
+    const slotEl = bookRefs.current[globalIdx];
+    if (!slotEl) return null;
+    const tiltEl = slotEl.querySelector('.edu-tilt-book');
+    return (tiltEl || slotEl).getBoundingClientRect();
+  }, []);
+
+  const handlePullOutBook = useCallback(
+    (payload: {
+      course: EducationCourse;
+      globalIdx: number;
+      template: BookTemplate;
+      pattern: ArtPattern;
+      palette: BookPalette;
+      accentHex: string;
+      categoryLabel: string;
+      iconName: string;
+    }) => {
+      if (presentedBook) return;
+      const rect = getBookSourceRect(payload.globalIdx);
+      if (!rect) {
+        onSelectCourse(payload.course);
+        return;
+      }
+      SoundEngine.playBookPullOut?.();
+      setPresentedBook({
+        ...payload,
+        sourceRect: {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
+        },
+      });
+    },
+    [presentedBook, getBookSourceRect, onSelectCourse]
+  );
 
   const getDistinctBookColor = useCallback(
     (course: EducationCourse, idx: number): string => {
@@ -689,10 +811,19 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
     })).filter((group) => group.items.length > 0);
   }, [courses]);
 
+  const handleOpenInterior = useCallback(
+    (course: EducationCourse) => {
+      setPresentedBook(null);
+      onSelectCourse(course);
+    },
+    [onSelectCourse]
+  );
+
   return (
     <div
       id="education-disc-bookshelf-view"
       data-theme={isDark ? 'dark' : 'light'}
+      data-has-pulled-book={presentedBook ? 'true' : 'false'}
       className="edu-wood-library font-play"
     >
       {topWallContent}
@@ -742,22 +873,32 @@ export const EducationBookshelfView: React.FC<EducationBookshelfViewProps> = ({
       )}
 
       <div className="edu-wood-tiers-stack">
-        {populatedTiers.map(({ tier, items }) => (
+        {populatedTiers.map(({ tier, items }, tierIdx) => (
           <WoodenShelfTier
             key={tier.id}
             tier={tier}
             items={items}
             safeSel={safeSel}
+            pulledGlobalIdx={presentedBook?.globalIdx ?? null}
             getDistinctBookColor={getDistinctBookColor}
             getShortCategoryLabel={getShortCategoryLabel}
             getCourseIcon={getCourseIcon}
             isEn={isEn}
             bookRefs={bookRefs}
+            shelfWallFrame={tierIdx === 0 ? shelfWallFrame : undefined}
             onSelectBookIndex={setSel}
-            onSelectCourse={onSelectCourse}
+            onPullOutBook={handlePullOutBook}
           />
         ))}
       </div>
+
+      <EducationBookPresentationOverlay
+        presented={presentedBook}
+        getSourceRect={getBookSourceRect}
+        isEn={isEn}
+        onCloseComplete={() => setPresentedBook(null)}
+        onOpenInterior={handleOpenInterior}
+      />
     </div>
   );
 };

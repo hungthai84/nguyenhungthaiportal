@@ -62,13 +62,6 @@ const DID_CLIENT_KEY = 'ck_aNohELomFnIRmYfOmUR4u';
 const DID_SHARE_URL =
   'https://studio.d-id.com/agents/share?id=v2_agt_1tkm8qYc&utm_source=copy&key=WjI5dloyeGxMVzloZFhSb01ud3hNRGMzTkRnMk5qUTNPVGt4T1RZeU16QTJOVFk2UkVkNldUaDFXR3R3VEUxTGVWTlpObkp5VUU1UQ==';
 
-// Video nền khung chat AI Hỗ trợ (luôn tắt tiếng - muted)
-const AI_CHAT_IDLE_VIDEO_URL =
-  'https://cdn.scena.ai/project/10223/c81ba72750f77882cc06ff84414c9117c0705d99efc1e6e0ad519af88a4fc731.mp4';
-const AI_CHAT_RESPONDING_VIDEO_URL =
-  'https://cdn.scena.ai/project/10223/9daae10f4c2a9811e992cf36d580ba22f8dffdaabcda99959b1b5f6bea4c8424.mp4';
-const AI_RESPONSE_VIDEO_HOLD_MS = 7000;
-
 interface DidAgentModule {
   init: (config: Record<string, unknown>) => Promise<{ destroy?: () => void }> | { destroy?: () => void };
   getAuth?: (opts: { clientKey: string }) => unknown;
@@ -90,7 +83,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isReplyVideoActive, setIsReplyVideoActive] = useState(false);
 
   // Drop-up 8 nhóm chủ đề & 47 câu hỏi mẫu
   const [isSampleDropdownOpen, setIsSampleDropdownOpen] = useState<boolean>(false);
@@ -105,79 +97,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const [isAutoVoiceEnabled] = useState<boolean>(true);
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
 
-  const idleBgVideoRef = useRef<HTMLVideoElement | null>(null);
-  const respondingBgVideoRef = useRef<HTMLVideoElement | null>(null);
-  const replyVideoTimerRef = useRef<number | null>(null);
-
-  const isAiResponding = isLoading || isReplyVideoActive || speakingMessageId !== null;
-
-  const triggerAiResponseVideo = () => {
-    setIsReplyVideoActive(true);
-    if (replyVideoTimerRef.current !== null) {
-      window.clearTimeout(replyVideoTimerRef.current);
-    }
-    replyVideoTimerRef.current = window.setTimeout(() => {
-      setIsReplyVideoActive(false);
-      replyVideoTimerRef.current = null;
-    }, AI_RESPONSE_VIDEO_HOLD_MS);
-  };
-
   useEffect(() => {
     setVoiceLanguage(language);
   }, [language]);
-
-  // Đồng bộ phát/tạm dừng mượt giữa video màn hình chờ và video AI phản hồi (luôn muted) trên hero banner
-  useEffect(() => {
-    const idleEl = idleBgVideoRef.current;
-    const respondingEl = respondingBgVideoRef.current;
-    if (idleEl) {
-      idleEl.muted = true;
-      idleEl.defaultMuted = true;
-    }
-    if (respondingEl) {
-      respondingEl.muted = true;
-      respondingEl.defaultMuted = true;
-    }
-
-    const activeEl = isAiResponding ? respondingEl : idleEl;
-    const inactiveEl = isAiResponding ? idleEl : respondingEl;
-
-    if (activeEl) {
-      activeEl.muted = true;
-      activeEl.defaultMuted = true;
-      if (isAiResponding && activeEl === respondingEl && activeEl.readyState >= 1) {
-        try {
-          activeEl.currentTime = 0;
-        } catch {
-          // Ignore seek errors
-        }
-      }
-      const playPromise = activeEl.play();
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => {
-          // Bỏ qua nếu trình duyệt chặn autoplay tạm thời trước tương tác
-        });
-      }
-    }
-
-    const pauseTimer = window.setTimeout(() => {
-      if (inactiveEl && !inactiveEl.paused) {
-        inactiveEl.pause();
-      }
-    }, 520);
-
-    return () => {
-      window.clearTimeout(pauseTimer);
-    };
-  }, [isAiResponding]);
-
-  useEffect(() => {
-    return () => {
-      if (replyVideoTimerRef.current !== null) {
-        window.clearTimeout(replyVideoTimerRef.current);
-      }
-    };
-  }, []);
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
   const dropTopMenuRef = useRef<HTMLDivElement>(null);
@@ -187,11 +109,7 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
   const didEmbedHostRef = useRef<HTMLDivElement>(null);
   const didInstanceRef = useRef<{ destroy?: () => void } | null>(null);
   const [chatControlHeight, setChatControlHeight] = useState<number>(44);
-  const [chatExpandPx, setChatExpandPx] = useState<number>(0);
-  const [isDraggingExpand, setIsDraggingExpand] = useState<boolean>(false);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
-  const dragMovedRef = useRef<boolean>(false);
-  const isChatExpanded = chatExpandPx > 0;
 
   const showToast = (msg: string) => {
     if (onShowNotification) onShowNotification(msg);
@@ -229,7 +147,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     SoundEngine.playTap();
     stopActiveSpeech();
     setSpeakingMessageId(null);
-    setIsReplyVideoActive(false);
     setMessages(INITIAL_MESSAGES);
     setInputValue('');
     setPendingDraftQuestion(null);
@@ -356,53 +273,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
     el.style.minHeight = `${baseHeight}px`;
     el.style.maxHeight = `${baseHeight}px`;
   }, [inputValue, chatControlHeight]);
-
-  // Drag / click handler on expand icon to widen chat container smoothly
-  const handleExpandPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (e.button !== 0 && e.pointerType === 'mouse') return;
-    e.preventDefault();
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const startExpand = chatExpandPx;
-    dragMovedRef.current = false;
-    setIsDraggingExpand(true);
-
-    const handleMove = (ev: PointerEvent) => {
-      const dx = ev.clientX - startX;
-      const dy = ev.clientY - startY;
-      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
-        dragMovedRef.current = true;
-      }
-      if (!dragMovedRef.current) return;
-
-      const delta =
-        startExpand === 0
-          ? Math.max(Math.abs(dx), -dy, 0) * 2.1
-          : dx * 2.1;
-      const next = Math.max(0, Math.min(540, Math.round(startExpand + delta)));
-      setChatExpandPx(next);
-    };
-
-    const handleUp = () => {
-      setIsDraggingExpand(false);
-      window.removeEventListener('pointermove', handleMove);
-      window.removeEventListener('pointerup', handleUp);
-      window.removeEventListener('pointercancel', handleUp);
-    };
-
-    window.addEventListener('pointermove', handleMove);
-    window.addEventListener('pointerup', handleUp);
-    window.addEventListener('pointercancel', handleUp);
-  };
-
-  const handleExpandClick = () => {
-    if (dragMovedRef.current) {
-      dragMovedRef.current = false;
-      return;
-    }
-    SoundEngine.playTap();
-    setChatExpandPx((prev) => (prev > 0 ? 0 : 480));
-  };
 
   useEffect(() => {
     chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -585,7 +455,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
       };
 
       setMessages((prev) => [...prev, aiMsg]);
-      triggerAiResponseVideo();
       showToast(isEn ? '✓ Tri Nhan answered your question!' : '✓ Trí Nhân đã giải đáp câu hỏi!');
 
       if (isAutoVoiceEnabled) {
@@ -603,7 +472,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         retryQuery: text,
       };
       setMessages((prev) => [...prev, aiMsg]);
-      triggerAiResponseVideo();
       showToast(
         isEn
           ? 'Connection notice: Used verified local portfolio data.'
@@ -642,18 +510,10 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           id="ai-assistant-main-card"
           data-main-card="true"
           data-floating-surface="main"
-          data-chat-expanded={isChatExpanded ? 'true' : 'false'}
           data-element-name="Thẻ chính Trang Trợ lý AI"
           data-element-type="card"
           data-element-page="ai-assistant"
           data-element-parent="ai-assistant-cards-track"
-          style={
-            isChatExpanded
-              ? ({
-                  '--ai-chat-extra-w': `${chatExpandPx}px`,
-                } as React.CSSProperties)
-              : undefined
-          }
           className="page-main-card floating-glass-surface floating-surface--main relative flex flex-col items-stretch p-2.5 sm:p-[15px] gap-0 rounded-[var(--radius-main,14px)] overflow-hidden font-play text-left justify-start box-border"
         >
           <div
@@ -662,103 +522,9 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
           >
       <div
         id="ai-assistant-split-stage"
-        className={`flex-1 min-h-0 h-full w-full flex flex-col lg:flex-row items-stretch ${
-          chatExpandPx >= 360 ? 'lg:gap-0 gap-2.5' : 'gap-2.5 sm:gap-[15px]'
-        }`}
+        className="flex-1 min-h-0 h-full w-full flex flex-col items-stretch gap-2.5 sm:gap-[15px]"
       >
-      {/* 1. HERO BANNER TRỢ LÝ AI TRÍ NHÂN */}
-      <section
-        id="ai-assistant-hero-banner"
-        data-element-name="Banner Trợ lý AI Trí Nhân"
-        data-element-type="banner-card"
-        data-section-card="true"
-        data-element-page="ai-assistant"
-        data-element-parent="ai-assistant-main-card"
-        className={`banner-card bento-card glass-card group w-full min-h-[168px] sm:min-h-[195px] lg:min-h-0 lg:self-stretch rounded-[var(--radius-card,var(--radius-global,14px))] border relative overflow-hidden text-[var(--text-primary)] z-30 flex flex-col justify-between p-3 sm:p-[15px] box-border shadow-xl transition-all duration-300 ${
-          chatExpandPx >= 360 ? 'lg:opacity-0 lg:pointer-events-none lg:border-0 lg:p-0' : ''
-        }`}
-        style={{
-          borderRadius: 'var(--radius-card, var(--radius-global, 14px))',
-          boxSizing: 'border-box',
-        }}
-      >
-        <div
-          id="ai-assistant-banner-video-bg"
-          aria-hidden="true"
-          className="project-detail-banner-media absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
-        >
-          {/* Video màn hình chờ (Idle) */}
-          <video
-            ref={idleBgVideoRef}
-            src={AI_CHAT_IDLE_VIDEO_URL}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            controls={false}
-            disablePictureInPicture
-            onCanPlay={(e) => {
-              if (!isAiResponding && e.currentTarget.paused) {
-                e.currentTarget.muted = true;
-                e.currentTarget.play().catch(() => {});
-              }
-            }}
-            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
-              isAiResponding ? 'opacity-0' : 'opacity-100'
-            }`}
-          />
-          {/* Video khi AI trả lời (Responding) */}
-          <video
-            ref={respondingBgVideoRef}
-            src={AI_CHAT_RESPONDING_VIDEO_URL}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            controls={false}
-            disablePictureInPicture
-            onCanPlay={(e) => {
-              if (isAiResponding && e.currentTarget.paused) {
-                e.currentTarget.muted = true;
-                e.currentTarget.play().catch(() => {});
-              }
-            }}
-            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-out ${
-              isAiResponding ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        </div>
-        <div className="project-detail-banner-scrim absolute inset-0 pointer-events-none rounded-[inherit] z-0" />
-
-        <div className="relative z-10 flex flex-col items-start gap-1.5 w-full">
-          <div className="card-header-sync flex items-center gap-2 w-full min-w-0" style={{ color: 'var(--text-link, var(--color-primary))' }}>
-            <WebIcon name="bot" className="w-[22px] h-[22px] shrink-0" />
-            <h1
-              id="ai-assistant-banner-h1"
-              className="typo-h3 card-title-synced font-play not-italic tracking-tight leading-tight whitespace-normal min-w-0"
-              data-card-title="true"
-            >
-              Trợ lý trí nhân
-            </h1>
-          </div>
-          <p
-            id="ai-assistant-banner-quote"
-            className="banner-quote typo-h3 font-handwriting font-quote not-italic font-semibold select-none text-left w-full whitespace-normal leading-snug"
-            style={{
-              color: 'var(--text-secondary)',
-              fontFamily: "var(--font-quote, 'Dancing Script', cursive)",
-              fontWeight: 600,
-              fontStyle: 'normal',
-            }}
-          >
-            &quot;Trí Nhân đồng hành giải đáp thông tin anh Hùng Thái 24/7 ♡&quot;
-          </p>
-        </div>
-      </section>
-
-      {/* 2. CHAT INTERFACE CHÍNH */}
+      {/* KHUNG TRÒ CHUYỆN AI TRÍ NHÂN */}
       <div
         ref={chatCardRef}
         id="ai-assistant-chat-container"
@@ -767,7 +533,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
         data-section-card="true"
         data-element-page="ai-assistant"
         data-element-parent="ai-assistant-main-card"
-        data-ai-responding={isAiResponding ? 'true' : 'false'}
         className="bento-card glass-card w-full flex-1 min-h-[380px] lg:min-h-0 lg:h-full flex flex-col justify-between rounded-[var(--radius-card,var(--radius-global,14px))] shadow-xl gap-2.5 sm:gap-[12px] overflow-hidden relative transition-all duration-300"
         style={{
           alignSelf: 'stretch',
@@ -877,43 +642,6 @@ export const AiAssistantView: React.FC<AiAssistantViewProps> = ({
                 <span className="hidden sm:inline">{isEn ? 'Reload' : 'Tải lại'}</span>
               </button>
             )}
-
-            <button
-              id="ai-assistant-chat-expand-btn"
-              type="button"
-              onPointerDown={handleExpandPointerDown}
-              onClick={handleExpandClick}
-              aria-expanded={isChatExpanded}
-              aria-label={
-                isEn
-                  ? isChatExpanded
-                    ? 'Restore standard chat width (or drag to resize)'
-                    : 'Drag or click to widen chat frame'
-                  : isChatExpanded
-                    ? 'Thu gọn khung chat về mặc định (hoặc kéo để chỉnh)'
-                    : 'Kéo hoặc nhấn để mở rộng khung chat rộng hơn'
-              }
-              title={
-                isEn
-                  ? 'Drag or click to widen chat frame'
-                  : 'Kéo hoặc nhấn để mở rộng khung chat'
-              }
-              style={
-                isChatExpanded || isDraggingExpand
-                  ? { background: 'var(--bg-button-primary)', color: 'var(--text-button-primary, #FFFFFF)', borderColor: 'transparent' }
-                  : undefined
-              }
-              className={`hidden lg:flex w-8 h-8 rounded-full border border-[var(--border-subcard)] items-center justify-center transition-colors cursor-ew-resize touch-none select-none ${
-                isChatExpanded || isDraggingExpand
-                  ? 'shadow-xs'
-                  : 'bg-[var(--bg-subcard)]/85 backdrop-blur-md text-[var(--text-muted)] hover:text-[var(--color-primary)]'
-              }`}
-            >
-              <WebIcon
-                name={isChatExpanded ? 'minimize-2' : 'move-horizontal'}
-                className="w-4 h-4 shrink-0 pointer-events-none"
-              />
-            </button>
           </div>
         </div>
 
